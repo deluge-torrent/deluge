@@ -427,20 +427,24 @@ class Core(component.Component):
         for torrent_id in torrent_ids:
             self.torrentmanager[torrent_id].resume()
 
-    @export
-    def get_torrent_status(self, torrent_id, keys, diff=False):
-        # Build the status dictionary
+    def create_torrent_status(self, torrent_id, torrent_keys, plugin_keys, diff=False, update=False):
         try:
-            status = self.torrentmanager[torrent_id].get_status(keys, diff)
+            status = self.torrentmanager[torrent_id].get_status(torrent_keys, diff, update=update)
         except KeyError:
+            import traceback
+            traceback.print_exc()
             # Torrent was probaly removed meanwhile
             return {}
 
-        # Get the leftover fields and ask the plugin manager to fill them
-        leftover_fields = list(set(keys) - set(status.keys()))
-        if len(leftover_fields) > 0:
-            status.update(self.pluginmanager.get_status(torrent_id, leftover_fields))
+        # Ask the plugin manager to fill in the plugin keys
+        if len(plugin_keys) > 0:
+            status.update(self.pluginmanager.get_status(torrent_id, plugin_keys))
         return status
+
+    @export
+    def get_torrent_status(self, torrent_id, keys, diff=False):
+        torrent_keys, plugin_keys = self.torrentmanager.separate_keys(keys, [torrent_id])
+        return self.create_torrent_status(torrent_id, torrent_keys, plugin_keys, diff=diff, update=True)
 
     @export
     def get_torrents_status(self, filter_dict, keys, diff=False):
@@ -449,12 +453,17 @@ class Core(component.Component):
         """
         torrent_ids = self.filtermanager.filter_torrent_ids(filter_dict)
         status_dict = {}.fromkeys(torrent_ids)
+        d = self.torrentmanager.torrents_status_update(torrent_ids, keys, diff=False)
 
-        # Get the torrent status for each torrent_id
-        for torrent_id in torrent_ids:
-            status_dict[torrent_id] = self.get_torrent_status(torrent_id, keys, diff)
-
-        return status_dict
+        def add_plugin_fields(args):
+            status_dict, plugin_keys = args
+            # Ask the plugin manager to fill in the plugin keys
+            if len(plugin_keys) > 0:
+                for key in status_dict.keys():
+                    status_dict[key].update(self.pluginmanager.get_status(key, plugin_keys))
+            return status_dict
+        d.addCallback(add_plugin_fields)
+        return d
 
     @export
     def get_filter_tree(self , show_zero_hits=True, hide_cat=None):

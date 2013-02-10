@@ -109,10 +109,14 @@ class Torrent(object):
     """Torrent holds information about torrents added to the libtorrent session.
     """
     def __init__(self, handle, options, state=None, filename=None, magnet=None, owner=None):
-        log.debug("Creating torrent object %s", str(handle.info_hash()))
+        # Set the torrent_id for this torrent
+        self.torrent_id = str(handle.info_hash())
+
+        if log.isEnabledFor(logging.DEBUG):
+            log.debug("Creating torrent object %s", self.torrent_id)
+
         # Get the core config
         self.config = ConfigManager("core.conf")
-
         self.rpcserver = component.get("RPCServer")
 
         # This dict holds previous status dicts returned for this torrent
@@ -124,8 +128,6 @@ class Torrent(object):
 
         # Set the libtorrent handle
         self.handle = handle
-        # Set the torrent_id for this torrent
-        self.torrent_id = str(handle.info_hash())
 
         # Keep a list of Deferreds for file indexes we're waiting for file_rename alerts on
         # This is so we can send one folder_renamed signal instead of multiple
@@ -150,6 +152,9 @@ class Torrent(object):
             self.torrent_info = self.handle.get_torrent_info()
         except RuntimeError:
             self.torrent_info = None
+
+        self.handle_has_metadata = None
+        self.status_funcs = None
 
         # Default total_uploaded to 0, this may be changed by the state
         self.total_uploaded = 0
@@ -187,9 +192,11 @@ class Torrent(object):
         self.statusmsg = "OK"
 
         # The torrents state
-        self.update_state()
+        # This is only one out of 4 calls to update_state for each torrent on startup.
+        # This call doesn't seem to be necessary, it can probably be removed
+        #self.update_state()
+        self.state = None
 
-        # The tracker status
         self.tracker_status = ""
 
         # This gets updated when get_tracker_host is called
@@ -217,7 +224,17 @@ class Torrent(object):
         self.forcing_recheck = False
         self.forcing_recheck_paused = False
 
-        log.debug("Torrent object created.")
+        self.update_status(self.handle.status())
+        self._create_status_funcs()
+
+        if log.isEnabledFor(logging.DEBUG):
+            log.debug("Torrent object created.")
+
+    def has_metadata(self):
+        if self.handle_has_metadata:
+            return self.handle_has_metadata
+        self.handle_has_metadata = self.handle.has_metadata()
+        return self.handle_has_metadata
 
     ## Options methods ##
     def set_options(self, options):
@@ -248,7 +265,7 @@ class Torrent(object):
         return self.options
 
     def get_name(self):
-        if self.handle.has_metadata():
+        if self.has_metadata():
             name = self.torrent_info.file_at(0).path.replace("\\", "/", 1).split("/", 1)[0]
             if not name:
                 name = self.torrent_info.name()
@@ -306,7 +323,7 @@ class Torrent(object):
             # reset all the piece priorities
             self.set_file_priorities(self.options["file_priorities"])
             return
-        if not self.handle.has_metadata():
+        if not self.has_metadata():
             return
         if self.options["compact_allocation"]:
             log.debug("Setting first/last priority with compact "
@@ -315,7 +332,7 @@ class Torrent(object):
         # A list of priorities for each piece in the torrent
         priorities = self.handle.piece_priorities()
         prioritized_pieces = []
-        ti = self.handle.get_torrent_info()
+        ti = self.torrent_info
         for i in range(ti.num_files()):
             f = ti.file_at(i)
             two_percent_bytes = int(0.02 * f.size)
@@ -366,7 +383,9 @@ class Torrent(object):
         self.options["move_completed_path"] = move_completed_path
 
     def set_file_priorities(self, file_priorities):
-        if len(file_priorities) != len(self.get_files()):
+        if not self.has_metadata():
+            return
+        if len(file_priorities) != self.ti_num_files():
             log.debug("file_priorities len != num_files")
             self.options["file_priorities"] = self.handle.file_priorities()
             return
@@ -376,7 +395,8 @@ class Torrent(object):
             self.options["file_priorities"] = self.handle.file_priorities()
             return
 
-        log.debug("setting %s's file priorities: %s", self.torrent_id, file_priorities)
+        if log.isEnabledFor(logging.DEBUG):
+            log.debug("setting %s's file priorities: %s", self.torrent_id, file_priorities)
 
         self.handle.prioritize_files(file_priorities)
 
@@ -390,9 +410,9 @@ class Torrent(object):
                     self.update_state()
                     break
 
+        # In case values in file_priorities were faulty (old state?)
+        # we make sure the stored options are in sync
         self.options["file_priorities"] = self.handle.file_priorities()
-        if self.options["file_priorities"] != list(file_priorities):
-            log.warning("File priorities were not set for this torrent")
 
         # Set the first/last priorities if needed
         if self.options["prioritize_first_last_pieces"]:
@@ -411,7 +431,9 @@ class Torrent(object):
             self.tracker_host = None
             return
 
-        log.debug("Setting trackers for %s: %s", self.torrent_id, trackers)
+        if log.isEnabledFor(logging.DEBUG):
+            log.debug("Setting trackers for %s: %s", self.torrent_id, trackers)
+
         tracker_list = []
 
         for tracker in trackers:
@@ -421,8 +443,9 @@ class Torrent(object):
         self.handle.replace_trackers(tracker_list)
 
         # Print out the trackers
-        #for t in self.handle.trackers():
-        #    log.debug("tier: %s tracker: %s", t["tier"], t["url"])
+        if log.isEnabledFor(logging.DEBUG):
+            for t in self.handle.trackers():
+                log.debug("tier: %s tracker: %s", t["tier"], t["url"])
         # Set the tracker list in the torrent object
         self.trackers = trackers
         if len(trackers) > 0:
@@ -444,7 +467,8 @@ class Torrent(object):
         """Updates the state based on what libtorrent's state for the torrent is"""
         # Set the initial state based on the lt state
         LTSTATE = deluge.common.LT_TORRENT_STATE
-        ltstate = int(self.handle.status().state)
+        status = self.handle.status()
+        ltstate = int(status.state)
 
         # Set self.state to the ltstate right away just incase we don't hit some
         # of the logic below
@@ -453,21 +477,26 @@ class Torrent(object):
         else:
             self.state = str(ltstate)
 
-        log.debug("set_state_based_on_ltstate: %s", deluge.common.LT_TORRENT_STATE[ltstate])
-        log.debug("session.is_paused: %s", component.get("Core").session.is_paused())
+        session_is_paused = component.get("Core").session.is_paused()
+        is_auto_managed = self.handle.is_auto_managed()
+        handle_is_paused = self.handle.is_paused()
+
+        if log.isEnabledFor(logging.DEBUG):
+            log.debug("set_state_based_on_ltstate: %s", deluge.common.LT_TORRENT_STATE[ltstate])
+            log.debug("session.is_paused: %s", session_is_paused)
 
         # First we check for an error from libtorrent, and set the state to that
         # if any occurred.
-        if len(self.handle.status().error) > 0:
+        if len(status.error) > 0:
             # This is an error'd torrent
             self.state = "Error"
-            self.set_status_message(self.handle.status().error)
-            if self.handle.is_paused():
+            self.set_status_message(status.error)
+            if handle_is_paused:
                 self.handle.auto_managed(False)
             return
 
         if ltstate == LTSTATE["Queued"] or ltstate == LTSTATE["Checking"]:
-            if self.handle.is_paused():
+            if handle_is_paused:
                 self.state = "Paused"
             else:
                 self.state = "Checking"
@@ -479,9 +508,9 @@ class Torrent(object):
         elif ltstate == LTSTATE["Allocating"]:
             self.state = "Allocating"
 
-        if self.handle.is_paused() and self.handle.is_auto_managed() and not component.get("Core").session.is_paused():
+        if not session_is_paused and handle_is_paused and is_auto_managed:
             self.state = "Queued"
-        elif component.get("Core").session.is_paused() or (self.handle.is_paused() and not self.handle.is_auto_managed()):
+        elif session_is_paused or (handle_is_paused and not is_auto_managed):
             self.state = "Paused"
 
     def set_state(self, state):
@@ -498,11 +527,7 @@ class Torrent(object):
 
     def get_eta(self):
         """Returns the ETA in seconds for this torrent"""
-        if self.status == None:
-            status = self.handle.status()
-        else:
-            status = self.status
-
+        status = self.status
         if self.is_finished and self.options["stop_at_ratio"]:
             # We're a seed, so calculate the time to the 'stop_share_ratio'
             if not status.upload_payload_rate:
@@ -524,32 +549,21 @@ class Torrent(object):
 
     def get_ratio(self):
         """Returns the ratio for this torrent"""
-        if self.status == None:
-            status = self.handle.status()
-        else:
-            status = self.status
-
-        if status.total_done > 0:
+        if self.status.total_done > 0:
             # We use 'total_done' if the downloaded value is 0
-            downloaded = status.total_done
+            downloaded = self.status.total_done
         else:
             # Return -1.0 to signify infinity
             return -1.0
 
-        return float(status.all_time_upload) / float(downloaded)
+        return float(self.status.all_time_upload) / float(downloaded)
 
     def get_files(self):
         """Returns a list of files this torrent contains"""
-        if self.torrent_info == None and self.handle.has_metadata():
-            torrent_info = self.handle.get_torrent_info()
-        else:
-            torrent_info = self.torrent_info
-
-        if not torrent_info:
+        if not self.has_metadata():
             return []
-
         ret = []
-        files = torrent_info.files()
+        files = self.torrent_info.files()
         for index, file in enumerate(files):
             ret.append({
                 'index': index,
@@ -599,7 +613,7 @@ class Torrent(object):
 
     def get_file_progress(self):
         """Returns the file progress as a list of floats.. 0.0 -> 1.0"""
-        if not self.handle.has_metadata():
+        if not self.has_metadata():
             return 0.0
 
         file_progress = self.handle.file_progress()
@@ -617,9 +631,6 @@ class Torrent(object):
         if no tracker is connected, it uses the 1st tracker."""
         if self.tracker_host:
             return self.tracker_host
-
-        if not self.status:
-            self.status = self.handle.status()
 
         tracker = self.status.current_tracker
         if not tracker and self.trackers:
@@ -659,7 +670,7 @@ class Torrent(object):
         self.calculate_last_seen_complete()
         return self._last_seen_complete
 
-    def get_status(self, keys, diff=False):
+    def get_status(self, keys, diff=False, update=False):
         """
         Returns the status of the torrent based on the keys provided
 
@@ -668,151 +679,27 @@ class Torrent(object):
         :param diff: if True, will return a diff of the changes since the last
         call to get_status based on the session_id
         :type diff: bool
+        :param update: if True, the status will be updated from libtorrent
+        if False, the cached values will be returned
+        :type update: bool
 
         :returns: a dictionary of the status keys and their values
         :rtype: dict
 
         """
+        if update:
+            self.update_status(self.handle.status())
 
-        # Create the full dictionary
-        self.status = self.handle.status()
-        if self.handle.has_metadata():
-            self.torrent_info = self.handle.get_torrent_info()
+        if not keys:
+            keys = self.status_funcs.keys()
 
-        # Adjust progress to be 0-100 value
-        progress = self.status.progress * 100
-
-        # Adjust status.distributed_copies to return a non-negative value
-        distributed_copies = self.status.distributed_copies
-        if distributed_copies < 0:
-            distributed_copies = 0.0
-
-        # Calculate the seeds:peers ratio
-        if self.status.num_incomplete == 0:
-            # Use -1.0 to signify infinity
-            seeds_peers_ratio = -1.0
-        else:
-            seeds_peers_ratio = self.status.num_complete / float(self.status.num_incomplete)
-
-        full_status = {
-            "active_time": self.status.active_time,
-            "all_time_download": self.status.all_time_download,
-            "compact": self.options["compact_allocation"],
-            "distributed_copies": distributed_copies,
-            "download_payload_rate": self.status.download_payload_rate,
-            "file_priorities": self.options["file_priorities"],
-            "hash": self.torrent_id,
-            "is_auto_managed": self.options["auto_managed"],
-            "is_finished": self.is_finished,
-            "max_connections": self.options["max_connections"],
-            "max_download_speed": self.options["max_download_speed"],
-            "max_upload_slots": self.options["max_upload_slots"],
-            "max_upload_speed": self.options["max_upload_speed"],
-            "message": self.statusmsg,
-            "move_on_completed_path": self.options["move_completed_path"],
-            "move_on_completed": self.options["move_completed"],
-            "move_completed_path": self.options["move_completed_path"],
-            "move_completed": self.options["move_completed"],
-            "next_announce": self.status.next_announce.seconds,
-            "num_peers": self.status.num_peers - self.status.num_seeds,
-            "num_seeds": self.status.num_seeds,
-            "owner": self.owner,
-            "paused": self.status.paused,
-            "prioritize_first_last": self.options["prioritize_first_last_pieces"],
-            "sequential_download": self.options["sequential_download"],
-            "progress": progress,
-            "shared": self.options["shared"],
-            "remove_at_ratio": self.options["remove_at_ratio"],
-            "save_path": self.options["download_location"],
-            "seeding_time": self.status.seeding_time,
-            "seeds_peers_ratio": seeds_peers_ratio,
-            "seed_rank": self.status.seed_rank,
-            "state": self.state,
-            "stop_at_ratio": self.options["stop_at_ratio"],
-            "stop_ratio": self.options["stop_ratio"],
-            "time_added": self.time_added,
-            "total_done": self.status.total_done,
-            "total_payload_download": self.status.total_payload_download,
-            "total_payload_upload": self.status.total_payload_upload,
-            "total_peers": self.status.num_incomplete,
-            "total_seeds":  self.status.num_complete,
-            "total_uploaded": self.status.all_time_upload,
-            "total_wanted": self.status.total_wanted,
-            "tracker": self.status.current_tracker,
-            "trackers": self.trackers,
-            "tracker_status": self.tracker_status,
-            "upload_payload_rate": self.status.upload_payload_rate
-        }
-
-        def ti_comment():
-            if self.handle.has_metadata():
-                try:
-                    return self.torrent_info.comment().decode("utf8", "ignore")
-                except UnicodeDecodeError:
-                    return self.torrent_info.comment()
-            return ""
-
-        def ti_priv():
-            if self.handle.has_metadata():
-                return self.torrent_info.priv()
-            return False
-        def ti_total_size():
-            if self.handle.has_metadata():
-                return self.torrent_info.total_size()
-            return 0
-        def ti_num_files():
-            if self.handle.has_metadata():
-                return self.torrent_info.num_files()
-            return 0
-        def ti_num_pieces():
-            if self.handle.has_metadata():
-                return self.torrent_info.num_pieces()
-            return 0
-        def ti_piece_length():
-            if self.handle.has_metadata():
-                return self.torrent_info.piece_length()
-            return 0
-        def ti_pieces_info():
-            if self.handle.has_metadata():
-                return self.get_pieces_info()
-            return None
-
-        fns = {
-            "comment": ti_comment,
-            "eta": self.get_eta,
-            "file_progress": self.get_file_progress,
-            "files": self.get_files,
-            "is_seed": self.handle.is_seed,
-            "name": self.get_name,
-            "num_files": ti_num_files,
-            "num_pieces": ti_num_pieces,
-            "pieces": ti_pieces_info,
-            "peers": self.get_peers,
-            "piece_length": ti_piece_length,
-            "private": ti_priv,
-            "queue": self.handle.queue_position,
-            "ratio": self.get_ratio,
-            "total_size": ti_total_size,
-            "tracker_host": self.get_tracker_host,
-            "last_seen_complete": self.get_last_seen_complete
-        }
-
-        # Create the desired status dictionary and return it
         status_dict = {}
 
-        if len(keys) == 0:
-            status_dict = full_status
-            for key in fns:
-                status_dict[key] = fns[key]()
-        else:
-            for key in keys:
-                if key in full_status:
-                    status_dict[key] = full_status[key]
-                elif key in fns:
-                    status_dict[key] = fns[key]()
+        for key in keys:
+            status_dict[key] = self.status_funcs[key]()
 
-        session_id = self.rpcserver.get_session_id()
         if diff:
+            session_id = self.rpcserver.get_session_id()
             if session_id in self.prev_status:
                 # We have a previous status dict, so lets make a diff
                 status_diff = {}
@@ -830,6 +717,157 @@ class Torrent(object):
             return status_dict
 
         return status_dict
+
+    def update_status(self, status):
+        """
+        Updates the cached status.
+
+        :param status: a libtorrent status
+        :type status: libtorrent.torrent_status
+
+        """
+        #import datetime
+        #print datetime.datetime.now().strftime("%H:%M:%S.%f"),
+        #print " update_status"
+        self.status = status
+
+        if self.torrent_info is None and self.has_metadata():
+            self.torrent_info = self.handle.get_torrent_info()
+
+    def _create_status_funcs(self):
+        #if you add a key here->add it to core.py STATUS_KEYS too.
+        self.status_funcs = {
+            "active_time":            lambda: self.status.active_time,
+            "all_time_download":      lambda: self.status.all_time_download,
+            "compact":                lambda: self.options["compact_allocation"],
+            "distributed_copies":     lambda: 0.0 if self.status.distributed_copies < 0 else \
+                self.status.distributed_copies, # Adjust status.distributed_copies to return a non-negative value
+            "download_payload_rate":  lambda: self.status.download_payload_rate,
+            "file_priorities":        lambda: self.options["file_priorities"],
+            "hash":                   lambda: self.torrent_id,
+            "is_auto_managed":        lambda: self.options["auto_managed"],
+            "is_finished":            lambda: self.is_finished,
+            "max_connections":        lambda: self.options["max_connections"],
+            "max_download_speed":     lambda: self.options["max_download_speed"],
+            "max_upload_slots":       lambda: self.options["max_upload_slots"],
+            "max_upload_speed":       lambda: self.options["max_upload_speed"],
+            "message":                lambda: self.statusmsg,
+            "move_on_completed_path": lambda: self.options["move_completed_path"],
+            "move_on_completed":      lambda: self.options["move_completed"],
+            "move_completed_path":    lambda: self.options["move_completed_path"],
+            "move_completed":         lambda: self.options["move_completed"],
+            "next_announce":          lambda: self.status.next_announce.seconds,
+            "num_peers":              lambda: self.status.num_peers - self.status.num_seeds,
+            "num_seeds":              lambda: self.status.num_seeds,
+            "owner":                  lambda: self.owner,
+            "paused":                 lambda: self.status.paused,
+            "prioritize_first_last":  lambda: self.options["prioritize_first_last_pieces"],
+            "sequential_download":    lambda: self.options["sequential_download"],
+            "progress":               lambda: self.status.progress * 100,
+            "shared":                 lambda: self.options["shared"],
+            "remove_at_ratio":        lambda: self.options["remove_at_ratio"],
+            "save_path":              lambda: self.options["download_location"],
+            "seeding_time":           lambda: self.status.seeding_time,
+            "seeds_peers_ratio":      lambda: -1.0 if self.status.num_incomplete == 0 else \
+                self.status.num_complete / float(self.status.num_incomplete), # Use -1.0 to signify infinity
+            "seed_rank":              lambda: self.status.seed_rank,
+            "state":                  lambda: self.state,
+            "stop_at_ratio":          lambda: self.options["stop_at_ratio"],
+            "stop_ratio":             lambda: self.options["stop_ratio"],
+            "time_added":             lambda: self.time_added,
+            "total_done":             lambda: self.status.total_done,
+            "total_payload_download": lambda: self.status.total_payload_download,
+            "total_payload_upload":   lambda: self.status.total_payload_upload,
+            "total_peers":            lambda: self.status.num_incomplete,
+            "total_seeds":            lambda: self.status.num_complete,
+            "total_uploaded":         lambda: self.status.all_time_upload,
+            "total_wanted":           lambda: self.status.total_wanted,
+            "tracker":                lambda: self.status.current_tracker,
+            "trackers":               lambda: self.trackers,
+            "tracker_status":         lambda: self.tracker_status,
+            "upload_payload_rate":    lambda: self.status.upload_payload_rate,
+            "eta":                    self.get_eta,
+            "file_progress":          self.get_file_progress, # Adjust progress to be 0-100 value
+            "files":                  self.get_files,
+            "is_seed":                self.handle.is_seed,
+            "peers":                  self.get_peers,
+            "queue":                  self.handle.queue_position,
+            "ratio":                  self.get_ratio,
+            "tracker_host":           self.get_tracker_host,
+            "last_seen_complete":     self.get_last_seen_complete,
+            "comment":                self.ti_comment,
+            "name":                   self.ti_name,
+            "num_files":              self.ti_num_files,
+            "num_pieces":             self.ti_num_pieces,
+            "pieces":                 self.ti_pieces_info,
+            "piece_length":           self.ti_piece_length,
+            "private":                self.ti_priv,
+            "total_size":             self.ti_total_size,
+            }
+
+    def ti_comment(self):
+        if self.has_metadata():
+            try:
+                return self.torrent_info.comment().decode("utf8", "ignore")
+            except UnicodeDecodeError:
+                return self.torrent_info.comment()
+        return ""
+
+    def ti_name(self):
+        if self.has_metadata():
+            name = self.torrent_info.file_at(0).path.split("/", 1)[0]
+            if not name:
+                name = self.torrent_info.name()
+            try:
+                return name.decode("utf8", "ignore")
+            except UnicodeDecodeError:
+                return name
+
+        elif self.magnet:
+            try:
+                keys = dict([k.split('=') for k in self.magnet.split('?')[-1].split('&')])
+                name = keys.get('dn')
+                if not name:
+                    return self.torrent_id
+                name = unquote(name).replace('+', ' ')
+                try:
+                    return name.decode("utf8", "ignore")
+                except UnicodeDecodeError:
+                    return name
+            except:
+                pass
+
+        return self.torrent_id
+
+    def ti_priv(self):
+        if self.has_metadata():
+            return self.torrent_info.priv()
+        return False
+
+    def ti_total_size(self):
+        if self.has_metadata():
+            return self.torrent_info.total_size()
+        return 0
+
+    def ti_num_files(self):
+        if self.has_metadata():
+            return self.torrent_info.num_files()
+        return 0
+
+    def ti_num_pieces(self):
+        if self.has_metadata():
+            return self.torrent_info.num_pieces()
+        return 0
+
+    def ti_piece_length(self):
+        if self.has_metadata():
+            return self.torrent_info.piece_length()
+        return 0
+
+    def ti_pieces_info(self):
+        if self.has_metadata():
+            return self.get_pieces_info()
+        return None
 
     def apply_options(self):
         """Applies the per-torrent options that are set."""
@@ -906,7 +944,7 @@ class Torrent(object):
         except TypeError:
            # String is already unicode
            pass
-            
+
         if not os.path.exists(dest):
             try:
                 # Try to make the destination path if it doesn't exist
@@ -943,7 +981,6 @@ class Torrent(object):
             self.torrent_id)
         log.debug("Writing torrent file: %s", path)
         try:
-            self.torrent_info = self.handle.get_torrent_info()
             # Regenerate the file priorities
             self.set_file_priorities([])
             md = lt.bdecode(self.torrent_info.metadata())
@@ -1116,7 +1153,7 @@ class Torrent(object):
             pieces[peer_info.downloading_piece_index] = 2
 
         # Now, the rest of the pieces
-        for idx, piece in enumerate(self.handle.status().pieces):
+        for idx, piece in enumerate(self.status.pieces):
             if idx in pieces:
                 # Piece beeing downloaded, handled above
                 continue

@@ -41,9 +41,11 @@ import os
 import shutil
 import operator
 import logging
+import time
 
 from twisted.internet.task import LoopingCall
 from twisted.internet.defer import Deferred, DeferredList
+from twisted.internet import reactor
 
 from deluge._libtorrent import lt
 
@@ -157,6 +159,10 @@ class TorrentManager(component.Component):
         # Keeps track of resume data
         self.resume_data = {}
 
+        self.torrents_status_requests = []
+        self.status_dict = {}
+        self.last_state_update_alert_ts = 0
+
         # Register set functions
         self.config.register_set_function("max_connections_per_torrent",
             self.on_set_max_connections_per_torrent)
@@ -200,6 +206,8 @@ class TorrentManager(component.Component):
             self.on_alert_file_error)
         self.alerts.register_handler("file_completed_alert",
             self.on_alert_file_completed)
+        self.alerts.register_handler("state_update_alert",
+            self.on_alert_state_update)
 
     def start(self):
         # Get the pluginmanager reference
@@ -286,7 +294,8 @@ class TorrentManager(component.Component):
         torrent_info = None
         # Get the torrent data from the torrent file
         try:
-            log.debug("Attempting to create torrent_info from %s", filepath)
+            if log.isEnabledFor(logging.DEBUG):
+                log.debug("Attempting to create torrent_info from %s", filepath)
             _file = open(filepath, "rb")
             torrent_info = lt.torrent_info(lt.bdecode(_file.read()))
             _file.close()
@@ -321,7 +330,6 @@ class TorrentManager(component.Component):
     def add(self, torrent_info=None, state=None, options=None, save_state=True,
             filedump=None, filename=None, magnet=None, resume_data=None, owner=None):
         """Add a torrent to the manager and returns it's torrent_id"""
-
         if owner is None:
             owner = component.get("RPCServer").get_session_user()
             if not owner:
@@ -331,7 +339,6 @@ class TorrentManager(component.Component):
             log.debug("You must specify a valid torrent_info, torrent state or magnet.")
             return
 
-        log.debug("torrentmanager.add")
         add_torrent_params = {}
 
         if filedump is not None:
@@ -440,8 +447,8 @@ class TorrentManager(component.Component):
 
             add_torrent_params["ti"] = torrent_info
 
-        #log.info("Adding torrent: %s", filename)
-        log.debug("options: %s", options)
+        if log.isEnabledFor(logging.DEBUG):
+            log.debug("options: %s", options)
 
         # Set the right storage_mode
         if options["compact_allocation"]:
@@ -475,7 +482,8 @@ class TorrentManager(component.Component):
             component.resume("AlertManager")
             return
 
-        log.debug("handle id: %s", str(handle.info_hash()))
+        if log.isEnabledFor(logging.DEBUG):
+            log.debug("handle id: %s", str(handle.info_hash()))
         # Set auto_managed to False because the torrent is paused
         handle.auto_managed(False)
         # Create a Torrent object
@@ -486,6 +494,7 @@ class TorrentManager(component.Component):
         if not account_exists:
             owner = 'localclient'
         torrent = Torrent(handle, options, state, filename, magnet, owner)
+
         # Add the torrent object to the dictionary
         self.torrents[torrent.torrent_id] = torrent
         if self.config["queue_new_to_top"]:
@@ -532,10 +541,14 @@ class TorrentManager(component.Component):
         component.get("EventManager").emit(
             TorrentAddedEvent(torrent.torrent_id, from_state)
         )
-        log.info("Torrent %s from user \"%s\" %s",
-                 torrent.get_status(["name"])["name"],
-                 torrent.get_status(["owner"])["owner"],
-                 (from_state and "loaded" or "added"))
+
+        if log.isEnabledFor(logging.INFO):
+            name_and_owner = torrent.get_status(["name", "owner"])
+            log.info("Torrent %s from user \"%s\" %s" % (
+                    name_and_owner["name"],
+                    name_and_owner["owner"],
+                    from_state and "loaded" or "added")
+                     )
         return torrent.torrent_id
 
     def load_torrent(self, torrent_id):
@@ -647,19 +660,23 @@ class TorrentManager(component.Component):
 
         # Try to use an old state
         try:
-            state_tmp = TorrentState()
-            if dir(state.torrents[0]) != dir(state_tmp):
-                for attr in (set(dir(state_tmp)) - set(dir(state.torrents[0]))):
-                    for s in state.torrents:
-                        setattr(s, attr, getattr(state_tmp, attr, None))
+            if len(state.torrents) > 0:
+                state_tmp = TorrentState()
+                if dir(state.torrents[0]) != dir(state_tmp):
+                    for attr in (set(dir(state_tmp)) - set(dir(state.torrents[0]))):
+                        for s in state.torrents:
+                            setattr(s, attr, getattr(state_tmp, attr, None))
         except Exception, e:
-            log.warning("Unable to update state file to a compatible version: %s", e)
+            log.exception("Unable to update state file to a compatible version: %s", e)
 
         # Reorder the state.torrents list to add torrents in the correct queue
         # order.
         state.torrents.sort(key=operator.attrgetter("queue"), reverse=self.config["queue_new_to_top"])
-
         resume_data = self.load_resume_data_file()
+
+        # Tell alertmanager to wait for the handlers while adding torrents.
+        # This speeds up startup loading the torrents by quite a lot for some reason (~40%)
+        self.alerts.wait_on_handler = True
 
         for torrent_state in state.torrents:
             try:
@@ -667,8 +684,11 @@ class TorrentManager(component.Component):
                          resume_data=resume_data.get(torrent_state.torrent_id))
             except AttributeError, e:
                 log.error("Torrent state file is either corrupt or incompatible! %s", e)
+                import traceback
+                traceback.print_exc()
                 break
 
+        self.alerts.wait_on_handler = False
 
         if lt.version_minor < 16:
             log.debug("libtorrent version is lower than 0.16. Start looping "
@@ -914,7 +934,8 @@ class TorrentManager(component.Component):
             self.save_resume_data((torrent_id, ))
 
     def on_alert_torrent_paused(self, alert):
-        log.debug("on_alert_torrent_paused")
+        if log.isEnabledFor(logging.DEBUG):
+            log.debug("on_alert_torrent_paused")
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
             torrent_id = str(alert.handle.info_hash())
@@ -931,7 +952,8 @@ class TorrentManager(component.Component):
             self.save_resume_data((torrent_id,))
 
     def on_alert_torrent_checked(self, alert):
-        log.debug("on_alert_torrent_checked")
+        if log.isEnabledFor(logging.DEBUG):
+            log.debug("on_alert_torrent_checked")
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
         except:
@@ -948,7 +970,8 @@ class TorrentManager(component.Component):
         torrent.update_state()
 
     def on_alert_tracker_reply(self, alert):
-        log.debug("on_alert_tracker_reply: %s", decode_string(alert.message()))
+        if log.isEnabledFor(logging.DEBUG):
+            log.debug("on_alert_tracker_reply: %s", decode_string(alert.message()))
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
         except:
@@ -964,7 +987,8 @@ class TorrentManager(component.Component):
             torrent.scrape_tracker()
 
     def on_alert_tracker_announce(self, alert):
-        log.debug("on_alert_tracker_announce")
+        if log.isEnabledFor(logging.DEBUG):
+            log.debug("on_alert_tracker_announce")
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
         except:
@@ -1016,7 +1040,8 @@ class TorrentManager(component.Component):
         component.get("EventManager").emit(TorrentResumedEvent(torrent_id))
 
     def on_alert_state_changed(self, alert):
-        log.debug("on_alert_state_changed")
+        if log.isEnabledFor(logging.DEBUG):
+            log.debug("on_alert_state_changed")
         try:
             torrent_id = str(alert.handle.info_hash())
             torrent = self.torrents[torrent_id]
@@ -1036,7 +1061,8 @@ class TorrentManager(component.Component):
             component.get("EventManager").emit(TorrentStateChangedEvent(torrent_id, torrent.state))
 
     def on_alert_save_resume_data(self, alert):
-        log.debug("on_alert_save_resume_data")
+        if log.isEnabledFor(logging.DEBUG):
+            log.debug("on_alert_save_resume_data")
         torrent_id = str(alert.handle.info_hash())
 
         if torrent_id in self.torrents:
@@ -1096,3 +1122,75 @@ class TorrentManager(component.Component):
             return
         component.get("EventManager").emit(
             TorrentFileCompletedEvent(torrent_id, alert.index))
+
+    def separate_keys(self, keys, torrent_ids):
+        """Separates the input keys into keys for the Torrent class
+        and keys for plugins.
+        """
+        if self.torrents:
+            for torrent_id in torrent_ids:
+                if torrent_id in self.torrents:
+                    status_keys = self.torrents[torrent_id].status_funcs.keys()
+                    leftover_keys = list(set(keys) - set(status_keys))
+                    torrent_keys = list(set(keys) - set(leftover_keys))
+                    return torrent_keys, leftover_keys
+        return [], []
+
+    def on_alert_state_update(self, alert):
+        log.debug("on_status_notification: %s", alert.message())
+        self.last_state_update_alert_ts = time.time()
+
+        for s in alert.status:
+            torrent_id = str(s.info_hash)
+            if torrent_id in self.torrents:
+                self.torrents[torrent_id].update_status(s)
+
+        self.handle_torrents_status_callback(self.torrents_status_requests.pop())
+
+    def handle_torrents_status_callback(self, status_request):
+        """
+        Builds the status dictionary with the values from the Torrent.
+        """
+        d, torrent_ids, keys, diff = status_request
+        status_dict = {}.fromkeys(torrent_ids)
+        torrent_keys, plugin_keys = self.separate_keys(keys, torrent_ids)
+
+        # Get the torrent status for each torrent_id
+        for torrent_id in torrent_ids:
+            if not torrent_id in self.torrents:
+                # The torrent_id does not exist in the dict.
+                # Could be the clients cache (sessionproxy) isn't up to speed.
+                del status_dict[torrent_id]
+            else:
+                status_dict[torrent_id] = self.torrents[torrent_id].get_status(torrent_keys, diff)
+        self.status_dict = status_dict
+        d.callback((status_dict, plugin_keys))
+
+    def torrents_status_update(self, torrent_ids, keys, diff=False):
+        """
+        returns status dict for the supplied torrent_ids async
+        If the torrent states were updated recently (less than 1.5 seconds ago,
+        post_torrent_updates is not called. Instead the cached state is used.
+
+        :param torrent_ids: the torrent IDs to get the status on
+        :type torrent_ids: list of str
+        :param keys: the keys to get the status on
+        :type keys: list of str
+        :param diff: if True, will return a diff of the changes since the last
+        call to get_status based on the session_id
+        :type diff: bool
+
+        :returns: a status dictionary for the equested torrents.
+        :rtype: dict
+
+        """
+        d = Deferred()
+        now = time.time()
+        # If last update was recent, use cached data instead of request updates from libtorrent
+        if (now - self.last_state_update_alert_ts) < 1.5:
+            reactor.callLater(0, self.handle_torrents_status_callback, (d, torrent_ids, keys, diff))
+        else:
+            # Ask libtorrent for status update
+            self.torrents_status_requests.insert(0, (d, torrent_ids, keys, diff))
+            self.session.post_torrent_updates()
+        return d

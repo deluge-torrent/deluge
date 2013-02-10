@@ -194,16 +194,14 @@ class StatusBar(component.Component):
 
         self.health = False
 
+        def update_config_values(configs):
+            self._on_max_connections_global(configs["max_connections_global"])
+            self._on_max_download_speed(configs["max_download_speed"])
+            self._on_max_upload_speed(configs["max_upload_speed"])
+            self._on_dht(configs["dht"])
         # Get some config values
-        client.core.get_config_value(
-            "max_connections_global").addCallback(self._on_max_connections_global)
-        client.core.get_config_value(
-            "max_download_speed").addCallback(self._on_max_download_speed)
-        client.core.get_config_value(
-            "max_upload_speed").addCallback(self._on_max_upload_speed)
-        client.core.get_config_value("dht").addCallback(self._on_dht)
-
-        self.send_status_request()
+        client.core.get_config_values(["max_connections_global", "max_download_speed",
+                                  "max_upload_speed", "dht"]).addCallback(update_config_values)
 
     def stop(self):
         # When stopped, we just show the not connected thingy

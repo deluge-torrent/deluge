@@ -113,9 +113,8 @@ def tracker_error_filter(torrent_ids, values):
     # Check all the torrent's tracker_status for 'Error:' and only return torrent_ids
     # that have this substring in their tracker_status
     for torrent_id in torrent_ids:
-        if _("Error") + ":" in tm[torrent_id].get_status(["tracker_status"])["tracker_status"]:
+        if _("Error") + ":" in tm[torrent_id].get_status(["tracker_host"])["tracker_host"]:
             filtered_torrent_ids.append(torrent_id)
-
     return filtered_torrent_ids
 
 class FilterManager(component.Component):
@@ -192,13 +191,11 @@ class FilterManager(component.Component):
 
         #leftover filter arguments:
         #default filter on status fields.
-        status_func = self.core.get_torrent_status #premature optimalisation..
         for torrent_id in list(torrent_ids):
-            status = status_func(torrent_id, filter_dict.keys()) #status={key:value}
+            status = self.torrents[torrent_id].get_status(filter_dict.keys()) #status={key:value}
             for field, values in filter_dict.iteritems():
                 if (not status[field] in values) and torrent_id in torrent_ids:
                     torrent_ids.remove(torrent_id)
-
         return torrent_ids
 
     def get_filter_tree(self, show_zero_hits=True, hide_cat=None):
@@ -207,17 +204,16 @@ class FilterManager(component.Component):
         for use in sidebar.
         """
         torrent_ids = self.torrents.get_torrent_list()
-        status_func = self.core.get_torrent_status #premature optimalisation..
         tree_keys = list(self.tree_fields.keys())
         if hide_cat:
             for cat in hide_cat:
                 tree_keys.remove(cat)
 
-        items = dict( (field, self.tree_fields[field]()) for field in tree_keys)
+        torrent_keys, plugin_keys = self.torrents.separate_keys(tree_keys, torrent_ids)
+        items = dict((field, self.tree_fields[field]()) for field in tree_keys)
 
-        #count status fields.
         for torrent_id in list(torrent_ids):
-            status = status_func(torrent_id, tree_keys) #status={key:value}
+            status = self.core.create_torrent_status(torrent_id, torrent_keys, plugin_keys) #status={key:value}
             for field in tree_keys:
                 value = status[field]
                 items[field][value] = items[field].get(value, 0) + 1
@@ -264,9 +260,8 @@ class FilterManager(component.Component):
             del self.tree_fields[field]
 
     def filter_state_active(self, torrent_ids):
-        get_status = self.core.get_torrent_status
         for torrent_id in list(torrent_ids):
-            status = get_status(torrent_id, ["download_payload_rate", "upload_payload_rate"])
+            status = self.torrents[torrent_id].get_status(["download_payload_rate", "upload_payload_rate"])
             if status["download_payload_rate"] or status["upload_payload_rate"]:
                 pass #ok
             else:
