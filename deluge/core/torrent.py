@@ -153,7 +153,7 @@ class Torrent(object):
         except RuntimeError:
             self.torrent_info = None
 
-        self.handle_has_metadata = None
+        self.has_metadata = self.handle.has_metadata()
         self.status_funcs = None
 
         # Default total_uploaded to 0, this may be changed by the state
@@ -231,20 +231,11 @@ class Torrent(object):
             log.debug("Torrent object created.")
 
     def on_metadata_received(self):
-        self.handle_has_metadata = True
+        self.has_metadata = True
         self.torrent_info = self.handle.get_torrent_info()
         if self.options["prioritize_first_last_pieces"]:
             self.set_prioritize_first_last(True)
         self.write_torrentfile()
-
-    def has_metadata(self):
-        if self.handle_has_metadata:
-            return self.handle_has_metadata
-        self.handle_has_metadata = self.handle.has_metadata()
-        if self.handle_has_metadata:
-            # We just got the metadata
-            self.on_metadata_received()
-        return self.handle_has_metadata
 
     ## Options methods ##
     def set_options(self, options):
@@ -275,7 +266,7 @@ class Torrent(object):
         return self.options
 
     def get_name(self):
-        if self.has_metadata():
+        if self.has_metadata:
             name = self.torrent_info.file_at(0).path.replace("\\", "/", 1).split("/", 1)[0]
             if not name:
                 name = self.torrent_info.name()
@@ -333,7 +324,7 @@ class Torrent(object):
             # reset all the piece priorities
             self.set_file_priorities(self.options["file_priorities"])
             return
-        if not self.has_metadata():
+        if not self.has_metadata:
             return
         if self.options["compact_allocation"]:
             log.debug("Setting first/last priority with compact "
@@ -393,7 +384,7 @@ class Torrent(object):
         self.options["move_completed_path"] = move_completed_path
 
     def set_file_priorities(self, file_priorities):
-        if not self.has_metadata():
+        if not self.has_metadata:
             return
         if len(file_priorities) != self.ti_num_files():
             log.debug("file_priorities len != num_files")
@@ -570,7 +561,7 @@ class Torrent(object):
 
     def get_files(self):
         """Returns a list of files this torrent contains"""
-        if not self.has_metadata():
+        if not self.has_metadata:
             return []
         ret = []
         files = self.torrent_info.files()
@@ -623,7 +614,7 @@ class Torrent(object):
 
     def get_file_progress(self):
         """Returns the file progress as a list of floats.. 0.0 -> 1.0"""
-        if not self.has_metadata():
+        if not self.has_metadata:
             return 0.0
 
         file_progress = self.handle.file_progress()
@@ -813,7 +804,7 @@ class Torrent(object):
             }
 
     def ti_comment(self):
-        if self.has_metadata():
+        if self.has_metadata:
             try:
                 return self.torrent_info.comment().decode("utf8", "ignore")
             except UnicodeDecodeError:
@@ -821,7 +812,7 @@ class Torrent(object):
         return ""
 
     def ti_name(self):
-        if self.has_metadata():
+        if self.has_metadata:
             name = self.torrent_info.file_at(0).path.split("/", 1)[0]
             if not name:
                 name = self.torrent_info.name()
@@ -847,32 +838,32 @@ class Torrent(object):
         return self.torrent_id
 
     def ti_priv(self):
-        if self.has_metadata():
+        if self.has_metadata:
             return self.torrent_info.priv()
         return False
 
     def ti_total_size(self):
-        if self.has_metadata():
+        if self.has_metadata:
             return self.torrent_info.total_size()
         return 0
 
     def ti_num_files(self):
-        if self.has_metadata():
+        if self.has_metadata:
             return self.torrent_info.num_files()
         return 0
 
     def ti_num_pieces(self):
-        if self.has_metadata():
+        if self.has_metadata:
             return self.torrent_info.num_pieces()
         return 0
 
     def ti_piece_length(self):
-        if self.has_metadata():
+        if self.has_metadata:
             return self.torrent_info.piece_length()
         return 0
 
     def ti_pieces_info(self):
-        if self.has_metadata():
+        if self.has_metadata:
             return self.get_pieces_info()
         return None
 
