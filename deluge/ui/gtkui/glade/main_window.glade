@@ -1760,7 +1760,7 @@
                                     <property name="can_focus">True</property>
                                     <property name="width_chars">6</property>
                                     <property name="xalign">1</property>
-                                    <property name="adjustment">-1 -1 99999 1 10 0</property>
+                                    <property name="adjustment">-1 -1 2097151 1 10 0</property>
                                     <property name="digits">1</property>
                                   </widget>
                                   <packing>
@@ -1778,7 +1778,7 @@
                                     <property name="can_focus">True</property>
                                     <property name="width_chars">6</property>
                                     <property name="xalign">1</property>
-                                    <property name="adjustment">-1 -1 999999 1 10 0</property>
+                                    <property name="adjustment">-1 -1 2097151 1 10 0</property>
                                     <property name="digits">1</property>
                                   </widget>
                                   <packing>
