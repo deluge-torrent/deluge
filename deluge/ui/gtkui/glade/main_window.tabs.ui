@@ -9,9 +9,9 @@
     <property name="page_increment">10</property>
     <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
   </object>
-  <object class="GtkAdjustment" id="spin_max_download_adjustment">
+  <object class="GtkAdjustment" id="spin_speed_adjustment">
     <property name="lower">-1</property>
-    <property name="upper">999999</property>
+    <property name="upper">2097151</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
     <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
@@ -1354,7 +1354,7 @@
                                     <property name="secondary_icon_activatable">False</property>
                                     <property name="primary_icon_sensitive">True</property>
                                     <property name="secondary_icon_sensitive">True</property>
-                                    <property name="adjustment">spin_max_upload_adjustment</property>
+                                    <property name="adjustment">spin_speed_adjustment</property>
                                     <property name="digits">1</property>
                                     <property name="numeric">True</property>
                                   </object>
@@ -1378,7 +1378,7 @@
                                     <property name="secondary_icon_activatable">False</property>
                                     <property name="primary_icon_sensitive">True</property>
                                     <property name="secondary_icon_sensitive">True</property>
-                                    <property name="adjustment">spin_max_download_adjustment</property>
+                                    <property name="adjustment">spin_speed_adjustment</property>
                                     <property name="climb_rate">1</property>
                                     <property name="digits">1</property>
                                     <property name="numeric">True</property>

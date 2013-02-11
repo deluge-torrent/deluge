@@ -2,172 +2,55 @@
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy toplevel-contextual -->
-  <object class="GtkAdjustment" id="adjustment1">
-    <property name="upper">65535</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment10">
-    <property name="lower">-1</property>
-    <property name="upper">9000</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment11">
-    <property name="lower">-1</property>
-    <property name="upper">9000</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment12">
-    <property name="lower">-1</property>
-    <property name="upper">9000</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment13">
-    <property name="lower">-1</property>
-    <property name="upper">9000</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment14">
-    <property name="lower">-1</property>
-    <property name="upper">9000</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment15">
-    <property name="upper">65535</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment16">
+  <object class="GtkAdjustment" id="adjustment_9999">
     <property name="lower">-1</property>
     <property name="upper">9999</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment17">
-    <property name="lower">-1</property>
-    <property name="upper">9999</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment18">
-    <property name="lower">-1</property>
-    <property name="upper">9999</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment19">
-    <property name="lower">-1</property>
-    <property name="upper">100</property>
-    <property name="value">1.5</property>
-    <property name="step_increment">0.10000000000000001</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment2">
-    <property name="upper">65535</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment20">
-    <property name="lower">-1</property>
-    <property name="upper">100</property>
-    <property name="value">6</property>
-    <property name="step_increment">0.10000000000000001</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment21">
-    <property name="lower">-1</property>
-    <property name="upper">10000</property>
-    <property name="value">6</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment22">
-    <property name="lower">0.5</property>
-    <property name="upper">100</property>
-    <property name="value">2</property>
-    <property name="step_increment">0.10000000000000001</property>
-    <property name="page_increment">1</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment23">
-    <property name="upper">65535</property>
-    <property name="value">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment24">
-    <property name="upper">65535</property>
-    <property name="value">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment25">
-    <property name="upper">65535</property>
-    <property name="value">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment26">
-    <property name="upper">65535</property>
-    <property name="value">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment27">
-    <property name="upper">999999</property>
-    <property name="value">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment28">
+  <object class="GtkAdjustment" id="adjustment_cache_expiry">
     <property name="lower">1</property>
     <property name="upper">32000</property>
     <property name="value">60</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment3">
+  <object class="GtkAdjustment" id="adjustment_cache_size">
+    <property name="upper">999999</property>
+    <property name="value">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_port">
     <property name="upper">65535</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment4">
-    <property name="upper">65535</property>
+  <object class="GtkAdjustment" id="adjustment_share_ratio">
+    <property name="lower">0.5</property>
+    <property name="upper">100</property>
+    <property name="value">2</property>
+    <property name="step_increment">0.10000000000000001</property>
+    <property name="page_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_share_ratio_limit">
+    <property name="lower">-1</property>
+    <property name="upper">100</property>
+    <property name="value">1.5</property>
+    <property name="step_increment">0.10000000000000001</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_speed">
+    <property name="lower">-1</property>
+    <property name="upper">2097151</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment5">
+  <object class="GtkAdjustment" id="adjustment_time_ratio_limit">
     <property name="lower">-1</property>
-    <property name="upper">9999</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment6">
-    <property name="lower">-1</property>
-    <property name="upper">9999</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment7">
-    <property name="lower">-1</property>
-    <property name="upper">9000</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment8">
-    <property name="lower">-1</property>
-    <property name="upper">60000</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment9">
-    <property name="lower">-1</property>
-    <property name="upper">60000</property>
-    <property name="step_increment">1</property>
+    <property name="upper">100</property>
+    <property name="value">6</property>
+    <property name="step_increment">0.10000000000000001</property>
     <property name="page_increment">10</property>
   </object>
   <object class="GtkListStore" id="liststore1">
@@ -349,10 +232,10 @@
             <child>
               <object class="GtkButton" id="button_cancel">
                 <property name="label">gtk-cancel</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
               </object>
@@ -365,10 +248,10 @@
             <child>
               <object class="GtkButton" id="button_apply">
                 <property name="label">gtk-apply</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_apply_clicked" swapped="no"/>
               </object>
@@ -381,10 +264,10 @@
             <child>
               <object class="GtkButton" id="button_ok">
                 <property name="label">gtk-ok</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_ok_clicked" swapped="no"/>
               </object>
@@ -566,10 +449,10 @@
                                         <child>
                                           <object class="GtkCheckButton" id="chk_move_completed">
                                             <property name="label" translatable="yes">Move completed to:</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="draw_indicator">True</property>
                                             <signal name="toggled" handler="on_toggle" swapped="no"/>
                                           </object>
@@ -633,10 +516,10 @@
                                         <child>
                                           <object class="GtkCheckButton" id="chk_copy_torrent_file">
                                             <property name="label" translatable="yes">Copy of .torrent files to:</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="draw_indicator">True</property>
                                             <signal name="toggled" handler="on_toggle" swapped="no"/>
                                           </object>
@@ -697,11 +580,11 @@
                                         <child>
                                           <object class="GtkCheckButton" id="chk_del_copy_torrent_file">
                                             <property name="label" translatable="yes">Delete copy of torrent file on remove</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
                                             <property name="tooltip_text" translatable="yes">Delete the copy of the torrent file created when the torrent is removed</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
                                           <packing>
@@ -755,11 +638,11 @@
                                         <child>
                                           <object class="GtkRadioButton" id="radio_full_allocation">
                                             <property name="label" translatable="yes">Use Full Allocation</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
                                             <property name="tooltip_text" translatable="yes">Full allocation preallocates all of the space that is needed for the torrent and prevents disk fragmentation</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="active">True</property>
                                             <property name="draw_indicator">True</property>
                                             <signal name="toggled" handler="on_alocation_toggled" swapped="no"/>
@@ -773,11 +656,11 @@
                                         <child>
                                           <object class="GtkRadioButton" id="radio_compact_allocation">
                                             <property name="label" translatable="yes">Use Compact Allocation</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
                                             <property name="tooltip_text" translatable="yes">Compact allocation only allocates space as needed</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="draw_indicator">True</property>
                                             <property name="group">radio_full_allocation</property>
                                             <signal name="toggled" handler="on_alocation_toggled" swapped="no"/>
@@ -828,11 +711,11 @@
                                         <child>
                                           <object class="GtkCheckButton" id="chk_prioritize_first_last_pieces">
                                             <property name="label" translatable="yes">Prioritize first and last pieces of torrent</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
                                             <property name="tooltip_text" translatable="yes">Prioritize first and last pieces of files in torrent</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
                                           <packing>
@@ -844,6 +727,7 @@
                                         <child>
                                           <object class="GtkCheckButton" id="chk_sequential_download">
                                             <property name="label" translatable="yes">Sequential download</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -853,7 +737,6 @@ sequence instead of rarest first.
 Enabling sequential download will affect the piece
 distribution negatively in the swarm. It should be
 used sparingly.</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
                                           <packing>
@@ -865,10 +748,10 @@ used sparingly.</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_add_paused">
                                             <property name="label" translatable="yes">Add torrents in Paused state</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
                                           <packing>
@@ -981,11 +864,11 @@ used sparingly.</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_random_port">
                                                 <property name="label" translatable="yes">Use Random Ports</property>
+                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
                                                 <property name="tooltip_text" translatable="yes">Deluge will automatically choose a different port to use every time.</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="draw_indicator">True</property>
                                                 <signal name="toggled" handler="on_toggle" swapped="no"/>
                                               </object>
@@ -1073,7 +956,7 @@ used sparingly.</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
                                                 <property name="secondary_icon_sensitive">True</property>
-                                                <property name="adjustment">adjustment1</property>
+                                                <property name="adjustment">adjustment_port</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
                                                 <property name="numeric">True</property>
@@ -1109,7 +992,7 @@ used sparingly.</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
                                                 <property name="secondary_icon_sensitive">True</property>
-                                                <property name="adjustment">adjustment2</property>
+                                                <property name="adjustment">adjustment_port</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
                                                 <property name="numeric">True</property>
@@ -1124,10 +1007,10 @@ used sparingly.</property>
                                             <child>
                                               <object class="GtkButton" id="btn_testport">
                                                 <property name="label" translatable="yes">Test Active Port</property>
+                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <signal name="clicked" handler="on_test_port_clicked" swapped="no"/>
                                               </object>
                                               <packing>
@@ -1202,10 +1085,10 @@ used sparingly.</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_random_outgoing_ports">
                                             <property name="label" translatable="yes">Use Random Ports</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="draw_indicator">True</property>
                                             <signal name="toggled" handler="on_toggle" swapped="no"/>
                                           </object>
@@ -1243,7 +1126,7 @@ used sparingly.</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
                                                 <property name="secondary_icon_sensitive">True</property>
-                                                <property name="adjustment">adjustment3</property>
+                                                <property name="adjustment">adjustment_port</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
                                                 <property name="numeric">True</property>
@@ -1278,7 +1161,7 @@ used sparingly.</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
                                                 <property name="secondary_icon_sensitive">True</property>
-                                                <property name="adjustment">adjustment4</property>
+                                                <property name="adjustment">adjustment_port</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
                                                 <property name="numeric">True</property>
@@ -1340,8 +1223,8 @@ used sparingly.</property>
                                             <property name="tooltip_text" translatable="yes">Enter the IP address of the interface to listen for incoming bittorrent connections on.  Leave this empty if you want to use the default.</property>
                                             <property name="max_length">60</property>
                                             <property name="invisible_char">●</property>
-                                            <property name="truncate_multiline">True</property>
                                             <property name="width_chars">30</property>
+                                            <property name="truncate_multiline">True</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
                                             <property name="primary_icon_sensitive">True</property>
@@ -1478,11 +1361,11 @@ used sparingly.</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_upnp">
                                             <property name="label" translatable="yes">UPnP</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
                                             <property name="tooltip_text" translatable="yes">Universal Plug and Play</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="use_underline">True</property>
                                             <property name="active">True</property>
                                             <property name="draw_indicator">True</property>
@@ -1494,11 +1377,11 @@ used sparingly.</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_natpmp">
                                             <property name="label" translatable="yes">NAT-PMP</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
                                             <property name="tooltip_text" translatable="yes">NAT Port Mapping Protocol</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="use_underline">True</property>
                                             <property name="active">True</property>
                                             <property name="draw_indicator">True</property>
@@ -1512,11 +1395,11 @@ used sparingly.</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_utpex">
                                             <property name="label" translatable="yes">Peer Exchange</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
                                             <property name="tooltip_text" translatable="yes">Peer Exchange</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="use_underline">True</property>
                                             <property name="active">True</property>
                                             <property name="draw_indicator">True</property>
@@ -1530,11 +1413,11 @@ used sparingly.</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_lsd">
                                             <property name="label" translatable="yes">LSD</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
                                             <property name="tooltip_text" translatable="yes">Local Service Discovery finds local peers on your network.</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
                                           <packing>
@@ -1546,11 +1429,11 @@ used sparingly.</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_dht">
                                             <property name="label" translatable="yes">DHT</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
                                             <property name="tooltip_text" translatable="yes">Distributed hash table may improve the amount of active connections.</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="use_underline">True</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
@@ -1736,10 +1619,10 @@ used sparingly.</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_pref_rc4">
                                                 <property name="label" translatable="yes">Encrypt entire stream</property>
+                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="use_underline">True</property>
                                                 <property name="draw_indicator">True</property>
                                               </object>
@@ -1874,7 +1757,7 @@ used sparingly.</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
                                                 <property name="secondary_icon_sensitive">True</property>
-                                                <property name="adjustment">adjustment5</property>
+                                                <property name="adjustment">adjustment_9999</property>
                                                 <property name="numeric">True</property>
                                               </object>
                                               <packing>
@@ -1894,7 +1777,7 @@ used sparingly.</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
                                                 <property name="secondary_icon_sensitive">True</property>
-                                                <property name="adjustment">adjustment6</property>
+                                                <property name="adjustment">adjustment_9999</property>
                                                 <property name="numeric">True</property>
                                               </object>
                                               <packing>
@@ -1982,7 +1865,7 @@ used sparingly.</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
                                                 <property name="secondary_icon_sensitive">True</property>
-                                                <property name="adjustment">adjustment7</property>
+                                                <property name="adjustment">adjustment_9999</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
                                                 <property name="numeric">True</property>
@@ -2018,7 +1901,6 @@ used sparingly.</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
                                                 <property name="secondary_icon_sensitive">True</property>
-                                                <property name="adjustment">adjustment8</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="digits">1</property>
                                                 <property name="numeric">True</property>
@@ -2041,7 +1923,6 @@ used sparingly.</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
                                                 <property name="secondary_icon_sensitive">True</property>
-                                                <property name="adjustment">adjustment9</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="digits">1</property>
                                                 <property name="numeric">True</property>
@@ -2064,7 +1945,7 @@ used sparingly.</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
                                                 <property name="secondary_icon_sensitive">True</property>
-                                                <property name="adjustment">adjustment10</property>
+                                                <property name="adjustment">adjustment_9999</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
                                                 <property name="numeric">True</property>
@@ -2092,10 +1973,10 @@ used sparingly.</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_ignore_limits_on_local_network">
                                                 <property name="label" translatable="yes">Ignore limits on local network</property>
+                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="active">True</property>
                                                 <property name="draw_indicator">True</property>
                                               </object>
@@ -2115,11 +1996,11 @@ used sparingly.</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_rate_limit_ip_overhead">
                                                 <property name="label" translatable="yes">Rate limit IP overhead</property>
+                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
                                                 <property name="tooltip_text" translatable="yes">If checked, the estimated TCP/IP overhead is drained from the rate limiters, to avoid exceeding the limits with the total traffic</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="active">True</property>
                                                 <property name="draw_indicator">True</property>
                                               </object>
@@ -2181,7 +2062,7 @@ used sparingly.</property>
                                             <property name="secondary_icon_activatable">False</property>
                                             <property name="primary_icon_sensitive">True</property>
                                             <property name="secondary_icon_sensitive">True</property>
-                                            <property name="adjustment">adjustment11</property>
+                                            <property name="adjustment">adjustment_9999</property>
                                             <property name="climb_rate">1</property>
                                             <property name="snap_to_ticks">True</property>
                                             <property name="numeric">True</property>
@@ -2204,7 +2085,7 @@ used sparingly.</property>
                                             <property name="secondary_icon_activatable">False</property>
                                             <property name="primary_icon_sensitive">True</property>
                                             <property name="secondary_icon_sensitive">True</property>
-                                            <property name="adjustment">adjustment12</property>
+                                            <property name="adjustment">adjustment_9999</property>
                                             <property name="snap_to_ticks">True</property>
                                             <property name="numeric">True</property>
                                           </object>
@@ -2268,13 +2149,13 @@ used sparingly.</property>
                                           <object class="GtkSpinButton" id="spin_max_download_per_torrent">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="tooltip_text" translatable="yes">The maximum number of connections per torrent.  Set -1 for unlimited.</property>
+                                            <property name="tooltip_text" translatable="yes">The maximum number download speed per torrent.  Set -1 for unlimited.</property>
                                             <property name="xalign">1</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
                                             <property name="primary_icon_sensitive">True</property>
                                             <property name="secondary_icon_sensitive">True</property>
-                                            <property name="adjustment">adjustment13</property>
+                                            <property name="adjustment">adjustment_speed</property>
                                             <property name="digits">1</property>
                                             <property name="numeric">True</property>
                                           </object>
@@ -2290,13 +2171,13 @@ used sparingly.</property>
                                           <object class="GtkSpinButton" id="spin_max_upload_per_torrent">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="tooltip_text" translatable="yes">The maximum number of connections per torrent.  Set -1 for unlimited.</property>
+                                            <property name="tooltip_text" translatable="yes">The maximum upload speed per torrent.  Set -1 for unlimited.</property>
                                             <property name="xalign">1</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
                                             <property name="primary_icon_sensitive">True</property>
                                             <property name="secondary_icon_sensitive">True</property>
-                                            <property name="adjustment">adjustment14</property>
+                                            <property name="adjustment">adjustment_speed</property>
                                             <property name="digits">1</property>
                                             <property name="numeric">True</property>
                                           </object>
@@ -2407,11 +2288,11 @@ used sparingly.</property>
                                     <child>
                                       <object class="GtkCheckButton" id="chk_classic_mode">
                                         <property name="label" translatable="yes">Enable</property>
+                                        <property name="use_action_appearance">False</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
                                         <property name="tooltip_text" translatable="yes">Classic Mode will hide most of the daemon functionality and will make Deluge appear to be a single application.  Use this if you do not want to take advantage of running Deluge as a daemon. You need to restart Deluge for this setting to take effect.</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="draw_indicator">True</property>
                                       </object>
                                     </child>
@@ -2453,10 +2334,10 @@ used sparingly.</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_show_rate_in_title">
                                             <property name="label" translatable="yes">Show session speed in titlebar</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
                                           <packing>
@@ -2468,6 +2349,7 @@ used sparingly.</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_focus_main_window_on_add">
                                             <property name="label" translatable="yes">Focus window when adding torrent</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -2475,36 +2357,9 @@ used sparingly.</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
                                           <packing>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkCheckButton" id="piecesbar_toggle">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">False</property>
-                                            <property name="tooltip_text" translatable="yes">Besides being experimental, using the pieces bar
-will increase the bandwidth used between client
-and daemon(does not apply in classic mode).
-Use at your own risk if you wish to help us debug
-this new feature.</property>
-                                            <property name="use_action_appearance">False</property>
-                                            <property name="draw_indicator">True</property>
-                                            <signal name="toggled" handler="on_piecesbar_toggle_toggled" swapped="no"/>
-                                            <child>
-                                              <object class="GtkLabel" id="label62">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="label" translatable="yes">Show a pieces bar in the torrent's
-status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
-                                                <property name="use_markup">True</property>
-                                              </object>
-                                            </child>
-                                          </object>
-                                          <packing>
                                             <property name="expand">True</property>
                                             <property name="fill">True</property>
-                                            <property name="position">2</property>
+                                            <property name="position">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -2536,10 +2391,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     </child>
                                                     <child>
                                                       <object class="GtkColorButton" id="completed_color">
+                                                        <property name="use_action_appearance">False</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
-                                                        <property name="use_action_appearance">False</property>
                                                         <property name="xalign">0</property>
                                                         <property name="color">#000000000000</property>
                                                         <signal name="color-set" handler="on_completed_color_set" swapped="no"/>
@@ -2565,10 +2420,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     </child>
                                                     <child>
                                                       <object class="GtkColorButton" id="downloading_color">
+                                                        <property name="use_action_appearance">False</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
-                                                        <property name="use_action_appearance">False</property>
                                                         <property name="xalign">0</property>
                                                         <property name="color">#000000000000</property>
                                                         <signal name="color-set" handler="on_downloading_color_set" swapped="no"/>
@@ -2596,10 +2451,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     </child>
                                                     <child>
                                                       <object class="GtkColorButton" id="waiting_color">
+                                                        <property name="use_action_appearance">False</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
-                                                        <property name="use_action_appearance">False</property>
                                                         <property name="xalign">0</property>
                                                         <property name="color">#000000000000</property>
                                                         <signal name="color-set" handler="on_waiting_color_set" swapped="no"/>
@@ -2627,10 +2482,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     </child>
                                                     <child>
                                                       <object class="GtkColorButton" id="missing_color">
+                                                        <property name="use_action_appearance">False</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
-                                                        <property name="use_action_appearance">False</property>
                                                         <property name="xalign">0</property>
                                                         <property name="color">#000000000000</property>
                                                         <signal name="color-set" handler="on_missing_color_set" swapped="no"/>
@@ -2646,12 +2501,12 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <child>
                                                       <object class="GtkButton" id="revert_color_completed">
                                                         <property name="label">gtk-revert-to-saved</property>
+                                                        <property name="use_action_appearance">False</property>
                                                         <property name="visible">True</property>
                                                         <property name="sensitive">False</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
                                                         <property name="tooltip_text" translatable="yes">Revert color to default</property>
-                                                        <property name="use_action_appearance">False</property>
                                                         <property name="use_stock">True</property>
                                                         <property name="image_position">right</property>
                                                         <signal name="clicked" handler="on_revert_color_completed_clicked" swapped="no"/>
@@ -2665,12 +2520,12 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <child>
                                                       <object class="GtkButton" id="revert_color_downloading">
                                                         <property name="label">gtk-revert-to-saved</property>
+                                                        <property name="use_action_appearance">False</property>
                                                         <property name="visible">True</property>
                                                         <property name="sensitive">False</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
                                                         <property name="tooltip_text" translatable="yes">Revert color to default</property>
-                                                        <property name="use_action_appearance">False</property>
                                                         <property name="use_stock">True</property>
                                                         <property name="image_position">right</property>
                                                         <signal name="clicked" handler="on_revert_color_downloading_clicked" swapped="no"/>
@@ -2686,12 +2541,12 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <child>
                                                       <object class="GtkButton" id="revert_color_waiting">
                                                         <property name="label">gtk-revert-to-saved</property>
+                                                        <property name="use_action_appearance">False</property>
                                                         <property name="visible">True</property>
                                                         <property name="sensitive">False</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
                                                         <property name="tooltip_text" translatable="yes">Revert color to default</property>
-                                                        <property name="use_action_appearance">False</property>
                                                         <property name="use_stock">True</property>
                                                         <property name="image_position">right</property>
                                                         <signal name="clicked" handler="on_revert_color_waiting_clicked" swapped="no"/>
@@ -2707,12 +2562,12 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <child>
                                                       <object class="GtkButton" id="revert_color_missing">
                                                         <property name="label">gtk-revert-to-saved</property>
+                                                        <property name="use_action_appearance">False</property>
                                                         <property name="visible">True</property>
                                                         <property name="sensitive">False</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
                                                         <property name="tooltip_text" translatable="yes">Revert color to default</property>
-                                                        <property name="use_action_appearance">False</property>
                                                         <property name="use_stock">True</property>
                                                         <property name="image_position">right</property>
                                                         <signal name="clicked" handler="on_revert_color_missing_clicked" swapped="no"/>
@@ -2740,6 +2595,35 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
+                                            <property name="position">2</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkCheckButton" id="piecesbar_toggle">
+                                            <property name="use_action_appearance">False</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">False</property>
+                                            <property name="tooltip_text" translatable="yes">Besides being experimental, using the pieces bar
+will increase the bandwidth used between client
+and daemon(does not apply in classic mode).
+Use at your own risk if you wish to help us debug
+this new feature.</property>
+                                            <property name="draw_indicator">True</property>
+                                            <signal name="toggled" handler="on_piecesbar_toggle_toggled" swapped="no"/>
+                                            <child>
+                                              <object class="GtkLabel" id="label62">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="label" translatable="yes">Show a pieces bar in the torrent's
+status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
+                                                <property name="use_markup">True</property>
+                                              </object>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
                                             <property name="position">2</property>
                                           </packing>
                                         </child>
@@ -2783,10 +2667,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_show_dialog">
                                             <property name="label" translatable="yes">Always show</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="draw_indicator">True</property>
                                             <signal name="toggled" handler="on_toggle" swapped="no"/>
                                           </object>
@@ -2803,10 +2687,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_focus_dialog">
                                                 <property name="label" translatable="yes">Bring the dialog to focus</property>
+                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="draw_indicator">True</property>
                                               </object>
                                             </child>
@@ -2857,10 +2741,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_use_tray">
                                             <property name="label" translatable="yes">Enable system tray icon</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="receives_default">False</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="use_underline">True</property>
                                             <property name="draw_indicator">True</property>
                                             <signal name="toggled" handler="on_toggle" swapped="no"/>
@@ -2879,11 +2763,11 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_min_on_close">
                                                 <property name="label" translatable="yes">Minimize to tray on close</property>
+                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="sensitive">False</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="receives_default">False</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="use_underline">True</property>
                                                 <property name="draw_indicator">True</property>
                                               </object>
@@ -2903,11 +2787,11 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_start_in_tray">
                                                 <property name="label" translatable="yes">Start in tray</property>
+                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="sensitive">False</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="receives_default">False</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="use_underline">True</property>
                                                 <property name="draw_indicator">True</property>
                                               </object>
@@ -2927,11 +2811,11 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_enable_appindicator">
                                                 <property name="label" translatable="yes">Enable Application Indicator</property>
+                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="sensitive">False</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="receives_default">False</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="use_underline">True</property>
                                                 <property name="draw_indicator">True</property>
                                               </object>
@@ -2952,11 +2836,11 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_lock_tray">
                                                 <property name="label" translatable="yes">Password protect system tray</property>
+                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="sensitive">False</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="use_underline">True</property>
                                                 <property name="draw_indicator">True</property>
                                                 <signal name="toggled" handler="on_toggle" swapped="no"/>
@@ -3128,11 +3012,11 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_show_new_releases">
                                                 <property name="label" translatable="yes">Be alerted about new releases</property>
+                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
                                                 <property name="tooltip_text" translatable="yes">Deluge will check our servers and will tell you if a newer version has been released</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="draw_indicator">True</property>
                                               </object>
                                             </child>
@@ -3202,10 +3086,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_send_info">
                                                 <property name="label" translatable="yes">Yes, please send anonymous statistics</property>
+                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="draw_indicator">True</property>
                                               </object>
                                             </child>
@@ -3332,10 +3216,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                     <property name="layout_style">start</property>
                                     <child>
                                       <object class="GtkButton" id="button_associate_magnet">
+                                        <property name="use_action_appearance">False</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
-                                        <property name="use_action_appearance">False</property>
                                         <signal name="clicked" handler="on_button_associate_magnet_clicked" swapped="no"/>
                                         <child>
                                           <object class="GtkHBox" id="hbox16">
@@ -3489,7 +3373,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
                                                 <property name="secondary_icon_sensitive">True</property>
-                                                <property name="adjustment">adjustment15</property>
+                                                <property name="adjustment">adjustment_port</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -3539,10 +3423,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                     <child>
                                       <object class="GtkCheckButton" id="chk_allow_remote_connections">
                                         <property name="label" translatable="yes">Allow Remote Connections</property>
+                                        <property name="use_action_appearance">False</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="draw_indicator">True</property>
                                       </object>
                                     </child>
@@ -3579,10 +3463,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                     <child>
                                       <object class="GtkCheckButton" id="chk_new_releases">
                                         <property name="label" translatable="yes">Periodically check the website for new releases</property>
+                                        <property name="use_action_appearance">False</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="draw_indicator">True</property>
                                       </object>
                                     </child>
@@ -3640,10 +3524,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                             <child>
                                               <object class="GtkButton" id="accounts_add">
                                                 <property name="label">gtk-add</property>
+                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="use_stock">True</property>
                                                 <signal name="clicked" handler="on_accounts_add_clicked" swapped="no"/>
                                               </object>
@@ -3656,11 +3540,11 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                             <child>
                                               <object class="GtkButton" id="accounts_edit">
                                                 <property name="label">gtk-edit</property>
+                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="sensitive">False</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="use_stock">True</property>
                                                 <signal name="clicked" handler="on_accounts_edit_clicked" swapped="no"/>
                                               </object>
@@ -3673,11 +3557,11 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                             <child>
                                               <object class="GtkButton" id="accounts_delete">
                                                 <property name="label">gtk-delete</property>
+                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="sensitive">False</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="use_stock">True</property>
                                                 <signal name="clicked" handler="on_accounts_delete_clicked" swapped="no"/>
                                               </object>
@@ -3804,10 +3688,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_queue_new_top">
                                                 <property name="label" translatable="yes">Queue new torrents to top</property>
+                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="draw_indicator">True</property>
                                               </object>
                                               <packing>
@@ -3868,7 +3752,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">adjustment16</property>
+                                                    <property name="adjustment">adjustment_9999</property>
                                                     <property name="snap_to_ticks">True</property>
                                                     <property name="numeric">True</property>
                                                   </object>
@@ -3887,7 +3771,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">adjustment17</property>
+                                                    <property name="adjustment">adjustment_9999</property>
                                                     <property name="snap_to_ticks">True</property>
                                                     <property name="numeric">True</property>
                                                   </object>
@@ -3932,7 +3816,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">adjustment18</property>
+                                                    <property name="adjustment">adjustment_9999</property>
                                                     <property name="snap_to_ticks">True</property>
                                                     <property name="numeric">True</property>
                                                   </object>
@@ -3967,10 +3851,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_dont_count_slow_torrents">
                                                 <property name="label" translatable="yes">Do not count slow torrents</property>
+                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="draw_indicator">True</property>
                                               </object>
                                               <packing>
@@ -3982,10 +3866,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_auto_manage_prefer_seeds">
                                                 <property name="label" translatable="yes">Prefer Seeding over Downloading</property>
+                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="draw_indicator">True</property>
                                               </object>
                                               <packing>
@@ -4084,7 +3968,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">adjustment19</property>
+                                                    <property name="adjustment">adjustment_share_ratio_limit</property>
                                                     <property name="digits">2</property>
                                                   </object>
                                                   <packing>
@@ -4103,7 +3987,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">adjustment20</property>
+                                                    <property name="adjustment">adjustment_time_ratio_limit</property>
                                                     <property name="digits">2</property>
                                                   </object>
                                                   <packing>
@@ -4124,7 +4008,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">adjustment21</property>
+                                                    <property name="adjustment">adjustment_9999</property>
                                                   </object>
                                                   <packing>
                                                     <property name="left_attach">1</property>
@@ -4149,10 +4033,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                 <child>
                                                   <object class="GtkCheckButton" id="chk_seed_ratio">
                                                     <property name="label" translatable="yes">Stop seeding when share ratio reaches:</property>
+                                                    <property name="use_action_appearance">False</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">False</property>
-                                                    <property name="use_action_appearance">False</property>
                                                     <property name="draw_indicator">True</property>
                                                     <signal name="toggled" handler="on_toggle" swapped="no"/>
                                                   </object>
@@ -4172,7 +4056,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">adjustment22</property>
+                                                    <property name="adjustment">adjustment_share_ratio</property>
                                                     <property name="digits">2</property>
                                                     <property name="numeric">True</property>
                                                   </object>
@@ -4197,11 +4081,11 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                 <child>
                                                   <object class="GtkCheckButton" id="chk_remove_ratio">
                                                     <property name="label" translatable="yes">Remove torrent when share ratio reached</property>
+                                                    <property name="use_action_appearance">False</property>
                                                     <property name="visible">True</property>
                                                     <property name="sensitive">False</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">False</property>
-                                                    <property name="use_action_appearance">False</property>
                                                     <property name="draw_indicator">True</property>
                                                   </object>
                                                 </child>
@@ -4415,7 +4299,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">adjustment23</property>
+                                                    <property name="adjustment">adjustment_port</property>
                                                     <property name="numeric">True</property>
                                                   </object>
                                                 </child>
@@ -4618,7 +4502,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">adjustment24</property>
+                                                    <property name="adjustment">adjustment_port</property>
                                                     <property name="numeric">True</property>
                                                   </object>
                                                 </child>
@@ -4821,7 +4705,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">adjustment25</property>
+                                                    <property name="adjustment">adjustment_port</property>
                                                     <property name="numeric">True</property>
                                                   </object>
                                                 </child>
@@ -5027,7 +4911,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">adjustment26</property>
+                                                    <property name="adjustment">adjustment_port</property>
                                                     <property name="numeric">True</property>
                                                   </object>
                                                 </child>
@@ -5250,7 +5134,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">adjustment27</property>
+                                                    <property name="adjustment">adjustment_cache_size</property>
                                                     <property name="numeric">True</property>
                                                     <property name="update_policy">if-valid</property>
                                                   </object>
@@ -5272,7 +5156,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">adjustment28</property>
+                                                    <property name="adjustment">adjustment_cache_expiry</property>
                                                   </object>
                                                   <packing>
                                                     <property name="left_attach">1</property>
@@ -5676,10 +5560,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <child>
                                                       <object class="GtkButton" id="button_cache_refresh">
                                                         <property name="label">gtk-refresh</property>
+                                                        <property name="use_action_appearance">False</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
-                                                        <property name="use_action_appearance">False</property>
                                                         <property name="use_stock">True</property>
                                                         <signal name="clicked" handler="on_button_cache_refresh_clicked" swapped="no"/>
                                                       </object>
@@ -6006,10 +5890,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                 <property name="layout_style">center</property>
                                 <child>
                                   <object class="GtkButton" id="button_plugin_install">
+                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
-                                    <property name="use_action_appearance">False</property>
                                     <signal name="clicked" handler="on_button_plugin_install_clicked" swapped="no"/>
                                     <child>
                                       <object class="GtkHBox" id="hbox17">
@@ -6053,10 +5937,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                 </child>
                                 <child>
                                   <object class="GtkButton" id="button_rescan_plugins">
+                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
-                                    <property name="use_action_appearance">False</property>
                                     <signal name="clicked" handler="on_button_rescan_plugins_clicked" swapped="no"/>
                                     <child>
                                       <object class="GtkHBox" id="hbox18">
@@ -6111,10 +5995,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                 <property name="can_focus">False</property>
                                 <child>
                                   <object class="GtkButton" id="button_find_plugins">
+                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
-                                    <property name="use_action_appearance">False</property>
                                     <signal name="clicked" handler="on_button_find_plugins_clicked" swapped="no"/>
                                     <child>
                                       <object class="GtkHBox" id="hbox19">
