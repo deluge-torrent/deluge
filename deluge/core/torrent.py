@@ -230,10 +230,20 @@ class Torrent(object):
         if log.isEnabledFor(logging.DEBUG):
             log.debug("Torrent object created.")
 
+    def on_metadata_received(self):
+        self.handle_has_metadata = True
+        self.torrent_info = self.handle.get_torrent_info()
+        if self.options["prioritize_first_last_pieces"]:
+            self.set_prioritize_first_last(True)
+        self.write_torrentfile()
+
     def has_metadata(self):
         if self.handle_has_metadata:
             return self.handle_has_metadata
         self.handle_has_metadata = self.handle.has_metadata()
+        if self.handle_has_metadata:
+            # We just got the metadata
+            self.on_metadata_received()
         return self.handle_has_metadata
 
     ## Options methods ##
@@ -730,9 +740,6 @@ class Torrent(object):
         #print datetime.datetime.now().strftime("%H:%M:%S.%f"),
         #print " update_status"
         self.status = status
-
-        if self.torrent_info is None and self.has_metadata():
-            self.torrent_info = self.handle.get_torrent_info()
 
     def _create_status_funcs(self):
         #if you add a key here->add it to core.py STATUS_KEYS too.

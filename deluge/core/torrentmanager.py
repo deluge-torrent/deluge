@@ -1104,7 +1104,7 @@ class TorrentManager(component.Component):
             torrent = self.torrents[str(alert.handle.info_hash())]
         except:
             return
-        torrent.write_torrentfile()
+        torrent.on_metadata_received()
 
     def on_alert_file_error(self, alert):
         log.debug("on_alert_file_error: %s", decode_string(alert.message()))
