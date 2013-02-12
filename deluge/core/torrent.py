@@ -852,10 +852,10 @@ class Torrent(object):
     def move_storage(self, dest):
         """Move a torrent's storage location"""
         try:
-           dest = unicode(dest, "utf-8")
+            dest = unicode(dest, "utf-8")
         except TypeError:
-           # String is already unicode
-           pass
+            # String is already unicode
+            pass
 
         if not os.path.exists(dest):
             try:
@@ -986,7 +986,11 @@ class Torrent(object):
             if f["path"].startswith(folder):
                 # Keep track of filerenames we're waiting on
                 wait_on_folder[f["index"]] = Deferred().addBoth(on_file_rename_complete, wait_on_folder, f["index"])
-                self.handle.rename_file(f["index"], f["path"].replace(folder, new_folder, 1).encode("utf-8"))
+                new_path = f["path"].replace(folder, new_folder, 1)
+                try:
+                    self.handle.rename_file(f["index"], new_path)
+                except TypeError:
+                    self.handle.rename_file(f["index"], new_path.encode("utf-8"))
 
         def on_folder_rename_complete(result, torrent, folder, new_folder):
             component.get("EventManager").emit(TorrentFolderRenamedEvent(torrent.torrent_id, folder, new_folder))
