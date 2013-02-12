@@ -9,6 +9,7 @@
 	* #2109: Fix the Proxy settings not being cleared by setting None
 	* #2110: Fix accepting magnet uris with xt param anywhere within them
 	* #2204: Fix daemon shutdown hang with large numbers of torrents
+	* Fix prioritize first/last pieces option for magnet links
 
 ==== Client ====
 	* Fix keyerrors after removing torrents from UIs

@@ -868,6 +868,11 @@ class Torrent(object):
         self.handle.save_resume_data()
         self.waiting_on_resume_data = True
 
+    def on_metadata_received(self):
+        if self.options["prioritize_first_last_pieces"]:
+            self.set_prioritize_first_last(True)
+        self.write_torrentfile()
+
     def write_torrentfile(self):
         """Writes the torrent file"""
         path = "%s/%s.torrent" % (
