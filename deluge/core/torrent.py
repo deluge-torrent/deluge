@@ -763,6 +763,12 @@ class Torrent(object):
             "trackers":               lambda: self.trackers,
             "tracker_status":         lambda: self.tracker_status,
             "upload_payload_rate":    lambda: self.status.upload_payload_rate,
+            "comment":                lambda: decode_string(self.torrent_info.comment()) if self.has_metadata() else u"",
+            "num_files":              lambda: self.torrent_info.num_files() if self.has_metadata() else 0,
+            "num_pieces":             lambda: self.torrent_info.num_pieces() if self.has_metadata() else 0,
+            "piece_length":           lambda: self.torrent_info.piece_length() if self.has_metadata() else 0,
+            "private":                lambda: self.torrent_info.priv() if self.has_metadata() else False,
+            "total_size":             lambda: self.torrent_info.total_size() if self.has_metadata() else 0,
             "eta":                    self.get_eta,
             "file_progress":          self.get_file_progress, # Adjust progress to be 0-100 value
             "files":                  self.get_files,
@@ -774,43 +780,7 @@ class Torrent(object):
             "last_seen_complete":     self.get_last_seen_complete,
             "name":                   self.get_name,
             "pieces":                 self._get_pieces_info,
-            "comment":                ti_comment,
-            "num_files":              ti_num_files,
-            "num_pieces":             ti_num_pieces,
-            "piece_length":           ti_piece_length,
-            "private":                ti_priv,
-            "total_size":             ti_total_size,
             }
-
-        def ti_comment():
-            if self.has_metadata():
-                return decode_string(self.torrent_info.comment())
-            return u""
-
-        def ti_priv():
-            if self.has_metadata():
-                return self.torrent_info.priv()
-            return False
-
-        def ti_total_size():
-            if self.has_metadata():
-                return self.torrent_info.total_size()
-            return 0
-
-        def ti_num_files():
-            if self.has_metadata():
-                return self.torrent_info.num_files()
-            return 0
-
-        def ti_num_pieces():
-            if self.has_metadata():
-                return self.torrent_info.num_pieces()
-            return 0
-
-        def ti_piece_length():
-            if self.has_metadata():
-                return self.torrent_info.piece_length()
-            return 0
 
     def get_name(self):
         if self.has_metadata():
