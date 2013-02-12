@@ -49,6 +49,7 @@ import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.event import *
+from deluge.common import decode_string
 
 TORRENT_STATE = deluge.common.TORRENT_STATE
 
@@ -123,7 +124,7 @@ class Torrent(object):
         # We use this to return dicts that only contain changes from the previous
         # {session_id: status_dict, ...}
         self.prev_status = {}
-        self.prev_status_cleanup_loop = LoopingCall(self.cleanup_prev_status)
+        self.prev_status_cleanup_loop = LoopingCall(self._cleanup_prev_status)
         self.prev_status_cleanup_loop.start(10)
 
         # Set the libtorrent handle
@@ -265,30 +266,6 @@ class Torrent(object):
     def get_options(self):
         return self.options
 
-    def get_name(self):
-        if self.has_metadata:
-            name = self.torrent_info.file_at(0).path.replace("\\", "/", 1).split("/", 1)[0]
-            if not name:
-                name = self.torrent_info.name()
-            try:
-                return name.decode("utf8", "ignore")
-            except UnicodeDecodeError:
-                return name
-        elif self.magnet:
-            try:
-                keys = dict([k.split('=') for k in self.magnet.split('?')[-1].split('&')])
-                name = keys.get('dn')
-                if not name:
-                    return self.torrent_id
-                name = unquote(name).replace('+', ' ')
-                try:
-                    return name.decode("utf8", "ignore")
-                except UnicodeDecodeError:
-                    return name
-            except:
-                pass
-        return self.torrent_id
-
     def set_owner(self, account):
         self.owner = account
 
@@ -306,7 +283,6 @@ class Torrent(object):
             v = -1
         else:
             v = int(m_up_speed * 1024)
-
         self.handle.set_upload_limit(v)
 
     def set_max_download_speed(self, m_down_speed):
@@ -386,7 +362,7 @@ class Torrent(object):
     def set_file_priorities(self, file_priorities):
         if not self.has_metadata:
             return
-        if len(file_priorities) != self.ti_num_files():
+        if len(file_priorities) != self.torrent_info.num_files():
             log.debug("file_priorities len != num_files")
             self.options["file_priorities"] = self.handle.file_priorities()
             return
@@ -583,11 +559,8 @@ class Torrent(object):
             # We do not want to report peers that are half-connected
             if peer.flags & peer.connecting or peer.flags & peer.handshake:
                 continue
-            try:
-                client = str(peer.client).decode("utf-8")
-            except UnicodeDecodeError:
-                client = str(peer.client).decode("latin-1")
 
+            client = decode_string(str(peer.client))
             # Make country a proper string
             country = str()
             for c in peer.country:
@@ -727,9 +700,6 @@ class Torrent(object):
         :type status: libtorrent.torrent_status
 
         """
-        #import datetime
-        #print datetime.datetime.now().strftime("%H:%M:%S.%f"),
-        #print " update_status"
         self.status = status
 
     def _create_status_funcs(self):
@@ -784,6 +754,12 @@ class Torrent(object):
             "trackers":               lambda: self.trackers,
             "tracker_status":         lambda: self.tracker_status,
             "upload_payload_rate":    lambda: self.status.upload_payload_rate,
+            "comment":                lambda: decode_string(self.torrent_info.comment()) if self.has_metadata else u"",
+            "num_files":              lambda: self.torrent_info.num_files() if self.has_metadata else 0,
+            "num_pieces":             lambda: self.torrent_info.num_pieces() if self.has_metadata else 0,
+            "piece_length":           lambda: self.torrent_info.piece_length() if self.has_metadata else 0,
+            "private":                lambda: self.torrent_info.priv() if self.has_metadata else False,
+            "total_size":             lambda: self.torrent_info.total_size() if self.has_metadata else 0,
             "eta":                    self.get_eta,
             "file_progress":          self.get_file_progress, # Adjust progress to be 0-100 value
             "files":                  self.get_files,
@@ -793,34 +769,16 @@ class Torrent(object):
             "ratio":                  self.get_ratio,
             "tracker_host":           self.get_tracker_host,
             "last_seen_complete":     self.get_last_seen_complete,
-            "comment":                self.ti_comment,
-            "name":                   self.ti_name,
-            "num_files":              self.ti_num_files,
-            "num_pieces":             self.ti_num_pieces,
-            "pieces":                 self.ti_pieces_info,
-            "piece_length":           self.ti_piece_length,
-            "private":                self.ti_priv,
-            "total_size":             self.ti_total_size,
+            "name":                   self.get_name,
+            "pieces":                 self._get_pieces_info,
             }
 
-    def ti_comment(self):
+    def get_name(self):
         if self.has_metadata:
-            try:
-                return self.torrent_info.comment().decode("utf8", "ignore")
-            except UnicodeDecodeError:
-                return self.torrent_info.comment()
-        return ""
-
-    def ti_name(self):
-        if self.has_metadata:
-            name = self.torrent_info.file_at(0).path.split("/", 1)[0]
+            name = self.torrent_info.file_at(0).path.replace("\\", "/", 1).split("/", 1)[0]
             if not name:
                 name = self.torrent_info.name()
-            try:
-                return name.decode("utf8", "ignore")
-            except UnicodeDecodeError:
-                return name
-
+            return decode_string(name)
         elif self.magnet:
             try:
                 keys = dict([k.split('=') for k in self.magnet.split('?')[-1].split('&')])
@@ -828,54 +786,10 @@ class Torrent(object):
                 if not name:
                     return self.torrent_id
                 name = unquote(name).replace('+', ' ')
-                try:
-                    return name.decode("utf8", "ignore")
-                except UnicodeDecodeError:
-                    return name
+                return decode_string(name)
             except:
                 pass
-
         return self.torrent_id
-
-    def ti_priv(self):
-        if self.has_metadata:
-            return self.torrent_info.priv()
-        return False
-
-    def ti_total_size(self):
-        if self.has_metadata:
-            return self.torrent_info.total_size()
-        return 0
-
-    def ti_num_files(self):
-        if self.has_metadata:
-            return self.torrent_info.num_files()
-        return 0
-
-    def ti_num_pieces(self):
-        if self.has_metadata:
-            return self.torrent_info.num_pieces()
-        return 0
-
-    def ti_piece_length(self):
-        if self.has_metadata:
-            return self.torrent_info.piece_length()
-        return 0
-
-    def ti_pieces_info(self):
-        if self.has_metadata:
-            return self.get_pieces_info()
-        return None
-
-    def apply_options(self):
-        """Applies the per-torrent options that are set."""
-        self.handle.set_max_connections(self.max_connections)
-        self.handle.set_max_uploads(self.max_upload_slots)
-        self.handle.set_upload_limit(int(self.max_upload_speed * 1024))
-        self.handle.set_download_limit(int(self.max_download_speed * 1024))
-        self.handle.prioritize_files(self.file_priorities)
-        self.handle.set_sequential_download(self.options["sequential_download"])
-        self.handle.resolve_countries(True)
 
     def pause(self):
         """Pause this torrent"""
@@ -1115,7 +1029,7 @@ class Torrent(object):
         except OSError as (errno, strerror):
             log.debug("Cannot Remove Folder: %s (ErrNo %s)", strerror, errno)
 
-    def cleanup_prev_status(self):
+    def _cleanup_prev_status(self):
         """
         This method gets called to check the validity of the keys in the prev_status
         dict.  If the key is no longer valid, the dict will be deleted.
@@ -1138,7 +1052,10 @@ class Torrent(object):
                   self.torrent_id)
         self._last_seen_complete = time.time()
 
-    def get_pieces_info(self):
+    def _get_pieces_info(self):
+        if not self.has_metadata:
+            return None
+
         pieces = {}
         # First get the pieces availability.
         availability = self.handle.piece_availability()
