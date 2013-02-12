@@ -960,7 +960,11 @@ class Torrent(object):
             if f["path"].startswith(folder):
                 # Keep a list of filerenames we're waiting on
                 wait_on_folder[2].append(f["index"])
-                self.handle.rename_file(f["index"], f["path"].replace(folder, new_folder, 1).encode("utf-8"))
+                new_path = f["path"].replace(folder, new_folder, 1)
+                try:
+                    self.handle.rename_file(f["index"], new_path)
+                except TypeError:
+                    self.handle.rename_file(f["index"], new_path.encode("utf-8"))
         self.waiting_on_folder_rename.append(wait_on_folder)
 
     def cleanup_prev_status(self):
