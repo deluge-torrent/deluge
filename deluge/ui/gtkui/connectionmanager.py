@@ -555,7 +555,7 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
             # Call the shutdown method on the daemon
             def on_daemon_shutdown(d):
                 # Update display to show change
-                self.__update_list()
+                reactor.callLater(0.8, self.__update_list)
             if client.connected() and client.connection_info() == (host, port, user):
                 client.daemon.shutdown().addCallback(on_daemon_shutdown)
             else:
@@ -569,7 +569,7 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
 
         elif status == "Offline":
             self.start_daemon(port, deluge.configmanager.get_config_dir())
-            reactor.callLater(2.0, self.__update_list)
+            reactor.callLater(0.8, self.__update_list)
 
     def on_button_refresh_clicked(self, widget):
         self.__update_list()
