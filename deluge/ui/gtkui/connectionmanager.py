@@ -711,8 +711,7 @@ class ConnectionManager(component.Component):
             # Call the shutdown method on the daemon
             def on_daemon_shutdown(d):
                 # Update display to show change
-                self.__update_list()
-
+                reactor.callLater(0.8, self.__update_list)
             if client.connected() and client.connection_info() == (host, port, user):
                 client.daemon.shutdown().addCallback(on_daemon_shutdown)
             elif user and password:
@@ -726,7 +725,7 @@ class ConnectionManager(component.Component):
 
         elif status == "Offline":
             self.start_daemon(port, deluge.configmanager.get_config_dir())
-            reactor.callLater(2.0, self.__update_list)
+            reactor.callLater(0.8, self.__update_list)
 
     def on_button_refresh_clicked(self, widget):
         self.__update_list()
