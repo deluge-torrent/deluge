@@ -304,17 +304,29 @@ class GtkUI(object):
                 # Turning off classic_mode
                 self.config["classic_mode"] = False
                 self.__start_non_classic()
-
             try:
-                client.start_classic_mode()
-            except deluge.error.DaemonRunningError:
-                d = dialogs.YesNoDialog(
-                    _("Turn off Classic Mode?"),
-                    _("It appears that a Deluge daemon process (deluged) is already running.\n\n\
+                try:
+                    client.start_classic_mode()
+                except deluge.error.DaemonRunningError:
+                    d = dialogs.YesNoDialog(
+                        _("Turn off Classic Mode?"),
+                        _("It appears that a Deluge daemon process (deluged) is already running.\n\n\
 You will either need to stop the daemon or turn off Classic Mode to continue.")).run()
-
-                self.started_in_classic = False
-                d.addCallback(on_dialog_response)
+                    self.started_in_classic = False
+                    d.addCallback(on_dialog_response)
+                except ImportError, e:
+                    if "No module named libtorrent" in e.message:
+                        d = dialogs.YesNoDialog(
+                        _("Enable Thin Client Mode?"),
+                        _("Thin client mode is only available because libtorrent is not installed.\n\n\
+To use Deluge standalone (Classic mode) please install libtorrent.")).run()
+                        self.started_in_classic = False
+                        d.addCallback(on_dialog_response)
+                    else:
+                        raise
+                else:
+                    component.start()
+                    return
             except Exception, e:
                 import traceback
                 tb = sys.exc_info()
@@ -329,10 +341,6 @@ Please see the details below for more information."), details=traceback.format_e
                     self.started_in_classic = False
                     d.addCallback(on_dialog_response)
                 ed.addCallback(on_ed_response)
-            else:
-                component.start()
-                return
-
         else:
             self.__start_non_classic()
 
