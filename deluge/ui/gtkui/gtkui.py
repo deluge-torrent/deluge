@@ -179,6 +179,14 @@ class GtkUI(object):
                     return 1
             SetConsoleCtrlHandler(win_handler)
 
+        if deluge.common.osx_check() and gtk.gdk.WINDOWING == "quartz":
+            import gtk_osxapplication
+            self.osxapp = gtk_osxapplication.OSXApplication()
+            def on_die(*args):
+                reactor.stop()
+            self.osxapp.connect("NSApplicationWillTerminate", on_die)
+
+
         # Set process name again to fix gtk issue
         setproctitle(getproctitle())
 
@@ -219,6 +227,18 @@ class GtkUI(object):
         self.systemtray = SystemTray()
         self.statusbar = StatusBar()
         self.addtorrentdialog = AddTorrentDialog()
+
+        if deluge.common.osx_check() and gtk.gdk.WINDOWING == "quartz":
+            def nsapp_open_file(osxapp, filename):
+                # Will be raised at app launch (python opening main script)
+                if filename.endswith('Deluge-bin'):
+                    return True
+                from deluge.ui.gtkui.ipcinterface import process_args
+                process_args([filename])
+            self.osxapp.connect("NSApplicationOpenFile", nsapp_open_file)
+            from menubar_osx import menubar_osx
+            menubar_osx(self, self.osxapp)
+            self.osxapp.ready()
 
         # Initalize the plugins
         self.plugins = PluginManager()
