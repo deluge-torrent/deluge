@@ -1,0 +1,50 @@
+<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
+<app-bundle>
+  <meta>
+    <prefix name="default">${env:JHBUILD_PREFIX}</prefix>
+    <destination overwrite="yes">app</destination>
+    <run-install-name-tool/>
+    <launcher-script>${project}/deluge.sh</launcher-script>
+  </meta>
+  <plist>${project}/Info.plist</plist>
+  <main-binary>${prefix}/bin/deluge-gtk</main-binary>
+  <binary dest="${bundle}/Contents/MacOS/deluged-bin">
+      ${prefix}/bin/deluged
+  </binary>
+  <binary dest="${bundle}/Contents/MacOS/deluge-web-bin">
+      ${prefix}/bin/deluge-web
+  </binary>
+  <binary dest="${bundle}/Contents/MacOS/deluge-console-bin">
+      ${prefix}/bin/deluge-console
+  </binary>
+  <binary dest="${bundle}/Contents/MacOS/Deluge-python">
+      ${prefix}/bin/python
+  </binary>
+  <!-- not used: binary>${prefix}/lib/${gtkdir}/modules/*.so</binary-->
+  <binary>${prefix}/lib/gdk-pixbuf-2.0/2.10.0/loaders/*.so</binary>
+  <binary>${prefix}/lib/libpyglib-2.0-python.0.dylib</binary>
+  <binary>${prefix}/lib/libgtk-quartz-2.0.0.dylib</binary>
+  <binary>${prefix}/lib/libglade-2.0.0.dylib</binary>
+  <binary>${prefix}/lib/libgtkmacintegration.0.dylib</binary>
+  <binary>${prefix}/lib/librsvg-2.2.dylib</binary>
+  <binary>${prefix}/lib/pango/1.6.0/modules/pango*.so</binary>
+  <binary>${prefix}/lib/libboost_*.dylib</binary>
+  <binary>${prefix}/lib/libtorrent-rasterbar.6.dylib</binary>
+  <binary>${prefix}/lib/libssl.1.0.0.dylib</binary>
+  <data dest="${bundle}/Contents/Resources/">
+    ${project}/../dist/deluge.app/Contents/Resources/
+  </data>
+  <data>${prefix}/lib/pygtk/2.0/</data>
+  <!-- gtk theme -->
+  <binary>${prefix}/lib/${gtkdir}/${pkg:${gtk}:gtk_binary_version}/engines/libclearlooks.so</binary>
+  <data>${prefix}/share/themes/Clearlooks</data>
+  <data>${prefix}/share/themes/Mac</data><!-- required for stock accelerators cmd-X etc... -->
+  <!-- Emacs shortcuts doesn't work: data>${prefix}/share/themes/Emacs</data-->
+  <data dest="${bundle}/Contents/Resources/etc/gtk-2.0/gtkrc">${project}/gtkrc</data>
+  <data dest="${bundle}/Contents/Resources">${project}/deluge.icns</data>
+  <data dest="${bundle}/Contents/Resources">${project}/torrent.icns</data>
+
+  <data dest="${bundle}/Contents/MacOS/deluged">${project}/deluged.sh</data>
+  <data dest="${bundle}/Contents/MacOS/deluge-web">${project}/deluge-web.sh</data>
+  <data dest="${bundle}/Contents/MacOS/deluge-console">${project}/deluge-console.sh</data>
+</app-bundle>

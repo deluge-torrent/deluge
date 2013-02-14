@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+    <repository type="tarball" name="sourceforge"
+        href="http://downloads.sourceforge.net/sourceforge/"/>
+    <repository type="git" name="github.com"
+        href="git://github.com/"/>
+
+    <metamodule id="deluge">
+        <dependencies>
+            <dep package="libtorrent"/>
+            <dep package="gtk-mac-bundler"/>
+            <dep package="deluge-python-deps"/>
+        </dependencies>
+    </metamodule>
+
+    <repository type="tarball" name="libtorrent"
+        href="http://libtorrent.googlecode.com/files/"/>
+    <autotools id="libtorrent" autogen-sh="configure"
+        autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s --with-boost-libdir=%(libdir)s --with-openssl=%(prefix)s %(autogenargs)s"
+        autogenargs="--enable-python-binding CPPFLAGS='-DBOOST_FILESYSTEM_VERSION=2' --with-boost-thread=boost_thread">
+        <branch repo="libtorrent" version="0.15.10"
+            module="libtorrent-rasterbar-0.15.10.tar.gz"
+            hash="sha1:3e461d9ede5fab3fb59be6a9f0cbc52121d536c4"/>
+        <dependencies>
+            <dep package="openssl"/>
+            <dep package="boost"/>
+        </dependencies>
+    </autotools>
+
+    <repository type="tarball" name="openssl"
+        href="http://www.openssl.org/source/"/>
+    <autotools id="openssl" autogen-sh="Configure"
+        autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s -L%(libdir)s --openssldir=%(prefix)s/etc/openssl %(autogenargs)s"
+        autogenargs="darwin64-x86_64-cc zlib no-asm no-krb5 shared">
+        <!--autogenargs="darwin-i386-cc zlib no-asm no-krb5 shared">-->
+        <branch repo="openssl" version="1.0.0g"
+            module="openssl-1.0.0g.tar.gz"
+            md5sum="07ecbe4324f140d157478637d6beccf1"/>
+    </autotools>
+
+    <autotools id="boost" autogen-sh="bootstrap.sh"
+        autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s --libdir=%(prefix)s/lib --with-python=%(prefix)s/bin/python --with-icu=%(prefix)s --without-libraries=mpi"
+        supports-non-srcdir-builds="false"
+        makeargs="|| ./b2 link=shared threading=multi variant=release"
+        makeinstallargs="|| ./b2 install link=shared threading=multi variant=release">
+        <!--makeargs="|| ./b2 architecture=x86 link=shared threading=multi variant=release"
+        makeinstallargs="|| ./b2 install architecture=x86 link=shared threading=multi variant=release"-->
+        <branch repo="sourceforge"
+            module="boost/boost_1_49_0.tar.bz2" version="1.49"
+            md5sum="0d202cb811f934282dea64856a175698"/>
+    </autotools>
+
+    <autotools id="gtk-mac-bundler" autogen-template="echo no configure">
+        <branch repo="github.com" module="jralls/gtk-mac-bundler.git"/>
+    </autotools>
+
+    <metamodule id="deluge-python-deps">
+        <dependencies>
+            <dep package="setuptools"/>
+            <dep package="chardet"/>
+            <dep package="pyopenssl"/>
+            <dep package="pyxdg"/>
+            <dep package="py2app"/>
+            <dep package="mako"/>
+            <dep package="twisted"/>
+            <dep package="twisted-web"/>
+        </dependencies>
+    </metamodule>
+    <repository type="tarball" name="pypi"
+        href="http://pypi.python.org/packages/source/"/>
+    <distutils id="setuptools">
+        <branch repo="pypi" version="0.6c11"
+            module="s/setuptools/setuptools-0.6c11.tar.gz"/>
+    </distutils>
+    <distutils id="chardet">
+        <branch repo="pypi" version="1.0.1"
+            module="c/chardet/chardet-1.0.1.tar.gz"/>
+    </distutils>
+    <distutils id="pyopenssl">
+        <branch repo="pypi" version="0.13"
+            module="p/pyOpenSSL/pyOpenSSL-0.13.tar.gz"/>
+    </distutils>
+    <distutils id="pyxdg">
+        <branch repo="pypi" version="0.19"
+            module="p/pyxdg/pyxdg-0.19.tar.gz"/>
+    </distutils>
+    <distutils id="py2app">
+        <branch repo="pypi" version="0.6.4"
+            module="p/py2app/py2app-0.6.4.tar.gz"/>
+    </distutils>
+    <distutils id="mako">
+        <branch repo="pypi" version="0.6.2"
+            module="M/Mako/Mako-0.6.2.tar.gz"/>
+    </distutils>
+
+    <repository type="tarball" name="twistedmatrix"
+        href="http://twistedmatrix.com/Releases/"/>
+    <distutils id="twisted">
+        <branch repo="twistedmatrix" version="11.0.0"
+            module="Twisted/11.0/Twisted-11.0.0.tar.bz2"
+            md5sum="d7f94a1609a1b8f3b8c8d0146d4cfe54"/>
+    </distutils>
+    <distutils id="twisted-web">
+        <branch repo="twistedmatrix" version="8.1.0"
+            module="Web2/8.1/TwistedWeb2-8.1.0.tar.bz2"
+            md5sum="e34b48edf6fef075bd41ddbd215aed32"/>
+    </distutils>
+
+    <!--Failed attempt to build universal glib-->
+    <repository type="tarball" name="ftp.gnome.org"
+        href="http://ftp.gnome.org/pub/GNOME/sources/"/>
+    <autotools id="glib2" autogen-sh="configure" autogenargs="--enable-static">
+        <branch module="glib/2.28/glib-2.28.8.tar.bz2" version="2.28.8" repo="ftp.gnome.org"
+            hash="sha256:222f3055d6c413417b50901008c654865e5a311c73f0ae918b0a9978d1f9466f">
+            <patch file="https://trac.macports.org/export/87264/trunk/dports/devel/glib2/files/patch-configure.ac.diff"/>
+            <patch file="https://trac.macports.org/export/87264/trunk/dports/devel/glib2/files/patch-glib-2.0.pc.in.diff"/>
+            <patch file="https://trac.macports.org/export/87264/trunk/dports/devel/glib2/files/patch-glib_gunicollate.c.diff"/>
+            <patch file="https://trac.macports.org/export/87264/trunk/dports/devel/glib2/files/patch-gi18n.h.diff"/>
+            <patch file="https://trac.macports.org/export/87264/trunk/dports/devel/glib2/files/patch-gio_xdgmime_xdgmime.c.diff"/>
+        </branch>
+        <after>
+            <dep package="meta-gtk-osx-bootstrap"/>
+            <dep package="gtk-doc"/>
+        </after>
+    </autotools>
+</moduleset>
+

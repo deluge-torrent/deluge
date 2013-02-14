@@ -1,0 +1,28 @@
+# -*- mode: python -*-
+
+prefix = "/opt/gtk"
+checkoutroot = os.path.expanduser("~/Source/gtk")
+
+#setup_sdk(target="10.6", sdk_version="10.6", architectures=["i386", "x86_64"])
+setup_sdk(target="10.6", sdk_version="10.6", architectures=["x86_64"])
+#setup_sdk(target="10.6", sdk_version="10.6", architectures=["i386"]) # fails with libtorrent...
+#setup_universal_build(target="10.6", sdk_version="10.6", architectures=["i386", "x86_64"]) # fails with glib2...
+os.environ["CC"]  = "/usr/bin/gcc"
+os.environ["CXX"] = "/usr/bin/g++"
+
+_gtk_osx_use_jhbuild_python = True
+
+skip.append("libiconv") # Lion issues
+modules = [
+  "python",
+  "meta-gtk-osx-bootstrap",
+  "meta-gtk-osx-core",
+  "librsvg", "libglade",
+  "meta-gtk-osx-python",
+  "meta-gtk-osx-themes",
+  "gtk-quartz-engine",
+]
+
+# Can be usefull when tweaking modulesets to avoid jhbuild overwriting:
+#nonetwork=True
+
