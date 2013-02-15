@@ -2,12 +2,6 @@
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy toplevel-contextual -->
-  <object class="GtkAdjustment" id="adjustment_9999">
-    <property name="lower">-1</property>
-    <property name="upper">9999</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
   <object class="GtkAdjustment" id="adjustment_cache_expiry">
     <property name="lower">1</property>
     <property name="upper">32000</property>
@@ -18,11 +12,6 @@
   <object class="GtkAdjustment" id="adjustment_cache_size">
     <property name="upper">999999</property>
     <property name="value">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment_port">
-    <property name="upper">65535</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
@@ -40,9 +29,132 @@
     <property name="step_increment">0.10000000000000001</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_speed">
+  <object class="GtkAdjustment" id="adjustment_spin_active">
+    <property name="lower">-1</property>
+    <property name="upper">9999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_daemon_port">
+    <property name="upper">65535</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_downloading">
+    <property name="lower">-1</property>
+    <property name="upper">9999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_max_conn_global">
+    <property name="lower">-1</property>
+    <property name="upper">9999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_max_conn_per_sec">
+    <property name="lower">-1</property>
+    <property name="upper">9999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_max_conn_per_torrent">
+    <property name="lower">-1</property>
+    <property name="upper">9999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_max_download">
     <property name="lower">-1</property>
     <property name="upper">2097151</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_max_download_per_torrent">
+    <property name="lower">-1</property>
+    <property name="upper">2097151</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_max_half_open_conn">
+    <property name="lower">-1</property>
+    <property name="upper">9999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_max_upload">
+    <property name="lower">-1</property>
+    <property name="upper">2097151</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_max_upload_per_torrent">
+    <property name="lower">-1</property>
+    <property name="upper">2097151</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_max_upload_slots_global">
+    <property name="lower">-1</property>
+    <property name="upper">9999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_max_upload_slots_per_torrent">
+    <property name="lower">-1</property>
+    <property name="upper">9999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_outgoing_port_max">
+    <property name="upper">65535</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_outgoing_port_min">
+    <property name="upper">65535</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_port_max">
+    <property name="upper">65535</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_port_min">
+    <property name="upper">65535</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_proxy_port_dht">
+    <property name="upper">65535</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_proxy_port_peer">
+    <property name="upper">65535</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_proxy_port_tracker">
+    <property name="upper">65535</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_proxy_port_web_seed">
+    <property name="upper">65535</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_seed_time_limit">
+    <property name="lower">-1</property>
+    <property name="upper">9999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_seeding">
+    <property name="lower">-1</property>
+    <property name="upper">9999</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
@@ -372,22 +484,145 @@
                                       <object class="GtkTable" id="table9">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="n_rows">5</property>
+                                        <property name="n_rows">4</property>
                                         <property name="n_columns">2</property>
                                         <child>
-                                          <object class="GtkAlignment" id="alignment11">
+                                          <object class="GtkCheckButton" id="chk_move_completed">
+                                            <property name="label" translatable="yes">Move completed to:</property>
+                                            <property name="use_action_appearance">False</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">False</property>
+                                            <property name="draw_indicator">True</property>
+                                            <signal name="toggled" handler="on_toggle" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="top_attach">1</property>
+                                            <property name="bottom_attach">2</property>
+                                            <property name="x_options">GTK_FILL</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkCheckButton" id="chk_copy_torrent_file">
+                                            <property name="label" translatable="yes">Copy of .torrent files to:</property>
+                                            <property name="use_action_appearance">False</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">False</property>
+                                            <property name="draw_indicator">True</property>
+                                            <signal name="toggled" handler="on_toggle" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="top_attach">2</property>
+                                            <property name="bottom_attach">3</property>
+                                            <property name="x_options">GTK_FILL</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkCheckButton" id="chk_del_copy_torrent_file">
+                                            <property name="label" translatable="yes">Delete copy of torrent file on remove</property>
+                                            <property name="use_action_appearance">False</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">False</property>
+                                            <property name="tooltip_text" translatable="yes">Delete the copy of the torrent file created when the torrent is removed</property>
+                                            <property name="draw_indicator">True</property>
+                                          </object>
+                                          <packing>
+                                            <property name="right_attach">2</property>
+                                            <property name="top_attach">3</property>
+                                            <property name="bottom_attach">4</property>
+                                            <property name="x_padding">15</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkLabel" id="label19">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="xalign">0</property>
+                                            <property name="label" translatable="yes">Download to:</property>
+                                          </object>
+                                          <packing>
+                                            <property name="x_options">GTK_FILL</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkHBox" id="hbox8">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="spacing">5</property>
+                                            <child>
+                                              <object class="GtkFileChooserButton" id="download_path_button">
+                                                <property name="visible">True</property>
+                                                <property name="sensitive">False</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="action">select-folder</property>
+                                                <property name="title" translatable="yes">Select A Folder</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">True</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkEntry" id="entry_download_path">
+                                                <property name="can_focus">True</property>
+                                                <property name="truncate_multiline">True</property>
+                                                <property name="primary_icon_activatable">False</property>
+                                                <property name="secondary_icon_activatable">False</property>
+                                                <property name="primary_icon_sensitive">True</property>
+                                                <property name="secondary_icon_sensitive">True</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">True</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="right_attach">2</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkAlignment" id="alignment8">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <child>
-                                              <object class="GtkHBox" id="hbox5">
+                                              <object class="GtkHBox" id="hbox10">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="spacing">5</property>
                                                 <child>
-                                                  <placeholder/>
+                                                  <object class="GtkFileChooserButton" id="torrent_files_button">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="action">select-folder</property>
+                                                    <property name="title" translatable="yes">Select A Folder</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
                                                 </child>
                                                 <child>
-                                                  <placeholder/>
+                                                  <object class="GtkEntry" id="entry_torrents_path">
+                                                    <property name="can_focus">True</property>
+                                                    <property name="invisible_char">●</property>
+                                                    <property name="truncate_multiline">True</property>
+                                                    <property name="primary_icon_activatable">False</property>
+                                                    <property name="secondary_icon_activatable">False</property>
+                                                    <property name="primary_icon_sensitive">True</property>
+                                                    <property name="secondary_icon_sensitive">True</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
                                                 </child>
                                               </object>
                                             </child>
@@ -445,157 +680,6 @@
                                             <property name="top_attach">1</property>
                                             <property name="bottom_attach">2</property>
                                           </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkCheckButton" id="chk_move_completed">
-                                            <property name="label" translatable="yes">Move completed to:</property>
-                                            <property name="use_action_appearance">False</property>
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">False</property>
-                                            <property name="draw_indicator">True</property>
-                                            <signal name="toggled" handler="on_toggle" swapped="no"/>
-                                          </object>
-                                          <packing>
-                                            <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkHBox" id="hbox8">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="spacing">5</property>
-                                            <child>
-                                              <object class="GtkFileChooserButton" id="download_path_button">
-                                                <property name="visible">True</property>
-                                                <property name="sensitive">False</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="action">select-folder</property>
-                                                <property name="title" translatable="yes">Select A Folder</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">True</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">0</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkEntry" id="entry_download_path">
-                                                <property name="can_focus">True</property>
-                                                <property name="truncate_multiline">True</property>
-                                                <property name="primary_icon_activatable">False</property>
-                                                <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">True</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">1</property>
-                                              </packing>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkLabel" id="label19">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
-                                            <property name="label" translatable="yes">Download to:</property>
-                                          </object>
-                                          <packing>
-                                            <property name="x_options">GTK_FILL</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkCheckButton" id="chk_copy_torrent_file">
-                                            <property name="label" translatable="yes">Copy of .torrent files to:</property>
-                                            <property name="use_action_appearance">False</property>
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">False</property>
-                                            <property name="draw_indicator">True</property>
-                                            <signal name="toggled" handler="on_toggle" swapped="no"/>
-                                          </object>
-                                          <packing>
-                                            <property name="top_attach">3</property>
-                                            <property name="bottom_attach">4</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkAlignment" id="alignment8">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <child>
-                                              <object class="GtkHBox" id="hbox10">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="spacing">5</property>
-                                                <child>
-                                                  <object class="GtkFileChooserButton" id="torrent_files_button">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <property name="action">select-folder</property>
-                                                    <property name="title" translatable="yes">Select A Folder</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkEntry" id="entry_torrents_path">
-                                                    <property name="can_focus">True</property>
-                                                    <property name="invisible_char">●</property>
-                                                    <property name="truncate_multiline">True</property>
-                                                    <property name="primary_icon_activatable">False</property>
-                                                    <property name="secondary_icon_activatable">False</property>
-                                                    <property name="primary_icon_sensitive">True</property>
-                                                    <property name="secondary_icon_sensitive">True</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">1</property>
-                                                  </packing>
-                                                </child>
-                                              </object>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
-                                            <property name="top_attach">3</property>
-                                            <property name="bottom_attach">4</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkCheckButton" id="chk_del_copy_torrent_file">
-                                            <property name="label" translatable="yes">Delete copy of torrent file on remove</property>
-                                            <property name="use_action_appearance">False</property>
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">False</property>
-                                            <property name="tooltip_text" translatable="yes">Delete the copy of the torrent file created when the torrent is removed</property>
-                                            <property name="draw_indicator">True</property>
-                                          </object>
-                                          <packing>
-                                            <property name="right_attach">2</property>
-                                            <property name="top_attach">4</property>
-                                            <property name="bottom_attach">5</property>
-                                            <property name="x_padding">15</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <placeholder/>
                                         </child>
                                       </object>
                                     </child>
@@ -956,7 +1040,7 @@ used sparingly.</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
                                                 <property name="secondary_icon_sensitive">True</property>
-                                                <property name="adjustment">adjustment_port</property>
+                                                <property name="adjustment">adjustment_spin_port_min</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
                                                 <property name="numeric">True</property>
@@ -992,7 +1076,7 @@ used sparingly.</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
                                                 <property name="secondary_icon_sensitive">True</property>
-                                                <property name="adjustment">adjustment_port</property>
+                                                <property name="adjustment">adjustment_spin_port_max</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
                                                 <property name="numeric">True</property>
@@ -1126,7 +1210,7 @@ used sparingly.</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
                                                 <property name="secondary_icon_sensitive">True</property>
-                                                <property name="adjustment">adjustment_port</property>
+                                                <property name="adjustment">adjustment_spin_outgoing_port_min</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
                                                 <property name="numeric">True</property>
@@ -1161,7 +1245,7 @@ used sparingly.</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
                                                 <property name="secondary_icon_sensitive">True</property>
-                                                <property name="adjustment">adjustment_port</property>
+                                                <property name="adjustment">adjustment_spin_outgoing_port_max</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
                                                 <property name="numeric">True</property>
@@ -1752,12 +1836,13 @@ used sparingly.</property>
                                               <object class="GtkSpinButton" id="spin_max_connections_per_second">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
+                                                <property name="width_chars">4</property>
                                                 <property name="xalign">1</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
                                                 <property name="secondary_icon_sensitive">True</property>
-                                                <property name="adjustment">adjustment_9999</property>
+                                                <property name="adjustment">adjustment_spin_max_conn_per_sec</property>
                                                 <property name="numeric">True</property>
                                               </object>
                                               <packing>
@@ -1772,12 +1857,13 @@ used sparingly.</property>
                                               <object class="GtkSpinButton" id="spin_max_half_open_connections">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
+                                                <property name="width_chars">4</property>
                                                 <property name="xalign">1</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
                                                 <property name="secondary_icon_sensitive">True</property>
-                                                <property name="adjustment">adjustment_9999</property>
+                                                <property name="adjustment">adjustment_spin_max_half_open_conn</property>
                                                 <property name="numeric">True</property>
                                               </object>
                                               <packing>
@@ -1860,12 +1946,13 @@ used sparingly.</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="tooltip_text" translatable="yes">The maximum number of connections allowed.  Set -1 for unlimited.</property>
                                                 <property name="max_length">4</property>
+                                                <property name="width_chars">4</property>
                                                 <property name="xalign">1</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
                                                 <property name="secondary_icon_sensitive">True</property>
-                                                <property name="adjustment">adjustment_9999</property>
+                                                <property name="adjustment">adjustment_spin_max_conn_global</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
                                                 <property name="numeric">True</property>
@@ -1896,11 +1983,13 @@ used sparingly.</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="tooltip_text" translatable="yes">The maximum download speed for all torrents.  Set -1 for unlimited.</property>
+                                                <property name="width_chars">6</property>
                                                 <property name="xalign">1</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
                                                 <property name="secondary_icon_sensitive">True</property>
+                                                <property name="adjustment">adjustment_spin_max_download</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="digits">1</property>
                                                 <property name="numeric">True</property>
@@ -1918,11 +2007,13 @@ used sparingly.</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="tooltip_text" translatable="yes">The maximum upload speed for all torrents.  Set -1 for unlimited.</property>
+                                                <property name="width_chars">6</property>
                                                 <property name="xalign">1</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
                                                 <property name="secondary_icon_sensitive">True</property>
+                                                <property name="adjustment">adjustment_spin_max_upload</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="digits">1</property>
                                                 <property name="numeric">True</property>
@@ -1940,12 +2031,13 @@ used sparingly.</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="tooltip_text" translatable="yes">The maximum upload slots for all torrents.  Set -1 for unlimited.</property>
+                                                <property name="width_chars">4</property>
                                                 <property name="xalign">1</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
                                                 <property name="secondary_icon_sensitive">True</property>
-                                                <property name="adjustment">adjustment_9999</property>
+                                                <property name="adjustment">adjustment_spin_max_upload_slots_global</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
                                                 <property name="numeric">True</property>
@@ -2057,12 +2149,14 @@ used sparingly.</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="tooltip_text" translatable="yes">The maximum upload slots per torrent.  Set -1 for unlimited.</property>
+                                            <property name="max_length">4</property>
+                                            <property name="width_chars">4</property>
                                             <property name="xalign">1</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
                                             <property name="primary_icon_sensitive">True</property>
                                             <property name="secondary_icon_sensitive">True</property>
-                                            <property name="adjustment">adjustment_9999</property>
+                                            <property name="adjustment">adjustment_spin_max_upload_slots_per_torrent</property>
                                             <property name="climb_rate">1</property>
                                             <property name="snap_to_ticks">True</property>
                                             <property name="numeric">True</property>
@@ -2080,12 +2174,14 @@ used sparingly.</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="tooltip_text" translatable="yes">The maximum number of connections per torrent.  Set -1 for unlimited.</property>
+                                            <property name="max_length">4</property>
+                                            <property name="width_chars">4</property>
                                             <property name="xalign">1</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
                                             <property name="primary_icon_sensitive">True</property>
                                             <property name="secondary_icon_sensitive">True</property>
-                                            <property name="adjustment">adjustment_9999</property>
+                                            <property name="adjustment">adjustment_spin_max_conn_per_torrent</property>
                                             <property name="snap_to_ticks">True</property>
                                             <property name="numeric">True</property>
                                           </object>
@@ -2150,12 +2246,13 @@ used sparingly.</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="tooltip_text" translatable="yes">The maximum number download speed per torrent.  Set -1 for unlimited.</property>
+                                            <property name="width_chars">6</property>
                                             <property name="xalign">1</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
                                             <property name="primary_icon_sensitive">True</property>
                                             <property name="secondary_icon_sensitive">True</property>
-                                            <property name="adjustment">adjustment_speed</property>
+                                            <property name="adjustment">adjustment_spin_max_download_per_torrent</property>
                                             <property name="digits">1</property>
                                             <property name="numeric">True</property>
                                           </object>
@@ -2172,12 +2269,13 @@ used sparingly.</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="tooltip_text" translatable="yes">The maximum upload speed per torrent.  Set -1 for unlimited.</property>
+                                            <property name="width_chars">5</property>
                                             <property name="xalign">1</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
                                             <property name="primary_icon_sensitive">True</property>
                                             <property name="secondary_icon_sensitive">True</property>
-                                            <property name="adjustment">adjustment_speed</property>
+                                            <property name="adjustment">adjustment_spin_max_upload_per_torrent</property>
                                             <property name="digits">1</property>
                                             <property name="numeric">True</property>
                                           </object>
@@ -3373,7 +3471,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
                                                 <property name="secondary_icon_sensitive">True</property>
-                                                <property name="adjustment">adjustment_port</property>
+                                                <property name="adjustment">adjustment_spin_daemon_port</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -3752,7 +3850,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">adjustment_9999</property>
+                                                    <property name="adjustment">adjustment_spin_active</property>
                                                     <property name="snap_to_ticks">True</property>
                                                     <property name="numeric">True</property>
                                                   </object>
@@ -3771,7 +3869,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">adjustment_9999</property>
+                                                    <property name="adjustment">adjustment_spin_seeding</property>
                                                     <property name="snap_to_ticks">True</property>
                                                     <property name="numeric">True</property>
                                                   </object>
@@ -3816,7 +3914,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">adjustment_9999</property>
+                                                    <property name="adjustment">adjustment_spin_downloading</property>
                                                     <property name="snap_to_ticks">True</property>
                                                     <property name="numeric">True</property>
                                                   </object>
@@ -4008,7 +4106,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">adjustment_9999</property>
+                                                    <property name="adjustment">adjustment_spin_seed_time_limit</property>
                                                   </object>
                                                   <packing>
                                                     <property name="left_attach">1</property>
@@ -4299,7 +4397,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">adjustment_port</property>
+                                                    <property name="adjustment">adjustment_spin_proxy_port_peer</property>
                                                     <property name="numeric">True</property>
                                                   </object>
                                                 </child>
@@ -4502,7 +4600,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">adjustment_port</property>
+                                                    <property name="adjustment">adjustment_spin_proxy_port_web_seed</property>
                                                     <property name="numeric">True</property>
                                                   </object>
                                                 </child>
@@ -4705,7 +4803,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">adjustment_port</property>
+                                                    <property name="adjustment">adjustment_spin_proxy_port_tracker</property>
                                                     <property name="numeric">True</property>
                                                   </object>
                                                 </child>
@@ -4911,7 +5009,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">adjustment_port</property>
+                                                    <property name="adjustment">adjustment_spin_proxy_port_dht</property>
                                                     <property name="numeric">True</property>
                                                   </object>
                                                 </child>
@@ -5129,6 +5227,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="invisible_char">●</property>
+                                                    <property name="width_chars">6</property>
                                                     <property name="xalign">1</property>
                                                     <property name="primary_icon_activatable">False</property>
                                                     <property name="secondary_icon_activatable">False</property>
@@ -5150,7 +5249,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="max_length">5</property>
                                                     <property name="invisible_char">●</property>
-                                                    <property name="width_chars">5</property>
+                                                    <property name="width_chars">6</property>
                                                     <property name="xalign">1</property>
                                                     <property name="primary_icon_activatable">False</property>
                                                     <property name="secondary_icon_activatable">False</property>
