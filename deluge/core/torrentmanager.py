@@ -1151,7 +1151,7 @@ class TorrentManager(component.Component):
                 # Could be the clients cache (sessionproxy) isn't up to speed.
                 del status_dict[torrent_id]
             else:
-                status_dict[torrent_id] = self.torrents[torrent_id].get_status(torrent_keys, diff)
+                status_dict[torrent_id] = self.torrents[torrent_id].get_status(torrent_keys, diff, all_keys=not keys)
         self.status_dict = status_dict
         d.callback((status_dict, plugin_keys))
 

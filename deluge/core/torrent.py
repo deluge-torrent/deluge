@@ -626,7 +626,7 @@ class Torrent(object):
                 return host
         return ""
 
-    def get_status(self, keys, diff=False, update=False):
+    def get_status(self, keys, diff=False, update=False, all_keys=False):
         """
         Returns the status of the torrent based on the keys provided
 
@@ -646,7 +646,7 @@ class Torrent(object):
         if update:
             self.update_status(self.handle.status())
 
-        if not keys:
+        if all_keys:
             keys = self.status_funcs.keys()
 
         status_dict = {}

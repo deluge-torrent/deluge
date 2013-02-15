@@ -155,7 +155,7 @@ class FilterManager(component.Component):
             if isinstance(value, basestring):
                 filter_dict[key] = [value]
 
-        if "id"in filter_dict: #optimized filter for id:
+        if "id" in filter_dict: #optimized filter for id:
             torrent_ids = list(filter_dict["id"])
             del filter_dict["id"]
         else:
@@ -189,10 +189,11 @@ class FilterManager(component.Component):
         if not filter_dict: #return if there's  nothing more to filter
             return torrent_ids
 
+        torrent_keys, plugin_keys = self.torrents.separate_keys(filter_dict.keys(), torrent_ids)
         #leftover filter arguments:
         #default filter on status fields.
         for torrent_id in list(torrent_ids):
-            status = self.torrents[torrent_id].get_status(filter_dict.keys()) #status={key:value}
+            status = self.core.create_torrent_status(torrent_id, torrent_keys, plugin_keys)
             for field, values in filter_dict.iteritems():
                 if (not status[field] in values) and torrent_id in torrent_ids:
                     torrent_ids.remove(torrent_id)

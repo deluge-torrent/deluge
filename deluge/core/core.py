@@ -420,9 +420,9 @@ class Core(component.Component):
         for torrent_id in torrent_ids:
             self.torrentmanager[torrent_id].resume()
 
-    def create_torrent_status(self, torrent_id, torrent_keys, plugin_keys, diff=False, update=False):
+    def create_torrent_status(self, torrent_id, torrent_keys, plugin_keys, diff=False, update=False, all_keys=False):
         try:
-            status = self.torrentmanager[torrent_id].get_status(torrent_keys, diff, update=update)
+            status = self.torrentmanager[torrent_id].get_status(torrent_keys, diff, update=update, all_keys=all_keys)
         except KeyError:
             import traceback
             traceback.print_exc()
@@ -437,7 +437,7 @@ class Core(component.Component):
     @export
     def get_torrent_status(self, torrent_id, keys, diff=False):
         torrent_keys, plugin_keys = self.torrentmanager.separate_keys(keys, [torrent_id])
-        return self.create_torrent_status(torrent_id, torrent_keys, plugin_keys, diff=diff, update=True)
+        return self.create_torrent_status(torrent_id, torrent_keys, plugin_keys, diff=diff, update=True, all_keys=not keys)
 
     @export
     def get_torrents_status(self, filter_dict, keys, diff=False):
