@@ -47,6 +47,7 @@ import common
 import dialogs
 from deluge.configmanager import ConfigManager
 import deluge.configmanager
+from deluge.error import AuthManagerError, NotAuthorizedError
 
 log = logging.getLogger(__name__)
 
@@ -1108,13 +1109,13 @@ class Preferences(component.Component):
             self._on_get_known_accounts(accounts)
 
         def on_fail(failure):
-            if failure.value.exception_type == 'NotAuthorizedError':
+            if failure.type == NotAuthorizedError:
                 self.accounts_frame.hide()
             else:
                 dialogs.ErrorDialog(
                     _("Server Side Error"),
                     _("An error ocurred on the server"),
-                    self.pref_dialog, details=failure.value.logable()
+                    parent=self.pref_dialog, details=failure.getErrorMessage()
                 ).run()
         client.core.get_known_accounts().addCallback(on_ok).addErrback(on_fail)
 
@@ -1180,16 +1181,17 @@ class Preferences(component.Component):
                 )
 
             def add_fail(failure):
-                if failure.value.exception_type == 'AuthManagerError':
+                if failure.type == AuthManagerError:
                     dialogs.ErrorDialog(
                         _("Error Adding Account"),
-                        failure.value.exception_msg
+                        _("Authentication failed"),
+                        parent=self.pref_dialog, details=failure.getErrorMessage()
                     ).run()
                 else:
                     dialogs.ErrorDialog(
                         _("Error Adding Account"),
                         _("An error ocurred while adding account"),
-                          self.pref_dialog, details=failure.value.logable()
+                        parent=self.pref_dialog, details=failure.getErrorMessage()
                     ).run()
 
             if response_id == gtk.RESPONSE_OK:
@@ -1222,7 +1224,7 @@ class Preferences(component.Component):
                 dialogs.ErrorDialog(
                     _("Error Updating Account"),
                     _("An error ocurred while updating account"),
-                      self.pref_dialog, details=failure.value.logable()
+                      parent=self.pref_dialog, details=failure.getErrorMessage()
                 ).run()
 
             if response_id == gtk.RESPONSE_OK:
@@ -1250,16 +1252,17 @@ class Preferences(component.Component):
                 model.remove(itr)
 
             def remove_fail(failure):
-                if failure.value.exception_type == 'AuthManagerError':
+                if failure.type == AuthManagerError:
                     dialogs.ErrorDialog(
                         _("Error Removing Account"),
-                        failure.value.exception_msg
+                        _("Auhentication failed"),
+                        parent=self.pref_dialog, details=failure.getErrorMessage()
                     ).run()
                 else:
                     dialogs.ErrorDialog(
                         _("Error Removing Account"),
                         _("An error ocurred while removing account"),
-                          self.pref_dialog, details=failure.value.logable()
+                        parent=self.pref_dialog, details=failure.getErrorMessage()
                     ).run()
             if response_id == gtk.RESPONSE_YES:
                 client.core.remove_account(
