@@ -32,6 +32,8 @@
 	* #2130: Fix same name can be given to different files in Add Torrent dialog
 	* #2129: Fix empty filename able to be set in AddTorrent dialog
 	* #2228: Fix Apply-To-All in AddTorrent Dialog copying file renames to other torrents
+	* #2260: Fix the Add Torrent dialog also bringing the main window to active workspace
+	* Fix showing exception error to user in Classic Mode with no libtorrent installed
 
 ==== Console ====
 	* LP#1004793: Enable use of connect command in non-interactive mode
@@ -53,6 +55,8 @@
 	* #2085: Fix not showing torrents in sidebar for categories other than 'All' in classic mode
 	* #2232: Fix flag icon path in Peers Tab missing deluge.config.base
 	* Fix submenus closing upon mouse click
+	* Add failed login log message, including IP address, to enable use with fail2ban
+	* #2261: Fix Proxy settings not being saved in preferences
 
 ==== Windows OS ====
 	* Hide the cmd windows when running deluged.exe or deluge-web.exe
@@ -62,9 +66,11 @@
 	* Fix the daemon starting with config dir containing spaces
 	* Fix Windows tray submenu items requiring right-click instead of left-click
 	* Fix issue with adding some torrents with illegal characters via url in gtk client
+	* #2240: Fix freespace issue with large capacity drives
 
 ==== OS X ====
 	* Fix Open File/Folder option
+	* Add OS X Menu for GTK Quartz
 
 ==== Execute ====
 	* Fix execute plugin not working with unicode torrent names
