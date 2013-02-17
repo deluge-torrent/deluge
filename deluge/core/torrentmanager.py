@@ -1081,7 +1081,7 @@ class TorrentManager(component.Component):
 
     def on_alert_file_renamed(self, alert):
         log.debug("on_alert_file_renamed")
-        log.debug("index: %s name: %s", alert.index, alert.name.decode("utf8"))
+        log.debug("index: %s name: %s", alert.index, decode_string(alert.name))
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
             torrent_id = str(alert.handle.info_hash())
