@@ -210,7 +210,7 @@ class TrackerIcons(Component):
         """
         if not url:
             url = self.host_to_url(host)
-        log.debug("Downloading %s", url)
+        log.debug("Downloading %s %s", host, url)
         return download_file(url, mkstemp()[1], force_filename=True)
 
     def on_download_page_complete(self, page):
@@ -272,6 +272,7 @@ class TrackerIcons(Component):
             os.remove(page)
         except Exception, e:
             log.warning("Couldn't remove temp file: %s", e)
+
         return parser.get_icons()
 
     def on_parse_complete(self, icons, host):
@@ -285,10 +286,10 @@ class TrackerIcons(Component):
         :returns: the icons that were extracted from the page
         :rtype: list
         """
-        log.debug("Got icons for %s: %s", host, icons)
+        log.debug("Parse Complete, got icons for %s: %s", host, icons)
         url = self.host_to_url(host)
         icons = [(urljoin(url, icon), mimetype) for icon, mimetype in icons]
-        log.debug("Icon urls: %s", icons)
+        log.debug("Icon urls from %s: %s", host, icons)
         return icons
 
     def on_parse_fail(self, f):
@@ -359,7 +360,7 @@ class TrackerIcons(Component):
         :returns: the icon that finished downloading
         :rtype: TrackerIcon
         """
-        log.debug("Successfully downloaded: %s", icon_name)
+        log.debug("Successfully downloaded from %s: %s", host, icon_name)
         icon = TrackerIcon(icon_name)
         return icon
 
@@ -378,7 +379,7 @@ class TrackerIcons(Component):
         :rtype: Deferred or Failure
         """
         error_msg = f.getErrorMessage()
-        log.debug("Error downloading icon: %s", error_msg)
+        log.debug("Error downloading icon from %s: %s", host, error_msg)
         d = f
         if f.check(PageRedirect):
             # Handle redirect errors
