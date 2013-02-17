@@ -39,6 +39,7 @@ import gtk
 import gtk.glade
 import pkg_resources
 import warnings
+from gobject import GError
 
 import deluge.component as component
 import deluge.common
@@ -291,7 +292,7 @@ class FilterTreeView(component.Component):
         if pix:
             try:
                 return gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("%s16.png" % pix))
-            except Exception, e:
+            except GError, e:
                 log.warning(e)
         return self.get_transparent_pix(16, 16)
 
