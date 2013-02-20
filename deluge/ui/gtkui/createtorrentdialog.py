@@ -240,16 +240,21 @@ class CreateTorrentDialog:
         if len(self.files_treestore) == 0:
             return
 
+        # Get the path
+        path = self.files_treestore[0][0].rstrip("\\/")
+        torrent_filename = "%s.torrent" % os.path.split(path)[-1]
+
         is_remote = self.files_treestore[0][1] == gtk.STOCK_NETWORK
-        torrent_filename = "%s.torrent" % os.path.split(self.files_treestore[0][0].rstrip('/'))[-1]
+
         if is_remote:
             # This is a remote path
             dialog = self.builder.get_object("remote_save_dialog")
             dialog.set_transient_for(self.dialog)
-            self.builder.get_object("entry_save_path").set_text(torrent_filename)
+            dialog_save_path = self.builder.get_object("entry_save_path")
+            dialog_save_path.set_text(path + ".torrent")
             response = dialog.run()
             if response == gtk.RESPONSE_OK:
-                result = self.builder.get_object("entry_save_path").get_text()
+                result = dialog_save_path.get_text()
             else:
                 dialog.hide()
                 return
@@ -292,8 +297,6 @@ class CreateTorrentDialog:
         elif result[-8:] != ".torrent":
             result += ".torrent"
 
-        # Get the path
-        path = self.files_treestore[0][0]
         # Get a list of trackers
         trackers = []
         if not len(self.trackers_liststore):
