@@ -229,9 +229,11 @@ class CreateTorrentDialog:
         if is_remote:
             # This is a remote path
             dialog = self.glade.get_widget("remote_save_dialog")
+            dialog_save_path = self.glade.get_widget("entry_save_path")
+            dialog_save_path.set_text(self.files_treestore[0][0].rstrip("\\/") + ".torrent")
             response = dialog.run()
             if response == gtk.RESPONSE_OK:
-                result = self.glade.get_widget("entry_save_path").get_text()
+                result = dialog_save_path.get_text()
             else:
                 dialog.hide()
                 return
