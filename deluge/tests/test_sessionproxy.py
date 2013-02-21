@@ -89,10 +89,7 @@ class SessionProxyTestCase(unittest.TestCase):
         d = self.sp.start()
 
         def do_get_torrents_status(torrent_ids):
-            inital_keys = [
-                'queue', 'state', 'name', 'total_wanted', 'progress', 'state',
-                'download_payload_rate', 'upload_payload_rate', 'eta', 'owner'
-            ]
+            inital_keys = ['key1']
             self.sp.get_torrents_status({'id': torrent_ids}, inital_keys)
         d.addCallback(do_get_torrents_status)
         return d

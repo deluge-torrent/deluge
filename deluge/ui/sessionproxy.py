@@ -99,18 +99,36 @@ class SessionProxy(component.Component):
 
         """
         sd = {}
+        keys = set(keys)
+        keys_len = -1 # The number of keys for the current cache (not the len of keys_diff_cached)
+        keys_diff_cached = []
+
         for torrent_id in torrent_ids:
             try:
                 if keys:
-                    sd[torrent_id] = dict([
-                        (x, y) for x, y in self.torrents[torrent_id][1].iteritems()
-                        if x in keys
-                    ])
+                    sd[torrent_id] = self.torrents[torrent_id][1].copy()
+
+                    # Have to remove the keys that weren't requested
+                    if len(sd[torrent_id]) == keys_len:
+                        # If the number of keys are equal they are the same keys
+                        # so we use the cached diff of the keys we need to remove
+                        keys_to_remove = keys_diff_cached
+                    else:
+                        # Not the same keys so create a new diff
+                        keys_to_remove = set(sd[torrent_id].iterkeys()) - keys
+                        # Update the cached diff
+                        keys_diff_cached = keys_to_remove
+                        keys_len = len(sd[torrent_id])
+
+                    # Usually there are no keys to remove, so it's cheaper with
+                    # this if-test than a for-loop with no iterations.
+                    if keys_to_remove:
+                        for k in keys_to_remove:
+                            del sd[torrent_id][k]
                 else:
                     sd[torrent_id] = dict(self.torrents[torrent_id][1])
             except KeyError:
                 continue
-
         return sd
 
     def get_torrent_status(self, torrent_id, keys):
@@ -184,7 +202,7 @@ class SessionProxy(component.Component):
         def on_status(result, torrent_ids, keys):
             # Update the internal torrent status dict with the update values
             t = time.time()
-            for key, value in result.items():
+            for key, value in result.iteritems():
                 try:
                     self.torrents[key][0] = t
                     self.torrents[key][1].update(value)
