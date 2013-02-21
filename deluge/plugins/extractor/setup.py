@@ -42,7 +42,7 @@ from setuptools import setup
 __plugin_name__ = "Extractor"
 __author__ = "Andrew Resch"
 __author_email__ = "andrewresch@gmail.com"
-__version__ = "0.1"
+__version__ = "0.2"
 __url__ = "http://deluge-torrent.org"
 __license__ = "GPLv3"
 __description__ = "Extract files upon completion"
