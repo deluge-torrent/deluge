@@ -135,7 +135,7 @@ class SessionProxy(component.Component):
                 keys = self.torrents[torrent_id][1].keys()
 
             for key in keys:
-                if time.time() - self.cache_times[torrent_id][key] > self.cache_time:
+                if time.time() - self.cache_times[torrent_id].get(key, 0.0) > self.cache_time:
                     keys_to_get.append(key)
 
             if not keys_to_get:
