@@ -46,6 +46,8 @@ from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.rpcserver import export
+from deluge.common import windows_check
+from extractor.which import which
 
 log = logging.getLogger(__name__)
 
@@ -54,21 +56,62 @@ DEFAULT_PREFS = {
     "use_name_folder": True
 }
 
-# The first format is the source file, the second is the dest path
-EXTRACT_COMMANDS = {
-    ".rar": ["unrar", "x -o+ -y"],
-    ".zip": ["unzip", ""],
-    ".tar.gz": ["tar", "xvzf"],
-    ".tar.bz2": ["tar", "xvjf"],
-    ".tar.lzma": ["tar", "--lzma xvf"]
-}
+if windows_check():
+    win_7z_exes = [
+        '7z.exe',
+        'C:\\Program Files\\7-Zip\\7z.exe',
+        'C:\\Program Files (x86)\\7-Zip\\7z.exe',
+    ]
+    switch_7z = "x -y"
+    ## Future suport:
+    ## 7-zip cannot extract tar.* with single command.
+    #    ".tar.gz", ".tgz",
+    #    ".tar.bz2", ".tbz",
+    #    ".tar.lzma", ".tlz",
+    #    ".tar.xz", ".txz",
+    exts_7z = [
+        ".rar", ".zip", ".tar",
+        ".7z", ".xz", ".lzma",
+    ]
+    for win_7z_exe in win_7z_exes:
+        if which(win_7z_exe):
+            EXTRACT_COMMANDS = dict.fromkeys(exts_7z, [win_7z_exe, switch_7z])
+            break
+else:
+    required_cmds=["unrar", "unzip", "tar", "unxz", "unlzma", "7zr", "bunzip2"]
+    ## Possible future suport:
+    # gunzip: gz (cmd will delete original archive)
+    ## the following do not extract to dest dir
+    # ".xz": ["xz", "-d --keep"],
+    # ".lzma": ["xz", "-d --format=lzma --keep"],
+    # ".bz2": ["bzip2", "-d --keep"],
+
+    EXTRACT_COMMANDS = {
+        ".rar": ["unrar", "x -o+ -y"],
+        ".tar": ["tar", "-xf"],
+        ".zip": ["unzip", ""],
+        ".tar.gz": ["tar", "-xzf"], ".tgz": ["tar", "-xzf"],
+        ".tar.bz2": ["tar", "-xjf"], ".tbz": ["tar", "-xjf"],
+        ".tar.lzma": ["tar", "--lzma -xf"], ".tlz": ["tar", "--lzma -xf"],
+        ".tar.xz": ["tar", "--xz -xf"], ".txz": ["tar", "--xz -xf"],
+        ".7z": ["7zr", "x"],
+    }
+    # Test command exists and if not, remove.
+    for cmd in required_cmds:
+        if not which(cmd):
+            for k,v in EXTRACT_COMMANDS.items():
+                if cmd in v[0]:
+                    log.error("%s not found, disabling support for %s", cmd, k)
+                    del EXTRACT_COMMANDS[k]
+
+if not EXTRACT_COMMANDS:
+    raise Exception("No archive extracting programs found, plugin will be disabled")
 
 class Core(CorePluginBase):
     def enable(self):
         self.config = deluge.configmanager.ConfigManager("extractor.conf", DEFAULT_PREFS)
         if not self.config["extract_path"]:
             self.config["extract_path"] = deluge.configmanager.ConfigManager("core.conf")["download_location"]
-
         component.get("EventManager").register_event_handler("TorrentFinishedEvent", self._on_torrent_finished)
 
     def disable(self):
@@ -79,32 +122,35 @@ class Core(CorePluginBase):
 
     def _on_torrent_finished(self, torrent_id):
         """
-        This is called when a torrent finishes.  We need to check to see if there
-        are any files to extract.
+        This is called when a torrent finishes and checks if any files to extract.
         """
-        # Get the save path
-        save_path = component.get("TorrentManager")[torrent_id].get_status(["save_path"])["save_path"]
-        files = component.get("TorrentManager")[torrent_id].get_files()
+        tid = component.get("TorrentManager").torrents[torrent_id]
+        tid_status = tid.get_status(["save_path", "move_completed", "name"])
+
+        if tid_status["move_completed"]:
+            log.error("Cannot extract torrents with 'Move Completed' enabled")
+            return
+
+        files = tid.get_files()
         for f in files:
-            ext = os.path.splitext(f["path"])
-            if ext[1] in (".gz", ".bz2", ".lzma"):
-                # We need to check if this is a tar
-                if os.path.splitext(ext[0]) == ".tar":
-                    cmd = EXTRACT_COMMANDS[".tar" + ext[1]]
+            cmd = ''
+            file_ext = os.path.splitext(f["path"])[1]
+            file_ext_sec = os.path.splitext(os.path.splitext(f["path"])[0])[1]
+            if file_ext in (".gz", ".bz2", ".lzma", ".xz") and file_ext_sec == ".tar":
+                cmd = EXTRACT_COMMANDS[".tar" + file_ext]
+            elif file_ext in EXTRACT_COMMANDS:
+                cmd = EXTRACT_COMMANDS[file_ext]
             else:
-                if ext[1] in EXTRACT_COMMANDS:
-                    cmd = EXTRACT_COMMANDS[ext[1]]
-                else:
-                    log.debug("Can't extract unknown file type: %s", ext[1])
-                    continue
+                log.error("Can't extract unknown file type: %s", file_ext)
+                continue
 
             # Now that we have the cmd, lets run it to extract the files
-            fp = os.path.join(save_path, f["path"])
+            fpath = os.path.join(tid_status["save_path"], os.path.normpath(f["path"]))
 
             # Get the destination path
-            dest = self.config["extract_path"]
+            dest = os.path.normpath(self.config["extract_path"])
             if self.config["use_name_folder"]:
-                name = component.get("TorrentManager")[torrent_id].get_status(["name"])["name"]
+                name = tid_status["name"]
                 dest = os.path.join(dest, name)
 
             # Create the destination folder if it doesn't exist
@@ -115,19 +161,20 @@ class Core(CorePluginBase):
                     log.error("Error creating destination folder: %s", e)
                     return
 
-            log.debug("Extracting to %s", dest)
-            def on_extract_success(result, torrent_id):
+            def on_extract_success(result, torrent_id, fpath):
                 # XXX: Emit an event
-                log.debug("Extract was successful for %s", torrent_id)
+                log.info("Extract successful: %s (%s)", fpath, torrent_id)
 
-            def on_extract_failed(result, torrent_id):
+            def on_extract_failed(result, torrent_id, fpath):
                 # XXX: Emit an event
-                log.debug("Extract failed for %s", torrent_id)
+                log.error("Extract failed: %s (%s)", fpath, torrent_id)
 
             # Run the command and add some callbacks
-            d = getProcessValue(cmd[0], cmd[1].split() + [str(fp)], {}, str(dest))
-            d.addCallback(on_extract_success, torrent_id)
-            d.addErrback(on_extract_failed, torrent_id)
+            if cmd:
+                log.debug("Extracting %s with %s %s to %s", fpath, cmd[0], cmd[1], dest)
+                d = getProcessValue(cmd[0], cmd[1].split() + [str(fpath)], {}, str(dest))
+                d.addCallback(on_extract_success, torrent_id, fpath)
+                d.addErrback(on_extract_failed, torrent_id, fpath)
 
     @export
     def set_config(self, config):
