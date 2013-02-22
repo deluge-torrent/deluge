@@ -37,11 +37,11 @@ class Structure:
         for i in range (len (self._names_)):
             indexes[self._names_[i]] = i
     def dump (self):
-        print "I: DUMP of", self
+        #print "I: DUMP of", self
         for name in self._names_:
             if name[0] != '_':
-                print "I: %20s = %s" % (name, getattr (self, name))
-        print
+                #print "I: %20s = %s" % (name, getattr (self, name))
+                pass
     def __getattr__ (self, name):
         if name in self._names_:
             index = self._indexes_[name]
@@ -122,10 +122,10 @@ def CopyIcons_FromIco (dstpath, srcpath, id=1):
         data = f.grp_icon_dir()
         data = data + f.grp_icondir_entries(iconid)
         win32api.UpdateResource (hdst, RT_GROUP_ICON, i, data)
-        print "I: Writing RT_GROUP_ICON %d resource with %d bytes" % (i, len(data))
+        #print "I: Writing RT_GROUP_ICON %d resource with %d bytes" % (i, len(data))
         for data in f.images:
             win32api.UpdateResource (hdst, RT_ICON, iconid, data)
-            print "I: Writing RT_ICON %d resource with %d bytes" % (iconid, len (data))
+            #print "I: Writing RT_ICON %d resource with %d bytes" % (iconid, len (data))
             iconid = iconid + 1
 
     win32api.EndUpdateResource (hdst, 0)
@@ -144,7 +144,7 @@ def CopyIcons (dstpath, srcpath):
             return s, None
 
     srcpath = map(splitter, srcpath)
-    print "I: SRCPATH", srcpath
+    #print "I: SRCPATH", srcpath
 
     if len(srcpath) > 1:
         # At the moment, we support multiple icons only from .ico files
