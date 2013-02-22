@@ -80,12 +80,15 @@ shutil.copytree(gtk_locale, os.path.join(dst, 'share/locale'), ignore=ignored_fi
 
 # copy gtk theme files
 theme_include_list = [
-    "share/icons/hicolor/index.theme",
-    "lib/gtk-2.0/2.10.0/engines",
-    "share/themes/MS-Windows",
-    "etc/gtk-2.0/gtkrc"]
-for path in theme_include_list:
-    full_path = os.path.join(gtk_root, path)
+    [gtk_root, "share/icons/hicolor/index.theme"],
+    [gtk_root, "lib/gtk-2.0/2.10.0/engines"],
+    [gtk_root, "share/themes/MS-Windows"],
+    ["DelugeStart Theme", "lib/gtk-2.0/2.10.0/engines/libmurrine.dll"],
+    ["DelugeStart Theme", "share/themes/DelugeStart"],
+    ["DelugeStart Theme", "etc/gtk-2.0/gtkrc"]
+    ]
+for path_root, path in theme_include_list:
+    full_path = os.path.join(path_root, path)
     if os.path.isdir(full_path):
         shutil.copytree(full_path, os.path.join(dst, path))
     else:
