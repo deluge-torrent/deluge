@@ -192,7 +192,7 @@ class ListView:
         self.model_filter = None
 
         self.treeview.set_rules_hint(True)
-        self.treeview.set_reorderable(True)
+        self.treeview.set_reorderable(False)
         self.treeview.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
 
         # Dictionary of 'header' or 'name' to ListViewColumn object
