@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) 2012 Deluge Team
+# Copyright (C) 2013 Deluge Team
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Deluge 1.3.5\n"
+"Project-Id-Version: Deluge 1.3.6\n"
 "Report-Msgid-Bugs-To: http://deluge-torrent.org\n"
-"POT-Creation-Date: 2012-11-29 22:32+0000\n"
+"POT-Creation-Date: 2013-02-25 16:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,39 +17,39 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: deluge/common.py:279
+#: deluge/common.py:281
 msgid "KiB"
 msgstr ""
 
-#: deluge/common.py:282
+#: deluge/common.py:284
 msgid "MiB"
 msgstr ""
 
-#: deluge/common.py:284
+#: deluge/common.py:286
 msgid "GiB"
 msgstr ""
 
-#: deluge/common.py:303
+#: deluge/common.py:305
 msgid "K"
 msgstr ""
 
-#: deluge/common.py:306
+#: deluge/common.py:308
 msgid "M"
 msgstr ""
 
-#: deluge/common.py:308
+#: deluge/common.py:310
 msgid "G"
 msgstr ""
 
-#: deluge/common.py:344
+#: deluge/common.py:346
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:630
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:644
 #: deluge/plugins/label/label/data/label_options.glade:132
 #: deluge/plugins/label/label/data/label_options.glade:195
 #: deluge/ui/console/statusbars.py:96 deluge/ui/console/statusbars.py:101
-#: deluge/ui/gtkui/systemtray.py:245 deluge/ui/gtkui/systemtray.py:249
-#: deluge/ui/gtkui/systemtray.py:265 deluge/ui/gtkui/systemtray.py:271
-#: deluge/ui/gtkui/systemtray.py:425 deluge/ui/gtkui/menubar.py:435
+#: deluge/ui/gtkui/systemtray.py:248 deluge/ui/gtkui/systemtray.py:252
+#: deluge/ui/gtkui/systemtray.py:268 deluge/ui/gtkui/systemtray.py:274
+#: deluge/ui/gtkui/systemtray.py:428 deluge/ui/gtkui/menubar.py:435
 #: deluge/ui/gtkui/menubar.py:436 deluge/ui/gtkui/status_tab.py:62
 #: deluge/ui/gtkui/statusbar.py:363 deluge/ui/gtkui/statusbar.py:373
 #: deluge/ui/gtkui/statusbar.py:378 deluge/ui/gtkui/statusbar.py:390
@@ -60,28 +60,28 @@ msgstr ""
 msgid "KiB/s"
 msgstr ""
 
-#: deluge/common.py:347
+#: deluge/common.py:349
 msgid "MiB/s"
 msgstr ""
 
-#: deluge/common.py:349
+#: deluge/common.py:351
 msgid "GiB/s"
 msgstr ""
 
-#: deluge/core/filtermanager.py:94 deluge/core/torrentmanager.py:1002
-#: deluge/ui/gtkui/torrentview.py:90 deluge/ui/gtkui/filtertreeview.py:77
+#: deluge/core/filtermanager.py:94 deluge/core/torrentmanager.py:1001
+#: deluge/ui/gtkui/torrentview.py:90 deluge/ui/gtkui/filtertreeview.py:78
 msgid "Error"
 msgstr ""
 
-#: deluge/core/torrentmanager.py:968
+#: deluge/core/torrentmanager.py:967
 msgid "Announce OK"
 msgstr ""
 
-#: deluge/core/torrentmanager.py:984
+#: deluge/core/torrentmanager.py:983
 msgid "Announce Sent"
 msgstr ""
 
-#: deluge/core/torrentmanager.py:992
+#: deluge/core/torrentmanager.py:991
 msgid "Warning"
 msgstr ""
 
@@ -166,7 +166,8 @@ msgstr ""
 #: deluge/plugins/notifications/notifications/gtkui.py:242
 #, python-format
 msgid ""
-"The torrent \"%(name)s\" including %(num_files)i has finished downloading."
+"The torrent \"%(name)s\" including %(num_files)i file(s) has finished "
+"downloading."
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:287
@@ -738,7 +739,7 @@ msgid "Automatically apply label:"
 msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:593
-#: deluge/ui/gtkui/filtertreeview.py:69
+#: deluge/ui/gtkui/filtertreeview.py:70
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:464
 msgid "Trackers"
 msgstr ""
@@ -784,7 +785,7 @@ msgid "_Add Label"
 msgstr ""
 
 #: deluge/plugins/label/label/gtkui/submenu.py:46
-#: deluge/ui/gtkui/filtertreeview.py:80
+#: deluge/ui/gtkui/filtertreeview.py:81
 msgid "No Label"
 msgstr ""
 
@@ -1772,7 +1773,7 @@ msgstr ""
 msgid "Zimbabwe"
 msgstr ""
 
-#: deluge/ui/client.py:590 deluge/ui/gtkui/connectionmanager.py:416
+#: deluge/ui/client.py:586 deluge/ui/gtkui/connectionmanager.py:416
 msgid ""
 "Deluge cannot find the 'deluged' executable, it is likely that you forgot to "
 "install the deluged package or it's not in your PATH."
@@ -1782,25 +1783,25 @@ msgstr ""
 msgid "Starting server in PID"
 msgstr ""
 
-#: deluge/ui/web/json_api.py:785 deluge/ui/web/json_api.py:804
-#: deluge/ui/web/json_api.py:813 deluge/ui/web/json_api.py:816
-#: deluge/ui/web/json_api.py:823
+#: deluge/ui/web/json_api.py:783 deluge/ui/web/json_api.py:802
+#: deluge/ui/web/json_api.py:811 deluge/ui/web/json_api.py:814
+#: deluge/ui/web/json_api.py:821
 msgid "Offline"
 msgstr ""
 
-#: deluge/ui/web/json_api.py:809
+#: deluge/ui/web/json_api.py:807
 msgid "Online"
 msgstr ""
 
-#: deluge/ui/web/json_api.py:829
+#: deluge/ui/web/json_api.py:827
 msgid "Connected"
 msgstr ""
 
-#: deluge/ui/web/json_api.py:856
+#: deluge/ui/web/json_api.py:854
 msgid "Daemon doesn't exist"
 msgstr ""
 
-#: deluge/ui/web/json_api.py:862
+#: deluge/ui/web/json_api.py:860
 msgid "Daemon not running"
 msgstr ""
 
@@ -1833,96 +1834,96 @@ msgid ""
 "Deluge"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:85 deluge/ui/gtkui/filtertreeview.py:72
+#: deluge/ui/gtkui/torrentview.py:85 deluge/ui/gtkui/filtertreeview.py:73
 msgid "Downloading"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:86 deluge/ui/gtkui/filtertreeview.py:73
+#: deluge/ui/gtkui/torrentview.py:86 deluge/ui/gtkui/filtertreeview.py:74
 msgid "Seeding"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:87 deluge/ui/gtkui/filtertreeview.py:74
+#: deluge/ui/gtkui/torrentview.py:87 deluge/ui/gtkui/filtertreeview.py:75
 msgid "Paused"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:88 deluge/ui/gtkui/filtertreeview.py:75
+#: deluge/ui/gtkui/torrentview.py:88 deluge/ui/gtkui/filtertreeview.py:76
 msgid "Checking"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:89 deluge/ui/gtkui/filtertreeview.py:76
+#: deluge/ui/gtkui/torrentview.py:89 deluge/ui/gtkui/filtertreeview.py:77
 msgid "Queued"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:236
+#: deluge/ui/gtkui/torrentview.py:241
 msgid "Name"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:239
+#: deluge/ui/gtkui/torrentview.py:244
 #: deluge/ui/gtkui/createtorrentdialog.py:90 deluge/ui/gtkui/files_tab.py:143
 #: deluge/ui/gtkui/addtorrentdialog.py:125
 msgid "Size"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:242
+#: deluge/ui/gtkui/torrentview.py:247
 msgid "Downloaded"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:245
+#: deluge/ui/gtkui/torrentview.py:250
 msgid "Uploaded"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:248 deluge/ui/gtkui/torrentview.py:578
+#: deluge/ui/gtkui/torrentview.py:253 deluge/ui/gtkui/torrentview.py:586
 #: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/files_tab.py:156
 msgid "Progress"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:252 deluge/ui/gtkui/torrentview.py:258
+#: deluge/ui/gtkui/torrentview.py:257 deluge/ui/gtkui/torrentview.py:263
 msgid "Seeders"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:255 deluge/ui/gtkui/torrentview.py:258
+#: deluge/ui/gtkui/torrentview.py:260 deluge/ui/gtkui/torrentview.py:263
 msgid "Peers"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:260 deluge/ui/gtkui/peers_tab.py:142
+#: deluge/ui/gtkui/torrentview.py:265 deluge/ui/gtkui/peers_tab.py:142
 msgid "Down Speed"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:262 deluge/ui/gtkui/peers_tab.py:155
+#: deluge/ui/gtkui/torrentview.py:267 deluge/ui/gtkui/peers_tab.py:155
 msgid "Up Speed"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:264
+#: deluge/ui/gtkui/torrentview.py:269
 msgid "Down Limit"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:266
+#: deluge/ui/gtkui/torrentview.py:271
 msgid "Up Limit"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:268
+#: deluge/ui/gtkui/torrentview.py:273
 msgid "ETA"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:270
+#: deluge/ui/gtkui/torrentview.py:275
 msgid "Ratio"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:272
+#: deluge/ui/gtkui/torrentview.py:277
 msgid "Avail"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:274
+#: deluge/ui/gtkui/torrentview.py:279
 msgid "Added"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:276
+#: deluge/ui/gtkui/torrentview.py:281
 #: deluge/ui/gtkui/createtorrentdialog.py:105
 #: deluge/ui/gtkui/edittrackersdialog.py:86
 msgid "Tracker"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:280
+#: deluge/ui/gtkui/torrentview.py:285
 msgid "Save Path"
 msgstr ""
 
@@ -1938,44 +1939,44 @@ msgstr ""
 msgid "<i>Client Version</i>"
 msgstr ""
 
-#: deluge/ui/gtkui/systemtray.py:113 deluge/ui/gtkui/systemtray.py:195
-#: deluge/ui/gtkui/systemtray.py:252 deluge/ui/gtkui/aboutdialog.py:55
+#: deluge/ui/gtkui/systemtray.py:113 deluge/ui/gtkui/systemtray.py:198
+#: deluge/ui/gtkui/systemtray.py:255 deluge/ui/gtkui/aboutdialog.py:55
 #: deluge/data/share/applications/deluge.desktop.in.h:1
 msgid "Deluge"
 msgstr ""
 
-#: deluge/ui/gtkui/systemtray.py:195
+#: deluge/ui/gtkui/systemtray.py:198
 msgid "Not Connected..."
 msgstr ""
 
-#: deluge/ui/gtkui/systemtray.py:243 deluge/ui/gtkui/systemtray.py:247
+#: deluge/ui/gtkui/systemtray.py:246 deluge/ui/gtkui/systemtray.py:250
 #: deluge/ui/gtkui/common.py:70
 msgid "Unlimited"
 msgstr ""
 
-#: deluge/ui/gtkui/systemtray.py:252
+#: deluge/ui/gtkui/systemtray.py:255
 msgid "Down"
 msgstr ""
 
-#: deluge/ui/gtkui/systemtray.py:253
+#: deluge/ui/gtkui/systemtray.py:256
 msgid "Up"
 msgstr ""
 
-#: deluge/ui/gtkui/systemtray.py:397 deluge/ui/gtkui/menubar.py:435
+#: deluge/ui/gtkui/systemtray.py:400 deluge/ui/gtkui/menubar.py:435
 #: deluge/ui/gtkui/statusbar.py:401
 msgid "Set Maximum Download Speed"
 msgstr ""
 
-#: deluge/ui/gtkui/systemtray.py:405 deluge/ui/gtkui/menubar.py:436
+#: deluge/ui/gtkui/systemtray.py:408 deluge/ui/gtkui/menubar.py:436
 #: deluge/ui/gtkui/statusbar.py:429
 msgid "Set Maximum Upload Speed"
 msgstr ""
 
-#: deluge/ui/gtkui/systemtray.py:467
+#: deluge/ui/gtkui/systemtray.py:470
 msgid "Deluge is password protected!"
 msgstr ""
 
-#: deluge/ui/gtkui/systemtray.py:473
+#: deluge/ui/gtkui/systemtray.py:476
 msgid "Enter your password to continue"
 msgstr ""
 
@@ -2005,17 +2006,17 @@ msgstr ""
 msgid "Choose a folder"
 msgstr ""
 
-#: deluge/ui/gtkui/createtorrentdialog.py:241
+#: deluge/ui/gtkui/createtorrentdialog.py:243
 msgid "Save .torrent file"
 msgstr ""
 
-#: deluge/ui/gtkui/createtorrentdialog.py:253
-#: deluge/ui/gtkui/addtorrentdialog.py:590
+#: deluge/ui/gtkui/createtorrentdialog.py:255
+#: deluge/ui/gtkui/addtorrentdialog.py:594
 msgid "Torrent files"
 msgstr ""
 
-#: deluge/ui/gtkui/createtorrentdialog.py:257
-#: deluge/ui/gtkui/addtorrentdialog.py:594
+#: deluge/ui/gtkui/createtorrentdialog.py:259
+#: deluge/ui/gtkui/addtorrentdialog.py:598
 msgid "All files"
 msgstr ""
 
@@ -2044,49 +2045,49 @@ msgstr ""
 msgid "Torrent"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:222
+#: deluge/ui/gtkui/addtorrentdialog.py:226
 msgid "Invalid File"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:227
+#: deluge/ui/gtkui/addtorrentdialog.py:231
 msgid "Duplicate Torrent"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:227
+#: deluge/ui/gtkui/addtorrentdialog.py:231
 msgid "You cannot add the same torrent twice."
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:528
+#: deluge/ui/gtkui/addtorrentdialog.py:532
 msgid "Unable to set file priority!"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:528
+#: deluge/ui/gtkui/addtorrentdialog.py:532
 msgid ""
 "File prioritization is unavailable when using Compact allocation.  Would you "
 "like to switch to Full allocation?"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:577
+#: deluge/ui/gtkui/addtorrentdialog.py:581
 msgid "Choose a .torrent file"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:663
+#: deluge/ui/gtkui/addtorrentdialog.py:667
 msgid "Invalid URL"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:663
+#: deluge/ui/gtkui/addtorrentdialog.py:667
 msgid "is not a valid URL."
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:667
+#: deluge/ui/gtkui/addtorrentdialog.py:671
 msgid "Downloading..."
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:709
+#: deluge/ui/gtkui/addtorrentdialog.py:712
 msgid "Download Failed"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:709
+#: deluge/ui/gtkui/addtorrentdialog.py:712
 msgid "Failed to download:"
 msgstr ""
 
@@ -2208,22 +2209,33 @@ msgstr ""
 msgid "Set Maximum Upload Slots"
 msgstr ""
 
-#: deluge/ui/gtkui/gtkui.py:312 deluge/ui/gtkui/gtkui.py:327
+#: deluge/ui/gtkui/gtkui.py:332 deluge/ui/gtkui/gtkui.py:359
 msgid "Turn off Classic Mode?"
 msgstr ""
 
-#: deluge/ui/gtkui/gtkui.py:313
+#: deluge/ui/gtkui/gtkui.py:333
 msgid ""
 "It appears that a Deluge daemon process (deluged) is already running.\n"
 "\n"
 "You will either need to stop the daemon or turn off Classic Mode to continue."
 msgstr ""
 
-#: deluge/ui/gtkui/gtkui.py:322
+#: deluge/ui/gtkui/gtkui.py:340
+msgid "Enable Thin Client Mode?"
+msgstr ""
+
+#: deluge/ui/gtkui/gtkui.py:341
+msgid ""
+"Thin client mode is only available because libtorrent is not installed.\n"
+"\n"
+"To use Deluge standalone (Classic mode) please install libtorrent."
+msgstr ""
+
+#: deluge/ui/gtkui/gtkui.py:354
 msgid "Error Starting Core"
 msgstr ""
 
-#: deluge/ui/gtkui/gtkui.py:323
+#: deluge/ui/gtkui/gtkui.py:355
 msgid ""
 "There was an error starting the core component which is required to run "
 "Deluge in Classic Mode.\n"
@@ -2231,17 +2243,17 @@ msgid ""
 "Please see the details below for more information."
 msgstr ""
 
-#: deluge/ui/gtkui/gtkui.py:328
+#: deluge/ui/gtkui/gtkui.py:360
 msgid ""
 "Since there was an error starting in Classic Mode would you like to continue "
 "by turning it off?"
 msgstr ""
 
-#: deluge/ui/gtkui/gtkui.py:352
+#: deluge/ui/gtkui/gtkui.py:380
 msgid "Error Starting Daemon"
 msgstr ""
 
-#: deluge/ui/gtkui/gtkui.py:353
+#: deluge/ui/gtkui/gtkui.py:381
 msgid ""
 "There was an error starting the daemon process.  Try running it from a "
 "console to see if there is an error."
@@ -2289,11 +2301,11 @@ msgstr ""
 msgid "Details:"
 msgstr ""
 
-#: deluge/ui/gtkui/mainwindow.py:257
+#: deluge/ui/gtkui/mainwindow.py:263
 msgid "D:"
 msgstr ""
 
-#: deluge/ui/gtkui/mainwindow.py:257
+#: deluge/ui/gtkui/mainwindow.py:263
 msgid "U:"
 msgstr ""
 
@@ -2386,23 +2398,23 @@ msgstr ""
 msgid "No Incoming Connections!"
 msgstr ""
 
-#: deluge/ui/gtkui/filtertreeview.py:68
+#: deluge/ui/gtkui/filtertreeview.py:69
 msgid "States"
 msgstr ""
 
-#: deluge/ui/gtkui/filtertreeview.py:70
+#: deluge/ui/gtkui/filtertreeview.py:71
 msgid "Labels"
 msgstr ""
 
-#: deluge/ui/gtkui/filtertreeview.py:71
+#: deluge/ui/gtkui/filtertreeview.py:72
 msgid "All"
 msgstr ""
 
-#: deluge/ui/gtkui/filtertreeview.py:78
+#: deluge/ui/gtkui/filtertreeview.py:79
 msgid "Active"
 msgstr ""
 
-#: deluge/ui/gtkui/filtertreeview.py:79
+#: deluge/ui/gtkui/filtertreeview.py:80
 msgid "None"
 msgstr ""
 
@@ -2774,9 +2786,15 @@ msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1647
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1713
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1731
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
+msgstr ""
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1713
+msgid "The maximum download speed per torrent.  Set -1 for unlimited."
+msgstr ""
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1731
+msgid "The maximum upload speed per torrent.  Set -1 for unlimited."
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1753
