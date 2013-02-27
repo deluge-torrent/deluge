@@ -204,6 +204,8 @@ class TorrentDetails(component.Component):
             tab.is_visible = False
 
         self.tabs[name] = tab
+        if name not in self.translate_tabs:
+            self.translate_tabs[name] = _(name)
 
         self.regenerate_positions()
         if generate_menu:
