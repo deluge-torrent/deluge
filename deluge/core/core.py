@@ -453,7 +453,7 @@ class Core(component.Component):
         """
         torrent_ids = self.filtermanager.filter_torrent_ids(filter_dict)
         status_dict = {}.fromkeys(torrent_ids)
-        d = self.torrentmanager.torrents_status_update(torrent_ids, keys, diff=False)
+        d = self.torrentmanager.torrents_status_update(torrent_ids, keys, diff=diff)
 
         def add_plugin_fields(args):
             status_dict, plugin_keys = args
