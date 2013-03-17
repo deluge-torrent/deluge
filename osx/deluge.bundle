@@ -8,29 +8,23 @@
   </meta>
   <plist>${project}/Info.plist</plist>
   <main-binary>${prefix}/bin/deluge-gtk</main-binary>
-  <binary dest="${bundle}/Contents/MacOS/deluged-bin">
-      ${prefix}/bin/deluged
-  </binary>
-  <binary dest="${bundle}/Contents/MacOS/deluge-web-bin">
-      ${prefix}/bin/deluge-web
-  </binary>
-  <binary dest="${bundle}/Contents/MacOS/deluge-console-bin">
-      ${prefix}/bin/deluge-console
-  </binary>
-  <binary dest="${bundle}/Contents/MacOS/Deluge-python">
-      ${prefix}/bin/python
-  </binary>
+  <binary dest="${bundle}/Contents/MacOS/deluged-bin">${prefix}/bin/deluged</binary>
+  <binary dest="${bundle}/Contents/MacOS/deluge-web-bin">${prefix}/bin/deluge-web</binary>
+  <binary dest="${bundle}/Contents/MacOS/deluge-console-bin">${prefix}/bin/deluge-console</binary>
+  <binary dest="${bundle}/Contents/MacOS/Deluge-python">${prefix}/bin/python</binary>
+
   <!-- not used: binary>${prefix}/lib/${gtkdir}/modules/*.so</binary-->
   <binary>${prefix}/lib/gdk-pixbuf-2.0/2.10.0/loaders/*.so</binary>
   <binary>${prefix}/lib/libpyglib-2.0-python.0.dylib</binary>
   <binary>${prefix}/lib/libgtk-quartz-2.0.0.dylib</binary>
-  <binary>${prefix}/lib/libglade-2.0.0.dylib</binary>
-  <binary>${prefix}/lib/libgtkmacintegration.0.dylib</binary>
+  <binary>${prefix}/lib/libglade-2.0.0.0.7dylib</binary>
+  <binary>${prefix}/lib/libgtkmacintegration.2.dylib</binary>
   <binary>${prefix}/lib/librsvg-2.2.dylib</binary>
-  <binary>${prefix}/lib/pango/1.6.0/modules/pango*.so</binary>
-  <binary>${prefix}/lib/libboost_*.dylib</binary>
-  <binary>${prefix}/lib/libtorrent-rasterbar.6.dylib</binary>
-  <binary>${prefix}/lib/libssl.1.0.0.dylib</binary>
+  <binary>${prefix}/lib/pango/1.8.0/modules/pango*.so</binary>
+  <binary>${prefix}/lib/libboost_system.dylib</binary>
+  <binary>${prefix}/lib/libboost_python.dylib</binary>
+  <binary>${prefix}/lib/libtorrent-rasterbar.7.dylib</binary>
+  <binary>${prefix}/lib/libssl.1.0.1.dylib</binary>
   <data dest="${bundle}/Contents/Resources/">
     ${project}/../dist/deluge.app/Contents/Resources/
   </data>

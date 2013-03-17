@@ -198,8 +198,8 @@ class GtkUI(object):
             SetConsoleCtrlHandler(win_handler)
 
         if deluge.common.osx_check() and gtk.gdk.WINDOWING == "quartz":
-            import gtk_osxapplication
-            self.osxapp = gtk_osxapplication.OSXApplication()
+            import gtkosx_application
+            self.osxapp = gtkosx_application.gtkosx_application_get()
             def on_die(*args):
                 reactor.stop()
             self.osxapp.connect("NSApplicationWillTerminate", on_die)
