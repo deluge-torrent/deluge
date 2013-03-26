@@ -134,12 +134,14 @@ class Core(CorePluginBase):
         files = tid.get_files()
         for f in files:
             cmd = ''
-            file_ext = os.path.splitext(os.path.splitext(f["path"])[0])[1] + os.path.splitext(f["path"])[1]
-            if file_ext in EXTRACT_COMMANDS:
-                cmd = EXTRACT_COMMANDS[file_ext]
-            else:
-                log.error("Can't extract unknown file type: %s", file_ext)
+            file_root, file_ext = os.path.splitext(f["path"])
+            file_ext_sec = os.path.splitext(file_root)[1]
+            if file_ext_sec and file_ext_sec + file_ext in EXTRACT_COMMANDS:
+                file_ext = file_ext_sec + file_ext
+            elif file_ext not in EXTRACT_COMMANDS or file_ext_sec == '.tar':
+                log.warning("Can't extract file with unknown file type: %s" % f["path"])
                 continue
+            cmd = EXTRACT_COMMANDS[file_ext]
 
             # Now that we have the cmd, lets run it to extract the files
             fpath = os.path.join(tid_status["save_path"], os.path.normpath(f["path"]))
