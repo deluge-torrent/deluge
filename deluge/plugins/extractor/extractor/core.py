@@ -99,7 +99,7 @@ else:
         if not which(cmd):
             for k,v in EXTRACT_COMMANDS.items():
                 if cmd in v[0]:
-                    log.error("EXTRACTOR: %s not found, disabling support for %s", cmd, k)
+                    log.warning("EXTRACTOR: %s not found, disabling support for %s", cmd, k)
                     del EXTRACT_COMMANDS[k]
 
 if not EXTRACT_COMMANDS:
@@ -126,12 +126,11 @@ class Core(CorePluginBase):
         tid_status = tid.get_status(["save_path", "move_completed", "name"])
 
         if tid_status["move_completed"]:
-            log.error("EXTRACTOR: Cannot extract torrents with 'Move Completed' enabled")
+            log.warning("EXTRACTOR: Cannot extract torrents with 'Move Completed' enabled")
             return
 
         files = tid.get_files()
         for f in files:
-            cmd = ''
             file_root, file_ext = os.path.splitext(f["path"])
             file_ext_sec = os.path.splitext(file_root)[1]
             if file_ext_sec and file_ext_sec + file_ext in EXTRACT_COMMANDS:
@@ -167,11 +166,10 @@ class Core(CorePluginBase):
                 log.error("EXTRACTOR: Extract failed: %s (%s)", fpath, torrent_id)
 
             # Run the command and add some callbacks
-            if cmd:
-                log.debug("EXTRACTOR: Extracting %s with %s %s to %s", fpath, cmd[0], cmd[1], dest)
-                d = getProcessValue(cmd[0], cmd[1].split() + [str(fpath)], {}, str(dest))
-                d.addCallback(on_extract_success, torrent_id, fpath)
-                d.addErrback(on_extract_failed, torrent_id, fpath)
+            log.debug("EXTRACTOR: Extracting %s with %s %s to %s", fpath, cmd[0], cmd[1], dest)
+            d = getProcessValue(cmd[0], cmd[1].split() + [str(fpath)], {}, str(dest))
+            d.addCallback(on_extract_success, torrent_id, fpath)
+            d.addErrback(on_extract_failed, torrent_id, fpath)
 
     @export
     def set_config(self, config):

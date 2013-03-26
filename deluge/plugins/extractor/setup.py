@@ -42,11 +42,20 @@ from setuptools import setup
 __plugin_name__ = "Extractor"
 __author__ = "Andrew Resch"
 __author_email__ = "andrewresch@gmail.com"
-__version__ = "0.2"
+__version__ = "0.3"
 __url__ = "http://deluge-torrent.org"
 __license__ = "GPLv3"
-__description__ = "Extract files upon completion"
-__long_description__ = """"""
+__description__ = "Extract files upon torrent completion"
+__long_description__ = """
+Extract files upon torrent completion
+
+Supports: .rar, .tar, .zip, .7z .tar.gz, .tgz, .tar.bz2, .tbz .tar.lzma, .tlz, .tar.xz, .txz
+
+Windows support: .rar, .zip, .tar, .7z, .xz, .lzma
+( Requires 7-zip installed: http://www.7-zip.org/ )
+
+Note: Will not extract with 'Move Completed' enabled
+"""
 __pkg_data__ = {__plugin_name__.lower(): ["template/*", "data/*"]}
 
 setup(
