@@ -12,19 +12,19 @@
  * geoip-database (optional)
  * setproctitle (optional)
 
- * libtorrent >= 0.14, or build the included version
+ * libtorrent (rasterbar) >= 0.14
 
- * If building included libtorrent::
+ * If building libtorrent:
    * boost >= 1.34.1
    * openssl
    * zlib
 
 === Gtk ===
- * python-notify (libnotify python wrapper)
- * pygame
  * pygtk >= 2.12
  * librsvg
  * xdg-utils
+ * python-notify (optional)
+ * pygame (optional)
 
 === Web ===
  * mako
