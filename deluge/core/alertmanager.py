@@ -118,9 +118,9 @@ class AlertManager(component.Component):
         :param wait: bool, if True then the handler functions will be run right
             away and waited to return before processing the next alert
         """
-        alert = self.session.pop_alert()
+        alerts = self.session.pop_alerts()
         # Loop through all alerts in the queue
-        while alert is not None:
+        for alert in alerts:
             alert_type = type(alert).__name__
             # Display the alert message
             if log.isEnabledFor(logging.DEBUG):
@@ -132,5 +132,3 @@ class AlertManager(component.Component):
                         self.delayed_calls.append(reactor.callLater(0, handler, alert))
                     else:
                         handler(alert)
-
-            alert = self.session.pop_alert()
