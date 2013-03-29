@@ -3,7 +3,6 @@
  * twisted >= 8.1
  * twisted-web >= 8.1
  * pyopenssl
- * simplejson (if python < 2.6)
  * setuptools
  * gettext
  * intltool
@@ -11,21 +10,21 @@
  * chardet
  * geoip-database (optional)
  * setproctitle (optional)
- * rencode >= 1.0.2 (optional), a pure python version is included
+ * rencode >= 1.0.2 (optional), a Python port is already included
 
- * libtorrent >= 0.16.1, or build the included version
+ * libtorrent (rasterbar) >= 0.16.7
 
- * If building included libtorrent::
-   * boost >= 1.34.1
+ * If building libtorrent:
+   * boost >= 1.40
    * openssl
    * zlib
 
 === Gtk ===
- * python-notify (libnotify python wrapper)
- * pygame
- * pygtk >= 2.12
+ * pygtk >= 2.16
  * librsvg
  * xdg-utils
+ * python-notify (optional)
+ * pygame (optional)
 
 === Web ===
  * mako
