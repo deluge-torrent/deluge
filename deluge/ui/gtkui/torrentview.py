@@ -135,10 +135,13 @@ def cell_data_trackericon(column, cell, model, row, data):
             pixbuf = create_blank_pixbuf()
 
         #Supress Warning: g_object_set_qdata: assertion `G_IS_OBJECT (object)' failed
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
+        original_filters = warnings.filters[:]
+        warnings.simplefilter("ignore")
+        try:
             if cell.get_property("pixbuf") != pixbuf:
                 cell.set_property("pixbuf", pixbuf)
+        finally:
+            warnings.filters = original_filters
 
     host = model[row][data]
     if host:
