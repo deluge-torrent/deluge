@@ -318,12 +318,10 @@ class Torrent(object):
             prioritized_pieces.append((first_start, first_end))
             prioritized_pieces.append((last_start, last_end))
 
-            # Creating two lists with priorites for the first/last pieces
-            # of this file, and insert the priorities into the list
-            first_list = [7] * (first_end - first_start)
-            last_list = [7] * (last_end - last_start)
-            priorities[first_start:first_end] = first_list
-            priorities[last_start:last_end] = last_list
+            # Set the pieces in our first and last ranges to priority 7
+            # if they are not marked as do not download
+            priorities[first_start:first_end] = map(lambda p: p and 7, priorities[first_start:first_end])
+            priorities[last_start:last_end] = map(lambda p: p and 7, priorities[last_start:last_end])
         # Setting the priorites for all the pieces of this torrent
         self.handle.prioritize_pieces(priorities)
         return prioritized_pieces, priorities
