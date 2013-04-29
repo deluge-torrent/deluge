@@ -214,12 +214,6 @@ class Torrent(object):
         else:
             self.owner = owner
 
-        # Keep track of last seen complete
-        if state:
-            self._last_seen_complete = state.last_seen_complete or 0.0
-        else:
-            self._last_seen_complete = 0.0
-
         # Keep track if we're forcing a recheck of the torrent so that we can
         # re-pause it after its done if necessary
         self.forcing_recheck = False
@@ -634,16 +628,6 @@ class Torrent(object):
                 return host
         return ""
 
-    def get_last_seen_complete(self):
-        """
-        Returns the time a torrent was last seen complete, ie, with all pieces
-        available.
-        """
-        if lt.version_minor > 15:
-            return self.status.last_seen_complete
-        self.calculate_last_seen_complete()
-        return self._last_seen_complete
-
     def get_status(self, keys, diff=False, update=False):
         """
         Returns the status of the torrent based on the keys provided
@@ -768,7 +752,7 @@ class Torrent(object):
             "queue":                  self.handle.queue_position,
             "ratio":                  self.get_ratio,
             "tracker_host":           self.get_tracker_host,
-            "last_seen_complete":     self.get_last_seen_complete,
+            "last_seen_complete":     lambda: self.status.last_seen_complete,
             "name":                   self.get_name,
             "pieces":                 self._get_pieces_info,
             }
@@ -1042,19 +1026,6 @@ class Torrent(object):
         for key in self.prev_status.keys():
             if not self.rpcserver.is_session_valid(key):
                 del self.prev_status[key]
-
-    def calculate_last_seen_complete(self):
-        if self._last_seen_complete+60 > time.time():
-            # Simple caching. Only calculate every 1 min at minimum
-            return self._last_seen_complete
-
-        availability = self.handle.piece_availability()
-        if filter(lambda x: x<1, availability):
-            # Torrent does not have all the pieces
-            return
-        log.trace("Torrent %s has all the pieces. Setting last seen complete.",
-                  self.torrent_id)
-        self._last_seen_complete = time.time()
 
     def _get_pieces_info(self):
         if not self.has_metadata:

@@ -87,8 +87,8 @@ class TorrentState:
             move_completed_path=None,
             magnet=None,
             time_added=-1,
-            last_seen_complete=0.0,   # 0 is the default returned when the info
-            owner="",                 # does not exist on lt >= .16
+            last_seen_complete=0,
+            owner="",
             shared=False
         ):
         self.torrent_id = torrent_id
@@ -149,7 +149,6 @@ class TorrentManager(component.Component):
 
         # Create the torrents dict { torrent_id: Torrent }
         self.torrents = {}
-        self.last_seen_complete_loop = None
         self.queued_torrents = set()
 
         # This is a map of torrent_ids to Deferreds used to track needed resume data.
@@ -228,9 +227,6 @@ class TorrentManager(component.Component):
         self.save_all_resume_data_timer = LoopingCall(self.save_resume_data, self.torrents.keys())
         self.save_all_resume_data_timer.start(900, False)
 
-        if self.last_seen_complete_loop:
-            self.last_seen_complete_loop.start(60)
-
     def stop(self):
         # Stop timers
         if self.save_state_timer.running:
@@ -241,9 +237,6 @@ class TorrentManager(component.Component):
 
         if self.save_all_resume_data_timer.running:
             self.save_all_resume_data_timer.stop()
-
-        if self.last_seen_complete_loop:
-            self.last_seen_complete_loop.stop()
 
         # Save state on shutdown
         self.save_state()
@@ -690,16 +683,6 @@ class TorrentManager(component.Component):
 
         self.alerts.wait_on_handler = False
 
-        if lt.version_minor < 16:
-            log.debug("libtorrent version is lower than 0.16. Start looping "
-                      "callback to calculate last_seen_complete info.")
-            def calculate_last_seen_complete():
-                for torrent in self.torrents.values():
-                    torrent.calculate_last_seen_complete()
-            self.last_seen_complete_loop = LoopingCall(
-                calculate_last_seen_complete
-            )
-
         component.get("EventManager").emit(SessionStartedEvent())
 
     def save_state(self):
@@ -711,10 +694,16 @@ class TorrentManager(component.Component):
             if torrent.state == "Paused":
                 paused = True
 
+            torrent_status = torrent.get_status([
+                "total_uploaded",
+                "last_seen_complete"
+                ], update=True
+            )
+
             torrent_state = TorrentState(
                 torrent.torrent_id,
                 torrent.filename,
-                torrent.get_status(["total_uploaded"])["total_uploaded"],
+                torrent_status["total_uploaded"],
                 torrent.trackers,
                 torrent.options["compact_allocation"],
                 paused,
@@ -736,7 +725,7 @@ class TorrentManager(component.Component):
                 torrent.options["move_completed_path"],
                 torrent.magnet,
                 torrent.time_added,
-                torrent.get_last_seen_complete(),
+                torrent_status["last_seen_complete"],
                 torrent.owner,
                 torrent.options["shared"]
             )
