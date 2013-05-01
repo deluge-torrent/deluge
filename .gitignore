@@ -11,3 +11,4 @@ deluge/i18n/*/
 *.desktop
 .build_data*
 osx/app
+RELEASE-VERSION

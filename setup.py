@@ -35,6 +35,8 @@ import platform
 import msgfmt
 import glob
 
+from version import get_version
+
 from distutils import cmd, sysconfig
 from distutils.command.build import build as _build
 from distutils.command.clean import clean as _clean
@@ -327,7 +329,7 @@ if windows_check():
 # Main setup
 setup(
     name = "deluge",
-    version = "1.3.900",
+    version = get_version(prefix='deluge-', suffix='.dev0'),
     fullname = "Deluge Bittorrent Client",
     description = "Bittorrent Client",
     author = "Andrew Resch, Damien Churchill",

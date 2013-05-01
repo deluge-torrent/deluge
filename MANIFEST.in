@@ -1,12 +1,23 @@
-recursive-include docs/man *
-recursive-include deluge *
-recursive-include win32 *
+include AUTHORS ChangeLog DEPENDS ez_setup.py LICENSE  msgfmt.py RELEASE-VERSION version.py
+graft docs/man
 
-recursive-exclude deluge *.egg-link
-exclude deluge/ui/web/gen_gettext.py
+include deluge/i18n/*.po
+
+graft deluge/plugins
+recursive-exclude deluge/plugins create_dev_link.sh *.pyc
+
+prune deluge/tests
+graft deluge/ui/data
+graft deluge/ui/gtkui/glade
+
+include deluge/ui/web/index.html
+include deluge/ui/web/gettext.js
+include deluge/ui/web/css/*.css
 exclude deluge/ui/web/css/*-debug.css
-exclude deluge/ui/web/js/build.sh
-exclude deluge/ui/web/js/Deluge*.js
+include deluge/ui/web/js/*.js
 exclude deluge/ui/web/js/*-debug.js
-prune deluge/ui/web/docs
-prune deluge/scripts
+exclude deluge/ui/web/gen_gettext.py
+graft deluge/ui/web/themes
+graft deluge/ui/web/render
+graft deluge/ui/web/icons
+graft deluge/ui/web/images

@@ -685,16 +685,36 @@ class VersionSplit(object):
 
     """
     def __init__(self, ver):
-        ver = ver.lower()
-        vs = ver.replace("_", "-").split("-")
+        import re
+        VERSION_RE = re.compile(r'''
+        ^
+        (?P<version>\d+\.\d+)          # minimum 'N.N'
+        (?P<extraversion>(?:\.\d+)*)   # any number of extra '.N' segments
+        (?:
+            (?P<prerel>[abc]|rc)       # 'a'=alpha, 'b'=beta, 'c'=release candidate
+                                       # 'rc'= alias for release candidate
+            (?P<prerelversion>\d+(?:\.\d+)*)
+        )?
+        (?P<postdev>(\.post(?P<post>\d+))?(\.dev(?P<dev>\d+))?)?
+        $''', re.VERBOSE)
+
+        # Check for PEP 386 compliant version
+        match = re.search(VERSION_RE, ver)
+        if match:
+            group = [(x if x is not None else '') for x in match.group(1,2,3,4,8)]
+            vs = [''.join(group[0:2]),''.join(group[2:4]), group[4].lstrip('.')]
+        else:
+            ver = ver.lower()
+            vs = ver.replace("_", "-").split("-")
+
         self.version = [int(x) for x in vs[0].split(".")]
         self.suffix = None
         self.dev = False
         if len(vs) > 1:
-            if vs[1].startswith(("rc", "alpha", "beta")):
+            if vs[1].startswith(("rc", "a", "b", "c")):
                 self.suffix = vs[1]
-            if vs[-1] == 'dev':
-                self.dev = True
+            if vs[-1].startswith('dev'):
+                self.dev = vs[-1]
 
     def __cmp__(self, ver):
         """
@@ -704,6 +724,12 @@ class VersionSplit(object):
         :type ver: VersionSplit
 
         """
+        # PEP 386 versions with .devN precede release version
+        if (bool(self.dev) != bool(ver.dev)):
+            if self.dev != 'dev':
+                self.dev = not self.dev
+            if ver.dev != 'dev':
+                ver.dev = not ver.dev
 
         # If there is no suffix we use z because we want final
         # to appear after alpha, beta, and rc alphabetically.
