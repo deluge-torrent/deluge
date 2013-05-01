@@ -43,7 +43,7 @@ deluge.main.start_daemon()
     core = Popen([sys.executable], cwd=CWD, stdin=fp, stdout=PIPE, stderr=PIPE)
     while True:
         line = core.stderr.readline()
-        if "Factory starting on 58846" in line:
+        if "starting on 58846" in line:
             time.sleep(0.3) # Slight pause just incase
             break
         elif "Couldn't listen on localhost:58846" in line:

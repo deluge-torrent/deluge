@@ -41,10 +41,11 @@ except ImportError:
 
 import zlib
 import struct
+import logging
 
 from twisted.internet.protocol import Protocol
 
-from deluge.log import LOG as log
+log = logging.getLogger(__name__)
 
 MESSAGE_HEADER_SIZE = 5
 
