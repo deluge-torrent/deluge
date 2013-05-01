@@ -76,6 +76,7 @@ class SessionProxy(component.Component):
                 # so that upcoming queries or status updates don't throw errors.
                 self.torrents.setdefault(torrent_id, [time.time(), {}])
                 self.cache_times.setdefault(torrent_id, {})
+            return torrent_ids
         return client.core.get_session_state().addCallback(on_get_session_state)
 
     def stop(self):

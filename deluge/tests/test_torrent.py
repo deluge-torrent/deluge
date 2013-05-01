@@ -7,8 +7,6 @@ import common
 from deluge.core.rpcserver import RPCServer
 from deluge.core.core import Core
 
-deluge.core.torrent.component = test_torrent
-
 from deluge._libtorrent import lt
 
 import deluge.component as component
@@ -37,6 +35,9 @@ class TorrentTestCase(unittest.TestCase):
         core_config.save()
 
     def setUp(self):
+        # Save component and set back on teardown
+        self.original_component = deluge.core.torrent.component
+        deluge.core.torrent.component = test_torrent
         self.setup_config()
         global rpcserver
         global core
@@ -50,6 +51,7 @@ class TorrentTestCase(unittest.TestCase):
         if self.torrent:
             self.torrent.prev_status_cleanup_loop.stop()
 
+        deluge.core.torrent.component = self.original_component
         def on_shutdown(result):
             component._ComponentRegistry.components = {}
         return component.shutdown().addCallback(on_shutdown)

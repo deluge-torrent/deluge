@@ -11,6 +11,9 @@ icons = TrackerIcons()
 
 dirname = os.path.dirname(__file__)
 
+import deluge.ui.tracker_icons
+deluge.ui.tracker_icons.PIL_INSTALLED = False
+
 class TrackerIconsTestCase(unittest.TestCase):
 
     def test_get_deluge_png(self):
@@ -24,7 +27,7 @@ class TrackerIconsTestCase(unittest.TestCase):
     def test_get_google_ico(self):
         # Google doesn't have any icon links
         # So instead we'll grab its favicon.ico
-        icon = TrackerIcon(os.path.join(dirname, "google.png"))
+        icon = TrackerIcon(os.path.join(dirname, "google.ico"))
         d = icons.get("www.google.com")
         d.addCallback(self.assertNotIdentical, None)
         d.addCallback(self.assertEquals, icon)
@@ -32,7 +35,7 @@ class TrackerIconsTestCase(unittest.TestCase):
 
     def test_get_google_ico_with_redirect(self):
         # google.com redirects to www.google.com
-        icon = TrackerIcon(os.path.join(dirname, "google.png"))
+        icon = TrackerIcon(os.path.join(dirname, "google.ico"))
         d = icons.get("google.com")
         d.addCallback(self.assertNotIdentical, None)
         d.addCallback(self.assertEquals, icon)
