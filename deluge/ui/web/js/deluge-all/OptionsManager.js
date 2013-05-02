@@ -1,6 +1,6 @@
 /*!
  * Deluge.OptionsManager.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -40,7 +40,7 @@ Ext.namespace('Deluge');
  * @param {Object} config Configuration options
  */
 Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
-    
+
     constructor: function(config) {
         config = config || {};
         this.binds = {};
@@ -82,7 +82,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
     addOptions: function(options) {
         this.options = Ext.applyIf(this.options, options);
     },
-    
+
     /**
      * Binds a form field to the specified option.
      * @param {String} option
@@ -262,7 +262,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
      * @private
      */
     onFieldChange: function(field, event) {
-        if (field.field) field = field.field // fix for spinners
+        if (field.field) field = field.field; // fix for spinners
         this.update(field._doption, field.getValue());
     },
 
@@ -279,7 +279,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
         // If we don't have a bind there's nothing to do.
         if (Ext.isEmpty(this.binds[option])) return;
         Ext.each(this.binds[option], function(bind) {
-            // The field is currently focused so we don't want to 
+            // The field is currently focused so we don't want to
             // change it.
             if (bind == this.focused) return;
             // Set the form field to the new value.

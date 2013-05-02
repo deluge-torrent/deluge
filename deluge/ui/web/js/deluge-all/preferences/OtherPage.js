@@ -1,6 +1,6 @@
 /*!
  * Deluge.preferences.OtherPage.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -44,12 +44,12 @@ Deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
         }, config);
         Deluge.preferences.Other.superclass.constructor.call(this, config);
     },
-    
+
     initComponent: function() {
         Deluge.preferences.Other.superclass.initComponent.call(this);
-        
+
         var optMan = deluge.preferences.getOptionsManager();
-        
+
         var fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -65,7 +65,7 @@ Deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
             name: 'new_release_check',
             boxLabel: _('Be alerted about new releases')
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -78,9 +78,9 @@ Deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
             xtype: 'panel',
             border: false,
             bodyCfg: {
-                html: _('Help us improve Deluge by sending us your '
-                    + 'Python version, PyGTK version, OS and processor '
-                    + 'types. Absolutely no other information is sent.')
+                html: _('Help us improve Deluge by sending us your \
+Python version, PyGTK version, OS and processor \
+types. Absolutely no other information is sent.')
             }
         });
         optMan.bind('send_info', fieldset.add({
@@ -90,7 +90,7 @@ Deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
             boxLabel: _('Yes, please send anonymous statistics'),
             name: 'send_info'
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
