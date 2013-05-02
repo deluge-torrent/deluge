@@ -1,7 +1,8 @@
-#!/bin/sh
-
+#!/bin/bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$DIR/../"
 # Fixes glade files which may have set gtk stock labels set to translatable
-for x in `find . -name '*.glade' |grep -v '.git\|build'` ; do \
+for x in `find . -name '*.glade' -o -name '*.ui' |grep -v '.git\|build'` ; do \
     for y in gtk-add gtk-apply gtk-bold gtk-cancel gtk-cdrom gtk-clear \
         gtk-close gtk-color-picker gtk-connect gtk-convert gtk-copy gtk-cut \
         gtk-delete gtk-dialog-error gtk-dialog-info gtk-dialog-question \
