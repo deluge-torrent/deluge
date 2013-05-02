@@ -84,8 +84,11 @@
                   <object class="GtkLabel" id="label23">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;&lt;big&gt;New Release Available!&lt;/big&gt;&lt;/b&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">New Release Available!</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                      <attribute name="scale" value="1.2"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -142,8 +145,10 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">&lt;i&gt;Available Version:&lt;/i&gt;</property>
-                        <property name="use_markup">True</property>
+                        <property name="label" translatable="yes">Available Version:</property>
+                        <attributes>
+                          <attribute name="style" value="italic"/>
+                        </attributes>
                       </object>
                       <packing>
                         <property name="top_attach">2</property>
@@ -167,8 +172,10 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">&lt;i&gt;Current Version:&lt;/i&gt;</property>
-                        <property name="use_markup">True</property>
+                        <property name="label" translatable="yes">Current Version:</property>
+                        <attributes>
+                          <attribute name="style" value="italic"/>
+                        </attributes>
                       </object>
                       <packing>
                         <property name="x_options">GTK_FILL</property>
@@ -178,8 +185,10 @@
                       <object class="GtkLabel" id="label_server_version_text">
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">&lt;i&gt;Server Version&lt;/i&gt;</property>
-                        <property name="use_markup">True</property>
+                        <property name="label" translatable="yes">Server Version</property>
+                        <attributes>
+                          <attribute name="style" value="italic"/>
+                        </attributes>
                       </object>
                       <packing>
                         <property name="top_attach">1</property>

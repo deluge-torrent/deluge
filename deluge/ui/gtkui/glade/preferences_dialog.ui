@@ -447,8 +447,12 @@
                                 <property name="xalign">0</property>
                                 <property name="xpad">10</property>
                                 <property name="ypad">10</property>
-                                <property name="label" translatable="yes">&lt;b&gt;&lt;i&gt;&lt;big&gt;Downloads&lt;/big&gt;&lt;/i&gt;&lt;/b&gt;</property>
-                                <property name="use_markup">True</property>
+                                <property name="label" translatable="yes">Downloads</property>
+                                <attributes>
+                                  <attribute name="style" value="italic"/>
+                                  <attribute name="weight" value="bold"/>
+                                  <attribute name="scale" value="1.2"/>
+                                </attributes>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -689,8 +693,10 @@
                                   <object class="GtkLabel" id="label11">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Folders&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">Folders</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -763,8 +769,10 @@
                                   <object class="GtkLabel" id="label12">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Allocation&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">Allocation</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -852,8 +860,10 @@ used sparingly.</property>
                                   <object class="GtkLabel" id="label13">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Options&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">Options</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -903,8 +913,12 @@ used sparingly.</property>
                                 <property name="xalign">0</property>
                                 <property name="xpad">10</property>
                                 <property name="ypad">10</property>
-                                <property name="label" translatable="yes">&lt;b&gt;&lt;i&gt;&lt;big&gt;Network&lt;/big&gt;&lt;/i&gt;&lt;/b&gt;</property>
-                                <property name="use_markup">True</property>
+                                <property name="label" translatable="yes">Network</property>
+                                <attributes>
+                                  <attribute name="style" value="italic"/>
+                                  <attribute name="weight" value="bold"/>
+                                  <attribute name="scale" value="1.2"/>
+                                </attributes>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -1137,8 +1151,10 @@ used sparingly.</property>
                                   <object class="GtkLabel" id="label4">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Incoming Ports&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">Incoming Ports</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -1272,8 +1288,10 @@ used sparingly.</property>
                                   <object class="GtkLabel" id="label79">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Outgoing Ports&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">Outgoing Ports</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -1331,8 +1349,10 @@ used sparingly.</property>
                                   <object class="GtkLabel" id="label110">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Interface&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">Interface</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -1410,8 +1430,10 @@ used sparingly.</property>
                                   <object class="GtkLabel" id="label5">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;TOS&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">TOS</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -1540,8 +1562,10 @@ used sparingly.</property>
                                   <object class="GtkLabel" id="label6">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Network Extras&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">Network Extras</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -1732,8 +1756,10 @@ used sparingly.</property>
                                   <object class="GtkLabel" id="label10">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Encryption&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">Encryption</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -1787,8 +1813,12 @@ used sparingly.</property>
                                 <property name="xalign">0</property>
                                 <property name="xpad">10</property>
                                 <property name="ypad">10</property>
-                                <property name="label" translatable="yes">&lt;b&gt;&lt;i&gt;&lt;big&gt;Bandwidth&lt;/big&gt;&lt;/i&gt;&lt;/b&gt;</property>
-                                <property name="use_markup">True</property>
+                                <property name="label" translatable="yes">Bandwidth</property>
+                                <attributes>
+                                  <attribute name="style" value="italic"/>
+                                  <attribute name="weight" value="bold"/>
+                                  <attribute name="scale" value="1.2"/>
+                                </attributes>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -2112,8 +2142,10 @@ used sparingly.</property>
                                   <object class="GtkLabel" id="label37">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Global Bandwidth Usage&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">Global Bandwidth Usage</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -2295,8 +2327,10 @@ used sparingly.</property>
                                   <object class="GtkLabel" id="label33">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Per Torrent Bandwidth Usage&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">Per Torrent Bandwidth Usage</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -2350,8 +2384,12 @@ used sparingly.</property>
                                 <property name="xalign">0</property>
                                 <property name="xpad">10</property>
                                 <property name="ypad">10</property>
-                                <property name="label" translatable="yes">&lt;i&gt;&lt;b&gt;&lt;big&gt;Interface&lt;/big&gt;&lt;/b&gt;&lt;/i&gt;</property>
-                                <property name="use_markup">True</property>
+                                <property name="label" translatable="yes">Interface</property>
+                                <attributes>
+                                  <attribute name="style" value="italic"/>
+                                  <attribute name="weight" value="bold"/>
+                                  <attribute name="scale" value="1.2"/>
+                                </attributes>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -2400,8 +2438,10 @@ used sparingly.</property>
                                   <object class="GtkLabel" id="label26">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Classic Mode&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">Classic Mode</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -2733,8 +2773,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                   <object class="GtkLabel" id="label106">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Main Window&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">Main Window</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -2807,8 +2849,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                   <object class="GtkLabel" id="label47">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Add Torrents Dialog&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">Add Torrents Dialog</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -3012,8 +3056,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                   <object class="GtkLabel" id="label52">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;System Tray&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">System Tray</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -3067,8 +3113,12 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                 <property name="xalign">0</property>
                                 <property name="xpad">10</property>
                                 <property name="ypad">10</property>
-                                <property name="label" translatable="yes">&lt;i&gt;&lt;b&gt;&lt;big&gt;Other&lt;/big&gt;&lt;/b&gt;&lt;/i&gt;</property>
-                                <property name="use_markup">True</property>
+                                <property name="label" translatable="yes">Other</property>
+                                <attributes>
+                                  <attribute name="style" value="italic"/>
+                                  <attribute name="weight" value="bold"/>
+                                  <attribute name="scale" value="1.2"/>
+                                </attributes>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -3133,8 +3183,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                   <object class="GtkLabel" id="label43">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Updates&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">Updates</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -3206,8 +3258,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                   <object class="GtkLabel" id="label45">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;System Information&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">System Information</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -3290,8 +3344,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                   <object class="GtkLabel" id="label108">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;GeoIP Database&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">GeoIP Database</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -3409,8 +3465,12 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                 <property name="xalign">0</property>
                                 <property name="xpad">10</property>
                                 <property name="ypad">10</property>
-                                <property name="label" translatable="yes">&lt;i&gt;&lt;b&gt;&lt;big&gt;Daemon&lt;/big&gt;&lt;/b&gt;&lt;/i&gt;</property>
-                                <property name="use_markup">True</property>
+                                <property name="label" translatable="yes">Daemon</property>
+                                <attributes>
+                                  <attribute name="style" value="italic"/>
+                                  <attribute name="weight" value="bold"/>
+                                  <attribute name="scale" value="1.2"/>
+                                </attributes>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -3494,8 +3554,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                   <object class="GtkLabel" id="label35">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Port&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">Port</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -3534,8 +3596,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                   <object class="GtkLabel" id="label39">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Connections&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">Connections</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -3574,8 +3638,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                   <object class="GtkLabel" id="label56">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Other&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">Other</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -3688,8 +3754,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                     <property name="xalign">0</property>
                                     <property name="xpad">10</property>
                                     <property name="ypad">10</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Accounts&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">Accounts</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -3742,8 +3810,12 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                 <property name="xalign">0</property>
                                 <property name="xpad">10</property>
                                 <property name="ypad">10</property>
-                                <property name="label" translatable="yes">&lt;i&gt;&lt;b&gt;&lt;big&gt;Queue&lt;/big&gt;&lt;/b&gt;&lt;/i&gt;</property>
-                                <property name="use_markup">True</property>
+                                <property name="label" translatable="yes">Queue</property>
+                                <attributes>
+                                  <attribute name="style" value="italic"/>
+                                  <attribute name="weight" value="bold"/>
+                                  <attribute name="scale" value="1.2"/>
+                                </attributes>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -3806,8 +3878,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                       <object class="GtkLabel" id="label36">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;General&lt;/b&gt;</property>
-                                        <property name="use_markup">True</property>
+                                        <property name="label" translatable="yes">General</property>
+                                        <attributes>
+                                          <attribute name="weight" value="bold"/>
+                                        </attributes>
                                       </object>
                                     </child>
                                   </object>
@@ -3984,8 +4058,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                       <object class="GtkLabel" id="label49">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Active Torrents&lt;/b&gt;</property>
-                                        <property name="use_markup">True</property>
+                                        <property name="label" translatable="yes">Active Torrents</property>
+                                        <attributes>
+                                          <attribute name="weight" value="bold"/>
+                                        </attributes>
                                       </object>
                                     </child>
                                   </object>
@@ -4202,8 +4278,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                       <object class="GtkLabel" id="label50">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Seeding&lt;/b&gt;</property>
-                                        <property name="use_markup">True</property>
+                                        <property name="label" translatable="yes">Seeding</property>
+                                        <attributes>
+                                          <attribute name="weight" value="bold"/>
+                                        </attributes>
                                       </object>
                                     </child>
                                   </object>
@@ -4264,8 +4342,12 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                 <property name="xalign">0</property>
                                 <property name="xpad">10</property>
                                 <property name="ypad">10</property>
-                                <property name="label" translatable="yes">&lt;i&gt;&lt;b&gt;&lt;big&gt;Proxy&lt;/big&gt;&lt;/b&gt;&lt;/i&gt;</property>
-                                <property name="use_markup">True</property>
+                                <property name="label" translatable="yes">Proxy</property>
+                                <attributes>
+                                  <attribute name="style" value="italic"/>
+                                  <attribute name="weight" value="bold"/>
+                                  <attribute name="scale" value="1.2"/>
+                                </attributes>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -4481,8 +4563,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                       <object class="GtkLabel" id="label59">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Peer&lt;/b&gt;</property>
-                                        <property name="use_markup">True</property>
+                                        <property name="label" translatable="yes">Peer</property>
+                                        <attributes>
+                                          <attribute name="weight" value="bold"/>
+                                        </attributes>
                                       </object>
                                     </child>
                                   </object>
@@ -4684,8 +4768,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                       <object class="GtkLabel" id="label93">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Web Seed&lt;/b&gt;</property>
-                                        <property name="use_markup">True</property>
+                                        <property name="label" translatable="yes">Web Seed</property>
+                                        <attributes>
+                                          <attribute name="weight" value="bold"/>
+                                        </attributes>
                                       </object>
                                     </child>
                                   </object>
@@ -4887,8 +4973,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                       <object class="GtkLabel" id="label99">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Tracker&lt;/b&gt;</property>
-                                        <property name="use_markup">True</property>
+                                        <property name="label" translatable="yes">Tracker</property>
+                                        <attributes>
+                                          <attribute name="weight" value="bold"/>
+                                        </attributes>
                                       </object>
                                     </child>
                                   </object>
@@ -5094,8 +5182,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                       <object class="GtkLabel" id="label105">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;DHT&lt;/b&gt;</property>
-                                        <property name="use_markup">True</property>
+                                        <property name="label" translatable="yes">DHT</property>
+                                        <attributes>
+                                          <attribute name="weight" value="bold"/>
+                                        </attributes>
                                       </object>
                                     </child>
                                   </object>
@@ -5148,8 +5238,12 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                 <property name="xalign">0</property>
                                 <property name="xpad">10</property>
                                 <property name="ypad">10</property>
-                                <property name="label" translatable="yes">&lt;b&gt;&lt;i&gt;&lt;big&gt;Cache&lt;/big&gt;&lt;/i&gt;&lt;/b&gt;</property>
-                                <property name="use_markup">True</property>
+                                <property name="label" translatable="yes">Cache</property>
+                                <attributes>
+                                  <attribute name="style" value="italic"/>
+                                  <attribute name="weight" value="bold"/>
+                                  <attribute name="scale" value="1.2"/>
+                                </attributes>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -5273,8 +5367,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                           <object class="GtkLabel" id="label112">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes">&lt;b&gt;Settings&lt;/b&gt;</property>
-                                            <property name="use_markup">True</property>
+                                            <property name="label" translatable="yes">Settings</property>
+                                            <attributes>
+                                              <attribute name="weight" value="bold"/>
+                                            </attributes>
                                           </object>
                                         </child>
                                       </object>
@@ -5407,8 +5503,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                       <object class="GtkLabel" id="label132">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;Write&lt;/b&gt;</property>
-                                                        <property name="use_markup">True</property>
+                                                        <property name="label" translatable="yes">Write</property>
+                                                        <attributes>
+                                                          <attribute name="weight" value="bold"/>
+                                                        </attributes>
                                                       </object>
                                                     </child>
                                                   </object>
@@ -5552,8 +5650,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                       <object class="GtkLabel" id="label133">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;Read&lt;/b&gt;</property>
-                                                        <property name="use_markup">True</property>
+                                                        <property name="label" translatable="yes">Read</property>
+                                                        <attributes>
+                                                          <attribute name="weight" value="bold"/>
+                                                        </attributes>
                                                       </object>
                                                     </child>
                                                   </object>
@@ -5640,8 +5740,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                       <object class="GtkLabel" id="label134">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;Size&lt;/b&gt;</property>
-                                                        <property name="use_markup">True</property>
+                                                        <property name="label" translatable="yes">Size</property>
+                                                        <attributes>
+                                                          <attribute name="weight" value="bold"/>
+                                                        </attributes>
                                                       </object>
                                                     </child>
                                                   </object>
@@ -5687,8 +5789,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                           <object class="GtkLabel" id="label113">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes">&lt;b&gt;Status&lt;/b&gt;</property>
-                                            <property name="use_markup">True</property>
+                                            <property name="label" translatable="yes">Status</property>
+                                            <attributes>
+                                              <attribute name="weight" value="bold"/>
+                                            </attributes>
                                           </object>
                                         </child>
                                       </object>
@@ -5743,8 +5847,12 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                 <property name="xalign">0</property>
                                 <property name="xpad">10</property>
                                 <property name="ypad">10</property>
-                                <property name="label" translatable="yes">&lt;i&gt;&lt;b&gt;&lt;big&gt;Plugins&lt;/big&gt;&lt;/b&gt;&lt;/i&gt;</property>
-                                <property name="use_markup">True</property>
+                                <property name="label" translatable="yes">Plugins</property>
+                                <attributes>
+                                  <attribute name="style" value="italic"/>
+                                  <attribute name="weight" value="bold"/>
+                                  <attribute name="scale" value="1.2"/>
+                                </attributes>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -5961,8 +6069,10 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                               <object class="GtkLabel" id="label81">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="label" translatable="yes">&lt;b&gt;Info&lt;/b&gt;</property>
-                                                <property name="use_markup">True</property>
+                                                <property name="label" translatable="yes">Info</property>
+                                                <attributes>
+                                                  <attribute name="weight" value="bold"/>
+                                                </attributes>
                                               </object>
                                             </child>
                                           </object>

@@ -87,8 +87,11 @@
                     <property name="can_focus">False</property>
                     <property name="xalign">0.05000000074505806</property>
                     <property name="ypad">10</property>
-                    <property name="label" translatable="yes">&lt;big&gt;&lt;b&gt;Edit Trackers&lt;/b&gt;&lt;/big&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">Edit Trackers</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                      <attribute name="scale" value="1.2"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="expand">False</property>

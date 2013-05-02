@@ -83,8 +83,11 @@
                   <object class="GtkLabel" id="label_title">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;big&gt;&lt;b&gt;Are you sure you want to remove the selected torrent?&lt;/b&gt;&lt;/big&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">Are you sure you want to remove the selected torrent?</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                      <attribute name="scale" value="1.2"/>
+                    </attributes>
                     <property name="wrap">True</property>
                   </object>
                   <packing>
@@ -136,8 +139,10 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">&lt;i&gt;The associated .torrent will be deleted!&lt;/i&gt;</property>
-                        <property name="use_markup">True</property>
+                        <property name="label" translatable="yes">The associated .torrent will be deleted!</property>
+                        <attributes>
+                          <attribute name="style" value="italic"/>
+                        </attributes>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -180,8 +185,10 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">&lt;i&gt;The downloaded data will be deleted!&lt;/i&gt;</property>
-                        <property name="use_markup">True</property>
+                        <property name="label" translatable="yes">The downloaded data will be deleted!</property>
+                        <attributes>
+                          <attribute name="style" value="italic"/>
+                        </attributes>
                       </object>
                       <packing>
                         <property name="expand">True</property>
