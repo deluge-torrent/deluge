@@ -1,6 +1,6 @@
 /*!
  * Deluge.preferences.NetworkPage.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -36,7 +36,7 @@ Ext.namespace('Deluge.preferences');
  * @extends Ext.form.FormPanel
  */
 Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
-    
+
     border: false,
     layout: 'form',
     title:  _('Network'),
@@ -44,7 +44,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
     initComponent: function() {
         Deluge.preferences.Network.superclass.initComponent.call(this);
         var optMan = deluge.preferences.getOptionsManager();
-        
+
         var fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -97,7 +97,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             }]
         });
         optMan.bind('listen_ports', this.listenPorts);
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -150,7 +150,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             }]
         });
         optMan.bind('outgoing_ports', this.outgoingPorts);
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -166,7 +166,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             labelSeparator: '',
             width: 200
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -181,7 +181,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             fieldLabel: _('Peer TOS Byte'),
             width: 80
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -190,7 +190,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             layout: 'table',
             layoutConfig: {
                 columns: 3
-            },            
+            },
             defaultType: 'checkbox'
         });
         optMan.bind('upnp', fieldset.add({
@@ -225,6 +225,13 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             boxLabel: _('DHT'),
             ctCls: 'x-deluge-indent-checkbox',
             name: 'dht'
+        }));
+        optMan.bind('lt_tex', fieldset.add({
+            fieldLabel: '',
+            labelSeparator: '',
+            boxLabel: _('Tracker Exchange'),
+            ctCls: 'x-deluge-indent-checkbox',
+            name: 'lt_tex'
         }));
     }
 });

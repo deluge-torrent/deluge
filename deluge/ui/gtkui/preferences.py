@@ -323,6 +323,7 @@ class Preferences(component.Component):
                 "chk_upnp": ("active", self.core_config["upnp"]),
                 "chk_natpmp": ("active", self.core_config["natpmp"]),
                 "chk_utpex": ("active", self.core_config["utpex"]),
+                "chk_lt_tex": ("active", self.core_config["lt_tex"]),
                 "chk_lsd": ("active", self.core_config["lsd"]),
                 "chk_new_releases": ("active", self.core_config["new_release_check"]),
                 "chk_send_info": ("active", self.core_config["send_info"]),
@@ -478,6 +479,7 @@ class Preferences(component.Component):
                 "chk_upnp",
                 "chk_natpmp",
                 "chk_utpex",
+                "chk_lt_tex",
                 "chk_lsd",
                 "chk_send_info",
                 "chk_new_releases",
@@ -678,6 +680,8 @@ class Preferences(component.Component):
             self.builder.get_object("chk_natpmp").get_active()
         new_core_config["utpex"] = \
             self.builder.get_object("chk_utpex").get_active()
+        new_core_config["lt_tex"] = \
+            self.builder.get_object("chk_lt_tex").get_active()
         new_core_config["lsd"] = \
             self.builder.get_object("chk_lsd").get_active()
         new_core_config["enc_in_policy"] = \

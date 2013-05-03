@@ -755,6 +755,9 @@ GetText.add('Total Size', '${escape(_("Total Size"))}')
 // EditTrackersWindow.js:80, TorrentGrid.js:193, EditTrackerWindow.js:66, DetailsTab.js:53, ProxyPage.js:64
 GetText.add('Tracker', '${escape(_("Tracker"))}')
 
+// NetworkPage.js:232
+GetText.add('Tracker Exchange', '${escape(_("Tracker Exchange"))}')
+
 // Sidebar.js:35
 GetText.add('Tracker Host', '${escape(_("Tracker Host"))}')
 

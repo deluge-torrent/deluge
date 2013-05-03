@@ -184,9 +184,6 @@ class TorrentResumedEvent(DelugeEvent):
 class TorrentFileCompletedEvent(DelugeEvent):
     """
     Emitted when a file completes.
-
-    This will only work with libtorrent 0.15 or greater.
-
     """
     def __init__(self, torrent_id, index):
         """

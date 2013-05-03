@@ -80,10 +80,7 @@ class Core(component.Component):
         while len(version) < 4:
             version.append(0)
 
-        # Note: All libtorrent python bindings to set plugins/extensions need to be disabled
-        # due to  GIL issue. https://code.google.com/p/libtorrent/issues/detail?id=369
-        # Setting session flags to 1 enables all libtorrent default plugins
-        self.session = lt.session(lt.fingerprint("DE", *version), flags=1)
+        self.session = lt.session(lt.fingerprint("DE", *version), flags=0)
 
         # Load the session state if available
         self.__load_session_state()
@@ -105,12 +102,9 @@ class Core(component.Component):
                 lt.io_buffer_mode_t.disable_os_cache
         self.session.set_settings(self.settings)
 
-        # Load metadata extension
-        # Note: All libtorrent python bindings to set plugins/extensions need to be disabled
-        # due to  GIL issue. https://code.google.com/p/libtorrent/issues/detail?id=369
-        # self.session.add_extension(lt.create_metadata_plugin)
-        # self.session.add_extension(lt.create_ut_metadata_plugin)
-        # self.session.add_extension(lt.create_smart_ban_plugin)
+        self.session.add_extension("metadata_transfer")
+        self.session.add_extension("ut_metadata")
+        self.session.add_extension("smart_ban")
 
         # Create the components
         self.eventmanager = EventManager()

@@ -3388,7 +3388,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 });
 /*!
  * Deluge.preferences.NetworkPage.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -3424,7 +3424,7 @@ Ext.namespace('Deluge.preferences');
  * @extends Ext.form.FormPanel
  */
 Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
-    
+
     border: false,
     layout: 'form',
     title:  _('Network'),
@@ -3432,7 +3432,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
     initComponent: function() {
         Deluge.preferences.Network.superclass.initComponent.call(this);
         var optMan = deluge.preferences.getOptionsManager();
-        
+
         var fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -3485,7 +3485,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             }]
         });
         optMan.bind('listen_ports', this.listenPorts);
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -3538,7 +3538,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             }]
         });
         optMan.bind('outgoing_ports', this.outgoingPorts);
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -3554,7 +3554,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             labelSeparator: '',
             width: 200
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -3569,7 +3569,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             fieldLabel: _('Peer TOS Byte'),
             width: 80
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -3578,7 +3578,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             layout: 'table',
             layoutConfig: {
                 columns: 3
-            },            
+            },
             defaultType: 'checkbox'
         });
         optMan.bind('upnp', fieldset.add({
@@ -3614,11 +3614,18 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             ctCls: 'x-deluge-indent-checkbox',
             name: 'dht'
         }));
+        optMan.bind('lt_tex', fieldset.add({
+            fieldLabel: '',
+            labelSeparator: '',
+            boxLabel: _('Tracker Exchange'),
+            ctCls: 'x-deluge-indent-checkbox',
+            name: 'lt_tex'
+        }));
     }
 });
 /*!
  * Deluge.preferences.OtherPage.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -3662,12 +3669,12 @@ Deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
         }, config);
         Deluge.preferences.Other.superclass.constructor.call(this, config);
     },
-    
+
     initComponent: function() {
         Deluge.preferences.Other.superclass.initComponent.call(this);
-        
+
         var optMan = deluge.preferences.getOptionsManager();
-        
+
         var fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -3683,7 +3690,7 @@ Deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
             name: 'new_release_check',
             boxLabel: _('Be alerted about new releases')
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -3696,9 +3703,9 @@ Deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
             xtype: 'panel',
             border: false,
             bodyCfg: {
-                html: _('Help us improve Deluge by sending us your '
-                    + 'Python version, PyGTK version, OS and processor '
-                    + 'types. Absolutely no other information is sent.')
+                html: _('Help us improve Deluge by sending us your \
+Python version, PyGTK version, OS and processor \
+types. Absolutely no other information is sent.')
             }
         });
         optMan.bind('send_info', fieldset.add({
@@ -3708,7 +3715,7 @@ Deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
             boxLabel: _('Yes, please send anonymous statistics'),
             name: 'send_info'
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -4827,7 +4834,7 @@ Deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
 });
 /*!
  * Deluge.OptionsManager.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -4867,7 +4874,7 @@ Ext.namespace('Deluge');
  * @param {Object} config Configuration options
  */
 Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
-    
+
     constructor: function(config) {
         config = config || {};
         this.binds = {};
@@ -4909,7 +4916,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
     addOptions: function(options) {
         this.options = Ext.applyIf(this.options, options);
     },
-    
+
     /**
      * Binds a form field to the specified option.
      * @param {String} option
@@ -5089,7 +5096,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
      * @private
      */
     onFieldChange: function(field, event) {
-        if (field.field) field = field.field // fix for spinners
+        if (field.field) field = field.field; // fix for spinners
         this.update(field._doption, field.getValue());
     },
 
@@ -5106,7 +5113,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
         // If we don't have a bind there's nothing to do.
         if (Ext.isEmpty(this.binds[option])) return;
         Ext.each(this.binds[option], function(bind) {
-            // The field is currently focused so we don't want to 
+            // The field is currently focused so we don't want to
             // change it.
             if (bind == this.focused) return;
             // Set the form field to the new value.
