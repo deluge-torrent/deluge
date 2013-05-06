@@ -40,20 +40,16 @@ from version import get_version
 from distutils import cmd, sysconfig
 from distutils.command.build import build as _build
 from distutils.command.clean import clean as _clean
+
 try:
     from sphinx.setup_command import BuildDoc
 except ImportError:
     class BuildDoc(object):
         pass
 
+
 def windows_check():
     return platform.system() in ('Windows', 'Microsoft')
-
-try:
-    from deluge._libtorrent import lt
-    print "Found libtorrent version: %s" % lt.version
-except ImportError, e:
-    print "Warning libtorrent not found: %s" % e
 
 desktop_data = 'deluge/ui/data/share/applications/deluge.desktop'
 
@@ -62,13 +58,13 @@ class build_trans(cmd.Command):
 
     user_options = [
             ('build-lib', None, "lib build folder"),
-            ('develop-mode', 'D', 'Compile translations in develop mode(into deluge/i18n')
+            ('develop', 'D', 'Compile translations in develop mode (deluge/i18n)')
     ]
-    boolean_options = ['develop_mode']
+    boolean_options = ['develop']
 
     def initialize_options(self):
         self.build_lib = None
-        self.develop_mode = False
+        self.develop = False
 
     def finalize_options(self):
         self.set_undefined_options('build', ('build_lib', 'build_lib'))
@@ -76,7 +72,7 @@ class build_trans(cmd.Command):
     def run(self):
         po_dir = os.path.join(os.path.dirname(__file__), 'deluge/i18n/')
 
-        if self.develop_mode:
+        if self.develop:
             basedir = po_dir
         else:
             basedir = os.path.join(self.build_lib, 'deluge', 'i18n')
@@ -119,13 +115,19 @@ class build_trans(cmd.Command):
             sys.stdout.write(' po files already upto date.  ')
         sys.stdout.write('\b\b \nFinished compiling translation files. \n')
 
+
 class build_plugins(cmd.Command):
     description = "Build plugins into .eggs"
 
-    user_options = []
+    user_options = [
+            ('install-dir=', None, "develop install folder"),
+            ('develop', 'D', 'Compile plugins in develop mode')
+    ]
+    boolean_options = ['develop']
 
     def initialize_options(self):
-        pass
+        self.install_dir = None
+        self.develop = False
 
     def finalize_options(self):
         pass
@@ -136,27 +138,12 @@ class build_plugins(cmd.Command):
 
         for path in glob.glob(PLUGIN_PATH):
             if os.path.exists(os.path.join(path, "setup.py")):
-                os.system("cd " + path + "&& " + sys.executable + " setup.py bdist_egg -d ..")
-
-
-class develop_plugins(cmd.Command):
-    description = "install plugin's in 'development mode'"
-
-    user_options = []
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    def run(self):
-        # Build the plugin eggs
-        PLUGIN_PATH = "deluge/plugins/*"
-
-        for path in glob.glob(PLUGIN_PATH):
-            if os.path.exists(os.path.join(path, "setup.py")):
-                os.system("cd " + path + "&& " + sys.executable + " setup.py develop")
+                if self.develop and self.install_dir:
+                    os.system("cd " + path + "&& " + sys.executable + " setup.py develop --install-dir=%s" % self.install_dir)
+                elif self.develop:
+                    os.system("cd " + path + "&& " + sys.executable + " setup.py develop")
+                else:
+                    os.system("cd " + path + "&& " + sys.executable + " setup.py bdist_egg -d ..")
 
 
 class egg_info_plugins(cmd.Command):
@@ -206,11 +193,18 @@ class build_docs(BuildDoc):
 
         BuildDoc.run(self)
 
+
 class build(_build):
     sub_commands = [('build_trans', None), ('build_plugins', None)] + _build.sub_commands
     def run(self):
         # Run all sub-commands (at least those that need to be run)
         _build.run(self)
+        try:
+            from deluge._libtorrent import lt
+            print "Found libtorrent version: %s" % lt.version
+        except ImportError, e:
+            print "Warning libtorrent not found: %s" % e
+
 
 class clean_plugins(cmd.Command):
     description = "Cleans the plugin folders"
@@ -260,6 +254,7 @@ class clean_plugins(cmd.Command):
                 os.remove(os.path.join(path, fpath))
             os.removedirs(path)
 
+
 class clean(_clean):
     sub_commands = _clean.sub_commands + [('clean_plugins', None)]
 
@@ -280,7 +275,6 @@ cmdclass = {
     'build_docs': build_docs,
     'clean_plugins': clean_plugins,
     'clean': clean,
-    'develop_plugins': develop_plugins,
     'egg_info_plugins': egg_info_plugins
 }
 
