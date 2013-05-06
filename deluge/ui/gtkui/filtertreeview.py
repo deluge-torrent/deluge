@@ -63,31 +63,19 @@ TRACKER_PIX = {
     "Error": "tracker_warning",
 }
 
-def _(message): return message
-
-TRANSLATE = {
-    "state": _("States"),
-    "tracker_host": _("Trackers"),
+TR_LABEL = {
     "label": _("Labels"),
     "owner": _("Owner"),
     "All": _("All"),
+    "Active": _("Active"),
+    "Allocating": _("Allocating"),
+    "Checking": _("Checking"),
     "Downloading": _("Downloading"),
     "Seeding": _("Seeding"),
     "Paused": _("Paused"),
-    "Checking": _("Checking"),
-    "Queued": _("Queued"),
     "Error": _("Error"),
-    "Active": _("Active"),
-    "none": _("None"),
-    "no_label": _("No Label"),
+    "Queued": _("Queued"),
 }
-
-del _
-
-def _t(text):
-    if text in TRANSLATE:
-        text = TRANSLATE[text]
-    return _(text)
 
 FILTER_COLUMN = 5
 
@@ -166,7 +154,7 @@ class FilterTreeView(component.Component):
         self.filters = {}
 
         #initial order of state filter:
-        self.cat_nodes["state"] = self.treestore.append(None, ["cat", "state", _t("State"), 0, None, False])
+        self.cat_nodes["state"] = self.treestore.append(None, ["cat", "state", _("States"), 0, None, False])
         self.update_row("state", "All" , 0)
         self.update_row("state", "Downloading" , 0)
         self.update_row("state", "Seeding" , 0)
@@ -174,7 +162,7 @@ class FilterTreeView(component.Component):
         self.update_row("state", "Paused" , 0)
         self.update_row("state", "Queued" , 0)
 
-        self.cat_nodes["tracker_host"] = self.treestore.append(None, ["cat", "tracker_host", _t("Trackers"), 0, None, False])
+        self.cat_nodes["tracker_host"] = self.treestore.append(None, ["cat", "tracker_host", _("Trackers"), 0, None, False])
         self.update_row("tracker_host", "All" , 0)
         self.update_row("tracker_host", "Error" , 0)
         self.update_row("tracker_host", "" , 0)
@@ -196,7 +184,7 @@ class FilterTreeView(component.Component):
         #create missing cat_nodes
         for cat in filter_items:
             if not cat in self.cat_nodes:
-                self.cat_nodes[cat] = self.treestore.append(None, ["cat", cat, _t(cat), 0, None, False])
+                self.cat_nodes[cat] = self.treestore.append(None, ["cat", cat, TR_LABEL.get(cat, _(cat)), 0, None, False])
 
         #update rows
         visible_filters = []
@@ -238,11 +226,11 @@ class FilterTreeView(component.Component):
 
             if label == "":
                 if cat == "tracker_host":
-                    label = _t("none")
+                    label = _("None")
                 elif cat == "label":
-                    label = _t("no_label")
+                    label = _("No Label")
             elif cat in ["state", "tracker_host", "label"]:
-                label = _t(value)
+                label = TR_LABEL.get(value, _(value))
 
             row = self.treestore.append(self.cat_nodes[cat],[cat, value, label, count , pix, True])
             self.filters[(cat, value)] = row
