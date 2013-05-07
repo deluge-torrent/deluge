@@ -175,7 +175,7 @@ class CoreTestCase(unittest.TestCase):
         space = self.core.get_free_space(".")
         self.assertTrue(type(space) in (int, long))
         self.assertTrue(space >= 0)
-        self.assertEquals(self.core.get_free_space("/someinvalidpath"), 0)
+        self.assertEquals(self.core.get_free_space("/someinvalidpath"), -1)
 
     def test_test_listen_port(self):
         d = self.core.test_listen_port()

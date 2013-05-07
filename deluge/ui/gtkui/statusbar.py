@@ -96,6 +96,10 @@ class StatusBarItem:
         if self._label.get_text() != text:
             self._label.set_text(text)
 
+    def set_markup(self, text):
+        if self._label.get_label() != text:
+            self._label.set_markup(text)
+
     def set_tooltip(self, tip):
         if self._ebox.get_tooltip_text() != tip:
             self._ebox.set_tooltip_text(tip)
@@ -327,7 +331,10 @@ class StatusBar(component.Component):
                 self.remove_item(self.health_item)
 
     def _on_get_free_space(self, space):
-        self.diskspace_item.set_text(deluge.common.fsize(space))
+        if space >= 0:
+            self.diskspace_item.set_text(deluge.common.fsize(space))
+        else:
+            self.diskspace_item.set_markup("<span foreground=\"red\">" + _("Error") + "</span>")
 
     def _on_max_download_speed(self, max_download_speed):
         self.max_download_speed = max_download_speed

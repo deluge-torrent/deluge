@@ -858,7 +858,7 @@ class Core(component.Component):
         try:
             return deluge.common.free_space(path)
         except InvalidPathError:
-            return 0
+            return -1
 
     @export
     def get_libtorrent_version(self):
