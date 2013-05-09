@@ -480,23 +480,12 @@ class Core(component.Component):
     @export
     def get_config_value(self, key):
         """Get the config value for key"""
-        try:
-            value = self.config[key]
-        except KeyError:
-            return None
-
-        return value
+        return self.config.get(key)
 
     @export
     def get_config_values(self, keys):
         """Get the config values for the entered keys"""
-        config = {}
-        for key in keys:
-            try:
-                config[key] = self.config[key]
-            except KeyError:
-                pass
-        return config
+        return {(key, self.config.get(key)) for key in keys}
 
     @export
     def set_config(self, config):

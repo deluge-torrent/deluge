@@ -268,6 +268,32 @@ what is currently in the config and it could not convert the value
         else:
             return self.__config[key]
 
+
+    def get(self, key, default=None):
+        """
+        Gets the value of item 'key' if key is in the config, else default.
+        If default is not given, it defaults to None, so that this method
+        never raises a KeyError.
+
+        :param key: the item for which you want it's value
+        :param default: the default value if key is missing
+        :return: the value of item 'key' or default
+
+        **Usage**
+
+        >>> config = Config("test.conf", defaults={"test": 5})
+        >>> config.get("test", 10)
+        5
+        >>> config.get("bad_key", 10)
+        10
+
+        """
+        try:
+            return self.get_item(key)
+        except KeyError:
+            return default
+
+
     def __delitem__(self, key):
         """
         See

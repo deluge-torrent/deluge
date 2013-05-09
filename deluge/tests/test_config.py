@@ -31,8 +31,17 @@ class ConfigTestCase(unittest.TestCase):
 
         config["unicode"] = u"ВИДЕОФИЛЬМЫ"
         self.assertEquals(config["unicode"], u"ВИДЕОФИЛЬМЫ")
-        
+
         config._save_timer.cancel()
+
+    def test_get(self):
+        config = Config("test.conf", config_dir=self.config_dir)
+        config["foo"] = 1
+        self.assertEquals(config.get("foo"), 1)
+        self.assertEquals(config.get("foobar"), None)
+        self.assertEquals(config.get("foobar", 2), 2)
+        config["foobar"] = 5
+        self.assertEquals(config.get("foobar", 2), 5)
 
     def test_load(self):
         def check_config():
