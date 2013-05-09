@@ -485,7 +485,7 @@ class Core(component.Component):
     @export
     def get_config_values(self, keys):
         """Get the config values for the entered keys"""
-        return {(key, self.config.get(key)) for key in keys}
+        return dict((key, self.config.get(key)) for key in keys)
 
     @export
     def set_config(self, config):

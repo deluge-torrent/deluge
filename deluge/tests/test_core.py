@@ -201,3 +201,10 @@ class CoreTestCase(unittest.TestCase):
         for key in pathlist:
             self.assertEquals(deluge.core.torrent.sanitize_filepath(key, folder=False), pathlist[key])
             self.assertEquals(deluge.core.torrent.sanitize_filepath(key, folder=True), pathlist[key] + '/')
+
+    def test_get_set_config_values(self):
+        self.assertEquals(self.core.get_config_values(["abc", "foo"]), {"foo": None, "abc": None})
+        self.assertEquals(self.core.get_config_value("foobar"), None)
+        self.core.set_config({"abc": "def", "foo": 10, "foobar": "barfoo"})
+        self.assertEquals(self.core.get_config_values(["foo", "abc"]), {"foo": 10, "abc": "def"})
+        self.assertEquals(self.core.get_config_value("foobar"), "barfoo")
