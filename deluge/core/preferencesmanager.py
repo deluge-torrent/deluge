@@ -310,11 +310,12 @@ class PreferencesManager(component.Component):
 
     def _on_set_encryption(self, key, value):
         log.debug("encryption value %s set to %s..", key, value)
+        pe_enc_level = {0: lt.enc_level.plaintext, 1: lt.enc_level.rc4, 2: lt.enc_level.both}
         pe_settings = lt.pe_settings()
         pe_settings.out_enc_policy = \
             lt.enc_policy(self.config["enc_out_policy"])
         pe_settings.in_enc_policy = lt.enc_policy(self.config["enc_in_policy"])
-        pe_settings.allowed_enc_level = lt.enc_level(self.config["enc_level"])
+        pe_settings.allowed_enc_level = lt.enc_level(pe_enc_level[self.config["enc_level"]])
         pe_settings.prefer_rc4 = self.config["enc_prefer_rc4"]
         self.session.set_pe_settings(pe_settings)
         set = self.session.get_pe_settings()
