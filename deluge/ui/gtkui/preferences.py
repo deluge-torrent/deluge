@@ -161,6 +161,7 @@ class Preferences(component.Component):
             "on_button_rescan_plugins_clicked": self._on_button_rescan_plugins_clicked,
             "on_button_find_plugins_clicked": self._on_button_find_plugins_clicked,
             "on_button_cache_refresh_clicked": self._on_button_cache_refresh_clicked,
+            "on_combo_encryption_changed": self._on_combo_encryption_changed,
             "on_combo_proxy_type_changed": self._on_combo_proxy_type_changed,
             "on_button_associate_magnet_clicked": self._on_button_associate_magnet_clicked,
             "on_accounts_add_clicked": self._on_accounts_add_clicked,
@@ -337,7 +338,6 @@ class Preferences(component.Component):
                 "combo_encin": ("active", self.core_config["enc_in_policy"]),
                 "combo_encout": ("active", self.core_config["enc_out_policy"]),
                 "combo_enclevel": ("active", self.core_config["enc_level"]),
-                "chk_pref_rc4": ("active", self.core_config["enc_prefer_rc4"]),
                 "spin_max_connections_global": \
                     ("value", self.core_config["max_connections_global"]),
                 "spin_max_download": \
@@ -493,7 +493,6 @@ class Preferences(component.Component):
                 "combo_encin",
                 "combo_encout",
                 "combo_enclevel",
-                "chk_pref_rc4",
                 "spin_max_connections_global",
                 "spin_max_download",
                 "spin_max_upload",
@@ -696,8 +695,6 @@ class Preferences(component.Component):
             self.builder.get_object("combo_encout").get_active()
         new_core_config["enc_level"] = \
             self.builder.get_object("combo_enclevel").get_active()
-        new_core_config["enc_prefer_rc4"] = \
-            self.builder.get_object("chk_pref_rc4").get_active()
 
         ## Bandwidth tab ##
         new_core_config["max_connections_global"] = \
@@ -1076,6 +1073,17 @@ class Preferences(component.Component):
 
     def _on_button_find_plugins_clicked(self, widget):
         deluge.common.open_url_in_browser("http://dev.deluge-torrent.org/wiki/Plugins")
+
+    def _on_combo_encryption_changed(self, widget):
+        combo_encin = self.builder.get_object("combo_encin").get_active()
+        combo_encout = self.builder.get_object("combo_encout").get_active()
+        combo_enclevel = self.builder.get_object("combo_enclevel")
+
+        # If incoming and outgoing both set to disabled, disable level combobox
+        if combo_encin == 2 and combo_encout == 2:
+            combo_enclevel.set_sensitive(False)
+        else:
+            combo_enclevel.set_sensitive(True)
 
     def _on_combo_proxy_type_changed(self, widget):
         name = widget.get_name().replace("combo_proxy_type_", "")

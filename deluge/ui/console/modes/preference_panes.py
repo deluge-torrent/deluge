@@ -287,7 +287,6 @@ class NetworkPane(BasePane):
         self.add_select_input("enc_in_policy","Inbound:",["Forced","Enabled","Disabled"],[0,1,2],parent.core_config["enc_in_policy"])
         self.add_select_input("enc_out_policy","Outbound:",["Forced","Enabled","Disabled"],[0,1,2],parent.core_config["enc_out_policy"])
         self.add_select_input("enc_level","Level:",["Handshake","Full Stream","Either"],[0,1,2],parent.core_config["enc_level"])
-        self.add_checked_input("enc_prefer_rc4","Encrypt Entire Stream",parent.core_config["enc_prefer_rc4"])
 
 
 class BandwidthPane(BasePane):

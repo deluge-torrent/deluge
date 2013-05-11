@@ -45,6 +45,22 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
         Deluge.preferences.Network.superclass.initComponent.call(this);
         var optMan = deluge.preferences.getOptionsManager();
 
+        fieldset = this.add({
+            xtype: 'fieldset',
+            border: false,
+            title: _('Incoming Address'),
+            style: 'margin-bottom: 5px; padding-bottom: 0px;',
+            autoHeight: true,
+            labelWidth: 1,
+            defaultType: 'textfield'
+        });
+        optMan.bind('listen_interface', fieldset.add({
+            name: 'listen_interface',
+            fieldLabel: '',
+            labelSeparator: '',
+            width: 200
+        }));
+
         var fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -79,7 +95,8 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
                 style: 'margin-right: 10px;'
             },
             items: [{
-                fieldLabel: 'From',
+                fieldLabel: 'From:',
+                labelSeparator: '',
                 strategy: {
                     xtype: 'number',
                     decimalPrecision: 0,
@@ -87,7 +104,8 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
                     maxValue: 99999
                 }
             }, {
-                fieldLabel: 'To',
+                fieldLabel: 'To:',
+                labelSeparator: '',
                 strategy: {
                     xtype: 'number',
                     decimalPrecision: 0,
@@ -132,7 +150,8 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
                 style: 'margin-right: 10px;'
             },
             items: [{
-                fieldLabel: 'From',
+                fieldLabel: 'From:',
+                labelSeparator: '',
                 strategy: {
                     xtype: 'number',
                     decimalPrecision: 0,
@@ -140,7 +159,8 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
                     maxValue: 99999
                 }
             }, {
-                fieldLabel: 'To',
+                fieldLabel: 'To:',
+                labelSeparator: '',
                 strategy: {
                     xtype: 'number',
                     decimalPrecision: 0,
@@ -150,37 +170,6 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             }]
         });
         optMan.bind('outgoing_ports', this.outgoingPorts);
-
-        fieldset = this.add({
-            xtype: 'fieldset',
-            border: false,
-            title: _('Network Interface'),
-            style: 'margin-bottom: 5px; padding-bottom: 0px;',
-            autoHeight: true,
-            labelWidth: 1,
-            defaultType: 'textfield'
-        });
-        optMan.bind('listen_interface', fieldset.add({
-            name: 'listen_interface',
-            fieldLabel: '',
-            labelSeparator: '',
-            width: 200
-        }));
-
-        fieldset = this.add({
-            xtype: 'fieldset',
-            border: false,
-            title: _('TOS'),
-            style: 'margin-bottom: 5px; padding-bottom: 0px;',
-            bodyStyle: 'margin: 0px; padding: 0px',
-            autoHeight: true,
-            defaultType: 'textfield'
-        });
-        optMan.bind('peer_tos', fieldset.add({
-            name: 'peer_tos',
-            fieldLabel: _('Peer TOS Byte'),
-            width: 80
-        }));
 
         fieldset = this.add({
             xtype: 'fieldset',
@@ -232,6 +221,22 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             boxLabel: _('Tracker Exchange'),
             ctCls: 'x-deluge-indent-checkbox',
             name: 'lt_tex'
+        }));
+
+        fieldset = this.add({
+            xtype: 'fieldset',
+            border: false,
+            title: _('Type Of Service'),
+            style: 'margin-bottom: 5px; padding-bottom: 0px;',
+            bodyStyle: 'margin: 0px; padding: 0px',
+            autoHeight: true,
+            defaultType: 'textfield'
+        });
+        optMan.bind('peer_tos', fieldset.add({
+            name: 'peer_tos',
+            fieldLabel: _('Peer TOS Byte:'),
+            labelSeparator: '',
+            width: 40
         }));
     }
 });

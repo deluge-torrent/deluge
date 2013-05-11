@@ -1,6 +1,6 @@
 /*!
  * Deluge.preferences.EncryptionPage.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -39,12 +39,12 @@ Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
 
     border: false,
     title: _('Encryption'),
-    
+
     initComponent: function() {
         Deluge.preferences.Encryption.superclass.initComponent.call(this);
 
         var optMan = deluge.preferences.getOptionsManager();
-        
+
         var fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -54,7 +54,8 @@ Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
             width: 300
         });
         optMan.bind('enc_in_policy', fieldset.add({
-            fieldLabel: _('Inbound'),
+            fieldLabel: _('Incoming:'),
+            labelSeparator : '',
             mode: 'local',
             width: 150,
             store: new Ext.data.ArrayStore({
@@ -71,7 +72,8 @@ Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
             displayField: 'text'
         }));
         optMan.bind('enc_out_policy', fieldset.add({
-            fieldLabel: _('Outbound'),
+            fieldLabel: _('Outgoing:'),
+            labelSeparator : '',
             mode: 'local',
             width: 150,
             store: new Ext.data.SimpleStore({
@@ -88,7 +90,8 @@ Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
             displayField: 'text'
         }));
         optMan.bind('enc_level', fieldset.add({
-            fieldLabel: _('Level'),
+            fieldLabel: _('Level:'),
+            labelSeparator : '',
             mode: 'local',
             width: 150,
             store: new Ext.data.SimpleStore({
@@ -103,13 +106,6 @@ Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
             triggerAction: 'all',
             valueField: 'id',
             displayField: 'text'
-        }));
-        optMan.bind('enc_prefer_rc4', fieldset.add({
-            xtype: 'checkbox',
-            name: 'enc_prefer_rc4',
-            height: 40,
-            hideLabel: true,
-            boxLabel: _('Encrypt entire stream')
         }));
     }
 });

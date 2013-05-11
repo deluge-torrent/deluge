@@ -73,7 +73,6 @@ DEFAULT_PREFS = {
     "enc_in_policy": 1,
     "enc_out_policy": 1,
     "enc_level": 2,
-    "enc_prefer_rc4": True,
     "max_connections_global": 200,
     "max_upload_speed": -1.0,
     "max_download_speed": -1.0,
@@ -305,18 +304,16 @@ class PreferencesManager(component.Component):
     def _on_set_enc_level(self, key, value):
         self._on_set_encryption(key, value)
 
-    def _on_set_enc_prefer_rc4(self, key, value):
-        self._on_set_encryption(key, value)
-
     def _on_set_encryption(self, key, value):
         log.debug("encryption value %s set to %s..", key, value)
         pe_enc_level = {0: lt.enc_level.plaintext, 1: lt.enc_level.rc4, 2: lt.enc_level.both}
+
         pe_settings = lt.pe_settings()
         pe_settings.out_enc_policy = \
             lt.enc_policy(self.config["enc_out_policy"])
         pe_settings.in_enc_policy = lt.enc_policy(self.config["enc_in_policy"])
         pe_settings.allowed_enc_level = lt.enc_level(pe_enc_level[self.config["enc_level"]])
-        pe_settings.prefer_rc4 = self.config["enc_prefer_rc4"]
+        pe_settings.prefer_rc4 = True
         self.session.set_pe_settings(pe_settings)
         set = self.session.get_pe_settings()
         log.debug("encryption settings:\n\t\t\tout_policy: %s\n\t\t\
