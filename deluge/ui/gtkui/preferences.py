@@ -89,9 +89,14 @@ class Preferences(component.Component):
         # Add the default categories
         i = 0
         for category in (_("Downloads"), _("Network"), _("Bandwidth"), _("Interface"), _("Other"),
-                         _("Daemon"), _("Queue"), _("Proxy"), _("Cache"), _("Plugins")):
+                         _("Daemon"), _("Queue"), _("Proxy"), _("Cache"), _("Plugins"), "_separator_"):
             self.liststore.append([i, category])
             i += 1
+
+        def set_separator(model, iter, data=None):
+            if "_separator_" == model.get_value(iter, 1):
+                return True
+        self.treeview.set_row_separator_func(set_separator)
 
         # Setup accounts tab lisview
         self.accounts_levels_mapping = None
