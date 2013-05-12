@@ -335,7 +335,7 @@ class AllTorrents(BaseMode, component.Component):
         self.legacy_mode = Legacy(self.stdscr, self.encoding)
 
         if self.config["first_run"]:
-            self.popup = Popup(self,"Welcome to Deluge" ,init_lines=self.__help_lines, height_req=0.75, width_req=65)
+            self.popup = MessagePopup(self,"Welcome to Deluge", HELP_STR, width_req=0.75)
             self.config["first_run"] = False
             self.config.save()
 
