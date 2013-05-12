@@ -458,7 +458,7 @@ class ConnectionManager(component.Component):
             # If we're connected, we can stop the dameon
             self.builder.get_object("button_startdaemon").set_sensitive(True)
         elif user and passwd:
-            # In this case we also have all the info to shutdown the dameon
+            # In this case we also have all the info to shutdown the daemon
             self.builder.get_object("button_startdaemon").set_sensitive(True)
         else:
             # Can't stop non localhost daemons, specially without the necessary info
@@ -607,6 +607,9 @@ class ConnectionManager(component.Component):
             password = password_entry.get_text()
             hostname = hostname_entry.get_text()
 
+            if (not password and not username or username == "localclient") and hostname in ["127.0.0.1", "localhost"]:
+                username, password = get_localhost_auth()
+
             # We add the host
             try:
                 self.add_host(hostname, port_spinbutton.get_value_as_int(),
@@ -651,10 +654,17 @@ class ConnectionManager(component.Component):
         response = dialog.run()
 
         if response == 2:
-            self.liststore[row][HOSTLIST_COL_HOST] = hostname_entry.get_text()
+            username = username_entry.get_text()
+            password = password_entry.get_text()
+            hostname = hostname_entry.get_text()
+
+            if (not password and not username or username == "localclient") and hostname in ["127.0.0.1", "localhost"]:
+                username, password = get_localhost_auth()
+
+            self.liststore[row][HOSTLIST_COL_HOST] = hostname
             self.liststore[row][HOSTLIST_COL_PORT] = port_spinbutton.get_value_as_int()
-            self.liststore[row][HOSTLIST_COL_USER] = username_entry.get_text()
-            self.liststore[row][HOSTLIST_COL_PASS] = password_entry.get_text()
+            self.liststore[row][HOSTLIST_COL_USER] = username
+            self.liststore[row][HOSTLIST_COL_PASS] = password
             self.liststore[row][HOSTLIST_COL_STATUS] = "Offline"
 
         # Save the host list to file
