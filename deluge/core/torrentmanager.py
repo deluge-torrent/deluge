@@ -88,7 +88,7 @@ class TorrentState:
             magnet=None,
             time_added=-1,
             last_seen_complete=0,
-            owner="",
+            owner=None,
             shared=False
         ):
         self.torrent_id = torrent_id
@@ -323,11 +323,6 @@ class TorrentManager(component.Component):
     def add(self, torrent_info=None, state=None, options=None, save_state=True,
             filedump=None, filename=None, magnet=None, resume_data=None, owner=None):
         """Add a torrent to the manager and returns it's torrent_id"""
-        if owner is None:
-            owner = component.get("RPCServer").get_session_user()
-            if not owner:
-                owner = "localclient"
-
         if torrent_info is None and state is None and filedump is None and magnet is None:
             log.debug("You must specify a valid torrent_info, torrent state or magnet.")
             return
@@ -365,6 +360,7 @@ class TorrentManager(component.Component):
             options["move_completed_path"] = state.move_completed_path
             options["add_paused"] = state.paused
             options["shared"] = state.shared
+            owner = state.owner
 
             ti = self.get_torrent_info_from_file(
                     os.path.join(get_config_dir(),
@@ -443,6 +439,12 @@ class TorrentManager(component.Component):
         if log.isEnabledFor(logging.DEBUG):
             log.debug("options: %s", options)
 
+        if not owner:
+            owner = component.get("RPCServer").get_session_user()
+        account_exists = component.get("AuthManager").has_account(owner)
+        if not account_exists:
+            owner = "localclient"
+
         # Set the right storage_mode
         if options["compact_allocation"]:
             storage_mode = lt.storage_mode_t(2)
@@ -480,12 +482,6 @@ class TorrentManager(component.Component):
         # Set auto_managed to False because the torrent is paused
         handle.auto_managed(False)
         # Create a Torrent object
-        owner = state.owner if state else (
-            owner if owner else component.get("RPCServer").get_session_user()
-        )
-        account_exists = component.get("AuthManager").has_account(owner)
-        if not account_exists:
-            owner = 'localclient'
         torrent = Torrent(handle, options, state, filename, magnet, owner)
 
         # Add the torrent object to the dictionary
