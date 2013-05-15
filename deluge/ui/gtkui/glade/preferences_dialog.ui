@@ -431,7 +431,7 @@
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="padding">5</property>
+                                <property name="padding">3</property>
                                 <property name="position">0</property>
                               </packing>
                             </child>
@@ -763,7 +763,7 @@ and daemon (does not apply in Standalone mode).</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="padding">5</property>
+                                <property name="padding">3</property>
                                 <property name="position">1</property>
                               </packing>
                             </child>
@@ -839,7 +839,7 @@ and daemon (does not apply in Standalone mode).</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="padding">5</property>
+                                <property name="padding">3</property>
                                 <property name="position">2</property>
                               </packing>
                             </child>
@@ -878,7 +878,56 @@ and daemon (does not apply in Standalone mode).</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkAlignment" id="alignment15">
+                                          <object class="GtkAlignment" id="alignment_tray_type">
+                                            <property name="can_focus">False</property>
+                                            <child>
+                                              <object class="GtkHBox" id="hbox_tray_type">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <child>
+                                                  <object class="GtkRadioButton" id="radio_appind">
+                                                    <property name="label" translatable="yes">App Indicator</property>
+                                                    <property name="use_action_appearance">False</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">False</property>
+                                                    <property name="draw_indicator">True</property>
+                                                    <property name="group">radio_systray</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="padding">10</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkRadioButton" id="radio_systray">
+                                                    <property name="label" translatable="yes">Systray</property>
+                                                    <property name="use_action_appearance">False</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">False</property>
+                                                    <property name="active">True</property>
+                                                    <property name="draw_indicator">True</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                              </object>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkAlignment" id="alignment_min_on_close">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="left_padding">10</property>
@@ -898,11 +947,11 @@ and daemon (does not apply in Standalone mode).</property>
                                           <packing>
                                             <property name="expand">True</property>
                                             <property name="fill">True</property>
-                                            <property name="position">1</property>
+                                            <property name="position">2</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkAlignment" id="alignment16">
+                                          <object class="GtkAlignment" id="alignment_start_in_tray">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="left_padding">10</property>
@@ -922,35 +971,11 @@ and daemon (does not apply in Standalone mode).</property>
                                           <packing>
                                             <property name="expand">True</property>
                                             <property name="fill">True</property>
-                                            <property name="position">2</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkAlignment" id="alignment32">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="left_padding">10</property>
-                                            <child>
-                                              <object class="GtkCheckButton" id="chk_enable_appindicator">
-                                                <property name="label" translatable="yes">Enable Application Indicator</property>
-                                                <property name="use_action_appearance">False</property>
-                                                <property name="visible">True</property>
-                                                <property name="sensitive">False</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="receives_default">False</property>
-                                                <property name="use_underline">True</property>
-                                                <property name="draw_indicator">True</property>
-                                              </object>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">True</property>
-                                            <property name="fill">True</property>
                                             <property name="position">3</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkAlignment" id="alignment17">
+                                          <object class="GtkAlignment" id="alignment_lock_tray">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="bottom_padding">3</property>
@@ -976,12 +1001,12 @@ and daemon (does not apply in Standalone mode).</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkAlignment" id="alignment10">
+                                          <object class="GtkAlignment" id="alignment_tray_password">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="left_padding">20</property>
                                             <child>
-                                              <object class="GtkHBox" id="hbox9">
+                                              <object class="GtkHBox" id="hbox_tray_password">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="spacing">5</property>
@@ -1046,7 +1071,7 @@ and daemon (does not apply in Standalone mode).</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">True</property>
-                                <property name="padding">5</property>
+                                <property name="padding">3</property>
                                 <property name="position">3</property>
                               </packing>
                             </child>
@@ -1700,18 +1725,6 @@ used sparingly.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <placeholder/>
-                                            </child>
-                                            <child>
-                                              <placeholder/>
-                                            </child>
-                                            <child>
-                                              <placeholder/>
-                                            </child>
-                                            <child>
-                                              <placeholder/>
-                                            </child>
-                                            <child>
                                               <object class="GtkLabel" id="label22">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
@@ -1742,6 +1755,18 @@ used sparingly.</property>
                                                 <property name="x_options">GTK_FILL</property>
                                                 <property name="y_options"></property>
                                               </packing>
+                                            </child>
+                                            <child>
+                                              <placeholder/>
+                                            </child>
+                                            <child>
+                                              <placeholder/>
+                                            </child>
+                                            <child>
+                                              <placeholder/>
+                                            </child>
+                                            <child>
+                                              <placeholder/>
                                             </child>
                                           </object>
                                           <packing>
@@ -1983,12 +2008,6 @@ used sparingly.</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <placeholder/>
-                                        </child>
-                                        <child>
-                                          <placeholder/>
-                                        </child>
-                                        <child>
                                           <object class="GtkLabel" id="label12">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
@@ -2019,6 +2038,12 @@ used sparingly.</property>
                                             <property name="x_options">GTK_FILL</property>
                                             <property name="y_options"></property>
                                           </packing>
+                                        </child>
+                                        <child>
+                                          <placeholder/>
+                                        </child>
+                                        <child>
+                                          <placeholder/>
                                         </child>
                                       </object>
                                     </child>

@@ -188,6 +188,14 @@ class Preferences(component.Component):
             "on_checkbutton_language_toggled": self._on_checkbutton_language_toggled,
         })
 
+        if not deluge.common.osx_check() and not deluge.common.windows_check():
+            try:
+                import appindicator
+            except ImportError:
+                pass
+            else:
+                self.builder.get_object("alignment_tray_type").set_visible(True)
+
         from deluge.ui.gtkui.gtkui import DEFAULT_PREFS
         self.COLOR_DEFAULTS = {}
         for key in ("missing", "waiting", "downloading", "completed"):
@@ -489,7 +497,7 @@ class Preferences(component.Component):
             self.gtkui_config["close_to_tray"])
         self.builder.get_object("chk_start_in_tray").set_active(
             self.gtkui_config["start_in_tray"])
-        self.builder.get_object("chk_enable_appindicator").set_active(
+        self.builder.get_object("radio_appind").set_active(
             self.gtkui_config["enable_appindicator"])
         self.builder.get_object("chk_lock_tray").set_active(
             self.gtkui_config["lock_tray"])
@@ -654,7 +662,7 @@ class Preferences(component.Component):
         new_gtkui_config["start_in_tray"] = \
             self.builder.get_object("chk_start_in_tray").get_active()
         new_gtkui_config["enable_appindicator"] = \
-            self.builder.get_object("chk_enable_appindicator").get_active()
+            self.builder.get_object("radio_appind").get_active()
         new_gtkui_config["lock_tray"] = \
             self.builder.get_object("chk_lock_tray").get_active()
         passhex = sha(self.builder.get_object("txt_tray_password").get_text()).hexdigest()
@@ -863,7 +871,7 @@ class Preferences(component.Component):
                                           "spin_outgoing_port_max": False},
             "chk_use_tray": {"chk_min_on_close": True,
                              "chk_start_in_tray": True,
-                             "chk_enable_appindicator": True,
+                             "alignment_tray_type": True,
                              "chk_lock_tray": True},
             "chk_lock_tray": {"txt_tray_password": True,
                               "password_label": True},
