@@ -556,8 +556,10 @@ class Preferences(component.Component):
             self.gtkui_config["enable_appindicator"])
         self.builder.get_object("chk_lock_tray").set_active(
             self.gtkui_config["lock_tray"])
-        self.builder.get_object("chk_classic_mode").set_active(
+        self.builder.get_object("radio_classic").set_active(
             self.gtkui_config["classic_mode"])
+        self.builder.get_object("radio_thinclient").set_active(
+            not self.gtkui_config["classic_mode"])
         self.builder.get_object("chk_show_rate_in_title").set_active(
             self.gtkui_config["show_rate_in_title"])
         self.builder.get_object("chk_focus_main_window_on_add").set_active(
@@ -745,7 +747,7 @@ class Preferences(component.Component):
         if passhex != "c07eb5a8c0dc7bb81c217b67f11c3b7a5e95ffd7":
             new_gtkui_config["tray_password"] = passhex
 
-        new_gtkui_in_classic_mode = self.builder.get_object("chk_classic_mode").get_active()
+        new_gtkui_in_classic_mode = self.builder.get_object("radio_classic").get_active()
         new_gtkui_config["classic_mode"] = new_gtkui_in_classic_mode
 
         new_gtkui_config["show_rate_in_title"] = \
@@ -852,10 +854,11 @@ class Preferences(component.Component):
                 if response == gtk.RESPONSE_NO:
                     # Set each changed config value in the core
                     self.gtkui_config["classic_mode"] = True
-                    self.builder.get_object("chk_classic_mode").set_active(True)
+                    self.builder.get_object("radio_classic").set_active(True)
                 else:
                     client.disconnect()
                     component.stop()
+                    self.builder.get_object("radio_thinclient").set_active(True)
             dialog = dialogs.YesNoDialog(
                 _("Attention"),
                 _("Your current session will be stopped. Continue?")
