@@ -244,24 +244,12 @@ class PreferencesManager(component.Component):
 
     def _on_set_dht(self, key, value):
         log.debug("dht value set to %s", value)
-        state_file = deluge.configmanager.get_config_dir("dht.state")
         if value:
-            state = None
-            try:
-                state = lt.bdecode(open(state_file, "rb").read())
-            except Exception, e:
-                log.warning("Unable to read DHT state file: %s", e)
-
-            try:
-                self.session.start_dht(state)
-            except Exception, e:
-                log.warning("Restoring old DHT state failed: %s", e)
-                self.session.start_dht(None)
+            self.session.start_dht()
             self.session.add_dht_router("router.bittorrent.com", 6881)
             self.session.add_dht_router("router.utorrent.com", 6881)
             self.session.add_dht_router("router.bitcomet.com", 6881)
         else:
-            self.core.save_dht_state()
             self.session.stop_dht()
 
     def _on_set_upnp(self, key, value):
