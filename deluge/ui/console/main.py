@@ -64,30 +64,18 @@ class Console(_UI):
 
     def __init__(self):
         super(Console, self).__init__("console")
-        group = optparse.OptionGroup(self.parser, "Console Options","These options control how "
-                                     "the console connects to the daemon.  These options will be "
-                                     "used if you pass a command, or if you have autoconnect "
-                                     "enabled for the console ui.")
-
-        group.add_option("-d","--daemon",dest="daemon_addr",
-                         action="store",type="str",default="127.0.0.1",
-                         help="Set the address of the daemon to connect to."
-                              " [default: %default]")
-        group.add_option("-p","--port",dest="daemon_port",
-                         help="Set the port to connect to the daemon on. [default: %default]",
-                         action="store",type="int",default=58846)
-        group.add_option("-u","--username",dest="daemon_user",
-                         help="Set the username to connect to the daemon with. [default: %default]",
-                         action="store",type="string")
-        group.add_option("-P","--password",dest="daemon_pass",
-                         help="Set the password to connect to the daemon with. [default: %default]",
-                         action="store",type="string")
+        group = optparse.OptionGroup(self.parser, "Console Options", "These daemon connect options will be "
+                                     "used for commands, or if console ui autoconnect is enabled.")
+        group.add_option("-d", "--daemon", dest="daemon_addr")
+        group.add_option("-p", "--port", dest="daemon_port", type="int")
+        group.add_option("-u", "--username", dest="daemon_user")
+        group.add_option("-P", "--password", dest="daemon_pass")
         self.parser.add_option_group(group)
 
-        self.cmds = load_commands(os.path.join(UI_PATH, 'commands'))
+        self.console_cmds = load_commands(os.path.join(UI_PATH, 'commands'))
         class CommandOptionGroup(optparse.OptionGroup):
-            def __init__(self, parser, title, description=None, cmds = None):
-                optparse.OptionGroup.__init__(self,parser,title,description)
+            def __init__(self, parser, title, description=None, cmds=None):
+                optparse.OptionGroup.__init__(self,parser, title, description)
                 self.cmds = cmds
 
             def format_help(self, formatter):
@@ -103,23 +91,22 @@ class Console(_UI):
                     cname = "/".join(allnames)
                     result += formatter.format_heading(" - ".join([cname,cmd.__doc__]))
                     formatter.indent()
-                    result += "%*s%s\n" % (formatter.current_indent, "", cmd.usage)
+                    result += "%*s%s\n" % (formatter.current_indent, "", cmd.usage.split('\n')[0])
                     formatter.dedent()
                 formatter.dedent()
                 return result
         cmd_group = CommandOptionGroup(self.parser, "Console Commands",
-                                       description="The following commands can be issued at the "
-                                       "command line.  Commands should be quoted, so, for example, "
-                                       "to pause torrent with id 'abc' you would run: '%s "
-                                       "\"pause abc\"'"%os.path.basename(sys.argv[0]),
-                                       cmds=self.cmds)
+                                       description="""These commands can be issued from the command line.
+                                                    They require quoting and multiple commands separated by ';'
+                                                    e.g. Pause torrent with id 'abcd' and get information for id 'efgh':
+                                                    `%s \"pause abcd; info efgh\"`"""
+                                       % os.path.basename(sys.argv[0]), cmds=self.console_cmds)
         self.parser.add_option_group(cmd_group)
 
     def start(self):
         super(Console, self).start()
-        ConsoleUI(self.args,self.cmds,(self.options.daemon_addr,
-                  self.options.daemon_port,self.options.daemon_user,
-                  self.options.daemon_pass))
+        ConsoleUI(self.args, self.console_cmds, (self.options.daemon_addr, self.options.daemon_port,
+                                                 self.options.daemon_user, self.options.daemon_pass))
 
 def start():
     Console().start()
@@ -302,7 +289,7 @@ def load_commands(command_dir, exclude=[]):
 
 
 class ConsoleUI(component.Component):
-    def __init__(self, args=None, cmds = None, daemon = None):
+    def __init__(self, args=None, cmds=None, daemon=None):
         component.Component.__init__(self, "ConsoleUI", 2)
 
         # keep track of events for the log view
@@ -335,10 +322,9 @@ class ConsoleUI(component.Component):
                 from commander import Commander
                 cmdr = Commander(cmds)
                 if daemon:
-                    cmdr.exec_args(args,*daemon)
+                    cmdr.exec_args(args, *daemon)
                 else:
-                    cmdr.exec_args(args,None,None,None,None)
-
+                    cmdr.exec_args(args, None, None, None, None)
 
         self.coreconfig = CoreConfig()
         if self.interactive and not deluge.common.windows_check():
