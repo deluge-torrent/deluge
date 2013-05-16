@@ -44,6 +44,7 @@ import deluge.common
 from deluge import error
 from deluge.event import known_events
 from deluge.transfer import DelugeTransferProtocol
+from deluge.ui.common import get_localhost_auth
 
 RPC_RESPONSE = 1
 RPC_ERROR = 2
@@ -561,7 +562,7 @@ class Client(object):
             return reason
 
         def on_authenticate(result, daemon_info):
-            log.debug("Authentication sucessfull: %s", result)
+            log.debug("Authentication successful: %s", result)
             return result
 
         def on_authenticate_fail(reason):
@@ -574,6 +575,10 @@ class Client(object):
             return daemon_version
 
         def authenticate(daemon_version, username, password):
+            if not username and host in ("127.0.0.1", "localhost"):
+                # No username provided and it's localhost, so attempt to get credentials from auth file.
+                username, password = get_localhost_auth()
+
             d = self._daemon_proxy.authenticate(username, password)
             d.addCallback(on_authenticate, daemon_version)
             d.addErrback(on_authenticate_fail)
