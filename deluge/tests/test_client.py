@@ -71,16 +71,14 @@ class ClientTestCase(unittest.TestCase):
 
     def test_connect_no_credentials(self):
 
-        d = client.connect("localhost", 58846)
+        d = client.connect()
 
-        def on_failure(failure):
-            self.assertEqual(
-                failure.trap(error.AuthenticationRequired),
-                error.AuthenticationRequired
-            )
+        def on_connect(result):
+            self.assertEqual(client.get_auth_level(), AUTH_LEVEL_ADMIN)
             self.addCleanup(client.disconnect)
+            return result
 
-        d.addErrback(on_failure)
+        d.addCallback(on_connect)
         return d
 
     def test_connect_localclient(self):
