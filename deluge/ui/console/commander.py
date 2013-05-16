@@ -34,16 +34,16 @@
 #    statement from all source files in the program, then also delete it here.
 #
 #
-
-from twisted.internet import defer, reactor
+import sys
+from twisted.internet import defer
 import deluge.component as component
 from deluge.error import DelugeError
 from deluge.ui.client import client
-from deluge.ui.console import UI_PATH
 from colors import strip_colors
 
 import logging
 log = logging.getLogger(__name__)
+
 
 class Commander:
     def __init__(self, cmds, interactive=False):
@@ -51,7 +51,7 @@ class Commander:
         self.console = component.get("ConsoleUI")
         self.interactive = interactive
 
-    def write(self,line):
+    def write(self, line):
         print(strip_colors(line))
 
     def do_command(self, cmd):
@@ -73,6 +73,7 @@ class Commander:
 
         # Do a little hack here to print 'command --help' properly
         parser._print_help = parser.print_help
+
         def print_help(f=None):
             if self.interactive:
                 self.write(parser.format_help())
@@ -109,22 +110,23 @@ class Commander:
             else:
                 return ret
 
-    def exec_args(self,args,host,port,username,password):
+    def exec_args(self, args, host, port, username, password):
+        commands = []
+        if args:
+            # Multiple commands split by ";"
+            commands = [arg.strip() for arg in args.split(';')]
+
         def on_connect(result):
             def on_started(result):
                 def on_started(result):
                     def do_command(result, cmd):
                         return self.do_command(cmd)
-
                     d = defer.succeed(None)
-                    # If we have args, lets process them and quit
-                    # allow multiple commands split by ";"
-                    commands = [arg.strip() for arg in args.split(';')]
                     for command in commands:
+                        if command in ("quit", "exit"):
+                            break
                         d.addCallback(do_command, command)
-
-                    if "quit" not in commands and "exit" not in commands:
-                        d.addCallback(do_command, "quit")
+                    d.addCallback(do_command, "quit")
 
                 # We need to wait for the rpcs in start() to finish before processing
                 # any of the commands.
@@ -136,17 +138,21 @@ class Commander:
                 rm = reason.value.message
             else:
                 rm = reason.getErrorMessage()
-            print "Could not connect to: %s:%d\n %s"%(host,port,rm)
+            if host:
+                print "Could not connect to daemon: %s:%s\n %s" % (host, port, rm)
+            else:
+                print "Could not connect to localhost daemon\n %s" % rm
             self.do_command("quit")
 
-        if not username and host in ("127.0.0.1", "localhost"):
-            # No username was provided and it's the localhost, so we can try
-            # to grab the credentials from the auth file.
-            from deluge.ui.common import get_localhost_auth
-            username, password = get_localhost_auth()
         if host:
-            d = client.connect(host,port,username,password)
+            d = client.connect(host, port, username, password)
         else:
             d = client.connect()
+        if not self.interactive:
+            if commands[0].startswith("connect"):
+                d = self.do_command(commands.pop(0))
+            elif 'help' in commands:
+                self.do_command('help')
+                sys.exit(0)
         d.addCallback(on_connect)
         d.addErrback(on_connect_fail)
