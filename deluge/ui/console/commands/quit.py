@@ -35,7 +35,7 @@
 #
 from deluge.ui.client import client
 from deluge.ui.console.main import BaseCommand
-from twisted.internet import reactor
+from twisted.internet import reactor, error
 
 class Command(BaseCommand):
     """Exit from the client."""
@@ -47,4 +47,7 @@ class Command(BaseCommand):
                 reactor.stop()
             return client.disconnect().addCallback(on_disconnect)
         else:
-            reactor.stop()
+            try:
+                reactor.stop()
+            except error.ReactorNotRunning:
+                pass
