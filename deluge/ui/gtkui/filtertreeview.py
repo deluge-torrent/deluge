@@ -63,20 +63,6 @@ TRACKER_PIX = {
     "Error": "tracker_warning",
 }
 
-TR_LABEL = {
-    "label": _("Labels"),
-    "owner": _("Owner"),
-    "All": _("All"),
-    "Active": _("Active"),
-    "Allocating": _("Allocating"),
-    "Checking": _("Checking"),
-    "Downloading": _("Downloading"),
-    "Seeding": _("Seeding"),
-    "Paused": _("Paused"),
-    "Error": _("Error"),
-    "Queued": _("Queued"),
-}
-
 FILTER_COLUMN = 5
 
 #sidebar-treeview
@@ -155,17 +141,21 @@ class FilterTreeView(component.Component):
 
         #initial order of state filter:
         self.cat_nodes["state"] = self.treestore.append(None, ["cat", "state", _("States"), 0, None, False])
-        self.update_row("state", "All" , 0)
-        self.update_row("state", "Downloading" , 0)
-        self.update_row("state", "Seeding" , 0)
-        self.update_row("state", "Active" , 0)
-        self.update_row("state", "Paused" , 0)
-        self.update_row("state", "Queued" , 0)
+        self.update_row("state", "All" , 0, _("All"))
+        self.update_row("state", "Downloading" , 0, _("Downloading"))
+        self.update_row("state", "Seeding" , 0, _("Seeding"))
+        self.update_row("state", "Active" , 0, _("Active"))
+        self.update_row("state", "Paused" , 0, _("Paused"))
+        self.update_row("state", "Queued" , 0, _("Queued"))
 
         self.cat_nodes["tracker_host"] = self.treestore.append(None, ["cat", "tracker_host", _("Trackers"), 0, None, False])
-        self.update_row("tracker_host", "All" , 0)
-        self.update_row("tracker_host", "Error" , 0)
-        self.update_row("tracker_host", "" , 0)
+        self.update_row("tracker_host", "All" , 0, _("All"))
+        self.update_row("tracker_host", "Error" , 0, _("Error"))
+        self.update_row("tracker_host", "" , 0, _("None"))
+
+        self.cat_nodes["owner"] = self.treestore.append(None, ["cat", "owner", _("Owner"), 0, None, False])
+        self.update_row("owner", "localclient" , 0, _("Admin"))
+        self.update_row("owner", "" , 0, _("None"))
 
         # We set to this expand the rows on start-up
         self.expand_rows = True
@@ -184,13 +174,16 @@ class FilterTreeView(component.Component):
         #create missing cat_nodes
         for cat in filter_items:
             if not cat in self.cat_nodes:
-                self.cat_nodes[cat] = self.treestore.append(None, ["cat", cat, TR_LABEL.get(cat, _(cat)), 0, None, False])
+                label = _(cat)
+                if cat == "label":
+                    label = _("Labels")
+                self.cat_nodes[cat] = self.treestore.append(None, ["cat", cat, label, 0, None, False])
 
         #update rows
         visible_filters = []
         for cat,filters in filter_items.iteritems():
             for value, count in filters:
-                self.update_row(cat, value , count)
+                self.update_row(cat, value, count)
                 visible_filters.append((cat, value))
 
         # hide root-categories not returned by core-part of the plugin.
@@ -212,7 +205,7 @@ class FilterTreeView(component.Component):
         if not self.selected_path:
             self.select_default_filter()
 
-    def update_row(self, cat, value , count):
+    def update_row(self, cat, value , count, label=None):
         def on_get_icon(icon):
             if icon:
                 self.set_row_image(cat, value, icon.get_filename())
@@ -222,15 +215,14 @@ class FilterTreeView(component.Component):
             self.treestore.set_value(row, 3, count)
         else:
             pix = self.get_pixmap(cat, value)
-            label = value
 
-            if label == "":
-                if cat == "tracker_host":
-                    label = _("None")
-                elif cat == "label":
+            if value == "":
+                if cat == "label":
                     label = _("No Label")
-            elif cat in ["state", "tracker_host", "label"]:
-                label = TR_LABEL.get(value, _(value))
+                elif cat == "owner":
+                    label = _("No Owner")
+            elif not label and value:
+                label = _(value)
 
             row = self.treestore.append(self.cat_nodes[cat],[cat, value, label, count , pix, True])
             self.filters[(cat, value)] = row
