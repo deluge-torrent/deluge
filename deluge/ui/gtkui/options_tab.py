@@ -37,6 +37,7 @@ import gtk.gdk
 
 import deluge.component as component
 from deluge.ui.client import client
+from deluge.ui.gtkui.path_chooser import PathChooser
 from deluge.ui.gtkui.torrentdetails import Tab
 
 class OptionsTab(Tab):
@@ -60,10 +61,14 @@ class OptionsTab(Tab):
         self.chk_remove_at_ratio = builder.get_object("chk_remove_at_ratio")
         self.spin_stop_ratio = builder.get_object("spin_stop_ratio")
         self.chk_move_completed = builder.get_object("chk_move_completed")
-        self.filechooser_move_completed = builder.get_object("filechooser_move_completed")
         self.entry_move_completed = builder.get_object("entry_move_completed")
         self.chk_shared = builder.get_object("chk_shared")
         self.button_apply = builder.get_object("button_apply")
+
+        self.move_completed_hbox = builder.get_object("hbox_move_completed_path_chooser")
+        self.move_completed_path_chooser = PathChooser("move_completed_paths_list")
+        self.move_completed_hbox.add(self.move_completed_path_chooser)
+        self.move_completed_hbox.show_all()
 
         self.prev_torrent_id = None
         self.prev_status = None
@@ -85,15 +90,7 @@ class OptionsTab(Tab):
         self.spin_stop_ratio.connect("key-press-event", self._on_key_press_event)
 
     def start(self):
-        if client.is_localhost():
-            self.filechooser_move_completed.show()
-            self.entry_move_completed.hide()
-        else:
-            self.filechooser_move_completed.hide()
-            self.entry_move_completed.show()
-            self.entry_move_completed.connect(
-                "changed", self._on_entry_move_completed_changed
-            )
+        pass
 
     def stop(self):
         pass
@@ -169,10 +166,7 @@ class OptionsTab(Tab):
             if status["move_on_completed"] != self.prev_status["move_on_completed"]:
                 self.chk_move_completed.set_active(status["move_on_completed"])
             if status["move_on_completed_path"] != self.prev_status["move_on_completed_path"]:
-                if client.is_localhost():
-                    self.filechooser_move_completed.set_current_folder(status["move_on_completed_path"])
-                else:
-                    self.entry_move_completed.set_text(status["move_on_completed_path"])
+                self.move_completed_path_chooser.set_text(status["move_on_completed_path"], cursor_end=False, default_text=True)
             if status["shared"] != self.prev_status["shared"]:
                 self.chk_shared.set_active(status["shared"])
 
@@ -249,10 +243,7 @@ class OptionsTab(Tab):
                 self.prev_torrent_id, self.chk_move_completed.get_active()
             )
         if self.chk_move_completed.get_active():
-            if client.is_localhost():
-                path = self.filechooser_move_completed.get_filename()
-            else:
-                path = self.entry_move_completed.get_text()
+            path = self.move_completed_path_chooser.get_text()
             client.core.set_torrent_move_completed_path(self.prev_torrent_id, path)
         if self.chk_shared.get_active() != self.prev_status["shared"]:
             client.core.set_torrents_shared(
@@ -274,13 +265,7 @@ class OptionsTab(Tab):
 
     def _on_chk_move_completed_toggled(self, widget):
         value = self.chk_move_completed.get_active()
-        if client.is_localhost():
-            widget = self.filechooser_move_completed
-        else:
-            widget = self.entry_move_completed
-
-        widget.set_sensitive(value)
-
+        self.move_completed_path_chooser.set_sensitive(value)
         if not self.button_apply.is_sensitive():
             self.button_apply.set_sensitive(True)
 

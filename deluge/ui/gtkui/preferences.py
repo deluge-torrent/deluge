@@ -42,6 +42,7 @@ import logging
 
 import deluge.component as component
 from deluge.ui.client import client
+from deluge.ui.gtkui.path_chooser import PathChooser
 import deluge.common
 import common
 import dialogs
@@ -74,6 +75,7 @@ class Preferences(component.Component):
         self.treeview = self.builder.get_object("treeview")
         self.notebook = self.builder.get_object("notebook")
         self.gtkui_config = ConfigManager("gtkui.conf")
+        self.window_open = False
 
         self.load_pref_dialog_state()
 
@@ -190,6 +192,24 @@ class Preferences(component.Component):
         self.all_plugins = []
         self.enabled_plugins = []
 
+        self.setup_path_choosers()
+
+    def setup_path_choosers(self):
+        self.download_location_hbox = self.builder.get_object("hbox_download_to_path_chooser")
+        self.download_location_path_chooser = PathChooser("download_location_paths_list")
+        self.download_location_hbox.add(self.download_location_path_chooser)
+        self.download_location_hbox.show_all()
+
+        self.move_completed_hbox = self.builder.get_object("hbox_move_completed_to_path_chooser")
+        self.move_completed_path_chooser = PathChooser("move_completed_paths_list")
+        self.move_completed_hbox.add(self.move_completed_path_chooser)
+        self.move_completed_hbox.show_all()
+
+        self.copy_torrents_to_hbox = self.builder.get_object("hbox_copy_torrent_files_path_chooser")
+        self.copy_torrent_files_path_chooser = PathChooser("copy_torrent_files_to_paths_list")
+        self.copy_torrents_to_hbox.add(self.copy_torrent_files_path_chooser)
+        self.copy_torrents_to_hbox.show_all()
+
     def __del__(self):
         del self.gtkui_config
 
@@ -252,6 +272,7 @@ class Preferences(component.Component):
     def show(self, page=None):
         """Page should be the string in the left list.. ie, 'Network' or
         'Bandwidth'"""
+        self.window_open = True
         if page != None:
             for (index, string) in self.liststore:
                 if page == string:
@@ -259,7 +280,6 @@ class Preferences(component.Component):
                     break
 
         component.get("PluginManager").run_on_show_prefs()
-
 
         # Update the preferences dialog to reflect current config settings
         self.core_config = {}
@@ -291,253 +311,146 @@ class Preferences(component.Component):
         else:
             self._show()
 
+    def start(self):
+        if self.window_open:
+            self.show()
+
+    def stop(self):
+        self.core_config = None
+        if self.window_open:
+            self._show()
+
     def _show(self):
-        if self.core_config != {} and self.core_config != None:
-            core_widgets = {
-                "download_path_button": \
-                    ("filename", self.core_config["download_location"]),
-                "chk_move_completed": \
-                    ("active", self.core_config["move_completed"]),
-                "move_completed_path_button": \
-                    ("filename", self.core_config["move_completed_path"]),
-                "chk_copy_torrent_file": \
-                    ("active", self.core_config["copy_torrent_file"]),
-                "chk_del_copy_torrent_file": \
-                    ("active", self.core_config["del_copy_torrent_file"]),
-                "torrent_files_button": \
-                    ("filename", self.core_config["torrentfiles_location"]),
-                "radio_compact_allocation": \
-                    ("active", self.core_config["compact_allocation"]),
-                "radio_full_allocation": \
-                    ("not_active", self.core_config["compact_allocation"]),
-                "chk_prioritize_first_last_pieces": \
-                    ("active",
-                        self.core_config["prioritize_first_last_pieces"]),
-                "chk_sequential_download": \
-                    ("active",
-                        self.core_config["sequential_download"]),
-                "chk_add_paused": ("active", self.core_config["add_paused"]),
-                "spin_port_min": ("value", self.core_config["listen_ports"][0]),
-                "spin_port_max": ("value", self.core_config["listen_ports"][1]),
-                "active_port_label": ("text", str(self.active_port)),
-                "chk_random_port": ("active", self.core_config["random_port"]),
-                "spin_outgoing_port_min": ("value", self.core_config["outgoing_ports"][0]),
-                "spin_outgoing_port_max": ("value", self.core_config["outgoing_ports"][1]),
-                "chk_random_outgoing_ports": ("active", self.core_config["random_outgoing_ports"]),
-                "entry_interface": ("text", self.core_config["listen_interface"]),
-                "entry_peer_tos": ("text", self.core_config["peer_tos"]),
-                "chk_dht": ("active", self.core_config["dht"]),
-                "chk_upnp": ("active", self.core_config["upnp"]),
-                "chk_natpmp": ("active", self.core_config["natpmp"]),
-                "chk_utpex": ("active", self.core_config["utpex"]),
-                "chk_lt_tex": ("active", self.core_config["lt_tex"]),
-                "chk_lsd": ("active", self.core_config["lsd"]),
-                "chk_new_releases": ("active", self.core_config["new_release_check"]),
-                "chk_send_info": ("active", self.core_config["send_info"]),
-                "entry_geoip": ("text", self.core_config["geoip_db_location"]),
-                "combo_encin": ("active", self.core_config["enc_in_policy"]),
-                "combo_encout": ("active", self.core_config["enc_out_policy"]),
-                "combo_enclevel": ("active", self.core_config["enc_level"]),
-                "spin_max_connections_global": \
-                    ("value", self.core_config["max_connections_global"]),
-                "spin_max_download": \
-                    ("value", self.core_config["max_download_speed"]),
-                "spin_max_upload": \
-                    ("value", self.core_config["max_upload_speed"]),
-                "spin_max_upload_slots_global": \
-                    ("value", self.core_config["max_upload_slots_global"]),
-                "spin_max_half_open_connections": \
-                    ("value", self.core_config["max_half_open_connections"]),
-                "spin_max_connections_per_second": \
-                    ("value", self.core_config["max_connections_per_second"]),
-                "chk_ignore_limits_on_local_network": \
-                    ("active", self.core_config["ignore_limits_on_local_network"]),
-                "chk_rate_limit_ip_overhead": \
-                    ("active", self.core_config["rate_limit_ip_overhead"]),
-                "spin_max_connections_per_torrent": \
-                    ("value", self.core_config["max_connections_per_torrent"]),
-                "spin_max_upload_slots_per_torrent": \
-                    ("value", self.core_config["max_upload_slots_per_torrent"]),
-                "spin_max_download_per_torrent": \
-                    ("value", self.core_config["max_download_speed_per_torrent"]),
-                "spin_max_upload_per_torrent": \
-                    ("value", self.core_config["max_upload_speed_per_torrent"]),
-                "spin_daemon_port": \
-                    ("value", self.core_config["daemon_port"]),
-                "chk_allow_remote_connections": \
-                    ("active", self.core_config["allow_remote"]),
-                "spin_active": ("value", self.core_config["max_active_limit"]),
-                "spin_seeding": ("value", self.core_config["max_active_seeding"]),
-                "spin_downloading": ("value", self.core_config["max_active_downloading"]),
-                "chk_dont_count_slow_torrents": ("active", self.core_config["dont_count_slow_torrents"]),
-                "chk_auto_manage_prefer_seeds": ("active", self.core_config["auto_manage_prefer_seeds"]),
-                "chk_queue_new_top": ("active", self.core_config["queue_new_to_top"]),
-                "spin_share_ratio_limit": ("value", self.core_config["share_ratio_limit"]),
-                "spin_seed_time_ratio_limit": \
-                    ("value", self.core_config["seed_time_ratio_limit"]),
-                "spin_seed_time_limit": ("value", self.core_config["seed_time_limit"]),
-                "chk_seed_ratio": ("active", self.core_config["stop_seed_at_ratio"]),
-                "spin_share_ratio": ("value", self.core_config["stop_seed_ratio"]),
-                "chk_remove_ratio": ("active", self.core_config["remove_seed_at_ratio"]),
-                "spin_cache_size": ("value", self.core_config["cache_size"]),
-                "spin_cache_expiry": ("value", self.core_config["cache_expiry"])
-            }
-            # Add proxy stuff
-            for t in ("peer", "web_seed", "tracker", "dht"):
-                core_widgets["spin_proxy_port_%s" % t] = (
-                    "value", self.core_config["proxies"][t]["port"]
-                )
-                core_widgets["combo_proxy_type_%s" % t] = (
-                    "active", self.core_config["proxies"][t]["type"]
-                )
-                core_widgets["txt_proxy_server_%s" % t] = (
-                    "text", self.core_config["proxies"][t]["hostname"]
-                )
-                core_widgets["txt_proxy_username_%s" % t] = (
-                    "text", self.core_config["proxies"][t]["username"]
-                )
-                core_widgets["txt_proxy_password_%s" % t] = (
-                    "text", self.core_config["proxies"][t]["password"]
-                )
+        self.is_connected = self.core_config != {} and self.core_config != None
+        core_widgets = {
+            "chk_move_completed": ("active", "move_completed"),
+            "chk_copy_torrent_file": ("active", "copy_torrent_file"),
+            "chk_del_copy_torrent_file": ("active", "del_copy_torrent_file"),
+            "radio_compact_allocation": ("active", "compact_allocation"),
+            "radio_full_allocation": ("not_active", "compact_allocation"),
+            "chk_prioritize_first_last_pieces": ("active",  "prioritize_first_last_pieces"),
+            "chk_sequential_download": ("active", "sequential_download"),
+            "chk_add_paused": ("active", "add_paused"),
+            "active_port_label": ("text", lambda: str(self.active_port)),
+            "spin_port_min": ("value", lambda: self.core_config["listen_ports"][0]),
+            "spin_port_max": ("value", lambda: self.core_config["listen_ports"][1]),
+            "chk_random_port": ("active", "random_port"),
+            "spin_outgoing_port_min": ("value", lambda: self.core_config["outgoing_ports"][0]),
+            "spin_outgoing_port_max": ("value", lambda: self.core_config["outgoing_ports"][1]),
+            "chk_random_outgoing_ports": ("active", "random_outgoing_ports"),
+            "entry_interface": ("text", "listen_interface"),
+            "entry_peer_tos": ("text", "peer_tos"),
+            "chk_dht": ("active", "dht"),
+            "chk_upnp": ("active", "upnp"),
+            "chk_natpmp": ("active", "natpmp"),
+            "chk_utpex": ("active", "utpex"),
+            "chk_lt_tex": ("active", "lt_tex"),
+            "chk_lsd": ("active", "lsd"),
+            "chk_new_releases": ("active", "new_release_check"),
+            "chk_send_info": ("active", "send_info"),
+            "entry_geoip": ("text", "geoip_db_location"),
+            "combo_encin": ("active", "enc_in_policy"),
+            "combo_encout": ("active", "enc_out_policy"),
+            "combo_enclevel": ("active", "enc_level"),
+            "spin_max_connections_global": ("value", "max_connections_global"),
+            "spin_max_download": ("value", "max_download_speed"),
+            "spin_max_upload": ("value", "max_upload_speed"),
+            "spin_max_upload_slots_global": ("value", "max_upload_slots_global"),
+            "spin_max_half_open_connections": ("value", "max_connections_per_second"),
+            "spin_max_connections_per_second": ("value", "max_connections_per_second"),
+            "chk_ignore_limits_on_local_network": ("active", "ignore_limits_on_local_network"),
+            "chk_rate_limit_ip_overhead": ("active", "rate_limit_ip_overhead"),
+            "spin_max_connections_per_torrent": ("value", "max_connections_per_torrent"),
+            "spin_max_upload_slots_per_torrent": ("value", "max_upload_slots_per_torrent"),
+            "spin_max_download_per_torrent": ("value", "max_download_speed_per_torrent"),
+            "spin_max_upload_per_torrent": ("value", "max_upload_speed_per_torrent"),
+            "spin_daemon_port": ("value", "daemon_port"),
+            "chk_allow_remote_connections": ("active", "allow_remote"),
+            "spin_active": ("value", "max_active_limit"),
+            "spin_seeding": ("value", "max_active_seeding"),
+            "spin_downloading": ("value", "max_active_downloading"),
+            "chk_dont_count_slow_torrents": ("active", "dont_count_slow_torrents"),
+            "chk_auto_manage_prefer_seeds": ("active", "auto_manage_prefer_seeds"),
+            "chk_queue_new_top": ("active", "queue_new_to_top"),
+            "spin_share_ratio_limit": ("value", "share_ratio_limit"),
+            "spin_seed_time_ratio_limit": ("value", "seed_time_ratio_limit"),
+            "spin_seed_time_limit": ("value", "seed_time_limit"),
+            "chk_seed_ratio": ("active", "stop_seed_at_ratio"),
+            "spin_share_ratio": ("value", "stop_seed_ratio"),
+            "chk_remove_ratio": ("active", "remove_seed_at_ratio"),
+            "spin_cache_size": ("value", "cache_size"),
+            "spin_cache_expiry": ("value", "cache_expiry"),
+            "accounts_add": (None, None),
+            "accounts_listview": (None, None),
+            "button_cache_refresh": (None, None),
+            "button_plugin_install": (None, None),
+            "button_rescan_plugins": (None, None),
+            "button_find_plugins": (None, None),
+            "button_testport": (None, None),
+            "plugin_listview": (None, None),
+        }
 
-            # Change a few widgets if we're connected to a remote host
-            if not client.is_localhost():
-                self.builder.get_object("entry_download_path").show()
-                self.builder.get_object("download_path_button").hide()
-                core_widgets.pop("download_path_button")
-                core_widgets["entry_download_path"] = (
-                    "text", self.core_config["download_location"]
-                )
+        # Add proxy stuff
+        for t in ("peer", "web_seed", "tracker", "dht"):
+            core_widgets["spin_proxy_port_%s" % t] = (
+                "value", lambda: self.core_config["proxies"][t]["port"]
+            )
+            core_widgets["combo_proxy_type_%s" % t] = (
+                "active", lambda: self.core_config["proxies"][t]["type"]
+            )
+            core_widgets["txt_proxy_server_%s" % t] = (
+                "text", lambda: self.core_config["proxies"][t]["hostname"]
+            )
+            core_widgets["txt_proxy_username_%s" % t] = (
+                "text", lambda: self.core_config["proxies"][t]["username"]
+            )
+            core_widgets["txt_proxy_password_%s" % t] = (
+                "text", lambda: self.core_config["proxies"][t]["password"]
+            )
 
-                self.builder.get_object("entry_move_completed_path").show()
-                self.builder.get_object("move_completed_path_button").hide()
-                core_widgets.pop("move_completed_path_button")
-                core_widgets["entry_move_completed_path"] = (
-                    "text", self.core_config["move_completed_path"]
-                )
+        core_widgets[self.download_location_path_chooser] = ("path_chooser", "download_location")
+        core_widgets[self.move_completed_path_chooser] = ("path_chooser", "move_completed_path")
+        core_widgets[self.copy_torrent_files_path_chooser] = ("path_chooser", "torrentfiles_location")
 
-                self.builder.get_object("entry_torrents_path").show()
-                self.builder.get_object("torrent_files_button").hide()
-                core_widgets.pop("torrent_files_button")
-                core_widgets["entry_torrents_path"] = (
-                    "text", self.core_config["torrentfiles_location"]
-                )
+        # Update the widgets accordingly
+        for key in core_widgets.keys():
+            modifier = core_widgets[key][0]
+            if type(key) is str:
+                widget = self.builder.get_object(key)
             else:
-                self.builder.get_object("entry_download_path").hide()
-                self.builder.get_object("download_path_button").show()
-                self.builder.get_object("entry_move_completed_path").hide()
-                self.builder.get_object("move_completed_path_button").show()
-                self.builder.get_object("entry_torrents_path").hide()
-                self.builder.get_object("torrent_files_button").show()
+                widget = key
 
-            # Update the widgets accordingly
-            for key in core_widgets.keys():
-                modifier = core_widgets[key][0]
+            widget.set_sensitive(self.is_connected)
+
+            if self.is_connected:
                 value = core_widgets[key][1]
-                widget = self.builder.get_object(key)
-                if type(widget) == gtk.FileChooserButton:
-                    for child in widget.get_children():
-                        child.set_sensitive(True)
-                widget.set_sensitive(True)
+                from types import FunctionType
+                if type(value) is FunctionType:
+                    value = value()
+                elif type(value) is str:
+                    value = self.core_config[value]
+            elif modifier:
+                value = {"active": False, "not_active": False, "value": 0, "text": "", "path_chooser": "" }[modifier]
 
-                if modifier == "filename":
-                    if value:
-                        try:
-                            widget.set_current_folder(value)
-                        except Exception, e:
-                            log.debug("Unable to set_current_folder: %s", e)
-                elif modifier == "active":
-                    widget.set_active(value)
-                elif modifier == "not_active":
-                    widget.set_active(not value)
-                elif modifier == "value":
-                    widget.set_value(float(value))
-                elif modifier == "text":
-                    widget.set_text(value)
+            if modifier == "active":
+                widget.set_active(value)
+            elif modifier == "not_active":
+                widget.set_active(not value)
+            elif modifier == "value":
+                widget.set_value(float(value))
+            elif modifier == "text":
+                widget.set_text(value)
+            elif modifier == "path_chooser":
+                widget.set_text(value, cursor_end=False, default_text=True)
 
+        if self.is_connected:
             for key in core_widgets.keys():
-                widget = self.builder.get_object(key)
+                if type(key) is str:
+                    widget = self.builder.get_object(key)
+                else:
+                    widget = key
                 # Update the toggle status if necessary
                 self.on_toggle(widget)
-        else:
-            core_widget_list = [
-                "download_path_button",
-                "chk_move_completed",
-                "move_completed_path_button",
-                "chk_copy_torrent_file",
-                "chk_del_copy_torrent_file",
-                "torrent_files_button",
-                "radio_compact_allocation",
-                "radio_full_allocation",
-                "chk_prioritize_first_last_pieces",
-                "chk_sequential_download",
-                "chk_add_paused",
-                "spin_port_min",
-                "spin_port_max",
-                "active_port_label",
-                "chk_random_port",
-                "spin_outgoing_port_min",
-                "spin_outgoing_port_max",
-                "chk_random_outgoing_ports",
-                "entry_interface",
-                "entry_peer_tos",
-                "chk_dht",
-                "chk_upnp",
-                "chk_natpmp",
-                "chk_utpex",
-                "chk_lt_tex",
-                "chk_lsd",
-                "chk_send_info",
-                "chk_new_releases",
-                "entry_geoip",
-                "combo_encin",
-                "combo_encout",
-                "combo_enclevel",
-                "spin_max_connections_global",
-                "spin_max_download",
-                "spin_max_upload",
-                "spin_max_upload_slots_global",
-                "spin_max_half_open_connections",
-                "spin_max_connections_per_second",
-                "chk_ignore_limits_on_local_network",
-                "chk_rate_limit_ip_overhead",
-                "spin_max_connections_per_torrent",
-                "spin_max_upload_slots_per_torrent",
-                "spin_max_download_per_torrent",
-                "spin_max_upload_per_torrent",
-                "spin_daemon_port",
-                "chk_allow_remote_connections",
-                "spin_seeding",
-                "spin_downloading",
-                "spin_active",
-                "chk_dont_count_slow_torrents",
-                "chk_auto_manage_prefer_seeds",
-                "chk_queue_new_top",
-                "chk_seed_ratio",
-                "spin_share_ratio",
-                "chk_remove_ratio",
-                "spin_share_ratio_limit",
-                "spin_seed_time_ratio_limit",
-                "spin_seed_time_limit",
-                "spin_cache_size",
-                "spin_cache_expiry",
-                "button_cache_refresh",
-                "btn_testport"
-            ]
-            for t in ("peer", "web_seed", "tracker", "dht"):
-                core_widget_list.append("spin_proxy_port_%s" % t)
-                core_widget_list.append("combo_proxy_type_%s" % t)
-                core_widget_list.append("txt_proxy_username_%s" % t)
-                core_widget_list.append("txt_proxy_password_%s" % t)
-                core_widget_list.append("txt_proxy_server_%s" % t)
-
-            # We don't appear to be connected to a daemon
-            for key in core_widget_list:
-                widget = self.builder.get_object(key)
-                if type(widget) == gtk.FileChooserButton:
-                    for child in widget.get_children():
-                        child.set_sensitive(False)
-                widget.set_sensitive(False)
 
         ## Downloads tab ##
         self.builder.get_object("chk_show_dialog").set_active(
@@ -575,7 +488,6 @@ class Preferences(component.Component):
         ## Other tab ##
         self.builder.get_object("chk_show_new_releases").set_active(
             self.gtkui_config["show_new_releases"])
-
 
         ## Cache tab ##
         if client.connected():
@@ -636,20 +548,10 @@ class Preferences(component.Component):
             self.builder.get_object("chk_del_copy_torrent_file").get_active()
         new_core_config["move_completed"] = \
             self.builder.get_object("chk_move_completed").get_active()
-        if client.is_localhost():
-            new_core_config["download_location"] = \
-                self.builder.get_object("download_path_button").get_filename()
-            new_core_config["move_completed_path"] = \
-                self.builder.get_object("move_completed_path_button").get_filename()
-            new_core_config["torrentfiles_location"] = \
-                self.builder.get_object("torrent_files_button").get_filename()
-        else:
-            new_core_config["download_location"] = \
-                self.builder.get_object("entry_download_path").get_text()
-            new_core_config["move_completed_path"] = \
-                self.builder.get_object("entry_move_completed_path").get_text()
-            new_core_config["torrentfiles_location"] = \
-                self.builder.get_object("entry_torrents_path").get_text()
+
+        new_core_config["download_location"] = self.download_location_path_chooser.get_text()
+        new_core_config["move_completed_path"] = self.move_completed_path_chooser.get_text()
+        new_core_config["torrentfiles_location"] = self.copy_torrent_files_path_chooser.get_text()
 
         new_core_config["compact_allocation"] = \
             self.builder.get_object("radio_compact_allocation").get_active()
@@ -872,6 +774,7 @@ class Preferences(component.Component):
             dialog.run()
 
     def hide(self):
+        self.window_open = False
         self.builder.get_object("port_img").hide()
         self.pref_dialog.hide()
 
@@ -918,6 +821,11 @@ class Preferences(component.Component):
         except:
             return
 
+        path_choosers = {"download_location_path_chooser": self.download_location_path_chooser,
+                         "move_completed_path_chooser": self.move_completed_path_chooser,
+                         "torrentfiles_location_path_chooser": self.copy_torrent_files_path_chooser
+                         }
+
         dependents = {
                 "chk_show_dialog": {"chk_focus_dialog": True},
                 "chk_random_port": {"spin_port_min": False,
@@ -932,8 +840,8 @@ class Preferences(component.Component):
                                   "password_label": True},
                 "radio_open_folder_custom": {"combo_file_manager": False,
                                              "txt_open_folder_location": True},
-                "chk_move_completed" : {"move_completed_path_button" : True},
-                "chk_copy_torrent_file" : {"torrent_files_button" : True,
+                "chk_move_completed" : {"move_completed_path_chooser" : True},
+                "chk_copy_torrent_file" : {"torrentfiles_location_path_chooser" : True,
                                            "chk_del_copy_torrent_file" : True},
                 "chk_seed_ratio" : {"spin_share_ratio": True,
                                     "chk_remove_ratio" : True}
@@ -942,9 +850,12 @@ class Preferences(component.Component):
         def update_dependent_widgets(name, value):
             dependency = dependents[name]
             for dep in dependency.keys():
-                depwidget = self.builder.get_object(dep)
+                if dep in path_choosers:
+                    depwidget = path_choosers[dep]
+                else:
+                    depwidget = self.builder.get_object(dep)
                 sensitive = [not value, value][dependency[dep]]
-                depwidget.set_sensitive(sensitive)
+                depwidget.set_sensitive(sensitive and self.is_connected)
                 if dep in dependents:
                     update_dependent_widgets(dep, depwidget.get_active() and sensitive)
 
@@ -1085,7 +996,7 @@ class Preferences(component.Component):
         # If incoming and outgoing both set to disabled, disable level combobox
         if combo_encin == 2 and combo_encout == 2:
             combo_enclevel.set_sensitive(False)
-        else:
+        elif self.is_connected:
             combo_enclevel.set_sensitive(True)
 
     def _on_combo_proxy_type_changed(self, widget):

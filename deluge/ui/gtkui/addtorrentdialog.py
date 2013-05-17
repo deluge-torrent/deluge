@@ -55,6 +55,8 @@ import deluge.ui.common
 import dialogs
 import common
 
+from deluge.ui.gtkui.path_chooser import PathChooser
+
 log = logging.getLogger(__name__)
 
 class AddTorrentDialog(component.Component):
@@ -144,6 +146,9 @@ class AddTorrentDialog(component.Component):
         self.listview_torrents.get_selection().connect("changed",
                                     self._on_torrent_changed)
 
+        self.setup_move_completed_path_chooser()
+        self.setup_download_location_path_chooser()
+
         # Get default config values from the core
         self.core_keys = [
             "compact_allocation",
@@ -153,13 +158,15 @@ class AddTorrentDialog(component.Component):
             "max_download_speed_per_torrent",
             "prioritize_first_last_pieces",
             "sequential_download",
-            "download_location",
             "add_paused",
+            "download_location",
+            "download_location_paths_list",
             "move_completed",
-            "move_completed_path"
+            "move_completed_path",
+            "move_completed_paths_list",
         ]
+        #self.core_keys += self.move_completed_path_chooser.get_config_keys()
         self.core_config = {}
-
         self.builder.get_object("notebook1").connect("switch-page", self._on_switch_page)
 
     def start(self):
@@ -169,17 +176,6 @@ class AddTorrentDialog(component.Component):
         return self.update_core_config(True, focus)
 
     def _show(self, focus=False):
-        if client.is_localhost():
-            self.builder.get_object("button_location").show()
-            self.builder.get_object("entry_download_path").hide()
-            self.builder.get_object("button_move_completed_location").show()
-            self.builder.get_object("entry_move_completed_path").hide()
-        else:
-            self.builder.get_object("button_location").hide()
-            self.builder.get_object("entry_download_path").show()
-            self.builder.get_object("button_move_completed_location").hide()
-            self.builder.get_object("entry_move_completed_path").show()
-
         if component.get("MainWindow").is_on_active_workspace():
             self.dialog.set_transient_for(component.get("MainWindow").window)
         else:
@@ -374,6 +370,23 @@ class AddTorrentDialog(component.Component):
                 ret += value[1]["size"]
         return ret
 
+    def load_path_choosers_data(self):
+        self.move_completed_path_chooser.set_text(self.core_config["move_completed_path"], cursor_end=False, default_text=True)
+        self.download_location_path_chooser.set_text(self.core_config["download_location"], cursor_end=False, default_text=True)
+        self.builder.get_object("chk_move_completed").set_active(self.core_config["move_completed"])
+
+    def setup_move_completed_path_chooser(self):
+        self.move_completed_hbox = self.builder.get_object("hbox_move_completed_chooser")
+        self.move_completed_path_chooser = PathChooser("move_completed_paths_list")
+        self.move_completed_hbox.add(self.move_completed_path_chooser)
+        self.move_completed_hbox.show_all()
+
+    def setup_download_location_path_chooser(self):
+        self.download_location_hbox = self.builder.get_object("hbox_download_location_chooser")
+        self.download_location_path_chooser = PathChooser("download_location_paths_list")
+        self.download_location_hbox.add(self.download_location_path_chooser)
+        self.download_location_hbox.show_all()
+
     def update_torrent_options(self, torrent_id):
         if torrent_id not in self.options:
             self.set_default_options()
@@ -381,16 +394,8 @@ class AddTorrentDialog(component.Component):
 
         options = self.options[torrent_id]
 
-        if client.is_localhost():
-            self.builder.get_object("button_location").set_current_folder(
-                options["download_location"])
-            self.builder.get_object("button_move_completed_location").set_current_folder(
-                options["move_completed_path"])
-        else:
-            self.builder.get_object("entry_download_path").set_text(
-                options["download_location"])
-            self.builder.get_object("entry_move_completed_path").set_text(
-                options["move_completed_path"])
+        self.download_location_path_chooser.set_text(options["download_location"], cursor_end=True)
+        self.move_completed_path_chooser.set_text(options["move_completed_path"], cursor_end=True)
 
         self.builder.get_object("radio_full").set_active(
             not options["compact_allocation"])
@@ -430,18 +435,10 @@ class AddTorrentDialog(component.Component):
         else:
             options = {}
 
-        if client.is_localhost():
-            options["download_location"] = \
-                self.builder.get_object("button_location").get_filename()
-            options["move_completed_path"] = \
-                self.builder.get_object("button_move_completed_location").get_filename()
-        else:
-            options["download_location"] = \
-                self.builder.get_object("entry_download_path").get_text()
-            options["move_completed_path"] = \
-                self.builder.get_object("entry_move_completed_path").get_text()
-        options["compact_allocation"] = \
-            self.builder.get_object("radio_compact").get_active()
+        options["download_location"] = self.download_location_path_chooser.get_text()
+        options["move_completed_path"] = self.move_completed_path_chooser.get_text()
+        options["compact_allocation"] = self.builder.get_object("radio_compact").get_active()
+        options["move_completed"] = self.builder.get_object("chk_move_completed").get_active()
 
         if options["compact_allocation"]:
             # We need to make sure all the files are set to download
@@ -491,16 +488,7 @@ class AddTorrentDialog(component.Component):
         return priorities
 
     def set_default_options(self):
-        if client.is_localhost():
-            self.builder.get_object("button_location").set_current_folder(
-                self.core_config["download_location"])
-            self.builder.get_object("button_move_completed_location").set_current_folder(
-                self.core_config["move_completed_path"])
-        else:
-            self.builder.get_object("entry_download_path").set_text(
-                self.core_config["download_location"])
-            self.builder.get_object("entry_move_completed_path").set_text(
-                self.core_config["move_completed_path"])
+        self.load_path_choosers_data()
 
         self.builder.get_object("radio_compact").set_active(
             self.core_config["compact_allocation"])
@@ -814,7 +802,6 @@ class AddTorrentDialog(component.Component):
                     options)
 
             row = self.torrent_liststore.iter_next(row)
-
         self.hide()
 
     def _on_button_apply_clicked(self, widget):
@@ -847,8 +834,7 @@ class AddTorrentDialog(component.Component):
 
     def _on_chk_move_completed_toggled(self, widget):
         value = widget.get_active()
-        self.builder.get_object("button_move_completed_location").set_sensitive(value)
-        self.builder.get_object("entry_move_completed_path").set_sensitive(value)
+        self.move_completed_path_chooser.set_sensitive(value)
 
     def _on_delete_event(self, widget, event):
         self.hide()

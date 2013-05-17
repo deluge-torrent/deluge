@@ -48,6 +48,7 @@ import twisted.web.client
 import twisted.web.error
 
 from deluge.httpdownloader import download_file
+from deluge import path_chooser_common
 
 import deluge.configmanager
 import deluge.common
@@ -857,6 +858,13 @@ class Core(component.Component):
 
         """
         return lt.version
+
+    @export
+    def get_completion_paths(self, value, hidden_files=False):
+        """
+        Returns the available path completions for the input value.
+        """
+        return path_chooser_common.get_completion_paths(value, hidden_files)
 
     @export(AUTH_LEVEL_ADMIN)
     def get_known_accounts(self):

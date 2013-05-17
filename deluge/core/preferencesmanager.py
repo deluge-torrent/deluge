@@ -101,6 +101,13 @@ DEFAULT_PREFS = {
     "auto_managed": True,
     "move_completed": False,
     "move_completed_path": deluge.common.get_default_download_dir(),
+    "move_completed_paths_list": [],
+    "download_location_paths_list": [],
+    "path_chooser_show_chooser_button_on_localhost": True,
+    "path_chooser_auto_complete_enabled": True,
+    "path_chooser_accelerator_string": "Tab",
+    "path_chooser_max_popup_rows": 20,
+    "path_chooser_show_hidden_files": False,
     "new_release_check": True,
     "proxies": {
         "peer": {

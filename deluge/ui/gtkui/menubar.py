@@ -47,6 +47,7 @@ import deluge.common
 import common
 import dialogs
 from deluge.configmanager import ConfigManager
+from deluge.ui.gtkui.path_chooser import PathChooser
 
 log = logging.getLogger(__name__)
 
@@ -322,31 +323,9 @@ class MenuBar(component.Component):
 
     def on_menuitem_move_activate(self, data=None):
         log.debug("on_menuitem_move_activate")
-        if client.is_localhost():
-            from deluge.configmanager import ConfigManager
-            config = ConfigManager("gtkui.conf")
-            chooser = gtk.FileChooserDialog(
-                _("Choose a directory to move files to"),
-                component.get("MainWindow").window,
-                gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
-                buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                         gtk.STOCK_OK, gtk.RESPONSE_OK)
-            )
-            chooser.set_local_only(True)
-            if not deluge.common.windows_check():
-                chooser.set_icon(common.get_deluge_icon())
-                chooser.set_property("skip-taskbar-hint", True)
-            chooser.set_current_folder(config["choose_directory_dialog_path"])
-            if chooser.run() == gtk.RESPONSE_OK:
-                result = chooser.get_filename()
-                config["choose_directory_dialog_path"] = result
-                client.core.move_storage(
-                    component.get("TorrentView").get_selected_torrents(), result)
-            chooser.destroy()
-        else:
-            component.get("SessionProxy").get_torrent_status(
-                component.get("TorrentView").get_selected_torrent(),
-                ["save_path"]).addCallback(self.show_move_storage_dialog)
+        component.get("SessionProxy").get_torrent_status(
+            component.get("TorrentView").get_selected_torrent(),
+            ["save_path"]).addCallback(self.show_move_storage_dialog)
 
     def show_move_storage_dialog(self, status):
         log.debug("show_move_storage_dialog")
@@ -358,22 +337,26 @@ class MenuBar(component.Component):
         #  https://bugzilla.gnome.org/show_bug.cgi?id=546802
         self.move_storage_dialog = builder.get_object("move_storage_dialog")
         self.move_storage_dialog.set_transient_for(self.window.window)
-        self.move_storage_dialog_entry = builder.get_object("entry_destination")
-        self.move_storage_dialog_entry.set_text(status["save_path"])
-        def on_dialog_response_event(widget, response_id):
+        self.move_storage_dialog_hbox = builder.get_object("hbox_entry")
+        self.move_storage_path_chooser = PathChooser("move_completed_paths_list")
+        self.move_storage_dialog_hbox.add(self.move_storage_path_chooser)
+        self.move_storage_dialog_hbox.show_all()
+        self.move_storage_path_chooser.set_text(status["save_path"])
 
+        def on_dialog_response_event(widget, response_id):
             def on_core_result(result):
                 # Delete references
                 del self.move_storage_dialog
-                del self.move_storage_dialog_entry
+                del self.move_storage_dialog_hbox
 
             if response_id == gtk.RESPONSE_OK:
                 log.debug("Moving torrents to %s",
-                          self.move_storage_dialog_entry.get_text())
-                path = self.move_storage_dialog_entry.get_text()
+                          self.move_storage_path_chooser.get_text())
+                path = self.move_storage_path_chooser.get_text()
                 client.core.move_storage(
                     component.get("TorrentView").get_selected_torrents(), path
                 ).addCallback(on_core_result)
+                self.move_storage_path_chooser.save_config()
             self.move_storage_dialog.hide()
 
         self.move_storage_dialog.connect("response", on_dialog_response_event)

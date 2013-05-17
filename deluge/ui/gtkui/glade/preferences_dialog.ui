@@ -1307,38 +1307,12 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkHBox" id="hbox8">
+                                          <object class="GtkHBox" id="hbox_download_to_path_chooser">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="spacing">5</property>
                                             <child>
-                                              <object class="GtkFileChooserButton" id="download_path_button">
-                                                <property name="visible">True</property>
-                                                <property name="sensitive">False</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="action">select-folder</property>
-                                                <property name="title" translatable="yes">Select A Folder</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">True</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">0</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkEntry" id="entry_download_path">
-                                                <property name="can_focus">True</property>
-                                                <property name="truncate_multiline">True</property>
-                                                <property name="primary_icon_activatable">False</property>
-                                                <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">True</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">1</property>
-                                              </packing>
+                                              <placeholder/>
                                             </child>
                                           </object>
                                           <packing>
@@ -1351,38 +1325,12 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <child>
-                                              <object class="GtkHBox" id="hbox10">
+                                              <object class="GtkHBox" id="hbox_copy_torrent_files_path_chooser">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="spacing">5</property>
                                                 <child>
-                                                  <object class="GtkFileChooserButton" id="torrent_files_button">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <property name="action">select-folder</property>
-                                                    <property name="title" translatable="yes">Select A Folder</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkEntry" id="entry_torrents_path">
-                                                    <property name="can_focus">True</property>
-                                                    <property name="invisible_char">●</property>
-                                                    <property name="truncate_multiline">True</property>
-                                                    <property name="primary_icon_activatable">False</property>
-                                                    <property name="secondary_icon_activatable">False</property>
-                                                    <property name="primary_icon_sensitive">True</property>
-                                                    <property name="secondary_icon_sensitive">True</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">1</property>
-                                                  </packing>
+                                                  <placeholder/>
                                                 </child>
                                               </object>
                                             </child>
@@ -1399,37 +1347,12 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <child>
-                                              <object class="GtkHBox" id="hbox13">
+                                              <object class="GtkHBox" id="hbox_move_completed_to_path_chooser">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="spacing">5</property>
                                                 <child>
-                                                  <object class="GtkFileChooserButton" id="move_completed_path_button">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <property name="action">select-folder</property>
-                                                    <property name="title" translatable="yes">Select A Folder</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkEntry" id="entry_move_completed_path">
-                                                    <property name="can_focus">True</property>
-                                                    <property name="truncate_multiline">True</property>
-                                                    <property name="primary_icon_activatable">False</property>
-                                                    <property name="secondary_icon_activatable">False</property>
-                                                    <property name="primary_icon_sensitive">True</property>
-                                                    <property name="secondary_icon_sensitive">True</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">1</property>
-                                                  </packing>
+                                                  <placeholder/>
                                                 </child>
                                               </object>
                                             </child>
@@ -1913,7 +1836,7 @@ used sparingly.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <object class="GtkButton" id="btn_testport">
+                                              <object class="GtkButton" id="button_testport">
                                                 <property name="label" translatable="yes">Test Active Port</property>
                                                 <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>

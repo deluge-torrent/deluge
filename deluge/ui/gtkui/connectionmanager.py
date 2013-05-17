@@ -311,7 +311,6 @@ class ConnectionManager(component.Component):
             # Return if the deferred callback was done after the dialog was closed
             if not self.running:
                 return
-
             row = self.__get_host_row(host_id)
             def on_info(info, c):
                 if not self.running:
