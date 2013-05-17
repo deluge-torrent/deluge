@@ -608,29 +608,15 @@ class TorrentView(listview.ListView, component.Component):
             return
         gobject.idle_add(self.update_view)
 
-    def add_rows(self, state):
-        """Adds all the torrents from state to self.liststore"""
+    def add_rows(self, torrent_ids):
+        """Accepts a list of torrent_ids to add to self.liststore"""
         torrent_id_column = self.columns["torrent_id"].column_indices[0]
         dirty_column = self.columns["dirty"].column_indices[0]
         filter_column = self.columns["filter"].column_indices[0]
-        for i, torrent_id in enumerate(state):
+        for torrent_id in torrent_ids:
             # Insert a new row to the liststore
             row = self.liststore.append()
             self.liststore.set(row, torrent_id_column, torrent_id, dirty_column, True, filter_column, True)
-
-    def add_row(self, torrent_id, update=True):
-        """Adds a new torrent row to the treeview"""
-        # Make sure this torrent isn't already in the list
-        for row in self.liststore:
-            if row[self.columns["torrent_id"].column_indices[0]] == torrent_id:
-                # Row already in the list
-                return
-        # Insert a new row to the liststore
-        row = self.liststore.append()
-        # Store the torrent id
-        self.liststore.set_value(row, self.columns["torrent_id"].column_indices[0], torrent_id)
-        if update:
-            self.update()
 
     def remove_row(self, torrent_id):
         """Removes a row with torrent_id"""
@@ -739,8 +725,8 @@ class TorrentView(listview.ListView, component.Component):
 
     def on_torrentadded_event(self, torrent_id, from_state):
         if not from_state:
-            self.add_row(torrent_id)
-            self.mark_dirty(torrent_id)
+            self.add_rows([torrent_id])
+            self.update()
 
     def on_torrentremoved_event(self, torrent_id):
         self.remove_row(torrent_id)
