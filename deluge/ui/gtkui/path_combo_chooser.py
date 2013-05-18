@@ -1097,17 +1097,13 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
             self.tooltips.set_tip(self.button_default, "Restore the default value in the text entry:\n%s" % self.default_text)
             self.button_default.set_sensitive(True)
         # Set text for the filechooser dialog button
-        if not self.path_entry_visible:
-            # Show entire path
-            self.folder_name_label.set_text(text)
+        if self.show_folder_name_on_button or not self.path_entry_visible:
+            text = path_without_trailing_path_sep(text)
+            if not text is "/" and os.path.basename(text):
+                text = os.path.basename(text)
         else:
-            if self.show_folder_name_on_button:
-                text = path_without_trailing_path_sep(text)
-                if not text is "/" and os.path.basename(text):
-                    text = os.path.basename(text)
-            else:
-                text = ""
-            self.folder_name_label.set_text(text)
+            text = ""
+        self.folder_name_label.set_text(text)
 
     def set_sensitive(self, sensitive):
         """
