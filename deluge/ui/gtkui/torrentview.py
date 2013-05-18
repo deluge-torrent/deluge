@@ -425,6 +425,7 @@ class TorrentView(listview.ListView, component.Component):
 
         self.search_box = SearchBox(self)
         self.permanent_status_keys = ["owner"]
+        self.columns_to_update = []
 
     def start(self):
         """Start the torrentview"""
