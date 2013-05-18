@@ -955,6 +955,7 @@
             <property name="secondary_icon_activatable">False</property>
             <property name="primary_icon_sensitive">True</property>
             <property name="secondary_icon_sensitive">True</property>
+            <signal name="changed" handler="on_entry_text_changed" swapped="no"/>
             <signal name="insert-text" handler="on_entry_text_insert_text" swapped="no"/>
             <signal name="key-press-event" handler="on_entry_text_key_press_event" swapped="no"/>
             <signal name="delete-text" handler="on_entry_text_delete_text" swapped="no"/>

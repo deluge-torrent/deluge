@@ -70,6 +70,7 @@ class OptionsTab(Tab):
         self.move_completed_path_chooser.set_sensitive(self.chk_move_completed.get_active())
         self.move_completed_hbox.add(self.move_completed_path_chooser)
         self.move_completed_hbox.show_all()
+        self.move_completed_path_chooser.connect("text-changed", self._on_path_chooser_text_changed_event)
 
         self.prev_torrent_id = None
         self.prev_status = None
@@ -300,3 +301,6 @@ class OptionsTab(Tab):
     def _on_entry_move_completed_changed(self, widget):
         if not self.button_apply.is_sensitive():
             self.button_apply.set_sensitive(True)
+
+    def _on_path_chooser_text_changed_event(self, widget, path):
+        self.button_apply.set_sensitive(True)

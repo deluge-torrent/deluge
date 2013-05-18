@@ -55,19 +55,23 @@ def is_hidden(filepath):
         return has_hidden_attribute(filepath)
     return name.startswith('.')
 
-def get_completion_paths(path_value, hidden_files=False):
+def get_completion_paths(args):
     """
     Takes a path value and returns the available completions.
     If the path_value is a valid path, return all sub-directories.
     If the path_value is not a valid path, remove the basename from the
     path and return all sub-directories of path that start with basename.
 
-    :param path_value: path to complete
-    :type path_value: string
-    :returns: a sorted list of available completions for the input value
+    :param args: options
+    :type args: dict
+    :returns: the args argument containing the available completions for the completion_text
     :rtype: list
 
     """
+    args["paths"] = []
+    path_value = args["completion_text"]
+    hidden_files = args["show_hidden_files"]
+
     def get_subdirs(dirname):
         try:
             return os.walk(dirname).next()[1]
@@ -81,7 +85,7 @@ def get_completion_paths(path_value, hidden_files=False):
     dirs = get_subdirs(dirname)
     # No completions available
     if not dirs:
-        return []
+        return args
 
     # path_value ends with path separator so
     # we only want all the subdirectories
@@ -100,4 +104,6 @@ def get_completion_paths(path_value, hidden_files=False):
             if not p.endswith(os.path.sep):
                 p += os.path.sep
             matching_dirs.append(p)
-    return sorted(matching_dirs)
+
+    args["paths"] = sorted(matching_dirs)
+    return args

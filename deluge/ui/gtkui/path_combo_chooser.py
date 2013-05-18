@@ -76,6 +76,8 @@ def path_without_trailing_path_sep(path):
 
 class ValueList(object):
 
+    paths_without_trailing_path_sep = False
+
     def get_values_count(self):
         return len(self.tree_store)
 
@@ -105,7 +107,8 @@ class ValueList(object):
             self.tree_store.clear()
 
         for path in paths:
-            path = path_without_trailing_path_sep(path)
+            if self.paths_without_trailing_path_sep:
+                path = path_without_trailing_path_sep(path)
             if append:
                 tree_iter = self.tree_store.append([path])
             else:
@@ -327,6 +330,7 @@ class StoredValuesList(ValueList):
         self.tree_store = self.builder.get_object("stored_values_tree_store")
         self.tree_column = self.builder.get_object("stored_values_treeview_column")
         self.rendererText = self.builder.get_object("stored_values_cellrenderertext")
+        self.paths_without_trailing_path_sep = False
 
         # Add signal handlers
         self.signal_handlers["on_stored_values_treeview_mouse_button_press_event"] = \
@@ -526,6 +530,7 @@ class PathChooserPopup(object):
         self.set_max_popup_rows(max_visible_rows)
         self.popup_window.realize()
         self.alignment_widget = popup_alignment_widget
+        self.popup_buttonbox = None # If set, the height of this widget is the minimum height
 
     def popup(self):
         """
@@ -535,8 +540,8 @@ class PathChooserPopup(object):
         # Entry is not yet visible
         if not (self.path_entry.flags() & gtk.REALIZED):
             return
-        if not self.is_popped_up():
-            self.set_window_position_and_size()
+        #if not self.is_popped_up():
+        self.set_window_position_and_size()
 
     def popdown(self):
         if not self.is_popped_up():
@@ -566,7 +571,6 @@ class PathChooserPopup(object):
         Returns the size of the popup window and the coordinates on the screen.
 
         """
-        self.popup_buttonbox = self.builder.get_object("buttonbox")
 
         # Necessary for the first call, to make treeview.size_request give sensible values
         #self.popup_window.realize()
@@ -580,46 +584,36 @@ class PathChooserPopup(object):
         y += self.alignment_widget.allocation.y
 
         height_extra = 8
-
+        buttonbox_width = 0
         height = self.popup_window.size_request()[1]
         width = self.popup_window.size_request()[0]
 
-        treeview_height = self.treeview.size_request()[1]
-        treeview_width = self.treeview.size_request()[0]
-
-        if treeview_height > height:
-            height = treeview_height + height_extra
-
-        butonbox_height = max(self.popup_buttonbox.size_request()[1], self.popup_buttonbox.allocation.height)
-        butonbox_width = max(self.popup_buttonbox.size_request()[0], self.popup_buttonbox.allocation.width)
-
-        if treeview_height > butonbox_height and treeview_height < height :
-            height = treeview_height + height_extra
-
-        # After removing an element from the tree store, self.treeview.size_request()[0]
-        # returns -1 for some reason, so the requested width cannot be used until the treeview
-        # has been displayed once.
-        if treeview_width != -1:
-            width = treeview_width + butonbox_width
-        # The list is empty, so ignore initial popup width request
-        # Will be set to the minimum width next
-        elif len(self.tree_store) == 0:
-            width = 0
-
-        # Minimum width is the width of the path entry + width of buttonbox
-#        if width < self.alignment_widget.allocation.width + butonbox_width:
-#            width = self.alignment_widget.allocation.width + butonbox_width
+        if self.popup_buttonbox:
+            buttonbox_height = max(self.popup_buttonbox.size_request()[1], self.popup_buttonbox.allocation.height)
+            buttonbox_width = max(self.popup_buttonbox.size_request()[0], self.popup_buttonbox.allocation.width)
+            treeview_width = self.treeview.size_request()[0]
+            # After removing an element from the tree store, self.treeview.size_request()[0]
+            # returns -1 for some reason, so the requested width cannot be used until the treeview
+            # has been displayed once.
+            if treeview_width != -1:
+                width = treeview_width + buttonbox_width
+            # The list is empty, so ignore initial popup width request
+            # Will be set to the minimum width next
+            elif len(self.tree_store) == 0:
+                width = 0
 
         if width < self.alignment_widget.allocation.width:
             width = self.alignment_widget.allocation.width
 
         # 10 is extra spacing
-        content_width = self.treeview.size_request()[0] + butonbox_width + 10
+        content_width = self.treeview.size_request()[0] + buttonbox_width + 10
 
-        # If self.max_visible_rows is -1, not restriction is set
+        # Adjust height according to number of list items
         if len(self.tree_store) > 0 and self.max_visible_rows > 0:
             # The height for one row in the list
             self.row_height = self.treeview.size_request()[1] / len(self.tree_store)
+            # Set height to number of rows
+            height = len(self.tree_store) * self.row_height + height_extra
             # Adjust the height according to the max number of rows
             max_height = self.row_height * self.max_visible_rows
             # Restrict height to max_visible_rows
@@ -629,9 +623,10 @@ class PathChooserPopup(object):
                 # Increase width because of vertical scrollbar
                 content_width += 15
 
-        # Minimum height is the height of the button box
-        if height < butonbox_height + height_extra:
-            height = butonbox_height + height_extra
+        if self.popup_buttonbox:
+            # Minimum height is the height of the button box
+            if height < buttonbox_height + height_extra:
+                height = buttonbox_height + height_extra
 
         if content_width > width:
             width = content_width
@@ -680,7 +675,7 @@ class PathChooserPopup(object):
 
         Sets the text of the entry to the value in path
         """
-        self.path_entry.set_text(self.tree_store[path][0], set_file_chooser_folder=True)
+        self.path_entry.set_text(self.tree_store[path][0], set_file_chooser_folder=True, trigger_event=True)
         if popdown:
             self.popdown()
 
@@ -731,7 +726,6 @@ class StoredValuesPopup(StoredValuesList, PathChooserPopup):
         self.builder = builder
         self.treeview = self.builder.get_object("stored_values_treeview")
         self.popup_window = self.builder.get_object("stored_values_popup_window")
-        self.popup_buttonbox = self.builder.get_object("buttonbox")
         self.button_default = self.builder.get_object("button_default")
         self.path_entry = path_entry
         self.text_entry = path_entry.text_entry
@@ -739,6 +733,8 @@ class StoredValuesPopup(StoredValuesList, PathChooserPopup):
         self.signal_handlers = {}
         PathChooserPopup.__init__(self, 0, max_visible_rows, popup_alignment_widget)
         StoredValuesList.__init__(self)
+
+        self.popup_buttonbox = self.builder.get_object("buttonbox")
 
         # Add signal handlers
         self.signal_handlers["on_buttonbox_key_press_event"] = \
@@ -798,8 +794,9 @@ class StoredValuesPopup(StoredValuesList, PathChooserPopup):
 
         """
         swap = event.state & gtk.gdk.CONTROL_MASK
+        scroll_window = event.state & gtk.gdk.SHIFT_MASK
         self.handle_list_scroll(next=event.direction == gdk.SCROLL_DOWN,
-                                set_entry=widget != self.treeview, swap=swap)
+                                set_entry=widget != self.treeview, swap=swap, scroll_window=scroll_window)
         return True
 
     def on_buttonbox_key_press_event(self, widget, event):
@@ -854,7 +851,7 @@ class StoredValuesPopup(StoredValuesList, PathChooserPopup):
 
     def on_button_default_clicked(self, widget):
         if self.default_text:
-            self.set_text(self.default_text)
+            self.set_text(self.default_text, trigger_event=True)
 
 class PathCompletionPopup(CompletionList, PathChooserPopup):
     """
@@ -901,6 +898,7 @@ class PathCompletionPopup(CompletionList, PathChooserPopup):
         self.popup_window.grab_add()
         self.text_entry.grab_focus()
         self.text_entry.set_position(len(self.path_entry.text_entry.get_text()))
+        self.set_selected_value(path_without_trailing_path_sep(self.path_entry.get_text()), select_first=True)
 
 ###################################################
 # Callbacks
@@ -943,7 +941,6 @@ class PathAutoCompleter(object):
             self.on_entry_text_delete_text
         self.signal_handlers["on_entry_text_insert_text"] = \
             self.on_entry_text_insert_text
-
         self.accelerator_string = gtk.accelerator_name(keysyms.Tab, 0)
 
     def on_entry_text_insert_text(self, entry, new_text, new_text_length, position):
@@ -953,22 +950,27 @@ class PathAutoCompleter(object):
             new_complete_text = cur_text[:pos] + new_text + cur_text[pos:]
             # Remove all values from the list that do not start with new_complete_text
             self.completion_popup.reduce_values(new_complete_text)
+            self.completion_popup.set_selected_value(new_complete_text, select_first=True)
             if self.completion_popup.is_popped_up():
                 self.completion_popup.set_window_position_and_size()
 
     def on_entry_text_delete_text(self, entry, start, end):
         """
-        Remove the popup when characters are removed
+        Do completion when characters are removed
 
         """
         if self.completion_popup.is_popped_up():
-            self.completion_popup.popdown()
+            cur_text = self.path_entry.get_text()
+            pos = entry.get_position()
+            new_complete_text = cur_text[:start] +  cur_text[end:]
+            self.do_completion(value=new_complete_text, forward_completion=False)
 
     def set_use_popup(self, use):
         self.use_popup = use
 
     def on_completion_popup_window_key_press_event(self, entry, event):
         """
+        Handles key pressed events on the auto-completion popup window
         """
         # If on_completion_treeview_key_press_event handles the event, do nothing
         ret = self.completion_popup.on_completion_treeview_key_press_event(entry, event)
@@ -976,16 +978,12 @@ class PathAutoCompleter(object):
             return ret
         keyval = event.keyval
         state = event.state & gtk.accelerator_get_default_mod_mask()
-
         if self.is_auto_completion_accelerator(keyval, state)\
                 and self.auto_complete_enabled:
             values_count = self.completion_popup.get_values_count()
-            self.do_completion()
             if values_count == 1:
-                self.completion_popup.popdown()
+                self.do_completion()
             else:
-                #shift = event.state & gtk.gdk.SHIFT_MASK
-                #self.completion_popup.handle_list_scroll(next=False if shift else True)
                 self.completion_popup.handle_list_scroll(next=True)
             return True
         self.path_entry.text_entry.emit("key-press-event", event)
@@ -993,25 +991,35 @@ class PathAutoCompleter(object):
     def is_auto_completion_accelerator(self, keyval, state):
         return gtk.accelerator_name(keyval, state.numerator) == self.accelerator_string
 
-    def do_completion(self):
-        value = self.path_entry.get_text()
+    def do_completion(self, value=None, forward_completion=True):
+        if not value:
+            value = self.path_entry.get_text()
         self.path_entry.text_entry.set_position(len(value))
-        paths = self._start_completion(value, hidden_files=self.completion_popup.show_hidden_files)
+        opts = {}
+        opts["show_hidden_files"] = self.completion_popup.show_hidden_files
+        opts["completion_text"] = value
+        opts["forward_completion"] = forward_completion
+        self._start_completion(opts)
 
-    def _start_completion(self, value, hidden_files):
-        completion_paths = get_completion_paths(value, hidden_files)
-        self._end_completion(value, completion_paths)
+    def _start_completion(self, args):
+        args = get_completion_paths(args)
+        self._end_completion(args)
 
-    def _end_completion(self, value, paths):
-        common_prefix = os.path.commonprefix(paths)
-        if len(common_prefix) > len(value):
-            self.path_entry.set_text(common_prefix, set_file_chooser_folder=True)
+    def _end_completion(self, args):
+        value = args["completion_text"]
+        paths = args["paths"]
+
+        if args["forward_completion"]:
+            common_prefix = os.path.commonprefix(paths)
+            if len(common_prefix) > len(value):
+                self.path_entry.set_text(common_prefix, set_file_chooser_folder=True, trigger_event=True)
 
         self.path_entry.text_entry.set_position(len(self.path_entry.get_text()))
         self.completion_popup.set_values(paths, preserve_selection=True)
+
         if self.use_popup and len(paths) > 1:
             self.completion_popup.popup()
-        elif self.completion_popup.is_popped_up():
+        elif self.completion_popup.is_popped_up() and args["forward_completion"]:
             self.completion_popup.popdown()
 
 class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
@@ -1028,6 +1036,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
         "show-hidden-files-toggled": (gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (object, )),
         "accelerator-set": (gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (object, )),
         "max-rows-changed": (gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (object, )),
+        "text-changed": (gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (object, )),
         }
 
     def __init__(self, max_visible_rows=20, auto_complete=True, use_completer_popup=True):
@@ -1070,6 +1079,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
             "on_entry_combobox_hbox_realize": self._on_entry_combobox_hbox_realize,
             "on_button_open_dialog_clicked": self._on_button_open_dialog_clicked,
             "on_entry_text_focus_out_event": self._on_entry_text_focus_out_event,
+            "on_entry_text_changed": self.on_entry_text_changed,
             }
         signal_handlers.update(self.signal_handlers)
         signal_handlers.update(self.auto_completer.signal_handlers)
@@ -1082,11 +1092,12 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
         """
         return self.text_entry.get_text()
 
-    def set_text(self, text, set_file_chooser_folder=True, cursor_end=True, default_text=False):
+    def set_text(self, text, set_file_chooser_folder=True, cursor_end=True, default_text=False, trigger_event=False):
         """
         Set the text for the entry.
 
         """
+        old_text = self.text_entry.get_text()
         self.text_entry.set_text(text)
         self.text_entry.select_region(0, 0)
         self.text_entry.set_position(len(text) if cursor_end else 0)
@@ -1097,13 +1108,15 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
             self.tooltips.set_tip(self.button_default, "Restore the default value in the text entry:\n%s" % self.default_text)
             self.button_default.set_sensitive(True)
         # Set text for the filechooser dialog button
+        folder_name = ""
         if self.show_folder_name_on_button or not self.path_entry_visible:
-            text = path_without_trailing_path_sep(text)
-            if not text is "/" and os.path.basename(text):
-                text = os.path.basename(text)
-        else:
-            text = ""
-        self.folder_name_label.set_text(text)
+            folder_name = path_without_trailing_path_sep(text)
+            if not folder_name is "/" and os.path.basename(folder_name):
+                folder_name = os.path.basename(folder_name)
+        self.folder_name_label.set_text(folder_name)
+        # Only trigger event if text has changed
+        if old_text != text and trigger_event:
+            self.on_entry_text_changed(self.text_entry)
 
     def set_sensitive(self, sensitive):
         """
@@ -1236,17 +1249,21 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
         """
         self.auto_completer._start_completion = func
 
-    def complete(self, value, paths):
+    def complete(self, args):
         """
         Perform the auto completion with the provided paths
         """
-        self.auto_completer._end_completion(value, paths)
+        self.auto_completer._end_completion(args)
 
 ######################################
 ## Callbacks and internal functions
 ######################################
 
+    def on_entry_text_changed(self, entry):
+        self.emit("text-changed", self.get_text())
+
     def _on_entry_text_focus_out_event(self, widget, event):
+        # Update text on the button label
         self.set_text(self.get_text())
 
     def _set_path_entry_filechooser_widths(self):
@@ -1276,7 +1293,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
 
         if response_id == 0:
             text = self.filechooserdialog.get_filename()
-            self.set_text(text)
+            self.set_text(text, trigger_event=True)
         dialog.hide()
 
     def _on_entry_text_key_press_event(self, widget, event):
@@ -1320,7 +1337,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
                 return True
             elif is_ascii_value(keyval, 'd'):
                 # Set the default value in the text entry
-                self.set_text(self.default_text)
+                self.set_text(self.default_text, trigger_event=True)
                 return True
         return False
 

@@ -184,8 +184,8 @@ class PathChooser(PathChooserComboBox):
         if self.paths_config_key and self.paths_config_key in config:
             self.set_values(config[self.paths_config_key])
 
-    def on_completion(self, value, hidden_files):
-        def on_paths_cb(paths):
-            self.complete(value, paths)
-        d = client.core.get_completion_paths(value, hidden_files=hidden_files)
+    def on_completion(self, args):
+        def on_paths_cb(args):
+            self.complete(args)
+        d = client.core.get_completion_paths(args)
         d.addCallback(on_paths_cb)

@@ -860,11 +860,11 @@ class Core(component.Component):
         return lt.version
 
     @export
-    def get_completion_paths(self, value, hidden_files=False):
+    def get_completion_paths(self, args):
         """
         Returns the available path completions for the input value.
         """
-        return path_chooser_common.get_completion_paths(value, hidden_files)
+        return path_chooser_common.get_completion_paths(args)
 
     @export(AUTH_LEVEL_ADMIN)
     def get_known_accounts(self):
