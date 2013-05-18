@@ -67,6 +67,7 @@ class OptionsTab(Tab):
 
         self.move_completed_hbox = builder.get_object("hbox_move_completed_path_chooser")
         self.move_completed_path_chooser = PathChooser("move_completed_paths_list")
+        self.move_completed_path_chooser.set_sensitive(self.chk_move_completed.get_active())
         self.move_completed_hbox.add(self.move_completed_path_chooser)
         self.move_completed_hbox.show_all()
 
