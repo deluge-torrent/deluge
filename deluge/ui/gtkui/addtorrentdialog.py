@@ -118,6 +118,14 @@ class AddTorrentDialog(component.Component):
         self.listview_files.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
         self.listview_torrents.get_selection().connect("changed", self._on_torrent_changed)
 
+        # Setup popup in torrent list to copy torrent title to clipboard
+        self.torrentlist_popup_menu = gtk.Menu()
+        menuitem_copy_title = gtk.MenuItem("Copy title to clipboard")
+        menuitem_copy_title.connect("activate", self._on_button_copy_title_to_clipboard)
+        self.torrentlist_popup_menu.append(menuitem_copy_title)
+        self.listview_torrents.connect('button-press-event', self._on_mouse_button_press_event,
+                                       self.torrentlist_popup_menu)
+
         self.setup_move_completed_path_chooser()
         self.setup_download_location_path_chooser()
 
@@ -899,3 +907,49 @@ class AddTorrentDialog(component.Component):
             # Walk through the tree from 'itr' and add all the new file paths
             # to the 'mapped_files' option
             walk_tree(itr)
+
+    def _on_alocation_toggled(self, widget):
+        full_allocation_active = self.builder.get_object("radio_full").get_active()
+        self.builder.get_object("chk_prioritize").set_sensitive(full_allocation_active)
+        self.builder.get_object("chk_sequential_download").set_sensitive(full_allocation_active)
+
+    def _on_button_copy_title_to_clipboard(self, menuitem):
+        torrent_title = self.get_value_in_selected_row(self.listview_torrents,
+                                                       self.torrent_liststore,
+                                                       column_index=1)
+        if torrent_title is not None:
+            gtk.clipboard_get().set_text(torrent_title)
+
+    def _on_mouse_button_press_event(self, treeview, event, popupmenu):
+        """ Shows popup on selected row when right clicking """
+        if event.button == 3:
+            x = int(event.x)
+            y = int(event.y)
+            time = event.time
+            pthinfo = treeview.get_path_at_pos(x, y)
+            model = treeview.get_model()
+            it = model.get_iter(pthinfo[0])
+            link = model.get_value(it, 0)
+            if link is None:
+                return False
+            if pthinfo is not None:
+                path, col, cellx, celly = pthinfo
+                treeview.grab_focus()
+                # Only show popup when right clicking a selected file
+                if not treeview.get_selection().iter_is_selected(it):
+                    return True
+                popupmenu.popup(None, None, None, event.button, time, data=path)
+                popupmenu.show_all()
+            return True
+
+    def get_value_in_selected_row(self, treeview, store, column_index=0):
+        """
+        Helper to get the value at index 'index_column' of the selected element
+        in the given treeview.
+        return None of no item is selected.
+        """
+        tree, tree_id = treeview.get_selection().get_selected()
+        if tree_id:
+            value = store.get_value(tree_id, column_index)
+            return value
+        return None
