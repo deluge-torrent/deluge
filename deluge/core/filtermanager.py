@@ -222,8 +222,9 @@ class FilterManager(component.Component):
             items["tracker_host"]["All"] = len(torrent_ids)
             items["tracker_host"]["Error"] = len(tracker_error_filter(torrent_ids, ("Error",)))
 
-        if "state" in tree_keys and not show_zero_hits:
-            self._hide_state_items(items["state"])
+        if  not show_zero_hits:
+            for cat in tree_keys:
+                self._hide_state_items(items[cat])
 
         # Return a dict of tuples:
         sorted_items = {}
