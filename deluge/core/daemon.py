@@ -35,31 +35,28 @@
 import os
 import logging
 from twisted.internet import reactor
-import twisted.internet.error
 
 import deluge.component as component
 import deluge.configmanager
 import deluge.common
 from deluge.core.rpcserver import RPCServer, export
-import deluge.error
+from deluge.error import DaemonRunningError
 
 log = logging.getLogger(__name__)
+
 
 class Daemon(object):
     def __init__(self, options=None, args=None, classic=False):
         # Check for another running instance of the daemon
-        if os.path.isfile(deluge.configmanager.get_config_dir("deluged.pid")):
+        pid_file = deluge.configmanager.get_config_dir("deluged.pid")
+        if os.path.isfile(pid_file):
             # Get the PID and the port of the supposedly running daemon
+            with open(pid_file) as _file:
+                (pid, port) = _file.readline().strip().split(";")
             try:
-                (pid, port) = open(
-                    deluge.configmanager.get_config_dir("deluged.pid")
-                ).read().strip().split(";")
-                pid = int(pid)
-                port = int(port)
+                pid, port = int(pid), int(port)
             except ValueError:
-                pid = None
-                port = None
-
+                pid, port = None, None
 
             def process_running(pid):
                 if deluge.common.windows_check():
@@ -75,32 +72,27 @@ class Daemon(object):
                         return True
 
             if pid is not None and process_running(pid):
-                # Ok, so a process is running with this PID, let's make doubly-sure
-                # it's a deluged process by trying to open a socket to it's port.
+                # Ensure it's a deluged process by trying to open a socket to it's port.
                 import socket
-                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                _socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 try:
-                    s.connect(("127.0.0.1", port))
+                    _socket.connect(("127.0.0.1", port))
                 except socket.error:
                     # Can't connect, so it must not be a deluged process..
                     pass
                 else:
                     # This is a deluged!
-                    s.close()
-                    raise deluge.error.DaemonRunningError(
-                        "There is a deluge daemon running with this config "
-                        "directory!"
-                    )
+                    _socket.close()
+                    raise DaemonRunningError("Deluge daemon already running with this config directory!")
 
-        # Twisted catches signals to terminate, so just have it call the shutdown
-        # method.
+        # Twisted catches signals to terminate, so just have it call the shutdown method.
         reactor.addSystemEventTrigger("before", "shutdown", self._shutdown)
 
         # Catch some Windows specific signals
         if deluge.common.windows_check():
             from win32api import SetConsoleCtrlHandler
-            from win32con import CTRL_CLOSE_EVENT
-            from win32con import CTRL_SHUTDOWN_EVENT
+            from win32con import CTRL_CLOSE_EVENT, CTRL_SHUTDOWN_EVENT
+
             def win_handler(ctrl_type):
                 log.debug("ctrl_type: %s", ctrl_type)
                 if ctrl_type == CTRL_CLOSE_EVENT or ctrl_type == CTRL_SHUTDOWN_EVENT:
@@ -145,35 +137,33 @@ class Daemon(object):
         self.rpcserver.register_object(self.core)
         self.rpcserver.register_object(self)
 
-
         # Make sure we start the PreferencesManager first
         component.start("PreferencesManager")
 
         if not classic:
-            # Write out a pid file all the time, we use this to see if a deluged is running
-            # We also include the running port number to do an additional test
-            open(deluge.configmanager.get_config_dir("deluged.pid"), "wb").write(
-                "%s;%s\n" % (os.getpid(), port))
+            # Create pid file to track if deluged is running, also includes the port number.
+            log.debug("Creating pid file: %s", pid_file)
+            open(pid_file, "wb").write("%s;%s\n" % (os.getpid(), port))
 
             component.start()
             try:
+                log.info("Deluge daemon starting...")
                 reactor.run()
             finally:
-                self._shutdown()
+                try:
+                    log.debug("Removing pid file: %s", pid_file)
+                    os.remove(pid_file)
+                except OSError, ex:
+                    log.error("Error removing pid file: %s", ex)
+                log.info("Deluge daemon shutdown successfully")
 
     @export()
     def shutdown(self, *args, **kwargs):
+        log.debug("Delgue daemon shutdown requested...")
         reactor.callLater(0, reactor.stop)
 
     def _shutdown(self, *args, **kwargs):
-        if os.path.exists(deluge.configmanager.get_config_dir("deluged.pid")):
-            try:
-                os.remove(deluge.configmanager.get_config_dir("deluged.pid"))
-            except Exception, e:
-                log.exception(e)
-                log.error("Error removing deluged.pid!")
-
-        log.info("Waiting for components to shutdown..")
+        log.info("Deluge daemon shutting down, waiting for components to shutdown...")
         d = component.shutdown()
         return d
 
