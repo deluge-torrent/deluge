@@ -223,24 +223,18 @@ class MainWindow(component.Component):
         :param shutdown: whether or not to shutdown the daemon as well
         :type shutdown: boolean
         """
-        if shutdown:
-            def on_daemon_shutdown(result):
-                try:
-                    reactor.stop()
-                except ReactorNotRunning:
-                    log.debug("Attempted to stop the reactor but it is not running...")
-            client.daemon.shutdown().addCallback(on_daemon_shutdown)
-            return
-        if client.is_classicmode():
-            reactor.stop()
-            return
-        if not client.connected():
-            reactor.stop()
-            return
-        def on_client_disconnected(result):
-            reactor.stop()
-        client.disconnect().addCallback(on_client_disconnected)
+        def stop_gtk_reactor(result=None):
+            try:
+                reactor.stop()
+            except ReactorNotRunning:
+                log.debug("Attempted to stop the reactor but it is not running...")
 
+        if shutdown:
+            client.daemon.shutdown().addCallback(stop_gtk_reactor)
+        elif not client.is_classicmode() and client.connected():
+            client.disconnect().addCallback(stop_gtk_reactor)
+        else:
+            stop_gtk_reactor()
 
     def load_window_state(self):
         x = self.config["window_x_pos"]
