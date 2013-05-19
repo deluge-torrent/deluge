@@ -48,6 +48,9 @@ from errno import EEXIST
 
 from deluge.log import setupLogger
 import deluge.error
+import deluge.common
+import deluge.configmanager
+
 
 def version_callback(option, opt_str, value, parser):
     print os.path.basename(sys.argv[0]) + ": " + deluge.common.get_version()
@@ -58,9 +61,9 @@ def version_callback(option, opt_str, value, parser):
         pass
     raise SystemExit
 
+
 def start_ui():
     """Entry point for ui script"""
-    import deluge.common
     deluge.common.setup_translations()
 
     # Setup the argument parser
@@ -106,7 +109,7 @@ def start_ui():
             # Try to create the config folder if it doesn't exist
             try:
                 os.makedirs(options.config)
-            except Exception, e:
+            except OSError:
                 pass
         elif not os.path.isdir(options.config):
             log.error("Config option needs to be a directory!")
@@ -116,7 +119,6 @@ def start_ui():
             os.makedirs(deluge.common.get_default_config_dir())
 
     if options.default_ui:
-        import deluge.configmanager
         if options.config:
             deluge.configmanager.set_config_dir(options.config)
 
@@ -137,9 +139,9 @@ def start_ui():
     log.info("Starting ui..")
     UI(options, args, options.args)
 
+
 def start_daemon():
     """Entry point for daemon script"""
-    import deluge.common
     deluge.common.setup_translations()
 
     if 'dev' not in deluge.common.get_version():
@@ -185,6 +187,21 @@ this should be an IP address", metavar="IFACE",
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()
 
+    if options.config:
+        if not deluge.configmanager.set_config_dir(options.config):
+            print "There was an error setting the config directory! Exiting..."
+            sys.exit(1)
+
+    # Check for any daemons running with this same config
+    from deluge.core.daemon import check_running_daemon
+    pid_file = deluge.configmanager.get_config_dir("deluged.pid")
+    try:
+        check_running_daemon(pid_file)
+    except deluge.error.DaemonRunningError:
+        print "You cannot run multiple daemons with the same config directory set."
+        print "If you believe this is an error, you can force a start by deleting: %s" % pid_file
+        sys.exit(1)
+
     # Setup the logger
     if options.quiet:
         options.loglevel = "none"
@@ -192,36 +209,25 @@ this should be an IP address", metavar="IFACE",
         # Try to create the logfile's directory if it doesn't exist
         try:
             os.makedirs(os.path.abspath(os.path.dirname(options.logfile)))
-        except OSError, e:
-            if e.errno != EEXIST:
-                print "There was an error creating the log directory, exiting... (%s)" % e
+        except OSError as ex:
+            if ex.errno != EEXIST:
+                print "There was an error creating the log directory, exiting... (%s)" % ex
                 sys.exit(1)
+
     logfile_mode = 'w'
     if options.rotate_logs:
         logfile_mode = 'a'
     setupLogger(level=options.loglevel, filename=options.logfile, filemode=logfile_mode)
     log = getLogger(__name__)
 
-    import deluge.configmanager
-    if options.config:
-        if not deluge.configmanager.set_config_dir(options.config):
-            log.error("There was an error setting the config directory! Exiting...")
-            sys.exit(1)
-
-    # Sets the options.logfile to point to the default location
-    def open_logfile():
-        if not options.logfile:
-            options.logfile = deluge.configmanager.get_config_dir("deluged.log")
-            file_handler = FileHandler(options.logfile)
-            log.addHandler(file_handler)
-
-    # Writes out a pidfile if necessary
-    def write_pidfile():
-        if options.pidfile:
-            open(options.pidfile, "wb").write("%s\n" % os.getpid())
+    # If no logfile specified add logging to default location (as well as stdout)
+    if not options.logfile:
+        options.logfile = deluge.configmanager.get_config_dir("deluged.log")
+        file_handler = FileHandler(options.logfile)
+        log.addHandler(file_handler)
 
     # If the donot daemonize is set, then we just skip the forking
-    if not (deluge.common.windows_check() or deluge.common.osx_check() or options.donot):
+    if not (options.donot or deluge.common.windows_check() or deluge.common.osx_check()):
         if os.fork():
             # We've forked and this is now the parent process, so die!
             os._exit(0)
@@ -231,7 +237,9 @@ this should be an IP address", metavar="IFACE",
             os._exit(0)
 
     # Write pid file before chuid
-    write_pidfile()
+    if options.pidfile:
+        with open(options.pidfile, "wb") as _file:
+                _file.write("%s\n" % os.getpid())
 
     if not deluge.common.windows_check():
         if options.user:
@@ -245,20 +253,16 @@ this should be an IP address", metavar="IFACE",
                 options.group = grp.getgrnam(options.group)[2]
             os.setuid(options.group)
 
-    open_logfile()
-
     def run_daemon(options, args):
+        from deluge.core.daemon import Daemon
         try:
-            from deluge.core.daemon import Daemon
             Daemon(options, args)
-        except deluge.error.DaemonRunningError, e:
-            log.error(e)
-            log.error("You cannot run multiple daemons with the same config directory set.")
-            log.error("If you believe this is an error, you can force a start by deleting %s.", deluge.configmanager.get_config_dir("deluged.pid"))
+        except Exception as ex:
+            log.exception(ex)
             sys.exit(1)
-        except Exception, e:
-            log.exception(e)
-            sys.exit(1)
+        finally:
+            if options.pidfile:
+                os.remove(options.pidfile)
 
     if options.profile:
         import cProfile
