@@ -223,8 +223,9 @@ class FilterManager(component.Component):
             items["tracker_host"]["Error"] = len(tracker_error_filter(torrent_ids, ("Error",)))
 
         if  not show_zero_hits:
-            for cat in tree_keys:
-                self._hide_state_items(items[cat])
+            for cat in ["state", "owner", "tracker_host"]:
+                if cat in tree_keys:
+                    self._hide_state_items(items[cat])
 
         # Return a dict of tuples:
         sorted_items = {}
