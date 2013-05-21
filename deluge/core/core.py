@@ -88,7 +88,7 @@ class Core(component.Component):
 
         # Set the user agent
         self.settings = lt.session_settings()
-        self.settings.user_agent = "Deluge/%(deluge_version)s Libtorrent/%(lt_version)s" % \
+        self.settings.user_agent = "Deluge/%(deluge_version)s libtorrent/%(lt_version)s" % \
                         { 'deluge_version': deluge.common.get_version(),
                           'lt_version': self.get_libtorrent_version().rpartition(".")[0] }
         # Increase the alert queue size so that alerts don't get lost
