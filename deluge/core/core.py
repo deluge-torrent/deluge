@@ -38,6 +38,7 @@ from deluge._libtorrent import lt
 
 import os
 import glob
+import shutil
 import base64
 import logging
 import threading
@@ -50,7 +51,7 @@ import twisted.web.error
 from deluge.httpdownloader import download_file
 from deluge import path_chooser_common
 
-import deluge.configmanager
+from deluge.configmanager import ConfigManager, get_config_dir
 import deluge.common
 import deluge.component as component
 from deluge.event import *
@@ -120,7 +121,7 @@ class Core(component.Component):
         self.new_release = None
 
         # Get the core config
-        self.config = deluge.configmanager.ConfigManager("core.conf")
+        self.config = ConfigManager("core.conf")
         self.config.save()
 
         # If there was an interface value from the command line, use it, but
@@ -153,19 +154,46 @@ class Core(component.Component):
 
     def __save_session_state(self):
         """Saves the libtorrent session state"""
+        filename = "session.state"
+        filepath = get_config_dir(filename)
+        filepath_bak = filepath + ".bak"
+
         try:
-            session_state = deluge.configmanager.get_config_dir("session.state")
-            open(session_state, "wb").write(lt.bencode(self.session.save_state()))
-        except Exception, e:
-            log.warning("Failed to save lt state: %s", e)
+            if os.path.isfile(filepath):
+                log.info("Creating backup of %s at: %s", filename, filepath_bak)
+                shutil.copy2(filepath, filepath_bak)
+        except IOError as ex:
+            log.error("Unable to backup %s to %s: %s", filepath, filepath_bak, ex)
+        else:
+            log.info("Saving the %s at: %s", filename, filepath)
+            try:
+                with open(filepath, "wb") as _file:
+                    _file.write(lt.bencode(self.session.save_state()))
+                    _file.flush()
+                    os.fsync(_file.fileno())
+            except (IOError, EOFError) as ex:
+                log.error("Unable to save %s: %s", filename, ex)
+                if os.path.isfile(filepath_bak):
+                    log.info("Restoring backup of %s from: %s", filename, filepath_bak)
+                    shutil.move(filepath_bak, filepath)
 
     def __load_session_state(self):
         """Loads the libtorrent session state"""
-        try:
-            session_state = deluge.configmanager.get_config_dir("session.state")
-            self.session.load_state(lt.bdecode(open(session_state, "rb").read()))
-        except Exception, e:
-            log.warning("Failed to load lt state: %s", e)
+        filename = "session.state"
+        filepath = get_config_dir(filename)
+        filepath_bak = filepath + ".bak"
+
+        for _filepath in (filepath, filepath_bak):
+            log.info("Opening %s for load: %s", filename, _filepath)
+            try:
+                with open(_filepath, "rb") as _file:
+                    state = lt.bdecode(_file.read())
+            except (IOError, EOFError, RuntimeError), ex:
+                log.warning("Unable to load %s: %s", _filepath, ex)
+            else:
+                log.info("Successfully loaded %s: %s", filename, _filepath)
+                self.session.load_state(state)
+                return
 
     def get_new_release(self):
         log.debug("get_new_release")
@@ -679,7 +707,7 @@ class Core(component.Component):
             log.exception(e)
             return
 
-        f = open(os.path.join(deluge.configmanager.get_config_dir(), "plugins", filename), "wb")
+        f = open(os.path.join(get_config_dir(), "plugins", filename), "wb")
         f.write(filedump)
         f.close()
         component.get("CorePluginManager").scan_for_plugins()

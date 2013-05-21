@@ -144,8 +144,9 @@ class TorrentManager(component.Component):
         self.config = ConfigManager("core.conf")
 
         # Make sure the state folder has been created
-        if not os.path.exists(os.path.join(get_config_dir(), "state")):
-            os.makedirs(os.path.join(get_config_dir(), "state"))
+        self.state_dir = os.path.join(get_config_dir(), "state")
+        if not os.path.exists(self.state_dir):
+            os.makedirs(self.state_dir)
 
         # Create the torrents dict { torrent_id: Torrent }
         self.torrents = {}
@@ -212,6 +213,34 @@ class TorrentManager(component.Component):
         # Get the pluginmanager reference
         self.plugins = component.get("CorePluginManager")
 
+        # Check for temp file
+        self.temp_file = os.path.join(self.state_dir, ".safe_state_check")
+        if os.path.isfile(self.temp_file):
+            def archive_file(filename):
+                import datetime
+                filepath = os.path.join(self.state_dir, filename)
+                filepath_bak = state_filepath + ".bak"
+                archive_dir = os.path.join(get_config_dir(), "archive")
+                if not os.path.exists(archive_dir):
+                    os.makedirs(archive_dir)
+
+                for _filepath in (filepath, filepath_bak):
+                    timestamp = datetime.datetime.now().replace(microsecond=0).isoformat().replace(':', '-')
+                    archive_filepath = os.path.join(archive_dir, filename + "-" + timestamp)
+                    try:
+                        shutil.copy2(_filepath, archive_filepath)
+                    except IOError:
+                        log.error("Unable to archive: %s", filename)
+                    else:
+                        log.info("Archive of %s successful: %s", filename, archive_filepath)
+
+            log.warning("Potential bad shutdown of Deluge detected, archiving torrent state files...")
+            archive_file("torrents.state")
+            archive_file("torrents.fastresume")
+        else:
+            with file(self.temp_file, 'a'):
+                os.utime(self.temp_file, None)
+
         # Run the old state upgrader before loading state
         deluge.core.oldstateupgrader.OldStateUpgrader()
 
@@ -246,7 +275,13 @@ class TorrentManager(component.Component):
             # Stop the status cleanup LoopingCall here
             self.torrents[key].prev_status_cleanup_loop.stop()
 
-        return self.save_resume_data(self.torrents.keys())
+        def remove_temp_file(result):
+            if result and os.path.isfile(self.temp_file):
+                os.remove(self.temp_file)
+
+        d = self.save_resume_data(self.torrents.keys())
+        d.addCallback(remove_temp_file)
+        return d
 
     def update(self):
         for torrent_id, torrent in self.torrents.items():
@@ -301,8 +336,7 @@ class TorrentManager(component.Component):
         """Returns an entry with the resume data or None"""
         fastresume = ""
         try:
-            _file = open(os.path.join(get_config_dir(), "state",
-                                      torrent_id + ".fastresume"), "rb")
+            _file = open(os.path.join(self.state_dir, torrent_id + ".fastresume"), "rb")
             fastresume = _file.read()
             _file.close()
         except IOError, e:
@@ -312,8 +346,7 @@ class TorrentManager(component.Component):
 
     def legacy_delete_resume_data(self, torrent_id):
         """Deletes the .fastresume file"""
-        path = os.path.join(get_config_dir(), "state",
-                            torrent_id + ".fastresume")
+        path = os.path.join(self.state_dir, torrent_id + ".fastresume")
         log.debug("Deleting fastresume file: %s", path)
         try:
             os.remove(path)
@@ -501,9 +534,7 @@ class TorrentManager(component.Component):
         # Write the .torrent file to the state directory
         if filedump:
             try:
-                save_file = open(os.path.join(get_config_dir(), "state",
-                        torrent.torrent_id + ".torrent"),
-                        "wb")
+                save_file = open(os.path.join(self.state_dir, torrent.torrent_id + ".torrent"), "wb")
                 save_file.write(filedump)
                 save_file.close()
             except IOError, e:
@@ -546,10 +577,7 @@ class TorrentManager(component.Component):
         # Get the torrent data from the torrent file
         try:
             log.debug("Attempting to open %s for add.", torrent_id)
-            _file = open(
-                os.path.join(
-                    get_config_dir(), "state", torrent_id + ".torrent"),
-                        "rb")
+            _file = open(os.path.join(self.state_dir, torrent_id + ".torrent"), "rb")
             filedump = lt.bdecode(_file.read())
             _file.close()
         except (IOError, RuntimeError), e:
@@ -636,16 +664,24 @@ class TorrentManager(component.Component):
 
     def load_state(self):
         """Load the state of the TorrentManager from the torrents.state file"""
-        state = TorrentManagerState()
+        filename = "torrents.state"
+        filepath = os.path.join(self.state_dir, filename)
+        filepath_bak = filepath + ".bak"
 
-        try:
-            log.debug("Opening torrent state file for load.")
-            state_file = open(
-                os.path.join(get_config_dir(), "state", "torrents.state"), "rb")
-            state = cPickle.load(state_file)
-            state_file.close()
-        except (EOFError, IOError, Exception, cPickle.UnpicklingError), e:
-            log.warning("Unable to load state file: %s", e)
+        for _filepath in (filepath, filepath_bak):
+            log.info("Opening %s for load: %s", filename, _filepath)
+            try:
+                with open(_filepath, "rb") as _file:
+                    state = cPickle.load(_file)
+            except (IOError, EOFError, cPickle.UnpicklingError), ex:
+                log.warning("Unable to load %s: %s", _filepath, ex)
+                state = None
+            else:
+                log.info("Successfully loaded %s: %s", filename, _filepath)
+                break
+
+        if state is None:
+            state = TorrentManagerState()
 
         # Try to use an old state
         try:
@@ -727,28 +763,29 @@ class TorrentManager(component.Component):
             )
             state.torrents.append(torrent_state)
 
-        # Pickle the TorrentManagerState object
-        try:
-            log.debug("Saving torrent state file.")
-            state_file = open(os.path.join(get_config_dir(),
-                              "state", "torrents.state.new"), "wb")
-            cPickle.dump(state, state_file)
-            state_file.flush()
-            os.fsync(state_file.fileno())
-            state_file.close()
-        except IOError, e:
-            log.warning("Unable to save state file: %s", e)
-            return True
+        filename = "torrents.state"
+        filepath = os.path.join(self.state_dir, filename)
+        filepath_bak = filepath + ".bak"
 
-        # We have to move the 'torrents.state.new' file to 'torrents.state'
         try:
-            shutil.move(
-                os.path.join(get_config_dir(), "state", "torrents.state.new"),
-                os.path.join(get_config_dir(), "state", "torrents.state"))
-        except IOError:
-            log.warning("Unable to save state file.")
-            return True
-
+            if os.path.isfile(filepath):
+                log.info("Creating backup of %s at: %s", filename, filepath_bak)
+                shutil.copy2(filepath, filepath_bak)
+        except IOError as ex:
+            log.error("Unable to backup %s to %s: %s", filepath, filepath_bak, ex)
+        else:
+            log.info("Saving the %s at: %s", filename, filepath)
+            try:
+                with open(filepath, "wb") as _file:
+                    # Pickle the TorrentManagerState object
+                    cPickle.dump(state, _file)
+                    _file.flush()
+                    os.fsync(_file.fileno())
+            except (IOError, cPickle.PicklingError) as ex:
+                log.error("Unable to save %s: %s", filename, ex)
+                if os.path.isfile(filepath_bak):
+                    log.info("Restoring backup of %s from: %s", filename, filepath_bak)
+                    shutil.move(filepath_bak, filepath)
         # We return True so that the timer thread will continue
         return True
 
@@ -760,7 +797,6 @@ class TorrentManager(component.Component):
         :returns: A Deferred whose callback will be invoked when save is complete
         :rtype: twisted.internet.defer.Deferred
         """
-
         if torrent_ids is None:
             torrent_ids = (t[0] for t in self.torrents.iteritems() if t[1].handle.need_save_resume_data())
 
@@ -779,43 +815,63 @@ class TorrentManager(component.Component):
 
         def on_all_resume_data_finished(result):
             if result:
-                self.save_resume_data_file()
+                if self.save_resume_data_file():
+                    return True
 
         return DeferredList(deferreds).addBoth(on_all_resume_data_finished)
 
     def load_resume_data_file(self):
-        resume_data = {}
-        try:
-            log.debug("Opening torrents fastresume file for load.")
-            fastresume_file = open(os.path.join(get_config_dir(), "state",
-                                                "torrents.fastresume"), "rb")
-            resume_data = lt.bdecode(fastresume_file.read())
-            fastresume_file.close()
-        except (EOFError, IOError, Exception), e:
-            log.warning("Unable to load fastresume file: %s", e)
+        filename = "torrents.fastresume"
+        filepath = os.path.join(self.state_dir, filename)
+        filepath_bak = filepath + ".bak"
+        old_data_filepath = os.path.join(get_config_dir(), filename)
 
+        for _filepath in (filepath, filepath_bak, old_data_filepath):
+            log.info("Opening %s for load: %s", filename, _filepath)
+            try:
+                with open(_filepath, "rb") as _file:
+                    resume_data = lt.bdecode(_file.read())
+            except (IOError, EOFError, RuntimeError), ex:
+                log.warning("Unable to load %s: %s", _filepath, ex)
+                resume_data = None
+            else:
+                log.info("Successfully loaded %s: %s", filename, _filepath)
+                break
         # If the libtorrent bdecode doesn't happen properly, it will return None
         # so we need to make sure we return a {}
         if resume_data is None:
             return {}
-
-        return resume_data
+        else:
+            return resume_data
 
     def save_resume_data_file(self):
         """
         Saves the resume data file with the contents of self.resume_data.
         """
-        path = os.path.join(get_config_dir(), "state", "torrents.fastresume")
+        filename = "torrents.fastresume"
+        filepath = os.path.join(self.state_dir, filename)
+        filepath_bak = filepath + ".bak"
 
         try:
-            log.debug("Saving fastresume file: %s", path)
-            fastresume_file = open(path, "wb")
-            fastresume_file.write(lt.bencode(self.resume_data))
-            fastresume_file.flush()
-            os.fsync(fastresume_file.fileno())
-            fastresume_file.close()
-        except IOError:
-            log.warning("Error trying to save fastresume file")
+            if os.path.isfile(filepath):
+                log.info("Creating backup of %s at: %s", filename, filepath_bak)
+                shutil.copy2(filepath, filepath_bak)
+        except IOError as ex:
+            log.error("Unable to backup %s to %s: %s", filepath, filepath_bak, ex)
+        else:
+            log.info("Saving the %s at: %s", filename, filepath)
+            try:
+                with open(filepath, "wb") as _file:
+                    _file.write(lt.bencode(self.session.save_state()))
+                    _file.flush()
+                    os.fsync(_file.fileno())
+            except (IOError, EOFError) as ex:
+                log.error("Unable to save %s: %s", filename, ex)
+                if os.path.isfile(filepath_bak):
+                    log.info("Restoring backup of %s from: %s", filename, filepath_bak)
+                    shutil.move(filepath_bak, filepath)
+            else:
+                return True
 
     def get_queue_position(self, torrent_id):
         """Get queue position of torrent"""

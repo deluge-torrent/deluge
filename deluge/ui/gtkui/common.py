@@ -41,6 +41,8 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 import logging
+import cPickle
+import shutil
 
 import deluge.component as component
 import deluge.common
@@ -264,3 +266,53 @@ def associate_magnet_links(overwrite=False):
                     log.error("Unable to register Deluge as default magnet uri handler.")
                     return False
     return False
+
+def save_pickled_state_file(filename, state):
+    """Save a file in the config directory and creates a backup
+    filename: Filename to be saved to config
+    state: The data to be pickled and written to file
+    """
+    from deluge.configmanager import get_config_dir
+    filepath = os.path.join(get_config_dir(), "gtkui_state", filename)
+    filepath_bak = filepath + ".bak"
+
+    try:
+        if os.path.isfile(filepath):
+            log.info("Creating backup of %s at: %s", filename, filepath_bak)
+            shutil.copy2(filepath, filepath_bak)
+    except IOError as ex:
+        log.error("Unable to backup %s to %s: %s", filepath, filepath_bak, ex)
+    else:
+        log.info("Saving the %s at: %s", filename, filepath)
+        try:
+            with open(filepath, "wb") as _file:
+                # Pickle the state object
+                cPickle.dump(state, _file)
+                _file.flush()
+                os.fsync(_file.fileno())
+        except (IOError, EOFError, cPickle.PicklingError) as ex:
+            log.error("Unable to save %s: %s", filename, ex)
+            if os.path.isfile(filepath_bak):
+                log.info("Restoring backup of %s from: %s", filename, filepath_bak)
+                shutil.move(filepath_bak, filepath)
+
+def load_pickled_state_file(filename):
+    """Loads a file from the config directory, attempting backup if original fails to load.
+    filename: Filename to be loaded from config
+    returns unpickled state
+    """
+    from deluge.configmanager import get_config_dir
+    filepath = os.path.join(get_config_dir(), "gtkui_state", filename)
+    filepath_bak = filepath + ".bak"
+    old_data_filepath = os.path.join(get_config_dir(), filename)
+
+    for _filepath in (filepath, filepath_bak, old_data_filepath):
+        log.info("Opening %s for load: %s", filename, _filepath)
+        try:
+            with open(_filepath, "rb") as _file:
+                state = cPickle.load(_file)
+        except (IOError, cPickle.UnpicklingError), ex:
+            log.warning("Unable to load %s: %s", _filepath, ex)
+        else:
+            log.info("Successfully loaded %s: %s", filename, _filepath)
+            return state

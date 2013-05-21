@@ -100,7 +100,7 @@ class AuthManager(component.Component):
     def update(self):
         auth_file = configmanager.get_config_dir("auth")
         # Check for auth file and create if necessary
-        if not os.path.exists(auth_file):
+        if not os.path.isfile(auth_file):
             log.info("Authfile not found, recreating it.")
             self.__load_auth_file()
             return
@@ -192,36 +192,40 @@ class AuthManager(component.Component):
         return True
 
     def write_auth_file(self):
-        old_auth_file = configmanager.get_config_dir("auth")
-        new_auth_file = old_auth_file + '.new'
-        bak_auth_file = old_auth_file + '.bak'
-        # Let's first create a backup
-        if os.path.exists(old_auth_file):
-            shutil.copy2(old_auth_file, bak_auth_file)
+        filename = "auth"
+        filepath = os.path.join(configmanager,get_config_dir(), filename)
+        filepath_bak = filepath + ".bak"
 
         try:
-            fd = open(new_auth_file, "w")
-            for account in self.__auth.values():
-                fd.write(
-                    "%(username)s:%(password)s:%(authlevel_int)s\n" %
-                    account.data()
-                )
-            fd.flush()
-            os.fsync(fd.fileno())
-            fd.close()
-            os.rename(new_auth_file, old_auth_file)
-        except:
-            # Something failed, let's restore the previous file
-            if os.path.exists(bak_auth_file):
-                os.rename(bak_auth_file, old_auth_file)
+            if os.path.isfile(filepath):
+                log.info("Creating backup of %s at: %s", filename, filepath_bak)
+                shutil.copy2(filepath, filepath_bak)
+        except IOError as ex:
+            log.error("Unable to backup %s to %s: %s", filepath, filepath_bak, ex)
+        else:
+            log.info("Saving the %s at: %s", filename, filepath)
+            try:
+                with open(filepath, "wb") as _file:
+                    for account in self.__auth.values():
+                        _file.write("%(username)s:%(password)s:%(authlevel_int)s\n" % account.data())
+                    _file.flush()
+                    os.fsync(_file.fileno())
+            except (IOError) as ex:
+                log.error("Unable to save %s: %s", filename, ex)
+                if os.path.isfile(filepath_bak):
+                    log.info("Restoring backup of %s from: %s", filename, filepath_bak)
+                    shutil.move(filepath_bak, filepath)
 
         self.__load_auth_file()
 
     def __load_auth_file(self):
         save_and_reload = False
-        auth_file = configmanager.get_config_dir("auth")
+        filename = "auth"
+        auth_file = configmanager.get_config_dir(filename)
+        auth_file_bak = auth_file + ".bak"
+
         # Check for auth file and create if necessary
-        if not os.path.exists(auth_file):
+        if not os.path.isfile(auth_file):
             create_localclient_account()
             return self.__load_auth_file()
 
@@ -232,10 +236,20 @@ class AuthManager(component.Component):
             # File didn't change, no need for re-parsing's
             return
 
-        # Load the auth file into a dictionary: {username: Account(...)}
-        f = open(auth_file, "r").readlines()
+        for _filepath in (auth_file, auth_file_bak):
+            log.info("Opening %s for load: %s", filename, _filepath)
+            try:
+                with open(_filepath, "rb") as _file:
+                    file_data = _file.readlines()
+            except (IOError), ex:
+                log.warning("Unable to load %s: %s", _filepath, ex)
+                file_data = []
+            else:
+                log.info("Successfully loaded %s: %s", filename, _filepath)
+                break
 
-        for line in f:
+        # Load the auth file into a dictionary: {username: Account(...)}
+        for line in file_data:
             line = line.strip()
             if line.startswith("#") or not line:
                 # This line is a comment or empty

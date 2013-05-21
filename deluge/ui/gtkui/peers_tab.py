@@ -36,16 +36,15 @@
 import gtk
 import logging
 import os.path
-import cPickle
 from itertools import izip
 
 from deluge.ui.client import client
-import deluge.configmanager
 import deluge.component as component
 import deluge.common
 from deluge.ui.gtkui.listview import cell_data_speed as cell_data_speed
 from deluge.ui.gtkui.torrentdetails import Tab
 from deluge.ui.countries import COUNTRIES
+from deluge.ui.gtkui.common import save_pickled_state_file, load_pickled_state_file
 
 log = logging.getLogger(__name__)
 
@@ -171,7 +170,6 @@ class PeersTab(Tab):
         self.torrent_id = None
 
     def save_state(self):
-        filename = "peers_tab.state"
         # Get the current sort order of the view
         column_id, sort_order = self.liststore.get_sort_column_id()
 
@@ -187,31 +185,10 @@ class PeersTab(Tab):
                 "position": index,
                 "width": column.get_width()
             }
-
-        # Get the config location for saving the state file
-        config_location = deluge.configmanager.get_config_dir()
-
-        try:
-            log.debug("Saving FilesTab state file: %s", filename)
-            state_file = open(os.path.join(config_location, filename), "wb")
-            cPickle.dump(state, state_file)
-            state_file.close()
-        except IOError, e:
-            log.warning("Unable to save state file: %s", e)
+        save_pickled_state_file("peers_tab.state", state)
 
     def load_state(self):
-        filename = "peers_tab.state"
-        # Get the config location for loading the state file
-        config_location = deluge.configmanager.get_config_dir()
-        state = None
-
-        try:
-            log.debug("Loading PeersTab state file: %s", filename)
-            state_file = open(os.path.join(config_location, filename), "rb")
-            state = cPickle.load(state_file)
-            state_file.close()
-        except (EOFError, IOError, AttributeError, cPickle.UnpicklingError), e:
-            log.warning("Unable to load state file: %s", e)
+        state = load_pickled_state_file("peers_tabs.state")
 
         if state == None:
             return

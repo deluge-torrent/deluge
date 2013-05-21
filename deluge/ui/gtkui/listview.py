@@ -34,19 +34,13 @@
 #
 #
 
-
-import cPickle
-import os.path
 import logging
-
 import pygtk
 pygtk.require('2.0')
 import gtk
-import gettext
 
-from deluge.configmanager import ConfigManager
-import deluge.configmanager
 import deluge.common
+from deluge.ui.gtkui.common import save_pickled_state_file, load_pickled_state_file
 
 from gobject import signal_new, SIGNAL_RUN_LAST, TYPE_NONE
 from gtk import gdk
@@ -333,34 +327,11 @@ class ListView:
             state.append(self.create_column_state(column, counter))
 
         state += self.removed_columns_state
-
-        # Get the config location for saving the state file
-        config_location = deluge.configmanager.get_config_dir()
-
-        try:
-            log.debug("Saving ListView state file: %s", filename)
-            state_file = open(os.path.join(config_location, filename), "wb")
-            cPickle.dump(state, state_file)
-            state_file.close()
-        except IOError, e:
-            log.warning("Unable to save state file: %s", e)
+        save_pickled_state_file(filename, state)
 
     def load_state(self, filename):
         """Load the listview state from filename."""
-        # Get the config location for loading the state file
-        config_location = deluge.configmanager.get_config_dir()
-        state = None
-
-        try:
-            log.debug("Loading ListView state file: %s", filename)
-            state_file = open(os.path.join(config_location, filename), "rb")
-            state = cPickle.load(state_file)
-            state_file.close()
-        except (EOFError, IOError, cPickle.UnpicklingError), e:
-            log.warning("Unable to load state file: %s", e)
-
-        # Keep the state in self.state so we can access it as we add new columns
-        self.state = state
+        self.state = load_pickled_state_file(filename)
 
     def set_treeview(self, treeview_widget):
         """Set the treeview widget that this listview uses."""

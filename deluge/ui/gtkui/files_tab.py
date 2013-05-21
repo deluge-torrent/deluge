@@ -38,15 +38,14 @@ import gtk
 import gtk.gdk
 import gobject
 import os.path
-import cPickle
 import logging
+import cPickle
 
 from deluge.ui.gtkui.torrentdetails import Tab
 from deluge.ui.client import client
-import deluge.configmanager
 import deluge.component as component
 import deluge.common
-import common
+from deluge.ui.gtkui.common import reparent_iter, save_pickled_state_file, load_pickled_state_file
 
 log = logging.getLogger(__name__)
 
@@ -242,7 +241,6 @@ class FilesTab(Tab):
             getattr(widget, attr)()
 
     def save_state(self):
-        filename = "files_tab.state"
         # Get the current sort order of the view
         column_id, sort_order = self.treestore.get_sort_column_id()
 
@@ -259,30 +257,10 @@ class FilesTab(Tab):
                 "width": column.get_width()
             }
 
-        # Get the config location for saving the state file
-        config_location = deluge.configmanager.get_config_dir()
-
-        try:
-            log.debug("Saving FilesTab state file: %s", filename)
-            state_file = open(os.path.join(config_location, filename), "wb")
-            cPickle.dump(state, state_file)
-            state_file.close()
-        except IOError, e:
-            log.warning("Unable to save state file: %s", e)
+        save_pickled_state_file("files_tab.state", state)
 
     def load_state(self):
-        filename = "files_tab.state"
-        # Get the config location for loading the state file
-        config_location = deluge.configmanager.get_config_dir()
-        state = None
-
-        try:
-            log.debug("Loading FilesTab state file: %s", filename)
-            state_file = open(os.path.join(config_location, filename), "rb")
-            state = cPickle.load(state_file)
-            state_file.close()
-        except (EOFError, IOError, AttributeError, cPickle.UnpicklingError), e:
-            log.warning("Unable to load state file: %s", e)
+        state = load_pickled_state_file("files_tabs.state")
 
         if state == None:
             return
@@ -807,14 +785,14 @@ class FilesTab(Tab):
                 return
             if new_folder_iter:
                 # This means that a folder by this name already exists
-                common.reparent_iter(self.treestore, self.treestore.iter_children(old_folder_iter), new_folder_iter)
+                reparent_iter(self.treestore, self.treestore.iter_children(old_folder_iter), new_folder_iter)
             else:
                 parent = old_folder_iter_parent
                 for ns in new_split[:-1]:
                     parent = self.treestore.append(parent, [ns + "/", 0, "", 0, 0, -1, gtk.STOCK_DIRECTORY])
 
                 self.treestore[old_folder_iter][0] = new_split[-1] + "/"
-                common.reparent_iter(self.treestore, old_folder_iter, parent)
+                reparent_iter(self.treestore, old_folder_iter, parent)
 
             # We need to check if the old_folder_iter_parent no longer has children
             # and if so, we delete it

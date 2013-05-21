@@ -37,15 +37,11 @@
 """The torrent details component shows info about the selected torrent."""
 
 import gtk
-import os
-import os.path
-import cPickle
 import logging
 
 import deluge.component as component
 from deluge.ui.client import client
-from deluge.configmanager import ConfigManager
-import deluge.configmanager
+from deluge.ui.gtkui.common import save_pickled_state_file, load_pickled_state_file
 
 log = logging.getLogger(__name__)
 
@@ -411,8 +407,6 @@ class TorrentDetails(component.Component):
 
     def save_state(self):
         """We save the state, which is basically the tab_index list"""
-        filename = "tabs.state"
-
         #Update the visiblity status of all tabs
         #Leave tabs we dont know anything about it the state as they
         #might come from a plugin
@@ -423,29 +417,7 @@ class TorrentDetails(component.Component):
                 log.debug("Set to %s %d" % self.state[i])
         state = self.state
 
-        # Get the config location for saving the state file
-        config_location = deluge.configmanager.get_config_dir()
-
-        try:
-            log.debug("Saving TorrentDetails state file: %s", filename)
-            state_file = open(os.path.join(config_location, filename), "wb")
-            cPickle.dump(state, state_file)
-            state_file.close()
-        except IOError, e:
-            log.warning("Unable to save state file: %s", e)
+        save_pickled_state_file("tabs.state", state)
 
     def load_state(self):
-        filename = "tabs.state"
-        # Get the config location for loading the state file
-        config_location = deluge.configmanager.get_config_dir()
-        state = None
-
-        try:
-            log.debug("Loading TorrentDetails state file: %s", filename)
-            state_file = open(os.path.join(config_location, filename), "rb")
-            state = cPickle.load(state_file)
-            state_file.close()
-        except (EOFError, IOError, cPickle.UnpicklingError), e:
-            log.warning("Unable to load state file: %s", e)
-
-        return state
+        return load_pickled_state_file("tabs.state")

@@ -40,6 +40,7 @@ gobject.set_prgname("deluge")
 from twisted.internet import gtk2reactor
 reactor = gtk2reactor.install()
 
+import os
 import gtk
 import sys
 import logging
@@ -71,13 +72,12 @@ from queuedtorrents import QueuedTorrents
 from addtorrentdialog import AddTorrentDialog
 from deluge.ui.sessionproxy import SessionProxy
 import dialogs
-import common
-
-import deluge.configmanager
+from deluge.ui.gtkui.common import associate_magnet_links
+from deluge.configmanager import ConfigManager, get_config_dir
 import deluge.common
 import deluge.error
-
 from deluge.ui.ui import _UI
+
 
 class Gtk(_UI):
 
@@ -89,6 +89,7 @@ class Gtk(_UI):
     def start(self):
         super(Gtk, self).start()
         GtkUI(self.args)
+
 
 def start():
     Gtk().start()
@@ -152,6 +153,7 @@ DEFAULT_PREFS = {
     "focus_main_window_on_add": True,
 }
 
+
 class GtkUI(object):
     def __init__(self, args):
         self.daemon_bps = (0,0,0)
@@ -192,10 +194,14 @@ class GtkUI(object):
 
         # Attempt to register a magnet URI handler with gconf, but do not overwrite
         # if already set by another program.
-        common.associate_magnet_links(False)
+        associate_magnet_links(False)
 
         # Make sure gtkui.conf has at least the defaults set
-        self.config = deluge.configmanager.ConfigManager("gtkui.conf", DEFAULT_PREFS)
+        self.config = ConfigManager("gtkui.conf", DEFAULT_PREFS)
+
+        # Make sure the gtkui state folder has been created
+        if not os.path.exists(os.path.join(get_config_dir(), "gtkui_state")):
+            os.makedirs(os.path.join(get_config_dir(), "gtkui_state"))
 
         # We need to check on exit if it was started in classic mode to ensure we
         # shutdown the daemon.
@@ -370,7 +376,7 @@ Please see the details below for more information."), details=traceback.format_e
                         if self.config["autostart_localhost"] and host in ("localhost", "127.0.0.1"):
                             log.debug("Autostarting localhost:%s", host)
                             try_connect = client.start_daemon(
-                                port, deluge.configmanager.get_config_dir()
+                                port, get_config_dir()
                             )
                             log.debug("Localhost started: %s", try_connect)
                             if not try_connect:

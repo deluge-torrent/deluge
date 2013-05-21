@@ -486,8 +486,8 @@ what is currently in the config and it could not convert the value
 
         # Make a backup of the old config
         try:
-            log.debug("Backing up old config file to %s~", filename)
-            shutil.move(filename, filename + "~")
+            log.debug("Backing up old config file to %s.bak", filename)
+            shutil.move(filename, filename + ".bak")
         except Exception, e:
             log.warning("Unable to backup old config...")
 
