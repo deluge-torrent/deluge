@@ -174,6 +174,12 @@ class PluginManagerBase:
         info = {}.fromkeys(METADATA_KEYS)
         last_header = ""
         cont_lines = []
+        # Missing plugin info
+        if not self.pkg_env[name]:
+            log.warn("Failed to retrive info for plugin '%s'" % name)
+            for k in info:
+                info[k] = _("Not available")
+            return info
         for line in self.pkg_env[name][0].get_metadata("PKG-INFO").splitlines():
             if not line:
                 continue
@@ -187,5 +193,4 @@ class PluginManagerBase:
                 if line.split(":", 1)[0] in info.keys():
                     last_header = line.split(":", 1)[0]
                     info[last_header] = line.split(":", 1)[1].strip()
-
         return info
