@@ -356,7 +356,6 @@ class MenuBar(component.Component):
                 client.core.move_storage(
                     component.get("TorrentView").get_selected_torrents(), path
                 ).addCallback(on_core_result)
-                self.move_storage_path_chooser.save_config()
             self.move_storage_dialog.hide()
 
         self.move_storage_dialog.connect("response", on_dialog_response_event)
