@@ -33,13 +33,13 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
-from twisted.trial import unittest
-
-from deluge.transfer import DelugeTransferProtocol
-
 import base64
-
+from twisted.trial import unittest
 import deluge.rencode as rencode
+from deluge.transfer import DelugeTransferProtocol
+import deluge.log
+
+deluge.log.setupLogger("none")
 
 class TransferTestClass(DelugeTransferProtocol):
 
@@ -77,7 +77,6 @@ class TransferTestClass(DelugeTransferProtocol):
         :param data: a zlib compressed string encoded with rencode.
 
         """
-        from datetime import timedelta
         import zlib
         print "\n=== New Data Received ===\nBytes received:", len(data)
 
@@ -109,8 +108,8 @@ class TransferTestClass(DelugeTransferProtocol):
             try:
                 request = rencode.loads(dobj.decompress(data))
                 print "Successfully loaded message",
-                print " - Buffer length: %d, data length: %d, unused length: %d" % (len(data), \
-                                                                                    len(data) - len(dobj.unused_data), len(dobj.unused_data))
+                print " - Buffer length: %d, data length: %d, unused length: %d" % \
+                    (len(data), len(data) - len(dobj.unused_data), len(dobj.unused_data))
                 print "Packet count:", self.packet_count
             except Exception, e:
                 #log.debug("Received possible invalid message (%r): %s", data, e)
@@ -124,6 +123,7 @@ class TransferTestClass(DelugeTransferProtocol):
                 self._message_length = 0
 
             self.message_received(request)
+
 
 class DelugeTransferProtocolTestCase(unittest.TestCase):
 
@@ -191,7 +191,8 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
         and lets DelugeTransferProtocol receive the data as one string.
 
         """
-        two_concatenated = base64.b64decode(self.msg1_expected_compressed_base64) + base64.b64decode(self.msg2_expected_compressed_base64)
+        two_concatenated = base64.b64decode(self.msg1_expected_compressed_base64) + \
+            base64.b64decode(self.msg2_expected_compressed_base64)
         self.transfer.dataReceived(two_concatenated)
 
         # Get the data as sent by DelugeTransferProtocol
@@ -207,13 +208,15 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
 
         """
         msg_bytes = base64.b64decode(self.msg1_expected_compressed_base64) + \
-                    base64.b64decode(self.msg2_expected_compressed_base64) + \
-                    base64.b64decode(self.msg1_expected_compressed_base64)
+            base64.b64decode(self.msg2_expected_compressed_base64) + \
+            base64.b64decode(self.msg1_expected_compressed_base64)
         packet_size = 40
 
         one_message_byte_count = len(base64.b64decode(self.msg1_expected_compressed_base64))
-        two_messages_byte_count = one_message_byte_count + len(base64.b64decode(self.msg2_expected_compressed_base64))
-        three_messages_byte_count = two_messages_byte_count + len(base64.b64decode(self.msg1_expected_compressed_base64))
+        two_messages_byte_count = one_message_byte_count + \
+            len(base64.b64decode(self.msg2_expected_compressed_base64))
+        three_messages_byte_count = two_messages_byte_count + \
+            len(base64.b64decode(self.msg1_expected_compressed_base64))
 
         for d in self.receive_parts_helper(msg_bytes, packet_size):
             bytes_received = self.transfer.get_bytes_recv()
@@ -237,7 +240,6 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
         message3 = self.transfer.get_messages_in().pop(0)
         self.assertEquals(rencode.dumps(self.msg1), rencode.dumps(message3))
 
-
     # Remove underscore to enable test, or run the test directly:
     # tests $ trial test_transfer.DelugeTransferProtocolTestCase._test_rencode_fail_protocol
     def _test_rencode_fail_protocol(self):
@@ -246,13 +248,15 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
 
         """
         msg_bytes = base64.b64decode(self.msg1_expected_compressed_base64) + \
-                    base64.b64decode(self.msg2_expected_compressed_base64) + \
-                    base64.b64decode(self.msg1_expected_compressed_base64)
+            base64.b64decode(self.msg2_expected_compressed_base64) + \
+            base64.b64decode(self.msg1_expected_compressed_base64)
         packet_size = 149
 
         one_message_byte_count = len(base64.b64decode(self.msg1_expected_compressed_base64))
-        two_messages_byte_count = one_message_byte_count + len(base64.b64decode(self.msg2_expected_compressed_base64))
-        three_messages_byte_count = two_messages_byte_count + len(base64.b64decode(self.msg1_expected_compressed_base64))
+        two_messages_byte_count = one_message_byte_count + \
+            len(base64.b64decode(self.msg2_expected_compressed_base64))
+        three_messages_byte_count = two_messages_byte_count + \
+            len(base64.b64decode(self.msg1_expected_compressed_base64))
 
         print
 
@@ -277,8 +281,8 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
                 expected_msgs_received_count = 0
             # Verify that the expected number of complete messages has arrived
             if expected_msgs_received_count != len(self.transfer.get_messages_in()):
-                print "Expected number of messages received is %d, but %d have been received."\
-                    % (expected_msgs_received_count, len(self.transfer.get_messages_in()))
+                print "Expected number of messages received is %d, but %d have been received." % \
+                    (expected_msgs_received_count, len(self.transfer.get_messages_in()))
 
         # Get the data as received by DelugeTransferProtocol
         message1 = self.transfer.get_messages_in().pop(0)
@@ -287,7 +291,6 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
         self.assertEquals(rencode.dumps(self.msg2), rencode.dumps(message2))
         message3 = self.transfer.get_messages_in().pop(0)
         self.assertEquals(rencode.dumps(self.msg1), rencode.dumps(message3))
-
 
     def test_receive_middle_of_header(self):
         """
@@ -301,17 +304,18 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
         to read and parse the size of the payload.
 
         """
-        two_concatenated = base64.b64decode(self.msg1_expected_compressed_base64) + base64.b64decode(self.msg2_expected_compressed_base64)
+        two_concatenated = base64.b64decode(self.msg1_expected_compressed_base64) + \
+            base64.b64decode(self.msg2_expected_compressed_base64)
         first_len = len(base64.b64decode(self.msg1_expected_compressed_base64))
 
         # Now found the entire first message, and half the header of the next message  (2 bytes into the header)
-        self.transfer.dataReceived(two_concatenated[:first_len+2])
+        self.transfer.dataReceived(two_concatenated[:first_len + 2])
 
         # Should be 1 message in the list
         self.assertEquals(1, len(self.transfer.get_messages_in()))
 
         # Send the rest
-        self.transfer.dataReceived(two_concatenated[first_len+2:])
+        self.transfer.dataReceived(two_concatenated[first_len + 2:])
 
         # Should be 2 messages in the list
         self.assertEquals(2, len(self.transfer.get_messages_in()))
@@ -321,7 +325,6 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
         self.assertEquals(rencode.dumps(self.msg1), rencode.dumps(message1))
         message2 = self.transfer.get_messages_in().pop(0)
         self.assertEquals(rencode.dumps(self.msg2), rencode.dumps(message2))
-
 
     # Needs file containing big data structure e.g. like thetorrent list as it is transfered by the daemon
     #def test_simulate_big_transfer(self):

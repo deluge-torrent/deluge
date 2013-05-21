@@ -1,10 +1,8 @@
 from twisted.trial import unittest
 
-import common
-
-from deluge.core.alertmanager import AlertManager
-from deluge.core.core import Core
 import deluge.component as component
+from deluge.core.core import Core
+
 
 class AlertManagerTestCase(unittest.TestCase):
     def setUp(self):
@@ -20,7 +18,7 @@ class AlertManagerTestCase(unittest.TestCase):
             del self.core
 
         return component.shutdown().addCallback(on_shutdown)
-        
+
     def test_register_handler(self):
         def handler(alert):
             return

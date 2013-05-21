@@ -2,6 +2,7 @@ from twisted.trial import unittest
 from twisted.internet import threads
 import deluge.component as component
 
+
 class testcomponent(component.Component):
     def __init__(self, name, depend=None):
         component.Component.__init__(self, name, depend=depend)
@@ -14,15 +15,18 @@ class testcomponent(component.Component):
     def stop(self):
         self.stop_count += 1
 
+
 class testcomponent_delaystart(testcomponent):
     def start(self):
         def do_sleep():
             import time
             time.sleep(1)
         d = threads.deferToThread(do_sleep)
+
         def on_done(result):
             self.start_count += 1
         return d.addCallback(on_done)
+
 
 class testcomponent_update(component.Component):
     def __init__(self, name):
@@ -37,6 +41,7 @@ class testcomponent_update(component.Component):
     def stop(self):
         self.stop_count += 1
 
+
 class testcomponent_shutdown(component.Component):
     def __init__(self, name):
         component.Component.__init__(self, name)
@@ -48,6 +53,7 @@ class testcomponent_shutdown(component.Component):
 
     def stop(self):
         self.stop_count += 1
+
 
 class ComponentTestClass(unittest.TestCase):
     def tearDown(self):
@@ -89,7 +95,7 @@ class ComponentTestClass(unittest.TestCase):
         c1 = testcomponent_delaystart("test_start_all_c1")
         c2 = testcomponent("test_start_all_c2", depend=["test_start_all_c4"])
         c3 = testcomponent_delaystart("test_start_all_c3",
-            depend=["test_start_all_c5", "test_start_all_c1"])
+                                      depend=["test_start_all_c5", "test_start_all_c1"])
         c4 = testcomponent("test_start_all_c4", depend=["test_start_all_c3"])
         c5 = testcomponent("test_start_all_c5")
 
@@ -112,7 +118,7 @@ class ComponentTestClass(unittest.TestCase):
         return ret[0]
 
     def test_register_exception(self):
-        c1 = testcomponent("test_register_exception_c1")
+        testcomponent("test_register_exception_c1")
         self.assertRaises(
             component.ComponentAlreadyRegistered,
             testcomponent,

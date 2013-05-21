@@ -3,6 +3,7 @@ from twisted.internet import defer
 from twisted.trial import unittest
 from deluge.log import setupLogger
 
+
 class LogTestCase(unittest.TestCase):
     def setUp(self):
         setupLogger(logging.DEBUG)

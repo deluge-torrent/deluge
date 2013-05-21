@@ -1,9 +1,7 @@
-
-import common
-
 from twisted.internet import defer
 from twisted.trial import unittest
 
+import deluge.tests.common as common
 from deluge import error
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.ui.client import client, Client, DaemonSSLProxy
@@ -22,6 +20,7 @@ class NoVersionSendingDaemonSSLProxy(DaemonSSLProxy):
 
     def __on_login_fail(self, result):
         self.login_deferred.errback(result)
+
 
 class NoVersionSendingClient(Client):
 
@@ -60,6 +59,7 @@ class NoVersionSendingClient(Client):
     def __on_disconnect(self):
         if self.disconnect_callback:
             self.disconnect_callback()
+
 
 class ClientTestCase(unittest.TestCase):
 
@@ -100,7 +100,7 @@ class ClientTestCase(unittest.TestCase):
         from deluge.ui import common
         username, password = common.get_localhost_auth()
         d = client.connect(
-            "localhost", 58846, username=username, password=password+'1'
+            "localhost", 58846, username=username, password=password + "1"
         )
 
         def on_failure(failure):

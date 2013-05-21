@@ -2,6 +2,7 @@ from twisted.trial import unittest
 
 from deluge.decorators import proxy
 
+
 class DecoratorsTestCase(unittest.TestCase):
     def test_proxy_with_simple_functions(self):
         def negate(func, *args, **kwargs):

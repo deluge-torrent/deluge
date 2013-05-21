@@ -3,7 +3,7 @@ import os
 
 import deluge.core.torrent
 import test_torrent
-import common
+import deluge.tests.common as common
 from deluge.core.rpcserver import RPCServer
 from deluge.core.core import Core
 
@@ -16,6 +16,7 @@ config_setup = False
 core = None
 rpcserver = None
 
+
 # This is called by torrent.py when calling component.get("...")
 def get(key):
     if key is "Core":
@@ -25,13 +26,15 @@ def get(key):
     else:
         return None
 
+
 class TorrentTestCase(unittest.TestCase):
 
     def setup_config(self):
         global config_setup
         config_setup = True
         config_dir = common.set_tmp_config_dir()
-        core_config = deluge.config.Config("core.conf", defaults=deluge.core.preferencesmanager.DEFAULT_PREFS, config_dir=config_dir)
+        core_config = deluge.config.Config("core.conf", defaults=deluge.core.preferencesmanager.DEFAULT_PREFS,
+                                           config_dir=config_dir)
         core_config.save()
 
     def setUp(self):
@@ -52,6 +55,7 @@ class TorrentTestCase(unittest.TestCase):
             self.torrent.prev_status_cleanup_loop.stop()
 
         deluge.core.torrent.component = self.original_component
+
         def on_shutdown(result):
             component._ComponentRegistry.components = {}
         return component.shutdown().addCallback(on_shutdown)
@@ -78,9 +82,9 @@ class TorrentTestCase(unittest.TestCase):
         return atp
 
     def test_set_prioritize_first_last(self):
-        piece_indexes = [(0,1), (0,1), (0,1), (0,1), (0,2), (50,52),
-                         (51,53), (110,112), (111,114), (200,203),
-                         (202,203), (212,213), (212,218), (457,463)]
+        piece_indexes = [(0, 1), (0, 1), (0, 1), (0, 1), (0, 2), (50, 52),
+                         (51, 53), (110, 112), (111, 114), (200, 203),
+                         (202, 203), (212, 213), (212, 218), (457, 463)]
         self.run_test_set_prioritize_first_last("dir_with_6_files.torrent", piece_indexes)
 
     def run_test_set_prioritize_first_last(self, torrent_file, prioritized_piece_indexes):

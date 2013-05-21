@@ -1,10 +1,12 @@
-from twisted.trial import unittest
-from deluge.common import *
 import os
+from twisted.trial import unittest
+from deluge.common import (setup_translations, VersionSplit, fsize, fpcnt, fspeed, fpeer,
+                           ftime, fdate, is_url, is_magnet, get_path_size, is_ip)
+
 
 class CommonTestCase(unittest.TestCase):
     def setUp(self):
-        pass
+        setup_translations()
 
     def tearDown(self):
         pass

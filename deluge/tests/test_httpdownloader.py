@@ -1,15 +1,14 @@
-import os
 import warnings
 
 from twisted.trial import unittest
 from twisted.internet import reactor
 from twisted.python.failure import Failure
-from twisted.web.http import FORBIDDEN, NOT_MODIFIED
+from twisted.web.http import NOT_MODIFIED
 try:
-    from twisted.web.resource import Resource, ForbiddenResource
+    from twisted.web.resource import Resource
 except ImportError:
     # twisted 8
-    from twisted.web.error import Resource, ForbiddenResource
+    from twisted.web.error import Resource
 from twisted.web.server import Site
 
 from deluge.httpdownloader import download_file
@@ -21,13 +20,15 @@ warnings.resetwarnings()
 
 from email.utils import formatdate
 
-import common
+import deluge.tests.common as common
 rpath = common.rpath
+
 
 class TestRedirectResource(Resource):
 
     def render(self, request):
         request.redirect("http://localhost:51242/")
+
 
 class TestRenameResource(Resource):
 
@@ -35,8 +36,9 @@ class TestRenameResource(Resource):
         filename = request.args.get("filename", ["renamed_file"])[0]
         request.setHeader("Content-Type", "text/plain")
         request.setHeader("Content-Disposition", "attachment; filename=" +
-            filename)
+                          filename)
         return "This file should be called " + filename
+
 
 class TestCookieResource(Resource):
 
@@ -50,12 +52,14 @@ class TestCookieResource(Resource):
 
         return request.getCookie("password")
 
+
 class TestGzipResource(Resource):
 
     def render(self, request):
         message = request.args.get("msg", ["EFFICIENCY!"])[0]
         request.setHeader("Content-Type", "text/plain")
         return compress(message, request)
+
 
 class TopLevelResource(Resource):
 
@@ -78,6 +82,7 @@ class TopLevelResource(Resource):
         if request.getHeader("If-Modified-Since"):
             request.setResponseCode(NOT_MODIFIED)
         return "<h1>Deluge HTTP Downloader tests webserver here</h1>"
+
 
 class DownloadFileTestCase(unittest.TestCase):
 
@@ -123,7 +128,7 @@ class DownloadFileTestCase(unittest.TestCase):
 
     def test_download_with_required_cookies(self):
         url = "http://localhost:51242/cookie"
-        cookie = { "cookie" : "password=deluge" }
+        cookie = {"cookie": "password=deluge"}
         d = download_file(url, "monster", headers=cookie)
         d.addCallback(self.assertEqual, "monster")
         d.addCallback(self.assertContains, "COOKIE MONSTER!")
@@ -184,7 +189,7 @@ class DownloadFileTestCase(unittest.TestCase):
         return d
 
     def test_page_not_modified(self):
-        headers = { 'If-Modified-Since' : formatdate(usegmt=True) }
+        headers = {'If-Modified-Since': formatdate(usegmt=True)}
         d = download_file("http://localhost:51242/", "index.html", headers=headers)
         d.addCallback(self.fail)
         d.addErrback(self.assertIsInstance, Failure)

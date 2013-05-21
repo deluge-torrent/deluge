@@ -4,6 +4,7 @@ from twisted.internet.defer import maybeDeferred, succeed
 import deluge.ui.sessionproxy
 import deluge.component as component
 
+
 class Core(object):
     def __init__(self):
         self.reset()
@@ -70,18 +71,22 @@ class Core(object):
                     self.prev_status[torrent] = dict(self.torrents[torrent])
                 return succeed(ret)
 
+
 class Client(object):
     def __init__(self):
         self.core = Core()
 
     def __noop__(self, *args, **kwargs):
         return None
+
     def __getattr__(self, *args, **kwargs):
         return self.__noop__
 
 client = Client()
 
 deluge.ui.sessionproxy.client = client
+
+
 class SessionProxyTestCase(unittest.TestCase):
     def setUp(self):
         self.sp = deluge.ui.sessionproxy.SessionProxy()

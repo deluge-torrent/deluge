@@ -1,3 +1,11 @@
+import os
+import warnings
+
+try:
+    from hashlib import sha1 as sha
+except ImportError:
+    from sha import sha
+
 from twisted.trial import unittest
 from twisted.internet import reactor
 from twisted.python.failure import Failure
@@ -6,16 +14,7 @@ from twisted.web.resource import Resource
 from twisted.web.server import Site
 from twisted.web.static import File
 
-try:
-    from hashlib import sha1 as sha
-except ImportError:
-    from sha import sha
-
-import os
-import common
-import warnings
-rpath = common.rpath
-
+import deluge.tests.common as common
 from deluge.core.rpcserver import RPCServer
 from deluge.core.core import Core
 warnings.filterwarnings("ignore", category=RuntimeWarning)
@@ -23,6 +22,9 @@ from deluge.ui.web.common import compress
 warnings.resetwarnings()
 import deluge.component as component
 import deluge.error
+
+rpath = common.rpath
+
 
 class TestCookieResource(Resource):
 
@@ -34,6 +36,7 @@ class TestCookieResource(Resource):
         request.setHeader("Content-Type", "application/x-bittorrent")
         return open(rpath("ubuntu-9.04-desktop-i386.iso.torrent")).read()
 
+
 class TestPartialDownload(Resource):
 
     def render(self, request):
@@ -44,11 +47,13 @@ class TestPartialDownload(Resource):
             return compress(data, request)
         return data
 
+
 class TestRedirectResource(Resource):
 
     def render(self, request):
         request.redirect("/ubuntu-9.04-desktop-i386.iso.torrent")
         return ""
+
 
 class TopLevelResource(Resource):
 
@@ -59,7 +64,9 @@ class TopLevelResource(Resource):
         self.putChild("cookie", TestCookieResource())
         self.putChild("partial", TestPartialDownload())
         self.putChild("redirect", TestRedirectResource())
-        self.putChild("ubuntu-9.04-desktop-i386.iso.torrent", File(common.rpath("ubuntu-9.04-desktop-i386.iso.torrent")))
+        self.putChild("ubuntu-9.04-desktop-i386.iso.torrent",
+                      File(common.rpath("ubuntu-9.04-desktop-i386.iso.torrent")))
+
 
 class CoreTestCase(unittest.TestCase):
     def setUp(self):
@@ -107,7 +114,7 @@ class CoreTestCase(unittest.TestCase):
     def test_add_torrent_url_with_cookie(self):
         url = "http://localhost:51242/cookie"
         options = {}
-        headers = { "Cookie" : "password=deluge" }
+        headers = {"Cookie": "password=deluge"}
         info_hash = "60d5d82328b4547511fdeac9bf4d0112daa0ce00"
 
         d = self.core.add_torrent_url(url, options)
@@ -188,9 +195,9 @@ class CoreTestCase(unittest.TestCase):
 
     def test_sanitize_filepath(self):
         pathlist = {
-            '\\backslash\\path\\' : 'backslash/path',
+            '\\backslash\\path\\': 'backslash/path',
             ' single_file ': 'single_file',
-            '..' : '',
+            '..': '',
             '/../..../': '',
             '  Def ////ad./ / . . /b  d /file': 'Def/ad./. ./b  d/file',
             '/ test /\\.. /.file/': 'test/.file',

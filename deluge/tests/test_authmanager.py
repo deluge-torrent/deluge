@@ -1,8 +1,7 @@
 from twisted.trial import unittest
 
-import common
-
 from deluge.core.authmanager import AuthManager, AUTH_LEVEL_ADMIN
+
 
 class AuthManagerTestCase(unittest.TestCase):
     def setUp(self):

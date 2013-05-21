@@ -1,18 +1,16 @@
 import os
-
 from twisted.trial import unittest
-
 from deluge.ui.tracker_icons import TrackerIcons, TrackerIcon
+from deluge.tests.common import set_tmp_config_dir
 
-import common
-
-common.set_tmp_config_dir()
+set_tmp_config_dir()
 icons = TrackerIcons()
 
 dirname = os.path.dirname(__file__)
 
 import deluge.ui.tracker_icons
 deluge.ui.tracker_icons.PIL_INSTALLED = False
+
 
 class TrackerIconsTestCase(unittest.TestCase):
 

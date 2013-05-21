@@ -10,20 +10,19 @@ import deluge.log
 
 deluge.log.setupLogger("none")
 
+
 def set_tmp_config_dir():
     config_directory = tempfile.mkdtemp()
     deluge.configmanager.set_config_dir(config_directory)
     return config_directory
 
+
 def rpath(*args):
     return os.path.join(os.path.dirname(__file__), *args)
 
-import gettext
-import locale
-import pkg_resources
-
 # Initialize gettext
 deluge.common.setup_translations()
+
 
 def start_core():
     CWD = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
@@ -44,7 +43,7 @@ deluge.main.start_daemon()
     while True:
         line = core.stderr.readline()
         if "starting on 58846" in line:
-            time.sleep(0.3) # Slight pause just incase
+            time.sleep(0.3)  # Slight pause just incase
             break
         elif "Couldn't listen on localhost:58846" in line:
             raise SystemExit("Could not start deluge test client. %s" % line)

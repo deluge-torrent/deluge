@@ -1,6 +1,4 @@
 from twisted.trial import unittest
-from twisted.python.failure import Failure
-
 import os
 import tempfile
 
@@ -14,7 +12,8 @@ def check_torrent(filename):
 
     # Test loading with our internal TorrentInfo class
     from deluge.ui.common import TorrentInfo
-    ti = TorrentInfo(filename)
+    TorrentInfo(filename)
+
 
 class MakeTorrentTestCase(unittest.TestCase):
     def test_save_multifile(self):
@@ -39,7 +38,7 @@ class MakeTorrentTestCase(unittest.TestCase):
 
     def test_save_singlefile(self):
         tmp_data = tempfile.mkstemp("testdata")[1]
-        open(tmp_data, "wb").write("a"*(2314*1024))
+        open(tmp_data, "wb").write("a" * (2314 * 1024))
         t = maketorrent.TorrentMetadata()
         t.data_path = tmp_data
         tmp_file = tempfile.mkstemp(".torrent")[1]
