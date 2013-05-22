@@ -935,29 +935,28 @@ class TorrentManager(component.Component):
     def on_alert_torrent_finished(self, alert):
         log.debug("on_alert_torrent_finished")
         try:
-            torrent = self.torrents[str(alert.handle.info_hash())]
             torrent_id = str(alert.handle.info_hash())
-        except:
+            torrent = self.torrents[torrent_id]
+        except (RuntimeError, KeyError):
             return
-        log.debug("%s is finished..", torrent_id)
+        log.debug("Finished %s ", torrent_id)
 
-        # Get the total_download and if it's 0, do not move.. It's likely
-        # that the torrent wasn't downloaded, but just added.
+        # If total_download is 0, do not move, it's likely the torrent wasn't downloaded, but just added.
         total_download = torrent.get_status(["total_payload_download"])["total_payload_download"]
 
+        log.debug("Torrent settings: is_finished: %s, total_download: %s, move_completed: %s, move_path: %s",
+                  torrent.is_finished, total_download, torrent.options["move_completed"],
+                  torrent.options["move_completed_path"])
+
         # Move completed download to completed folder if needed
-        if not torrent.is_finished and total_download:
-            move_path = None
+        if not torrent.is_finished and total_download and torrent.options["move_completed"]:
+            if torrent.options["download_location"] != torrent.options["move_completed_path"]:
+                torrent.move_storage(torrent.options["move_completed_path"])
 
-            if torrent.options["move_completed"]:
-                move_path = torrent.options["move_completed_path"]
-                if torrent.options["download_location"] != move_path:
-                    torrent.move_storage(move_path)
-
-            component.get("EventManager").emit(TorrentFinishedEvent(torrent_id))
-
-        torrent.is_finished = True
         torrent.update_state()
+        if not torrent.is_finished and total_download:
+            component.get("EventManager").emit(TorrentFinishedEvent(torrent_id))
+        torrent.is_finished = True
 
         # Torrent is no longer part of the queue
         try:
