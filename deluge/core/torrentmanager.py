@@ -147,6 +147,7 @@ class TorrentManager(component.Component):
         self.state_dir = os.path.join(get_config_dir(), "state")
         if not os.path.exists(self.state_dir):
             os.makedirs(self.state_dir)
+        self.temp_file = os.path.join(self.state_dir, ".safe_state_check")
 
         # Create the torrents dict { torrent_id: Torrent }
         self.torrents = {}
@@ -213,13 +214,12 @@ class TorrentManager(component.Component):
         # Get the pluginmanager reference
         self.plugins = component.get("CorePluginManager")
 
-        # Check for temp file
-        self.temp_file = os.path.join(self.state_dir, ".safe_state_check")
+        # Check for old temp file to verify safe shutdown
         if os.path.isfile(self.temp_file):
             def archive_file(filename):
                 import datetime
                 filepath = os.path.join(self.state_dir, filename)
-                filepath_bak = state_filepath + ".bak"
+                filepath_bak = filepath + ".bak"
                 archive_dir = os.path.join(get_config_dir(), "archive")
                 if not os.path.exists(archive_dir):
                     os.makedirs(archive_dir)
