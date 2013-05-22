@@ -888,9 +888,10 @@ class TorrentManager(component.Component):
 
         torrent.update_state()
         if not torrent.is_finished and total_download:
+            torrent.is_finished = True
             component.get("EventManager").emit(TorrentFinishedEvent(torrent_id))
-
-        torrent.is_finished = True
+        else:
+            torrent.is_finished = True
 
         # Torrent is no longer part of the queue
         try:
