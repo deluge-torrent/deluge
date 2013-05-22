@@ -193,7 +193,7 @@ class AuthManager(component.Component):
 
     def write_auth_file(self):
         filename = "auth"
-        filepath = os.path.join(configmanager,get_config_dir(), filename)
+        filepath = os.path.join(configmanager.get_config_dir(), filename)
         filepath_bak = filepath + ".bak"
 
         try:
