@@ -36,15 +36,6 @@
 
 
 class DelugeError(Exception):
-    def _get_message(self):
-        return self._message
-    def _set_message(self, message):
-        self._message = message
-    message = property(_get_message, _set_message)
-    del _get_message, _set_message
-
-    def __str__(self):
-        return self.message
 
     def __new__(cls, *args, **kwargs):
         inst = super(DelugeError, cls).__new__(cls, *args, **kwargs)
@@ -52,80 +43,71 @@ class DelugeError(Exception):
         inst._kwargs = kwargs
         return inst
 
-class NoCoreError(DelugeError):
-    pass
+    def __init__(self, message=None):
+        self.message = message
+
+    def __str__(self):
+        return self.message
+
 
 class DaemonRunningError(DelugeError):
     pass
 
+
 class InvalidTorrentError(DelugeError):
     pass
+
 
 class InvalidPathError(DelugeError):
     pass
 
-class WrappedException(DelugeError):
-    def _get_traceback(self):
-        return self._traceback
-    def _set_traceback(self, traceback):
-        self._traceback = traceback
-    traceback = property(_get_traceback, _set_traceback)
-    del _get_traceback, _set_traceback
 
-    def _get_type(self):
-        return self._type
-    def _set_type(self, type):
-        self._type = type
-    type = property(_get_type, _set_type)
-    del _get_type, _set_type
+class WrappedException(DelugeError):
 
     def __init__(self, message, exception_type, traceback):
         self.message = message
         self.type = exception_type
         self.traceback = traceback
 
+
 class _ClientSideRecreateError(DelugeError):
     pass
 
+
 class IncompatibleClient(_ClientSideRecreateError):
+
     def __init__(self, daemon_version):
         self.daemon_version = daemon_version
-        self.message = _(
-            "Your deluge client is not compatible with the daemon. "
-            "Please upgrade your client to %(daemon_version)s"
-        ) % dict(daemon_version=self.daemon_version)
+        msg = "Your deluge client is not compatible with the daemon. "\
+            "Please upgrade your client to %(daemon_version)s" % \
+            dict(daemon_version=self.daemon_version)
+        super(IncompatibleClient, self).__init__(message=msg)
+
 
 class NotAuthorizedError(_ClientSideRecreateError):
 
     def __init__(self, current_level, required_level):
-        self.message = _(
-            "Auth level too low: %(current_level)s < %(required_level)s" %
+        msg = "Auth level too low: %(current_level)s < %(required_level)s" % \
             dict(current_level=current_level, required_level=required_level)
-        )
+        super(NotAuthorizedError, self).__init__(message=msg)
         self.current_level = current_level
         self.required_level = required_level
 
 
 class _UsernameBasedPasstroughError(_ClientSideRecreateError):
 
-    def _get_username(self):
-        return self._username
-    def _set_username(self, username):
-        self._username = username
-    username = property(_get_username, _set_username)
-    del _get_username, _set_username
-
     def __init__(self, message, username):
         super(_UsernameBasedPasstroughError, self).__init__(message)
-        self.message = message
         self.username = username
 
 
 class BadLoginError(_UsernameBasedPasstroughError):
     pass
 
+
 class AuthenticationRequired(_UsernameBasedPasstroughError):
     pass
+
 
 class AuthManagerError(_UsernameBasedPasstroughError):
     pass

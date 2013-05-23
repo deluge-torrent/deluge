@@ -144,7 +144,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
         only message that a client sends to the server is a RPC Request message.
         If the RPC Request message is valid, then the method is called in
         :meth:`dispatch`.
-        
+
         :param request: the request from the client.
         :type data: tuple
 
@@ -238,16 +238,17 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                     exceptionValue._kwargs,
                     formated_tb
                 ))
-            except Exception, err:
-                # This most likely not a deluge exception, let's wrap it
+            except AttributeError, err:
+                # This is not a deluge exception (object has no attribute '_args), let's wrap it
                 log.error("An exception occurred while sending RPC_ERROR to "
                           "client. Wrapping it and resending. Error to "
                           "send(causing exception goes next):\n%s", formated_tb)
-                log.exception(err)
                 try:
                     raise WrappedException(str(exceptionValue), exceptionType.__name__, formated_tb)
                 except:
                     sendError()
+            except Exception, err:
+                log.error("An exception occurred while sending RPC_ERROR to client: %s", err)
 
         if method == "daemon.info":
             # This is a special case and used in the initial connection process
