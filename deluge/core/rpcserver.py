@@ -228,7 +228,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
             Sends an error response with the contents of the exception that was raised.
             """
             exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
-            formated_tb = "".join(traceback.format_tb(exceptionTraceback))
+            formated_tb = traceback.format_exc()
             try:
                 self.sendData((
                     RPC_ERROR,

@@ -2,8 +2,10 @@
 
 import os
 from twisted.trial import unittest
+from twisted.internet import task
 from deluge.tests.common import set_tmp_config_dir
 from deluge.config import Config
+import deluge.config
 
 DEFAULTS = {"string": "foobar", "int": 1, "float": 0.435, "bool": True, "unicode": u"foobar"}
 
@@ -106,10 +108,16 @@ class ConfigTestCase(unittest.TestCase):
         self.assertEquals(config["int"], 2)
 
     def test_save_timer(self):
+        self.clock = task.Clock()
+        deluge.config.callLater = self.clock.callLater
+
         config = Config("test.conf", defaults=DEFAULTS, config_dir=self.config_dir)
         config["string"] = "baz"
         config["int"] = 2
         self.assertTrue(config._save_timer.active())
+
+        # Timeout set for 5 seconds in config, so lets move clock by 5 seconds
+        self.clock.advance(5)
 
         def check_config(config):
             self.assertTrue(not config._save_timer.active())
@@ -118,10 +126,7 @@ class ConfigTestCase(unittest.TestCase):
             self.assertEquals(config["string"], "baz")
             self.assertEquals(config["int"], 2)
 
-        from twisted.internet.task import deferLater
-        from twisted.internet import reactor
-        d = deferLater(reactor, 7, check_config, config)
-        return d
+        check_config(config)
 
     def test_find_json_objects(self):
         s = """{

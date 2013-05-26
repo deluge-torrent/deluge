@@ -9,7 +9,7 @@ class LogTestCase(unittest.TestCase):
         setupLogger(logging.DEBUG)
 
     def tearDown(self):
-        pass
+        setupLogger("none")
 
     def test_old_LOG_deprecation_warning(self):
         import warnings
