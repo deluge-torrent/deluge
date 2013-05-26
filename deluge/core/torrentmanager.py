@@ -804,7 +804,7 @@ class TorrentManager(component.Component):
             log.info("Saving the %s at: %s", filename, filepath)
             try:
                 with open(filepath, "wb") as _file:
-                    _file.write(lt.bencode(self.session.save_state()))
+                    _file.write(lt.bencode(self.resume_data))
                     _file.flush()
                     os.fsync(_file.fileno())
             except (IOError, EOFError) as ex:

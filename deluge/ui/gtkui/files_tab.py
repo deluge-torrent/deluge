@@ -260,7 +260,7 @@ class FilesTab(Tab):
         save_pickled_state_file("files_tab.state", state)
 
     def load_state(self):
-        state = load_pickled_state_file("files_tabs.state")
+        state = load_pickled_state_file("files_tab.state")
 
         if state == None:
             return
