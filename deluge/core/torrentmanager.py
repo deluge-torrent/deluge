@@ -621,6 +621,17 @@ class TorrentManager(component.Component):
         if state is None:
             state = TorrentManagerState()
 
+        # Fixup an old state by adding missing TorrentState options and assigning them None
+        try:
+            if len(state.torrents) > 0:
+                state_tmp = TorrentState()
+                if dir(state.torrents[0]) != dir(state_tmp):
+                    for attr in (set(dir(state_tmp)) - set(dir(state.torrents[0]))):
+                        for s in state.torrents:
+                            setattr(s, attr, getattr(state_tmp, attr, None))
+        except Exception, e:
+            log.exception("Unable to update state file to a compatible version: %s", e)
+
         # Reorder the state.torrents list to add torrents in the correct queue
         # order.
         state.torrents.sort(key=operator.attrgetter("queue"), reverse=self.config["queue_new_to_top"])
