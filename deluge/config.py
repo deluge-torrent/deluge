@@ -72,12 +72,11 @@ import logging
 import shutil
 import os
 
-from twisted.internet.reactor import callLater
-
 import deluge.common
 
 json = deluge.common.json
 log = logging.getLogger(__name__)
+callLater = None # Necessary for the config tests
 
 def prop(func):
     """Function decorator for defining property attributes
@@ -219,6 +218,11 @@ what is currently in the config and it could not convert the value
         log.debug("Setting '%s' to %s of %s", key, value, type(value))
 
         self.__config[key] = value
+
+        global callLater
+        if callLater is None:
+            # Must import here and not at the top or it will throw ReactorAlreadyInstalledError
+            from twisted.internet.reactor import callLater
         # Run the set_function for this key if any
         try:
             for func in self.__set_functions[key]:

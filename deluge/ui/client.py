@@ -152,12 +152,12 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
             # Recreate exception and errback'it
             try:
                 # The exception class is located in deluge.error
-                if hasattr(error, request[2]):
+                try:
                     exception_cls = getattr(error, request[2])
                     exception = exception_cls(*request[3], **request[4])
-                else:
-                    # Shouldn't happen
-                    raise Exception("Received invalid exception: %s", request[2])
+                except TypeError, err:
+                    log.warn("Received invalid RPC_ERROR (Old daemon?): %s", request[2])
+                    return
 
                 # Ideally we would chain the deferreds instead of instance
                 # checking just to log them. But, that would mean that any
@@ -187,7 +187,6 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                     # what's happening
                     log.debug(msg)
             except:
-                # Failed probably because of invalid data (old daemon)
                 import traceback
                 log.error("Failed to handle RPC_ERROR (Old daemon?): %s\nLocal error: %s", request[2], traceback.format_exc())
             d.errback(exception)
