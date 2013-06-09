@@ -242,7 +242,7 @@ class JSON(resource.Resource, component.Component):
 
     def _on_rpc_request_failed(self, reason, response, request):
         """
-        Handles any failures that occured while making an rpc call.
+        Handles any failures that occurred while making an rpc call.
         """
         request.setResponseCode(http.INTERNAL_SERVER_ERROR)
         return ""
@@ -658,7 +658,7 @@ class WebApi(JSONComponent):
                                                       allow_compression=False)
                 result.addCallbacks(on_download_success, on_download_fail)
             else:
-                log.error("Error occured downloading torrent from %s", url)
+                log.error("Error occurred downloading torrent from %s", url)
                 log.error("Reason: %s", result.getErrorMessage())
             return result
 
@@ -871,7 +871,7 @@ class WebApi(JSONComponent):
             d.addCallback(on_connect, c)
             d.addErrback(on_connect_failed)
         except:
-            main_deferred.callback((False, "An error occured"))
+            main_deferred.callback((False, "An error occurred"))
         return main_deferred
 
     @export

@@ -247,7 +247,7 @@ class TrackerIcons(Component):
         """
         Recovers from download error
 
-        :param f: the failure that occured
+        :param f: the failure that occurred
         :type f: Failure
         :param host: the name of the host whose page failed to download
         :type host: string
@@ -314,7 +314,7 @@ class TrackerIcons(Component):
         """
         Recovers from a parse error
 
-        :param f: the failure that occured
+        :param f: the failure that occurred
         :type f: Failure
         :returns: a Deferred if recovery was possible
                   else the original failure
@@ -386,7 +386,7 @@ class TrackerIcons(Component):
         """
         Recovers from a download error
 
-        :param f: the failure that occured
+        :param f: the failure that occurred
         :type f: Failure
         :param host: the host the icon failed to download for
         :type host: string

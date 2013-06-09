@@ -293,7 +293,7 @@ class Core(component.Component):
                 result.addCallbacks(on_download_success, on_download_fail)
             else:
                 # Log the error and pass the failure onto the client
-                log.error("Error occured downloading torrent from %s", url)
+                log.error("Error occurred downloading torrent from %s", url)
                 log.error("Reason: %s", failure.getErrorMessage())
                 result = failure
             return result

@@ -350,7 +350,7 @@ class Core(CorePluginBase):
         """
         Recovers from download error
 
-        :param f: failure that occured
+        :param f: failure that occurred
         :type f: Failure
         :returns: a Deferred if recovery was possible
                   else the original failure
@@ -470,7 +470,7 @@ class Core(CorePluginBase):
         """
         Recovers from import error
 
-        :param f: failure that occured
+        :param f: failure that occurred
         :type f: Failure
         :returns: a Deferred if recovery was possible
                   else the original failure

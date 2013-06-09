@@ -128,7 +128,7 @@ class DelugeTransferProtocol(Protocol):
             # Remove the header from the buffer
             self._buffer = self._buffer[MESSAGE_HEADER_SIZE:]
         except Exception, e:
-            log.warn("Error occured when parsing message header: %s." % str(e))
+            log.warn("Error occurred when parsing message header: %s." % str(e))
             log.warn("This version of Deluge cannot communicate with the sender of this data.")
             self._message_length = 0
             self._buffer = ""

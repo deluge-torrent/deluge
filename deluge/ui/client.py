@@ -208,7 +208,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
             # Send the request in a tuple because multiple requests can be sent at once
             self.transfer_message((request.format_message(),))
         except Exception, e:
-            log.warn("Error occured when sending message:" + str(e))
+            log.warn("Error occurred when sending message:" + str(e))
 
 class DelugeRPCClientFactory(ClientFactory):
     protocol = DelugeRPCProtocol

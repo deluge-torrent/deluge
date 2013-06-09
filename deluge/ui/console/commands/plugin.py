@@ -149,7 +149,7 @@ class Command(BaseCommand):
 
                     client.core.rescan_plugins()
                 except:
-                    self.console.write("{!error!}An error occured, plugin was not installed")
+                    self.console.write("{!error!}An error occurred, plugin was not installed")
 
             self.console.write("{!green!}Plugin was successfully installed: %s" % filename)
 
