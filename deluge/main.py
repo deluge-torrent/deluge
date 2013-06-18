@@ -227,7 +227,7 @@ this should be an IP address", metavar="IFACE",
         log.addHandler(file_handler)
 
     # If the donot daemonize is set, then we just skip the forking
-    if not (options.donot or deluge.common.windows_check() or deluge.common.osx_check()):
+    if not (deluge.common.windows_check() or deluge.common.osx_check() or options.donot):
         if os.fork():
             # We've forked and this is now the parent process, so die!
             os._exit(0)
