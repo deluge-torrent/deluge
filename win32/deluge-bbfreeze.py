@@ -1,23 +1,18 @@
 import os, glob, sys
 import shutil
+import gtk
 import deluge.common
 
 # Get build_version from installed deluge
 build_version = deluge.common.get_version()
 print "Deluge Version: %s" % build_version
-python_path = os.path.dirname(sys.executable) + "\\"
-print "Python Path: %s" % python_path
-gtk_root = python_path + "Lib\\site-packages\\gtk-2.0\\runtime\\"
+python_path = os.path.dirname(sys.executable)
+if python_path.endswith("Scripts"):
+    python_path = python_path[:-8]
+python_path += os.path.sep
 
-# Copy entry scripts with new name, which represents final .exe filename
-shutil.copy(python_path + "Scripts\deluge-script.pyw", python_path + "Scripts\deluge.py")
-shutil.copy(python_path + "Scripts\deluge-script.pyw", python_path + "Scripts\deluge-debug.py")
-shutil.copy(python_path + "Scripts\deluged-script.py", python_path + "Scripts\deluged.py")
-shutil.copy(python_path + "Scripts\deluged-script.py", python_path + "Scripts\deluged-debug.py")
-shutil.copy(python_path + "Scripts\deluge-web-script.py", python_path + "Scripts\deluge-web.py")
-shutil.copy(python_path + "Scripts\deluge-web-script.py", python_path + "Scripts\deluge-web-debug.py")
-shutil.copy(python_path + "Scripts\deluge-gtk-script.pyw", python_path + "Scripts\deluge-gtk.py")
-shutil.copy(python_path + "Scripts\deluge-console-script.py", python_path + "Scripts\deluge-console.py")
+print "Python Path: %s" % python_path
+gtk_root = os.path.join(gtk.__path__[0], "..\\runtime\\")
 
 # Include python modules not picked up automatically by bbfreeze
 includes=(
@@ -38,14 +33,14 @@ bbfreeze.recipes.recipe_gtk_and_friends = recipe_gtk_override
 from bbfreeze import Freezer
 f = Freezer(dst, includes=includes, excludes=excludes)
 f.include_py = False
-f.addScript(python_path + "Scripts\deluge.py", gui_only=True)
-f.addScript(python_path + "Scripts\deluge-debug.py", gui_only=False)
-f.addScript(python_path + "Scripts\deluged.py", gui_only=True)
-f.addScript(python_path + "Scripts\deluged-debug.py", gui_only=False)
-f.addScript(python_path + "Scripts\deluge-web.py", gui_only=True)
-f.addScript(python_path + "Scripts\deluge-web-debug.py", gui_only=False)
-f.addScript(python_path + "Scripts\deluge-gtk.py", gui_only=True)
-f.addScript(python_path + "Scripts\deluge-console.py", gui_only=False)
+f.addEntryPoint('deluge', 'deluge.main:start_ui').gui_only = True
+f.addEntryPoint('deluge-debug', 'deluge.main:start_ui')
+f.addEntryPoint("deluged", "deluge.main:start_daemon").gui_only = True
+f.addEntryPoint("deluged-debug", "deluge.main:start_daemon")
+f.addEntryPoint("deluge-web", "deluge.ui.web:start").gui_only = True
+f.addEntryPoint("deluge-web-debug", "deluge.ui.web:start")
+f.addEntryPoint("deluge-gtk", "deluge.ui.gtk:start").gui_only = True
+f.addEntryPoint("deluge-console", "deluge.ui.console:start")
 f()    # starts the freezing process
 
 # add icons to the exe files
