@@ -1,6 +1,9 @@
 import os, glob, sys
 import shutil
 import gtk
+import icon
+from bbfreeze import Freezer
+import bbfreeze.recipes
 import deluge.common
 
 # Get build_version from installed deluge
@@ -25,35 +28,35 @@ dst = "..\\build-win32\\deluge-bbfreeze-" + build_version + "\\"
 
 # Need to override bbfreeze function so that it includes all gtk libraries
 # in the installer so users don't require a separate GTK+ installation.
-import bbfreeze.recipes
 def recipe_gtk_override(mf):
     return True
 bbfreeze.recipes.recipe_gtk_and_friends = recipe_gtk_override
 
-from bbfreeze import Freezer
 f = Freezer(dst, includes=includes, excludes=excludes)
 f.include_py = False
-f.addEntryPoint('deluge', 'deluge.main:start_ui').gui_only = True
-f.addEntryPoint('deluge-debug', 'deluge.main:start_ui')
-f.addEntryPoint("deluged", "deluge.main:start_daemon").gui_only = True
-f.addEntryPoint("deluged-debug", "deluge.main:start_daemon")
-f.addEntryPoint("deluge-web", "deluge.ui.web:start").gui_only = True
-f.addEntryPoint("deluge-web-debug", "deluge.ui.web:start")
-f.addEntryPoint("deluge-gtk", "deluge.ui.gtk:start").gui_only = True
-f.addEntryPoint("deluge-console", "deluge.ui.console:start")
+# Can/should we grab this from setup.py entry_points somehow
+gui_scripts = ["deluge", "deluged", "deluge-web", "deluge-gtk"]
+console_scripts = ["deluge-debug", "deluged-debug", "deluge-web-debug", "deluge-console"]
+
+# Copy the scripts to get rid of the '-script' suffix before adding to freezer
+for script in gui_scripts:
+    shutil.copy(python_path + "Scripts/%s-script.pyw" % script, python_path + "Scripts/%s.pyw" % script)
+    f.addScript(python_path + "Scripts/%s.pyw" % script, gui_only=True)
+for script in console_scripts:
+    shutil.copy(python_path + "Scripts/%s-script.py" % script, python_path + "Scripts/%s.py" % script)
+    f.addScript(python_path + "Scripts/%s.py" % script, gui_only=False)
 f()    # starts the freezing process
 
+# Clean up the duplicated scripts
+for script in gui_scripts:
+    os.remove(python_path + "Scripts/%s.pyw" % script)
+for script in console_scripts:
+    os.remove(python_path + "Scripts/%s.py" % script)
+
 # add icons to the exe files
-import icon
 icon_path = os.path.join(os.path.dirname(__file__), "deluge.ico")
-icon.CopyIcons(dst+"deluge.exe", icon_path)
-icon.CopyIcons(dst+"deluge-debug.exe", icon_path)
-icon.CopyIcons(dst+"deluged.exe", icon_path)
-icon.CopyIcons(dst+"deluged-debug.exe", icon_path)
-icon.CopyIcons(dst+"deluge-web.exe", icon_path)
-icon.CopyIcons(dst+"deluge-web-debug.exe", icon_path)
-icon.CopyIcons(dst+"deluge-gtk.exe", icon_path)
-icon.CopyIcons(dst+"deluge-console.exe", icon_path)
+for script in console_scripts + gui_scripts:
+    icon.CopyIcons(dst + script + ".exe", icon_path)
 
 # exclude files which are already included in GTK or Windows
 excludeDlls = ("MSIMG32.dll", "MSVCR90.dll", "MSVCP90.dll", "POWRPROF.dll", "DNSAPI.dll", "USP10.dll")
