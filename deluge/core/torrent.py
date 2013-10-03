@@ -124,8 +124,6 @@ class Torrent(object):
         # We use this to return dicts that only contain changes from the previous
         # {session_id: status_dict, ...}
         self.prev_status = {}
-        self.prev_status_cleanup_loop = LoopingCall(self._cleanup_prev_status)
-        self.prev_status_cleanup_loop.start(10)
 
         # Set the libtorrent handle
         self.handle = handle
@@ -1017,7 +1015,7 @@ class Torrent(object):
         except OSError as (errno, strerror):
             log.debug("Cannot Remove Folder: %s (ErrNo %s)", strerror, errno)
 
-    def _cleanup_prev_status(self):
+    def cleanup_prev_status(self):
         """
         This method gets called to check the validity of the keys in the prev_status
         dict.  If the key is no longer valid, the dict will be deleted.

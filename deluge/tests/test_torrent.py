@@ -51,9 +51,6 @@ class TorrentTestCase(unittest.TestCase):
         return component.start()
 
     def tearDown(self):
-        if self.torrent:
-            self.torrent.prev_status_cleanup_loop.stop()
-
         deluge.core.torrent.component = self.original_component
 
         def on_shutdown(result):

@@ -199,6 +199,7 @@ class TorrentManager(component.Component):
         self.save_state_timer = LoopingCall(self.save_state)
         self.save_resume_data_timer = LoopingCall(self.save_resume_data)
         self.save_all_resume_data_timer = LoopingCall(self.save_resume_data, self.torrents.keys())
+        self.prev_status_cleanup_loop = LoopingCall(self.cleanup_torrents_prev_status)
 
     def start(self):
         # Check for old temp file to verify safe shutdown
@@ -237,6 +238,7 @@ class TorrentManager(component.Component):
         self.save_resume_data_timer.start(190, False)
         # Force update for all resume data a bit less frequently
         self.save_all_resume_data_timer.start(900, False)
+        self.prev_status_cleanup_loop.start(10)
 
     def stop(self):
         # Stop timers
@@ -249,13 +251,13 @@ class TorrentManager(component.Component):
         if self.save_all_resume_data_timer.running:
             self.save_all_resume_data_timer.stop()
 
+        if self.prev_status_cleanup_loop.running:
+            self.prev_status_cleanup_loop.stop()
+
         # Save state on shutdown
         self.save_state()
 
         self.session.pause()
-        for key in self.torrents:
-            # Stop the status cleanup LoopingCall here
-            self.torrents[key].prev_status_cleanup_loop.stop()
 
         def remove_temp_file(result):
             """Remove the temp_file to signify successfully saved state"""
@@ -530,8 +532,7 @@ class TorrentManager(component.Component):
             return filedump
 
     def remove(self, torrent_id, remove_data=False):
-        """
-        Remove a torrent from the session.
+        """Remove torrent from the session
 
         :param torrent_id: the torrent to remove
         :type torrent_id: string
@@ -573,9 +574,6 @@ class TorrentManager(component.Component):
                 os.remove(users_torrent_file)
             except OSError as ex:
                 log.warning("Unable to remove copy torrent file: %s", ex)
-
-        # Stop the looping call
-        self.torrents[torrent_id].prev_status_cleanup_loop.stop()
 
         # Remove from set if it wasn't finished
         if not self.torrents[torrent_id].is_finished:
@@ -726,12 +724,12 @@ class TorrentManager(component.Component):
         return True
 
     def save_resume_data(self, torrent_ids=None):
-        """
-        Saves resume data for list of torrent_ids or for all torrents
+        """Saves resume data for list of torrent_ids or for all torrents
         needing resume data updated if torrent_ids is None
 
         :returns: A Deferred whose callback will be invoked when save is complete
         :rtype: twisted.internet.defer.Deferred
+
         """
         if torrent_ids is None:
             torrent_ids = (t[0] for t in self.torrents.iteritems() if t[1].handle.need_save_resume_data())
@@ -758,9 +756,11 @@ class TorrentManager(component.Component):
         return DeferredList(deferreds).addBoth(on_all_resume_data_finished)
 
     def load_resume_data_file(self):
-        """Loads the resume data from file for all the torrents
+        """Load the resume data from file for all torrents
+
         :returns: resume_data
         :rtype: dict
+
         """
         filename = "torrents.fastresume"
         filepath = os.path.join(self.state_dir, filename)
@@ -786,9 +786,7 @@ class TorrentManager(component.Component):
             return resume_data
 
     def save_resume_data_file(self):
-        """
-        Saves the resume data file with the contents of self.resume_data.
-        """
+        """Saves the resume data file with the contents of self.resume_data"""
         filename = "torrents.fastresume"
         filepath = os.path.join(self.state_dir, filename)
         filepath_bak = filepath + ".bak"
@@ -850,6 +848,11 @@ class TorrentManager(component.Component):
         self.torrents[torrent_id].handle.queue_position_bottom()
         return True
 
+    def cleanup_torrents_prev_status(self):
+        """Run cleanup_prev_status for each registered torrent"""
+        for torrent in self.torrents.iteritems():
+            torrent[1].cleanup_prev_status()
+
     def on_set_max_connections_per_torrent(self, key, value):
         """Sets the per-torrent connection limit"""
         log.debug("max_connections_per_torrent set to %s...", value)
@@ -863,11 +866,13 @@ class TorrentManager(component.Component):
             self.torrents[key].set_max_upload_slots(value)
 
     def on_set_max_upload_speed_per_torrent(self, key, value):
+        """Sets the per-torrent upload speed limit"""
         log.debug("max_upload_speed_per_torrent set to %s...", value)
         for key in self.torrents.keys():
             self.torrents[key].set_max_upload_speed(value)
 
     def on_set_max_download_speed_per_torrent(self, key, value):
+        """Sets the per-torrent download speed limit"""
         log.debug("max_download_speed_per_torrent set to %s...", value)
         for key in self.torrents.keys():
             self.torrents[key].set_max_download_speed(value)
@@ -1155,9 +1160,7 @@ class TorrentManager(component.Component):
         self.handle_torrents_status_callback(self.torrents_status_requests.pop())
 
     def separate_keys(self, keys, torrent_ids):
-        """Separates the input keys into keys for the Torrent class
-        and keys for plugins.
-        """
+        """Separates the input keys into torrent class keys and plugins keys"""
         if self.torrents:
             for torrent_id in torrent_ids:
                 if torrent_id in self.torrents:
@@ -1168,9 +1171,7 @@ class TorrentManager(component.Component):
         return [], []
 
     def handle_torrents_status_callback(self, status_request):
-        """
-        Builds the status dictionary with the values from the Torrent.
-        """
+        """Build the status dictionary with torrent values"""
         d, torrent_ids, keys, diff = status_request
         status_dict = {}.fromkeys(torrent_ids)
         torrent_keys, plugin_keys = self.separate_keys(keys, torrent_ids)
@@ -1187,10 +1188,9 @@ class TorrentManager(component.Component):
         d.callback((status_dict, plugin_keys))
 
     def torrents_status_update(self, torrent_ids, keys, diff=False):
-        """
-        returns status dict for the supplied torrent_ids async
-        If the torrent states were updated recently (less than 1.5 seconds ago,
-        post_torrent_updates is not called. Instead the cached state is used.
+        """Returns status dict for the supplied torrent_ids async
+
+        If torrent states updated recently post_torrent_updates is not called, cached state is used.
 
         :param torrent_ids: the torrent IDs to get the status on
         :type torrent_ids: list of str
