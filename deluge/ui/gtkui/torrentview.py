@@ -41,12 +41,10 @@ pygtk.require('2.0')
 import gtk
 import gobject
 import logging
-import warnings
 
 from twisted.internet import reactor
 
 import listview
-import deluge.common
 import deluge.component as component
 from deluge.ui.client import client
 from removetorrentdialog import RemoveTorrentDialog
@@ -365,6 +363,7 @@ class TorrentView(listview.ListView, component.Component):
         self.status = state
         self.set_columns_to_update()
         self.update_view(load_new_list=True)
+        self.select_first_row()
 
     def stop(self):
         """Stops the torrentview"""
@@ -397,12 +396,11 @@ class TorrentView(listview.ListView, component.Component):
 
         see: core.get_torrents_status
         """
-        self.treeview.get_selection().unselect_all()
         search_filter = self.filter and self.filter.get('name', None) or None
         self.filter = dict(filter_dict)  # Copied version of filter_dict.
         if search_filter and 'name' not in filter_dict:
             self.filter['name'] = search_filter
-        self.update()
+        self.update(select_row=True)
 
     def set_columns_to_update(self, columns=None):
         status_keys = []
@@ -428,7 +426,7 @@ class TorrentView(listview.ListView, component.Component):
         status_keys = list(set(status_keys + self.permanent_status_keys))
         return status_keys
 
-    def send_status_request(self, columns=None):
+    def send_status_request(self, columns=None, select_row=False):
         # Store the 'status_fields' we need to send to core
         status_keys = self.set_columns_to_update(columns)
 
@@ -441,16 +439,36 @@ class TorrentView(listview.ListView, component.Component):
 
         # Request the statuses for all these torrent_ids, this is async so we
         # will deal with the return in a signal callback.
-        component.get("SessionProxy").get_torrents_status(
+        d = component.get("SessionProxy").get_torrents_status(
             self.filter, status_keys).addCallback(self._on_get_torrents_status)
+        if select_row:
+            d.addCallback(self.select_first_row)
 
-    def update(self):
+    def select_first_row(self, ignored=None):
+        """
+        Set the first row in the list selected if a selection does
+        not already exist
+        """
+        rows = self.treeview.get_selection().get_selected_rows()[1]
+        # Only select row if noe rows are selected
+        if not rows:
+            self.treeview.get_selection().select_path((0,))
+
+    def update(self, select_row=False):
+        """
+        Sends a status request to core and updates the torrent list with the result.
+
+        :param select_row: if the first row in the list should be selected if
+                           no rows are already selected.
+        :type select_row: boolean
+
+        """
         if self.got_state:
             if self.search_box.search_pending is not None and self.search_box.search_pending.active():
                 # An update request is scheduled, let's wait for that one
                 return
             # Send a status request
-            gobject.idle_add(self.send_status_request)
+            gobject.idle_add(self.send_status_request, None, select_row)
 
     def update_view(self, load_new_list=False):
         """Update the torrent view model with data we've received."""
@@ -514,17 +532,18 @@ class TorrentView(listview.ListView, component.Component):
         component.get("MenuBar").update_menu()
         self.prev_status = status
 
-    def _on_get_torrents_status(self, status):
+    def _on_get_torrents_status(self, status, select_row=False):
         """Callback function for get_torrents_status().  'status' should be a
         dictionary of {torrent_id: {key, value}}."""
         self.status = status
         if self.search_box.prefiltered is not None:
             self.search_box.prefiltered = None
+
         if self.status == self.prev_status and self.prev_status:
             # We do not bother updating since the status hasn't changed
             self.prev_status = self.status
             return
-        gobject.idle_add(self.update_view)
+        self.update_view()
 
     def add_rows(self, torrent_ids):
         """Accepts a list of torrent_ids to add to self.liststore"""
