@@ -196,12 +196,12 @@ def download_file(url, filename, callback=None, headers=None, force_filename=Fal
     if hasattr(client, '_parse'):
         scheme, host, port, path = client._parse(url)
     else:
-        from twisted.web import _URI
+        from twisted.web.client import _URI
         uri = _URI.fromBytes(url)
         scheme = uri.scheme
         host = uri.host
         port = uri.port
-        path = uri.originFrom
+        path = uri.path
         
     factory = HTTPDownloader(url, filename, callback, headers, force_filename, allow_compression)
     if scheme == "https":
