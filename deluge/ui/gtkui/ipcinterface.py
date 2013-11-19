@@ -127,17 +127,19 @@ class IPCInterface(component.Component):
                 os.remove(f)
             lockfile = socket + ".lock"
             log.debug("Checking if lockfile exists: %s", lockfile)
-            if os.path.lexists(lockfile):
+            if os.path.lexists(lockfile) or os.path.lexists(socket):
                 try:
                     os.kill(int(os.readlink(lockfile)), 0)
                 except OSError:
                     log.debug("Removing lockfile since it's stale.")
                     try:
                         os.remove(lockfile)
+                    except OSError, ex:
+                        log.error("Failed to delete IPC lockfile file: %s", ex)
+                    try:
                         os.remove(socket)
-                    except Exception, e:
-                        log.error("Problem deleting lockfile or socket file!")
-                        log.exception(e)
+                    except OSError, ex:
+                        log.error("Failed to delete IPC socket file: %s", ex)
             try:
                 self.factory = Factory()
                 self.factory.protocol = IPCProtocolServer
