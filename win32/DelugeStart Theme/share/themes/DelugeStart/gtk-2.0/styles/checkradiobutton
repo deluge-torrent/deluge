@@ -1,179 +1,179 @@
-style "checkbutton"	= "default"
+style "checkbutton" = "default"
 {
-  engine "pixmap"
+    engine "pixmap"
     {
- image
-	{
-            function        		= CHECK
-            recolorable     		= TRUE
-            state 				= NORMAL
-            shadow          		= OUT
-            overlay_file    		= "Check-Radio/check1.png"
-            overlay_stretch 	= FALSE
+        image
+        {
+            function            = CHECK
+            recolorable         = TRUE
+            state               = NORMAL
+            shadow              = OUT
+            overlay_file        = "Check-Radio/check1.png"
+            overlay_stretch     = FALSE
         }
- image
-	{
-            function        		= CHECK
-            recolorable     		= TRUE
-            state 				= PRELIGHT
-            shadow          		= OUT
-            overlay_file    		= "Check-Radio/check3.png"
-            overlay_stretch 	= FALSE
+        image
+        {
+            function            = CHECK
+            recolorable         = TRUE
+            state               = PRELIGHT
+            shadow              = OUT
+            overlay_file        = "Check-Radio/check3.png"
+            overlay_stretch     = FALSE
         }
- image
-	{
-            function        		= CHECK
-            recolorable     		= TRUE
-            state 				= ACTIVE
-            shadow          		= OUT
-            overlay_file    		= "Check-Radio/check3.png"
-            overlay_stretch 	= FALSE
+        image
+        {
+            function            = CHECK
+            recolorable         = TRUE
+            state               = ACTIVE
+            shadow              = OUT
+            overlay_file        = "Check-Radio/check3.png"
+            overlay_stretch     = FALSE
         }
- image
-	{
-            function        		= CHECK
-            recolorable     		= TRUE
-            state 				= INSENSITIVE
-            shadow          		= OUT
-            overlay_file    		= "Check-Radio/check1.png"
-            overlay_stretch 	= FALSE
+        image
+        {
+            function            = CHECK
+            recolorable         = TRUE
+            state               = INSENSITIVE
+            shadow              = OUT
+            overlay_file        = "Check-Radio/check1.png"
+            overlay_stretch     = FALSE
         }
- image
-	{
-            function        		= CHECK
-            recolorable     		= TRUE
-		  state 				= NORMAL
-            shadow          		= IN
-            overlay_file    		= "Check-Radio/check2.png"
-            overlay_stretch 	= FALSE
+        image
+        {
+            function            = CHECK
+            recolorable         = TRUE
+            state               = NORMAL
+            shadow              = IN
+            overlay_file        = "Check-Radio/check2.png"
+            overlay_stretch     = FALSE
         }
-  image
-	{
-            function        		= CHECK
-            recolorable     		= TRUE
-		  state 				= PRELIGHT
-            shadow          		= IN
-            overlay_file    		= "Check-Radio/check4.png"
-            overlay_stretch 	= FALSE
+        image
+        {
+            function            = CHECK
+            recolorable         = TRUE
+            state               = PRELIGHT
+            shadow              = IN
+            overlay_file        = "Check-Radio/check4.png"
+            overlay_stretch     = FALSE
         }
- image
-	{
-            function        		= CHECK
-            recolorable     		= TRUE
-		  state 				= ACTIVE
-            shadow          		= IN
-            overlay_file    		= "Check-Radio/check4.png"
-            overlay_stretch 	= FALSE
+        image
+        {
+            function            = CHECK
+            recolorable         = TRUE
+            state               = ACTIVE
+            shadow              = IN
+            overlay_file        = "Check-Radio/check4.png"
+            overlay_stretch     = FALSE
         }
- image
-    {
-    function        		= CHECK
-    recolorable     		= TRUE
-       state 				= INSENSITIVE
-       shadow          		= IN
-       overlay_file   		= "Check-Radio/check1.png"
-       overlay_stretch 	= FALSE
-    }
-    image
-    {
-      function        	= FLAT_BOX
-      recolorable     	= TRUE
-      stretch			= TRUE
-      file            		= "Check-Radio/checklight.png"
-      border          	= { 2, 2, 2, 2 }
-    }
-  }
-}
-
-style "radiobutton"	= "default"
-{
-  engine "pixmap"
-    {
- image
-	{
-            function        		= OPTION
-            recolorable    		= TRUE
-            state 				= NORMAL
-            shadow          		= OUT
-            overlay_file    		= "Check-Radio/option1.png"
-            overlay_stretch 	= FALSE
+        image
+        {
+            function            = CHECK
+            recolorable         = TRUE
+            state               = INSENSITIVE
+            shadow              = IN
+            overlay_file        = "Check-Radio/check5.png"
+            overlay_stretch     = FALSE
         }
- image
-	{
-            function        		= OPTION
-            recolorable     		= TRUE
-            state 				= PRELIGHT
-            shadow          		= OUT
-            overlay_file    		= "Check-Radio/option3.png"
-            overlay_stretch 	= FALSE
-        }
- image
-	{
-            function        		= OPTION
-            recolorable     		= TRUE
-            state 				= ACTIVE
-            shadow          		= OUT
-            overlay_file    		= "Check-Radio/option3.png"
-            overlay_stretch 	= FALSE
-        }
- image
-	{
-            function        		= OPTION
-            recolorable     		= TRUE
-            state 				= INSENSITIVE
-            shadow         		= OUT
-            overlay_file    		= "Check-Radio/option1.png"
-            overlay_stretch 	= FALSE
-        }
- image
-	{
-            function        		= OPTION
-            recolorable     		= TRUE
-		state 						= NORMAL
-            shadow          		= IN
-            overlay_file    		= "Check-Radio/option2.png"
-            overlay_stretch 	= FALSE
-        }
-  image
-	{
-            function        		= OPTION
-            recolorable     		= TRUE
-		state 						= PRELIGHT
-            shadow          		= IN
-            overlay_file    		= "Check-Radio/option4.png"
-            overlay_stretch	= FALSE
-        }
- image
-	{
-            function        		= OPTION
-            recolorable     		= TRUE
-		  state 				= ACTIVE
-            shadow          		= IN
-            overlay_file    		= "Check-Radio/option4.png"
-            overlay_stretch 	= FALSE
-        }
- image
-	{
-            function        		= OPTION
-            recolorable     		= TRUE
-		  state 				= INSENSITIVE
-            shadow          		= IN
-            overlay_file    		= "Check-Radio/option1.png"
-            overlay_stretch 	= FALSE
-        }
-  image
-	{
-          function        		= FLAT_BOX
-          recolorable     		= TRUE
-	stretch				= TRUE
-          file            			= "Check-Radio/checklight.png"
-          border          		= { 2, 2, 2, 2 }
+        image
+        {
+            function            = FLAT_BOX
+            recolorable         = TRUE
+            stretch             = TRUE
+            file                = "Check-Radio/checklight.png"
+            border              = { 2, 2, 2, 2 }
         }
     }
 }
 
+style "radiobutton" = "default"
+{
+    engine "pixmap"
+    {
+        image
+        {
+            function            = OPTION
+            recolorable         = TRUE
+            state               = NORMAL
+            shadow              = OUT
+            overlay_file        = "Check-Radio/option1.png"
+            overlay_stretch     = FALSE
+        }
+        image
+        {
+            function            = OPTION
+            recolorable         = TRUE
+            state               = PRELIGHT
+            shadow              = OUT
+            overlay_file        = "Check-Radio/option3.png"
+            overlay_stretch     = FALSE
+        }
+        image
+        {
+            function            = OPTION
+            recolorable         = TRUE
+            state               = ACTIVE
+            shadow              = OUT
+            overlay_file        = "Check-Radio/option3.png"
+            overlay_stretch     = FALSE
+        }
+        image
+        {
+            function            = OPTION
+            recolorable         = TRUE
+            state               = INSENSITIVE
+            shadow              = OUT
+            overlay_file        = "Check-Radio/option1.png"
+            overlay_stretch     = FALSE
+        }
+        image
+        {
+            function            = OPTION
+            recolorable         = TRUE
+            state               = NORMAL
+            shadow              = IN
+            overlay_file        = "Check-Radio/option2.png"
+            overlay_stretch     = FALSE
+        }
+        image
+        {
+            function            = OPTION
+            recolorable         = TRUE
+        state                   = PRELIGHT
+            shadow              = IN
+            overlay_file        = "Check-Radio/option4.png"
+            overlay_stretch     = FALSE
+        }
+        image
+        {
+            function            = OPTION
+            recolorable         = TRUE
+            state               = ACTIVE
+            shadow              = IN
+            overlay_file        = "Check-Radio/option4.png"
+            overlay_stretch     = FALSE
+        }
+        image
+        {
+            function            = OPTION
+            recolorable         = TRUE
+            state               = INSENSITIVE
+            shadow              = IN
+            overlay_file        = "Check-Radio/option1.png"
+            overlay_stretch     = FALSE
+        }
+        image
+        {
+            function            = FLAT_BOX
+            recolorable         = TRUE
+            stretch             = TRUE
+            file                = "Check-Radio/checklight.png"
+            border              = { 2, 2, 2, 2 }
+        }
+    }
+}
 
-class "GtkRadioButton"     		style "radiobutton"
-class "GtkRadioMenuItem"      style "radiobutton"
-class "GtkCheckButton"        style "checkbutton"
-class "GtkCheckMenuItem"	    style "checkbutton"
+
+class "GtkRadioButton"      style "radiobutton"
+class "GtkRadioMenuItem"    style "radiobutton"
+class "GtkCheckButton"      style "checkbutton"
+class "GtkCheckMenuItem"    style "checkbutton"
