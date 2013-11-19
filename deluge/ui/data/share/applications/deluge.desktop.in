@@ -10,5 +10,6 @@ Icon=deluge
 Terminal=false
 Type=Application
 Categories=Network;FileTransfer;P2P;GTK;
+StartupWMClass=Deluge
 StartupNotify=true
 MimeType=application/x-bittorrent;x-scheme-handler/magnet;
