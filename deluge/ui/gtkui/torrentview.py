@@ -54,6 +54,7 @@ import torrentview_data_funcs as funcs
 
 log = logging.getLogger(__name__)
 
+
 def queue_peer_seed_sort_function(v1, v2):
     if v1 == v2:
         return 0
@@ -65,6 +66,7 @@ def queue_peer_seed_sort_function(v1, v2):
         return 1
     if v2 > v1:
         return -1
+
 
 def queue_column_sort(model, iter1, iter2, data):
     v1 = model[iter1][data]
@@ -86,6 +88,7 @@ def eta_column_sort(model, iter1, iter2, data):
     if v2 > v1:
         return -1
 
+
 def seed_peer_column_sort(model, iter1, iter2, data):
     v1 = model[iter1][data]         # num seeds/peers
     v3 = model[iter2][data]         # num seeds/peers
@@ -94,6 +97,7 @@ def seed_peer_column_sort(model, iter1, iter2, data):
         v4 = model[iter2][data+1]   # total seeds/peers
         return queue_peer_seed_sort_function(v2, v4)
     return queue_peer_seed_sort_function(v1, v3)
+
 
 class SearchBox(object):
     def __init__(self, torrentview):
@@ -182,7 +186,6 @@ class SearchBox(object):
                 # Reset to previous filter state
                 self.prefiltered.pop(self.prefiltered.index(torrent_id))
                 row[filter_column] = not row[filter_column]
-
 
             if not row[filter_column]:
                 # Row is not visible(filtered out, but not by our filter), skip it
@@ -294,6 +297,9 @@ class TorrentView(listview.ListView, component.Component):
                              status_field=["distributed_copies"], default=False)
         self.add_func_column(_("Added"), funcs.cell_data_date, [float],
                              status_field=["time_added"], default=False)
+        self.add_func_column(_("Completed"),
+                             funcs.cell_data_date_or_never, [float],
+                             status_field=["completed_time"], default=False)
         self.add_func_column(_("Last Seen Complete"),
                              funcs.cell_data_date_or_never, [float],
                              status_field=["last_seen_complete"], default=False)
@@ -393,7 +399,7 @@ class TorrentView(listview.ListView, component.Component):
         """
         self.treeview.get_selection().unselect_all()
         search_filter = self.filter and self.filter.get('name', None) or None
-        self.filter = dict(filter_dict) #copied version of filter_dict.
+        self.filter = dict(filter_dict)  # Copied version of filter_dict.
         if search_filter and 'name' not in filter_dict:
             self.filter['name'] = search_filter
         self.update()
@@ -411,8 +417,8 @@ class TorrentView(listview.ListView, component.Component):
             # Make sure column is visible and has 'status_field' set.
             # If not, we can ignore it.
             if self.columns[column].column.get_visible() is True \
-                and self.columns[column].hidden is False \
-                and self.columns[column].status_field is not None:
+                    and self.columns[column].hidden is False \
+                    and self.columns[column].status_field is not None:
                 for field in self.columns[column].status_field:
                     status_keys.append(field)
                     self.columns_to_update.append(column)
@@ -478,7 +484,7 @@ class TorrentView(listview.ListView, component.Component):
                 if torrent_status == self.prev_status[torrent_id]:
                     # The status dict is the same, so do nothing to update for this torrent
                     continue
-            except KeyError, e:
+            except KeyError:
                 pass
 
             if not torrent_id_in_status:
@@ -539,12 +545,13 @@ class TorrentView(listview.ListView, component.Component):
                 self.update()
                 break
 
-    def mark_dirty(self, torrent_id = None):
+    def mark_dirty(self, torrent_id=None):
         for row in self.liststore:
             if not torrent_id or row[self.columns["torrent_id"].column_indices[0]] == torrent_id:
                 #log.debug("marking %s dirty", torrent_id)
                 row[self.columns["dirty"].column_indices[0]] = True
-                if torrent_id: break
+                if torrent_id:
+                    break
 
     def get_selected_torrent(self):
         """Returns a torrent_id or None.  If multiple torrents are selected,
@@ -610,7 +617,8 @@ class TorrentView(listview.ListView, component.Component):
             row = self.model_filter.get_iter(path[0])
 
             if self.get_selected_torrents():
-                if self.model_filter.get_value(row, self.columns["torrent_id"].column_indices[0]) not in self.get_selected_torrents():
+                if self.model_filter.get_value(row, self.columns["torrent_id"].column_indices[0]) \
+                        not in self.get_selected_torrents():
                     self.treeview.get_selection().unselect_all()
                     self.treeview.get_selection().select_iter(row)
             else:

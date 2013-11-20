@@ -54,6 +54,7 @@ TORRENT_STATE = deluge.common.TORRENT_STATE
 
 log = logging.getLogger(__name__)
 
+
 def sanitize_filepath(filepath, folder=False):
     """
     Returns a sanitized filepath to pass to libotorrent rename_file().
@@ -78,6 +79,7 @@ def sanitize_filepath(filepath, folder=False):
         return newfilepath + '/'
     else:
         return newfilepath
+
 
 class TorrentOptions(dict):
     def __init__(self):
@@ -104,6 +106,7 @@ class TorrentOptions(dict):
             self[opt_k] = config[conf_k]
         self["file_priorities"] = []
         self["mapped_files"] = {}
+
 
 class Torrent(object):
     """Torrent holds information about torrents added to the libtorrent session.
@@ -381,7 +384,7 @@ class Torrent(object):
 
     def set_trackers(self, trackers):
         """Sets trackers"""
-        if trackers == None:
+        if trackers is None:
             trackers = []
             for value in self.handle.trackers():
                 tracker = {}
@@ -574,7 +577,7 @@ class Torrent(object):
 
         file_progress = self.handle.file_progress()
         ret = []
-        for i,f in enumerate(self.get_files()):
+        for i, f in enumerate(self.get_files()):
             try:
                 ret.append(float(file_progress[i]) / float(f["size"]))
             except ZeroDivisionError:
@@ -680,8 +683,8 @@ class Torrent(object):
             "active_time":            lambda: self.status.active_time,
             "all_time_download":      lambda: self.status.all_time_download,
             "compact":                lambda: self.options["compact_allocation"],
-            "distributed_copies":     lambda: 0.0 if self.status.distributed_copies < 0 else \
-                self.status.distributed_copies, # Adjust status.distributed_copies to return a non-negative value
+            "distributed_copies":     lambda: 0.0 if self.status.distributed_copies < 0 else
+            self.status.distributed_copies,  # Adjust status.distributed_copies to return a non-negative value
             "download_payload_rate":  lambda: self.status.download_payload_rate,
             "file_priorities":        lambda: self.options["file_priorities"],
             "hash":                   lambda: self.torrent_id,
@@ -708,8 +711,8 @@ class Torrent(object):
             "remove_at_ratio":        lambda: self.options["remove_at_ratio"],
             "save_path":              lambda: self.options["download_location"],
             "seeding_time":           lambda: self.status.seeding_time,
-            "seeds_peers_ratio":      lambda: -1.0 if self.status.num_incomplete == 0 else \
-                self.status.num_complete / float(self.status.num_incomplete), # Use -1.0 to signify infinity
+            "seeds_peers_ratio":      lambda: -1.0 if self.status.num_incomplete == 0 else
+            self.status.num_complete / float(self.status.num_incomplete),  # Use -1.0 to signify infinity
             "seed_rank":              lambda: self.status.seed_rank,
             "state":                  lambda: self.state,
             "stop_at_ratio":          lambda: self.options["stop_at_ratio"],
@@ -734,18 +737,18 @@ class Torrent(object):
             "private":                lambda: self.torrent_info.priv() if self.has_metadata else False,
             "total_size":             lambda: self.torrent_info.total_size() if self.has_metadata else 0,
             "eta":                    self.get_eta,
-            "file_progress":          self.get_file_progress, # Adjust progress to be 0-100 value
+            "file_progress":          self.get_file_progress,  # Adjust progress to be 0-100 value
             "files":                  self.get_files,
             "is_seed":                lambda: self.status.is_seeding,
             "peers":                  self.get_peers,
             "queue":                  self.handle.queue_position,
             "ratio":                  self.get_ratio,
             "tracker_host":           self.get_tracker_host,
+            "completed_time":         lambda: self.status.completed_time,
             "last_seen_complete":     lambda: self.status.last_seen_complete,
             "name":                   self.get_name,
             "pieces":                 self._get_pieces_info,
-
-            }
+        }
 
     def get_name(self):
         if self.has_metadata:
