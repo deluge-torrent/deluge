@@ -99,7 +99,6 @@ class TorrentState:
         self.is_finished = is_finished
         self.magnet = magnet
         self.time_added = time_added
-        self.last_seen_complete = last_seen_complete
         self.owner = owner
 
         # Options
