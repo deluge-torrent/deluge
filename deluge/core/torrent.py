@@ -732,6 +732,7 @@ class Torrent(object):
             "total_seeds":            lambda: self.status.num_complete,
             "total_uploaded":         lambda: self.status.all_time_upload,
             "total_wanted":           lambda: self.status.total_wanted,
+            "total_remaining":        lambda: self.status.total_wanted - self.status.total_wanted_done,
             "tracker":                lambda: self.status.current_tracker,
             "trackers":               lambda: self.trackers,
             "tracker_status":         lambda: self.tracker_status,
@@ -753,6 +754,7 @@ class Torrent(object):
             "last_seen_complete":     lambda: self.status.last_seen_complete,
             "name":                   self.get_name,
             "pieces":                 self._get_pieces_info,
+
             }
 
     def get_name(self):

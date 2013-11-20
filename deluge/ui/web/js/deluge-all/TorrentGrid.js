@@ -238,6 +238,13 @@
             renderer: fsize,
             dataIndex: 'total_uploaded'
         }, {
+            header: _('Remaining'),
+            hidden: true,
+            width: 75,
+            sortable: true,
+            renderer: fsize,
+            dataIndex: 'total_remaining'
+        }, {
             header: _('Down Limit'),
             hidden: true,
             width: 75,
@@ -259,6 +266,7 @@
             renderer: availRenderer,
             dataIndex: 'seeds_peers_ratio'
         }],
+
 
         meta: {
             root: 'torrents',
@@ -283,6 +291,7 @@
                 {name: 'save_path'},
                 {name: 'total_done', type: 'int'},
                 {name: 'total_uploaded', type: 'int'},
+                {name: 'total_remaining', type: 'int'},
                 {name: 'max_download_speed', type: 'int'},
                 {name: 'max_upload_speed', type: 'int'},
                 {name: 'seeds_peers_ratio', type: 'float'}

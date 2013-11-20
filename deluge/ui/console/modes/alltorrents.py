@@ -162,6 +162,7 @@ DEFAULT_PREFS = {
     "show_savepath":False,
     "show_downloaded":False,
     "show_uploaded":False,
+    "show_remaining":False,
     "show_owner":False,
     "show_downloading_time":False,
     "show_seeding_time":False,
@@ -182,6 +183,7 @@ DEFAULT_PREFS = {
     "savepath_width":15,
     "downloaded_width":13,
     "uploaded_width":13,
+    "remaining_width":13,
     "owner_width":10,
     "downloading_time_width":10,
     "seeding_time_width":10,
@@ -206,7 +208,7 @@ column_pref_names = ["queue","name","size","state",
                      "progress","seeders","peers",
                      "downspeed","upspeed","eta",
                      "ratio","avail","added","tracker",
-                     "savepath","downloaded","uploaded",
+                     "savepath","downloaded","uploaded", "remaining",
                      "owner","downloading_time","seeding_time"]
 
 prefs_to_names = {
@@ -227,6 +229,7 @@ prefs_to_names = {
     "savepath":"Save Path",
     "downloaded":"Downloaded",
     "uploaded":"Uploaded",
+    "remaining":"Remaining",
     "owner":"Owner",
     "seeding_time":"Seeding Time",
     "downloading_time":"Active Time"
@@ -244,8 +247,10 @@ column_names_to_state_keys = {
     "savepath": "save_path",
     "uploaded": "total_uploaded",
     "downloaded": "all_time_download",
+    "remaining":"total_remaining",
     "seeding_time":"seeding_time",
     "downloading_time":"active_time"
+
 }
 
 reverse_sort_fields = [
@@ -258,6 +263,7 @@ reverse_sort_fields = [
     "time_added",
     "total_uploaded",
     "all_time_download",
+    "total_remaining",
     "progress",
     "ratio",
     "seeding_time",

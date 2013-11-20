@@ -355,10 +355,12 @@ class TorrentView(listview.ListView, component.Component):
         self.add_func_column(_("Uploaded"), listview.cell_data_size,
                              [gobject.TYPE_UINT64],
                              status_field=["total_uploaded"], default=False)
+        self.add_func_column(_("Remaining"), listview.cell_data_size, [gobject.TYPE_UINT64],
+                             status_field=["total_remaining"], default=False)
         self.add_progress_column(_("Progress"),
-                                 status_field=["progress", "state"],
-                                 col_types=[float, str],
-                                 function=cell_data_progress)
+                             status_field=["progress", "state"],
+                             col_types=[float, str],
+                             function=cell_data_progress)
         self.add_func_column(_("Seeders"), listview.cell_data_peer, [int, int],
                              status_field=["num_seeds", "total_seeds"],
                              sort_func=seed_peer_column_sort, default=False)

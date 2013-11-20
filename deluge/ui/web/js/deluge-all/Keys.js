@@ -44,7 +44,7 @@ Deluge.Keys = {
      * 'upload_payload_rate', 'eta', 'ratio', 'distributed_copies',
      * 'is_auto_managed', 'time_added', 'tracker_host', 'save_path',
      * 'total_done', 'total_uploaded', 'max_download_speed', 'max_upload_speed',
-     * 'seeds_peers_ratio']</pre>
+     * 'seeds_peers_ratio', 'total_remaining']</pre>
      */
     Grid: [
         'queue', 'name', 'total_size', 'state', 'progress', 'num_seeds',
@@ -52,7 +52,7 @@ Deluge.Keys = {
         'upload_payload_rate', 'eta', 'ratio', 'distributed_copies',
         'is_auto_managed', 'time_added', 'tracker_host', 'save_path', 'last_seen_complete',
         'total_done', 'total_uploaded', 'max_download_speed', 'max_upload_speed',
-        'seeds_peers_ratio'
+        'seeds_peers_ratio', 'total_remaining'
     ],
 
     /**
