@@ -123,7 +123,7 @@
             width: 75,
             sortable: true,
             renderer: fsize,
-            dataIndex: 'total_size'
+            dataIndex: 'total_wanted'
         }, {
             header: _('Progress'),
             width: 150,
@@ -274,7 +274,7 @@
             fields: [
                 {name: 'queue', sortType: Deluge.data.SortTypes.asQueuePosition},
                 {name: 'name', sortType: Deluge.data.SortTypes.asName},
-                {name: 'total_size', type: 'int'},
+                {name: 'total_wanted', type: 'int'},
                 {name: 'state'},
                 {name: 'progress', type: 'float'},
                 {name: 'num_seeds', type: 'int'},
