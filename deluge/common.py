@@ -258,6 +258,17 @@ def open_url_in_browser(url):
 
 ## Formatting text functions
 
+byte_txt = "Bytes"
+kib_txt = "KiB"
+mib_txt = "MiB"
+gib_txt = "GiB"
+
+def translate_strings():
+    byte_txt = _("Bytes")
+    kib_txt = _("KiB")
+    mib_txt = _("MiB")
+    gib_txt = _("GiB")
+
 def fsize(fsize_b):
     """
     Formats the bytes value into a string with KiB, MiB or GiB units
@@ -273,14 +284,17 @@ def fsize(fsize_b):
     '109.6 KiB'
 
     """
-    fsize_kb = fsize_b / 1024.0
-    if fsize_kb < 1024:
-        return "%.1f %s" % (fsize_kb, _("KiB"))
-    fsize_mb = fsize_kb / 1024.0
-    if fsize_mb < 1024:
-        return "%.1f %s" % (fsize_mb, _("MiB"))
-    fsize_gb = fsize_mb / 1024.0
-    return "%.1f %s" % (fsize_gb, _("GiB"))
+    # Bigger than 1 GiB
+    if (fsize_b >= 1073741824):
+        return "%.1f %s" % (fsize_b / 1073741824.0, gib_txt)
+    # Bigger than 1 MiB
+    elif (fsize_b >= 1048576):
+        return "%.1f %s" % (fsize_b / 1048576.0, mib_txt)
+    # Bigger than 1 KiB
+    elif (fsize_b >= 1024):
+        return "%.1f %s" % (fsize_b / 1024.0, kib_txt)
+    else:
+        return "%d %s" % (fsize_b, byte_txt)
 
 def fsize_short(fsize_b):
     """
@@ -797,6 +811,7 @@ def setup_translations(setup_pygtk=False):
             import gtk.glade
             gtk.glade.bindtextdomain("deluge", translations_path)
             gtk.glade.textdomain("deluge")
+        translate_strings()
     except Exception, e:
         log.error("Unable to initialize gettext/locale!")
         log.exception(e)

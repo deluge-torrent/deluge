@@ -48,7 +48,7 @@ import twisted.web.error
 from deluge.ui.client import client
 from deluge.httpdownloader import download_file
 import deluge.component as component
-import listview
+from torrentview_data_funcs import cell_data_size
 from deluge.configmanager import ConfigManager
 import deluge.common
 import deluge.ui.common
@@ -136,7 +136,7 @@ class AddTorrentDialog(component.Component):
         render = gtk.CellRendererText()
         column = gtk.TreeViewColumn(_("Size"))
         column.pack_start(render)
-        column.set_cell_data_func(render, listview.cell_data_size, 2)
+        column.set_cell_data_func(render, cell_data_size, 2)
         self.listview_files.append_column(column)
 
         self.listview_torrents.set_model(self.torrent_liststore)

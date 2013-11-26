@@ -178,9 +178,38 @@ class TrackerIcons(Component):
         self.pending = {}
         self.redirects = {}
 
+    def has(self, host):
+        """
+        Returns True or False if the tracker icon for the given host exists or not.
+
+        :param host: the host for the TrackerIcon
+        :type host: string
+        :returns: True or False
+        :rtype: bool
+        """
+        return host.lower() in self.icons
+
     def get(self, host):
         """
         Returns a TrackerIcon for the given tracker's host
+        from the icon cache.
+
+        :param host: the host for the TrackerIcon
+        :type host: string
+        :returns: the TrackerIcon for the host
+        :rtype: TrackerIcon
+        """
+        host = host.lower()
+        if host in self.icons:
+            return self.icons[host]
+        else:
+            return None
+
+    def fetch(self, host):
+        """
+        Fetches (downloads) the icon for the given host.
+        When the icon is downloaded a callback is fired
+        on the the queue of callers to this function.
 
         :param host: the host to obtain the TrackerIcon for
         :type host: string

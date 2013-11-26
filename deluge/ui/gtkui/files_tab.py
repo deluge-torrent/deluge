@@ -142,7 +142,7 @@ class FilesTab(Tab):
         column = gtk.TreeViewColumn(_("Size"))
         render = gtk.CellRendererText()
         column.pack_start(render, False)
-        column.set_cell_data_func(render, deluge.ui.gtkui.listview.cell_data_size, 1)
+        column.set_cell_data_func(render, deluge.ui.gtkui.torrentview_data_funcs.cell_data_size, 1)
         column.set_sort_column_id(1)
         column.set_clickable(True)
         column.set_resizable(True)

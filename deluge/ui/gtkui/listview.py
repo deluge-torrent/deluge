@@ -49,71 +49,6 @@ signal_new('button-press-event', gtk.TreeViewColumn,
 
 log = logging.getLogger(__name__)
 
-# Cell data functions to pass to add_func_column()
-def cell_data_speed(column, cell, model, row, data):
-    """Display value as a speed, eg. 2 KiB/s"""
-    speed = model.get_value(row, data)
-    speed_str = ""
-    if speed > 0:
-        speed_str = deluge.common.fspeed(speed)
-
-    cell.set_property('text', speed_str)
-
-def cell_data_size(column, cell, model, row, data):
-    """Display value in terms of size, eg. 2 MB"""
-    size = model.get_value(row, data)
-    size_str = deluge.common.fsize(size)
-    cell.set_property('text', size_str)
-
-def cell_data_peer(column, cell, model, row, data):
-    """Display values as 'value1 (value2)'"""
-    (first, second) = model.get(row, *data)
-    # Only display a (total) if second is greater than -1
-    if second > -1:
-        cell.set_property('text', '%d (%d)' % (first, second))
-    else:
-        cell.set_property('text', '%d' % first)
-
-def cell_data_time(column, cell, model, row, data):
-    """Display value as time, eg 1m10s"""
-    time = model.get_value(row, data)
-    if time <= 0:
-        time_str = ""
-    else:
-        time_str = deluge.common.ftime(time)
-    cell.set_property('text', time_str)
-
-def cell_data_ratio(column, cell, model, row, data):
-    """Display value as a ratio with a precision of 3."""
-    ratio = model.get_value(row, data)
-    if ratio < 0:
-        ratio_str = "∞"
-    else:
-        ratio_str = "%.3f" % ratio
-
-    cell.set_property('text', ratio_str)
-
-def cell_data_date(column, cell, model, row, data):
-    """Display value as date, eg 05/05/08"""
-    cell.set_property('text', deluge.common.fdate(model.get_value(row, data)))
-
-def cell_data_date_or_never(column, cell, model, row, data):
-    """Display value as date, eg 05/05/08 or Never"""
-    value = model.get_value(row, data)
-    if value > 0.0:
-        cell.set_property('text', deluge.common.fdate(value))
-    else:
-        cell.set_property('text', _("Never"))
-
-def cell_data_speed_limit(column, cell, model, row, data):
-    """Display value as a speed, eg. 2 KiB/s"""
-    speed = model.get_value(row, data)
-    speed_str = ""
-    if speed > 0:
-        speed_str = deluge.common.fspeed(speed * 1024)
-
-    cell.set_property('text', speed_str)
-
 class ListViewColumnState:
     """Used for saving/loading column state"""
     def __init__(self, name, position, width, visible, sort, sort_order):
@@ -150,7 +85,7 @@ class ListView:
             self.sort_func = None
             self.sort_id = None
 
-    class TreeviewColumn(gtk.TreeViewColumn):
+    class TreeviewColumn(gtk.TreeViewColumn, object):
         """
             TreeViewColumn does not signal right-click events, and we need them
             This subclass is equivalent to TreeViewColumn, but it signals these events
@@ -165,6 +100,10 @@ class ListView:
             self.set_widget(label)
             label.show()
             label.__realize = label.connect('realize', self.onRealize)
+            self.title = title
+            self.data_func = None
+            self.data_func_data = None
+            self.cell_renderer = None
 
         def onRealize(self, widget):
             widget.disconnect(widget.__realize)
@@ -175,6 +114,21 @@ class ListView:
 
         def onButtonPressed(self, widget, event):
             self.emit('button-press-event', event)
+
+        def set_cell_data_func_attributes(self, cell_renderer, func, func_data=None):
+            """Store the values to be set by set_cell_data_func"""
+            self.data_func = func
+            self.data_func_data = func_data
+            self.cell_renderer = cell_renderer
+
+        def set_visible(self, visible):
+            gtk.TreeViewColumn.set_visible(self, visible)
+            if self.data_func:
+                if not visible:
+                    # Set data function to None to prevent unecessary calls when column is hidden
+                    self.set_cell_data_func(self.cell_renderer, None, func_data=None)
+                else:
+                    self.set_cell_data_func(self.cell_renderer, self.data_func, self.data_func_data)
 
     def __init__(self, treeview_widget=None, state_file=None):
         log.debug("ListView initialized..")
@@ -521,10 +475,10 @@ class ListView:
         elif column_type == "func":
             column.pack_start(render, True)
             if len(self.columns[header].column_indices) > 1:
-                column.set_cell_data_func(render, function,
+                column.set_cell_data_func_attributes(render, function,
                         tuple(self.columns[header].column_indices))
             else:
-                column.set_cell_data_func(render, function,
+                column.set_cell_data_func_attributes(render, function,
                             self.columns[header].column_indices[0])
         elif column_type == "progress":
             column.pack_start(render)
@@ -534,12 +488,12 @@ class ListView:
                 column.add_attribute(render, "value",
                     self.columns[header].column_indices[value])
             else:
-                column.set_cell_data_func(render, function,
+                column.set_cell_data_func_attributes(render, function,
                     tuple(self.columns[header].column_indices))
         elif column_type == "texticon":
             column.pack_start(render[pixbuf], False)
             if function is not None:
-                column.set_cell_data_func(render[pixbuf], function,
+                column.set_cell_data_func_attributes(render[pixbuf], function,
                             self.columns[header].column_indices[pixbuf])
             column.pack_start(render[text], True)
             column.add_attribute(render[text], "text",

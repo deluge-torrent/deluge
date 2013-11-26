@@ -50,100 +50,9 @@ import deluge.common
 import deluge.component as component
 from deluge.ui.client import client
 from removetorrentdialog import RemoveTorrentDialog
+import torrentview_data_funcs as funcs
 
 log = logging.getLogger(__name__)
-
-# Status icons.. Create them from file only once to avoid constantly
-# re-creating them.
-icon_downloading = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("downloading16.png"))
-icon_seeding = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("seeding16.png"))
-icon_inactive = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("inactive16.png"))
-icon_alert = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("alert16.png"))
-icon_queued = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("queued16.png"))
-icon_checking = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("checking16.png"))
-
-# Holds the info for which status icon to display based on state
-ICON_STATE = {
-    "Allocating": icon_checking,
-    "Checking": icon_checking,
-    "Downloading": icon_downloading,
-    "Seeding": icon_seeding,
-    "Paused": icon_inactive,
-    "Error": icon_alert,
-    "Queued": icon_queued,
-    "Checking Resume Data": icon_checking
-}
-
-
-def cell_data_statusicon(column, cell, model, row, data):
-    """Display text with an icon"""
-    try:
-        icon = ICON_STATE[model.get_value(row, data)]
-
-        #Supress Warning: g_object_set_qdata: assertion `G_IS_OBJECT (object)' failed
-        original_filters = warnings.filters[:]
-        warnings.simplefilter("ignore")
-        try:
-            if cell.get_property("pixbuf") != icon:
-                cell.set_property("pixbuf", icon)
-        finally:
-            warnings.filters = original_filters
-
-    except KeyError:
-        pass
-
-def cell_data_trackericon(column, cell, model, row, data):
-    def on_get_icon(icon):
-        def create_blank_pixbuf():
-            i = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, 16, 16)
-            i.fill(0x00000000)
-            return i
-
-        if icon:
-            pixbuf = icon.get_cached_icon()
-            if not pixbuf:
-                try:
-                    pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(icon.get_filename(), 16, 16)
-                except gobject.GError, e:
-                    # Failed to load the pixbuf (Bad image file), so set a blank pixbuf
-                    pixbuf = create_blank_pixbuf()
-                finally:
-                    icon.set_cached_icon(pixbuf)
-        else:
-            pixbuf = create_blank_pixbuf()
-
-        #Suppress Warning: g_object_set_qdata: assertion `G_IS_OBJECT (object)' failed
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
-            if cell.get_property("pixbuf") != pixbuf:
-                cell.set_property("pixbuf", pixbuf)
-
-    host = model[row][data]
-    if host:
-        d = component.get("TrackerIcons").get(host)
-        d.addCallback(on_get_icon)
-    else:
-        on_get_icon(None)
-
-def cell_data_progress(column, cell, model, row, data):
-    """Display progress bar with text"""
-    (value, state_str) = model.get(row, *data)
-    if cell.get_property("value") != value:
-        cell.set_property("value", value)
-
-    # Marked for translate states text are in filtertreeview
-    textstr = _(state_str)
-    if state_str != "Seeding" and value < 100:
-        textstr = "%s %.2f%%" % (textstr, value)
-    if cell.get_property("text") != textstr:
-        cell.set_property("text", textstr)
-
-def cell_data_queue(column, cell, model, row, data):
-    value = model.get_value(row, data)
-    if value < 0:
-        cell.set_property("text", "")
-    else:
-        cell.set_property("text", str(value + 1))
 
 def queue_peer_seed_sort_function(v1, v2):
     if v1 == v2:
@@ -339,58 +248,58 @@ class TorrentView(listview.ListView, component.Component):
         # Add the columns to the listview
         self.add_text_column("torrent_id", hidden=True, unique=True)
         self.add_bool_column("dirty", hidden=True)
-        self.add_func_column("#", cell_data_queue, [int],
+        self.add_func_column("#", funcs.cell_data_queue, [int],
                              status_field=["queue"],
                              sort_func=queue_column_sort)
         self.add_texticon_column(_("Name"),
                                  status_field=["state", "name"],
-                                 function=cell_data_statusicon,
+                                 function=funcs.cell_data_statusicon,
                                  default_sort=True)
-        self.add_func_column(_("Size"), listview.cell_data_size,
+        self.add_func_column(_("Size"), funcs.cell_data_size,
                              [gobject.TYPE_UINT64],
                              status_field=["total_wanted"])
-        self.add_func_column(_("Downloaded"), listview.cell_data_size,
+        self.add_func_column(_("Downloaded"), funcs.cell_data_size,
                              [gobject.TYPE_UINT64],
                              status_field=["all_time_download"], default=False)
-        self.add_func_column(_("Uploaded"), listview.cell_data_size,
+        self.add_func_column(_("Uploaded"), funcs.cell_data_size,
                              [gobject.TYPE_UINT64],
                              status_field=["total_uploaded"], default=False)
-        self.add_func_column(_("Remaining"), listview.cell_data_size, [gobject.TYPE_UINT64],
+        self.add_func_column(_("Remaining"), funcs.cell_data_size, [gobject.TYPE_UINT64],
                              status_field=["total_remaining"], default=False)
         self.add_progress_column(_("Progress"),
-                             status_field=["progress", "state"],
-                             col_types=[float, str],
-                             function=cell_data_progress)
-        self.add_func_column(_("Seeders"), listview.cell_data_peer, [int, int],
+                                 status_field=["progress", "state"],
+                                 col_types=[float, str],
+                                 function=funcs.cell_data_progress)
+        self.add_func_column(_("Seeders"), funcs.cell_data_peer, [int, int],
                              status_field=["num_seeds", "total_seeds"],
                              sort_func=seed_peer_column_sort, default=False)
-        self.add_func_column(_("Peers"), listview.cell_data_peer, [int, int],
+        self.add_func_column(_("Peers"), funcs.cell_data_peer, [int, int],
                              status_field=["num_peers", "total_peers"],
                              sort_func=seed_peer_column_sort, default=False)
-        self.add_func_column(_("Seeders") + "/" + _("Peers"), listview.cell_data_ratio, [float],
+        self.add_func_column(_("Seeders") + "/" + _("Peers"), funcs.cell_data_ratio_seeders, [float],
                              status_field=["seeds_peers_ratio"], default=False)
-        self.add_func_column(_("Down Speed"), listview.cell_data_speed, [float],
+        self.add_func_column(_("Down Speed"), funcs.cell_data_speed_down, [float],
                              status_field=["download_payload_rate"])
-        self.add_func_column(_("Up Speed"), listview.cell_data_speed, [float],
+        self.add_func_column(_("Up Speed"), funcs.cell_data_speed_up, [float],
                              status_field=["upload_payload_rate"])
-        self.add_func_column(_("Down Limit"), listview.cell_data_speed_limit, [float],
+        self.add_func_column(_("Down Limit"), funcs.cell_data_speed_limit_down, [float],
                              status_field=["max_download_speed"], default=False)
-        self.add_func_column(_("Up Limit"), listview.cell_data_speed_limit, [float],
+        self.add_func_column(_("Up Limit"), funcs.cell_data_speed_limit_up, [float],
                              status_field=["max_upload_speed"], default=False)
-        self.add_func_column(_("ETA"), listview.cell_data_time, [int],
+        self.add_func_column(_("ETA"), funcs.cell_data_time, [int],
                              status_field=["eta"], sort_func=eta_column_sort)
-        self.add_func_column(_("Ratio"), listview.cell_data_ratio, [float],
+        self.add_func_column(_("Ratio"), funcs.cell_data_ratio_ratio, [float],
                              status_field=["ratio"], default=False)
-        self.add_func_column(_("Avail"), listview.cell_data_ratio, [float],
+        self.add_func_column(_("Avail"), funcs.cell_data_ratio_avail, [float],
                              status_field=["distributed_copies"], default=False)
-        self.add_func_column(_("Added"), listview.cell_data_date, [float],
+        self.add_func_column(_("Added"), funcs.cell_data_date, [float],
                              status_field=["time_added"], default=False)
         self.add_func_column(_("Last Seen Complete"),
-                             listview.cell_data_date_or_never, [float],
+                             funcs.cell_data_date_or_never, [float],
                              status_field=["last_seen_complete"], default=False)
         self.add_texticon_column(_("Tracker"),
                                  status_field=["tracker_host", "tracker_host"],
-                                 function=cell_data_trackericon, default=False)
+                                 function=funcs.cell_data_trackericon, default=False)
         self.add_text_column(_("Save Path"), status_field=["save_path"], default=False)
         self.add_text_column(_("Owner"), status_field=["owner"], default=False)
         self.add_bool_column(_("Public"), status_field=["public"], default=False)
