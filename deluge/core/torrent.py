@@ -42,7 +42,6 @@ from urllib import unquote
 from urlparse import urlparse
 
 from twisted.internet.defer import Deferred, DeferredList
-from twisted.internet.task import LoopingCall
 from deluge._libtorrent import lt
 
 import deluge.common
