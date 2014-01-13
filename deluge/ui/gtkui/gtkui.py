@@ -114,8 +114,8 @@ DEFAULT_PREFS = {
     "pref_dialog_width": None,
     "pref_dialog_height": None,
     "window_pane_position": -1,
-    "tray_download_speed_list" : [5.0, 10.0, 30.0, 80.0, 300.0],
-    "tray_upload_speed_list" : [5.0, 10.0, 30.0, 80.0, 300.0],
+    "tray_download_speed_list": [5.0, 10.0, 30.0, 80.0, 300.0],
+    "tray_upload_speed_list": [5.0, 10.0, 30.0, 80.0, 300.0],
     "connection_limit_list": [50, 100, 200, 300, 500],
     "enabled_plugins": [],
     "show_connection_manager_on_start": True,
@@ -151,18 +151,23 @@ DEFAULT_PREFS = {
     "pieces_color_downloading": [65535, 55255, 0],
     "pieces_color_completed": [4883, 26985, 56540],
     "focus_main_window_on_add": True,
+    "language": None,
 }
 
 
 class GtkUI(object):
     def __init__(self, args):
-        self.daemon_bps = (0,0,0)
+        self.daemon_bps = (0, 0, 0)
+        # Setup btkbuilder/glade translation
+        deluge.common.setup_translations(setup_gettext=False, setup_pygtk=True)
+
         # Setup signals
         try:
             import gnome.ui
             import gnome
             self.gnome_prog = gnome.init("Deluge", deluge.common.get_version())
             self.gnome_client = gnome.ui.master_client()
+
             def on_die(*args):
                 reactor.stop()
             self.gnome_client.connect("die", on_die)
@@ -174,6 +179,7 @@ class GtkUI(object):
             from win32api import SetConsoleCtrlHandler
             from win32con import CTRL_CLOSE_EVENT
             from win32con import CTRL_SHUTDOWN_EVENT
+
             def win_handler(ctrl_type):
                 log.debug("ctrl_type: %s", ctrl_type)
                 if ctrl_type in (CTRL_CLOSE_EVENT, CTRL_SHUTDOWN_EVENT):
@@ -184,10 +190,10 @@ class GtkUI(object):
         if deluge.common.osx_check() and gtk.gdk.WINDOWING == "quartz":
             import gtkosx_application
             self.osxapp = gtkosx_application.gtkosx_application_get()
+
             def on_die(*args):
                 reactor.stop()
             self.osxapp.connect("NSApplicationWillTerminate", on_die)
-
 
         # Set process name again to fix gtk issue
         setproctitle(getproctitle())
@@ -207,6 +213,10 @@ class GtkUI(object):
         # shutdown the daemon.
         self.started_in_classic = self.config["classic_mode"]
 
+        # Set language
+        if not self.config["language"] is None:
+            deluge.common.set_language(self.config["language"])
+
         # Start the IPC Interface before anything else.. Just in case we are
         # already running.
         self.queuedtorrents = QueuedTorrents()
@@ -214,7 +224,6 @@ class GtkUI(object):
 
         # Initialize gdk threading
         gtk.gdk.threads_init()
-
 
         # We make sure that the UI components start once we get a core URI
         client.set_disconnect_callback(self.__on_disconnect)
@@ -327,8 +336,8 @@ You will either need to stop the daemon or turn off Classic Mode to continue."))
                 except ImportError, e:
                     if "No module named libtorrent" in e.message:
                         d = dialogs.YesNoDialog(
-                        _("Enable Thin Client Mode?"),
-                        _("Thin client mode is only available because libtorrent is not installed.\n\n\
+                            _("Enable Thin Client Mode?"),
+                            _("Thin client mode is only available because libtorrent is not installed.\n\n\
 To use Deluge standalone (Classic mode) please install libtorrent.")).run()
                         self.started_in_classic = False
                         d.addCallback(on_dialog_response)
@@ -344,10 +353,12 @@ To use Deluge standalone (Classic mode) please install libtorrent.")).run()
                     _("Error Starting Core"),
                     _("There was an error starting the core component which is required to run Deluge in Classic Mode.\n\n\
 Please see the details below for more information."), details=traceback.format_exc(tb[2])).run()
+
                 def on_ed_response(response):
                     d = dialogs.YesNoDialog(
                         _("Turn off Classic Mode?"),
-                        _("Since there was an error starting in Classic Mode would you like to continue by turning it off?")).run()
+                        _("Since there was an error starting in Classic Mode would you like to continue by turning it off?")
+                    ).run()
                     self.started_in_classic = False
                     d.addCallback(on_dialog_response)
                 ed.addCallback(on_ed_response)
@@ -406,6 +417,7 @@ Please see the details below for more information."), details=traceback.format_e
                                 dialog = dialogs.AuthenticationDialog(
                                     reason.value.message, reason.value.username
                                 )
+
                                 def dialog_finished(response_id, host, port):
                                     if response_id == gtk.RESPONSE_OK:
                                         reactor.callLater(
@@ -445,7 +457,6 @@ Please see the details below for more information."), details=traceback.format_e
                     # twisted < 12
                     reactor.simulate()
                 self.connectionmanager.show()
-
 
     def __on_disconnect(self):
         """

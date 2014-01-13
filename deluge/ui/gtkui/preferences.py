@@ -62,6 +62,7 @@ COLOR_STATES = {
     "completed": COLOR_COMPLETED
 }
 
+
 class Preferences(component.Component):
     def __init__(self):
         component.Component.__init__(self, "Preferences")
@@ -180,6 +181,7 @@ class Preferences(component.Component):
             "on_missing_color_set": self._on_missing_color_set,
             "on_revert_color_missing_clicked": self._on_revert_color_missing_clicked,
             "on_pref_dialog_configure_event": self.on_pref_dialog_configure_event,
+            "on_checkbutton_language_toggled": self._on_checkbutton_language_toggled,
         })
 
         from deluge.ui.gtkui.gtkui import DEFAULT_PREFS
@@ -193,6 +195,7 @@ class Preferences(component.Component):
         self.enabled_plugins = []
 
         self.setup_path_choosers()
+        self.load_languages()
 
     def setup_path_choosers(self):
         self.download_location_hbox = self.builder.get_object("hbox_download_to_path_chooser")
@@ -209,6 +212,31 @@ class Preferences(component.Component):
         self.copy_torrent_files_path_chooser = PathChooser("copy_torrent_files_to_paths_list")
         self.copy_torrents_to_hbox.add(self.copy_torrent_files_path_chooser)
         self.copy_torrents_to_hbox.show_all()
+
+    def load_languages(self):
+        from deluge.ui import languages  # Import here so that gettext has been setup first
+        translations_path = deluge.common.get_translations_path()
+        for root, dirs, files in os.walk(translations_path):
+            # Get the dirs
+            break
+        self.language_combo = self.builder.get_object("combobox_language")
+        self.language_checkbox = self.builder.get_object("checkbutton_language")
+        lang_model = self.language_combo.get_model()
+
+        index = -1
+        for i, lang_code in enumerate(sorted(dirs)):
+            name = "%s (Language name missing)" % lang_code
+            if lang_code in languages.LANGUAGES:
+                name = languages.LANGUAGES[lang_code]
+            lang_model.append([lang_code, name])
+            if self.gtkui_config["language"] == lang_code:
+                index = i
+
+        if self.gtkui_config["language"] is None:
+            self.language_checkbox.set_active(True)
+            self.language_combo.set_sensitive(False)
+        elif index != -1:
+            self.language_combo.set_active(index)
 
     def __del__(self):
         del self.gtkui_config
@@ -260,9 +288,9 @@ class Preferences(component.Component):
 
         self.liststore.foreach(check_row, name)
         # Remove the page and row
-        if self.page_num_to_remove != None:
+        if self.page_num_to_remove is not None:
             self.notebook.remove_page(self.page_num_to_remove)
-        if self.iter_to_remove != None:
+        if self.iter_to_remove is not None:
             self.liststore.remove(self.iter_to_remove)
 
         # We need to re-adjust the index values for the remaining pages
@@ -273,7 +301,7 @@ class Preferences(component.Component):
         """Page should be the string in the left list.. ie, 'Network' or
         'Bandwidth'"""
         self.window_open = True
-        if page != None:
+        if page is not None:
             for (index, string) in self.liststore:
                 if page == string:
                     self.treeview.get_selection().select_path(index)
@@ -321,7 +349,7 @@ class Preferences(component.Component):
             self._show()
 
     def _show(self):
-        self.is_connected = self.core_config != {} and self.core_config != None
+        self.is_connected = self.core_config != {} and self.core_config is not None
         core_widgets = {
             "chk_move_completed": ("active", "move_completed"),
             "chk_copy_torrent_file": ("active", "copy_torrent_file"),
@@ -430,7 +458,7 @@ class Preferences(component.Component):
                 elif type(value) is str:
                     value = self.core_config[value]
             elif modifier:
-                value = {"active": False, "not_active": False, "value": 0, "text": "", "path_chooser": "" }[modifier]
+                value = {"active": False, "not_active": False, "value": 0, "text": "", "path_chooser": ""}[modifier]
 
             if modifier == "active":
                 widget.set_active(value)
@@ -644,8 +672,7 @@ class Preferences(component.Component):
             self.builder.get_object("chk_enable_appindicator").get_active()
         new_gtkui_config["lock_tray"] = \
             self.builder.get_object("chk_lock_tray").get_active()
-        passhex = sha_hash(\
-            self.builder.get_object("txt_tray_password").get_text()).hexdigest()
+        passhex = sha_hash(self.builder.get_object("txt_tray_password").get_text()).hexdigest()
         if passhex != "c07eb5a8c0dc7bb81c217b67f11c3b7a5e95ffd7":
             new_gtkui_config["tray_password"] = passhex
 
@@ -723,6 +750,29 @@ class Preferences(component.Component):
         # Run plugin hook to apply preferences
         component.get("PluginManager").run_on_apply_prefs()
 
+        # Lanuage
+        if self.language_checkbox.get_active():
+            new_gtkui_config["language"] = None
+        else:
+            active = self.language_combo.get_active()
+            if active == -1:
+                dialog = dialogs.InformationDialog(
+                    _("Attention"),
+                    _("You must choose a language")
+                )
+                dialog.run()
+                return
+            else:
+                model = self.language_combo.get_model()
+                new_gtkui_config["language"] = model.get(model.get_iter(active), 0)[0]
+
+        if new_gtkui_config["language"] != self.gtkui_config["language"]:
+            dialog = dialogs.InformationDialog(
+                _("Attention"),
+                _("You must now restart the deluge UI for the changes to take effect.")
+            )
+            dialog.run()
+
         # GtkUI
         for key in new_gtkui_config.keys():
             # The values do not match so this needs to be updated
@@ -751,7 +801,7 @@ class Preferences(component.Component):
             # Re-show the dialog to make sure everything has been updated
             self.show()
 
-        if classic_mode_was_set == True and new_gtkui_in_classic_mode == False:
+        if classic_mode_was_set and not new_gtkui_in_classic_mode:
             def on_response(response):
                 if response == gtk.RESPONSE_NO:
                     # Set each changed config value in the core
@@ -766,7 +816,7 @@ class Preferences(component.Component):
                 _("Your current session will be stopped. Continue?")
             )
             dialog.run().addCallback(on_response)
-        elif classic_mode_was_set == False and new_gtkui_in_classic_mode == True:
+        elif not classic_mode_was_set and new_gtkui_in_classic_mode:
             dialog = dialogs.InformationDialog(
                 _("Attention"),
                 _("You must now restart the deluge UI")
@@ -807,7 +857,7 @@ class Preferences(component.Component):
     def load_pref_dialog_state(self):
         w = self.gtkui_config["pref_dialog_width"]
         h = self.gtkui_config["pref_dialog_height"]
-        if w != None and h != None:
+        if w is not None and h is not None:
             self.pref_dialog.resize(w, h)
 
     def on_pref_dialog_configure_event(self, widget, event):
@@ -827,25 +877,25 @@ class Preferences(component.Component):
                          }
 
         dependents = {
-                "chk_show_dialog": {"chk_focus_dialog": True},
-                "chk_random_port": {"spin_port_min": False,
-                                    "spin_port_max": False},
-                "chk_random_outgoing_ports": {"spin_outgoing_port_min": False,
-                                              "spin_outgoing_port_max": False},
-                "chk_use_tray": {"chk_min_on_close": True,
-                                 "chk_start_in_tray": True,
-                                 "chk_enable_appindicator": True,
-                                 "chk_lock_tray": True},
-                "chk_lock_tray": {"txt_tray_password": True,
-                                  "password_label": True},
-                "radio_open_folder_custom": {"combo_file_manager": False,
-                                             "txt_open_folder_location": True},
-                "chk_move_completed" : {"move_completed_path_chooser" : True},
-                "chk_copy_torrent_file" : {"torrentfiles_location_path_chooser" : True,
-                                           "chk_del_copy_torrent_file" : True},
-                "chk_seed_ratio" : {"spin_share_ratio": True,
-                                    "chk_remove_ratio" : True}
-            }
+            "chk_show_dialog": {"chk_focus_dialog": True},
+            "chk_random_port": {"spin_port_min": False,
+                                "spin_port_max": False},
+            "chk_random_outgoing_ports": {"spin_outgoing_port_min": False,
+                                          "spin_outgoing_port_max": False},
+            "chk_use_tray": {"chk_min_on_close": True,
+                             "chk_start_in_tray": True,
+                             "chk_enable_appindicator": True,
+                             "chk_lock_tray": True},
+            "chk_lock_tray": {"txt_tray_password": True,
+                              "password_label": True},
+            "radio_open_folder_custom": {"combo_file_manager": False,
+                                         "txt_open_folder_location": True},
+            "chk_move_completed": {"move_completed_path_chooser": True},
+            "chk_copy_torrent_file": {"torrentfiles_location_path_chooser": True,
+                                      "chk_del_copy_torrent_file": True},
+            "chk_seed_ratio": {"spin_share_ratio": True,
+                               "chk_remove_ratio": True}
+        }
 
         def update_dependent_widgets(name, value):
             dependency = dependents[name]
@@ -935,11 +985,13 @@ class Preferences(component.Component):
 
     def _on_button_plugin_install_clicked(self, widget):
         log.debug("_on_button_plugin_install_clicked")
-        chooser = gtk.FileChooserDialog(_("Select the Plugin"),
+        chooser = gtk.FileChooserDialog(
+            _("Select the Plugin"),
             self.pref_dialog,
             gtk.FILE_CHOOSER_ACTION_OPEN,
             buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN,
-                        gtk.RESPONSE_OK))
+                     gtk.RESPONSE_OK)
+        )
 
         chooser.set_transient_for(self.pref_dialog)
         chooser.set_select_multiple(False)
@@ -1028,7 +1080,6 @@ class Preferences(component.Component):
 
     def _on_button_associate_magnet_clicked(self, widget):
         common.associate_magnet_links(True)
-
 
     def _get_accounts_tab_data(self):
         def on_ok(accounts):
@@ -1151,7 +1202,7 @@ class Preferences(component.Component):
                 dialogs.ErrorDialog(
                     _("Error Updating Account"),
                     _("An error ocurred while updating account"),
-                      parent=self.pref_dialog, details=failure.getErrorMessage()
+                    parent=self.pref_dialog, details=failure.getErrorMessage()
                 ).run()
 
             if response_id == gtk.RESPONSE_OK:
@@ -1206,6 +1257,9 @@ class Preferences(component.Component):
         self.gtkui_config['show_piecesbar'] = widget.get_active()
         colors_widget = self.builder.get_object("piecebar_colors_expander")
         colors_widget.set_visible(widget.get_active())
+
+    def _on_checkbutton_language_toggled(self, widget):
+        self.language_combo.set_sensitive(not self.language_checkbox.get_active())
 
     def _on_completed_color_set(self, widget):
         self.__set_color("completed")

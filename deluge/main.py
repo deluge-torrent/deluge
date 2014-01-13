@@ -64,8 +64,6 @@ def version_callback(option, opt_str, value, parser):
 
 def start_ui():
     """Entry point for ui script"""
-    deluge.common.setup_translations()
-
     # Setup the argument parser
     parser = OptionParser(usage="%prog [options] [actions]")
     parser.add_option("-v", "--version", action="callback", callback=version_callback,

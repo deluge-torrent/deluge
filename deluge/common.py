@@ -115,6 +115,7 @@ FILE_PRIORITY = {
     "Highest Priority": 7
 }
 
+
 def get_version():
     """
     Returns the program version from the egg metadata
@@ -125,9 +126,11 @@ def get_version():
     """
     return pkg_resources.require("Deluge")[0].version
 
+
 def get_default_config_dir(filename=None):
     """
-    :param filename: if None, only the config path is returned, if provided, a path including the filename will be returned
+    :param filename: if None, only the config path is returned, if provided,
+                     a path including the filename will be returned
     :type filename: string
     :returns: a file path to the config directory and optional filename
     :rtype: string
@@ -139,7 +142,8 @@ def get_default_config_dir(filename=None):
             appDataPath = os.environ.get("APPDATA")
             if not appDataPath:
                 import _winreg
-                hkey = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders")
+                hkey = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER,
+                                       "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders")
                 appDataReg = _winreg.QueryValueEx(hkey, "AppData")
                 appDataPath = appDataReg[0]
                 _winreg.CloseKey(hkey)
@@ -153,6 +157,7 @@ def get_default_config_dir(filename=None):
     except OSError, e:
         log.error("Unable to use default config directory, exiting... (%s)", e)
         sys.exit(1)
+
 
 def get_default_download_dir():
     """
@@ -168,14 +173,14 @@ def get_default_download_dir():
         try:
             for line in open(userdir_file, 'r'):
                 if not line.startswith('#') and 'XDG_DOWNLOAD_DIR' in line:
-                        download_dir = os.path.expandvars(\
-                                        line.partition("=")[2].rstrip().strip('"'))
+                        download_dir = os.path.expandvars(line.partition("=")[2].rstrip().strip('"'))
                         if os.path.isdir(download_dir):
                             return download_dir
         except IOError:
             pass
 
         return os.environ.get("HOME")
+
 
 def windows_check():
     """
@@ -187,6 +192,7 @@ def windows_check():
     """
     return platform.system() in ('Windows', 'Microsoft')
 
+
 def vista_check():
     """
     Checks if the current platform is Windows Vista
@@ -197,6 +203,7 @@ def vista_check():
     """
     return platform.release() == "Vista"
 
+
 def osx_check():
     """
     Checks if the current platform is Mac OS X
@@ -206,6 +213,7 @@ def osx_check():
 
     """
     return platform.system() == "Darwin"
+
 
 def get_pixmap(fname):
     """
@@ -219,6 +227,7 @@ def get_pixmap(fname):
     """
     return resource_filename("deluge", os.path.join("ui", "data", "pixmaps", fname))
 
+
 def resource_filename(module, path):
     # While developing, if there's a second deluge package, installed globally
     # and another in develop mode somewhere else, while pkg_resources.require("Deluge")
@@ -229,6 +238,7 @@ def resource_filename(module, path):
     return pkg_resources.require("Deluge>=%s" % get_version())[0].get_resource_filename(
         pkg_resources._manager, os.path.join(*(module.split('.')+[path]))
     )
+
 
 def open_file(path):
     """
@@ -244,6 +254,7 @@ def open_file(path):
         subprocess.Popen(["open", "%s" % path])
     else:
         subprocess.Popen(["xdg-open", "%s" % path])
+
 
 def open_url_in_browser(url):
     """
@@ -263,11 +274,13 @@ kib_txt = "KiB"
 mib_txt = "MiB"
 gib_txt = "GiB"
 
+
 def translate_strings():
     byte_txt = _("Bytes")
     kib_txt = _("KiB")
     mib_txt = _("MiB")
     gib_txt = _("GiB")
+
 
 def fsize(fsize_b):
     """
@@ -296,6 +309,7 @@ def fsize(fsize_b):
     else:
         return "%d %s" % (fsize_b, byte_txt)
 
+
 def fsize_short(fsize_b):
     """
     Formats the bytes value into a string with K, M or G units
@@ -320,6 +334,7 @@ def fsize_short(fsize_b):
     fsize_gb = fsize_mb / 1024.0
     return "%.1f %s" % (fsize_gb, _("G"))
 
+
 def fpcnt(dec):
     """
     Formats a string to display a percentage with two decimal places
@@ -336,6 +351,7 @@ def fpcnt(dec):
 
     """
     return '%.2f%%' % (dec * 100)
+
 
 def fspeed(bps):
     """
@@ -361,6 +377,7 @@ def fspeed(bps):
     fspeed_gb = fspeed_mb / 1024.0
     return "%.1f %s" % (fspeed_gb, _("GiB/s"))
 
+
 def fpeer(num_peers, total_peers):
     """
     Formats a string to show 'num_peers' ('total_peers')
@@ -384,6 +401,7 @@ def fpeer(num_peers, total_peers):
         return "%d (%d)" % (num_peers, total_peers)
     else:
         return "%d" % num_peers
+
 
 def ftime(seconds):
     """
@@ -424,6 +442,7 @@ def ftime(seconds):
     weeks = weeks % 52
     return '%dy %dw' % (years, weeks)
 
+
 def fdate(seconds):
     """
     Formats a date time string in the locale's date representation based on the systems timezone
@@ -437,6 +456,7 @@ def fdate(seconds):
     if seconds < 0:
         return ""
     return time.strftime("%x %X", time.localtime(seconds))
+
 
 def is_url(url):
     """
@@ -454,6 +474,7 @@ def is_url(url):
 
     """
     return url.partition('://')[0] in ("http", "https", "ftp", "udp")
+
 
 def is_magnet(uri):
     """
@@ -475,6 +496,7 @@ def is_magnet(uri):
     if uri.startswith(magnet_scheme) and xt_param in uri:
         return True
     return False
+
 
 def create_magnet_uri(infohash, name=None, trackers=[]):
     """
@@ -501,6 +523,7 @@ def create_magnet_uri(infohash, name=None, trackers=[]):
 
     return uri
 
+
 def get_path_size(path):
     """
     Gets the size in bytes of 'path'
@@ -524,6 +547,7 @@ def get_path_size(path):
             dir_size += os.path.getsize(filename)
     return dir_size
 
+
 def free_space(path):
     """
     Gets the free space available at 'path'
@@ -546,6 +570,7 @@ def free_space(path):
         disk_data = os.statvfs(path.encode("utf8"))
         block_size = disk_data.f_frsize
         return disk_data.f_bavail * block_size
+
 
 def is_ip(ip):
     """
@@ -585,6 +610,7 @@ def is_ip(ip):
     except socket.error:
         return False
 
+
 def path_join(*parts):
     """
     An implementation of os.path.join that always uses / for the separator
@@ -611,6 +637,7 @@ XML_ESCAPES = (
     ("'", '&apos;')
 )
 
+
 def xml_decode(string):
     """
     Unescape a string that was previously encoded for use within xml.
@@ -624,6 +651,7 @@ def xml_decode(string):
         string = string.replace(escape, char)
     return string
 
+
 def xml_encode(string):
     """
     Escape a string for use within an xml element or attribute.
@@ -636,6 +664,7 @@ def xml_encode(string):
     for char, escape in XML_ESCAPES:
         string = string.replace(char, escape)
     return string
+
 
 def decode_string(s, encoding="utf8"):
     """
@@ -672,6 +701,7 @@ def decode_string(s, encoding="utf8"):
             pass
     return u''
 
+
 def utf8_encoded(s, encoding="utf8"):
     """
     Returns a utf8 encoded string of s
@@ -689,6 +719,7 @@ def utf8_encoded(s, encoding="utf8"):
     elif isinstance(s, unicode):
         s = s.encode("utf8")
     return s
+
 
 class VersionSplit(object):
     """
@@ -715,8 +746,8 @@ class VersionSplit(object):
         # Check for PEP 386 compliant version
         match = re.search(VERSION_RE, ver)
         if match:
-            group = [(x if x is not None else '') for x in match.group(1,2,3,4,8)]
-            vs = [''.join(group[0:2]),''.join(group[2:4]), group[4].lstrip('.')]
+            group = [(x if x is not None else '') for x in match.group(1, 2, 3, 4, 8)]
+            vs = [''.join(group[0:2]), ''.join(group[2:4]), group[4].lstrip('.')]
         else:
             ver = ver.lower()
             vs = ver.replace("_", "-").split("-")
@@ -759,8 +790,10 @@ AUTH_LEVEL_NORMAL = 5
 AUTH_LEVEL_ADMIN = 10
 AUTH_LEVEL_DEFAULT = AUTH_LEVEL_NORMAL
 
+
 def create_auth_file():
-    import stat, configmanager
+    import stat
+    import configmanager
     auth_file = configmanager.get_config_dir("auth")
     # Check for auth file and create if necessary
     if not os.path.exists(auth_file):
@@ -771,8 +804,10 @@ def create_auth_file():
         # Change the permissions on the file so only this user can read/write it
         os.chmod(auth_file, stat.S_IREAD | stat.S_IWRITE)
 
+
 def create_localclient_account(append=False):
-    import configmanager, random
+    import configmanager
+    import random
     auth_file = configmanager.get_config_dir("auth")
     if not os.path.exists(auth_file):
         create_auth_file()
@@ -792,31 +827,137 @@ def create_localclient_account(append=False):
     fd.close()
 
 
+def get_translations_path():
+    """Get the absolute path to the directory containing translation files"""
+    return resource_filename("deluge", "i18n")
+
+
+def set_env_variable(name, value):
+    '''
+    :param name: environment variable name
+    :param value: environment variable value
+
+    This function ensures that changes to an environment variable are applied
+    to each copy of the environment variables used by a process. Starting from
+    Python 2.4, os.environ changes only apply to the copy Python keeps (os.environ)
+    and are no longer automatically applied to the other copies for the process.
+
+    On Microsoft Windows, each process has multiple copies of the environment
+    variables, one managed by the OS and one managed by the C library. We also
+    need to take care of the fact that the C library used by Python is not
+    necessarily the same as the C library used by pygtk and friends. This because
+    the latest releases of pygtk and friends are built with mingw32 and are thus
+    linked against msvcrt.dll. The official gtk+ binaries have always been built
+    in this way.
+
+    Basen on _putenv in TransUtils.py from sourceforge project gramps
+    http://sourceforge.net/p/gramps/code/HEAD/tree/branches/maintenance/gramps32/src/TransUtils.py
+    '''
+    # Update Python's copy of the environment variables
+    os.environ[name] = value
+
+    if windows_check():
+        from ctypes import windll
+        from ctypes import cdll
+        from ctypes.util import find_msvcrt
+
+        # Update the copy maintained by Windows (so SysInternals Process Explorer sees it)
+        try:
+            result = windll.kernel32.SetEnvironmentVariableW(name, value)
+            if result == 0:
+                raise Warning
+        except Exception:
+            log.warning('Failed to set Env Var \'%s\' (\'kernel32.SetEnvironmentVariableW\')' % name)
+        else:
+            log.debug('Set Env Var \'%s\' to \'%s\' (\'kernel32.SetEnvironmentVariableW\')' % (name, value))
+
+        # Update the copy maintained by msvcrt (used by gtk+ runtime)
+        try:
+            result = cdll.msvcrt._putenv('%s=%s' % (name, value))
+            if result != 0:
+                raise Warning
+        except Exception:
+            log.warning('Failed to set Env Var \'%s\' (\'msvcrt._putenv\')' % name)
+        else:
+            log.debug('Set Env Var \'%s\' to \'%s\' (\'msvcrt._putenv\')' % (name, value))
+
+        # Update the copy maintained by whatever c runtime is used by Python
+        try:
+            msvcrt = find_msvcrt()
+            msvcrtname = str(msvcrt).split('.')[0] if '.' in msvcrt else str(msvcrt)
+            result = cdll.LoadLibrary(msvcrt)._putenv('%s=%s' % (name, value))
+            if result != 0:
+                raise Warning
+        except Exception:
+            log.warning('Failed to set Env Var \'%s\' (\'%s._putenv\')' % (name, msvcrtname))
+        else:
+            log.debug('Set Env Var \'%s\' to \'%s\' (\'%s._putenv\')' % (name, value, msvcrtname))
+
+
+def set_language(lang):
+    """
+    Set the language to use.
+
+    gettext and GtkBuilder will load the translations from the specified
+    language.
+
+    :param lang: the language, e.g. "en", "de" or "en_GB"
+    :type lang: str
+    """
+    lang = str(lang)
+    # Necessary to set there environment variables for GtkBuilder
+    set_env_variable('LANGUAGE', lang)  # Windows/Linux
+    set_env_variable('LANG', lang)  # For OSX
+
+    translations_path = get_translations_path()
+    ro = gettext.translation("deluge", localedir=translations_path, languages=[lang])
+    ro.install()
+
+
 # Initialize gettext
-def setup_translations(setup_pygtk=False):
-    translations_path = resource_filename("deluge", "i18n")
+def setup_translations(setup_gettext=True, setup_pygtk=False):
+    translations_path = get_translations_path()
+    domain = "deluge"
     log.info("Setting up translations from %s", translations_path)
 
-    try:
-        if hasattr(locale, "bindtextdomain"):
-            locale.bindtextdomain("deluge", translations_path)
-        if hasattr(locale, "textdomain"):
-            locale.textdomain("deluge")
-        gettext.install("deluge", translations_path, unicode=True)
-        if setup_pygtk:
-            # Even though we're not using glade anymore, let's set it up so that
-            # plugins still using it get properly translated.
+    if setup_pygtk:
+        try:
             log.info("Setting up GTK translations from %s", translations_path)
+
+            if windows_check():
+                import ctypes
+                libintl = ctypes.cdll.intl
+                libintl.bindtextdomain(domain, translations_path.encode(sys.getfilesystemencoding()))
+                libintl.textdomain(domain)
+                libintl.bind_textdomain_codeset(domain, "UTF-8")
+                libintl.gettext.restype = ctypes.c_char_p
+
+            # Use glade for plugins that still uses it
             import gtk
             import gtk.glade
-            gtk.glade.bindtextdomain("deluge", translations_path)
-            gtk.glade.textdomain("deluge")
+            gtk.glade.bindtextdomain(domain, translations_path)
+            gtk.glade.textdomain(domain)
+        except Exception, e:
+            log.error("Unable to initialize glade translation!")
+            log.exception(e)
+    if setup_gettext:
+        try:
+            if hasattr(locale, "bindtextdomain"):
+                locale.bindtextdomain(domain, translations_path)
+            if hasattr(locale, "textdomain"):
+                locale.textdomain(domain)
+
+            gettext.bindtextdomain(domain, translations_path)
+            gettext.bind_textdomain_codeset(domain, 'UTF-8')
+            gettext.textdomain(domain)
+            gettext.install(domain, translations_path, unicode=True)
+        except Exception, e:
+            log.error("Unable to initialize gettext/locale!")
+            log.exception(e)
+            import __builtin__
+            __builtin__.__dict__["_"] = lambda x: x
         translate_strings()
-    except Exception, e:
-        log.error("Unable to initialize gettext/locale!")
-        log.exception(e)
-        import __builtin__
-        __builtin__.__dict__["_"] = lambda x: x
+
 
 def unicode_argv():
     """ Gets sys.argv as list of unicode objects on any platform."""

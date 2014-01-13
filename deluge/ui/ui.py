@@ -47,6 +47,7 @@ try:
 except ImportError:
     setproctitle = lambda t: None
 
+
 def version_callback(option, opt_str, value, parser):
     print os.path.basename(sys.argv[0]) + ": " + deluge.common.get_version()
     try:
@@ -64,20 +65,16 @@ if 'dev' not in deluge.common.get_version():
     import warnings
     warnings.filterwarnings('ignore', category=DeprecationWarning, module='twisted')
 
+
 class _UI(object):
 
     def __init__(self, name="gtk"):
         self.__name = name
 
-        if name == "gtk":
-            deluge.common.setup_translations(setup_pygtk=True)
-        else:
-            deluge.common.setup_translations()
-
         self.__parser = OptionParser(usage="%prog [options] [actions]")
         self.__parser.add_option("-v", "--version", action="callback", callback=version_callback,
             help="Show program's version number and exit")
-        group = OptionGroup(self.__parser, _("Common Options"))
+        group = OptionGroup(self.__parser, "Common Options")
         group.add_option("-c", "--config", dest="config",
             help="Set the config folder location", action="store", type="str")
         group.add_option("-l", "--logfile", dest="logfile",
@@ -133,6 +130,9 @@ class _UI(object):
                 log.error("There was an error setting the config dir! Exiting..")
                 sys.exit(1)
 
+        # Setup gettext
+        deluge.common.setup_translations()
+
         setproctitle("deluge-%s" % self.__name)
 
         log.info("Deluge ui %s", deluge.common.get_version())
@@ -140,11 +140,15 @@ class _UI(object):
         log.debug("args: %s", self.__args)
         log.info("Starting %s ui..", self.__name)
 
+
 class UI:
     def __init__(self, options, args, ui_args):
         import logging
         log = logging.getLogger(__name__)
         log.debug("UI init..")
+
+        # Setup gettext
+        deluge.common.setup_translations()
 
         # Set the config directory
         deluge.configmanager.set_config_dir(options.config)
@@ -181,7 +185,8 @@ class UI:
             stack = traceback.extract_tb(tb)
             last_frame = stack[-1]
             if last_frame[0] == __file__:
-                log.error("Unable to find the requested UI: %s.  Please select a different UI with the '-u' option or alternatively use the '-s' option to select a different default UI.", selected_ui)
+                log.error("Unable to find the requested UI: %s.  Please select a different UI with the '-u' option \
+                          or alternatively use the '-s' option to select a different default UI.", selected_ui)
             else:
                 log.exception(e)
                 log.error("There was an error whilst launching the request UI: %s", selected_ui)
