@@ -269,13 +269,15 @@ def open_url_in_browser(url):
 
 ## Formatting text functions
 
+# For performance reasons these fsize units are translated outside the function
 byte_txt = "Bytes"
 kib_txt = "KiB"
 mib_txt = "MiB"
 gib_txt = "GiB"
 
 
-def translate_strings():
+def translate_size_units():
+    global byte_txt, kib_txt, mib_txt, gib_txt
     byte_txt = _("Bytes")
     kib_txt = _("KiB")
     mib_txt = _("MiB")
@@ -905,7 +907,7 @@ def set_language(lang):
     :type lang: str
     """
     lang = str(lang)
-    # Necessary to set there environment variables for GtkBuilder
+    # Necessary to set these environment variables for GtkBuilder
     set_env_variable('LANGUAGE', lang)  # Windows/Linux
     set_env_variable('LANG', lang)  # For OSX
 
@@ -956,7 +958,8 @@ def setup_translations(setup_gettext=True, setup_pygtk=False):
             log.exception(e)
             import __builtin__
             __builtin__.__dict__["_"] = lambda x: x
-        translate_strings()
+
+        translate_size_units()
 
 
 def unicode_argv():
