@@ -115,6 +115,19 @@ Deluge.details.StatusTab = Ext.extend(Ext.Panel, {
         }
         data.auto_managed = _((status.is_auto_managed) ? 'True' : 'False');
 
+        var translate_tracker_status = {
+            'Error' : _('Error'),
+            'Warning' : _('Warning'),
+            'Announce OK' : _('Announce OK'),
+            'Announce Sent' : _('Announce Sent')
+        };
+        for (var key in translate_tracker_status) {
+            if (data.tracker_status.indexOf(key) != -1) {
+                data.tracker_status = data.tracker_status.replace(key, translate_tracker_status[key]);
+                break;
+            }
+        }
+
         data.downloaded += ' (' + ((status.total_payload_download) ? fsize(status.total_payload_download) : '0.0 KiB') + ')';
         data.uploaded += ' (' + ((status.total_payload_upload) ? fsize(status.total_payload_upload): '0.0 KiB') + ')';
 

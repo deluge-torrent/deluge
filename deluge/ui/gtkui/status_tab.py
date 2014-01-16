@@ -147,6 +147,18 @@ class StatusTab(Tab):
         else:
             status["is_auto_managed"]=_("Off")
 
+        translate_tracker_status = {
+            "Error" : _("Error"),
+            "Warning" : _("Warning"),
+            "Announce OK" : _("Announce OK"),
+            "Announce Sent" : _("Announce Sent")
+        }
+        for key, value in translate_tracker_status.iteritems():
+            if key in status["tracker_status"]:
+                status["tracker_status"] = status["tracker_status"].replace(key, value, 1)
+                log.error(status["tracker_status"])
+                break
+
         # Update all the label widgets
         for widget in self.label_widgets:
             if widget[1] != None:
