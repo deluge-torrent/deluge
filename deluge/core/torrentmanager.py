@@ -315,7 +315,7 @@ class TorrentManager(component.Component):
             return torrent_info
 
     def add(self, torrent_info=None, state=None, options=None, save_state=True,
-            filedump=None, filename=None, magnet=None, resume_data=None, owner=None):
+            filedump=None, filename=None, magnet=None, resume_data=None, seed_mode=False, owner=None):
         """Add a torrent to the manager and returns it's torrent_id"""
         if torrent_info is None and state is None and filedump is None and magnet is None:
             log.debug("You must specify a valid torrent_info, torrent state or magnet.")
@@ -441,9 +441,12 @@ class TorrentManager(component.Component):
         # Fill in the rest of the add_torrent_params dictionary
         add_torrent_params["save_path"] = utf8_encoded(options["download_location"])
         add_torrent_params["storage_mode"] = storage_mode
-        add_torrent_params["paused"] = True
-        add_torrent_params["auto_managed"] = False
-        add_torrent_params["duplicate_is_error"] = True
+        add_torrent_params["flags"] = (lt.add_torrent_params_flags_t.flag_paused |
+                                       lt.add_torrent_params_flags_t.flag_duplicate_is_error)
+        if seed_mode:
+            add_torrent_params["flags"] |= lt.add_torrent_params_flags_t.flag_seed_mode
+        if magnet:
+            add_torrent_params["url"] = utf8_encoded(magnet)
 
         # We need to pause the AlertManager momentarily to prevent alerts
         # for this torrent being generated before a Torrent object is created.
@@ -451,10 +454,7 @@ class TorrentManager(component.Component):
 
         handle = None
         try:
-            if magnet:
-                handle = lt.add_magnet_uri(self.session, utf8_encoded(magnet), add_torrent_params)
-            else:
-                handle = self.session.add_torrent(add_torrent_params)
+            handle = self.session.add_torrent(add_torrent_params)
         except RuntimeError as ex:
             log.warning("Error adding torrent: %s", ex)
 
