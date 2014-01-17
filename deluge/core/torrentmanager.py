@@ -91,7 +91,6 @@ class TorrentState:
                  shared=False):
         self.torrent_id = torrent_id
         self.filename = filename
-        self.total_uploaded = total_uploaded
         self.trackers = trackers
         self.queue = queue
         self.is_finished = is_finished
