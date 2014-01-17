@@ -46,6 +46,7 @@ from deluge.configmanager import ConfigManager
 
 log = logging.getLogger(__name__)
 
+
 class StatusBarItem:
     def __init__(self, image=None, stock=None, text=None, callback=None, tooltip=None):
         self._widgets = []
@@ -59,17 +60,17 @@ class StatusBarItem:
         self._ebox.add(self._hbox)
 
         # Add image from file or stock
-        if image != None or stock != None:
-            if image != None:
+        if image is not None or stock is not None:
+            if image is not None:
                 self.set_image_from_file(image)
-            if stock != None:
+            if stock is not None:
                 self.set_image_from_stock(stock)
 
         # Add text
-        if text != None:
+        if text is not None:
             self.set_text(text)
 
-        if callback != None:
+        if callback is not None:
             self.set_callback(callback)
 
         if tooltip:
@@ -112,6 +113,7 @@ class StatusBarItem:
 
     def get_text(self):
         return self._label.get_text()
+
 
 class StatusBar(component.Component):
     def __init__(self):
@@ -187,14 +189,14 @@ class StatusBar(component.Component):
             image=deluge.common.get_pixmap("dht16.png"), tooltip=_("DHT Nodes"))
 
         self.diskspace_item = self.add_item(
-                stock=gtk.STOCK_HARDDISK,
-                callback=self._on_diskspace_item_clicked,
-                tooltip=_("Free Disk Space"))
+            stock=gtk.STOCK_HARDDISK,
+            callback=self._on_diskspace_item_clicked,
+            tooltip=_("Free Disk Space"))
 
         self.health_item = self.add_item(
-                stock=gtk.STOCK_DIALOG_ERROR,
-                text=_("No Incoming Connections!"),
-                callback=self._on_health_icon_clicked)
+            stock=gtk.STOCK_DIALOG_ERROR,
+            text=_("No Incoming Connections!"),
+            callback=self._on_health_icon_clicked)
 
         self.health = False
 
@@ -205,7 +207,7 @@ class StatusBar(component.Component):
             self._on_dht(configs["dht"])
         # Get some config values
         client.core.get_config_values(["max_connections_global", "max_download_speed",
-                                  "max_upload_speed", "dht"]).addCallback(update_config_values)
+                                      "max_upload_speed", "dht"]).addCallback(update_config_values)
 
     def stop(self):
         # When stopped, we just show the not connected thingy
@@ -274,8 +276,7 @@ class StatusBar(component.Component):
 
     def send_status_request(self):
         # Sends an async request for data from the core
-        client.core.get_num_connections().addCallback(self._on_get_num_connections)
-        keys = ["upload_rate", "download_rate", "payload_upload_rate", "payload_download_rate"]
+        keys = ["num_peers", "upload_rate", "download_rate", "payload_upload_rate", "payload_download_rate"]
 
         if self.dht_status:
             keys.append("dht_nodes")
@@ -299,10 +300,6 @@ class StatusBar(component.Component):
         self.max_connections = max_connections
         self.update_connections_label()
 
-    def _on_get_num_connections(self, num_connections):
-        self.num_connections = num_connections
-        self.update_connections_label()
-
     def _on_dht(self, value):
         self.dht_status = value
         if value:
@@ -317,9 +314,11 @@ class StatusBar(component.Component):
         self.upload_rate = deluge.common.fspeed(status["payload_upload_rate"])
         self.download_protocol_rate = (status["download_rate"] - status["payload_download_rate"]) / 1024
         self.upload_protocol_rate = (status["upload_rate"] - status["payload_upload_rate"]) / 1024
+        self.num_connections = status["num_peers"]
         self.update_download_label()
         self.update_upload_label()
         self.update_traffic_label()
+        self.update_connections_label()
 
         if "dht_nodes" in status:
             self.dht_nodes = status["dht_nodes"]
@@ -402,7 +401,7 @@ class StatusBar(component.Component):
         elif widget.get_name() == "other":
             value = common.show_other_dialog(
                 _("Set Maximum Download Speed"), _("KiB/s"), None, "downloading.svg", self.max_download_speed)
-            if value == None:
+            if value is None:
                 return
         else:
             value = float(widget.get_children()[0].get_text().split(" ")[0])
@@ -430,7 +429,7 @@ class StatusBar(component.Component):
         elif widget.get_name() == "other":
             value = common.show_other_dialog(
                 _("Set Maximum Upload Speed"), _("KiB/s"), None, "seeding.svg", self.max_upload_speed)
-            if value == None:
+            if value is None:
                 return
         else:
             value = float(widget.get_children()[0].get_text().split(" ")[0])
@@ -457,7 +456,7 @@ class StatusBar(component.Component):
         elif widget.get_name() == "other":
             value = common.show_other_dialog(
                 _("Set Maximum Connections"), "", gtk.STOCK_NETWORK, None, self.max_connections)
-            if value == None:
+            if value is None:
                 return
         else:
             value = int(widget.get_children()[0].get_text().split(" ")[0])

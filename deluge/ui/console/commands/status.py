@@ -39,17 +39,19 @@ from deluge.ui.client import client
 import deluge.common
 import deluge.component as component
 
+
 class Command(BaseCommand):
     """Shows a various status information from the daemon."""
     option_list = BaseCommand.option_list + (
-            make_option('-r', '--raw', action='store_true', default=False, dest='raw',
-                        help='Don\'t format upload/download rates in KiB/s (useful for scripts that want to do their own parsing)'),
-            make_option('-n', '--no-torrents', action='store_false', default=True, dest='show_torrents',
-                        help='Don\'t show torrent status (this will make the command a bit faster)'),
+        make_option('-r', '--raw', action='store_true', default=False, dest='raw',
+                    help='Don\'t format upload/download rates in KiB/s \
+(useful for scripts that want to do their own parsing)'),
+        make_option('-n', '--no-torrents', action='store_false', default=True, dest='show_torrents',
+                    help='Don\'t show torrent status (this will make the command a bit faster)'),
     )
 
-
     usage = "Usage: status [-r] [-n]"
+
     def handle(self, *args, **options):
         self.console = component.get("ConsoleUI")
         self.status = None
@@ -63,33 +65,24 @@ class Command(BaseCommand):
 
         def on_session_status(status):
             self.status = status
-            if self.status != None and self.connections != None and self.torrents != None:
-                self.print_status()
-
-        def on_num_connections(conns):
-            self.connections = conns
-            if self.status != None and self.connections != None and self.torrents != None:
+            if self.status is not None and self.connections is not None and self.torrents is not None:
                 self.print_status()
 
         def on_torrents_status(status):
             self.torrents = status
-            if self.status != None and self.connections != None and self.torrents != None:
+            if self.status is not None and self.connections is not None and self.torrents is not None:
                 self.print_status()
 
         def on_torrents_status_fail(reason):
             self.torrents = -1
-            if self.status != None and self.connections != None and self.torrents != None:
+            if self.status is not None and self.connections is not None and self.torrents is not None:
                 self.print_status()
 
         deferreds = []
 
-        ds = client.core.get_session_status(["payload_upload_rate","payload_download_rate","dht_nodes"])
+        ds = client.core.get_session_status(["num_peers", "payload_upload_rate", "payload_download_rate", "dht_nodes"])
         ds.addCallback(on_session_status)
         deferreds.append(ds)
-
-        dc = client.core.get_num_connections()
-        dc.addCallback(on_num_connections)
-        deferreds.append(dc)
 
         if options["show_torrents"]:
             dt = client.core.get_torrents_status({}, ["state"])
@@ -102,18 +95,19 @@ class Command(BaseCommand):
     def print_status(self):
         self.console.set_batch_write(True)
         if self.raw:
-            self.console.write("{!info!}Total upload: %f"%self.status["payload_upload_rate"])
-            self.console.write("{!info!}Total download: %f"%self.status["payload_download_rate"])
+            self.console.write("{!info!}Total upload: %f" % self.status["payload_upload_rate"])
+            self.console.write("{!info!}Total download: %f" % self.status["payload_download_rate"])
         else:
-            self.console.write("{!info!}Total upload: %s"%deluge.common.fspeed(self.status["payload_upload_rate"]))
-            self.console.write("{!info!}Total download: %s"%deluge.common.fspeed(self.status["payload_download_rate"]))
-        self.console.write("{!info!}DHT Nodes: %i"%self.status["dht_nodes"])
-        self.console.write("{!info!}Total connections: %i"%self.connections)
+            self.console.write("{!info!}Total upload: %s" % deluge.common.fspeed(self.status["payload_upload_rate"]))
+            self.console.write("{!info!}Total download: %s" %
+                               deluge.common.fspeed(self.status["payload_download_rate"]))
+        self.console.write("{!info!}DHT Nodes: %i" % self.status["dht_nodes"])
+        self.console.write("{!info!}Total connections: %i" % self.connections)
         if self.torrents == -1:
             self.console.write("{!error!}Error getting torrent info")
         elif self.torrents != -2:
-            self.console.write("{!info!}Total torrents: %i"%len(self.torrents))
-            states = ["Downloading","Seeding","Paused","Checking","Error","Queued"]
+            self.console.write("{!info!}Total torrents: %i" % len(self.torrents))
+            states = ["Downloading", "Seeding", "Paused", "Checking", "Error", "Queued"]
             state_counts = {}
             for state in states:
                 state_counts[state] = 0
@@ -121,6 +115,6 @@ class Command(BaseCommand):
                 s = self.torrents[t]
                 state_counts[s["state"]] += 1
             for state in states:
-                self.console.write("{!info!} %s: %i"%(state,state_counts[state]))
+                self.console.write("{!info!} %s: %i" % (state, state_counts[state]))
 
         self.console.set_batch_write(False)

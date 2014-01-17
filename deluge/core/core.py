@@ -69,6 +69,7 @@ from deluge.core.rpcserver import export
 
 log = logging.getLogger(__name__)
 
+
 class Core(component.Component):
     def __init__(self, listen_interface=None):
         log.debug("Core init..")
@@ -89,9 +90,10 @@ class Core(component.Component):
 
         # Set the user agent
         self.settings = lt.session_settings()
-        self.settings.user_agent = "Deluge/%(deluge_version)s libtorrent/%(lt_version)s" % \
-                        { 'deluge_version': deluge.common.get_version(),
-                          'lt_version': self.get_libtorrent_version().rpartition(".")[0] }
+        self.settings.user_agent = "Deluge/%(deluge_version)s libtorrent/%(lt_version)s" % {
+            'deluge_version': deluge.common.get_version(),
+            'lt_version': self.get_libtorrent_version().rpartition(".")[0]
+        }
         # Increase the alert queue size so that alerts don't get lost
         self.settings.alert_queue_size = 10000
 
@@ -264,6 +266,7 @@ class Core(component.Component):
         :returns: a Deferred which returns the torrent_id as a str or None
         """
         log.info("Attempting to add url %s", url)
+
         def on_download_success(filename):
             # We got the file, so add it to the session
             f = open(filename, "rb")
@@ -380,7 +383,8 @@ class Core(component.Component):
 
         # Add in a couple ratios
         try:
-            cache["write_hit_ratio"] = float((cache["blocks_written"] - cache["writes"])) / float(cache["blocks_written"])
+            cache["write_hit_ratio"] = float((cache["blocks_written"] -
+                                              cache["writes"])) / float(cache["blocks_written"])
         except ZeroDivisionError:
             cache["write_hit_ratio"] = 0.0
 
@@ -453,7 +457,8 @@ class Core(component.Component):
     @export
     def get_torrent_status(self, torrent_id, keys, diff=False):
         torrent_keys, plugin_keys = self.torrentmanager.separate_keys(keys, [torrent_id])
-        return self.create_torrent_status(torrent_id, torrent_keys, plugin_keys, diff=diff, update=True, all_keys=not keys)
+        return self.create_torrent_status(torrent_id, torrent_keys, plugin_keys, diff=diff, update=True,
+                                          all_keys=not keys)
 
     @export
     def get_torrents_status(self, filter_dict, keys, diff=False):
@@ -461,7 +466,6 @@ class Core(component.Component):
         returns all torrents , optionally filtered by filter_dict.
         """
         torrent_ids = self.filtermanager.filter_torrent_ids(filter_dict)
-        status_dict = {}.fromkeys(torrent_ids)
         d = self.torrentmanager.torrents_status_update(torrent_ids, keys, diff=diff)
 
         def add_plugin_fields(args):
@@ -475,7 +479,7 @@ class Core(component.Component):
         return d
 
     @export
-    def get_filter_tree(self , show_zero_hits=True, hide_cat=None):
+    def get_filter_tree(self, show_zero_hits=True, hide_cat=None):
         """
         returns {field: [(value,count)] }
         for use in sidebar(s)
@@ -516,11 +520,6 @@ class Core(component.Component):
     def get_listen_port(self):
         """Returns the active listen port"""
         return self.session.listen_port()
-
-    @export
-    def get_num_connections(self):
-        """Returns the current number of connections"""
-        return self.session.num_connections()
 
     @export
     def get_available_plugins(self):
@@ -658,24 +657,24 @@ class Core(component.Component):
 
     @export
     def create_torrent(self, path, tracker, piece_length, comment, target,
-                        webseeds, private, created_by, trackers, add_to_session):
+                       webseeds, private, created_by, trackers, add_to_session):
 
         log.debug("creating torrent..")
         threading.Thread(target=self._create_torrent_thread,
-            args=(
-                path,
-                tracker,
-                piece_length,
-                comment,
-                target,
-                webseeds,
-                private,
-                created_by,
-                trackers,
-                add_to_session)).start()
+                         args=(
+                             path,
+                             tracker,
+                             piece_length,
+                             comment,
+                             target,
+                             webseeds,
+                             private,
+                             created_by,
+                             trackers,
+                             add_to_session)).start()
 
     def _create_torrent_thread(self, path, tracker, piece_length, comment, target,
-                    webseeds, private, created_by, trackers, add_to_session):
+                               webseeds, private, created_by, trackers, add_to_session):
         import deluge.metafile
         deluge.metafile.make_meta_file(
             path,

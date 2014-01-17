@@ -39,6 +39,7 @@ import deluge.component as component
 import deluge.common
 from deluge.ui.client import client
 
+
 class StatusBars(component.Component):
     def __init__(self):
         component.Component.__init__(self, "StatusBars", 2, depend=["CoreConfig"])
@@ -58,27 +59,21 @@ class StatusBars(component.Component):
         self.update()
 
     def update(self):
-        def on_get_num_connections(result):
-            self.connections = result
-        client.core.get_num_connections().addCallback(on_get_num_connections)
-
         def on_get_session_status(status):
             self.upload = deluge.common.fsize(status["payload_upload_rate"])
             self.download = deluge.common.fsize(status["payload_download_rate"])
+            self.connections = status["num_peers"]
             if "dht_nodes" in status:
                 self.dht = status["dht_nodes"]
 
             self.update_statusbars()
 
-        keys = [
-            "payload_upload_rate",
-            "payload_download_rate"]
+        keys = ["num_peers", "payload_upload_rate", "payload_download_rate"]
 
         if self.config["dht"]:
             keys.append("dht_nodes")
 
         client.core.get_session_status(keys).addCallback(on_get_session_status)
-
 
     def update_statusbars(self):
         # Update the topbar string
@@ -131,7 +126,6 @@ class StatusBars(component.Component):
             self.bottombar += " U: {!green,blue,bold!}%s{!status!}" % self.upload
         else:
             self.bottombar += " U: {!white,blue!}%s{!status!}" % self.upload
-
 
         if self.config["max_upload_speed"] > -1:
             self.bottombar += " (%s " % self.config["max_upload_speed"] + _("KiB/s") + ")"

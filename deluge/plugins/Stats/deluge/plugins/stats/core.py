@@ -37,7 +37,6 @@ import time
 import logging
 from twisted.internet.task import LoopingCall
 
-import deluge
 from deluge.plugins.pluginbase import CorePluginBase
 from deluge import component
 from deluge import configmanager
@@ -45,8 +44,8 @@ from deluge.core.rpcserver import export
 
 DEFAULT_PREFS = {
     "test": "NiNiNi",
-    "update_interval": 1, #2 seconds.
-    "length": 150, # 2 seconds * 150 --> 5 minutes.
+    "update_interval": 1,  # 2 seconds.
+    "length": 150,  # 2 seconds * 150 --> 5 minutes.
 }
 
 DEFAULT_TOTALS = {
@@ -59,25 +58,28 @@ DEFAULT_TOTALS = {
 
 log = logging.getLogger(__name__)
 
+
 def get_key(config, key):
     try:
         return config[key]
     except KeyError:
         return None
 
+
 def mean(items):
     try:
-        return sum(items)/ len(items)
+        return sum(items) / len(items)
     except Exception:
         return 0
 
+
 class Core(CorePluginBase):
-    totals = {} #class var to catch only updating this once per session in enable.
+    totals = {}  # class var to catch only updating this once per session in enable.
 
     def enable(self):
         log.debug("Stats plugin enabled")
         self.core = component.get("Core")
-        self.stats ={}
+        self.stats = {}
         self.count = {}
         self.intervals = [1, 5, 30, 300]
 
@@ -87,7 +89,6 @@ class Core(CorePluginBase):
             self.stats[i] = {}
             self.last_update[i] = t
             self.count[i] = 0
-
 
         self.config = configmanager.ConfigManager("stats.conf", DEFAULT_PREFS)
         self.saved_stats = configmanager.ConfigManager("stats.totals", DEFAULT_TOTALS)
@@ -143,7 +144,7 @@ class Core(CorePluginBase):
                     stats.update(self.core.get_session_status([key]))
                 except AttributeError:
                     pass
-            stats["num_connections"]  = self.core.get_num_connections()
+            stats["num_connections"] = stats["num_peers"]
             stats.update(self.core.get_config_values(["max_download",
                                                       "max_upload",
                                                       "max_num_connections"]))
@@ -169,7 +170,7 @@ class Core(CorePluginBase):
                 self.count[interval] = self.count[interval] + 1
                 if self.count[interval] >= interval:
                     self.last_update[interval] = update_time
-                    self.count[interval] =  0
+                    self.count[interval] = 0
                     current_stats = self.stats[interval]
                     for stat, stat_list in self.stats[base].iteritems():
                         try:
@@ -196,7 +197,6 @@ class Core(CorePluginBase):
         except Exception, e:
             log.error("Stats save error", e)
         return True
-
 
     # export:
     @export

@@ -520,10 +520,8 @@ class WebApi(JSONComponent):
             d.callback(ui_info)
             return d
 
-        def got_connections(connections):
-            ui_info["stats"]["num_connections"] = connections
-
         def got_stats(stats):
+            ui_info["stats"]["num_connections"] = stats["num_peers"]
             ui_info["stats"]["upload_rate"] = stats["payload_upload_rate"]
             ui_info["stats"]["download_rate"] = stats["payload_download_rate"]
             ui_info["stats"]["download_protocol_rate"] = stats["download_rate"] - stats["payload_download_rate"]
@@ -550,6 +548,7 @@ class WebApi(JSONComponent):
         d2.addCallback(got_filters)
 
         d3 = client.core.get_session_status([
+            "num_peers",
             "payload_download_rate",
             "payload_upload_rate",
             "download_rate",
@@ -559,13 +558,10 @@ class WebApi(JSONComponent):
         ])
         d3.addCallback(got_stats)
 
-        d4 = client.core.get_num_connections()
-        d4.addCallback(got_connections)
+        d4 = client.core.get_free_space(self.core_config.get("download_location"))
+        d4.addCallback(got_free_space)
 
-        d5 = client.core.get_free_space(self.core_config.get("download_location"))
-        d5.addCallback(got_free_space)
-
-        dl = DeferredList([d1, d2, d3, d4, d5], consumeErrors=True)
+        dl = DeferredList([d1, d2, d3, d4], consumeErrors=True)
         dl.addCallback(on_complete)
         return d
 
