@@ -140,6 +140,7 @@ def start_ui():
 
 def start_daemon():
     """Entry point for daemon script"""
+    deluge.common.setup_translations()
 
     if 'dev' not in deluge.common.get_version():
         import warnings
