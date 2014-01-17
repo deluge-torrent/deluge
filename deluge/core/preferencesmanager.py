@@ -320,38 +320,40 @@ class PreferencesManager(component.Component):
 
     def _on_set_max_connections_global(self, key, value):
         log.debug("max_connections_global set to %s..", value)
-        self.session.set_max_connections(value)
+        self.session_set_setting("connections_limit", value)
 
     def _on_set_max_upload_speed(self, key, value):
         log.debug("max_upload_speed set to %s..", value)
         # We need to convert Kb/s to B/s
         if value < 0:
-            v = -1
+            _value = -1
         else:
-            v = int(value * 1024)
-
-        self.session.set_upload_rate_limit(v)
+            _value = int(value * 1024)
+        self.session_set_setting("upload_rate_limit", _value)
 
     def _on_set_max_download_speed(self, key, value):
         log.debug("max_download_speed set to %s..", value)
         # We need to convert Kb/s to B/s
         if value < 0:
-            v = -1
+            _value = -1
         else:
-            v = int(value * 1024)
-        self.session.set_download_rate_limit(v)
+            _value = int(value * 1024)
+        self.session_set_setting("download_rate_limit", _value)
 
     def _on_set_max_upload_slots_global(self, key, value):
         log.debug("max_upload_slots_global set to %s..", value)
-        self.session.set_max_uploads(value)
+        self.session_set_setting("unchoke_slots_limit", value)
 
     def _on_set_max_half_open_connections(self, key, value):
-        self.session.set_max_half_open_connections(value)
+        log.debug("max_half_open_connections set to %s..", value)
+        self.session_set_setting("half_open_limit", value)
 
     def _on_set_max_connections_per_second(self, key, value):
+        log.debug("max_connections_per_second set to %s..", value)
         self.session_set_setting("connection_speed", value)
 
     def _on_set_ignore_limits_on_local_network(self, key, value):
+        log.debug("ignore_limits_on_local_network set to %s..", value)
         self.session_set_setting("ignore_limits_on_local_network", value)
 
     def _on_set_share_ratio_limit(self, key, value):
