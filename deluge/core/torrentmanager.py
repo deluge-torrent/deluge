@@ -66,7 +66,6 @@ class TorrentState:
     def __init__(self,
                  torrent_id=None,
                  filename=None,
-                 total_uploaded=0,
                  trackers=None,
                  compact=False,
                  paused=False,
@@ -88,7 +87,6 @@ class TorrentState:
                  move_completed_path=None,
                  magnet=None,
                  time_added=-1,
-                 last_seen_complete=0,
                  owner=None,
                  shared=False):
         self.torrent_id = torrent_id
@@ -661,15 +659,9 @@ class TorrentManager(component.Component):
             if torrent.state == "Paused":
                 paused = True
 
-            torrent_status = torrent.get_status([
-                "total_uploaded",
-                "last_seen_complete"
-            ], update=True)
-
             torrent_state = TorrentState(
                 torrent.torrent_id,
                 torrent.filename,
-                torrent_status["total_uploaded"],
                 torrent.trackers,
                 torrent.options["compact_allocation"],
                 paused,
@@ -691,7 +683,6 @@ class TorrentManager(component.Component):
                 torrent.options["move_completed_path"],
                 torrent.magnet,
                 torrent.time_added,
-                torrent_status["last_seen_complete"],
                 torrent.owner,
                 torrent.options["shared"]
             )

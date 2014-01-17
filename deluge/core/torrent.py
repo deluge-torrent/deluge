@@ -154,9 +154,6 @@ class Torrent(object):
         self.has_metadata = self.status.has_metadata
         self.status_funcs = None
 
-        # Default total_uploaded to 0, this may be changed by the state
-        self.total_uploaded = 0
-
         # Set the default options
         self.options = TorrentOptions()
         self.options.update(options)
@@ -167,8 +164,6 @@ class Torrent(object):
 
         # Load values from state if we have it
         if state:
-            # This is for saving the total uploaded between sessions
-            self.total_uploaded = state.total_uploaded
             # Set the trackers
             self.set_trackers(state.trackers)
             # Set the filename
