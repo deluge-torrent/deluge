@@ -156,7 +156,6 @@ class StatusTab(Tab):
         for key, value in translate_tracker_status.iteritems():
             if key in status["tracker_status"]:
                 status["tracker_status"] = status["tracker_status"].replace(key, value, 1)
-                log.error(status["tracker_status"])
                 break
 
         # Update all the label widgets
