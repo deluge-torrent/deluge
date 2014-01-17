@@ -438,10 +438,18 @@ class TorrentManager(component.Component):
         # Fill in the rest of the add_torrent_params dictionary
         add_torrent_params["save_path"] = utf8_encoded(options["download_location"])
         add_torrent_params["storage_mode"] = storage_mode
-        add_torrent_params["flags"] = (lt.add_torrent_params_flags_t.flag_paused |
-                                       lt.add_torrent_params_flags_t.flag_duplicate_is_error)
+
+        default_flags = (lt.add_torrent_params_flags_t.flag_paused |
+                         lt.add_torrent_params_flags_t.flag_auto_managed|
+                         lt.add_torrent_params_flags_t.flag_update_subscribe|
+                         lt.add_torrent_params_flags_t.flag_apply_ip_filter)
+        # Set flags: enable duplicate_is_error and disable auto_managed
+        add_torrent_params["flags"] = ((default_flags
+                                       | lt.add_torrent_params_flags_t.flag_duplicate_is_error)
+                                       ^ lt.add_torrent_params_flags_t.flag_auto_managed)
         if seed_mode:
             add_torrent_params["flags"] |= lt.add_torrent_params_flags_t.flag_seed_mode
+
         if magnet:
             add_torrent_params["url"] = utf8_encoded(magnet)
 
