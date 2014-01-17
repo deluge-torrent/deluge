@@ -148,10 +148,10 @@ class Core(CorePluginBase):
             session = component.get("Core").session
             session.set_download_rate_limit(int(self.config["low_down"] * 1024))
             session.set_upload_rate_limit(int(self.config["low_up"] * 1024))
-            settings = session.settings()
-            settings.active_limit = self.config["low_active"]
-            settings.active_downloads = self.config["low_active_down"]
-            settings.active_seeds = self.config["low_active_up"]
+            settings = session.get_settings()
+            settings["active_limit"] = self.config["low_active"]
+            settings["active_downloads"] = self.config["low_active_down"]
+            settings["active_seeds"] = self.config["low_active_up"]
             session.set_settings(settings)
             # Resume the session if necessary
             component.get("Core").session.resume()

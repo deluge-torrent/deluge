@@ -151,7 +151,7 @@ class Torrent(object):
         except RuntimeError:
             self.torrent_info = None
 
-        self.has_metadata = self.handle.has_metadata()
+        self.has_metadata = self.status.has_metadata
         self.status_funcs = None
 
         # Default total_uploaded to 0, this may be changed by the state
@@ -329,7 +329,7 @@ class Torrent(object):
 
     def set_auto_managed(self, auto_managed):
         self.options["auto_managed"] = auto_managed
-        if not (self.handle.is_paused() and not self.handle.is_auto_managed()):
+        if not (self.status.paused and not self.status.auto_managed):
             self.handle.auto_managed(auto_managed)
             self.update_state()
 
@@ -444,8 +444,6 @@ class Torrent(object):
             self.state = str(ltstate)
 
         session_is_paused = component.get("Core").session.is_paused()
-        is_auto_managed = self.handle.is_auto_managed()
-        handle_is_paused = self.handle.is_paused()
 
         if log.isEnabledFor(logging.DEBUG):
             log.debug("set_state_based_on_ltstate: %s", deluge.common.LT_TORRENT_STATE[ltstate])
@@ -457,12 +455,12 @@ class Torrent(object):
             # This is an error'd torrent
             self.state = "Error"
             self.set_status_message(status.error)
-            if handle_is_paused:
+            if status.paused:
                 self.handle.auto_managed(False)
             return
 
         if ltstate == LTSTATE["Queued"] or ltstate == LTSTATE["Checking"]:
-            if handle_is_paused:
+            if status.paused:
                 self.state = "Paused"
             else:
                 self.state = "Checking"
@@ -474,9 +472,9 @@ class Torrent(object):
         elif ltstate == LTSTATE["Allocating"]:
             self.state = "Allocating"
 
-        if not session_is_paused and handle_is_paused and is_auto_managed:
+        if not session_is_paused and status.paused and status.auto_managed:
             self.state = "Queued"
-        elif session_is_paused or (handle_is_paused and not is_auto_managed):
+        elif session_is_paused or (status.paused and not status.auto_managed):
             self.state = "Paused"
 
     def set_state(self, state):
@@ -743,7 +741,7 @@ class Torrent(object):
             "eta":                    self.get_eta,
             "file_progress":          self.get_file_progress, # Adjust progress to be 0-100 value
             "files":                  self.get_files,
-            "is_seed":                self.handle.is_seed,
+            "is_seed":                lambda: self.status.is_seeding,
             "peers":                  self.get_peers,
             "queue":                  self.handle.queue_position,
             "ratio":                  self.get_ratio,
@@ -776,7 +774,7 @@ class Torrent(object):
         """Pause this torrent"""
         # Turn off auto-management so the torrent will not be unpaused by lt queueing
         self.handle.auto_managed(False)
-        if self.handle.is_paused():
+        if self.status.paused:
             # This torrent was probably paused due to being auto managed by lt
             # Since we turned auto_managed off, we should update the state which should
             # show it as 'Paused'.  We need to emit a torrent_paused signal because
@@ -795,14 +793,14 @@ class Torrent(object):
     def resume(self):
         """Resumes this torrent"""
 
-        if self.handle.is_paused() and self.handle.is_auto_managed():
+        if self.status.paused and self.status.auto_managed:
             log.debug("Torrent is being auto-managed, cannot resume!")
             return
         else:
             # Reset the status message just in case of resuming an Error'd torrent
             self.set_status_message("OK")
 
-            if self.handle.is_finished():
+            if self.status.is_finished:
                 # If the torrent has already reached it's 'stop_seed_ratio' then do not do anything
                 if self.options["stop_at_ratio"]:
                     if self.get_ratio() >= self.options["stop_ratio"]:
@@ -916,7 +914,7 @@ class Torrent(object):
 
     def force_recheck(self):
         """Forces a recheck of the torrents pieces"""
-        paused = self.handle.is_paused()
+        paused = self.status.paused
         try:
             self.handle.force_recheck()
             self.handle.resume()

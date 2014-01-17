@@ -78,7 +78,7 @@ DEFAULT_PREFS = {
     "max_download_speed": -1.0,
     "max_upload_slots_global": 4,
     "max_half_open_connections": (lambda: deluge.common.windows_check() and
-        (lambda: deluge.common.vista_check() and 4 or 8)() or 50)(),
+                                  (lambda: deluge.common.vista_check() and 4 or 8)() or 50)(),
     "max_connections_per_second": 20,
     "ignore_limits_on_local_network": True,
     "max_connections_per_torrent": -1,
@@ -151,6 +151,7 @@ DEFAULT_PREFS = {
     "shared": False
 }
 
+
 class PreferencesManager(component.Component):
     def __init__(self):
         component.Component.__init__(self, "PreferencesManager")
@@ -184,8 +185,8 @@ class PreferencesManager(component.Component):
             on_set_func(key, value)
 
     def session_set_setting(self, key, value):
-        settings = self.session.settings()
-        setattr(settings, key, value)
+        settings = self.session.get_settings()
+        settings[key] = value
         self.session.set_settings(settings)
 
     def _on_config_value_change(self, key, value):
@@ -225,8 +226,7 @@ class PreferencesManager(component.Component):
             listen_ports = self.config["listen_ports"]
 
         # Set the listen ports
-        log.debug("listen port range set to %s-%s", listen_ports[0],
-            listen_ports[1])
+        log.debug("listen port range set to %s-%s", listen_ports[0], listen_ports[1])
         self.session.listen_on(
             listen_ports[0], listen_ports[1],
             str(self.config["listen_interface"])
@@ -313,10 +313,10 @@ class PreferencesManager(component.Component):
         set = self.session.get_pe_settings()
         log.debug("encryption settings:\n\t\t\tout_policy: %s\n\t\t\
         in_policy: %s\n\t\t\tlevel: %s\n\t\t\tprefer_rc4: %s",
-            set.out_enc_policy,
-            set.in_enc_policy,
-            set.allowed_enc_level,
-            set.prefer_rc4)
+                  set.out_enc_policy,
+                  set.in_enc_policy,
+                  set.allowed_enc_level,
+                  set.prefer_rc4)
 
     def _on_set_max_connections_global(self, key, value):
         log.debug("max_connections_global set to %s..", value)
@@ -392,6 +392,7 @@ class PreferencesManager(component.Component):
             def __init__(self, config):
                 self.config = config
                 threading.Thread.__init__(self)
+
             def run(self):
                 import time
                 now = time.time()

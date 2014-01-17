@@ -281,7 +281,7 @@ class TorrentManager(component.Component):
                     if torrent.options["remove_at_ratio"]:
                         self.remove(torrent_id)
                         break
-                    if not torrent.handle.is_paused():
+                    if not torrent.handle.status().paused:
                         torrent.pause()
 
     def __getitem__(self, torrent_id):

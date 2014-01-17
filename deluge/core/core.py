@@ -89,22 +89,20 @@ class Core(component.Component):
         self.__load_session_state()
 
         # Set the user agent
-        self.settings = lt.session_settings()
-        self.settings.user_agent = "Deluge/%(deluge_version)s libtorrent/%(lt_version)s" % {
+        settings = self.session.get_settings()
+        settings["user_agent"] = "Deluge/%(deluge_version)s libtorrent/%(lt_version)s" % {
             'deluge_version': deluge.common.get_version(),
             'lt_version': self.get_libtorrent_version().rpartition(".")[0]
         }
         # Increase the alert queue size so that alerts don't get lost
-        self.settings.alert_queue_size = 10000
+        settings["alert_queue_size"] = 10000
 
         # Set session settings
-        self.settings.send_redundant_have = True
+        settings["send_redundant_have"] = True
         if deluge.common.windows_check():
-            self.settings.disk_io_write_mode = \
-                lt.io_buffer_mode_t.disable_os_cache
-            self.settings.disk_io_read_mode = \
-                lt.io_buffer_mode_t.disable_os_cache
-        self.session.set_settings(self.settings)
+            settings["disk_io_write_mode"] = lt.io_buffer_mode_t.disable_os_cache
+            settings["disk_io_read_mode"] = lt.io_buffer_mode_t.disable_os_cache
+        self.session.set_settings(settings)
 
         self.session.add_extension("metadata_transfer")
         self.session.add_extension("ut_metadata")
