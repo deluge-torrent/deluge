@@ -623,6 +623,11 @@ class Core(component.Component):
         """Sets the path for the torrent to be moved when completed"""
         return self.torrentmanager[torrent_id].set_move_completed_path(value)
 
+    @export
+    def set_torrent_super_seeding(self, torrent_id, value):
+        """Sets the path for the torrent to be moved when completed"""
+        return self.torrentmanager[torrent_id].set_super_seeding(value)
+
     @export(AUTH_LEVEL_ADMIN)
     def set_torrents_owner(self, torrent_ids, username):
         """Set's the torrent owner.

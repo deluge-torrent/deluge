@@ -88,7 +88,9 @@ class TorrentState:
                  magnet=None,
                  time_added=-1,
                  owner=None,
-                 shared=False):
+                 shared=False,
+                 super_seeding=False
+                 ):
         self.torrent_id = torrent_id
         self.filename = filename
         self.trackers = trackers
@@ -116,6 +118,7 @@ class TorrentState:
         self.move_completed = move_completed
         self.move_completed_path = move_completed_path
         self.shared = shared
+        self.super_seeding = super_seeding
 
 
 class TorrentManagerState:
@@ -351,6 +354,7 @@ class TorrentManager(component.Component):
             options["move_completed_path"] = state.move_completed_path
             options["add_paused"] = state.paused
             options["shared"] = state.shared
+            options["super_seeding"] = state.super_seeding
             owner = state.owner
 
             torrent_info = self.get_torrent_info_from_file(
@@ -440,8 +444,8 @@ class TorrentManager(component.Component):
         add_torrent_params["storage_mode"] = storage_mode
 
         default_flags = (lt.add_torrent_params_flags_t.flag_paused |
-                         lt.add_torrent_params_flags_t.flag_auto_managed|
-                         lt.add_torrent_params_flags_t.flag_update_subscribe|
+                         lt.add_torrent_params_flags_t.flag_auto_managed |
+                         lt.add_torrent_params_flags_t.flag_update_subscribe |
                          lt.add_torrent_params_flags_t.flag_apply_ip_filter)
         # Set flags: enable duplicate_is_error and disable auto_managed
         add_torrent_params["flags"] = ((default_flags
@@ -691,7 +695,8 @@ class TorrentManager(component.Component):
                 torrent.magnet,
                 torrent.time_added,
                 torrent.owner,
-                torrent.options["shared"]
+                torrent.options["shared"],
+                torrent.options["super_seeding"]
             )
             state.torrents.append(torrent_state)
 

@@ -148,7 +148,8 @@ DEFAULT_PREFS = {
     "cache_size": 512,
     "cache_expiry": 60,
     "auto_manage_prefer_seeds": False,
-    "shared": False
+    "shared": False,
+    "super_seeding": False
 }
 
 

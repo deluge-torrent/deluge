@@ -100,7 +100,8 @@ class TorrentOptions(dict):
             "move_completed": "move_completed",
             "move_completed_path": "move_completed_path",
             "add_paused": "add_paused",
-            "shared": "shared"
+            "shared": "shared",
+            "super_seeding": "super_seeding"
         }
         for opt_k, conf_k in options_conf_map.iteritems():
             self[opt_k] = config[conf_k]
@@ -330,6 +331,13 @@ class Torrent(object):
         if not (self.status.paused and not self.status.auto_managed):
             self.handle.auto_managed(auto_managed)
             self.update_state()
+
+    def set_super_seeding(self, super_seeding):
+        if super_seeding and self.status.is_seed:
+            self.options["super_seeding"] = True
+            self.handle.super_seeding(True)
+        else:
+            self.options["super_seeding"] = False
 
     def set_stop_ratio(self, stop_ratio):
         self.options["stop_ratio"] = stop_ratio
@@ -678,7 +686,6 @@ class Torrent(object):
         self.status = status
 
     def _create_status_funcs(self):
-        #if you add a key here->add it to core.py STATUS_KEYS too.
         self.status_funcs = {
             "active_time":            lambda: self.status.active_time,
             "all_time_download":      lambda: self.status.all_time_download,
@@ -741,13 +748,15 @@ class Torrent(object):
             "files":                  self.get_files,
             "is_seed":                lambda: self.status.is_seeding,
             "peers":                  self.get_peers,
-            "queue":                  self.handle.queue_position,
+            "queue":                  lambda: self.status.queue_position,
             "ratio":                  self.get_ratio,
             "tracker_host":           self.get_tracker_host,
             "completed_time":         lambda: self.status.completed_time,
             "last_seen_complete":     lambda: self.status.last_seen_complete,
             "name":                   self.get_name,
             "pieces":                 self._get_pieces_info,
+            "seed_mode":              lambda: self.status.seed_mode,
+            "super_seeding":          lambda: self.status.super_seeding,
         }
 
     def get_name(self):
