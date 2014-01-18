@@ -195,6 +195,7 @@ class AuthManager(component.Component):
         filename = "auth"
         filepath = os.path.join(configmanager.get_config_dir(), filename)
         filepath_bak = filepath + ".bak"
+        filepath_tmp = filepath + ".tmp"
 
         try:
             if os.path.isfile(filepath):
@@ -205,11 +206,12 @@ class AuthManager(component.Component):
         else:
             log.info("Saving the %s at: %s", filename, filepath)
             try:
-                with open(filepath, "wb") as _file:
+                with open(filepath_tmp, "wb") as _file:
                     for account in self.__auth.values():
                         _file.write("%(username)s:%(password)s:%(authlevel_int)s\n" % account.data())
                     _file.flush()
                     os.fsync(_file.fileno())
+                shutil.move(filepath_tmp, filepath)
             except (IOError) as ex:
                 log.error("Unable to save %s: %s", filename, ex)
                 if os.path.isfile(filepath_bak):

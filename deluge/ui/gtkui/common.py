@@ -275,6 +275,7 @@ def save_pickled_state_file(filename, state):
     from deluge.configmanager import get_config_dir
     filepath = os.path.join(get_config_dir(), "gtkui_state", filename)
     filepath_bak = filepath + ".bak"
+    filepath_tmp = filepath + ".tmp"
 
     try:
         if os.path.isfile(filepath):
@@ -285,11 +286,12 @@ def save_pickled_state_file(filename, state):
     else:
         log.info("Saving the %s at: %s", filename, filepath)
         try:
-            with open(filepath, "wb") as _file:
+            with open(filepath_tmp, "wb") as _file:
                 # Pickle the state object
                 cPickle.dump(state, _file)
                 _file.flush()
                 os.fsync(_file.fileno())
+            shutil.move(filepath_tmp, filepath)
         except (IOError, EOFError, cPickle.PicklingError) as ex:
             log.error("Unable to save %s: %s", filename, ex)
             if os.path.isfile(filepath_bak):

@@ -157,6 +157,7 @@ class Core(component.Component):
         filename = "session.state"
         filepath = get_config_dir(filename)
         filepath_bak = filepath + ".bak"
+        filepath_tmp = filepath + ".tmp"
 
         try:
             if os.path.isfile(filepath):
@@ -167,10 +168,11 @@ class Core(component.Component):
         else:
             log.info("Saving the %s at: %s", filename, filepath)
             try:
-                with open(filepath, "wb") as _file:
+                with open(filepath_tmp, "wb") as _file:
                     _file.write(lt.bencode(self.session.save_state()))
                     _file.flush()
                     os.fsync(_file.fileno())
+                shutil.move(filepath_tmp, filepath)
             except (IOError, EOFError) as ex:
                 log.error("Unable to save %s: %s", filename, ex)
                 if os.path.isfile(filepath_bak):

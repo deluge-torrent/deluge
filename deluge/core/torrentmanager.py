@@ -698,6 +698,7 @@ class TorrentManager(component.Component):
         filename = "torrents.state"
         filepath = os.path.join(self.state_dir, filename)
         filepath_bak = filepath + ".bak"
+        filepath_tmp = filepath + ".tmp"
 
         try:
             if os.path.isfile(filepath):
@@ -708,11 +709,12 @@ class TorrentManager(component.Component):
         else:
             log.info("Saving the %s at: %s", filename, filepath)
             try:
-                with open(filepath, "wb") as _file:
+                with open(filepath_tmp, "wb") as _file:
                     # Pickle the TorrentManagerState object
                     cPickle.dump(state, _file)
                     _file.flush()
                     os.fsync(_file.fileno())
+                shutil.move(filepath_tmp, filepath)
             except (IOError, cPickle.PicklingError) as ex:
                 log.error("Unable to save %s: %s", filename, ex)
                 if os.path.isfile(filepath_bak):
@@ -788,6 +790,7 @@ class TorrentManager(component.Component):
         filename = "torrents.fastresume"
         filepath = os.path.join(self.state_dir, filename)
         filepath_bak = filepath + ".bak"
+        filepath_tmp = filepath + ".tmp"
 
         try:
             if os.path.isfile(filepath):
@@ -798,10 +801,11 @@ class TorrentManager(component.Component):
         else:
             log.info("Saving the %s at: %s", filename, filepath)
             try:
-                with open(filepath, "wb") as _file:
+                with open(filepath_tmp, "wb") as _file:
                     _file.write(lt.bencode(self.resume_data))
                     _file.flush()
                     os.fsync(_file.fileno())
+                shutil.move(filepath_tmp, filepath)
             except (IOError, EOFError) as ex:
                 log.error("Unable to save %s: %s", filename, ex)
                 if os.path.isfile(filepath_bak):
