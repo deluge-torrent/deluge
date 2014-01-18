@@ -947,7 +947,7 @@ class TorrentManager(component.Component):
             log.debug("on_alert_torrent_checked")
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
-        except RuntimeError:
+        except (RuntimeError, KeyError):
             return
 
         # Check to see if we're forcing a recheck and set it back to paused
@@ -966,7 +966,7 @@ class TorrentManager(component.Component):
             log.debug("on_alert_tracker_reply: %s", decode_string(alert.message()))
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
-        except RuntimeError:
+        except (RuntimeError, KeyError):
             return
 
         # Set the tracker status for the torrent
@@ -984,7 +984,7 @@ class TorrentManager(component.Component):
             log.debug("on_alert_tracker_announce")
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
-        except RuntimeError:
+        except (RuntimeError, KeyError):
             return
 
         # Set the tracker status for the torrent
@@ -995,7 +995,7 @@ class TorrentManager(component.Component):
         log.debug("on_alert_tracker_warning")
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
-        except RuntimeError:
+        except (RuntimeError, KeyError):
             return
         tracker_status = 'Warning: %s' % decode_string(alert.message())
         # Set the tracker status for the torrent
@@ -1006,7 +1006,7 @@ class TorrentManager(component.Component):
         log.debug("on_alert_tracker_error")
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
-        except RuntimeError:
+        except (RuntimeError, KeyError):
             return
         tracker_status = "Error: %s" % decode_string(alert.msg)
         torrent.set_tracker_status(tracker_status)
@@ -1016,7 +1016,7 @@ class TorrentManager(component.Component):
         log.debug("on_alert_storage_moved")
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
-        except RuntimeError:
+        except (RuntimeError, KeyError):
             return
         torrent.set_save_path(os.path.normpath(alert.handle.save_path()))
         torrent.set_move_completed(False)
@@ -1114,7 +1114,7 @@ class TorrentManager(component.Component):
         log.debug("on_alert_metadata_received")
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
-        except RuntimeError:
+        except (RuntimeError, KeyError):
             return
         torrent.on_metadata_received()
 
@@ -1123,7 +1123,7 @@ class TorrentManager(component.Component):
         log.debug("on_alert_file_error: %s", decode_string(alert.message()))
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
-        except RuntimeError:
+        except (RuntimeError, KeyError):
             return
         torrent.update_state()
 
@@ -1136,8 +1136,8 @@ class TorrentManager(component.Component):
             torrent_id = str(alert.handle.info_hash())
         except RuntimeError:
             return
-        component.get("EventManager").emit(
-            TorrentFileCompletedEvent(torrent_id, alert.index))
+        if torrent_id in self.torrents:
+            component.get("EventManager").emit(TorrentFileCompletedEvent(torrent_id, alert.index))
 
     def on_alert_state_update(self, alert):
         """Alert handler for libtorrent state_update_alert
