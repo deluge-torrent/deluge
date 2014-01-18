@@ -36,22 +36,16 @@
 """RPCServer Module"""
 
 import sys
-import zlib
 import os
 import stat
 import logging
 import traceback
 
-from twisted.internet.protocol import Factory, Protocol
+from twisted.internet.protocol import Factory
 from twisted.internet import reactor, defer
 
 from OpenSSL import crypto, SSL
 from types import FunctionType
-
-try:
-    import rencode
-except ImportError:
-    import deluge.rencode as rencode
 
 import deluge.component as component
 import deluge.configmanager
@@ -67,6 +61,7 @@ RPC_ERROR = 2
 RPC_EVENT = 3
 
 log = logging.getLogger(__name__)
+
 
 def export(auth_level=AUTH_LEVEL_DEFAULT):
     """
@@ -122,6 +117,7 @@ def format_request(call):
     else:
         return s
 
+
 class ServerContextFactory(object):
     def getContext(self):
         """
@@ -135,6 +131,7 @@ class ServerContextFactory(object):
         ctx.use_certificate_file(os.path.join(ssl_dir, "daemon.cert"))
         ctx.use_privatekey_file(os.path.join(ssl_dir, "daemon.pkey"))
         return ctx
+
 
 class DelugeRPCProtocol(DelugeTransferProtocol):
 
@@ -323,13 +320,14 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                     def on_fail(failure):
                         try:
                             failure.raiseException()
-                        except Exception, e:
+                        except Exception:
                             sendError()
                         return failure
 
                     ret.addCallbacks(on_success, on_fail)
                 else:
                     self.sendData((RPC_RESPONSE, request_id, ret))
+
 
 class RPCServer(component.Component):
     """
@@ -531,7 +529,8 @@ class RPCServer(component.Component):
             log.debug("Session ID %s is not valid. Not sending event \"%s\".", session_id, event.name)
             return
         if session_id not in self.factory.interested_events:
-            log.debug("Session ID %s is not interested in any events. Not sending event \"%s\".", session_id, event.name)
+            log.debug("Session ID %s is not interested in any events. Not sending event \"%s\".",
+                      session_id, event.name)
             return
         if event.name not in self.factory.interested_events[session_id]:
             log.debug("Session ID %s is not interested in event \"%s\". Not sending it.", session_id, event.name)
@@ -556,6 +555,7 @@ def check_ssl_keys():
                 generate_ssl_keys()
                 break
 
+
 def generate_ssl_keys():
     """
     This method generates a new SSL key/cert.
@@ -576,7 +576,7 @@ def generate_ssl_keys():
     cert = crypto.X509()
     cert.set_serial_number(0)
     cert.gmtime_adj_notBefore(0)
-    cert.gmtime_adj_notAfter(60*60*24*365*5) # Five Years
+    cert.gmtime_adj_notAfter(60*60*24*365*5)  # Five Years
     cert.set_issuer(req.get_subject())
     cert.set_subject(req.get_subject())
     cert.set_pubkey(req.get_pubkey())

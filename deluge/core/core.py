@@ -54,8 +54,8 @@ from deluge import path_chooser_common
 from deluge.configmanager import ConfigManager, get_config_dir
 import deluge.common
 import deluge.component as component
-from deluge.event import *
-from deluge.error import *
+from deluge.event import NewVersionAvailableEvent, SessionResumedEvent, TorrentQueueChangedEvent
+from deluge.error import DelugeError, InvalidTorrentError, InvalidPathError
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN, AUTH_LEVEL_NONE
 from deluge.core.authmanager import AUTH_LEVELS_MAPPING, AUTH_LEVELS_MAPPING_REVERSE
 from deluge.core.torrentmanager import TorrentManager

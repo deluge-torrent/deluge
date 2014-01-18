@@ -41,16 +41,17 @@ STATE_SORT = ["All", "Downloading", "Seeding", "Active", "Paused", "Queued"]
 
 log = logging.getLogger(__name__)
 
+
 # Special purpose filters:
 def filter_keywords(torrent_ids, values):
     # Cleanup
     keywords = ",".join([v.lower() for v in values])
     keywords = keywords.split(",")
 
-
     for keyword in keywords:
         torrent_ids = filter_one_keyword(torrent_ids, keyword)
     return torrent_ids
+
 
 def filter_one_keyword(torrent_ids, keyword):
     """
@@ -59,7 +60,6 @@ def filter_one_keyword(torrent_ids, keyword):
     """
     all_torrents = component.get("TorrentManager").torrents
 
-    found = False
     for torrent_id in torrent_ids:
         torrent = all_torrents[torrent_id]
         if keyword in torrent.filename.lower():
@@ -78,6 +78,7 @@ def filter_one_keyword(torrent_ids, keyword):
                 if keyword in t_file["path"].lower():
                     yield torrent_id
                     break
+
 
 def filter_by_name(torrent_ids, search_string):
     all_torrents = component.get("TorrentManager").torrents
@@ -100,6 +101,7 @@ def filter_by_name(torrent_ids, search_string):
         if search_string in torrent_name:
             yield torrent_id
 
+
 def tracker_error_filter(torrent_ids, values):
     filtered_torrent_ids = []
     tm = component.get("TorrentManager")
@@ -116,6 +118,7 @@ def tracker_error_filter(torrent_ids, values):
         if "Error:" in tm[torrent_id].get_status(["tracker_status"])["tracker_status"]:
             filtered_torrent_ids.append(torrent_id)
     return filtered_torrent_ids
+
 
 class FilterManager(component.Component):
     """FilterManager
@@ -134,6 +137,7 @@ class FilterManager(component.Component):
         self.filter_tree_items = None
 
         self.register_tree_field("state", self._init_state_tree)
+
         def _init_tracker_tree():
             return {"Error": 0}
         self.register_tree_field("tracker_host", _init_tracker_tree)
@@ -220,7 +224,7 @@ class FilterManager(component.Component):
         items = copy.deepcopy(self.filter_tree_items)
 
         for torrent_id in list(torrent_ids):
-            status = self.core.create_torrent_status(torrent_id, torrent_keys, plugin_keys) #status={key:value}
+            status = self.core.create_torrent_status(torrent_id, torrent_keys, plugin_keys)  # status={key:value}
             for field in tree_keys:
                 value = status[field]
                 items[field][value] = items[field].get(value, 0) + 1
@@ -229,7 +233,7 @@ class FilterManager(component.Component):
             items["tracker_host"]["All"] = len(torrent_ids)
             items["tracker_host"]["Error"] = len(tracker_error_filter(torrent_ids, ("Error",)))
 
-        if  not show_zero_hits:
+        if not show_zero_hits:
             for cat in ["state", "owner", "tracker_host"]:
                 if cat in tree_keys:
                     self._hide_state_items(items[cat])
@@ -245,23 +249,23 @@ class FilterManager(component.Component):
         return sorted_items
 
     def _init_state_tree(self):
-        return {"All":len(self.torrents.get_torrent_list()),
-            "Downloading":0,
-            "Seeding":0,
-            "Paused":0,
-            "Checking":0,
-            "Queued":0,
-            "Error":0,
-            "Active":len(self.filter_state_active(self.torrents.get_torrent_list()))
-            }
+        return {"All": len(self.torrents.get_torrent_list()),
+                "Downloading": 0,
+                "Seeding": 0,
+                "Paused": 0,
+                "Checking": 0,
+                "Queued": 0,
+                "Error": 0,
+                "Active": len(self.filter_state_active(self.torrents.get_torrent_list()))
+                }
 
-    def register_filter(self, id, filter_func, filter_value = None):
+    def register_filter(self, id, filter_func, filter_value=None):
         self.registered_filters[id] = filter_func
 
     def deregister_filter(self, id):
         del self.registered_filters[id]
 
-    def register_tree_field(self, field, init_func = lambda : {}):
+    def register_tree_field(self, field, init_func=lambda: {}):
         self.tree_fields[field] = init_func
 
     def deregister_tree_field(self, field):
@@ -279,7 +283,7 @@ class FilterManager(component.Component):
 
     def _hide_state_items(self, state_items):
         "for hide(show)-zero hits"
-        for (value, count)  in state_items.items():
+        for (value, count) in state_items.items():
             if value != "All" and count == 0:
                 del state_items[value]
 

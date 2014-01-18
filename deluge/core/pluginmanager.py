@@ -44,8 +44,8 @@ import deluge.component as component
 
 log = logging.getLogger(__name__)
 
-class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
-    component.Component):
+
+class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, component.Component):
     """PluginManager handles the loading of plugins and provides plugins with
     functions to access parts of the core."""
 

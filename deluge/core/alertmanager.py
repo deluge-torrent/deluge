@@ -50,6 +50,7 @@ from deluge.common import decode_string
 
 log = logging.getLogger(__name__)
 
+
 class AlertManager(component.Component):
     def __init__(self):
         log.debug("AlertManager initialized..")

@@ -35,8 +35,6 @@
 #
 
 import os
-import random
-import stat
 import shutil
 import logging
 
@@ -62,8 +60,10 @@ AUTH_LEVELS_MAPPING_REVERSE = {}
 for key, value in AUTH_LEVELS_MAPPING.iteritems():
     AUTH_LEVELS_MAPPING_REVERSE[value] = key
 
+
 class Account(object):
     __slots__ = ('username', 'password', 'authlevel')
+
     def __init__(self, username, password, authlevel):
         self.username = username
         self.password = password
@@ -297,9 +297,7 @@ class AuthManager(component.Component):
             create_localclient_account(True)
             return self.__load_auth_file()
 
-
         if save_and_reload:
             log.info("Re-writing auth file (upgrade)")
             self.write_auth_file()
         self.__auth_modification_time = auth_file_modification_time
-
