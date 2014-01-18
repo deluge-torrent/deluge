@@ -621,6 +621,10 @@ class Torrent(object):
                 return host
         return ""
 
+    def get_magnet_uri(self):
+        """Returns a magnet uri for this torrent"""
+        return lt.make_magnet_uri(self.handle)
+
     def get_status(self, keys, diff=False, update=False, all_keys=False):
         """
         Returns the status of the torrent based on the keys provided
