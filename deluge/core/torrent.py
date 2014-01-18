@@ -35,7 +35,6 @@
 """Internal Torrent class"""
 
 import os
-import time
 import logging
 import re
 from urllib import unquote
@@ -199,11 +198,6 @@ class Torrent(object):
         # This gets updated when get_tracker_host is called
         self.tracker_host = None
 
-        if state:
-            self.time_added = state.time_added
-        else:
-            self.time_added = time.time()
-
         # Keep track of the owner
         if state:
             self.owner = state.owner
@@ -249,7 +243,7 @@ class Torrent(object):
             del OPTIONS_FUNCS["prioritize_first_last_pieces"]
 
         for (key, value) in options.items():
-            if OPTIONS_FUNCS.has_key(key):
+            if key in OPTIONS_FUNCS:
                 OPTIONS_FUNCS[key](value)
         self.options.update(options)
 
@@ -724,7 +718,7 @@ class Torrent(object):
             "state":                  lambda: self.state,
             "stop_at_ratio":          lambda: self.options["stop_at_ratio"],
             "stop_ratio":             lambda: self.options["stop_ratio"],
-            "time_added":             lambda: self.time_added,
+            "time_added":             lambda: self.status.added_time,
             "total_done":             lambda: self.status.total_done,
             "total_payload_download": lambda: self.status.total_payload_download,
             "total_payload_upload":   lambda: self.status.total_payload_upload,

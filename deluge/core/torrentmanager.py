@@ -86,7 +86,6 @@ class TorrentState:
                  move_completed=False,
                  move_completed_path=None,
                  magnet=None,
-                 time_added=-1,
                  owner=None,
                  shared=False,
                  super_seeding=False
@@ -97,7 +96,6 @@ class TorrentState:
         self.queue = queue
         self.is_finished = is_finished
         self.magnet = magnet
-        self.time_added = time_added
         self.owner = owner
 
         # Options
@@ -693,7 +691,6 @@ class TorrentManager(component.Component):
                 torrent.options["move_completed"],
                 torrent.options["move_completed_path"],
                 torrent.magnet,
-                torrent.time_added,
                 torrent.owner,
                 torrent.options["shared"],
                 torrent.options["super_seeding"]
