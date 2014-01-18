@@ -231,10 +231,16 @@ class Torrent(object):
             "file_priorities": self.set_file_priorities,
             "max_connections": self.handle.set_max_connections,
             "max_download_speed": self.set_max_download_speed,
-            "max_upload_slots": self.handle.set_max_uploads,
+            "max_upload_slots": self.set_max_upload_slots,
             "max_upload_speed": self.set_max_upload_speed,
             "prioritize_first_last_pieces": self.set_prioritize_first_last,
-            "sequential_download": self.set_sequential_download
+            "sequential_download": self.set_sequential_download,
+            "super_seeding": self.set_super_seeding,
+            "stop_ratio": self.set_stop_ratio,
+            "stop_at_ratio": self.set_stop_at_ratio,
+            "remove_at_ratio": self.set_remove_at_ratio,
+            "move_completed": self.set_move_completed,
+            "move_completed_path": self.set_move_completed_path
         }
 
         # set_prioritize_first_last is called by set_file_priorities,
@@ -250,9 +256,6 @@ class Torrent(object):
     def get_options(self):
         return self.options
 
-    def set_owner(self, account):
-        self.owner = account
-
     def set_max_connections(self, max_connections):
         self.options["max_connections"] = int(max_connections)
         self.handle.set_max_connections(max_connections)
@@ -264,18 +267,18 @@ class Torrent(object):
     def set_max_upload_speed(self, m_up_speed):
         self.options["max_upload_speed"] = m_up_speed
         if m_up_speed < 0:
-            v = -1
+            value = -1
         else:
-            v = int(m_up_speed * 1024)
-        self.handle.set_upload_limit(v)
+            value = int(m_up_speed * 1024)
+        self.handle.set_upload_limit(value)
 
     def set_max_download_speed(self, m_down_speed):
         self.options["max_download_speed"] = m_down_speed
         if m_down_speed < 0:
-            v = -1
+            value = -1
         else:
-            v = int(m_down_speed * 1024)
-        self.handle.set_download_limit(v)
+            value = int(m_down_speed * 1024)
+        self.handle.set_download_limit(value)
 
     def set_prioritize_first_last(self, prioritize):
         self.options["prioritize_first_last_pieces"] = prioritize
@@ -384,6 +387,11 @@ class Torrent(object):
         if self.options["prioritize_first_last_pieces"]:
             self.set_prioritize_first_last(self.options["prioritize_first_last_pieces"])
 
+    def set_save_path(self, save_path):
+        self.options["download_location"] = save_path
+
+    ### End Options methods ###
+
     def set_trackers(self, trackers):
         """Sets trackers"""
         if trackers is None:
@@ -420,14 +428,12 @@ class Torrent(object):
 
         self.tracker_host = None
 
-    ### End Options methods ###
-
-    def set_save_path(self, save_path):
-        self.options["download_location"] = save_path
-
     def set_tracker_status(self, status):
         """Sets the tracker status"""
         self.tracker_status = self.get_tracker_host() + ": " + status
+
+    def set_owner(self, account):
+        self.owner = account
 
     def update_state(self):
         """Updates the state based on what libtorrent's state for the torrent is"""
