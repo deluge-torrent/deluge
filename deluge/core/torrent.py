@@ -187,10 +187,7 @@ class Torrent(object):
         # Status message holds error info about the torrent
         self.statusmsg = "OK"
 
-        # The torrents state
-        # This is only one out of 4 calls to update_state for each torrent on startup.
-        # This call doesn't seem to be necessary, it can probably be removed
-        #self.update_state()
+        # The torrent's state
         self.state = None
 
         self.tracker_status = ""
@@ -464,6 +461,8 @@ class Torrent(object):
             if status.paused:
                 self.handle.auto_managed(False)
             return
+        else:
+            self.set_status_message("OK")
 
         if ltstate == LTSTATE["Queued"] or ltstate == LTSTATE["Checking"]:
             if status.paused:
