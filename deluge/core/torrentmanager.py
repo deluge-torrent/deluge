@@ -202,7 +202,6 @@ class TorrentManager(component.Component):
         # Define timers
         self.save_state_timer = LoopingCall(self.save_state)
         self.save_resume_data_timer = LoopingCall(self.save_resume_data)
-        self.save_all_resume_data_timer = LoopingCall(self.save_resume_data, self.torrents.keys())
         self.prev_status_cleanup_loop = LoopingCall(self.cleanup_torrents_prev_status)
 
     def start(self):
@@ -240,8 +239,6 @@ class TorrentManager(component.Component):
         # Save the state periodically
         self.save_state_timer.start(200, False)
         self.save_resume_data_timer.start(190, False)
-        # Force update for all resume data a bit less frequently
-        self.save_all_resume_data_timer.start(900, False)
         self.prev_status_cleanup_loop.start(10)
 
     def stop(self):
@@ -251,9 +248,6 @@ class TorrentManager(component.Component):
 
         if self.save_resume_data_timer.running:
             self.save_resume_data_timer.stop()
-
-        if self.save_all_resume_data_timer.running:
-            self.save_all_resume_data_timer.stop()
 
         if self.prev_status_cleanup_loop.running:
             self.prev_status_cleanup_loop.stop()
@@ -682,7 +676,7 @@ class TorrentManager(component.Component):
                 break
 
         self.alerts.wait_on_handler = False
-
+        log.info("Finished loading %d torrents." % len(state.torrents))
         component.get("EventManager").emit(SessionStartedEvent())
 
     def save_state(self):
@@ -782,7 +776,8 @@ class TorrentManager(component.Component):
             self.torrents[torrent_id].save_resume_data(flush_disk_cache)
 
         def on_all_resume_data_finished(result):
-            if result:
+            """Saves resume data file when no more torrents waiting for resume data"""
+            if result and not self.waiting_on_resume_data:
                 if self.save_resume_data_file():
                     # Return True for the remove_temp_file() callback in stop()
                     return True
