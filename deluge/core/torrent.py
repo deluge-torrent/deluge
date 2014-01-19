@@ -182,10 +182,10 @@ class Torrent(object):
         # Various torrent options
         self.handle.resolve_countries(True)
 
-        self.set_options(self.options)
-
         # Status message holds error info about the torrent
         self.statusmsg = "OK"
+
+        self.set_options(self.options)
 
         # The torrent's state
         self.state = None
@@ -452,12 +452,16 @@ class Torrent(object):
             log.debug("set_state_based_on_ltstate: %s", deluge.common.LT_TORRENT_STATE[ltstate])
             log.debug("session.is_paused: %s", session_is_paused)
 
-        # First we check for an error from libtorrent, and set the state to that
-        # if any occurred.
+        # First we check for an error from libtorrent, and set the state to that if any occurred.
         if len(status.error) > 0:
             # This is an error'd torrent
             self.state = "Error"
             self.set_status_message(status.error)
+            if status.paused:
+                self.handle.auto_managed(False)
+            return
+        elif self.statusmsg.startswith("Error:"):
+            self.state = "Error"
             if status.paused:
                 self.handle.auto_managed(False)
             return

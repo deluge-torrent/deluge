@@ -182,6 +182,7 @@ class TorrentManager(component.Component):
         self.alerts.register_handler("tracker_warning_alert", self.on_alert_tracker_warning)
         self.alerts.register_handler("tracker_error_alert", self.on_alert_tracker_error)
         self.alerts.register_handler("storage_moved_alert", self.on_alert_storage_moved)
+        self.alerts.register_handler("storage_moved_failed_alert", self.on_alert_storage_moved_failed)
         self.alerts.register_handler("torrent_resumed_alert", self.on_alert_torrent_resumed)
         self.alerts.register_handler("state_changed_alert", self.on_alert_state_changed)
         self.alerts.register_handler("save_resume_data_alert", self.on_alert_save_resume_data)
@@ -1027,6 +1028,18 @@ class TorrentManager(component.Component):
             return
         torrent.set_save_path(os.path.normpath(alert.handle.save_path()))
         torrent.set_move_completed(False)
+
+    def on_alert_storage_moved_failed(self, alert):
+        """Alert handler for libtorrent storage_moved_failed_alert"""
+        log.warning("on_alert_storage_moved_failed: %s", decode_string(alert.message()))
+        try:
+            torrent_id = str(alert.handle.info_hash())
+            torrent = self.torrents[torrent_id]
+        except (RuntimeError, KeyError):
+            return
+        # Set an Error message and pause the torrent
+        torrent.set_status_message("Error: moving storage location failed")
+        torrent.pause()
 
     def on_alert_torrent_resumed(self, alert):
         """Alert handler for libtorrent torrent_resumed_alert"""
