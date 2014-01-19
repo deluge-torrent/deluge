@@ -43,6 +43,7 @@ and subsequently emitted to the clients.
 
 known_events = {}
 
+
 class DelugeEventMetaClass(type):
     """
     This metaclass simply keeps a list of all events classes created.
@@ -51,6 +52,7 @@ class DelugeEventMetaClass(type):
         super(DelugeEventMetaClass, cls).__init__(name, bases, dct)
         if name != "DelugeEvent":
             known_events[name] = cls
+
 
 class DelugeEvent(object):
     """
@@ -75,6 +77,7 @@ class DelugeEvent(object):
     name = property(fget=_get_name)
     args = property(fget=_get_args)
 
+
 class TorrentAddedEvent(DelugeEvent):
     """
     Emitted when a new torrent is successfully added to the session.
@@ -88,6 +91,7 @@ class TorrentAddedEvent(DelugeEvent):
         """
         self._args = [torrent_id, from_state]
 
+
 class TorrentRemovedEvent(DelugeEvent):
     """
     Emitted when a torrent has been removed from the session.
@@ -99,6 +103,7 @@ class TorrentRemovedEvent(DelugeEvent):
         """
         self._args = [torrent_id]
 
+
 class PreTorrentRemovedEvent(DelugeEvent):
     """
     Emitted when a torrent is about to be removed from the session.
@@ -109,6 +114,7 @@ class PreTorrentRemovedEvent(DelugeEvent):
         :type torrent_id: string
         """
         self._args = [torrent_id]
+
 
 class TorrentStateChangedEvent(DelugeEvent):
     """
@@ -123,11 +129,13 @@ class TorrentStateChangedEvent(DelugeEvent):
         """
         self._args = [torrent_id, state]
 
+
 class TorrentQueueChangedEvent(DelugeEvent):
     """
     Emitted when the queue order has changed.
     """
     pass
+
 
 class TorrentFolderRenamedEvent(DelugeEvent):
     """
@@ -144,6 +152,7 @@ class TorrentFolderRenamedEvent(DelugeEvent):
         """
         self._args = [torrent_id, old, new]
 
+
 class TorrentFileRenamedEvent(DelugeEvent):
     """
     Emitted when a file within a torrent has been renamed.
@@ -159,6 +168,7 @@ class TorrentFileRenamedEvent(DelugeEvent):
         """
         self._args = [torrent_id, index, name]
 
+
 class TorrentFinishedEvent(DelugeEvent):
     """
     Emitted when a torrent finishes downloading.
@@ -170,6 +180,7 @@ class TorrentFinishedEvent(DelugeEvent):
         """
         self._args = [torrent_id]
 
+
 class TorrentResumedEvent(DelugeEvent):
     """
     Emitted when a torrent resumes from a paused state.
@@ -180,6 +191,7 @@ class TorrentResumedEvent(DelugeEvent):
         :type torrent_id: string
         """
         self._args = [torrent_id]
+
 
 class TorrentFileCompletedEvent(DelugeEvent):
     """
@@ -194,12 +206,28 @@ class TorrentFileCompletedEvent(DelugeEvent):
         """
         self._args = [torrent_id, index]
 
+
+class TorrentStorageMovedEvent(DelugeEvent):
+    """
+    Emitted when the storage location for a torrent has been moved.
+    """
+    def __init__(self, torrent_id, path):
+        """
+        :param torrent_id: the torrent_id
+        :type torrent_id: string
+        :param path: the new location
+        :type path: string
+        """
+        self._args = [torrent_id, path]
+
+
 class CreateTorrentProgressEvent(DelugeEvent):
     """
     Emitted when creating a torrent file remotely.
     """
     def __init__(self, piece_count, num_pieces):
         self._args = [piece_count, num_pieces]
+
 
 class NewVersionAvailableEvent(DelugeEvent):
     """
@@ -212,6 +240,7 @@ class NewVersionAvailableEvent(DelugeEvent):
         """
         self._args = [new_release]
 
+
 class SessionStartedEvent(DelugeEvent):
     """
     Emitted when a session has started.  This typically only happens once when
@@ -219,17 +248,20 @@ class SessionStartedEvent(DelugeEvent):
     """
     pass
 
+
 class SessionPausedEvent(DelugeEvent):
     """
     Emitted when the session has been paused.
     """
     pass
 
+
 class SessionResumedEvent(DelugeEvent):
     """
     Emitted when the session has been resumed.
     """
     pass
+
 
 class ConfigValueChangedEvent(DelugeEvent):
     """
@@ -243,6 +275,7 @@ class ConfigValueChangedEvent(DelugeEvent):
         """
         self._args = [key, value]
 
+
 class PluginEnabledEvent(DelugeEvent):
     """
     Emitted when a plugin is enabled in the Core.
@@ -250,10 +283,10 @@ class PluginEnabledEvent(DelugeEvent):
     def __init__(self, plugin_name):
         self._args = [plugin_name]
 
+
 class PluginDisabledEvent(DelugeEvent):
     """
     Emitted when a plugin is disabled in the Core.
     """
     def __init__(self, plugin_name):
         self._args = [plugin_name]
-
