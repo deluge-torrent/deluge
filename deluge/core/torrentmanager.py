@@ -185,13 +185,13 @@ class TorrentManager(component.Component):
         self.alerts.register_handler("torrent_resumed_alert", self.on_alert_torrent_resumed)
         self.alerts.register_handler("state_changed_alert", self.on_alert_state_changed)
         self.alerts.register_handler("save_resume_data_alert", self.on_alert_save_resume_data)
-        self.alerts.register_handler("save_resume_data_failed_alert",
-                                     self.on_alert_save_resume_data_failed)
+        self.alerts.register_handler("save_resume_data_failed_alert", self.on_alert_save_resume_data_failed)
         self.alerts.register_handler("file_renamed_alert", self.on_alert_file_renamed)
         self.alerts.register_handler("metadata_received_alert", self.on_alert_metadata_received)
         self.alerts.register_handler("file_error_alert", self.on_alert_file_error)
         self.alerts.register_handler("file_completed_alert", self.on_alert_file_completed)
         self.alerts.register_handler("state_update_alert", self.on_alert_state_update)
+        self.alerts.register_handler("performance_alert", self.on_alert_performance)
 
         # Define timers
         self.save_state_timer = LoopingCall(self.save_state)
@@ -1162,6 +1162,23 @@ class TorrentManager(component.Component):
                 self.torrents[torrent_id].update_status(t_status)
 
         self.handle_torrents_status_callback(self.torrents_status_requests.pop())
+
+    def on_alert_performance(self, alert):
+        """Alert handler for libtorrent performance_alert"""
+        log.warning("on_alert_performance: %s, %s", alert.message(), alert.warning_code)
+        if alert.warning_code == lt.performance_warning_t.send_buffer_watermark_too_low:
+            max_send_buffer_watermark = 3 * 1024 * 1024  # 3MiB
+            settings = self.session.get_settings()
+            send_buffer_watermark = settings["send_buffer_watermark"]
+
+            # If send buffer is too small, try increasing its size by 512KiB (up to max_send_buffer_watermark)
+            if send_buffer_watermark < max_send_buffer_watermark:
+                value = send_buffer_watermark + (500 * 1024)
+                log.info("Increasing send_buffer_watermark from %s to %s Bytes", send_buffer_watermark, value)
+                settings["send_buffer_watermark"] = value
+                self.session.set_settings(settings)
+            else:
+                log.warning("send_buffer_watermark reached maximum value: %s Bytes", max_send_buffer_watermark)
 
     def separate_keys(self, keys, torrent_ids):
         """Separates the input keys into torrent class keys and plugins keys"""
