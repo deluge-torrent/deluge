@@ -191,6 +191,7 @@ class TorrentManager(component.Component):
         self.alerts.register_handler("file_error_alert", self.on_alert_file_error)
         self.alerts.register_handler("file_completed_alert", self.on_alert_file_completed)
         self.alerts.register_handler("state_update_alert", self.on_alert_state_update)
+        self.alerts.register_handler("external_ip_alert", self.on_alert_external_ip)
         self.alerts.register_handler("performance_alert", self.on_alert_performance)
 
         # Define timers
@@ -1162,6 +1163,10 @@ class TorrentManager(component.Component):
                 self.torrents[torrent_id].update_status(t_status)
 
         self.handle_torrents_status_callback(self.torrents_status_requests.pop())
+
+    def on_alert_external_ip(self, alert):
+        """Alert handler for libtorrent external_ip_alert"""
+        log.info("on_alert_external_ip: %s", alert.message())
 
     def on_alert_performance(self, alert):
         """Alert handler for libtorrent performance_alert"""
