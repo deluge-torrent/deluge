@@ -15,8 +15,9 @@ class CommonTestCase(unittest.TestCase):
         pass
 
     def test_fsize(self):
-        self.assertEquals(fsize(100), "100 Bytes")
-        self.assertEquals(fsize(1023), "1023 Bytes")
+        self.assertEquals(fsize(0), "0 B")
+        self.assertEquals(fsize(100), "100 B")
+        self.assertEquals(fsize(1023), "1023 B")
         self.assertEquals(fsize(1024), "1.0 KiB")
         self.assertEquals(fsize(1048575), "1024.0 KiB")
         self.assertEquals(fsize(1048576), "1.0 MiB")
@@ -24,6 +25,9 @@ class CommonTestCase(unittest.TestCase):
         self.assertEquals(fsize(1073741824), "1.0 GiB")
         self.assertEquals(fsize(112245), "109.6 KiB")
         self.assertEquals(fsize(110723441824), "103.1 GiB")
+        self.assertEquals(fsize(1099511627775), "1024.0 GiB")
+        self.assertEquals(fsize(1099511627777), "1.0 TiB")
+        self.assertEquals(fsize(766148267453245), "696.8 TiB")
 
     def test_fpcnt(self):
         self.failUnless(fpcnt(0.9311) == "93.11%")

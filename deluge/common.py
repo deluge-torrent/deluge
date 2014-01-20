@@ -271,26 +271,40 @@ def open_url_in_browser(url):
 # Formatting text functions
 
 # For performance reasons these fsize units are translated outside the function
-byte_txt = "Bytes"
+byte_txt = "B"
 kib_txt = "KiB"
 mib_txt = "MiB"
 gib_txt = "GiB"
+tib_txt = "TiB"
+kib_txt_short = "K"
+mib_txt_short = "M"
+gib_txt_short = "G"
+tib_txt_short = "T"
 
 
 def translate_size_units():
-    global byte_txt, kib_txt, mib_txt, gib_txt
-    byte_txt = _("Bytes")
+    global byte_txt, kib_txt, mib_txt, gib_txt, tib_txt
+    global kib_txt_short, mib_txt_short, gib_txt_short, tib_txt_short
+
+    byte_txt = _("B")
     kib_txt = _("KiB")
     mib_txt = _("MiB")
     gib_txt = _("GiB")
+    tib_txt = _("TiB")
+    kib_txt_short = _("K")
+    mib_txt_short = _("M")
+    gib_txt_short = _("G")
+    tib_txt_short = _("T")
 
 
-def fsize(fsize_b):
+def fsize(fsize_b, precision=1, shortform=False):
     """
     Formats the bytes value into a string with KiB, MiB or GiB units
 
     :param fsize_b: the filesize in bytes
     :type fsize_b: int
+    :param precision: the filesize float precision
+    :type precision: int
     :returns: formatted string in KiB, MiB or GiB units
     :rtype: string
 
@@ -298,52 +312,35 @@ def fsize(fsize_b):
 
     >>> fsize(112245)
     '109.6 KiB'
+    >>> fsize(112245, precision=0)
+    '110 KiB'
 
     """
+
+    # Bigger than 1 TiB
+    if fsize_b >= 1099511627776:
+        return "%.*f %s" % (precision, fsize_b / 1099511627776.0, tib_txt_short if shortform else tib_txt)
     # Bigger than 1 GiB
-    if fsize_b >= 1073741824:
-        return "%.1f %s" % (fsize_b / 1073741824.0, gib_txt)
+    elif fsize_b >= 1073741824:
+        return "%.*f %s" % (precision, fsize_b / 1073741824.0, gib_txt_short if shortform else gib_txt)
     # Bigger than 1 MiB
     elif fsize_b >= 1048576:
-        return "%.1f %s" % (fsize_b / 1048576.0, mib_txt)
+        return "%.*f %s" % (precision, fsize_b / 1048576.0, mib_txt_short if shortform else mib_txt)
     # Bigger than 1 KiB
     elif fsize_b >= 1024:
-        return "%.1f %s" % (fsize_b / 1024.0, kib_txt)
+        return "%.*f %s" % (precision, fsize_b / 1024.0, kib_txt_short if shortform else kib_txt)
     else:
         return "%d %s" % (fsize_b, byte_txt)
 
 
-def fsize_short(fsize_b):
-    """
-    Formats the bytes value into a string with K, M or G units
-
-    :param fsize_b: the filesize in bytes
-    :type fsize_b: int
-    :returns: formatted string in K, M or G units
-    :rtype: string
-
-    **Usage**
-
-    >>> fsize(112245)
-    '109.6 K'
-
-    """
-    fsize_kb = fsize_b / 1024.0
-    if fsize_kb < 1024:
-        return "%.1f %s" % (fsize_kb, _("K"))
-    fsize_mb = fsize_kb / 1024.0
-    if fsize_mb < 1024:
-        return "%.1f %s" % (fsize_mb, _("M"))
-    fsize_gb = fsize_mb / 1024.0
-    return "%.1f %s" % (fsize_gb, _("G"))
-
-
-def fpcnt(dec):
+def fpcnt(dec, precision=2):
     """
     Formats a string to display a percentage with two decimal places
 
     :param dec: the ratio in the range [0.0, 1.0]
     :type dec: float
+    :param precision: the percentage float precision
+    :type precision: int
     :returns: a formatted string representing a percentage
     :rtype: string
 
@@ -351,12 +348,17 @@ def fpcnt(dec):
 
     >>> fpcnt(0.9311)
     '93.11%'
+    >>> fpcnt(0.9311, precision=0)
+    '93%'
 
     """
-    return '%.2f%%' % (dec * 100)
+    pcnt = (dec * 100)
+    if pcnt == 0 or pcnt == 100:
+        precision = 0
+    return '%.*f%%' % (precision, pcnt)
 
 
-def fspeed(bps):
+def fspeed(bps, precision=1, shortform=False):
     """
     Formats a string to display a transfer speed utilizing :func:`fsize`
 
@@ -371,14 +373,18 @@ def fspeed(bps):
     '42.1 KiB/s'
 
     """
+
     fspeed_kb = bps / 1024.0
     if fspeed_kb < 1024:
-        return "%.1f %s" % (fspeed_kb, _("KiB/s"))
+        return "%.*f %s" % (precision, fspeed_kb, _("K/s") if shortform else _("KiB/s"))
     fspeed_mb = fspeed_kb / 1024.0
     if fspeed_mb < 1024:
-        return "%.1f %s" % (fspeed_mb, _("MiB/s"))
+        return "%.*f %s" % (precision, fspeed_mb, _("M/s") if shortform else _("MiB/s"))
     fspeed_gb = fspeed_mb / 1024.0
-    return "%.1f %s" % (fspeed_gb, _("GiB/s"))
+    if fspeed_gb < 1024:
+        return "%.*f %s" % (precision, fspeed_gb, _("G/s") if shortform else _("GiB/s"))
+    fspeed_tb = fspeed_gb / 1024.0
+    return "%.*f %s" % (precision, fspeed_tb, _("T/s") if shortform else _("TiB/s"))
 
 
 def fpeer(num_peers, total_peers):
@@ -460,10 +466,10 @@ def fdate(seconds, date_only=False, precision_secs=False):
     """
     if seconds < 0:
         return ""
-    if precision_secs:
-        return time.strftime("%x %X", time.localtime(seconds))
-    else:
-        return time.strftime("%x %H:%M", time.localtime(seconds))
+    time_format = "%x %X" if precision_secs else "%x %H:%M"
+    if date_only:
+        time_format = time_format.split()[0]
+    return time.strftime(time_format, time.localtime(seconds))
 
 
 def tokenize(text):
