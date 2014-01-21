@@ -42,6 +42,7 @@ from gtk import gdk, keysyms
 
 from deluge.path_chooser_common import get_resource, get_completion_paths
 
+
 def is_ascii_value(keyval, ascii_key):
     try:
         # Set show/hide hidden files
@@ -52,20 +53,26 @@ def is_ascii_value(keyval, ascii_key):
         pass
     return False
 
+
 def key_is_up(keyval):
     return keyval == keysyms.Up or keyval == keysyms.KP_Up
+
 
 def key_is_down(keyval):
     return keyval == keysyms.Down or keyval == keysyms.KP_Down
 
+
 def key_is_up_or_down(keyval):
     return key_is_up(keyval) or key_is_down(keyval)
+
 
 def key_is_pgup_or_pgdown(keyval):
     return keyval == keysyms.Page_Down or keyval == keysyms.Page_Up
 
+
 def key_is_enter(keyval):
     return keyval == keysyms.Return or keyval == keysyms.KP_Enter
+
 
 def path_without_trailing_path_sep(path):
     while path.endswith("/") or path.endswith("\\"):
@@ -73,6 +80,7 @@ def path_without_trailing_path_sep(path):
             return path
         path = path[0:-1]
     return path
+
 
 class ValueList(object):
 
@@ -208,7 +216,7 @@ class ValueList(object):
 
         if keyval == keysyms.Escape or\
                 (key_is_up(keyval) and
-                 state == gdk.MOD1_MASK): # ALT Key
+                 state == gdk.MOD1_MASK):  # ALT Key
             self.popdown()
             return True
         # Set entry value to the selected row
@@ -313,8 +321,7 @@ class ValueList(object):
             if swap:
                 p1 = self.tree_store[path][0]
                 p2 = self.tree_store[new_path][0]
-                self.tree_store.swap(self.tree_store.get_iter(path),
-                                      self.tree_store.get_iter(new_path))
+                self.tree_store.swap(self.tree_store.get_iter(path), self.tree_store.get_iter(new_path))
                 self.emit("list-values-reordered", [p1, p2])
                 self.emit("list-values-changed", self.get_values())
             path = new_path
@@ -323,6 +330,7 @@ class ValueList(object):
         self.treeview.get_selection().select_path(path)
         if set_entry:
             self.set_entry_value(path)
+
 
 class StoredValuesList(ValueList):
 
@@ -397,6 +405,7 @@ class StoredValuesList(ValueList):
 
             def on_edit_clicked(widget, path):
                 self.on_edit_path(path, self.tree_column)
+
             def on_remove_clicked(widget, path):
                 self.remove_selected_path()
 
@@ -409,7 +418,6 @@ class StoredValuesList(ValueList):
         ValueList.remove_selected_path(self)
         # Resize popup
         PathChooserPopup.popup(self)
-
 
     def on_stored_values_treeview_key_press_event(self, widget, event):
         super(StoredValuesList, self).on_value_list_treeview_key_press_event(widget, event)
@@ -426,7 +434,6 @@ class StoredValuesList(ValueList):
 
         """
         keyval = event.keyval
-        state = event.state & gtk.accelerator_get_default_mod_mask()
         ctrl = event.state & gtk.gdk.CONTROL_MASK
 
         # Edit selected row
@@ -449,8 +456,8 @@ class StoredValuesList(ValueList):
             # Handle key bindings for manipulating the list
             # Remove the selected entry
             if is_ascii_value(keyval, 'r'):
-                 self.remove_selected_path()
-                 return True
+                self.remove_selected_path()
+                return True
             # Add current value to saved list
             elif is_ascii_value(keyval, 's'):
                 super(PathChooserComboBox, self).add_current_value_to_saved_list()
@@ -459,6 +466,7 @@ class StoredValuesList(ValueList):
             elif is_ascii_value(keyval, 'e'):
                 self.edit_selected_path()
                 return True
+
 
 class CompletionList(ValueList):
 
@@ -512,11 +520,11 @@ class CompletionList(ValueList):
         else:
             x = event.x
             y = event.y
-            state = event.state
 
         path = self.treeview.get_path_at_pos(int(x), int(y))
         if path:
             self.handle_list_scroll(path=path[0], next=None)
+
 
 class PathChooserPopup(object):
     """
@@ -530,7 +538,7 @@ class PathChooserPopup(object):
         self.set_max_popup_rows(max_visible_rows)
         self.popup_window.realize()
         self.alignment_widget = popup_alignment_widget
-        self.popup_buttonbox = None # If set, the height of this widget is the minimum height
+        self.popup_buttonbox = None  # If set, the height of this widget is the minimum height
 
     def popup(self):
         """
@@ -661,11 +669,11 @@ class PathChooserPopup(object):
                             (gdk.BUTTON_PRESS_MASK |
                              gdk.BUTTON_RELEASE_MASK |
                              gdk.POINTER_MOTION_MASK),
-                             None, None, activate_time) == 0:
+                            None, None, activate_time) == 0:
             if gdk.keyboard_grab(self.popup_window.window, True, activate_time) == 0:
                 return True
             else:
-                self.popup_window.window.get_display().pointer_ungrab(activate_time);
+                self.popup_window.window.get_display().pointer_ungrab(activate_time)
                 return False
         return False
 
@@ -699,8 +707,8 @@ class PathChooserPopup(object):
         # Also if the intersection of self and the event is empty, hide
         # the path_list
         if (tuple(self.popup_window.allocation.intersect(
-              gdk.Rectangle(x=int(event.x), y=int(event.y),
-                           width=1, height=1))) == (0, 0, 0, 0)):
+                gdk.Rectangle(x=int(event.x), y=int(event.y),
+                              width=1, height=1))) == (0, 0, 0, 0)):
             hide = True
         # Toplevel is the window that received the event, and parent is the
         # path_list window. If they are not the same, means the popup should
@@ -852,6 +860,7 @@ class StoredValuesPopup(StoredValuesList, PathChooserPopup):
         if self.default_text:
             self.set_text(self.default_text, trigger_event=True)
 
+
 class PathCompletionPopup(CompletionList, PathChooserPopup):
     """
 
@@ -924,6 +933,7 @@ class PathCompletionPopup(CompletionList, PathChooserPopup):
             self.handle_list_scroll(path=path[0], next=None)
         return True
 
+
 class PathAutoCompleter(object):
 
     def __init__(self, builder, path_entry, max_visible_rows):
@@ -937,7 +947,8 @@ class PathAutoCompleter(object):
         self.signal_handlers["on_completion_popup_window_key_press_event"] = \
             self.on_completion_popup_window_key_press_event
         # We must set the signal handler here to get the handler ID.
-        self.text_entry_delete_handler_id = self.path_entry.text_entry.connect("delete-text", self.on_entry_text_delete_text)
+        self.text_entry_delete_handler_id = \
+            self.path_entry.text_entry.connect("delete-text", self.on_entry_text_delete_text)
         self.signal_handlers["on_entry_text_insert_text"] = \
             self.on_entry_text_insert_text
         self.accelerator_string = gtk.accelerator_name(keysyms.Tab, 0)
@@ -960,8 +971,7 @@ class PathAutoCompleter(object):
         """
         if self.completion_popup.is_popped_up():
             cur_text = self.path_entry.get_text()
-            pos = entry.get_position()
-            new_complete_text = cur_text[:start] +  cur_text[end:]
+            new_complete_text = cur_text[:start] + cur_text[end:]
             self.do_completion(value=new_complete_text, forward_completion=False)
 
     def set_use_popup(self, use):
@@ -1021,6 +1031,7 @@ class PathAutoCompleter(object):
         elif self.completion_popup.is_popped_up() and args["forward_completion"]:
             self.completion_popup.popdown()
 
+
 class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
 
     __gsignals__ = {
@@ -1036,7 +1047,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
         "accelerator-set": (gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (object, )),
         "max-rows-changed": (gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (object, )),
         "text-changed": (gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (object, )),
-        }
+    }
 
     def __init__(self, max_visible_rows=20, auto_complete=True, use_completer_popup=True):
         gtk.HBox.__init__(self)
@@ -1079,7 +1090,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
             "on_button_open_dialog_clicked": self._on_button_open_dialog_clicked,
             "on_entry_text_focus_out_event": self._on_entry_text_focus_out_event,
             "on_entry_text_changed": self.on_entry_text_changed,
-            }
+        }
         signal_handlers.update(self.signal_handlers)
         signal_handlers.update(self.auto_completer.signal_handlers)
         signal_handlers.update(self.config_dialog_signal_handlers)
@@ -1108,7 +1119,8 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
         self.tooltips.set_tip(self.combo_hbox, text)
         if default_text:
             self.default_text = text
-            self.tooltips.set_tip(self.button_default, "Restore the default value in the text entry:\n%s" % self.default_text)
+            self.tooltips.set_tip(self.button_default,
+                                  "Restore the default value in the text entry:\n%s" % self.default_text)
             self.button_default.set_sensitive(True)
         # Set text for the filechooser dialog button
         folder_name = ""
@@ -1344,7 +1356,6 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
                 return True
         return False
 
-
     def _on_button_toggle_dropdown_toggled(self, button):
         """
         Shows the popup when clicking the toggle button.
@@ -1394,7 +1405,6 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
 
     def _setup_config_dialog(self):
         self.config_dialog = self.builder.get_object("completion_config_dialog")
-        close_button = self.builder.get_object("config_dialog_button_close")
         self.enable_completion = self.builder.get_object("enable_auto_completion_checkbutton")
         self.show_filechooser_checkbutton = self.builder.get_object("show_filechooser_checkbutton")
         self.show_path_entry_checkbutton = self.builder.get_object("show_path_entry_checkbutton")
@@ -1502,7 +1512,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
             "on_completion_config_dialog_key_release_event": on_completion_config_dialog_key_release_event,
             "on_set_completion_accelerator_button_clicked": on_set_completion_accelerator_button_clicked,
             "on_show_hidden_files_checkbutton_toggled": on_show_hidden_files_toggled,
-            }
+        }
 
 gobject.type_register(PathChooserComboBox)
 
@@ -1520,7 +1530,7 @@ if __name__ == "__main__":
         return "%s/glade/%s" % (os.path.abspath(os.path.dirname(sys.argv[0])), filename)
 
     # Override get_resource which fetches from deluge install
-    get_resource = get_resource2
+    # get_resource = get_resource2
 
     entry1 = PathChooserComboBox(max_visible_rows=15)
     entry2 = PathChooserComboBox()
@@ -1529,21 +1539,22 @@ if __name__ == "__main__":
     box1.add(entry2)
 
     paths = [
-             "/home/bro/Downloads",
-             "/media/Movies-HD",
-             "/media/torrent/in",
-             "/media/Live-show/Misc",
-             "/media/Live-show/Consert",
-             "/media/Series/1/",
-             "/media/Series/2",
-             "/media/Series/17",
-             "/media/Series/18",
-             "/media/Series/19"
-             ]
+        "/home/bro/Downloads",
+        "/media/Movies-HD",
+        "/media/torrent/in",
+        "/media/Live-show/Misc",
+        "/media/Live-show/Consert",
+        "/media/Series/1/",
+        "/media/Series/2",
+        "/media/Series/17",
+        "/media/Series/18",
+        "/media/Series/19"
+    ]
 
     entry1.add_values(paths)
     entry1.set_text("/home/bro/", default_text=True)
-    entry2.set_text("/home/bro/programmer/deluge/deluge-yarss-plugin/build/lib/yarss2/include/bs4/tests/", cursor_end=False)
+    entry2.set_text("/home/bro/programmer/deluge/deluge-yarss-plugin/build/lib/yarss2/include/bs4/tests/",
+                    cursor_end=False)
 
     entry2.set_filechooser_button_visible(False)
     #entry2.set_enable_properties(False)
