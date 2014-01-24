@@ -47,6 +47,17 @@
       </object>
     </child>
     <child>
+      <object class="GtkImageMenuItem" id="menuitem_show_file">
+        <property name="label" translatable="yes">_Show</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_action_appearance">False</property>
+        <property name="use_underline">True</property>
+        <property name="use_stock">True</property>
+        <signal name="activate" handler="on_menuitem_show_file_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
       <object class="GtkSeparatorMenuItem" id="menuitem3">
         <property name="visible">True</property>
         <property name="can_focus">False</property>

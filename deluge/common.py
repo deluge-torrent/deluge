@@ -1,38 +1,11 @@
+# -*- coding: utf-8 -*-
 #
-# common.py
+# Copyright (C) 2007,2008 Andrew Resch <andrewresch@gmail.com>
 #
-# Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-#   The Free Software Foundation, Inc.,
-#   51 Franklin Street, Fifth Floor
-#   Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
-#
-
 
 """Common functions for various parts of Deluge to use."""
 
@@ -48,6 +21,14 @@ import gettext
 import locale
 import base64
 import urllib
+import urlparse
+
+try:
+    import dbus
+    bus = dbus.SessionBus()
+    dbus_fileman = bus.get_object("org.freedesktop.FileManager1", "/org/freedesktop/FileManager1")
+except:
+    dbus_fileman = None
 
 from deluge.error import InvalidPathError
 
@@ -223,20 +204,51 @@ def resource_filename(module, path):
     )
 
 
-def open_file(path):
-    """
-    Opens a file or folder using the system configured program
+def open_file(path, timestamp=None):
+    """Opens a file or folder using the system configured program.
 
-    :param path: the path to the file or folder to open
-    :type path: string
+    Args:
+        path (str): The path to the file or folder to open.
+        timestamp (int, optional): An event request timestamp.
 
     """
     if windows_check():
-        os.startfile(path.decode("utf8"))
+        os.startfile(path)
     elif osx_check():
-        subprocess.Popen(["open", "%s" % path])
+        subprocess.Popen(["open", path])
     else:
-        subprocess.Popen(["xdg-open", "%s" % path])
+        if timestamp is None:
+            timestamp = int(time.time())
+        env = os.environ.copy()
+        env["DESKTOP_STARTUP_ID"] = "%s-%u-%s-xdg_open_TIME%d" % \
+            (os.path.basename(sys.argv[0]), os.getpid(), os.uname()[1], timestamp)
+        subprocess.Popen(["xdg-open", "%s" % path], env=env)
+
+
+def show_file(path, timestamp=None):
+    """Shows (highlights) a file or folder using the system configured file manager.
+
+    Args:
+        path (str): The path to the file or folder to show.
+        timestamp (int, optional): An event request timestamp.
+
+    """
+    if windows_check():
+        subprocess.Popen(["explorer", "/select,", path])
+    elif osx_check():
+        subprocess.Popen(["open", "-R", path])
+    else:
+        if timestamp is None:
+            timestamp = int(time.time())
+        startup_id = "%s_%u_%s-dbus_TIME%d" % (os.path.basename(sys.argv[0]), os.getpid(), os.uname()[1], timestamp)
+        if dbus_fileman:
+            paths = [urlparse.urljoin("file:", urllib.pathname2url(utf8_encoded(path)))]
+            dbus_fileman.ShowItems(paths, startup_id, dbus_interface="org.freedesktop.FileManager1")
+        else:
+            env = os.environ.copy()
+            env["DESKTOP_STARTUP_ID"] = startup_id.replace("dbus", "xdg-open")
+            # No option in xdg to highlight a file so just open parent folder.
+            subprocess.Popen(["xdg-open", os.path.dirname(path.rstrip("/"))], env=env)
 
 
 def open_url_in_browser(url):

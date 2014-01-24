@@ -326,10 +326,12 @@ class MenuBar(component.Component):
         log.debug("on_menuitem_open_folder")
 
         def _on_torrent_status(status):
-            deluge.common.open_file(status["save_path"])
+            timestamp = gtk.get_current_event_time()
+            path = os.path.join(status["save_path"], status["files"][0]["path"].split('/')[0])
+            deluge.common.show_file(path, timestamp=timestamp)
         for torrent_id in component.get("TorrentView").get_selected_torrents():
             component.get("SessionProxy").get_torrent_status(
-                torrent_id, ["save_path"]).addCallback(_on_torrent_status)
+                torrent_id, ["save_path", "files"]).addCallback(_on_torrent_status)
 
     def on_menuitem_move_activate(self, data=None):
         log.debug("on_menuitem_move_activate")

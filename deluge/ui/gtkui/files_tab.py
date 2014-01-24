@@ -197,6 +197,7 @@ class FilesTab(Tab):
 
         self.localhost_widgets = [
             builder.get_object("menuitem_open_file"),
+            builder.get_object("menuitem_show_file"),
             builder.get_object("menuitem3")
         ]
 
@@ -215,6 +216,7 @@ class FilesTab(Tab):
 
         component.get("MainWindow").connect_signals({
             "on_menuitem_open_file_activate": self._on_menuitem_open_file_activate,
+            "on_menuitem_show_file_activate": self._on_menuitem_show_file_activate,
             "on_menuitem_donotdownload_activate": self._on_menuitem_donotdownload_activate,
             "on_menuitem_normal_activate": self._on_menuitem_normal_activate,
             "on_menuitem_high_activate": self._on_menuitem_high_activate,
@@ -319,8 +321,7 @@ class FilesTab(Tab):
         self.torrent_id = None
 
     def _on_row_activated(self, tree, path, view_column):
-        if client.is_localhost:
-            component.get("SessionProxy").get_torrent_status(self.torrent_id, ["save_path", "files"]).addCallback(self._on_open_file)
+        self._on_menuitem_open_file_activate()
 
     def get_file_path(self, row, path=""):
         if not row:
@@ -339,7 +340,21 @@ class FilesTab(Tab):
             path = self.get_file_path(select).split("/")
             filepath = os.path.join(status["save_path"], *path)
             log.debug("Open file '%s'", filepath)
-            deluge.common.open_file(filepath)
+            timestamp = gtk.get_current_event_time()
+            deluge.common.open_file(filepath, timestamp=timestamp)
+
+    def _on_show_file(self, status):
+        paths = self.listview.get_selection().get_selected_rows()[1]
+        selected = []
+        for path in paths:
+            selected.append(self.treestore.get_iter(path))
+
+        for select in selected:
+            path = self.get_file_path(select).split("/")
+            filepath = os.path.join(status["save_path"], *path)
+            log.debug("Show file '%s'", filepath)
+            timestamp = gtk.get_current_event_time()
+            deluge.common.show_file(filepath, timestamp=timestamp)
 
     ## The following 3 methods create the folder/file view in the treeview
     def prepare_file_store(self, files):
@@ -525,7 +540,14 @@ class FilesTab(Tab):
                 return True
 
     def _on_menuitem_open_file_activate(self, menuitem):
-        self._on_row_activated(None, None, None)
+        if client.is_localhost:
+            component.get("SessionProxy").get_torrent_status(
+                self.torrent_id, ["save_path", "files"]).addCallback(self._on_open_file)
+
+    def _on_menuitem_show_file_activate(self, menuitem):
+        if client.is_localhost:
+            component.get("SessionProxy").get_torrent_status(
+                self.torrent_id, ["save_path", "files"]).addCallback(self._on_show_file)
 
     def _set_file_priorities_on_user_change(self, selected, priority):
         """Sets the file priorities in the core.  It will change the selected
