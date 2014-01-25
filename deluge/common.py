@@ -912,8 +912,11 @@ def set_language(lang):
     set_env_variable('LANG', lang)  # For OSX
 
     translations_path = get_translations_path()
-    ro = gettext.translation("deluge", localedir=translations_path, languages=[lang])
-    ro.install()
+    try:
+        ro = gettext.translation("deluge", localedir=translations_path, languages=[lang])
+        ro.install()
+    except IOError, e:
+        log.warn("IOError when loading translations: %s", e)
 
 
 # Initialize gettext
