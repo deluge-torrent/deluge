@@ -36,14 +36,14 @@
 
 import logging
 import deluge.component as component
-import deluge.common
+from deluge.common import windows_check
 import colors
 from deluge.ui.client import client
 
-import curses
 import time
 
 log = logging.getLogger(__name__)
+
 
 class EventLog(component.Component):
     """
@@ -69,7 +69,9 @@ class EventLog(component.Component):
         self.previous_time = time.localtime(0)
 
     def on_torrent_added_event(self, torrent_id, from_state):
-        if from_state: return
+        if from_state:
+            return
+
         def on_torrent_status(status):
             self.write("{!green!}Torrent Added: {!info!}%s ({!cyan!}%s{!info!})" % (
                 status["name"], torrent_id)
@@ -81,7 +83,7 @@ class EventLog(component.Component):
 
     def on_torrent_removed_event(self, torrent_id):
         self.write("{!red!}Torrent Removed: {!info!}%s ({!cyan!}%s{!info!})" %
-            (self.console.get_torrent_name(torrent_id), torrent_id))
+                   (self.console.get_torrent_name(torrent_id), torrent_id))
 
     def on_torrent_state_changed_event(self, torrent_id, state):
         #It's probably a new torrent, ignore it
@@ -98,17 +100,18 @@ class EventLog(component.Component):
             return
 
         self.write("%s: {!info!}%s ({!cyan!}%s{!info!})" %
-            (state, t_name, torrent_id))
+                   (state, t_name, torrent_id))
 
     def on_torrent_finished_event(self, torrent_id):
-        if component.get("AllTorrents").config["ring_bell"]:
+        if not windows_check() and component.get("AllTorrents").config["ring_bell"]:
+            import curses.beep
             curses.beep()
         self.write("{!info!}Torrent Finished: %s ({!cyan!}%s{!info!})" %
-            (self.console.get_torrent_name(torrent_id), torrent_id))
+                   (self.console.get_torrent_name(torrent_id), torrent_id))
 
     def on_new_version_available_event(self, version):
         self.write("{!input!}New Deluge version available: {!info!}%s" %
-            (version))
+                   (version))
 
     def on_session_paused_event(self):
         self.write("{!input!}Session Paused")
@@ -122,13 +125,13 @@ class EventLog(component.Component):
             color = colors.type_color[type(value)]
 
         self.write("ConfigValueChanged: {!input!}%s: %s%s" %
-            (key, color, value))
+                   (key, color, value))
 
     def write(self, s):
         current_time = time.localtime()
 
         date_different = False
-        for field in [ "tm_mday", "tm_mon", "tm_year" ]:
+        for field in ["tm_mday", "tm_mon", "tm_year"]:
             c = getattr(current_time, field)
             p = getattr(self.previous_time, field)
             if c != p:
