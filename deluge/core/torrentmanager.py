@@ -1013,6 +1013,8 @@ class TorrentManager(component.Component):
         """Alert handler for libtorrent tracker_error_alert"""
         error_message = decode_string(alert.msg)
         if not error_message:
+            # alert.msg empty for '-1' code so fallback to a.e.message(), alert.msg cannot be replaced
+            # by a.e.message() because with non '-1' codes, the code is in the message.
             error_message = decode_string(alert.error.message())
         log.debug("Tracker Error Alert: %s [%s]", decode_string(alert.message()), error_message)
         try:
