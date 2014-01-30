@@ -946,9 +946,8 @@ class PathAutoCompleter(object):
 
         self.signal_handlers["on_completion_popup_window_key_press_event"] = \
             self.on_completion_popup_window_key_press_event
-        # We must set the signal handler here to get the handler ID.
-        self.text_entry_delete_handler_id = \
-            self.path_entry.text_entry.connect("delete-text", self.on_entry_text_delete_text)
+        self.signal_handlers["on_entry_text_delete_text"] = \
+            self.on_entry_text_delete_text
         self.signal_handlers["on_entry_text_insert_text"] = \
             self.on_entry_text_insert_text
         self.accelerator_string = gtk.accelerator_name(keysyms.Tab, 0)
@@ -1109,9 +1108,9 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
         """
         old_text = self.text_entry.get_text()
         # We must block the "delete-text" signal to avoid the signal handler being called
-        self.text_entry.handler_block(self.auto_completer.text_entry_delete_handler_id)
+        self.text_entry.handler_block_by_func(self.auto_completer.on_entry_text_delete_text)
         self.text_entry.set_text(text)
-        self.text_entry.handler_unblock(self.auto_completer.text_entry_delete_handler_id)
+        self.text_entry.handler_unblock_by_func(self.auto_completer.on_entry_text_delete_text)
 
         self.text_entry.select_region(0, 0)
         self.text_entry.set_position(len(text) if cursor_end else 0)
