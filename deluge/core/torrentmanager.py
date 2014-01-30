@@ -1043,13 +1043,19 @@ class TorrentManager(component.Component):
         torrent.set_tracker_status(tracker_status)
 
     def on_alert_tracker_error(self, alert):
-        log.debug("on_alert_tracker_error")
+        """Alert handler for libtorrent tracker_error_alert"""
+        error_message = decode_string(alert.msg)
+        # If alert.msg is empty then it's a '-1' code so fallback to a.e.message. Note that alert.msg
+        # cannot be replaced by a.e.message because the code is included in the string (for non-'-1').
+        if not error_message:
+            error_message = decode_string(alert.error.message())
+        log.debug("Tracker Error Alert: %s [%s]", decode_string(alert.message()), error_message)
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
-        except:
+        except (RuntimeError, KeyError):
             return
-        tracker_status = "%s: %s" % (_("Error"), alert.msg)
-        torrent.set_tracker_status(tracker_status)
+
+        torrent.set_tracker_status("Error: " + error_message)
 
     def on_alert_storage_moved(self, alert):
         log.debug("on_alert_storage_moved")
