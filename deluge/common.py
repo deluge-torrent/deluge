@@ -562,7 +562,7 @@ def free_space(path):
     :raises InvalidPathError: if the path is not valid
 
     """
-    if not os.path.exists(path):
+    if not path or not os.path.exists(path):
         raise InvalidPathError("%s is not a valid path" % path)
 
     if windows_check():
