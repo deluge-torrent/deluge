@@ -173,22 +173,19 @@ def get_default_download_dir():
     :rtype: string
 
     """
-    if windows_check():
-        return os.path.join(os.path.expanduser("~"), 'Downloads')
-    else:
+    download_dir = ""
+    if not windows_check():
         from xdg.BaseDirectory import xdg_config_home
-        userdir_file = os.path.join(xdg_config_home, 'user-dirs.dirs')
         try:
-            for line in open(userdir_file, 'r'):
-                if not line.startswith('#') and 'XDG_DOWNLOAD_DIR' in line:
-                        download_dir = os.path.expandvars(\
-                                        line.partition("=")[2].rstrip().strip('"'))
-                        if os.path.isdir(download_dir):
-                            return download_dir
+            for line in open(os.path.join(xdg_config_home, 'user-dirs.dirs'), 'r'):
+                if not line.startswith('#') and line.startswith('XDG_DOWNLOAD_DIR'):
+                    download_dir = os.path.expandvars(line.partition("=")[2].rstrip().strip('"'))
         except IOError:
             pass
 
-        return os.environ.get("HOME")
+    if not download_dir:
+        download_dir = os.path.join(os.path.expanduser("~"), 'Downloads')
+    return download_dir
 
 def windows_check():
     """
