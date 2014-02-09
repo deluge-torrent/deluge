@@ -180,6 +180,7 @@ def get_default_download_dir():
             for line in open(os.path.join(xdg_config_home, 'user-dirs.dirs'), 'r'):
                 if not line.startswith('#') and line.startswith('XDG_DOWNLOAD_DIR'):
                     download_dir = os.path.expandvars(line.partition("=")[2].rstrip().strip('"'))
+                    break
         except IOError:
             pass
 
