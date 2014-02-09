@@ -467,6 +467,8 @@ class Preferences(component.Component):
             elif modifier == "value":
                 widget.set_value(float(value))
             elif modifier == "text":
+                if value is None:
+                    value = ""
                 widget.set_text(value)
             elif modifier == "path_chooser":
                 widget.set_text(value, cursor_end=False, default_text=True)
