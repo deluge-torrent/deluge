@@ -373,6 +373,8 @@ class Preferences(component.Component):
                 elif modifier == "value":
                     widget.set_value(float(value))
                 elif modifier == "text":
+                    if value is None:
+                        value = ""
                     widget.set_text(value)
 
             for key in core_widgets.keys():
