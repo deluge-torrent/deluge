@@ -37,7 +37,7 @@ from twisted.internet import reactor
 
 import deluge.component as component
 from deluge.configmanager import get_config_dir
-from deluge.common import get_version, windows_check
+from deluge.common import get_version, windows_check, is_ip
 from deluge.core.rpcserver import RPCServer, export
 from deluge.error import DaemonRunningError
 from deluge.core.core import Core
@@ -110,7 +110,7 @@ class Daemon(object):
             SetConsoleCtrlHandler(win_handler)
 
         listen_interface = None
-        if options and options.listen_interface:
+        if options and options.listen_interface and is_ip(options.listen_interface):
             listen_interface = options.listen_interface
 
         # Start the core as a thread and join it until it's done

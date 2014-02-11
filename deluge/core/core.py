@@ -137,7 +137,7 @@ class Core(component.Component):
         # If there was an interface value from the command line, use it, but
         # store the one in the config so we can restore it on shutdown
         self.__old_interface = None
-        if listen_interface:
+        if listen_interface and deluge.common.is_ip(listen_interface):
             self.__old_interface = self.config["listen_interface"]
             self.config["listen_interface"] = listen_interface
 

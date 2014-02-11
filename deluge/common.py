@@ -52,7 +52,7 @@ try:
 except ImportError:
     import simplejson as json
 
-from deluge.error import *
+from deluge.error import InvalidPathError
 
 log = logging.getLogger(__name__)
 
@@ -593,10 +593,10 @@ def is_ip(ip):
     #first we test ipv4
     try:
         if windows_check():
-            if socket.inet_aton("%s" % (ip)):
+            if socket.inet_aton(ip):
                 return True
         else:
-            if socket.inet_pton(socket.AF_INET, "%s" % (ip)):
+            if socket.inet_pton(socket.AF_INET, ip):
                 return True
     except socket.error:
         if not socket.has_ipv6:
@@ -607,7 +607,7 @@ def is_ip(ip):
             log.warning("ipv6 check unavailable on windows")
             return True
         else:
-            if socket.inet_pton(socket.AF_INET6, "%s" % (ip)):
+            if socket.inet_pton(socket.AF_INET6, ip):
                 return True
     except socket.error:
         return False
