@@ -100,7 +100,8 @@ class TorrentOptions(dict):
             "move_completed_path": "move_completed_path",
             "add_paused": "add_paused",
             "shared": "shared",
-            "super_seeding": "super_seeding"
+            "super_seeding": "super_seeding",
+            "priority": "priority",
         }
         for opt_k, conf_k in options_conf_map.iteritems():
             self[opt_k] = config[conf_k]
@@ -237,7 +238,8 @@ class Torrent(object):
             "stop_at_ratio": self.set_stop_at_ratio,
             "remove_at_ratio": self.set_remove_at_ratio,
             "move_completed": self.set_move_completed,
-            "move_completed_path": self.set_move_completed_path
+            "move_completed_path": self.set_move_completed_path,
+            "priority": self.set_priority,
         }
 
         # set_prioritize_first_last is called by set_file_priorities,
@@ -386,6 +388,25 @@ class Torrent(object):
 
     def set_save_path(self, save_path):
         self.options["download_location"] = save_path
+
+
+    def set_priority(self, priority):
+        """
+        Sets the bandwidth priority of this torrent. Bandwidth is not distributed
+        strictly in order of priority, but the priority is used as a weight.
+
+        Accepted priority range is [0..255] where 0 is lowest (and default) priority.
+
+        :param priority: the torrent priority
+        :type priority: int
+
+        :raises ValueError: If value of priority is not in range [0..255]
+        """
+        if 0 <= priority <= 255:
+            self.options["priority"] = priority
+            return self.handle.set_priority(priority)
+        else:
+            raise ValueError("Torrent priority, %s, is invalid, should be [0..255]", priority)
 
     ### End Options methods ###
 
@@ -766,6 +787,7 @@ class Torrent(object):
             "super_seeding": lambda: self.status.super_seeding,
             "time_since_download": lambda: self.status.time_since_download,
             "time_since_upload": lambda: self.status.time_since_upload,
+            "priority": lambda: self.status.priority,
         }
 
     def get_name(self):
