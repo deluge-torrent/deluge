@@ -764,6 +764,8 @@ class Torrent(object):
             "pieces": self._get_pieces_info,
             "seed_mode": lambda: self.status.seed_mode,
             "super_seeding": lambda: self.status.super_seeding,
+            "time_since_download": lambda: self.status.time_since_download,
+            "time_since_upload": lambda: self.status.time_since_upload,
         }
 
     def get_name(self):
