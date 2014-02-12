@@ -570,76 +570,79 @@ class Core(component.Component):
 
     @export
     def set_torrent_max_connections(self, torrent_id, value):
+        # Deprecated method, use set_torrent_options instead
         """Sets a torrents max number of connections"""
         return self.torrentmanager[torrent_id].set_max_connections(value)
 
     @export
     def set_torrent_max_upload_slots(self, torrent_id, value):
+        # Deprecated method, use set_torrent_options instead
         """Sets a torrents max number of upload slots"""
         return self.torrentmanager[torrent_id].set_max_upload_slots(value)
 
     @export
     def set_torrent_max_upload_speed(self, torrent_id, value):
+        # Deprecated method, use set_torrent_options instead
         """Sets a torrents max upload speed"""
         return self.torrentmanager[torrent_id].set_max_upload_speed(value)
 
     @export
     def set_torrent_max_download_speed(self, torrent_id, value):
+        # Deprecated method, use set_torrent_options instead
         """Sets a torrents max download speed"""
         return self.torrentmanager[torrent_id].set_max_download_speed(value)
 
     @export
     def set_torrent_file_priorities(self, torrent_id, priorities):
+        # Deprecated method, use set_torrent_options instead
+        # Used by at least one 3rd party plugin:
         """Sets a torrents file priorities"""
         return self.torrentmanager[torrent_id].set_file_priorities(priorities)
 
     @export
     def set_torrent_prioritize_first_last(self, torrent_id, value):
+        # Deprecated method, use set_torrent_options instead
         """Sets a higher priority to the first and last pieces"""
         return self.torrentmanager[torrent_id].set_prioritize_first_last(value)
 
     @export
-    def set_torrent_sequential_download(self, torrent_id, value):
-        """Toggle sequencial pieces download"""
-        return self.torrentmanager[torrent_id].set_sequential_download(value)
-
-    @export
     def set_torrent_auto_managed(self, torrent_id, value):
+        # Deprecated method, use set_torrent_options instead
         """Sets the auto managed flag for queueing purposes"""
         return self.torrentmanager[torrent_id].set_auto_managed(value)
 
     @export
     def set_torrent_stop_at_ratio(self, torrent_id, value):
+        # Deprecated method, use set_torrent_options instead
         """Sets the torrent to stop at 'stop_ratio'"""
         return self.torrentmanager[torrent_id].set_stop_at_ratio(value)
 
     @export
     def set_torrent_stop_ratio(self, torrent_id, value):
+        # Deprecated method, use set_torrent_options instead
         """Sets the ratio when to stop a torrent if 'stop_at_ratio' is set"""
         return self.torrentmanager[torrent_id].set_stop_ratio(value)
 
     @export
     def set_torrent_remove_at_ratio(self, torrent_id, value):
+        # Deprecated method, use set_torrent_options instead
         """Sets the torrent to be removed at 'stop_ratio'"""
         return self.torrentmanager[torrent_id].set_remove_at_ratio(value)
 
     @export
     def set_torrent_move_completed(self, torrent_id, value):
+        # Deprecated method, use set_torrent_options instead
         """Sets the torrent to be moved when completed"""
         return self.torrentmanager[torrent_id].set_move_completed(value)
 
     @export
     def set_torrent_move_completed_path(self, torrent_id, value):
+        # Deprecated method, use set_torrent_options instead
         """Sets the path for the torrent to be moved when completed"""
         return self.torrentmanager[torrent_id].set_move_completed_path(value)
 
-    @export
-    def set_torrent_super_seeding(self, torrent_id, value):
-        """Sets the path for the torrent to be moved when completed"""
-        return self.torrentmanager[torrent_id].set_super_seeding(value)
-
     @export(AUTH_LEVEL_ADMIN)
-    def set_torrents_owner(self, torrent_ids, username):
+    def set_owner(self, torrent_ids, username):
         """Set's the torrent owner.
 
         :param torrent_id: the torrent_id of the torrent to remove
@@ -656,13 +659,6 @@ class Core(component.Component):
         for torrent_id in torrent_ids:
             self.torrentmanager[torrent_id].set_owner(username)
         return None
-
-    @export
-    def set_torrents_shared(self, torrent_ids, shared):
-        if isinstance(torrent_ids, basestring):
-            torrent_ids = [torrent_ids]
-        for torrent_id in torrent_ids:
-            self.torrentmanager[torrent_id].set_options({"shared": shared})
 
     @export
     def get_path_size(self, path):

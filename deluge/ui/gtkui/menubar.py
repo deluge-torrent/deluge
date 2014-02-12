@@ -543,5 +543,5 @@ class MenuBar(component.Component):
                     _("There was an error while trying changing ownership."),
                     self.window.window, details=failure.value.logable()
                 ).run()
-            client.core.set_torrents_owner(
+            client.core.set_owner(
                 update_torrents, username).addErrback(failed_change_owner)
