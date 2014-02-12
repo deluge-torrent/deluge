@@ -306,7 +306,6 @@ class TorrentView(listview.ListView, component.Component):
                                  function=funcs.cell_data_trackericon, default=False)
         self.add_text_column(_("Save Path"), status_field=["save_path"], default=False)
         self.add_text_column(_("Owner"), status_field=["owner"], default=False)
-        self.add_bool_column(_("Public"), status_field=["public"], default=False)
         self.restore_columns_order_from_state()
         self.add_bool_column(_("Shared"), status_field=["shared"],
                              tooltip=_("Torrent is shared between other Deluge "
