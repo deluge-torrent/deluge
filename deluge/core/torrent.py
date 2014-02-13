@@ -81,6 +81,36 @@ def sanitize_filepath(filepath, folder=False):
 
 
 class TorrentOptions(dict):
+    ''' The torrent options
+
+    Attributes:
+        max_connections (int): Sets maximum number of connection this torrent will open.
+            This must be at least 2. The default is unlimited (-1).
+        max_upload_slots (int): Sets the maximum number of peers that are
+            unchoked at the same time on this torrent. This defaults to infinite (-1).
+        max_upload_speed (int): Will limit the upload bandwidth used by this torrent to the limit
+            you set. The default is unlimited (-1) but will not exceed global limit.
+        max_download_speed (int): Will limit the download bandwidth used by this torrent to the
+            limit you set.The default is unlimited (-1) but will not exceed global limit.
+        prioritize_first_last_pieces (bool): Prioritize the first and last pieces in the torrent.
+        sequential_download (bool): Download the pieces of the torrent in order.
+        compact_allocation (bool): Use compact allocation instead of full allocation
+            for this torrent's data.
+        download_location (str): The path for the torrent data to be stored while downloading.
+        auto_managed (bool): Set torrent to auto managed mode, i.e. will be started or queued automatically.
+        stop_at_ratio (bool): Stop the torrent when it has reached stop_ratio.
+        stop_ratio (float): The seeding ratio to stop (or remove) the torrent at.
+        remove_at_ratio (bool): Remove the torrent when it has reached the stop_ratio
+        move_completed (bool): Move the torrent when downloading has finished.
+        move_completed_path (str): The path to move torrent to when downloading has finished.
+        add_paused (bool): Add the torrrent in a paused state.
+        shared (bool): Enable the torrent to be seen by other Deluge users.
+        super_seeding (bool): Enable super seeding/initial seeding.
+        priority (int): Torrent bandwidth priority with a range [0..255], 0 is lowest and default priority.
+        file_priorities (list of int): The priority for files in torrent, range is [0..7] however
+            only [0, 1, 5, 7] are normally used and correspond to [Do Not Download, Normal, High, Highest]
+        mapped_files (dict): A mapping of the renamed filenames in 'index:filename' pairs.
+    '''
     def __init__(self):
         config = ConfigManager("core.conf").config
         options_conf_map = {
@@ -217,40 +247,28 @@ class Torrent(object):
         self.has_metadata = True
         self.torrent_info = self.handle.get_torrent_info()
         if self.options["prioritize_first_last_pieces"]:
-            self.set_prioritize_first_last(True)
+            self.set_prioritize_first_last_pieces(True)
         self.write_torrentfile()
 
     ## Options methods ##
     def set_options(self, options):
-        OPTIONS_FUNCS = {
-            # Functions used for setting options
-            "auto_managed": self.set_auto_managed,
-            "download_location": self.set_save_path,
-            "file_priorities": self.set_file_priorities,
-            "max_connections": self.handle.set_max_connections,
-            "max_download_speed": self.set_max_download_speed,
-            "max_upload_slots": self.set_max_upload_slots,
-            "max_upload_speed": self.set_max_upload_speed,
-            "prioritize_first_last_pieces": self.set_prioritize_first_last,
-            "sequential_download": self.set_sequential_download,
-            "super_seeding": self.set_super_seeding,
-            "stop_ratio": self.set_stop_ratio,
-            "stop_at_ratio": self.set_stop_at_ratio,
-            "remove_at_ratio": self.set_remove_at_ratio,
-            "move_completed": self.set_move_completed,
-            "move_completed_path": self.set_move_completed_path,
-            "priority": self.set_priority,
-        }
+        if options is self.options:
+            options = options.copy()
 
-        # set_prioritize_first_last is called by set_file_priorities,
-        # so remove if file_priorities is set in options.
+        # set_prioritize_first_last is called by set_file_priorities so only run if not in options
         if "file_priorities" in options:
-            del OPTIONS_FUNCS["prioritize_first_last_pieces"]
+            self.options["prioritize_first_last_pieces"] = options["prioritize_first_last_pieces"]
+            del options["prioritize_first_last_pieces"]
 
-        for (key, value) in options.items():
-            if key in OPTIONS_FUNCS:
-                OPTIONS_FUNCS[key](value)
-        self.options.update(options)
+        for key, value in options.items():
+            if key in self.options:
+                options_set_func = getattr(self, "set_" + key, None)
+                if options_set_func:
+                    options_set_func(value)
+                    del options[key]
+                else:
+                    # Update config options that do not have funcs
+                    self.options.update({key:value})
 
     def get_options(self):
         return self.options
@@ -280,6 +298,10 @@ class Torrent(object):
         self.handle.set_download_limit(value)
 
     def set_prioritize_first_last(self, prioritize):
+        # Deprecated due to mismatch between option and func name
+        self.set_prioritize_first_last_pieces(prioritize)
+
+    def set_prioritize_first_last_pieces(self, prioritize):
         self.options["prioritize_first_last_pieces"] = prioritize
         if not prioritize:
             # If we are turning off this option, call set_file_priorities to
@@ -289,8 +311,7 @@ class Torrent(object):
         if not self.has_metadata:
             return
         if self.options["compact_allocation"]:
-            log.debug("Setting first/last priority with compact "
-                      "allocation does not work!")
+            log.debug("Setting first/last priority with compact allocation does not work!")
             return
         # A list of priorities for each piece in the torrent
         priorities = self.handle.piece_priorities()
@@ -384,11 +405,14 @@ class Torrent(object):
 
         # Set the first/last priorities if needed
         if self.options["prioritize_first_last_pieces"]:
-            self.set_prioritize_first_last(self.options["prioritize_first_last_pieces"])
+            self.set_prioritize_first_last_pieces(self.options["prioritize_first_last_pieces"])
 
-    def set_save_path(self, save_path):
-        self.options["download_location"] = save_path
+    def set_save_path(self, download_location):
+        # Deprecated, use download_location
+        self.set_download_location(download_location)
 
+    def set_download_location(self, download_location):
+        self.options["download_location"] = download_location
 
     def set_priority(self, priority):
         """
@@ -744,7 +768,8 @@ class Torrent(object):
             "progress": lambda: self.status.progress * 100,
             "shared": lambda: self.options["shared"],
             "remove_at_ratio": lambda: self.options["remove_at_ratio"],
-            "save_path": lambda: self.options["download_location"],
+            "save_path": lambda: self.options["download_location"],  # Deprecated, use download_location
+            "download_location": lambda: self.options["download_location"],
             "seeding_time": lambda: self.status.seeding_time,
             "seeds_peers_ratio": lambda: -1.0 if self.status.num_incomplete == 0 else
             self.status.num_complete / float(self.status.num_incomplete),  # Use -1.0 to signify infinity
@@ -1026,9 +1051,9 @@ class Torrent(object):
         Cleans up after libtorrent folder renames.
 
         """
-        info = self.get_status(['save_path'])
-        # Regex removes leading slashes that causes join function to ignore save_path
-        folder_full_path = os.path.join(info['save_path'], re.sub("^/*", "", folder))
+        info = self.get_status(['download_location'])
+        # Regex removes leading slashes that causes join function to ignore download_location
+        folder_full_path = os.path.join(info['download_location'], re.sub("^/*", "", folder))
         folder_full_path = os.path.normpath(folder_full_path)
 
         try:

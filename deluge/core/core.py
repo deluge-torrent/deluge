@@ -603,7 +603,7 @@ class Core(component.Component):
     def set_torrent_prioritize_first_last(self, torrent_id, value):
         # Deprecated method, use set_torrent_options instead
         """Sets a higher priority to the first and last pieces"""
-        return self.torrentmanager[torrent_id].set_prioritize_first_last(value)
+        return self.torrentmanager[torrent_id].set_prioritize_first_last_pieces(value)
 
     @export
     def set_torrent_auto_managed(self, torrent_id, value):

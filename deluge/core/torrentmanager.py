@@ -1034,7 +1034,7 @@ class TorrentManager(component.Component):
             torrent = self.torrents[str(alert.handle.info_hash())]
         except (RuntimeError, KeyError):
             return
-        torrent.set_save_path(os.path.normpath(alert.handle.save_path()))
+        torrent.set_download_location(os.path.normpath(alert.handle.save_path()))
         torrent.set_move_completed(False)
 
     def on_alert_storage_moved_failed(self, alert):

@@ -78,19 +78,19 @@ class TorrentTestCase(unittest.TestCase):
         atp["duplicate_is_error"] = True
         return atp
 
-    def test_set_prioritize_first_last(self):
+    def test_set_prioritize_first_last_pieces(self):
         piece_indexes = [(0, 1), (0, 1), (0, 1), (0, 1), (0, 2), (50, 52),
                          (51, 53), (110, 112), (111, 114), (200, 203),
                          (202, 203), (212, 213), (212, 218), (457, 463)]
-        self.run_test_set_prioritize_first_last("dir_with_6_files.torrent", piece_indexes)
+        self.run_test_set_prioritize_first_last_pieces("dir_with_6_files.torrent", piece_indexes)
 
-    def run_test_set_prioritize_first_last(self, torrent_file, prioritized_piece_indexes):
+    def run_test_set_prioritize_first_last_pieces(self, torrent_file, prioritized_piece_indexes):
         atp = self.get_torrent_atp(torrent_file)
         handle = self.session.add_torrent(atp)
 
         self.torrent = Torrent(handle, {})
         priorities_original = handle.piece_priorities()
-        prioritized_pieces, new_priorites = self.torrent.set_prioritize_first_last(True)
+        prioritized_pieces, new_priorites = self.torrent.set_prioritize_first_last_pieces(True)
         priorities = handle.piece_priorities()
         non_prioritized_pieces = list(range(len(priorities)))
 
@@ -113,14 +113,14 @@ class TorrentTestCase(unittest.TestCase):
 
         #self.print_priority_list(priorities)
 
-    def test_set_prioritize_first_last_false(self):
+    def test_set_prioritize_first_last_pieces_false(self):
         atp = self.get_torrent_atp("dir_with_6_files.torrent")
         handle = self.session.add_torrent(atp)
         self.torrent = Torrent(handle, {})
         # First set some pieces prioritized
-        self.torrent.set_prioritize_first_last(True)
+        self.torrent.set_prioritize_first_last_pieces(True)
         # Reset pirorities
-        self.torrent.set_prioritize_first_last(False)
+        self.torrent.set_prioritize_first_last_pieces(False)
         priorities = handle.piece_priorities()
 
         # Test the priority of the prioritized pieces

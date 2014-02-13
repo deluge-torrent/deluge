@@ -218,7 +218,7 @@ class Core(CorePluginBase):
             torrent.set_max_upload_speed(options["max_upload_speed"])
             torrent.set_max_connections(options["max_connections"])
             torrent.set_max_upload_slots(options["max_upload_slots"])
-            torrent.set_prioritize_first_last(options["prioritize_first_last"])
+            torrent.set_prioritize_first_last_pieces(options["prioritize_first_last"])
 
         if options["apply_queue"]:
             torrent.set_auto_managed(options['is_auto_managed'])
@@ -243,7 +243,7 @@ class Core(CorePluginBase):
             torrent.set_max_upload_speed(self.core_cfg.config["max_upload_speed_per_torrent"])
             torrent.set_max_connections(self.core_cfg.config["max_connections_per_torrent"])
             torrent.set_max_upload_slots(self.core_cfg.config["max_upload_slots_per_torrent"])
-            torrent.set_prioritize_first_last(self.core_cfg.config["prioritize_first_last_pieces"])
+            torrent.set_prioritize_first_last_pieces(self.core_cfg.config["prioritize_first_last_pieces"])
 
         if options["apply_queue"]:
             torrent.set_auto_managed(self.core_cfg.config['auto_managed'])
