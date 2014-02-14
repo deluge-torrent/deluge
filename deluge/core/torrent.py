@@ -111,6 +111,7 @@ class TorrentOptions(dict):
         file_priorities (list of int): The priority for files in torrent, range is [0..7] however
             only [0, 1, 5, 7] are normally used and correspond to [Do Not Download, Normal, High, Highest]
         mapped_files (dict): A mapping of the renamed filenames in 'index:filename' pairs.
+        name (str): The name of the torrent
     '''
     def __init__(self):
         config = ConfigManager("core.conf").config
@@ -139,6 +140,7 @@ class TorrentOptions(dict):
         self["file_priorities"] = []
         self["mapped_files"] = {}
         self["owner"] = None
+        self["name"] = None
 
 
 class Torrent(object):
@@ -252,19 +254,20 @@ class Torrent(object):
             options = options.copy()
 
         # set_prioritize_first_last is called by set_file_priorities so only run if not in options
+        skip_func = []
         if "file_priorities" in options:
             self.options["prioritize_first_last_pieces"] = options["prioritize_first_last_pieces"]
-            del options["prioritize_first_last_pieces"]
+            skip_func.append("prioritize_first_last_pieces")
 
         for key, value in options.items():
             if key in self.options:
                 options_set_func = getattr(self, "set_" + key, None)
-                if options_set_func:
+                if options_set_func and key not in skip_func:
                     options_set_func(value)
                     del options[key]
                 else:
                     # Update config options that do not have funcs
-                    self.options.update({key:value})
+                    self.options[key] = value
 
     def get_options(self):
         return self.options
@@ -724,6 +727,22 @@ class Torrent(object):
 
         return status_dict
 
+    def get_name(self):
+        ''' Return the name of the torrent
+
+        Can be set through options
+        :return: the name
+        :rtype: str
+        '''
+        if not self.options['name']:
+            handle_name = self.handle.name()
+            if handle_name:
+                return decode_string(handle_name)
+            else:
+                return self.torrent_id
+        else:
+            return self.options['name']
+
     def update_status(self, status):
         """
         Updates the cached status.
@@ -811,24 +830,6 @@ class Torrent(object):
             "time_since_upload": lambda: self.status.time_since_upload,
             "priority": lambda: self.status.priority,
         }
-
-    def get_name(self):
-        if self.has_metadata:
-            name = self.torrent_info.file_at(0).path.replace("\\", "/", 1).split("/", 1)[0]
-            if not name:
-                name = self.torrent_info.name()
-            return decode_string(name)
-        elif self.magnet:
-            try:
-                keys = dict([k.split('=') for k in self.magnet.split('?')[-1].split('&')])
-                name = keys.get('dn')
-                if not name:
-                    return self.torrent_id
-                name = unquote(name).replace('+', ' ')
-                return decode_string(name)
-            except:
-                pass
-        return self.torrent_id
 
     def pause(self):
         """Pause this torrent"""

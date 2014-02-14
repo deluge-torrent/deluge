@@ -57,7 +57,7 @@ import deluge.component as component
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.core.torrent import Torrent, TorrentOptions, sanitize_filepath
-from deluge.common import utf8_encoded, decode_string
+from deluge.common import utf8_encoded, decode_string, get_magnet_info
 
 log = logging.getLogger(__name__)
 
@@ -89,7 +89,8 @@ class TorrentState:
                  owner=None,
                  shared=False,
                  super_seeding=False,
-                 priority=0
+                 priority=0,
+                 name=None
                  ):
         self.torrent_id = torrent_id
         self.filename = filename
@@ -119,6 +120,7 @@ class TorrentState:
         self.super_seeding = super_seeding
         self.priority = priority
         self.owner = owner
+        self.name = name
 
 class TorrentManagerState:
     def __init__(self):
@@ -358,6 +360,7 @@ class TorrentManager(component.Component):
             options["super_seeding"] = state.super_seeding
             options["priority"] = state.priority
             options["owner"] = state.owner
+            options["name"] = state.name
 
             torrent_info = self.get_torrent_info_from_file(
                 os.path.join(self.state_dir, state.torrent_id + ".torrent"))
@@ -457,7 +460,18 @@ class TorrentManager(component.Component):
             add_torrent_params["flags"] |= lt.add_torrent_params_flags_t.flag_seed_mode
 
         if magnet:
-            add_torrent_params["url"] = utf8_encoded(magnet)
+            magnet_info = get_magnet_info(magnet)
+            if magnet_info:
+                add_torrent_params['url'] = utf8_encoded(magnet)
+                add_torrent_params['name'] = magnet_info['name']
+
+        if options['name']:
+            add_torrent_params['name'] = options['name']
+        elif torrent_info:
+            name = torrent_info.name()
+            if not name:
+                name = torrent_info.file_at(0).path.replace("\\", "/", 1).split("/", 1)[0]
+            add_torrent_params['name'] = name
 
         # We need to pause the AlertManager momentarily to prevent alerts
         # for this torrent being generated before a Torrent object is created.
@@ -698,7 +712,8 @@ class TorrentManager(component.Component):
                 torrent.options["owner"],
                 torrent.options["shared"],
                 torrent.options["super_seeding"],
-                torrent.options["priority"]
+                torrent.options["priority"],
+                torrent.options["name"]
             )
             state.torrents.append(torrent_state)
 
