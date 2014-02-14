@@ -48,6 +48,7 @@ import deluge.component as component
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.event import TorrentStateChangedEvent, TorrentFolderRenamedEvent
 from deluge.common import decode_string
+from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 
 TORRENT_STATE = deluge.common.TORRENT_STATE
 
@@ -137,12 +138,13 @@ class TorrentOptions(dict):
             self[opt_k] = config[conf_k]
         self["file_priorities"] = []
         self["mapped_files"] = {}
+        self["owner"] = None
 
 
 class Torrent(object):
     """Torrent holds information about torrents added to the libtorrent session.
     """
-    def __init__(self, handle, options, state=None, filename=None, magnet=None, owner=None):
+    def __init__(self, handle, options, state=None, filename=None, magnet=None):
         # Set the torrent_id for this torrent
         self.torrent_id = str(handle.info_hash())
 
@@ -225,12 +227,6 @@ class Torrent(object):
 
         # This gets updated when get_tracker_host is called
         self.tracker_host = None
-
-        # Keep track of the owner
-        if state:
-            self.owner = state.owner
-        else:
-            self.owner = owner
 
         # Keep track if we're forcing a recheck of the torrent so that we can
         # re-pause it after its done if necessary
@@ -432,6 +428,10 @@ class Torrent(object):
         else:
             raise ValueError("Torrent priority, %s, is invalid, should be [0..255]", priority)
 
+    def set_owner(self, account):
+        if self.rpcserver.get_session_auth_level() == AUTH_LEVEL_ADMIN:
+            self.options["owner"] = account
+
     ### End Options methods ###
 
     def set_trackers(self, trackers):
@@ -473,9 +473,6 @@ class Torrent(object):
     def set_tracker_status(self, status):
         """Sets the tracker status"""
         self.tracker_status = self.get_tracker_host() + ": " + status
-
-    def set_owner(self, account):
-        self.owner = account
 
     def update_state(self):
         """Updates the state based on what libtorrent's state for the torrent is"""
@@ -761,7 +758,7 @@ class Torrent(object):
             "next_announce": lambda: self.status.next_announce.seconds,
             "num_peers": lambda: self.status.num_peers - self.status.num_seeds,
             "num_seeds": lambda: self.status.num_seeds,
-            "owner": lambda: self.owner,
+            "owner": lambda: self.options["owner"],
             "paused": lambda: self.status.paused,
             "prioritize_first_last": lambda: self.options["prioritize_first_last_pieces"],
             "sequential_download": lambda: self.options["sequential_download"],

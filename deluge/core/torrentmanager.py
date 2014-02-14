@@ -97,7 +97,6 @@ class TorrentState:
         self.queue = queue
         self.is_finished = is_finished
         self.magnet = magnet
-        self.owner = owner
 
         # Options
         self.compact = compact
@@ -119,7 +118,7 @@ class TorrentState:
         self.shared = shared
         self.super_seeding = super_seeding
         self.priority = priority
-
+        self.owner = owner
 
 class TorrentManagerState:
     def __init__(self):
@@ -317,7 +316,7 @@ class TorrentManager(component.Component):
             return torrent_info
 
     def add(self, torrent_info=None, state=None, options=None, save_state=True,
-            filedump=None, filename=None, magnet=None, resume_data=None, seed_mode=False, owner=None):
+            filedump=None, filename=None, magnet=None, resume_data=None, seed_mode=False):
         """Add a torrent to the manager and returns it's torrent_id"""
         if torrent_info is None and state is None and filedump is None and magnet is None:
             log.debug("You must specify a valid torrent_info, torrent state or magnet.")
@@ -358,7 +357,7 @@ class TorrentManager(component.Component):
             options["shared"] = state.shared
             options["super_seeding"] = state.super_seeding
             options["priority"] = state.priority
-            owner = state.owner
+            options["owner"] = state.owner
 
             torrent_info = self.get_torrent_info_from_file(
                 os.path.join(self.state_dir, state.torrent_id + ".torrent"))
@@ -430,11 +429,11 @@ class TorrentManager(component.Component):
         if log.isEnabledFor(logging.DEBUG):
             log.debug("options: %s", options)
 
-        if not owner:
-            owner = component.get("RPCServer").get_session_user()
-        account_exists = component.get("AuthManager").has_account(owner)
+        if not options["owner"]:
+            options["owner"] = component.get("RPCServer").get_session_user()
+        account_exists = component.get("AuthManager").has_account(options["owner"])
         if not account_exists:
-            owner = "localclient"
+            options["owner"] = "localclient"
 
         # Set the right storage_mode
         if options["compact_allocation"]:
@@ -481,7 +480,7 @@ class TorrentManager(component.Component):
         # Set auto_managed to False because the torrent is paused
         handle.auto_managed(False)
         # Create a Torrent object
-        torrent = Torrent(handle, options, state, filename, magnet, owner)
+        torrent = Torrent(handle, options, state, filename, magnet)
 
         # Add the torrent object to the dictionary
         self.torrents[torrent.torrent_id] = torrent
@@ -696,7 +695,7 @@ class TorrentManager(component.Component):
                 torrent.options["move_completed"],
                 torrent.options["move_completed_path"],
                 torrent.magnet,
-                torrent.owner,
+                torrent.options["owner"],
                 torrent.options["shared"],
                 torrent.options["super_seeding"],
                 torrent.options["priority"]
