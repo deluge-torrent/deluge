@@ -532,6 +532,13 @@ class Core(component.Component):
         return self.session.listen_port()
 
     @export
+    def get_i2p_proxy(self):
+        """Returns the active listen port"""
+        i2p_settings = self.session.i2p_proxy()
+        i2p_dict = {"hostname": i2p_settings.hostname, "port": i2p_settings.port}
+        return i2p_dict
+
+    @export
     def get_available_plugins(self):
         """Returns a list of plugins available in the core"""
         return self.pluginmanager.get_available_plugins()

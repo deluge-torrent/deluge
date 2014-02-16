@@ -140,6 +140,10 @@ DEFAULT_PREFS = {
         },
 
     },
+    "i2p_proxy": {
+        "hostname": "",
+        "port": 0
+    },
     "outgoing_ports": [0, 0],
     "random_outgoing_ports": True,
     "peer_tos": "0x00",
@@ -437,6 +441,16 @@ class PreferencesManager(component.Component):
                 proxy_settings.port = v["port"]
                 log.debug("setting %s proxy settings", k)
                 getattr(self.session, "set_%s_proxy" % k)(proxy_settings)
+
+    def _on_set_i2p_proxy(self, key, value):
+        log.debug("Setting I2P proxy to: %s", value)
+        proxy_settings = lt.proxy_settings()
+        proxy_settings.hostname = value["hostname"]
+        proxy_settings.port = value["port"]
+        try:
+            self.session.set_i2p_proxy(proxy_settings)
+        except RuntimeError as ex:
+            log.error("Unable to set I2P Proxy: %s", ex)
 
     def _on_set_rate_limit_ip_overhead(self, key, value):
         log.debug("%s: %s", key, value)
