@@ -109,36 +109,18 @@ DEFAULT_PREFS = {
     "path_chooser_max_popup_rows": 20,
     "path_chooser_show_hidden_files": False,
     "new_release_check": True,
-    "proxies": {
-        "peer": {
-            "type": 0,
-            "hostname": "",
-            "username": "",
-            "password": "",
-            "port": 8080
-        },
-        "web_seed": {
-            "type": 0,
-            "hostname": "",
-            "username": "",
-            "password": "",
-            "port": 8080
-        },
-        "tracker": {
-            "type": 0,
-            "hostname": "",
-            "username": "",
-            "password": "",
-            "port": 8080
-        },
-        "dht": {
-            "type": 0,
-            "hostname": "",
-            "username": "",
-            "password": "",
-            "port": 8080
-        },
-
+    "proxy": {
+        "type": 0,
+        "hostname": "",
+        "username": "",
+        "password": "",
+        "port": 8080,
+        "proxy_hostnames": True,
+        "proxy_peer_connections": True,
+    },
+    "i2p_proxy": {
+        "hostname": "",
+        "port": 0
     },
     "i2p_proxy": {
         "hostname": "",
@@ -162,6 +144,11 @@ class PreferencesManager(component.Component):
     def __init__(self):
         component.Component.__init__(self, "PreferencesManager")
         self.config = deluge.configmanager.ConfigManager("core.conf", DEFAULT_PREFS)
+        if "proxies" in self.config:
+            log.warning("Updating config file for proxy, using 'peer' values to fill new 'proxy' setting")
+            self.config["proxy"].update(self.config["proxies"]['peer'])
+            log.warning("New proxy config is: %s", self.config["proxy"])
+            del self.config["proxies"]
 
     def start(self):
         self.core = component.get("Core")
@@ -430,17 +417,25 @@ class PreferencesManager(component.Component):
             if self.new_release_timer and self.new_release_timer.running:
                 self.new_release_timer.stop()
 
-    def _on_set_proxies(self, key, value):
-        for k, v in value.items():
-            if v["type"]:
-                proxy_settings = lt.proxy_settings()
-                proxy_settings.type = lt.proxy_type(v["type"])
-                proxy_settings.username = str(v["username"])
-                proxy_settings.password = str(v["password"])
-                proxy_settings.hostname = str(v["hostname"])
-                proxy_settings.port = v["port"]
-                log.debug("setting %s proxy settings", k)
-                getattr(self.session, "set_%s_proxy" % k)(proxy_settings)
+    def _on_set_proxy(self, key, value):
+        log.debug("Setting proxy to: %s", value)
+        proxy_settings = lt.proxy_settings()
+        proxy_settings.type = lt.proxy_type(value["type"])
+        proxy_settings.username = value["username"]
+        proxy_settings.password = value["password"]
+        proxy_settings.hostname = value["hostname"]
+        proxy_settings.port = v["port"]
+        self.session.set_proxy(proxy_settings)
+
+    def _on_set_i2p_proxy(self, key, value):
+        log.debug("Setting I2P proxy to: %s", value)
+        proxy_settings = lt.proxy_settings()
+        proxy_settings.hostname = value["hostname"]
+        proxy_settings.port = value["port"]
+        try:
+            self.session.set_i2p_proxy(proxy_settings)
+        except RuntimeError as ex:
+            log.error("Unable to set I2P Proxy: %s", ex)
 
     def _on_set_i2p_proxy(self, key, value):
         log.debug("Setting I2P proxy to: %s", value)

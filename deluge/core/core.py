@@ -539,6 +539,21 @@ class Core(component.Component):
         return i2p_dict
 
     @export
+    def get_proxy(self):
+        """Returns the active listen port"""
+        proxy_settings = self.session.proxy()
+        proxy_dict = {
+            "type": proxy_settings.type.real,
+            "hostname": proxy_settings.hostname,
+            "username": proxy_settings.username,
+            "password": proxy_settings.password,
+            "port": proxy_settings.port,
+            "proxy_hostnames": proxy_settings.proxy_hostnames,
+            "proxy_peer_connections": proxy_settings.proxy_peer_connections
+        }
+        return proxy_dict
+
+    @export
     def get_available_plugins(self):
         """Returns a list of plugins available in the core"""
         return self.pluginmanager.get_available_plugins()
