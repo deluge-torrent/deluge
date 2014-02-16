@@ -110,6 +110,12 @@ Deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
             height: 22,
             boxLabel: _('Prioritize first and last pieces of torrent')
         }));
+        optMan.bind('sequential_download', fieldset.add({
+            name: 'sequential_download',
+            labelSeparator: '',
+            height: 22,
+            boxLabel: _('Sequential download'),
+        }));
         optMan.bind('add_paused', fieldset.add({
             name: 'add_paused',
             labelSeparator: '',

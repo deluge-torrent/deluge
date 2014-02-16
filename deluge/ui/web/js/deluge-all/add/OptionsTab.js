@@ -126,15 +126,21 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             autoHeight: true,
             defaultType: 'checkbox'
         });
-        this.optionsManager.bind('add_paused', fieldset.add({
-            name: 'add_paused',
-            boxLabel: _('Add In Paused State'),
-            fieldLabel: '',
-            labelSeparator: ''
-        }));
         this.optionsManager.bind('prioritize_first_last_pieces', fieldset.add({
             name: 'prioritize_first_last_pieces',
             boxLabel: _('Prioritize First/Last Pieces'),
+            fieldLabel: '',
+            labelSeparator: ''
+        }));
+        this.optionsManager.bind('sequential_download', fieldset.add({
+            name: 'sequential_download',
+            boxLabel: _('Sequential download'),
+            fieldLabel: '',
+            labelSeparator: ''
+        }));
+        this.optionsManager.bind('add_paused', fieldset.add({
+            name: 'add_paused',
+            boxLabel: _('Add In Paused State'),
             fieldLabel: '',
             labelSeparator: ''
         }));
@@ -151,13 +157,14 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
         'max_connections_per_torrent','max_download_speed_per_torrent',
         'move_completed', 'move_completed_path',
         'max_upload_slots_per_torrent','max_upload_speed_per_torrent',
-        'prioritize_first_last_pieces'];
+        'prioritize_first_last_pieces', 'sequential_download'];
 
         deluge.client.core.get_config_values(keys, {
             success: function(config) {
                 var options = {
                     'file_priorities': [],
                     'add_paused': config.add_paused,
+                    'sequential_download': config.sequential_download,
                     'pre_allocate_storage': config.pre_allocate_storage,
                     'download_location': config.download_location,
                     'move_completed': config.move_completed,
