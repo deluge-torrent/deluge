@@ -11,6 +11,7 @@
  * geoip-database (optional)
  * setproctitle (optional)
  * pillow (optional)
+ * pydblite
  * rencode >= 1.0.2 (optional), python port bundled.
 
 === Gtk UI ===

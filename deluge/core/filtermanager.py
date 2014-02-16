@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
+# Copyright (c) 2016 bendikro <bro.devel+deluge@gmail.com>
 #
 # This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
 # the additional special exception to link portions of this program with the OpenSSL library.
@@ -10,259 +11,60 @@
 import logging
 
 import deluge.component as component
-from deluge.common import TORRENT_STATE
+from deluge.core.authmanager import AUTH_LEVEL_ADMIN
+from deluge.filterdb import FilterDB
 
 log = logging.getLogger(__name__)
 
-STATE_SORT = ['All', 'Active'] + TORRENT_STATE
 
-
-# Special purpose filters:
-def filter_keywords(torrent_ids, values):
-    # Cleanup
-    keywords = ','.join([v.lower() for v in values])
-    keywords = keywords.split(',')
-
-    for keyword in keywords:
-        torrent_ids = filter_one_keyword(torrent_ids, keyword)
-    return torrent_ids
-
-
-def filter_one_keyword(torrent_ids, keyword):
+class FilterManager(object):
     """
-    search torrent on keyword.
-    searches title,state,tracker-status,tracker,files
-    """
-    all_torrents = component.get('TorrentManager').torrents
-
-    for torrent_id in torrent_ids:
-        torrent = all_torrents[torrent_id]
-        if keyword in torrent.filename.lower():
-            yield torrent_id
-        elif keyword in torrent.state.lower():
-            yield torrent_id
-        elif torrent.trackers and keyword in torrent.trackers[0]['url']:
-            yield torrent_id
-        elif keyword in torrent_id:
-            yield torrent_id
-        # Want to find broken torrents (search on "error", or "unregistered")
-        elif keyword in torrent.tracker_status.lower():
-            yield torrent_id
-        else:
-            for t_file in torrent.get_files():
-                if keyword in t_file['path'].lower():
-                    yield torrent_id
-                    break
-
-
-def filter_by_name(torrent_ids, search_string):
-    all_torrents = component.get('TorrentManager').torrents
-    try:
-        search_string, match_case = search_string[0].split('::match')
-    except ValueError:
-        search_string = search_string[0]
-        match_case = False
-
-    if match_case is False:
-        search_string = search_string.lower()
-
-    for torrent_id in torrent_ids:
-        torrent_name = all_torrents[torrent_id].get_name()
-        if match_case is False:
-            torrent_name = all_torrents[torrent_id].get_name().lower()
-        else:
-            torrent_name = all_torrents[torrent_id].get_name()
-
-        if search_string in torrent_name:
-            yield torrent_id
-
-
-def tracker_error_filter(torrent_ids, values):
-    filtered_torrent_ids = []
-    tm = component.get('TorrentManager')
-
-    # If this is a tracker_host, then we need to filter on it
-    if values[0] != 'Error':
-        for torrent_id in torrent_ids:
-            if values[0] == tm[torrent_id].get_status(['tracker_host'])['tracker_host']:
-                filtered_torrent_ids.append(torrent_id)
-        return filtered_torrent_ids
-
-    # Check torrent's tracker_status for 'Error:' and return those torrent_ids
-    for torrent_id in torrent_ids:
-        if 'Error:' in tm[torrent_id].get_status(['tracker_status'])['tracker_status']:
-            filtered_torrent_ids.append(torrent_id)
-    return filtered_torrent_ids
-
-
-class FilterManager(component.Component):
-    """FilterManager
+    FilterManager is used to keep track of which users have access to
+    the different torrents.
 
     """
     def __init__(self, core):
-        component.Component.__init__(self, 'FilterManager')
         log.debug('FilterManager init..')
         self.core = core
         self.torrents = core.torrentmanager
-        self.registered_filters = {}
-        self.register_filter('keyword', filter_keywords)
-        self.register_filter('name', filter_by_name)
-        self.tree_fields = {}
+        self.filter_db = FilterDB()
 
-        self.register_tree_field('state', self._init_state_tree)
+        component.get('EventManager').register_event_handler('TorrentAddedEvent', self.on_torrent_added)
+        component.get('EventManager').register_event_handler('TorrentRemovedEvent', self.on_torrent_removed)
 
-        def _init_tracker_tree():
-            return {'Error': 0}
-        self.register_tree_field('tracker_host', _init_tracker_tree)
+    def on_torrent_added(self, torrent_id, from_state):
+        status = self.torrents[torrent_id].get_status(['owner', 'shared'])
+        status['torrent_id'] = torrent_id
+        self.filter_db.insert(**status)
 
-        self.register_filter('tracker_host', tracker_error_filter)
+    def on_torrent_removed(self, torrent_id):
+        records = self.filter_db(torrent_id=torrent_id)
+        if not records:
+            return
+        self.filter_db.delete(records[0])
 
-        def _init_users_tree():
-            return {'': 0}
-        self.register_tree_field('owner', _init_users_tree)
-
-    def filter_torrent_ids(self, filter_dict):
+    def get_torrents_filter(self):
         """
-        returns a list of torrent_id's matching filter_dict.
-        core filter method
+        Get a filter for the torrents this user has permissions to view.
+
+        Returns:
+            pydblite.common.Filter: a filter for the torrent IDs this user has access to
         """
-        if not filter_dict:
-            return self.torrents.get_torrent_list()
+        if component.get('RPCServer').get_session_auth_level() == AUTH_LEVEL_ADMIN:
+            return self.filter_db.filter()
+        user = component.get('RPCServer').get_session_user()
+        return (self.filter_db('owner') == user) | (self.filter_db('shared') == True)  # noqa pylint: disable=singleton-comparison
 
-        # Sanitize input: filter-value must be a list of strings
-        for key, value in filter_dict.items():
-            if isinstance(value, basestring):
-                filter_dict[key] = [value]
-
-        # Optimized filter for id
-        if 'id' in filter_dict:
-            torrent_ids = list(filter_dict['id'])
-            del filter_dict['id']
-        else:
-            torrent_ids = self.torrents.get_torrent_list()
-
-        # Return if there's nothing more to filter
-        if not filter_dict:
-            return torrent_ids
-
-        # Special purpose, state=Active.
-        if 'state' in filter_dict:
-            # We need to make sure this is a list for the logic below
-            filter_dict['state'] = list(filter_dict['state'])
-
-        if 'state' in filter_dict and 'Active' in filter_dict['state']:
-            filter_dict['state'].remove('Active')
-            if not filter_dict['state']:
-                del filter_dict['state']
-            torrent_ids = self.filter_state_active(torrent_ids)
-
-        if not filter_dict:
-            return torrent_ids
-
-        # Registered filters
-        for field, values in filter_dict.items():
-            if field in self.registered_filters:
-                # Filters out doubles
-                torrent_ids = list(set(self.registered_filters[field](torrent_ids, values)))
-                del filter_dict[field]
-
-        if not filter_dict:
-            return torrent_ids
-
-        torrent_keys, plugin_keys = self.torrents.separate_keys(filter_dict.keys(), torrent_ids)
-        # Leftover filter arguments, default filter on status fields.
-        for torrent_id in list(torrent_ids):
-            status = self.core.create_torrent_status(torrent_id, torrent_keys, plugin_keys)
-            for field, values in filter_dict.iteritems():
-                if field in status and status[field] in values:
-                    continue
-                elif torrent_id in torrent_ids:
-                    torrent_ids.remove(torrent_id)
-        return torrent_ids
-
-    def get_filter_tree(self, show_zero_hits=True, hide_cat=None):
+    def get_torrent_list(self):
         """
-        returns {field: [(value,count)] }
-        for use in sidebar.
+        Get the list of torrents.
+
+        Returns:
+            dict: A dictionary with {torrent_id: Torrent, ...}
         """
-        torrent_ids = self.torrents.get_torrent_list()
-        tree_keys = list(self.tree_fields.keys())
-        if hide_cat:
-            for cat in hide_cat:
-                tree_keys.remove(cat)
-
-        torrent_keys, plugin_keys = self.torrents.separate_keys(tree_keys, torrent_ids)
-        items = dict((field, self.tree_fields[field]()) for field in tree_keys)
-
-        for torrent_id in list(torrent_ids):
-            status = self.core.create_torrent_status(torrent_id, torrent_keys, plugin_keys)  # status={key:value}
-            for field in tree_keys:
-                value = status[field]
-                items[field][value] = items[field].get(value, 0) + 1
-
-        if 'tracker_host' in items:
-            items['tracker_host']['All'] = len(torrent_ids)
-            items['tracker_host']['Error'] = len(tracker_error_filter(torrent_ids, ('Error',)))
-
-        if not show_zero_hits:
-            for cat in ['state', 'owner', 'tracker_host']:
-                if cat in tree_keys:
-                    self._hide_state_items(items[cat])
-
-        # Return a dict of tuples:
-        sorted_items = {}
-        for field in tree_keys:
-            sorted_items[field] = sorted(items[field].iteritems())
-
-        if 'state' in tree_keys:
-            sorted_items['state'].sort(self._sort_state_items)
-
-        return sorted_items
-
-    def _init_state_tree(self):
-        init_state = {}
-        init_state['All'] = len(self.torrents.get_torrent_list())
-        for state in TORRENT_STATE:
-            init_state[state] = 0
-        init_state['Active'] = len(self.filter_state_active(self.torrents.get_torrent_list()))
-        return init_state
-
-    def register_filter(self, filter_id, filter_func, filter_value=None):
-        self.registered_filters[filter_id] = filter_func
-
-    def deregister_filter(self, filter_id):
-        del self.registered_filters[filter_id]
-
-    def register_tree_field(self, field, init_func=lambda: {}):
-        self.tree_fields[field] = init_func
-
-    def deregister_tree_field(self, field):
-        if field in self.tree_fields:
-            del self.tree_fields[field]
-
-    def filter_state_active(self, torrent_ids):
-        for torrent_id in list(torrent_ids):
-            status = self.torrents[torrent_id].get_status(['download_payload_rate', 'upload_payload_rate'])
-            if status['download_payload_rate'] or status['upload_payload_rate']:
-                pass
-            else:
-                torrent_ids.remove(torrent_id)
-        return torrent_ids
-
-    def _hide_state_items(self, state_items):
-        """For hide(show)-zero hits"""
-        for (value, count) in state_items.items():
-            if value != 'All' and count == 0:
-                del state_items[value]
-
-    def _sort_state_items(self, x, y):
-        if x[0] in STATE_SORT:
-            ix = STATE_SORT.index(x[0])
-        else:
-            ix = 99
-        if y[0] in STATE_SORT:
-            iy = STATE_SORT.index(y[0])
-        else:
-            iy = 99
-
-        return ix - iy
+        torrents_filter = self.get_torrents_filter()
+        # It's not filtered, so use the torrentmanagers dict keys instead
+        # to avoid unecessary work i the database
+        if not torrents_filter.is_filtered():
+            return self.torrents.torrents
+        return torrents_filter.db.get_unique_ids('torrent_id', db_filter=torrents_filter)

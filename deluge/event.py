@@ -250,6 +250,14 @@ class SessionResumedEvent(DelugeEvent):
     pass
 
 
+class SessionProxyUpdateEvent(DelugeEvent):
+    """
+    Emitted when an event has made changes to the torrent cache in the session proxy.
+    """
+    def __init__(self, torrent_id, **kw):
+        self._args = [torrent_id, kw]
+
+
 class ConfigValueChangedEvent(DelugeEvent):
     """
     Emitted when a config value changes in the Core.
