@@ -84,7 +84,7 @@ class TorrentOptions(dict):
         priority (int): Torrent bandwidth priority with a range [0..255], 0 is lowest and default priority.
         file_priorities (list of int): The priority for files in torrent, range is [0..7] however
             only [0, 1, 5, 7] are normally used and correspond to [Do Not Download, Normal, High, Highest]
-        mapped_files (dict): A mapping of the renamed filenames in "index:filename" pairs.
+        mapped_files (dict): A mapping of the renamed filenames in 'index:filename' pairs.
         name (str): The name of the torrent
     """
     def __init__(self):
@@ -439,11 +439,11 @@ class Torrent(object):
         self.handle.prioritize_files(file_priorities)
 
         if 0 in self.options["file_priorities"]:
-            # We have previously marked a file "Do Not Download"
+            # We have previously marked a file 'Do Not Download'
             # Check to see if we have changed any 0's to >0 and change state accordingly
             for index, priority in enumerate(self.options["file_priorities"]):
                 if priority == 0 and file_priorities[index] > 0:
-                    # We have a changed "Do Not Download" to a download priority
+                    # We have a changed 'Do Not Download' to a download priority
                     self.is_finished = False
                     self.update_state()
                     break
@@ -556,7 +556,7 @@ class Torrent(object):
 
         # First we check for an error from libtorrent, and set the state to that if any occurred.
         if status.error or self.statusmsg.startswith("Error:"):
-            # This is an error"d torrent
+            # This is an error'd torrent
             self.state = "Error"
             if status.error:
                 self.set_status_message(status.error)
@@ -612,7 +612,7 @@ class Torrent(object):
         """
         status = self.status
         if self.is_finished and self.options["stop_at_ratio"]:
-            # We're a seed, so calculate the time to the "stop_share_ratio"
+            # We're a seed, so calculate the time to the 'stop_share_ratio'
             if not status.upload_payload_rate:
                 return 0
             stop_ratio = self.options["stop_ratio"]
@@ -762,7 +762,7 @@ class Torrent(object):
                 except socket.error:
                     pass
                 else:
-                    # This is an IP address because an exception wasn"t raised
+                    # This is an IP address because an exception wasn't raised
                     return url.hostname
 
                 parts = host.split(".")
@@ -938,7 +938,7 @@ class Torrent(object):
         if self.status.paused:
             # This torrent was probably paused due to being auto managed by lt
             # Since we turned auto_managed off, we should update the state which should
-            # show it as "Paused".  We need to emit a torrent_paused signal because
+            # show it as 'Paused'.  We need to emit a torrent_paused signal because
             # the torrent_paused alert from libtorrent will not be generated.
             self.update_state()
             component.get("EventManager").emit(TorrentStateChangedEvent(self.torrent_id, "Paused"))
@@ -960,7 +960,7 @@ class Torrent(object):
         self.set_status_message("OK")
 
         if self.status.is_finished:
-            # If the torrent has already reached it's "stop_seed_ratio" then do not do anything
+            # If the torrent has already reached it's 'stop_seed_ratio' then do not do anything
             if self.options["stop_at_ratio"]:
                 if self.get_ratio() >= self.options["stop_ratio"]:
                     #XXX: This should just be returned in the RPC Response, no event
