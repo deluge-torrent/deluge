@@ -69,8 +69,7 @@ class TorrentOptions(dict):
             limit you set.The default is unlimited (-1) but will not exceed global limit.
         prioritize_first_last_pieces (bool): Prioritize the first and last pieces in the torrent.
         sequential_download (bool): Download the pieces of the torrent in order.
-        compact_allocation (bool): Use compact allocation instead of full allocation
-            for this torrent's data.
+        pre_allocate_storage (bool): When adding the torrent should all files be pre-allocated.
         download_location (str): The path for the torrent data to be stored while downloading.
         auto_managed (bool): Set torrent to auto managed mode, i.e. will be started or queued automatically.
         stop_at_ratio (bool): Stop the torrent when it has reached stop_ratio.
@@ -97,7 +96,7 @@ class TorrentOptions(dict):
             "max_download_speed": "max_download_speed_per_torrent",
             "prioritize_first_last_pieces": "prioritize_first_last_pieces",
             "sequential_download": "sequential_download",
-            "compact_allocation": "compact_allocation",
+            "pre_allocate_storage": "pre_allocate_storage",
             "download_location": "download_location",
             "auto_managed": "auto_managed",
             "stop_at_ratio": "stop_seed_at_ratio",
@@ -313,7 +312,7 @@ class Torrent(object):
             return
         if not self.has_metadata:
             return
-        if self.options["compact_allocation"]:
+        if self.get_status(["storage_mode"])["storage_mode"] == "compact":
             log.debug("Setting first/last priority with compact allocation does not work!")
             return
         # A list of priorities for each piece in the torrent
@@ -348,8 +347,11 @@ class Torrent(object):
         Args:
             set_sequencial (bool): Enable sequencial downloading.
         """
-        self.options["sequential_download"] = set_sequencial
-        self.handle.set_sequential_download(set_sequencial)
+        if self.get_status(["storage_mode"])["storage_mode"] != "compact":
+            self.options["sequential_download"] = set_sequencial
+            self.handle.set_sequential_download(set_sequencial)
+        else:
+            self.options["sequential_download"] = False
 
     def set_auto_managed(self, auto_managed):
         """Set auto managed mode, i.e. will be started or queued automatically.
@@ -428,7 +430,7 @@ class Torrent(object):
             self.options["file_priorities"] = self.handle.file_priorities()
             return
 
-        if self.options["compact_allocation"]:
+        if self.get_status(["storage_mode"])["storage_mode"] == "compact":
             log.warning("Setting file priority with compact allocation does not work!")
             self.options["file_priorities"] = self.handle.file_priorities()
             return
@@ -853,7 +855,7 @@ class Torrent(object):
         self.status_funcs = {
             "active_time": lambda: self.status.active_time,
             "all_time_download": lambda: self.status.all_time_download,
-            "compact": lambda: self.options["compact_allocation"],
+            "storage_mode": lambda: self.status.storage_mode.name.split("_")[2],  # Returns: sparse, allocate or compact
             "distributed_copies": lambda: 0.0 if self.status.distributed_copies < 0 else
             self.status.distributed_copies,  # Adjust status.distributed_copies to return a non-negative value
             "download_payload_rate": lambda: self.status.download_payload_rate,

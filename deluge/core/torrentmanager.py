@@ -67,7 +67,7 @@ class TorrentState:
                  torrent_id=None,
                  filename=None,
                  trackers=None,
-                 compact=False,
+                 storage_mode="sparse",
                  paused=False,
                  save_path=None,
                  max_connections=-1,
@@ -100,7 +100,7 @@ class TorrentState:
         self.magnet = magnet
 
         # Options
-        self.compact = compact
+        self.storage_mode = storage_mode
         self.paused = paused
         self.save_path = save_path
         self.max_connections = max_connections
@@ -347,7 +347,8 @@ class TorrentManager(component.Component):
             options["prioritize_first_last_pieces"] = state.prioritize_first_last
             options["sequential_download"] = state.sequential_download
             options["file_priorities"] = state.file_priorities
-            options["compact_allocation"] = state.compact
+            storage_mode = state.storage_mode
+            options["pre_allocate_storage"] = (storage_mode == "allocate")
             options["download_location"] = state.save_path
             options["auto_managed"] = state.auto_managed
             options["stop_at_ratio"] = state.stop_at_ratio
@@ -361,6 +362,7 @@ class TorrentManager(component.Component):
             options["priority"] = state.priority
             options["owner"] = state.owner
             options["name"] = state.name
+
 
             torrent_info = self.get_torrent_info_from_file(
                 os.path.join(self.state_dir, state.torrent_id + ".torrent"))
@@ -427,6 +429,11 @@ class TorrentManager(component.Component):
                     except TypeError:
                         torrent_info.rename_file(index, fname.encode("utf-8"))
 
+            if options["pre_allocate_storage"]:
+                storage_mode = "allocate"
+            else:
+                storage_mode = "sparse"
+
             add_torrent_params["ti"] = torrent_info
 
         if log.isEnabledFor(logging.DEBUG):
@@ -438,15 +445,13 @@ class TorrentManager(component.Component):
         if not account_exists:
             options["owner"] = "localclient"
 
-        # Set the right storage_mode
-        if options["compact_allocation"]:
-            storage_mode = lt.storage_mode_t(2)
-        else:
-            storage_mode = lt.storage_mode_t(1)
-
         # Fill in the rest of the add_torrent_params dictionary
         add_torrent_params["save_path"] = utf8_encoded(options["download_location"])
-        add_torrent_params["storage_mode"] = storage_mode
+
+        try:
+            add_torrent_params["storage_mode"] = lt.storage_mode_t.names["storage_mode_" + storage_mode]
+        except KeyError:
+            add_torrent_params["storage_mode"] = lt.storage_mode_t.storage_mode_sparse
 
         default_flags = (lt.add_torrent_params_flags_t.flag_paused |
                          lt.add_torrent_params_flags_t.flag_auto_managed |
@@ -643,14 +648,17 @@ class TorrentManager(component.Component):
         if state is None:
             state = TorrentManagerState()
 
-        # Fixup an old state by adding missing TorrentState options and assigning them None
+        # Fixup an old state by adding missing TorrentState options and assigning default values
         try:
             if len(state.torrents) > 0:
                 state_tmp = TorrentState()
                 if dir(state.torrents[0]) != dir(state_tmp):
                     for attr in (set(dir(state_tmp)) - set(dir(state.torrents[0]))):
                         for s in state.torrents:
-                            setattr(s, attr, getattr(state_tmp, attr, None))
+                            if attr == "storage_mode" and getattr(s, "compact", None):
+                                setattr(s, attr, "compact")
+                            else:
+                                setattr(s, attr, getattr(state_tmp, attr, None))
         except Exception, e:
             log.exception("Unable to update state file to a compatible version: %s", e)
 
@@ -690,7 +698,7 @@ class TorrentManager(component.Component):
                 torrent.torrent_id,
                 torrent.filename,
                 torrent.trackers,
-                torrent.options["compact_allocation"],
+                torrent.get_status(["storage_mode"])["storage_mode"],
                 paused,
                 torrent.options["download_location"],
                 torrent.options["max_connections"],

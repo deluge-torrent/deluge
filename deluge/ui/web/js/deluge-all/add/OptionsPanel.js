@@ -137,34 +137,12 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
     },
 
     onFilesChecked: function(nodes, newValue, oldValue) {
-        if (this.form.optionsManager.get('compact_allocation')) {
-            Ext.Msg.show({
-                title: _('Unable to set file priority!'),
-                msg:   _('File prioritization is unavailable when using Compact allocation. Would you like to switch to Full allocation?'),
-                buttons: Ext.Msg.YESNO,
-                fn: function(result) {
-                    if (result == 'yes') {
-                        this.form.optionsManager.update('compact_allocation', false);
-                        Ext.each(nodes, function(node) {
-                            if (node.attributes.fileindex < 0) return;
-                            var priorities = this.form.optionsManager.get('file_priorities');
-                            priorities[node.attributes.fileindex] = newValue;
-                            this.form.optionsManager.update('file_priorities', priorities);
-                        }, this);
-                    } else {
-                        this.files.setDownload(nodes[0], oldValue, true);
-                    }
-                },
-                scope: this,
-                icon: Ext.MessageBox.QUESTION
-            });
-        } else {
-            Ext.each(nodes, function(node) {
-                if (node.attributes.fileindex < 0) return;
-                var priorities = this.form.optionsManager.get('file_priorities');
-                priorities[node.attributes.fileindex] = newValue;
-                this.form.optionsManager.update('file_priorities', priorities);
-            }, this);
-        }
+        Ext.each(nodes, function(node) {
+            if (node.attributes.fileindex < 0) return;
+            var priorities = this.form.optionsManager.get('file_priorities');
+            priorities[node.attributes.fileindex] = newValue;
+            this.form.optionsManager.update('file_priorities', priorities);
+        }, this);
+
     }
 });

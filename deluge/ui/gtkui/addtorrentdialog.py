@@ -90,7 +90,7 @@ class AddTorrentDialog(component.Component):
             "on_button_add_clicked": self._on_button_add_clicked,
             "on_button_apply_clicked": self._on_button_apply_clicked,
             "on_button_revert_clicked": self._on_button_revert_clicked,
-            "on_alocation_toggled": self._on_alocation_toggled,
+            "on_allocation_toggled": self._on_allocation_toggled,
             "on_chk_move_completed_toggled": self._on_chk_move_completed_toggled
         })
 
@@ -151,7 +151,7 @@ class AddTorrentDialog(component.Component):
 
         # Get default config values from the core
         self.core_keys = [
-            "compact_allocation",
+            "pre_allocate_storage",
             "max_connections_per_torrent",
             "max_upload_slots_per_torrent",
             "max_upload_speed_per_torrent",
@@ -397,10 +397,8 @@ class AddTorrentDialog(component.Component):
         self.download_location_path_chooser.set_text(options["download_location"], cursor_end=True)
         self.move_completed_path_chooser.set_text(options["move_completed_path"], cursor_end=True)
 
-        self.builder.get_object("radio_full").set_active(
-            not options["compact_allocation"])
-        self.builder.get_object("radio_compact").set_active(
-            options["compact_allocation"])
+        #self.builder.get_object("radio_full").set_active(
+        #self.builder.get_object("radio_pre_alloc").set_active(
         self.builder.get_object("spin_maxdown").set_value(
             options["max_download_speed"])
         self.builder.get_object("spin_maxup").set_value(
@@ -411,6 +409,8 @@ class AddTorrentDialog(component.Component):
             options["max_upload_slots"])
         self.builder.get_object("chk_paused").set_active(
             options["add_paused"])
+        self.builder.get_object("chk_pre_alloc").set_active(
+            options["pre_allocate_storage"])
         self.builder.get_object("chk_prioritize").set_active(
             options["prioritize_first_last_pieces"])
         self.builder.get_object("chk_sequential_download").set_active(
@@ -437,16 +437,8 @@ class AddTorrentDialog(component.Component):
 
         options["download_location"] = self.download_location_path_chooser.get_text()
         options["move_completed_path"] = self.move_completed_path_chooser.get_text()
-        options["compact_allocation"] = self.builder.get_object("radio_compact").get_active()
+        options["pre_allocate_storage"] = self.builder.get_object("chk_pre_alloc").get_active()
         options["move_completed"] = self.builder.get_object("chk_move_completed").get_active()
-
-        if options["compact_allocation"]:
-            # We need to make sure all the files are set to download
-            def set_download_true(model, path, itr):
-                model[path][0] = True
-            self.files_treestore.foreach(set_download_true)
-            self.update_treeview_toggles(self.files_treestore.get_iter_first())
-
         options["max_download_speed"] = \
             self.builder.get_object("spin_maxdown").get_value()
         options["max_upload_speed"] = \
@@ -490,10 +482,8 @@ class AddTorrentDialog(component.Component):
     def set_default_options(self):
         self.load_path_choosers_data()
 
-        self.builder.get_object("radio_compact").set_active(
-            self.core_config["compact_allocation"])
-        self.builder.get_object("radio_full").set_active(
-            not self.core_config["compact_allocation"])
+        self.builder.get_object("chk_pre_alloc").set_active(
+            self.core_config["pre_allocate_storage"])
         self.builder.get_object("spin_maxdown").set_value(
             self.core_config["max_download_speed_per_torrent"])
         self.builder.get_object("spin_maxup").set_value(
@@ -524,23 +514,6 @@ class AddTorrentDialog(component.Component):
         return files_list
 
     def _on_file_toggled(self, render, path):
-        # Check to see if we can change file priorities
-        (model, row) = self.listview_torrents.get_selection().get_selected()
-        if self.options[model[row][0]]["compact_allocation"]:
-            def on_answer(response):
-                if response == gtk.RESPONSE_YES:
-                    self.options[model[row][0]]["compact_allocation"] = False
-                    self.update_torrent_options(model[row][0])
-
-            d = dialogs.YesNoDialog(
-                _("Unable to set file priority!"),
-                _("File prioritization is unavailable when using Compact "
-                  "allocation.  Would you like to switch to Full allocation?"),
-                self.dialog
-            ).run()
-            d.addCallback(on_answer)
-
-            return
         (model, paths) = self.listview_files.get_selection().get_selected_rows()
         if len(paths) > 1:
             for path in paths:
@@ -962,7 +935,7 @@ class AddTorrentDialog(component.Component):
             # to the 'mapped_files' option
             walk_tree(itr)
 
-    def _on_alocation_toggled(self, widget):
+    def _on_allocation_toggled(self, widget):
         full_allocation_active = self.builder.get_object("radio_full").get_active()
         self.builder.get_object("chk_prioritize").set_sensitive(full_allocation_active)
         self.builder.get_object("chk_sequential_download").set_sensitive(full_allocation_active)

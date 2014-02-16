@@ -170,7 +170,7 @@ class Preferences(component.Component):
             "on_accounts_add_clicked": self._on_accounts_add_clicked,
             "on_accounts_delete_clicked": self._on_accounts_delete_clicked,
             "on_accounts_edit_clicked": self._on_accounts_edit_clicked,
-            "on_alocation_toggled": self._on_alocation_toggled,
+            "on_allocation_toggled": self._on_allocation_toggled,
             "on_piecesbar_toggle_toggled": self._on_piecesbar_toggle_toggled,
             "on_completed_color_set": self._on_completed_color_set,
             "on_revert_color_completed_clicked": self._on_revert_color_completed_clicked,
@@ -354,8 +354,7 @@ class Preferences(component.Component):
             "chk_move_completed": ("active", "move_completed"),
             "chk_copy_torrent_file": ("active", "copy_torrent_file"),
             "chk_del_copy_torrent_file": ("active", "del_copy_torrent_file"),
-            "radio_compact_allocation": ("active", "compact_allocation"),
-            "radio_full_allocation": ("not_active", "compact_allocation"),
+            "chk_pre_allocation": ("active", "pre_allocate_storage"),
             "chk_prioritize_first_last_pieces": ("active",  "prioritize_first_last_pieces"),
             "chk_sequential_download": ("active", "sequential_download"),
             "chk_add_paused": ("active", "add_paused"),
@@ -582,19 +581,12 @@ class Preferences(component.Component):
         new_core_config["download_location"] = self.download_location_path_chooser.get_text()
         new_core_config["move_completed_path"] = self.move_completed_path_chooser.get_text()
         new_core_config["torrentfiles_location"] = self.copy_torrent_files_path_chooser.get_text()
-
-        new_core_config["compact_allocation"] = \
-            self.builder.get_object("radio_compact_allocation").get_active()
         new_core_config["prioritize_first_last_pieces"] = \
-            self.builder.get_object(
-                "chk_prioritize_first_last_pieces").get_active()
+            self.builder.get_object("chk_prioritize_first_last_pieces").get_active()
         new_core_config["sequential_download"] = \
             self.builder.get_object("chk_sequential_download").get_active()
-        new_core_config["sequential_download"] = \
-            self.builder.get_object("radio_compact_allocation").get_active() and \
-            False or self.builder.get_object("chk_sequential_download").get_active()
-        new_core_config["add_paused"] = \
-            self.builder.get_object("chk_add_paused").get_active()
+        new_core_config["add_paused"] = self.builder.get_object("chk_add_paused").get_active()
+        new_core_config["pre_allocate_storage"] = self.builder.get_object("chk_pre_allocation").get_active()
 
         ## Network tab ##
         listen_ports = (
@@ -1253,7 +1245,7 @@ class Preferences(component.Component):
                 ).addCallback(remove_ok).addErrback(remove_fail)
         dialog.run().addCallback(dialog_finished)
 
-    def _on_alocation_toggled(self, widget):
+    def _on_allocation_toggled(self, widget):
         full_allocation_active = self.builder.get_object("radio_full_allocation").get_active()
         self.builder.get_object("chk_prioritize_first_last_pieces").set_sensitive(full_allocation_active)
         self.builder.get_object("chk_sequential_download").set_sensitive(full_allocation_active)

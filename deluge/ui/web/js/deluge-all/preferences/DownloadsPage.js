@@ -1,6 +1,6 @@
 /*!
  * Deluge.preferences.DownloadsPage.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -93,36 +93,7 @@ Deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
         });
         optMan.bind('autoadd_enable', field.toggle);
         optMan.bind('autoadd_location', field.input);
-    
-        fieldset = this.add({
-            xtype: 'fieldset',
-            border: false,
-            title: _('Allocation'),
-            autoHeight: true,
-            labelWidth: 1,
-            defaultType: 'radiogroup',
-            style: 'margin-bottom: 5px; margin-top: 0; padding-bottom: 5px; padding-top: 0;',
-            width: 240
-        });
-        optMan.bind('compact_allocation', fieldset.add({
-            name: 'compact_allocation',
-            width: 200,
-            labelSeparator: '',
-            //disabled: true,
-            defaults: {
-                width: 80,
-                height: 22,
-                name: 'compact_allocation'
-            },
-            items: [{
-                boxLabel: _('Use Full'),
-                inputValue: false
-            }, {
-                boxLabel: _('Use Compact'),
-                inputValue: true
-            }]
-        }));
-    
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -145,5 +116,12 @@ Deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
             height: 22,
             boxLabel: _('Add torrents in Paused state')
         }));
+        optMan.bind('pre_allocate_storage', fieldset.add({
+            name: 'pre_allocate_storage',
+            labelSeparator: '',
+            height: 22,
+            boxLabel: _('Pre-allocate disk space')
+        }));
+
     }
 });

@@ -89,35 +89,6 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             layout: 'column',
             defaultType: 'fieldset'
         });
-        fieldset = panel.add({
-            title: _('Allocation'),
-            border: false,
-            autoHeight: true,
-            defaultType: 'radio'
-        });
-
-        this.optionsManager.bind('compact_allocation', fieldset.add({
-            xtype: 'radiogroup',
-            columns: 1,
-            vertical: true,
-            labelSeparator: '',
-            width: 80,
-            items: [{
-                name: 'compact_allocation',
-                value: false,
-                inputValue: false,
-                boxLabel: _('Full'),
-                fieldLabel: '',
-                labelSeparator: ''
-            }, {
-                name: 'compact_allocation',
-                value: true,
-                inputValue: true,
-                boxLabel: _('Compact'),
-                fieldLabel: '',
-                labelSeparator: ''
-            }]
-        }));
 
         fieldset = panel.add({
             title: _('Bandwidth'),
@@ -167,10 +138,16 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             fieldLabel: '',
             labelSeparator: ''
         }));
+        this.optionsManager.bind('pre_allocate_storage', fieldset.add({
+            name: 'pre_allocate_storage',
+            boxLabel: _('Pre-allocate disk space'),
+            fieldLabel: '',
+            labelSeparator: ''
+        }));
     },
 
     getDefaults: function() {
-        var keys = ['add_paused','compact_allocation','download_location',
+        var keys = ['add_paused','pre_allocate_storage','download_location',
         'max_connections_per_torrent','max_download_speed_per_torrent',
         'move_completed', 'move_completed_path',
         'max_upload_slots_per_torrent','max_upload_speed_per_torrent',
@@ -181,7 +158,7 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
                 var options = {
                     'file_priorities': [],
                     'add_paused': config.add_paused,
-                    'compact_allocation': config.compact_allocation,
+                    'pre_allocate_storage': config.pre_allocate_storage,
                     'download_location': config.download_location,
                     'move_completed': config.move_completed,
                     'move_completed_path': config.move_completed_path,

@@ -231,12 +231,8 @@ class DownloadsPane(BasePane):
         self.add_checked_input("del_copy_torrent_file","Delete copy of torrent file on remove",parent.core_config["del_copy_torrent_file"])
 
         self.add_header("Allocation",True)
+        self.add_checked_input("pre_allocate_storage", "Pre-Allocate disk space", parent.core_config["pre_allocate_storage"])
 
-        if parent.core_config["compact_allocation"]:
-            alloc_idx = 1
-        else:
-            alloc_idx = 0
-        self.add_select_input("compact_allocation",None,["Use Full Allocation","Use Compact Allocation"],[False,True],alloc_idx)
         self.add_header("Options",True)
         self.add_checked_input("prioritize_first_last_pieces","Prioritize first and last pieces of torrent",parent.core_config["prioritize_first_last_pieces"])
         self.add_checked_input("add_paused","Add torrents in paused state",parent.core_config["add_paused"])

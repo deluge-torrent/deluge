@@ -53,7 +53,7 @@ DEFAULT_PREFS = {
     "info_sent": 0.0,
     "daemon_port": 58846,
     "allow_remote": False,
-    "compact_allocation": False,
+    "pre_allocate_storage": False,
     "download_location": deluge.common.get_default_download_dir(),
     "listen_ports": [6881, 6891],
     "listen_interface": "",

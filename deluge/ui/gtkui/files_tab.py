@@ -301,7 +301,7 @@ class FilesTab(Tab):
             # We only want to do this if the torrent_id has changed
             self.treestore.clear()
             self.torrent_id = torrent_id
-            status_keys += ["compact", "is_seed"]
+            status_keys += ["storage_mode", "is_seed"]
 
             if self.torrent_id in self.files_list:
                 # We already have the files list stored, so just update the view
@@ -448,8 +448,8 @@ class FilesTab(Tab):
             return
 
         # Store this torrent's compact setting
-        if "compact" in status:
-            self.__compact = status["compact"]
+        if status["storage_mode"] == "compact":
+            self.__compact = True
 
         if "is_seed" in status:
             self.__is_seed = status["is_seed"]
