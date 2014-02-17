@@ -37,11 +37,11 @@
 import deluge.component as component
 from deluge.ui.client import client
 from basemode import BaseMode
-from input_popup import Popup,SelectInput
+from input_popup import Popup, SelectInput
 
-from preference_panes import DownloadsPane,NetworkPane,BandwidthPane
-from preference_panes import InterfacePane, ColumnsPane
-from preference_panes import OtherPane,DaemonPane,QueuePane,ProxyPane,CachePane
+from preference_panes import (DownloadsPane, NetworkPane, BandwidthPane, InterfacePane,
+                              ColumnsPane, OtherPane, DaemonPane, QueuePane, ProxyPane,
+                              CachePane)
 
 from collections import deque
 
@@ -108,9 +108,8 @@ class ZONE:
 class Preferences(BaseMode):
     def __init__(self, parent_mode, core_config, console_config, active_port, status, stdscr, encoding=None):
         self.parent_mode = parent_mode
-        self.categories = [_("Downloads"), _("Network"), _("Bandwidth"),
-                           _("Interface"), _("Columns"), _("Other"), _("Daemon"), _("Queue"), _("Proxy"),
-                           _("Cache")] # , _("Plugins")]
+        self.categories = [_("Interface"), _("Columns"), _("Downloads"), _("Network"), _("Bandwidth"),
+                           _("Other"), _("Daemon"), _("Queue"), _("Proxy"), _("Cache")]  # , _("Plugins")]
         self.cur_cat = 0
         self.popup = None
         self.messages = deque()
@@ -137,12 +136,13 @@ class Preferences(BaseMode):
     def __calc_sizes(self):
         self.prefs_width = self.cols-self.div_off-1
         self.prefs_height = self.rows-4
+        # Needs to be same order as self.categories
         self.panes = [
+            InterfacePane(self.div_off+2, self, self.prefs_width),
+            ColumnsPane(self.div_off+2, self, self.prefs_width),
             DownloadsPane(self.div_off+2, self, self.prefs_width),
             NetworkPane(self.div_off+2, self, self.prefs_width),
             BandwidthPane(self.div_off+2, self, self.prefs_width),
-            InterfacePane(self.div_off+2, self, self.prefs_width),
-            ColumnsPane(self.div_off+2, self, self.prefs_width),
             OtherPane(self.div_off+2, self, self.prefs_width),
             DaemonPane(self.div_off+2, self, self.prefs_width),
             QueuePane(self.div_off+2, self, self.prefs_width),
