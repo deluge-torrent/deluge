@@ -103,11 +103,11 @@ class TorrentDetail(BaseMode, component.Component):
         self.torrent_state = None
         self.popup = None
         self.messages = deque()
-        self._status_keys = ["files", "name","state","download_payload_rate","upload_payload_rate",
-                             "progress","eta","all_time_download","total_uploaded", "ratio",
-                             "num_seeds","total_seeds","num_peers","total_peers", "active_time",
-                             "seeding_time","time_added","distributed_copies", "num_pieces",
-                             "piece_length","save_path","file_progress","file_priorities","message",
+        self._status_keys = ["files", "name", "state", "download_payload_rate", "upload_payload_rate",
+                             "progress", "eta", "all_time_download", "total_uploaded", "ratio",
+                             "num_seeds", "total_seeds", "num_peers", "total_peers", "active_time",
+                             "seeding_time", "time_added", "distributed_copies", "num_pieces",
+                             "piece_length", "save_path", "file_progress", "file_priorities", "message",
                              "total_wanted", "tracker_host", "owner"]
 
         self.file_list = None
@@ -164,7 +164,7 @@ class TorrentDetail(BaseMode, component.Component):
                 self.files_sep = "{!green,black,bold,underline!}%s"%(("Files (File list unknown)").center(self.cols))
             need_prio_update = True
         self.__fill_progress(self.file_list,state["file_progress"])
-        for i,prio in enumerate(state["file_priorities"]):
+        for i, prio in enumerate(state["file_priorities"]):
             if self.file_dict[i][6] != prio:
                 need_prio_update = True
                 self.file_dict[i][6] = prio
@@ -475,10 +475,10 @@ class TorrentDetail(BaseMode, component.Component):
         s+= " {!info!}Ratio: {!input!}%s" % ratio_str
         self.add_string(off, s); off += 1
 
-        #Seeder/leecher info
-        s = "{!info!}Seeders:{!green!} %s {!input!}(%s)" % (status["num_seeds"], status["total_seeds"])
+        #Seed/peer info
+        s = "{!info!}Seeds:{!green!} %s {!input!}(%s)" % (status["num_seeds"], status["total_seeds"])
         self.add_string(off, s); off += 1
-        s = "{!info!}Leechers:{!red!} %s {!input!}(%s)" % (status["num_peers"], status["total_peers"])
+        s = "{!info!}Peers:{!red!} %s {!input!}(%s)" % (status["num_peers"], status["total_peers"])
         self.add_string(off, s); off += 1
 
         #Tracker

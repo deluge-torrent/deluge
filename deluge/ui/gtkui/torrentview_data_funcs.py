@@ -84,7 +84,7 @@ def _t(text):
 func_last_value = {"cell_data_speed_down": None,
                    "cell_data_speed_up": None,
                    "cell_data_time": None,
-                   "cell_data_ratio_seeders": None,
+                   "cell_data_ratio_seeds_peers": None,
                    "cell_data_ratio_ratio": None,
                    "cell_data_ratio_avail": None,
                    "cell_data_date": None,
@@ -269,8 +269,8 @@ def cell_data_ratio(cell, model, row, data, cache_key):
     func_last_value[cache_key] = ratio
     cell.set_property('text', "∞" if ratio < 0 else "%.3f" % ratio)
 
-def cell_data_ratio_seeders(column, cell, model, row, data):
-    cell_data_ratio(cell, model, row, data, "cell_data_ratio_seeders")
+def cell_data_ratio_seeds_peers(column, cell, model, row, data):
+    cell_data_ratio(cell, model, row, data, "cell_data_ratio_seeds_peers")
 
 def cell_data_ratio_ratio(column, cell, model, row, data):
     cell_data_ratio(cell, model, row, data, "cell_data_ratio_ratio")
@@ -286,7 +286,7 @@ def cell_data_date(column, cell, model, row, data):
         return
     func_last_value["cell_data_date"] = date
 
-    date_str = common.fdate(date)
+    date_str = common.fdate(date) if date > 0.0 else ""
     cell.set_property('text', date_str)
 
 def cell_data_date_or_never(column, cell, model, row, data):

@@ -42,9 +42,9 @@ Deluge.Keys = {
      * <pre>['queue', 'name', 'total_size', 'total_wanted', 'state', 'progress', 'num_seeds',
      * 'total_seeds', 'num_peers', 'total_peers', 'download_payload_rate',
      * 'upload_payload_rate', 'eta', 'ratio', 'distributed_copies',
-     * 'is_auto_managed', 'time_added', 'tracker_host', 'save_path',
+     * 'is_auto_managed', 'time_added', 'tracker_host', 'save_path', 'last_seen_complete',
      * 'total_done', 'total_uploaded', 'max_download_speed', 'max_upload_speed',
-     * 'seeds_peers_ratio', 'total_remaining']</pre>
+     * 'seeds_peers_ratio', 'total_remaining', 'completed_time']</pre>
      */
     Grid: [
         'queue', 'name', 'total_size', 'total_wanted', 'state', 'progress', 'num_seeds',
@@ -52,7 +52,7 @@ Deluge.Keys = {
         'upload_payload_rate', 'eta', 'ratio', 'distributed_copies',
         'is_auto_managed', 'time_added', 'tracker_host', 'save_path', 'last_seen_complete',
         'total_done', 'total_uploaded', 'max_download_speed', 'max_upload_speed',
-        'seeds_peers_ratio', 'total_remaining'
+        'seeds_peers_ratio', 'total_remaining', 'completed_time'
     ],
 
     /**
@@ -61,13 +61,13 @@ Deluge.Keys = {
      * <pre>['total_done', 'total_payload_download', 'total_uploaded',
      * 'total_payload_upload', 'next_announce', 'tracker_status', 'num_pieces',
      * 'piece_length', 'is_auto_managed', 'active_time', 'seeding_time',
-     * 'seed_rank']</pre>
+     * 'seed_rank', 'last_seen_complete', 'completed_time', 'owner', 'public', 'shared']</pre>
      */
     Status: [
         'total_done', 'total_payload_download', 'total_uploaded',
         'total_payload_upload', 'next_announce', 'tracker_status', 'num_pieces',
         'piece_length', 'is_auto_managed', 'active_time', 'seeding_time',
-        'seed_rank', 'last_seen_complete', 'owner', 'public', 'shared'
+        'seed_rank', 'last_seen_complete', 'completed_time', 'owner', 'public', 'shared'
     ],
 
     /**

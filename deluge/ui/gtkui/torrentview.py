@@ -271,13 +271,13 @@ class TorrentView(listview.ListView, component.Component):
                                  status_field=["progress", "state"],
                                  col_types=[float, str],
                                  function=funcs.cell_data_progress)
-        self.add_func_column(_("Seeders"), funcs.cell_data_peer, [int, int],
+        self.add_func_column(_("Seeds"), funcs.cell_data_peer, [int, int],
                              status_field=["num_seeds", "total_seeds"],
                              sort_func=seed_peer_column_sort, default=False)
         self.add_func_column(_("Peers"), funcs.cell_data_peer, [int, int],
                              status_field=["num_peers", "total_peers"],
                              sort_func=seed_peer_column_sort, default=False)
-        self.add_func_column(_("Seeders") + "/" + _("Peers"), funcs.cell_data_ratio_seeders, [float],
+        self.add_func_column(_("Seeds:Peers"), funcs.cell_data_ratio_seeds_peers, [float],
                              status_field=["seeds_peers_ratio"], default=False)
         self.add_func_column(_("Down Speed"), funcs.cell_data_speed_down, [float],
                              status_field=["download_payload_rate"])
@@ -295,15 +295,12 @@ class TorrentView(listview.ListView, component.Component):
                              status_field=["distributed_copies"], default=False)
         self.add_func_column(_("Added"), funcs.cell_data_date, [float],
                              status_field=["time_added"], default=False)
-        self.add_func_column(_("Completed"),
-                             funcs.cell_data_date_or_never, [float],
+        self.add_func_column(_("Completed"), funcs.cell_data_date, [float],
                              status_field=["completed_time"], default=False)
-        self.add_func_column(_("Last Seen Complete"),
-                             funcs.cell_data_date_or_never, [float],
+        self.add_func_column(_("Complete Seen"), funcs.cell_data_date_or_never, [float],
                              status_field=["last_seen_complete"], default=False)
-        self.add_texticon_column(_("Tracker"),
-                                 status_field=["tracker_host", "tracker_host"],
-                                 function=funcs.cell_data_trackericon, default=False)
+        self.add_texticon_column(_("Tracker"), function=funcs.cell_data_trackericon,
+                                 status_field=["tracker_host", "tracker_host"], default=False)
         self.add_text_column(_("Save Path"), status_field=["save_path"], default=False)
         self.add_text_column(_("Owner"), status_field=["owner"], default=False)
         self.restore_columns_order_from_state()

@@ -64,6 +64,13 @@ def fspeed(value, max_value=-1):
     else:
         return deluge.common.fspeed(value)
 
+def fdate(value):
+    """Display value as date, eg 05/05/08 or blank"""
+    if value > 0.0:
+        return deluge.common.fdate(value)
+    else:
+        return ""
+
 def fdate_or_never(value):
     """Display value as date, eg 05/05/08 or Never"""
     if value > 0.0:
@@ -95,7 +102,7 @@ class StatusTab(Tab):
             (builder.get_object("summary_total_uploaded"), fpeer_sized, ("total_uploaded", "total_payload_upload")),
             (builder.get_object("summary_download_speed"), fspeed, ("download_payload_rate", "max_download_speed")),
             (builder.get_object("summary_upload_speed"), fspeed, ("upload_payload_rate", "max_upload_speed")),
-            (builder.get_object("summary_seeders"), deluge.common.fpeer, ("num_seeds", "total_seeds")),
+            (builder.get_object("summary_seeds"), deluge.common.fpeer, ("num_seeds", "total_seeds")),
             (builder.get_object("summary_peers"), deluge.common.fpeer, ("num_peers", "total_peers")),
             (builder.get_object("summary_eta"), deluge.common.ftime, ("eta",)),
             (builder.get_object("summary_share_ratio"), fratio, ("ratio",)),
@@ -108,6 +115,7 @@ class StatusTab(Tab):
             (builder.get_object("progressbar"), fpcnt, ("progress",)),
             (builder.get_object("summary_date_added"), deluge.common.fdate, ("time_added",)),
             (builder.get_object("summary_last_seen_complete"), fdate_or_never, ("last_seen_complete",)),
+            (builder.get_object("summary_completed"), fdate, ("completed_time",)),
         ]
 
     def update(self):
@@ -129,7 +137,8 @@ class StatusTab(Tab):
             "total_seeds", "eta", "ratio", "next_announce",
             "tracker_status", "max_connections", "max_upload_slots",
             "max_upload_speed", "max_download_speed", "active_time",
-            "seeding_time", "seed_rank", "is_auto_managed", "time_added", "last_seen_complete"]
+            "seeding_time", "seed_rank", "is_auto_managed", "time_added",
+            "last_seen_complete", "completed_time"]
         if self.config['show_piecesbar']:
             status_keys.extend(["pieces", "state"])
 

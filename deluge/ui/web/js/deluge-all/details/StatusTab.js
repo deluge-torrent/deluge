@@ -91,9 +91,10 @@ Deluge.details.StatusTab = Ext.extend(Ext.Panel, {
     },
 
     onRequestComplete: function(status) {
-        seeders = status.total_seeds > -1 ? status.num_seeds + ' (' + status.total_seeds + ')' : status.num_seeds;
+        seeds = status.total_seeds > -1 ? status.num_seeds + ' (' + status.total_seeds + ')' : status.num_seeds;
         peers = status.total_peers > -1 ? status.num_peers + ' (' + status.total_peers + ')' : status.num_peers;
         last_seen_complete = status.last_seen_complete > 0.0 ? fdate(status.last_seen_complete) : "Never";
+        completed_time = status.last_seen_complete > 0.0 ? fdate(status.completed_time) : "Never";
         var data = {
             downloaded: fsize(status.total_done, true),
             uploaded: fsize(status.total_uploaded, true),
@@ -104,14 +105,15 @@ Deluge.details.StatusTab = Ext.extend(Ext.Panel, {
             upspeed: (status.upload_payload_rate) ? fspeed(status.upload_payload_rate) : '0.0 KiB/s',
             eta: ftime(status.eta),
             pieces: status.num_pieces + ' (' + fsize(status.piece_length) + ')',
-            seeders: seeders,
+            seeds: seeds,
             peers: peers,
             avail: status.distributed_copies.toFixed(3),
             active_time: ftime(status.active_time),
             seeding_time: ftime(status.seeding_time),
             seed_rank: status.seed_rank,
             time_added: fdate(status.time_added),
-            last_seen_complete: last_seen_complete
+            last_seen_complete: last_seen_complete,
+            completed_time: completed_time
         }
         data.auto_managed = _((status.is_auto_managed) ? 'True' : 'False');
 

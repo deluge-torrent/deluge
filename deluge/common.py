@@ -446,19 +446,24 @@ def ftime(seconds):
     return '%dy %dw' % (years, weeks)
 
 
-def fdate(seconds):
+def fdate(seconds, date_only=False, precision_secs=False):
     """
     Formats a date time string in the locale's date representation based on the systems timezone
 
     :param seconds: time in seconds since the Epoch
     :type seconds: float
+    :param precision_secs: include seconds in time format
+    :type precision_secs: bool
     :returns: a string in the locale's datetime representation or "" if seconds < 0
     :rtype: string
 
     """
     if seconds < 0:
         return ""
-    return time.strftime("%x %X", time.localtime(seconds))
+    if precision_secs:
+        return time.strftime("%x %X", time.localtime(seconds))
+    else:
+        return time.strftime("%x %H:%M", time.localtime(seconds))
 
 
 def is_url(url):

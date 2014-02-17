@@ -131,7 +131,7 @@
             renderer: torrentProgressRenderer,
             dataIndex: 'progress'
         }, {
-            header: _('Seeders'),
+            header: _('Seeds'),
             hidden: true,
             width: 60,
             sortable: true,
@@ -184,11 +184,19 @@
             renderer: fdate,
             dataIndex: 'time_added'
         }, {
-            header: _('Last Seen Complete'),
+            header: _('Complete Seen'),
+            hidden: true,
             width: 80,
             sortable: true,
             renderer: dateOrNever,
             dataIndex: 'last_seen_complete'
+        }, {
+            header: _('Completed'),
+            hidden: true,
+            width: 80,
+            sortable: true,
+            renderer: dateOrNever,
+            dataIndex: 'completed_time'
         }, {
             header: _('Tracker'),
             hidden: true,
@@ -259,7 +267,7 @@
             renderer: torrentLimitRenderer,
             dataIndex: 'max_upload_speed'
         }, {
-            header: _('Seeders') + '/' + _('Peers'),
+            header: _('Seeds:Peers'),
             hidden: true,
             width: 75,
             sortable: true,

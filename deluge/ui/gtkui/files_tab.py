@@ -448,8 +448,8 @@ class FilesTab(Tab):
             return
 
         # Store this torrent's compact setting
-        if status["storage_mode"] == "compact":
-            self.__compact = True
+        if "storage_mode" in status:
+            self.__compact = status["storage_mode"] == "compact"
 
         if "is_seed" in status:
             self.__is_seed = status["is_seed"]

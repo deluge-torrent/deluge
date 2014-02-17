@@ -53,6 +53,18 @@ def format_time(time):
     else:
         return "-"
 
+def format_date(time):
+    if (time > 0):
+        return deluge.common.fdate(time)
+    else:
+        return ""
+
+def format_date_never(time):
+    if (time > 0):
+        return deluge.common.fdate(time)
+    else:
+        return "Never"
+
 def format_float(x):
     if x < 0:
         return "-"
