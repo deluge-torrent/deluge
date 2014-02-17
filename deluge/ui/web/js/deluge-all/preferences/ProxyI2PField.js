@@ -1,5 +1,5 @@
 /*!
- * Deluge.preferences.ProxyPage.js
+ * Deluge.preferences.ProxyI2PField.js
  *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
@@ -29,56 +29,67 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.namespace('Deluge.preferences');
+Ext.ns('Deluge.preferences');
 
 /**
- * @class Deluge.preferences.Proxy
- * @extends Ext.form.FormPanel
+ * @class Deluge.preferences.ProxyI2PField
+ * @extends Ext.form.FieldSet
  */
-Deluge.preferences.Proxy = Ext.extend(Ext.form.FormPanel, {
-    constructor: function(config) {
-        config = Ext.apply({
-            border: false,
-            title: _('Proxy'),
-            layout: 'form',
-            autoScroll: true
-        }, config);
-        Deluge.preferences.Proxy.superclass.constructor.call(this, config);
-    },
+Deluge.preferences.ProxyI2PField = Ext.extend(Ext.form.FieldSet, {
+
+    border: false,
+    autoHeight: true,
+    labelWidth: 70,
 
     initComponent: function() {
-        Deluge.preferences.Proxy.superclass.initComponent.call(this);
-        this.proxy = this.add(new Deluge.preferences.ProxyField({
-            title: _('Proxy'),
-            name: 'proxy'
-        }));
-        this.proxy.on('change', this.onProxyChange, this);
-        deluge.preferences.getOptionsManager().bind('proxy', this.proxy);
+        Deluge.preferences.ProxyI2PField.superclass.initComponent.call(this);
+        this.hostname = this.add({
+            xtype: 'textfield',
+            name: 'hostname',
+            fieldLabel: _('Host'),
+            width: 220
+        });
+        this.hostname.on('change', this.onFieldChange, this);
 
-        this.i2p_proxy = this.add(new Deluge.preferences.ProxyI2PField({
-            title: _('I2P Proxy'),
-            name: 'i2p_proxy'
-        }));
-        deluge.preferences.getOptionsManager().bind('i2p_proxy', this.i2p_proxy);
+        this.port = this.add({
+            xtype: 'spinnerfield',
+            name: 'port',
+            fieldLabel: _('Port'),
+            width: 80,
+            decimalPrecision: 0,
+            minValue: 0,
+            maxValue: 65535
+        });
+        this.port.on('change', this.onFieldChange, this);
+
+        this.setting = false;
+    },
+
+    getName: function() {
+        return this.initialConfig.name;
     },
 
     getValue: function() {
         return {
-            'proxy': this.proxy.getValue(),
+            'hostname': this.hostname.getValue(),
+            'port': Number(this.port.getValue()),
         }
     },
 
+    // Set the values of the proxies
     setValue: function(value) {
-        for (var proxy in value) {
-            this[proxy].setValue(value[proxy]);
-        }
+        this.setting = true;
+        this.hostname.setValue(value['hostname']);
+        this.port.setValue(value['port']);
+        this.setting = false;
     },
 
-    onProxyChange: function(field, newValue, oldValue) {
+    onFieldChange: function(field, newValue, oldValue) {
+        if (this.setting) return;
         var newValues = this.getValue();
         var oldValues = Ext.apply({}, newValues);
         oldValues[field.getName()] = oldValue;
 
         this.fireEvent('change', this, newValues, oldValues);
-    }
+    },
 });

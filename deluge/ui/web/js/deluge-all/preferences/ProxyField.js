@@ -45,7 +45,8 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
         Deluge.preferences.ProxyField.superclass.initComponent.call(this);
         this.proxyType = this.add({
             xtype: 'combo',
-            fieldLabel: _('Type'),
+            fieldLabel: _('Type:'),
+            labelSeparator: '',
             name: 'proxytype',
             mode: 'local',
             width: 150,
@@ -53,11 +54,11 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
                 fields: ['id', 'text'],
                 data: [
                     [0, _('None')],
-                    [1, _('Socksv4')],
-                    [2, _('Socksv5')],
-                    [3, _('Socksv5 with Auth')],
+                    [1, _('Socks4')],
+                    [2, _('Socks5')],
+                    [3, _('Socks5 Auth')],
                     [4, _('HTTP')],
-                    [5, _('HTTP with Auth')]
+                    [5, _('HTTP Auth')]
                 ]
             }),
             editable: false,
@@ -71,7 +72,8 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
         this.hostname = this.add({
             xtype: 'textfield',
             name: 'hostname',
-            fieldLabel: _('Host'),
+            fieldLabel: _('Host:'),
+            labelSeparator: '',
             width: 220
         });
         this.hostname.on('change', this.onFieldChange, this);
@@ -79,18 +81,20 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
         this.port = this.add({
             xtype: 'spinnerfield',
             name: 'port',
-            fieldLabel: _('Port'),
+            fieldLabel: _('Port:'),
+            labelSeparator: '',
             width: 80,
             decimalPrecision: 0,
-            minValue: -1,
-            maxValue: 99999
+            minValue: 0,
+            maxValue: 65535
         });
         this.port.on('change', this.onFieldChange, this);
 
        this.username = this.add({
             xtype: 'textfield',
             name: 'username',
-            fieldLabel: _('Username'),
+            fieldLabel: _('Username:'),
+            labelSeparator: '',
             width: 220
         });
         this.username.on('change', this.onFieldChange, this);
@@ -98,11 +102,30 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
         this.password = this.add({
             xtype: 'textfield',
             name: 'password',
-            fieldLabel: _('Password'),
+            fieldLabel: _('Password:'),
+            labelSeparator: '',
             inputType: 'password',
             width: 220
         });
         this.password.on('change', this.onFieldChange, this);
+
+        this.proxy_host_resolve = this.add({
+            xtype: 'checkbox',
+            name: 'proxy_host_resolve',
+            fieldLabel: '',
+            boxLabel: _('Proxy Hostnames'),
+            width: 220
+        });
+        this.proxy_host_resolve.on('change', this.onFieldChange, this);
+
+        this.proxy_peer_conn = this.add({
+            xtype: 'checkbox',
+            name: 'proxy_peer_conn',
+            fieldLabel: '',
+            boxLabel: _('Proxy Peer Connections'),
+            width: 220
+        });
+        this.proxy_peer_conn.on('change', this.onFieldChange, this);
 
         this.setting = false;
     },
@@ -117,7 +140,9 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
             'hostname': this.hostname.getValue(),
             'port': Number(this.port.getValue()),
             'username': this.username.getValue(),
-            'password': this.password.getValue()
+            'password': this.password.getValue(),
+            'proxy_hostnames': this.proxy_host_resolve.getValue(),
+            'proxy_peer_connections': this.proxy_peer_conn.getValue(),
         }
     },
 
@@ -132,6 +157,9 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
         this.port.setValue(value['port']);
         this.username.setValue(value['username']);
         this.password.setValue(value['password']);
+        this.proxy_host_resolve.setValue(value['proxy_hostnames']);
+        this.proxy_peer_conn.setValue(value['proxy_peer_connections']);
+
         this.onTypeSelect(this.type, record, index);
         this.setting = false;
     },
@@ -150,9 +178,15 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
         if (typeId > 0) {
             this.hostname.show();
             this.port.show();
+            this.proxy_peer_conn.show();
+            if (typeId != 1) {
+                this.proxy_host_resolve.show();
+            }
         } else {
             this.hostname.hide();
             this.port.hide();
+            this.proxy_host_resolve.hide();
+            this.proxy_peer_conn.hide();
         }
 
         if (typeId == 3 || typeId == 5) {

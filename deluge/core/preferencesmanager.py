@@ -424,18 +424,10 @@ class PreferencesManager(component.Component):
         proxy_settings.username = value["username"]
         proxy_settings.password = value["password"]
         proxy_settings.hostname = value["hostname"]
-        proxy_settings.port = v["port"]
-        self.session.set_proxy(proxy_settings)
-
-    def _on_set_i2p_proxy(self, key, value):
-        log.debug("Setting I2P proxy to: %s", value)
-        proxy_settings = lt.proxy_settings()
-        proxy_settings.hostname = value["hostname"]
         proxy_settings.port = value["port"]
-        try:
-            self.session.set_i2p_proxy(proxy_settings)
-        except RuntimeError as ex:
-            log.error("Unable to set I2P Proxy: %s", ex)
+        proxy_settings.proxy_hostnames = value["proxy_hostnames"]
+        proxy_settings.proxy_peer_connections = value["proxy_peer_connections"]
+        self.session.set_proxy(proxy_settings)
 
     def _on_set_i2p_proxy(self, key, value):
         log.debug("Setting I2P proxy to: %s", value)

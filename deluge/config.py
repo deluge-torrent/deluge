@@ -317,6 +317,12 @@ what is currently in the config and it could not convert the value
         >>> del config["test"]
         """
         del self.__config[key]
+
+        global callLater
+        if callLater is None:
+            # Must import here and not at the top or it will throw ReactorAlreadyInstalledError
+            from twisted.internet.reactor import callLater
+
         # We set the save_timer for 5 seconds if not already set
         if not self._save_timer or not self._save_timer.active():
             self._save_timer = callLater(5, self.save)

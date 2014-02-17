@@ -407,6 +407,15 @@ class Preferences(component.Component):
             "chk_remove_ratio": ("active", "remove_seed_at_ratio"),
             "spin_cache_size": ("value", "cache_size"),
             "spin_cache_expiry": ("value", "cache_expiry"),
+            "combo_proxy_type":  ("active", lambda: self.core_config["proxy"]["type"]),
+            "entry_proxy_user": ("text", lambda: self.core_config["proxy"]["username"]),
+            "entry_proxy_pass": ("text", lambda: self.core_config["proxy"]["password"]),
+            "entry_proxy_host": ("text", lambda: self.core_config["proxy"]["hostname"]),
+            "spin_proxy_port": ("value", lambda: self.core_config["proxy"]["port"]),
+            "chk_proxy_host_resolve": ("active", lambda: self.core_config["proxy"]["proxy_hostnames"]),
+            "chk_proxy_peer_conn": ("active", lambda: self.core_config["proxy"]["proxy_peer_connections"]),
+            "entry_i2p_host": ("text", lambda: self.core_config["i2p_proxy"]["hostname"]),
+            "spin_i2p_port": ("value", lambda: self.core_config["i2p_proxy"]["port"]),
             "accounts_add": (None, None),
             "accounts_listview": (None, None),
             "button_cache_refresh": (None, None),
@@ -416,24 +425,6 @@ class Preferences(component.Component):
             "button_testport": (None, None),
             "plugin_listview": (None, None),
         }
-
-        # Add proxy stuff
-        for t in ("peer", "web_seed", "tracker", "dht"):
-            core_widgets["spin_proxy_port_%s" % t] = (
-                "value", lambda: self.core_config["proxies"][t]["port"]
-            )
-            core_widgets["combo_proxy_type_%s" % t] = (
-                "active", lambda: self.core_config["proxies"][t]["type"]
-            )
-            core_widgets["txt_proxy_server_%s" % t] = (
-                "text", lambda: self.core_config["proxies"][t]["hostname"]
-            )
-            core_widgets["txt_proxy_username_%s" % t] = (
-                "text", lambda: self.core_config["proxies"][t]["username"]
-            )
-            core_widgets["txt_proxy_password_%s" % t] = (
-                "text", lambda: self.core_config["proxies"][t]["password"]
-            )
 
         core_widgets[self.download_location_path_chooser] = ("path_chooser", "download_location")
         core_widgets[self.move_completed_path_chooser] = ("path_chooser", "move_completed_path")
@@ -698,19 +689,18 @@ class Preferences(component.Component):
             self.builder.get_object("chk_new_releases").get_active()
 
         ## Proxy tab ##
-        new_core_config["proxies"] = {}
-        for t in ("peer", "web_seed", "tracker", "dht"):
-            new_core_config["proxies"][t] = {}
-            new_core_config["proxies"][t]["type"] = \
-                self.builder.get_object("combo_proxy_type_%s" % t).get_active()
-            new_core_config["proxies"][t]["port"] = \
-                self.builder.get_object("spin_proxy_port_%s" % t).get_value_as_int()
-            new_core_config["proxies"][t]["username"] = \
-                self.builder.get_object("txt_proxy_username_%s" % t).get_text()
-            new_core_config["proxies"][t]["password"] = \
-                self.builder.get_object("txt_proxy_password_%s" % t).get_text()
-            new_core_config["proxies"][t]["hostname"] = \
-                self.builder.get_object("txt_proxy_server_%s" % t).get_text()
+        new_core_config["proxy"] = {}
+        new_core_config["proxy"]["type"] = self.builder.get_object("combo_proxy_type").get_active()
+        new_core_config["proxy"]["username"] = self.builder.get_object("entry_proxy_user").get_text()
+        new_core_config["proxy"]["password"] = self.builder.get_object("entry_proxy_pass").get_text()
+        new_core_config["proxy"]["hostname"] = self.builder.get_object("entry_proxy_host").get_text()
+        new_core_config["proxy"]["port"] = self.builder.get_object("spin_proxy_port").get_value_as_int()
+        new_core_config["proxy"]["proxy_hostnames"] = self.builder.get_object("chk_proxy_host_resolve").get_active()
+        new_core_config["proxy"]["proxy_peer_connections"] = self.builder.get_object(
+            "chk_proxy_peer_conn").get_active()
+        new_core_config["i2p_proxy"] = {}
+        new_core_config["i2p_proxy"]["hostname"] = self.builder.get_object("entry_i2p_host").get_text()
+        new_core_config["i2p_proxy"]["port"] = self.builder.get_object("spin_i2p_port").get_value_as_int()
 
         ## Queue tab ##
         new_core_config["queue_new_to_top"] = \
@@ -1049,31 +1039,32 @@ class Preferences(component.Component):
             combo_enclevel.set_sensitive(True)
 
     def _on_combo_proxy_type_changed(self, widget):
-        name = widget.get_name().replace("combo_proxy_type_", "")
-        proxy_type = widget.get_model()[widget.get_active()][0]
+        proxy_type = self.builder.get_object("combo_proxy_type").get_active()
 
-        prefixes = ["txt_proxy_", "label_proxy_", "spin_proxy_"]
         hides = []
         shows = []
+        # 0:"None"
+        if proxy_type == 0:
+            hides.extend(["entry_proxy_pass", "entry_proxy_user", "entry_proxy_host", "spin_proxy_port",
+                         "label_proxy_pass", "label_proxy_user", "label_proxy_host", "label_proxy_port",
+                         "chk_proxy_host_resolve", "chk_proxy_peer_conn"])
+        # 1:"Socks4", 2:"Socks5", 4:"HTTP"
+        elif proxy_type in (1, 2, 4):
+            if proxy_type in (2, 4):
+                shows.extend(["chk_proxy_host_resolve"])
+            hides.extend(["entry_proxy_pass", "entry_proxy_user", "label_proxy_pass", "label_proxy_user"])
+            shows.extend(["entry_proxy_host", "spin_proxy_port", "label_proxy_host",
+                         "label_proxy_port", "chk_proxy_peer_conn"])
+        # 3:"Socks5 Auth", 5:"HTTP Auth"
+        elif proxy_type in (3, 5):
+            shows.extend(["entry_proxy_pass", "entry_proxy_user", "entry_proxy_host", "spin_proxy_port",
+                         "label_proxy_pass", "label_proxy_user", "label_proxy_host", "label_proxy_port",
+                          "chk_proxy_host_resolve", "chk_proxy_peer_conn"])
 
-        if proxy_type == "None":
-            hides.extend(["password", "username", "server", "port"])
-        elif proxy_type in ("Socksv4", "Socksv5", "HTTP"):
-            hides.extend(["password", "username"])
-            shows.extend(["server", "port"])
-        elif proxy_type in ("Socksv5 W/ Auth", "HTTP W/ Auth"):
-            shows.extend(["password", "username", "server", "port"])
-
-        for h in hides:
-            for p in prefixes:
-                w = self.builder.get_object(p + h + "_" + name)
-                if w:
-                    w.hide()
-        for s in shows:
-            for p in prefixes:
-                w = self.builder.get_object(p + s + "_" + name)
-                if w:
-                    w.show()
+        for hide_entry in hides:
+            self.builder.get_object(hide_entry).hide()
+        for show_entry in shows:
+            self.builder.get_object(show_entry).show()
 
     def _on_button_associate_magnet_clicked(self, widget):
         common.associate_magnet_links(True)

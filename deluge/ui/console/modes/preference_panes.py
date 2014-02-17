@@ -104,12 +104,33 @@ class BasePane:
         for ipt in self.inputs:
             if not isinstance(ipt,NoInput):
                 # gross, have to special case in/out ports since they are tuples
-                if ipt.name in ("listen_ports_to","listen_ports_from",
-                                "out_ports_from","out_ports_to"):
+                if ipt.name in ("listen_ports_to", "listen_ports_from", "out_ports_from", "out_ports_to",
+                                "i2p_port", "i2p_hostname", "proxy_type", "proxy_username", "proxy_hostnames",
+                                "proxy_password", "proxy_hostname", "proxy_port", "proxy_peer_connections"
+                                ):
                     if ipt.name == "listen_ports_to":
                         conf_dict["listen_ports"] = (self.infrom.get_value(),self.into.get_value())
-                    if ipt.name == "out_ports_to":
+                    elif ipt.name == "out_ports_to":
                         conf_dict["outgoing_ports"] = (self.outfrom.get_value(),self.outto.get_value())
+                    elif ipt.name == "i2p_port":
+                        conf_dict.setdefault("i2p_proxy", {})["port"] = ipt.get_value()
+                    elif ipt.name == "i2p_hostname":
+                        conf_dict.setdefault("i2p_proxy", {})["hostname"] = ipt.get_value()
+                    elif ipt.name == "proxy_type":
+                        conf_dict.setdefault("proxy", {})["type"] = ipt.get_value()
+                    elif ipt.name == "proxy_username":
+                        conf_dict.setdefault("proxy", {})["username"] = ipt.get_value()
+                    elif ipt.name == "proxy_password":
+                        conf_dict.setdefault("proxy", {})["password"] = ipt.get_value()
+                    elif ipt.name == "proxy_hostname":
+                        conf_dict.setdefault("proxy", {})["hostname"] = ipt.get_value()
+                    elif ipt.name == "proxy_port":
+                        conf_dict.setdefault("proxy", {})["port"] = ipt.get_value()
+                    elif ipt.name == "proxy_hostnames":
+                        conf_dict.setdefault("proxy", {})["proxy_hostnames"] = ipt.get_value()
+                    elif ipt.name == "proxy_peer_connections":
+                        conf_dict.setdefault("proxy", {})["proxy_peer_connections"] = ipt.get_value()
+
                 else:
                     conf_dict[ipt.name] = ipt.get_value()
                 if hasattr(ipt,"get_child"):
@@ -216,6 +237,55 @@ class BasePane:
         self.inputs.append(FloatSpinInput(self.parent,message,name,self.move,value,inc_amt,precision,min_val,max_val))
 
 
+class InterfacePane(BasePane):
+    def __init__(self, offset, parent, width):
+        BasePane.__init__(self,offset,parent,width)
+        self.add_header("General options", False)
+
+        self.add_checked_input("ring_bell","Ring system bell when a download finishes",parent.console_config["ring_bell"])
+
+        self.add_header("New Console UI", True)
+
+        self.add_checked_input("separate_complete","List complete torrents after incomplete regardless of sorting order",parent.console_config["separate_complete"])
+        self.add_checked_input("move_selection","Move selection when moving torrents in the queue",parent.console_config["move_selection"])
+
+        self.add_header("Legacy Mode", True)
+
+        self.add_checked_input("ignore_duplicate_lines","Do not store duplicate input in history",parent.console_config["ignore_duplicate_lines"])
+        self.add_checked_input("save_legacy_history","Store and load command line history in Legacy mode",parent.console_config["save_legacy_history"])
+
+        self.add_header("", False)
+
+        self.add_checked_input("third_tab_lists_all","Third tab lists all remaining torrents in legacy mode",parent.console_config["third_tab_lists_all"])
+        self.add_int_spin_input("torrents_per_tab_press","Torrents per tab press",parent.console_config["torrents_per_tab_press"], 5, 100)
+
+
+class ColumnsPane(BasePane):
+    def __init__(self, offset, parent, width):
+        BasePane.__init__(self,offset,parent,width)
+        self.add_header("Columns To Display", True)
+
+        default_prefs = deluge.ui.console.modes.alltorrents.DEFAULT_PREFS
+
+        for cpn in deluge.ui.console.modes.alltorrents.column_pref_names:
+            pn = "show_%s"%cpn
+            #If there is no option for it, it's not togglable
+            # We check in default_prefs because it might still exist in config files
+            if pn not in default_prefs:
+                continue
+            self.add_checked_input(pn,
+                                   deluge.ui.console.modes.alltorrents.prefs_to_names[cpn],
+                                   parent.console_config[pn])
+        self.add_header("Column Widths (-1 = expand)",True)
+        for cpn in deluge.ui.console.modes.alltorrents.column_pref_names:
+            pn = "%s_width"%cpn
+            if pn not in default_prefs:
+                continue
+            self.add_int_spin_input(pn,
+                                    deluge.ui.console.modes.alltorrents.prefs_to_names[cpn],
+                                    parent.console_config[pn],-1,100)
+
+
 class DownloadsPane(BasePane):
     def __init__(self, offset, parent, width):
         BasePane.__init__(self,offset,parent,width)
@@ -224,18 +294,18 @@ class DownloadsPane(BasePane):
         self.add_text_input("download_location","Download To:",parent.core_config["download_location"])
         cmptxt = TextInput(self.parent,self.move,self.width,None,"move_completed_path",parent.core_config["move_completed_path"],False)
         self.add_checkedplus_input("move_completed","Move completed to:",cmptxt,parent.core_config["move_completed"])
-        autotxt = TextInput(self.parent,self.move,self.width,None,"autoadd_location",parent.core_config["autoadd_location"],False)
-        self.add_checkedplus_input("autoadd_enable","Auto add .torrents from:",autotxt,parent.core_config["autoadd_enable"])
         copytxt = TextInput(self.parent,self.move,self.width,None,"torrentfiles_location",parent.core_config["torrentfiles_location"],False)
         self.add_checkedplus_input("copy_torrent_file","Copy of .torrent files to:",copytxt,parent.core_config["copy_torrent_file"])
         self.add_checked_input("del_copy_torrent_file","Delete copy of torrent file on remove",parent.core_config["del_copy_torrent_file"])
 
-        self.add_header("Allocation",True)
-        self.add_checked_input("pre_allocate_storage", "Pre-Allocate disk space", parent.core_config["pre_allocate_storage"])
-
         self.add_header("Options",True)
-        self.add_checked_input("prioritize_first_last_pieces","Prioritize first and last pieces of torrent",parent.core_config["prioritize_first_last_pieces"])
-        self.add_checked_input("add_paused","Add torrents in paused state",parent.core_config["add_paused"])
+        self.add_checked_input("prioritize_first_last_pieces", "Prioritize first and last pieces of torrent",
+                               parent.core_config["prioritize_first_last_pieces"])
+        self.add_checked_input("sequential_download", "",
+                               parent.core_config["sequential_download"])
+        self.add_checked_input("add_paused", "Sequential_download", parent.core_config["add_paused"])
+        self.add_checked_input("pre_allocate_storage", "Pre-Allocate disk space",
+                               parent.core_config["pre_allocate_storage"])
 
 
 class NetworkPane(BasePane):
@@ -303,54 +373,6 @@ class BandwidthPane(BasePane):
         self.add_float_spin_input("max_download_speed_per_torrent","Maximum Download Speed (KiB/s):",parent.core_config["max_download_speed_per_torrent"],1.0,1,-1.0,60000.0)
         self.add_float_spin_input("max_upload_speed_per_torrent","Maximum Upload Speed (KiB/s):",parent.core_config["max_upload_speed_per_torrent"],1.0,1,-1.0,60000.0)
 
-class InterfacePane(BasePane):
-    def __init__(self, offset, parent, width):
-        BasePane.__init__(self,offset,parent,width)
-        self.add_header("General options", False)
-
-        self.add_checked_input("ring_bell","Ring system bell when a download finishes",parent.console_config["ring_bell"])
-
-        self.add_header("New Console UI", True)
-
-        self.add_checked_input("separate_complete","List complete torrents after incomplete regardless of sorting order",parent.console_config["separate_complete"])
-        self.add_checked_input("move_selection","Move selection when moving torrents in the queue",parent.console_config["move_selection"])
-
-        self.add_header("Legacy Mode", True)
-
-        self.add_checked_input("ignore_duplicate_lines","Do not store duplicate input in history",parent.console_config["ignore_duplicate_lines"])
-        self.add_checked_input("save_legacy_history","Store and load command line history in Legacy mode",parent.console_config["save_legacy_history"])
-
-        self.add_header("", False)
-
-        self.add_checked_input("third_tab_lists_all","Third tab lists all remaining torrents in legacy mode",parent.console_config["third_tab_lists_all"])
-        self.add_int_spin_input("torrents_per_tab_press","Torrents per tab press",parent.console_config["torrents_per_tab_press"], 5, 100)
-
-
-class ColumnsPane(BasePane):
-    def __init__(self, offset, parent, width):
-        BasePane.__init__(self,offset,parent,width)
-        self.add_header("Columns To Display", True)
-
-        default_prefs = deluge.ui.console.modes.alltorrents.DEFAULT_PREFS
-
-        for cpn in deluge.ui.console.modes.alltorrents.column_pref_names:
-            pn = "show_%s"%cpn
-            #If there is no option for it, it's not togglable
-            # We check in default_prefs because it might still exist in config files
-            if pn not in default_prefs:
-                continue
-            self.add_checked_input(pn,
-                                   deluge.ui.console.modes.alltorrents.prefs_to_names[cpn],
-                                   parent.console_config[pn])
-        self.add_header("Column Widths (-1 = expand)",True)
-        for cpn in deluge.ui.console.modes.alltorrents.column_pref_names:
-            pn = "%s_width"%cpn
-            if pn not in default_prefs:
-                continue
-            self.add_int_spin_input(pn,
-                                    deluge.ui.console.modes.alltorrents.prefs_to_names[cpn],
-                                    parent.console_config[pn],-1,100)
-
 class OtherPane(BasePane):
     def __init__(self, offset, parent, width):
         BasePane.__init__(self,offset,parent,width)
@@ -393,8 +415,26 @@ class QueuePane(BasePane):
 
 class ProxyPane(BasePane):
     def __init__(self, offset, parent, width):
-        BasePane.__init__(self,offset,parent,width)
-        self.add_header("Proxy Settings Comming Soon")
+        BasePane.__init__(self, offset, parent, width)
+        self.add_header("Proxy Settings")
+        self.add_header("Proxy", True)
+        proxy = parent.core_config["proxy"]
+        self.add_int_spin_input("proxy_type","Type:", proxy["type"],0,5)
+        self.add_info_field("   0: None         1: Socks4   2: Socks5", "", "")
+        self.add_info_field("   3: Socks5 Auth  4: HTTP     5: HTTP Auth", "", "")
+        self.add_text_input("proxy_username", "Username:", proxy["username"])
+        self.add_text_input("proxy_password", "Password:", proxy["password"])
+        self.add_text_input("proxy_hostname", "Hostname:", proxy["hostname"])
+        self.add_int_spin_input("proxy_port", "Port:", proxy["port"], 0, 65535)
+        self.add_checked_input("proxy_hostnames", "Proxy hostnames", proxy["proxy_hostnames"])
+        self.add_checked_input("proxy_peer_connections", "Proxy peer connections", proxy["proxy_peer_connections"])
+
+
+        self.add_header("I2P Proxy",True)
+        i2p_proxy = parent.core_config["i2p_proxy"]
+        self.add_text_input("i2p_hostname", "Hostname:", i2p_proxy["hostname"])
+        self.add_int_spin_input("i2p_port", "Port:", i2p_proxy["port"], 0, 65535)
+
 
 class CachePane(BasePane):
     def __init__(self, offset, parent, width):

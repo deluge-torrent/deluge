@@ -86,14 +86,6 @@ Deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
         optMan.bind('copy_torrent_file', field.toggle);
         optMan.bind('torrentfiles_location', field.input);
 
-        field = fieldset.add({
-            name: 'autoadd_location',
-            fieldLabel: _('Autoadd .torrent files from'),
-            width: 280
-        });
-        optMan.bind('autoadd_enable', field.toggle);
-        optMan.bind('autoadd_location', field.input);
-
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
