@@ -59,11 +59,14 @@ from twisted.internet.task import LoopingCall
 
 from deluge import component
 from deluge.ui.web.json_api import JSONComponent, export
+from deluge.common import utf8_encoded
 
 log = logging.getLogger(__name__)
 
+
 def make_checksum(session_id):
     return reduce(lambda x,y:x+y, map(ord, session_id))
+
 
 def get_session_id(session_id):
     """
@@ -83,11 +86,13 @@ def get_session_id(session_id):
         log.exception(e)
         return None
 
+
 def make_expires(timeout):
     dt = timedelta(seconds=timeout)
     expires = time.mktime((datetime.now() + dt).timetuple())
     expires_str = formatdate(timeval=expires, localtime=False, usegmt=True)
     return expires, expires_str
+
 
 class Auth(JSONComponent):
     """
@@ -158,7 +163,7 @@ class Auth(JSONComponent):
             log.debug("Received a password via the 1.2-dev auth method")
             m = hashlib.md5()
             m.update(config["pwd_salt"])
-            m.update(password)
+            m.update(utf8_encoded(password))
             if m.hexdigest() == config['pwd_md5']:
                 # We want to move the password over to sha1 and remove
                 # the old passwords from the config file.
@@ -178,7 +183,7 @@ class Auth(JSONComponent):
             from base64 import decodestring
             m = hashlib.md5()
             m.update(decodestring(config["old_pwd_salt"]))
-            m.update(password)
+            m.update(utf8_encoded(password))
             if m.digest() == decodestring(config["old_pwd_md5"]):
 
                 # We want to move the password over to sha1 and remove
@@ -194,7 +199,7 @@ class Auth(JSONComponent):
             log.debug("Received a password via the 1.2 auth method")
             s = hashlib.sha1()
             s.update(config["pwd_salt"])
-            s.update(password)
+            s.update(utf8_encoded(password))
             if s.hexdigest() == config["pwd_sha1"]:
                 return True
 
@@ -265,7 +270,7 @@ class Auth(JSONComponent):
         log.debug("Changing password")
         salt = hashlib.sha1(str(random.getrandbits(40))).hexdigest()
         s = hashlib.sha1(salt)
-        s.update(new_password)
+        s.update(utf8_encoded(new_password))
         config = component.get("DelugeWeb").config
         config["pwd_salt"] = salt
         config["pwd_sha1"] = s.hexdigest()
@@ -318,7 +323,6 @@ class Auth(JSONComponent):
         :returns: a session id or False
         :rtype: string or False
         """
-
         if self.check_password(password):
             return self._create_session(__request__)
         else:
