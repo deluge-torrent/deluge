@@ -349,7 +349,6 @@ setup(
                                "ui/data/pixmaps/flags/*.png",
                                "plugins/*.egg",
                                "i18n/*/LC_MESSAGES/*.mo",
-                               "ui/web/gettext.js",
                                "ui/web/index.html",
                                "ui/web/css/*.css",
                                "ui/web/icons/*.png",
