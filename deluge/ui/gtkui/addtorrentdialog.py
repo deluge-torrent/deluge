@@ -90,7 +90,6 @@ class AddTorrentDialog(component.Component):
             "on_button_add_clicked": self._on_button_add_clicked,
             "on_button_apply_clicked": self._on_button_apply_clicked,
             "on_button_revert_clicked": self._on_button_revert_clicked,
-            "on_allocation_toggled": self._on_allocation_toggled,
             "on_chk_move_completed_toggled": self._on_chk_move_completed_toggled
         })
 
@@ -397,8 +396,6 @@ class AddTorrentDialog(component.Component):
         self.download_location_path_chooser.set_text(options["download_location"], cursor_end=True)
         self.move_completed_path_chooser.set_text(options["move_completed_path"], cursor_end=True)
 
-        #self.builder.get_object("radio_full").set_active(
-        #self.builder.get_object("radio_pre_alloc").set_active(
         self.builder.get_object("spin_maxdown").set_value(
             options["max_download_speed"])
         self.builder.get_object("spin_maxup").set_value(
@@ -452,7 +449,6 @@ class AddTorrentDialog(component.Component):
         options["prioritize_first_last_pieces"] = \
             self.builder.get_object("chk_prioritize").get_active()
         options["sequential_download"] = \
-            self.builder.get_object("radio_full").get_active() and \
             self.builder.get_object("chk_sequential_download").get_active() or False
         options["move_completed"] = \
             self.builder.get_object("chk_move_completed").get_active()
@@ -934,8 +930,3 @@ class AddTorrentDialog(component.Component):
             # Walk through the tree from 'itr' and add all the new file paths
             # to the 'mapped_files' option
             walk_tree(itr)
-
-    def _on_allocation_toggled(self, widget):
-        full_allocation_active = self.builder.get_object("radio_full").get_active()
-        self.builder.get_object("chk_prioritize").set_sensitive(full_allocation_active)
-        self.builder.get_object("chk_sequential_download").set_sensitive(full_allocation_active)

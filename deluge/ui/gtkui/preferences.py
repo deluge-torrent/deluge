@@ -170,7 +170,6 @@ class Preferences(component.Component):
             "on_accounts_add_clicked": self._on_accounts_add_clicked,
             "on_accounts_delete_clicked": self._on_accounts_delete_clicked,
             "on_accounts_edit_clicked": self._on_accounts_edit_clicked,
-            "on_allocation_toggled": self._on_allocation_toggled,
             "on_piecesbar_toggle_toggled": self._on_piecesbar_toggle_toggled,
             "on_completed_color_set": self._on_completed_color_set,
             "on_revert_color_completed_clicked": self._on_revert_color_completed_clicked,
@@ -1235,11 +1234,6 @@ class Preferences(component.Component):
                     username
                 ).addCallback(remove_ok).addErrback(remove_fail)
         dialog.run().addCallback(dialog_finished)
-
-    def _on_allocation_toggled(self, widget):
-        full_allocation_active = self.builder.get_object("radio_full_allocation").get_active()
-        self.builder.get_object("chk_prioritize_first_last_pieces").set_sensitive(full_allocation_active)
-        self.builder.get_object("chk_sequential_download").set_sensitive(full_allocation_active)
 
     def _on_piecesbar_toggle_toggled(self, widget):
         self.gtkui_config['show_piecesbar'] = widget.get_active()
