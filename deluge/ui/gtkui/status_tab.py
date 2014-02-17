@@ -44,19 +44,20 @@ from deluge.ui.gtkui.piecesbar import PiecesBar
 
 log = logging.getLogger(__name__)
 
+
 def fpeer_sized(first, second):
     return "%s (%s)" % (deluge.common.fsize(first), deluge.common.fsize(second))
 
-def fpeer_size_second(first, second):
-    return "%s (%s)" % (first, deluge.common.fsize(second))
 
 def fratio(value):
     if value < 0:
         return "∞"
     return "%.3f" % value
 
+
 def fpcnt(value):
     return "%.2f%%" % value
+
 
 def fspeed(value, max_value=-1):
     if max_value > -1:
@@ -64,12 +65,6 @@ def fspeed(value, max_value=-1):
     else:
         return deluge.common.fspeed(value)
 
-def fdate(value):
-    """Display value as date, eg 05/05/08 or blank"""
-    if value > 0.0:
-        return deluge.common.fdate(value)
-    else:
-        return ""
 
 def fdate_or_never(value):
     """Display value as date, eg 05/05/08 or Never"""
@@ -77,6 +72,7 @@ def fdate_or_never(value):
         return deluge.common.fdate(value)
     else:
         return "Never"
+
 
 class StatusTab(Tab):
     def __init__(self):
@@ -96,9 +92,9 @@ class StatusTab(Tab):
             apply_now=True
         )
         self.label_widgets = [
-            (builder.get_object("summary_pieces"), fpeer_size_second, ("num_pieces", "piece_length")),
             (builder.get_object("summary_availability"), fratio, ("distributed_copies",)),
-            (builder.get_object("summary_total_downloaded"), fpeer_sized, ("all_time_download", "total_payload_download")),
+            (builder.get_object("summary_total_downloaded"), fpeer_sized, ("all_time_download",
+                                                                           "total_payload_download")),
             (builder.get_object("summary_total_uploaded"), fpeer_sized, ("total_uploaded", "total_payload_upload")),
             (builder.get_object("summary_download_speed"), fspeed, ("download_payload_rate", "max_download_speed")),
             (builder.get_object("summary_upload_speed"), fspeed, ("upload_payload_rate", "max_upload_speed")),
@@ -113,9 +109,9 @@ class StatusTab(Tab):
             (builder.get_object("summary_seed_rank"), str, ("seed_rank",)),
             (builder.get_object("summary_auto_managed"), str, ("is_auto_managed",)),
             (builder.get_object("progressbar"), fpcnt, ("progress",)),
-            (builder.get_object("summary_date_added"), deluge.common.fdate, ("time_added",)),
             (builder.get_object("summary_last_seen_complete"), fdate_or_never, ("last_seen_complete",)),
-            (builder.get_object("summary_completed"), fdate, ("completed_time",)),
+            (builder.get_object("summary_torrent_status"), str, ("message",)),
+            (builder.get_object("summary_tracker"), None, ("tracker",)),
         ]
 
     def update(self):
@@ -130,18 +126,16 @@ class StatusTab(Tab):
             return
 
         # Get the torrent status
-        status_keys = ["progress", "num_pieces", "piece_length",
+        status_keys = [
             "distributed_copies", "all_time_download", "total_payload_download",
-            "total_uploaded", "total_payload_upload", "download_payload_rate",
-            "upload_payload_rate", "num_peers", "num_seeds", "total_peers",
-            "total_seeds", "eta", "ratio", "next_announce",
-            "tracker_status", "max_connections", "max_upload_slots",
-            "max_upload_speed", "max_download_speed", "active_time",
-            "seeding_time", "seed_rank", "is_auto_managed", "time_added",
-            "last_seen_complete", "completed_time"]
+            "total_uploaded", "total_payload_upload", "download_payload_rate", "max_download_speed",
+            "upload_payload_rate", "max_upload_speed", "num_peers", "num_seeds", "total_peers",
+            "total_seeds", "eta", "ratio", "tracker_status", "next_announce", "active_time",
+            "seeding_time", "seed_rank", "is_auto_managed", "progress", "last_seen_complete",
+            "message", "tracker"
+        ]
         if self.config['show_piecesbar']:
-            status_keys.extend(["pieces", "state"])
-
+            status_keys.extend(["pieces", "state", "num_pieces"])
 
         component.get("SessionProxy").get_torrent_status(
             selected, status_keys).addCallback(self._on_get_torrent_status)
@@ -152,15 +146,15 @@ class StatusTab(Tab):
             return
 
         if status["is_auto_managed"]:
-            status["is_auto_managed"]=_("On")
+            status["is_auto_managed"] = _("On")
         else:
-            status["is_auto_managed"]=_("Off")
+            status["is_auto_managed"] = _("Off")
 
         translate_tracker_status = {
-            "Error" : _("Error"),
-            "Warning" : _("Warning"),
-            "Announce OK" : _("Announce OK"),
-            "Announce Sent" : _("Announce Sent")
+            "Error": _("Error"),
+            "Warning": _("Warning"),
+            "Announce OK": _("Announce OK"),
+            "Announce Sent": _("Announce Sent")
         }
         for key, value in translate_tracker_status.iteritems():
             if key in status["tracker_status"]:
@@ -169,7 +163,7 @@ class StatusTab(Tab):
 
         # Update all the label widgets
         for widget in self.label_widgets:
-            if widget[1] != None:
+            if widget[1] is not None:
                 args = []
                 try:
                     for key in widget[2]:

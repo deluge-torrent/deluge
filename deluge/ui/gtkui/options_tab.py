@@ -40,6 +40,7 @@ from deluge.ui.client import client
 from deluge.ui.gtkui.path_chooser import PathChooser
 from deluge.ui.gtkui.torrentdetails import Tab
 
+
 class OptionsTab(Tab):
     def __init__(self):
         Tab.__init__(self)
@@ -53,7 +54,6 @@ class OptionsTab(Tab):
         self.spin_max_upload = builder.get_object("spin_max_upload")
         self.spin_max_connections = builder.get_object("spin_max_connections")
         self.spin_max_upload_slots = builder.get_object("spin_max_upload_slots")
-        self.chk_private = builder.get_object("chk_private")
         self.chk_prioritize_first_last = builder.get_object("chk_prioritize_first_last")
         self.chk_sequential_download = builder.get_object("chk_sequential_download")
         self.chk_auto_managed = builder.get_object("chk_auto_managed")
@@ -118,7 +118,6 @@ class OptionsTab(Tab):
             "max_upload_speed",
             "max_connections",
             "max_upload_slots",
-            "private",
             "prioritize_first_last",
             "is_auto_managed",
             "stop_at_ratio",
@@ -139,7 +138,7 @@ class OptionsTab(Tab):
     def _on_get_torrent_status(self, status):
         # We only want to update values that have been applied in the core.  This
         # is so we don't overwrite the user changes that haven't been applied yet.
-        if self.prev_status == None:
+        if self.prev_status is None:
             self.prev_status = {}.fromkeys(status.keys(), None)
 
         if status != self.prev_status:
@@ -151,8 +150,6 @@ class OptionsTab(Tab):
                 self.spin_max_connections.set_value(status["max_connections"])
             if status["max_upload_slots"] != self.prev_status["max_upload_slots"]:
                 self.spin_max_upload_slots.set_value(status["max_upload_slots"])
-            if status["private"] != self.prev_status["private"]:
-                self.chk_private.set_active(status["private"])
             if status["prioritize_first_last"] != self.prev_status["prioritize_first_last"]:
                 self.chk_prioritize_first_last.set_active(status["prioritize_first_last"])
             if status["is_auto_managed"] != self.prev_status["is_auto_managed"]:
@@ -168,7 +165,8 @@ class OptionsTab(Tab):
             if status["move_on_completed"] != self.prev_status["move_on_completed"]:
                 self.chk_move_completed.set_active(status["move_on_completed"])
             if status["move_on_completed_path"] != self.prev_status["move_on_completed_path"]:
-                self.move_completed_path_chooser.set_text(status["move_on_completed_path"], cursor_end=False, default_text=True)
+                self.move_completed_path_chooser.set_text(status["move_on_completed_path"],
+                                                          cursor_end=False, default_text=True)
             if status["shared"] != self.prev_status["shared"]:
                 self.chk_shared.set_active(status["shared"])
 
@@ -188,7 +186,6 @@ class OptionsTab(Tab):
                     self.chk_sequential_download.set_active(status["sequential_download"])
                     if not self.chk_sequential_download.get_property("visible"):
                         self.chk_sequential_download.show()
-
 
             if self.button_apply.is_sensitive():
                 self.button_apply.set_sensitive(False)
@@ -213,14 +210,14 @@ class OptionsTab(Tab):
                 self.prev_torrent_id, self.spin_max_upload_slots.get_value_as_int()
             )
         if self.chk_prioritize_first_last.get_active() != \
-                        self.prev_status["prioritize_first_last"] and \
-                                                not self.prev_status["storage_mode"] == "compact":
+            self.prev_status["prioritize_first_last"] and \
+                not self.prev_status["storage_mode"] == "compact":
             client.core.set_torrent_prioritize_first_last(
                 self.prev_torrent_id, self.chk_prioritize_first_last.get_active()
             )
         if self.chk_sequential_download.get_active() != \
-                        self.prev_status["sequential_download"] and \
-                                                not self.prev_status["storage_mode"] == "compact":
+            self.prev_status["sequential_download"] and \
+                not self.prev_status["storage_mode"] == "compact":
             client.core.set_torrent_sequential_download(
                 self.prev_torrent_id, self.chk_prioritize_first_last.get_active()
             )
@@ -263,7 +260,6 @@ class OptionsTab(Tab):
             if result:
                 self.button_apply.set_sensitive(True)
         dialog.run().addCallback(on_response)
-
 
     def _on_chk_move_completed_toggled(self, widget):
         value = self.chk_move_completed.get_active()

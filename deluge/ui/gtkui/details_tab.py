@@ -36,10 +36,28 @@
 import logging
 
 import deluge.component as component
-from deluge.common import fsize, is_url
+from deluge.common import fsize, is_url, fdate
 from deluge.ui.gtkui.torrentdetails import Tab
 
 log = logging.getLogger(__name__)
+
+
+def fpeer_size_second(first, second):
+    return "%s (%s)" % (first, fsize(second))
+
+
+def fdate_blank(value):
+    """Display value as date, eg 05/05/08 or blank"""
+    if value > 0.0:
+        return fdate(value)
+    else:
+        return ""
+
+
+def str_yes_no(value):
+    """Return Yes or No to bool value"""
+    return _("Yes") if value else _("No")
+
 
 class DetailsTab(Tab):
     def __init__(self):
@@ -56,13 +74,15 @@ class DetailsTab(Tab):
             (builder.get_object("summary_name"), None, ("name",)),
             (builder.get_object("summary_total_size"), fsize, ("total_size",)),
             (builder.get_object("summary_num_files"), str, ("num_files",)),
-            (builder.get_object("summary_tracker"), None, ("tracker",)),
+            (builder.get_object("summary_completed"), fdate_blank, ("completed_time",)),
+            (builder.get_object("summary_date_added"), fdate, ("time_added",)),
+            (builder.get_object("summary_private"), str_yes_no, ("private",)),
             (builder.get_object("summary_torrent_path"), None, ("save_path",)),
-            (builder.get_object("summary_message"), str, ("message",)),
             (builder.get_object("summary_hash"), str, ("hash",)),
             (builder.get_object("summary_comments"), str, ("comment",)),
             (builder.get_object("summary_owner"), str, ("owner",)),
-            (builder.get_object("summary_shared"), str, ("shared",))
+            (builder.get_object("summary_shared"), str_yes_no, ("shared",)),
+            (builder.get_object("summary_pieces"), fpeer_size_second, ("num_pieces", "piece_length")),
         ]
 
     def update(self):
@@ -78,9 +98,9 @@ class DetailsTab(Tab):
             return
 
         # Get the torrent status
-        status_keys = ["name", "total_size", "num_files", "tracker",
-                       "save_path", "message", "hash", "comment", "owner",
-                       "shared"]
+        status_keys = ["name", "total_size", "num_files", "time_added", "completed_time",
+                       "save_path", "hash", "comment", "owner", "num_pieces", "piece_length",
+                       "shared", "private"]
 
         session = component.get("SessionProxy")
         session.get_torrent_status(selected, status_keys).addCallback(self._on_get_torrent_status)
@@ -92,7 +112,7 @@ class DetailsTab(Tab):
 
         # Update all the label widgets
         for widget in self.label_widgets:
-            if widget[1] != None:
+            if widget[1] is not None:
                 args = []
                 try:
                     for key in widget[2]:
