@@ -106,7 +106,7 @@ def rpath(*paths):
 class GetText(resource.Resource):
     def render(self, request):
         request.setHeader("content-type", "text/javascript; encoding=utf-8")
-        template = Template(filename=rpath("gettext.js"))
+        template = Template(filename=rpath("js", "gettext.js"))
         return compress(template.render(), request)
 
 class Upload(resource.Resource):

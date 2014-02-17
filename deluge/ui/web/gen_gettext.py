@@ -5,7 +5,7 @@ Script to go through the javascript files and dynamically generate gettext.js
 import os
 import re
 
-output_file = "gettext.js"
+output_file = "js/gettext.js"
 string_re = re.compile('_\\(\'(.*?)\'\\)')
 strings = {}
 
