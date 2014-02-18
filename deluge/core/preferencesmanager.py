@@ -226,9 +226,12 @@ class PreferencesManager(component.Component):
                 port = random.randrange(49152, 65525)
                 self.config["random_port_fixed"] = port
             listen_ports = [port, port]
-            reuse_port = True
         else:
             self.config["random_port_fixed"] = 0
+
+        # If a single port is set then enable re-use port flag
+        if listen_ports[0] == listen_ports[1]:
+            reuse_port = True
 
         flags = (lt.listen_on_flags_t.listen_no_system_port if not use_sys_port
                  else 0) | (lt.listen_on_flags_t.listen_reuse_port  if reuse_port else 0)
