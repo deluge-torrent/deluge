@@ -134,8 +134,11 @@ class Core(component.Component):
         # store the one in the config so we can restore it on shutdown
         self.__old_interface = None
         if listen_interface:
-            self.__old_interface = self.config["listen_interface"]
-            self.config["listen_interface"] = listen_interface
+            if deluge.common.is_ip(listen_interface):
+                self.__old_interface = self.config["listen_interface"]
+                self.config["listen_interface"] = listen_interface
+            else:
+                log.error("Invalid listen interface (must be IP Address): %s", listen_interface)
 
     def start(self):
         """Starts the core"""
