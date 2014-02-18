@@ -35,6 +35,7 @@
 
 from deluge.ui.console.modes.input_popup import TextInput,SelectInput,CheckedInput,IntSpinInput,FloatSpinInput,CheckedPlusInput
 import deluge.ui.console.modes.alltorrents
+from deluge.common import is_ip
 
 try:
     import curses
@@ -106,12 +107,16 @@ class BasePane:
                 # gross, have to special case in/out ports since they are tuples
                 if ipt.name in ("listen_ports_to", "listen_ports_from", "out_ports_from", "out_ports_to",
                                 "i2p_port", "i2p_hostname", "proxy_type", "proxy_username", "proxy_hostnames",
-                                "proxy_password", "proxy_hostname", "proxy_port", "proxy_peer_connections"
-                                ):
+                                "proxy_password", "proxy_hostname", "proxy_port", "proxy_peer_connections",
+                                "listen_interface"):
                     if ipt.name == "listen_ports_to":
                         conf_dict["listen_ports"] = (self.infrom.get_value(),self.into.get_value())
                     elif ipt.name == "out_ports_to":
                         conf_dict["outgoing_ports"] = (self.outfrom.get_value(),self.outto.get_value())
+                    elif ipt.name == "listen_interface":
+                        interface = ipt.get_value().strip()
+                        if is_ip(interface) or not interface:
+                            conf_dict["listen_interface"] = interface
                     elif ipt.name == "i2p_port":
                         conf_dict.setdefault("i2p_proxy", {})["port"] = ipt.get_value()
                     elif ipt.name == "i2p_hostname":
@@ -130,6 +135,7 @@ class BasePane:
                         conf_dict.setdefault("proxy", {})["proxy_hostnames"] = ipt.get_value()
                     elif ipt.name == "proxy_peer_connections":
                         conf_dict.setdefault("proxy", {})["proxy_peer_connections"] = ipt.get_value()
+
 
                 else:
                     conf_dict[ipt.name] = ipt.get_value()
