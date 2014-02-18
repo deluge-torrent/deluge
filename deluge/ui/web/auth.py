@@ -42,10 +42,10 @@ from email.utils import formatdate
 from twisted.internet.task import LoopingCall
 
 from deluge import component
-from deluge.ui.web.json_api import JSONComponent, export
 from deluge.common import utf8_encoded
 
 log = logging.getLogger(__name__)
+
 
 AUTH_LEVEL_NONE = 0
 AUTH_LEVEL_READONLY = 1
@@ -53,6 +53,17 @@ AUTH_LEVEL_NORMAL = 5
 AUTH_LEVEL_ADMIN = 10
 
 AUTH_LEVEL_DEFAULT = AUTH_LEVEL_NORMAL
+
+
+class AuthError(Exception):
+    """
+    An exception that might be raised when checking a request for
+    authentication.
+    """
+    pass
+
+# Import after as json_api imports the above AuthError and AUTH_LEVEL_DEFAULT
+from deluge.ui.web.json_api import JSONComponent, export
 
 
 def make_checksum(session_id):
@@ -318,11 +329,3 @@ class Auth(JSONComponent):
         else:
             log.error('Login failed (ClientIP %s)', __request__.getClientIP())
             return False
-
-
-class AuthError(Exception):
-    """
-    An exception that might be raised when checking a request for
-    authentication.
-    """
-    pass
