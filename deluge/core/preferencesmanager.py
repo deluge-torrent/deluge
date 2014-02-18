@@ -204,19 +204,14 @@ class PreferencesManager(component.Component):
         log.debug("Listen on random port set to %s", value)
         self.set_listen_on()
 
-    def set_listen_on(self, listen_ports=self.config["listen_ports"],
-                      interface=self.config["listen_interface"],
-                      reuse_port=self.config["listen_reuse_port"],
-                      use_sys_port=self.config["listen_use_sys_port"])
-        """ Set the ports and interface address to listen for incoming connections on.
+    def set_listen_on(self, ):
+        """ Set the ports and interface address to listen for incoming connections on."""
+        listen_ports = self.config["listen_ports"]
+        interface = str(self.config["listen_interface"].strip())
+        reuse_port = self.config["listen_reuse_port"]
+        use_sys_port = self.config["listen_use_sys_port"]
 
-        Args:
-            listen_ports (list): the listen ports range
-            interface (str): the listen interface (ip address)
-            reuse_port (bool): Reuse the specified port
-            use_sys_port (bool): Allow binding to system port 0 if specified port(s) in use
-        """
-        log.debug("Listen on Interface: %s, Ports: %s-%s and Flags: reuse_port: %s,  use_sys_port: %s",
+        log.debug("Listen on Interface: %s, Ports: %s-%s and Flags: reuse_port: %s, use_sys_port: %s",
                   interface, listen_ports[0], listen_ports[1], reuse_port, use_sys_port)
 
         if self.config["random_port"]:
@@ -234,9 +229,9 @@ class PreferencesManager(component.Component):
             reuse_port = True
 
         flags = (lt.listen_on_flags_t.listen_no_system_port if not use_sys_port
-                 else 0) | (lt.listen_on_flags_t.listen_reuse_port  if reuse_port else 0)
+                 else 0) | (lt.listen_on_flags_t.listen_reuse_address  if reuse_port else 0)
         try:
-            self.session.listen_on(listen_ports[0], listen_ports[1], interface.strip(), flags)
+            self.session.listen_on(listen_ports[0], listen_ports[1], interface, flags)
         except RuntimeError as ex:
             if ex.message == "Invalid Argument":
                 log.error("Error setting listen interface (must be IP Address): %s %s-%s",
