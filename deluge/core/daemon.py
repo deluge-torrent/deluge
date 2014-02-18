@@ -98,9 +98,6 @@ class Daemon(object):
                     return 1
             SetConsoleCtrlHandler(win_handler)
 
-        if listen_interface and not is_ip(listen_interface):
-            listen_interface = None
-
         # Start the core as a thread and join it until it's done
         self.core = Core(listen_interface=listen_interface)
 
@@ -108,6 +105,7 @@ class Daemon(object):
             port = self.core.config["daemon_port"]
 
         if interface and not is_ip(interface):
+            log.error("Invalid UI interface (must be IP Address): %s", interface)
             interface = None
 
         self.rpcserver = RPCServer(
