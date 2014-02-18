@@ -592,8 +592,7 @@ class Preferences(component.Component):
         new_core_config["outgoing_ports"] = outgoing_ports
         new_core_config["random_outgoing_ports"] = \
             self.builder.get_object("chk_random_outgoing_ports").get_active()
-
-        incoming_address = self.builder.get_object("entry_interface").get_text()
+        incoming_address = self.builder.get_object("entry_interface").get_text().strip()
         if deluge.common.is_ip(incoming_address) or not incoming_address:
             new_core_config["listen_interface"] = incoming_address
         new_core_config["peer_tos"] = self.builder.get_object("entry_peer_tos").get_text()
