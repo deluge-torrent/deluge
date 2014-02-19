@@ -70,6 +70,9 @@ class Web(_UI):
             group.add_option("-g", "--group", dest="group", type="str",
                 help="Group to switch to. Only use it when starting as root",
                 action="store", default=None)
+        group.add_option("-i", "--interface", dest="interface",
+            type="str", help="Binds the webserver to a specific IP address",
+            action="store", default=None)
         group.add_option("-p", "--port", dest="port", type="int",
             help="Sets the port to be used for the webserver",
             action="store", default=None)
@@ -133,6 +136,9 @@ class Web(_UI):
 
         if self.options.base:
             self.server.base = self.options.base
+
+        if self.options.interface:
+            self.server.interface = self.options.interface
 
         if self.options.port:
             self.server.port = self.options.port
