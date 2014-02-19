@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
 EXEC="exec"
 
 name="`basename $0`"
-if [[ "$0" == `pwd`* ]] || [[ "$0" == "//"* ]]; then
+if [[ "$0" == `pwd`* ]] || [[ "$0" == "/"* ]]; then
     full_path="$0"
 else
     full_path="`pwd`/$0"
@@ -15,23 +15,12 @@ bundle_contents="$bundle"/Contents
 bundle_macos="$bundle_contents"/MacOS
 bundle_res="$bundle_contents"/Resources
 bundle_lib="$bundle_res"/lib
-bundle_bin="$bundle_res"/bin
 bundle_data="$bundle_res"/share
 bundle_etc="$bundle_res"/etc
 
 export DYLD_LIBRARY_PATH="$bundle_lib"
 export XDG_CONFIG_DIRS="$bundle_etc"/xdg
 export XDG_DATA_DIRS="$bundle_data"
-export GTK_DATA_PREFIX="$bundle_res"
-export GTK_EXE_PREFIX="$bundle_res"
-export GTK_PATH="$bundle_res"
-
-export GTK2_RC_FILES="$bundle_etc/gtk-2.0/gtkrc"
-export GTK_IM_MODULE_FILE="$bundle_etc/gtk-2.0/gtk.immodules"
-export GDK_PIXBUF_MODULE_FILE="$bundle_etc/gtk-2.0/gdk-pixbuf.loaders"
-export PANGO_RC_FILE="$bundle_etc/pango/pangorc"
-export PANGO_LIBDIR="$bundle_lib"
-export PANGO_SYSCONFDIR="$bundle_etc"
 
 #Set $PYTHON to point inside the bundle
 export PYTHON="$bundle_macos/Deluge-python"
@@ -40,7 +29,6 @@ export PYTHONHOME="$bundle_res"
 PYTHONPATH="$bundle_lib:$PYTHONPATH"
 PYTHONPATH="$bundle_lib/python/lib-dynload/:$PYTHONPATH"
 PYTHONPATH="$bundle_lib/python/:$PYTHONPATH"
-PYTHONPATH="$bundle_lib/pygtk/2.0:$PYTHONPATH"
 export PYTHONPATH
 
 # We need a UTF-8 locale.
@@ -74,6 +62,5 @@ if [ "x`echo "x$1" | sed -e "s/^x-psn_.*//"`" == "x" ]; then
     shift 1
 fi
 
-#Note that we're calling $PYTHON here to override the version in
-#pygtk-demo's shebang.
-$EXEC "$PYTHON" "$bundle_contents/MacOS/Deluge-bin" "$@" #-l ~/.config/deluge/app.log -L debug
+# Note that we're calling $PYTHON here to override the version used.
+$EXEC "$PYTHON" "$bundle_contents/MacOS/deluged-bin" "$@"

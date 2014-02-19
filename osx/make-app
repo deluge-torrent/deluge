@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 APPDIR="./app/Deluge.app"
 RSCDIR="${APPDIR}/Contents/Resources"
@@ -18,7 +18,7 @@ if [ ! -z "${JHBUILD_PREFIX}" ]; then
     chmod 755 "${JHBUILD_PREFIX}/lib/"libcrypto*.dylib
 fi
 
-chmod 755 deluge*.sh
+chmod 755 deluge deluge-web deluge-console deluged
 
 msg "Calling gtk-mac-bundler"
 gtk-mac-bundler deluge.bundle
