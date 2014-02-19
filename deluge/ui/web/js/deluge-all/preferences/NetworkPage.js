@@ -53,7 +53,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
     initComponent: function() {
         Deluge.preferences.Network.superclass.initComponent.call(this);
         var optMan = deluge.preferences.getOptionsManager();
-        console.log(Ext.form.VTypes);
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
