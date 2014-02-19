@@ -4,7 +4,7 @@
     <prefix name="default">${env:JHBUILD_PREFIX}</prefix>
     <destination overwrite="yes">app</destination>
     <run-install-name-tool/>
-    <launcher-script>${project}/deluge.sh</launcher-script>
+    <launcher-script>${project}/deluge</launcher-script>
   </meta>
   <plist>${project}/Info.plist</plist>
   <main-binary>${prefix}/bin/deluge-gtk</main-binary>
@@ -38,7 +38,7 @@
   <data dest="${bundle}/Contents/Resources">${project}/deluge.icns</data>
   <data dest="${bundle}/Contents/Resources">${project}/torrent.icns</data>
 
-  <data dest="${bundle}/Contents/MacOS/deluged">${project}/deluged.sh</data>
-  <data dest="${bundle}/Contents/MacOS/deluge-web">${project}/deluge-web.sh</data>
-  <data dest="${bundle}/Contents/MacOS/deluge-console">${project}/deluge-console.sh</data>
+  <data dest="${bundle}/Contents/MacOS/deluged">${project}/deluged</data>
+  <data dest="${bundle}/Contents/MacOS/deluge-web">${project}/deluge-web</data>
+  <data dest="${bundle}/Contents/MacOS/deluge-console">${project}/deluge-console</data>
 </app-bundle>
