@@ -5,18 +5,18 @@
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at 
+# You may obtain a copy of the License at
 #     http://www.apache.org/licenses/LICENSE-2.0
 #
-# Unless required by applicable law or agreed to in writing, software 
-# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT 
-# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the 
-# License for the specific language governing permissions and limitations 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
 # under the License.
 #
 # $Id$
 """Alternate PIL plugin for dealing with Microsoft .ico files. Handles XOR
-transparency masks, XP style 8bit alpha channels and Vista style PNG image 
+transparency masks, XP style 8bit alpha channels and Vista style PNG image
 parts.
 
 >>> import PIL.Image
@@ -39,9 +39,9 @@ Icon format references:
 
 Example icon to test with `down.ico`_
 
-.. _Image-SIG http://mail.python.org/pipermail/image-sig/2008-May/004986.html
-.. _django snippet http://www.djangosnippets.org/snippets/1287/
-.. _down.ico http://www.axialis.com/tutorials/iw/down.ico
+.. _Image-SIG: http://mail.python.org/pipermail/image-sig/2008-May/004986.html
+.. _django snippet: http://www.djangosnippets.org/snippets/1287/
+.. _down.ico: http://www.axialis.com/tutorials/iw/down.ico
 """
 
 import logging
@@ -85,7 +85,7 @@ class Win32IcoFile (object):
           directory[j] = 256
       icon_header = dict(zip(dir_fields, directory))
       icon_header['color_depth'] = (
-          icon_header['bpp'] or 
+          icon_header['bpp'] or
           (icon_header['nb_color'] == 16 and 4))
       icon_header['dim'] = (icon_header['width'], icon_header['height'])
       self.entry.append(icon_header)
@@ -196,7 +196,7 @@ class Win32IcoFile (object):
           w += 32 - (im.size[0] % 32)
         # the total mask data is padded row size * height / bits per char
         total_bytes = long((w * im.size[1]) / 8)
-        log.debug("tot=%d, off=%d, w=%d, size=%d", 
+        log.debug("tot=%d, off=%d, w=%d, size=%d",
             len(data), and_mask_offset, w, total_bytes)
 
         self.buf.seek(and_mask_offset)
@@ -225,7 +225,7 @@ class Win32IcoFile (object):
 
   def __repr__ (self):
     s = 'Microsoft Icon: %d images (max %dx%d %dbpp)' % (
-        len(self.entry), self.entry[0]['width'], self.entry[0]['height'], 
+        len(self.entry), self.entry[0]['width'], self.entry[0]['height'],
         self.entry[0]['bpp'])
     return s
   #end __repr__
@@ -236,10 +236,10 @@ class Win32IconImageFile (PIL.ImageFile.ImageFile):
   """
   PIL read-only image support for Microsoft .ico files.
 
-  By default the largest resolution image in the file will be loaded. This can 
+  By default the largest resolution image in the file will be loaded. This can
   be changed by altering the 'size' attribute before calling 'load'.
 
-  The info dictionary has a key 'sizes' that is a list of the sizes available 
+  The info dictionary has a key 'sizes' that is a list of the sizes available
   in the icon file.
 
   Handles classic, XP and Vista icon formats.

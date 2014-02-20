@@ -122,6 +122,7 @@ class TorrentState:
         self.owner = owner
         self.name = name
 
+
 class TorrentManagerState:
     def __init__(self):
         self.torrents = []
@@ -362,7 +363,6 @@ class TorrentManager(component.Component):
             options["priority"] = state.priority
             options["owner"] = state.owner
             options["name"] = state.name
-
 
             torrent_info = self.get_torrent_info_from_file(
                 os.path.join(self.state_dir, state.torrent_id + ".torrent"))
@@ -1266,7 +1266,7 @@ class TorrentManager(component.Component):
         :param keys: the keys to get the status on
         :type keys: list of str
         :param diff: if True, will return a diff of the changes since the last
-        call to get_status based on the session_id
+            call to get_status based on the session_id
         :type diff: bool
 
         :returns: a status dictionary for the equested torrents.

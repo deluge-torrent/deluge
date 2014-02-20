@@ -168,27 +168,36 @@ class egg_info_plugins(cmd.Command):
 
 class build_docs(BuildDoc):
     def run(self):
-        class FakeModule(object):
-            def __init__(self, *args, **kwargs): pass
+        class Mock(object):
+            def __init__(self, *args, **kwargs):
+                pass
 
             def __call__(self, *args, **kwargs):
-                return FakeModule()
+                return Mock()
 
             def __getattr__(self, key):
-                return FakeModule()
+                return Mock()
 
             def __setattr__(self, key, value):
                 self.__dict__[key] = value
+
+            def __len__(self):
+                return 0
+
+            def __getitem__(self, ii):
+                return " "
 
         old_import = __builtins__.__import__
         def new_import(name, globals={}, locals={}, fromlist=[], level=-1):
             try:
                 return old_import(name, globals, locals, fromlist, level)
-            except ImportError:
-                return FakeModule()
-            except Exception, e:
-                print "Skipping Exception: ", e
-                return FakeModule()
+            except ImportError as ex:
+                #sys.stdout.write("ImportError: %s\n" % ex)
+                return Mock()
+
+            except Exception as ex:
+                #sys.stdout.write("Skipping Exception: %s\n" % ex)
+                return Mock()
         __builtins__.__import__ = new_import
 
         BuildDoc.run(self)

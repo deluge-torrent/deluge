@@ -249,8 +249,8 @@ class ValueList(object):
         """
         Handles changes to the row selection.
 
-        :param next: the direction to change selection. None means no change. True means down
-        and False means up.
+        :param next: the direction to change selection. True means down and False means up.
+            None means no change.
         :type  next: boolean/None
         :param path: the current path. If None, the currently selected path is used.
         :type  path: tuple

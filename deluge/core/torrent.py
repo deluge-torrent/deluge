@@ -647,14 +647,16 @@ class Torrent(object):
         """Get the files this torrent contains.
 
         Returns:
-            list of dicts: The files.
+            list of dict: The files.
 
-                [{
+            The format for the file dict::
+
+                {
                     "index": int,
                     "path": str,
                     "size": int,
-                    "offset": int,
-                }]
+                    "offset": int
+                }
         """
         if not self.has_metadata:
             return []
@@ -675,17 +677,19 @@ class Torrent(object):
         A list of peers and various information about them.
 
         Returns:
-            list of dicts: The peers.
+            list of dict: The peers.
 
-                [{
+            The format for the peer dict::
+
+                {
                     "client": str,
                     "country": str,
                     "down_speed": int,
                     "ip": str,
                     "progress": float,
                     "seed": bool,
-                    "up_speed": int,
-                }]
+                    "up_speed": int
+                }
         """
         ret = []
         peers = self.handle.get_peer_info()

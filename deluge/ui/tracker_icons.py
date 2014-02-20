@@ -555,7 +555,7 @@ def url_to_host(url):
     :param url: the URL in question
     :type url: string
     :returns: the host of the given URL
-    :rtype:string
+    :rtype: string
     """
     return urlparse(url).hostname
 
@@ -569,6 +569,7 @@ def host_to_icon_name(host, mimetype):
     :type mimetype: string
     :returns: the icon's filename
     :rtype: string
+
     """
     return host+'.'+mimetype_to_extension(mimetype)
 

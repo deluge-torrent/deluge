@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# deluge documentation build configuration file, created by
-# sphinx-quickstart on Tue Nov  4 18:24:06 2008.
+# Deluge documentation build configuration file
 #
 # This file is execfile()d with the current directory set to its containing dir.
 #
@@ -13,18 +12,49 @@
 
 import sys, os
 import deluge.common
+from version import get_version
+from datetime import date
 
 # If your extensions are in another directory, add it here. If the directory
 # is relative to the documentation root, use os.path.abspath to make it
 # absolute, like shown here.
-sys.path.append(os.path.abspath(os.path.dirname(__file__ + "../../")))
+sys.path.append(os.path.abspath(os.path.dirname(__file__ + '../../')))
+
+class Mock(object):
+
+    __all__ = []
+
+    def __init__(self, *args, **kwargs):
+        pass
+
+    def __call__(self, *args, **kwargs):
+        return Mock()
+
+    @classmethod
+    def __getattr__(cls, name):
+        if name in ('__file__', '__path__'):
+            return '/dev/null'
+        elif name[0] == name[0].upper():
+            mockType = type(name, (), {})
+            mockType.__module__ = __name__
+            return mockType
+        else:
+            return Mock()
+
+MOCK_MODULES = ['deluge.ui.languages', 'deluge.ui.countries', 'deluge.ui.gtkui.gtkui',
+                'deluge.libtorrent', 'psyco', 'rencode', 'win32file', 'win32event',
+                'win32gui', 'win32api', 'win32con', '_winreg']
+
+for mod_name in MOCK_MODULES:
+    sys.modules[mod_name] = Mock()
+
 
 # General configuration
 # ---------------------
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest']
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest', 'sphinxcontrib.napoleon']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -37,20 +67,17 @@ master_doc = 'index'
 
 # General substitutions.
 project = 'Deluge'
-copyright = '2008-2010, Deluge Team'
+current_year = date.today().year
+copyright = '2008-%s, Deluge Team' % current_year
 
 # The default replacements for |version| and |release|, also used in various
 # other places throughout the built documents.
 #
 
-def find_version():
-    f = open("../../setup.py", "r")
-    for line in f:
-        if " version = " in line:
-            return line.strip().replace("\"", "").replace(" ", "").replace(",", "").split("=")[1]
-
 # The short X.Y version.
-version = find_version()
+version = get_version(prefix='deluge-', suffix='.dev0')
+# remove the created file by get_version
+os.remove('RELEASE-VERSION')
 # The full version, including alpha/beta/rc tags.
 release = version
 
@@ -66,6 +93,7 @@ today_fmt = '%B %d, %Y'
 # List of directories, relative to source directories, that shouldn't be searched
 # for source files.
 #exclude_dirs = []
+exclude_pattern = ['deluge/_libtorrent.py', 'deluge/__rpcapi.py']
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 #default_role = None
@@ -112,7 +140,7 @@ html_style = 'default.css'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+# html_static_path = ['_static']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.

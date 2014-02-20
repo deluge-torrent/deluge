@@ -83,9 +83,11 @@ def prop(func):
 
     The decorated function is expected to return a dictionary
     containing one or more of the following pairs:
+
         fget - function for getting attribute value
         fset - function for setting attribute value
         fdel - function for deleting attribute
+
     This can be conveniently constructed by the locals() builtin
     function; see:
     http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/205183

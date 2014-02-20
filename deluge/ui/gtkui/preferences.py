@@ -535,8 +535,7 @@ class Preferences(component.Component):
         """
         Sets all altered config values in the core.
 
-        :param hide: bool, if True, will not re-show the dialog and will hide
-        it instead
+        :param hide: bool, if True, will not re-show the dialog and will hide it instead
         """
         try:
             from hashlib import sha1 as sha_hash
