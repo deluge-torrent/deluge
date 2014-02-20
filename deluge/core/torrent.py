@@ -56,7 +56,7 @@ def sanitize_filepath(filepath, folder=False):
 
 
 class TorrentOptions(dict):
-    """ TorrentOptions create a dict of the torrent options.
+    """TorrentOptions create a dict of the torrent options.
 
     Attributes:
         max_connections (int): Sets maximum number of connections this torrent will open.
@@ -84,7 +84,8 @@ class TorrentOptions(dict):
         file_priorities (list of int): The priority for files in torrent, range is [0..7] however
             only [0, 1, 5, 7] are normally used and correspond to [Do Not Download, Normal, High, Highest]
         mapped_files (dict): A mapping of the renamed filenames in 'index:filename' pairs.
-        name (str): The name of the torrent
+        owner (str): The user this torrent belongs to.
+        name (str): The display name of the torrent.
     """
     def __init__(self):
         super(TorrentOptions, self).__init__()
@@ -113,8 +114,8 @@ class TorrentOptions(dict):
             self[opt_k] = config[conf_k]
         self["file_priorities"] = []
         self["mapped_files"] = {}
-        self["owner"] = None
-        self["name"] = None
+        self["owner"] = ""
+        self["name"] = ""
 
 
 class Torrent(object):
@@ -222,7 +223,7 @@ class Torrent(object):
         """Set the torrent options.
 
         Args:
-            options (dict): Torrent options
+            options (dict): Torrent options, see TorrentOptions class for valid keys.
         """
         # set_prioritize_first_last is called by set_file_priorities so only run if not in options
         skip_func = []
@@ -243,7 +244,7 @@ class Torrent(object):
         """Get the torrent options.
 
         Returns:
-            dict: the torrent options
+            dict: the torrent options.
         """
         return self.options
 
@@ -269,7 +270,7 @@ class Torrent(object):
         """Sets maximum upload speed for this torrent.
 
         Args:
-            m_up_speed (float): Maximum upload speed in KiB/s
+            m_up_speed (float): Maximum upload speed in KiB/s.
         """
         self.options["max_upload_speed"] = m_up_speed
         if m_up_speed < 0:
@@ -282,7 +283,7 @@ class Torrent(object):
         """Sets maximum download speed for this torrent.
 
         Args:
-            m_up_speed (float): Maximum download speed in KiB/s
+            m_up_speed (float): Maximum download speed in KiB/s.
         """
         self.options["max_download_speed"] = m_down_speed
         if m_down_speed < 0:
@@ -292,17 +293,17 @@ class Torrent(object):
         self.handle.set_download_limit(value)
 
     def set_prioritize_first_last(self, prioritize):
-        """Deprecated due to mismatch between option and func name"""
+        """Deprecated due to mismatch between option and func name."""
         self.set_prioritize_first_last_pieces(prioritize)
 
     def set_prioritize_first_last_pieces(self, prioritize):
         """Prioritize the first and last pieces in the torrent.
 
         Args:
-            prioritize (bool): Prioritize the first and last pieces
+            prioritize (bool): Prioritize the first and last pieces.
 
         Returns:
-            tuple of lists: The prioritized pieces and the torrent piece priorities
+            tuple of lists: The prioritized pieces and the torrent piece priorities.
         """
         self.options["prioritize_first_last_pieces"] = prioritize
         if not prioritize:
@@ -459,11 +460,11 @@ class Torrent(object):
             self.set_prioritize_first_last_pieces(self.options["prioritize_first_last_pieces"])
 
     def set_save_path(self, download_location):
-        """Deprecated, use set_download_location"""
+        """Deprecated, use set_download_location."""
         self.set_download_location(download_location)
 
     def set_download_location(self, download_location):
-        """The location for downloading torrent data"""
+        """The location for downloading torrent data."""
         self.options["download_location"] = download_location
 
     def set_priority(self, priority):
@@ -484,7 +485,7 @@ class Torrent(object):
             raise ValueError("Torrent priority, %s, is invalid, should be [0..255]", priority)
 
     def set_owner(self, account):
-        """ Sets the owner of this torrent.
+        """Sets the owner of this torrent.
 
         Only a user with admin level auth can change this value.
         """
@@ -830,11 +831,15 @@ class Torrent(object):
         return status_dict
 
     def get_name(self):
-        """ Return the name of the torrent
+        """Return the name of the torrent
 
-        Can be set through options
-        :return: the name
-        :rtype: str
+        The name of the torrent (distinct from the filenames).
+
+        Can be manually set in options through `name` key. If the key is
+        reset to empty string "" it will return the original torrent name.
+
+        Returns:
+            str: the name of the torrent
         """
         if not self.options["name"]:
             handle_name = self.handle.name()
@@ -846,8 +851,7 @@ class Torrent(object):
             return self.options["name"]
 
     def update_status(self, status):
-        """
-        Updates the cached status.
+        """Updates the cached status.
 
         Args:
             status (libtorrent.torrent_status): a libtorrent torrent status
