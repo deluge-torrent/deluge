@@ -47,6 +47,7 @@ import pkg_resources
 import gettext
 import locale
 import base64
+import urllib
 
 try:
     import json
@@ -505,48 +506,50 @@ def is_magnet(uri):
         return True
     return False
 
+
 def get_magnet_info(uri):
-        """
-        Return information about a magnet link.
+    """
+    Return information about a magnet link.
 
-        :param uri: the magnet link
-        :type uri: string
+    :param uri: the magnet link
+    :type uri: string
 
-        :returns: information about the magnet link:
+    :returns: information about the magnet link:
 
-        ::
+    ::
 
-            {
-                "name": the torrent name,
-                "info_hash": the torrents info_hash,
-                "files_tree": empty value for magnet links
-            }
+        {
+            "name": the torrent name,
+            "info_hash": the torrents info_hash,
+            "files_tree": empty value for magnet links
+        }
 
-        :rtype: dictionary
-        """
-        magnet_scheme = 'magnet:?'
-        xt_param = 'xt=urn:btih:'
-        dn_param = 'dn='
-        if uri.startswith(magnet_scheme):
-            name = None
-            info_hash = None
-            for param in uri[len(magnet_scheme):].split('&'):
-                if param.startswith(xt_param):
-                    xt_hash = param[len(xt_param):]
-                    if len(xt_hash) == 32:
-                        info_hash = base64.b32decode(xt_hash).encode("hex")
-                    elif len(xt_hash) == 40:
-                        info_hash = xt_hash
-                    else:
-                        break
-                elif param.startswith(dn_param):
-                    name = unquote_plus(param[len(dn_param):])
+    :rtype: dictionary
+    """
+    magnet_scheme = 'magnet:?'
+    xt_param = 'xt=urn:btih:'
+    dn_param = 'dn='
+    if uri.startswith(magnet_scheme):
+        name = None
+        info_hash = None
+        for param in uri[len(magnet_scheme):].split('&'):
+            if param.startswith(xt_param):
+                xt_hash = param[len(xt_param):]
+                if len(xt_hash) == 32:
+                    info_hash = base64.b32decode(xt_hash).encode("hex")
+                elif len(xt_hash) == 40:
+                    info_hash = xt_hash
+                else:
+                    break
+            elif param.startswith(dn_param):
+                name = urllib.unquote_plus(param[len(dn_param):])
 
-            if info_hash:
-                if not name:
-                    name = info_hash
-                return {"name":name, "info_hash":info_hash, "files_tree":''}
-        return False
+        if info_hash:
+            if not name:
+                name = info_hash
+            return {"name": name, "info_hash": info_hash, "files_tree": ''}
+    return False
+
 
 def create_magnet_uri(infohash, name=None, trackers=[]):
     """
