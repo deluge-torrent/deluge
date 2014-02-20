@@ -38,16 +38,14 @@ import logging
 import pygtk
 pygtk.require('2.0')
 import gtk
+from gobject import signal_new, SIGNAL_RUN_LAST, TYPE_NONE
 
-import deluge.common
 from deluge.ui.gtkui.common import save_pickled_state_file, load_pickled_state_file
 
-from gobject import signal_new, SIGNAL_RUN_LAST, TYPE_NONE
-from gtk import gdk
-signal_new('button-press-event', gtk.TreeViewColumn,
-           SIGNAL_RUN_LAST, TYPE_NONE, (gdk.Event,))
+signal_new('button-press-event', gtk.TreeViewColumn, SIGNAL_RUN_LAST, TYPE_NONE, (gtk.gdk.Event,))
 
 log = logging.getLogger(__name__)
+
 
 class ListViewColumnState:
     """Used for saving/loading column state"""
@@ -58,6 +56,7 @@ class ListViewColumnState:
         self.visible = visible
         self.sort = sort
         self.sort_order = sort_order
+
 
 class ListView:
     """ListView is used to make custom GtkTreeViews.  It supports the adding
@@ -213,6 +212,7 @@ class ListView:
     def on_model_sort_changed(self, model):
         if self.unique_column_id:
             self.last_sort_order = {}
+
             def record_position(model, path, iter, data):
                 self.last_sort_order[model[iter][self.unique_column_id]] = path[0]
             model.foreach(record_position, None)
@@ -262,9 +262,8 @@ class ListView:
             if self.get_column_name(sort_id) == column.get_title():
                 sort = sort_id
 
-        return ListViewColumnState(column.get_title(), position,
-            column.get_width(), column.get_visible(),
-            sort, int(column.get_sort_order()))
+        return ListViewColumnState(column.get_title(), position, column.get_width(),
+                                   column.get_visible(), sort, int(column.get_sort_order()))
 
     def save_state(self, filename):
         """Saves the listview state (column positions and visibility) to
@@ -273,7 +272,8 @@ class ListView:
         state = []
 
         # Workaround for all zero widths after removing column on shutdown
-        if not any(c.get_width() for c in self.treeview.get_columns()): return
+        if not any(c.get_width() for c in self.treeview.get_columns()):
+            return
 
         # Get the list of TreeViewColumns from the TreeView
         for counter, column in enumerate(self.treeview.get_columns()):
@@ -308,7 +308,7 @@ class ListView:
     def get_state_field_column(self, field):
         """Returns the column number for the state field"""
         for column in self.columns.keys():
-            if self.columns[column].status_field == None:
+            if self.columns[column].status_field is None:
                 continue
 
             for f in self.columns[column].status_field:
@@ -331,7 +331,6 @@ class ListView:
     def on_treeview_header_right_clicked(self, column, event):
         if event.button == 3:
             self.menu.popup(None, None, None, event.button, event.get_time())
-
 
     def register_checklist_menu(self, menu):
         """Register a checklist menu with the listview.  It will automatically
@@ -423,9 +422,9 @@ class ListView:
         return
 
     def add_column(self, header, render, col_types, hidden, position,
-            status_field, sortid, text=0, value=0, pixbuf=0, function=None,
-            column_type=None, sort_func=None, tooltip=None, default=True,
-            unique=False, default_sort=False):
+                   status_field, sortid, text=0, value=0, pixbuf=0, function=None,
+                   column_type=None, sort_func=None, tooltip=None, default=True,
+                   unique=False, default_sort=False):
         """Adds a column to the ListView"""
         # Add the column types to liststore_columns
         column_indices = []
@@ -466,39 +465,31 @@ class ListView:
 
         if column_type == "text":
             column.pack_start(render)
-            column.add_attribute(render, "text",
-                    self.columns[header].column_indices[text])
+            column.add_attribute(render, "text", self.columns[header].column_indices[text])
         elif column_type == "bool":
             column.pack_start(render)
-            column.add_attribute(render, "active",
-                    self.columns[header].column_indices[0])
+            column.add_attribute(render, "active", self.columns[header].column_indices[0])
         elif column_type == "func":
             column.pack_start(render, True)
             if len(self.columns[header].column_indices) > 1:
-                column.set_cell_data_func_attributes(render, function,
-                        tuple(self.columns[header].column_indices))
+                column.set_cell_data_func_attributes(render, function, tuple(self.columns[header].column_indices))
             else:
-                column.set_cell_data_func_attributes(render, function,
-                            self.columns[header].column_indices[0])
+                column.set_cell_data_func_attributes(render, function, self.columns[header].column_indices[0])
         elif column_type == "progress":
             column.pack_start(render)
             if function is None:
-                column.add_attribute(render, "text",
-                    self.columns[header].column_indices[text])
-                column.add_attribute(render, "value",
-                    self.columns[header].column_indices[value])
+                column.add_attribute(render, "text", self.columns[header].column_indices[text])
+                column.add_attribute(render, "value", self.columns[header].column_indices[value])
             else:
-                column.set_cell_data_func_attributes(render, function,
-                    tuple(self.columns[header].column_indices))
+                column.set_cell_data_func_attributes(render, function, tuple(self.columns[header].column_indices))
         elif column_type == "texticon":
             column.pack_start(render[pixbuf], False)
             if function is not None:
                 column.set_cell_data_func_attributes(render[pixbuf], function,
-                            self.columns[header].column_indices[pixbuf])
+                                                     self.columns[header].column_indices[pixbuf])
             column.pack_start(render[text], True)
-            column.add_attribute(render[text], "text",
-                    self.columns[header].column_indices[text])
-        elif column_type == None:
+            column.add_attribute(render[text], "text", self.columns[header].column_indices[text])
+        elif column_type is None:
             return
 
         column.set_sort_column_id(self.columns[header].column_indices[sortid])
@@ -516,7 +507,7 @@ class ListView:
 
         # Check for loaded state and apply
         column_in_state = False
-        if self.state != None:
+        if self.state is not None:
             for column_state in self.state:
                 if header == column_state.name:
                     # We found a loaded state
@@ -622,6 +613,7 @@ class ListView:
             # No state file exists, so, no reordering can be done
             return
         columns = self.treeview.get_columns()
+
         def find_column(header):
             for column in columns:
                 if column.get_title() == header:
@@ -639,9 +631,7 @@ class ListView:
             try:
                 column_at_position = columns[col_state.position]
             except IndexError:
-                # While updating the multiuser branch, which adds a new column
-                # an IndexError was raised, just continue processing, once
-                # deluge is restarted, it all should be good
+                # Ignore extra columns from Plugins in col_state
                 continue
             if col_state.name == column_at_position.get_title():
                 # It's in the right position
