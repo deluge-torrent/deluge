@@ -10,7 +10,7 @@ generate_pot.py export-ignore
 deluge/ui/web/css/*-debug.css export-ignore
 deluge/ui/web/js/*-debug.js export-ignore
 deluge/ui/web/js/deluge-all/ export-ignore
-deluge/ui/web/js/ext-extensions/ export-ignore
+deluge/ui/web/js/extjs/ext-extensions/ export-ignore
 deluge/ui/web/gen_gettext.py export-ignore
 deluge/ui/web/build export-ignore
 deluge/ui/web/docs/ export-ignore

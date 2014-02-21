@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <doc>
 	<sources>
-		<source src="../js" match="ext-base-debug.js" />
-		<source src="../js" match="ext-all-debug.js" />
-		<source src="../js/ext-extensions" match="*.js" />
+		<source src="../js/extjs" match="ext-base-debug.js" />
+		<source src="../js/extjs" match="ext-all-debug.js" />
+		<source src="../js/extjs/ext-extensions" match="*.js" />
 		<source src="../js/deluge-all" match="*.js" />
 	</sources>
 	<tags>
