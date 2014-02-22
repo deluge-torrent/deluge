@@ -281,6 +281,8 @@ class ListView:
             state.append(self.create_column_state(column, counter))
 
         state += self.removed_columns_state
+
+        self.state = state
         save_pickled_state_file(filename, state)
 
     def load_state(self, filename):
