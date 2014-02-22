@@ -1,128 +1,93 @@
-#
-# common.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Marcos Pinto ('markybob') <markybob@gmail.com>
 #
-# Deluge is free software.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
-#
-
 """Common functions for various parts of gtkui to use."""
 
 import os
-
-import pygtk
-pygtk.require('2.0')
-import gtk
 import logging
 import cPickle
 import shutil
 
-import deluge.component as component
+import pygtk
+pygtk.require('2.0')
+import gtk
+from gobject import GError
+
 import deluge.common
 
 log = logging.getLogger(__name__)
 
+
 def get_logo(size):
-    """Returns a deluge logo pixbuf based on the size parameter."""
+    """A Deluge logo.
+
+    Params:
+        size (int): Size of logo in pixels
+
+    Returns:
+        gtk.gdk.Pixbuf: deluge logo
+    """
+    filename = "deluge.svg"
     if deluge.common.windows_check() or deluge.common.osx_check():
-        return gtk.gdk.pixbuf_new_from_file_at_size(deluge.common.get_pixmap("deluge.png"), \
-            size, size)
-    else:
-        try:
-            return gtk.gdk.pixbuf_new_from_file_at_size(deluge.common.get_pixmap("deluge.svg"), \
-            size, size)
-        except Exception, e:
-            log.warning(e)
+        filename = "deluge.png"
+    try:
+        return gtk.gdk.pixbuf_new_from_file_at_size(deluge.common.get_pixmap(filename), size, size)
+    except GError as ex:
+        log.warning(ex)
 
-def build_menu_radio_list(value_list, callback, pref_value=None,
-    suffix=None, show_notset=False, notset_label=None, notset_lessthan=0,
-    show_other=False, show_activated=False, activated_label=None):
-    # Build a menu with radio menu items from a list and connect them to
-    # the callback. The pref_value is what you would like to test for the
-    # default active radio item.
-    if notset_label is None:
-        notset_label = _("Unlimited")
 
-    if activated_label is None:
-        activated_label = _("Activated")
+def build_menu_radio_list(value_list, callback, pref_value=None, suffix=None, show_notset=False,
+                          notset_label="∞", notset_lessthan=0, show_other=False):
+    """Build a menu with radio menu items from a list and connect them to the callback.
 
+    Params:
+    value_list [list]: List of values to build into a menu.
+    callback (function): The function to call when menu item is clicked.
+    pref_value (int): A preferred value to insert into value_list
+    suffix (str): Append a suffix the the menu items in value_list.
+    show_notset (bool): Show the unlimited menu item.
+    notset_label (str): The text for the unlimited menu item.
+    notset_lessthan (int): Activates the unlimited menu item if pref_value is less than this.
+    show_other (bool): Show the `Other` menu item.
+
+    The pref_value is what you would like to test for the default active radio item.
+
+    Returns:
+        gtk.Menu: The menu radio
+    """
     menu = gtk.Menu()
     group = None
-    if show_activated is False:
-        if pref_value > -1 and pref_value not in value_list:
-            value_list.pop()
-            value_list.append(pref_value)
 
-        for value in sorted(value_list):
-            if suffix != None:
-                menuitem = gtk.RadioMenuItem(group, str(value) + " " + \
-                    suffix)
-            else:
-                menuitem = gtk.RadioMenuItem(group, str(value))
+    if pref_value > -1 and pref_value not in value_list:
+        value_list.pop()
+        value_list.append(pref_value)
 
-            group = menuitem
-
-            if value == pref_value and pref_value != None:
-                menuitem.set_active(True)
-
-            if callback != None:
-                menuitem.connect("toggled", callback)
-
-            menu.append(menuitem)
-
-    if show_activated is True:
-        for value in sorted(value_list):
-            menuitem = gtk.RadioMenuItem(group, str(activated_label))
-
-            group = menuitem
-
-            if value == pref_value and pref_value != None:
-                menuitem.set_active(True)
-
-            if callback != None:
-                menuitem.connect("toggled", callback)
-
-            menu.append(menuitem)
+    for value in sorted(value_list):
+        item_text = str(value)
+        if suffix:
+            item_text += " " + suffix
+        menuitem = gtk.RadioMenuItem(group, item_text)
+        group = menuitem
+        if pref_value and value == pref_value:
+            menuitem.set_active(True)
+        if callback:
+            menuitem.connect("toggled", callback)
+        menu.append(menuitem)
 
     if show_notset:
         menuitem = gtk.RadioMenuItem(group, notset_label)
         menuitem.set_name("unlimited")
-        if pref_value < notset_lessthan and pref_value != None:
-            menuitem.set_active(True)
-        if show_activated and pref_value == 1:
+        if pref_value and pref_value < notset_lessthan:
             menuitem.set_active(True)
         menuitem.connect("toggled", callback)
         menu.append(menuitem)
 
-    # Add the Other... menuitem
-    if show_other is True:
+    if show_other:
         menuitem = gtk.SeparatorMenuItem()
         menu.append(menuitem)
         menuitem = gtk.MenuItem(_("Other..."))
@@ -132,83 +97,25 @@ def build_menu_radio_list(value_list, callback, pref_value=None,
 
     return menu
 
-def show_other_dialog(header, type_str, image_stockid=None, image_filename=None, default=0):
-    """
-    Shows a dialog with `header` as the header text and `type_str`
-    as the type text.  The type of spinbutton (int or float) is determined by
-    `default` type.
-
-    :param header: str, the header label text
-    :param type_str: str, the type label text, what comes after the spinbutton
-    :param image_stockid: gtkStockId, the stock id of the image in the header
-    :param image_filename: str, filename of icon in pixmaps folder
-    :param default: the default value in the spinbutton
-
-    :returns: None, int or float from spinbutton depending on `default`.
-        None is returned if the user clicks on Cancel.
-    :rtype: None, int or float
-
-    :raises TypeError: if `default` is not of type int or float
-
-    """
-    if type(default) != int and type(default) != float:
-        raise TypeError("default value needs to be an int or float")
-
-    builder = gtk.Builder()
-    builder.add_from_file(deluge.common.resource_filename(
-        "deluge.ui.gtkui", os.path.join("glade", "other_dialog.ui")
-    ))
-    dialog = builder.get_object("other_dialog")
-    dialog.set_transient_for(component.get("MainWindow").window)
-    dialog.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
-    dialog.set_title("")
-    builder.get_object("label_header").set_markup("<b>" + header + "</b>")
-    builder.get_object("label_type").set_text(type_str)
-    if image_stockid:
-        builder.get_object("image").set_from_stock(image_stockid, gtk.ICON_SIZE_LARGE_TOOLBAR)
-    if image_filename:
-        # Hack for Windows since it doesn't support svg
-        if os.path.splitext(image_filename)[1] == ".svg" and (deluge.common.windows_check() or deluge.common.osx_check()):
-            image_filename = os.path.splitext(image_filename)[0] + "16.png"
-        pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(
-            deluge.common.get_pixmap(image_filename), 32, 32)
-        builder.get_object("image").set_from_pixbuf(pixbuf)
-
-    spinbutton = builder.get_object("spinbutton")
-    if type(default) == float:
-        spinbutton.set_digits(1)
-
-    # Set default value and select text
-    spinbutton.set_value(default)
-    spinbutton.select_region(0, -1)
-
-    value = None
-    response = dialog.run()
-    if response == gtk.RESPONSE_OK:
-        if type(default) == int:
-            value = spinbutton.get_value_as_int()
-        else:
-            value = spinbutton.get_value()
-
-    dialog.destroy()
-    return value
 
 def reparent_iter(treestore, itr, parent, move_siblings=False):
     """
     This effectively moves itr plus it's children to be a child of parent in treestore
 
-    :param treestore: gtkTreeStore, the treestore
-    :param itr: gtkTreeIter, the iter to move
-    :param parent: gtkTreeIter, the new parent for itr
-    :param move_siblings: bool. if True, it will move all itr's siblings to parent
+    Params:
+        treestore (gtkTreeStore): the treestore
+        itr (gtkTreeIter): the iter to move
+        parent (gtkTreeIter): the new parent for itr
+        move_siblings (bool): if True, it will move all itr's siblings to parent
     """
     src = itr
+
     def move_children(i, dest):
         while i:
-            n = treestore.append(dest, treestore.get(i, *xrange(treestore.get_n_columns())))
+            n_cols = treestore.append(dest, treestore.get(i, *xrange(treestore.get_n_columns())))
             to_remove = i
             if treestore.iter_children(i):
-                move_children(treestore.iter_children(i), n)
+                move_children(treestore.iter_children(i), n_cols)
             if i != src:
                 i = treestore.iter_next(i)
             else:
@@ -219,12 +126,15 @@ def reparent_iter(treestore, itr, parent, move_siblings=False):
 
     move_children(itr, parent)
 
+
 def get_deluge_icon():
-    """
-    Returns the deluge icon for use in setting a dialogs icon.  It will first
-    attempt to get the icon from the theme and will fallback to using an image
+    """The deluge icon for use in dialogs.
+
+    It will first attempt to get the icon from the theme and will fallback to using an image
     that is distributed with the package.
 
+    Returns:
+        gtk.gdk.Pixbuf: the deluge icon
     """
     if deluge.common.windows_check():
         return get_logo(32)
@@ -232,18 +142,19 @@ def get_deluge_icon():
         try:
             icon_theme = gtk.icon_theme_get_default()
             return icon_theme.load_icon("deluge", 64, 0)
-        except:
+        except GError:
             return get_logo(64)
+
 
 def associate_magnet_links(overwrite=False):
     """
     Associates magnet links to Deluge.
 
-    :param overwrite: if this is True, the current setting will be overwritten
-    :type overwrite: bool
-    :returns: True if association was set
-    :rtype: bool
+    Params:
+        overwrite (bool): if this is True, the current setting will be overwritten
 
+    Returns:
+        bool: True if association was set
     """
     if not deluge.common.windows_check():
         # gconf method is only available in a GNOME environment
@@ -267,10 +178,13 @@ def associate_magnet_links(overwrite=False):
                     return False
     return False
 
+
 def save_pickled_state_file(filename, state):
     """Save a file in the config directory and creates a backup
-    filename: Filename to be saved to config
-    state: The data to be pickled and written to file
+
+    Params:
+        filename (str): Filename to be saved to config
+        state (state): The data to be pickled and written to file
     """
     from deluge.configmanager import get_config_dir
     filepath = os.path.join(get_config_dir(), "gtkui_state", filename)
@@ -298,10 +212,15 @@ def save_pickled_state_file(filename, state):
                 log.info("Restoring backup of %s from: %s", filename, filepath_bak)
                 shutil.move(filepath_bak, filepath)
 
+
 def load_pickled_state_file(filename):
     """Loads a file from the config directory, attempting backup if original fails to load.
-    filename: Filename to be loaded from config
-    returns unpickled state
+
+    Params:
+        filename (str): Filename to be loaded from config
+
+    Returns:
+        state: the unpickled state
     """
     from deluge.configmanager import get_config_dir
     filepath = os.path.join(get_config_dir(), "gtkui_state", filename)
@@ -313,7 +232,7 @@ def load_pickled_state_file(filename):
         try:
             with open(_filepath, "rb") as _file:
                 state = cPickle.load(_file)
-        except (IOError, cPickle.UnpicklingError), ex:
+        except (IOError, cPickle.UnpicklingError) as ex:
             log.warning("Unable to load %s: %s", _filepath, ex)
         else:
             log.info("Successfully loaded %s: %s", filename, _filepath)

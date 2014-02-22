@@ -41,7 +41,8 @@ import logging
 from deluge.ui.client import client
 import deluge.component as component
 import deluge.common
-import common
+from deluge.ui.gtkui import common
+from deluge.ui.gtkui import dialogs
 from deluge.configmanager import ConfigManager
 
 log = logging.getLogger(__name__)
@@ -123,7 +124,7 @@ class StatusBar(component.Component):
         self.config = ConfigManager("gtkui.conf")
 
         # Status variables that are updated via callback
-        self.max_connections = -1
+        self.max_connections_global = -1
         self.num_connections = 0
         self.max_download_speed = -1.0
         self.download_rate = ""
@@ -292,12 +293,11 @@ class StatusBar(component.Component):
         This is called when we receive a ConfigValueChangedEvent from
         the core.
         """
-
         if key in self.config_value_changed_dict.keys():
             self.config_value_changed_dict[key](value)
 
     def _on_max_connections_global(self, max_connections):
-        self.max_connections = max_connections
+        self.max_connections_global = max_connections
         self.update_connections_label()
 
     def _on_dht(self, value):
@@ -345,10 +345,10 @@ class StatusBar(component.Component):
 
     def update_connections_label(self):
         # Set the max connections label
-        if self.max_connections < 0:
+        if self.max_connections_global < 0:
             label_string = "%s" % self.num_connections
         else:
-            label_string = "%s (%s)" % (self.num_connections, self.max_connections)
+            label_string = "%s (%s)" % (self.num_connections, self.max_connections_global)
 
         self.connections_item.set_text(label_string)
 
@@ -377,12 +377,46 @@ class StatusBar(component.Component):
         self.upload_item.set_text(label_string)
 
     def update_traffic_label(self):
-        label_string = "%.2f/%.2f %s" % (self.download_protocol_rate, self.upload_protocol_rate, _("KiB/s"))
+        label_string = "%i/%i %s" % (self.download_protocol_rate, self.upload_protocol_rate, _("KiB/s"))
         self.traffic_item.set_text(label_string)
 
     def update(self):
         # Send status request
         self.send_status_request()
+
+    def set_limit_value(self, widget, core_key):
+        """ """
+        log.debug("_on_set_unlimit_other %s", core_key)
+        other_dialog_info = {
+            "max_download_speed": (_("Download Speed Limit"), _("Set the maximum download speed"),
+                                   _("KiB/s"), "downloading.svg", self.max_download_speed),
+            "max_upload_speed": (_("Upload Speed Limit"), _("Set the maximum upload speed"),
+                                 _("KiB/s"), "seeding.svg", self.max_upload_speed),
+            "max_connections_global": (_("Incoming Connections"), _("Set the maximum incoming connections"),
+                                       "", gtk.STOCK_NETWORK, self.max_connections_global)
+        }
+
+        def set_value(value):
+            log.debug('value: %s', value)
+            if value is None:
+                return
+            elif value == 0:
+                value = -1
+            # Set the config in the core
+            if value != getattr(self, core_key):
+                client.core.set_config({core_key: value})
+
+        if widget.get_name() == "unlimited":
+            set_value(-1)
+        elif widget.get_name() == "other":
+            def dialog_finished(response_id):
+                if response_id == gtk.RESPONSE_OK:
+                    set_value(dialog.get_value())
+            dialog = dialogs.OtherDialog(*other_dialog_info[core_key])
+            dialog.run().addCallback(set_value)
+        else:
+            value = widget.get_children()[0].get_text().split(" ")[0]
+            set_value(value)
 
     def _on_download_item_clicked(self, widget, event):
         menu = common.build_menu_radio_list(
@@ -395,22 +429,7 @@ class StatusBar(component.Component):
 
     def _on_set_download_speed(self, widget):
         log.debug("_on_set_download_speed")
-
-        if widget.get_name() == "unlimited":
-            value = -1
-        elif widget.get_name() == "other":
-            value = common.show_other_dialog(
-                _("Set Maximum Download Speed"), _("KiB/s"), None, "downloading.svg", self.max_download_speed)
-            if value is None:
-                return
-        else:
-            value = float(widget.get_children()[0].get_text().split(" ")[0])
-
-        log.debug("value: %s", value)
-
-        # Set the config in the core
-        if value != self.max_download_speed:
-            client.core.set_config({"max_download_speed": value})
+        self.set_limit_value(widget, "max_download_speed")
 
     def _on_upload_item_clicked(self, widget, event):
         menu = common.build_menu_radio_list(
@@ -423,49 +442,19 @@ class StatusBar(component.Component):
 
     def _on_set_upload_speed(self, widget):
         log.debug("_on_set_upload_speed")
-
-        if widget.get_name() == "unlimited":
-            value = -1
-        elif widget.get_name() == "other":
-            value = common.show_other_dialog(
-                _("Set Maximum Upload Speed"), _("KiB/s"), None, "seeding.svg", self.max_upload_speed)
-            if value is None:
-                return
-        else:
-            value = float(widget.get_children()[0].get_text().split(" ")[0])
-
-        log.debug("value: %s", value)
-
-        # Set the config in the core
-        if value != self.max_upload_speed:
-            client.core.set_config({"max_upload_speed": value})
+        self.set_limit_value(widget, "max_upload_speed")
 
     def _on_connection_item_clicked(self, widget, event):
         menu = common.build_menu_radio_list(
             self.config["connection_limit_list"],
             self._on_set_connection_limit,
-            self.max_connections, show_notset=True, show_other=True)
+            self.max_connections_global, show_notset=True, show_other=True)
         menu.show_all()
         menu.popup(None, None, None, event.button, event.time)
 
     def _on_set_connection_limit(self, widget):
         log.debug("_on_set_connection_limit")
-
-        if widget.get_name() == "unlimited":
-            value = -1
-        elif widget.get_name() == "other":
-            value = common.show_other_dialog(
-                _("Set Maximum Connections"), "", gtk.STOCK_NETWORK, None, self.max_connections)
-            if value is None:
-                return
-        else:
-            value = int(widget.get_children()[0].get_text().split(" ")[0])
-
-        log.debug("value: %s", value)
-
-        # Set the config in the core
-        if value != self.max_connections:
-            client.core.set_config({"max_connections_global": value})
+        self.set_limit_value(widget, "max_connections_global")
 
     def _on_health_icon_clicked(self, widget, event):
         component.get("Preferences").show("Network")

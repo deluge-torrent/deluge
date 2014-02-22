@@ -31,13 +31,13 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 #
-
 import gtk
 
 from twisted.internet import defer
 
 from deluge.ui.gtkui import common
 import deluge.component as component
+import deluge.common
 
 
 class BaseDialog(gtk.Dialog):
@@ -69,7 +69,14 @@ class BaseDialog(gtk.Dialog):
         self.set_default_size(200, 100)
         hbox = gtk.HBox(spacing=5)
         image = gtk.Image()
-        image.set_from_stock(icon, gtk.ICON_SIZE_DIALOG)
+        if not gtk.stock_lookup(icon) and (icon.endswith(".svg") or icon.endswith(".png")):
+            # Hack for Windows since it doesn't support svg
+            if icon.endswith(".svg") and (deluge.common.windows_check() or deluge.common.osx_check()):
+                icon = icon.rpartition(".svg")[0] + "16.png"
+            pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(deluge.common.get_pixmap(icon), 32, 32)
+            image.set_from_pixbuf(pixbuf)
+        else:
+            image.set_from_stock(icon, gtk.ICON_SIZE_DIALOG)
         image.set_alignment(0.5, 0.0)
         hbox.pack_start(image, False, False)
         vbox = gtk.VBox(spacing=5)
@@ -105,6 +112,7 @@ class BaseDialog(gtk.Dialog):
         self.show()
         return self.deferred
 
+
 class YesNoDialog(BaseDialog):
     """
     Displays a dialog asking the user to select Yes or No to a question.
@@ -122,8 +130,9 @@ class YesNoDialog(BaseDialog):
             header,
             text,
             gtk.STOCK_DIALOG_QUESTION,
-            (gtk.STOCK_YES, gtk.RESPONSE_YES, gtk.STOCK_NO, gtk.RESPONSE_NO),
+            (gtk.STOCK_NO, gtk.RESPONSE_NO, gtk.STOCK_YES, gtk.RESPONSE_YES),
             parent)
+
 
 class InformationDialog(BaseDialog):
     """
@@ -143,6 +152,7 @@ class InformationDialog(BaseDialog):
             gtk.STOCK_DIALOG_INFO,
             (gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE),
             parent)
+
 
 class ErrorDialog(BaseDialog):
     """
@@ -193,6 +203,7 @@ class ErrorDialog(BaseDialog):
             self.vbox.pack_start(sw)
             self.vbox.show_all()
 
+
 class AuthenticationDialog(BaseDialog):
     """
     Displays a dialog with entry fields asking for username and password.
@@ -213,7 +224,7 @@ class AuthenticationDialog(BaseDialog):
 
         table = gtk.Table(2, 2, False)
         self.username_label = gtk.Label()
-        self.username_label.set_markup(_("<b>Username:</b>"))
+        self.username_label.set_markup("<b>" + _("Username:") + "</b>")
         self.username_label.set_alignment(1.0, 0.5)
         self.username_label.set_padding(5, 5)
         self.username_entry = gtk.Entry()
@@ -221,7 +232,7 @@ class AuthenticationDialog(BaseDialog):
         table.attach(self.username_entry, 1, 2, 0, 1)
 
         self.password_label = gtk.Label()
-        self.password_label.set_markup(_("<b>Password:</b>"))
+        self.password_label.set_markup("<b>" + _("Password:") + "</b>")
         self.password_label.set_alignment(1.0, 0.5)
         self.password_label.set_padding(5, 5)
         self.password_entry = gtk.Entry()
@@ -249,6 +260,7 @@ class AuthenticationDialog(BaseDialog):
     def on_password_activate(self, widget):
         self.response(gtk.RESPONSE_OK)
 
+
 class AccountDialog(BaseDialog):
     def __init__(self, username=None, password=None, authlevel=None,
                  levels_mapping=None, parent=None):
@@ -273,7 +285,7 @@ class AccountDialog(BaseDialog):
 
         table = gtk.Table(2, 3, False)
         self.username_label = gtk.Label()
-        self.username_label.set_markup(_("<b>Username:</b>"))
+        self.username_label.set_markup("<b>" + _("Username:") + "</b>")
         self.username_label.set_alignment(1.0, 0.5)
         self.username_label.set_padding(5, 5)
         self.username_entry = gtk.Entry()
@@ -281,7 +293,7 @@ class AccountDialog(BaseDialog):
         table.attach(self.username_entry, 1, 2, 0, 1)
 
         self.authlevel_label = gtk.Label()
-        self.authlevel_label.set_markup(_("<b>Authentication Level:</b>"))
+        self.authlevel_label.set_markup("<b>" + _("Authentication Level:") + "</b>")
         self.authlevel_label.set_alignment(1.0, 0.5)
         self.authlevel_label.set_padding(5, 5)
 
@@ -289,7 +301,7 @@ class AccountDialog(BaseDialog):
         active_idx = None
         for idx, level in enumerate(levels_mapping.keys()):
             self.authlevel_combo.append_text(level)
-            if authlevel and authlevel==level:
+            if authlevel and authlevel == level:
                 active_idx = idx
             elif not authlevel and level == 'DEFAULT':
                 active_idx = idx
@@ -301,7 +313,7 @@ class AccountDialog(BaseDialog):
         table.attach(self.authlevel_combo, 1, 2, 1, 2)
 
         self.password_label = gtk.Label()
-        self.password_label.set_markup(_("<b>Password:</b>"))
+        self.password_label.set_markup("<b>" + _("Password:") + "</b>")
         self.password_label.set_alignment(1.0, 0.5)
         self.password_label.set_padding(5, 5)
         self.password_entry = gtk.Entry()
@@ -331,3 +343,63 @@ class AccountDialog(BaseDialog):
         combobox = self.authlevel_combo
         level = combobox.get_model()[combobox.get_active()][0]
         return level
+
+
+class OtherDialog(BaseDialog):
+    """
+    Displays a dialog with a spinner for setting a value.
+
+    Returns:
+        int or float:
+    """
+    def __init__(self, header, text="", unit_text="", icon=None, default=0, parent=None):
+        self.value_type = type(default)
+        if self.value_type not in (int, float):
+            raise TypeError("default value needs to be an int or float")
+
+        if not icon:
+            icon = gtk.STOCK_DIALOG_INFO
+
+        super(OtherDialog, self).__init__(
+            header,
+            text,
+            icon,
+            (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_APPLY, gtk.RESPONSE_OK),
+            parent)
+
+        hbox = gtk.HBox(spacing=5)
+        alignment_spacer = gtk.Alignment()
+        hbox.pack_start(alignment_spacer)
+        alignment_spin = gtk.Alignment(1, 0.5, 1, 1)
+        adjustment_spin = gtk.Adjustment(value=-1, lower=-1, upper=2097151, step_incr=1, page_incr=10)
+        self.spinbutton = gtk.SpinButton(adjustment_spin)
+        self.spinbutton.set_value(default)
+        self.spinbutton.select_region(0, -1)
+        self.spinbutton.set_width_chars(6)
+        self.spinbutton.set_alignment(1)
+        self.spinbutton.set_max_length(6)
+        if self.value_type is float:
+            self.spinbutton.set_digits(1)
+        alignment_spin.add(self.spinbutton)
+        hbox.pack_start(alignment_spin, expand=False)
+        label_type = gtk.Label()
+        label_type.set_text(unit_text)
+        label_type.set_alignment(0.0, 0.5)
+        hbox.pack_start(label_type)
+
+        self.vbox.pack_start(hbox, False, False, padding=5)
+        self.vbox.show_all()
+
+    def _on_delete_event(self, widget, event):
+        self.deferred.callback(None)
+        self.destroy()
+
+    def _on_response(self, widget, response):
+        value = None
+        if response == gtk.RESPONSE_OK:
+            if self.value_type is int:
+                value = self.spinbutton.get_value_as_int()
+            else:
+                value = self.spinbutton.get_value()
+        self.deferred.callback(value)
+        self.destroy()

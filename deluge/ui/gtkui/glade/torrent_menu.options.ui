@@ -61,6 +61,15 @@
       </object>
     </child>
     <child>
+      <object class="GtkMenuItem" id="menuitem_stop_seed_at_ratio">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_action_appearance">False</property>
+        <property name="label" translatable="yes">Stop seed at _ratio</property>
+        <property name="use_underline">True</property>
+      </object>
+    </child>
+    <child>
       <object class="GtkMenuItem" id="menuitem_auto_managed">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
