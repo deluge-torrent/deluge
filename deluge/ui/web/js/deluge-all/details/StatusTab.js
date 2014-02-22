@@ -93,8 +93,8 @@ Deluge.details.StatusTab = Ext.extend(Ext.Panel, {
     onRequestComplete: function(status) {
         seeds = status.total_seeds > -1 ? status.num_seeds + ' (' + status.total_seeds + ')' : status.num_seeds;
         peers = status.total_peers > -1 ? status.num_peers + ' (' + status.total_peers + ')' : status.num_peers;
-        last_seen_complete = status.last_seen_complete > 0.0 ? fdate(status.last_seen_complete) : "Never";
-        completed_time = status.last_seen_complete > 0.0 ? fdate(status.completed_time) : "Never";
+        last_seen_complete = status.last_seen_complete > 0.0 ? fdate(status.last_seen_complete) : 'Never';
+        completed_time = status.completed_time > 0.0 ? fdate(status.completed_time) : '';
         var data = {
             downloaded: fsize(status.total_done, true),
             uploaded: fsize(status.total_uploaded, true),
