@@ -268,7 +268,7 @@ class TorrentManager(component.Component):
             if result and os.path.isfile(self.temp_file):
                 os.remove(self.temp_file)
 
-        d = self.save_resume_data()
+        d = self.save_resume_data(flush_disk_cache=True)
         d.addCallback(remove_temp_file)
         return d
 
@@ -753,29 +753,33 @@ class TorrentManager(component.Component):
         # We return True so that the timer thread will continue
         return True
 
-    def save_resume_data(self, torrent_ids=None):
+    def save_resume_data(self, torrent_ids=None, flush_disk_cache=False):
         """Saves resume data for list of torrent_ids or for all torrents
         needing resume data updated if torrent_ids is None
 
-        :returns: A Deferred whose callback will be invoked when save is complete
-        :rtype: twisted.internet.defer.Deferred
+        Params:
+            torrent_ids (list of str) (
+            flush_disk_cache (bool): Avoids potential issue with file timestamps
+                and is only needed when stopping the session.
 
+        Returns:
+            t.i.d.DeferredList: A list of twisted Deferred callbacks that will
+                be invoked when save is complete.
         """
         if torrent_ids is None:
             torrent_ids = (t[0] for t in self.torrents.iteritems() if t[1].handle.need_save_resume_data())
 
-        deferreds = []
-
         def on_torrent_resume_save(dummy_result, torrent_id):
             self.waiting_on_resume_data.pop(torrent_id, None)
 
+        deferreds = []
         for torrent_id in torrent_ids:
             d = self.waiting_on_resume_data.get(torrent_id)
             if not d:
                 d = Deferred().addBoth(on_torrent_resume_save, torrent_id)
                 self.waiting_on_resume_data[torrent_id] = d
             deferreds.append(d)
-            self.torrents[torrent_id].save_resume_data()
+            self.torrents[torrent_id].save_resume_data(flush_disk_cache)
 
         def on_all_resume_data_finished(result):
             if result:

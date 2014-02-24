@@ -1034,12 +1034,18 @@ class Torrent(object):
             return False
         return True
 
-    def save_resume_data(self):
+    def save_resume_data(self, flush_disk_cache=False):
         """Signals libtorrent to build resume data for this torrent.
 
-        The response is returned in a libtorrent alert.
+        Params:
+            flush_disk_cache (bool): Avoids potential issue with file timestamps
+                and is only needed when stopping the session.
+
+        Returns:
+            None: The response with resume data is returned in a libtorrent save_resume_data_alert.
         """
-        self.handle.save_resume_data()
+        flags = lt.save_resume_flags_t.flush_disk_cache if flush_disk_cache else 0
+        self.handle.save_resume_data(flags)
 
     def write_torrentfile(self):
         """Writes the torrent file to the state directory in config"""
