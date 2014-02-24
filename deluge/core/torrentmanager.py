@@ -268,7 +268,7 @@ class TorrentManager(component.Component):
             if result and os.path.isfile(self.temp_file):
                 os.remove(self.temp_file)
 
-        d = self.save_resume_data(self.torrents.keys())
+        d = self.save_resume_data()
         d.addCallback(remove_temp_file)
         return d
 
