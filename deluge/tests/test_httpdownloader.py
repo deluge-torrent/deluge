@@ -3,6 +3,7 @@ import warnings
 from twisted.trial import unittest
 from twisted.internet import reactor
 from twisted.python.failure import Failure
+from twisted.internet.error import CannotListenError
 from twisted.web.http import NOT_MODIFIED
 try:
     from twisted.web.resource import Resource
@@ -89,7 +90,21 @@ class DownloadFileTestCase(unittest.TestCase):
     def setUp(self):
         setupLogger("warning", "log_file")
         self.website = Site(TopLevelResource())
-        self.webserver = reactor.listenTCP(51242, self.website)
+        self.listen_port = 51242
+        tries = 10
+        error = None
+        while tries > 0:
+            try:
+                self.webserver = reactor.listenTCP(self.listen_port, self.website)
+            except CannotListenError, e:
+                error = e
+                self.listen_port += 1
+                tries -= 1
+            else:
+                error = None
+                break
+        if error:
+            raise error
 
     def tearDown(self):
         return self.webserver.stopListening()
@@ -115,19 +130,19 @@ class DownloadFileTestCase(unittest.TestCase):
         return filename
 
     def test_download(self):
-        d = download_file("http://localhost:51242/", "index.html")
+        d = download_file("http://localhost:%d/" % self.listen_port, "index.html")
         d.addCallback(self.assertEqual, "index.html")
         return d
 
     def test_download_without_required_cookies(self):
-        url = "http://localhost:51242/cookie"
+        url = "http://localhost:%d/cookie" % self.listen_port
         d = download_file(url, "none")
         d.addCallback(self.fail)
         d.addErrback(self.assertIsInstance, Failure)
         return d
 
     def test_download_with_required_cookies(self):
-        url = "http://localhost:51242/cookie"
+        url = "http://localhost:%d/cookie" % self.listen_port
         cookie = {"cookie": "password=deluge"}
         d = download_file(url, "monster", headers=cookie)
         d.addCallback(self.assertEqual, "monster")
@@ -135,7 +150,7 @@ class DownloadFileTestCase(unittest.TestCase):
         return d
 
     def test_download_with_rename(self):
-        url = "http://localhost:51242/rename?filename=renamed"
+        url = "http://localhost:%d/rename?filename=renamed" % self.listen_port
         d = download_file(url, "original")
         d.addCallback(self.assertEqual, "renamed")
         d.addCallback(self.assertContains, "This file should be called renamed")
@@ -143,54 +158,54 @@ class DownloadFileTestCase(unittest.TestCase):
 
     def test_download_with_rename_exists(self):
         open('renamed', 'w').close()
-        url = "http://localhost:51242/rename?filename=renamed"
+        url = "http://localhost:%d/rename?filename=renamed" % self.listen_port
         d = download_file(url, "original")
         d.addCallback(self.assertEqual, "renamed-1")
         d.addCallback(self.assertContains, "This file should be called renamed")
         return d
 
     def test_download_with_rename_sanitised(self):
-        url = "http://localhost:51242/rename?filename=/etc/passwd"
+        url = "http://localhost:%d/rename?filename=/etc/passwd" % self.listen_port
         d = download_file(url, "original")
         d.addCallback(self.assertEqual, "passwd")
         d.addCallback(self.assertContains, "This file should be called /etc/passwd")
         return d
 
     def test_download_with_rename_prevented(self):
-        url = "http://localhost:51242/rename?filename=spam"
+        url = "http://localhost:%d/rename?filename=spam" % self.listen_port
         d = download_file(url, "forced", force_filename=True)
         d.addCallback(self.assertEqual, "forced")
         d.addCallback(self.assertContains, "This file should be called spam")
         return d
 
     def test_download_with_gzip_encoding(self):
-        url = "http://localhost:51242/gzip?msg=success"
+        url = "http://localhost:%d/gzip?msg=success" % self.listen_port
         d = download_file(url, "gzip_encoded")
         d.addCallback(self.assertContains, "success")
         return d
 
     def test_download_with_gzip_encoding_disabled(self):
-        url = "http://localhost:51242/gzip?msg=fail"
+        url = "http://localhost:%d/gzip?msg=fail" % self.listen_port
         d = download_file(url, "gzip_encoded", allow_compression=False)
         d.addCallback(self.failIfContains, "fail")
         return d
 
     def test_page_redirect(self):
-        url = 'http://localhost:51242/redirect'
+        url = 'http://localhost:%d/redirect' % self.listen_port
         d = download_file(url, "none")
         d.addCallback(self.fail)
         d.addErrback(self.assertIsInstance, Failure)
         return d
 
     def test_page_not_found(self):
-        d = download_file("http://localhost:51242/page/not/found", "none")
+        d = download_file("http://localhost:%d/page/not/found" % self.listen_port, "none")
         d.addCallback(self.fail)
         d.addErrback(self.assertIsInstance, Failure)
         return d
 
     def test_page_not_modified(self):
         headers = {'If-Modified-Since': formatdate(usegmt=True)}
-        d = download_file("http://localhost:51242/", "index.html", headers=headers)
+        d = download_file("http://localhost:%d/" % self.listen_port, "index.html", headers=headers)
         d.addCallback(self.fail)
         d.addErrback(self.assertIsInstance, Failure)
         return d

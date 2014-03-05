@@ -13,6 +13,7 @@ from twisted.web.http import FORBIDDEN
 from twisted.web.resource import Resource
 from twisted.web.server import Site
 from twisted.web.static import File
+from twisted.internet.error import CannotListenError
 
 import deluge.tests.common as common
 from deluge.core.rpcserver import RPCServer
@@ -67,17 +68,30 @@ class TopLevelResource(Resource):
         self.putChild("ubuntu-9.04-desktop-i386.iso.torrent",
                       File(common.rpath("ubuntu-9.04-desktop-i386.iso.torrent")))
 
-
 class CoreTestCase(unittest.TestCase):
     def setUp(self):
         common.set_tmp_config_dir()
         self.rpcserver = RPCServer(listen=False)
         self.core = Core()
+        self.listen_port = 51242
         return component.start().addCallback(self.startWebserver)
 
     def startWebserver(self, result):
         self.website = Site(TopLevelResource())
-        self.webserver = reactor.listenTCP(51242, self.website)
+        tries = 10
+        error = None
+        while tries > 0:
+            try:
+                self.webserver = reactor.listenTCP(self.listen_port, self.website)
+            except CannotListenError, e:
+                error = e
+                self.listen_port += 1
+                tries -= 1
+            else:
+                error = None
+                break
+        if error:
+            raise error
         return result
 
     def tearDown(self):
@@ -103,7 +117,7 @@ class CoreTestCase(unittest.TestCase):
         self.assertEquals(torrent_id, info_hash)
 
     def test_add_torrent_url(self):
-        url = "http://localhost:51242/ubuntu-9.04-desktop-i386.iso.torrent"
+        url = "http://localhost:%d/ubuntu-9.04-desktop-i386.iso.torrent" % self.listen_port
         options = {}
         info_hash = "60d5d82328b4547511fdeac9bf4d0112daa0ce00"
 
@@ -112,7 +126,7 @@ class CoreTestCase(unittest.TestCase):
         return d
 
     def test_add_torrent_url_with_cookie(self):
-        url = "http://localhost:51242/cookie"
+        url = "http://localhost:%d/cookie" % self.listen_port
         options = {}
         headers = {"Cookie": "password=deluge"}
         info_hash = "60d5d82328b4547511fdeac9bf4d0112daa0ce00"
@@ -126,7 +140,7 @@ class CoreTestCase(unittest.TestCase):
         return d
 
     def test_add_torrent_url_with_redirect(self):
-        url = "http://localhost:51242/redirect"
+        url = "http://localhost:%d/redirect" % self.listen_port
         options = {}
         info_hash = "60d5d82328b4547511fdeac9bf4d0112daa0ce00"
 
@@ -136,7 +150,7 @@ class CoreTestCase(unittest.TestCase):
         return d
 
     def test_add_torrent_url_with_partial_download(self):
-        url = "http://localhost:51242/partial"
+        url = "http://localhost:%d/partial" % self.listen_port
         options = {}
         info_hash = "60d5d82328b4547511fdeac9bf4d0112daa0ce00"
 

@@ -7,6 +7,7 @@ from subprocess import Popen, PIPE
 import deluge.common
 import deluge.configmanager
 import deluge.log
+from twisted.internet.error import CannotListenError
 
 deluge.log.setupLogger("none")
 
@@ -24,29 +25,29 @@ def rpath(*args):
 deluge.common.setup_translations()
 
 
-def start_core():
+def start_core(listen_port=58846):
     CWD = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
     DAEMON_SCRIPT = """
 import sys
 import deluge.main
 
-sys.argv.extend(['-d', '-c', '%s', '-L', 'info'])
+sys.argv.extend(['-d', '-c', '%s', '-L', 'info', '-p', '%d'])
 
 deluge.main.start_daemon()
 """
     config_directory = set_tmp_config_dir()
     fp = tempfile.TemporaryFile()
-    fp.write(DAEMON_SCRIPT % config_directory)
+    fp.write(DAEMON_SCRIPT % (config_directory, listen_port))
     fp.seek(0)
 
     core = Popen([sys.executable], cwd=CWD, stdin=fp, stdout=PIPE, stderr=PIPE)
     while True:
         line = core.stderr.readline()
-        if "starting on 58846" in line:
+        if ("starting on %d" % listen_port) in line:
             time.sleep(0.3)  # Slight pause just incase
             break
-        elif "Couldn't listen on localhost:58846" in line:
-            raise SystemExit("Could not start deluge test client. %s" % line)
+        elif ("Couldn't listen on localhost:%d" % listen_port) in line:
+            raise CannotListenError("localhost", listen_port, "Could not start deluge test client: %s" % line)
         elif 'Traceback' in line:
             raise SystemExit(
                 "Failed to start core daemon. Do \"\"\" %s \"\"\" to see what's "
