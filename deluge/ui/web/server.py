@@ -44,6 +44,7 @@ CONFIG_DEFAULTS = {
 
     # UI Settings
     'sidebar_show_zero': False,
+    'sidebar_show_owners': True,
     'sidebar_multiple_filters': True,
     'show_session_speed': False,
     'show_sidebar': True,

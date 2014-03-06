@@ -373,22 +373,51 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
             text: _('No Label'),
             label: '',
             handler: this.onTorrentMenuClick,
+            checked: false,
+            group: 'label',
             scope: this
         });
+
         for (var state in states) {
             if (!state || state == 'All') continue;
             this.torrentMenu.addMenuItem({
                 text: state,
                 label: state,
                 handler: this.onTorrentMenuClick,
+                checked: false,
+                group: 'label',
                 scope: this
             });
         }
     },
 
+    onMenuDisplayed: function() {
+        var ids = deluge.torrents.getSelectedIds();
+        /* Set none of the labels checked */
+        if (ids.length > 1) {
+            for (var i = 0; i < this.torrentMenu.items.items.length; i++) {
+                this.torrentMenu.items.items[i].setChecked(false);
+            }
+            return;
+        }
+
+        /* Set the correct label item checked */
+        label = deluge.torrents.getSelected().data.label;
+        if (label == '') {
+            label = _('No Label');
+        }
+
+        for (var i = 0; i < this.torrentMenu.items.items.length; i++) {
+            if (this.torrentMenu.items.items[i].text == label) {
+                this.torrentMenu.items.items[i].setChecked(true);
+                break;
+            }
+        }
+    },
+
     onDisable: function() {
-        deluge.sidebar.un('filtercreate', this.onFilterCreate);
-        deluge.sidebar.un('afterfiltercreate', this.onAfterFilterCreate);
+        deluge.filterbar.un('filtercreate', this.onFilterCreate);
+        deluge.filterbar.un('afterfiltercreate', this.onAfterFilterCreate);
         delete Deluge.FilterPanel.templates.label;
         this.deregisterTorrentStatus('label');
         deluge.menus.torrent.remove(this.tmSep);
@@ -396,8 +425,14 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
     },
 
     onEnable: function() {
-        this.torrentMenu = new Ext.menu.Menu();
-
+        this.torrentMenu = new Ext.menu.Menu({
+                    listeners: {
+                        'beforeshow': function(menu) {
+                            this.labelplugin.onMenuDisplayed();
+                        }
+                    },
+                });
+        this.torrentMenu.labelplugin = this;
         this.tmSep = deluge.menus.torrent.add({
             xtype: 'menuseparator'
         });
@@ -413,15 +448,15 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
             ' ({count})' +
             '</div>';
 
-        if (deluge.sidebar.hasFilter('label')) {
-            var filter = deluge.sidebar.getFilter('label');
+        if (deluge.filterbar.hasFilter('label')) {
+            var filter = deluge.filterbar.getFilter('label');
             filter.list.columns[0].tpl = new Ext.XTemplate(lbltpl);
             this.setFilter(filter);
             this.updateTorrentMenu(filter.getStates());
             filter.list.refresh();
         } else {
-            deluge.sidebar.on('filtercreate', this.onFilterCreate, this);
-            deluge.sidebar.on('afterfiltercreate', this.onAfterFilterCreate, this);
+            deluge.filterbar.on('filtercreate', this.onFilterCreate, this);
+            deluge.filterbar.on('afterfiltercreate', this.onAfterFilterCreate, this);
             Deluge.FilterPanel.templates.label = lbltpl;
         }
         this.registerTorrentStatus('label', _('Label'));
@@ -446,7 +481,7 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
     },
 
     onLabelAdded: function(label) {
-        var filter = deluge.sidebar.getFilter('label');
+        var filter = deluge.filterbar.getFilter('label');
         var states = filter.getStates();
         var statesArray = [];
 
@@ -457,9 +492,6 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 
         statesArray.push(label.toLowerCase());
         statesArray.sort();
-
-        //console.log(states);
-        //console.log(statesArray);
 
         states = {}
 

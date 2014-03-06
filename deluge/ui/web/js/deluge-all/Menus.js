@@ -220,13 +220,24 @@ deluge.menus.torrent = new Ext.menu.Menu({
                         torrentAction: ['auto_managed', true],
                         text: _('On'),
                         handler: deluge.menus.onTorrentActionSetOpt,
-                        scope: deluge.menus
+                        scope: deluge.menus,
+                        checked: false,
+                        group: 'auto_managed'
                     }, {
                         torrentAction: ['auto_managed', false],
                         text: _('Off'),
                         handler: deluge.menus.onTorrentActionSetOpt,
-                        scope: deluge.menus
-                    }]
+                        scope: deluge.menus,
+                        checked: false,
+                        group: 'auto_managed'
+                    }],
+                    listeners: {
+                        'beforeshow': function(menu) {
+                            var selected = deluge.torrents.getSelected();
+                            menu.items.items[0].setChecked(selected.data.is_auto_managed);
+                            menu.items.items[1].setChecked(selected.data.is_auto_managed != true);
+                        }
+                    },
                 })
             }]
         })

@@ -28,7 +28,7 @@ from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.ui import common as uicommon
 from deluge.ui.client import Client, client
 from deluge.ui.coreconfig import CoreConfig
-from deluge.ui.sessionproxy import SessionProxy
+from deluge.ui.sessionproxy import SessionProxy, TorrrentsState
 from deluge.ui.util import lang
 from deluge.ui.web.common import _, compress
 
@@ -369,6 +369,10 @@ class WebApi(JSONComponent):
             self.host_list.save()
         self.core_config = CoreConfig()
         self.event_queue = EventQueue()
+        self.torrents_fetched = False
+        # The state of the torrents in the view
+        self.torrents_state = TorrrentsState()
+
         try:
             self.sessionproxy = component.get('SessionProxy')
         except KeyError:
@@ -486,7 +490,7 @@ class WebApi(JSONComponent):
         return d
 
     @export
-    def update_ui(self, keys, filter_dict):
+    def update_ui(self, keys, filter_dict, filter_changed):
         """
         Gather the information required for updating the web interface.
 
@@ -531,17 +535,38 @@ class WebApi(JSONComponent):
         def got_external_ip(external_ip):
             ui_info['stats']['external_ip'] = external_ip
 
-        def got_torrents(torrents):
-            ui_info['torrents'] = torrents
+        def got_torrents(state_update):
+            """
+            Callback function for SessionProxy.get_torrents_status()
 
-        def on_complete(result):
-            d.callback(ui_info)
+            Args:
+                state_update (StateUpdate): A sessionpoxy.StateUpdate object
+                                            describing the state update.
 
-        d1 = component.get('SessionProxy').get_torrents_status(filter_dict, keys)
-        d1.addCallback(got_torrents)
+            """
+            self.torrents_state.update_status(state_update)
+            ui_info['torrents'] = {'status': state_update.status,
+                                   'keys': state_update.keys,
+                                   'updated_ids': list(state_update.updated_ids),
+                                   'not_matching': list(state_update.not_matching),
+                                   'new_matching': list(state_update.new_matching)}
+            self.torrents_fetched = True
 
-        d2 = client.core.get_filter_tree()
-        d2.addCallback(got_filters)
+        def on_complete(result, deferred):
+            deferred.callback(ui_info)
+
+        def error_callback(args):
+            log.warn(args)
+
+        self.torrents_state.set_filter(filter_dict)
+        d1 = self.sessionproxy.get_torrents_status(self.torrents_state, keys,
+                                                   only_updated=not filter_changed,
+                                                   from_cache=self.torrents_fetched)
+        d1.addCallbacks(got_torrents, error_callback)
+        self.torrents_state.filter_changed = False
+
+        d2 = self.sessionproxy.get_filter_tree()
+        d2.addCallbacks(got_filters, error_callback)
 
         d3 = client.core.get_session_status([
             'num_peers',
@@ -552,16 +577,16 @@ class WebApi(JSONComponent):
             'dht_nodes',
             'has_incoming_connections'
         ])
-        d3.addCallback(got_stats)
+        d3.addCallbacks(got_stats, error_callback)
 
         d4 = client.core.get_free_space(self.core_config.get('download_location'))
-        d4.addCallback(got_free_space)
+        d4.addCallbacks(got_free_space, error_callback)
 
         d5 = client.core.get_external_ip()
-        d5.addCallback(got_external_ip)
+        d5.addCallbacks(got_external_ip, error_callback)
 
         dl = DeferredList([d1, d2, d3, d4, d5], consumeErrors=True)
-        dl.addCallback(on_complete)
+        dl.addCallback(on_complete, d)
         return d
 
     def _on_got_files(self, torrent, d):
