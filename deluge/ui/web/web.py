@@ -39,11 +39,13 @@ import deluge.common
 from deluge.ui.ui import _UI, UI
 from optparse import OptionGroup
 
+
 class WebUI(UI):
     def __init__(self, args):
         import server
         deluge_web = server.DelugeWeb()
         deluge_web.start()
+
 
 class Web(_UI):
 
@@ -51,43 +53,45 @@ class Web(_UI):
 
     def __init__(self):
         super(Web, self).__init__("web")
-        self.__server =  None
+        self.__server = None
 
         group = OptionGroup(self.parser, "Web Options")
         group.add_option("-b", "--base", dest="base",
-            help="Set the base path that the ui is running on (proxying)",
-            action="store", default=None)
+                         help="Set the base path that the ui is running on (proxying)",
+                         action="store", default=None)
         if not (deluge.common.windows_check() or deluge.common.osx_check()):
-            group.add_option("-d", "--do-not-daemonize", dest="donotdaemonize",
-            help="Do not daemonize the web interface", action="store_true", default=False)
+                group.add_option("-d", "--do-not-daemonize", dest="donotdaemonize",
+                                 help="Do not daemonize the web interface",
+                                 action="store_true", default=False)
         group.add_option("-P", "--pidfile", dest="pidfile", type="str",
-            help="Use pidfile to store process id",
-            action="store", default=None)
+                         help="Use pidfile to store process id",
+                         action="store", default=None)
         if not deluge.common.windows_check():
             group.add_option("-U", "--user", dest="user", type="str",
-                help="User to switch to. Only use it when starting as root",
-                action="store", default=None)
+                             help="User to switch to. Only use it when starting as root",
+                             action="store", default=None)
             group.add_option("-g", "--group", dest="group", type="str",
-                help="Group to switch to. Only use it when starting as root",
-                action="store", default=None)
+                             help="Group to switch to. Only use it when starting as root",
+                             action="store", default=None)
         group.add_option("-i", "--interface", dest="interface",
-            type="str", help="Binds the webserver to a specific IP address",
-            action="store", default=None)
+                         type="str", help="Binds the webserver to a specific IP address",
+                         action="store", default=None)
         group.add_option("-p", "--port", dest="port", type="int",
-            help="Sets the port to be used for the webserver",
-            action="store", default=None)
+                         help="Sets the port to be used for the webserver",
+                         action="store", default=None)
         group.add_option("--profile", dest="profile",
-            help="Profile the web server code",
-            action="store_true", default=False)
+                         help="Profile the web server code",
+                         action="store_true", default=False)
         try:
             import OpenSSL
+            OpenSSL.__version__
         except:
             pass
         else:
             group.add_option("--no-ssl", dest="ssl", action="store_false",
-                    help="Forces the webserver to disable ssl", default=False)
+                             help="Forces the webserver to disable ssl", default=False)
             group.add_option("--ssl", dest="ssl", action="store_true",
-                    help="Forces the webserver to use ssl", default=False)
+                             help="Forces the webserver to use ssl", default=False)
         self.parser.add_option_group(group)
 
     @property
@@ -166,6 +170,7 @@ class Web(_UI):
             profiler.runcall(run_server)
         else:
             run_server()
+
 
 def start():
     web = Web()
