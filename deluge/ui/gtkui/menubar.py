@@ -476,7 +476,7 @@ class MenuBar(component.Component):
         torrent_ids = component.get("TorrentView").get_selected_torrents()
         if len(torrent_ids) == 1:
             core_key_global = core_key
-            d = component.get("SessionProxy").get_torrent_status(torrent_ids[0], {core_key})
+            d = component.get("SessionProxy").get_torrent_status(torrent_ids[0], [core_key])
         else:
             d = client.core.get_config_values([core_key_global])
         d.addCallback(_on_torrent_status)
