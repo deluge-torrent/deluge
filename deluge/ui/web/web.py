@@ -146,22 +146,26 @@ class Web(_UI):
         if self.options.ensure_value("ssl", None):
             self.server.https = self.options.ssl
 
-        if self.options.profile:
-            import hotshot
-            hsp = hotshot.Profile(deluge.configmanager.get_config_dir("deluge-web.profile"))
-            hsp.start()
-
-        self.server.install_signal_handlers()
-        self.server.start()
+        def run_server():
+            self.server.install_signal_handlers()
+            self.server.start()
 
         if self.options.profile:
-            hsp.stop()
-            hsp.close()
-            import hotshot.stats
-            stats = hotshot.stats.load(deluge.configmanager.get_config_dir("deluge-web.profile"))
-            stats.strip_dirs()
-            stats.sort_stats("time", "calls")
-            stats.print_stats(400)
+            import cProfile
+            profiler = cProfile.Profile()
+            profile_output = deluge.configmanager.get_config_dir("delugeweb.profile")
+
+            # Twisted catches signals to terminate
+            def save_profile_stats():
+                profiler.dump_stats(profile_output)
+                print "Profile stats saved to %s" % profile_output
+
+            from twisted.internet import reactor
+            reactor.addSystemEventTrigger("before", "shutdown", save_profile_stats)
+            print "Running with profiler..."
+            profiler.runcall(run_server)
+        else:
+            run_server()
 
 def start():
     web = Web()
