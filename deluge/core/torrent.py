@@ -133,12 +133,11 @@ class IPContainer(object):
 
     def update(self):
         self.counter += 1
-        if not self.hostname and not self.resolve_error and not self.resolving_in_progress:
+        if not self.hostname and not self.resolving_in_progress and not self.resolve_retries >= self.resolve_retries_limit:
             thread = threading.Thread(target=self.resolve_hostname)
             thread.start()
 
     def resolve_hostname(self):
-        if self.resolve_retries >= self.resolve_retries_limit: return
         self.resolving_in_progress = True
         self.resolve_retries += 1
         hostname = self.hostname
