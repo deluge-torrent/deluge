@@ -11,6 +11,7 @@
 
 import os
 import logging
+
 from urlparse import urlparse
 
 from twisted.internet.defer import Deferred, DeferredList
@@ -117,7 +118,6 @@ class TorrentOptions(dict):
         self["owner"] = ""
         self["name"] = ""
 
-
 class Torrent(object):
     """Torrent holds information about torrents added to the libtorrent session.
 
@@ -206,6 +206,8 @@ class Torrent(object):
         self.update_status(self.handle.status())
         self._create_status_funcs()
         self.set_options(self.options)
+        
+        self.hostname_cache = component.get("HostManager")
 
         if log.isEnabledFor(logging.DEBUG):
             log.debug("Torrent object created.")
@@ -717,6 +719,8 @@ class Torrent(object):
                 "progress": peer.progress,
                 "seed": peer.flags & peer.seed,
                 "up_speed": peer.payload_up_speed,
+                "hostname": self.hostname_cache.get_hostname(peer.ip[0]),
+                "port": peer.ip[1]
             })
 
         return ret

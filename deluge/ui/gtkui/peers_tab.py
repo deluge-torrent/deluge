@@ -272,6 +272,11 @@ class PeersTab(Tab):
                 if peer["country"] != values[2]:
                     self.liststore.set_value(row, 5, peer["country"])
                     self.liststore.set_value(row, 0, self.get_flag_pixbuf(peer["country"]))
+                if peer["hostname"]:
+                    hostname_val = '%s:%s' % (peer["hostname"], peer["port"])
+                else:
+                    hostname_val = '%s' % peer["ip"]
+                self.liststore.set_value(row, 1, hostname_val)
                 if peer["seed"]:
                     icon = self.seed_pixbuf
                 else:
@@ -304,6 +309,9 @@ class PeersTab(Tab):
                     icon = self.seed_pixbuf
                 else:
                     icon = self.peer_pixbuf
+
+                if peer["hostname"]:
+                    peer_ip = '%s:%s' % (peer["hostname"], peer["port"])
 
                 row = self.liststore.append([
                     self.get_flag_pixbuf(peer["country"]),

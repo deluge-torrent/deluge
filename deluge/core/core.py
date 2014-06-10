@@ -65,6 +65,7 @@ from deluge.core.filtermanager import FilterManager
 from deluge.core.preferencesmanager import PreferencesManager
 from deluge.core.authmanager import AuthManager
 from deluge.core.eventmanager import EventManager
+from deluge.core.hostmanager import HostManager
 from deluge.core.rpcserver import export
 
 log = logging.getLogger(__name__)
@@ -126,6 +127,7 @@ class Core(component.Component):
         self.torrentmanager = TorrentManager()
         self.filtermanager = FilterManager(self)
         self.authmanager = AuthManager()
+        self.hostmanager = HostManager()
 
         # New release check information
         self.new_release = None
