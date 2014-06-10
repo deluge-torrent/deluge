@@ -11,8 +11,6 @@
 
 import os
 import logging
-import socket
-import threading
 
 from urlparse import urlparse
 
@@ -120,59 +118,6 @@ class TorrentOptions(dict):
         self["owner"] = ""
         self["name"] = ""
 
-class IPContainer(object):
-    def __init__(self, ipaddr):
-        self.ip = ipaddr
-        self.hostname = ''
-        self.resolve_error = False
-        self.error_string = ''
-        self.resolving_in_progress = False
-        self.counter = 1
-        self.resolve_retries_limit = 4
-        self.resolve_retries = -1
-
-    def update(self):
-        self.counter += 1
-        if not self.hostname and not self.resolving_in_progress and not self.resolve_retries >= self.resolve_retries_limit:
-            thread = threading.Thread(target=self.resolve_hostname)
-            thread.start()
-
-    def resolve_hostname(self):
-        self.resolving_in_progress = True
-        self.resolve_retries += 1
-        hostname = self.hostname
-        try:
-            hostname = socket.gethostbyaddr(self.ip)[0]
-        except Exception, e:
-            self.resolve_error = True
-            self.error_string = e
-
-        self.hostname = hostname
-        self.resolving_in_progress = False
-        
-class HostnameCache(object):
-    def __init__(self):
-        self.cache_size = 200 #remove rarely updated enrties over this limit
-        self.cache = {}
-
-    def add_item(self, ip):
-        #if .cache_size reached, remove one element with smallest update .counter
-        if len(self.cache) >= self.cache_size:
-            min_key = min(self.cache.values(), key=attrgetter('counter')).ip
-            del self.cache[min_key]
-        
-        self.cache[ip] = IPContainer(ip)
-            
-    def get_hostname(self, ip):
-        if not self.cache.has_key(ip):
-            #IP isn't cached. Cache it without resolving hostname. Resolve later, on .update()
-            self.add_item(ip)
-        else:
-            #IP is already cached, update and resolve hostname if needed (see IPContainer.resolve_hostname())
-            self.cache[ip].update()
-            
-        return self.cache[ip].hostname
-
 class Torrent(object):
     """Torrent holds information about torrents added to the libtorrent session.
 
@@ -262,7 +207,7 @@ class Torrent(object):
         self._create_status_funcs()
         self.set_options(self.options)
         
-        self.hostname_cache = HostnameCache()
+        self.hostname_cache = component.get("HostManager")
 
         if log.isEnabledFor(logging.DEBUG):
             log.debug("Torrent object created.")
