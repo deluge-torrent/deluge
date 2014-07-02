@@ -41,6 +41,8 @@
 from deluge._libtorrent import lt
 import os
 import logging
+import base64
+
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
@@ -164,10 +166,11 @@ class Core(CorePluginBase):
     def load_torrent(self, filename, magnet):
         try:
             log.debug("Attempting to open %s for add.", filename)
-            if magnet == False:
-                _file = open(filename, "rb")
-            elif magnet == True:
+            if magnet:
                 _file = open(filename, "r")
+            else:
+                _file = open(filename, "rb")
+
             filedump = _file.read()
             if not filedump:
                 raise RuntimeError, "Torrent is 0 bytes!"
@@ -180,7 +183,7 @@ class Core(CorePluginBase):
         if magnet == False:
             lt.torrent_info(lt.bdecode(filedump))
 
-        return filedump
+        return base64.encodestring(filedump)
 
     def split_magnets(self, filename):
         log.debug("Attempting to open %s for splitting magnets.", filename)
@@ -238,7 +241,7 @@ class Core(CorePluginBase):
         # without them is valid, and applies all its settings.
         for option, value in watchdir.iteritems():
             if OPTIONS_AVAILABLE.get(option):
-                if watchdir.get(option+'_toggle', True):
+                if watchdir.get(option+'_toggle', True) or option == "owner":
                     opts[option] = value
 
         # Check for .magnet files containing multiple magnet links and
@@ -296,16 +299,11 @@ class Core(CorePluginBase):
                     continue
 
                 # The torrent looks good, so lets add it to the session.
-                if magnet == False:
-                    torrent_id = component.get("TorrentManager").add(
-                        filedump=filedump, filename=filename, options=opts,
-                        owner=watchdir.get("owner", "localclient")
-                    )
-                elif magnet == True:
-                    torrent_id = component.get("TorrentManager").add(
-                        magnet=filedump, options=opts,
-                        owner=watchdir.get("owner", "localclient")
-                    )
+                if magnet:
+                    torrent_id = component.get("Core").add_torrent_magnet(filedump, opts)
+                else:
+                    torrent_id = component.get("Core").add_torrent_file(filename, filedump, opts)
+
                 # If the torrent added successfully, set the extra options.
                 if torrent_id:
                     if 'Label' in component.get("CorePluginManager").get_enabled_plugins():
@@ -321,7 +319,7 @@ class Core(CorePluginBase):
                             component.get("TorrentManager").queue_bottom(torrent_id)
                 else:
                     # torrent handle is invalid and so is the magnet link
-                    if magnet == True:
+                    if magnet:
                         log.debug("invalid magnet link")
                         os.rename(filepath, filepath + ".invalid")
                         continue
