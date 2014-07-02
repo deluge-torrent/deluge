@@ -44,7 +44,7 @@ import logging
 from twisted.internet.threads import deferToThread
 
 from deluge.ui.client import client
-import listview
+from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
 import deluge.component as component
 import deluge.common
 from deluge.configmanager import ConfigManager
@@ -105,7 +105,7 @@ class CreateTorrentDialog:
         column = gtk.TreeViewColumn(_("Size"))
         render = gtk.CellRendererText()
         column.pack_start(render)
-        column.set_cell_data_func(render, listview.cell_data_size, 2)
+        column.set_cell_data_func(render, cell_data_size, 2)
         self.builder.get_object("treeview_files").append_column(column)
 
         self.builder.get_object("treeview_files").set_model(self.files_treestore)
