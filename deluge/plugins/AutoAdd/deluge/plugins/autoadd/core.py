@@ -336,6 +336,7 @@ class Core(CorePluginBase):
                               os.path.basename(filepath), copy_torrent_path)
                     try:
                         os.rename(filepath, copy_torrent_file)
+                        os.remove(filepath)
                     except OSError, why:
                         from errno import EXDEV
                         if why.errno == errno.EXDEV:
