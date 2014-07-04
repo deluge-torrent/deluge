@@ -39,6 +39,7 @@
 #
 
 from deluge._libtorrent import lt
+import shutil
 import os
 import logging
 import base64
@@ -335,8 +336,7 @@ class Core(CorePluginBase):
                     log.debug("Moving added torrent file \"%s\" to \"%s\"",
                               os.path.basename(filepath), copy_torrent_path)
                     try:
-                        os.rename(filepath, copy_torrent_file)
-                        os.remove(filepath)
+                        shutil.move(filepath, copy_torrent_file)
                     except OSError, why:
                         from errno import EXDEV
                         if why.errno == errno.EXDEV:
