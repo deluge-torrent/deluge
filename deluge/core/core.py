@@ -100,9 +100,6 @@ class Core(component.Component):
         # Increase the alert queue size so that alerts don't get lost.
         settings["alert_queue_size"] = 10000
 
-        # Send have messages to peers that already have the piece.
-        settings["send_redundant_have"] = True
-
         # On Windows OS set the disk I/O read/write to bypass OS cache
         if deluge.common.windows_check():
             settings["disk_io_write_mode"] = lt.io_buffer_mode_t.disable_os_cache
