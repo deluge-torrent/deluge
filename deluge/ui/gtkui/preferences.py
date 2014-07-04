@@ -83,6 +83,10 @@ class Preferences(component.Component):
         self.builder.get_object("image_magnet").set_from_file(
             deluge.common.get_pixmap("magnet.png"))
 
+        # Hide the unused associate magnet button on OSX see: #2420
+        if deluge.common.osx_check():
+            self.builder.get_object("button_associate_magnet").hide()
+
         # Setup the liststore for the categories (tab pages)
         self.liststore = gtk.ListStore(int, str)
         self.treeview.set_model(self.liststore)
