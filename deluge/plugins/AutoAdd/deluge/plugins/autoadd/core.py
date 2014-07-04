@@ -39,6 +39,7 @@
 #
 
 from deluge._libtorrent import lt
+import shutil
 import os
 import logging
 import base64
@@ -334,27 +335,8 @@ class Core(CorePluginBase):
                     copy_torrent_file = os.path.join(copy_torrent_path, filename)
                     log.debug("Moving added torrent file \"%s\" to \"%s\"",
                               os.path.basename(filepath), copy_torrent_path)
-                    try:
-                        os.rename(filepath, copy_torrent_file)
-                    except OSError, why:
-                        from errno import EXDEV
-                        if why.errno == errno.EXDEV:
-                            # This can happen for different mount points
-                            from shutil import copyfile
-                            try:
-                                copyfile(filepath, copy_torrent_file)
-                                os.remove(filepath)
-                            except OSError:
-                                # Last Resort!
-                                try:
-                                    open(copy_torrent_file, 'wb').write(
-                                        open(filepath, 'rb').read()
-                                    )
-                                    os.remove(filepath)
-                                except OSError, why:
-                                    raise why
-                        else:
-                            raise why
+                    shutil.move(filepath, copy_torrent_file)
+
                 else:
                     os.remove(filepath)
 
