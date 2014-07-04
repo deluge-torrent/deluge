@@ -51,7 +51,7 @@ from deluge.log import LOG as log
 class AlertManager(component.Component):
     def __init__(self):
         log.debug("AlertManager initialized..")
-        component.Component.__init__(self, "AlertManager", interval=0.05)
+        component.Component.__init__(self, "AlertManager", interval=0.3)
         self.session = component.get("Core").session
 
         self.session.set_alert_mask(
