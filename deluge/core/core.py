@@ -72,18 +72,18 @@ log = logging.getLogger(__name__)
 
 class Core(component.Component):
     def __init__(self, listen_interface=None):
-        log.debug("Core init..")
+        log.debug("Core init...")
         component.Component.__init__(self, "Core")
 
-        # Start the libtorrent session
-        log.info("Starting libtorrent %s session..", lt.version)
-
         # Create the client fingerprint
-        version = deluge.common.VersionSplit(deluge.common.get_version()).version
-        while len(version) < 4:
-            version.append(0)
+        client_id = "DE"
+        client_version = deluge.common.VersionSplit(deluge.common.get_version()).version
+        while len(client_version) < 4:
+            client_version.append(0)
 
-        self.session = lt.session(lt.fingerprint("DE", *version), flags=0)
+        # Start the libtorrent session
+        log.info("Starting libtorrent %s (%s, %s) session...", lt.version, client_id, client_version)
+        self.session = lt.session(lt.fingerprint(client_id, *client_version), flags=0)
 
         # Load the session state if available
         self.__load_session_state()
