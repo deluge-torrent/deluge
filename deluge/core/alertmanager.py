@@ -27,6 +27,7 @@ log = logging.getLogger(__name__)
 
 
 class AlertManager(component.Component):
+    """AlertManager fetches and processes libtorrent alerts"""
     def __init__(self):
         log.debug("AlertManager init...")
         component.Component.__init__(self, "AlertManager", interval=0.3)
@@ -55,9 +56,9 @@ class AlertManager(component.Component):
         self.handle_alerts(wait=self.wait_on_handler)
 
     def stop(self):
-        for dc in self.delayed_calls:
-            if dc.active():
-                dc.cancel()
+        for delayed_call in self.delayed_calls:
+            if delayed_call.active():
+                delayed_call.cancel()
         self.delayed_calls = []
 
     def register_handler(self, alert_type, handler):
@@ -85,18 +86,17 @@ class AlertManager(component.Component):
         :param handler: func, the handler function to deregister
         """
         # Iterate through all handlers and remove 'handler' where found
-        for (key, value) in self.handlers.items():
+        for (dummy_key, value) in self.handlers.items():
             if handler in value:
                 # Handler is in this alert type list
                 value.remove(handler)
 
     def handle_alerts(self, wait=False):
-        """
-        Pops all libtorrent alerts in the session queue and handles them
-        appropriately.
+        """Pops all libtorrent alerts in the session queue and handles them appropriately.
 
-        :param wait: bool, if True then the handler functions will be run right
-            away and waited to return before processing the next alert
+        Args:
+            wait (bool): If True the handler functions will be run straight away and
+                waited to return before processing the next alert.
         """
         alerts = self.session.pop_alerts()
         if not alerts:
@@ -123,6 +123,7 @@ class AlertManager(component.Component):
                         handler(alert)
 
     def set_alert_queue_size(self, queue_size):
+        """Sets the maximum size of the libtorrent alert queue"""
         log.info("Alert Queue Size set to %s", queue_size)
         self.alert_queue_size = queue_size
         settings = self.session.get_settings()
