@@ -1,42 +1,17 @@
-#
-# alertmanager.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 """
 
 The AlertManager handles all the libtorrent alerts.
 
-This should typically only be used by the Core.  Plugins should utilize the
+This should typically only be used by the Core. Plugins should utilize the
 `:mod:EventManager` for similar functionality.
 
 """
@@ -53,9 +28,13 @@ log = logging.getLogger(__name__)
 
 class AlertManager(component.Component):
     def __init__(self):
-        log.debug("AlertManager initialized..")
+        log.debug("AlertManager init...")
         component.Component.__init__(self, "AlertManager", interval=0.3)
         self.session = component.get("Core").session
+
+        # Increase the alert queue size so that alerts don't get lost.
+        self.alert_queue_size = 10000
+        self.set_alert_queue_size(self.alert_queue_size)
 
         self.session.set_alert_mask(
             lt.alert.category_t.error_notification |
@@ -120,6 +99,15 @@ class AlertManager(component.Component):
             away and waited to return before processing the next alert
         """
         alerts = self.session.pop_alerts()
+        if not alerts:
+            return
+
+        num_alerts = len(alerts)
+        if log.isEnabledFor(logging.DEBUG):
+            log.debug("Alerts queued: %s", num_alerts)
+        if num_alerts > 0.9 * self.alert_queue_size:
+            log.warning("Warning total alerts queued, %s, passes 90%% of queue size.", num_alerts)
+
         # Loop through all alerts in the queue
         for alert in alerts:
             alert_type = type(alert).__name__
@@ -133,3 +121,10 @@ class AlertManager(component.Component):
                         self.delayed_calls.append(reactor.callLater(0, handler, alert))
                     else:
                         handler(alert)
+
+    def set_alert_queue_size(self, queue_size):
+        log.info("Alert Queue Size set to %s", queue_size)
+        self.alert_queue_size = queue_size
+        settings = self.session.get_settings()
+        settings["alert_queue_size"] = self.alert_queue_size
+        self.session.set_settings(settings)

@@ -88,25 +88,17 @@ class Core(component.Component):
         # Load the session state if available
         self.__load_session_state()
 
-        ## Set Session settings ##
+        ## Set session settings ##
         settings = self.session.get_settings()
-
-        # User agent
         settings["user_agent"] = "Deluge/%(deluge_version)s libtorrent/%(lt_version)s" % {
             'deluge_version': deluge.common.get_version(),
             'lt_version': self.get_libtorrent_version().rpartition(".")[0]
         }
-
-        # Increase the alert queue size so that alerts don't get lost.
-        settings["alert_queue_size"] = 10000
-
         # On Windows OS set the disk I/O read/write to bypass OS cache
         if deluge.common.windows_check():
             settings["disk_io_write_mode"] = lt.io_buffer_mode_t.disable_os_cache
             settings["disk_io_read_mode"] = lt.io_buffer_mode_t.disable_os_cache
-
         self.session.set_settings(settings)
-        ## End Set Session settings ##
 
         ## libtorrent plugins ##
         # Allows peers to download the metadata from the swarm directly
