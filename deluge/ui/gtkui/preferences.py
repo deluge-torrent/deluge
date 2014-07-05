@@ -39,6 +39,7 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 import logging
+from hashlib import sha1 as sha
 
 import deluge.component as component
 from deluge.ui.client import client
@@ -541,11 +542,6 @@ class Preferences(component.Component):
 
         :param hide: bool, if True, will not re-show the dialog and will hide it instead
         """
-        try:
-            from hashlib import sha1 as sha_hash
-        except ImportError:
-            from sha import new as sha_hash
-
         classic_mode_was_set = self.gtkui_config["classic_mode"]
 
         # Get the values from the dialog
@@ -662,7 +658,7 @@ class Preferences(component.Component):
             self.builder.get_object("chk_enable_appindicator").get_active()
         new_gtkui_config["lock_tray"] = \
             self.builder.get_object("chk_lock_tray").get_active()
-        passhex = sha_hash(self.builder.get_object("txt_tray_password").get_text()).hexdigest()
+        passhex = sha(self.builder.get_object("txt_tray_password").get_text()).hexdigest()
         if passhex != "c07eb5a8c0dc7bb81c217b67f11c3b7a5e95ffd7":
             new_gtkui_config["tray_password"] = passhex
 

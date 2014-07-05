@@ -861,18 +861,16 @@ def create_auth_file():
 def create_localclient_account(append=False):
     import configmanager
     import random
+    from hashlib import sha1 as sha
+
     auth_file = configmanager.get_config_dir("auth")
     if not os.path.exists(auth_file):
         create_auth_file()
 
-    try:
-        from hashlib import sha1 as sha_hash
-    except ImportError:
-        from sha import new as sha_hash
     fd = open(auth_file, "a" if append else "w")
     fd.write(":".join([
         "localclient",
-        sha_hash(str(random.random())).hexdigest(),
+        sha(str(random.random())).hexdigest(),
         str(AUTH_LEVEL_ADMIN)
     ]) + '\n')
     fd.flush()

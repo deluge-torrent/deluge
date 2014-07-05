@@ -1,10 +1,6 @@
 import os
 import warnings
-
-try:
-    from hashlib import sha1 as sha
-except ImportError:
-    from sha import sha
+from hashlib import sha1 as sha
 
 from twisted.trial import unittest
 from twisted.internet import reactor

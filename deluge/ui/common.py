@@ -42,13 +42,8 @@ import os
 import sys
 import logging
 import urlparse
-
 import locale
-
-try:
-    from hashlib import sha1 as sha
-except ImportError:
-    from sha import sha
+from hashlib import sha1 as sha
 
 from deluge import bencode
 from deluge.common import utf8_encoded, path_join

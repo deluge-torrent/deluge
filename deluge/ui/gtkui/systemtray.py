@@ -437,10 +437,7 @@ class SystemTray(component.Component):
             set_value(widget.get_children()[0].get_text().split(" ")[0])
 
     def unlock_tray(self, is_showing_dlg=[False]):
-        try:
-            from hashlib import sha1 as sha_hash
-        except ImportError:
-            from sha import new as sha_hash
+        from hashlib import sha1 as sha
 
         log.debug("Show tray lock dialog")
 
@@ -488,7 +485,7 @@ class SystemTray(component.Component):
 
         def on_response(dialog, response_id):
             if response_id == gtk.RESPONSE_OK:
-                if self.config["tray_password"] == sha_hash(entered_pass.get_text()).hexdigest():
+                if self.config["tray_password"] == sha(entered_pass.get_text()).hexdigest():
                     self.window.present()
 
             self.tray_lock.destroy()
