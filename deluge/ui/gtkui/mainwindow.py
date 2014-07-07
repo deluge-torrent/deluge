@@ -166,8 +166,12 @@ class MainWindow(component.Component):
         def restore():
             # Restore the proper x,y coords for the window prior to showing it
             try:
-                self.config["window_x_pos"] = self.window_x_pos
-                self.config["window_y_pos"] = self.window_y_pos
+                if self.window_x_pos == -32000 or self.window_y_pos == -32000:
+                    self.config["window_x_pos"] = 0
+                    self.config["window_y_pos"] = 0
+                else:
+                    self.config["window_x_pos"] = self.window_x_pos
+                    self.config["window_y_pos"] = self.window_y_pos
             except:
                 pass
             try:
