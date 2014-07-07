@@ -176,31 +176,41 @@ class MainWindow(component.Component):
         :param shutdown: whether or not to shutdown the daemon as well
         :type shutdown: boolean
         """
+        def quit_gtkui():
+            def shutdown_daemon(result):
+                return client.daemon.shutdown()
 
-        def shutdown_daemon(result):
-            return client.daemon.shutdown()
+            def disconnect_client(result):
+                return client.disconnect()
 
-        def disconnect_client(result):
-            return client.disconnect()
+            def stop_reactor(result):
+                try:
+                    reactor.stop()
+                except ReactorNotRunning:
+                    log.debug("Attempted to stop the reactor but it is not running...")
 
-        def stop_reactor(result):
-            try:
-                reactor.stop()
-            except ReactorNotRunning:
-                log.debug("Attempted to stop the reactor but it is not running...")
+            def log_failure(failure, action):
+                log.error("Encountered error attempting to %s: %s" % \
+                          (action, failure.getErrorMessage()))
 
-        def log_failure(failure, action):
-            log.error("Encountered error attempting to %s: %s" % \
-                      (action, failure.getErrorMessage()))
+            d = defer.succeed(None)
+            if shutdown:
+                d.addCallback(shutdown_daemon)
+                d.addErrback(log_failure, "shutdown daemon")
+            if not client.is_classicmode() and client.connected():
+                d.addCallback(disconnect_client)
+                d.addErrback(log_failure, "disconnect client")
+            d.addBoth(stop_reactor)
 
-        d = defer.succeed(None)
-        if shutdown:
-            d.addCallback(shutdown_daemon)
-            d.addErrback(log_failure, "shutdown daemon")
-        if not client.is_classicmode() and client.connected():
-            d.addCallback(disconnect_client)
-            d.addErrback(log_failure, "disconnect client")
-        d.addBoth(stop_reactor)
+        if self.config["tray_password"] and not self.visible():
+            dialog = PasswordDialog("Enter your pasword to Quit Deluge...")
+            def on_dialog_response(response_id):
+                if response_id == gtk.RESPONSE_OK:
+                    if self.config["tray_password"] == sha(dialog.get_password()).hexdigest():
+                        quit_gtkui()
+            dialog.run().addCallback(on_dialog_response)
+        else:
+            quit_gtkui()
 
     def load_window_state(self):
         x = self.config["window_x_pos"]
