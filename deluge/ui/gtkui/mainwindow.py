@@ -1,38 +1,11 @@
+# -*- coding: utf-8 -*-
 #
-# mainwindow.py
+# Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
-# Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
-#
-
 
 import copy
 import os.path
@@ -40,7 +13,6 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 import logging
-import urllib
 from hashlib import sha1 as sha
 
 from twisted.internet import reactor
@@ -59,9 +31,8 @@ from deluge.configmanager import ConfigManager
 from deluge.ui.gtkui.ipcinterface import process_args
 from deluge.ui.gtkui.dialogs import PasswordDialog
 
-
-
 log = logging.getLogger(__name__)
+
 
 class _GtkBuilderSignalsHolder(object):
     def connect_signals(self, mapping_or_class):
@@ -80,8 +51,9 @@ class _GtkBuilderSignalsHolder(object):
                     continue
                 if hasattr(self, name):
                     raise RuntimeError("A handler for signal %r has already been registered: %s" %
-                                         (name, getattr(self, name)))
+                                       (name, getattr(self, name)))
                 setattr(self, name, getattr(mapping_or_class, name))
+
 
 class MainWindow(component.Component):
     def __init__(self):
@@ -97,6 +69,7 @@ class MainWindow(component.Component):
         # in order not to have to monkey patch GtkBuilder. Those parts would then need to
         # be added to the main window "by hand".
         self.main_builder.prev_connect_signals = copy.deepcopy(self.main_builder.connect_signals)
+
         def patched_connect_signals(*a, **k):
             raise RuntimeError("In order to connect signals to this GtkBuilder instance please use "
                                "'component.get(\"MainWindow\").connect_signals()'")
@@ -160,7 +133,7 @@ class MainWindow(component.Component):
         self.gtk_builder_signals_holder.connect_signals(mapping_or_class)
 
     def first_show(self):
-        if not(self.config["start_in_tray"] and \
+        if not(self.config["start_in_tray"] and
                self.config["enable_system_tray"]) and not \
                 self.window.get_property("visible"):
             log.debug("Showing window")
@@ -209,6 +182,7 @@ class MainWindow(component.Component):
 
         if self.config["tray_password"] and not self.visible():
             dialog = PasswordDialog("Enter your pasword to open Deluge.")
+
             def on_dialog_response(response_id):
                 if response_id == gtk.RESPONSE_OK:
                     if self.config["tray_password"] == sha(dialog.get_password()).hexdigest():
@@ -252,6 +226,7 @@ class MainWindow(component.Component):
 
         if self.config["tray_password"] and not self.visible():
             dialog = PasswordDialog("Enter your pasword to Quit Deluge...")
+
             def on_dialog_response(response_id):
                 if response_id == gtk.RESPONSE_OK:
                     if self.config["tray_password"] == sha(dialog.get_password()).hexdigest():
@@ -332,7 +307,8 @@ class MainWindow(component.Component):
             upload_rate = deluge.common.fsize_short(status["payload_upload_rate"])
             self.window.set_title("%s%s %s%s - Deluge" % (_("D:"), download_rate, _("U:"), upload_rate))
         if self.config["show_rate_in_title"]:
-            client.core.get_session_status(["payload_download_rate", "payload_upload_rate"]).addCallback(_on_get_session_status)
+            client.core.get_session_status(["payload_download_rate",
+                                           "payload_upload_rate"]).addCallback(_on_get_session_status)
 
     def _on_set_show_rate_in_title(self, key, value):
         if value:
