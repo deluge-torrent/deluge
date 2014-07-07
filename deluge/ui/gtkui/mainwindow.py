@@ -41,21 +41,25 @@ pygtk.require('2.0')
 import gtk
 import logging
 import urllib
+from hashlib import sha1 as sha
+
+from twisted.internet import reactor
+from twisted.internet.error import ReactorNotRunning
 
 try:
     import wnck
 except ImportError:
     wnck = None
 
-from deluge.ui.client import client
+import deluge.common
+import deluge.ui.gtkui.common
 import deluge.component as component
+from deluge.ui.client import client
 from deluge.configmanager import ConfigManager
 from deluge.ui.gtkui.ipcinterface import process_args
-from twisted.internet import reactor
-from twisted.internet.error import ReactorNotRunning
+from deluge.ui.gtkui.dialogs import PasswordDialog
 
-import deluge.common
-import common
+
 
 log = logging.getLogger(__name__)
 
@@ -123,10 +127,9 @@ class MainWindow(component.Component):
             "deluge.ui.gtkui", os.path.join("glade", "main_window.tabs.menu_peer.ui"))
         )
 
-
         self.window = self.main_builder.get_object("main_window")
 
-        self.window.set_icon(common.get_deluge_icon())
+        self.window.set_icon(deluge.ui.gtkui.common.get_deluge_icon())
 
         self.vpaned = self.main_builder.get_object("vpaned")
         self.initial_vpaned_position = self.config["window_pane_position"]
@@ -176,7 +179,6 @@ class MainWindow(component.Component):
             pass
         self.window.show()
 
-
     def hide(self):
         component.pause("TorrentView")
         component.get("TorrentView").save_state()
@@ -188,21 +190,32 @@ class MainWindow(component.Component):
         self.window.hide()
 
     def present(self):
-        # Restore the proper x,y coords for the window prior to showing it
-        try:
-            self.config["window_x_pos"] = self.window_x_pos
-            self.config["window_y_pos"] = self.window_y_pos
-        except:
-            pass
-        try:
-            component.resume("TorrentView")
-            component.resume("StatusBar")
-            component.resume("TorrentDetails")
-        except:
-            pass
+        def restore():
+            # Restore the proper x,y coords for the window prior to showing it
+            try:
+                self.config["window_x_pos"] = self.window_x_pos
+                self.config["window_y_pos"] = self.window_y_pos
+            except:
+                pass
+            try:
+                component.resume("TorrentView")
+                component.resume("StatusBar")
+                component.resume("TorrentDetails")
+            except:
+                pass
 
-        self.window.present()
-        self.load_window_state()
+            self.window.present()
+            self.load_window_state()
+
+        if self.config["tray_password"] and not self.visible():
+            dialog = PasswordDialog("Enter your pasword to open Deluge.")
+            def on_dialog_response(response_id):
+                if response_id == gtk.RESPONSE_OK:
+                    if self.config["tray_password"] == sha(dialog.get_password()).hexdigest():
+                        restore()
+            dialog.run().addCallback(on_dialog_response)
+        else:
+            restore()
 
     def active(self):
         """Returns True if the window is active, False if not."""
