@@ -382,9 +382,14 @@ class TorrentManager(component.Component):
             # We have a torrent_info object or magnet uri so we're not loading from state.
             if torrent_info:
                 add_torrent_id = str(torrent_info.info_hash())
+                # If this torrent id is already in the session, merge any additional trackers.
                 if add_torrent_id in self.get_torrent_list():
-                    # Torrent already exists just append any extra trackers.
-                    log.debug("Torrent (%s) exists, checking for trackers to add...", add_torrent_id)
+                    log.info("Merging trackers for torrent (%s) already in session...", add_torrent_id)
+                    # Don't merge trackers if either torrent has private flag set
+                    if self[add_torrent_id].get_status(["private"])["private"]:
+                        log.info("Merging trackers abandoned: Torrent has private flag set.")
+                        return
+
                     add_torrent_trackers = []
                     for value in torrent_info.trackers():
                         tracker = {}
@@ -394,17 +399,18 @@ class TorrentManager(component.Component):
 
                     torrent_trackers = {}
                     tracker_list = []
-                    for tracker in  self[add_torrent_id].get_status(["trackers"])["trackers"]:
+                    for tracker in self[add_torrent_id].get_status(["trackers"])["trackers"]:
                         torrent_trackers[(tracker["url"])] = tracker
                         tracker_list.append(tracker)
 
-                    added_tracker = False
+                    added_tracker = 0
                     for tracker in add_torrent_trackers:
                         if tracker['url'] not in torrent_trackers:
                             tracker_list.append(tracker)
-                            added_tracker = True
+                            added_tracker += 1
 
                     if added_tracker:
+                        log.info("%s tracker(s) merged into torrent.", added_tracker)
                         self[add_torrent_id].set_trackers(tracker_list)
                     return
 
