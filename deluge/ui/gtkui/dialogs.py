@@ -176,3 +176,41 @@ class ErrorDialog(BaseDialog):
             self.vbox.pack_start(label, False, False)
             self.vbox.pack_start(sw)
             self.vbox.show_all()
+
+class PasswordDialog(BaseDialog):
+    """
+    Displays a dialog with an entry field asking for a password.
+
+    When run(), it will return either a gtk.RESPONSE_CANCEL or a gtk.RESPONSE_OK.
+    """
+    def __init__(self, password_msg="", parent=None):
+        """
+        :param password_msg: the error message we got back from the server
+        :type password_msg: string
+        """
+        super(PasswordDialog, self).__init__(
+            _("Password Protected"), password_msg,
+            gtk.STOCK_DIALOG_AUTHENTICATION,
+            (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_CONNECT, gtk.RESPONSE_OK),
+            parent)
+
+        table = gtk.Table(1, 2, False)
+        self.password_label = gtk.Label()
+        self.password_label.set_markup("<b>" + _("Password:") + "</b>")
+        self.password_label.set_alignment(1.0, 0.5)
+        self.password_label.set_padding(5, 5)
+        self.password_entry = gtk.Entry()
+        self.password_entry.set_visibility(False)
+        self.password_entry.connect("activate", self.on_password_activate)
+        table.attach(self.password_label, 0, 1, 1, 2)
+        table.attach(self.password_entry, 1, 2, 1, 2)
+
+        self.vbox.pack_start(table, False, False, padding=5)
+        self.set_focus(self.password_entry)
+        self.show_all()
+
+    def get_password(self):
+        return self.password_entry.get_text()
+
+    def on_password_activate(self, widget):
+        self.response(gtk.RESPONSE_OK)
