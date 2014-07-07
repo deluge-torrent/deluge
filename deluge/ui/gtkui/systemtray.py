@@ -375,16 +375,10 @@ class SystemTray(component.Component):
 
     def on_menuitem_quit_activate(self, menuitem):
         log.debug("on_menuitem_quit_activate")
-        if self.config["lock_tray"] and not self.window.visible():
-            self.window.present()
-
         self.window.quit()
 
     def on_menuitem_quitdaemon_activate(self, menuitem):
         log.debug("on_menuitem_quitdaemon_activate")
-        if self.config["lock_tray"] and not self.window.visible():
-            self.window.present()
-
         self.window.quit(shutdown=True)
 
     def on_tray_setbwdown(self, widget, data=None):

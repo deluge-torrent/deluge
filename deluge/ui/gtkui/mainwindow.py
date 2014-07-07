@@ -236,18 +236,29 @@ class MainWindow(component.Component):
         :param shutdown: whether or not to shutdown the daemon as well
         :type shutdown: boolean
         """
-        def stop_gtk_reactor(result=None):
-            try:
-                reactor.stop()
-            except ReactorNotRunning:
-                log.debug("Attempted to stop the reactor but it is not running...")
+        def quit_gtkui():
+            def stop_gtk_reactor(result=None):
+                try:
+                    reactor.stop()
+                except ReactorNotRunning:
+                    log.debug("Attempted to stop the reactor but it is not running...")
 
-        if shutdown:
-            client.daemon.shutdown().addCallback(stop_gtk_reactor)
-        elif not client.is_classicmode() and client.connected():
-            client.disconnect().addCallback(stop_gtk_reactor)
+            if shutdown:
+                client.daemon.shutdown().addCallback(stop_gtk_reactor)
+            elif not client.is_classicmode() and client.connected():
+                client.disconnect().addCallback(stop_gtk_reactor)
+            else:
+                stop_gtk_reactor()
+
+        if self.config["tray_password"] and not self.visible():
+            dialog = PasswordDialog("Enter your pasword to Quit Deluge...")
+            def on_dialog_response(response_id):
+                if response_id == gtk.RESPONSE_OK:
+                    if self.config["tray_password"] == sha(dialog.get_password()).hexdigest():
+                        quit_gtkui()
+            dialog.run().addCallback(on_dialog_response)
         else:
-            stop_gtk_reactor()
+            quit_gtkui()
 
     def load_window_state(self):
         x = self.config["window_x_pos"]
