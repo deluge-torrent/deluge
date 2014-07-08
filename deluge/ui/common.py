@@ -101,8 +101,10 @@ class TorrentInfo(object):
             for index, f in enumerate(self.__m_metadata["info"]["files"]):
                 if "path.utf-8" in f:
                     path = os.path.join(prefix, *f["path.utf-8"])
+                    del f["path.utf-8"]
                 else:
                     path = decode_string(os.path.join(prefix, decode_string(os.path.join(*f["path"]), self.encoding)), self.encoding)
+                f["path"] = path
                 f["index"] = index
                 if "sha1" in f and len(f["sha1"]) == 20:
                         f["sha1"] = f["sha1"].encode('hex')
@@ -158,12 +160,8 @@ class TorrentInfo(object):
                 prefix = self.__m_name
 
             for f in self.__m_metadata["info"]["files"]:
-                if "path.utf-8" in f:
-                    path = os.path.join(prefix, *f["path.utf-8"])
-                else:
-                    path = decode_string(os.path.join(prefix, decode_string(os.path.join(*f["path"]), self.encoding)), self.encoding)
                 self.__m_files.append({
-                    'path': path,
+                    'path': f["path"],
                     'size': f["length"],
                     'download': True
                 })
