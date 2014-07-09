@@ -185,7 +185,7 @@ class MainWindow(component.Component):
             self.load_window_state()
 
         if self.config["lock_tray"] and not self.visible():
-            dialog = PasswordDialog("Enter your pasword to open Deluge.")
+            dialog = PasswordDialog(_("Enter your password to show Deluge..."))
 
             def on_dialog_response(response_id):
                 if response_id == gtk.RESPONSE_OK:
@@ -229,7 +229,7 @@ class MainWindow(component.Component):
                 stop_gtk_reactor()
 
         if self.config["lock_tray"] and not self.visible():
-            dialog = PasswordDialog("Enter your pasword to Quit Deluge...")
+            dialog = PasswordDialog(_("Enter your password to Quit Deluge..."))
 
             def on_dialog_response(response_id):
                 if response_id == gtk.RESPONSE_OK:
