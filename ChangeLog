@@ -1,4 +1,4 @@
-=== Deluge 1.3.7 (In Development) ===
+=== Deluge 1.3.7 (9 July 2014) ===
 ==== Core ====
 	* #2324: Encryption level set by Deluge did not match libtorrent values
 	* #2303: Torrent state was not updated until after emitting TorrentFinishedEvent

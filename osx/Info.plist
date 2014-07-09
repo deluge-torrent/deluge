@@ -11,13 +11,13 @@
 	<key>CFBundleExecutable</key>
 	<string>Deluge</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.3.6</string>
+	<string>1.3.7</string>
 	<key>CFBundleVersion</key>
-	<string>1.3.6</string>
+	<string>1.3.7</string>
 	<key>CFBundleGetInfoString</key>
-	<string>1.3.6 (c) 2008-2011 Deluge Team http://deluge-torrent.org/</string>
+	<string>1.3.7 (c) 2008-2014 Deluge Team http://deluge-torrent.org/</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright 2008-2011 Deluge Team</string>
+	<string>Copyright 2008-2014 Deluge Team</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleInfoDictionaryVersion</key>
