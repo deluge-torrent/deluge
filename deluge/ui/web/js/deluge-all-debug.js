@@ -9154,7 +9154,7 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 		this.on('rowcontextmenu', function(grid, rowIndex, e) {
 			e.stopEvent();
 			var selection = grid.getSelectionModel();
-			if (!selection.hasSelection()) {
+			if (!selection.isSelected(rowIndex)) {
 				selection.selectRow(rowIndex);
 			}
 			deluge.menus.torrent.showAt(e.getPoint());
