@@ -1,7 +1,31 @@
 === Deluge 1.3.7 (In Development) ===
+==== Core ====
+	* #2324: Encryption level set by Deluge did not match libtorrent values
+	* #2303: Torrent state was not updated until after emitting TorrentFinishedEvent
+	* Fix twisted 13.1 compatability
+	* #2343: Fix error if listen interface is whitespace
+	* #2082: Validate ip address for listen_interface entry
+	* #1490: Increase the Alertmanager interval to 0.3s
+	* Prevent private flagged torrents auto-merging trackers
+
 ==== GtkUI ====
 	* Fix issue with Plugins that add Tab to torrentdetails
 	* Fix the scalable icon install directory
+	* #2335: Fix IPC lockfile issue preventing start of deluge-gtk
+	* #2365: Fix hiding Progress column generating TypeError
+	* #2371: Add StartupWMClass to desktop file
+	* #2372: Fix the Ratio column not retaining position
+	* #2369: Fix bypassing the password dialog when showing/quitting
+
+==== WebUI ====
+	* #2374: Fix right-click selection issue
+	* #2310: Fix unicode password support
+	* #2418: Fix WebUI error when adding non-ascii torrent
+
+==== Windows OS ====
+	* Allow silent uninstall for Windows package
+	* #2367: Fix DelugeStart theme not showing Private Flag as ticked/checked
+	* #2315: Potential fix for lost window issue
 
 ==== Extractor ====
 	* #2290: Fix dotted filenames being rejected
