@@ -433,7 +433,7 @@ class CreateTorrentDialog:
         log.debug("_on_button_add_clicked")
         builder = gtk.Builder()
         builder.add_from_file(deluge.common.resource_filename(
-            "deluge.ui.gtkui", os.path.join("glade", "edit_trackers.ui")
+            "deluge.ui.gtkui", os.path.join("glade", "edit_trackers.add.ui")
         ))
         dialog = builder.get_object("add_tracker_dialog")
         dialog.set_transient_for(self.dialog)
