@@ -1,21 +1,21 @@
 # English (United Kingdom) translation for deluge
 # Copyright (c) 2012 Rosetta Contributors and Canonical Ltd 2012
 # This file is distributed under the same license as the deluge package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+# Robert Readman <robert_readman@hotmail.com>, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2012-11-26 16:33+0000\n"
-"PO-Revision-Date: 2012-11-16 21:11+0000\n"
-"Last-Translator: Cas <Unknown>\n"
+"PO-Revision-Date: 2013-10-16 05:09+0000\n"
+"Last-Translator: Robert Readman <Unknown>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-12-22 00:32+0000\n"
-"X-Generator: Launchpad (build 16378)\n"
+"X-Launchpad-Export-Date: 2014-07-09 18:02+0000\n"
+"X-Generator: Launchpad (build 17100)\n"
 
 #: deluge/common.py:279
 msgid "KiB"
@@ -89,7 +89,7 @@ msgstr "Warning"
 #: deluge/plugins/notifications/notifications/core.py:175
 #, python-format
 msgid "There was an error sending the notification email: %s"
-msgstr "There was an error sending the notification email: %s"
+msgstr "There was an error sending the notification e-mail: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:161
 #, python-format
@@ -103,7 +103,7 @@ msgstr "The server didn't accept the username/password combination: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:190
 msgid "Notification email sent."
-msgstr "Notification email sent."
+msgstr "Notification e-mail sent."
 
 #: deluge/plugins/notifications/notifications/core.py:198
 #, python-format
@@ -121,9 +121,9 @@ msgid ""
 "Thank you,\n"
 "Deluge."
 msgstr ""
-"This email is to inform you that Deluge has finished downloading "
+"This e-mail is to inform you that Deluge has finished downloading "
 "\"%(name)s\", which includes %(num_files)i files.\n"
-"To stop receiving these alerts, simply turn off email notification in "
+"To stop receiving these alerts, simply turn off e-mail notification in "
 "Deluge's preferences.\n"
 "\n"
 "Thank you,\n"
@@ -255,7 +255,7 @@ msgstr "Enabled"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:437
 msgid "<b>Email Notifications</b>"
-msgstr "<b>Email Notifications</b>"
+msgstr "<b>E-mail Notifications</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:454
 msgid "Settings"
@@ -1823,9 +1823,9 @@ msgid ""
 "Thank you,\n"
 "Deluge"
 msgstr ""
-"This email is to inform you that Deluge has finished downloading %(name)s ,  "
-"           which includes %(num_files)i files.\n"
-"To stop receiving these alerts, simply turn off             email "
+"This e-mail is to inform you that Deluge has finished downloading %(name)s , "
+"            which includes %(num_files)i files.\n"
+"To stop receiving these alerts, simply turn off             e-mail "
 "notification in Deluge's preferences.\n"
 "\n"
 "Thank you,\n"
@@ -2136,15 +2136,15 @@ msgstr "Cache"
 
 #: deluge/ui/gtkui/preferences.py:79
 msgid "Plugins"
-msgstr "Plugins"
+msgstr "Plug-ins"
 
 #: deluge/ui/gtkui/preferences.py:94
 msgid "Plugin"
-msgstr "Plugin"
+msgstr "Plug-in"
 
 #: deluge/ui/gtkui/preferences.py:759
 msgid "You must restart the deluge UI to change classic mode. Quit now?"
-msgstr ""
+msgstr "You must restart the deluge UI to change classic mode. Quit now?"
 
 #: deluge/ui/gtkui/preferences.py:915
 msgid "Select the Plugin"
@@ -2573,7 +2573,7 @@ msgstr "Prioritise first and last pieces of torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:447
 msgid "Prioritize first and last pieces of files in torrent"
-msgstr "Prioritize first and last pieces of files in torrent"
+msgstr "Prioritise first and last pieces of files in torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:457
 msgid "Add torrents in Paused state"
@@ -2836,7 +2836,7 @@ msgstr "Show session speed in titlebar"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1905
 msgid "Focus window when adding torrent"
-msgstr ""
+msgstr "Focus window when adding torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1923
 msgid "<b>Main Window</b>"
@@ -3190,7 +3190,7 @@ msgstr "<b>Status</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4619
 msgid "<i><b><big>Plugins</big></b></i>"
-msgstr "<i><b><big>Plugins</big></b></i>"
+msgstr "<i><b><big>Plug-ins</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4743
 msgid "Version:"
@@ -3207,19 +3207,19 @@ msgstr "Homepage:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4780
 msgid "Author Email:"
-msgstr "Author Email:"
+msgstr "Author E-mail:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4872
 msgid "_Install Plugin"
-msgstr "_Install Plugin"
+msgstr "_Install Plug-in"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4915
 msgid "_Rescan Plugins"
-msgstr "_Rescan Plugins"
+msgstr "_Rescan Plug-ins"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4968
 msgid "_Find More Plugins"
-msgstr "_Find More Plugins"
+msgstr "_Find More Plug-ins"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:8
 msgid "Queued Torrents"
@@ -3788,7 +3788,7 @@ msgstr "Fi_les"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:469
 msgid "<b>Move Completed Location</b>"
-msgstr ""
+msgstr "<b>Move Completed Location</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:506
 msgid "Full"

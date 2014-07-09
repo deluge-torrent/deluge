@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2012-11-26 16:33+0000\n"
-"PO-Revision-Date: 2012-05-31 07:51+0000\n"
-"Last-Translator: gogo <trebelnik2@gmail.com>\n"
+"PO-Revision-Date: 2014-07-07 20:52+0000\n"
+"Last-Translator: Cas <Unknown>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-12-22 00:32+0000\n"
-"X-Generator: Launchpad (build 16378)\n"
+"X-Launchpad-Export-Date: 2014-07-09 18:02+0000\n"
+"X-Generator: Launchpad (build 17100)\n"
 
 #: deluge/common.py:279
 msgid "KiB"
@@ -2422,7 +2422,7 @@ msgstr "Ako uklonite podatke, bit će zauvijek izgubljeni."
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
 msgid "Remove With _Data"
-msgstr "Uklonite sa_ podacima"
+msgstr "Uklonite sa _podacima"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
 msgid "Remove _Torrent"
@@ -2430,7 +2430,7 @@ msgstr "Uklonite _torrent"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:9
 msgid "Edit Trackers"
-msgstr "Uredite pratitelje"
+msgstr "Uredi Pratitelje"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:47
 msgid "<big><b>Edit Trackers</b></big>"
@@ -2442,7 +2442,7 @@ msgstr "Dodajte pratitelje"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:260
 msgid "<b>Add Trackers</b>"
-msgstr "<b>Dodajte pratitelje</b>"
+msgstr "<b>Dodajte Pratitelje</b>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:296
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1283
@@ -3407,7 +3407,7 @@ msgstr "_Bočna traka"
 
 #: deluge/ui/gtkui/glade/main_window.glade:173
 msgid "Status_bar"
-msgstr "Statusna_ traka"
+msgstr "Statusna _traka"
 
 #: deluge/ui/gtkui/glade/main_window.glade:187
 msgid "T_abs"
@@ -3427,7 +3427,7 @@ msgstr "Prikažite više torrent statusa"
 
 #: deluge/ui/gtkui/glade/main_window.glade:220
 msgid "Show _Trackers"
-msgstr "Prikažite_ pratitelje"
+msgstr "Prikažite _Pratitelje"
 
 #: deluge/ui/gtkui/glade/main_window.glade:237
 msgid "_Help"
@@ -3648,7 +3648,7 @@ msgstr "Prioritetno prvi/posljednji"
 #: deluge/ui/gtkui/glade/main_window.glade:2152
 #: deluge/ui/gtkui/glade/torrent_menu.glade:130
 msgid "_Edit Trackers"
-msgstr "_Uredite pratitelje"
+msgstr "_Uredite Pratitelje"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2259
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:938

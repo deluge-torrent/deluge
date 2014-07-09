@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2012-11-26 16:33+0000\n"
-"PO-Revision-Date: 2012-01-02 22:50+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2013-03-20 19:15+0000\n"
+"Last-Translator: Aputsiaq Niels Janussen <aj@isit.gl>\n"
 "Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-12-22 00:32+0000\n"
-"X-Generator: Launchpad (build 16378)\n"
+"X-Launchpad-Export-Date: 2014-07-09 18:01+0000\n"
+"X-Generator: Launchpad (build 17100)\n"
 
 #: deluge/common.py:279
 msgid "KiB"
@@ -159,7 +159,7 @@ msgstr "pygame er ikke installeret"
 #: deluge/plugins/notifications/notifications/gtkui.py:214
 #, python-format
 msgid "Sound notification failed %s"
-msgstr ""
+msgstr "Lydnotifikation fejlede %s"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:218
 msgid "Sound notification Success"
@@ -522,7 +522,7 @@ msgstr "<b>Gemmeplacering</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:346
 msgid "Set move completed location"
-msgstr ""
+msgstr "Sæt placering for afsluttede"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:411
 msgid "<b>Move Completed</b>"
@@ -1615,7 +1615,7 @@ msgstr "Sudan"
 
 #: deluge/ui/countries.py:218
 msgid "Suriname"
-msgstr "Suriname"
+msgstr "Surinam"
 
 #: deluge/ui/countries.py:219
 msgid "Svalbard and Jan Mayen"
@@ -2251,7 +2251,7 @@ msgstr "Kan ikke starte daemon!"
 
 #: deluge/ui/gtkui/connectionmanager.py:426
 msgid "Please examine the details for more information."
-msgstr ""
+msgstr "For mere information; se detaljer."
 
 #: deluge/ui/gtkui/connectionmanager.py:510
 msgid "Error Adding Host"
@@ -2523,7 +2523,7 @@ msgstr "Kopi af .torrent-filer i:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:318
 msgid "Delete copy of torrent file on remove"
-msgstr ""
+msgstr "Slet kopi af torrent-fil når den fjernes"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:322
 msgid ""
@@ -3427,7 +3427,7 @@ msgstr "_Hjælp"
 
 #: deluge/ui/gtkui/glade/main_window.glade:243
 msgid "_Homepage"
-msgstr ""
+msgstr "_Hjemmeside"
 
 #: deluge/ui/gtkui/glade/main_window.glade:260
 msgid "_FAQ"
@@ -3439,7 +3439,7 @@ msgstr "Ofte stillede spørgsmål"
 
 #: deluge/ui/gtkui/glade/main_window.glade:279
 msgid "_Community"
-msgstr ""
+msgstr "_Fællesskab"
 
 #: deluge/ui/gtkui/glade/main_window.glade:326
 msgid "Add torrent"
