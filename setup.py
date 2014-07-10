@@ -368,6 +368,7 @@ setup(
                                "ui/web/js/*/.order",
                                "ui/web/js/*/*/*.js",
                                "ui/web/js/*/*/.order",
+                               "ui/web/js/*/*/*/*.js",
                                "ui/web/render/*.html",
                                "ui/web/themes/css/*.css",
                                "ui/web/themes/images/*/*.gif",
