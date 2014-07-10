@@ -1,7 +1,6 @@
 === Core ===
  * python >= 2.6
  * twisted >= 8.1
- * twisted-web >= 8.1
  * pyopenssl
  * setuptools
  * gettext
@@ -10,7 +9,7 @@
  * chardet
  * geoip-database (optional)
  * setproctitle (optional)
- * rencode >= 1.0.2 (optional), a Python port is already included
+ * rencode >= 1.0.2 (optional), Python port is included
 
  * libtorrent (rasterbar) >= 0.16.7
 
@@ -28,3 +27,4 @@
 
 === Web ===
  * mako
+ * slimit
