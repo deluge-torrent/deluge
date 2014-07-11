@@ -41,13 +41,13 @@ import os
 import logging
 
 from twisted.internet.utils import getProcessValue
+from twisted.python.procutils import which
 
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.rpcserver import export
 from deluge.common import windows_check
-from extractor.which import which
 
 log = logging.getLogger(__name__)
 
