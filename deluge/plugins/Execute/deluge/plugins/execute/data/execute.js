@@ -54,7 +54,8 @@ Deluge.ux.ExecuteWindowBase = Ext.extend(Ext.Window, {
                     fields: ['id', 'text'],
                     data: [
                         ['complete', _('Torrent Complete')],
-                        ['added', _('Torrent Added')]
+                        ['added', _('Torrent Added')],
+                        ['removed', _('Torrent Removed')]
                     ]
                 }),
                 name: 'event',
@@ -152,7 +153,8 @@ Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
         Deluge.ux.preferences.ExecutePage.superclass.initComponent.call(this);
         var event_map = this.event_map = {
             'complete': _('Torrent Complete'),
-            'added': _('Torrent Added')
+            'added': _('Torrent Added'),
+            'removed': _('Torrent Removed')
         }
 
         this.list = new Ext.list.ListView({
