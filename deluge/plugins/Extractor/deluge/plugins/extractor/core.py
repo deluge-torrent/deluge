@@ -113,7 +113,6 @@ class Core(CorePluginBase):
         if not self.config["extract_path"]:
             self.config["extract_path"] = deluge.configmanager.ConfigManager("core.conf")["download_location"]
         component.get("EventManager").register_event_handler("TorrentFinishedEvent", self._on_torrent_finished)
-
     def disable(self):
         component.get("EventManager").deregister_event_handler("TorrentFinishedEvent", self._on_torrent_finished)
 
@@ -125,11 +124,7 @@ class Core(CorePluginBase):
         This is called when a torrent finishes and checks if any files to extract.
         """
         tid = component.get("TorrentManager").torrents[torrent_id]
-        tid_status = tid.get_status(["save_path", "move_completed", "name"])
-
-        if tid_status["move_completed"]:
-            log.warning("Cannot extract torrents with 'Move Completed' enabled")
-            return
+        tid_status = tid.get_status(["download_location", "name"])
 
         files = tid.get_files()
         for f in files:
@@ -143,7 +138,7 @@ class Core(CorePluginBase):
             cmd = EXTRACT_COMMANDS[file_ext]
 
             # Now that we have the cmd, lets run it to extract the files
-            fpath = os.path.join(tid_status["save_path"], os.path.normpath(f["path"]))
+            fpath = os.path.join(tid_status["download_location"], os.path.normpath(f["path"]))
 
             # Get the destination path
             dest = os.path.normpath(self.config["extract_path"])

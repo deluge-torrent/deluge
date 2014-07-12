@@ -44,6 +44,7 @@ import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.core.rpcserver import export
 from deluge.event import DelugeEvent
+from deluge.common import utf8_encoded
 
 log = logging.getLogger(__name__)
 
@@ -98,25 +99,17 @@ class Core(CorePluginBase):
 
     def execute_commands(self, torrent_id, event, *arg):
         torrent = component.get("TorrentManager").torrents[torrent_id]
-        info = torrent.get_status(["name", "save_path", "move_on_completed", "move_on_completed_path"])
+        info = torrent.get_status(["name", "download_location"])
 
-        # Grab the torrent name and save path
-        torrent_name = info["name"]
-        if event == "complete":
-            save_path = info["move_on_completed_path"] if info ["move_on_completed"] else info["save_path"]
-        elif event == "added" and arg[0]:
+        # Grab the torrent name and download location
+        # getProcessOutputAndValue requires args to be str
+        torrent_id = utf8_encoded(torrent_id)
+        torrent_name = utf8_encoded(info["name"])
+        if event == "added" and arg[0]:
             # No futher action as from_state (arg[0]) is True
             return
         else:
-            save_path = info["save_path"]
-
-        # getProcessOutputAndValue requires args to be str
-        if isinstance(torrent_id, unicode):
-            torrent_id = torrent_id.encode("utf-8", "ignore")
-        if isinstance(torrent_name, unicode):
-            torrent_name = torrent_name.encode("utf-8", "ignore")
-        if isinstance(save_path, unicode):
-            save_path = save_path.encode("utf-8", "ignore")
+            download_location = utf8_encoded(info["download_location"])
 
         log.debug("[execute] Running commands for %s", event)
 
@@ -135,7 +128,7 @@ class Core(CorePluginBase):
                 command = os.path.expandvars(command[EXECUTE_COMMAND])
                 command = os.path.expanduser(command)
                 log.debug("[execute] running %s", command)
-                d = getProcessOutputAndValue(command, (torrent_id, torrent_name, save_path), env=os.environ)
+                d = getProcessOutputAndValue(command, (torrent_id, torrent_name, download_location), env=os.environ)
                 d.addCallback(log_error, command)
 
     def disable(self):

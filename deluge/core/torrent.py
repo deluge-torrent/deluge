@@ -876,8 +876,8 @@ class Torrent(object):
             "max_upload_slots": lambda: self.options["max_upload_slots"],
             "max_upload_speed": lambda: self.options["max_upload_speed"],
             "message": lambda: self.statusmsg,
-            "move_on_completed_path": lambda: self.options["move_completed_path"],
-            "move_on_completed": lambda: self.options["move_completed"],
+            "move_on_completed_path": lambda: self.options["move_completed_path"],  # Deprecated, use move_completed_path
+            "move_on_completed": lambda: self.options["move_completed"],  # Deprecated, use move_completed
             "move_completed_path": lambda: self.options["move_completed_path"],
             "move_completed": lambda: self.options["move_completed"],
             "next_announce": lambda: self.status.next_announce.seconds,
