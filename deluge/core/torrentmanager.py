@@ -148,6 +148,9 @@ class TorrentManager(component.Component):
         # self.num_resume_data used to save resume_data in bulk
         self.num_resume_data = 0
 
+        # Keep track of torrents finished but moving storage
+        self.waiting_on_finish_moving = []
+
         # Keeps track of resume data that needs to be saved to disk
         self.resume_data = {}
 
@@ -181,6 +184,8 @@ class TorrentManager(component.Component):
             self.on_alert_tracker_error)
         self.alerts.register_handler("storage_moved_alert",
             self.on_alert_storage_moved)
+        self.alerts.register_handler("storage_moved_failed_alert",
+            self.on_alert_storage_moved_failed)
         self.alerts.register_handler("torrent_resumed_alert",
             self.on_alert_torrent_resumed)
         self.alerts.register_handler("state_changed_alert",
@@ -895,19 +900,16 @@ class TorrentManager(component.Component):
         # that the torrent wasn't downloaded, but just added.
         total_download = torrent.get_status(["total_payload_download"])["total_payload_download"]
 
-        # Move completed download to completed folder if needed
-        if not torrent.is_finished and total_download:
-            move_path = None
-
-            if torrent.options["move_completed"]:
-                move_path = torrent.options["move_completed_path"]
-                if torrent.options["download_location"] != move_path:
-                    torrent.move_storage(move_path)
-
         torrent.update_state()
         if not torrent.is_finished and total_download:
-            torrent.is_finished = True
-            component.get("EventManager").emit(TorrentFinishedEvent(torrent_id))
+            # Move completed download to completed folder if needed
+            if torrent.options["move_completed"] and \
+                    torrent.options["download_location"] != torrent.options["move_completed_path"]:
+                self.waiting_on_finish_moving.append(torrent_id)
+                torrent.move_storage(torrent.options["move_completed_path"])
+            else:
+                torrent.is_finished = True
+                component.get("EventManager").emit(TorrentFinishedEvent(torrent_id))
         else:
             torrent.is_finished = True
 
@@ -1014,11 +1016,31 @@ class TorrentManager(component.Component):
     def on_alert_storage_moved(self, alert):
         log.debug("on_alert_storage_moved")
         try:
-            torrent = self.torrents[str(alert.handle.info_hash())]
-        except:
+            torrent_id = str(alert.handle.info_hash())
+            torrent = self.torrents[torrent_id]
+        except (RuntimeError, KeyError):
             return
         torrent.set_save_path(os.path.normpath(alert.handle.save_path()))
         torrent.set_move_completed(False)
+
+        if torrent in self.waiting_on_finish_moving:
+            self.waiting_on_finish_moving.remove(torrent_id)
+            torrent.is_finished = True
+            component.get("EventManager").emit(TorrentFinishedEvent(torrent_id))
+
+    def on_alert_storage_moved_failed(self, alert):
+        """Alert handler for libtorrent storage_moved_failed_alert"""
+        log.debug("on_alert_storage_moved_failed: %s", alert.message())
+        try:
+            torrent_id = str(alert.handle.info_hash())
+            torrent = self.torrents[torrent_id]
+        except (RuntimeError, KeyError):
+            return
+
+        if torrent in self.waiting_on_finish_moving:
+            self.waiting_on_finish_moving.remove(torrent_id)
+            torrent.is_finished = True
+            component.get("EventManager").emit(TorrentFinishedEvent(torrent_id))
 
     def on_alert_torrent_resumed(self, alert):
         log.debug("on_alert_torrent_resumed")

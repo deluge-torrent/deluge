@@ -97,13 +97,11 @@ class Core(CorePluginBase):
 
     def execute_commands(self, torrent_id, event):
         torrent = component.get("TorrentManager").torrents[torrent_id]
-        info = torrent.get_status(["name", "save_path", "move_on_completed", "move_on_completed_path"])
+        info = torrent.get_status(["name", "save_path"])
 
         # Grab the torrent name and save path
         torrent_name = info["name"]
-        if event == "complete":
-            save_path = info["move_on_completed_path"] if info ["move_on_completed"] else info["save_path"]
-        elif event == "added" and not self.torrent_manager.session_started:
+        if event == "added" and not self.torrent_manager.session_started:
             return
         else:
             save_path = info["save_path"]
