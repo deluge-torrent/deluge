@@ -1,5 +1,4 @@
-#
-# core.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -7,34 +6,9 @@
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 import os
@@ -78,7 +52,7 @@ if windows_check():
             EXTRACT_COMMANDS = dict.fromkeys(exts_7z, [win_7z_exe, switch_7z])
             break
 else:
-    required_cmds=["unrar", "unzip", "tar", "unxz", "unlzma", "7zr", "bunzip2"]
+    required_cmds = ["unrar", "unzip", "tar", "unxz", "unlzma", "7zr", "bunzip2"]
     ## Possible future suport:
     # gunzip: gz (cmd will delete original archive)
     ## the following do not extract to dest dir
@@ -99,7 +73,7 @@ else:
     # Test command exists and if not, remove.
     for cmd in required_cmds:
         if not which(cmd):
-            for k,v in EXTRACT_COMMANDS.items():
+            for k, v in EXTRACT_COMMANDS.items():
                 if cmd in v[0]:
                     log.warning("%s not found, disabling support for %s", cmd, k)
                     del EXTRACT_COMMANDS[k]
@@ -107,12 +81,14 @@ else:
 if not EXTRACT_COMMANDS:
     raise Exception("No archive extracting programs found, plugin will be disabled")
 
+
 class Core(CorePluginBase):
     def enable(self):
         self.config = deluge.configmanager.ConfigManager("extractor.conf", DEFAULT_PREFS)
         if not self.config["extract_path"]:
             self.config["extract_path"] = deluge.configmanager.ConfigManager("core.conf")["download_location"]
         component.get("EventManager").register_event_handler("TorrentFinishedEvent", self._on_torrent_finished)
+
     def disable(self):
         component.get("EventManager").deregister_event_handler("TorrentFinishedEvent", self._on_torrent_finished)
 
