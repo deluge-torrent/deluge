@@ -1037,7 +1037,7 @@ class Torrent(object):
     def save_resume_data(self, flush_disk_cache=False):
         """Signals libtorrent to build resume data for this torrent.
 
-        Params:
+        Args:
             flush_disk_cache (bool): Avoids potential issue with file timestamps
                 and is only needed when stopping the session.
 

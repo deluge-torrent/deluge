@@ -1,38 +1,11 @@
+# -*- coding: utf-8 -*-
 #
-# torrentmanager.py
+# Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
-# Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-#   The Free Software Foundation, Inc.,
-#   51 Franklin Street, Fifth Floor
-#   Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
-#
-
 
 """TorrentManager handles Torrent objects"""
 
@@ -63,6 +36,7 @@ log = logging.getLogger(__name__)
 
 
 class TorrentState:
+    """Create a torrent state"""
     def __init__(self,
                  torrent_id=None,
                  filename=None,
@@ -124,14 +98,14 @@ class TorrentState:
 
 
 class TorrentManagerState:
+    """TorrentManagerState holds a list of TorrentState objects"""
     def __init__(self):
         self.torrents = []
 
 
 class TorrentManager(component.Component):
-    """
-    TorrentManager contains a list of torrents in the current libtorrent
-    session.  This object is also responsible for saving the state of the
+    """TorrentManager contains a list of torrents in the current libtorrent
+    session. This object is also responsible for saving the state of the
     session for use on restart.
     """
 
@@ -286,11 +260,22 @@ class TorrentManager(component.Component):
                         torrent.pause()
 
     def __getitem__(self, torrent_id):
-        """Return the Torrent with torrent_id"""
+        """Return the Torrent with torrent_id.
+
+        Args:
+            torrent_id (str): The torrent_id.
+
+        Returns:
+            Torrent: A torrent object.
+        """
         return self.torrents[torrent_id]
 
     def get_torrent_list(self):
-        """Returns a list of torrent_ids"""
+        """Creates a list of torrent_ids, owned by current user and any marked shared.
+
+        Returns:
+            list: A list of torrent_ids.
+        """
         torrent_ids = self.torrents.keys()
         if component.get("RPCServer").get_session_auth_level() == AUTH_LEVEL_ADMIN:
             return torrent_ids
@@ -303,7 +288,16 @@ class TorrentManager(component.Component):
         return torrent_ids
 
     def get_torrent_info_from_file(self, filepath):
-        """Returns a torrent_info for the file specified or None"""
+        """Retrieves torrent_info from the file specified.
+
+        Args:
+            filepath (str): The filepath to extract torrent info from.
+
+        Returns:
+            lt.torrent_info : A libtorrent torrent_info dict.
+
+            Returns None if file or data are not valid
+        """
         # Get the torrent data from the torrent file
         if log.isEnabledFor(logging.DEBUG):
             log.debug("Attempting to extract torrent_info from %s", filepath)
@@ -317,7 +311,26 @@ class TorrentManager(component.Component):
 
     def add(self, torrent_info=None, state=None, options=None, save_state=True,
             filedump=None, filename=None, magnet=None, resume_data=None, seed_mode=False):
-        """Add a torrent to the manager and returns it's torrent_id"""
+        """Adds a torrent to the torrent manager.
+
+        Args:
+            torrent_info (lt.torrent_info, optional): A libtorrent torrent_info object.
+            state (TorrentState, optional): The torrent state.
+            options (dict, optional): The options to apply to the torrent on adding.
+            save_state (bool, optional): If True save the session state after adding torrent, defaults to True.
+            filedump (str, optional): bencoded filedump of a torrent file.
+            filename (str, optional): The filename of the torrent file.
+            magnet (str, optional): The magnet uri.
+            resume_data (lt.entry, optional): libtorrent fast resume data.
+            seed_mode (bool, optional): If True will assume that all files are present.
+                for this torrent, defaults to False.
+
+        Returns:
+            str: The torrent_id of the added torrent.
+
+            Returns None if adding was unsuccessful.
+
+        """
         if torrent_info is None and state is None and filedump is None and magnet is None:
             log.debug("You must specify a valid torrent_info, torrent state or magnet.")
             return
@@ -541,9 +554,7 @@ class TorrentManager(component.Component):
 
         # Emit torrent_added signal
         from_state = state is not None
-        component.get("EventManager").emit(
-            TorrentAddedEvent(torrent.torrent_id, from_state)
-        )
+        component.get("EventManager").emit(TorrentAddedEvent(torrent.torrent_id, from_state))
 
         if log.isEnabledFor(logging.INFO):
             name_and_owner = torrent.get_status(["name", "owner"])
@@ -553,29 +564,18 @@ class TorrentManager(component.Component):
                      from_state and "loaded" or "added")
         return torrent.torrent_id
 
-    def load_torrent(self, torrent_id):
-        """Load a torrent file from state and return it's torrent info"""
-        try:
-            log.debug("Attempting to open %s for add.", torrent_id)
-            with open(os.path.join(self.state_dir, torrent_id + ".torrent"), "rb") as _file:
-                filedump = lt.bdecode(_file.read())
-        except (IOError, RuntimeError) as ex:
-            log.warning("Unable to open torrent file %s: %s", torrent_id, ex)
-        else:
-            return filedump
-
     def remove(self, torrent_id, remove_data=False):
-        """Remove torrent from the session
+        """Remove specified torrent from the session.
 
-        :param torrent_id: the torrent to remove
-        :type torrent_id: string
-        :param remove_data: if True, remove the downloaded data
-        :type remove_data: bool
+        Args:
+            torrent_id (str): The torrent to remove.
+            remove_data (bool, optional): If True, remove the downloaded data, defaults to False.
 
-        :returns: True if removed successfully, False if not
-        :rtype: bool
+        Returns:
+            bool: True if removed successfully, False if not.
 
-        :raises InvalidTorrentError: if the torrent_id is not in the session
+        Raises:
+            InvalidTorrentError: If the torrent_id is not in the session.
 
         """
         try:
@@ -652,18 +652,18 @@ class TorrentManager(component.Component):
             state = TorrentManagerState()
 
         # Fixup an old state by adding missing TorrentState options and assigning default values
-        try:
-            if len(state.torrents) > 0:
-                state_tmp = TorrentState()
-                if dir(state.torrents[0]) != dir(state_tmp):
+        if len(state.torrents) > 0:
+            state_tmp = TorrentState()
+            if dir(state.torrents[0]) != dir(state_tmp):
+                try:
                     for attr in (set(dir(state_tmp)) - set(dir(state.torrents[0]))):
-                        for s in state.torrents:
-                            if attr == "storage_mode" and getattr(s, "compact", None):
-                                setattr(s, attr, "compact")
+                        for t_state in state.torrents:
+                            if attr == "storage_mode" and getattr(t_state, "compact", None):
+                                setattr(t_state, attr, "compact")
                             else:
-                                setattr(s, attr, getattr(state_tmp, attr, None))
-        except Exception, e:
-            log.exception("Unable to update state file to a compatible version: %s", e)
+                                setattr(t_state, attr, getattr(state_tmp, attr, None))
+                except AttributeError as ex:
+                    log.exception("Unable to update state file to a compatible version: %s", ex)
 
         # Reorder the state.torrents list to add torrents in the correct queue
         # order.
@@ -685,7 +685,7 @@ class TorrentManager(component.Component):
                 break
 
         self.alerts.wait_on_handler = False
-        log.info("Finished loading %d torrents." % len(state.torrents))
+        log.info("Finished loading %d torrents.", len(state.torrents))
         component.get("EventManager").emit(SessionStartedEvent())
 
     def save_state(self):
@@ -757,13 +757,13 @@ class TorrentManager(component.Component):
         return True
 
     def save_resume_data(self, torrent_ids=None, flush_disk_cache=False):
-        """Saves resume data for list of torrent_ids or for all torrents
-        needing resume data updated if torrent_ids is None
+        """Saves torrents resume data.
 
-        Params:
-            torrent_ids (list of str) (
-            flush_disk_cache (bool): Avoids potential issue with file timestamps
-                and is only needed when stopping the session.
+        Args:
+            torrent_ids (list of str): A list of torrents to save the resume data for, defaults
+                to None which saves all torrents resume data.
+            flush_disk_cache (bool, optional): If True flushes the disk cache which avoids potential
+                issue with file timestamps, defaults to False. This is only needed when stopping the session.
 
         Returns:
             t.i.d.DeferredList: A list of twisted Deferred callbacks that will
@@ -773,6 +773,7 @@ class TorrentManager(component.Component):
             torrent_ids = (t[0] for t in self.torrents.iteritems() if t[1].handle.need_save_resume_data())
 
         def on_torrent_resume_save(dummy_result, torrent_id):
+            """Recieved torrent resume_data alert so remove from waiting list"""
             self.waiting_on_resume_data.pop(torrent_id, None)
 
         deferreds = []
@@ -796,8 +797,8 @@ class TorrentManager(component.Component):
     def load_resume_data_file(self):
         """Load the resume data from file for all torrents
 
-        :returns: resume_data
-        :rtype: dict
+        Returns:
+            dict: A dict of torrents and their resume_data
 
         """
         filename = "torrents.fastresume"
@@ -1274,18 +1275,18 @@ class TorrentManager(component.Component):
     def torrents_status_update(self, torrent_ids, keys, diff=False):
         """Returns status dict for the supplied torrent_ids async
 
-        If torrent states updated recently post_torrent_updates is not called, cached state is used.
+        Note:
+            If torrent states was updated recently post_torrent_updates is not called and
+            instead cached state is used.
 
-        :param torrent_ids: the torrent IDs to get the status on
-        :type torrent_ids: list of str
-        :param keys: the keys to get the status on
-        :type keys: list of str
-        :param diff: if True, will return a diff of the changes since the last
-            call to get_status based on the session_id
-        :type diff: bool
+        Args:
+            torrent_ids (list of str): The torrent IDs to get the status of.
+            keys (list of str): The keys to get the status on.
+            diff (bool, optional): If True, will return a diff of the changes since the last call to get_status
+                based on the session_id, defaults to False
 
-        :returns: a status dictionary for the equested torrents.
-        :rtype: dict
+        Returns:
+            dict: A status dictionary for the requested torrents.
 
         """
         d = Deferred()
