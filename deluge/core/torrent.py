@@ -9,6 +9,8 @@
 
 """Internal Torrent class"""
 
+from __future__ import division
+
 import os
 import logging
 from urlparse import urlparse
@@ -619,7 +621,7 @@ class Torrent(object):
             if not status.upload_payload_rate:
                 return 0
             stop_ratio = self.options["stop_ratio"]
-            return ((status.all_time_download * stop_ratio) - status.all_time_upload) / status.upload_payload_rate
+            return ((status.all_time_download * stop_ratio) - status.all_time_upload) // status.upload_payload_rate
 
         left = status.total_wanted - status.total_wanted_done
 
@@ -627,7 +629,7 @@ class Torrent(object):
             return 0
 
         try:
-            eta = left / status.download_payload_rate
+            eta = left // status.download_payload_rate
         except ZeroDivisionError:
             eta = 0
 
@@ -640,7 +642,7 @@ class Torrent(object):
             float: The ratio or -1.0 (for infinity).
         """
         if self.status.total_done > 0:
-            return float(self.status.all_time_upload) / float(self.status.total_done)
+            return self.status.all_time_upload / self.status.total_done
         else:
             return -1.0
 
@@ -738,7 +740,7 @@ class Torrent(object):
         ret = []
         for index, _file in enumerate(self.get_files()):
             try:
-                ret.append(float(file_progress[index]) / float(_file["size"]))
+                ret.append(file_progress[index] / _file["size"])
             except ZeroDivisionError:
                 ret.append(0.0)
         return ret
@@ -894,7 +896,7 @@ class Torrent(object):
             "download_location": lambda: self.options["download_location"],
             "seeding_time": lambda: self.status.seeding_time,
             "seeds_peers_ratio": lambda: -1.0 if self.status.num_incomplete == 0 else
-            self.status.num_complete / float(self.status.num_incomplete),  # Use -1.0 to signify infinity
+            self.status.num_complete / self.status.num_incomplete,  # Use -1.0 to signify infinity
             "seed_rank": lambda: self.status.seed_rank,
             "state": lambda: self.state,
             "stop_at_ratio": lambda: self.options["stop_at_ratio"],
