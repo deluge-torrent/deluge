@@ -1083,8 +1083,9 @@ class TorrentManager(component.Component):
         except (RuntimeError, KeyError):
             return
         # Set an Error message and pause the torrent
+        alert_msg = decode_string(alert.message()).split(':', 1)[1].strip()
+        torrent.set_status_message("Error: Moving storage failed, %s" % alert_msg)
         torrent.moving_storage = False
-        torrent.set_status_message("Error: moving storage location failed")
         torrent.pause()
         torrent.update_state()
 
