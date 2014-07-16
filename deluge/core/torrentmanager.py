@@ -54,6 +54,7 @@ class TorrentState:
                  queue=None,
                  auto_managed=True,
                  is_finished=False,
+                 error_statusmsg=None,
                  stop_ratio=2.00,
                  stop_at_ratio=False,
                  remove_at_ratio=False,
@@ -654,7 +655,7 @@ class TorrentManager(component.Component):
         # Create the state for each Torrent and append to the list
         for torrent in self.torrents.values():
             paused = False
-            if torrent.state == "Paused":
+            if torrent.state in ["Paused", "Error"]:
                 paused = True
 
             torrent_state = TorrentState(
@@ -674,6 +675,7 @@ class TorrentManager(component.Component):
                 torrent.get_queue_position(),
                 torrent.options["auto_managed"],
                 torrent.is_finished,
+                torrent.error_statusmsg,
                 torrent.options["stop_ratio"],
                 torrent.options["stop_at_ratio"],
                 torrent.options["remove_at_ratio"],
@@ -1043,7 +1045,7 @@ class TorrentManager(component.Component):
             return
         # Set an Error message and pause the torrent
         alert_msg = decode_string(alert.message()).split(':', 1)[1].strip()
-        torrent.set_status_message("Error: Moving storage failed, %s" % alert_msg)
+        torrent.set_error_statusmsg("Failed to move storage: %s" % alert_msg)
         torrent.moving_storage = False
         torrent.pause()
         torrent.update_state()

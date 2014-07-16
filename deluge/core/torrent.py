@@ -216,6 +216,11 @@ class Torrent(object):
             self.set_trackers(state.trackers)
             self.filename = state.filename
             self.is_finished = state.is_finished
+            last_sess_prepend = "[Error from Previous Session] "
+            if state.error_statusmsg and not state.error_statusmsg.startswith(last_sess_prepend):
+                self.error_statusmsg = last_sess_prepend + state.error_statusmsg
+            else:
+                self.error_statusmsg = state.error_statusmsg
         else:
             self.trackers = [tracker for tracker in self.handle.trackers()]
             self.is_finished = False
@@ -224,6 +229,7 @@ class Torrent(object):
                 self.filename = self.torrent_id
             else:
                 self.filename = filename
+            self.error_statusmsg = None
 
         self.statusmsg = "OK"
         self.state = None
@@ -592,16 +598,23 @@ class Torrent(object):
             log.debug("session.is_paused: %s", session_is_paused)
 
         # First we check for an error from libtorrent, and set the state to that if any occurred.
-        if status.error or self.statusmsg.startswith("Error:"):
+        if status.error or self.error_statusmsg:
             # This is an error'd torrent
             self.state = "Error"
             if status.error:
-                self.set_status_message(status.error)
-            if status.paused:
-                self.handle.auto_managed(False)
+                self.set_error_statusmsg(status.error)
+            self.set_status_message(self.error_statusmsg)
+            # This will be reverted upon resuming.
+            self.handle.auto_managed(False)
+            if not status.paused:
+                self.handle.pause()
+            if not status.error:
+                # As this is not a libtorrent Error we should emit a state changed event
+                component.get("EventManager").emit(TorrentStateChangedEvent(self.torrent_id, "Error"))
             return
         else:
             self.set_status_message("OK")
+            self.set_error_statusmsg(None)
 
         if self.moving_storage:
             self.state = "Moving"
@@ -645,6 +658,19 @@ class Torrent(object):
 
         """
         self.statusmsg = message
+
+    def set_error_statusmsg(self, message):
+        """Sets the torrent error status message.
+
+        Note:
+            This will force a torrent into an error state. It is used for
+            setting those errors that are not covered by libtorrent.
+
+        Args:
+            message (str): The error status message.
+
+        """
+        self.error_statusmsg = message
 
     def get_eta(self):
         """Get the ETA for this torrent.
@@ -853,7 +879,9 @@ class Torrent(object):
             files = [os.path.join(path, f) for f in files]
             return sum(os.stat(f).st_size for f in files if os.path.exists(f))
 
-        if self.moving_storage:
+        if self.state == "Error":
+            progress = 100.0
+        elif self.moving_storage:
             torrent_status = self.get_status(["files", "total_done"])
             torrent_files = [f['path'] for f in torrent_status["files"]]
             dest_path_size = get_size(torrent_files, self.moving_storage_dest_path)
@@ -1026,6 +1054,7 @@ class Torrent(object):
 
         # Reset the status message just in case of resuming an Error'd torrent
         self.set_status_message("OK")
+        self.set_error_statusmsg(None)
 
         if self.status.is_finished:
             # If the torrent has already reached it's 'stop_seed_ratio' then do not do anything
