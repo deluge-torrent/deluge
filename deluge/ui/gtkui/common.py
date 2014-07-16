@@ -193,7 +193,7 @@ def save_pickled_state_file(filename, state):
 
     try:
         if os.path.isfile(filepath):
-            log.info("Creating backup of %s at: %s", filename, filepath_bak)
+            log.debug("Creating backup of %s at: %s", filename, filepath_bak)
             shutil.copy2(filepath, filepath_bak)
     except IOError as ex:
         log.error("Unable to backup %s to %s: %s", filepath, filepath_bak, ex)
