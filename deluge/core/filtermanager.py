@@ -36,10 +36,11 @@
 import logging
 import copy
 import deluge.component as component
-
-STATE_SORT = ["All", "Downloading", "Seeding", "Active", "Paused", "Queued"]
+from deluge.common import TORRENT_STATE
 
 log = logging.getLogger(__name__)
+
+STATE_SORT = ["All", "Active"] + TORRENT_STATE
 
 
 # Special purpose filters:
@@ -249,15 +250,12 @@ class FilterManager(component.Component):
         return sorted_items
 
     def _init_state_tree(self):
-        return {"All": len(self.torrents.get_torrent_list()),
-                "Downloading": 0,
-                "Seeding": 0,
-                "Paused": 0,
-                "Checking": 0,
-                "Queued": 0,
-                "Error": 0,
-                "Active": len(self.filter_state_active(self.torrents.get_torrent_list()))
-                }
+        init_state = {}
+        init_state["All"] = len(self.torrents.get_torrent_list())
+        for state in TORRENT_STATE:
+            init_state[state] = 0
+        init_state["Active"] = len(self.filter_state_active(self.torrents.get_torrent_list()))
+        return init_state
 
     def register_filter(self, id, filter_func, filter_value=None):
         self.registered_filters[id] = filter_func

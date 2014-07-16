@@ -197,6 +197,8 @@ class Torrent(object):
 
         self.statusmsg = "OK"
         self.state = None
+        self.moving_storage = False
+        self.moving_storage_dest_path = None
         self.tracker_status = ""
         self.tracker_host = None
         self.forcing_recheck = False
@@ -571,6 +573,10 @@ class Torrent(object):
         else:
             self.set_status_message("OK")
 
+        if self.moving_storage:
+            self.state = "Moving"
+            return
+
         if ltstate in (LTSTATE["Queued"], LTSTATE["Checking"]):
             self.state = "Checking"
             if status.paused:
@@ -788,6 +794,21 @@ class Torrent(object):
         """Returns a magnet uri for this torrent"""
         return lt.make_magnet_uri(self.handle)
 
+    def get_progress(self):
+        def get_size(files, path):
+            """Returns total size of 'files' currently located in 'path'"""
+            files = [os.path.join(path, f) for f in files]
+            return sum(os.stat(f).st_size for f in files if os.path.exists(f))
+
+        if self.moving_storage:
+            torrent_status = self.get_status(["files", "total_done"])
+            torrent_files = [f['path'] for f in torrent_status["files"]]
+            dest_path_size = get_size(torrent_files, self.moving_storage_dest_path)
+            progress = dest_path_size / torrent_status["total_done"] * 100
+        else:
+            progress = self.status.progress * 100
+        return progress
+
     def get_status(self, keys, diff=False, update=False, all_keys=False):
         """Returns the status of the torrent based on the keys provided
 
@@ -889,7 +910,7 @@ class Torrent(object):
             "paused": lambda: self.status.paused,
             "prioritize_first_last": lambda: self.options["prioritize_first_last_pieces"],
             "sequential_download": lambda: self.options["sequential_download"],
-            "progress": lambda: self.status.progress * 100,
+            "progress": self.get_progress,
             "shared": lambda: self.options["shared"],
             "remove_at_ratio": lambda: self.options["remove_at_ratio"],
             "save_path": lambda: self.options["download_location"],  # Deprecated, use download_location
@@ -1013,6 +1034,7 @@ class Torrent(object):
         Returns:
             bool: True if successful, otherwise False
         """
+
         dest = decode_string(dest)
 
         if not os.path.exists(dest):
@@ -1034,6 +1056,9 @@ class Torrent(object):
         except RuntimeError, ex:
             log.error("Error calling libtorrent move_storage: %s", ex)
             return False
+        self.moving_storage = True
+        self.moving_storage_dest_path = dest
+        self.update_state()
         return True
 
     def save_resume_data(self, flush_disk_cache=False):

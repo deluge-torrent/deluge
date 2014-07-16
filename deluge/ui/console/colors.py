@@ -79,7 +79,8 @@ state_color = {
     "Paused": "{!white,black!}",
     "Checking": "{!green,black!}",
     "Queued": "{!yellow,black!}",
-    "Error": "{!red,black,bold!}"
+    "Error": "{!red,black,bold!}",
+    "Moving": "{!green,black,bold}"
 }
 
 type_color = {

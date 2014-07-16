@@ -48,7 +48,7 @@ icon_alert = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("alert16.png"))
 icon_queued = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("queued16.png"))
 icon_checking = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("checking16.png"))
 
-# Holds the info for which status icon to display based on state
+# Holds the info for which status icon to display based on TORRENT_STATE
 ICON_STATE = {
     "Allocating": icon_checking,
     "Checking": icon_checking,
@@ -57,26 +57,8 @@ ICON_STATE = {
     "Paused": icon_inactive,
     "Error": icon_alert,
     "Queued": icon_queued,
-    "Checking Resume Data": icon_checking
+    "Moving": icon_checking
 }
-
-def _(message): return message
-
-TRANSLATE = {
-    "Downloading": _("Downloading"),
-    "Seeding": _("Seeding"),
-    "Paused": _("Paused"),
-    "Checking": _("Checking"),
-    "Queued": _("Queued"),
-    "Error": _("Error"),
-}
-
-del _
-
-def _t(text):
-    if text in TRANSLATE:
-        text = TRANSLATE[text]
-    return _(text)
 
 # Cache the key used to calculate the current value set for the specific cell
 # renderer. This is much cheaper than fetch the current value and test if
@@ -169,9 +151,10 @@ def cell_data_progress(column, cell, model, row, data):
         func_last_value["cell_data_progress"][0] = value
         cell.set_property("value", value)
 
-    textstr = _t(state_str)
+    # Marked for translate states text are in filtertreeview
+    textstr = _(state_str)
     if state_str != "Seeding" and value < 100:
-        textstr = textstr + " %.2f%%" % value
+        textstr = "%s %.2f%%" % (textstr, value)
 
     if func_last_value["cell_data_progress"][1] != textstr:
         func_last_value["cell_data_progress"][1] = textstr

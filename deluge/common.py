@@ -99,7 +99,8 @@ TORRENT_STATE = [
     "Seeding",
     "Paused",
     "Error",
-    "Queued"
+    "Queued",
+    "Moving"
 ]
 
 FILE_PRIORITY = {

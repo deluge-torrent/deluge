@@ -42,7 +42,6 @@ import logging
 
 import deluge.component as component
 from deluge.ui.client import client
-from deluge.common import TORRENT_STATE
 from deluge.configmanager import ConfigManager
 
 log = logging.getLogger(__name__)

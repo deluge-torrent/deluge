@@ -245,6 +245,7 @@ class TorrentManager(component.Component):
 
     def update(self):
         for torrent_id, torrent in self.torrents.items():
+            # XXX: Should the state check be those that _can_ be stopped at ratio
             if torrent.options["stop_at_ratio"] and torrent.state not in (
                     "Checking", "Allocating", "Paused", "Queued"):
                 # If the global setting is set, but the per-torrent isn't...
@@ -1066,6 +1067,8 @@ class TorrentManager(component.Component):
             return
         torrent.set_download_location(os.path.normpath(alert.handle.save_path()))
         torrent.set_move_completed(False)
+        torrent.moving_storage = False
+        torrent.update_state()
 
         if torrent in self.waiting_on_finish_moving:
             self.waiting_on_finish_moving.remove(torrent_id)
@@ -1080,8 +1083,10 @@ class TorrentManager(component.Component):
         except (RuntimeError, KeyError):
             return
         # Set an Error message and pause the torrent
+        torrent.moving_storage = False
         torrent.set_status_message("Error: moving storage location failed")
         torrent.pause()
+        torrent.update_state()
 
         if torrent in self.waiting_on_finish_moving:
             self.waiting_on_finish_moving.remove(torrent_id)

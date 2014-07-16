@@ -144,6 +144,8 @@ class FILTER:
     CHECKING=5
     ERROR=6
     QUEUED=7
+    ALLOCATING=8
+    MOVING=9
 
 DEFAULT_PREFS = {
     "show_queue": True,
@@ -703,6 +705,13 @@ class AllTorrents(BaseMode, component.Component):
         elif data==FILTER.QUEUED:
             self.__status_dict = {"state":"Queued"}
             self._curr_filter = "Queued"
+        elif data==FILTER.ALLOCATING:
+            self.__status_dict = {"state":"Allocating"}
+            self._curr_filter = "Allocating"
+        elif data==FILTER.MOVING:
+            self.__status_dict = {"state":"Moving"}
+            self._curr_filter = "Moving"
+
         self._go_top = True
         return True
 
@@ -716,6 +725,8 @@ class AllTorrents(BaseMode, component.Component):
         self.popup.add_line("_Error",data=FILTER.ERROR,foreground="red")
         self.popup.add_line("_Checking",data=FILTER.CHECKING,foreground="blue")
         self.popup.add_line("Q_ueued",data=FILTER.QUEUED,foreground="yellow")
+        self.popup.add_line("A_llocating",data=FILTER.ALLOCATING,foreground="yellow")
+        self.popup.add_line("_Moving",data=FILTER.MOVING,foreground="green")
 
     def _report_add_status(self, succ_cnt, fail_cnt, fail_msgs):
         if fail_cnt == 0:
@@ -951,6 +962,8 @@ class AllTorrents(BaseMode, component.Component):
                     fg = "yellow"
                 elif row[1] == "Checking":
                     fg = "blue"
+                elif row[1] == "Moving":
+                    fg = "green"
 
                 if self.entering_search and len(self.search_string) > 1:
                     lcase_name = self.torrent_names[tidx-1].lower()

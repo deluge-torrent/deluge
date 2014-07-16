@@ -36,7 +36,7 @@ from optparse import make_option
 from twisted.internet import defer
 from deluge.ui.console.main import BaseCommand
 from deluge.ui.client import client
-import deluge.common
+from deluge.common import fspeed, TORRENT_STATE
 import deluge.component as component
 
 
@@ -98,23 +98,22 @@ class Command(BaseCommand):
             self.console.write("{!info!}Total upload: %f" % self.status["payload_upload_rate"])
             self.console.write("{!info!}Total download: %f" % self.status["payload_download_rate"])
         else:
-            self.console.write("{!info!}Total upload: %s" % deluge.common.fspeed(self.status["payload_upload_rate"]))
-            self.console.write("{!info!}Total download: %s" %
-                               deluge.common.fspeed(self.status["payload_download_rate"]))
+            self.console.write("{!info!}Total upload: %s" % fspeed(self.status["payload_upload_rate"]))
+            self.console.write("{!info!}Total download: %s" % fspeed(self.status["payload_download_rate"]))
         self.console.write("{!info!}DHT Nodes: %i" % self.status["dht_nodes"])
         self.console.write("{!info!}Total connections: %i" % self.connections)
         if self.torrents == -1:
             self.console.write("{!error!}Error getting torrent info")
         elif self.torrents != -2:
             self.console.write("{!info!}Total torrents: %i" % len(self.torrents))
-            states = ["Downloading", "Seeding", "Paused", "Checking", "Error", "Queued"]
+
             state_counts = {}
-            for state in states:
+            for state in TORRENT_STATE:
                 state_counts[state] = 0
             for t in self.torrents:
                 s = self.torrents[t]
                 state_counts[s["state"]] += 1
-            for state in states:
+            for state in TORRENT_STATE:
                 self.console.write("{!info!} %s: %i" % (state, state_counts[state]))
 
         self.console.set_batch_write(False)

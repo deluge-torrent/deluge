@@ -41,7 +41,7 @@ import warnings
 from gobject import GError
 
 import deluge.component as component
-import deluge.common
+from deluge.common import resource_filename, get_pixmap, TORRENT_STATE
 from deluge.ui.client import client
 from deluge.configmanager import ConfigManager
 
@@ -55,7 +55,9 @@ STATE_PIX = {
     "Checking": "checking",
     "Queued": "queued",
     "Error": "alert",
-    "Active": "active"
+    "Active": "active",
+    "Allocating": "checking",
+    "Moving": "checking"
     }
 
 TRACKER_PIX = {
@@ -85,9 +87,7 @@ class FilterTreeView(component.Component):
 
         #menu
         builder = gtk.Builder()
-        builder.add_from_file(deluge.common.resource_filename(
-            "deluge.ui.gtkui", os.path.join("glade", "filtertree_menu.ui")
-        ))
+        builder.add_from_file(resource_filename("deluge.ui.gtkui", os.path.join("glade", "filtertree_menu.ui")))
         self.menu = builder.get_object("filtertree_menu")
         builder.connect_signals({
             "select_all": self.on_select_all,
@@ -141,12 +141,8 @@ class FilterTreeView(component.Component):
 
         #initial order of state filter:
         self.cat_nodes["state"] = self.treestore.append(None, ["cat", "state", _("States"), 0, None, False])
-        self.update_row("state", "All" , 0, _("All"))
-        self.update_row("state", "Downloading" , 0, _("Downloading"))
-        self.update_row("state", "Seeding" , 0, _("Seeding"))
-        self.update_row("state", "Active" , 0, _("Active"))
-        self.update_row("state", "Paused" , 0, _("Paused"))
-        self.update_row("state", "Queued" , 0, _("Queued"))
+        for state in ["All", "Active"] + TORRENT_STATE:
+            self.update_row("state", state, 0, _(state))
 
         self.cat_nodes["tracker_host"] = self.treestore.append(None, ["cat", "tracker_host", _("Trackers"), 0, None, False])
         self.update_row("tracker_host", "All" , 0, _("All"))
@@ -274,7 +270,7 @@ class FilterTreeView(component.Component):
 
         if pix:
             try:
-                return gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("%s16.png" % pix))
+                return gtk.gdk.pixbuf_new_from_file(get_pixmap("%s16.png" % pix))
             except GError, e:
                 log.warning(e)
         return self.get_transparent_pix(16, 16)

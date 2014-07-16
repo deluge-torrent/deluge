@@ -51,6 +51,24 @@ import deluge.configmanager
 
 log = logging.getLogger(__name__)
 
+# Dummy tranlation dict so Torrent states text is available for Translators
+# All entries in deluge.common.TORRENT_STATE should be here. It does not need importing
+# as the string matches the translation text so using the _() function is enough.
+def _(message): return message
+STATE_TRANSLATION = {
+    "All": _("All"),
+    "Active": _("Active"),
+    "Allocating": _("Allocating"),
+    "Checking": _("Checking"),
+    "Downloading": _("Downloading"),
+    "Seeding": _("Seeding"),
+    "Paused": _("Paused"),
+    "Checking": _("Checking"),
+    "Queued": _("Queued"),
+    "Error": _("Error"),
+}
+del _
+
 class TorrentInfo(object):
     """
     Collects information about a torrent file.
