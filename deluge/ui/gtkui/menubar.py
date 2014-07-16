@@ -356,6 +356,7 @@ class MenuBar(component.Component):
         def on_dialog_response_event(widget, response_id):
             def on_core_result(result):
                 # Delete references
+                self.move_storage_dialog.hide()
                 del self.move_storage_dialog
                 del self.move_storage_dialog_hbox
 
@@ -366,7 +367,6 @@ class MenuBar(component.Component):
                 client.core.move_storage(
                     component.get("TorrentView").get_selected_torrents(), path
                 ).addCallback(on_core_result)
-            self.move_storage_dialog.hide()
 
         self.move_storage_dialog.connect("response", on_dialog_response_event)
         self.move_storage_dialog.show()
