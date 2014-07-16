@@ -188,7 +188,7 @@ class PeersTab(Tab):
         save_pickled_state_file("peers_tab.state", state)
 
     def load_state(self):
-        state = load_pickled_state_file("peers_tabs.state")
+        state = load_pickled_state_file("peers_tab.state")
 
         if state == None:
             return
