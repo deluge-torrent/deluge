@@ -747,12 +747,19 @@ class TorrentManager(component.Component):
             deferreds.append(d)
             self.torrents[torrent_id].save_resume_data(flush_disk_cache)
 
-        def on_all_resume_data_finished(result):
-            """Saves resume data file when no more torrents waiting for resume data"""
-            if result and not self.waiting_on_resume_data:
-                if self.save_resume_data_file():
-                    # Return True for the remove_temp_file() callback in stop()
-                    return True
+        def on_all_resume_data_finished(dummy_result):
+            """Saves resume data file when no more torrents waiting for resume data
+
+            Returns:
+                bool: True if fastresume file is saved.
+
+                Used by remove_temp_file callback in stop.
+
+            """
+            # Use flush_disk_cache as a marker for shutdown so fastresume is
+            # saved even if torrents are waiting.
+            if not self.waiting_on_resume_data or flush_disk_cache:
+                return self.save_resume_data_file()
 
         return DeferredList(deferreds).addBoth(on_all_resume_data_finished)
 
