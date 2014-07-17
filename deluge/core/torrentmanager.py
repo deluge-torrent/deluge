@@ -435,16 +435,12 @@ class TorrentManager(component.Component):
             # before adding to the session.
             if options["mapped_files"]:
                 for index, fname in options["mapped_files"].items():
-                    try:
-                        fname = unicode(fname, "utf-8")
-                    except TypeError:
-                        pass
-                    fname = sanitize_filepath(fname)
+                    fname = sanitize_filepath(decode_string(fname))
                     log.debug("renaming file index %s to %s", index, fname)
                     try:
                         torrent_info.rename_file(index, fname)
                     except TypeError:
-                        torrent_info.rename_file(index, fname.encode("utf-8"))
+                        torrent_info.rename_file(index, utf8_encoded(fname))
 
             if options["pre_allocate_storage"]:
                 storage_mode = "allocate"

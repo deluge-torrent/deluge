@@ -52,9 +52,10 @@ def sanitize_filepath(filepath, folder=False):
         newfilepath = clean_filename(filepath)
 
     if folder is True:
-        return newfilepath + "/"
-    else:
-        return newfilepath
+        newfilepath += "/"
+
+    return newfilepath
+
 
 def convert_lt_files(self, files):
     """Indexes and decodes files from libtorrent get_files().
@@ -84,6 +85,7 @@ def convert_lt_files(self, files):
         })
 
     return filelist
+
 
 class TorrentOptions(dict):
     """TorrentOptions create a dict of the torrent options.
@@ -639,7 +641,8 @@ class Torrent(object):
         """Sets the torrent status message.
 
         Args:
-            message (str): The status message
+            message (str): The status message.
+
         """
         self.statusmsg = message
 
@@ -648,24 +651,18 @@ class Torrent(object):
 
         Returns:
             int: The ETA in seconds.
+
         """
         status = self.status
-        if self.is_finished and self.options["stop_at_ratio"]:
+        eta = 0
+        if self.is_finished and self.options["stop_at_ratio"] and status.upload_payload_rate:
             # We're a seed, so calculate the time to the 'stop_share_ratio'
-            if not status.upload_payload_rate:
-                return 0
-            stop_ratio = self.options["stop_ratio"]
-            return ((status.all_time_download * stop_ratio) - status.all_time_upload) // status.upload_payload_rate
-
-        left = status.total_wanted - status.total_wanted_done
-
-        if left <= 0 or status.download_payload_rate == 0:
-            return 0
-
-        try:
-            eta = left // status.download_payload_rate
-        except ZeroDivisionError:
-            eta = 0
+            eta = ((status.all_time_download * self.options["stop_ratio"]) -
+                   status.all_time_upload) // status.upload_payload_rate
+        elif status.download_payload_rate:
+            left = status.total_wanted - status.total_wanted_done
+            if left > 0:
+                eta = left // status.download_payload_rate
 
         return eta
 
@@ -821,7 +818,36 @@ class Torrent(object):
         """Returns a magnet uri for this torrent"""
         return lt.make_magnet_uri(self.handle)
 
+    def get_name(self):
+        """The name of the torrent (distinct from the filenames).
+
+        Note:
+            Can be manually set in options through `name` key. If the key is
+            reset to empty string "" it will return the original torrent name.
+
+        Returns:
+            str: the name of the torrent.
+
+        """
+        if not self.options["name"]:
+            handle_name = self.handle.name()
+            if handle_name:
+                name = decode_string(handle_name)
+            else:
+                name = self.torrent_id
+        else:
+            name = self.options["name"]
+
+        return name
+
     def get_progress(self):
+        """The progress of this torrent's current task.
+
+        Returns:
+            float: The progress percentage (0 to 100).
+
+        """
+
         def get_size(files, path):
             """Returns total size of 'files' currently located in 'path'"""
             files = [os.path.join(path, f) for f in files]
@@ -834,6 +860,7 @@ class Torrent(object):
             progress = dest_path_size / torrent_status["total_done"] * 100
         else:
             progress = self.status.progress * 100
+
         return progress
 
     def get_status(self, keys, diff=False, update=False, all_keys=False):
@@ -880,26 +907,6 @@ class Torrent(object):
 
         return status_dict
 
-    def get_name(self):
-        """Return the name of the torrent
-
-        The name of the torrent (distinct from the filenames).
-
-        Can be manually set in options through `name` key. If the key is
-        reset to empty string "" it will return the original torrent name.
-
-        Returns:
-            str: the name of the torrent
-        """
-        if not self.options["name"]:
-            handle_name = self.handle.name()
-            if handle_name:
-                return decode_string(handle_name)
-            else:
-                return self.torrent_id
-        else:
-            return self.options["name"]
-
     def update_status(self, status):
         """Updates the cached status.
 
@@ -913,9 +920,8 @@ class Torrent(object):
         self.status_funcs = {
             "active_time": lambda: self.status.active_time,
             "all_time_download": lambda: self.status.all_time_download,
-            "storage_mode": lambda: self.status.storage_mode.name.split("_")[2],  # Returns: sparse, allocate or compact
-            "distributed_copies": lambda: 0.0 if self.status.distributed_copies < 0 else
-            self.status.distributed_copies,  # Adjust status.distributed_copies to return a non-negative value
+            "storage_mode": lambda: self.status.storage_mode.name.split("_")[2],  # sparse, allocate or compact
+            "distributed_copies": lambda: max(0.0, self.status.distributed_copies),
             "download_payload_rate": lambda: self.status.download_payload_rate,
             "file_priorities": lambda: self.options["file_priorities"],
             "hash": lambda: self.torrent_id,
@@ -926,7 +932,7 @@ class Torrent(object):
             "max_upload_slots": lambda: self.options["max_upload_slots"],
             "max_upload_speed": lambda: self.options["max_upload_speed"],
             "message": lambda: self.statusmsg,
-            "move_on_completed_path": lambda: self.options["move_completed_path"],  # Deprecated, use move_completed_path
+            "move_on_completed_path": lambda: self.options["move_completed_path"],  # Depr, use move_completed_path
             "move_on_completed": lambda: self.options["move_completed"],  # Deprecated, use move_completed
             "move_completed_path": lambda: self.options["move_completed_path"],
             "move_completed": lambda: self.options["move_completed"],
@@ -969,7 +975,7 @@ class Torrent(object):
             "private": lambda: self.torrent_info.priv() if self.has_metadata else False,
             "total_size": lambda: self.torrent_info.total_size() if self.has_metadata else 0,
             "eta": self.get_eta,
-            "file_progress": self.get_file_progress,  # Adjust progress to be 0-100 value
+            "file_progress": self.get_file_progress,
             "files": self.get_files,
             "orig_files": self.get_orig_files,
             "is_seed": lambda: self.status.is_seeding,
@@ -989,10 +995,11 @@ class Torrent(object):
         }
 
     def pause(self):
-        """Pause this torrent
+        """Pause this torrent.
 
         Returns:
-            bool: True is successful, otherwise False
+            bool: True is successful, otherwise False.
+
         """
         # Turn off auto-management so the torrent will not be unpaused by lt queueing
         self.handle.auto_managed(False)
@@ -1017,7 +1024,7 @@ class Torrent(object):
             log.debug("Torrent is being auto-managed, cannot resume!")
             return
 
-        # Reset the status message just in case of resuming an Error"d torrent
+        # Reset the status message just in case of resuming an Error'd torrent
         self.set_status_message("OK")
 
         if self.status.is_finished:
@@ -1061,8 +1068,8 @@ class Torrent(object):
 
         Returns:
             bool: True if successful, otherwise False
-        """
 
+        """
         dest = decode_string(dest)
 
         if not os.path.exists(dest):
@@ -1074,13 +1081,12 @@ class Torrent(object):
                           self.torrent_id, dest, ex)
                 return False
 
-        dest_bytes = utf8_encoded(dest)
         try:
             # libtorrent needs unicode object if wstrings are enabled, utf8 bytestring otherwise
             try:
                 self.handle.move_storage(dest)
             except TypeError:
-                self.handle.move_storage(dest_bytes)
+                self.handle.move_storage(utf8_encoded(dest))
         except RuntimeError, ex:
             log.error("Error calling libtorrent move_storage: %s", ex)
             return False
@@ -1098,6 +1104,7 @@ class Torrent(object):
 
         Returns:
             None: The response with resume data is returned in a libtorrent save_resume_data_alert.
+
         """
         flags = lt.save_resume_flags_t.flush_disk_cache if flush_disk_cache else 0
         self.handle.save_resume_data(flags)
@@ -1170,11 +1177,7 @@ class Torrent(object):
         """
         for index, filename in filenames:
             # Make sure filename is a unicode object
-            try:
-                filename = unicode(filename, "utf-8")
-            except TypeError:
-                pass
-            filename = sanitize_filepath(filename)
+            filename = sanitize_filepath(decode_string(filename))
             # libtorrent needs unicode object if wstrings are enabled, utf8 bytestring otherwise
             try:
                 self.handle.rename_file(index, filename)
