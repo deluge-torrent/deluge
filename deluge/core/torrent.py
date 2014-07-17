@@ -56,6 +56,34 @@ def sanitize_filepath(filepath, folder=False):
     else:
         return newfilepath
 
+def convert_lt_files(self, files):
+    """Indexes and decodes files from libtorrent get_files().
+
+    Args:
+        files (list): The libtorrent torrent files.
+
+    Returns:
+        list of dict: The files.
+
+        The format for the file dict::
+
+            {
+                "index": int,
+                "path": str,
+                "size": int,
+                "offset": int
+            }
+    """
+    filelist = []
+    for index, _file in enumerate(files):
+        filelist.append({
+            "index": index,
+            "path": _file.path.decode("utf8").replace("\\", "/"),
+            "size": _file.size,
+            "offset": _file.offset
+        })
+
+    return filelist
 
 class TorrentOptions(dict):
     """TorrentOptions create a dict of the torrent options.
@@ -646,6 +674,7 @@ class Torrent(object):
 
         Returns:
             float: The ratio or -1.0 (for infinity).
+
         """
         if self.status.total_done > 0:
             return self.status.all_time_upload / self.status.total_done
@@ -658,27 +687,25 @@ class Torrent(object):
         Returns:
             list of dict: The files.
 
-            The format for the file dict::
-
-                {
-                    "index": int,
-                    "path": str,
-                    "size": int,
-                    "offset": int
-                }
         """
         if not self.has_metadata:
             return []
-        ret = []
+
         files = self.torrent_info.files()
-        for index, _file in enumerate(files):
-            ret.append({
-                "index": index,
-                "path": _file.path.decode("utf8").replace("\\", "/"),
-                "size": _file.size,
-                "offset": _file.offset
-            })
-        return ret
+        return convert_lt_files(files)
+
+    def get_orig_files(self):
+        """Get the original filenames of files in this torrent.
+
+        Returns:
+            list of dict: The files with original filenames.
+
+        """
+        if not self.has_metadata:
+            return []
+
+        files = self.torrent_info.orig_files()
+        return convert_lt_files(files)
 
     def get_peers(self):
         """Get the peers for this torrent.
@@ -944,6 +971,7 @@ class Torrent(object):
             "eta": self.get_eta,
             "file_progress": self.get_file_progress,  # Adjust progress to be 0-100 value
             "files": self.get_files,
+            "orig_files": self.get_orig_files,
             "is_seed": lambda: self.status.is_seeding,
             "peers": self.get_peers,
             "queue": lambda: self.status.queue_position,
