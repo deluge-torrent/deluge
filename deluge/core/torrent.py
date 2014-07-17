@@ -57,7 +57,7 @@ def sanitize_filepath(filepath, folder=False):
     return newfilepath
 
 
-def convert_lt_files(self, files):
+def convert_lt_files(files):
     """Indexes and decodes files from libtorrent get_files().
 
     Args:
