@@ -1109,21 +1109,38 @@ class Torrent(object):
         flags = lt.save_resume_flags_t.flush_disk_cache if flush_disk_cache else 0
         self.handle.save_resume_data(flags)
 
-    def write_torrentfile(self):
-        """Writes the torrent file to the state directory in config"""
-        path = os.path.join(get_config_dir(), "state", self.torrent_id + ".torrent")
-        log.debug("Writing torrent file: %s", path)
+    def write_torrentfile(self, filename=None, filedump=None):
+        """Writes the torrent file to the state dir and optional 'copy of' dir.
 
+        Args:
+            filename (str, optional): The filename of the torrent file.
+            filedump (str, optional): bencoded filedump of a torrent file.
+
+        """
+
+        def write_file(filepath, filedump):
+            log.debug("Writing torrent file to: %s", filepath)
+            try:
+                with open(filepath, "wb") as save_file:
+                    save_file.write(filedump)
+            except IOError as ex:
+                log.error("Unable to save torrent file to: %s", ex)
+
+        filepath = os.path.join(get_config_dir(), "state", self.torrent_id + ".torrent")
         # Regenerate the file priorities
         self.set_file_priorities([])
+        if filedump is None:
+            metadata = lt.bdecode(self.torrent_info.metadata())
+            torrent_file = {"info": metadata}
+            filedump = lt.bencode(torrent_file)
+        write_file(filepath, filedump)
 
-        metadata = lt.bdecode(self.torrent_info.metadata())
-        torrent_file = {"info": metadata}
-        try:
-            with open(path, "wb") as _file:
-                _file.write(lt.bencode(torrent_file))
-        except IOError, ex:
-            log.warning("Unable to save torrent file: %s", ex)
+        # If the user has requested a copy of the torrent be saved elsewhere we need to do that.
+        if self.config["copy_torrent_file"]:
+            if filename is None:
+                filename = self.get_status(["name"])["name"] + ".torrent"
+            filepath = os.path.join(self.config["torrentfiles_location"], filename)
+            write_file(filepath, filedump)
 
     def delete_torrentfile(self):
         """Deletes the .torrent file in the state directory in config"""

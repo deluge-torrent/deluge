@@ -530,20 +530,7 @@ class TorrentManager(component.Component):
 
         # Write the .torrent file to the state directory
         if filedump:
-            try:
-                with open(os.path.join(self.state_dir, torrent.torrent_id + ".torrent"), "wb") as save_file:
-                    save_file.write(filedump)
-            except IOError as ex:
-                log.warning("Unable to save torrent file: %s", ex)
-
-            # If the user has requested a copy of the torrent be saved elsewhere
-            # we need to do that.
-            if self.config["copy_torrent_file"] and filename is not None:
-                try:
-                    with open(os.path.join(self.config["torrentfiles_location"], filename), "wb") as save_file:
-                        save_file.write(filedump)
-                except IOError as ex:
-                    log.warning("Unable to save torrent file: %s", ex)
+            torrent.write_torrentfile(filename, filedump)
 
         if save_state:
             # Save the session state
