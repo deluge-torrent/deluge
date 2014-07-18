@@ -66,35 +66,11 @@ class TorrentState:
                  priority=0,
                  name=None
                  ):
-        self.torrent_id = torrent_id
-        self.filename = filename
-        self.trackers = trackers
-        self.queue = queue
-        self.is_finished = is_finished
-        self.magnet = magnet
-
-        # Options
-        self.storage_mode = storage_mode
-        self.paused = paused
-        self.save_path = save_path
-        self.max_connections = max_connections
-        self.max_upload_slots = max_upload_slots
-        self.max_upload_speed = max_upload_speed
-        self.max_download_speed = max_download_speed
-        self.prioritize_first_last = prioritize_first_last
-        self.sequential_download = sequential_download
-        self.file_priorities = file_priorities
-        self.auto_managed = auto_managed
-        self.stop_ratio = stop_ratio
-        self.stop_at_ratio = stop_at_ratio
-        self.remove_at_ratio = remove_at_ratio
-        self.move_completed = move_completed
-        self.move_completed_path = move_completed_path
-        self.shared = shared
-        self.super_seeding = super_seeding
-        self.priority = priority
-        self.owner = owner
-        self.name = name
+        # Build the class atrribute list from args
+        for key, value in locals().iteritems():
+            if key == "self":
+                continue
+            setattr(self, key, value)
 
 
 class TorrentManagerState:
