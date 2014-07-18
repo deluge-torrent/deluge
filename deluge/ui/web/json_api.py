@@ -40,6 +40,7 @@ import shutil
 import logging
 import hashlib
 import tempfile
+import json
 from urlparse import urljoin
 from urllib import unquote_plus
 
@@ -50,7 +51,8 @@ from twisted.web import http, resource, server
 import twisted.web.client
 import twisted.web.error
 
-from deluge import common, component, httpdownloader
+from deluge.common import is_magnet
+from deluge import component, httpdownloader
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.ui import common as uicommon
 from deluge.ui.client import client, Client
@@ -58,18 +60,19 @@ from deluge.ui.coreconfig import CoreConfig
 from deluge.ui.sessionproxy import SessionProxy
 
 from deluge.ui.web.common import _, compress
-json = common.json
 
 log = logging.getLogger(__name__)
 
 AUTH_LEVEL_DEFAULT = None
 AuthError = None
 
+
 class JSONComponent(component.Component):
     def __init__(self, name, interval=1, depend=None):
         super(JSONComponent, self).__init__(name, interval, depend)
         self._json = component.get("JSON")
         self._json.register_object(self, name)
+
 
 def export(auth_level=AUTH_LEVEL_DEFAULT):
     """
@@ -84,7 +87,7 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
     """
     global AUTH_LEVEL_DEFAULT, AuthError
     if AUTH_LEVEL_DEFAULT is None:
-        from deluge.ui.web.auth import AUTH_LEVEL_DEFAULT, AuthError
+        from deluge.ui.web.auth import AUTH_LEVEL_DEFAULT
 
     def wrap(func, *args, **kwargs):
         func._json_export = True
@@ -98,10 +101,12 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
     else:
         return wrap
 
+
 class JSONException(Exception):
     def __init__(self, inner_exception):
         self.inner_exception = inner_exception
         Exception.__init__(self, str(inner_exception))
+
 
 class JSON(resource.Resource, component.Component):
     """
@@ -290,7 +295,7 @@ class JSON(resource.Resource, component.Component):
         try:
             request.content.seek(0)
             request.json = request.content.read()
-            d = self._on_json_request(request)
+            self._on_json_request(request)
             return server.NOT_DONE_YET
         except Exception, e:
             return self._on_json_request_failed(e, request)
@@ -335,6 +340,7 @@ HOSTS_STATUS = 3
 HOSTS_INFO = 4
 
 FILES_KEYS = ["files", "file_progress", "file_priorities"]
+
 
 class EventQueue(object):
     """
@@ -418,6 +424,7 @@ class EventQueue(object):
             del self.__events[event]
             del self.__handlers[event]
 
+
 class WebApi(JSONComponent):
     """
     The component that implements all the methods required for managing
@@ -467,6 +474,7 @@ class WebApi(JSONComponent):
         :rtype: list
         """
         d = Deferred()
+
         def on_connected(methods):
             d.callback(methods)
         host = self.get_host(host_id)
@@ -737,7 +745,7 @@ class WebApi(JSONComponent):
             if info_hash:
                 if not name:
                     name = info_hash
-                return {"name":name, "info_hash":info_hash, "files_tree":''}
+                return {"name": name, "info_hash": info_hash, "files_tree": ''}
         return False
 
     @export
@@ -751,14 +759,14 @@ class WebApi(JSONComponent):
 
         **Usage**
 
-        >>> json_api.web.add_torrents([{
+            json_api.web.add_torrents([{
                 "path": "/tmp/deluge-web/some-torrent-file.torrent",
                 "options": {"download_location": "/home/deluge/"}
             }])
 
         """
         for torrent in torrents:
-            if common.is_magnet(torrent["path"]):
+            if is_magnet(torrent["path"]):
                 log.info("Adding torrent from magnet uri `%s` with options `%r`",
                          torrent["path"], torrent["options"])
                 client.core.add_torrent_magnet(torrent["path"], torrent["options"])
@@ -792,7 +800,7 @@ class WebApi(JSONComponent):
 
         try:
             host_id, host, port, user, password = self.get_host(host_id)
-        except TypeError, e:
+        except TypeError:
             host = None
             port = None
             return response(_("Offline"))
@@ -809,16 +817,14 @@ class WebApi(JSONComponent):
             if not connected:
                 return response(_("Offline"))
 
-            return c.daemon.info(
-                ).addCallback(on_info, c
-                ).addErrback(on_info_fail, c)
+            return c.daemon.info().addCallback(on_info, c).addErrback(on_info_fail, c)
 
         def on_connect_failed(reason, host_id):
             return response(_("Offline"))
 
         if client.connected() and (host, port, "localclient" if not
                                    user and host in ("127.0.0.1", "localhost") else
-                                   user)  == client.connection_info():
+                                   user) == client.connection_info():
             def on_info(info):
                 return response(_("Connected"), info)
 
@@ -826,8 +832,8 @@ class WebApi(JSONComponent):
         else:
             c = Client()
             return c.connect(host, port, user, password
-                ).addCallback(on_connect, c, host_id
-                ).addErrback(on_connect_failed, host_id)
+                             ).addCallback(on_connect, c, host_id
+                                           ).addErrback(on_connect_failed, host_id)
 
     @export
     def start_daemon(self, port):

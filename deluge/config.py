@@ -71,12 +71,13 @@ import cPickle as pickle
 import logging
 import shutil
 import os
+import json
 
-import deluge.common
+from deluge.common import get_default_config_dir, utf8_encoded
 
-json = deluge.common.json
 log = logging.getLogger(__name__)
-callLater = None # Necessary for the config tests
+callLater = None  # Necessary for the config tests
+
 
 def prop(func):
     """Function decorator for defining property attributes
@@ -93,6 +94,7 @@ def prop(func):
     http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/205183
     """
     return property(doc=func.__doc__, **func())
+
 
 def find_json_objects(s):
     """
@@ -157,7 +159,7 @@ class Config(object):
         if config_dir:
             self.__config_file = os.path.join(config_dir, filename)
         else:
-            self.__config_file = deluge.common.get_default_config_dir(filename)
+            self.__config_file = get_default_config_dir(filename)
 
         self.load()
 
@@ -193,8 +195,7 @@ what is currently in the config and it could not convert the value
 
         """
         if isinstance(value, basestring):
-            value = deluge.common.utf8_encoded(value)
-
+            value = utf8_encoded(value)
 
         if not self.__config.has_key(key):
             self.__config[key] = value
@@ -274,7 +275,6 @@ what is currently in the config and it could not convert the value
         else:
             return self.__config[key]
 
-
     def get(self, key, default=None):
         """
         Gets the value of item 'key' if key is in the config, else default.
@@ -298,7 +298,6 @@ what is currently in the config and it could not convert the value
             return self.get_item(key)
         except KeyError:
             return default
-
 
     def __delitem__(self, key):
         """
@@ -328,7 +327,6 @@ what is currently in the config and it could not convert the value
         # We set the save_timer for 5 seconds if not already set
         if not self._save_timer or not self._save_timer.active():
             self._save_timer = callLater(5, self.save)
-
 
     def register_change_callback(self, callback):
         """
@@ -452,7 +450,7 @@ what is currently in the config and it could not convert the value
                 log.warning("Unable to load config file: %s", filename)
 
         log.debug("Config %s version: %s.%s loaded: %s", filename,
-            self.__version["format"], self.__version["file"], self.__config)
+                  self.__version["format"], self.__version["file"], self.__config)
 
     def save(self, filename=None):
         """
@@ -535,7 +533,7 @@ what is currently in the config and it could not convert the value
 
         if self.__version["file"] not in input_range:
             log.debug("File version %s is not in input_range %s, ignoring converter function..",
-                self.__version["file"], input_range)
+                      self.__version["file"], input_range)
             return
 
         try:
@@ -543,7 +541,7 @@ what is currently in the config and it could not convert the value
         except Exception, e:
             log.exception(e)
             log.error("There was an exception try to convert config file %s %s to %s",
-                self.__config_file, self.__version["file"], output_version)
+                      self.__config_file, self.__version["file"], output_version)
             raise e
         else:
             self.__version["file"] = output_version
@@ -558,6 +556,7 @@ what is currently in the config and it could not convert the value
         """The config dictionary"""
         def fget(self):
             return self.__config
+
         def fdel(self):
             return self.save()
         return locals()

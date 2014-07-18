@@ -49,29 +49,9 @@ import locale
 import base64
 import urllib
 
-try:
-    import json
-except ImportError:
-    import simplejson as json
-
 from deluge.error import InvalidPathError
 
 log = logging.getLogger(__name__)
-
-# Do a little hack here just in case the user has json-py installed since it
-# has a different api
-if not hasattr(json, "dumps"):
-    json.dumps = json.write
-    json.loads = json.read
-
-    def dump(obj, fp, **kw):
-        fp.write(json.dumps(obj))
-
-    def load(fp, **kw):
-        return json.loads(fp.read())
-
-    json.dump = dump
-    json.load = load
 
 LT_TORRENT_STATE = {
     "Queued": 0,
@@ -142,15 +122,15 @@ def get_default_config_dir(filename=None):
 
     if windows_check():
         def save_config_path(resource):
-            appDataPath = os.environ.get("APPDATA")
-            if not appDataPath:
+            app_data_path = os.environ.get("APPDATA")
+            if not app_data_path:
                 import _winreg
                 hkey = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER,
                                        "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders")
-                appDataReg = _winreg.QueryValueEx(hkey, "AppData")
-                appDataPath = appDataReg[0]
+                app_data_reg = _winreg.QueryValueEx(hkey, "AppData")
+                app_data_path = app_data_reg[0]
                 _winreg.CloseKey(hkey)
-            return os.path.join(appDataPath, resource)
+            return os.path.join(app_data_path, resource)
     else:
         from xdg.BaseDirectory import save_config_path
     if not filename:
@@ -785,7 +765,7 @@ class VersionSplit(object):
     """
     def __init__(self, ver):
         import re
-        VERSION_RE = re.compile(r'''
+        version_re = re.compile(r'''
         ^
         (?P<version>\d+\.\d+)          # minimum 'N.N'
         (?P<extraversion>(?:\.\d+)*)   # any number of extra '.N' segments
@@ -798,7 +778,7 @@ class VersionSplit(object):
         $''', re.VERBOSE)
 
         # Check for PEP 386 compliant version
-        match = re.search(VERSION_RE, ver)
+        match = re.search(version_re, ver)
         if match:
             group = [(x if x is not None else '') for x in match.group(1, 2, 3, 4, 8)]
             vs = [''.join(group[0:2]), ''.join(group[2:4]), group[4].lstrip('.')]
@@ -1024,17 +1004,17 @@ def unicode_argv():
         from ctypes import POINTER, byref, cdll, c_int, windll
         from ctypes.wintypes import LPCWSTR, LPWSTR
 
-        GetCommandLineW = cdll.kernel32.GetCommandLineW
-        GetCommandLineW.argtypes = []
-        GetCommandLineW.restype = LPCWSTR
+        get_cmd_linew = cdll.kernel32.GetCommandLineW
+        get_cmd_linew.argtypes = []
+        get_cmd_linew.restype = LPCWSTR
 
-        CommandLineToArgvW = windll.shell32.CommandLineToArgvW
-        CommandLineToArgvW.argtypes = [LPCWSTR, POINTER(c_int)]
-        CommandLineToArgvW.restype = POINTER(LPWSTR)
+        cmdline_to_argvw = windll.shell32.CommandLineToArgvW
+        cmdline_to_argvw.argtypes = [LPCWSTR, POINTER(c_int)]
+        cmdline_to_argvw.restype = POINTER(LPWSTR)
 
-        cmd = GetCommandLineW()
+        cmd = get_cmd_linew()
         argc = c_int(0)
-        argv = CommandLineToArgvW(cmd, byref(argc))
+        argv = cmdline_to_argvw(cmd, byref(argc))
         if argc.value > 0:
             # Remove Python executable and commands if present
             start = argc.value - len(sys.argv)
