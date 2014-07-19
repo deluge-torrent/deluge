@@ -32,7 +32,7 @@ Copyright:
 */
 Ext.ns('Deluge.ux');
 Deluge.ux.ExecuteWindowBase = Ext.extend(Ext.Window, {
-	
+
 	layout: 'fit',
 	width: 400,
 	height: 130,
@@ -54,7 +54,8 @@ Deluge.ux.ExecuteWindowBase = Ext.extend(Ext.Window, {
 					fields: ['id', 'text'],
 					data: [
 						['complete', _('Torrent Complete')],
-						['added', _('Torrent Added')]
+						['added', _('Torrent Added')],
+						['removed', _('Torrent Removed')]
 					]
 				}),
 				name: 'event',
@@ -147,12 +148,13 @@ Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
 	title: _('Execute'),
 	layout: 'fit',
 	border: false,
-	    
+
 	initComponent: function() {
 	    Deluge.ux.preferences.ExecutePage.superclass.initComponent.call(this);
 		var event_map = this.event_map = {
 			'complete': _('Torrent Complete'),
-			'added': _('Torrent Added')
+			'added': _('Torrent Added'),
+			'removed': _('Torrent Removed')
 		}
 
 		this.list = new Ext.list.ListView({
@@ -207,7 +209,7 @@ Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
 				}]
 			}
 		});
-		
+
 		deluge.preferences.on('show', this.onPreferencesShow, this);
 	},
 
@@ -275,11 +277,11 @@ Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
 Deluge.plugins.ExecutePlugin = Ext.extend(Deluge.Plugin, {
 
 	name: 'Execute',
-	
+
 	onDisable: function() {
 	    deluge.preferences.removePage(this.prefsPage);
 	},
-	
+
 	onEnable: function() {
 		this.prefsPage = deluge.preferences.addPage(new Deluge.ux.preferences.ExecutePage());
 	}

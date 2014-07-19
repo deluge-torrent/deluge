@@ -49,10 +49,11 @@ EXECUTE_COMMAND = 2
 
 EVENT_MAP = {
     "complete": _("Torrent Complete"),
-    "added": _("Torrent Added")
+    "added": _("Torrent Added"),
+    "removed": _("Torrent Removed")
 }
 
-EVENTS = ["complete", "added"]
+EVENTS = ["complete", "added", "removed"]
 
 class ExecutePreferences(object):
     def __init__(self, plugin):
