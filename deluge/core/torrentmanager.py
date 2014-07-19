@@ -907,14 +907,17 @@ class TorrentManager(component.Component):
                       torrent.options["move_completed_path"])
 
         torrent.update_state()
-        torrent.is_finished = True
-        # Move completed download to completed folder if needed
-        if not torrent.is_finished and total_download and torrent.options["move_completed"]:
-            if torrent.options["download_location"] != torrent.options["move_completed_path"]:
+        if not torrent.is_finished and total_download:
+            # Move completed download to completed folder if needed
+            if torrent.options["move_completed"] and \
+                    torrent.options["download_location"] != torrent.options["move_completed_path"]:
                 self.waiting_on_finish_moving.append(torrent_id)
                 torrent.move_storage(torrent.options["move_completed_path"])
             else:
+                torrent.is_finished = True
                 component.get("EventManager").emit(TorrentFinishedEvent(torrent_id))
+        else:
+            torrent.is_finished = True
 
         # Torrent is no longer part of the queue
         try:
@@ -1040,6 +1043,7 @@ class TorrentManager(component.Component):
 
         if torrent in self.waiting_on_finish_moving:
             self.waiting_on_finish_moving.remove(torrent_id)
+            torrent.is_finished = True
             component.get("EventManager").emit(TorrentFinishedEvent(torrent_id))
 
     def on_alert_storage_moved_failed(self, alert):
@@ -1059,6 +1063,7 @@ class TorrentManager(component.Component):
 
         if torrent in self.waiting_on_finish_moving:
             self.waiting_on_finish_moving.remove(torrent_id)
+            torrent.is_finished = True
             component.get("EventManager").emit(TorrentFinishedEvent(torrent_id))
 
     def on_alert_torrent_resumed(self, alert):
