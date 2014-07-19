@@ -770,6 +770,7 @@ class TorrentManager(component.Component):
             return
 
         path = os.path.join(get_config_dir(), "state", "torrents.fastresume")
+        path_tmp = path + ".tmp"
 
         # First step is to load the existing file and update the dictionary
         if resume_data is None:
@@ -780,11 +781,12 @@ class TorrentManager(component.Component):
 
         try:
             log.debug("Saving fastresume file: %s", path)
-            fastresume_file = open(path, "wb")
+            fastresume_file = open(path_tmp, "wb")
             fastresume_file.write(lt.bencode(resume_data))
             fastresume_file.flush()
             os.fsync(fastresume_file.fileno())
             fastresume_file.close()
+            shutil.move(path_tmp, path)
         except IOError:
             log.warning("Error trying to save fastresume file")
 
