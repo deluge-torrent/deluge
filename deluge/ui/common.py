@@ -50,7 +50,7 @@ except ImportError:
     from sha import sha
 
 from deluge import bencode
-from deluge.common import decode_string, path_join
+from deluge.common import utf8_encoded, path_join
 from deluge.log import LOG as log
 import deluge.configmanager
 
@@ -86,9 +86,9 @@ class TorrentInfo(object):
         # Check if 'name.utf-8' is in the torrent and if not try to decode the string
         # using the encoding found.
         if "name.utf-8" in self.__m_metadata["info"]:
-            self.__m_name = decode_string(self.__m_metadata["info"]["name.utf-8"])
+            self.__m_name = utf8_encoded(self.__m_metadata["info"]["name.utf-8"])
         else:
-            self.__m_name = decode_string(self.__m_metadata["info"]["name"], self.encoding)
+            self.__m_name = utf8_encoded(self.__m_metadata["info"]["name"], self.encoding)
 
         # Get list of files from torrent info
         paths = {}
@@ -103,7 +103,7 @@ class TorrentInfo(object):
                     path = os.path.join(prefix, *f["path.utf-8"])
                     del f["path.utf-8"]
                 else:
-                    path = decode_string(os.path.join(prefix, decode_string(os.path.join(*f["path"]), self.encoding)), self.encoding)
+                    path = utf8_encoded(os.path.join(prefix, utf8_encoded(os.path.join(*f["path"]), self.encoding)), self.encoding)
                 f["path"] = path
                 f["index"] = index
                 if "sha1" in f and len(f["sha1"]) == 20:

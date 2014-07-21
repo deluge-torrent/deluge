@@ -55,7 +55,7 @@ from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.torrent import Torrent
 from deluge.core.torrent import TorrentOptions
 import deluge.core.oldstateupgrader
-from deluge.common import utf8_encoded
+from deluge.common import utf8_encoded, decode_string
 
 from deluge.log import LOG as log
 
@@ -972,7 +972,7 @@ class TorrentManager(component.Component):
         torrent.update_state()
 
     def on_alert_tracker_reply(self, alert):
-        log.debug("on_alert_tracker_reply: %s", alert.message().decode("utf8"))
+        log.debug("on_alert_tracker_reply: %s", decode_string(alert.message()))
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
         except:
@@ -1004,7 +1004,7 @@ class TorrentManager(component.Component):
             torrent = self.torrents[str(alert.handle.info_hash())]
         except:
             return
-        tracker_status = '%s: %s' % (_("Warning"), str(alert.message()))
+        tracker_status = '%s: %s' % (_("Warning"), decode_string(alert.message()))
         # Set the tracker status for the torrent
         torrent.set_tracker_status(tracker_status)
 
@@ -1034,7 +1034,7 @@ class TorrentManager(component.Component):
 
     def on_alert_storage_moved_failed(self, alert):
         """Alert handler for libtorrent storage_moved_failed_alert"""
-        log.debug("on_alert_storage_moved_failed: %s", alert.message())
+        log.debug("on_alert_storage_moved_failed: %s", decode_string(alert.message()))
         try:
             torrent_id = str(alert.handle.info_hash())
             torrent = self.torrents[torrent_id]
@@ -1097,7 +1097,7 @@ class TorrentManager(component.Component):
         self.save_resume_data_file()
 
     def on_alert_save_resume_data_failed(self, alert):
-        log.debug("on_alert_save_resume_data_failed: %s", alert.message())
+        log.debug("on_alert_save_resume_data_failed: %s", decode_string(alert.message()))
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
         except:
@@ -1111,7 +1111,7 @@ class TorrentManager(component.Component):
 
     def on_alert_file_renamed(self, alert):
         log.debug("on_alert_file_renamed")
-        log.debug("index: %s name: %s", alert.index, alert.name.decode("utf8"))
+        log.debug("index: %s name: %s", alert.index, decode_string(alert.name))
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
             torrent_id = str(alert.handle.info_hash())
@@ -1149,7 +1149,7 @@ class TorrentManager(component.Component):
         torrent.on_metadata_received()
 
     def on_alert_file_error(self, alert):
-        log.debug("on_alert_file_error: %s", alert.message())
+        log.debug("on_alert_file_error: %s", decode_string(alert.message()))
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
         except:
@@ -1157,7 +1157,7 @@ class TorrentManager(component.Component):
         torrent.update_state()
 
     def on_alert_file_completed(self, alert):
-        log.debug("file_completed_alert: %s", alert.message())
+        log.debug("file_completed_alert: %s", decode_string(alert.message()))
         try:
             torrent_id = str(alert.handle.info_hash())
         except:

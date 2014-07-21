@@ -389,7 +389,7 @@ class Torrent(object):
 
         # First we check for an error from libtorrent, and set the state to that
         # if any occurred.
-        status_error = self.handle.status().error
+        status_error = deluge.common.decode_string(self.handle.status().error)
         if status_error or self.error_statusmsg:
             # This is an error'd torrent
             self.state = "Error"
