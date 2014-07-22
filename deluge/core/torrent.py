@@ -602,7 +602,7 @@ class Torrent(object):
             # This is an error'd torrent
             self.state = "Error"
             if status.error:
-                self.set_error_statusmsg(status.error)
+                self.set_error_statusmsg(decode_string(status.error))
             self.set_status_message(self.error_statusmsg)
             # This will be reverted upon resuming.
             self.handle.auto_managed(False)

@@ -42,6 +42,7 @@ import hashlib
 import logging
 import tempfile
 import mimetypes
+import json
 
 from twisted.application import service, internet
 from twisted.internet import reactor, defer, error
@@ -128,7 +129,7 @@ class Upload(resource.Resource):
 
         if "file" not in request.args:
             request.setResponseCode(http.OK)
-            return common.json.dumps({
+            return json.dumps({
                 'success': True,
                 'files': []
             })
@@ -146,7 +147,7 @@ class Upload(resource.Resource):
 
         request.setHeader("content-type", "text/html")
         request.setResponseCode(http.OK)
-        return compress(common.json.dumps({
+        return compress(json.dumps({
             'success': True,
             'files': filenames
         }), request)
@@ -556,7 +557,7 @@ class TopLevel(resource.Resource):
         web_config = component.get("Web").get_config()
         web_config["base"] = request.base
         config = dict([(key, web_config[key]) for key in UI_CONFIG_KEYS])
-        js_config = common.json.dumps(config)
+        js_config = json.dumps(config)
         return template.render(scripts=scripts, stylesheets=self.stylesheets,
             debug=debug, base=request.base, js_config=js_config)
 
