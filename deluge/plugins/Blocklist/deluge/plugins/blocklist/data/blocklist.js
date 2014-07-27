@@ -44,7 +44,8 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
         });
 
         this.URL = this.URLFset.add({
-            fieldLabel: _('URL'),
+            fieldLabel: _('URL:'),
+            labelSeparator : '',
             name: 'url',
             width: '80%'
             //autoWidth: true
@@ -64,7 +65,8 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
         });
 
         this.checkListDays = this.SettingsFset.add({
-            fieldLabel: _('Check for new list every'),
+            fieldLabel: _('Check for new list every:'),
+            labelSeparator : '',
             name: 'check_list_days',
             value: 4,
             decimalPrecision: 0,
@@ -159,22 +161,26 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
         });
 
         this.lblFileSize = this.InfoFset.add({
-            fieldLabel: _('File Size'),
+            fieldLabel: _('File Size:'),
+            labelSeparator : '',
             name: 'file_size',
             //margins: '4 0 0 0'
         });
         this.lblDate = this.InfoFset.add({
-            fieldLabel: _('Date'),
+            fieldLabel: _('Date:'),
+            labelSeparator : '',
             name: 'date',
             //margins: '4 0 0 0'
         });
         this.lblType = this.InfoFset.add({
-            fieldLabel: _('Type'),
+            fieldLabel: _('Type:'),
+            labelSeparator : '',
             name: 'type',
             //margins: '4 0 0 0'
         });
         this.lblURL = this.InfoFset.add({
-            fieldLabel: _('URL'),
+            fieldLabel: _('URL:'),
+            labelSeparator : '',
             name: 'lbl_URL',
             //margins: '4 0 0 0'
             //width: 100
