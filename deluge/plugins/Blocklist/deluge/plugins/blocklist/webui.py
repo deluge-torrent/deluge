@@ -40,6 +40,7 @@ import logging
 from deluge.ui.client import client
 from deluge import component
 from deluge.plugins.pluginbase import WebPluginBase
+from common import get_resource
 
 log = logging.getLogger(__name__)
 
@@ -54,11 +55,8 @@ FORMAT_LIST =  [
        ('p2bgz',_("PeerGuardian P2B (GZip)"))
 ]
 
-class WebUI(WebPluginBase):
-    def enable(self):
-        #config_page_manager.register('plugins','blocklist',BlockListCfgForm)
-        pass
 
-    def disable(self):
-        #config_page_manager.deregister('blocklist')
-        pass
+class WebUI(WebPluginBase):
+
+    scripts = [get_resource("blocklist.js")]
+    debug_scripts = scripts
