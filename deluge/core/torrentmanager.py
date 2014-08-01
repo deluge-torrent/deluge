@@ -899,7 +899,8 @@ class TorrentManager(component.Component):
         log.debug("Finished %s ", torrent_id)
 
         # If total_download is 0, do not move, it's likely the torrent wasn't downloaded, but just added.
-        total_download = torrent.get_status(["total_payload_download"])["total_payload_download"]
+        # Get fresh data from libtorrent, the cache isn't always up to date
+        total_download = torrent.get_status(["total_payload_download"], update=True)["total_payload_download"]
 
         if log.isEnabledFor(logging.DEBUG):
             log.debug("Torrent settings: is_finished: %s, total_download: %s, move_completed: %s, move_path: %s",
@@ -932,7 +933,7 @@ class TorrentManager(component.Component):
         # emits alert_torrent_finished for them, but there seems like nothing
         # worth really to save in resume data, we just read it up in
         # self.load_state().
-        if total_download:
+        if total_done:
             self.save_resume_data((torrent_id, ))
 
     def on_alert_torrent_paused(self, alert):
