@@ -68,7 +68,7 @@ class TorrentState:
                  name=None
                  ):
         # Build the class atrribute list from args
-        for key, value in locals().iteritems():
+        for key, value in locals().items():
             if key == "self":
                 continue
             setattr(self, key, value)
