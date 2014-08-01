@@ -933,7 +933,7 @@ class TorrentManager(component.Component):
         # emits alert_torrent_finished for them, but there seems like nothing
         # worth really to save in resume data, we just read it up in
         # self.load_state().
-        if total_done:
+        if total_download:
             self.save_resume_data((torrent_id, ))
 
     def on_alert_torrent_paused(self, alert):
