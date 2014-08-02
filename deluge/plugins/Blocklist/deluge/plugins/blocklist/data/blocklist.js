@@ -245,30 +245,13 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
             scope: this
         });
 
-        deluge.preferences.on('show', this.updateConfig, this);
+        this.on('show', this.updateConfig, this);
 
         this.ipButtonsContainer.getComponent(0).setHandler(this.addIP, this);
         this.ipButtonsContainer.getComponent(1).setHandler(this.deleteIP, this);
 
         this.checkDownload.getComponent(0).setHandler(this.checkDown, this);
         this.forceDownload.setHandler(this.forceDown, this);
-
-        this.waitForClient(10);
-    },
-
-    waitForClient: function(triesLeft) {
-        if (triesLeft < 1) {
-            this.WhitelistFset.getComponent(0).setEmptyText(_('Unable to load settings'));
-            return;
-        }
-
-        if (deluge.login.isVisible() || !deluge.client.core || !deluge.client.blocklist) {
-            var self = this;
-            var t = deluge.login.isVisible() ? triesLeft : triesLeft - 1;
-            setTimeout(function() {self.waitForClient.apply(self, [t]);}, 1000);
-        } else if (!this.isDestroyed) {
-            this.updateConfig();
-        }
     },
 
     onApply: function() {
