@@ -210,7 +210,7 @@ Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
 			}
 		});
 
-		deluge.preferences.on('show', this.onPreferencesShow, this);
+		this.on('show', this.onPreferencesShow, this);
 	},
 
 	updateCommands: function() {
