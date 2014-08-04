@@ -565,7 +565,7 @@ Deluge.ux.preferences.SchedulerPage = Ext.extend(Ext.Panel, {
             decimalPrecision: 0
         });
 
-        deluge.preferences.on('show', this.updateConfig, this);
+        this.on('show', this.updateConfig, this);
     },
 
     onRender: function(ct, position) {
@@ -591,11 +591,6 @@ Deluge.ux.preferences.SchedulerPage = Ext.extend(Ext.Panel, {
 
     onOk: function() {
         this.onApply();
-    },
-
-    afterRender: function() {
-        Deluge.ux.preferences.SchedulerPage.superclass.afterRender.call(this);
-        this.updateConfig();
     },
 
     updateConfig: function() {

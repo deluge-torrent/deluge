@@ -57,7 +57,7 @@ Deluge.ux.preferences.ExtractorPage = Ext.extend(Ext.Panel, {
             boxLabel: _('Create torrent name sub-folder')
         });
 
-        deluge.preferences.on('show', this.updateConfig, this);
+        this.on('show', this.updateConfig, this);
     },
 
     onApply: function() {
