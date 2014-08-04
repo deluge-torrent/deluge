@@ -64,6 +64,7 @@ class Console(_UI):
         group = optparse.OptionGroup(self.parser, "Console Commands",
             "\n".join(cmds.keys()))
         self.parser.add_option_group(group)
+        self.parser.disable_interspersed_args()
 
     def start(self):
         super(Console, self).start()
