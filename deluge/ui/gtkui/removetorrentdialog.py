@@ -100,13 +100,11 @@ class RemoveTorrentDialog(object):
         remove the torrent(s) from the session with or without their data.
         """
         # Response IDs from the buttons
-        RESPONSE_SESSION = 1
-        RESPONSE_DATA = 2
+        RESPONSE_CANCEL = 0
+        RESPONSE_OK = 1
 
         response = self.__dialog.run()
-        if response == RESPONSE_SESSION:
-            self.__remove_torrents(False)
-        elif response == RESPONSE_DATA:
-            self.__remove_torrents(True)
+        if response == RESPONSE_OK:
+            self.__remove_torrents(self.builder.get_object("delete_files").get_active())
 
         self.__dialog.destroy()
