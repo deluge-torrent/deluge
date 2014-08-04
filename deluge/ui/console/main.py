@@ -71,6 +71,7 @@ class Console(_UI):
         group.add_option("-u", "--username", dest="daemon_user")
         group.add_option("-P", "--password", dest="daemon_pass")
         self.parser.add_option_group(group)
+        self.parser.disable_interspersed_args()
 
         self.console_cmds = load_commands(os.path.join(UI_PATH, 'commands'))
         class CommandOptionGroup(optparse.OptionGroup):
