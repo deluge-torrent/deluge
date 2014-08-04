@@ -36,7 +36,7 @@ from setuptools import setup
 __plugin_name__ = "Blocklist"
 __author__ = "John Garland"
 __author_email__ = "johnnybg+deluge@gmail.com"
-__version__ = "1.2"
+__version__ = "1.3"
 __url__ = "http://deluge-torrent.org"
 __license__ = "GPLv3"
 __description__ = "Download and import IP blocklists"

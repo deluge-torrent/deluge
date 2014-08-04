@@ -36,7 +36,7 @@ from setuptools import setup
 __plugin_name__ = "Execute"
 __author__ = "Damien Churchill"
 __author_email__ = "damoxc@gmail.com"
-__version__ = "1.2"
+__version__ = "1.3"
 __url__ = "http://deluge-torrent.org"
 __license__ = "GPLv3"
 __description__ = "Plugin to execute a command upon an event"
