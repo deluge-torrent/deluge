@@ -41,6 +41,8 @@ from deluge.ui.client import client
 from deluge import component
 from deluge.plugins.pluginbase import WebPluginBase
 
+from common import get_resource
+
 #import deluge.ui.webui.lib.newforms_plus as forms
 
 #config_page_manager = component.get("ConfigPageManager")
@@ -60,3 +62,6 @@ class WebUI(WebPluginBase):
     def disable(self):
         #config_page_manager.deregister('blocklist')
         pass
+
+    scripts = [get_resource("blocklist.js")]
+    debug_scripts = scripts
