@@ -1,35 +1,14 @@
-/*
-Script: scheduler.js
-    The client-side javascript code for the Scheduler plugin.
-
-Copyright:
-    (C) samuel337 2011
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 3, or (at your option)
-    any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, write to:
-        The Free Software Foundation, Inc.,
-        51 Franklin Street, Fifth Floor
-        Boston, MA  02110-1301, USA.
-
-    In addition, as a special exception, the copyright holders give
-    permission to link the code of portions of this program with the OpenSSL
-    library.
-    You must obey the GNU General Public License in all respects for all of
-    the code used other than OpenSSL. If you modify file(s) with this
-    exception, you may extend this exception to your version of the file(s),
-    but you are not obligated to do so. If you do not wish to do so, delete
-    this exception statement from your version. If you delete this exception
-    statement from all source files in the program, then also delete it here.
-*/
+/*!
+ * scheduler.js
+ *     The client-side javascript code for the Scheduler plugin.
+ *
+ * Copyright (C) samuel337 2011
+ *
+ * This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+ * the additional special exception to link portions of this program with the OpenSSL library.
+ * See LICENSE for more details.
+ *
+ */
 
 Ext.ns('Deluge.ux');
 
@@ -59,7 +38,7 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
             borderColor: 'FireBrick',
             value: 2
         }
-    ],
+        ],
     daysOfWeek: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
 
     initComponent: function() {
@@ -110,7 +89,7 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
         }
         el2.style[floatAttr] = 'right';
 
-        for (var i=0; i < this.states.length; i++) {
+        for (var i = 0; i < this.states.length; i++) {
             var el3 = createEl(el2, 'input');
             el3.type = 'radio';
             el3.value = this.states[i].value;
@@ -143,10 +122,10 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
         table.cellSpacing = 0;
 
         // cache access to cells for easier access later
-        this.scheduleCells = { };
+        this.scheduleCells = {};
 
         Ext.each(this.daysOfWeek, function(day) {
-            var cells = [ ];
+            var cells = [];
             var row = createEl(table, 'tr');
             var label = createEl(row, 'th');
             label.setAttribute('style', 'font-weight: bold; padding-right: 5px;');
@@ -248,7 +227,7 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
         if (!this.dragAnchor)
             leftTooltipCell = cell;
         else if ((this.dragAnchor && this.isCellLeftTooltipHidden()) ||
-             (this.dragAnchor && this.dragAnchor.hour > cell.hour))
+        (this.dragAnchor && this.dragAnchor.hour > cell.hour))
             leftTooltipCell = this.dragAnchor;
 
         if (leftTooltipCell) {
@@ -260,8 +239,8 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
                 pm = true;
                 if (hour > 12) hour -= 12;
             }
-            // change 0 hour to 12am
             else if (hour == 0) {
+                // change 0 hour to 12am
                 hour = 12;
             }
             this.showCellLeftTooltip(hour + ' ' + (pm ? 'pm' : 'am'), leftTooltipCell);
@@ -287,8 +266,8 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
                 pm = true;
                 if (hour > 12) hour -= 12;
             }
-            // change 0 hour to 12am
             else if (hour == 0) {
+                // change 0 hour to 12am
                 hour = 12;
             }
             this.showCellRightTooltip(hour + ' ' + (pm ? 'pm' : 'am'), rightTooltipCell);
@@ -308,19 +287,19 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
             }
             else if (cell.hour > this.dragAnchor.hour) {
                 // dragging right
-                this.revertCells(cell.day, cell.hour+1, 23);
+                this.revertCells(cell.day, cell.hour + 1, 23);
                 this.previewCells(cell.day, this.dragAnchor.hour, cell.hour);
             }
             else if (cell.hour < this.dragAnchor.hour) {
                 // dragging left
-                this.revertCells(cell.day, 0, cell.hour-1);
+                this.revertCells(cell.day, 0, cell.hour - 1);
                 this.previewCells(cell.day, cell.hour, this.dragAnchor.hour);
             }
             else {
                 // back to anchor cell
                 // don't know if it is from right or left, so revert all except this
-                this.revertCells(cell.day, cell.hour+1, 23);
-                this.revertCells(cell.day, 0, cell.hour-1);
+                this.revertCells(cell.day, cell.hour + 1, 23);
+                this.revertCells(cell.day, 0, cell.hour - 1);
             }
         }
         else {
@@ -346,7 +325,7 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
 
         if (toHour > cells.length) toHour = cells.length;
 
-        for (var i=fromHour; i <= toHour; i++) {
+        for (var i = fromHour; i <= toHour; i++) {
             if (cells[i].currentValue != curBrushValue) {
                 cells[i].oldValue = cells[i].currentValue;
                 cells[i].currentValue = curBrushValue;
@@ -360,7 +339,7 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
 
         if (toHour > cells.length) toHour = cells.length;
 
-        for (var i=fromHour; i <= toHour; i++) {
+        for (var i = fromHour; i <= toHour; i++) {
             cells[i].currentValue = cells[i].oldValue;
             this.updateCell(cells[i]);
         }
@@ -371,7 +350,7 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
 
         if (toHour > cells.length) toHour = cells.length;
 
-        for (var i=fromHour; i <= toHour; i++) {
+        for (var i = fromHour; i <= toHour; i++) {
             if (cells[i].currentValue != cells[i].oldValue) {
                 cells[i].oldValue = cells[i].currentValue;
             }
@@ -463,12 +442,12 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
     },
 
     getConfig: function() {
-        var config = [ ];
+        var config = [];
 
-        for (var i=0; i < 24; i++) {
-            var hourConfig = [ 0, 0, 0, 0, 0, 0, 0 ];
+        for (var i = 0; i < 24; i++) {
+            var hourConfig = [0, 0, 0, 0, 0, 0, 0];
 
-            for (var j=0; j < this.daysOfWeek.length; j++) {
+            for (var j = 0; j < this.daysOfWeek.length; j++) {
                 hourConfig[j] = parseInt(this.scheduleCells[this.daysOfWeek[j]][i].currentValue);
             }
 
@@ -479,10 +458,10 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
     },
 
     setConfig: function(config) {
-        for (var i=0; i < 24; i++) {
+        for (var i = 0; i < 24; i++) {
             var hourConfig = config[i];
 
-            for (var j=0; j < this.daysOfWeek.length; j++) {
+            for (var j = 0; j < this.daysOfWeek.length; j++) {
                 if (this.scheduleCells == undefined) {
                     var cell = hourConfig[j];
                 } else {
@@ -577,7 +556,7 @@ Deluge.ux.preferences.SchedulerPage = Ext.extend(Ext.Panel, {
 
     onApply: function() {
         // build settings object
-        var config = { }
+        var config = {}
 
         config['button_state'] = this.schedule.getConfig();
         config['low_down'] = this.downloadLimit.getValue();

@@ -1,7 +1,7 @@
 /*!
  * extractor.js
  *
- * Copyright (c) Damien Churchill 2010 <damoxc@gmail.com>
+ * Copyright (C) Calum Lind 2014 <calumlind@gmail.com>
  *
  * This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
  * the additional special exception to link portions of this program with the OpenSSL library.
@@ -43,7 +43,7 @@ Deluge.ux.preferences.ExtractorPage = Ext.extend(Ext.Panel, {
 
         this.extract_path = fieldset.add({
             fieldLabel: _('Extract to:'),
-            labelSeparator : '',
+            labelSeparator: '',
             name: 'extract_path',
             width: '97%'
         });
@@ -62,7 +62,7 @@ Deluge.ux.preferences.ExtractorPage = Ext.extend(Ext.Panel, {
 
     onApply: function() {
         // build settings object
-        var config = { }
+        var config = {}
 
         config['extract_path'] = this.extract_path.getValue();
         config['use_name_folder'] = this.use_name_folder.getValue();

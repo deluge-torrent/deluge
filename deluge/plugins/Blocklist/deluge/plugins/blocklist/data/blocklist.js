@@ -1,7 +1,7 @@
 /*!
  * blocklist.js
  *
- * Copyright (c) Omar Alvarez 2014 <omar.alvarez@udc.es>
+ * Copyright (C) Omar Alvarez 2014 <omar.alvarez@udc.es>
  *
  * This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
  * the additional special exception to link portions of this program with the OpenSSL library.
