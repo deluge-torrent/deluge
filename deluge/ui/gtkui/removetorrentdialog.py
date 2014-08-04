@@ -99,12 +99,6 @@ class RemoveTorrentDialog(object):
         Shows the dialog and awaits for user input.  The user can select to
         remove the torrent(s) from the session with or without their data.
         """
-        # Response IDs from the buttons
-        RESPONSE_CANCEL = 0
-        RESPONSE_OK = 1
-
-        response = self.__dialog.run()
-        if response == RESPONSE_OK:
+        if self.__dialog.run() == gtk.RESPONSE_OK:
             self.__remove_torrents(self.builder.get_object("delete_files").get_active())
-
         self.__dialog.destroy()
