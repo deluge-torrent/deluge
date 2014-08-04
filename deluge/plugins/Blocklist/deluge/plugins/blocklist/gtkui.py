@@ -1,36 +1,10 @@
-#
-# gtkui.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 import logging
@@ -45,6 +19,7 @@ from deluge.plugins.pluginbase import GtkPluginBase
 import common
 
 log = logging.getLogger(__name__)
+
 
 class GtkUI(GtkPluginBase):
     def enable(self):
@@ -147,7 +122,7 @@ class GtkUI(GtkPluginBase):
         config["url"] = self.glade.get_widget("entry_url").get_text()
         config["check_after_days"] = self.glade.get_widget("spin_check_days").get_value_as_int()
         config["load_on_start"] = self.glade.get_widget("chk_import_on_start").get_active()
-        config["whitelisted"] = [ip[0] for ip in self.whitelist_model if ip[0]!='IP HERE']
+        config["whitelisted"] = [ip[0] for ip in self.whitelist_model if ip[0] != 'IP HERE']
         client.blocklist.set_config(config)
 
     def _on_button_check_download_clicked(self, widget):
@@ -218,8 +193,8 @@ class GtkUI(GtkPluginBase):
         self.whitelist_treeview.set_model(self.whitelist_model)
 
     def on_cell_edited(self, cell, path_string, new_text, model):
-#        iter = model.get_iter_from_string(path_string)
-#        path = model.get_path(iter)[0]
+        #~ iter = model.get_iter_from_string(path_string)
+        #~ path = model.get_path(iter)[0]
         try:
             ip = common.IP.parse(new_text)
             model.set(model.get_iter_from_string(path_string), 0, ip.address)
@@ -228,7 +203,6 @@ class GtkUI(GtkPluginBase):
             from deluge.ui.gtkui import dialogs
             d = dialogs.ErrorDialog(_("Bad IP address"), e.message)
             d.run()
-
 
     def on_whitelist_treeview_selection_changed(self, selection):
         model, selected_connection_iter = selection.get_selected()
@@ -247,12 +221,12 @@ class GtkUI(GtkPluginBase):
         selection = treeview.get_selection()
         model, iter = selection.get_selected()
         if iter:
-#            path = model.get_path(iter)[0]
+            #~ path = model.get_path(iter)[0]
             model.remove(iter)
 
     def populate_whitelist(self, whitelist):
         self.whitelist_model.clear()
         for ip in whitelist:
             self.whitelist_model.set(
-                self.whitelist_model.append(),0, ip, 1, True
+                self.whitelist_model.append(), 0, ip, 1, True
             )

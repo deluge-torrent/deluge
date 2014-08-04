@@ -1,37 +1,11 @@
-#
-# core.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2009-2010 John Garland <johnnybg+deluge@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 import os
@@ -77,6 +51,7 @@ DEFAULT_PREFS = {
 # Constants
 ALLOW_RANGE = 0
 BLOCK_RANGE = 1
+
 
 class Core(CorePluginBase):
     def enable(self):
@@ -138,14 +113,14 @@ class Core(CorePluginBase):
     ## Exported RPC methods ###
     @export
     def check_import(self, force=False):
-        """
-        Imports latest blocklist specified by blocklist url
-        Only downloads/imports if necessary or forced
+        """Imports latest blocklist specified by blocklist url.
 
-        :param force: optional argument to force download/import
-        :type force: boolean
-        :returns: a Deferred which fires when the blocklist has been imported
-        :rtype: Deferred
+        Args:
+            force (bool, optional): Force the download/import, default is False.
+
+        Returns:
+            Deferred: A Deferred which fires when the blocklist has been imported.
+
         """
 
         # Reset variables
@@ -173,21 +148,21 @@ class Core(CorePluginBase):
 
     @export
     def get_config(self):
-        """
-        Returns the config dictionary
+        """Gets the blocklist config dictionary.
 
-        :returns: the config dictionary
-        :rtype: dict
+        Returns:
+            dict: The config dictionary.
+
         """
         return self.config.config
 
     @export
     def set_config(self, config):
-        """
-        Sets the config based on values in 'config'
+        """Sets the blocklist config.
 
-        :param config: config to set
-        :type config: dictionary
+        Args:
+            config (dict): config to set.
+
         """
         needs_blocklist_import = False
         for key in config.keys():
@@ -252,11 +227,11 @@ class Core(CorePluginBase):
 
     @export
     def get_status(self):
-        """
-        Returns the status of the plugin
+        """Get the status of the plugin.
 
-        :returns: the status dict of the plugin
-        :rtype: dict
+        Returns:
+            dict: The status dict of the plugin.
+
         """
         status = {}
         if self.is_downloading:
@@ -282,13 +257,14 @@ class Core(CorePluginBase):
     ####
 
     def update_info(self, blocklist):
-        """
-        Updates blocklist info
+        """Updates blocklist info.
 
-        :param blocklist: path of blocklist
-        :type blocklist: string
-        :returns: path of blocklist
-        :rtype: string
+        Args:
+            blocklist (str): Path of blocklist.
+
+        Returns:
+            str: Path of blocklist.
+
         """
         log.debug("Updating blocklist info: %s", blocklist)
         self.config["last_update"] = time.time()
@@ -297,13 +273,14 @@ class Core(CorePluginBase):
         return blocklist
 
     def download_list(self, url=None):
-        """
-        Downloads the blocklist specified by 'url' in the config
+        """Downloads the blocklist specified by 'url' in the config.
 
-        :param url: optional url to download from, defaults to config value
-        :type url: string
-        :returns: a Deferred which fires once the blocklist has been downloaded
-        :rtype: Deferred
+        Args:
+            url (str, optional): url to download from, defaults to config value.
+
+        Returns:
+            Deferred: a Deferred which fires once the blocklist has been downloaded.
+
         """
         def on_retrieve_data(data, current_length, total_length):
             if total_length:
@@ -334,27 +311,28 @@ class Core(CorePluginBase):
         )
 
     def on_download_complete(self, blocklist):
-        """
-        Runs any download clean up functions
+        """Runs any download clean up functions.
 
-        :param blocklist: path of blocklist
-        :type blocklist: string
-        :returns: a Deferred which fires when clean up is done
-        :rtype: Deferred
+        Args:
+            blocklist (str): Path of blocklist.
+
+        Returns:
+            Deferred: a Deferred which fires when clean up is done.
+
         """
         log.debug("Blocklist download complete: %s", blocklist)
         self.is_downloading = False
         return threads.deferToThread(self.update_info, blocklist)
 
     def on_download_error(self, f):
-        """
-        Recovers from download error
+        """Recovers from download error.
 
-        :param f: failure that occurred
-        :type f: Failure
-        :returns: a Deferred if recovery was possible
-                  else the original failure
-        :rtype: Deferred or Failure
+        Args:
+            f (Failure): Failure that occurred.
+
+        Returns:
+            Deferred or Failure: A Deferred if recovery was possible else original Failure.
+
         """
         self.is_downloading = False
         error_msg = f.getErrorMessage()
@@ -383,18 +361,20 @@ class Core(CorePluginBase):
         return d
 
     def import_list(self, blocklist):
-        """
-        Imports the downloaded blocklist into the session
+        """Imports the downloaded blocklist into the session.
 
-        :param blocklist: path of blocklist
-        :type blocklist: string
-        :returns: a Deferred that fires when the blocklist has been imported
-        :rtype: Deferred
+        Args:
+            blocklist (str): path of blocklist.
+
+        Returns:
+            Deferred: A Deferred that fires when the blocklist has been imported.
+
         """
         log.trace("on import_list")
+
         def on_read_ip_range(start, end):
             """Add ip range to blocklist"""
-#            log.trace("Adding ip range %s - %s to ipfilter as blocked", start, end)
+            #~ log.trace("Adding ip range %s - %s to ipfilter as blocked", start, end)
             self.blocklist.add_rule(start.address, end.address, BLOCK_RANGE)
             self.num_blocked += 1
 
@@ -436,20 +416,21 @@ class Core(CorePluginBase):
         log.debug("Importing using reader: %s", self.reader)
         log.debug("Reader type: %s compression: %s", self.config["list_type"], self.config["list_compression"])
         log.debug("Clearing current ip filtering")
-#        self.blocklist.add_rule("0.0.0.0", "255.255.255.255", ALLOW_RANGE)
+        #~ self.blocklist.add_rule("0.0.0.0", "255.255.255.255", ALLOW_RANGE)
         d = threads.deferToThread(self.reader(blocklist).read, on_read_ip_range)
         d.addCallback(on_finish_read).addErrback(on_reader_failure)
 
         return d
 
     def on_import_complete(self, blocklist):
-        """
-        Runs any import clean up functions
+        """Runs any import clean up functions.
 
-        :param blocklist: path of blocklist
-        :type blocklist: string
-        :returns: a Deferred that fires when clean up is done
-        :rtype: Deferred
+        Args:
+            blocklist (str): Path of blocklist.
+
+        Returns:
+            Deferred: A Deferred that fires when clean up is done.
+
         """
         log.trace("on_import_list_complete")
         d = blocklist
@@ -467,14 +448,14 @@ class Core(CorePluginBase):
         return d
 
     def on_import_error(self, f):
-        """
-        Recovers from import error
+        """Recovers from import error.
 
-        :param f: failure that occurred
-        :type f: Failure
-        :returns: a Deferred if recovery was possible
-                  else the original failure
-        :rtype: Deferred or Failure
+        Args:
+            f (Failure): Failure that occurred.
+
+        Returns:
+            Deferred or Failure: A Deferred if recovery was possible else original Failure.
+
         """
         log.trace("on_import_error: %s", f)
         d = f
@@ -501,12 +482,14 @@ class Core(CorePluginBase):
         return d
 
     def auto_detect(self, blocklist):
-        """
-        Tries to auto-detect the blocklist type
+        """Attempts to auto-detect the blocklist type.
 
-        :param blocklist: path of blocklist to auto-detect
-        :type blocklist: string
-        :raises UnknownFormatError: if the format cannot be detected
+        Args:
+            blocklist (str): Path of blocklist.
+
+        Raises:
+            UnknownFormatError: If the format cannot be detected.
+
         """
         self.config["list_compression"] = detect_compression(blocklist)
         self.config["list_type"] = detect_format(blocklist, self.config["list_compression"])
@@ -516,7 +499,6 @@ class Core(CorePluginBase):
             raise UnknownFormatError
         else:
             self.reader = create_reader(self.config["list_type"], self.config["list_compression"])
-
 
     def pause_session(self):
         if not self.core.session.is_paused():
