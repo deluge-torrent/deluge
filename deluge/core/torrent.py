@@ -883,9 +883,13 @@ class Torrent(object):
             progress = 100.0
         elif self.moving_storage:
             torrent_status = self.get_status(["files", "total_done"])
-            torrent_files = [f['path'] for f in torrent_status["files"]]
-            dest_path_size = get_size(torrent_files, self.moving_storage_dest_path)
-            progress = dest_path_size / torrent_status["total_done"] * 100
+            # Check if torrent has downloaded any data yet.
+            if torrent_status["total_done"]:
+                torrent_files = [f['path'] for f in torrent_status["files"]]
+                dest_path_size = get_size(torrent_files, self.moving_storage_dest_path)
+                progress = dest_path_size / torrent_status["total_done"] * 100
+            else:
+                progress = 100.0
         else:
             progress = self.status.progress * 100
 
