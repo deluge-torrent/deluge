@@ -190,19 +190,19 @@ class MenuBar(component.Component):
         for widget in self.change_sensitivity:
             self.main_builder.get_object(widget).set_sensitive(True)
 
-        # Hide the Open Folder menuitem and separator if not connected to a
-        # localhost.
-        non_remote_items = [
+        # Only show open_folder menuitem and separator if connected to a localhost daemon.
+        localhost_items = [
             "menuitem_open_folder",
             "separator4"
         ]
-        if not client.is_localhost():
-            for widget in non_remote_items:
+        if client.is_localhost():
+            for widget in localhost_items:
+                self.builder.get_object(widget).show()
+                self.builder.get_object(widget).set_no_show_all(False)
+        else:
+            for widget in localhost_items:
                 self.builder.get_object(widget).hide()
                 self.builder.get_object(widget).set_no_show_all(True)
-        else:
-            for widget in non_remote_items:
-                self.builder.get_object(widget).set_no_show_all(False)
 
         if not self.config["classic_mode"]:
             self.main_builder.get_object("separatormenuitem").show()
