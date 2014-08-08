@@ -231,12 +231,14 @@ def get_pixmap(fname):
     return pkg_resources.resource_filename("deluge", os.path.join("data", \
                                            "pixmaps", fname))
 
-def open_file(path):
+def open_file(path, timestamp=None):
     """
     Opens a file or folder using the system configured program
 
     :param path: the path to the file or folder to open
     :type path: string
+    :param timestamp: the timestamp of the event that requested to open
+    :type timestamp: int
 
     """
     if windows_check():
@@ -244,7 +246,12 @@ def open_file(path):
     elif osx_check():
         subprocess.Popen(["open", "%s" % path])
     else:
-        subprocess.Popen(["xdg-open", "%s" % path])
+        if timestamp is None:
+            timestamp = int(time.time())
+        env = os.environ.copy()
+        env["DESKTOP_STARTUP_ID"] = "%s-%u-%s-xdg_open_TIME%d" % \
+            (os.path.basename(sys.argv[0]), os.getpid(), os.uname()[1], timestamp)
+        subprocess.Popen(["xdg-open", "%s" % path], env=env)
 
 def open_url_in_browser(url):
     """

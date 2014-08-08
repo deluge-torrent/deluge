@@ -361,7 +361,8 @@ class FilesTab(Tab):
             path = self.get_file_path(select).split("/")
             filepath = os.path.join(status["save_path"], *path)
             log.debug("Open file '%s'", filepath)
-            deluge.common.open_file(filepath)
+            timestamp = gtk.get_current_event_time()
+            deluge.common.open_file(filepath, timestamp=timestamp)
 
     ## The following 3 methods create the folder/file view in the treeview
     def prepare_file_store(self, files):
