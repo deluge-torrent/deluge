@@ -1,38 +1,11 @@
-#
-# files_tab.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-#   The Free Software Foundation, Inc.,
-#   51 Franklin Street, Fifth Floor
-#   Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
-#
-
 
 import gtk
 import gtk.gdk
@@ -49,7 +22,9 @@ from deluge.ui.gtkui.common import reparent_iter, save_pickled_state_file, load_
 
 log = logging.getLogger(__name__)
 
-def _(message): return message
+
+def _(message):
+    return message
 
 TRANSLATE = {
     "Do Not Download": _("Do Not Download"),
@@ -60,10 +35,12 @@ TRANSLATE = {
 
 del _
 
+
 def _t(text):
     if text in TRANSLATE:
         text = TRANSLATE[text]
     return _(text)
+
 
 def cell_priority(column, cell, model, row, data):
     if model.get_value(row, 5) == -1:
@@ -72,6 +49,7 @@ def cell_priority(column, cell, model, row, data):
         return
     priority = model.get_value(row, data)
     cell.set_property("text", _t(deluge.common.FILE_PRIORITY[priority]))
+
 
 def cell_priority_icon(column, cell, model, row, data):
     if model.get_value(row, 5) == -1:
@@ -88,10 +66,12 @@ def cell_priority_icon(column, cell, model, row, data):
     elif deluge.common.FILE_PRIORITY[priority] == "Highest Priority":
         cell.set_property("stock-id", gtk.STOCK_GOTO_TOP)
 
+
 def cell_filename(column, cell, model, row, data):
     """Only show the tail portion of the file path"""
     filepath = model.get_value(row, data)
     cell.set_property("text", os.path.split(filepath)[1])
+
 
 def cell_progress(column, cell, model, row, data):
     text = model.get_value(row, data[0])
@@ -99,6 +79,7 @@ def cell_progress(column, cell, model, row, data):
     cell.set_property("visible", True)
     cell.set_property("text", text)
     cell.set_property("value", value)
+
 
 class FilesTab(Tab):
     def __init__(self):
@@ -264,7 +245,7 @@ class FilesTab(Tab):
     def load_state(self):
         state = load_pickled_state_file("files_tab.state")
 
-        if state == None:
+        if not state:
             return
 
         if state["sort_id"] is not None and state["sort_order"] is not None:
@@ -272,7 +253,7 @@ class FilesTab(Tab):
 
         for (index, column) in enumerate(self.listview.get_columns()):
             cname = column.get_title()
-            if state["columns"].has_key(cname):
+            if cname in state["columns"]:
                 cstate = state["columns"][cname]
                 column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
                 column.set_fixed_width(cstate["width"] if cstate["width"] > 0 else 10)
@@ -314,7 +295,8 @@ class FilesTab(Tab):
             log.debug("Getting file list from core..")
             status_keys += ["files"]
 
-        component.get("SessionProxy").get_torrent_status(self.torrent_id, status_keys).addCallback(self._on_get_torrent_status, self.torrent_id)
+        component.get("SessionProxy").get_torrent_status(
+            self.torrent_id, status_keys).addCallback(self._on_get_torrent_status, self.torrent_id)
 
     def clear(self):
         self.treestore.clear()
@@ -358,7 +340,7 @@ class FilesTab(Tab):
 
     ## The following 3 methods create the folder/file view in the treeview
     def prepare_file_store(self, files):
-        split_files = { }
+        split_files = {}
         i = 0
         for file in files:
             self.prepare_file(file, file["path"], i, split_files)
@@ -372,22 +354,22 @@ class FilesTab(Tab):
         else:
             file_name_chunk = file_name[:first_slash_index+1]
             if file_name_chunk not in files_storage:
-                files_storage[file_name_chunk] = { }
+                files_storage[file_name_chunk] = {}
             self.prepare_file(file, file_name[first_slash_index+1:],
                               file_num, files_storage[file_name_chunk])
 
     def add_files(self, parent_iter, split_files):
         ret = 0
-        for key,value in split_files.iteritems():
+        for key, value in split_files.iteritems():
             if key.endswith("/"):
                 chunk_iter = self.treestore.append(parent_iter,
-                                [key, 0, "", 0, 0, -1, gtk.STOCK_DIRECTORY])
+                                                   [key, 0, "", 0, 0, -1, gtk.STOCK_DIRECTORY])
                 chunk_size = self.add_files(chunk_iter, value)
                 self.treestore.set(chunk_iter, 1, chunk_size)
                 ret += chunk_size
             else:
                 self.treestore.append(parent_iter, [key,
-                                        value[1]["size"], "", 0, 0, value[0], gtk.STOCK_FILE])
+                                      value[1]["size"], "", 0, 0, value[0], gtk.STOCK_FILE])
                 ret += value[1]["size"]
         return ret
     ###
@@ -398,7 +380,7 @@ class FilesTab(Tab):
         self.listview.expand_row("0", False)
 
     def get_selected_files(self):
-        """Returns a list of file indexes that are selected"""
+        """Returns a list of file indexes that are selected."""
         def get_iter_children(itr, selected):
             i = self.treestore.iter_children(itr)
             while i:
@@ -428,9 +410,7 @@ class FilesTab(Tab):
         return None
 
     def update_folder_percentages(self):
-        """
-        Go through the tree and update the folder complete percentages.
-        """
+        """Go through the tree and update the folder complete percentages."""
         root = self.treestore.get_iter_root()
         if root is None or self.treestore[root][5] != -1:
             return
@@ -523,16 +503,16 @@ class FilesTab(Tab):
     def _on_key_press_event(self, widget, event):
         keyname = gtk.gdk.keyval_name(event.keyval)
         if keyname is not None:
-            func = getattr(self, 'keypress_' + keyname, None)
+            func = getattr(self, 'keypress_' + keyname.lower(), None)
             selected_rows = self.listview.get_selection().get_selected_rows()[1]
             if func and selected_rows:
                 return func(event)
 
-    def keypress_Menu(self, event):
+    def keypress_menu(self, event):
         self.file_menu.popup(None, None, None, 3, event.time)
         return True
 
-    def keypress_F2(self, event):
+    def keypress_f2(self, event):
         path, col = self.listview.get_cursor()
         for column in self.listview.get_columns():
             if column.get_title() == self.filename_column_name:
@@ -550,9 +530,9 @@ class FilesTab(Tab):
                 self.torrent_id, ["save_path", "files"]).addCallback(self._on_show_file)
 
     def _set_file_priorities_on_user_change(self, selected, priority):
-        """Sets the file priorities in the core.  It will change the selected
-            with the 'priority'"""
+        """Sets the file priorities in the core. It will change the selected with the 'priority'"""
         file_priorities = []
+
         def set_file_priority(model, path, iter, data):
             index = model.get_value(iter, 5)
             if index in selected and index != -1:
@@ -603,6 +583,7 @@ class FilesTab(Tab):
             # We are renaming a file
             itr = self.treestore.get_iter(path)
             # Recurse through the treestore to get the actual path of the file
+
             def get_filepath(i):
                 ip = self.treestore.iter_parent(i)
                 fp = ""
@@ -663,6 +644,7 @@ class FilesTab(Tab):
                     parent_path = [o for o in name.split("/")[:-1]]
                 # Find the iter to the parent folder we need to add a new folder
                 # to.
+
                 def find_parent(model, path, itr, user_data):
                     if model[itr][0] == parent_path[0] + "/":
                         if len(parent_path) == 1:
@@ -681,17 +663,16 @@ class FilesTab(Tab):
                                         break
                                     child_iter = self.treestore.iter_next(child_iter)
                                 if create:
-                                    parent_iter = self.treestore.append(parent_iter,
-                                                [tc + "/", 0, "", 0, 0, -1, gtk.STOCK_DIRECTORY])
+                                    parent_iter = self.treestore.append(
+                                        parent_iter, [tc + "/", 0, "", 0, 0, -1, gtk.STOCK_DIRECTORY])
 
                             # Find the iter for the file that needs to be moved
                             def get_file_iter(model, path, itr, user_data):
                                 if model[itr][5] == index:
                                     model[itr][0] = name.split("/")[-1]
-                                    t = self.treestore.append(
-                                        parent_iter,
-                                        self.treestore.get(itr,
-                                        *xrange(self.treestore.get_n_columns())))
+                                    # t = self.treestore.append(
+                                    #    parent_iter,
+                                    #    self.treestore.get(itr, *xrange(self.treestore.get_n_columns())))
                                     itr_parent = self.treestore.iter_parent(itr)
                                     self.treestore.remove(itr)
                                     self.remove_childless_folders(itr_parent)
@@ -709,8 +690,8 @@ class FilesTab(Tab):
                     new_folders = name.split("/")[:-1]
                     parent_iter = None
                     for f in new_folders:
-                        parent_iter = self.treestore.append(parent_iter,
-                                                [f + "/", 0, "", 0, 0, -1, gtk.STOCK_DIRECTORY])
+                        parent_iter = self.treestore.append(
+                            parent_iter, [f + "/", 0, "", 0, 0, -1, gtk.STOCK_DIRECTORY])
                     child = self.get_iter_at_path(old_name)
                     self.treestore.append(
                         parent_iter,
@@ -726,9 +707,7 @@ class FilesTab(Tab):
                 self.treestore.foreach(set_file_name, None)
 
     def get_iter_at_path(self, filepath):
-        """
-        Returns the gtkTreeIter for filepath
-        """
+        """Returns the gtkTreeIter for filepath."""
         log.debug("get_iter_at_path: %s", filepath)
         is_dir = False
         if filepath[-1] == "/":
@@ -759,9 +738,7 @@ class FilesTab(Tab):
         return path_iter
 
     def remove_childless_folders(self, itr):
-        """
-        Goes up the tree removing childless itrs starting at itr
-        """
+        """Goes up the tree removing childless itrs starting at itr."""
         while not self.treestore.iter_children(itr):
             parent = self.treestore.iter_parent(itr)
             self.treestore.remove(itr)
@@ -857,7 +834,8 @@ class FilesTab(Tab):
                 while itr:
                     pp = self.treestore[itr][0] + pp
                     itr = self.treestore.iter_parent(itr)
-                client.core.rename_folder(self.torrent_id, pp + model[selected[0]][0], parent_path + model[selected[0]][0])
+                client.core.rename_folder(self.torrent_id, pp + model[selected[0]][0],
+                                          parent_path + model[selected[0]][0])
             else:
                 #[(index, filepath), ...]
                 to_rename = []
