@@ -190,6 +190,7 @@ class MenuBar(component.Component):
                 self.torrentmenu_glade.get_widget(widget).set_no_show_all(True)
         else:
             for widget in non_remote_items:
+                self.torrentmenu_glade.get_widget(widget).show()
                 self.torrentmenu_glade.get_widget(widget).set_no_show_all(False)
 
         self.window.main_glade.get_widget("separatormenuitem").set_visible(not self.config["classic_mode"])
