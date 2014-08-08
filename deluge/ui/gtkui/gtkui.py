@@ -46,6 +46,7 @@ import locale
 import pkg_resources
 import gtk, gtk.glade
 import sys
+import warnings
 
 try:
     from setproctitle import setproctitle, getproctitle
@@ -177,7 +178,15 @@ class GtkUI(object):
         try:
             import gnome.ui
             import gnome
-            self.gnome_prog = gnome.init("Deluge", deluge.common.get_version())
+
+            #Suppress: Warning: Attempt to add property GnomeProgram::*** after class was initialised
+            original_filters = warnings.filters[:]
+            warnings.simplefilter("ignore")
+            try:
+                self.gnome_prog = gnome.init("Deluge", deluge.common.get_version())
+            finally:
+                warnings.filters = original_filters
+
             self.gnome_client = gnome.ui.master_client()
             def on_die(*args):
                 reactor.stop()
