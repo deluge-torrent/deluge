@@ -45,9 +45,9 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
         Deluge.details.DetailsTab.superclass.initComponent.call(this);
         this.addItem('torrent_name', _('Name'));
         this.addItem('hash', _('Hash'));
-        this.addItem('path', _('Path'));
+        this.addItem('path', _('Download Folder'));
         this.addItem('size', _('Total Size'));
-        this.addItem('files', _('# of files'));
+        this.addItem('files', _('Total Files'));
         this.addItem('comment', _('Comment'));
         this.addItem('status', _('Status'));
         this.addItem('tracker', _('Tracker'));
@@ -97,7 +97,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
         var data = {
             torrent_name: torrent.name,
             hash: options.options.torrentId,
-            path: torrent.save_path,
+            path: torrent.download_location,
             size: fsize(torrent.total_size),
             files: torrent.num_files,
             status: torrent.message,

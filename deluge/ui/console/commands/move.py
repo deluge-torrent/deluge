@@ -52,9 +52,9 @@ class Command(BaseCommand):
             return
 
         path = args[-1]
-        
+
         if os.path.exists(path) and not os.path.isdir(path):
-            self.console.write("{!error!}Cannot Move Storage: %s exists and is not a directory"%path)
+            self.console.write("{!error!}Cannot Move Download Folder: %s exists and is not a directory" % path)
             return
 
         ids = []
@@ -67,9 +67,9 @@ class Command(BaseCommand):
         namestr = ", ".join(names)
 
         def on_move(res):
-            self.console.write("Moved \"%s\" to %s"%(namestr,path))
+            self.console.write("Moved \"%s\" to %s" % (namestr, path))
 
-        d = client.core.move_storage(ids,path)
+        d = client.core.move_storage(ids, path)
         d.addCallback(on_move)
         return d
 
@@ -94,7 +94,7 @@ class Command(BaseCommand):
                 # shares a common prefix.
                 for f in os.listdir(os.path.dirname(line)):
                     if f.startswith(os.path.split(line)[1]):
-                        ret.append(os.path.join( os.path.dirname(line), f))
+                        ret.append(os.path.join(os.path.dirname(line), f))
         else:
             # This path does not exist, so lets do a listdir on it's parent
             # and find any matches.

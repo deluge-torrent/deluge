@@ -67,7 +67,7 @@
     <property name="can_focus">False</property>
     <child>
       <object class="GtkImageMenuItem" id="menuitem_open_folder">
-        <property name="label" translatable="yes">_Open Folder</property>
+        <property name="label" translatable="yes">_Open Download Folder</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_action_appearance">False</property>
@@ -210,7 +210,7 @@
     </child>
     <child>
       <object class="GtkImageMenuItem" id="menuitem_move">
-        <property name="label" translatable="yes">Move _Storage</property>
+        <property name="label" translatable="yes">_Move Download Folder</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_action_appearance">False</property>

@@ -320,7 +320,7 @@ class FilesTab(Tab):
 
         for select in selected:
             path = self.get_file_path(select).split("/")
-            filepath = os.path.join(status["save_path"], *path)
+            filepath = os.path.join(status["download_location"], *path)
             log.debug("Open file '%s'", filepath)
             timestamp = gtk.get_current_event_time()
             deluge.common.open_file(filepath, timestamp=timestamp)
@@ -333,7 +333,7 @@ class FilesTab(Tab):
 
         for select in selected:
             path = self.get_file_path(select).split("/")
-            filepath = os.path.join(status["save_path"], *path)
+            filepath = os.path.join(status["download_location"], *path)
             log.debug("Show file '%s'", filepath)
             timestamp = gtk.get_current_event_time()
             deluge.common.show_file(filepath, timestamp=timestamp)
@@ -522,12 +522,12 @@ class FilesTab(Tab):
     def _on_menuitem_open_file_activate(self, menuitem):
         if client.is_localhost:
             component.get("SessionProxy").get_torrent_status(
-                self.torrent_id, ["save_path", "files"]).addCallback(self._on_open_file)
+                self.torrent_id, ["download_location"]).addCallback(self._on_open_file)
 
     def _on_menuitem_show_file_activate(self, menuitem):
         if client.is_localhost:
             component.get("SessionProxy").get_torrent_status(
-                self.torrent_id, ["save_path", "files"]).addCallback(self._on_show_file)
+                self.torrent_id, ["download_location"]).addCallback(self._on_show_file)
 
     def _set_file_priorities_on_user_change(self, selected, priority):
         """Sets the file priorities in the core. It will change the selected with the 'priority'"""

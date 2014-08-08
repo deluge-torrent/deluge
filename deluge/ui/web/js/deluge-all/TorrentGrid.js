@@ -205,12 +205,12 @@
             renderer: trackerRenderer,
             dataIndex: 'tracker_host'
         }, {
-            header: _('Save Path'),
+            header: _('Download Folder'),
             hidden: true,
             width: 120,
             sortable: true,
             renderer: fplain,
-            dataIndex: 'save_path'
+            dataIndex: 'download_location'
         }, {
             header: _('Owner'),
             width: 80,
@@ -296,7 +296,7 @@
                 {name: 'distributed_copies', type: 'float'},
                 {name: 'time_added', type: 'int'},
                 {name: 'tracker_host'},
-                {name: 'save_path'},
+                {name: 'download_location'},
                 {name: 'total_done', type: 'int'},
                 {name: 'total_uploaded', type: 'int'},
                 {name: 'total_remaining', type: 'int'},

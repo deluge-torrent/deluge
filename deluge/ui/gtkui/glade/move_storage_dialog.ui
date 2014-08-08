@@ -6,7 +6,7 @@
     <property name="width_request">500</property>
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
-    <property name="title" translatable="yes">Move Storage</property>
+    <property name="title" translatable="yes">Move Download Folder</property>
     <property name="window_position">center-on-parent</property>
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
@@ -86,7 +86,7 @@
                   <object class="GtkLabel" id="label1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Move Storage</property>
+                    <property name="label" translatable="yes">Move the torrent(s) download folder.</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
                     </attributes>

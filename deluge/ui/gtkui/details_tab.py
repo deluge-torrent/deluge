@@ -1,36 +1,10 @@
-#
-# details_tab.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 import logging
@@ -77,7 +51,7 @@ class DetailsTab(Tab):
             (builder.get_object("summary_completed"), fdate_blank, ("completed_time",)),
             (builder.get_object("summary_date_added"), fdate, ("time_added",)),
             (builder.get_object("summary_private"), str_yes_no, ("private",)),
-            (builder.get_object("summary_torrent_path"), None, ("save_path",)),
+            (builder.get_object("summary_torrent_path"), None, ("download_location",)),
             (builder.get_object("summary_hash"), str, ("hash",)),
             (builder.get_object("summary_comments"), str, ("comment",)),
             (builder.get_object("summary_owner"), str, ("owner",)),
@@ -99,7 +73,7 @@ class DetailsTab(Tab):
 
         # Get the torrent status
         status_keys = ["name", "total_size", "num_files", "time_added", "completed_time",
-                       "save_path", "hash", "comment", "owner", "num_pieces", "piece_length",
+                       "download_location", "hash", "comment", "owner", "num_pieces", "piece_length",
                        "shared", "private"]
 
         session = component.get("SessionProxy")

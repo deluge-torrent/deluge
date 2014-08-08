@@ -107,7 +107,7 @@ class TorrentDetail(BaseMode, component.Component):
                              "progress", "eta", "all_time_download", "total_uploaded", "ratio",
                              "num_seeds", "total_seeds", "num_peers", "total_peers", "active_time",
                              "seeding_time", "time_added", "distributed_copies", "num_pieces",
-                             "piece_length", "save_path", "file_progress", "file_priorities", "message",
+                             "piece_length", "download_location", "file_progress", "file_priorities", "message",
                              "total_wanted", "tracker_host", "owner"]
 
         self.file_list = None
@@ -505,8 +505,8 @@ class TorrentDetail(BaseMode, component.Component):
             s+= ", {!cyan!}%s{!input!} seeding" % ( common.ftime(status["seeding_time"]) )
         self.add_string(off, s); off += 1
 
-        #Save Path
-        s = "{!info!}Save path: {!input!}%s" % status["save_path"]
+        #Download Folder
+        s = "{!info!}Download Folder: {!input!}%s" % status["download_location"]
         self.add_string(off, s); off += 1
 
         #Owner

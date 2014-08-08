@@ -70,7 +70,7 @@ torrent_options_to_names = {
     "stop_ratio": "Seeding ratio limit",
     "remove_at_ratio": "Remove after reaching ratio",
     "move_on_completed": "Move torrent after completion",
-    "move_on_completed_path": "Path to move the torrent to"
+    "move_on_completed_path": "Folder to move the torrent to"
 }
 
 class ACTION:
@@ -209,14 +209,14 @@ def torrent_action(idx, data, mode, ids):
             def do_move(res):
                 import os.path
                 if os.path.exists(res["path"]) and not os.path.isdir(res["path"]):
-                    mode.report_message("Cannot Move Storage","{!error!}%s exists and is not a directory"%res["path"])
+                    mode.report_message("Cannot Move Download Folder","{!error!}%s exists and is not a directory"%res["path"])
                 else:
                     log.debug("Moving %s to: %s",ids,res["path"])
                     client.core.move_storage(ids,res["path"]).addErrback(action_error,mode)
                 if len(ids) == 1:
                     mode.clear_marks()
                 return True
-            popup = InputPopup(mode,"Move Storage (Esc to cancel)",close_cb=do_move)
+            popup = InputPopup(mode,"Move Download Folder (Esc to cancel)",close_cb=do_move)
             popup.add_text_input("Enter path to move to:","path")
             mode.set_popup(popup)
             return False
@@ -330,7 +330,7 @@ def torrent_actions_popup(mode,tids,details=False, action = None):
     popup.add_divider()
     popup.add_line("Remo_ve Torrent",data=ACTION.REMOVE)
     popup.add_line("_Force Recheck",data=ACTION.RECHECK)
-    popup.add_line("_Move Storage",data=ACTION.MOVE_STORAGE)
+    popup.add_line("_Move Download Folder",data=ACTION.MOVE_STORAGE)
     popup.add_divider()
     if details:
         popup.add_line("Torrent _Details",data=ACTION.DETAILS)

@@ -1,6 +1,6 @@
 /*!
  * Deluge.MoveStorage.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -32,10 +32,10 @@
 
 Ext.namespace('Deluge');
 Deluge.MoveStorage = Ext.extend(Ext.Window, {
-    
+
     constructor: function(config) {
         config = Ext.apply({
-            title: _('Move Storage'),
+            title: _('Move Download Folder'),
             width: 375,
             height: 110,
             layout: 'fit',

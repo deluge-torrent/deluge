@@ -239,7 +239,7 @@ deluge.menus.torrent = new Ext.menu.Menu({
         scope: deluge.menus
     }, {
         torrentAction: 'move',
-        text: _('Move Storage'),
+        text: _('Move Download Folder'),
         iconCls: 'icon-move',
         handler: deluge.menus.onTorrentAction,
         scope: deluge.menus

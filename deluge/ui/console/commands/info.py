@@ -48,7 +48,7 @@ strwidth = format_utils.strwidth
 from os.path import sep as dirsep
 
 STATUS_KEYS = ["state",
-        "save_path",
+        "download_location",
         "tracker",
         "next_announce",
         "name",
@@ -320,7 +320,7 @@ class Command(BaseCommand):
                 s = "{!info!}Progress: {!input!}%.2f%% %s" % (status["progress"], pbar)
                 self.console.write(s)
 
-            s = "{!info!}Download location: {!input!}%s" % status["save_path"]
+            s = "{!info!}Download Folder: {!input!}%s" % status["download_location"]
             self.console.write(s)
 
             if detailed:

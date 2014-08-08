@@ -327,17 +327,17 @@ class MenuBar(component.Component):
 
         def _on_torrent_status(status):
             timestamp = gtk.get_current_event_time()
-            path = os.path.join(status["save_path"], status["files"][0]["path"].split('/')[0])
+            path = os.path.join(status["download_location"], status["files"][0]["path"].split('/')[0])
             deluge.common.show_file(path, timestamp=timestamp)
         for torrent_id in component.get("TorrentView").get_selected_torrents():
             component.get("SessionProxy").get_torrent_status(
-                torrent_id, ["save_path", "files"]).addCallback(_on_torrent_status)
+                torrent_id, ["download_location", "files"]).addCallback(_on_torrent_status)
 
     def on_menuitem_move_activate(self, data=None):
         log.debug("on_menuitem_move_activate")
         component.get("SessionProxy").get_torrent_status(
             component.get("TorrentView").get_selected_torrent(),
-            ["save_path"]).addCallback(self.show_move_storage_dialog)
+            ["download_location"]).addCallback(self.show_move_storage_dialog)
 
     def show_move_storage_dialog(self, status):
         log.debug("show_move_storage_dialog")
@@ -353,7 +353,7 @@ class MenuBar(component.Component):
         self.move_storage_path_chooser = PathChooser("move_completed_paths_list")
         self.move_storage_dialog_hbox.add(self.move_storage_path_chooser)
         self.move_storage_dialog_hbox.show_all()
-        self.move_storage_path_chooser.set_text(status["save_path"])
+        self.move_storage_path_chooser.set_text(status["download_location"])
 
         def on_dialog_response_event(widget, response_id):
             def on_core_result(result):

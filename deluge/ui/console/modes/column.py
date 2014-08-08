@@ -43,7 +43,7 @@ log = logging.getLogger(__name__)
 
 def format_queue(qnum):
     if (qnum >= 0):
-        return "%d"%(qnum+1)
+        return "%d" % (qnum+1)
     else:
         return ""
 
@@ -53,8 +53,8 @@ columns = {
     "Size": (("total_wanted",), deluge.common.fsize),
     "State": (("state",), None),
     "Progress": (("progress",), format_utils.format_progress),
-    "Seeds": (("num_seeds","total_seeds"), format_utils.format_seeds_peers),
-    "Peers": (("num_peers","total_peers"), format_utils.format_seeds_peers),
+    "Seeds": (("num_seeds", "total_seeds"), format_utils.format_seeds_peers),
+    "Peers": (("num_peers", "total_peers"), format_utils.format_seeds_peers),
     "Down Speed": (("download_payload_rate",), format_utils.format_speed),
     "Up Speed": (("upload_payload_rate",), format_utils.format_speed),
     "ETA": (("eta",), format_utils.format_time),
@@ -62,7 +62,7 @@ columns = {
     "Avail": (("distributed_copies",), format_utils.format_float),
     "Added": (("time_added",), deluge.common.fdate),
     "Tracker": (("tracker_host",), None),
-    "Save Path": (("save_path",), None),
+    "Download Folder": (("download_location",), None),
     "Downloaded": (("all_time_download",), deluge.common.fsize),
     "Uploaded": (("total_uploaded",), deluge.common.fsize),
     "Remaining": (("total_remaining",), deluge.common.fsize),
@@ -77,7 +77,8 @@ columns = {
     "Up Limit": (("max_upload_speed",), format_utils.format_speed),
     }
 
-def get_column_value(name,state):
+
+def get_column_value(name, state):
     try:
         col = columns[name]
     except KeyError:
@@ -85,7 +86,7 @@ def get_column_value(name,state):
 
     if col[1]:
         try:
-            args = [ state[key] for key in col[0] ]
+            args = [state[key] for key in col[0]]
         except:
             return "Please Wait"
         return col[1](*args)
@@ -95,11 +96,9 @@ def get_column_value(name,state):
         except:
             return "Please Wait"
 
+
 def get_required_fields(cols):
     fields = []
     for col in cols:
         fields.extend(columns.get(col)[0])
     return fields
-
-
-
