@@ -52,7 +52,7 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 
         var fieldset = this.add({
             xtype: 'fieldset',
-            title: _('Download Location'),
+            title: _('Download Folder'),
             border: false,
             autoHeight: true,
             defaultType: 'textfield',
@@ -68,7 +68,7 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
         }));
         var fieldset = this.add({
             xtype: 'fieldset',
-            title: _('Move Completed Location'),
+            title: _('Move Completed Folder'),
             border: false,
             autoHeight: true,
             defaultType: 'togglefield',

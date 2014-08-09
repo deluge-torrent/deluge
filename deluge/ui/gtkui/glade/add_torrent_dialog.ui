@@ -391,7 +391,7 @@
                           <object class="GtkLabel" id="label17">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Download Location</property>
+                            <property name="label" translatable="yes">Download Folder</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
                             </attributes>
@@ -446,7 +446,7 @@
                           <object class="GtkLabel" id="label1">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Move Complete Location</property>
+                            <property name="label" translatable="yes">Move Complete Folder</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
                             </attributes>

@@ -64,7 +64,7 @@ Deluge.MoveStorage = Ext.extend(Ext.Window, {
         });
 
         this.moveLocation = this.form.add({
-            fieldLabel: _('Location'),
+            fieldLabel: _('Download Folder'),
             name: 'location',
             width: 240
         });

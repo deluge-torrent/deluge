@@ -485,7 +485,7 @@ class AddTorrents(BaseMode, component.Component):
         self.popup.add_text(msg)
         self.popup.add_spaces(1)
 
-        self.popup.add_text_input("Save Location:","location", dl)
+        self.popup.add_text_input("Download Folder:","location", dl)
         self.popup.add_select_input("Add Paused:","add_paused",["Yes","No"],[True,False],ap)
 
 

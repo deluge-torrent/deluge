@@ -130,7 +130,7 @@ class DelugeHelpFormatter (optparse.IndentedHelpFormatter):
         "<tab>": "{!white!}%s{!input!}",
         "[_A-Z]{3,}": "{!cyan!}%s{!input!}",
 
-        "<save-location>": "{!yellow!}%s{!input!}",
+        "<download-folder>": "{!yellow!}%s{!input!}",
         "<torrent-file>": "{!green!}%s{!input!}"
 
     }

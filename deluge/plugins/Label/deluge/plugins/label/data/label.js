@@ -206,7 +206,7 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
                                 }]
                         }]
                 }, {
-                    title: _('Location'),
+                    title: _('Folders'),
                     items: [{
                             border: false,
                             items: [{
@@ -218,7 +218,7 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
                                             xtype: 'checkbox',
                                             name: 'apply_move_completed',
                                             fieldLabel: '',
-                                            boxLabel: _('Apply location settings:'),
+                                            boxLabel: _('Apply folder settings:'),
                                             listeners: {
                                                 check: this.onFieldChecked
                                             }
