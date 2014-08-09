@@ -218,18 +218,15 @@ class Core(component.Component):
     # Exported Methods
     @export
     def add_torrent_file(self, filename, filedump, options):
-        """
-        Adds a torrent file to the session.
+        """Adds a torrent file to the session.
 
-        :param filename: the filename of the torrent
-        :type filename: string
-        :param filedump:  a base64 encoded string of the torrent file contents
-        :type filedump: string
-        :param options: the options to apply to the torrent on add
-        :type options: dict
+        Args:
+            filename (str): the filename of the torrent
+            filedump (str): A base64 encoded string of the torrent file contents
+            options (dict): The options to apply to the torrent on add
 
-        :returns: the torrent_id as a str or None
-        :rtype: string
+        Returns:
+            str: The torrent_id or None
 
         """
         try:
@@ -867,11 +864,11 @@ class Core(component.Component):
         def on_get_page(result):
             return bool(int(result))
 
-        def logError(failure):
+        def on_error(failure):
             log.warning("Error testing listen port: %s", failure)
 
         d.addCallback(on_get_page)
-        d.addErrback(logError)
+        d.addErrback(on_error)
 
         return d
 

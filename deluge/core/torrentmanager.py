@@ -288,7 +288,7 @@ class TorrentManager(component.Component):
             return torrent_info
 
     def add(self, torrent_info=None, state=None, options=None, save_state=True,
-            filedump=None, filename=None, magnet=None, resume_data=None, seed_mode=False):
+            filedump=None, filename=None, magnet=None, resume_data=None):
         """Adds a torrent to the torrent manager.
 
         Args:
@@ -300,8 +300,6 @@ class TorrentManager(component.Component):
             filename (str, optional): The filename of the torrent file.
             magnet (str, optional): The magnet uri.
             resume_data (lt.entry, optional): libtorrent fast resume data.
-            seed_mode (bool, optional): If True will assume that all files are present.
-                for this torrent, defaults to False.
 
         Returns:
             str: The torrent_id of the added torrent.
@@ -451,7 +449,7 @@ class TorrentManager(component.Component):
         add_torrent_params["flags"] = ((default_flags
                                        | lt.add_torrent_params_flags_t.flag_duplicate_is_error)
                                        ^ lt.add_torrent_params_flags_t.flag_auto_managed)
-        if seed_mode:
+        if options["seed_mode"]:
             add_torrent_params["flags"] |= lt.add_torrent_params_flags_t.flag_seed_mode
 
         if magnet:

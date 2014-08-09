@@ -449,6 +449,7 @@ class AddTorrentDialog(component.Component):
             self.builder.get_object("chk_sequential_download").get_active() or False
         options["move_completed"] = \
             self.builder.get_object("chk_move_completed").get_active()
+        options["seed_mode"] = self.builder.get_object("chk_seed_mode").get_active()
 
         self.options[torrent_id] = options
 
@@ -491,6 +492,7 @@ class AddTorrentDialog(component.Component):
             self.core_config["sequential_download"])
         self.builder.get_object("chk_move_completed").set_active(
             self.core_config["move_completed"])
+        self.builder.get_object("chk_seed_mode").set_active(False)
 
     def get_file_priorities(self, torrent_id):
         # A list of priorities
@@ -762,7 +764,8 @@ class AddTorrentDialog(component.Component):
                 client.core.add_torrent_file(
                     os.path.split(filename)[-1],
                     base64.encodestring(self.infos[torrent_id]),
-                    options)
+                    options
+                    )
 
             row = self.torrent_liststore.iter_next(row)
         self.hide()

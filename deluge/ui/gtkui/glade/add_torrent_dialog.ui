@@ -88,6 +88,7 @@
                             <property name="layout_style">center</property>
                             <child>
                               <object class="GtkButton" id="button_file">
+                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
@@ -135,6 +136,7 @@
                             </child>
                             <child>
                               <object class="GtkButton" id="button_url">
+                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
@@ -182,6 +184,7 @@
                             </child>
                             <child>
                               <object class="GtkButton" id="button_hash">
+                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
@@ -229,6 +232,7 @@
                             </child>
                             <child>
                               <object class="GtkButton" id="button_remove">
+                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
@@ -423,6 +427,7 @@
                                 <property name="can_focus">False</property>
                                 <child>
                                   <object class="GtkCheckButton" id="chk_move_completed">
+                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
@@ -465,6 +470,129 @@
                         <property name="can_focus">False</property>
                         <property name="spacing">10</property>
                         <child>
+                          <object class="GtkFrame" id="frame6">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label_xalign">0</property>
+                            <property name="shadow_type">none</property>
+                            <child>
+                              <object class="GtkAlignment" id="alignment6">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="top_padding">5</property>
+                                <property name="left_padding">7</property>
+                                <property name="right_padding">12</property>
+                                <child>
+                                  <object class="GtkVBox" id="vbox5">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <child>
+                                      <object class="GtkCheckButton" id="chk_paused">
+                                        <property name="label" translatable="yes">Add In _Paused State</property>
+                                        <property name="use_action_appearance">False</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="use_underline">True</property>
+                                        <property name="draw_indicator">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="chk_prioritize">
+                                        <property name="label" translatable="yes">Prioritize First/Last Pieces</property>
+                                        <property name="use_action_appearance">False</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="draw_indicator">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="chk_sequential_download">
+                                        <property name="label" translatable="yes">Sequential Download</property>
+                                        <property name="use_action_appearance">False</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="has_tooltip">True</property>
+                                        <property name="tooltip_text" translatable="yes">When enabled, the piece picker will pick pieces in
+sequence instead of rarest first.
+
+Enabling sequential download will affect the piece
+distribution negatively in the swarm. It should be
+used sparingly.</property>
+                                        <property name="draw_indicator">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">2</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="chk_seed_mode">
+                                        <property name="label" translatable="yes">Skip File Hash Check</property>
+                                        <property name="use_action_appearance">False</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="tooltip_markup">Useful if adding a complete torrent for seeding.</property>
+                                        <property name="draw_indicator">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">3</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="chk_pre_alloc">
+                                        <property name="label" translatable="yes">Preallocate Disk Space</property>
+                                        <property name="use_action_appearance">False</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="tooltip_text" translatable="yes">Preallocate the disk space for the torrent files</property>
+                                        <property name="draw_indicator">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">4</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child type="label">
+                              <object class="GtkLabel" id="label15">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">General</property>
+                                <attributes>
+                                  <attribute name="weight" value="bold"/>
+                                </attributes>
+                              </object>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
                           <object class="GtkFrame" id="frame5">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
@@ -497,62 +625,66 @@
                                       <packing>
                                         <property name="left_attach">1</property>
                                         <property name="right_attach">2</property>
-                                        <property name="x_options"/>
-                                        <property name="y_options"/>
+                                        <property name="x_options"></property>
+                                        <property name="y_options"></property>
                                       </packing>
                                     </child>
                                     <child>
                                       <object class="GtkLabel" id="label11">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <property name="tooltip_text" translatable="yes">Maximum torrent download speed</property>
                                         <property name="xalign">0</property>
-                                        <property name="label" translatable="yes">Max Down Speed:</property>
+                                        <property name="label" translatable="yes">Down Speed:</property>
                                       </object>
                                       <packing>
                                         <property name="x_options">GTK_FILL</property>
-                                        <property name="y_options"/>
+                                        <property name="y_options"></property>
                                       </packing>
                                     </child>
                                     <child>
                                       <object class="GtkLabel" id="label12">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <property name="tooltip_text" translatable="yes">Maximum torrent upload speed</property>
                                         <property name="xalign">0</property>
-                                        <property name="label" translatable="yes">Max Up Speed:</property>
+                                        <property name="label" translatable="yes">Up Speed:</property>
                                       </object>
                                       <packing>
                                         <property name="top_attach">1</property>
                                         <property name="bottom_attach">2</property>
                                         <property name="x_options">GTK_FILL</property>
-                                        <property name="y_options"/>
+                                        <property name="y_options"></property>
                                       </packing>
                                     </child>
                                     <child>
                                       <object class="GtkLabel" id="label13">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <property name="tooltip_text" translatable="yes">Maximum torrent connections</property>
                                         <property name="xalign">0</property>
-                                        <property name="label" translatable="yes">Max Connections:</property>
+                                        <property name="label" translatable="yes">Connections:</property>
                                       </object>
                                       <packing>
                                         <property name="top_attach">2</property>
                                         <property name="bottom_attach">3</property>
                                         <property name="x_options">GTK_FILL</property>
-                                        <property name="y_options"/>
+                                        <property name="y_options"></property>
                                       </packing>
                                     </child>
                                     <child>
                                       <object class="GtkLabel" id="label14">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <property name="tooltip_text" translatable="yes">Maximum torrent upload slots</property>
                                         <property name="xalign">0</property>
-                                        <property name="label" translatable="yes">Max Upload Slots:</property>
+                                        <property name="label" translatable="yes">Upload Slots:</property>
                                       </object>
                                       <packing>
                                         <property name="top_attach">3</property>
                                         <property name="bottom_attach">4</property>
                                         <property name="x_options">GTK_FILL</property>
-                                        <property name="y_options"/>
+                                        <property name="y_options"></property>
                                       </packing>
                                     </child>
                                     <child>
@@ -572,8 +704,8 @@
                                         <property name="right_attach">2</property>
                                         <property name="top_attach">1</property>
                                         <property name="bottom_attach">2</property>
-                                        <property name="x_options"/>
-                                        <property name="y_options"/>
+                                        <property name="x_options"></property>
+                                        <property name="y_options"></property>
                                       </packing>
                                     </child>
                                     <child>
@@ -592,8 +724,8 @@
                                         <property name="right_attach">2</property>
                                         <property name="top_attach">2</property>
                                         <property name="bottom_attach">3</property>
-                                        <property name="x_options"/>
-                                        <property name="y_options"/>
+                                        <property name="x_options"></property>
+                                        <property name="y_options"></property>
                                       </packing>
                                     </child>
                                     <child>
@@ -612,8 +744,8 @@
                                         <property name="right_attach">2</property>
                                         <property name="top_attach">3</property>
                                         <property name="bottom_attach">4</property>
-                                        <property name="x_options"/>
-                                        <property name="y_options"/>
+                                        <property name="x_options"></property>
+                                        <property name="y_options"></property>
                                       </packing>
                                     </child>
                                   </object>
@@ -637,108 +769,6 @@
                             <property name="position">1</property>
                           </packing>
                         </child>
-                        <child>
-                          <object class="GtkFrame" id="frame6">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label_xalign">0</property>
-                            <property name="shadow_type">none</property>
-                            <child>
-                              <object class="GtkAlignment" id="alignment6">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="top_padding">5</property>
-                                <property name="left_padding">12</property>
-                                <child>
-                                  <object class="GtkVBox" id="vbox5">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <child>
-                                      <object class="GtkCheckButton" id="chk_prioritize">
-                                        <property name="label" translatable="yes">Prioritize First/Last Pieces</property>
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">False</property>
-                                        <property name="draw_indicator">True</property>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">0</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkCheckButton" id="chk_sequential_download">
-                                        <property name="label" translatable="yes">Sequential Download</property>
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">False</property>
-                                        <property name="has_tooltip">True</property>
-                                        <property name="tooltip_text" translatable="yes">When enabled, the piece picker will pick pieces in
-sequence instead of rarest first.
-
-Enabling sequential download will affect the piece
-distribution negatively in the swarm. It should be
-used sparingly.</property>
-                                        <property name="draw_indicator">True</property>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">1</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkCheckButton" id="chk_paused">
-                                        <property name="label" translatable="yes">Add In _Paused State</property>
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">False</property>
-                                        <property name="use_underline">True</property>
-                                        <property name="draw_indicator">True</property>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">2</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkCheckButton" id="chk_pre_alloc">
-                                        <property name="label" translatable="yes">Pre-allocate disk space</property>
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">False</property>
-                                        <property name="tooltip_text" translatable="yes">Pre-allocate the disk space for the torrent files</property>
-                                        <property name="draw_indicator">True</property>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">3</property>
-                                      </packing>
-                                    </child>
-                                  </object>
-                                </child>
-                              </object>
-                            </child>
-                            <child type="label">
-                              <object class="GtkLabel" id="label15">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">General</property>
-                                <attributes>
-                                  <attribute name="weight" value="bold"/>
-                                </attributes>
-                              </object>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">2</property>
-                          </packing>
-                        </child>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -757,6 +787,7 @@ used sparingly.</property>
                             <property name="can_focus">False</property>
                             <child>
                               <object class="GtkButton" id="button_apply">
+                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
@@ -810,6 +841,7 @@ used sparingly.</property>
                             <property name="can_focus">False</property>
                             <child>
                               <object class="GtkButton" id="button_revert">
+                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
@@ -924,6 +956,7 @@ used sparingly.</property>
             <child>
               <object class="GtkButton" id="button_cancel">
                 <property name="label">gtk-cancel</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -939,6 +972,7 @@ used sparingly.</property>
             <child>
               <object class="GtkButton" id="button_add">
                 <property name="label">gtk-add</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>

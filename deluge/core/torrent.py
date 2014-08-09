@@ -118,6 +118,7 @@ class TorrentOptions(dict):
         mapped_files (dict): A mapping of the renamed filenames in 'index:filename' pairs.
         owner (str): The user this torrent belongs to.
         name (str): The display name of the torrent.
+        seed_mode (bool): Assume that all files are present for this torrent (Only used when adding a torent).
     """
     def __init__(self):
         super(TorrentOptions, self).__init__()
@@ -148,6 +149,7 @@ class TorrentOptions(dict):
         self["mapped_files"] = {}
         self["owner"] = ""
         self["name"] = ""
+        self["seed_mode"] = False
 
 
 class Torrent(object):
