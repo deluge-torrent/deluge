@@ -196,7 +196,7 @@ class Tracker(resource.Resource):
             request.finish()
 
     def render(self, request):
-        d = self.tracker_icons.get(request.tracker_name)
+        d = self.tracker_icons.fetch(request.tracker_name)
         d.addCallback(self.on_got_icon, request)
         return server.NOT_DONE_YET
 
@@ -207,7 +207,7 @@ class Flag(resource.Resource):
 
     def render(self, request):
         headers = {}
-        path = ("data", "pixmaps", "flags", request.country.lower() + ".png")
+        path = ("ui", "data", "pixmaps", "flags", request.country.lower() + ".png")
         filename = common.resource_filename("deluge", os.path.join(*path))
         if os.path.exists(filename):
             request.setHeader("cache-control",
