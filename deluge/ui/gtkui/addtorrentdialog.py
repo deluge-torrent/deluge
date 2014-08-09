@@ -59,6 +59,7 @@ from deluge.ui.gtkui.path_chooser import PathChooser
 
 log = logging.getLogger(__name__)
 
+
 class AddTorrentDialog(component.Component):
     def __init__(self):
         component.Component.__init__(self, "AddTorrentDialog")
@@ -95,8 +96,8 @@ class AddTorrentDialog(component.Component):
 
         self.torrent_liststore = gtk.ListStore(str, str, str)
         #download?, path, filesize, sequence number, inconsistent?
-        self.files_treestore = gtk.TreeStore(bool, str, gobject.TYPE_UINT64,
-                                        gobject.TYPE_INT64, bool, str)
+        self.files_treestore = gtk.TreeStore(
+            bool, str, gobject.TYPE_UINT64, gobject.TYPE_INT64, bool, str)
         self.files_treestore.set_sort_column_id(1, gtk.SORT_ASCENDING)
 
         # Holds the files info
@@ -106,7 +107,6 @@ class AddTorrentDialog(component.Component):
         self.options = {}
 
         self.previous_selected_torrent = None
-
 
         self.listview_torrents = self.builder.get_object("listview_torrents")
         self.listview_files = self.builder.get_object("listview_files")
@@ -142,8 +142,7 @@ class AddTorrentDialog(component.Component):
         self.listview_files.set_model(self.files_treestore)
 
         self.listview_files.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
-        self.listview_torrents.get_selection().connect("changed",
-                                    self._on_torrent_changed)
+        self.listview_torrents.get_selection().connect("changed", self._on_torrent_changed)
 
         self.setup_move_completed_path_chooser()
         self.setup_download_location_path_chooser()
@@ -208,7 +207,6 @@ class AddTorrentDialog(component.Component):
         return client.core.get_config_values(self.core_keys).addCallback(_on_config_values)
 
     def add_from_files(self, filenames):
-        import os.path
         new_row = None
 
         for filename in filenames:
@@ -229,9 +227,7 @@ class AddTorrentDialog(component.Component):
                 ).run()
                 continue
 
-            name = "%s (%s)" % (info.name, os.path.split(filename)[-1])
-            new_row = self.torrent_liststore.append(
-                [info.info_hash, info.name, filename])
+            new_row = self.torrent_liststore.append([info.info_hash, info.name, filename])
             self.files[info.info_hash] = info.files
             self.infos[info.info_hash] = info.filedata
             self.listview_torrents.get_selection().select_iter(new_row)
@@ -244,7 +240,6 @@ class AddTorrentDialog(component.Component):
             self.listview_torrents.get_selection().select_iter(new_row)
 
     def add_from_magnets(self, uris):
-        import base64
         new_row = None
 
         for uri in uris:
@@ -308,7 +303,7 @@ class AddTorrentDialog(component.Component):
     def prepare_file_store(self, files):
         self.listview_files.set_model(None)
         self.files_treestore.clear()
-        split_files = { }
+        split_files = {}
         i = 0
         for file in files:
             self.prepare_file(
@@ -326,16 +321,16 @@ class AddTorrentDialog(component.Component):
         else:
             file_name_chunk = file_name[:first_slash_index+1]
             if file_name_chunk not in files_storage:
-                files_storage[file_name_chunk] = { }
+                files_storage[file_name_chunk] = {}
             self.prepare_file(file, file_name[first_slash_index+1:],
                               file_num, download, files_storage[file_name_chunk])
 
     def add_files(self, parent_iter, split_files):
         ret = 0
-        for key,value in split_files.iteritems():
+        for key, value in split_files.iteritems():
             if key.endswith(os.path.sep):
-                chunk_iter = self.files_treestore.append(parent_iter,
-                                [True, key, 0, -1, False, gtk.STOCK_DIRECTORY])
+                chunk_iter = self.files_treestore.append(
+                    parent_iter, [True, key, 0, -1, False, gtk.STOCK_DIRECTORY])
                 chunk_size = self.add_files(chunk_iter, value)
                 self.files_treestore.set(chunk_iter, 2, chunk_size)
                 ret += chunk_size
@@ -370,8 +365,10 @@ class AddTorrentDialog(component.Component):
         return ret
 
     def load_path_choosers_data(self):
-        self.move_completed_path_chooser.set_text(self.core_config["move_completed_path"], cursor_end=False, default_text=True)
-        self.download_location_path_chooser.set_text(self.core_config["download_location"], cursor_end=False, default_text=True)
+        self.move_completed_path_chooser.set_text(self.core_config["move_completed_path"],
+                                                  cursor_end=False, default_text=True)
+        self.download_location_path_chooser.set_text(self.core_config["download_location"],
+                                                     cursor_end=False, default_text=True)
         self.builder.get_object("chk_move_completed").set_active(self.core_config["move_completed"])
 
     def setup_move_completed_path_chooser(self):
@@ -420,7 +417,7 @@ class AddTorrentDialog(component.Component):
         # selected.
         if row is None:
             if self.previous_selected_torrent and \
-                self.torrent_liststore.iter_is_valid(self.previous_selected_torrent):
+                    self.torrent_liststore.iter_is_valid(self.previous_selected_torrent):
                 row = self.previous_selected_torrent
             else:
                 return
@@ -467,11 +464,9 @@ class AddTorrentDialog(component.Component):
     def build_priorities(self, iter, priorities):
         while iter is not None:
             if self.files_treestore.iter_has_child(iter):
-                self.build_priorities(self.files_treestore.iter_children(iter),
-                                          priorities)
+                self.build_priorities(self.files_treestore.iter_children(iter), priorities)
             elif not self.files_treestore.get_value(iter, 1).endswith(os.path.sep):
-                priorities[self.files_treestore.get_value(iter, 3)] = \
-                                        self.files_treestore.get_value(iter, 0)
+                priorities[self.files_treestore.get_value(iter, 3)] = self.files_treestore.get_value(iter, 0)
             iter = self.files_treestore.iter_next(iter)
         return priorities
 
@@ -531,13 +526,12 @@ class AddTorrentDialog(component.Component):
                 child = self.files_treestore.iter_next(child)
 
     def update_treeview_toggles(self, iter):
-        TOGGLE_INCONSISTENT = -1
+        toggle_inconsistent = -1
         this_level_toggle = None
         while iter is not None:
             if self.files_treestore.iter_has_child(iter):
-                toggle = self.update_treeview_toggles(
-                        self.files_treestore.iter_children(iter))
-                if toggle == TOGGLE_INCONSISTENT:
+                toggle = self.update_treeview_toggles(self.files_treestore.iter_children(iter))
+                if toggle == toggle_inconsistent:
                     self.files_treestore.set_value(iter, 4, True)
                 else:
                     self.files_treestore.set_value(iter, 0, toggle)
@@ -548,7 +542,7 @@ class AddTorrentDialog(component.Component):
             if this_level_toggle is None:
                 this_level_toggle = toggle
             elif this_level_toggle != toggle:
-                this_level_toggle = TOGGLE_INCONSISTENT
+                this_level_toggle = toggle_inconsistent
             iter = self.files_treestore.iter_next(iter)
         return this_level_toggle
 
@@ -749,7 +743,7 @@ class AddTorrentDialog(component.Component):
             self.save_torrent_options(row)
 
         row = self.torrent_liststore.get_iter_first()
-        while row != None:
+        while row is not None:
             torrent_id = self.torrent_liststore.get_value(row, 0)
             filename = self.torrent_liststore.get_value(row, 2)
             try:
@@ -758,7 +752,7 @@ class AddTorrentDialog(component.Component):
                 options = None
 
             file_priorities = self.get_file_priorities(torrent_id)
-            if options != None:
+            if options is not None:
                 options["file_priorities"] = file_priorities
 
             if deluge.common.is_magnet(filename):
@@ -787,7 +781,7 @@ class AddTorrentDialog(component.Component):
 
         # Set all the torrent options
         row = model.get_iter_first()
-        while row != None:
+        while row is not None:
             torrent_id = model.get_value(row, 0)
             self.options[torrent_id].update(options)
             row = model.iter_next(row)
@@ -851,8 +845,7 @@ class AddTorrentDialog(component.Component):
                 # and then move the file iter to top
                 split_text = new_text.split(os.path.sep)
                 for s in split_text[:-1]:
-                    parent = self.files_treestore.append(parent,
-                                [True, s, 0, -1, False, gtk.STOCK_DIRECTORY])
+                    parent = self.files_treestore.append(parent, [True, s, 0, -1, False, gtk.STOCK_DIRECTORY])
 
                 self.files_treestore[itr][1] = split_text[-1]
                 common.reparent_iter(self.files_treestore, itr, parent)
