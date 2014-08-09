@@ -1,38 +1,13 @@
-#
-# menubar.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
 #
-# Deluge is free software.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
-#
+
 
 import os.path
 import pygtk
@@ -179,8 +154,6 @@ class MenuBar(component.Component):
             "menuitem_addtorrent"
         ]
 
-        self.config.register_set_function("classic_mode", self._on_classic_mode)
-
         client.register_event_handler("TorrentStateChangedEvent", self.on_torrentstatechanged_event)
         client.register_event_handler("TorrentResumedEvent", self.on_torrentresumed_event)
         client.register_event_handler("SessionPausedEvent", self.on_sessionpaused_event)
@@ -204,9 +177,9 @@ class MenuBar(component.Component):
                 self.builder.get_object(widget).hide()
                 self.builder.get_object(widget).set_no_show_all(True)
 
-        if not self.config["classic_mode"]:
-            self.main_builder.get_object("separatormenuitem").show()
-            self.main_builder.get_object("menuitem_quitdaemon").show()
+        self.main_builder.get_object("separatormenuitem").set_visible(not self.config["classic_mode"])
+        self.main_builder.get_object("menuitem_quitdaemon").set_visible(not self.config["classic_mode"])
+        self.main_builder.get_object("menuitem_connectionmanager").set_visible(not self.config["classic_mode"])
 
         # Show the Torrent menu because we're connected to a host
         self.menu_torrent.show()
@@ -502,12 +475,6 @@ class MenuBar(component.Component):
     def on_menuitem_sidebar_trackers_toggled(self, widget):
         self.config["sidebar_show_trackers"] = widget.get_active()
         component.get("FilterTreeView").update()
-
-    def _on_classic_mode(self, key, value):
-        if value:
-            self.main_builder.get_object("menuitem_connectionmanager").hide()
-        else:
-            self.main_builder.get_object("menuitem_connectionmanager").show()
 
     def _on_known_accounts(self, known_accounts):
         known_accounts_to_log = []

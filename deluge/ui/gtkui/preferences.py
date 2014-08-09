@@ -786,27 +786,22 @@ class Preferences(component.Component):
             # Re-show the dialog to make sure everything has been updated
             self.show()
 
-        if classic_mode_was_set and not new_gtkui_in_classic_mode:
+        if classic_mode_was_set != new_gtkui_in_classic_mode:
             def on_response(response):
-                if response == gtk.RESPONSE_NO:
-                    # Set each changed config value in the core
-                    self.gtkui_config["classic_mode"] = True
-                    self.builder.get_object("radio_classic").set_active(True)
+                if response == gtk.RESPONSE_YES:
+                    shutdown_daemon = (not client.is_classicmode() and
+                                       client.connected() and
+                                       client.is_localhost())
+                    component.get("MainWindow").quit(shutdown=shutdown_daemon)
                 else:
-                    client.disconnect()
-                    component.stop()
-                    self.builder.get_object("radio_thinclient").set_active(True)
+                    self.gtkui_config["classic_mode"] = not new_gtkui_in_classic_mode
+                    self.builder.get_object("radio_classic").set_active(self.gtkui_config["classic_mode"])
+                    self.builder.get_object("radio_thinclient").set_active(not self.gtkui_config["classic_mode"])
             dialog = dialogs.YesNoDialog(
-                _("Attention"),
-                _("Your current session will be stopped. Continue?")
+                _("Switching client mode..."),
+                _("Your current session will be stopped. Do you wish to continue?")
             )
             dialog.run().addCallback(on_response)
-        elif not classic_mode_was_set and new_gtkui_in_classic_mode:
-            dialog = dialogs.InformationDialog(
-                _("Attention"),
-                _("You must now restart the deluge UI")
-            )
-            dialog.run()
 
     def hide(self):
         self.window_open = False

@@ -54,7 +54,7 @@ class BaseDialog(gtk.Dialog):
             MainWindow
         """
         super(BaseDialog, self).__init__(
-            title="",
+            title=header,
             parent=parent if parent else component.get("MainWindow").window,
             flags=gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT | gtk.DIALOG_NO_SEPARATOR,
             buttons=buttons)
@@ -80,11 +80,6 @@ class BaseDialog(gtk.Dialog):
         image.set_alignment(0.5, 0.0)
         hbox.pack_start(image, False, False)
         vbox = gtk.VBox(spacing=5)
-        label = gtk.Label("<b><big>" + header + "</big></b>")
-        label.set_use_markup(True)
-        label.set_alignment(0.0, 0.5)
-        label.set_line_wrap(True)
-        vbox.pack_start(label, False, False)
         tlabel = gtk.Label(text)
         tlabel.set_use_markup(True)
         tlabel.set_line_wrap(True)

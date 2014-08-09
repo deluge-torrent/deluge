@@ -416,7 +416,7 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
-                                            <property name="tooltip_text" translatable="yes">The classic self-contained application</property>
+                                            <property name="tooltip_text" translatable="yes">The standalone self-contained application</property>
                                             <property name="active">True</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
@@ -520,19 +520,16 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
-                                            <property name="tooltip_text" translatable="yes">Besides being experimental, using the pieces bar
-will increase the bandwidth used between client
-and daemon(does not apply in classic mode).
-Use at your own risk if you wish to help us debug
-this new feature.</property>
+                                            <property name="tooltip_text" translatable="yes">The pieces bar
+will increase bandwidth use between client
+and daemon (does not apply in Standalone mode).</property>
                                             <property name="draw_indicator">True</property>
                                             <signal name="toggled" handler="on_piecesbar_toggle_toggled" swapped="no"/>
                                             <child>
                                               <object class="GtkLabel" id="label62">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="label" translatable="yes">Show a pieces bar in the torrent's
-status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
+                                                <property name="label" translatable="yes">Show a pieces bar in Status tab</property>
                                                 <property name="use_markup">True</property>
                                               </object>
                                             </child>
@@ -4364,7 +4361,7 @@ Requires a Hex value.</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
-                                                <property name="tooltip_text" translatable="yes">Hostnames should be attempted to be resolved through 
+                                                <property name="tooltip_text" translatable="yes">Hostnames should be attempted to be resolved through
 the proxy instead of using the local DNS service</property>
                                                 <property name="active">True</property>
                                                 <property name="draw_indicator">True</property>

@@ -323,31 +323,34 @@ class GtkUI(object):
         self.mainwindow.first_show()
 
         if self.config["classic_mode"]:
-
             def on_dialog_response(response):
                 if response != gtk.RESPONSE_YES:
-                    # The user does not want to turn Classic Mode off, so just quit
+                    # The user does not want to turn Standalone Mode off, so just quit
                     self.mainwindow.quit()
                     return
                 # Turning off classic_mode
                 self.config["classic_mode"] = False
                 self.__start_non_classic()
+
             try:
                 try:
                     client.start_classic_mode()
                 except deluge.error.DaemonRunningError:
                     d = dialogs.YesNoDialog(
-                        _("Turn off Classic Mode?"),
-                        _("It appears that a Deluge daemon process (deluged) is already running.\n\n\
-You will either need to stop the daemon or turn off Classic Mode to continue.")).run()
+                        _("Switch to Thin Client Mode?"),
+                        _("A Deluge daemon process (deluged) is already running. "
+                          "To use Standalone mode, stop this daemon and restart Deluge."
+                          "\n\n"
+                          "Continue in Thin Client mode?")).run()
                     self.started_in_classic = False
                     d.addCallback(on_dialog_response)
                 except ImportError, e:
                     if "No module named libtorrent" in e.message:
                         d = dialogs.YesNoDialog(
-                            _("Enable Thin Client Mode?"),
-                            _("Thin client mode is only available because libtorrent is not installed.\n\n\
-To use Deluge standalone (Classic mode) please install libtorrent.")).run()
+                            _("Switch to Thin Client Mode?"),
+                            _("Only Thin Client mode is available because libtorrent is not installed."
+                              "\n\n"
+                              "To use Deluge Standalone mode, please install libtorrent.")).run()
                         self.started_in_classic = False
                         d.addCallback(on_dialog_response)
                     else:
@@ -360,13 +363,14 @@ To use Deluge standalone (Classic mode) please install libtorrent.")).run()
                 tb = sys.exc_info()
                 ed = dialogs.ErrorDialog(
                     _("Error Starting Core"),
-                    _("There was an error starting the core component which is required to run Deluge in Classic Mode.\n\n\
-Please see the details below for more information."), details=traceback.format_exc(tb[2])).run()
+                    _("An error occurred starting the core component required to run Deluge in Standalone mode."
+                      "\n\n"
+                      "Please see the details below for more information."), details=traceback.format_exc(tb[2])).run()
 
                 def on_ed_response(response):
                     d = dialogs.YesNoDialog(
-                        _("Turn off Classic Mode?"),
-                        _("Since there was an error starting in Classic Mode would you like to continue by turning it off?")
+                        _("Switch to Thin Client Mode?"),
+                        _("Unable to start Standalone mode would you like to continue in Thin Client mode?")
                     ).run()
                     self.started_in_classic = False
                     d.addCallback(on_dialog_response)
