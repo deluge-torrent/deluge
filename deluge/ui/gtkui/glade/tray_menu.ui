@@ -6,7 +6,6 @@
   <object class="GtkImage" id="download-limit-image">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-go-down</property>
     <property name="icon-size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image1">
@@ -61,7 +60,6 @@
         <property name="use_underline">True</property>
         <property name="image">menu-item-image1</property>
         <property name="use_stock">False</property>
-        <property name="always_show_image">True</property>
         <signal name="activate" handler="on_menuitem_add_torrent_activate" swapped="no"/>
       </object>
     </child>
@@ -165,7 +163,6 @@
   <object class="GtkImage" id="upload-limit-image">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-go-up</property>
     <property name="icon-size">1</property>
   </object>
 </interface>
