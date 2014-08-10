@@ -85,6 +85,9 @@ class OptionsDialog():
         self.glade.get_widget('delete_copy_torrent_toggle').set_active(
             options.get('delete_copy_torrent_toggle', False)
         )
+        self.glade.get_widget('seed_mode').set_active(
+            options.get('seed_mode', False)
+        )
         self.accounts.clear()
         self.labels.clear()
         combobox = self.glade.get_widget('OwnerCombobox')
@@ -319,7 +322,7 @@ class OptionsDialog():
 
         for key in ['append_extension_toggle', 'download_location_toggle',
                     'label_toggle', 'copy_torrent_toggle',
-                    'delete_copy_torrent_toggle']:
+                    'delete_copy_torrent_toggle', 'seed_mode']:
             options[key] = self.glade.get_widget(key).get_active()
 
         for id in self.spin_ids:

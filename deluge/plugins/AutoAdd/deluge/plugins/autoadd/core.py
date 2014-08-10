@@ -59,7 +59,8 @@ OPTIONS_AVAILABLE = {  # option: builtin
     "label": False,
     "add_paused": True,
     "queue_to_top": False,
-    "owner": "localclient"
+    "owner": True,
+    "seed_mode": True
 }
 
 MAX_NUM_ATTEMPTS = 10
@@ -222,7 +223,7 @@ class Core(CorePluginBase):
         # without them is valid, and applies all its settings.
         for option, value in watchdir.iteritems():
             if OPTIONS_AVAILABLE.get(option):
-                if watchdir.get(option+'_toggle', True) or option == "owner":
+                if watchdir.get(option+'_toggle', True) or option in ["owner", "seed_mode"]:
                     opts[option] = value
 
         # Check for .magnet files containing multiple magnet links and
