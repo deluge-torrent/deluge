@@ -1,5 +1,4 @@
-#
-# core.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 GazpachoKing <chase.sterling@gmail.com>
 # Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
@@ -9,33 +8,9 @@
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 from deluge._libtorrent import lt
@@ -55,46 +30,51 @@ from deluge.event import DelugeEvent
 
 log = logging.getLogger(__name__)
 
+
 DEFAULT_PREFS = {
-    "watchdirs":{},
-    "next_id":1
+    "watchdirs": {},
+    "next_id": 1
 }
 
-OPTIONS_AVAILABLE = { #option: builtin
-    "enabled":False,
-    "path":False,
-    "append_extension":False,
+
+OPTIONS_AVAILABLE = {  # option: builtin
+    "enabled": False,
+    "path": False,
+    "append_extension": False,
     "copy_torrent": False,
     "delete_copy_torrent_toggle": False,
-    "abspath":False,
-    "download_location":True,
-    "max_download_speed":True,
-    "max_upload_speed":True,
-    "max_connections":True,
-    "max_upload_slots":True,
-    "prioritize_first_last":True,
-    "auto_managed":True,
-    "stop_at_ratio":True,
-    "stop_ratio":True,
-    "remove_at_ratio":True,
-    "move_completed":True,
-    "move_completed_path":True,
-    "label":False,
-    "add_paused":True,
-    "queue_to_top":False,
+    "abspath": False,
+    "download_location": True,
+    "max_download_speed": True,
+    "max_upload_speed": True,
+    "max_connections": True,
+    "max_upload_slots": True,
+    "prioritize_first_last": True,
+    "auto_managed": True,
+    "stop_at_ratio": True,
+    "stop_ratio": True,
+    "remove_at_ratio": True,
+    "move_completed": True,
+    "move_completed_path": True,
+    "label": False,
+    "add_paused": True,
+    "queue_to_top": False,
     "owner": "localclient"
 }
 
 MAX_NUM_ATTEMPTS = 10
+
 
 class AutoaddOptionsChangedEvent(DelugeEvent):
     """Emitted when the options for the plugin are changed."""
     def __init__(self):
         pass
 
-def CheckInput(cond, message):
+
+def check_input(cond, message):
     if not cond:
         raise Exception(message)
+
 
 class Core(CorePluginBase):
     def enable(self):
@@ -138,12 +118,12 @@ class Core(CorePluginBase):
         """Update the options for a watch folder."""
         watchdir_id = str(watchdir_id)
         options = self._make_unicode(options)
-        CheckInput(
+        check_input(
             watchdir_id in self.watchdirs, _("Watch folder does not exist.")
         )
-        if options.has_key('path'):
+        if "path" in options:
             options['abspath'] = os.path.abspath(options['path'])
-            CheckInput(
+            check_input(
                 os.path.isdir(options['abspath']), _("Path does not exist.")
             )
             for w_id, w in self.watchdirs.iteritems():
@@ -174,14 +154,14 @@ class Core(CorePluginBase):
 
             filedump = _file.read()
             if not filedump:
-                raise RuntimeError, "Torrent is 0 bytes!"
+                raise RuntimeError("Torrent is 0 bytes!")
             _file.close()
         except IOError, e:
             log.warning("Unable to open %s: %s", filename, e)
             raise e
 
         # Get the info to see if any exceptions are raised
-        if magnet == False:
+        if not magnet:
             lt.torrent_info(lt.bdecode(filedump))
 
         return base64.encodestring(filedump)
@@ -421,9 +401,9 @@ class Core(CorePluginBase):
         """Add a watch folder."""
         options = self._make_unicode(options)
         abswatchdir = os.path.abspath(options['path'])
-        CheckInput(os.path.isdir(abswatchdir) , _("Path does not exist."))
-        CheckInput(
-            os.access(abswatchdir, os.R_OK|os.W_OK),
+        check_input(os.path.isdir(abswatchdir), _("Path does not exist."))
+        check_input(
+            os.access(abswatchdir, os.R_OK | os.W_OK),
             "You must have read and write access to watch folder."
         )
         if abswatchdir in [wd['abspath'] for wd in self.watchdirs.itervalues()]:
@@ -443,8 +423,7 @@ class Core(CorePluginBase):
     def remove(self, watchdir_id):
         """Remove a watch folder."""
         watchdir_id = str(watchdir_id)
-        CheckInput(watchdir_id in self.watchdirs,
-                   "Unknown Watchdir: %s" % self.watchdirs)
+        check_input(watchdir_id in self.watchdirs, "Unknown Watchdir: %s" % self.watchdirs)
         if self.watchdirs[watchdir_id]['enabled']:
             self.disable_watchdir(watchdir_id)
         del self.watchdirs[watchdir_id]

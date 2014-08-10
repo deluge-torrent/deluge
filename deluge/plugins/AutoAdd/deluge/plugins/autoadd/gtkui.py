@@ -1,5 +1,4 @@
-#
-# gtkui.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 GazpachoKing <chase.sterling@gmail.com>
 #
@@ -8,33 +7,9 @@
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 import gtk
@@ -51,8 +26,10 @@ from common import get_resource
 
 log = logging.getLogger(__name__)
 
+
 class IncompatibleOption(Exception):
     pass
+
 
 class OptionsDialog():
     spin_ids = ["max_download_speed", "max_upload_speed", "stop_ratio"]
@@ -68,11 +45,11 @@ class OptionsDialog():
     def show(self, options={}, watchdir_id=None):
         self.glade = gtk.glade.XML(get_resource("autoadd_options.glade"))
         self.glade.signal_autoconnect({
-            "on_opts_add":self.on_add,
-            "on_opts_apply":self.on_apply,
-            "on_opts_cancel":self.on_cancel,
-            "on_options_dialog_close":self.on_cancel,
-            "on_toggle_toggled":self.on_toggle_toggled
+            "on_opts_add": self.on_add,
+            "on_opts_apply": self.on_apply,
+            "on_opts_cancel": self.on_cancel,
+            "on_options_dialog_close": self.on_cancel,
+            "on_toggle_toggled": self.on_toggle_toggled
         })
         self.dialog = self.glade.get_widget("options_dialog")
         self.dialog.set_transient_for(component.get("Preferences").pref_dialog)
@@ -287,7 +264,7 @@ class OptionsDialog():
             self.glade.get_widget('stop_ratio').set_sensitive(isactive)
             self.glade.get_widget('remove_at_ratio').set_sensitive(isactive)
 
-    def on_apply(self, Event=None):
+    def on_apply(self, event=None):
         try:
             options = self.generate_opts()
             client.autoadd.set_options(
@@ -295,7 +272,6 @@ class OptionsDialog():
             ).addCallbacks(self.on_added, self.on_error_show)
         except IncompatibleOption, err:
             dialogs.ErrorDialog(_("Incompatible Option"), str(err), self.dialog).run()
-
 
     def on_error_show(self, result):
         d = dialogs.ErrorDialog(_("Error"), result.value.exception_msg, self.dialog)
@@ -305,14 +281,14 @@ class OptionsDialog():
     def on_added(self, result):
         self.dialog.destroy()
 
-    def on_add(self, Event=None):
+    def on_add(self, event=None):
         try:
             options = self.generate_opts()
             client.autoadd.add(options).addCallbacks(self.on_added, self.on_error_show)
         except IncompatibleOption, err:
             dialogs.ErrorDialog(_("Incompatible Option"), str(err), self.dialog).run()
 
-    def on_cancel(self, Event=None):
+    def on_cancel(self, event=None):
         self.dialog.destroy()
 
     def generate_opts(self):
@@ -424,32 +400,32 @@ class GtkUI(GtkPluginBase):
             ])
         return store
 
-    def create_columns(self, treeView):
-        rendererToggle = gtk.CellRendererToggle()
+    def create_columns(self, treeview):
+        renderer_toggle = gtk.CellRendererToggle()
         column = gtk.TreeViewColumn(
-            _("Active"), rendererToggle, activatable=1, active=1
+            _("Active"), renderer_toggle, activatable=1, active=1
         )
         column.set_sort_column_id(1)
-        treeView.append_column(column)
+        treeview.append_column(column)
         tt = gtk.Tooltip()
         tt.set_text(_('Double-click to toggle'))
-        treeView.set_tooltip_cell(tt, None, None, rendererToggle)
+        treeview.set_tooltip_cell(tt, None, None, renderer_toggle)
 
-        rendererText = gtk.CellRendererText()
-        column = gtk.TreeViewColumn(_("Owner"), rendererText, text=2)
+        renderertext = gtk.CellRendererText()
+        column = gtk.TreeViewColumn(_("Owner"), renderertext, text=2)
         column.set_sort_column_id(2)
-        treeView.append_column(column)
+        treeview.append_column(column)
         tt2 = gtk.Tooltip()
         tt2.set_text(_('Double-click to edit'))
-        treeView.set_has_tooltip(True)
+        treeview.set_has_tooltip(True)
 
-        rendererText = gtk.CellRendererText()
-        column = gtk.TreeViewColumn(_("Path"), rendererText, text=3)
+        renderertext = gtk.CellRendererText()
+        column = gtk.TreeViewColumn(_("Path"), renderertext, text=3)
         column.set_sort_column_id(3)
-        treeView.append_column(column)
+        treeview.append_column(column)
         tt2 = gtk.Tooltip()
         tt2.set_text(_('Double-click to edit'))
-        treeView.set_has_tooltip(True)
+        treeview.set_has_tooltip(True)
 
     def load_watchdir_list(self):
         pass
@@ -457,17 +433,17 @@ class GtkUI(GtkPluginBase):
     def add_watchdir_entry(self):
         pass
 
-    def on_add_button_clicked(self, Event=None):
+    def on_add_button_clicked(self, event=None):
         #display options_window
         self.opts_dialog.show()
 
-    def on_remove_button_clicked(self, Event=None):
+    def on_remove_button_clicked(self, event=None):
         tree, tree_id = self.treeView.get_selection().get_selected()
         watchdir_id = str(self.store.get_value(tree_id, 0))
         if watchdir_id:
             client.autoadd.remove(watchdir_id)
 
-    def on_edit_button_clicked(self, Event=None, a=None, col=None):
+    def on_edit_button_clicked(self, event=None, a=None, col=None):
         tree, tree_id = self.treeView.get_selection().get_selected()
         watchdir_id = str(self.store.get_value(tree_id, 0))
         if watchdir_id:
