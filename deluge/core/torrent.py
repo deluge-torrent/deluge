@@ -7,7 +7,12 @@
 # See LICENSE for more details.
 #
 
-"""Internal Torrent class"""
+"""Internal Torrent class
+
+Attributes:
+    LT_TORRENT_STATE_MAP (dict): Maps the torrent state from libtorrent to Deluge state.
+
+"""
 
 from __future__ import division
 
@@ -22,10 +27,20 @@ import deluge.component as component
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.event import TorrentStateChangedEvent, TorrentFolderRenamedEvent
 from deluge.common import decode_string, utf8_encoded, TORRENT_STATE
-from deluge.common import LT_TORRENT_STATE as LTSTATE
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 
 log = logging.getLogger(__name__)
+
+LT_TORRENT_STATE_MAP = {
+    "queued_for_checking": "Checking",
+    "checking_files": "Checking",
+    "downloading_metadata": "Downloading",
+    "downloading": "Downloading",
+    "finished": "Finished",
+    "seeding": "Seeding",
+    "allocating": "Allocating",
+    "checking_resume_data": "Checking"
+}
 
 
 def sanitize_filepath(filepath, folder=False):
@@ -585,59 +600,40 @@ class Torrent(object):
         self.tracker_status = self.get_tracker_host() + ": " + status
 
     def update_state(self):
-        """Updates the state based on what libtorrent's state for the torrent is"""
-        # Set the initial state based on the lt state
+        """Updates the state, based on libtorrent's torrent state"""
         status = self.handle.status()
-        ltstate = int(status.state)
-
-        # Set self.state to the ltstate right away just incase we don"t hit some of the logic below
-        self.state = LTSTATE.get(ltstate, str(ltstate))
-
         session_is_paused = component.get("Core").session.is_paused()
 
-        if log.isEnabledFor(logging.DEBUG):
-            log.debug("set_state_based_on_ltstate: %s", LTSTATE[ltstate])
-            log.debug("session.is_paused: %s", session_is_paused)
-
-        # First we check for an error from libtorrent, and set the state to that if any occurred.
         if status.error or self.error_statusmsg:
-            # This is an error'd torrent
             self.state = "Error"
-            if status.error:
-                self.set_error_statusmsg(decode_string(status.error))
-            self.set_status_message(self.error_statusmsg)
             # This will be reverted upon resuming.
             self.handle.auto_managed(False)
             if not status.paused:
                 self.handle.pause()
-            if not status.error:
+
+            if status.error:
+                self.set_error_statusmsg(decode_string(status.error))
+                log.debug("Error state from lt: %s", self.error_statusmsg)
+            else:
                 # As this is not a libtorrent Error we should emit a state changed event
                 component.get("EventManager").emit(TorrentStateChangedEvent(self.torrent_id, "Error"))
-            return
-        else:
-            self.set_status_message("OK")
-            self.set_error_statusmsg(None)
-
-        if self.moving_storage:
+                log.debug("Error state forced by Deluge, error_statusmsg: %s", self.error_statusmsg)
+            self.set_status_message(self.error_statusmsg)
+        elif self.moving_storage:
             self.state = "Moving"
-            return
-
-        if ltstate in (LTSTATE["Queued"], LTSTATE["Checking"]):
-            self.state = "Checking"
-            if status.paused:
-                self.state = "Paused"
-            return
-        elif ltstate in (LTSTATE["Downloading"], LTSTATE["Downloading Metadata"]):
-            self.state = "Downloading"
-        elif ltstate in (LTSTATE["Finished"], LTSTATE["Seeding"]):
-            self.state = "Seeding"
-        elif ltstate == LTSTATE["Allocating"]:
-            self.state = "Allocating"
-
-        if not session_is_paused and status.paused and status.auto_managed:
+        elif not session_is_paused and status.paused and status.auto_managed:
             self.state = "Queued"
-        elif session_is_paused or (status.paused and not status.auto_managed):
+        elif session_is_paused or status.paused:
             self.state = "Paused"
+        else:
+            try:
+                self.state = LT_TORRENT_STATE_MAP[str(status.state)]
+            except KeyError:
+                self.state = str(status.state)
+
+        if log.isEnabledFor(logging.DEBUG):
+            log.debug("State from lt was: %s | Session is paused: %s", status.state, session_is_paused)
+            log.debug("Torrent state set to '%s' (%s)", self.state, self.torrent_id)
 
     def set_state(self, state):
         """Manually set the state for the torrent.

@@ -34,25 +34,6 @@ from deluge.error import InvalidPathError
 
 log = logging.getLogger(__name__)
 
-LT_TORRENT_STATE = {
-    "Queued": 0,
-    "Checking": 1,
-    "Downloading Metadata": 2,
-    "Downloading": 3,
-    "Finished": 4,
-    "Seeding": 5,
-    "Allocating": 6,
-    "Checking Resume Data": 7,
-    0: "Queued",
-    1: "Checking",
-    2: "Downloading Metadata",
-    3: "Downloading",
-    4: "Finished",
-    5: "Seeding",
-    6: "Allocating",
-    7: "Checking Resume Data"
-}
-
 TORRENT_STATE = [
     "Allocating",
     "Checking",
