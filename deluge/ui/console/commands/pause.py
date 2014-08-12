@@ -48,7 +48,7 @@ class Command(BaseCommand):
             self.console.write(self.usage)
             return
         if len(args) > 0 and args[0].lower() == '*':
-            client.core.pause_all_torrents()
+            client.core.pause_session()
             return
 
         torrent_ids = []

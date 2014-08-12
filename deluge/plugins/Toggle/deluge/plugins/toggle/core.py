@@ -65,9 +65,9 @@ class Core(CorePluginBase):
     @export
     def toggle(self):
         if self.core.session.is_paused():
-            self.core.session.resume()
+            self.core.resume_session()
             paused = False
         else:
-            self.core.session.pause()
+            self.core.pause_session()
             paused = True
         return paused

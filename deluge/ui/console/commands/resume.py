@@ -49,7 +49,7 @@ class Command(BaseCommand):
             self.console.write(self.usage)
             return
         if len(args) > 0 and args[0] == '*':
-            client.core.resume_all_torrents()
+            client.core.resume_session()
             return
 
         torrent_ids = []

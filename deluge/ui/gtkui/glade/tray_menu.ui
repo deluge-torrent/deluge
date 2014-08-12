@@ -70,27 +70,27 @@
       </object>
     </child>
     <child>
-      <object class="GtkImageMenuItem" id="menuitem_pause_all">
-        <property name="label" translatable="yes">_Pause All</property>
+      <object class="GtkImageMenuItem" id="menuitem_pause_session">
+        <property name="label" translatable="yes">_Pause Session</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image6</property>
         <property name="use_stock">False</property>
-        <signal name="activate" handler="on_menuitem_pause_all_activate" swapped="no"/>
+        <signal name="activate" handler="on_menuitem_pause_session_activate" swapped="no"/>
       </object>
     </child>
     <child>
-      <object class="GtkImageMenuItem" id="menuitem_resume_all">
-        <property name="label" translatable="yes">_Resume All</property>
+      <object class="GtkImageMenuItem" id="menuitem_resume_session">
+        <property name="label" translatable="yes">_Resume Session</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image7</property>
         <property name="use_stock">False</property>
-        <signal name="activate" handler="on_menuitem_resume_all_activate" swapped="no"/>
+        <signal name="activate" handler="on_menuitem_resume_session_activate" swapped="no"/>
       </object>
     </child>
     <child>

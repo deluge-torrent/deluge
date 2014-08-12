@@ -501,13 +501,10 @@ class Core(CorePluginBase):
             self.reader = create_reader(self.config["list_type"], self.config["list_compression"])
 
     def pause_session(self):
-        if not self.core.session.is_paused():
-            self.core.session.pause()
-            self.need_to_resume_session = True
-        else:
-            self.need_to_resume_session = False
+        self.need_to_resume_session = not self.core.session.is_paused()
+        self.core.pause_session()
 
     def resume_session(self, result):
-        self.core.session.resume()
+        self.core.resume_session()
         self.need_to_resume_session = False
         return result

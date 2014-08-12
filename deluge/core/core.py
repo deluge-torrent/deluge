@@ -54,7 +54,7 @@ from deluge import path_chooser_common
 from deluge.configmanager import ConfigManager, get_config_dir
 import deluge.common
 import deluge.component as component
-from deluge.event import NewVersionAvailableEvent, SessionResumedEvent, TorrentQueueChangedEvent
+from deluge.event import NewVersionAvailableEvent, SessionPausedEvent, SessionResumedEvent, TorrentQueueChangedEvent
 from deluge.error import DelugeError, InvalidTorrentError, InvalidPathError
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN, AUTH_LEVEL_NONE
 from deluge.core.authmanager import AUTH_LEVELS_MAPPING, AUTH_LEVELS_MAPPING_REVERSE
@@ -418,17 +418,18 @@ class Core(component.Component):
                 log.warning("Error moving torrent %s to %s", torrent_id, dest)
 
     @export
-    def pause_all_torrents(self):
+    def pause_session(self):
         """Pause all torrents in the session"""
-        for torrent in self.torrentmanager.torrents.values():
-            torrent.pause()
+        if not self.session.is_paused():
+            self.session.pause()
+            component.get("EventManager").emit(SessionPausedEvent())
 
     @export
-    def resume_all_torrents(self):
+    def resume_session(self):
         """Resume all torrents in the session"""
-        for torrent in self.torrentmanager.torrents.values():
-            torrent.resume()
-        component.get("EventManager").emit(SessionResumedEvent())
+        if self.session.is_paused():
+            self.session.resume()
+            component.get("EventManager").emit(SessionResumedEvent())
 
     @export
     def resume_torrent(self, torrent_ids):

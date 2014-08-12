@@ -60,8 +60,8 @@ class SystemTray(component.Component):
         # List of widgets that need to be hidden when not connected to a host
         self.hide_widget_list = [
             "menuitem_add_torrent",
-            "menuitem_pause_all",
-            "menuitem_resume_all",
+            "menuitem_pause_session",
+            "menuitem_resume_session",
             "menuitem_download_limit",
             "menuitem_upload_limit",
             "menuitem_quitdaemon",
@@ -95,8 +95,8 @@ class SystemTray(component.Component):
         self.builder.connect_signals({
             "on_menuitem_show_deluge_activate": self.on_menuitem_show_deluge_activate,
             "on_menuitem_add_torrent_activate": self.on_menuitem_add_torrent_activate,
-            "on_menuitem_pause_all_activate": self.on_menuitem_pause_all_activate,
-            "on_menuitem_resume_all_activate": self.on_menuitem_resume_all_activate,
+            "on_menuitem_pause_session_activate": self.on_menuitem_pause_session_activate,
+            "on_menuitem_resume_session_activate": self.on_menuitem_resume_session_activate,
             "on_menuitem_quit_activate": self.on_menuitem_quit_activate,
             "on_menuitem_quitdaemon_activate": self.on_menuitem_quitdaemon_activate
         })
@@ -365,13 +365,13 @@ class SystemTray(component.Component):
         log.debug("on_menuitem_add_torrent_activate")
         component.get("AddTorrentDialog").show()
 
-    def on_menuitem_pause_all_activate(self, menuitem):
-        log.debug("on_menuitem_pause_all_activate")
-        client.core.pause_all_torrents()
+    def on_menuitem_pause_session_activate(self, menuitem):
+        log.debug("on_menuitem_pause_session_activate")
+        client.core.pause_session()
 
-    def on_menuitem_resume_all_activate(self, menuitem):
-        log.debug("on_menuitem_resume_all_activate")
-        client.core.resume_all_torrents()
+    def on_menuitem_resume_session_activate(self, menuitem):
+        log.debug("on_menuitem_resume_session_activate")
+        client.core.resume_session()
 
     def on_menuitem_quit_activate(self, menuitem):
         log.debug("on_menuitem_quit_activate")
