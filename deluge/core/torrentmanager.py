@@ -52,7 +52,6 @@ class TorrentState:
                  queue=None,
                  auto_managed=True,
                  is_finished=False,
-                 error_statusmsg=None,
                  stop_ratio=2.00,
                  stop_at_ratio=False,
                  remove_at_ratio=False,
@@ -406,6 +405,10 @@ class TorrentManager(component.Component):
 
         component.resume("AlertManager")
 
+        # Store the orignal resume_data, in case of errors.
+        if resume_data:
+            self.resume_data[torrent.torrent_id] = resume_data
+
         # Add to queued torrents set.
         self.queued_torrents.add(torrent.torrent_id)
         if self.config["queue_new_to_top"]:
@@ -604,7 +607,9 @@ class TorrentManager(component.Component):
         for torrent in self.torrents.values():
             if self.session.is_paused():
                 paused = torrent.handle.is_paused()
-            elif torrent.state in ["Paused", "Error"]:
+            elif torrent.forced_error:
+                paused = torrent.forced_error.was_paused
+            elif torrent.state == "Paused":
                 paused = True
             else:
                 paused = False
@@ -626,7 +631,6 @@ class TorrentManager(component.Component):
                 torrent.get_queue_position(),
                 torrent.options["auto_managed"],
                 torrent.is_finished,
-                torrent.error_statusmsg,
                 torrent.options["stop_ratio"],
                 torrent.options["stop_at_ratio"],
                 torrent.options["remove_at_ratio"],
@@ -1022,10 +1026,8 @@ class TorrentManager(component.Component):
             return
         # Set an Error message and pause the torrent
         alert_msg = decode_string(alert.message()).split(':', 1)[1].strip()
-        torrent.set_error_statusmsg("Failed to move download folder: %s" % alert_msg)
         torrent.moving_storage = False
-        torrent.pause()
-        torrent.update_state()
+        torrent.force_error_state("Failed to move download folder: %s" % alert_msg)
 
         if torrent_id in self.waiting_on_finish_moving:
             self.waiting_on_finish_moving.remove(torrent_id)
@@ -1069,7 +1071,6 @@ class TorrentManager(component.Component):
             torrent_id = str(alert.handle.info_hash())
         except RuntimeError:
             return
-
         if torrent_id in self.torrents:
             # libtorrent add_torrent expects bencoded resume_data.
             self.resume_data[torrent_id] = lt.bencode(alert.resume_data)
@@ -1090,7 +1091,8 @@ class TorrentManager(component.Component):
 
     def on_alert_fastresume_rejected(self, alert):
         """Alert handler for libtorrent fastresume_rejected_alert"""
-        log.warning("on_alert_fastresume_rejected: %s", decode_string(alert.message()))
+        alert_msg = decode_string(alert.message())
+        log.error("on_alert_fastresume_rejected: %s", alert_msg)
         try:
             torrent_id = str(alert.handle.info_hash())
             torrent = self.torrents[torrent_id]
@@ -1103,8 +1105,8 @@ class TorrentManager(component.Component):
             else:
                 error_msg = "Missing or invalid torrent data!"
         else:
-            error_msg = "Problem with resume data: %s" % decode_string(alert.message()).split(':', 1)[1].strip()
-        torrent.force_error_state(error_msg)
+            error_msg = "Problem with resume data: %s" % alert_msg.split(":", 1)[1].strip()
+        torrent.force_error_state(error_msg, restart_to_resume=True)
 
     def on_alert_file_renamed(self, alert):
         """Alert handler for libtorrent file_renamed_alert
