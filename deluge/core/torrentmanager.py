@@ -730,7 +730,7 @@ class TorrentManager(component.Component):
                 be invoked when save is complete.
         """
         if torrent_ids is None:
-            torrent_ids = (t[0] for t in self.torrents.iteritems() if t[1].status.need_save_resume)
+            torrent_ids = (t[0] for t in self.torrents.iteritems() if t[1].handle.need_save_resume_data())
 
         def on_torrent_resume_save(dummy_result, torrent_id):
             """Recieved torrent resume_data alert so remove from waiting list"""
