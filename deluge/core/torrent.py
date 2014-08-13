@@ -36,7 +36,7 @@ LT_TORRENT_STATE_MAP = {
     "checking_files": "Checking",
     "downloading_metadata": "Downloading",
     "downloading": "Downloading",
-    "finished": "Finished",
+    "finished": "Seeding",
     "seeding": "Seeding",
     "allocating": "Allocating",
     "checking_resume_data": "Checking"
