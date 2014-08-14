@@ -50,7 +50,7 @@ __long_description__ =  """
 Plugin which provides notifications to Deluge
 
 Email, Popup, Blink and Sound notifications
- 
+
 The plugin also allows other plugins to make
  use of itself for their own custom notifications
 """
@@ -74,5 +74,7 @@ setup(
     %s = %s:CorePlugin
     [deluge.plugin.gtkui]
     %s = %s:GtkUIPlugin
-    """ % ((__plugin_name__, __plugin_name__.lower())*2)
+    [deluge.plugin.web]
+    %s = %s:WebUIPlugin
+    """ % ((__plugin_name__, __plugin_name__.lower())*3)
 )
