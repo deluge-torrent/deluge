@@ -1040,7 +1040,7 @@ class TorrentManager(component.Component):
         torrent.moving_storage = False
         torrent.update_state()
 
-        if torrent in self.waiting_on_finish_moving:
+        if torrent_id in self.waiting_on_finish_moving:
             self.waiting_on_finish_moving.remove(torrent_id)
             torrent.is_finished = True
             component.get("EventManager").emit(TorrentFinishedEvent(torrent_id))
@@ -1060,7 +1060,7 @@ class TorrentManager(component.Component):
         torrent.pause()
         torrent.update_state()
 
-        if torrent in self.waiting_on_finish_moving:
+        if torrent_id in self.waiting_on_finish_moving:
             self.waiting_on_finish_moving.remove(torrent_id)
             torrent.is_finished = True
             component.get("EventManager").emit(TorrentFinishedEvent(torrent_id))
