@@ -1027,7 +1027,7 @@ class TorrentManager(component.Component):
         torrent.set_save_path(os.path.normpath(alert.handle.save_path()))
         torrent.set_move_completed(False)
 
-        if torrent in self.waiting_on_finish_moving:
+        if torrent_id in self.waiting_on_finish_moving:
             self.waiting_on_finish_moving.remove(torrent_id)
             torrent.is_finished = True
             component.get("EventManager").emit(TorrentFinishedEvent(torrent_id))
@@ -1041,7 +1041,7 @@ class TorrentManager(component.Component):
         except (RuntimeError, KeyError):
             return
 
-        if torrent in self.waiting_on_finish_moving:
+        if torrent_id in self.waiting_on_finish_moving:
             self.waiting_on_finish_moving.remove(torrent_id)
             torrent.is_finished = True
             component.get("EventManager").emit(TorrentFinishedEvent(torrent_id))
