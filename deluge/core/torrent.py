@@ -626,10 +626,7 @@ class Torrent(object):
         elif session_is_paused or status.paused:
             self.state = "Paused"
         else:
-            try:
-                self.state = LT_TORRENT_STATE_MAP[str(status.state)]
-            except KeyError:
-                self.state = str(status.state)
+            self.state = LT_TORRENT_STATE_MAP.get(str(status.state), str(status.state))
 
         if log.isEnabledFor(logging.DEBUG):
             log.debug("State from lt was: %s | Session is paused: %s", status.state, session_is_paused)
