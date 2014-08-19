@@ -16,11 +16,11 @@
     vertical-align:middle;
 }
 .x-column-tree  .x-tree-node a span{
-	
+
 }
 .x-column-tree  .x-tree-node .x-tree-selected a span{
-	background:transparent;
-	color:#000;
+    background:transparent;
+    color:#000;
 }
 .x-tree-col {
     float:left;
@@ -32,7 +32,7 @@
 .x-tree-col-text, .x-tree-hd-text {
     overflow:hidden;
     -o-text-overflow: ellipsis;
-	text-overflow: ellipsis;
+    text-overflow: ellipsis;
     padding:3px 3px 3px 5px;
     white-space: nowrap;
     font:normal 11px arial, tahoma, helvetica, sans-serif;
@@ -40,7 +40,7 @@
 
 .x-tree-headers {
     background: #f9f9f9 url(../../resources/images/default/grid/grid3-hrow.gif) repeat-x 0 bottom;
-	cursor:default;
+    cursor:default;
     zoom:1;
 }
 
@@ -59,19 +59,19 @@
     height: 22px;
 }
 .x-form-file-wrap .x-form-file {
-	position: absolute;
-	right: 0;
-	-moz-opacity: 0;
-	filter:alpha(opacity: 0);
-	opacity: 0;
-	z-index: 2;
+    position: absolute;
+    right: 0;
+    -moz-opacity: 0;
+    filter:alpha(opacity: 0);
+    opacity: 0;
+    z-index: 2;
     height: 22px;
-	cursor: pointer;
+    cursor: pointer;
 }
 .x-form-file-wrap .x-btn {
-	position: absolute;
-	right: 0;
-	z-index: 1;
+    position: absolute;
+    right: 0;
+    z-index: 1;
 }
 .x-form-file-wrap .x-form-file-text {
     position: absolute;
@@ -84,7 +84,7 @@
  * Spinner styles
  */
 .x-form-spinner-proxy{
-	/*background-color:#ff00cc;*/
+    /*background-color:#ff00cc;*/
 }
 .x-form-field-wrap .x-form-spinner-trigger {
     background: transparent url(../images/spinner.gif) no-repeat 0 0;
@@ -124,21 +124,21 @@
 }
 
 .x-form-field-wrap .x-form-spinner-splitter {
-	line-height:1px;
-	font-size:1px;
+    line-height:1px;
+    font-size:1px;
     background:transparent url(../images/spinner-split.gif) no-repeat 0 0;
-	position:absolute;
-	cursor: n-resize;
+    position:absolute;
+    cursor: n-resize;
 }
 .x-trigger-wrap-focus .x-form-spinner-splitter{
     background-position:-14px 0;
 }
 
 .x-form-uxspinner .x-form-field-wrap {
-	height: 24px;
+    height: 24px;
 }
 
-/*!
+/*
  * Ext JS Library 3.4.0
  * Copyright(c) 2006-2011 Sencha Inc.
  * licensing@sencha.com

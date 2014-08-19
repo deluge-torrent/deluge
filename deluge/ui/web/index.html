@@ -1,40 +1,40 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<title>Deluge: Web UI ${version}</title>
-		
-		<link rel="shortcut icon" href="${base}icons/deluge.png" type="image/png" />
-		<link rel="icon" href="${base}icons/deluge.png" type="image/png" />
-		<link rel="apple-touch-icon-precomposed" media="screen and (resolution: 163dpi)" href="${base}icons/apple-pre-57.png" />
-		<link rel="apple-touch-icon-precomposed" media="screen and (resolution: 132dpi)" href="${base}icons/apple-pre-72.png" />
-		<link rel="apple-touch-icon-precomposed" media="screen and (resolution: 326dpi)" href="${base}icons/apple-pre-114.png" />
-		
-		<!-- Stylesheets -->
-		% for stylesheet in stylesheets:
-		<link rel="stylesheet" type="text/css" href="${base}${stylesheet}" />
-		% endfor
+    <head>
+        <title>Deluge: Web UI ${version}</title>
 
-		<script type="text/javascript">
-		deluge = {
-			author: 'Damien Churchill <damoxc@gmail.com>',
-			version: '${version}',
-			config: ${js_config}
-		}
-		</script>
+        <link rel="shortcut icon" href="${base}icons/deluge.png" type="image/png" />
+        <link rel="icon" href="${base}icons/deluge.png" type="image/png" />
+        <link rel="apple-touch-icon-precomposed" media="screen and (resolution: 163dpi)" href="${base}icons/apple-pre-57.png" />
+        <link rel="apple-touch-icon-precomposed" media="screen and (resolution: 132dpi)" href="${base}icons/apple-pre-72.png" />
+        <link rel="apple-touch-icon-precomposed" media="screen and (resolution: 326dpi)" href="${base}icons/apple-pre-114.png" />
 
-		<!-- Javascript -->
-		% for script in scripts:
-		<script type="text/javascript" src="${base}${script}"></script>
-		% endfor
-		<script type="text/javascript">
-			Deluge.debug = ${str(debug).lower()};
-		</script>
-	</head>
-	<body>
-		<div style="background-image: url('${base}themes/images/default/tree/loading.gif');"></div>
+        <!-- Stylesheets -->
+        % for stylesheet in stylesheets:
+        <link rel="stylesheet" type="text/css" href="${base}${stylesheet}" />
+        % endfor
 
-		<!-- Preload icon classes -->
-		<div class="ext-mb-error"></div>
-		<div class="icon-ok"></div>
-	</body>
+        <script type="text/javascript">
+        deluge = {
+            author: 'Damien Churchill <damoxc@gmail.com>',
+            version: '${version}',
+            config: ${js_config}
+        }
+        </script>
+
+        <!-- Javascript -->
+        % for script in scripts:
+        <script type="text/javascript" src="${base}${script}"></script>
+        % endfor
+        <script type="text/javascript">
+            Deluge.debug = ${str(debug).lower()};
+        </script>
+    </head>
+    <body>
+        <div style="background-image: url('${base}themes/images/default/tree/loading.gif');"></div>
+
+        <!-- Preload icon classes -->
+        <div class="ext-mb-error"></div>
+        <div class="icon-ok"></div>
+    </body>
 </html>
