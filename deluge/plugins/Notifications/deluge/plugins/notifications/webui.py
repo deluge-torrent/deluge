@@ -38,38 +38,19 @@
 #
 
 import logging
-from twisted.internet import defer
 from deluge.ui.client import client
 from deluge import component
 from deluge.plugins.pluginbase import WebPluginBase
-import deluge.configmanager
-
-# Relative imports
 from common import get_resource
 
 log = logging.getLogger(__name__)
 
-DEFAULT_PREFS = {
-    # FLASH
-    "flash_enabled": False,
-    # Subscriptions
-    "subscriptions": {
-        "flash": []
-    }
-}
-
-class WebUI(WebPluginBase, component.Component):
+class WebUI(WebPluginBase):
 
     scripts = [get_resource("notifications.js")]
-
-    def __init__(self, plugin_name):
-        WebPluginBase.__init__(self, plugin_name)
-        component.Component.__init__(self, "Notifications")
-
+    debug_scripts = scripts
+    
     def enable(self):
-        self.config = deluge.configmanager.ConfigManager(
-            "notifications-web.conf", DEFAULT_PREFS
-        )
         log.debug("Enabling Web UI notifications")
 
     def disable(self):

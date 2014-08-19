@@ -267,8 +267,7 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
         for (var i = 0; i < store.getCount(); i++) {
             var record = store.getAt(i);
             var ip = record.get('ip');
-            console.log(ip);
-            ipList.push(name);
+            ipList.push(ip);
         }
 
         config['whitelisted'] = ipList;
@@ -404,4 +403,5 @@ Deluge.plugins.BlocklistPlugin = Ext.extend(Deluge.Plugin, {
         this.prefsPage = deluge.preferences.addPage(new Deluge.ux.preferences.BlocklistPage());
     }
 });
+
 Deluge.registerPlugin('Blocklist', Deluge.plugins.BlocklistPlugin);
