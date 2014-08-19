@@ -49,7 +49,7 @@ from os.path import sep as dirsep
 
 STATUS_KEYS = ["state",
         "download_location",
-        "tracker",
+        "tracker_host",
         "tracker_status",
         "next_announce",
         "name",
@@ -350,7 +350,7 @@ class Command(BaseCommand):
             s += " {!info!}Active: {!input!}%s" % format_time(status["active_time"])
             self.console.write(s)
 
-            s = "{!info!}Tracker: {!input!}%s" % status["tracker"]
+            s = "{!info!}Tracker: {!input!}%s" % status["tracker_host"]
             self.console.write(s)
 
             self.console.write("{!info!}Tracker status: {!input!}%s" % status["tracker_status"])

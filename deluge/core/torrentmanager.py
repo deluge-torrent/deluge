@@ -984,10 +984,8 @@ class TorrentManager(component.Component):
         # Set the tracker status for the torrent
         torrent.set_tracker_status("Announce OK")
 
-        # Check to see if we got any peer information from the tracker
-        if alert.handle.status().num_complete == -1 or \
-                alert.handle.status().num_incomplete == -1:
-            # We didn't get peer information, so lets send a scrape request
+        # Check for peer information from the tracker, if none then send a scrape request.
+        if alert.handle.status().num_complete == -1 or alert.handle.status().num_incomplete == -1:
             torrent.scrape_tracker()
 
     def on_alert_tracker_announce(self, alert):
@@ -1009,22 +1007,22 @@ class TorrentManager(component.Component):
             torrent = self.torrents[str(alert.handle.info_hash())]
         except (RuntimeError, KeyError):
             return
-        tracker_status = 'Warning: %s' % decode_string(alert.message())
         # Set the tracker status for the torrent
-        torrent.set_tracker_status(tracker_status)
+        torrent.set_tracker_status("Warning: %s" % decode_string(alert.message()))
 
     def on_alert_tracker_error(self, alert):
         """Alert handler for libtorrent tracker_error_alert"""
         error_message = decode_string(alert.msg)
+        # If alert.msg is empty then it's a '-1' code so fallback to a.e.message. Note that alert.msg
+        # cannot be replaced by a.e.message because the code is included in the string (for non-'-1').
         if not error_message:
-            # alert.msg empty for '-1' code so fallback to a.e.message(), alert.msg cannot be replaced
-            # by a.e.message() because with non '-1' codes, the code is in the message.
             error_message = decode_string(alert.error.message())
         log.debug("Tracker Error Alert: %s [%s]", decode_string(alert.message()), error_message)
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
         except (RuntimeError, KeyError):
             return
+
         torrent.set_tracker_status("Error: " + error_message)
 
     def on_alert_storage_moved(self, alert):

@@ -597,7 +597,7 @@ class Torrent(object):
         Args:
             status (str): The tracker status.
         """
-        self.tracker_status = self.get_tracker_host() + ": " + status
+        self.tracker_status = status
 
     def update_state(self):
         """Updates the state, based on libtorrent's torrent state"""
@@ -979,6 +979,7 @@ class Torrent(object):
             "total_wanted": lambda: self.status.total_wanted,
             "total_remaining": lambda: self.status.total_wanted - self.status.total_wanted_done,
             "tracker": lambda: self.status.current_tracker,
+            "tracker_host": self.get_tracker_host,
             "trackers": lambda: self.trackers,
             "tracker_status": lambda: self.tracker_status,
             "upload_payload_rate": lambda: self.status.upload_payload_rate,
@@ -996,7 +997,6 @@ class Torrent(object):
             "peers": self.get_peers,
             "queue": lambda: self.status.queue_position,
             "ratio": self.get_ratio,
-            "tracker_host": self.get_tracker_host,
             "completed_time": lambda: self.status.completed_time,
             "last_seen_complete": lambda: self.status.last_seen_complete,
             "name": self.get_name,

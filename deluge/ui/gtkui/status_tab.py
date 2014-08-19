@@ -111,7 +111,7 @@ class StatusTab(Tab):
             (builder.get_object("progressbar"), fpcnt, ("progress",)),
             (builder.get_object("summary_last_seen_complete"), fdate_or_never, ("last_seen_complete",)),
             (builder.get_object("summary_torrent_status"), str, ("message",)),
-            (builder.get_object("summary_tracker"), None, ("tracker",)),
+            (builder.get_object("summary_tracker"), None, ("tracker_host",)),
         ]
 
     def update(self):
@@ -132,7 +132,7 @@ class StatusTab(Tab):
             "upload_payload_rate", "max_upload_speed", "num_peers", "num_seeds", "total_peers",
             "total_seeds", "eta", "ratio", "tracker_status", "next_announce", "active_time",
             "seeding_time", "seed_rank", "is_auto_managed", "progress", "last_seen_complete",
-            "message", "tracker"
+            "message", "tracker_host"
         ]
         if self.config['show_piecesbar']:
             status_keys.extend(["pieces", "state", "num_pieces"])

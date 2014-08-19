@@ -50,7 +50,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
         this.addItem('files', _('Total Files'));
         this.addItem('comment', _('Comment'));
         this.addItem('status', _('Status'));
-        this.addItem('tracker', _('Tracker'));
+        this.addItem('tracker_host', _('Tracker'));
     },
 
     onRender: function(ct, position) {
