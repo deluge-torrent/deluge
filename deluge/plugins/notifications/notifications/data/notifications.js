@@ -62,7 +62,7 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
                     margins: '6 0 0 6'
                 },{
                     xtype: 'textfield',
-                    margins: '2 0 0 3'
+                    margins: '2 0 0 4'
                 }]
         });
 
@@ -79,8 +79,11 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
                     margins: '6 0 0 6'
                 },{
                     xtype: 'spinnerfield',
-                    margins: '2 0 0 31',
-                    width: 128
+                    margins: '2 0 0 34',
+                    width: 64,
+                    decimalPrecision: 0,
+                    minValue: 0,
+                    maxValue: 65535
                 }]
         });
 
@@ -132,7 +135,7 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
                     margins: '6 0 0 6'
                 },{
                     xtype: 'textfield',
-                    margins: '2 0 0 27'
+                    margins: '2 0 0 28'
                 }]
         });
 

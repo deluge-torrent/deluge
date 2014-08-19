@@ -41,8 +41,8 @@ from setuptools import setup, find_packages
 
 __plugin_name__ = "Notifications"
 __author__ = "Pedro Algarvio"
-__author_email__ = "ufs@ufsoft.org"
-__version__ = "0.1"
+__author_email__ = "pedro@algarvio.me"
+__version__ = "0.2"
 __url__ = "http://dev.deluge-torrent.org/"
 __license__ = "GPLv3"
 __description__ = "Plugin which provides notifications to Deluge."
