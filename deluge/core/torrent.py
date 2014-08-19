@@ -26,7 +26,7 @@ from deluge._libtorrent import lt
 import deluge.component as component
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.event import TorrentStateChangedEvent, TorrentFolderRenamedEvent
-from deluge.common import decode_string, utf8_encoded, TORRENT_STATE
+from deluge.common import decode_string, utf8_encoded
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 
 log = logging.getLogger(__name__)
@@ -632,19 +632,6 @@ class Torrent(object):
             log.debug("State from lt was: %s | Session is paused: %s", status.state, session_is_paused)
             log.debug("Torrent state set to '%s' (%s)", self.state, self.torrent_id)
 
-    def set_state(self, state):
-        """Manually set the state for the torrent.
-
-        Accepts state strings, ie, "Paused", "Seeding", etc.
-
-        Args:
-            state (str): The torrent state
-        """
-        if state not in TORRENT_STATE:
-            log.error("Trying to set an invalid state %s", state)
-        else:
-            self.state = state
-
     def set_status_message(self, message):
         """Sets the torrent status message.
 
@@ -880,7 +867,7 @@ class Torrent(object):
             torrent_status = self.get_status(["files", "total_done"])
             # Check if torrent has downloaded any data yet.
             if torrent_status["total_done"]:
-                torrent_files = [f['path'] for f in torrent_status["files"]]
+                torrent_files = [f["path"] for f in torrent_status["files"]]
                 dest_path_size = get_size(torrent_files, self.moving_storage_dest_path)
                 progress = dest_path_size / torrent_status["total_done"] * 100
             else:
