@@ -375,7 +375,7 @@ class PreferencesManager(component.Component):
     def _on_set_send_info(self, key, value):
         log.debug("Sending anonymous stats..")
         """sends anonymous stats home"""
-        class Send_Info_Thread(threading.Thread):
+        class SendInfoThread(threading.Thread):
             def __init__(self, config):
                 self.config = config
                 threading.Thread.__init__(self)
@@ -401,7 +401,7 @@ class PreferencesManager(component.Component):
                     else:
                         self.config["info_sent"] = now
         if value:
-            Send_Info_Thread(self.config).start()
+            SendInfoThread(self.config).start()
 
     def _on_set_new_release_check(self, key, value):
         if value:

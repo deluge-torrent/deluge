@@ -220,7 +220,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
         :type kwargs: dict
 
         """
-        def sendError():
+        def send_error():
             """
             Sends an error response with the contents of the exception that was raised.
             """
@@ -243,7 +243,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                 try:
                     raise WrappedException(str(exceptionValue), exceptionType.__name__, formated_tb)
                 except:
-                    sendError()
+                    send_error()
             except Exception, err:
                 log.error("An exception occurred while sending RPC_ERROR to client: %s", err)
 
@@ -264,7 +264,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                     self.factory.authorized_sessions[self.transport.sessionno] = (ret, args[0])
                     self.factory.session_protocols[self.transport.sessionno] = self
             except Exception, e:
-                sendError()
+                send_error()
                 if not isinstance(e, _ClientSideRecreateError):
                     log.exception(e)
             else:
@@ -283,7 +283,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                     self.factory.interested_events[self.transport.sessionno] = []
                 self.factory.interested_events[self.transport.sessionno].extend(args[0])
             except Exception, e:
-                sendError()
+                send_error()
             else:
                 self.sendData((RPC_RESPONSE, request_id, (True)))
             finally:
@@ -304,7 +304,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                 self.factory.session_id = self.transport.sessionno
                 ret = self.factory.methods[method](*args, **kwargs)
             except Exception, e:
-                sendError()
+                send_error()
                 # Don't bother printing out DelugeErrors, because they are just
                 # for the client
                 if not isinstance(e, DelugeError):
@@ -321,7 +321,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                         try:
                             failure.raiseException()
                         except Exception:
-                            sendError()
+                            send_error()
                         return failure
 
                     ret.addCallbacks(on_success, on_fail)
