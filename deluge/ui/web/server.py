@@ -1,44 +1,14 @@
-#
-# deluge/ui/web/server.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009-2010 Damien Churchill <damoxc@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-#   The Free Software Foundation, Inc.,
-#   51 Franklin Street, Fifth Floor
-#   Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 import os
-import time
-import shutil
-import urllib
 import fnmatch
-import hashlib
 import logging
 import tempfile
 import mimetypes
@@ -51,7 +21,6 @@ from twisted.web import http, resource, server, static
 
 from deluge import common, component, configmanager
 from deluge.core.rpcserver import check_ssl_keys
-from deluge.ui import common as uicommon
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.web.auth import Auth
 from deluge.ui.web.common import Template, compress
@@ -99,17 +68,20 @@ OLD_CONFIG_KEYS = (
     "https"
 )
 
+
 def rpath(*paths):
     """Convert a relative path into an absolute path relative to the location
     of this script.
     """
     return common.resource_filename("deluge.ui.web", os.path.join(*paths))
 
+
 class GetText(resource.Resource):
     def render(self, request):
         request.setHeader("content-type", "text/javascript; encoding=utf-8")
         template = Template(filename=rpath("js", "gettext.js"))
         return compress(template.render(), request)
+
 
 class Upload(resource.Resource):
     """
@@ -152,6 +124,7 @@ class Upload(resource.Resource):
             'files': filenames
         }), request)
 
+
 class Render(resource.Resource):
 
     def getChild(self, path, request):
@@ -169,6 +142,7 @@ class Render(resource.Resource):
         request.setResponseCode(http.OK)
         return compress(template.render(), request)
 
+
 class Tracker(resource.Resource):
 
     def __init__(self):
@@ -183,7 +157,6 @@ class Tracker(resource.Resource):
         return self
 
     def on_got_icon(self, icon, request):
-        headers = {}
         if icon:
             request.setHeader("cache-control",
                               "public, must-revalidate, max-age=86400")
@@ -200,13 +173,13 @@ class Tracker(resource.Resource):
         d.addCallback(self.on_got_icon, request)
         return server.NOT_DONE_YET
 
+
 class Flag(resource.Resource):
     def getChild(self, path, request):
         request.country = path
         return self
 
     def render(self, request):
-        headers = {}
         path = ("ui", "data", "pixmaps", "flags", request.country.lower() + ".png")
         filename = common.resource_filename("deluge", os.path.join(*path))
         if os.path.exists(filename):
@@ -219,6 +192,7 @@ class Flag(resource.Resource):
         else:
             request.setResponseCode(http.NOT_FOUND)
             return ""
+
 
 class LookupResource(resource.Resource, component.Component):
 
@@ -265,6 +239,7 @@ class LookupResource(resource.Resource, component.Component):
 
         request.setResponseCode(http.NOT_FOUND)
         return "<h1>404 - Not Found</h1>"
+
 
 class ScriptResource(resource.Resource, component.Component):
 
@@ -423,6 +398,7 @@ class ScriptResource(resource.Resource, component.Component):
         request.setResponseCode(http.NOT_FOUND)
         return "<h1>404 - Not Found</h1>"
 
+
 class TopLevel(resource.Resource):
     addSlash = True
 
@@ -559,7 +535,8 @@ class TopLevel(resource.Resource):
         config = dict([(key, web_config[key]) for key in UI_CONFIG_KEYS])
         js_config = json.dumps(config)
         return template.render(scripts=scripts, stylesheets=self.stylesheets,
-            debug=debug, base=request.base, js_config=js_config)
+                               debug=debug, base=request.base, js_config=js_config)
+
 
 class ServerContextFactory:
 
@@ -573,6 +550,7 @@ class ServerContextFactory:
         ctx.use_privatekey_file(configmanager.get_config_dir(deluge_web.pkey))
         ctx.use_certificate_chain_file(configmanager.get_config_dir(deluge_web.cert))
         return ctx
+
 
 class DelugeWeb(component.Component):
 
@@ -631,6 +609,7 @@ class DelugeWeb(component.Component):
         if common.windows_check():
             from win32api import SetConsoleCtrlHandler
             from win32con import CTRL_CLOSE_EVENT, CTRL_SHUTDOWN_EVENT
+
             def win_handler(ctrl_type):
                 log.debug("ctrl type: %s", ctrl_type)
                 if ctrl_type == CTRL_CLOSE_EVENT or \

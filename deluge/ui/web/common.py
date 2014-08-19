@@ -1,36 +1,10 @@
-#
-# deluge/ui/web/common.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-#   The Free Software Foundation, Inc.,
-#   51 Franklin Street, Fifth Floor
-#   Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 import zlib
@@ -38,6 +12,7 @@ import gettext
 from deluge import common
 
 _ = lambda x: gettext.gettext(x).decode("utf-8")
+
 
 def escape(text):
     """
@@ -50,10 +25,10 @@ def escape(text):
     text = text.replace('\n', '\\n')
     return text
 
+
 def compress(contents, request):
     request.setHeader("content-encoding", "gzip")
-    compress = zlib.compressobj(6, zlib.DEFLATED, zlib.MAX_WBITS + 16,
-        zlib.DEF_MEM_LEVEL,0)
+    compress = zlib.compressobj(6, zlib.DEFLATED, zlib.MAX_WBITS + 16, zlib.DEF_MEM_LEVEL, 0)
     contents = compress.compress(contents)
     contents += compress.flush()
     return contents
@@ -62,6 +37,7 @@ try:
     # This is beeing done like this in order to allow tests to use the above
     # `compress` without requiring Mako to be instaled
     from mako.template import Template as MakoTemplate
+
     class Template(MakoTemplate):
         """
         A template that adds some built-ins to the rendering
@@ -81,6 +57,7 @@ except ImportError:
     import warnings
     warnings.warn("The Mako library is required to run deluge.ui.web",
                   RuntimeWarning)
+
     class Template(object):
         def __new__(cls, *args, **kwargs):
             raise RuntimeError(
