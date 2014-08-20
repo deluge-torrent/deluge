@@ -251,10 +251,12 @@ this should be an IP address", metavar="IFACE",
                 options.group = grp.getgrnam(options.group)[2]
             os.setuid(options.group)
 
-    def run_daemon(options, args):
+    def run_daemon(options):
         from deluge.core.daemon import Daemon
         try:
-            Daemon(options, args)
+            Daemon(listen_interface=options.listen_interface,
+                   interface=options.ui_interface,
+                   port=options.port)
         except Exception as ex:
             log.exception(ex)
             sys.exit(1)
@@ -275,6 +277,6 @@ this should be an IP address", metavar="IFACE",
         from twisted.internet import reactor
         reactor.addSystemEventTrigger("before", "shutdown", save_profile_stats)
         print "Running with profiler..."
-        profiler.runcall(run_daemon, options, args)
+        profiler.runcall(run_daemon, options)
     else:
-        run_daemon(options, args)
+        run_daemon(options)

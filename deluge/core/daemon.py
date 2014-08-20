@@ -1,36 +1,14 @@
-#
-# daemon.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+
+"""The Deluge daemon"""
+
 import os
 import logging
 from twisted.internet import reactor
@@ -50,7 +28,7 @@ log = logging.getLogger(__name__)
 
 
 def check_running_daemon(pid_file):
-    """Check for another running instance of the daemon using the same pid file"""
+    """Check for another running instance of the daemon using the same pid file."""
     if os.path.isfile(pid_file):
         # Get the PID and the port of the supposedly running daemon
         with open(pid_file) as _file:
@@ -61,6 +39,7 @@ def check_running_daemon(pid_file):
             pid, port = None, None
 
         def process_running(pid):
+            """Verify if pid is a running process."""
             if windows_check():
                 from win32process import EnumProcesses
                 return pid in EnumProcesses()
@@ -89,10 +68,19 @@ def check_running_daemon(pid_file):
 
 
 class Daemon(object):
-    def __init__(self, options=None, args=None, classic=False):
+    """The Deluge Daemon class"""
+
+    def __init__(self, listen_interface=None, interface=None, port=None, classic=False):
+        """
+        Args:
+            listen_interface (str, optional): The IP address to listen to bittorrent connections on.
+            interface (str, optional): The IP address the daemon will listen for UI connections on.
+            port (int, optional): The port the daemon will listen for UI connections on.
+            classic (bool, optional): If True the client is in Classic (Standalone) mode otherwise, if
+                False, start the daemon as separate process.
+
+        """
         log.info("Deluge daemon %s", get_version())
-        log.debug("options: %s", options)
-        log.debug("args: %s", args)
 
         pid_file = get_config_dir("deluged.pid")
         check_running_daemon(pid_file)
@@ -103,26 +91,24 @@ class Daemon(object):
         # Catch some Windows specific signals
         if windows_check():
             def win_handler(ctrl_type):
+                """Handle the Windows shutdown or close events."""
                 log.debug("windows handler ctrl_type: %s", ctrl_type)
                 if ctrl_type == CTRL_CLOSE_EVENT or ctrl_type == CTRL_SHUTDOWN_EVENT:
                     self._shutdown()
                     return 1
             SetConsoleCtrlHandler(win_handler)
 
-        listen_interface = None
-        if options and options.listen_interface and is_ip(options.listen_interface):
-            listen_interface = options.listen_interface
+        if listen_interface and not is_ip(listen_interface):
+            listen_interface = None
 
         # Start the core as a thread and join it until it's done
         self.core = Core(listen_interface=listen_interface)
 
-        port = self.core.config["daemon_port"]
-        if options and options.port:
-            port = options.port
+        if port is None:
+            port = self.core.config["daemon_port"]
 
-        interface = None
-        if options and options.ui_interface:
-            interface = options.ui_interface
+        if interface and not is_ip(interface):
+            interface = None
 
         self.rpcserver = RPCServer(
             port=port,
@@ -130,6 +116,8 @@ class Daemon(object):
             listen=not classic,
             interface=interface
         )
+
+        log.debug("Listening to UI on: %s:%s and bittorrent on: %s", interface, port, listen_interface)
 
         # Register the daemon and the core RPCs
         self.rpcserver.register_object(self.core)
@@ -167,22 +155,20 @@ class Daemon(object):
 
     @export()
     def get_method_list(self):
-        """
-        Returns a list of the exported methods.
-        """
+        """Returns a list of the exported methods."""
         return self.rpcserver.get_method_list()
 
     @export(1)
     def authorized_call(self, rpc):
-        """
-        Returns True if authorized to call rpc.
+        """Determines if session auth_level is authorized to call RPC.
 
-        :param rpc: a rpc, eg, "core.get_torrents_status"
-        :type rpc: string
+        Args:
+            rpc (str): A RPC, e.g. core.get_torrents_status
 
+        Returns:
+            bool: True if authorized to call RPC, otherwise False.
         """
         if not rpc in self.get_method_list():
             return False
 
-        auth_level = self.rpcserver.get_session_auth_level()
-        return auth_level >= self.rpcserver.get_rpc_auth_level(rpc)
+        return self.rpcserver.get_session_auth_level() >= self.rpcserver.get_rpc_auth_level(rpc)

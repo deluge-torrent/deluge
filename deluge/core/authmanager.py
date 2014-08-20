@@ -1,37 +1,11 @@
-#
-# authmanager.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 import os
@@ -111,18 +85,18 @@ class AuthManager(component.Component):
             self.__load_auth_file()
 
     def authorize(self, username, password):
-        """
-        Authorizes users based on username and password
+        """Authorizes users based on username and password.
 
-        :param username: str, username
-        :param password: str, password
-        :returns: int, the auth level for this user
-        :rtype: int
+        Args:
+            username (str): Username
+            password (str): Password
 
-        :raises AuthenticationRequired: if aditional details are required to
-                                        authenticate.
-        :raises BadLoginError: if the username does not exist or password does
-                               not match.
+        Returns:
+            int: The auth level for this user.
+
+        Raises:
+            AuthenticationRequired: If aditional details are required to authenticate.
+            BadLoginError: If the username does not exist or password does not match.
 
         """
         if not username:
@@ -148,9 +122,7 @@ class AuthManager(component.Component):
         return username in self.__auth
 
     def get_known_accounts(self):
-        """
-        Returns a list of known deluge usernames.
-        """
+        """Returns a list of known deluge usernames."""
         self.__load_auth_file()
         return [account.data() for account in self.__auth.values()]
 
@@ -256,16 +228,11 @@ class AuthManager(component.Component):
             if line.startswith("#") or not line:
                 # This line is a comment or empty
                 continue
-            try:
-                lsplit = line.split(":")
-            except Exception, e:
-                log.error("Your auth file is malformed: %s", e)
-                continue
+            lsplit = line.split(":")
             if len(lsplit) == 2:
                 username, password = lsplit
                 log.warning("Your auth entry for %s contains no auth level, "
-                            "using AUTH_LEVEL_DEFAULT(%s)..", username,
-                            AUTH_LEVEL_DEFAULT)
+                            "using AUTH_LEVEL_DEFAULT(%s)..", username, AUTH_LEVEL_DEFAULT)
                 if username == 'localclient':
                     authlevel = AUTH_LEVEL_ADMIN
                 else:
@@ -275,8 +242,7 @@ class AuthManager(component.Component):
             elif len(lsplit) == 3:
                 username, password, authlevel = lsplit
             else:
-                log.error("Your auth file is malformed: "
-                          "Incorrect number of fields!")
+                log.error("Your auth file is malformed: Incorrect number of fields!")
                 continue
 
             username = username.strip()
@@ -287,8 +253,7 @@ class AuthManager(component.Component):
                 try:
                     authlevel = AUTH_LEVELS_MAPPING[authlevel]
                 except KeyError:
-                    log.error("Your auth file is malformed: %r is not a valid auth "
-                              "level" % authlevel)
+                    log.error("Your auth file is malformed: %r is not a valid auth level", authlevel)
                 continue
 
             self.__auth[username] = Account(username, password, authlevel)
