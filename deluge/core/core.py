@@ -533,7 +533,7 @@ class Core(component.Component):
         """Returns the active listen port"""
         proxy_settings = self.session.proxy()
         proxy_dict = {
-            "type": proxy_settings.type.real,
+            "type": int(proxy_settings.type),
             "hostname": proxy_settings.hostname,
             "username": proxy_settings.username,
             "password": proxy_settings.password,
