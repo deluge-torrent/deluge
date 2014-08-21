@@ -122,10 +122,6 @@ DEFAULT_PREFS = {
         "hostname": "",
         "port": 0
     },
-    "i2p_proxy": {
-        "hostname": "",
-        "port": 0
-    },
     "outgoing_ports": [0, 0],
     "random_outgoing_ports": True,
     "peer_tos": "0x00",
