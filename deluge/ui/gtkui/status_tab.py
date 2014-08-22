@@ -55,8 +55,10 @@ def fratio(value):
     return "%.3f" % value
 
 
-def fpcnt(value):
-    return "%.2f%%" % value
+def fpcnt(value, state):
+    if state:
+        state = _(state) + " "
+    return "%s%.2f%%" % (state, value)
 
 
 def fspeed(value, max_value=-1):
@@ -102,40 +104,32 @@ class StatusTab(Tab):
             (builder.get_object("summary_peers"), deluge.common.fpeer, ("num_peers", "total_peers")),
             (builder.get_object("summary_eta"), deluge.common.ftime, ("eta",)),
             (builder.get_object("summary_share_ratio"), fratio, ("ratio",)),
-            (builder.get_object("summary_tracker_status"), None, ("tracker_status",)),
-            (builder.get_object("summary_next_announce"), deluge.common.ftime, ("next_announce",)),
             (builder.get_object("summary_active_time"), deluge.common.ftime, ("active_time",)),
             (builder.get_object("summary_seed_time"), deluge.common.ftime, ("seeding_time",)),
             (builder.get_object("summary_seed_rank"), str, ("seed_rank",)),
-            (builder.get_object("summary_auto_managed"), str, ("is_auto_managed",)),
-            (builder.get_object("progressbar"), fpcnt, ("progress",)),
+            (builder.get_object("progressbar"), fpcnt, ("progress", "state")),
             (builder.get_object("summary_last_seen_complete"), fdate_or_never, ("last_seen_complete",)),
             (builder.get_object("summary_torrent_status"), str, ("message",)),
-            (builder.get_object("summary_tracker"), None, ("tracker_host",)),
         ]
+
+        self.status_keys = [status for widget in self.label_widgets for status in widget[2]]
 
     def update(self):
         # Get the first selected torrent
         selected = component.get("TorrentView").get_selected_torrents()
 
         # Only use the first torrent in the list or return if None selected
-        if len(selected) != 0:
+        if selected:
             selected = selected[0]
         else:
             # No torrent is selected in the torrentview
+            self.clear()
             return
 
         # Get the torrent status
-        status_keys = [
-            "distributed_copies", "all_time_download", "total_payload_download",
-            "total_uploaded", "total_payload_upload", "download_payload_rate", "max_download_speed",
-            "upload_payload_rate", "max_upload_speed", "num_peers", "num_seeds", "total_peers",
-            "total_seeds", "eta", "ratio", "tracker_status", "next_announce", "active_time",
-            "seeding_time", "seed_rank", "is_auto_managed", "progress", "last_seen_complete",
-            "message", "tracker_host"
-        ]
+        status_keys = self.status_keys
         if self.config['show_piecesbar']:
-            status_keys.extend(["pieces", "state", "num_pieces"])
+            status_keys = self.status_keys + ["pieces", "num_pieces"]
 
         component.get("SessionProxy").get_torrent_status(
             selected, status_keys).addCallback(self._on_get_torrent_status)
@@ -145,33 +139,14 @@ class StatusTab(Tab):
         if status is None:
             return
 
-        if status["is_auto_managed"]:
-            status["is_auto_managed"] = _("On")
-        else:
-            status["is_auto_managed"] = _("Off")
-
-        translate_tracker_status = {
-            "Error": _("Error"),
-            "Warning": _("Warning"),
-            "Announce OK": _("Announce OK"),
-            "Announce Sent": _("Announce Sent")
-        }
-        for key, value in translate_tracker_status.iteritems():
-            if key in status["tracker_status"]:
-                status["tracker_status"] = status["tracker_status"].replace(key, value, 1)
-                break
-
         # Update all the label widgets
         for widget in self.label_widgets:
             if widget[1] is not None:
-                args = []
                 try:
-                    for key in widget[2]:
-                        args.append(status[key])
-                except Exception, e:
-                    log.debug("Unable to get status value: %s", e)
+                    args = [status[key] for key in widget[2]]
+                except KeyError, ex:
+                    log.debug("Unable to get status value: %s", ex)
                     continue
-
                 txt = widget[1](*args)
             else:
                 txt = status[widget[2][0]]
@@ -202,7 +177,7 @@ class StatusTab(Tab):
             if show:
                 self.piecesbar = PiecesBar()
                 self.builder.get_object("status_progress_vbox").pack_start(
-                    self.piecesbar, False, False, 5
+                    self.piecesbar, False, False, 0
                 )
                 self.progressbar.hide()
 

@@ -77,7 +77,6 @@ class OptionsTab(Tab):
 
         component.get("MainWindow").connect_signals({
             "on_button_apply_clicked": self._on_button_apply_clicked,
-            "on_button_edit_trackers_clicked": self._on_button_edit_trackers_clicked,
             "on_chk_move_completed_toggled": self._on_chk_move_completed_toggled,
             "on_chk_stop_at_ratio_toggled": self._on_chk_stop_at_ratio_toggled,
             "on_chk_toggled": self._on_chk_toggled,
@@ -102,7 +101,7 @@ class OptionsTab(Tab):
         torrent_id = component.get("TorrentView").get_selected_torrents()
 
         # Only use the first torrent in the list or return if None selected
-        if len(torrent_id) != 0:
+        if torrent_id:
             torrent_id = torrent_id[0]
             self._child_widget.set_sensitive(True)
         else:
@@ -249,17 +248,6 @@ class OptionsTab(Tab):
                 self.prev_torrent_id, self.chk_shared.get_active()
             )
         self.button_apply.set_sensitive(False)
-
-    def _on_button_edit_trackers_clicked(self, button):
-        from edittrackersdialog import EditTrackersDialog
-        dialog = EditTrackersDialog(
-            self.prev_torrent_id,
-            component.get("MainWindow").window)
-
-        def on_response(result):
-            if result:
-                self.button_apply.set_sensitive(True)
-        dialog.run().addCallback(on_response)
 
     def _on_chk_move_completed_toggled(self, widget):
         value = self.chk_move_completed.get_active()

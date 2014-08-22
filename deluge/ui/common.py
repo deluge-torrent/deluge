@@ -39,10 +39,7 @@ all the interfaces.
 """
 
 import os
-import sys
 import logging
-import urlparse
-import locale
 from hashlib import sha1 as sha
 
 from deluge import bencode
@@ -51,10 +48,12 @@ import deluge.configmanager
 
 log = logging.getLogger(__name__)
 
+
 # Dummy tranlation dict so Torrent states text is available for Translators
 # All entries in deluge.common.TORRENT_STATE should be here. It does not need importing
 # as the string matches the translation text so using the _() function is enough.
-def _(message): return message
+def _(message):
+    return message
 STATE_TRANSLATION = {
     "All": _("All"),
     "Active": _("Active"),
@@ -67,7 +66,15 @@ STATE_TRANSLATION = {
     "Queued": _("Queued"),
     "Error": _("Error"),
 }
+
+TRACKER_STATUS_TRANSLATION = {
+    "Error": _("Error"),
+    "Warning": _("Warning"),
+    "Announce OK": _("Announce OK"),
+    "Announce Sent": _("Announce Sent")
+}
 del _
+
 
 class TorrentInfo(object):
     """

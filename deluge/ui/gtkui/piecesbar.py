@@ -52,6 +52,7 @@ COLOR_STATES = {
     3: "completed"
 }
 
+
 class PiecesBar(gtk.DrawingArea):
     # Draw in response to an expose-event
     __gsignals__ = {"expose-event": "override"}
@@ -141,7 +142,7 @@ class PiecesBar(gtk.DrawingArea):
 
     def __draw_pieces(self):
         if (self.__resized() or self.__pieces != self.__old_pieces or
-                self.__pieces_overlay == None):
+                self.__pieces_overlay is None):
             # Need to recreate the cache drawing
             self.__pieces_overlay = cairo.ImageSurface(
                 cairo.FORMAT_ARGB32, self.__width, self.__height
@@ -194,14 +195,13 @@ class PiecesBar(gtk.DrawingArea):
         if not self.__state:
             # Nothing useful to draw, return now!
             return
-        if (self.__resized() or self.__fraction != self.__old_fraction) or \
-                                                self.__progress_overlay is None:
+        if (self.__resized() or self.__fraction != self.__old_fraction) or self.__progress_overlay is None:
             # Need to recreate the cache drawing
             self.__progress_overlay = cairo.ImageSurface(
                 cairo.FORMAT_ARGB32, self.__width, self.__height
             )
             ctx = cairo.Context(self.__progress_overlay)
-            ctx.set_source_rgba(0.1, 0.1, 0.1, 0.3) # Transparent
+            ctx.set_source_rgba(0.1, 0.1, 0.1, 0.3)  # Transparent
             ctx.rectangle(0.0, 0.0, self.__width*self.__fraction, self.__height)
             ctx.fill()
         self.__cr.set_source_surface(self.__progress_overlay)
@@ -230,7 +230,7 @@ class PiecesBar(gtk.DrawingArea):
                 text += self.__text
             else:
                 if self.__state:
-                    text += self.__state + " "
+                    text += _(self.__state) + " "
                 if self.__fraction == 1.0:
                     format = "%d%%"
                 else:

@@ -1,36 +1,10 @@
-#
-# torrentdetails.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-#   The Free Software Foundation, Inc.,
-#   51 Franklin Street, Fifth Floor
-#   Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 
@@ -44,6 +18,7 @@ from deluge.ui.client import client
 from deluge.ui.gtkui.common import save_pickled_state_file, load_pickled_state_file
 
 log = logging.getLogger(__name__)
+
 
 class Tab:
     def __init__(self):
@@ -69,6 +44,7 @@ class Tab:
 
         return self._tab_label
 
+
 class TorrentDetails(component.Component):
     def __init__(self):
         component.Component.__init__(self, "TorrentDetails", interval=2)
@@ -91,13 +67,15 @@ class TorrentDetails(component.Component):
         from files_tab import FilesTab
         from peers_tab import PeersTab
         from options_tab import OptionsTab
+        from trackers_tab import TrackersTab
 
         default_tabs = {
             "Status": StatusTab,
             "Details": DetailsTab,
             "Files": FilesTab,
             "Peers": PeersTab,
-            "Options": OptionsTab
+            "Options": OptionsTab,
+            "Trackers": TrackersTab
             }
 
         # tab_name, visible
@@ -106,17 +84,19 @@ class TorrentDetails(component.Component):
             ("Details", True),
             ("Files", True),
             ("Peers", True),
-            ("Options", True)
+            ("Options", True),
+            ("Trackers", True)
         ]
 
         self.translate_tabs = {
-            "All"     : _("_All"),
-            "Status"  : _("_Status"),
-            "Details" : _("_Details"),
-            "Files"   : _("_Files"),
-            "Peers"   : _("_Peers"),
-            "Options" : _("_Options")
-          }
+            "All": _("_All"),
+            "Status": _("_Status"),
+            "Details": _("_Details"),
+            "Files": _("_Files"),
+            "Peers": _("_Peers"),
+            "Options": _("_Options"),
+            "Trackers": _("_Trackers")
+        }
 
         # Get the state from saved file
         state = self.load_state()
@@ -129,13 +109,12 @@ class TorrentDetails(component.Component):
                     break
 
         # The state is a list of tab_names in the order they should appear
-        if state == None:
+        if state is None:
             # Set the default order
             state = default_order
 
         # We need to rename the tab in the state for backwards compat
-        self.state = [(tab_name.replace("Statistics", "Status"), visible) for
-                       tab_name, visible in state]
+        self.state = [(tab_name.replace("Statistics", "Status"), visible) for tab_name, visible in state]
 
         for tab in default_tabs.itervalues():
             self.add_tab(tab(), generate_menu=False)
@@ -161,7 +140,6 @@ class TorrentDetails(component.Component):
                 log.debug("Found pos %d" % position)
                 break
         return position
-
 
     def add_tab(self, tab, generate_menu=True, visible=None):
         name = tab.get_name()
@@ -208,10 +186,8 @@ class TorrentDetails(component.Component):
         if generate_menu:
             self.generate_menu()
 
-
     def regenerate_positions(self):
-        """This will sync up the positions in the tab, with the position stored
-        in the tab object"""
+        """Sync the positions in the tab, with the position stored in the tab object"""
         for tab in self.tabs:
             page_num = self.notebook.page_num(self.tabs[tab]._child_widget)
             if page_num > -1:
@@ -262,8 +238,7 @@ class TorrentDetails(component.Component):
 
     def show_tab(self, tab_name, generate_menu=True):
         log.debug("%s\n%s\n%s", self.tabs[tab_name].get_child_widget(),
-            self.tabs[tab_name].get_tab_label(),
-            self.tabs[tab_name].position)
+                  self.tabs[tab_name].get_tab_label(), self.tabs[tab_name].position)
 
         position = self.tab_insert_position(self.tabs[tab_name].weight)
 
@@ -344,7 +319,6 @@ class TorrentDetails(component.Component):
             except AttributeError:
                 pass
 
-
     def shutdown(self):
         # Save the state of the tabs
         for tab in self.tabs:
@@ -362,7 +336,7 @@ class TorrentDetails(component.Component):
             self.clear()
 
         if self.notebook.get_property("visible"):
-            if page_num == None:
+            if page_num is None:
                 page_num = self.notebook.get_current_page()
             try:
                 # Get the tab name

@@ -21,11 +21,11 @@ def fpeer_size_second(first, second):
 
 
 def fdate_blank(value):
-    """Display value as date, eg 05/05/08 or blank"""
+    """Display value as date, eg 05/05/08 or dash"""
     if value > 0.0:
         return fdate(value)
     else:
-        return ""
+        return "-"
 
 
 def str_yes_no(value):
@@ -59,25 +59,22 @@ class DetailsTab(Tab):
             (builder.get_object("summary_pieces"), fpeer_size_second, ("num_pieces", "piece_length")),
         ]
 
+        self.status_keys = [status for widget in self.label_widgets for status in widget[2]]
+
     def update(self):
         # Get the first selected torrent
         selected = component.get("TorrentView").get_selected_torrents()
 
         # Only use the first torrent in the list or return if None selected
-        if len(selected) != 0:
+        if selected:
             selected = selected[0]
         else:
             # No torrent is selected in the torrentview
             self.clear()
             return
 
-        # Get the torrent status
-        status_keys = ["name", "total_size", "num_files", "time_added", "completed_time",
-                       "download_location", "hash", "comment", "owner", "num_pieces", "piece_length",
-                       "shared", "private"]
-
         session = component.get("SessionProxy")
-        session.get_torrent_status(selected, status_keys).addCallback(self._on_get_torrent_status)
+        session.get_torrent_status(selected, self.status_keys).addCallback(self._on_get_torrent_status)
 
     def _on_get_torrent_status(self, status):
         # Check to see if we got valid data from the core
@@ -87,14 +84,11 @@ class DetailsTab(Tab):
         # Update all the label widgets
         for widget in self.label_widgets:
             if widget[1] is not None:
-                args = []
                 try:
-                    for key in widget[2]:
-                        args.append(status[key])
-                except Exception, e:
-                    log.debug("Unable to get status value: %s", e)
+                    args = [status[key] for key in widget[2]]
+                except KeyError, ex:
+                    log.debug("Unable to get status value: %s", ex)
                     continue
-
                 txt = widget[1](*args)
             else:
                 txt = status[widget[2][0]]
