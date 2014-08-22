@@ -82,9 +82,9 @@ class TorrentDetails(component.Component):
         default_order = [
             ("Status", True),
             ("Details", True),
+            ("Options", True),
             ("Files", True),
             ("Peers", True),
-            ("Options", True),
             ("Trackers", True)
         ]
 
