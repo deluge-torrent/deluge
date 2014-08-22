@@ -641,36 +641,12 @@
           </object>
         </child>
         <child type="tab">
-          <object class="GtkHBox" id="status_tab_label">
+          <object class="GtkLabel" id="status_tab_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="spacing">2</property>
-            <child>
-              <object class="GtkImage" id="image1">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xpad">2</property>
-                <property name="stock">gtk-dialog-info</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label3">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">_Status</property>
-                <property name="use_underline">True</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
+            <property name="xpad">10</property>
+            <property name="label" translatable="yes">_Status</property>
+            <property name="use_underline">True</property>
           </object>
           <packing>
             <property name="tab_fill">False</property>
@@ -1137,36 +1113,12 @@
           </packing>
         </child>
         <child type="tab">
-          <object class="GtkHBox" id="details_tab_label">
+          <object class="GtkLabel" id="details_tab_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="spacing">2</property>
-            <child>
-              <object class="GtkImage" id="image2">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xpad">2</property>
-                <property name="stock">gtk-properties</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label2">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">_Details</property>
-                <property name="use_underline">True</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
+            <property name="xpad">10</property>
+            <property name="label" translatable="yes">_Details</property>
+            <property name="use_underline">True</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -1191,36 +1143,12 @@
           </packing>
         </child>
         <child type="tab">
-          <object class="GtkHBox" id="files_tab_label">
+          <object class="GtkLabel" id="files_tab_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="spacing">2</property>
-            <child>
-              <object class="GtkImage" id="image3">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xpad">2</property>
-                <property name="stock">gtk-copy</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label4">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">_Files</property>
-                <property name="use_underline">True</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
+            <property name="xpad">10</property>
+            <property name="label" translatable="yes">_Files</property>
+            <property name="use_underline">True</property>
           </object>
           <packing>
             <property name="position">2</property>
@@ -1245,36 +1173,12 @@
           </packing>
         </child>
         <child type="tab">
-          <object class="GtkHBox" id="peers_tab_label">
+          <object class="GtkLabel" id="peers_tab_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="spacing">2</property>
-            <child>
-              <object class="GtkImage" id="image4">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xpad">2</property>
-                <property name="stock">gtk-network</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label5">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">_Peers</property>
-                <property name="use_underline">True</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
+            <property name="xpad">10</property>
+            <property name="label" translatable="yes">_Peers</property>
+            <property name="use_underline">True</property>
           </object>
           <packing>
             <property name="position">3</property>
@@ -1804,36 +1708,12 @@
           </packing>
         </child>
         <child type="tab">
-          <object class="GtkHBox" id="options_tab_label">
+          <object class="GtkLabel" id="options_tab_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="spacing">2</property>
-            <child>
-              <object class="GtkImage" id="image5">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xpad">2</property>
-                <property name="stock">gtk-preferences</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_options_tab">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">_Options</property>
-                <property name="use_underline">True</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
+            <property name="xpad">10</property>
+            <property name="label" translatable="yes">_Options</property>
+            <property name="use_underline">True</property>
           </object>
           <packing>
             <property name="position">4</property>
@@ -1973,7 +1853,6 @@
                             <property name="xalign">0</property>
                             <property name="xscale">0</property>
                             <property name="top_padding">5</property>
-                            <property name="left_padding">5</property>
                             <child>
                               <object class="GtkButton" id="button_edit_trackers">
                                 <property name="use_action_appearance">False</property>
@@ -1984,35 +1863,11 @@
                                 <property name="yalign">0</property>
                                 <signal name="clicked" handler="on_button_edit_trackers_clicked" swapped="no"/>
                                 <child>
-                                  <object class="GtkHBox" id="hbox1">
+                                  <object class="GtkLabel" id="label_edit_trackers">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="spacing">5</property>
-                                    <child>
-                                      <object class="GtkImage" id="image7">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="stock">gtk-edit</property>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">0</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkLabel" id="label25">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">_Edit Trackers</property>
-                                        <property name="use_underline">True</property>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">1</property>
-                                      </packing>
-                                    </child>
+                                    <property name="label" translatable="yes">_Edit Trackers</property>
+                                    <property name="use_underline">True</property>
                                   </object>
                                 </child>
                               </object>
@@ -2066,36 +1921,12 @@
           </packing>
         </child>
         <child type="tab">
-          <object class="GtkHBox" id="trackers_tab_label">
+          <object class="GtkLabel" id="trackers_tab_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="spacing">2</property>
-            <child>
-              <object class="GtkImage" id="image6">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xpad">2</property>
-                <property name="stock">gtk-goto-last</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_trackers_tab">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">_Trackers</property>
-                <property name="use_underline">True</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
+            <property name="xpad">10</property>
+            <property name="label" translatable="yes">_Trackers</property>
+            <property name="use_underline">True</property>
           </object>
           <packing>
             <property name="position">5</property>
