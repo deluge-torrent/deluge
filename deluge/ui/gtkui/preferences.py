@@ -246,7 +246,7 @@ class Preferences(component.Component):
 
         if self.gtkui_config["language"] is None:
             self.language_checkbox.set_active(True)
-            self.language_combo.set_sensitive(False)
+            self.language_combo.set_visible(False)
         elif index != -1:
             self.language_combo.set_active(index)
 
@@ -1242,7 +1242,7 @@ class Preferences(component.Component):
         colors_widget.set_visible(widget.get_active())
 
     def _on_checkbutton_language_toggled(self, widget):
-        self.language_combo.set_sensitive(not self.language_checkbox.get_active())
+        self.language_combo.set_visible(not self.language_checkbox.get_active())
 
     def _on_completed_color_set(self, widget):
         self.__set_color("completed")
