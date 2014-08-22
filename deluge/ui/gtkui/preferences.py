@@ -96,8 +96,8 @@ class Preferences(component.Component):
         self.treeview.append_column(column)
         # Add the default categories
         i = 0
-        for category in (_("Interface"), _("Downloads"), _("Network"), _("Bandwidth"),  _("Other"),
-                         _("Daemon"), _("Queue"), _("Proxy"), _("Cache"), _("Plugins"), "_separator_"):
+        for category in (_("Interface"), _("Downloads"), _("Bandwidth"), _("Queue"), _("Network"),
+                         _("Proxy"), _("Cache"), _("Other"), _("Daemon"), _("Plugins"), "_separator_"):
             self.liststore.append([i, category])
             i += 1
 
