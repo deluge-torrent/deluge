@@ -19,6 +19,7 @@ from __future__ import division
 import os
 import logging
 from urlparse import urlparse
+from itertools import izip
 
 from twisted.internet.defer import Deferred, DeferredList
 from deluge._libtorrent import lt
@@ -1307,40 +1308,20 @@ class Torrent(object):
 
     def _get_pieces_info(self):
         """Get the pieces for this torrent."""
-        if not self.has_metadata:
-            return None
+        if not self.has_metadata or self.status.is_seeding:
+            pieces = None
+        else:
+            pieces = []
+            for piece, avail_piece in izip(self.status.pieces, self.handle.piece_availability()):
+                if piece:
+                    pieces.append(3)  # Completed.
+                elif avail_piece:
+                    pieces.append(1)  # Available, just not downloaded nor being downloaded.
+                else:
+                    pieces.append(0)  # Missing, no known peer with piece, or not asked for yet.
 
-        pieces = {}
-        # First get the pieces availability.
-        availability = self.handle.piece_availability()
-        # Pieces from connected peers
-        for peer_info in self.handle.get_peer_info():
-            if peer_info.downloading_piece_index < 0:
-                # No piece index, then we're not downloading anything from
-                # this peer
-                continue
-            pieces[peer_info.downloading_piece_index] = 2
+            for peer_info in self.handle.get_peer_info():
+                if peer_info.downloading_piece_index >= 0:
+                    pieces[peer_info.downloading_piece_index] = 2  # Being downloaded from peer.
 
-        # Now, the rest of the pieces
-        for idx, piece in enumerate(self.status.pieces):
-            if idx in pieces:
-                # Piece beeing downloaded, handled above
-                continue
-            elif piece:
-                # Completed Piece
-                pieces[idx] = 3
-                continue
-            elif availability[idx] > 0:
-                # Piece not downloaded nor beeing downloaded but available
-                pieces[idx] = 1
-                continue
-            # If we reached here, it means the piece is missing, ie, there's
-            # no known peer with this piece, or this piece has not been asked
-            # for so far.
-            pieces[idx] = 0
-
-        sorted_indexes = pieces.keys()
-        sorted_indexes.sort()
-        # Return only the piece states, no need for the piece index
-        # Keep the order
-        return [pieces[idx] for idx in sorted_indexes]
+        return pieces
