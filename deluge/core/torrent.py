@@ -865,12 +865,11 @@ class Torrent(object):
         if self.state == "Error":
             progress = 100.0
         elif self.moving_storage:
-            torrent_status = self.get_status(["files", "total_done"])
             # Check if torrent has downloaded any data yet.
-            if torrent_status["total_done"]:
-                torrent_files = [f["path"] for f in torrent_status["files"]]
+            if self.status.total_done:
+                torrent_files = [f["path"] for f in self.get_files()]
                 dest_path_size = get_size(torrent_files, self.moving_storage_dest_path)
-                progress = dest_path_size / torrent_status["total_done"] * 100
+                progress = dest_path_size / self.status.total_done * 100
             else:
                 progress = 100.0
         else:
@@ -1154,7 +1153,7 @@ class Torrent(object):
         # If the user has requested a copy of the torrent be saved elsewhere we need to do that.
         if self.config["copy_torrent_file"]:
             if filename is None:
-                filename = self.get_status(["name"])["name"] + ".torrent"
+                filename = self.get_name() + ".torrent"
             filepath = os.path.join(self.config["torrentfiles_location"], filename)
             write_file(filepath, filedump)
 
@@ -1275,7 +1274,7 @@ class Torrent(object):
             folder (str): The folder to recursively check
         """
         # Removes leading slashes that can cause join to ignore download_location
-        download_location = self.get_status(["download_location"])["download_location"]
+        download_location = self.options["download_location"]
         folder_full_path = os.path.normpath(os.path.join(download_location, folder.lstrip("\\/")))
 
         try:
