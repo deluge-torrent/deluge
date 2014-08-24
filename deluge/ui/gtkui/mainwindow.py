@@ -330,9 +330,17 @@ class MainWindow(component.Component):
         Notification().notify(torrent_id)
 
     def is_on_active_workspace(self):
-        # Returns True if mainwindow is on active workspace or wnck module not available
+        """Determines if MainWindow is on the active workspace.
+
+        Returns:
+            bool: True if on active workspace (or wnck module not available), otherwise False.
+
+        """
         if not wnck:
             return True
-        for win in self.screen.get_windows():
-            if win.get_xid() == self.window.window.xid:
-                return win.is_on_workspace(win.get_screen().get_active_workspace())
+        win = wnck.window_get(self.window.window.xid)
+        active_wksp = win.get_screen().get_active_workspace()
+        if active_wksp:
+            return win.is_on_workspace(active_wksp)
+        else:
+            return False
