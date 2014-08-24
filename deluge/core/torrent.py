@@ -18,6 +18,7 @@ from __future__ import division
 
 import os
 import logging
+import socket
 from urlparse import urlparse
 from itertools import izip
 
@@ -771,18 +772,15 @@ class Torrent(object):
         return self.handle.queue_position()
 
     def get_file_progress(self):
-        """Returns the file progress as a list of floats... 0.0 -> 1.0"""
+        """Calculates the file progress as a percentage.
+
+        Returns:
+            list of floats: The file progress (0.0 -> 1.0)
+        """
         if not self.has_metadata:
             return 0.0
-
-        file_progress = self.handle.file_progress()
-        ret = []
-        for index, _file in enumerate(self.get_files()):
-            try:
-                ret.append(file_progress[index] / _file["size"])
-            except ZeroDivisionError:
-                ret.append(0.0)
-        return ret
+        return [progress / _file.size if _file.size else 0.0 for progress, _file in
+                izip(self.handle.file_progress(), self.torrent_info.files())]
 
     def get_tracker_host(self):
         """Get the hostname of the currently connected tracker.
@@ -804,7 +802,6 @@ class Torrent(object):
             if hasattr(url, "hostname"):
                 host = (url.hostname or "DHT")
                 # Check if hostname is an IP address and just return it if that's the case
-                import socket
                 try:
                     socket.inet_aton(host)
                 except socket.error:
