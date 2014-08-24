@@ -156,7 +156,31 @@ def associate_magnet_links(overwrite=False):
     Returns:
         bool: True if association was set
     """
-    if not deluge.common.windows_check():
+
+    if deluge.common.windows_check():
+        import _winreg
+
+        try:
+            hkey = _winreg.OpenKey(_winreg.HKEY_CLASSES_ROOT, "Magnet")
+        except WindowsError:
+            overwrite = True
+        finally:
+            _winreg.CloseKey(hkey)
+
+        if overwrite:
+            _winreg.CreateKey(_winreg.HKEY_CLASSES_ROOT, "Magnet")
+            magnet_key = _winreg.OpenKey(_winreg.HKEY_CLASSES_ROOT, "Magnet", 0, _winreg.KEY_WRITE)
+            _winreg.SetValue(magnet_key, "", _winreg.REG_SZ, "URL:Magnet Protocol")
+            _winreg.SetValue(magnet_key, "URL Protocol", _winreg.REG_SZ, "")
+            _winreg.SetValue(magnet_key, "DefaultIcon", _winreg.REG_SZ, "")
+            _winreg.SetValue(magnet_key + "/DefaultIcon", "", _winreg.REG_SZ, "deluge.exe,1")
+            _winreg.SetValue(magnet_key, "shell\open\command", _winreg.REG_SZ, "")
+            ## need to find current running dir: os.path.dirname(os.path.realpath(__file__))
+            _winreg.SetValue(magnet_key + "\shell\open\command", "", _winreg.REG_SZ, "C:\Program Files\Deluge\deluge.exe" "%1")
+            _winreg.CloseKey(magnet_key)
+
+    # Don't try associate magnet on OSX see: #2420
+    elif not deluge.common.osx_check():
         # gconf method is only available in a GNOME environment
         try:
             import gconf
