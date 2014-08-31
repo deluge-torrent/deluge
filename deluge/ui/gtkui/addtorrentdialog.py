@@ -164,7 +164,6 @@ class AddTorrentDialog(component.Component):
             "move_completed_paths_list",
         ]
         #self.core_keys += self.move_completed_path_chooser.get_config_keys()
-        self.core_config = {}
         self.builder.get_object("notebook1").connect("switch-page", self._on_switch_page)
 
     def start(self):
@@ -199,7 +198,8 @@ class AddTorrentDialog(component.Component):
     def update_core_config(self, show=False, focus=False):
         def _on_config_values(config):
             self.core_config = config
-            self.set_default_options()
+            if self.core_config:
+                self.set_default_options()
             if show:
                 self._show(focus)
 
@@ -472,6 +472,11 @@ class AddTorrentDialog(component.Component):
         return priorities
 
     def set_default_options(self):
+        if not self.core_config:
+            # update_core_config will call this method again.
+            self.update_core_config()
+            return
+
         self.load_path_choosers_data()
 
         self.builder.get_object("chk_pre_alloc").set_active(

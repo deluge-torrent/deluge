@@ -87,15 +87,16 @@ class QueuedTorrents(component.Component):
         if len(self.queue) == 0:
             return
 
-        if self.config["autoadd_queued"] or self.config["classic_mode"]:
-            self.on_button_add_clicked(None)
-            return
         # Make sure status bar info is showing
         self.update_status_bar()
 
         # We only want the add button sensitive if we're connected to a host
         self.builder.get_object("button_add").set_sensitive(True)
-        self.run()
+
+        if self.config["autoadd_queued"] or self.config["classic_mode"]:
+            self.on_button_add_clicked(None)
+        else:
+            self.run()
 
     def stop(self):
         # We only want the add button sensitive if we're connected to a host
