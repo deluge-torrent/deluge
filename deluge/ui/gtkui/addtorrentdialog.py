@@ -147,7 +147,6 @@ class AddTorrentDialog(component.Component):
             "move_completed",
             "move_completed_path"
         ]
-        self.core_config = {}
 
         self.glade.get_widget("notebook1").connect("switch-page", self._on_switch_page)
 
@@ -194,7 +193,8 @@ class AddTorrentDialog(component.Component):
     def update_core_config(self, show=False, focus=False):
         def _on_config_values(config):
             self.core_config = config
-            self.set_default_options()
+            if self.core_config:
+                self.set_default_options()
             if show:
                 self._show(focus)
 
@@ -476,6 +476,11 @@ class AddTorrentDialog(component.Component):
         return priorities
 
     def set_default_options(self):
+        if not self.core_config:
+            # update_core_config will call this method again.
+            self.update_core_config()
+            return
+
         if client.is_localhost():
             self.glade.get_widget("button_location").set_current_folder(
                 self.core_config["download_location"])

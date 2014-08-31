@@ -86,15 +86,16 @@ class QueuedTorrents(component.Component):
         if len(self.queue) == 0:
             return
 
-        if self.config["autoadd_queued"] or self.config["classic_mode"]:
-            self.on_button_add_clicked(None)
-            return
         # Make sure status bar info is showing
         self.update_status_bar()
 
         # We only want the add button sensitive if we're connected to a host
         self.glade.get_widget("button_add").set_sensitive(True)
-        self.run()
+
+        if self.config["autoadd_queued"] or self.config["classic_mode"]:
+            self.on_button_add_clicked(None)
+        else:
+            self.run()
 
     def stop(self):
         # We only want the add button sensitive if we're connected to a host
@@ -174,7 +175,7 @@ class QueuedTorrents(component.Component):
         def add_torrent(model, path, iter, data):
             torrent_path = model.get_value(iter, 1)
             process_args([torrent_path])
-            
+
         self.liststore.foreach(add_torrent, None)
         del self.queue[:]
         self.dialog.hide()
