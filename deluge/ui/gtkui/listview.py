@@ -229,10 +229,11 @@ class ListView:
         self.set_model_sort()
 
     def set_model_sort(self):
-        for column_state in self.state:
-            if column_state.sort is not None and column_state.sort > -1:
-                self.treeview.get_model().set_sort_column_id(column_state.sort, column_state.sort_order)
-                break
+        if self.state is not None:
+            for column_state in self.state:
+                if column_state.sort is not None and column_state.sort > -1:
+                    self.treeview.get_model().set_sort_column_id(column_state.sort, column_state.sort_order)
+                    break
 
     def stabilize_sort_func(self, sort_func):
         def stabilized(model, iter1, iter2, data):
