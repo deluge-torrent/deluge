@@ -399,6 +399,7 @@ class Preferences(component.Component):
             "spin_max_connections_per_second": ("value", "max_connections_per_second"),
             "chk_ignore_limits_on_local_network": ("active", "ignore_limits_on_local_network"),
             "chk_rate_limit_ip_overhead": ("active", "rate_limit_ip_overhead"),
+            "chk_anonymous_mode": ("active", "anonymous_mode"),
             "spin_max_connections_per_torrent": ("value", "max_connections_per_torrent"),
             "spin_max_upload_slots_per_torrent": ("value", "max_upload_slots_per_torrent"),
             "spin_max_download_per_torrent": ("value", "max_download_speed_per_torrent"),
@@ -706,6 +707,7 @@ class Preferences(component.Component):
         new_core_config["i2p_proxy"] = {}
         new_core_config["i2p_proxy"]["hostname"] = self.builder.get_object("entry_i2p_host").get_text()
         new_core_config["i2p_proxy"]["port"] = self.builder.get_object("spin_i2p_port").get_value_as_int()
+        new_core_config["anonymous_mode"] = self.builder.get_object("chk_anonymous_mode").get_active()
 
         ## Queue tab ##
         new_core_config["queue_new_to_top"] = \
