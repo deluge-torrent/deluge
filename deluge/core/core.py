@@ -487,7 +487,7 @@ class Core(component.Component):
             try:
                 config[key] = self.config[key]
             except KeyError:
-                config[key] = None
+                pass
         return config
 
     @export
