@@ -37,6 +37,8 @@
 import os
 import logging
 import threading
+import random
+
 from twisted.internet.task import LoopingCall
 
 from deluge._libtorrent import lt
@@ -57,13 +59,18 @@ DEFAULT_PREFS = {
     "download_location": deluge.common.get_default_download_dir(),
     "listen_ports": [6881, 6891],
     "listen_interface": "",
+    "random_port": True,
+    "listen_random_port": None,
+    "listen_use_sys_port": False,
+    "listen_reuse_port": True,
+    "outgoing_ports": [0, 0],
+    "random_outgoing_ports": True,
     "copy_torrent_file": False,
     "del_copy_torrent_file": False,
     "torrentfiles_location": deluge.common.get_default_download_dir(),
     "plugins_location": os.path.join(deluge.configmanager.get_config_dir(), "plugins"),
     "prioritize_first_last_pieces": False,
     "sequential_download": False,
-    "random_port": True,
     "dht": True,
     "upnp": True,
     "natpmp": True,
@@ -122,8 +129,6 @@ DEFAULT_PREFS = {
         "hostname": "",
         "port": 0
     },
-    "outgoing_ports": [0, 0],
-    "random_outgoing_ports": True,
     "peer_tos": "0x00",
     "rate_limit_ip_overhead": True,
     "geoip_db_location": "/usr/share/GeoIP/GeoIP.dat",
@@ -151,8 +156,16 @@ class PreferencesManager(component.Component):
         self.session = component.get("Core").session
         self.new_release_timer = None
 
+        # Setup listen port followed by dht to ensure both use same port.
+        self.__set_listen_on()
+        self._on_set_dht("dht", self.config["dht"])
+
         # Set the initial preferences on start-up
         for key in DEFAULT_PREFS:
+            # Listen port and dht already setup in correct order so skip
+            # repeated running of the dht and listen port functions on startup.
+            if key in ("dht", "random_port") or key.startswith("listen_"):
+                continue
             self.do_config_set_func(key, self.config[key])
 
         self.config.register_change_callback(self._on_config_value_change)
@@ -184,36 +197,46 @@ class PreferencesManager(component.Component):
                 log.debug("Unable to make directory: %s", e)
 
     def _on_set_listen_ports(self, key, value):
-        # Only set the listen ports if random_port is not true
-        if self.config["random_port"] is not True:
-            log.debug("listen port range set to %s-%s", value[0], value[1])
-            self.session.listen_on(
-                value[0], value[1], str(self.config["listen_interface"])
-            )
+        self.__set_listen_on()
 
     def _on_set_listen_interface(self, key, value):
-        # Call the random_port callback since it'll do what we need
-        self._on_set_random_port("random_port", self.config["random_port"])
+        self.__set_listen_on()
 
     def _on_set_random_port(self, key, value):
-        log.debug("random port value set to %s", value)
-        # We need to check if the value has been changed to true and false
-        # and then handle accordingly.
-        if value:
-            import random
-            listen_ports = []
-            randrange = lambda: random.randrange(49152, 65525)
-            listen_ports.append(randrange())
-            listen_ports.append(listen_ports[0]+10)
-        else:
-            listen_ports = self.config["listen_ports"]
+        log.debug("Listen on random port set to %s", value)
+        self.__set_listen_on()
 
-        # Set the listen ports
-        log.debug("listen port range set to %s-%s", listen_ports[0], listen_ports[1])
-        self.session.listen_on(
-            listen_ports[0], listen_ports[1],
-            str(self.config["listen_interface"])
-        )
+    def __set_listen_on(self):
+        """ Set the ports and interface address to listen for incoming connections on."""
+        listen_ports = self.config["listen_ports"]
+        interface = str(self.config["listen_interface"].strip())
+        reuse_port = self.config["listen_reuse_port"]
+        use_sys_port = self.config["listen_use_sys_port"]
+
+        if self.config["random_port"] and self.config["listen_random_port"] is not None:
+            port = self.config["listen_random_port"]
+        elif self.config["random_port"]:
+            port = random.randrange(49152, 65525)
+            self.config["listen_random_port"] = port
+            listen_ports = [port, port]
+        else:
+            self.config["listen_random_port"] = None
+
+        # If a single port is set then enable re-use port flag
+        if listen_ports[0] == listen_ports[1]:
+            reuse_port = True
+
+        flags = ((lt.listen_on_flags_t.listen_no_system_port if not use_sys_port else 0) |
+                 (lt.listen_on_flags_t.listen_reuse_address if reuse_port else 0))
+
+        log.debug("Listen on Interface: %s, Ports: %s-%s and Flags: reuse_port: %s, use_sys_port: %s",
+                  interface, listen_ports[0], listen_ports[1], reuse_port, use_sys_port)
+        try:
+            self.session.listen_on(listen_ports[0], listen_ports[1], interface, flags)
+        except RuntimeError as ex:
+            if ex.message == "Invalid Argument":
+                log.error("Error setting listen interface (must be IP Address): %s %s-%s",
+                          interface, listen_ports[0], listen_ports[1])
 
     def _on_set_outgoing_ports(self, key, value):
         if not self.config["random_outgoing_ports"]:
