@@ -166,6 +166,7 @@ class QueuedTorrents(component.Component):
 
     def on_button_clear_clicked(self, widget):
         self.liststore.clear()
+        del self.queue[:]
         self.update_status_bar()
 
     def on_button_close_clicked(self, widget):
