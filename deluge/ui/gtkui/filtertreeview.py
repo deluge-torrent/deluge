@@ -78,6 +78,7 @@ class FilterTreeView(component.Component):
         # count cell
         self.cell_count = gtk.CellRendererText()
         self.cell_count.set_property('xalign', 1.0)
+        self.cell_count.set_padding(3, 0)
         column.pack_start(self.cell_count, expand=False)
 
         self.treeview.append_column(column)
