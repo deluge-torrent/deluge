@@ -126,6 +126,7 @@ DEFAULT_PREFS = {
     "random_outgoing_ports": True,
     "peer_tos": "0x00",
     "rate_limit_ip_overhead": True,
+    "anonymous_mode": False,
     "geoip_db_location": "/usr/share/GeoIP/GeoIP.dat",
     "cache_size": 512,
     "cache_expiry": 60,
@@ -438,6 +439,10 @@ class PreferencesManager(component.Component):
     def _on_set_rate_limit_ip_overhead(self, key, value):
         log.debug("%s: %s", key, value)
         self.session_set_setting("rate_limit_ip_overhead", value)
+
+    def _on_set_anonymous_mode(self, key, value):
+        log.debug("%s: %s", key, value)
+        self.session_set_setting("anonymous_mode", value)
 
     def _on_set_geoip_db_location(self, key, value):
         log.debug("%s: %s", key, value)

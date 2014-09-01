@@ -435,11 +435,11 @@ class ProxyPane(BasePane):
         self.add_checked_input("proxy_hostnames", "Proxy hostnames", proxy["proxy_hostnames"])
         self.add_checked_input("proxy_peer_connections", "Proxy peer connections", proxy["proxy_peer_connections"])
 
-
         self.add_header("I2P Proxy",True)
         i2p_proxy = parent.core_config["i2p_proxy"]
         self.add_text_input("i2p_hostname", "Hostname:", i2p_proxy["hostname"])
         self.add_int_spin_input("i2p_port", "Port:", i2p_proxy["port"], 0, 65535)
+        self.add_checked_input("anonymous_mode", "Anonymous Mode", parent.core_config["anonymous_mode"])
 
 
 class CachePane(BasePane):
