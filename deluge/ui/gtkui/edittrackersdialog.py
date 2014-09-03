@@ -1,36 +1,10 @@
-#
-# edittrackersdialog.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 import logging
@@ -45,6 +19,7 @@ import deluge.component as component
 from deluge.ui.client import client
 
 log = logging.getLogger(__name__)
+
 
 class EditTrackersDialog:
     def __init__(self, torrent_id, parent=None):
@@ -71,7 +46,7 @@ class EditTrackersDialog:
         self.edit_tracker_entry.set_transient_for(self.dialog)
         self.dialog.set_icon(common.get_deluge_icon())
 
-        if parent != None:
+        if parent is not None:
             self.dialog.set_transient_for(parent)
 
         # Connect the signals
@@ -104,7 +79,7 @@ class EditTrackersDialog:
 
     def run(self):
         # Make sure we have a torrent_id.. if not just return
-        if self.torrent_id == None:
+        if self.torrent_id is None:
             return
 
         # Get the trackers for this torrent
@@ -117,7 +92,6 @@ class EditTrackersDialog:
         self.deferred = defer.Deferred()
         return self.deferred
 
-
     def _on_delete_event(self, widget, event):
         self.deferred.callback(gtk.RESPONSE_DELETE_EVENT)
         self.dialog.destroy()
@@ -125,6 +99,7 @@ class EditTrackersDialog:
     def _on_response(self, widget, response):
         if response == 1:
             self.trackers = []
+
             def each(model, path, iter, data):
                 tracker = {}
                 tracker["tier"] = model.get_value(iter, 0)
@@ -165,7 +140,7 @@ class EditTrackersDialog:
     def on_button_remove_clicked(self, widget):
         log.debug("on_button_remove_clicked")
         selected = self.get_selected()
-        if selected != None:
+        if selected is not None:
             self.liststore.remove(selected)
 
     def on_button_edit_clicked(self, widget):
@@ -193,7 +168,7 @@ class EditTrackersDialog:
         log.debug("on_button_up_clicked")
         selected = self.get_selected()
         num_rows = self.liststore.iter_n_children(None)
-        if selected != None and num_rows > 1:
+        if selected is not None and num_rows > 1:
             tier = self.liststore.get_value(selected, 0)
             if not tier > 0:
                 return
@@ -205,7 +180,7 @@ class EditTrackersDialog:
         log.debug("on_button_down_clicked")
         selected = self.get_selected()
         num_rows = self.liststore.iter_n_children(None)
-        if selected != None and num_rows > 1:
+        if selected is not None and num_rows > 1:
             tier = self.liststore.get_value(selected, 0)
             new_tier = tier + 1
             # Now change the tier for this tracker

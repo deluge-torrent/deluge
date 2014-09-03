@@ -65,8 +65,8 @@ def seed_peer_column_sort(model, iter1, iter2, data):
     v1 = model[iter1][data]         # num seeds/peers
     v3 = model[iter2][data]         # num seeds/peers
     if v1 == v3:
-        v2 = model[iter1][data+1]   # total seeds/peers
-        v4 = model[iter2][data+1]   # total seeds/peers
+        v2 = model[iter1][data + 1]   # total seeds/peers
+        v4 = model[iter2][data + 1]   # total seeds/peers
         return queue_peer_seed_sort_function(v2, v4)
     return queue_peer_seed_sort_function(v1, v3)
 

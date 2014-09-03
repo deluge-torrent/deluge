@@ -353,10 +353,10 @@ class FilesTab(Tab):
         if first_slash_index == -1:
             files_storage[file_name] = (file_num, file)
         else:
-            file_name_chunk = file_name[:first_slash_index+1]
+            file_name_chunk = file_name[:first_slash_index + 1]
             if file_name_chunk not in files_storage:
                 files_storage[file_name_chunk] = {}
-            self.prepare_file(file, file_name[first_slash_index+1:],
+            self.prepare_file(file, file_name[first_slash_index + 1:],
                               file_num, files_storage[file_name_chunk])
 
     def add_files(self, parent_iter, split_files):
@@ -407,7 +407,7 @@ class FilesTab(Tab):
         for row in rows:
             if row[5] > -1:
                 files_list.append((row[5], row))
-            self.get_files_from_tree(row.iterchildren(), files_list, indent+1)
+            self.get_files_from_tree(row.iterchildren(), files_list, indent + 1)
         return None
 
     def update_folder_percentages(self):

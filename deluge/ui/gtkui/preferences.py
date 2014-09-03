@@ -1,37 +1,11 @@
-#
-# preferences.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-#     The Free Software Foundation, Inc.,
-#     51 Franklin Street, Fifth Floor
-#     Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 import logging
@@ -194,6 +168,7 @@ class Preferences(component.Component):
         if not deluge.common.osx_check() and not deluge.common.windows_check():
             try:
                 import appindicator
+                assert appindicator  # silence pyflakes
             except ImportError:
                 pass
             else:
@@ -370,7 +345,7 @@ class Preferences(component.Component):
             "chk_copy_torrent_file": ("active", "copy_torrent_file"),
             "chk_del_copy_torrent_file": ("active", "del_copy_torrent_file"),
             "chk_pre_allocation": ("active", "pre_allocate_storage"),
-            "chk_prioritize_first_last_pieces": ("active",  "prioritize_first_last_pieces"),
+            "chk_prioritize_first_last_pieces": ("active", "prioritize_first_last_pieces"),
             "chk_sequential_download": ("active", "sequential_download"),
             "chk_add_paused": ("active", "add_paused"),
             "active_port_label": ("text", lambda: str(self.active_port)),
@@ -423,7 +398,7 @@ class Preferences(component.Component):
             "chk_remove_ratio": ("active", "remove_seed_at_ratio"),
             "spin_cache_size": ("value", "cache_size"),
             "spin_cache_expiry": ("value", "cache_expiry"),
-            "combo_proxy_type":  ("active", lambda: self.core_config["proxy"]["type"]),
+            "combo_proxy_type": ("active", lambda: self.core_config["proxy"]["type"]),
             "entry_proxy_user": ("text", lambda: self.core_config["proxy"]["username"]),
             "entry_proxy_pass": ("text", lambda: self.core_config["proxy"]["password"]),
             "entry_proxy_host": ("text", lambda: self.core_config["proxy"]["hostname"]),

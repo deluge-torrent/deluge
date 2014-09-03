@@ -1,38 +1,11 @@
-#
-# notification.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Marcos Pinto ('markybob') <markybob@gmail.com>
 #
-# Deluge is free software.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
-#
-
 
 import logging
 
@@ -40,9 +13,9 @@ import common
 import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager
-from deluge.ui.client import client
 
 log = logging.getLogger(__name__)
+
 
 class Notification:
     def __init__(self):
@@ -82,10 +55,8 @@ class Notification:
                 if not pynotify.init("Deluge"):
                     return
                 title = deluge.common.xml_encode(_("Torrent complete"))
-                message = deluge.common.xml_encode(
-                    "%s\n%s %i %s"  % (status["name"],
-                    _("Including"), status["num_files"], _("files"))
-                )
+                message = deluge.common.xml_encode("%s\n%s %i %s" % (status["name"],
+                                                   _("Including"), status["num_files"], _("files")))
                 self.note = pynotify.Notification(title, message)
                 self.note.set_icon_from_pixbuf(common.get_logo(48))
                 if not self.note.show():
@@ -113,7 +84,7 @@ class Notification:
         import smtplib
         headers = "From: %s\r\nTo: %s\r\nSubject: %s\r\n\r\n" % (
             self.config["ntf_email_add"], self.config["ntf_email_add"],
-                "Finished torrent %s" % (status["name"]))
+            "Finished torrent %s" % (status["name"]))
         text = _("This email is to inform you that Deluge has finished "
                  "downloading %(name)s , which includes %(num_files)i files.\n"
                  "To stop receiving these alerts, simply turn off email "
@@ -125,28 +96,28 @@ class Notification:
             port = 465
         elif self.config["ntf_security"] == 'TLS':
             port = 587
-        elif self.config["ntf_security"] == None:
+        elif self.config["ntf_security"] is None:
             port = 25
         try:
-            mailServer = smtplib.SMTP(self.config["ntf_server"], port)
+            mail_server = smtplib.SMTP(self.config["ntf_server"], port)
         except Exception as ex:
             log.error("There was an error sending the notification email: %s", ex)
             return
 
         if self.config["ntf_username"] and self.config["ntf_pass"]:
             if self.config["ntf_security"] == 'SSL' or 'TLS':
-                mailServer.ehlo('x')
-                mailServer.starttls()
-                mailServer.ehlo('x')
+                mail_server.ehlo('x')
+                mail_server.starttls()
+                mail_server.ehlo('x')
             try:
-                mailServer.login(self.config["ntf_username"], self.config["ntf_pass"])
+                mail_server.login(self.config["ntf_username"], self.config["ntf_pass"])
             except smtplib.SMTPHeloError:
                 log.warning("The server didn't reply properly to the helo greeting")
             except smtplib.SMTPAuthenticationError:
                 log.warning("The server didn't accept the username/password combination")
         try:
-            mailServer.sendmail(self.config["ntf_email_add"], self.config["ntf_email_add"], message)
-            mailServer.quit()
+            mail_server.sendmail(self.config["ntf_email_add"], self.config["ntf_email_add"], message)
+            mail_server.quit()
         except:
             log.warning("sending email notification of finished torrent failed")
         else:

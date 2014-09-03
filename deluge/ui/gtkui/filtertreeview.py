@@ -35,7 +35,7 @@ STATE_PIX = {
     "Active": "active",
     "Allocating": "checking",
     "Moving": "checking"
-    }
+}
 
 TRACKER_PIX = {
     "All": "tracker_all",
@@ -249,7 +249,7 @@ class FilterTreeView(component.Component):
                 log.warning(ex)
         return self.get_transparent_pix(16, 16)
 
-    def get_transparent_pix(self,  width, height):
+    def get_transparent_pix(self, width, height):
         pix = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, width, height)
         pix.fill(0x0000000)
         return pix

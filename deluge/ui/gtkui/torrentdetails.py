@@ -77,7 +77,7 @@ class TorrentDetails(component.Component):
             "Peers": PeersTab,
             "Options": OptionsTab,
             "Trackers": TrackersTab
-            }
+        }
 
         # tab_name, visible
         default_order = [
