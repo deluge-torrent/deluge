@@ -115,7 +115,7 @@ class TorrentInfo(object):
         # Get list of files from torrent info
         paths = {}
         dirs = {}
-        if self.__m_metadata["info"].has_key("files"):
+        if "files" in self.__m_metadata["info"]:
             prefix = ""
             if len(self.__m_metadata["info"]["files"]) > 1:
                 prefix = self.__m_name
@@ -176,7 +176,7 @@ class TorrentInfo(object):
                 }
 
         self.__m_files = []
-        if self.__m_metadata["info"].has_key("files"):
+        if "files" in self.__m_metadata["info"]:
             prefix = ""
             if len(self.__m_metadata["info"]["files"]) > 1:
                 prefix = self.__m_name

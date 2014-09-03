@@ -151,7 +151,7 @@ Date: %(date)s
 
         if security_enabled:
             server.ehlo()
-            if not server.esmtp_features.has_key('starttls'):
+            if 'starttls' not in server.esmtp_features:
                 log.warning("TLS/SSL enabled but server does not support it")
             else:
                 server.starttls()

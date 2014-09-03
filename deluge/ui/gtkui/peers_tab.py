@@ -202,7 +202,7 @@ class PeersTab(Tab):
 
         for (index, column) in enumerate(self.listview.get_columns()):
             cname = column.get_title()
-            if state["columns"].has_key(cname):
+            if cname in state["columns"]:
                 cstate = state["columns"][cname]
                 column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
                 column.set_fixed_width(cstate["width"] if cstate["width"] > 0 else 10)
@@ -240,7 +240,7 @@ class PeersTab(Tab):
         if country == "  ":
             return None
 
-        if not self.cached_flag_pixbufs.has_key(country):
+        if country not in self.cached_flag_pixbufs:
             # We haven't created a pixbuf for this country yet
             try:
                 self.cached_flag_pixbufs[country] = gtk.gdk.pixbuf_new_from_file(
@@ -257,7 +257,7 @@ class PeersTab(Tab):
         new_ips = set()
         for peer in status["peers"]:
             new_ips.add(peer["ip"])
-            if self.peers.has_key(peer["ip"]):
+            if peer["ip"] in self.peers:
                 # We already have this peer in our list, so lets just update it
                 row = self.peers[peer["ip"]]
                 if not self.liststore.iter_is_valid(row):

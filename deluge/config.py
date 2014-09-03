@@ -197,7 +197,7 @@ what is currently in the config and it could not convert the value
         if isinstance(value, basestring):
             value = utf8_encoded(value)
 
-        if not self.__config.has_key(key):
+        if key not in self.__config:
             self.__config[key] = value
             log.debug("Setting '%s' to %s of %s", key, value, type(value))
             return
