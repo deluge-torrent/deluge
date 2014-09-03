@@ -413,7 +413,7 @@ class RPCServer(component.Component):
 
         """
         for key, value in self.factory.methods.items():
-            if value.im_self == obj:
+            if value.__self__ == obj:
                 del self.factory.methods[key]
 
     def get_object_method(self, name):
