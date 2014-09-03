@@ -244,11 +244,11 @@ class TorrentDetail(BaseMode, component.Component):
         for f in fs:
             if f[3]: # dir, so fill in children and compute our prio
                 self.__fill_prio(f[3])
-                s = set([e[6] for e in f[3]]) # pull out all child prios and turn into a set
-                if len(s) > 1:
+                child_prios = [e[6] for e in f[3]]
+                if len(child_prios) > 1:
                     f[6] = -2  # mixed
                 else:
-                    f[6] = s.pop()
+                    f[6] = child_prios.pop(0)
 
     def __update_columns(self):
         self.column_widths = [-1, 15, 15, 20]
