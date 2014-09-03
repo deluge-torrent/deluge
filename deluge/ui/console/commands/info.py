@@ -112,7 +112,7 @@ def format_time(seconds):
 class Command(BaseCommand):
     """Show information about the torrents"""
 
-    sort_help = 'sort items.  Possible keys: ' + ', '.join(status_keys)
+    sort_help = 'sort items.  Possible keys: ' + ', '.join(STATUS_KEYS)
 
     option_list = BaseCommand.option_list + (
             make_option('-v', '--verbose', action='store_true', default=False, dest='verbose',
