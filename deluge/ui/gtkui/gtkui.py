@@ -16,6 +16,9 @@ import gobject
 import gtk
 from twisted.internet import gtk2reactor
 
+# Install the twisted reactor
+reactor = gtk2reactor.install()
+
 import deluge.common
 import deluge.component as component
 import deluge.error
@@ -42,9 +45,6 @@ from torrentdetails import TorrentDetails
 from torrentview import TorrentView
 
 gobject.set_prgname("deluge")
-
-# Install the twisted reactor
-reactor = gtk2reactor.install()
 
 log = logging.getLogger(__name__)
 
