@@ -145,7 +145,7 @@ class CreateTorrentDialog:
         """Adjusts the recommended piece based on the file/folder/path selected."""
         size = self.files_treestore[0][2]
         model = self.builder.get_object("combo_piece_size").get_model()
-        for index,value in enumerate(model):
+        for index, value in enumerate(model):
             psize = self.parse_piece_size_text(value[0])
             pieces = size / psize
             if pieces < 2048 or (index + 1) == len(model):

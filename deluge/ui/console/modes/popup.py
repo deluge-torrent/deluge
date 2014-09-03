@@ -102,7 +102,7 @@ class Popup:
         for line in self._lines[self.lineoff:]:
             if (crow >= self.height-1):
                 break
-            self.parent.add_string(crow,line,self.screen,1,False,True)
+            self.parent.add_string(crow, line, self.screen, 1, False, True)
             crow+=1
 
     def handle_resize(self):
@@ -148,17 +148,17 @@ class Popup:
         elif self.align in [ALIGN.TOP_RIGHT, ALIGN.MIDDLE_RIGHT, ALIGN.BOTTOM_RIGHT]:
             bx = self.parent.cols - wr - 1
 
-        self.screen = curses.newwin(hr,wr,by,bx)
+        self.screen = curses.newwin(hr, wr, by, bx)
 
         self.x, self.y = bx, by
-        self.height,self.width = self.screen.getmaxyx()
+        self.height, self.width = self.screen.getmaxyx()
 
 
     def refresh(self):
         self.screen.erase()
-        self.screen.border(0,0,0,0)
+        self.screen.border(0, 0, 0, 0)
         toff = max(1, (self.width//2) - (len(self.title)//2))
-        self.parent.add_string(0,"{!white,black,bold!}%s"%self.title,self.screen,toff,False,True)
+        self.parent.add_string(0, "{!white,black,bold!}%s"%self.title, self.screen, toff, False, True)
 
         self._refresh_lines()
         if (len(self._lines) > (self.height-2)):
@@ -167,7 +167,7 @@ class Popup:
             sb_pos = int((self.height-2)*perc_sc)+1
             if (sb_pos == 1) and (self.lineoff != 0):
                 sb_pos += 1
-            self.parent.add_string(sb_pos, "{!red,black,bold!}#",self.screen,col=(self.width-1),pad=False,trim=False)
+            self.parent.add_string(sb_pos, "{!red,black,bold!}#", self.screen, col=(self.width-1), pad=False, trim=False)
 
         self.screen.redrawwin()
         self.screen.noutrefresh()
@@ -178,9 +178,9 @@ class Popup:
     def handle_read(self, c):
         p_off = self.height - 3
         if c == curses.KEY_UP:
-            self.lineoff = max(0,self.lineoff -1)
+            self.lineoff = max(0, self.lineoff -1)
         elif c == curses.KEY_PPAGE:
-            self.lineoff = max(0,self.lineoff - p_off)
+            self.lineoff = max(0, self.lineoff - p_off)
         elif c == curses.KEY_HOME:
             self.lineoff = 0
         elif c == curses.KEY_DOWN:
@@ -223,7 +223,7 @@ class SelectablePopup(Popup):
     are added.
     """
     def __init__(self,parent_mode,title, selection_callback, args=(), align=ALIGN.DEFAULT, immediate_action=False):
-        Popup.__init__(self,parent_mode, title, align=align)
+        Popup.__init__(self, parent_mode, title, align=align)
         self._selection_callback = selection_callback
         self._selection_args = args
         self._selectable_lines = []
@@ -244,7 +244,7 @@ class SelectablePopup(Popup):
                 self._udxs[len(self._lines)+1] = udx
                 c = string[udx].lower()
                 self._hotkeys[c] = len(self._lines)
-        Popup.add_line(self,string)
+        Popup.add_line(self, string)
         self._line_foregrounds.append(foreground)
         if selectable:
             self._selectable_lines.append(len(self._lines)-1)
@@ -254,7 +254,7 @@ class SelectablePopup(Popup):
 
     def _refresh_lines(self):
         crow = 1
-        for row,line in enumerate(self._lines):
+        for row, line in enumerate(self._lines):
             if (crow >= self.height-1):
                 break
             if (row < self.lineoff):
@@ -272,18 +272,18 @@ class SelectablePopup(Popup):
                 if udx >= 0:
                     ustr = "{!%s,black,underline!}"%fg
             if udx == 0:
-                self.parent.add_string(crow,"- %s%c%s%s"%(ustr,line[0],colorstr,line[1:]),self.screen,1,False,True)
+                self.parent.add_string(crow, "- %s%c%s%s"%(ustr, line[0], colorstr, line[1:]), self.screen, 1, False, True)
             elif udx > 0:
                 # well, this is a litte gross
-                self.parent.add_string(crow,"- %s%s%s%c%s%s"%(colorstr,line[:udx],ustr,line[udx],colorstr,line[udx+1:]),self.screen,1,False,True)
+                self.parent.add_string(crow, "- %s%s%s%c%s%s"%(colorstr, line[:udx], ustr, line[udx], colorstr, line[udx+1:]), self.screen, 1, False, True)
             else:
-                self.parent.add_string(crow,"- %s%s"%(colorstr,line),self.screen,1,False,True)
+                self.parent.add_string(crow, "- %s%s"%(colorstr, line), self.screen, 1, False, True)
             crow+=1
 
     def current_selection(self):
         "Returns a tuple of (selected index, selected data)"
         idx = self._selectable_lines.index(self._selected)
-        return (idx,self._select_data[idx])
+        return (idx, self._select_data[idx])
 
     def add_divider(self,color="white"):
         if not self.divider:
@@ -354,13 +354,13 @@ class MessagePopup(Popup):
     def __init__(self, parent_mode, title, message, align=ALIGN.DEFAULT, width_req=0.5):
         self.message = message
         #self.width= int(parent_mode.cols/2)
-        Popup.__init__(self,parent_mode, title, align=align, width_req=width_req)
-        lns = format_utils.wrap_string(self.message,self.width-2,3,True)
-        self.height_req = min(len(lns)+2,int(parent_mode.rows*2/3))
+        Popup.__init__(self, parent_mode, title, align=align, width_req=width_req)
+        lns = format_utils.wrap_string(self.message, self.width-2, 3, True)
+        self.height_req = min(len(lns)+2, int(parent_mode.rows*2/3))
         self.handle_resize()
         self._lines = lns
 
     def handle_resize(self):
         Popup.handle_resize(self)
         self.clear()
-        self._lines = format_utils.wrap_string(self.message,self.width-2,3,True)
+        self._lines = format_utils.wrap_string(self.message, self.width-2, 3, True)

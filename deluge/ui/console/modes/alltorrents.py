@@ -56,7 +56,7 @@ from legacy import Legacy
 
 from twisted.internet import defer
 
-import format_utils,column
+import format_utils, column
 
 try:
     import curses
@@ -220,8 +220,8 @@ DEFAULT_PREFS = {
 
 column_pref_names = ["queue", "name", "size", "state", "progress", "seeds",
                      "peers", "downspeed", "upspeed", "eta", "ratio", "avail",
-                     "added", "tracker", "savepath","downloaded","uploaded",
-                     "remaining", "owner","downloading_time","seeding_time",
+                     "added", "tracker", "savepath", "downloaded", "uploaded",
+                     "remaining", "owner", "downloading_time", "seeding_time",
                      "completed", "seeds_peers_ratio", "complete_seen",
                      "down_limit", "up_limit", "shared",
                      ]
@@ -339,7 +339,7 @@ class AllTorrents(BaseMode, component.Component):
         component.start(["AllTorrents"])
 
         self._info_fields = [
-            ("Name",None, ("name",)),
+            ("Name", None, ("name",)),
             ("State", None, ("state",)),
             ("Down Speed", format_utils.format_speed, ("download_payload_rate",)),
             ("Up Speed", format_utils.format_speed, ("upload_payload_rate",)),
@@ -350,7 +350,7 @@ class AllTorrents(BaseMode, component.Component):
             ("Uploaded", deluge.common.fsize, ("total_uploaded",)),
             ("Share Ratio", format_utils.format_float, ("ratio",)),
             ("Seeds", format_utils.format_seeds_peers, ("num_seeds", "total_seeds")),
-            ("Peers", format_utils.format_seeds_peers,("num_peers", "total_peers")),
+            ("Peers", format_utils.format_seeds_peers, ("num_peers", "total_peers")),
             ("Active Time", deluge.common.ftime, ("active_time",)),
             ("Seeding Time", deluge.common.ftime, ("seeding_time",)),
             ("Complete Seen", format_utils.format_date_never, ("last_seen_complete",)),
@@ -372,21 +372,21 @@ class AllTorrents(BaseMode, component.Component):
         self.legacy_mode = Legacy(self.stdscr, self.encoding)
 
         if self.config["first_run"]:
-            self.popup = MessagePopup(self,"Welcome to Deluge", HELP_STR, width_req=0.75)
+            self.popup = MessagePopup(self, "Welcome to Deluge", HELP_STR, width_req=0.75)
             self.config["first_run"] = False
             self.config.save()
 
     # component start/update
     def start(self):
-        component.get("SessionProxy").get_torrents_status(self.__status_dict, self.__status_fields).addCallback(self.set_state,False)
+        component.get("SessionProxy").get_torrents_status(self.__status_dict, self.__status_fields).addCallback(self.set_state, False)
 
     def update(self):
-        component.get("SessionProxy").get_torrents_status(self.__status_dict, self.__status_fields).addCallback(self.set_state,True)
+        component.get("SessionProxy").get_torrents_status(self.__status_dict, self.__status_fields).addCallback(self.set_state, True)
         if self.__torrent_info_id:
             component.get("SessionProxy").get_torrent_status(self.__torrent_info_id, self.__status_keys).addCallback(self._on_torrent_status)
 
     def update_config(self):
-        self.config = ConfigManager("console.conf",DEFAULT_PREFS)
+        self.config = ConfigManager("console.conf", DEFAULT_PREFS)
         s_primary = self.config["sort_primary"]
         s_secondary = self.config["sort_secondary"]
         self.__cols_to_show = [
@@ -417,14 +417,14 @@ class AllTorrents(BaseMode, component.Component):
 
     def __update_columns(self):
         self.column_widths = [self.config["%s_width"%c] for c in self.__cols_to_show]
-        req = sum(filter(lambda x:x >= 0,self.column_widths))
+        req = sum(filter(lambda x:x >= 0, self.column_widths))
         if (req > self.cols): # can't satisfy requests, just spread out evenly
             cw = int(self.cols/len(self.__columns))
-            for i in range(0,len(self.column_widths)):
+            for i in range(0, len(self.column_widths)):
                 self.column_widths[i] = cw
         else:
             rem = self.cols - req
-            var_cols = len(filter(lambda x: x < 0,self.column_widths))
+            var_cols = len(filter(lambda x: x < 0, self.column_widths))
             if (var_cols > 0):
                 vw = int(rem/var_cols)
                 for i in range(0, len(self.column_widths)):
@@ -473,21 +473,21 @@ class AllTorrents(BaseMode, component.Component):
             self.refresh()
 
     def get_torrent_name(self, torrent_id):
-        for p,i in enumerate(self._sorted_ids):
+        for p, i in enumerate(self._sorted_ids):
             if torrent_id == i:
                 return self.torrent_names[p]
         return None
 
     def _scroll_up(self, by):
         prevoff = self.curoff
-        self.cursel = max(self.cursel - by,1)
+        self.cursel = max(self.cursel - by, 1)
         if ((self.cursel - 1) < self.curoff):
-            self.curoff = max(self.cursel - 1,1)
+            self.curoff = max(self.cursel - 1, 1)
         return prevoff != self.curoff
 
     def _scroll_down(self, by):
         prevoff = self.curoff
-        self.cursel = min(self.cursel + by,self.numtorrents)
+        self.cursel = min(self.cursel + by, self.numtorrents)
         if ((self.curoff + self.rows - 5) < self.cursel):
             self.curoff = self.cursel - self.rows + 5
         return prevoff != self.curoff
@@ -510,14 +510,14 @@ class AllTorrents(BaseMode, component.Component):
             name = state["name"]
             off = int((self.cols/4)-(len(name)/2))
             self.popup.set_title(name)
-            for i,f in enumerate(self._info_fields):
+            for i, f in enumerate(self._info_fields):
                 if f[1] != None:
                     args = []
                     try:
                         for key in f[2]:
                             args.append(state[key])
                     except:
-                        log.debug("Could not get info field: %s",e)
+                        log.debug("Could not get info field: %s", e)
                         continue
                     info = f[1](*args)
                 else:
@@ -525,14 +525,14 @@ class AllTorrents(BaseMode, component.Component):
 
                 nl = len(f[0])+4
                 if (nl+len(info))>self.popup.width:
-                    self.popup.add_line("{!info!}%s: {!input!}%s"%(f[0],info[:(self.popup.width - nl)]))
+                    self.popup.add_line("{!info!}%s: {!input!}%s"%(f[0], info[:(self.popup.width - nl)]))
                     info = info[(self.popup.width - nl):]
                     n = self.popup.width-3
                     chunks = [info[i:i+n] for i in xrange(0, len(info), n)]
                     for c in chunks:
                         self.popup.add_line(" %s"%c)
                 else:
-                    self.popup.add_line("{!info!}%s: {!input!}%s"%(f[0],info))
+                    self.popup.add_line("{!info!}%s: {!input!}%s"%(f[0], info))
             self.refresh()
         else:
             self.__torrent_info_id = None
@@ -627,34 +627,34 @@ class AllTorrents(BaseMode, component.Component):
         def dodeets(arg):
             if arg and True in arg[0]:
                 self.stdscr.erase()
-                component.get("ConsoleUI").set_mode(AddTorrents(self,self.stdscr, self.config, self.encoding))
+                component.get("ConsoleUI").set_mode(AddTorrents(self, self.stdscr, self.config, self.encoding))
             else:
-                self.messages.append(("Error","An error occurred trying to display add torrents screen"))
+                self.messages.append(("Error", "An error occurred trying to display add torrents screen"))
         component.stop(["AllTorrents"]).addCallback(dodeets)
 
-    def show_torrent_details(self,tid):
+    def show_torrent_details(self, tid):
         def dodeets(arg):
             if arg and True in arg[0]:
                 self.stdscr.erase()
-                component.get("ConsoleUI").set_mode(TorrentDetail(self,tid,self.stdscr, self.config, self.encoding))
+                component.get("ConsoleUI").set_mode(TorrentDetail(self, tid, self.stdscr, self.config, self.encoding))
             else:
-                self.messages.append(("Error","An error occurred trying to display torrent details"))
+                self.messages.append(("Error", "An error occurred trying to display torrent details"))
         component.stop(["AllTorrents"]).addCallback(dodeets)
 
     def show_preferences(self):
         def _on_get_config(config):
-            client.core.get_listen_port().addCallback(_on_get_listen_port,config)
+            client.core.get_listen_port().addCallback(_on_get_listen_port, config)
 
-        def _on_get_listen_port(port,config):
-            client.core.get_cache_status().addCallback(_on_get_cache_status,port,config)
+        def _on_get_listen_port(port, config):
+            client.core.get_cache_status().addCallback(_on_get_cache_status, port, config)
 
-        def _on_get_cache_status(status,port,config):
+        def _on_get_cache_status(status, port, config):
             def doprefs(arg):
                 if arg and True in arg[0]:
                     self.stdscr.erase()
-                    component.get("ConsoleUI").set_mode(Preferences(self,config,self.config,port,status,self.stdscr,self.encoding))
+                    component.get("ConsoleUI").set_mode(Preferences(self, config, self.config, port, status, self.stdscr, self.encoding))
                 else:
-                    self.messages.append(("Error","An error occurred trying to display preferences"))
+                    self.messages.append(("Error", "An error occurred trying to display preferences"))
             component.stop(["AllTorrents"]).addCallback(doprefs)
 
         client.core.get_config().addCallback(_on_get_config)
@@ -664,9 +664,9 @@ class AllTorrents(BaseMode, component.Component):
         def doevents(arg):
             if arg and True in arg[0]:
                 self.stdscr.erase()
-                component.get("ConsoleUI").set_mode(EventView(self,self.stdscr,self.encoding))
+                component.get("ConsoleUI").set_mode(EventView(self, self.stdscr, self.encoding))
             else:
-                self.messages.append(("Error","An error occurred trying to display events"))
+                self.messages.append(("Error", "An error occurred trying to display events"))
         component.stop(["AllTorrents"]).addCallback(doevents)
 
     def __legacy_mode(self):
@@ -677,7 +677,7 @@ class AllTorrents(BaseMode, component.Component):
                 self.legacy_mode.refresh()
                 curses.curs_set(2)
             else:
-                self.messages.append(("Error","An error occurred trying to switch to legacy mode"))
+                self.messages.append(("Error", "An error occurred trying to switch to legacy mode"))
         component.stop(["AllTorrents"]).addCallback(dolegacy)
 
     def _torrent_filter(self, idx, data):
@@ -716,26 +716,26 @@ class AllTorrents(BaseMode, component.Component):
         return True
 
     def _show_torrent_filter_popup(self):
-        self.popup = SelectablePopup(self,"Filter Torrents", self._torrent_filter)
-        self.popup.add_line("_All",data=FILTER.ALL)
-        self.popup.add_line("Ac_tive",data=FILTER.ACTIVE)
-        self.popup.add_line("_Downloading",data=FILTER.DOWNLOADING,foreground="green")
-        self.popup.add_line("_Seeding",data=FILTER.SEEDING,foreground="cyan")
-        self.popup.add_line("_Paused",data=FILTER.PAUSED)
-        self.popup.add_line("_Error",data=FILTER.ERROR,foreground="red")
-        self.popup.add_line("_Checking",data=FILTER.CHECKING,foreground="blue")
-        self.popup.add_line("Q_ueued",data=FILTER.QUEUED,foreground="yellow")
-        self.popup.add_line("A_llocating",data=FILTER.ALLOCATING,foreground="yellow")
-        self.popup.add_line("_Moving",data=FILTER.MOVING,foreground="green")
+        self.popup = SelectablePopup(self, "Filter Torrents", self._torrent_filter)
+        self.popup.add_line("_All", data=FILTER.ALL)
+        self.popup.add_line("Ac_tive", data=FILTER.ACTIVE)
+        self.popup.add_line("_Downloading", data=FILTER.DOWNLOADING, foreground="green")
+        self.popup.add_line("_Seeding", data=FILTER.SEEDING, foreground="cyan")
+        self.popup.add_line("_Paused", data=FILTER.PAUSED)
+        self.popup.add_line("_Error", data=FILTER.ERROR, foreground="red")
+        self.popup.add_line("_Checking", data=FILTER.CHECKING, foreground="blue")
+        self.popup.add_line("Q_ueued", data=FILTER.QUEUED, foreground="yellow")
+        self.popup.add_line("A_llocating", data=FILTER.ALLOCATING, foreground="yellow")
+        self.popup.add_line("_Moving", data=FILTER.MOVING, foreground="green")
 
     def _report_add_status(self, succ_cnt, fail_cnt, fail_msgs):
         if fail_cnt == 0:
-            self.report_message("Torrents Added","{!success!}Successfully added %d torrent(s)"%succ_cnt)
+            self.report_message("Torrents Added", "{!success!}Successfully added %d torrent(s)"%succ_cnt)
         else:
             msg = ("{!error!}Failed to add the following %d torrent(s):\n {!input!}"%fail_cnt)+"\n ".join(fail_msgs)
             if succ_cnt != 0:
                 msg += "\n \n{!success!}Successfully added %d torrent(s)"%succ_cnt
-            self.report_message("Torrent Add Report",msg)
+            self.report_message("Torrent Add Report", msg)
 
     def _show_torrent_add_popup(self):
 
@@ -767,7 +767,7 @@ class AllTorrents(BaseMode, component.Component):
             elif deluge.common.is_url(url):
                 client.core.add_torrent_url(url, t_options).addCallback(success_cb, url).addErrback(fail_cb, url)
             else:
-                self.messages.append(("Error","{!error!}Invalid URL or magnet link: %s" % url))
+                self.messages.append(("Error", "{!error!}Invalid URL or magnet link: %s" % url))
                 return
 
             log.debug("Adding Torrent(s): %s (dl path: %s) (paused: %d)", url, result["path"], result["add_paused"])
@@ -786,7 +786,7 @@ class AllTorrents(BaseMode, component.Component):
             except KeyError:
                 pass
 
-            self.popup = InputPopup(self,"Add Torrent (Esc to cancel)", close_cb=do_add_from_url)
+            self.popup = InputPopup(self, "Add Torrent (Esc to cancel)", close_cb=do_add_from_url)
             self.popup.add_text_input("Enter torrent URL or Magnet link:", "url")
             self.popup.add_text_input("Enter save path:", "path", dl)
             self.popup.add_select_input("Add Paused:", "add_paused", ["Yes", "No"], [True, False], ap)
@@ -801,7 +801,7 @@ class AllTorrents(BaseMode, component.Component):
             elif data == 2:
                 show_add_url_popup()
 
-        self.popup = SelectablePopup(self,"Add torrent", option_chosen)
+        self.popup = SelectablePopup(self, "Add torrent", option_chosen)
         self.popup.add_line("From _File(s)", data=1)
         self.popup.add_line("From _URL or Magnet", data=2)
         self.popup.add_line("_Cancel", data=0)
@@ -834,14 +834,14 @@ class AllTorrents(BaseMode, component.Component):
 
             self.popup.add_checked_input(name, prop, state)
 
-    def report_message(self,title,message):
-        self.messages.append((title,message))
+    def report_message(self, title, message):
+        self.messages.append((title, message))
 
     def clear_marks(self):
         self.marked = []
         self.last_mark = -1
 
-    def set_popup(self,pu):
+    def set_popup(self, pu):
         self.popup = pu
         self.refresh()
 
@@ -857,8 +857,8 @@ class AllTorrents(BaseMode, component.Component):
 
         # show a message popup if there's anything queued
         if self.popup == None and self.messages:
-            title,msg = self.messages.popleft()
-            self.popup = MessagePopup(self,title,msg, width_req=1.0)
+            title, msg = self.messages.popleft()
+            self.popup = MessagePopup(self, title, msg, width_req=1.0)
 
         if not lines:
             if component.get("ConsoleUI").screen != self:
@@ -867,10 +867,10 @@ class AllTorrents(BaseMode, component.Component):
 
         # Update the status bars
         if self._curr_filter == None:
-            self.add_string(0,self.statusbars.topbar)
+            self.add_string(0, self.statusbars.topbar)
         else:
-            self.add_string(0,"%s    {!filterstatus!}Current filter: %s"%(self.statusbars.topbar,self._curr_filter))
-        self.add_string(1,self.column_string)
+            self.add_string(0, "%s    {!filterstatus!}Current filter: %s"%(self.statusbars.topbar, self._curr_filter))
+        self.add_string(1, self.column_string)
 
         if self.entering_search:
             string = {
@@ -914,7 +914,7 @@ class AllTorrents(BaseMode, component.Component):
             def draw_row(index):
                 if index not in cr:
                     ts = curstate[sorted_ids[index]]
-                    cr[index] = (fr([gcv(name,ts) for name in cols],colw),ts["state"])
+                    cr[index] = (fr([gcv(name, ts) for name in cols], colw), ts["state"])
                 return cr[index]
 
             if lines:
@@ -980,12 +980,12 @@ class AllTorrents(BaseMode, component.Component):
                             attr = "bold"
 
                 if attr:
-                    colorstr = "{!%s,%s,%s!}"%(fg,bg,attr)
+                    colorstr = "{!%s,%s,%s!}"%(fg, bg, attr)
                 else:
-                    colorstr = "{!%s,%s!}"%(fg,bg)
+                    colorstr = "{!%s,%s!}"%(fg, bg)
 
                 try:
-                    self.add_string(currow,"%s%s"%(colorstr,row[0]),trim=False)
+                    self.add_string(currow, "%s%s"%(colorstr, row[0]), trim=False)
                 except:
                     #Yeah, this should be fixed in some better way
                     pass
@@ -1014,7 +1014,7 @@ class AllTorrents(BaseMode, component.Component):
         curses.doupdate()
 
 
-    def _mark_unmark(self,idx):
+    def _mark_unmark(self, idx):
         if idx in self.marked:
             self.marked.remove(idx)
             self.last_mark = -1
@@ -1059,7 +1059,7 @@ class AllTorrents(BaseMode, component.Component):
             search_space = reversed(search_space)
 
         search_string = self.search_string.lower()
-        for i,n in search_space:
+        for i, n in search_space:
             n = n.lower()
             if n.find(search_string) != -1:
                 if skip > 0:
@@ -1130,7 +1130,7 @@ class AllTorrents(BaseMode, component.Component):
         elif c in [10, curses.KEY_ENTER]:
             self.last_mark = -1
             tid = self.current_torrent_id()
-            torrent_actions_popup(self, [tid] ,details=True)
+            torrent_actions_popup(self, [tid], details=True)
 
         elif c == 27:
             self.search_string = ""
@@ -1202,13 +1202,13 @@ class AllTorrents(BaseMode, component.Component):
         if c == curses.KEY_UP:
             if self.cursel == 1: return
             if not self._scroll_up(1):
-                effected_lines = [self.cursel-1,self.cursel]
+                effected_lines = [self.cursel-1, self.cursel]
         elif c == curses.KEY_PPAGE:
             self._scroll_up(int(self.rows/2))
         elif c == curses.KEY_DOWN:
             if self.cursel >= self.numtorrents: return
             if not self._scroll_down(1):
-                effected_lines = [self.cursel-2,self.cursel-1]
+                effected_lines = [self.cursel-2, self.cursel-1]
         elif c == curses.KEY_NPAGE:
             self._scroll_down(int(self.rows/2))
         elif c == curses.KEY_HOME:
@@ -1219,7 +1219,7 @@ class AllTorrents(BaseMode, component.Component):
             if self.cursel not in self.marked:
                 self.marked.append(self.cursel)
             self.last_mark = self.cursel
-            torrent_actions_popup(self,self._selected_torrent_ids(), action=ACTION.REMOVE)
+            torrent_actions_popup(self, self._selected_torrent_ids(), action=ACTION.REMOVE)
 
         elif c == curses.KEY_RIGHT:
             # We enter a new mode for the selected torrent here
@@ -1233,7 +1233,7 @@ class AllTorrents(BaseMode, component.Component):
             if self.cursel not in self.marked:
                 self.marked.append(self.cursel)
             self.last_mark = self.cursel
-            torrent_actions_popup(self,self._selected_torrent_ids(),details=True)
+            torrent_actions_popup(self, self._selected_torrent_ids(), details=True)
             return
         else:
             if c > 31 and c < 256:
@@ -1244,15 +1244,15 @@ class AllTorrents(BaseMode, component.Component):
                     self.__do_search("next")
                 elif chr(c) == 'j':
                     if not self._scroll_up(1):
-                        effected_lines = [self.cursel-1,self.cursel]
+                        effected_lines = [self.cursel-1, self.cursel]
                 elif chr(c) == 'k':
                     if not self._scroll_down(1):
-                        effected_lines = [self.cursel-2,self.cursel-1]
+                        effected_lines = [self.cursel-2, self.cursel-1]
                 elif chr(c) == 'i':
                     cid = self.current_torrent_id()
                     if cid:
                         def cb(): self.__torrent_info_id = None
-                        self.popup = Popup(self,"Info",close_cb=cb, height_req=20)
+                        self.popup = Popup(self, "Info", close_cb=cb, height_req=20)
                         self.popup.add_line("Getting torrent info...")
                         self.__torrent_info_id = cid
                 elif chr(c) == 'm':
@@ -1261,9 +1261,9 @@ class AllTorrents(BaseMode, component.Component):
                 elif chr(c) == 'M':
                     if self.last_mark >= 0:
                         if (self.cursel+1) > self.last_mark:
-                            mrange = range(self.last_mark,self.cursel+1)
+                            mrange = range(self.last_mark, self.cursel+1)
                         else:
-                            mrange = range(self.cursel-1,self.last_mark)
+                            mrange = range(self.cursel-1, self.last_mark)
                         self.marked.extend(mrange[1:])
                         effected_lines = mrange
                     else:

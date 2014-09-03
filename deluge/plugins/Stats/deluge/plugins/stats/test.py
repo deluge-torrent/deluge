@@ -19,7 +19,7 @@ def test_sync():
     n.savedUpSpeeds = upload
     n.savedDownSpeeds = download
 
-    n.draw(800,200)
+    n.draw(800, 200)
     n.surface.write_to_png('output_sync.png')
 
 def test_async():
@@ -69,7 +69,7 @@ def test_write():
     surface.write_to_png(file_like)
     data = "".join(file_like.data)
 
-    f = open("file_like.png","wb")
+    f = open("file_like.png", "wb")
     f.write(data)
     f.close()
 

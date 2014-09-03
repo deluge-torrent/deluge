@@ -59,16 +59,16 @@ color_pairs = {
 # Some default color schemes
 schemes = {
     "input": ("white", "black"),
-    "normal": ("white","black"),
+    "normal": ("white", "black"),
     "status": ("yellow", "blue", "bold"),
     "info": ("white", "black", "bold"),
     "error": ("red", "black", "bold"),
     "success": ("green", "black", "bold"),
     "event": ("magenta", "black", "bold"),
     "selected": ("black", "white", "bold"),
-    "marked": ("white","blue","bold"),
-    "selectedmarked": ("blue","white","bold"),
-    "header": ("green","black","bold"),
+    "marked": ("white", "blue", "bold"),
+    "selectedmarked": ("blue", "white", "bold"),
+    "header": ("green", "black", "bold"),
     "filterstatus": ("green", "blue", "bold")
 }
 
@@ -107,7 +107,7 @@ def init_colors():
     # but can also fail on others, so we try/except
     try:
         curses.init_pair(counter, curses.COLOR_WHITE, curses.COLOR_BLACK)
-        color_pairs[("white","black")] = counter
+        color_pairs[("white", "black")] = counter
     except:
         pass
 

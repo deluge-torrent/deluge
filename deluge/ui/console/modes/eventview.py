@@ -61,7 +61,7 @@ class EventView(BaseMode):
 
         self.stdscr.erase()
 
-        self.add_string(0,self.statusbars.topbar)
+        self.add_string(0, self.statusbars.topbar)
         hstr =  "%sPress [h] for help"%(" "*(self.cols - len(self.statusbars.bottombar) - 10))
         #This will quite likely fail when switching modes
         try:
@@ -76,7 +76,7 @@ class EventView(BaseMode):
             pass
 
         if events:
-            for i,event in enumerate(events):
+            for i, event in enumerate(events):
                 if i - self.offset >= self.rows - 2:
                     more = len(events) - self.offset - self.rows + 2
                     if more > 0:
@@ -86,11 +86,11 @@ class EventView(BaseMode):
                 elif i - self.offset < 0:
                     continue
                 try:
-                    self.add_string(i+1-self.offset,event)
+                    self.add_string(i+1-self.offset, event)
                 except curses.error:
                     pass #This'll just cut the line. Note: This seriously should be fixed in a better way
         else:
-            self.add_string(1,"{!white,black,bold!}No events to show yet")
+            self.add_string(1, "{!white,black,bold!}No events to show yet")
 
         if component.get("ConsoleUI").screen != self:
             return

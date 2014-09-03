@@ -14,11 +14,11 @@ import os
 import sys
 import deluge.common
 parser = OptionParser()
-parser.add_option("-n", "--name", dest="name",help="plugin name")
-parser.add_option("-m", "--module-name", dest="module",help="plugin name")
-parser.add_option("-p", "--basepath", dest="path",help="base path")
-parser.add_option("-a", "--author-name", dest="author_name",help="author name,for the GPL header")
-parser.add_option("-e", "--author-email", dest="author_email",help="author email,for the GPL header")
+parser.add_option("-n", "--name", dest="name", help="plugin name")
+parser.add_option("-m", "--module-name", dest="module", help="plugin name")
+parser.add_option("-p", "--basepath", dest="path", help="base path")
+parser.add_option("-a", "--author-name", dest="author_name", help="author name,for the GPL header")
+parser.add_option("-e", "--author-email", dest="author_email", help="author email,for the GPL header")
 parser.add_option("-u", "--url", dest="url", help="Homepage URL")
 parser.add_option("-c", "--config", dest="configdir", help="location of deluge configuration")
 
@@ -83,7 +83,7 @@ def create_plugin():
         }
 
         filename = os.path.join(path, filename)
-        f = open(filename,"w")
+        f = open(filename, "w")
         if filename.endswith(".py") and include_gpl:
             f.write(GPL % args)
         f.write(template % args)
@@ -97,20 +97,20 @@ def create_plugin():
     os.mkdir(data_dir)
 
     print("creating files..")
-    write_file(plugin_base,"setup.py", SETUP)
+    write_file(plugin_base, "setup.py", SETUP)
     write_file(deluge_namespace, "__init__.py", NAMESPACE_INIT, False)
     write_file(plugins_namespace, "__init__.py", NAMESPACE_INIT, False)
-    write_file(src,"__init__.py", INIT)
-    write_file(src,"gtkui.py", GTKUI)
-    write_file(src,"webui.py", WEBUI)
-    write_file(src,"core.py", CORE)
+    write_file(src, "__init__.py", INIT)
+    write_file(src, "gtkui.py", GTKUI)
+    write_file(src, "webui.py", WEBUI)
+    write_file(src, "core.py", CORE)
     write_file(src, "common.py", COMMON)
     write_file(data_dir, "config.glade", GLADE)
     write_file(data_dir, "%s.js" % safe_name, DEFAULT_JS)
 
     #add an input parameter for this?
     print("building dev-link..")
-    write_file(plugin_base,"create_dev_link.sh", CREATE_DEV_LINK)
+    write_file(plugin_base, "create_dev_link.sh", CREATE_DEV_LINK)
     dev_link_path = os.path.join(plugin_base, "create_dev_link.sh")
     os.system("chmod +x %s" % dev_link_path) #lazy..
     os.system(dev_link_path)

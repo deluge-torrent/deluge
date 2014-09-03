@@ -151,7 +151,7 @@ class Win32IcoFile (object):
       # change tile dimension to only encompass XOR image
       im.size = im.size[0], im.size[1] / 2
       d, e, o, a = im.tile[0]
-      im.tile[0] = d, (0,0) + im.size, o, a
+      im.tile[0] = d, (0, 0) + im.size, o, a
 
       # figure out where AND mask image starts
       mode = a[0]

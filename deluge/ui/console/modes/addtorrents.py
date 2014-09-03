@@ -260,7 +260,7 @@ class AddTorrents(BaseMode, component.Component):
         if (self.view_offset + self._listing_space) <= self.cursel + 1:
             self.view_offset = self.cursel - self._listing_space + 1
 
-    def set_popup(self,pu):
+    def set_popup(self, pu):
         self.popup = pu
         self.refresh()
 
@@ -431,21 +431,21 @@ class AddTorrents(BaseMode, component.Component):
                 "total": len(self.marked),
                 "fmsg":[]}
 
-            def fail_cb(msg,t_file,ress):
-                log.debug("failed to add torrent: %s: %s"%(t_file,msg))
+            def fail_cb(msg, t_file, ress):
+                log.debug("failed to add torrent: %s: %s"%(t_file, msg))
                 ress["fail"]+=1
-                ress["fmsg"].append("{!input!} * %s: {!error!}%s"%(t_file,msg))
+                ress["fmsg"].append("{!input!} * %s: {!error!}%s"%(t_file, msg))
                 if (ress["succ"]+ress["fail"]) >= ress["total"]:
-                    self.alltorrentmode._report_add_status(ress["succ"],ress["fail"],ress["fmsg"])
+                    self.alltorrentmode._report_add_status(ress["succ"], ress["fail"], ress["fmsg"])
 
-            def success_cb(tid,t_file,ress):
+            def success_cb(tid, t_file, ress):
                 if tid:
-                    log.debug("added torrent: %s (%s)"%(t_file,tid))
+                    log.debug("added torrent: %s (%s)"%(t_file, tid))
                     ress["succ"]+=1
                     if (ress["succ"]+ress["fail"]) >= ress["total"]:
-                        self.alltorrentmode._report_add_status(ress["succ"],ress["fail"],ress["fmsg"])
+                        self.alltorrentmode._report_add_status(ress["succ"], ress["fail"], ress["fmsg"])
                 else:
-                    fail_cb("Already in session (probably)",t_file,ress)
+                    fail_cb("Already in session (probably)", t_file, ress)
 
             for m in self.marked:
                 filename = m
@@ -472,7 +472,7 @@ class AddTorrents(BaseMode, component.Component):
             ap = 0
         else:
             ap = 1
-        self.popup = InputPopup(self,"Add Torrents (Esc to cancel)",close_cb=_do_add, height_req=17)
+        self.popup = InputPopup(self, "Add Torrents (Esc to cancel)", close_cb=_do_add, height_req=17)
 
         msg = "Adding torrent files:"
         for i, m in enumerate(self.marked):
@@ -485,8 +485,8 @@ class AddTorrents(BaseMode, component.Component):
         self.popup.add_text(msg)
         self.popup.add_spaces(1)
 
-        self.popup.add_text_input("Download Folder:","location", dl)
-        self.popup.add_select_input("Add Paused:","add_paused",["Yes","No"],[True,False],ap)
+        self.popup.add_text_input("Download Folder:", "location", dl)
+        self.popup.add_select_input("Add Paused:", "add_paused", ["Yes", "No"], [True, False], ap)
 
 
     def _go_up(self):

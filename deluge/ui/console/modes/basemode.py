@@ -122,7 +122,7 @@ class BaseMode(CursesStdIO):
     def on_resize_norefresh(self, *args):
         log.debug("on_resize_from_signal")
         # Get the new rows and cols value
-        self.rows, self.cols = struct.unpack("hhhh", ioctl(0, termios.TIOCGWINSZ ,"\000"*8))[0:2]
+        self.rows, self.cols = struct.unpack("hhhh", ioctl(0, termios.TIOCGWINSZ, "\000"*8))[0:2]
         curses.resizeterm(self.rows, self.cols)
 
     def on_resize(self, *args):
@@ -177,7 +177,7 @@ class BaseMode(CursesStdIO):
                 # This is the last string so lets append some " " to it
                 s += " " * (self.cols - (col + len(s)) - 1)
             if trim:
-                y,x = screen.getmaxyx()
+                y, x = screen.getmaxyx()
                 if (col+len(s)) > x:
                     s = "%s..."%s[0:x-4-col]
             screen.addstr(row, col, s, color)
@@ -192,7 +192,7 @@ class BaseMode(CursesStdIO):
         pass
 
     # This mode doesn't do anything with popups
-    def set_popup(self,popup):
+    def set_popup(self, popup):
         pass
 
     # This mode doesn't support marking
@@ -209,7 +209,7 @@ class BaseMode(CursesStdIO):
         self.draw_statusbars()
         # Update the status bars
 
-        self.add_string(1,"{!info!}Base Mode (or subclass hasn't overridden refresh)")
+        self.add_string(1, "{!info!}Base Mode (or subclass hasn't overridden refresh)")
 
         self.stdscr.redrawwin()
         self.stdscr.refresh()

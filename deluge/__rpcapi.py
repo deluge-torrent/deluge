@@ -10,7 +10,7 @@ def scan_for_methods(obj):
         '__doc__': 'Methods available in %s' % obj.__name__.lower()
     }
     for d in dir(obj):
-        if not hasattr(getattr(obj,d), '_rpcserver_export'):
+        if not hasattr(getattr(obj, d), '_rpcserver_export'):
             continue
         methods[d] = getattr(obj, d)
     cobj = classobj(obj.__name__.lower(), (object,), methods)

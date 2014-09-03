@@ -91,21 +91,21 @@ class ACTION:
     QUEUE_BOTTOM=14
     TORRENT_OPTIONS=15
 
-def action_error(error,mode):
+def action_error(error, mode):
     rerr = error.value
-    mode.report_message("An Error Occurred","%s got error %s: %s"%(rerr.method,rerr.exception_type,rerr.exception_msg))
+    mode.report_message("An Error Occurred", "%s got error %s: %s"%(rerr.method, rerr.exception_type, rerr.exception_msg))
     mode.refresh()
 
 def torrent_action(idx, data, mode, ids):
     if ids:
         if data==ACTION.PAUSE:
-            log.debug("Pausing torrents: %s",ids)
-            client.core.pause_torrent(ids).addErrback(action_error,mode)
+            log.debug("Pausing torrents: %s", ids)
+            client.core.pause_torrent(ids).addErrback(action_error, mode)
         elif data==ACTION.RESUME:
             log.debug("Resuming torrents: %s", ids)
-            client.core.resume_torrent(ids).addErrback(action_error,mode)
+            client.core.resume_torrent(ids).addErrback(action_error, mode)
         elif data==ACTION.QUEUE:
-            def do_queue(idx,qact,mode,ids):
+            def do_queue(idx, qact, mode, ids):
                 def move_selection(r):
                     if mode.config["move_selection"]:
                         queue_length = 0
@@ -153,11 +153,11 @@ def torrent_action(idx, data, mode, ids):
                 if len(ids) == 1:
                     mode.clear_marks()
                 return True
-            popup = SelectablePopup(mode,"Queue Action", do_queue, (mode, ids))
-            popup.add_line("_Top",data=ACTION.QUEUE_TOP)
-            popup.add_line("_Up",data=ACTION.QUEUE_UP)
-            popup.add_line("_Down",data=ACTION.QUEUE_DOWN)
-            popup.add_line("_Bottom",data=ACTION.QUEUE_BOTTOM)
+            popup = SelectablePopup(mode, "Queue Action", do_queue, (mode, ids))
+            popup.add_line("_Top", data=ACTION.QUEUE_TOP)
+            popup.add_line("_Up", data=ACTION.QUEUE_UP)
+            popup.add_line("_Down", data=ACTION.QUEUE_DOWN)
+            popup.add_line("_Bottom", data=ACTION.QUEUE_BOTTOM)
             mode.set_popup(popup)
             return False
         elif data==ACTION.REMOVE:
@@ -168,7 +168,7 @@ def torrent_action(idx, data, mode, ids):
                 wd = data["remove_files"]
                 for tid in ids:
                     log.debug("Removing torrent: %s, %d", tid, wd)
-                    client.core.remove_torrent(tid,wd).addErrback(action_error,mode)
+                    client.core.remove_torrent(tid, wd).addErrback(action_error, mode)
 
             rem_msg = ""
 
@@ -209,23 +209,23 @@ def torrent_action(idx, data, mode, ids):
             def do_move(res):
                 import os.path
                 if os.path.exists(res["path"]) and not os.path.isdir(res["path"]):
-                    mode.report_message("Cannot Move Download Folder","{!error!}%s exists and is not a directory"%res["path"])
+                    mode.report_message("Cannot Move Download Folder", "{!error!}%s exists and is not a directory"%res["path"])
                 else:
-                    log.debug("Moving %s to: %s",ids,res["path"])
-                    client.core.move_storage(ids,res["path"]).addErrback(action_error,mode)
+                    log.debug("Moving %s to: %s", ids, res["path"])
+                    client.core.move_storage(ids, res["path"]).addErrback(action_error, mode)
                 if len(ids) == 1:
                     mode.clear_marks()
                 return True
-            popup = InputPopup(mode,"Move Download Folder (Esc to cancel)",close_cb=do_move)
-            popup.add_text_input("Enter path to move to:","path")
+            popup = InputPopup(mode, "Move Download Folder (Esc to cancel)", close_cb=do_move)
+            popup.add_text_input("Enter path to move to:", "path")
             mode.set_popup(popup)
             return False
         elif data==ACTION.RECHECK:
             log.debug("Rechecking torrents: %s", ids)
-            client.core.force_recheck(ids).addErrback(action_error,mode)
+            client.core.force_recheck(ids).addErrback(action_error, mode)
         elif data==ACTION.REANNOUNCE:
-            log.debug("Reannouncing torrents: %s",ids)
-            client.core.force_reannounce(ids).addErrback(action_error,mode)
+            log.debug("Reannouncing torrents: %s", ids)
+            client.core.force_reannounce(ids).addErrback(action_error, mode)
         elif data==ACTION.DETAILS:
             log.debug("Torrent details")
             tid = mode.current_torrent_id()
@@ -268,7 +268,7 @@ def torrent_action(idx, data, mode, ids):
 
             def create_popup(status):
                 cb = lambda result, ids=ids: _do_set_torrent_options(ids, result)
-                option_popup = InputPopup(mode,"Set torrent options (Esc to cancel)",close_cb=cb, height_req=22)
+                option_popup = InputPopup(mode, "Set torrent options (Esc to cancel)", close_cb=cb, height_req=22)
 
                 for (field, field_type) in torrent_options:
                     caption = "{!info!}" + torrent_options_to_names[field]
@@ -319,20 +319,20 @@ def torrent_actions_popup(mode,tids,details=False, action = None):
     if action != None:
         torrent_action(-1, action, mode, tids)
         return
-    popup = SelectablePopup(mode,"Torrent Actions",torrent_action, (mode, tids))
-    popup.add_line("_Pause",data=ACTION.PAUSE)
-    popup.add_line("_Resume",data=ACTION.RESUME)
+    popup = SelectablePopup(mode, "Torrent Actions", torrent_action, (mode, tids))
+    popup.add_line("_Pause", data=ACTION.PAUSE)
+    popup.add_line("_Resume", data=ACTION.RESUME)
     if details:
         popup.add_divider()
-        popup.add_line("Queue",data=ACTION.QUEUE)
+        popup.add_line("Queue", data=ACTION.QUEUE)
     popup.add_divider()
-    popup.add_line("_Update Tracker",data=ACTION.REANNOUNCE)
+    popup.add_line("_Update Tracker", data=ACTION.REANNOUNCE)
     popup.add_divider()
-    popup.add_line("Remo_ve Torrent",data=ACTION.REMOVE)
-    popup.add_line("_Force Recheck",data=ACTION.RECHECK)
-    popup.add_line("_Move Download Folder",data=ACTION.MOVE_STORAGE)
+    popup.add_line("Remo_ve Torrent", data=ACTION.REMOVE)
+    popup.add_line("_Force Recheck", data=ACTION.RECHECK)
+    popup.add_line("_Move Download Folder", data=ACTION.MOVE_STORAGE)
     popup.add_divider()
     if details:
-        popup.add_line("Torrent _Details",data=ACTION.DETAILS)
-    popup.add_line("Torrent _Options",data=ACTION.TORRENT_OPTIONS)
+        popup.add_line("Torrent _Details", data=ACTION.DETAILS)
+    popup.add_line("Torrent _Options", data=ACTION.TORRENT_OPTIONS)
     mode.set_popup(popup)

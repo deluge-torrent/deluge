@@ -77,7 +77,7 @@ class Console(_UI):
         self.console_cmds = load_commands(os.path.join(UI_PATH, 'commands'))
         class CommandOptionGroup(optparse.OptionGroup):
             def __init__(self, parser, title, description=None, cmds=None):
-                optparse.OptionGroup.__init__(self,parser, title, description)
+                optparse.OptionGroup.__init__(self, parser, title, description)
                 self.cmds = cmds
 
             def format_help(self, formatter):
@@ -91,7 +91,7 @@ class Console(_UI):
                     allnames = [cname]
                     allnames.extend(cmd.aliases)
                     cname = "/".join(allnames)
-                    result += formatter.format_heading(" - ".join([cname,cmd.__doc__]))
+                    result += formatter.format_heading(" - ".join([cname, cmd.__doc__]))
                     formatter.indent()
                     result += "%*s%s\n" % (formatter.current_indent, "", cmd.usage.split('\n')[0])
                     formatter.dedent()
@@ -400,7 +400,7 @@ Please use commands from the command line, eg:\n
             no matches are found.
 
         """
-        if self.interactive and isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+        if self.interactive and isinstance(self.screen, deluge.ui.console.modes.legacy.Legacy):
             return self.screen.match_torrent(string)
         matches  = []
 
@@ -413,7 +413,7 @@ Please use commands from the command line, eg:\n
 
 
     def get_torrent_name(self, torrent_id):
-        if self.interactive and hasattr(self.screen,"get_torrent_name"):
+        if self.interactive and hasattr(self.screen, "get_torrent_name"):
             return self.screen.get_torrent_name(torrent_id)
 
         for tid, name in self.torrents:
@@ -424,15 +424,15 @@ Please use commands from the command line, eg:\n
 
 
     def set_batch_write(self, batch):
-        if self.interactive and isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+        if self.interactive and isinstance(self.screen, deluge.ui.console.modes.legacy.Legacy):
             return self.screen.set_batch_write(batch)
 
     def tab_complete_torrent(self, line):
-        if self.interactive and isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+        if self.interactive and isinstance(self.screen, deluge.ui.console.modes.legacy.Legacy):
             return self.screen.tab_complete_torrent(line)
 
     def tab_complete_path(self, line, type="file", ext="", sort="name", dirs_first=True):
-        if self.interactive and isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+        if self.interactive and isinstance(self.screen, deluge.ui.console.modes.legacy.Legacy):
             return self.screen.tab_complete_path(line, type=type, ext=ext, sort=sort, dirs_first=dirs_first)
 
     def set_mode(self, mode):
@@ -447,7 +447,7 @@ Please use commands from the command line, eg:\n
 
     def write(self, s):
         if self.interactive:
-            if isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+            if isinstance(self.screen, deluge.ui.console.modes.legacy.Legacy):
                 self.screen.write(s)
             else:
                 component.get("LegacyUI").add_line(s, False)
@@ -457,7 +457,7 @@ Please use commands from the command line, eg:\n
 
     def write_event(self, s):
         if self.interactive:
-            if isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+            if isinstance(self.screen, deluge.ui.console.modes.legacy.Legacy):
                 self.events.append(s)
                 self.screen.write(s)
             else:

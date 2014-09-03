@@ -45,7 +45,7 @@ from collections import deque
 
 from deluge.ui.sessionproxy import SessionProxy
 
-from popup import Popup,SelectablePopup,MessagePopup
+from popup import Popup, SelectablePopup, MessagePopup
 from add_util import add_torrent
 from input_popup import InputPopup
 import deluge.ui.console.colors as colors
@@ -158,12 +158,12 @@ class TorrentDetail(BaseMode, component.Component):
             # don't keep getting the files once we've got them once
             if state.get("files"):
                 self.files_sep = "{!green,black,bold,underline!}%s"%(("Files (torrent has %d files)"%len(state["files"])).center(self.cols))
-                self.file_list,self.file_dict = self.build_file_list(state["files"],state["file_progress"],state["file_priorities"])
+                self.file_list, self.file_dict = self.build_file_list(state["files"], state["file_progress"], state["file_priorities"])
                 self._status_keys.remove("files")
             else:
                 self.files_sep = "{!green,black,bold,underline!}%s"%(("Files (File list unknown)").center(self.cols))
             need_prio_update = True
-        self.__fill_progress(self.file_list,state["file_progress"])
+        self.__fill_progress(self.file_list, state["file_progress"])
         for i, prio in enumerate(state["file_priorities"]):
             if self.file_dict[i][6] != prio:
                 need_prio_update = True
@@ -185,7 +185,7 @@ class TorrentDetail(BaseMode, component.Component):
     #
     # Also returns a dictionary that maps index values to the file leaves
     # for fast updating of progress and priorities
-    def build_file_list(self, file_tuples,prog,prio):
+    def build_file_list(self, file_tuples, prog, prio):
         ret = []
         retdict = {}
         diridx = maxint
@@ -197,12 +197,12 @@ class TorrentDetail(BaseMode, component.Component):
                 if not cur or p != cur[-1][0]:
                     cl = []
                     if p == fin:
-                        ent = [p,f["index"],f["size"],cl,False,
+                        ent = [p, f["index"], f["size"], cl, False,
                                format_utils.format_progress(prog[f["index"]]*100),
                                prio[f["index"]]]
                         retdict[f["index"]] = ent
                     else:
-                        ent = [p,diridx,-1,cl,False,0,-1]
+                        ent = [p, diridx, -1, cl, False, 0, -1]
                         retdict[diridx] = ent
                         diridx-=1
                     cur.append(ent)
@@ -210,8 +210,8 @@ class TorrentDetail(BaseMode, component.Component):
                 else:
                     cur = cur[-1][3]
         self.__build_sizes(ret)
-        self.__fill_progress(ret,prog)
-        return (ret,retdict)
+        self.__fill_progress(ret, prog)
+        return (ret, retdict)
 
     # fill in the sizes of the directory entries based on their children
     def __build_sizes(self, fs):
@@ -227,12 +227,12 @@ class TorrentDetail(BaseMode, component.Component):
 
     # fills in progress fields in all entries based on progs
     # returns the # of bytes complete in all the children of fs
-    def __fill_progress(self,fs,progs):
+    def __fill_progress(self, fs, progs):
         if not progs: return 0
         tb = 0
         for f in fs:
             if f[3]: # dir, has some children
-                bd = self.__fill_progress(f[3],progs)
+                bd = self.__fill_progress(f[3], progs)
                 f[5] = format_utils.format_progress((bd/f[2])*100)
             else: # file, update own prog and add to total
                 bd = f[2]*progs[f[1]]
@@ -240,7 +240,7 @@ class TorrentDetail(BaseMode, component.Component):
             tb += bd
         return tb
 
-    def __fill_prio(self,fs):
+    def __fill_prio(self, fs):
         for f in fs:
             if f[3]: # dir, so fill in children and compute our prio
                 self.__fill_prio(f[3])
@@ -251,30 +251,30 @@ class TorrentDetail(BaseMode, component.Component):
                     f[6] = s.pop()
 
     def __update_columns(self):
-        self.column_widths = [-1,15,15,20]
-        req = sum(filter(lambda x:x >= 0,self.column_widths))
+        self.column_widths = [-1, 15, 15, 20]
+        req = sum(filter(lambda x:x >= 0, self.column_widths))
         if (req > self.cols): # can't satisfy requests, just spread out evenly
             cw = int(self.cols/len(self.column_names))
-            for i in range(0,len(self.column_widths)):
+            for i in range(0, len(self.column_widths)):
                 self.column_widths[i] = cw
         else:
             rem = self.cols - req
-            var_cols = len(filter(lambda x: x < 0,self.column_widths))
+            var_cols = len(filter(lambda x: x < 0, self.column_widths))
             vw = int(rem/var_cols)
             for i in range(0, len(self.column_widths)):
                 if (self.column_widths[i] < 0):
                     self.column_widths[i] = vw
 
-        self.column_string = "{!green,black,bold!}%s"%("".join(["%s%s"%(self.column_names[i]," "*(self.column_widths[i]-len(self.column_names[i]))) for i in range(0,len(self.column_names))]))
+        self.column_string = "{!green,black,bold!}%s"%("".join(["%s%s"%(self.column_names[i], " "*(self.column_widths[i]-len(self.column_names[i]))) for i in range(0, len(self.column_names))]))
 
 
-    def report_message(self,title,message):
-        self.messages.append((title,message))
+    def report_message(self, title, message):
+        self.messages.append((title, message))
 
     def clear_marks(self):
         self.marked = {}
 
-    def set_popup(self,pu):
+    def set_popup(self, pu):
         self.popup = pu
         self.refresh()
 
@@ -304,7 +304,7 @@ class TorrentDetail(BaseMode, component.Component):
             #self.__get_file_by_name(old_folder, self.file_list)[0] = new_folder.strip("/")
             component.get("SessionProxy").get_torrent_status(self.torrentid, self._status_keys).addCallback(self.set_state)
 
-    def draw_files(self,files,depth,off,idx):
+    def draw_files(self, files, depth, off, idx):
 
         color_selected = "blue"
         color_partially_selected = "magenta"
@@ -315,7 +315,7 @@ class TorrentDetail(BaseMode, component.Component):
             # kick out if we're going to draw too low on the screen
             if (off >= self.rows-1):
                 self.more_to_draw = True
-                return -1,-1
+                return -1, -1
 
             self.file_limit = idx
 
@@ -374,22 +374,22 @@ class TorrentDetail(BaseMode, component.Component):
                 else: # file
                     xchar = '-'
 
-                r = format_utils.format_row(["%s%s %s"%(" "*depth,xchar,fl[0]),
-                                             deluge.common.fsize(fl[2]),fl[5],
+                r = format_utils.format_row(["%s%s %s"%(" "*depth, xchar, fl[0]),
+                                             deluge.common.fsize(fl[2]), fl[5],
                                              format_utils.format_priority(fl[6])],
                                             self.column_widths)
 
-                self.add_string(off,"%s%s"%(color_string,r),trim=False)
+                self.add_string(off, "%s%s"%(color_string, r), trim=False)
                 off += 1
 
             if fl[3] and fl[4]:
                 # recurse if we have children and are expanded
-                off,idx = self.draw_files(fl[3],depth+1,off,idx+1)
-                if off < 0: return (off,idx)
+                off, idx = self.draw_files(fl[3], depth+1, off, idx+1)
+                if off < 0: return (off, idx)
             else:
                 idx += 1
 
-        return (off,idx)
+        return (off, idx)
 
     def __get_file_list_length(self, file_list=None):
         """
@@ -518,12 +518,12 @@ class TorrentDetail(BaseMode, component.Component):
     def refresh(self,lines=None):
         # show a message popup if there's anything queued
         if self.popup == None and self.messages:
-            title,msg = self.messages.popleft()
-            self.popup = MessagePopup(self,title,msg)
+            title, msg = self.messages.popleft()
+            self.popup = MessagePopup(self, title, msg)
 
         # Update the status bars
         self.stdscr.erase()
-        self.add_string(0,self.statusbars.topbar)
+        self.add_string(0, self.statusbars.topbar)
 
         #This will quite likely fail when switching modes
         try:
@@ -552,11 +552,11 @@ class TorrentDetail(BaseMode, component.Component):
         self._listing_start = off
         self._listing_space = self.rows - self._listing_start
 
-        self.add_string(off,self.column_string)
+        self.add_string(off, self.column_string)
         if self.file_list:
             off += 1
             self.more_to_draw = False
-            self.draw_files(self.file_list,0,off,0)
+            self.draw_files(self.file_list, 0, off, 0)
 
         if component.get("ConsoleUI").screen != self:
             return
@@ -589,8 +589,8 @@ class TorrentDetail(BaseMode, component.Component):
         self.refresh()
 
     def file_list_up(self, rows=1):
-        self.current_file_idx = max(0,self.current_file_idx-rows)
-        self.file_off = min(self.file_off,self.current_file_idx)
+        self.current_file_idx = max(0, self.current_file_idx-rows)
+        self.file_off = min(self.file_off, self.current_file_idx)
         self.refresh()
 
     def back_to_overview(self):
@@ -608,18 +608,18 @@ class TorrentDetail(BaseMode, component.Component):
         for f in files:
             #Do not set priorities for the whole dir, just selected contents
             if f[3]:
-                self.build_prio_list(f[3],ret_list,parent_prio,selected_prio)
+                self.build_prio_list(f[3], ret_list, parent_prio, selected_prio)
             else: # file, need to add to list
                 if f[1] in self.marked or parent_prio >= 0:
                     # selected (or parent selected), use requested priority
-                    ret_list.append((f[1],selected_prio))
+                    ret_list.append((f[1], selected_prio))
                 else:
                     # not selected, just keep old priority
-                    ret_list.append((f[1],f[6]))
+                    ret_list.append((f[1], f[6]))
 
     def do_priority(self, idx, data, was_empty):
         plist = []
-        self.build_prio_list(self.file_list,plist,-1,data)
+        self.build_prio_list(self.file_list, plist, -1, data)
         plist.sort()
         priorities = [p[1] for p in plist]
         log.debug("priorities: %s", priorities)
@@ -634,14 +634,14 @@ class TorrentDetail(BaseMode, component.Component):
     def show_priority_popup(self, was_empty):
         func = lambda idx, data, we=was_empty: self.do_priority(idx, data, we)
         if self.marked:
-            self.popup = SelectablePopup(self,"Set File Priority", func)
-            self.popup.add_line("_Do Not Download",data=deluge.common.FILE_PRIORITY["Do Not Download"], foreground="red")
-            self.popup.add_line("_Normal Priority",data=deluge.common.FILE_PRIORITY["Normal Priority"])
-            self.popup.add_line("_High Priority",data=deluge.common.FILE_PRIORITY["High Priority"], foreground="yellow")
-            self.popup.add_line("H_ighest Priority",data=deluge.common.FILE_PRIORITY["Highest Priority"], foreground="green")
+            self.popup = SelectablePopup(self, "Set File Priority", func)
+            self.popup.add_line("_Do Not Download", data=deluge.common.FILE_PRIORITY["Do Not Download"], foreground="red")
+            self.popup.add_line("_Normal Priority", data=deluge.common.FILE_PRIORITY["Normal Priority"])
+            self.popup.add_line("_High Priority", data=deluge.common.FILE_PRIORITY["High Priority"], foreground="yellow")
+            self.popup.add_line("H_ighest Priority", data=deluge.common.FILE_PRIORITY["Highest Priority"], foreground="green")
             self.popup._selected = 1
 
-    def __mark_unmark(self,idx):
+    def __mark_unmark(self, idx):
         """
         Selects or unselects file or a catalog(along with contained files)
         """
@@ -838,7 +838,7 @@ class TorrentDetail(BaseMode, component.Component):
                     new_fname = "%s/%s/" % (old_fname.strip("/").rpartition("/")[0], result["new_foldername"])
                     self._do_rename_folder(tid, old_fname, new_fname)
 
-                popup = InputPopup(self,"Rename folder (Esc to cancel)",close_cb=do_rename)
+                popup = InputPopup(self, "Rename folder (Esc to cancel)", close_cb=do_rename)
                 popup.add_text("{!info!}Renaming folder:{!input!}")
                 popup.add_text(" * %s\n" % old_filename)
                 popup.add_text_input("Enter new folder name:", "new_foldername", old_filename.strip("/"))
@@ -850,7 +850,7 @@ class TorrentDetail(BaseMode, component.Component):
                     fname = "%s/%s" % (self.full_names[idx].rpartition("/")[0], result["new_filename"])
                     self._do_rename_file(tid, idx, fname)
 
-                popup = InputPopup(self,"Rename file (Esc to cancel)",close_cb=do_rename)
+                popup = InputPopup(self, "Rename file (Esc to cancel)", close_cb=do_rename)
                 popup.add_text("{!info!}Renaming file:{!input!}")
                 popup.add_text(" * %s\n" % old_filename)
                 popup.add_text_input("Enter new filename:", "new_filename", old_filename)
@@ -924,10 +924,10 @@ class TorrentDetail(BaseMode, component.Component):
                 elif chr(c) == 'c':
                     self.marked = {}
                 elif chr(c) == 'a':
-                    torrent_actions_popup(self,[self.torrentid],details=False)
+                    torrent_actions_popup(self, [self.torrentid], details=False)
                     return
                 elif chr(c) == 'o':
-                    torrent_actions_popup(self,[self.torrentid],action=ACTION.TORRENT_OPTIONS)
+                    torrent_actions_popup(self, [self.torrentid], action=ACTION.TORRENT_OPTIONS)
                     return
                 elif chr(c) == 'h':
                     self.popup = MessagePopup(self, "Help", HELP_STR, width_req=0.75)

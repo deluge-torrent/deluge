@@ -63,12 +63,12 @@ class SchedulerSelectWidget(gtk.DrawingArea):
         self.colors = [[115.0/255, 210.0/255, 22.0/255], [237.0/255, 212.0/255, 0.0/255], [204.0/255, 0.0/255, 0.0/255]]
         self.button_state = [[0] * 7 for dummy in xrange(24)]
 
-        self.start_point = [0,0]
-        self.hover_point = [-1,-1]
+        self.start_point = [0, 0]
+        self.hover_point = [-1, -1]
         self.hover_label = hover
         self.hover_days = DAYS
         self.mouse_press = False
-        self.set_size_request(350,150)
+        self.set_size_request(350, 150)
 
     def set_button_state(self, state):
         self.button_state = []
@@ -104,7 +104,7 @@ class SchedulerSelectWidget(gtk.DrawingArea):
         if y > 6: y = 6
         elif y < 0: y = 0
 
-        return [x,y]
+        return [x, y]
 
     #mouse down
     def mouse_down(self, widget, event):
@@ -148,7 +148,7 @@ class SchedulerSelectWidget(gtk.DrawingArea):
     #clear hover text on mouse leave
     def mouse_leave(self, widget, event):
         self.hover_label.set_text("")
-        self.hover_point = [-1,-1]
+        self.hover_point = [-1, -1]
 
 class GtkUI(GtkPluginBase):
     def enable(self):

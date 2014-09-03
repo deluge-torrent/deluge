@@ -49,7 +49,7 @@ print("\n\n")
 if 0: #aclient non-core
     methods = sorted([m for m  in dir(aclient) if not m.startswith('_')
         if not m in ['add_torrent_file', 'has_callback', 'get_method',
-            'methodHelp','methodSignature','list_methods','add_torrent_file_binary']])
+            'methodHelp', 'methodSignature', 'list_methods', 'add_torrent_file_binary']])
 
     for m in methods:
         func = getattr(aclient, m)
@@ -109,7 +109,7 @@ if 0: #keys
     {{{
 #!python
 >>>sorted(sclient.get_status_keys())""")
-    print("\n".join(textwrap.wrap(str(sorted(sclient.get_status_keys())),100)))
+    print("\n".join(textwrap.wrap(str(sorted(sclient.get_status_keys())), 100)))
     print("""}}}""")
 
 

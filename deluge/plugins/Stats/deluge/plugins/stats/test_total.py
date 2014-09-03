@@ -5,7 +5,7 @@ sclient.set_core_uri()
 
 def print_totals(totals):
     for name, value in totals.iteritems():
-        print(name , fsize(value))
+        print(name, fsize(value))
 
     print("overhead:")
     print("up:", fsize(totals["total_upload"]  - totals["total_payload_upload"] ))

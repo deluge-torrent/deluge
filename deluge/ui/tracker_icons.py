@@ -585,16 +585,16 @@ def icon_name_to_host(icon):
     return icon.rpartition('.')[0]
 
 MIME_MAP = {
-    "image/gif" : "gif",
-    "image/jpeg" : "jpg",
-    "image/png" : "png",
-    "image/vnd.microsoft.icon" : "ico",
-    "image/x-icon" : "ico",
-    "gif" : "image/gif",
-    "jpg" : "image/jpeg",
-    "jpeg" : "image/jpeg",
-    "png" : "image/png",
-    "ico" : "image/vnd.microsoft.icon",
+    "image/gif": "gif",
+    "image/jpeg": "jpg",
+    "image/png": "png",
+    "image/vnd.microsoft.icon": "ico",
+    "image/x-icon": "ico",
+    "gif": "image/gif",
+    "jpg": "image/jpeg",
+    "jpeg": "image/jpeg",
+    "png": "image/png",
+    "ico": "image/vnd.microsoft.icon",
 }
 
 def mimetype_to_extension(mimetype):

@@ -51,7 +51,7 @@ import deluge.configmanager
 from deluge.ui.console.modes import format_utils
 strwidth = format_utils.strwidth
 
-import logging,os
+import logging, os
 log = logging.getLogger(__name__)
 
 import re
@@ -907,7 +907,7 @@ class Legacy(BaseMode, component.Component):
         # Find all possible matches
         for torrent_id, torrent_name in self.torrents:
             #Escape spaces to avoid, for example, expanding "Doc" into "Doctor Who" and removing everything containing one of these words
-            escaped_name = torrent_name.replace(" ","\\ ")
+            escaped_name = torrent_name.replace(" ", "\\ ")
             #If we only matched one torrent, don't add the full name or it'll also get autocompleted
             if match_count == 1:
                 if torrent_id.startswith(line):

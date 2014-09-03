@@ -79,16 +79,16 @@ class LabelSidebarMenu(object):
         self.menu.connect("show", self.on_show, None)
 
 
-    def _add_item(self, id, label ,stock):
+    def _add_item(self, id, label, stock):
         """I hate glade.
         id is automatically-added as self.item_<id>
         """
-        func  = getattr(self,"on_%s" %  id)
+        func  = getattr(self, "on_%s" %  id)
         item = gtk.ImageMenuItem(stock)
         item.get_children()[0].set_label(label)
         item.connect("activate", func)
         self.menu.prepend(item)
-        setattr(self,"item_%s" %  id, item)
+        setattr(self, "item_%s" %  id, item)
         self.items.append(item)
         return item
 
@@ -145,8 +145,8 @@ class AddDialog(object):
         self.dialog.set_transient_for(component.get("MainWindow").window)
 
         self.glade.signal_autoconnect({
-            "on_add_ok":self.on_ok,
-            "on_add_cancel":self.on_cancel,
+            "on_add_ok": self.on_ok,
+            "on_add_cancel": self.on_cancel,
         })
         self.dialog.run()
 
@@ -184,8 +184,8 @@ class OptionsDialog(object):
         self.dialog = self.glade.get_widget("dlg_label_options")
         self.dialog.set_transient_for(component.get("MainWindow").window)
         self.glade.signal_autoconnect({
-            "on_options_ok":self.on_ok,
-            "on_options_cancel":self.on_cancel,
+            "on_options_ok": self.on_ok,
+            "on_options_cancel": self.on_cancel,
         })
 
         # Show the label name in the header label
@@ -193,7 +193,7 @@ class OptionsDialog(object):
 
         for chk_id, group in  self.sensitive_groups:
             chk = self.glade.get_widget(chk_id)
-            chk.connect("toggled",self.apply_sensitivity)
+            chk.connect("toggled", self.apply_sensitivity)
 
         client.label.get_options(self.label).addCallback(self.load_options)
 
@@ -245,7 +245,7 @@ class OptionsDialog(object):
         self.dialog.destroy()
 
     def apply_sensitivity(self, event=None):
-        for chk_id , sensitive_list in self.sensitive_groups:
+        for chk_id, sensitive_list in self.sensitive_groups:
             chk = self.glade.get_widget(chk_id)
             sens = chk.get_active() and chk.get_property("sensitive")
             for widget_id in sensitive_list:

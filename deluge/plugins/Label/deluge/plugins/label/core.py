@@ -51,14 +51,14 @@ log = logging.getLogger(__name__)
 
 RE_VALID = re.compile("[a-z0-9_\-\.]*\Z")
 
-KNOWN_STATES = ['Downloading','Seeding','Paused','Checking','Queued','Error']
+KNOWN_STATES = ['Downloading', 'Seeding', 'Paused', 'Checking', 'Queued', 'Error']
 STATE = "state"
 TRACKER = "tracker"
 KEYWORD = "keyword"
 LABEL = "label"
 CONFIG_DEFAULTS = {
-    "torrent_labels":{}, #torrent_id:label_id
-    "labels":{}, #label_id:{name:value}
+    "torrent_labels": {}, #torrent_id:label_id
+    "labels": {}, #label_id:{name:value}
 }
 
 CORE_OPTIONS = ["auto_add_trackers"]
@@ -157,7 +157,7 @@ class Core(CorePluginBase):
         """remove invalid data from config-file"""
         for torrent_id, label_id in list(self.torrent_labels.iteritems()):
             if (not label_id in self.labels) or (not torrent_id in self.torrents):
-                log.debug("label: rm %s:%s" % (torrent_id,label_id))
+                log.debug("label: rm %s:%s" % (torrent_id, label_id))
                 del self.torrent_labels[torrent_id]
 
     def clean_initial_config(self):
@@ -191,9 +191,9 @@ class Core(CorePluginBase):
         see label_set_options for more options.
         """
         label_id = label_id.lower()
-        CheckInput(RE_VALID.match(label_id) , _("Invalid label, valid characters:[a-z0-9_-]"))
+        CheckInput(RE_VALID.match(label_id), _("Invalid label, valid characters:[a-z0-9_-]"))
         CheckInput(label_id, _("Empty Label"))
-        CheckInput(not (label_id in self.labels) , _("Label already exists"))
+        CheckInput(not (label_id in self.labels), _("Label already exists"))
 
         self.labels[label_id] = dict(OPTIONS_DEFAULTS)
         self.config.save()
@@ -259,7 +259,7 @@ class Core(CorePluginBase):
                 }
             )
 
-    def _has_auto_match(self, torrent ,label_options):
+    def _has_auto_match(self, torrent, label_options):
         """match for auto_add fields"""
         for tracker_match in label_options["auto_add_trackers"]:
             for tracker in torrent.trackers:
@@ -281,7 +281,7 @@ class Core(CorePluginBase):
             "move_completed_to":string() or None
         }
         """
-        CheckInput(label_id in self.labels , _("Unknown Label"))
+        CheckInput(label_id in self.labels, _("Unknown Label"))
         for key in options_dict.keys():
             if not key in OPTIONS_DEFAULTS:
                 raise Exception("label: Invalid options_dict key:%s" % key)
@@ -289,16 +289,16 @@ class Core(CorePluginBase):
         self.labels[label_id].update(options_dict)
 
         #apply
-        for torrent_id,label in self.torrent_labels.iteritems():
+        for torrent_id, label in self.torrent_labels.iteritems():
             if label_id == label and torrent_id in self.torrents:
-                self._set_torrent_options(torrent_id , label_id)
+                self._set_torrent_options(torrent_id, label_id)
 
         #auto add
         options = self.labels[label_id]
         if options["auto_add"]:
             for torrent_id, torrent in self.torrents.iteritems():
                 if self._has_auto_match(torrent, options):
-                    self.set_torrent(torrent_id , label_id)
+                    self.set_torrent(torrent_id, label_id)
 
         self.config.save()
 
@@ -308,7 +308,7 @@ class Core(CorePluginBase):
         return self.labels[label_id]
 
     @export
-    def set_torrent(self, torrent_id , label_id):
+    def set_torrent(self, torrent_id, label_id):
         """
         assign a label to a torrent
         removes a label if the label_id parameter is empty.
@@ -316,8 +316,8 @@ class Core(CorePluginBase):
         if label_id == NO_LABEL:
             label_id = None
 
-        CheckInput((not label_id) or (label_id in self.labels)  , _("Unknown Label"))
-        CheckInput(torrent_id in self.torrents  , _("Unknown Torrent"))
+        CheckInput((not label_id) or (label_id in self.labels), _("Unknown Label"))
+        CheckInput(torrent_id in self.torrents, _("Unknown Torrent"))
 
         if torrent_id in self.torrent_labels:
             self._unset_torrent_options(torrent_id, self.torrent_labels[torrent_id])

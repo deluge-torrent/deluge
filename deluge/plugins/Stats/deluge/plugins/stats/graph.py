@@ -59,7 +59,7 @@ def default_formatter(value):
 
 def size_formatter_scale(value):
     scale = 1.0
-    for i in range(0,3):
+    for i in range(0, 3):
         scale = scale * 1024.0
         if value / scale < 1024:
             return scale
@@ -86,9 +86,9 @@ class Graph:
         self.mean_selected = True
         self.legend_selected = True
         self.max_selected = True
-        self.black = (0, 0 , 0,)
+        self.black = (0, 0, 0,)
         self.interval = 2 # 2 secs
-        self.text_bg =  (255, 255 , 255, 128) # prototyping
+        self.text_bg =  (255, 255, 255, 128) # prototyping
         self.set_left_axis()
 
     def set_left_axis(self, **kargs):

@@ -130,7 +130,7 @@ class Preferences(BaseMode):
         # create the panes
         self.__calc_sizes()
 
-        self.action_input = SelectInput(self,None,None,["Cancel","Apply","OK"],[0,1,2],0)
+        self.action_input = SelectInput(self, None, None, ["Cancel", "Apply", "OK"], [0, 1, 2], 0)
         self.refresh()
 
     def __calc_sizes(self):
@@ -151,22 +151,22 @@ class Preferences(BaseMode):
         ]
 
     def __draw_catetories(self):
-        for i,category in enumerate(self.categories):
+        for i, category in enumerate(self.categories):
             if i == self.cur_cat and self.active_zone == ZONE.CATEGORIES:
-                self.add_string(i+1,"- {!black,white,bold!}%s"%category,pad=False)
+                self.add_string(i+1, "- {!black,white,bold!}%s"%category, pad=False)
             elif i == self.cur_cat:
-                self.add_string(i+1,"- {!black,white!}%s"%category,pad=False)
+                self.add_string(i+1, "- {!black,white!}%s"%category, pad=False)
             else:
-                self.add_string(i+1,"- %s"%category)
-        self.stdscr.vline(1,self.div_off,'|',self.rows-2)
+                self.add_string(i+1, "- %s"%category)
+        self.stdscr.vline(1, self.div_off, '|', self.rows-2)
 
     def __draw_preferences(self):
-        self.panes[self.cur_cat].render(self,self.stdscr, self.prefs_width, self.active_zone == ZONE.PREFRENCES)
+        self.panes[self.cur_cat].render(self, self.stdscr, self.prefs_width, self.active_zone == ZONE.PREFRENCES)
 
     def __draw_actions(self):
         selected = self.active_zone == ZONE.ACTIONS
-        self.stdscr.hline(self.rows-3,self.div_off+1,"_",self.cols)
-        self.action_input.render(self.stdscr,self.rows-2,self.cols,selected,self.cols-22)
+        self.stdscr.hline(self.rows-3, self.div_off+1, "_", self.cols)
+        self.action_input.render(self.stdscr, self.rows-2, self.cols, selected, self.cols-22)
 
     def on_resize(self, *args):
         BaseMode.on_resize_norefresh(self, *args)
@@ -180,13 +180,13 @@ class Preferences(BaseMode):
 
     def refresh(self):
         if self.popup == None and self.messages:
-            title,msg = self.messages.popleft()
-            self.popup = MessagePopup(self,title,msg)
+            title, msg = self.messages.popleft()
+            self.popup = MessagePopup(self, title, msg)
 
         self.stdscr.erase()
-        self.add_string(0,self.statusbars.topbar)
+        self.add_string(0, self.statusbars.topbar)
         hstr =  "%sPress [h] for help"%(" "*(self.cols - len(self.statusbars.bottombar) - 10))
-        self.add_string(self.rows - 1, "%s%s"%(self.statusbars.bottombar,hstr))
+        self.add_string(self.rows - 1, "%s%s"%(self.statusbars.bottombar, hstr))
 
         self.__draw_catetories()
         self.__draw_actions()
@@ -207,9 +207,9 @@ class Preferences(BaseMode):
     def __category_read(self, c):
         # Navigate prefs
         if c == curses.KEY_UP:
-            self.cur_cat = max(0,self.cur_cat-1)
+            self.cur_cat = max(0, self.cur_cat-1)
         elif c == curses.KEY_DOWN:
-            self.cur_cat = min(len(self.categories)-1,self.cur_cat+1)
+            self.cur_cat = min(len(self.categories)-1, self.cur_cat+1)
 
     def __prefs_read(self, c):
         self.panes[self.cur_cat].handle_read(c)
@@ -217,7 +217,7 @@ class Preferences(BaseMode):
     def __apply_prefs(self):
         new_core_config = {}
         for pane in self.panes:
-            if not isinstance(pane,InterfacePane) and not isinstance(pane, ColumnsPane):
+            if not isinstance(pane, InterfacePane) and not isinstance(pane, ColumnsPane):
                 pane.add_config_values(new_core_config)
         # Apply Core Prefs
         if client.connected():
@@ -241,7 +241,7 @@ class Preferences(BaseMode):
         for pane in self.panes:
             # could just access panes by index, but that would break if panes
             # are ever reordered, so do it the slightly slower but safer way
-            if isinstance(pane,InterfacePane) or isinstance(pane, ColumnsPane):
+            if isinstance(pane, InterfacePane) or isinstance(pane, ColumnsPane):
                 pane.add_config_values(new_console_config)
         for key in new_console_config.keys():
             # The values do not match so this needs to be updated
@@ -254,7 +254,7 @@ class Preferences(BaseMode):
             self.parent_mode.update_config()
 
 
-    def __update_preferences(self,core_config):
+    def __update_preferences(self, core_config):
         self.core_config = core_config
         for pane in self.panes:
             pane.update_values(core_config)
@@ -298,7 +298,7 @@ class Preferences(BaseMode):
                     reactor.stop()
                 return
             elif chr(c) == 'h':
-                self.popup = Popup(self,"Preferences Help")
+                self.popup = Popup(self, "Preferences Help")
                 for l in HELP_LINES:
                     self.popup.add_line(l)
 
@@ -313,7 +313,7 @@ class Preferences(BaseMode):
             if self.active_zone < ZONE.CATEGORIES:
                 self.active_zone = ZONE.ACTIONS
 
-        elif c == 114 and isinstance(self.panes[self.cur_cat],CachePane):
+        elif c == 114 and isinstance(self.panes[self.cur_cat], CachePane):
             client.core.get_cache_status().addCallback(self.panes[self.cur_cat].update_cache_status)
 
         else:

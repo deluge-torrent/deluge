@@ -41,7 +41,7 @@ import deluge.component as component
 from deluge.ui.common import TorrentInfo
 import deluge.common
 
-import os,base64,glob
+import os, base64, glob
 
 import logging
 log = logging.getLogger(__name__)
@@ -56,9 +56,9 @@ def __bracket_fixup(path):
         if sentinal > 65535: 
             log.error("Can't fix brackets in path, path contains all possible sentinal characters")
             return path
-    newpath = path.replace("]",unichr(sentinal))
-    newpath = newpath.replace("[","[[]")
-    newpath = newpath.replace(unichr(sentinal),"[]]")
+    newpath = path.replace("]", unichr(sentinal))
+    newpath = newpath.replace("[", "[[]")
+    newpath = newpath.replace(unichr(sentinal), "[]]")
     return newpath
 
 def add_torrent(t_file, options, success_cb, fail_cb, ress):
@@ -78,29 +78,29 @@ def add_torrent(t_file, options, success_cb, fail_cb, ress):
     ress["total"] = num_files
 
     if num_files <= 0:
-        fail_cb("Doesn't exist",t_file,ress)
+        fail_cb("Doesn't exist", t_file, ress)
 
     for f in files:
         if is_url:
-            client.core.add_torrent_url(f, t_options).addCallback(success_cb,f,ress).addErrback(fail_cb,f,ress)
+            client.core.add_torrent_url(f, t_options).addCallback(success_cb, f, ress).addErrback(fail_cb, f, ress)
         elif is_mag:
-            client.core.add_torrent_magnet(f, t_options).addCallback(success_cb,f,ress).addErrback(fail_cb,f,ress)
+            client.core.add_torrent_magnet(f, t_options).addCallback(success_cb, f, ress).addErrback(fail_cb, f, ress)
         else:
             if not os.path.exists(f):
-                fail_cb("Doesn't exist",f,ress)
+                fail_cb("Doesn't exist", f, ress)
                 continue
             if not os.path.isfile(f):
-                fail_cb("Is a directory",f,ress)
+                fail_cb("Is a directory", f, ress)
                 continue
 
             try:
                 TorrentInfo(f)
             except Exception as e:
-                fail_cb(e.message,f,ress)
+                fail_cb(e.message, f, ress)
                 continue
 
             filename = os.path.split(f)[-1]
             filedump = base64.encodestring(open(f).read())
 
-            client.core.add_torrent_file(filename, filedump, t_options).addCallback(success_cb,f,ress).addErrback(fail_cb,f,ress)
+            client.core.add_torrent_file(filename, filedump, t_options).addCallback(success_cb, f, ress).addErrback(fail_cb, f, ress)
 
