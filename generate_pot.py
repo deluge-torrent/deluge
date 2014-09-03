@@ -4,7 +4,6 @@
 #
 import os
 import re
-import sys
 from version import get_version
 from subprocess import call
 from datetime import datetime
@@ -16,7 +15,7 @@ EXCLUSIONS = [
     "deluge/tests",
 ]
 webui_js_dir = "deluge/ui/web/js/deluge-all"
-infiles_list= "infiles.list"
+infiles_list = "infiles.list"
 pot_filepath = os.path.join("deluge", "i18n", "deluge.pot")
 
 re_exc_plugin_build = re.compile("deluge\/plugins\/.*\/build")
@@ -55,7 +54,7 @@ with open(infiles_list, "wb") as f:
 call(xgettext_cmd)
 
 # find javascript files
-js_to_translate=[]
+js_to_translate = []
 for (dirpath, dirnames, filenames) in os.walk(webui_js_dir):
     for filename in filenames:
         if os.path.splitext(filename)[1] == ".js":

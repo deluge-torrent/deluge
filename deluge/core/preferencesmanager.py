@@ -205,7 +205,7 @@ class PreferencesManager(component.Component):
             listen_ports = []
             randrange = lambda: random.randrange(49152, 65525)
             listen_ports.append(randrange())
-            listen_ports.append(listen_ports[0]+10)
+            listen_ports.append(listen_ports[0] + 10)
         else:
             listen_ports = self.config["listen_ports"]
 

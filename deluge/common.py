@@ -183,7 +183,7 @@ def resource_filename(module, path):
     # enough.
     # This is a work-around that.
     return pkg_resources.require("Deluge>=%s" % get_version())[0].get_resource_filename(
-        pkg_resources._manager, os.path.join(*(module.split('.')+[path]))
+        pkg_resources._manager, os.path.join(*(module.split(".") + [path]))
     )
 
 

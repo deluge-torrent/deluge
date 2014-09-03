@@ -114,7 +114,7 @@ def create_plugin():
     print("building dev-link..")
     write_file(plugin_base, "create_dev_link.sh", CREATE_DEV_LINK)
     dev_link_path = os.path.join(plugin_base, "create_dev_link.sh")
-    os.system("chmod +x %s" % dev_link_path) #lazy..
+    os.system("chmod +x %s" % dev_link_path)  # lazy..
     os.system(dev_link_path)
 
 
@@ -367,8 +367,8 @@ new %(name)sPlugin();
 """
 
 GPL = """#
-# %(filename)s
-#
+# -*- coding: utf-8 -*-#
+
 # Copyright (C) %(current_year)d %(author_name)s <%(author_email)s>
 #
 # Basic plugin template created by:
@@ -377,37 +377,13 @@ GPL = """#
 # Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
 # Copyright (C) 2010 Pedro Algarvio <pedro@algarvio.me>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 """
 
-NAMESPACE_INIT="""# this is a namespace package
+NAMESPACE_INIT = """# this is a namespace package
 import pkg_resources
 pkg_resources.declare_namespace(__name__)
 """
@@ -415,7 +391,8 @@ pkg_resources.declare_namespace(__name__)
 CREATE_DEV_LINK = """#!/bin/bash
 BASEDIR=$(cd `dirname $0` && pwd)
 CONFIG_DIR=$( test -z $1 && echo "%(configdir)s" || echo "$1")
-[ -d "$CONFIG_DIR/plugins" ] || echo "Config dir \"$CONFIG_DIR\" is either not a directory or is not a proper deluge config directory. Exiting"
+[ -d "$CONFIG_DIR/plugins" ] || echo "Config dir \"$CONFIG_DIR\" is either not a directory \
+or is not a proper deluge config directory. Exiting"
 [ -d "$CONFIG_DIR/plugins" ] || exit 1
 cd $BASEDIR
 test -d $BASEDIR/temp || mkdir $BASEDIR/temp

@@ -88,6 +88,7 @@ class ClientTestCase(unittest.TestCase):
         d = client.connect(
             "localhost", self.listen_port, username="", password=""
         )
+
         def on_connect(result):
             self.assertEqual(client.get_auth_level(), AUTH_LEVEL_ADMIN)
             self.addCleanup(client.disconnect)

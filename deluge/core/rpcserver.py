@@ -573,7 +573,7 @@ def generate_ssl_keys():
     cert = crypto.X509()
     cert.set_serial_number(0)
     cert.gmtime_adj_notBefore(0)
-    cert.gmtime_adj_notAfter(60*60*24*365*5)  # Five Years
+    cert.gmtime_adj_notAfter(60 * 60 * 24 * 365 * 5)  # Five Years
     cert.set_issuer(req.get_subject())
     cert.set_subject(req.get_subject())
     cert.set_pubkey(req.get_pubkey())

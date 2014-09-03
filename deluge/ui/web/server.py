@@ -354,7 +354,7 @@ class ScriptResource(resource.Resource, component.Component):
                                 except:
                                     pass
 
-                        dirpath = dirpath[len(filepath)+1:]
+                        dirpath = dirpath[len(filepath) + 1:]
                         if dirpath:
                             scripts.extend(['js/' + path + '/' + dirpath + '/' + f for f in files])
                         else:

@@ -1,36 +1,10 @@
-#
-# tracker_icons.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2010 John Garland <johnnybg+deluge@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 import logging
@@ -53,17 +27,17 @@ except ImportError:
     # twisted 8
     from twisted.web.error import NoResource, ForbiddenResource
 
-
-
 try:
     import PIL.Image as Image
     import deluge.ui.Win32IconImagePlugin
+    assert deluge.ui.Win32IconImagePlugin  # silence pyflakes
 except ImportError:
     PIL_INSTALLED = False
 else:
     PIL_INSTALLED = True
 
 log = logging.getLogger(__name__)
+
 
 class TrackerIcon(object):
     """
@@ -77,7 +51,7 @@ class TrackerIcon(object):
         :type filename: string
         """
         self.filename = os.path.abspath(filename)
-        self.mimetype = extension_to_mimetype(self.filename.rpartition('.')[2])
+        self.mimetype = extension_to_mimetype(self.filename.rpartition(".")[2])
         self.data = None
         self.icon_cache = None
 
@@ -90,9 +64,9 @@ class TrackerIcon(object):
         :returns: whether or not they're equal
         :rtype: boolean
         """
-        return os.path.samefile(self.filename, other.filename) or \
-               self.get_mimetype() == other.get_mimetype() and \
-               self.get_data() == other.get_data()
+        return (os.path.samefile(self.filename, other.filename) or
+                self.get_mimetype() == other.get_mimetype() and
+                self.get_data() == other.get_data())
 
     def get_mimetype(self):
         """
@@ -142,6 +116,7 @@ class TrackerIcon(object):
         """
         return self.icon_cache
 
+
 class TrackerIcons(Component):
     """
     A TrackerIcon factory class
@@ -175,7 +150,7 @@ class TrackerIcons(Component):
             self.icons[None] = TrackerIcon(no_icon)
         else:
             self.icons[None] = None
-        self.icons[''] = self.icons[None]
+        self.icons[""] = self.icons[None]
 
         self.pending = {}
         self.redirects = {}
@@ -433,7 +408,7 @@ class TrackerIcons(Component):
         if f.check(PageRedirect):
             # Handle redirect errors
             location = urljoin(self.host_to_url(host), error_msg.split(" to ")[1])
-            d = self.download_icon([(location, extension_to_mimetype(location.rpartition('.')[2]))] + icons, host)
+            d = self.download_icon([(location, extension_to_mimetype(location.rpartition(".")[2]))] + icons, host)
             if not icons:
                 d.addCallbacks(self.on_download_icon_complete, self.on_download_icon_fail,
                                callbackArgs=(host,), errbackArgs=(host,))
@@ -441,7 +416,8 @@ class TrackerIcons(Component):
             d = self.download_icon(icons, host)
         elif f.check(NoIconsError, HTMLParseError):
             # No icons, try favicon.ico as an act of desperation
-            d = self.download_icon([(urljoin(self.host_to_url(host), "favicon.ico"), extension_to_mimetype("ico"))], host)
+            d = self.download_icon([(urljoin(self.host_to_url(host), "favicon.ico"),
+                                   extension_to_mimetype("ico"))], host)
             d.addCallbacks(self.on_download_icon_complete, self.on_download_icon_fail,
                            callbackArgs=(host,), errbackArgs=(host,))
         else:
@@ -465,7 +441,7 @@ class TrackerIcons(Component):
             filename = icon.get_filename()
             img = Image.open(filename)
             if img.size > (16, 16):
-                new_filename = filename.rpartition('.')[0]+".png"
+                new_filename = filename.rpartition(".")[0] + ".png"
                 img = img.resize((16, 16), Image.ANTIALIAS)
                 img.save(new_filename)
                 if new_filename != filename:
@@ -506,6 +482,7 @@ class TrackerIcons(Component):
 
 ################################ HELPER CLASSES ###############################
 
+
 class FaviconParser(HTMLParser):
     """
     A HTMLParser which extracts favicons from a HTML page
@@ -526,7 +503,7 @@ class FaviconParser(HTMLParser):
                     type = value
             if href:
                 try:
-                    mimetype = extension_to_mimetype(href.rpartition('.')[2])
+                    mimetype = extension_to_mimetype(href.rpartition(".")[2])
                 except KeyError:
                     pass
                 else:
@@ -561,6 +538,7 @@ def url_to_host(url):
     """
     return urlparse(url).hostname
 
+
 def host_to_icon_name(host, mimetype):
     """
     Given a host, returns the appropriate icon name
@@ -573,7 +551,8 @@ def host_to_icon_name(host, mimetype):
     :rtype: string
 
     """
-    return host+'.'+mimetype_to_extension(mimetype)
+    return host + "." + mimetype_to_extension(mimetype)
+
 
 def icon_name_to_host(icon):
     """
@@ -584,7 +563,7 @@ def icon_name_to_host(icon):
     :returns: the host name
     :rtype: string
     """
-    return icon.rpartition('.')[0]
+    return icon.rpartition(".")[0]
 
 MIME_MAP = {
     "image/gif": "gif",
@@ -599,6 +578,7 @@ MIME_MAP = {
     "ico": "image/vnd.microsoft.icon",
 }
 
+
 def mimetype_to_extension(mimetype):
     """
     Given a mimetype, returns the appropriate filename extension
@@ -610,6 +590,7 @@ def mimetype_to_extension(mimetype):
     :raises KeyError: if given an invalid mimetype
     """
     return MIME_MAP[mimetype.lower()]
+
 
 def extension_to_mimetype(extension):
     """
@@ -625,8 +606,10 @@ def extension_to_mimetype(extension):
 
 ################################## EXCEPTIONS #################################
 
+
 class NoIconsError(Exception):
     pass
+
 
 class InvalidIconError(Exception):
     pass

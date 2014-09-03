@@ -1,38 +1,11 @@
-#
-# config.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
-#
-
 
 """
 Deluge Config Module
@@ -121,7 +94,7 @@ def find_json_objects(s):
         elif c == "}":
             opens -= 1
             if opens == 0:
-                objects.append((start, index+offset+1))
+                objects.append((start, index + offset + 1))
                 start = index + offset + 1
 
     return objects
@@ -208,7 +181,7 @@ what is currently in the config and it could not convert the value
         # Do not allow the type to change unless it is None
         oldtype, newtype = type(self.__config[key]), type(value)
 
-        if value is not None and oldtype != type(None) and oldtype != newtype:
+        if value is not None and not isinstance(oldtype, type(None)) and not isinstance(oldtype, newtype):
             try:
                 if oldtype == unicode:
                     value = oldtype(value, "utf8")
@@ -542,7 +515,7 @@ what is currently in the config and it could not convert the value
             log.exception(ex)
             log.error("There was an exception try to convert config file %s %s to %s",
                       self.__config_file, self.__version["file"], output_version)
-            raise e
+            raise ex
         else:
             self.__version["file"] = output_version
             self.save()

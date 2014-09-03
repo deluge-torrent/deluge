@@ -65,6 +65,7 @@ class TopLevelResource(Resource):
         self.putChild("ubuntu-9.04-desktop-i386.iso.torrent",
                       File(common.rpath("ubuntu-9.04-desktop-i386.iso.torrent")))
 
+
 class CoreTestCase(unittest.TestCase):
     def setUp(self):
         common.set_tmp_config_dir()

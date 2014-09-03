@@ -1,37 +1,11 @@
-#
-# client.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-#   The Free Software Foundation, Inc.,
-#   51 Franklin Street, Fifth Floor
-#   Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 import logging
@@ -43,7 +17,6 @@ from twisted.internet.protocol import ClientFactory
 
 import deluge.common
 from deluge import error
-from deluge.event import known_events
 from deluge.transfer import DelugeTransferProtocol
 from deluge.ui.common import get_localhost_auth
 
@@ -52,6 +25,7 @@ RPC_ERROR = 2
 RPC_EVENT = 3
 
 log = logging.getLogger(__name__)
+
 
 def format_kwargs(kwargs):
     return ", ".join([key + "=" + str(value) for key, value in kwargs.items()])
@@ -91,10 +65,8 @@ class DelugeRPCRequest(object):
 
         :returns: a properly formated RPCRequest
         """
-        if self.request_id is None or self.method is None or self.args is None \
-                                                        or self.kwargs is None:
-            raise TypeError("You must set the properties of this object "
-                            "before calling format_message!")
+        if self.request_id is None or self.method is None or self.args is None or self.kwargs is None:
+            raise TypeError("You must set the properties of this object before calling format_message!")
 
         return (self.request_id, self.method, self.args, self.kwargs)
 
@@ -156,7 +128,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                 try:
                     exception_cls = getattr(error, request[2])
                     exception = exception_cls(*request[3], **request[4])
-                except TypeError as err:
+                except TypeError:
                     log.warn("Received invalid RPC_ERROR (Old daemon?): %s", request[2])
                     return
 
@@ -189,7 +161,8 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                     log.debug(msg)
             except:
                 import traceback
-                log.error("Failed to handle RPC_ERROR (Old daemon?): %s\nLocal error: %s", request[2], traceback.format_exc())
+                log.error("Failed to handle RPC_ERROR (Old daemon?): %s\nLocal error: %s",
+                          request[2], traceback.format_exc())
             d.errback(exception)
         del self.__rpc_requests[request_id]
 
@@ -210,6 +183,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
             self.transfer_message((request.format_message(),))
         except Exception as ex:
             log.warn("Error occurred when sending message: %s", ex)
+
 
 class DelugeRPCClientFactory(ClientFactory):
     protocol = DelugeRPCProtocol
@@ -240,8 +214,10 @@ class DelugeRPCClientFactory(ClientFactory):
         if self.daemon.disconnect_callback:
             self.daemon.disconnect_callback()
 
+
 class DaemonProxy(object):
     pass
+
 
 class DaemonSSLProxy(DaemonProxy):
     def __init__(self, event_handlers=None):
@@ -445,6 +421,7 @@ class DaemonSSLProxy(DaemonProxy):
     def get_bytes_sent(self):
         return self.protocol.get_bytes_sent()
 
+
 class DaemonClassicProxy(DaemonProxy):
     def __init__(self, event_handlers=None):
         if event_handlers is None:
@@ -513,6 +490,7 @@ class DaemonClassicProxy(DaemonProxy):
         """
         self.__daemon.core.eventmanager.deregister_event_handler(event, handler)
 
+
 class DottedObject(object):
     """
     This is used for dotted name calls to client
@@ -527,12 +505,14 @@ class DottedObject(object):
     def __getattr__(self, name):
         return RemoteMethod(self.daemon, self.base + "." + name)
 
+
 class RemoteMethod(DottedObject):
     """
     This is used when something like 'client.core.get_something()' is attempted.
     """
     def __call__(self, *args, **kwargs):
         return self.daemon.call(self.base, *args, **kwargs)
+
 
 class Client(object):
     """
@@ -650,7 +630,7 @@ class Client(object):
 that you forgot to install the deluged package or it's not in your PATH."))
             else:
                 log.exception(ex)
-            raise e
+            raise ex
         except Exception as ex:
             log.error("Unable to start daemon!")
             log.exception(ex)
@@ -665,8 +645,8 @@ that you forgot to install the deluged package or it's not in your PATH."))
         :returns: bool, True if connected to a localhost
 
         """
-        if self._daemon_proxy and self._daemon_proxy.host in ("127.0.0.1", "localhost") or\
-            isinstance(self._daemon_proxy, DaemonClassicProxy):
+        if (self._daemon_proxy and self._daemon_proxy.host in ("127.0.0.1", "localhost") or
+                isinstance(self._daemon_proxy, DaemonClassicProxy)):
             return True
         return False
 

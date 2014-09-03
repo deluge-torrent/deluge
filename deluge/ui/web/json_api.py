@@ -757,7 +757,7 @@ class WebApi(JSONComponent):
         Return the hosts in the hostlist.
         """
         log.debug("get_hosts called")
-        return [(tuple(host[HOSTS_ID:HOSTS_PORT+1]) + (_("Offline"),)) for host in self.host_list["hosts"]]
+        return [(tuple(host[HOSTS_ID:HOSTS_PORT + 1]) + (_("Offline"),)) for host in self.host_list["hosts"]]
 
     @export
     def get_host_status(self, host_id):
