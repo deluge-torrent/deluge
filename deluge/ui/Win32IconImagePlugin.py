@@ -72,7 +72,7 @@ class Win32IcoFile (object):
 
     header = struct.unpack('<3H', buf.read(6))
     if (0, 1) != header[:2]:
-      raise SyntaxError, 'not an ico file'
+      raise SyntaxError('not an ico file')
 
     self.nb_items = header[2]
 

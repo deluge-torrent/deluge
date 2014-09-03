@@ -364,7 +364,7 @@ class TrackerIcons(Component):
         :rtype: Deferred
         """
         if len(icons) == 0:
-            raise NoIconsError, "empty icons list"
+            raise NoIconsError("empty icons list")
         (url, mimetype) = icons.pop(0)
         d = download_file(url, os.path.join(self.dir, host_to_icon_name(host, mimetype)),
                           force_filename=True)
@@ -392,7 +392,7 @@ class TrackerIcons(Component):
                 raise InvalidIconError(ex)
         else:
             if os.stat(icon_name).st_size == 0L:
-                raise InvalidIconError, "empty icon"
+                raise InvalidIconError("empty icon")
 
         return icon_name
 
