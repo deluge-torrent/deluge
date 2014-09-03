@@ -391,7 +391,7 @@ class TrackerIcons(Component):
             except IOError as ex:
                 raise InvalidIconError(ex)
         else:
-            if os.stat(icon_name).st_size == 0L:
+            if os.stat(icon_name).st_size == 0:
                 raise InvalidIconError("empty icon")
 
         return icon_name

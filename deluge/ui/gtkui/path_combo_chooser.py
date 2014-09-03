@@ -665,7 +665,7 @@ class PathChooserPopup(object):
         return x, y, width, height
 
     def popup_grab_window(self):
-        activate_time = 0L
+        activate_time = 0
         if gdk.pointer_grab(self.popup_window.window, True,
                             (gdk.BUTTON_PRESS_MASK |
                              gdk.BUTTON_RELEASE_MASK |
