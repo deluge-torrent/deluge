@@ -59,8 +59,8 @@ def get_session_id(session_id):
         if checksum == make_checksum(session_id):
             return session_id
         return None
-    except Exception, e:
-        log.exception(e)
+    except Exception as ex:
+        log.exception(ex)
         return None
 
 

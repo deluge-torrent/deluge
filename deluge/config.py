@@ -419,8 +419,8 @@ what is currently in the config and it could not convert the value
 
         try:
             data = open(filename, "rb").read()
-        except IOError, e:
-            log.warning("Unable to open config file %s: %s", filename, e)
+        except IOError as ex:
+            log.warning("Unable to open config file %s: %s", filename, ex)
             return
 
         objects = find_json_objects(data)
@@ -429,15 +429,15 @@ what is currently in the config and it could not convert the value
             # No json objects found, try depickling it
             try:
                 self.__config.update(pickle.loads(data))
-            except Exception, e:
-                log.exception(e)
+            except Exception as ex:
+                log.exception(ex)
                 log.warning("Unable to load config file: %s", filename)
         elif len(objects) == 1:
             start, end = objects[0]
             try:
                 self.__config.update(json.loads(data[start:end]))
-            except Exception, e:
-                log.exception(e)
+            except Exception as ex:
+                log.exception(ex)
                 log.warning("Unable to load config file: %s", filename)
         elif len(objects) == 2:
             try:
@@ -445,8 +445,8 @@ what is currently in the config and it could not convert the value
                 self.__version.update(json.loads(data[start:end]))
                 start, end = objects[1]
                 self.__config.update(json.loads(data[start:end]))
-            except Exception, e:
-                log.exception(e)
+            except Exception as ex:
+                log.exception(ex)
                 log.warning("Unable to load config file: %s", filename)
 
         log.debug("Config %s version: %s.%s loaded: %s", filename,
@@ -477,8 +477,8 @@ what is currently in the config and it could not convert the value
                 if self._save_timer and self._save_timer.active():
                     self._save_timer.cancel()
                 return True
-        except (IOError, IndexError), e:
-            log.warning("Unable to open config file: %s because: %s", filename, e)
+        except (IOError, IndexError) as ex:
+            log.warning("Unable to open config file: %s because: %s", filename, ex)
 
         # Save the new config and make sure it's written to disk
         try:
@@ -489,24 +489,24 @@ what is currently in the config and it could not convert the value
             f.flush()
             os.fsync(f.fileno())
             f.close()
-        except IOError, e:
-            log.error("Error writing new config file: %s", e)
+        except IOError as ex:
+            log.error("Error writing new config file: %s", ex)
             return False
 
         # Make a backup of the old config
         try:
             log.debug("Backing up old config file to %s.bak", filename)
             shutil.move(filename, filename + ".bak")
-        except Exception, e:
-            log.warning("Unable to backup old config...")
+        except IOError as ex:
+            log.warning("Unable to backup old config: %s", ex)
 
         # The new config file has been written successfully, so let's move it over
         # the existing one.
         try:
             log.debug("Moving new config file %s to %s..", filename + ".new", filename)
             shutil.move(filename + ".new", filename)
-        except Exception, e:
-            log.error("Error moving new config file: %s", e)
+        except IOError as ex:
+            log.error("Error moving new config file: %s", ex)
             return False
         else:
             return True
@@ -538,8 +538,8 @@ what is currently in the config and it could not convert the value
 
         try:
             self.__config = func(self.__config)
-        except Exception, e:
-            log.exception(e)
+        except Exception as ex:
+            log.exception(ex)
             log.error("There was an exception try to convert config file %s %s to %s",
                       self.__config_file, self.__version["file"], output_version)
             raise e

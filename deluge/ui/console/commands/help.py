@@ -58,7 +58,7 @@ class Command(BaseCommand):
                 try:
                     parser = cmd.create_parser()
                     self.console.write(parser.format_help())
-                except AttributeError, e:
+                except AttributeError:
                     self.console.write(cmd.__doc__ or 'No help for this command')
                 self.console.write(" ")
         else:

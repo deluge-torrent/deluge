@@ -33,7 +33,6 @@
 #
 #
 
-import base64
 import os.path
 
 import gtk
@@ -41,13 +40,13 @@ import logging
 import gobject
 
 import deluge.component as component
-from deluge.ui.client import client
 from deluge.ui.gtkui.ipcinterface import process_args
 import deluge.common
 from deluge.configmanager import ConfigManager
 import common
 
 log = logging.getLogger(__name__)
+
 
 class QueuedTorrents(component.Component):
     def __init__(self):
@@ -120,14 +119,14 @@ class QueuedTorrents(component.Component):
         """Attempts to update status bar"""
         # If there are no queued torrents.. remove statusbar widgets and return
         if len(self.queue) == 0:
-            if self.status_item != None:
+            if self.status_item is not None:
                 component.get("StatusBar").remove_item(self.status_item)
                 self.status_item = None
             return False
 
         try:
-            statusbar = component.get("StatusBar")
-        except Exception, e:
+            component.get("StatusBar")
+        except Exception:
             # The statusbar hasn't been loaded yet, so we'll add a timer to
             # update it later.
             gobject.timeout_add(100, self.update_status_bar)
@@ -141,7 +140,7 @@ class QueuedTorrents(component.Component):
 
         # Add the statusbar items if needed, or just modify the label if they
         # have already been added.
-        if self.status_item == None:
+        if self.status_item is None:
             self.status_item = component.get("StatusBar").add_item(
                 stock=gtk.STOCK_SORT_DESCENDING,
                 text=label,
@@ -158,7 +157,7 @@ class QueuedTorrents(component.Component):
 
     def on_button_remove_clicked(self, widget):
         selected = self.treeview.get_selection().get_selected()[1]
-        if selected != None:
+        if selected is not None:
             path = self.liststore.get_value(selected, 1)
             self.liststore.remove(selected)
             self.queue.remove(path)

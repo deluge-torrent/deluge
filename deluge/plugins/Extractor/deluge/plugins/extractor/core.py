@@ -126,8 +126,8 @@ class Core(CorePluginBase):
             if not os.path.exists(dest):
                 try:
                     os.makedirs(dest)
-                except Exception, e:
-                    log.error("Error creating destination folder: %s", e)
+                except OSError as ex:
+                    log.error("Error creating destination folder: %s", ex)
                     return
 
             def on_extract_success(result, torrent_id, fpath):

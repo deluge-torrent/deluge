@@ -86,7 +86,7 @@ class DetailsTab(Tab):
             if widget[1] is not None:
                 try:
                     args = [status[key] for key in widget[2]]
-                except KeyError, ex:
+                except KeyError as ex:
                     log.debug("Unable to get status value: %s", ex)
                     continue
                 txt = widget[1](*args)

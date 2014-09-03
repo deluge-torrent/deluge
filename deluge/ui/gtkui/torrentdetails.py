@@ -360,8 +360,8 @@ class TorrentDetails(component.Component):
                     name = tab
             if name:
                 self.tabs[name].clear()
-        except Exception, e:
-            log.debug("Unable to clear torrentdetails: %s", e)
+        except Exception as ex:
+            log.debug("Unable to clear torrentdetails: %s", ex)
 
     def _on_switch_page(self, notebook, page, page_num):
         self.update(page_num)

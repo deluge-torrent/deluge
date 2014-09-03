@@ -59,6 +59,7 @@ import twisted.internet.error
 
 log = logging.getLogger(__name__)
 
+
 class IPCProtocolServer(Protocol):
     def dataReceived(self, data):
         config = ConfigManager("gtkui.conf")
@@ -66,6 +67,7 @@ class IPCProtocolServer(Protocol):
         if not data or config["focus_main_window_on_add"]:
             component.get("MainWindow").present()
         process_args(data)
+
 
 class IPCProtocolClient(Protocol):
     def connectionMade(self):
@@ -76,6 +78,7 @@ class IPCProtocolClient(Protocol):
         reactor.stop()
         self.factory.stop = True
 
+
 class IPCClientFactory(ClientFactory):
     protocol = IPCProtocolClient
 
@@ -85,6 +88,7 @@ class IPCClientFactory(ClientFactory):
     def clientConnectionFailed(self, connector, reason):
         log.warning("Connection to running instance failed.")
         reactor.stop()
+
 
 class IPCInterface(component.Component):
     def __init__(self, args):
@@ -134,17 +138,17 @@ class IPCInterface(component.Component):
                     log.debug("Removing lockfile since it's stale.")
                     try:
                         os.remove(lockfile)
-                    except OSError, ex:
+                    except OSError as ex:
                         log.error("Failed to delete IPC lockfile file: %s", ex)
                     try:
                         os.remove(socket)
-                    except OSError, ex:
+                    except OSError as ex:
                         log.error("Failed to delete IPC socket file: %s", ex)
             try:
                 self.factory = Factory()
                 self.factory.protocol = IPCProtocolServer
                 reactor.listenUNIX(socket, self.factory, wantPID=True)
-            except twisted.internet.error.CannotListenError, e:
+            except twisted.internet.error.CannotListenError as ex:
                 log.info("Deluge is already running! Sending arguments to running instance...")
                 self.factory = IPCClientFactory()
                 self.factory.args = args
@@ -157,10 +161,10 @@ class IPCInterface(component.Component):
                     sys.exit(0)
                 else:
                     if old_tempfile:
-                        log.error("Deluge restart failed: %s", e)
+                        log.error("Deluge restart failed: %s", ex)
                         sys.exit(1)
                     else:
-                        log.warning('Restarting Deluge... (%s)', e)
+                        log.warning('Restarting Deluge... (%s)', ex)
                         # Create a tempfile to keep track of restart
                         mkstemp('deluge', dir=ipc_dir)
                         os.execv(sys.argv[0], sys.argv)
@@ -171,6 +175,7 @@ class IPCInterface(component.Component):
         if deluge.common.windows_check():
             import win32api
             win32api.CloseHandle(self.mutex)
+
 
 def process_args(args):
     """Process arguments sent to already running Deluge"""
@@ -219,4 +224,5 @@ def process_args(args):
                 component.get("AddTorrentDialog").add_from_files([path])
                 component.get("AddTorrentDialog").show(config["focus_add_dialog"])
             else:
-                client.core.add_torrent_file(os.path.split(path)[-1], base64.encodestring(open(path, "rb").read()), None)
+                client.core.add_torrent_file(os.path.split(path)[-1],
+                                             base64.encodestring(open(path, "rb").read()), None)

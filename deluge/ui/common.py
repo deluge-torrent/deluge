@@ -90,9 +90,9 @@ class TorrentInfo(object):
             log.debug("Attempting to open %s.", filename)
             self.__m_filedata = open(filename, "rb").read()
             self.__m_metadata = bencode.bdecode(self.__m_filedata)
-        except Exception, e:
-            log.warning("Unable to open %s: %s", filename, e)
-            raise e
+        except Exception as ex:
+            log.warning("Unable to open %s: %s", filename, ex)
+            raise ex
 
         self.__m_info_hash = sha(bencode.bencode(self.__m_metadata["info"])).hexdigest()
 
@@ -439,12 +439,8 @@ def get_localhost_auth():
             if line.startswith("#"):
                 # This is a comment line
                 continue
-            line = line.strip()
-            try:
-                lsplit = line.split(":")
-            except Exception, e:
-                log.error("Your auth file is malformed: %s", e)
-                continue
+
+            lsplit = line.strip().split(":")
 
             if len(lsplit) == 2:
                 username, password = lsplit

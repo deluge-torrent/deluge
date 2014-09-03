@@ -244,8 +244,8 @@ class FilterTreeView(component.Component):
         if pix:
             try:
                 return gtk.gdk.pixbuf_new_from_file(get_pixmap("%s16.png" % pix))
-            except GError, e:
-                log.warning(e)
+            except GError as ex:
+                log.warning(ex)
         return self.get_transparent_pix(16, 16)
 
     def get_transparent_pix(self,  width, height):
@@ -257,8 +257,8 @@ class FilterTreeView(component.Component):
         pix = None
         try:  # assume we could get trashed images here..
             pix = gtk.gdk.pixbuf_new_from_file_at_size(filename, 16, 16)
-        except Exception, e:
-            log.debug(e)
+        except Exception as ex:
+            log.debug(ex)
 
         if not pix:
             pix = self.get_transparent_pix(16, 16)
@@ -284,8 +284,8 @@ class FilterTreeView(component.Component):
 
             self.selected_path = model.get_path(row)
 
-        except Exception, e:
-            log.debug(e)
+        except Exception as ex:
+            log.debug(ex)
             # paths is likely None .. so lets return None
             return None
 
@@ -296,8 +296,8 @@ class FilterTreeView(component.Component):
                 hide_cat = ["tracker_host"]
             client.core.get_filter_tree(self.config["sidebar_show_zero"],
                                         hide_cat).addCallback(self.cb_update_filter_tree)
-        except Exception, e:
-            log.debug(e)
+        except Exception as ex:
+            log.debug(ex)
 
     ### Callbacks ###
     def on_button_press_event(self, widget, event):

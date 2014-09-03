@@ -221,8 +221,8 @@ class StatusBar(component.Component):
             self.remove_item(self.health_item)
             self.remove_item(self.traffic_item)
             self.remove_item(self.diskspace_item)
-        except Exception, e:
-            log.debug("Unable to remove StatusBar item: %s", e)
+        except Exception as ex:
+            log.debug("Unable to remove StatusBar item: %s", ex)
         self.show_not_connected()
 
     def visible(self, visible):
@@ -249,8 +249,8 @@ class StatusBar(component.Component):
         if item.get_eventbox() in self.hbox.get_children():
             try:
                 self.hbox.remove(item.get_eventbox())
-            except Exception, e:
-                log.debug("Unable to remove widget: %s", e)
+            except Exception as ex:
+                log.debug("Unable to remove widget: %s", ex)
 
     def add_timeout_item(self, seconds=3, image=None, stock=None, text=None, callback=None):
         """Adds an item to the StatusBar for seconds"""

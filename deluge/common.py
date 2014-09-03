@@ -99,8 +99,8 @@ def get_default_config_dir(filename=None):
         filename = ''
     try:
         return os.path.join(save_config_path("deluge"), filename)
-    except OSError, e:
-        log.error("Unable to use default config directory, exiting... (%s)", e)
+    except OSError as ex:
+        log.error("Unable to use default config directory, exiting... (%s)", ex)
         sys.exit(1)
 
 
@@ -938,8 +938,8 @@ def set_language(lang):
     try:
         ro = gettext.translation("deluge", localedir=translations_path, languages=[lang])
         ro.install()
-    except IOError, e:
-        log.warn("IOError when loading translations: %s", e)
+    except IOError as ex:
+        log.warn("IOError when loading translations: %s", ex)
 
 
 # Initialize gettext
@@ -965,9 +965,9 @@ def setup_translations(setup_gettext=True, setup_pygtk=False):
             import gtk.glade
             gtk.glade.bindtextdomain(domain, translations_path)
             gtk.glade.textdomain(domain)
-        except Exception, e:
+        except Exception as ex:
             log.error("Unable to initialize glade translation!")
-            log.exception(e)
+            log.exception(ex)
     if setup_gettext:
         try:
             if hasattr(locale, "bindtextdomain"):
@@ -979,9 +979,9 @@ def setup_translations(setup_gettext=True, setup_pygtk=False):
             gettext.bind_textdomain_codeset(domain, 'UTF-8')
             gettext.textdomain(domain)
             gettext.install(domain, translations_path, unicode=True)
-        except Exception, e:
+        except Exception as ex:
             log.error("Unable to initialize gettext/locale!")
-            log.exception(e)
+            log.exception(ex)
             import __builtin__
             __builtin__.__dict__["_"] = lambda x: x
 

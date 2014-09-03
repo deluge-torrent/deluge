@@ -37,8 +37,8 @@ class BaseReader(object):
         for start, end in self.readranges():
             try:
                 callback(IP.parse(start), IP.parse(end))
-            except BadIP, e:
-                log.error("Failed to parse IP: %s", e)
+            except BadIP as ex:
+                log.error("Failed to parse IP: %s", ex)
         return self.file
 
     def is_ignored(self, line):

@@ -111,12 +111,12 @@ class TransferTestClass(DelugeTransferProtocol):
                 print " - Buffer length: %d, data length: %d, unused length: %d" % \
                     (len(data), len(data) - len(dobj.unused_data), len(dobj.unused_data))
                 print "Packet count:", self.packet_count
-            except Exception, e:
+            except Exception as ex:
                 #log.debug("Received possible invalid message (%r): %s", data, e)
                 # This could be cut-off data, so we'll save this in the buffer
                 # and try to prepend it on the next dataReceived()
                 self._buffer = data
-                print "Failed to load buffer (size %d): %s" % (len(self._buffer), str(e))
+                print "Failed to load buffer (size %d): %s" % (len(self._buffer), str(ex))
                 return
             else:
                 data = dobj.unused_data

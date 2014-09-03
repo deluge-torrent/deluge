@@ -155,7 +155,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                 try:
                     exception_cls = getattr(error, request[2])
                     exception = exception_cls(*request[3], **request[4])
-                except TypeError, err:
+                except TypeError as err:
                     log.warn("Received invalid RPC_ERROR (Old daemon?): %s", request[2])
                     return
 
@@ -207,8 +207,8 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
             #log.debug("Sending RPCRequest %s: %s", request.request_id, request)
             # Send the request in a tuple because multiple requests can be sent at once
             self.transfer_message((request.format_message(),))
-        except Exception, e:
-            log.warn("Error occurred when sending message:" + str(e))
+        except Exception as ex:
+            log.warn("Error occurred when sending message: %s", ex)
 
 class DelugeRPCClientFactory(ClientFactory):
     protocol = DelugeRPCProtocol
@@ -478,9 +478,9 @@ class DaemonClassicProxy(DaemonProxy):
 
         try:
             m = self.__daemon.rpcserver.get_object_method(method)
-        except Exception, e:
-            log.exception(e)
-            return defer.fail(e)
+        except Exception as ex:
+            log.exception(ex)
+            return defer.fail(ex)
         else:
             return defer.maybeDeferred(
                 m, *copy.deepcopy(args), **copy.deepcopy(kwargs)
@@ -642,17 +642,17 @@ class Client(object):
         config = config.encode(sys.getfilesystemencoding())
         try:
             subprocess.Popen(["deluged", "--port=%s" % port, "--config=%s" % config])
-        except OSError, e:
+        except OSError as ex:
             from errno import ENOENT
-            if e.errno == ENOENT:
+            if ex.errno == ENOENT:
                 log.error(_("Deluge cannot find the 'deluged' executable, it is likely \
 that you forgot to install the deluged package or it's not in your PATH."))
             else:
-                log.exception(e)
+                log.exception(ex)
             raise e
-        except Exception, e:
+        except Exception as ex:
             log.error("Unable to start daemon!")
-            log.exception(e)
+            log.exception(ex)
             return False
         else:
             return True

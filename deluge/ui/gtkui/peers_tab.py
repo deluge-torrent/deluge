@@ -48,10 +48,12 @@ from deluge.ui.gtkui.common import save_pickled_state_file, load_pickled_state_f
 
 log = logging.getLogger(__name__)
 
+
 def cell_data_progress(column, cell, model, row, data):
     value = model.get_value(row, data)
     cell.set_property("value", value * 100)
     cell.set_property("text", "%.2f%%" % (value * 100))
+
 
 class PeersTab(Tab):
     def __init__(self):
@@ -190,7 +192,7 @@ class PeersTab(Tab):
     def load_state(self):
         state = load_pickled_state_file("peers_tab.state")
 
-        if state == None:
+        if state is None:
             return
 
         if len(state["columns"]) != len(self.listview.get_columns()):
@@ -246,9 +248,9 @@ class PeersTab(Tab):
                 self.cached_flag_pixbufs[country] = gtk.gdk.pixbuf_new_from_file(
                     deluge.common.resource_filename(
                         "deluge",
-                         os.path.join("ui", "data", "pixmaps", "flags", country.lower() + ".png")))
-            except Exception, e:
-                log.debug("Unable to load flag: %s", e)
+                        os.path.join("ui", "data", "pixmaps", "flags", country.lower() + ".png")))
+            except Exception as ex:
+                log.debug("Unable to load flag: %s", ex)
                 return None
 
         return self.cached_flag_pixbufs[country]
@@ -289,7 +291,7 @@ class PeersTab(Tab):
                 if peer["ip"].count(":") == 1:
                     # This is an IPv4 address
                     ip_int = sum([int(byte) << shift
-                        for byte, shift in izip(peer["ip"].split(":")[0].split("."), (24, 16, 8, 0))])
+                                 for byte, shift in izip(peer["ip"].split(":")[0].split("."), (24, 16, 8, 0))])
                     peer_ip = peer["ip"]
                 else:
                     # This is an IPv6 address

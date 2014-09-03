@@ -28,7 +28,7 @@ class GtkUI(GtkPluginBase):
 
         try:
             self.load_preferences_page()
-        except Exception, err:
+        except Exception as err:
             log.exception(err)
             raise
 
@@ -198,7 +198,7 @@ class GtkUI(GtkPluginBase):
         try:
             ip = common.IP.parse(new_text)
             model.set(model.get_iter_from_string(path_string), 0, ip.address)
-        except common.BadIP, e:
+        except common.BadIP as e:
             model.remove(model.get_iter_from_string(path_string))
             from deluge.ui.gtkui import dialogs
             d = dialogs.ErrorDialog(_("Bad IP address"), e.message)

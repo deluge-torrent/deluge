@@ -473,9 +473,9 @@ class ConnectionManager(component.Component):
         """
         try:
             return client.start_daemon(port, config)
-        except OSError, e:
+        except OSError as ex:
             from errno import ENOENT
-            if e.errno == ENOENT:
+            if ex.errno == ENOENT:
                 dialogs.ErrorDialog(
                     _("Unable to start daemon!"),
                     _("Deluge cannot find the 'deluged' executable, it is "
@@ -483,8 +483,8 @@ class ConnectionManager(component.Component):
                       "or it's not in your PATH.")).run()
                 return False
             else:
-                raise e
-        except Exception, e:
+                raise ex
+        except Exception:
             import traceback
             import sys
             tb = sys.exc_info()
@@ -613,9 +613,9 @@ class ConnectionManager(component.Component):
             try:
                 self.add_host(hostname, port_spinbutton.get_value_as_int(),
                               username, password)
-            except Exception, e:
+            except Exception as ex:
                 from deluge.ui.gtkui.dialogs import ErrorDialog
-                ErrorDialog(_("Error Adding Host"), e).run()
+                ErrorDialog(_("Error Adding Host"), ex).run()
 
         username_entry.set_text("")
         password_entry.set_text("")

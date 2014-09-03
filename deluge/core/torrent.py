@@ -1024,7 +1024,7 @@ class Torrent(object):
         else:
             try:
                 self.handle.pause()
-            except RuntimeError, ex:
+            except RuntimeError as ex:
                 log.debug("Unable to pause torrent: %s", ex)
                 return False
         return True
@@ -1052,7 +1052,7 @@ class Torrent(object):
 
         try:
             self.handle.resume()
-        except RuntimeError, ex:
+        except RuntimeError as ex:
             log.debug("Unable to resume torrent: %s", ex)
 
     def connect_peer(self, peer_ip, peer_port):
@@ -1067,7 +1067,7 @@ class Torrent(object):
         """
         try:
             self.handle.connect_peer((peer_ip, int(peer_port)), 0)
-        except RuntimeError, ex:
+        except RuntimeError as ex:
             log.debug("Unable to connect to peer: %s", ex)
             return False
         return True
@@ -1087,7 +1087,7 @@ class Torrent(object):
         if not os.path.exists(dest):
             try:
                 os.makedirs(dest)
-            except IOError, ex:
+            except IOError as ex:
                 log.error("Could not move storage for torrent %s since %s does "
                           "not exist and could not create the directory: %s",
                           self.torrent_id, dest, ex)
@@ -1099,7 +1099,7 @@ class Torrent(object):
                 self.handle.move_storage(dest)
             except TypeError:
                 self.handle.move_storage(utf8_encoded(dest))
-        except RuntimeError, ex:
+        except RuntimeError as ex:
             log.error("Error calling libtorrent move_storage: %s", ex)
             return False
         self.moving_storage = True
@@ -1160,14 +1160,14 @@ class Torrent(object):
         log.debug("Deleting torrent file: %s", path)
         try:
             os.remove(path)
-        except OSError, ex:
+        except OSError as ex:
             log.warning("Unable to delete the torrent file: %s", ex)
 
     def force_reannounce(self):
         """Force a tracker reannounce"""
         try:
             self.handle.force_reannounce()
-        except RuntimeError, ex:
+        except RuntimeError as ex:
             log.debug("Unable to force reannounce: %s", ex)
             return False
         return True
@@ -1180,7 +1180,7 @@ class Torrent(object):
         """
         try:
             self.handle.scrape_tracker()
-        except RuntimeError, ex:
+        except RuntimeError as ex:
             log.debug("Unable to scrape tracker: %s", ex)
             return False
         return True
@@ -1191,7 +1191,7 @@ class Torrent(object):
         try:
             self.handle.force_recheck()
             self.handle.resume()
-        except RuntimeError, ex:
+        except RuntimeError as ex:
             log.debug("Unable to force recheck: %s", ex)
             return False
         self.forcing_recheck = True
@@ -1284,14 +1284,11 @@ class Torrent(object):
                         try:
                             os.removedirs(os.path.join(root, name))
                             log.debug("Removed Empty Folder %s", os.path.join(root, name))
-                        except OSError as (errno, strerror):
-                            from errno import ENOTEMPTY
-                            if errno == ENOTEMPTY:
-                                # Error raised if folder is not empty
-                                log.debug("%s", strerror)
+                        except OSError as ex:
+                            log.debug(ex)
 
-        except OSError as (errno, strerror):
-            log.debug("Cannot Remove Folder: %s (ErrNo %s)", strerror, errno)
+        except OSError as ex:
+            log.debug("Cannot Remove Folder: %s", ex)
 
     def cleanup_prev_status(self):
         """Checks the validity of the keys in the prev_status dict.

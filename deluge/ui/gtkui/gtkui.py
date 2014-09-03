@@ -181,8 +181,8 @@ class GtkUI(object):
                 reactor.stop()
             self.gnome_client.connect("die", on_die)
             log.debug("GNOME session 'die' handler registered!")
-        except Exception, e:
-            log.warning("Unable to register a 'die' handler with the GNOME session manager: %s", e)
+        except Exception as ex:
+            log.warning("Unable to register a 'die' handler with the GNOME session manager: %s", ex)
 
         if deluge.common.windows_check():
             from win32api import SetConsoleCtrlHandler
@@ -344,8 +344,8 @@ class GtkUI(object):
                           "Continue in Thin Client mode?")).run()
                     self.started_in_classic = False
                     d.addCallback(on_dialog_response)
-                except ImportError, e:
-                    if "No module named libtorrent" in e.message:
+                except ImportError as ex:
+                    if "No module named libtorrent" in ex.message:
                         d = dialogs.YesNoDialog(
                             _("Switch to Thin Client Mode?"),
                             _("Only Thin Client mode is available because libtorrent is not installed."
@@ -354,11 +354,11 @@ class GtkUI(object):
                         self.started_in_classic = False
                         d.addCallback(on_dialog_response)
                     else:
-                        raise
+                        raise ex
                 else:
                     component.start()
                     return
-            except Exception, e:
+            except Exception:
                 import traceback
                 tb = sys.exc_info()
                 ed = dialogs.ErrorDialog(

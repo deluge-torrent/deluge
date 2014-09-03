@@ -96,8 +96,8 @@ class DownloadFileTestCase(unittest.TestCase):
         while tries > 0:
             try:
                 self.webserver = reactor.listenTCP(self.listen_port, self.website)
-            except CannotListenError, e:
-                error = e
+            except CannotListenError as ex:
+                error = ex
                 self.listen_port += 1
                 tries -= 1
             else:
@@ -113,8 +113,8 @@ class DownloadFileTestCase(unittest.TestCase):
         f = open(filename)
         try:
             self.assertEqual(f.read(), contents)
-        except Exception, e:
-            self.fail(e)
+        except Exception as ex:
+            self.fail(ex)
         finally:
             f.close()
         return filename
@@ -123,8 +123,8 @@ class DownloadFileTestCase(unittest.TestCase):
         f = open(filename)
         try:
             self.failIfEqual(f.read(), contents)
-        except Exception, e:
-            self.fail(e)
+        except Exception as ex:
+            self.fail(ex)
         finally:
             f.close()
         return filename

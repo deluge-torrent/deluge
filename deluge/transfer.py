@@ -127,8 +127,8 @@ class DelugeTransferProtocol(Protocol):
                 raise Exception("Message length is negative: %d" % self._message_length)
             # Remove the header from the buffer
             self._buffer = self._buffer[MESSAGE_HEADER_SIZE:]
-        except Exception, e:
-            log.warn("Error occurred when parsing message header: %s." % str(e))
+        except Exception as ex:
+            log.warn("Error occurred when parsing message header: %s.", ex)
             log.warn("This version of Deluge cannot communicate with the sender of this data.")
             self._message_length = 0
             self._buffer = ""
@@ -142,9 +142,8 @@ class DelugeTransferProtocol(Protocol):
         """
         try:
             self.message_received(rencode.loads(zlib.decompress(data), decode_utf8=True))
-        except Exception, e:
-            log.warn("Failed to decompress (%d bytes) and load serialized data "\
-                     "with rencode: %s" % (len(data), str(e)))
+        except Exception as ex:
+            log.warn("Failed to decompress (%d bytes) and load serialized data with rencode: %s", len(data), ex)
 
     def get_bytes_recv(self):
         """

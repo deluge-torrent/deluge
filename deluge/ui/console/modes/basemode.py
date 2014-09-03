@@ -105,7 +105,7 @@ class BaseMode(CursesStdIO):
         self.rows, self.cols = self.stdscr.getmaxyx()
         try:
             signal.signal(signal.SIGWINCH, self.on_resize)
-        except Exception, e:
+        except Exception:
             log.debug("Unable to catch SIGWINCH signal!")
 
         if not encoding:
@@ -168,8 +168,8 @@ class BaseMode(CursesStdIO):
             screen = self.stdscr
         try:
             parsed = colors.parse_color_string(string, self.encoding)
-        except colors.BadColorString, e:
-            log.error("Cannot add bad color string %s: %s", string, e)
+        except colors.BadColorString as ex:
+            log.error("Cannot add bad color string %s: %s", string, ex)
             return
 
         for index, (color, s) in enumerate(parsed):
@@ -221,8 +221,8 @@ class BaseMode(CursesStdIO):
         # We wrap this function to catch exceptions and shutdown the mainloop
         try:
             self._doRead()
-        except Exception, e:
-            log.exception(e)
+        except Exception as ex:
+            log.exception(ex)
             reactor.stop()
 
     def _doRead(self):

@@ -181,8 +181,8 @@ class PreferencesManager(component.Component):
         if self.config["copy_torrent_file"]:
             try:
                 os.makedirs(value)
-            except Exception, e:
-                log.debug("Unable to make directory: %s", e)
+            except OSError as ex:
+                log.debug("Unable to make directory: %s", ex)
 
     def _on_set_listen_ports(self, key, value):
         # Only set the listen ports if random_port is not true
@@ -229,8 +229,8 @@ class PreferencesManager(component.Component):
         log.debug("setting peer_tos to: %s", value)
         try:
             self.session_set_setting("peer_tos", chr(int(value, 16)))
-        except ValueError, e:
-            log.debug("Invalid tos byte: %s", e)
+        except ValueError as ex:
+            log.debug("Invalid tos byte: %s", ex)
             return
 
     def _on_set_dht(self, key, value):
@@ -393,8 +393,8 @@ class PreferencesManager(component.Component):
                             + "&os=" + platform.system() \
                             + "&plugins=" + quote_plus(":".join(self.config["enabled_plugins"]))
                         urlopen(url)
-                    except IOError, e:
-                        log.debug("Network error while trying to send info: %s", e)
+                    except IOError as ex:
+                        log.debug("Network error while trying to send info: %s", ex)
                     else:
                         self.config["info_sent"] = now
         if value:
@@ -460,9 +460,9 @@ class PreferencesManager(component.Component):
         if geoip_db:
             try:
                 self.session.load_country_db(str(geoip_db))
-            except Exception, e:
+            except RuntimeError as ex:
                 log.error("Unable to load geoip database!")
-                log.exception(e)
+                log.exception(ex)
 
     def _on_set_cache_size(self, key, value):
         log.debug("%s: %s", key, value)

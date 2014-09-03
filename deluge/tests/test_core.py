@@ -79,8 +79,8 @@ class CoreTestCase(unittest.TestCase):
         while tries > 0:
             try:
                 self.webserver = reactor.listenTCP(self.listen_port, self.website)
-            except CannotListenError, e:
-                error = e
+            except CannotListenError as ex:
+                error = ex
                 self.listen_port += 1
                 tries -= 1
             else:

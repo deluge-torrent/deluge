@@ -40,13 +40,16 @@ import deluge.component as component
 
 log = logging.getLogger(__name__)
 
+
 def singleton(cls):
     instances = {}
+
     def getinstance():
         if cls not in instances:
             instances[cls] = cls()
         return instances[cls]
     return getinstance
+
 
 @singleton
 class PathChoosersHandler(component.Component):
@@ -58,14 +61,16 @@ class PathChoosersHandler(component.Component):
         self.paths_list_keys = []
         self.config_properties = {}
         self.started = False
-        self.config_keys_to_funcs_mapping = {"path_chooser_show_chooser_button_on_localhost": "filechooser_button_visible",
-                                             "path_chooser_show_path_entry": "path_entry_visible",
-                                             "path_chooser_auto_complete_enabled": "auto_complete_enabled",
-                                             "path_chooser_show_folder_name": "show_folder_name_on_button",
-                                             "path_chooser_accelerator_string": "accelerator_string",
-                                             "path_chooser_show_hidden_files": "show_hidden_files",
-                                             "path_chooser_max_popup_rows": "max_popup_rows",
-                                             }
+        self.config_keys_to_funcs_mapping = {
+            "path_chooser_show_chooser_button_on_localhost": "filechooser_button_visible",
+            "path_chooser_show_path_entry": "path_entry_visible",
+            "path_chooser_auto_complete_enabled": "auto_complete_enabled",
+            "path_chooser_show_folder_name": "show_folder_name_on_button",
+            "path_chooser_accelerator_string": "accelerator_string",
+            "path_chooser_show_hidden_files": "show_hidden_files",
+            "path_chooser_max_popup_rows": "max_popup_rows",
+        }
+
     def start(self):
         self.started = True
         self.update_config_from_core()
@@ -108,6 +113,7 @@ class PathChoosersHandler(component.Component):
             # Since the max rows value can be changed fast with a spinbutton, we
             # delay saving to core until the values hasn't been changed in 1 second.
             self.max_rows_value_set = value
+
             def update(value_):
                 # The value hasn't been changed in one second, so save to core
                 if self.max_rows_value_set == value_:
@@ -117,7 +123,7 @@ class PathChoosersHandler(component.Component):
 
     def on_list_values_changed(self, values, key, caller):
         # Save to core
-        config = { key : values }
+        config = {key: values}
         client.core.set_config(config)
         # Set the values on all path choosers with that key
         for chooser in self.path_choosers:
@@ -129,6 +135,7 @@ class PathChoosersHandler(component.Component):
         keys = self.config_keys_to_funcs_mapping.keys()
         keys += self.paths_list_keys
         return keys
+
 
 class PathChooser(PathChooserComboBox):
 
@@ -177,8 +184,8 @@ class PathChooser(PathChooserComboBox):
             if key in config:
                 try:
                     self.config_key_funcs[key][1](config[key])
-                except TypeError, e:
-                    log.warn("TypeError: %s" % str(e))
+                except TypeError as ex:
+                    log.warn("TypeError: %s", ex)
 
         # Set the saved paths
         if self.paths_config_key and self.paths_config_key in config:

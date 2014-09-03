@@ -590,8 +590,8 @@ class Legacy(BaseMode, component.Component):
         col = 0
         try:
             parsed = colors.parse_color_string(string, self.encoding)
-        except colors.BadColorString, e:
-            log.error("Cannot add bad color string %s: %s", string, e)
+        except colors.BadColorString as ex:
+            log.error("Cannot add bad color string %s: %s", string, ex)
             return
 
         for index, (color, s) in enumerate(parsed):
@@ -624,8 +624,8 @@ class Legacy(BaseMode, component.Component):
 
         try:
             args = self.console._commands[cmd].split(line)
-        except ValueError, e:
-            self.write("{!error!}Error parsing command: %s" % e)
+        except ValueError as ex:
+            self.write("{!error!}Error parsing command: %s" % ex)
             return
 
         # Do a little hack here to print 'command --help' properly
@@ -647,16 +647,16 @@ class Legacy(BaseMode, component.Component):
 
         try:
             options, args = parser.parse_args(args)
-        except Exception, e:
-            self.write("{!error!}Error parsing options: %s" % e)
+        except TypeError as ex:
+            self.write("{!error!}Error parsing options: %s" % ex)
             return
 
         if not getattr(options, '_exit', False):
             try:
                 ret = self.console._commands[cmd].handle(*args, **options.__dict__)
-            except Exception, e:
-                self.write("{!error!}" + str(e))
-                log.exception(e)
+            except Exception as ex:
+                self.write("{!error!} %s" % ex)
+                log.exception(ex)
                 import traceback
                 self.write("%s" % traceback.format_exc())
                 return defer.succeed(True)

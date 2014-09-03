@@ -153,10 +153,9 @@ class PluginManagerBase:
             try:
                 cls = entry_point.load()
                 instance = cls(plugin_name.replace("-", "_"))
-            except Exception, e:
-                log.error("Unable to instantiate plugin %r from %r!",
-                          name, egg.location)
-                log.exception(e)
+            except Exception as ex:
+                log.error("Unable to instantiate plugin %r from %r!", name, egg.location)
+                log.exception(ex)
                 continue
             instance.enable()
             if not instance.__module__.startswith("deluge.plugins."):

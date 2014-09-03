@@ -94,16 +94,16 @@ class Commander:
 
         try:
             options, args = parser.parse_args(args)
-        except Exception, e:
-            self.write("{!error!}Error parsing options: %s" % e)
+        except TypeError as ex:
+            self.write("{!error!}Error parsing options: %s" % ex)
             return
 
         if not getattr(options, '_exit', False):
             try:
                 ret = self._commands[cmd].handle(*args, **options.__dict__)
-            except Exception, e:
-                self.write("{!error!}" + str(e))
-                log.exception(e)
+            except Exception as ex:
+                self.write("{!error!} %s" % ex)
+                log.exception(ex)
                 import traceback
                 self.write("%s" % traceback.format_exc())
                 return defer.succeed(True)

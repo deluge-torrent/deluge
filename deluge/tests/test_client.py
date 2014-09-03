@@ -71,8 +71,8 @@ class ClientTestCase(unittest.TestCase):
         while tries > 0:
             try:
                 self.core = common.start_core(listen_port=self.listen_port)
-            except CannotListenError, e:
-                error = e
+            except CannotListenError as ex:
+                error = ex
                 self.listen_port += 1
                 tries -= 1
             else:

@@ -285,7 +285,7 @@ def load_commands(command_dir, exclude=[]):
             for a in aliases:
                 commands.append((a, cmd))
         return dict(commands)
-    except OSError, e:
+    except OSError:
         return {}
 
 

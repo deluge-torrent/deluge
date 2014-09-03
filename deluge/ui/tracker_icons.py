@@ -317,8 +317,8 @@ class TrackerIcons(Component):
         f.close()
         try:
             os.remove(page)
-        except Exception, e:
-            log.warning("Couldn't remove temp file: %s", e)
+        except OSError as ex:
+            log.warning("Couldn't remove temp file: %s", ex)
 
         return parser.get_icons()
 
@@ -388,8 +388,8 @@ class TrackerIcons(Component):
         if PIL_INSTALLED:
             try:
                 Image.open(icon_name)
-            except IOError, e:
-                raise InvalidIconError(e)
+            except IOError as ex:
+                raise InvalidIconError(ex)
         else:
             if os.stat(icon_name).st_size == 0L:
                 raise InvalidIconError, "empty icon"

@@ -213,8 +213,8 @@ class GtkUiNotifications(CustomNotifications):
             alert_sound = pygame.mixer.music
             alert_sound.load(sound_path)
             alert_sound.play()
-        except pygame.error, message:
-            err_msg = _("Sound notification failed %s") % (message)
+        except pygame.error as ex:
+            err_msg = _("Sound notification failed %s") % ex
             log.warning(err_msg)
             return defer.fail(err_msg)
         else:

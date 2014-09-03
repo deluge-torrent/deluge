@@ -194,7 +194,7 @@ class Core(component.Component):
             try:
                 with open(_filepath, "rb") as _file:
                     state = lt.bdecode(_file.read())
-            except (IOError, EOFError, RuntimeError), ex:
+            except (IOError, EOFError, RuntimeError) as ex:
                 log.warning("Unable to load %s: %s", _filepath, ex)
             else:
                 log.info("Successfully loaded %s: %s", filename, _filepath)
@@ -203,12 +203,11 @@ class Core(component.Component):
 
     def get_new_release(self):
         log.debug("get_new_release")
-        from urllib2 import urlopen
+        from urllib2 import urlopen, URLError
         try:
-            self.new_release = urlopen(
-                "http://download.deluge-torrent.org/version-1.0").read().strip()
-        except Exception, e:
-            log.debug("Unable to get release info from website: %s", e)
+            self.new_release = urlopen("http://download.deluge-torrent.org/version-1.0").read().strip()
+        except URLError as ex:
+            log.debug("Unable to get release info from website: %s", ex)
             return
         self.check_new_release()
 
@@ -236,17 +235,17 @@ class Core(component.Component):
         """
         try:
             filedump = base64.decodestring(filedump)
-        except Exception, e:
+        except Exception as ex:
             log.error("There was an error decoding the filedump string!")
-            log.exception(e)
+            log.exception(ex)
 
         try:
             torrent_id = self.torrentmanager.add(
                 filedump=filedump, options=options, filename=filename
             )
-        except Exception, e:
+        except Exception as ex:
             log.error("There was an error adding the torrent file %s", filename)
-            log.exception(e)
+            log.exception(ex)
             torrent_id = None
 
         return torrent_id
@@ -275,11 +274,9 @@ class Core(component.Component):
             f.close()
             try:
                 os.remove(filename)
-            except Exception, e:
-                log.warning("Couldn't remove temp file: %s", e)
-            return self.add_torrent_file(
-                filename, base64.encodestring(data), options
-            )
+            except OSError as ex:
+                log.warning("Couldn't remove temp file: %s", ex)
+            return self.add_torrent_file(filename, base64.encodestring(data), options)
 
         def on_download_fail(failure):
             if failure.check(twisted.web.error.PageRedirect):
@@ -726,9 +723,9 @@ class Core(component.Component):
 
         try:
             filedump = base64.decodestring(filedump)
-        except Exception, e:
+        except Exception as ex:
             log.error("There was an error decoding the filedump string!")
-            log.exception(e)
+            log.exception(ex)
             return
 
         f = open(os.path.join(get_config_dir(), "plugins", filename), "wb")

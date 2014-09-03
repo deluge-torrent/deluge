@@ -188,8 +188,8 @@ class SystemTray(component.Component):
                 # Hide widgets in hide list because we're not connected to a host
                 for widget in self.hide_widget_list:
                     self.builder.get_object(widget).hide()
-            except Exception, e:
-                log.debug("Unable to hide system tray menu widgets: %s", e)
+            except Exception as ex:
+                log.debug("Unable to hide system tray menu widgets: %s", ex)
 
             self.tray.set_tooltip(_("Deluge") + "\n" + _("Not Connected..."))
 
@@ -305,8 +305,8 @@ class SystemTray(component.Component):
                 del self.tray
             del self.builder
             del self.tray_menu
-        except Exception, e:
-            log.debug("Unable to disable system tray: %s", e)
+        except Exception as ex:
+            log.debug("Unable to disable system tray: %s", ex)
 
     def blink(self, value):
         try:

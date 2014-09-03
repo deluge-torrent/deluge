@@ -213,9 +213,9 @@ class AddTorrentDialog(component.Component):
             # Get the torrent data from the torrent file
             try:
                 info = deluge.ui.common.TorrentInfo(filename)
-            except Exception, e:
-                log.debug("Unable to open torrent file: %s", e)
-                dialogs.ErrorDialog(_("Invalid File"), e, self.dialog).run()
+            except Exception as ex:
+                log.debug("Unable to open torrent file: %s", ex)
+                dialogs.ErrorDialog(_("Invalid File"), ex, self.dialog).run()
                 continue
 
             if info.info_hash in self.files:

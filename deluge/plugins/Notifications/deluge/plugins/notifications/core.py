@@ -141,11 +141,11 @@ Date: %(date)s
                 # Python 2.5
                 server = smtplib.SMTP(self.config["smtp_host"],
                                       self.config["smtp_port"])
-        except Exception, err:
+        except Exception as ex:
             err_msg = _("There was an error sending the notification email:"
-                        " %s") % err
+                        " %s") % ex
             log.error(err_msg)
-            return err
+            return ex
 
         security_enabled = self.config['smtp_tls']
 
@@ -160,25 +160,25 @@ Date: %(date)s
         if self.config['smtp_user'] and self.config['smtp_pass']:
             try:
                 server.login(self.config['smtp_user'], self.config['smtp_pass'])
-            except smtplib.SMTPHeloError, err:
+            except smtplib.SMTPHeloError as ex:
                 err_msg = _("The server didn't reply properly to the helo "
-                            "greeting: %s") % err
+                            "greeting: %s") % ex
                 log.error(err_msg)
-                return err
-            except smtplib.SMTPAuthenticationError, err:
+                return ex
+            except smtplib.SMTPAuthenticationError as ex:
                 err_msg = _("The server didn't accept the username/password "
-                            "combination: %s") % err
+                            "combination: %s") % ex
                 log.error(err_msg)
-                return err
+                return ex
 
         try:
             try:
                 server.sendmail(self.config['smtp_from'], to_addrs, message)
-            except smtplib.SMTPException, err:
+            except smtplib.SMTPException as ex:
                 err_msg = _("There was an error sending the notification email:"
-                            " %s") % err
+                            " %s") % ex
                 log.error(err_msg)
-                return err
+                return ex
         finally:
             if security_enabled:
                 # avoid false failure detection when the server closes

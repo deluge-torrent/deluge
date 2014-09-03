@@ -202,13 +202,13 @@ class JSON(resource.Resource, component.Component):
                 result = self._exec_remote(method, params, request)
             else:
                 error = {"message": "Unknown method", "code": 2}
-        except AuthError, e:
+        except AuthError:
             error = {"message": "Not authenticated", "code": 1}
-        except Exception, e:
+        except Exception as ex:
             log.error("Error calling method `%s`", method)
-            log.exception(e)
+            log.exception(ex)
 
-            error = {"message": e.message, "code": 3}
+            error = {"message": ex.message, "code": 3}
 
         return request_id, result, error
 
@@ -271,8 +271,8 @@ class JSON(resource.Resource, component.Component):
             request.json = request.content.read()
             self._on_json_request(request)
             return server.NOT_DONE_YET
-        except Exception, e:
-            return self._on_json_request_failed(e, request)
+        except Exception as ex:
+            return self._on_json_request_failed(ex, request)
 
     def register_object(self, obj, name=None):
         """
@@ -674,8 +674,8 @@ class WebApi(JSONComponent):
         try:
             torrent_info = uicommon.TorrentInfo(filename.strip(), 2)
             return torrent_info.as_dict("name", "info_hash", "files_tree")
-        except Exception, e:
-            log.exception(e)
+        except Exception as ex:
+            log.exception(ex)
             return False
 
     @export

@@ -1157,8 +1157,8 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
             # Verify that the accelerator can be parsed
             keyval, mask = gtk.accelerator_parse(self.auto_completer.accelerator_string)
             self.auto_completer.accelerator_string = accelerator
-        except TypeError, e:
-            raise TypeError("TypeError when setting accelerator string: %s" % str(e))
+        except TypeError as ex:
+            raise TypeError("TypeError when setting accelerator string: %s" % ex)
 
     def get_auto_complete_enabled(self):
         return self.auto_completer.auto_complete_enabled

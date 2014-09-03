@@ -79,6 +79,7 @@ func_last_value = {"cell_data_speed_down": None,
                    "cell_data_progress": [None, None],
                    }
 
+
 def cell_data_statusicon(column, cell, model, row, data):
     """Display text with an icon"""
     try:
@@ -101,10 +102,12 @@ def cell_data_statusicon(column, cell, model, row, data):
     except KeyError:
         pass
 
+
 def create_blank_pixbuf():
     i = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, 16, 16)
     i.fill(0x00000000)
     return i
+
 
 def set_icon(icon, cell):
     if icon:
@@ -112,7 +115,7 @@ def set_icon(icon, cell):
         if pixbuf is None:
             try:
                 pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(icon.get_filename(), 16, 16)
-            except gobject.GError, e:
+            except gobject.GError:
                 # Failed to load the pixbuf (Bad image file), so set a blank pixbuf
                 pixbuf = create_blank_pixbuf()
             finally:
@@ -124,6 +127,7 @@ def set_icon(icon, cell):
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         cell.set_property("pixbuf", pixbuf)
+
 
 def cell_data_trackericon(column, cell, model, row, data):
     host = model[row][data]
@@ -144,6 +148,7 @@ def cell_data_trackericon(column, cell, model, row, data):
         set_icon(None, cell)
         func_last_value["cell_data_trackericon"] = None
 
+
 def cell_data_progress(column, cell, model, row, data):
     """Display progress bar with text"""
     (value, state_str) = model.get(row, *data)
@@ -160,6 +165,7 @@ def cell_data_progress(column, cell, model, row, data):
         func_last_value["cell_data_progress"][1] = textstr
         cell.set_property("text", textstr)
 
+
 def cell_data_queue(column, cell, model, row, data):
     value = model.get_value(row, data)
 
@@ -172,11 +178,12 @@ def cell_data_queue(column, cell, model, row, data):
     else:
         cell.set_property("text", str(value + 1))
 
+
 def cell_data_speed(cell, model, row, data, cache_key):
     """Display value as a speed, eg. 2 KiB/s"""
     try:
         speed = model.get_value(row, data)
-    except AttributeError, e:
+    except AttributeError:
         print "AttributeError"
         import traceback
         traceback.print_exc()
@@ -189,13 +196,16 @@ def cell_data_speed(cell, model, row, data, cache_key):
         speed_str = common.fspeed(speed)
     cell.set_property('text', speed_str)
 
+
 def cell_data_speed_down(column, cell, model, row, data):
     """Display value as a speed, eg. 2 KiB/s"""
     cell_data_speed(cell, model, row, data, "cell_data_speed_down")
 
+
 def cell_data_speed_up(column, cell, model, row, data):
     """Display value as a speed, eg. 2 KiB/s"""
     cell_data_speed(cell, model, row, data, "cell_data_speed_up")
+
 
 def cell_data_speed_limit(cell, model, row, data, cache_key):
     """Display value as a speed, eg. 2 KiB/s"""
@@ -210,16 +220,20 @@ def cell_data_speed_limit(cell, model, row, data, cache_key):
         speed_str = common.fspeed(speed * 1024)
     cell.set_property('text', speed_str)
 
+
 def cell_data_speed_limit_down(column, cell, model, row, data):
     cell_data_speed_limit(cell, model, row, data, "cell_data_speed_limit_down")
 
+
 def cell_data_speed_limit_up(column, cell, model, row, data):
     cell_data_speed_limit(cell, model, row, data, "cell_data_speed_limit_up")
+
 
 def cell_data_size(column, cell, model, row, data):
     """Display value in terms of size, eg. 2 MB"""
     size = model.get_value(row, data)
     cell.set_property('text', common.fsize(size))
+
 
 def cell_data_peer(column, cell, model, row, data):
     """Display values as 'value1 (value2)'"""
@@ -229,6 +243,7 @@ def cell_data_peer(column, cell, model, row, data):
         cell.set_property('text', '%d (%d)' % (first, second))
     else:
         cell.set_property('text', '%d' % first)
+
 
 def cell_data_time(column, cell, model, row, data):
     """Display value as time, eg 1m10s"""
@@ -243,6 +258,7 @@ def cell_data_time(column, cell, model, row, data):
         time_str = common.ftime(time)
     cell.set_property('text', time_str)
 
+
 def cell_data_ratio(cell, model, row, data, cache_key):
     """Display value as a ratio with a precision of 3."""
     ratio = model.get_value(row, data)
@@ -252,14 +268,18 @@ def cell_data_ratio(cell, model, row, data, cache_key):
     func_last_value[cache_key] = ratio
     cell.set_property('text', "∞" if ratio < 0 else "%.3f" % ratio)
 
+
 def cell_data_ratio_seeds_peers(column, cell, model, row, data):
     cell_data_ratio(cell, model, row, data, "cell_data_ratio_seeds_peers")
+
 
 def cell_data_ratio_ratio(column, cell, model, row, data):
     cell_data_ratio(cell, model, row, data, "cell_data_ratio_ratio")
 
+
 def cell_data_ratio_avail(column, cell, model, row, data):
     cell_data_ratio(cell, model, row, data, "cell_data_ratio_avail")
+
 
 def cell_data_date(column, cell, model, row, data):
     """Display value as date, eg 05/05/08"""
@@ -272,6 +292,7 @@ def cell_data_date(column, cell, model, row, data):
     date_str = common.fdate(date) if date > 0.0 else ""
     cell.set_property('text', date_str)
 
+
 def cell_data_date_or_never(column, cell, model, row, data):
     """Display value as date, eg 05/05/08 or Never"""
     value = model.get_value(row, data)
@@ -282,4 +303,3 @@ def cell_data_date_or_never(column, cell, model, row, data):
 
     date_str = common.fdate(value) if value > 0.0 else _("Never")
     cell.set_property('text', date_str)
-

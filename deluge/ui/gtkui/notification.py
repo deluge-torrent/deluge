@@ -102,8 +102,8 @@ class Notification:
                 alert_sound = pygame.mixer.music
                 alert_sound.load(self.config["ntf_sound_path"])
                 alert_sound.play()
-            except pygame.error, message:
-                log.warning("pygame failed to play because %s" % (message))
+            except pygame.error as ex:
+                log.warning("pygame failed to play because %s", ex)
             else:
                 log.info("sound notification played successfully")
 
@@ -128,8 +128,8 @@ class Notification:
             port = 25
         try:
             mailServer = smtplib.SMTP(self.config["ntf_server"], port)
-        except Exception, e:
-            log.error("There was an error sending the notification email: %s", e)
+        except Exception as ex:
+            log.error("There was an error sending the notification email: %s", ex)
             return
 
         if self.config["ntf_username"] and self.config["ntf_pass"]:

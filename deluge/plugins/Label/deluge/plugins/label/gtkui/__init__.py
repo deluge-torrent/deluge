@@ -77,8 +77,8 @@ class GtkUI(GtkPluginBase):
             component.get("TorrentView").remove_column(_("Label"))
             log.debug(1.1)
 
-        except Exception, e:
-            log.debug(e)
+        except Exception as ex:
+            log.debug(ex)
 
     def load_interface(self):
         #sidebar

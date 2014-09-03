@@ -562,8 +562,8 @@ class TorrentView(listview.ListView, component.Component):
             for path in paths:
                 try:
                     row = self.treeview.get_model().get_iter(path)
-                except Exception, e:
-                    log.debug("Unable to get iter from path: %s", e)
+                except Exception as ex:
+                    log.debug("Unable to get iter from path: %s", ex)
                     continue
 
                 child_row = self.treeview.get_model().convert_iter_to_child_iter(None, row)
@@ -571,8 +571,8 @@ class TorrentView(listview.ListView, component.Component):
                 if self.liststore.iter_is_valid(child_row):
                     try:
                         value = self.liststore.get_value(child_row, self.columns["torrent_id"].column_indices[0])
-                    except Exception, e:
-                        log.debug("Unable to get value from row: %s", e)
+                    except Exception as ex:
+                        log.debug("Unable to get value from row: %s", ex)
                     else:
                         torrent_ids.append(value)
             if len(torrent_ids) == 0:

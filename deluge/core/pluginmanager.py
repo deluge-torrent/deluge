@@ -74,8 +74,8 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, component.Compon
             if hasattr(self.plugins[plugin], "update"):
                 try:
                     self.plugins[plugin].update()
-                except Exception, e:
-                    log.exception(e)
+                except Exception as ex:
+                    log.exception(ex)
 
     def enable_plugin(self, name):
         if name not in self.plugins:

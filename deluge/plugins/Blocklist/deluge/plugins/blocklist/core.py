@@ -184,8 +184,8 @@ class Core(CorePluginBase):
                                 saved.add(ip.address)
                                 log.debug("Added %s to whitelisted", ip)
                                 self.num_whited += 1
-                            except BadIP, e:
-                                log.error("Bad IP: %s", e)
+                            except BadIP as ex:
+                                log.error("Bad IP: %s", ex)
                                 continue
                     if removed:
                         needs_blocklist_import = True
@@ -194,8 +194,8 @@ class Core(CorePluginBase):
                                 ip = IP.parse(ip)
                                 saved.remove(ip.address)
                                 log.debug("Removed %s from whitelisted", ip)
-                            except BadIP, e:
-                                log.error("Bad IP: %s", e)
+                            except BadIP as ex:
+                                log.error("Bad IP: %s", ex)
                                 continue
 
                 self.config[key] = list(saved)

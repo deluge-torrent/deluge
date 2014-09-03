@@ -74,8 +74,8 @@ class _ConfigManager:
             # Try to create the config folder if it doesn't exist
             try:
                 os.makedirs(directory)
-            except Exception, e:
-                log.error("Unable to make config directory: %s", e)
+            except OSError as ex:
+                log.error("Unable to make config directory: %s", ex)
                 return False
         elif not os.path.isdir(directory):
             log.error("Config directory needs to be a directory!")

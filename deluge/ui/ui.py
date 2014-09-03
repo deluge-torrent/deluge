@@ -178,7 +178,7 @@ class UI:
                 log.info("Starting ConsoleUI..")
                 from deluge.ui.console.main import ConsoleUI
                 ui = ConsoleUI(ui_args)
-        except ImportError, e:
+        except ImportError as ex:
             import sys
             import traceback
             error_type, error_value, tb = sys.exc_info()
@@ -188,7 +188,7 @@ class UI:
                 log.error("Unable to find the requested UI: %s.  Please select a different UI with the '-u' option \
                           or alternatively use the '-s' option to select a different default UI.", selected_ui)
             else:
-                log.exception(e)
+                log.exception(ex)
                 log.error("There was an error whilst launching the request UI: %s", selected_ui)
                 log.error("Look at the traceback above for more information.")
             sys.exit(1)

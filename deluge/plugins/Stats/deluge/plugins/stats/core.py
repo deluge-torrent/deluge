@@ -185,8 +185,8 @@ class Core(CorePluginBase):
             update_interval(30, 5, 6)
             update_interval(300, 30, 10)
 
-        except Exception, e:
-            log.error("Stats update error %s" % e)
+        except Exception as ex:
+            log.error("Stats update error %s" % ex)
         return True
 
     def save_stats(self):
@@ -194,8 +194,8 @@ class Core(CorePluginBase):
             self.saved_stats["stats"] = self.stats
             self.saved_stats.config.update(self.get_totals())
             self.saved_stats.save()
-        except Exception, e:
-            log.error("Stats save error", e)
+        except Exception as ex:
+            log.error("Stats save error", ex)
         return True
 
     # export:
