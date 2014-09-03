@@ -1,3 +1,4 @@
+from __future__ import print_function
 #
 # ui.py
 #
@@ -49,10 +50,10 @@ except ImportError:
 
 
 def version_callback(option, opt_str, value, parser):
-    print os.path.basename(sys.argv[0]) + ": " + deluge.common.get_version()
+    print(os.path.basename(sys.argv[0]) + ": " + deluge.common.get_version())
     try:
         from deluge._libtorrent import lt
-        print "libtorrent: %s" % lt.version
+        print("libtorrent: %s" % lt.version)
     except ImportError:
         pass
     raise SystemExit

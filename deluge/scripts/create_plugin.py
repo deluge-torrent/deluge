@@ -6,6 +6,7 @@ example:
 python create_plugin.py --name MyPlugin2 --basepath . --author-name "Your Name" --author-email "yourname@example.com"
 
 """
+from __future__ import print_function
 
 from datetime import datetime
 from optparse import OptionParser
@@ -27,23 +28,23 @@ parser.add_option("-c", "--config", dest="configdir", help="location of deluge c
 
 def create_plugin():
     if not options.name:
-        print "--name is mandatory , use -h for more info"
+        print("--name is mandatory , use -h for more info")
         return
     if not options.path:
-        print "--basepath is mandatory , use -h for more info"
+        print("--basepath is mandatory , use -h for more info")
         return
     if not options.author_email:
-        print "--author-email is mandatory , use -h for more info"
+        print("--author-email is mandatory , use -h for more info")
         return
     if not options.author_email:
-        print "--author-name is mandatory , use -h for more info"
+        print("--author-name is mandatory , use -h for more info")
         return
 
     if not options.url:
         options.url = ""
 
     if not os.path.exists(options.path):
-        print "basepath does not exist"
+        print("basepath does not exist")
         return
 
     if not options.configdir:
@@ -64,7 +65,7 @@ def create_plugin():
     python_path = sys.executable
 
     if os.path.exists(plugin_base):
-        print "the directory %s already exists, delete it first" % plugin_base
+        print("the directory %s already exists, delete it first" % plugin_base)
         return
 
     def write_file(path, filename, template, include_gpl=True):
@@ -88,14 +89,14 @@ def create_plugin():
         f.write(template % args)
         f.close()
 
-    print "creating folders.."
+    print("creating folders..")
     os.mkdir(plugin_base)
     os.mkdir(deluge_namespace)
     os.mkdir(plugins_namespace)
     os.mkdir(src)
     os.mkdir(data_dir)
 
-    print "creating files.."
+    print("creating files..")
     write_file(plugin_base,"setup.py", SETUP)
     write_file(deluge_namespace, "__init__.py", NAMESPACE_INIT, False)
     write_file(plugins_namespace, "__init__.py", NAMESPACE_INIT, False)
@@ -108,7 +109,7 @@ def create_plugin():
     write_file(data_dir, "%s.js" % safe_name, DEFAULT_JS)
 
     #add an input parameter for this?
-    print "building dev-link.."
+    print("building dev-link..")
     write_file(plugin_base,"create_dev_link.sh", CREATE_DEV_LINK)
     dev_link_path = os.path.join(plugin_base, "create_dev_link.sh")
     os.system("chmod +x %s" % dev_link_path) #lazy..

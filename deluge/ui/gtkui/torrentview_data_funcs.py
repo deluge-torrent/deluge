@@ -1,3 +1,4 @@
+from __future__ import print_function
 # -*- coding: utf-8 -*-
 # torrentview_data_funcs.py
 #
@@ -184,7 +185,7 @@ def cell_data_speed(cell, model, row, data, cache_key):
     try:
         speed = model.get_value(row, data)
     except AttributeError:
-        print "AttributeError"
+        print("AttributeError")
         import traceback
         traceback.print_exc()
     if func_last_value[cache_key] == speed:

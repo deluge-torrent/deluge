@@ -657,7 +657,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
                 if response == gtk.RESPONSE_OK:
                     new_filename = dialog.get_filename()
                     dialog.destroy()
-                    print new_filename
+                    log.debug(new_filename)
                     model.set(iter,
                               SND_PATH, new_filename,
                               SND_NAME, basename(new_filename))

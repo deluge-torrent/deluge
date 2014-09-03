@@ -1,3 +1,4 @@
+from __future__ import print_function
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
@@ -42,7 +43,7 @@ import pydoc
 import inspect
 import textwrap
 sclient.set_core_uri()
-print "\n\n"
+print("\n\n")
 
 
 if 0: #aclient non-core
@@ -97,21 +98,21 @@ if 0: #plugin-manager
         print("%s" % pydoc.getdoc(func))
 
 if 0: #possible config-values
-    print "=== config-values ==="
+    print("=== config-values ===")
     cfg = sclient.get_sconfig()
     for key in sorted(cfg.keys()):
-        print "%s:%s()" % (key, type(cfg[key]).__name__)
+        print("%s:%s()" % (key, type(cfg[key]).__name__))
 
 if 0: #keys
-    print """== Notes ==
+    print("""== Notes ==
 * The available keys for get_torrent_status(id, keys)
     {{{
 #!python
->>>sorted(sclient.get_status_keys())"""
-    print "\n".join(textwrap.wrap(str(sorted(sclient.get_status_keys())),100))
-    print """}}}"""
+>>>sorted(sclient.get_status_keys())""")
+    print("\n".join(textwrap.wrap(str(sorted(sclient.get_status_keys())),100)))
+    print("""}}}""")
 
 
 
 
-print "\n\n"
+print("\n\n")

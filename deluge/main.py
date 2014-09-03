@@ -39,6 +39,7 @@
 # user runs the command 'deluge'.
 
 """Main starting point for Deluge.  Contains the main() entry point."""
+from __future__ import print_function
 
 import os
 import sys
@@ -53,10 +54,10 @@ import deluge.configmanager
 
 
 def version_callback(option, opt_str, value, parser):
-    print os.path.basename(sys.argv[0]) + ": " + deluge.common.get_version()
+    print(os.path.basename(sys.argv[0]) + ": " + deluge.common.get_version())
     try:
         from deluge._libtorrent import lt
-        print "libtorrent: %s" % lt.version
+        print("libtorrent: %s" % lt.version)
     except ImportError:
         pass
     raise SystemExit
@@ -123,7 +124,7 @@ def start_ui():
         config = deluge.configmanager.ConfigManager("ui.conf")
         config["default_ui"] = options.default_ui
         config.save()
-        print "The default UI has been changed to", options.default_ui
+        print("The default UI has been changed to", options.default_ui)
         sys.exit(0)
 
     version = deluge.common.get_version()
@@ -187,7 +188,7 @@ this should be an IP address", metavar="IFACE",
 
     if options.config:
         if not deluge.configmanager.set_config_dir(options.config):
-            print "There was an error setting the config directory! Exiting..."
+            print("There was an error setting the config directory! Exiting...")
             sys.exit(1)
 
     # Check for any daemons running with this same config
@@ -196,8 +197,8 @@ this should be an IP address", metavar="IFACE",
     try:
         check_running_daemon(pid_file)
     except deluge.error.DaemonRunningError:
-        print "You cannot run multiple daemons with the same config directory set."
-        print "If you believe this is an error, you can force a start by deleting: %s" % pid_file
+        print("You cannot run multiple daemons with the same config directory set.")
+        print("If you believe this is an error, you can force a start by deleting: %s" % pid_file)
         sys.exit(1)
 
     # Setup the logger
@@ -209,7 +210,7 @@ this should be an IP address", metavar="IFACE",
             os.makedirs(os.path.abspath(os.path.dirname(options.logfile)))
         except OSError as ex:
             if ex.errno != EEXIST:
-                print "There was an error creating the log directory, exiting... (%s)" % ex
+                print("There was an error creating the log directory, exiting... (%s)" % ex)
                 sys.exit(1)
 
     logfile_mode = 'w'
@@ -272,11 +273,11 @@ this should be an IP address", metavar="IFACE",
         # Twisted catches signals to terminate
         def save_profile_stats():
             profiler.dump_stats(profile_output)
-            print "Profile stats saved to %s" % profile_output
+            print("Profile stats saved to %s" % profile_output)
 
         from twisted.internet import reactor
         reactor.addSystemEventTrigger("before", "shutdown", save_profile_stats)
-        print "Running with profiler..."
+        print("Running with profiler...")
         profiler.runcall(run_daemon, options)
     else:
         run_daemon(options)

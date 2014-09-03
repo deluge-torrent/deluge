@@ -1,3 +1,4 @@
+from __future__ import print_function
 from twisted.trial import unittest
 import os
 
@@ -61,10 +62,10 @@ class TorrentTestCase(unittest.TestCase):
         tmp = ''
         for i, p in enumerate(priorities):
             if i % 100 == 0:
-                print tmp
+                print(tmp)
                 tmp = ''
             tmp += "%s" % p
-        print tmp
+        print(tmp)
 
     def get_torrent_atp(self, filename):
         filename = os.path.join(os.path.dirname(__file__), filename)

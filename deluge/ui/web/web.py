@@ -1,3 +1,4 @@
+from __future__ import print_function
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
@@ -136,11 +137,11 @@ class Web(_UI):
             # Twisted catches signals to terminate
             def save_profile_stats():
                 profiler.dump_stats(profile_output)
-                print "Profile stats saved to %s" % profile_output
+                print("Profile stats saved to %s" % profile_output)
 
             from twisted.internet import reactor
             reactor.addSystemEventTrigger("before", "shutdown", save_profile_stats)
-            print "Running with profiler..."
+            print("Running with profiler...")
             profiler.runcall(run_server)
         else:
             run_server()

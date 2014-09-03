@@ -1,3 +1,4 @@
+from __future__ import print_function
 #
 # commander.py
 #
@@ -139,9 +140,9 @@ class Commander:
             else:
                 rm = reason.getErrorMessage()
             if host:
-                print "Could not connect to daemon: %s:%s\n %s" % (host, port, rm)
+                print("Could not connect to daemon: %s:%s\n %s" % (host, port, rm))
             else:
-                print "Could not connect to localhost daemon\n %s" % rm
+                print("Could not connect to localhost daemon\n %s" % rm)
             self.do_command("quit")
 
         if host:

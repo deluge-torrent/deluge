@@ -1,3 +1,4 @@
+from __future__ import print_function
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
@@ -1560,7 +1561,7 @@ if __name__ == "__main__":
     entry2.set_filechooser_button_enabled(False)
 
     def list_value_added_event(widget, values):
-        print "Current list values:", widget.get_values()
+        print("Current list values:", widget.get_values())
 
     entry1.connect("list-value-added", list_value_added_event)
     entry2.connect("list-value-added", list_value_added_event)

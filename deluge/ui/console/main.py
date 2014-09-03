@@ -1,3 +1,4 @@
+from __future__ import print_function
 #
 # main.py
 #
@@ -190,7 +191,7 @@ class OptionParser(optparse.OptionParser):
     def exit(self, status=0, msg=None):
         self.values._exit = True
         if msg:
-            print msg
+            print(msg)
 
     def error(self, msg):
         """error(msg : string)
@@ -317,7 +318,7 @@ class ConsoleUI(component.Component):
             args = ' '.join(args)
             self.interactive = False
             if not cmds:
-                print "Sorry, couldn't find any commands"
+                print("Sorry, couldn't find any commands")
                 return
             else:
                 from commander import Commander
@@ -334,13 +335,13 @@ class ConsoleUI(component.Component):
             import curses.wrapper
             curses.wrapper(self.run)
         elif self.interactive and deluge.common.windows_check():
-            print """\nDeluge-console does not run in interactive mode on Windows. \n
+            print("""\nDeluge-console does not run in interactive mode on Windows. \n
 Please use commands from the command line, eg:\n
     deluge-console.exe help
     deluge-console.exe info
     deluge-console.exe "add --help"
     deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
-            """
+            """)
         else:
             reactor.run()
 
@@ -452,7 +453,7 @@ Please use commands from the command line, eg:\n
                 component.get("LegacyUI").add_line(s, False)
                 self.events.append(s)
         else:
-            print colors.strip_colors(s.encode(self.encoding))
+            print(colors.strip_colors(s.encode(self.encoding)))
 
     def write_event(self, s):
         if self.interactive:
@@ -463,4 +464,4 @@ Please use commands from the command line, eg:\n
                 component.get("LegacyUI").add_line(s, False)
                 self.events.append(s)
         else:
-            print colors.strip_colors(s.encode(self.encoding))
+            print(colors.strip_colors(s.encode(self.encoding)))
