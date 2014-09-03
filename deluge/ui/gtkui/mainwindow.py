@@ -8,28 +8,31 @@
 #
 
 import copy
-import os.path
-import pygtk
-pygtk.require('2.0')
-import gtk
 import logging
+import os.path
 from hashlib import sha1 as sha
 
+import gtk
+import pygtk
 from twisted.internet import reactor
 from twisted.internet.error import ReactorNotRunning
+
+import deluge.common
+import deluge.component as component
+import deluge.ui.gtkui.common
+from deluge.configmanager import ConfigManager
+from deluge.ui.client import client
+from deluge.ui.gtkui.dialogs import PasswordDialog
+from deluge.ui.gtkui.ipcinterface import process_args
+
+pygtk.require('2.0')
+
 
 try:
     import wnck
 except ImportError:
     wnck = None
 
-import deluge.common
-import deluge.ui.gtkui.common
-import deluge.component as component
-from deluge.ui.client import client
-from deluge.configmanager import ConfigManager
-from deluge.ui.gtkui.ipcinterface import process_args
-from deluge.ui.gtkui.dialogs import PasswordDialog
 
 log = logging.getLogger(__name__)
 

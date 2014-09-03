@@ -11,15 +11,15 @@
 # See LICENSE for more details.
 #
 
-import gtk
-import gtk.glade
 import logging
 
-from deluge.ui.client import client
-from deluge.plugins.pluginbase import GtkPluginBase
-import deluge.component as component
+import gtk
+import gtk.glade
 
+import deluge.component as component
 from deluge.plugins.extractor.common import get_resource
+from deluge.plugins.pluginbase import GtkPluginBase
+from deluge.ui.client import client
 
 log = logging.getLogger(__name__)
 

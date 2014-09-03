@@ -34,10 +34,11 @@
 #
 
 
-import deluge.component as component
 import deluge.common
+import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
+
 
 class NewReleaseDialog:
     def __init__(self):
@@ -82,4 +83,3 @@ class NewReleaseDialog:
     def _on_button_close_new_release(self, widget):
         self.config["show_new_releases"] = not self.chk_not_show_dialog.get_active()
         self.dialog.destroy()
-

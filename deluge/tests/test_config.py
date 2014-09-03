@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import os
-from twisted.trial import unittest
+
 from twisted.internet import task
-from deluge.tests.common import set_tmp_config_dir
-from deluge.config import Config
+from twisted.trial import unittest
+
 import deluge.config
+from deluge.config import Config
+from deluge.tests.common import set_tmp_config_dir
 
 DEFAULTS = {"string": "foobar", "int": 1, "float": 0.435, "bool": True, "unicode": u"foobar"}
 

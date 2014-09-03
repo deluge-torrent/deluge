@@ -32,10 +32,11 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
-from deluge.ui.console.main import BaseCommand
 import deluge.common
 import deluge.component as component
+from deluge.ui.console.main import BaseCommand
 from deluge.ui.console.modes.alltorrents import AllTorrents
+
 
 class Command(BaseCommand):
     """Exit this mode and go into the more 'gui' like mode"""

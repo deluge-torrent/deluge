@@ -37,10 +37,12 @@
 """
 port of old plugin by markybob.
 """
-import time
-import math
-import cairo
 import logging
+import math
+import time
+
+import cairo
+
 from deluge.ui.client import client
 
 log = logging.getLogger(__name__)

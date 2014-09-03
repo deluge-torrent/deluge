@@ -9,17 +9,18 @@
 # See LICENSE for more details.
 #
 
+import logging
 import os
+import warnings
+
 import gtk
 import pango
-import logging
-import warnings
 from gobject import GError
 
 import deluge.component as component
-from deluge.common import resource_filename, get_pixmap, TORRENT_STATE
-from deluge.ui.client import client
+from deluge.common import get_pixmap, resource_filename, TORRENT_STATE
 from deluge.configmanager import ConfigManager
+from deluge.ui.client import client
 
 log = logging.getLogger(__name__)
 

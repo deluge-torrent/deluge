@@ -1,8 +1,10 @@
 import time
-from twisted.trial import unittest
+
 from twisted.internet.defer import maybeDeferred, succeed
-import deluge.ui.sessionproxy
+from twisted.trial import unittest
+
 import deluge.component as component
+import deluge.ui.sessionproxy
 
 
 class Core(object):

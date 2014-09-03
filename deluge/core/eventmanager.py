@@ -34,6 +34,7 @@
 #
 
 import logging
+
 import deluge.component as component
 
 log = logging.getLogger(__name__)

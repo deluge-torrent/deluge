@@ -35,17 +35,16 @@
 #
 #
 
-from twisted.internet import defer
-
-from deluge.ui.console.main import BaseCommand
-import deluge.ui.console.colors as colors
-from deluge.ui.client import client
-import deluge.component as component
-from deluge.log import LOG as log
-
+import re
 from optparse import make_option
 
-import re
+from twisted.internet import defer
+
+import deluge.component as component
+import deluge.ui.console.colors as colors
+from deluge.log import LOG as log
+from deluge.ui.client import client
+from deluge.ui.console.main import BaseCommand
 
 torrent_options = {
     "max_download_speed": float,

@@ -35,11 +35,12 @@
 #
 
 
-import gtk
 import logging
 
-import deluge.component as component
+import gtk
+
 import deluge.common
+import deluge.component as component
 from deluge.configmanager import ConfigManager
 
 log = logging.getLogger(__name__)
@@ -110,5 +111,3 @@ class SideBar(component.Component):
             self.notebook.set_show_tabs(False)
         else:
             self.notebook.set_show_tabs(True)
-
-

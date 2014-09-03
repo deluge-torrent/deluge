@@ -1,11 +1,11 @@
 from twisted.internet import defer
+from twisted.internet.error import CannotListenError
 from twisted.trial import unittest
 
 import deluge.tests.common as common
-from twisted.internet.error import CannotListenError
 from deluge import error
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
-from deluge.ui.client import client, Client, DaemonSSLProxy
+from deluge.ui.client import Client, client, DaemonSSLProxy
 
 
 class NoVersionSendingDaemonSSLProxy(DaemonSSLProxy):

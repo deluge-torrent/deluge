@@ -13,20 +13,21 @@
 # See LICENSE for more details.
 #
 
-from deluge._libtorrent import lt
-import shutil
-import os
-import logging
 import base64
+import logging
+import os
+import shutil
 
-from deluge.plugins.pluginbase import CorePluginBase
+from twisted.internet import reactor
+from twisted.internet.task import deferLater, LoopingCall
+
 import deluge.component as component
 import deluge.configmanager
+from deluge._libtorrent import lt
 from deluge.common import AUTH_LEVEL_ADMIN
 from deluge.core.rpcserver import export
-from twisted.internet.task import LoopingCall, deferLater
-from twisted.internet import reactor
 from deluge.event import DelugeEvent
+from deluge.plugins.pluginbase import CorePluginBase
 
 log = logging.getLogger(__name__)
 

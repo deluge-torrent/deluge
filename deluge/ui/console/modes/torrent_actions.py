@@ -32,15 +32,16 @@
 #
 #
 
-from deluge.ui.client import client
-from popup import SelectablePopup, Popup
-from input_popup import InputPopup
-import deluge.component as component
+import logging
 
-from deluge.ui.console import colors, modes
 from twisted.internet import defer
 
-import logging
+import deluge.component as component
+from deluge.ui.client import client
+from deluge.ui.console import colors, modes
+from input_popup import InputPopup
+from popup import Popup, SelectablePopup
+
 log = logging.getLogger(__name__)
 
 torrent_options = [

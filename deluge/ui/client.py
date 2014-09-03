@@ -35,10 +35,11 @@
 #
 
 import logging
-from twisted.internet.protocol import ClientFactory
-from twisted.internet import reactor, ssl, defer
-import sys
 import subprocess
+import sys
+
+from twisted.internet import defer, reactor, ssl
+from twisted.internet.protocol import ClientFactory
 
 import deluge.common
 from deluge import error

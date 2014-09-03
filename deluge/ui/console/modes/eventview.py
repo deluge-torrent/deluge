@@ -34,9 +34,11 @@
 #
 #
 
-import deluge.component as component
-from basemode import BaseMode
+import logging
 
+import deluge.component as component
+import format_utils
+from basemode import BaseMode
 from deluge.ui.client import client
 
 try:
@@ -44,10 +46,8 @@ try:
 except ImportError:
     pass
 
-import logging
 log = logging.getLogger(__name__)
 
-import format_utils
 
 class EventView(BaseMode):
     def __init__(self, parent_mode, stdscr, encoding=None):

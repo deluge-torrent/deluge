@@ -7,11 +7,11 @@
 # See LICENSE for more details.
 #
 
+import gzip
 import logging
+import socket
 from exceptions import Exception
 from struct import unpack
-import gzip
-import socket
 
 log = logging.getLogger(__name__)
 

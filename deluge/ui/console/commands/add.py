@@ -8,18 +8,18 @@
 # See LICENSE for more details.
 #
 
-from twisted.internet import defer
-
-from deluge.ui.console.main import BaseCommand
-from deluge.ui.client import client
-import deluge.component as component
-import deluge.common
-
-from optparse import make_option
-import os
 import base64
+import os
+from optparse import make_option
 from urllib import url2pathname
 from urlparse import urlparse
+
+from twisted.internet import defer
+
+import deluge.common
+import deluge.component as component
+from deluge.ui.client import client
+from deluge.ui.console.main import BaseCommand
 
 
 class Command(BaseCommand):

@@ -34,28 +34,25 @@
 #
 #
 
-import deluge.component as component
-from basemode import BaseMode
+import base64
+import logging
+import os
 
 import deluge.common as common
-from deluge.ui.client import client
-
-import os
-import base64
-
-from deluge.ui.sessionproxy import SessionProxy
-
-from input_popup import InputPopup
-from popup import Popup, MessagePopup
+import deluge.component as component
 import deluge.ui.console.colors as colors
 import format_utils
+from basemode import BaseMode
+from deluge.ui.client import client
+from deluge.ui.sessionproxy import SessionProxy
+from input_popup import InputPopup
+from popup import MessagePopup, Popup
 
 try:
     import curses
 except ImportError:
     pass
 
-import logging
 log = logging.getLogger(__name__)
 
 # Big help string that gets displayed when the user hits 'h'

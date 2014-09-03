@@ -33,11 +33,11 @@
 #
 #
 
-from deluge.ui.console.main import BaseCommand
-from deluge.ui.client import client
-import deluge.component as component
-
 import os.path
+
+import deluge.component as component
+from deluge.ui.client import client
+from deluge.ui.console.main import BaseCommand
 
 
 class Command(BaseCommand):

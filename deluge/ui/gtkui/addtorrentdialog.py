@@ -33,29 +33,30 @@
 #
 #
 
-
-import pygtk
-pygtk.require('2.0')
-import gtk
-import gobject
 import base64
 import logging
 import os
 from urlparse import urljoin
 
+import gobject
+import gtk
+import pygtk
 import twisted.web.client
 import twisted.web.error
-from deluge.ui.client import client
-from deluge.httpdownloader import download_file
-import deluge.component as component
-from torrentview_data_funcs import cell_data_size
-from deluge.configmanager import ConfigManager
+
+import common
 import deluge.common
+import deluge.component as component
 import deluge.ui.common
 import dialogs
-import common
-
+from deluge.configmanager import ConfigManager
+from deluge.httpdownloader import download_file
+from deluge.ui.client import client
 from deluge.ui.gtkui.path_chooser import PathChooser
+from torrentview_data_funcs import cell_data_size
+
+pygtk.require('2.0')
+
 
 log = logging.getLogger(__name__)
 

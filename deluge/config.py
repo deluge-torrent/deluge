@@ -68,10 +68,10 @@ version as this will be done internally.
 """
 
 import cPickle as pickle
-import logging
-import shutil
-import os
 import json
+import logging
+import os
+import shutil
 
 from deluge.common import get_default_config_dir, utf8_encoded
 

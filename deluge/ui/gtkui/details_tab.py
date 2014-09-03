@@ -10,7 +10,7 @@
 import logging
 
 import deluge.component as component
-from deluge.common import fsize, is_url, fdate
+from deluge.common import fdate, fsize, is_url
 from deluge.ui.gtkui.torrentdetails import Tab
 
 log = logging.getLogger(__name__)

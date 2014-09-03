@@ -1,27 +1,29 @@
 import warnings
+from email.utils import formatdate
 
-from twisted.trial import unittest
 from twisted.internet import reactor
-from twisted.python.failure import Failure
 from twisted.internet.error import CannotListenError
+from twisted.python.failure import Failure
+from twisted.trial import unittest
 from twisted.web.http import NOT_MODIFIED
+from twisted.web.server import Site
+
+import deluge.tests.common as common
+from deluge.httpdownloader import download_file
+from deluge.log import setupLogger
+from deluge.ui.web.common import compress
+
 try:
     from twisted.web.resource import Resource
 except ImportError:
     # twisted 8
     from twisted.web.error import Resource
-from twisted.web.server import Site
 
-from deluge.httpdownloader import download_file
-from deluge.log import setupLogger
 
 warnings.filterwarnings("ignore", category=RuntimeWarning)
-from deluge.ui.web.common import compress
 warnings.resetwarnings()
 
-from email.utils import formatdate
 
-import deluge.tests.common as common
 rpath = common.rpath
 
 

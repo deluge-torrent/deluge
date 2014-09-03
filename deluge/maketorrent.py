@@ -33,12 +33,13 @@
 #
 #
 
-import sys
 import os
+import sys
 from hashlib import sha1 as sha
 
-from deluge.common import get_path_size
 from deluge.bencode import bencode
+from deluge.common import get_path_size
+
 
 class InvalidPath(Exception):
     """

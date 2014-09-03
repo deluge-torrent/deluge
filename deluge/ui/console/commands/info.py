@@ -35,17 +35,17 @@
 #
 
 from optparse import make_option
+from os.path import sep as dirsep
 
-from deluge.ui.console.main import BaseCommand
-import deluge.ui.console.colors as colors
-from deluge.ui.client import client
 import deluge.common as common
 import deluge.component as component
-
+import deluge.ui.console.colors as colors
+from deluge.ui.client import client
+from deluge.ui.console.main import BaseCommand
 from deluge.ui.console.modes import format_utils
+
 strwidth = format_utils.strwidth
 
-from os.path import sep as dirsep
 
 STATUS_KEYS = ["state",
         "download_location",

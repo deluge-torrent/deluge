@@ -2,23 +2,24 @@ import os
 import warnings
 from hashlib import sha1 as sha
 
-from twisted.trial import unittest
 from twisted.internet import reactor
+from twisted.internet.error import CannotListenError
 from twisted.python.failure import Failure
+from twisted.trial import unittest
 from twisted.web.http import FORBIDDEN
 from twisted.web.resource import Resource
 from twisted.web.server import Site
 from twisted.web.static import File
-from twisted.internet.error import CannotListenError
 
-import deluge.tests.common as common
-from deluge.core.rpcserver import RPCServer
-from deluge.core.core import Core
-warnings.filterwarnings("ignore", category=RuntimeWarning)
-from deluge.ui.web.common import compress
-warnings.resetwarnings()
 import deluge.component as component
 import deluge.error
+import deluge.tests.common as common
+from deluge.core.core import Core
+from deluge.core.rpcserver import RPCServer
+from deluge.ui.web.common import compress
+
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+warnings.resetwarnings()
 
 rpath = common.rpath
 

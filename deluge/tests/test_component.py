@@ -1,5 +1,6 @@
-from twisted.trial import unittest
 from twisted.internet import threads
+from twisted.trial import unittest
+
 import deluge.component as component
 
 

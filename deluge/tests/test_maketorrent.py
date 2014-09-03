@@ -1,6 +1,7 @@
-from twisted.trial import unittest
 import os
 import tempfile
+
+from twisted.trial import unittest
 
 from deluge import maketorrent
 

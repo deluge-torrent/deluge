@@ -34,11 +34,14 @@
 #
 
 
-import os
 import logging
-import pkg_resources    # access plugin egg
-from deluge import component    # for systray
-import gtk, gobject
+import os
+
+import gobject
+import gtk
+import pkg_resources  # access plugin egg
+
+from deluge import component  # for systray
 from deluge.ui.client import client
 
 log = logging.getLogger(__name__)

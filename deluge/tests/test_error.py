@@ -1,4 +1,5 @@
 from twisted.trial import unittest
+
 import deluge.error
 
 

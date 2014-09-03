@@ -1,4 +1,3 @@
-from __future__ import print_function
 #
 # ui.py
 #
@@ -34,10 +33,12 @@ from __future__ import print_function
 #
 #
 
+from __future__ import print_function
+
+import logging
 import os
 import sys
-import logging
-from optparse import OptionParser, OptionGroup
+from optparse import OptionGroup, OptionParser
 
 import deluge.common
 import deluge.configmanager

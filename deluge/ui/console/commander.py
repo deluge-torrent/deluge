@@ -1,4 +1,3 @@
-from __future__ import print_function
 #
 # commander.py
 #
@@ -35,14 +34,19 @@ from __future__ import print_function
 #    statement from all source files in the program, then also delete it here.
 #
 #
-import sys
-from twisted.internet import defer
-import deluge.component as component
-from deluge.error import DelugeError
-from deluge.ui.client import client
-from colors import strip_colors
+
+from __future__ import print_function
 
 import logging
+import sys
+
+from twisted.internet import defer
+
+import deluge.component as component
+from colors import strip_colors
+from deluge.error import DelugeError
+from deluge.ui.client import client
+
 log = logging.getLogger(__name__)
 
 

@@ -1,6 +1,8 @@
 from __future__ import print_function
-from deluge.ui.client import sclient, aclient
+
 from deluge.common import fsize
+from deluge.ui.client import aclient, sclient
+
 sclient.set_core_uri()
 
 def print_totals(totals):
@@ -17,8 +19,3 @@ print_totals(sclient.stats_get_totals())
 
 print("==session totals==")
 print_totals(sclient.stats_get_session_totals())
-
-
-
-
-

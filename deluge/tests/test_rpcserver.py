@@ -35,17 +35,16 @@
 
 import os
 
-from twisted.trial import unittest
 from twisted.python import log
+from twisted.trial import unittest
 
 import deluge.component as component
 import deluge.error
 from deluge.core import rpcserver
-from deluge.ui.common import get_localhost_auth
 from deluge.core.authmanager import AuthManager
-from deluge.core.rpcserver import RPCServer, DelugeRPCProtocol
-
+from deluge.core.rpcserver import DelugeRPCProtocol, RPCServer
 from deluge.log import setupLogger
+from deluge.ui.common import get_localhost_auth
 
 setupLogger("none")
 

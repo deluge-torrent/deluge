@@ -37,7 +37,7 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 __plugin_name__ = "Notifications"
 __author__ = "Pedro Algarvio"

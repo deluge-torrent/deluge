@@ -35,6 +35,7 @@
 
 from functools import wraps
 
+
 def proxy(proxy_func):
     """
     Factory class which returns a decorator that passes

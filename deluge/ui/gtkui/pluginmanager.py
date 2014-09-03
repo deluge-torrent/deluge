@@ -35,10 +35,11 @@
 
 
 import logging
+
 import deluge.component as component
 import deluge.pluginmanagerbase
-from deluge.ui.client import client
 from deluge.configmanager import ConfigManager
+from deluge.ui.client import client
 
 log = logging.getLogger(__name__)
 

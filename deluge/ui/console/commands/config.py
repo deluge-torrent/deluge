@@ -34,18 +34,18 @@
 #
 #
 
-import re
-import logging
-import tokenize
 import cStringIO
+import logging
+import re
+import tokenize
 from optparse import make_option
 
 from twisted.internet import defer
 
-from deluge.ui.console.main import BaseCommand
+import deluge.component as component
 import deluge.ui.console.colors as colors
 from deluge.ui.client import client
-import deluge.component as component
+from deluge.ui.console.main import BaseCommand
 
 log = logging.getLogger(__name__)
 

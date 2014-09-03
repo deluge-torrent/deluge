@@ -8,8 +8,9 @@
 #
 
 import logging
-from common import raises_errors_as, IP, BadIP
 import re
+
+from common import BadIP, IP, raises_errors_as
 
 log = logging.getLogger(__name__)
 

@@ -33,24 +33,26 @@
 #
 #
 
-import os
 import logging
-from HTMLParser import HTMLParser, HTMLParseError
-from urlparse import urljoin, urlparse
+import os
+from HTMLParser import HTMLParseError, HTMLParser
 from tempfile import mkstemp
+from urlparse import urljoin, urlparse
 
 from twisted.internet import defer, threads
 from twisted.web.error import PageRedirect
+
+from deluge.component import Component
+from deluge.configmanager import get_config_dir
+from deluge.decorators import proxy
+from deluge.httpdownloader import download_file
+
 try:
     from twisted.web.resource import NoResource, ForbiddenResource
 except ImportError:
     # twisted 8
     from twisted.web.error import NoResource, ForbiddenResource
 
-from deluge.component import Component
-from deluge.configmanager import get_config_dir
-from deluge.httpdownloader import download_file
-from deluge.decorators import proxy
 
 
 try:

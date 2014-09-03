@@ -36,14 +36,16 @@
 #    statement from all source files in the program, then also delete it here.
 #
 #
-from deluge.ui.client import client
-import deluge.component as component
-from deluge.ui.common import TorrentInfo
-import deluge.common
-
-import os, base64, glob
-
+import base64
+import glob
 import logging
+import os
+
+import deluge.common
+import deluge.component as component
+from deluge.ui.client import client
+from deluge.ui.common import TorrentInfo
+
 log = logging.getLogger(__name__)
 
 def __bracket_fixup(path):
@@ -103,4 +105,3 @@ def add_torrent(t_file, options, success_cb, fail_cb, ress):
             filedump = base64.encodestring(open(f).read())
 
             client.core.add_torrent_file(filename, filedump, t_options).addCallback(success_cb, f, ress).addErrback(fail_cb, f, ress)
-

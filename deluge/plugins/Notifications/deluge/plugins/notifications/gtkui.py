@@ -39,18 +39,19 @@
 
 import logging
 from os.path import basename
+
 import gtk
 import gtk.glade
-
 from twisted.internet import defer
-from deluge.ui.client import client
-from deluge.plugins.pluginbase import GtkPluginBase
-import deluge.component as component
+
 import deluge.common
+import deluge.component as component
 import deluge.configmanager
+from common import CustomNotifications, get_resource
+from deluge.plugins.pluginbase import GtkPluginBase
+from deluge.ui.client import client
 
 # Relative imports
-from common import get_resource, CustomNotifications
 
 log = logging.getLogger(__name__)
 
@@ -710,4 +711,3 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         self.subscriptions_model[path][SUB_NOT_SOUND] = \
             not self.subscriptions_model[path][SUB_NOT_SOUND]
         return
-

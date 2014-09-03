@@ -33,8 +33,8 @@
 #
 #
 
-import os
 import logging
+import os
 
 import deluge.common
 import deluge.log

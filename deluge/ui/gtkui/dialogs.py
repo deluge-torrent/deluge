@@ -32,12 +32,11 @@
 #    statement from all source files in the program, then also delete it here.
 #
 import gtk
-
 from twisted.internet import defer
 
-from deluge.ui.gtkui import common
-import deluge.component as component
 import deluge.common
+import deluge.component as component
+from deluge.ui.gtkui import common
 
 
 class BaseDialog(gtk.Dialog):

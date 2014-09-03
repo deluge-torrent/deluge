@@ -17,6 +17,7 @@ This should typically only be used by the Core. Plugins should utilize the
 """
 
 import logging
+
 from twisted.internet import reactor
 
 import deluge.component as component

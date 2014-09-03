@@ -9,19 +9,22 @@
 #
 
 
-import os.path
-import pygtk
-pygtk.require('2.0')
-import gtk
 import logging
+import os.path
 
-import deluge.error
-import deluge.component as component
-from deluge.ui.client import client
+import gtk
+import pygtk
+
 import deluge.common
+import deluge.component as component
+import deluge.error
 import dialogs
 from deluge.configmanager import ConfigManager
+from deluge.ui.client import client
 from deluge.ui.gtkui.path_chooser import PathChooser
+
+pygtk.require('2.0')
+
 
 log = logging.getLogger(__name__)
 

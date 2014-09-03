@@ -33,16 +33,18 @@
 #
 #
 
-import gtk
-import gtk.glade
 import logging
 
-from deluge.ui.client import client
-from deluge.plugins.pluginbase import GtkPluginBase
+import gtk
+import gtk.glade
+
 import deluge.component as component
+from deluge.plugins.pluginbase import GtkPluginBase
+from deluge.ui.client import client
+
+from . import common
 
 # Relative import
-from . import common
 
 log = logging.getLogger(__name__)
 

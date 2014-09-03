@@ -7,7 +7,9 @@
 # ==============================================================================
 
 import logging
+
 from twisted.internet import task
+
 from deluge import component
 from deluge.event import DelugeEvent
 

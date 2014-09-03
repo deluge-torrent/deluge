@@ -33,15 +33,16 @@
 #
 #
 
-import os.path
-import gtk
 import logging
+import os.path
 
+import gtk
 from twisted.internet import defer
-import deluge.common
+
 import common
-from deluge.ui.client import client
+import deluge.common
 import deluge.component as component
+from deluge.ui.client import client
 
 log = logging.getLogger(__name__)
 

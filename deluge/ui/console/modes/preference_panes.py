@@ -33,16 +33,18 @@
 #
 #
 
-from deluge.ui.console.modes.input_popup import TextInput, SelectInput, CheckedInput, IntSpinInput, FloatSpinInput, CheckedPlusInput
+import logging
+
 import deluge.ui.console.modes.alltorrents
 from deluge.common import is_ip
+from deluge.ui.console.modes.input_popup import (CheckedInput, CheckedPlusInput, FloatSpinInput, IntSpinInput,
+                                                 SelectInput, TextInput)
 
 try:
     import curses
 except ImportError:
     pass
 
-import logging
 log = logging.getLogger(__name__)
 
 

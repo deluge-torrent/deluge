@@ -35,12 +35,13 @@
 #
 
 
-import gtk
-import gtk.glade
 import logging
 
-import deluge.component as component
+import gtk
+import gtk.glade
+
 import deluge.common
+import deluge.component as component
 from deluge.ui.client import client
 
 log = logging.getLogger(__name__)

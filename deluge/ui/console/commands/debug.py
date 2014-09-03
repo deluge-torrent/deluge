@@ -36,11 +36,12 @@
 
 from twisted.internet import defer
 
-from deluge.ui.console.main import BaseCommand
-from deluge.ui.client import client
-import deluge.ui.console.colors as colors
-import deluge.log
 import deluge.component as component
+import deluge.log
+import deluge.ui.console.colors as colors
+from deluge.ui.client import client
+from deluge.ui.console.main import BaseCommand
+
 
 class Command(BaseCommand):
     """Enable and disable debugging"""

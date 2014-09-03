@@ -34,38 +34,36 @@
 #
 #
 
-from deluge._libtorrent import lt
-
-import os
-import glob
-import shutil
 import base64
+import glob
 import logging
-import threading
+import os
+import shutil
 import tempfile
+import threading
 from urlparse import urljoin
 
 import twisted.web.client
 import twisted.web.error
 
-from deluge.httpdownloader import download_file
-from deluge import path_chooser_common
-
-from deluge.configmanager import ConfigManager, get_config_dir
 import deluge.common
 import deluge.component as component
-from deluge.event import NewVersionAvailableEvent, SessionPausedEvent, SessionResumedEvent, TorrentQueueChangedEvent
-from deluge.error import DelugeError, InvalidTorrentError, InvalidPathError
-from deluge.core.authmanager import AUTH_LEVEL_ADMIN, AUTH_LEVEL_NONE
-from deluge.core.authmanager import AUTH_LEVELS_MAPPING, AUTH_LEVELS_MAPPING_REVERSE
-from deluge.core.torrentmanager import TorrentManager
-from deluge.core.pluginmanager import PluginManager
+from deluge import path_chooser_common
+from deluge._libtorrent import lt
+from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.alertmanager import AlertManager
-from deluge.core.filtermanager import FilterManager
-from deluge.core.preferencesmanager import PreferencesManager
-from deluge.core.authmanager import AuthManager
+from deluge.core.authmanager import (AUTH_LEVEL_ADMIN, AUTH_LEVEL_NONE, AUTH_LEVELS_MAPPING,
+                                     AUTH_LEVELS_MAPPING_REVERSE, AuthManager)
 from deluge.core.eventmanager import EventManager
+from deluge.core.filtermanager import FilterManager
+from deluge.core.pluginmanager import PluginManager
+from deluge.core.preferencesmanager import PreferencesManager
 from deluge.core.rpcserver import export
+from deluge.core.torrentmanager import TorrentManager
+from deluge.error import DelugeError, InvalidPathError, InvalidTorrentError
+from deluge.event import (NewVersionAvailableEvent, SessionPausedEvent, SessionResumedEvent,
+                          TorrentQueueChangedEvent)
+from deluge.httpdownloader import download_file
 
 log = logging.getLogger(__name__)
 

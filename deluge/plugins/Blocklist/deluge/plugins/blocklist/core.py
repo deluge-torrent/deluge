@@ -8,26 +8,26 @@
 # See LICENSE for more details.
 #
 
-import os
-import time
 import logging
+import os
+import shutil
+import time
 from datetime import datetime, timedelta
 from email.utils import formatdate
 from urlparse import urljoin
-import shutil
 
+from twisted.internet import defer, threads
 from twisted.internet.task import LoopingCall
-from twisted.internet import threads, defer
 from twisted.web import error
 
-from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
+from common import BadIP, IP
 from deluge.common import is_url
 from deluge.core.rpcserver import export
 from deluge.httpdownloader import download_file
-from common import IP, BadIP
-from detect import detect_compression, detect_format, create_reader, UnknownFormatError
+from deluge.plugins.pluginbase import CorePluginBase
+from detect import create_reader, detect_compression, detect_format, UnknownFormatError
 from readers import ReaderParseError
 
 # TODO: check return values for deferred callbacks

@@ -46,12 +46,12 @@ Example icon to test with `down.ico`_
 
 import logging
 import struct
+
+import PIL.BmpImagePlugin
 import PIL.Image
 import PIL.ImageChops
 import PIL.ImageFile
-import PIL.BmpImagePlugin
 import PIL.PngImagePlugin
-
 
 _MAGIC = '\0\0\1\0'
 log = logging.getLogger(__name__)

@@ -32,15 +32,15 @@
 #    statement from all source files in the program, then also delete it here.
 #
 #
+import re
 from optparse import make_option
 
-from deluge.ui.console.main import BaseCommand
-from deluge.ui.client import client
-import deluge.ui.console.colors as colors
 import deluge.component as component
 import deluge.configmanager
+import deluge.ui.console.colors as colors
+from deluge.ui.client import client
+from deluge.ui.console.main import BaseCommand
 
-import re
 
 class Command(BaseCommand):
     """Manage plugins with this command"""

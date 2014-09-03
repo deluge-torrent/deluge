@@ -34,12 +34,14 @@
 #
 #
 
-import gtk
-import cairo
-import pango
-import pangocairo
 import logging
 from math import pi
+
+import cairo
+import gtk
+import pango
+import pangocairo
+
 from deluge.configmanager import ConfigManager
 
 log = logging.getLogger(__name__)

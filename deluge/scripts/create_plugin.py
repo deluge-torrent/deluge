@@ -8,11 +8,13 @@ python create_plugin.py --name MyPlugin2 --basepath . --author-name "Your Name" 
 """
 from __future__ import print_function
 
-from datetime import datetime
-from optparse import OptionParser
 import os
 import sys
+from datetime import datetime
+from optparse import OptionParser
+
 import deluge.common
+
 parser = OptionParser()
 parser.add_option("-n", "--name", dest="name", help="plugin name")
 parser.add_option("-m", "--module-name", dest="module", help="plugin name")

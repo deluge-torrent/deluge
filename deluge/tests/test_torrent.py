@@ -1,16 +1,16 @@
 from __future__ import print_function
-from twisted.trial import unittest
+
 import os
 
-import deluge.core.torrent
-import test_torrent
-import deluge.tests.common as common
-from deluge.core.rpcserver import RPCServer
-from deluge.core.core import Core
-
-from deluge._libtorrent import lt
+from twisted.trial import unittest
 
 import deluge.component as component
+import deluge.core.torrent
+import deluge.tests.common as common
+import test_torrent
+from deluge._libtorrent import lt
+from deluge.core.core import Core
+from deluge.core.rpcserver import RPCServer
 from deluge.core.torrent import Torrent
 
 config_setup = False

@@ -13,7 +13,7 @@
 # See LICENSE for more details.
 #
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 __plugin_name__ = "AutoAdd"
 __author__ = "Chase Sterling, Pedro Algarvio"

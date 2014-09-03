@@ -36,16 +36,16 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
-import gtk
-import gtk.glade
 import logging
 
-from deluge.ui.client import client
-from deluge.plugins.pluginbase import GtkPluginBase
-import deluge.component as component
-import deluge.common
+import gtk
+import gtk.glade
 
+import deluge.common
+import deluge.component as component
 from common import get_resource
+from deluge.plugins.pluginbase import GtkPluginBase
+from deluge.ui.client import client
 
 log = logging.getLogger(__name__)
 

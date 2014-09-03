@@ -36,15 +36,19 @@
 #
 #
 
-import sys
 import logging
+import sys
+
+from twisted.internet import reactor
+
+import deluge.component as component
+import deluge.ui.console.colors as colors
+
 try:
     import curses
 except ImportError:
     pass
 
-import deluge.component as component
-import deluge.ui.console.colors as colors
 try:
     import signal
     from fcntl import ioctl
@@ -53,7 +57,6 @@ try:
 except:
     pass
 
-from twisted.internet import reactor
 
 log = logging.getLogger(__name__)
 

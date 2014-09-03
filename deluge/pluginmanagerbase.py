@@ -36,14 +36,14 @@
 
 """PluginManagerBase"""
 
-import os.path
 import logging
+import os.path
+
 import pkg_resources
 
 import deluge.common
-import deluge.configmanager
-
 import deluge.component as component
+import deluge.configmanager
 
 log = logging.getLogger(__name__)
 

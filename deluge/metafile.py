@@ -16,10 +16,10 @@
 # Written by Bram Cohen
 # Modifications for use in Deluge by Andrew Resch 2008
 
+import logging
 import os.path
 import sys
 import time
-import logging
 from hashlib import sha1 as sha
 
 import deluge.component as component

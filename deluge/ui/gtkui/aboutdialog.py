@@ -7,13 +7,14 @@
 # See LICENSE for more details.
 #
 
-import pygtk
-pygtk.require('2.0')
 import gtk
+import pygtk
+
+import common
+import deluge.common
 from deluge.ui.client import client
 
-import deluge.common
-import common
+pygtk.require('2.0')
 
 
 class AboutDialog:

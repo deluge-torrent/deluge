@@ -35,7 +35,8 @@
 
 import logging
 from collections import defaultdict
-from twisted.internet.defer import maybeDeferred, succeed, DeferredList, fail
+
+from twisted.internet.defer import DeferredList, fail, maybeDeferred, succeed
 from twisted.internet.task import LoopingCall
 
 log = logging.getLogger(__name__)

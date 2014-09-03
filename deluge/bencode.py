@@ -75,7 +75,7 @@ def bdecode(x):
 
     return r
 
-from types import StringType, IntType, LongType, DictType, ListType, TupleType
+from types import DictType, IntType, ListType, LongType, StringType, TupleType
 
 
 class Bencached(object):

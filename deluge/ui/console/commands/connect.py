@@ -33,10 +33,11 @@
 #    statement from all source files in the program, then also delete it here.
 #
 #
-from deluge.ui.console.main import BaseCommand
+import deluge.component as component
 import deluge.ui.console.colors as colors
 from deluge.ui.client import client
-import deluge.component as component
+from deluge.ui.console.main import BaseCommand
+
 
 class Command(BaseCommand):
     """Connect to a new deluge server."""

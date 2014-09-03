@@ -7,8 +7,9 @@
 # See LICENSE for more details.
 #
 
-import zlib
 import gettext
+import zlib
+
 from deluge import common
 
 _ = lambda x: gettext.gettext(x).decode("utf-8")

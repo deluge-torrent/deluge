@@ -34,10 +34,11 @@
 #
 #
 
+import logging
+
 import deluge.common
 import format_utils
 
-import logging
 log = logging.getLogger(__name__)
 
 

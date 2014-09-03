@@ -33,18 +33,19 @@
 #
 #
 
-import gtk
 import logging
 import os.path
 from itertools import izip
 
-from deluge.ui.client import client
-import deluge.component as component
+import gtk
+
 import deluge.common
-from deluge.ui.gtkui.torrentview_data_funcs import cell_data_speed_down, cell_data_speed_up
-from deluge.ui.gtkui.torrentdetails import Tab
+import deluge.component as component
+from deluge.ui.client import client
 from deluge.ui.countries import COUNTRIES
-from deluge.ui.gtkui.common import save_pickled_state_file, load_pickled_state_file
+from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_file
+from deluge.ui.gtkui.torrentdetails import Tab
+from deluge.ui.gtkui.torrentview_data_funcs import cell_data_speed_down, cell_data_speed_up
 
 log = logging.getLogger(__name__)
 

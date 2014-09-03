@@ -64,6 +64,8 @@ __all__ = ['dumps', 'loads']
 
 import struct
 from threading import Lock
+from types import (DictType, FloatType, IntType, ListType, LongType, NoneType, StringType, TupleType,
+                   UnicodeType)
 
 # Default number of bits for serialized floats, either 32 or 64 (also a parameter for dumps()).
 DEFAULT_FLOAT_BITS = 32
@@ -295,7 +297,6 @@ def loads(x, decode_utf8=False):
         raise ValueError
     return r
 
-from types import StringType, IntType, LongType, DictType, ListType, TupleType, FloatType, NoneType, UnicodeType
 
 
 def encode_int(x, r):

@@ -34,16 +34,15 @@
 #
 #
 
-import deluge.component as component
-from deluge.ui.client import client
-from basemode import BaseMode
-from input_popup import Popup, SelectInput
-
-from preference_panes import (DownloadsPane, NetworkPane, BandwidthPane, InterfacePane,
-                              ColumnsPane, OtherPane, DaemonPane, QueuePane, ProxyPane,
-                              CachePane)
-
+import logging
 from collections import deque
+
+import deluge.component as component
+from basemode import BaseMode
+from deluge.ui.client import client
+from input_popup import Popup, SelectInput
+from preference_panes import (BandwidthPane, CachePane, ColumnsPane, DaemonPane, DownloadsPane, InterfacePane,
+                              NetworkPane, OtherPane, ProxyPane, QueuePane)
 
 try:
     import curses
@@ -51,7 +50,6 @@ except ImportError:
     pass
 
 
-import logging
 log = logging.getLogger(__name__)
 
 
@@ -325,5 +323,3 @@ class Preferences(BaseMode):
                 self.__actions_read(c)
 
         self.refresh()
-
-

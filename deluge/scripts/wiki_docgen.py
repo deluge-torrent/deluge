@@ -1,4 +1,3 @@
-from __future__ import print_function
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
@@ -37,11 +36,15 @@ from __future__ import print_function
 #client doc's For core.
 #
 
+from __future__ import print_function
+
+import inspect
+import pydoc
+import textwrap
+
 from deluge.core.core import Core
 from deluge.ui.client import aclient, sclient
-import pydoc
-import inspect
-import textwrap
+
 sclient.set_core_uri()
 print("\n\n")
 

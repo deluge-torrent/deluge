@@ -38,7 +38,9 @@
 #
 
 import logging
+
 from twisted.internet import defer
+
 from deluge import component
 
 log = logging.getLogger(__name__)
@@ -141,4 +143,3 @@ class CustomNotifications(object):
     def _on_notify_failure(self, failure, kind):
         log.debug("Notification failure using %s: %s", kind, failure)
         return failure
-

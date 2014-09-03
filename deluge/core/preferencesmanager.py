@@ -34,17 +34,17 @@
 #
 
 
-import os
 import logging
+import os
 import threading
+
 from twisted.internet.task import LoopingCall
 
-from deluge._libtorrent import lt
-
-from deluge.event import ConfigValueChangedEvent
-import deluge.configmanager
 import deluge.common
 import deluge.component as component
+import deluge.configmanager
+from deluge._libtorrent import lt
+from deluge.event import ConfigValueChangedEvent
 
 log = logging.getLogger(__name__)
 

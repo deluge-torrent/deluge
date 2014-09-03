@@ -33,14 +33,14 @@
 #    but you are not obligated to do so. If you do not wish to do so, delete
 #    this exception statement from your version. If you delete this exception
 
-import time
 import logging
+import time
+
 from twisted.internet.task import LoopingCall
 
-from deluge.plugins.pluginbase import CorePluginBase
-from deluge import component
-from deluge import configmanager
+from deluge import component, configmanager
 from deluge.core.rpcserver import export
+from deluge.plugins.pluginbase import CorePluginBase
 
 DEFAULT_PREFS = {
     "test": "NiNiNi",

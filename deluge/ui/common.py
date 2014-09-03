@@ -38,13 +38,13 @@ The ui common module contains methods and classes that are deemed useful for
 all the interfaces.
 """
 
-import os
 import logging
+import os
 from hashlib import sha1 as sha
 
-from deluge import bencode
-from deluge.common import utf8_encoded, path_join
 import deluge.configmanager
+from deluge import bencode
+from deluge.common import path_join, utf8_encoded
 
 log = logging.getLogger(__name__)
 

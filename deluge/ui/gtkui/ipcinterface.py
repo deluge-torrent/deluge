@@ -33,29 +33,28 @@
 #
 #
 
-
-import sys
-import os
 import base64
 import logging
-from urllib import url2pathname
-from urlparse import urlparse
+import os
+import sys
 from glob import glob
 from tempfile import mkstemp
+from urllib import url2pathname
+from urlparse import urlparse
+
+import twisted.internet.error
+from twisted.internet import reactor
+from twisted.internet.protocol import ClientFactory, Factory, Protocol
+
+import deluge.common
+import deluge.component as component
+from deluge.configmanager import ConfigManager
+from deluge.ui.client import client
 
 try:
     import rencode
 except ImportError:
     import deluge.rencode as rencode
-
-import deluge.component as component
-from deluge.ui.client import client
-import deluge.common
-from deluge.configmanager import ConfigManager
-
-from twisted.internet.protocol import Factory, Protocol, ClientFactory
-from twisted.internet import reactor
-import twisted.internet.error
 
 log = logging.getLogger(__name__)
 

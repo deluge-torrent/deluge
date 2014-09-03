@@ -38,16 +38,17 @@ try:
 except ImportError:
     appindicator = None
 
-import os
-import gtk
 import logging
+import os
 
-import deluge.component as component
-from deluge.ui.client import client
-import deluge.common
-from deluge.configmanager import ConfigManager
-from deluge.ui.gtkui import dialogs
+import gtk
+
 import common
+import deluge.common
+import deluge.component as component
+from deluge.configmanager import ConfigManager
+from deluge.ui.client import client
+from deluge.ui.gtkui import dialogs
 
 log = logging.getLogger(__name__)
 

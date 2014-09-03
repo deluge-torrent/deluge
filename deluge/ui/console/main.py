@@ -1,4 +1,3 @@
-from __future__ import print_function
 #
 # main.py
 #
@@ -35,27 +34,28 @@ from __future__ import print_function
 #
 #
 
-import os
-import sys
+from __future__ import print_function
+
+import locale
 import logging
 import optparse
+import os
 import re
-import locale
 import shlex
+import sys
 
 from twisted.internet import defer, reactor
 
+import colors
+import deluge.common
 import deluge.component as component
 from deluge.ui.client import client
-import deluge.common
+from deluge.ui.console import UI_PATH
+from deluge.ui.console.eventlog import EventLog
+from deluge.ui.console.statusbars import StatusBars
 from deluge.ui.coreconfig import CoreConfig
 from deluge.ui.sessionproxy import SessionProxy
-from deluge.ui.console.statusbars import StatusBars
-from deluge.ui.console.eventlog import EventLog
-import colors
 from deluge.ui.ui import _UI
-from deluge.ui.console import UI_PATH
-
 
 log = logging.getLogger(__name__)
 

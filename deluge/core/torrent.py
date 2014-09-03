@@ -16,20 +16,20 @@ Attributes:
 
 from __future__ import division
 
-import os
 import logging
+import os
 import socket
-from urlparse import urlparse
 from itertools import izip
+from urlparse import urlparse
 
 from twisted.internet.defer import Deferred, DeferredList
-from deluge._libtorrent import lt
 
 import deluge.component as component
-from deluge.configmanager import ConfigManager, get_config_dir
-from deluge.event import TorrentStateChangedEvent, TorrentFolderRenamedEvent
+from deluge._libtorrent import lt
 from deluge.common import decode_string, utf8_encoded
+from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
+from deluge.event import TorrentFolderRenamedEvent, TorrentStateChangedEvent
 
 log = logging.getLogger(__name__)
 

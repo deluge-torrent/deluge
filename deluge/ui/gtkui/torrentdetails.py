@@ -10,12 +10,13 @@
 
 """The torrent details component shows info about the selected torrent."""
 
-import gtk
 import logging
+
+import gtk
 
 import deluge.component as component
 from deluge.ui.client import client
-from deluge.ui.gtkui.common import save_pickled_state_file, load_pickled_state_file
+from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_file
 
 log = logging.getLogger(__name__)
 

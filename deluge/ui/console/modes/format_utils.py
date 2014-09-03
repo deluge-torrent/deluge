@@ -34,7 +34,12 @@
 #
 #
 
+import re
+from collections import deque
+
 import deluge.common
+from unicodedata import east_asian_width
+
 try:
     import unicodedata
     haveud = True
@@ -137,13 +142,11 @@ def format_column(col, lim):
 def format_row(row, column_widths):
     return "".join([format_column(row[i], column_widths[i]) for i in range(0, len(row))])
 
-import re
 _strip_re = re.compile("\{!.*?!\}")
 
 def remove_formatting(string):
     return re.sub(_strip_re, "", string)
 
-from collections import deque
 def wrap_string(string,width,min_lines=0,strip_colors=True):
     """
     Wrap a string to fit in a particular width.  Returns a list of output lines.
@@ -227,7 +230,6 @@ def wrap_string(string,width,min_lines=0,strip_colors=True):
 
     return ret
 
-from unicodedata import east_asian_width
 
 def strwidth(string):
     """

@@ -37,10 +37,10 @@
 import logging
 
 import deluge.component as component
-from deluge.common import fsize, fspeed, fdate, fpeer, ftime
+from deluge.common import fdate, fpeer, fsize, fspeed, ftime
 from deluge.configmanager import ConfigManager
-from deluge.ui.gtkui.torrentdetails import Tab
 from deluge.ui.gtkui.piecesbar import PiecesBar
+from deluge.ui.gtkui.torrentdetails import Tab
 
 log = logging.getLogger(__name__)
 

@@ -33,10 +33,9 @@
 #
 #
 
-from deluge.core.preferencesmanager import DEFAULT_PREFS
-
-import deluge.component as component
 import deluge.common
+import deluge.component as component
+from deluge.core.preferencesmanager import DEFAULT_PREFS
 from deluge.ui.client import client
 
 

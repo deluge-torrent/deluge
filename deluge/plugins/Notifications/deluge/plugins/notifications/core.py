@@ -37,17 +37,18 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
-import smtplib
 import logging
+import smtplib
 from email.utils import formatdate
+
 from twisted.internet import defer, threads
+
+import deluge.configmanager
+from common import CustomNotifications
 from deluge import component
+from deluge.core.rpcserver import export
 from deluge.event import known_events
 from deluge.plugins.pluginbase import CorePluginBase
-import deluge.configmanager
-from deluge.core.rpcserver import export
-
-from common import CustomNotifications
 
 log = logging.getLogger(__name__)
 

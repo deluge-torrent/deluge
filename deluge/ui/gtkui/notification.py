@@ -35,9 +35,10 @@
 
 
 import logging
-import deluge.component as component
-import deluge.common
+
 import common
+import deluge.common
+import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 

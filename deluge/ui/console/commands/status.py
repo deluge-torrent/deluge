@@ -33,11 +33,13 @@
 #
 
 from optparse import make_option
+
 from twisted.internet import defer
-from deluge.ui.console.main import BaseCommand
-from deluge.ui.client import client
-from deluge.common import fspeed, TORRENT_STATE
+
 import deluge.component as component
+from deluge.common import fspeed, TORRENT_STATE
+from deluge.ui.client import client
+from deluge.ui.console.main import BaseCommand
 
 
 class Command(BaseCommand):

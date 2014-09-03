@@ -12,17 +12,18 @@
 # See LICENSE for more details.
 #
 
-import gtk
-import gtk.glade
 import logging
-from deluge.ui.client import client
-from deluge.ui.gtkui import dialogs
-from deluge.plugins.pluginbase import GtkPluginBase
-import deluge.component as component
-import deluge.common
 import os
 
+import gtk
+import gtk.glade
+
+import deluge.common
+import deluge.component as component
 from common import get_resource
+from deluge.plugins.pluginbase import GtkPluginBase
+from deluge.ui.client import client
+from deluge.ui.gtkui import dialogs
 
 log = logging.getLogger(__name__)
 

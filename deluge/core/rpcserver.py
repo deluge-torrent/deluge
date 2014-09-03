@@ -35,25 +35,22 @@
 
 """RPCServer Module"""
 
-import sys
+import logging
 import os
 import stat
-import logging
+import sys
 import traceback
-
-from twisted.internet.protocol import Factory
-from twisted.internet import reactor, defer
+from types import FunctionType
 
 from OpenSSL import crypto, SSL
-from types import FunctionType
+from twisted.internet import defer, reactor
+from twisted.internet.protocol import Factory
 
 import deluge.component as component
 import deluge.configmanager
-from deluge.core.authmanager import (AUTH_LEVEL_NONE, AUTH_LEVEL_DEFAULT,
-                                     AUTH_LEVEL_ADMIN)
-from deluge.error import (DelugeError, NotAuthorizedError, WrappedException,
-                          _ClientSideRecreateError, IncompatibleClient)
-
+from deluge.core.authmanager import AUTH_LEVEL_ADMIN, AUTH_LEVEL_DEFAULT, AUTH_LEVEL_NONE
+from deluge.error import (_ClientSideRecreateError, DelugeError, IncompatibleClient, NotAuthorizedError,
+                          WrappedException)
 from deluge.transfer import DelugeTransferProtocol
 
 RPC_RESPONSE = 1

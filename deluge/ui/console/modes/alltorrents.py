@@ -34,36 +34,34 @@
 #
 #
 
-import deluge.component as component
-from basemode import BaseMode
-import deluge.common
-from deluge.ui.client import client
-from deluge.configmanager import ConfigManager
-
+import logging
 from collections import deque
-
-from deluge.ui.sessionproxy import SessionProxy
-
-from popup import Popup, SelectablePopup, MessagePopup, ALIGN
-from add_util import add_torrent
-from input_popup import InputPopup, ALIGN
-from torrentdetail import TorrentDetail
-from addtorrents import AddTorrents
-from preferences import Preferences
-from torrent_actions import torrent_actions_popup, ACTION
-from eventview import EventView
-from legacy import Legacy
 
 from twisted.internet import defer
 
-import format_utils, column
+import column
+import deluge.common
+import deluge.component as component
+import format_utils
+from add_util import add_torrent
+from addtorrents import AddTorrents
+from basemode import BaseMode
+from deluge.configmanager import ConfigManager
+from deluge.ui.client import client
+from deluge.ui.sessionproxy import SessionProxy
+from eventview import EventView
+from input_popup import ALIGN, InputPopup
+from legacy import Legacy
+from popup import ALIGN, MessagePopup, Popup, SelectablePopup
+from preferences import Preferences
+from torrent_actions import ACTION, torrent_actions_popup
+from torrentdetail import TorrentDetail
 
 try:
     import curses
 except ImportError:
     pass
 
-import logging
 log = logging.getLogger(__name__)
 
 

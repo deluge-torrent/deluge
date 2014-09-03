@@ -35,12 +35,12 @@
 
 
 import logging
+import time
+
+import colors
 import deluge.component as component
 from deluge.common import windows_check
-import colors
 from deluge.ui.client import client
-
-import time
 
 log = logging.getLogger(__name__)
 

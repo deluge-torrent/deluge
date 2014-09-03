@@ -41,20 +41,23 @@ except ImportError:
     pass
 
 
-from basemode import BaseMode
-import deluge.ui.console.colors as colors
+import logging
+import os
+import re
+
 from twisted.internet import defer, reactor
-from deluge.ui.client import client
+
 import deluge.component as component
 import deluge.configmanager
-
+import deluge.ui.console.colors as colors
+from basemode import BaseMode
+from deluge.ui.client import client
 from deluge.ui.console.modes import format_utils
+
 strwidth = format_utils.strwidth
 
-import logging, os
 log = logging.getLogger(__name__)
 
-import re
 
 LINES_BUFFER_SIZE = 5000
 INPUT_HISTORY_SIZE = 500

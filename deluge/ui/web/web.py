@@ -1,4 +1,3 @@
-from __future__ import print_function
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
@@ -8,11 +7,13 @@ from __future__ import print_function
 # See LICENSE for more details.
 #
 
+from __future__ import print_function
+
 import os
+from optparse import OptionGroup
 
 import deluge.common
 from deluge.ui.ui import _UI, UI
-from optparse import OptionGroup
 
 
 class WebUI(UI):

@@ -7,32 +7,31 @@
 # See LICENSE for more details.
 #
 
-import os
-import time
 import base64
-import shutil
-import logging
 import hashlib
-import tempfile
 import json
-from urlparse import urljoin
-from urllib import unquote_plus
-
+import logging
+import os
+import shutil
+import tempfile
+import time
 from types import FunctionType
+from urllib import unquote_plus
+from urlparse import urljoin
+
+import twisted.web.client
+import twisted.web.error
 from twisted.internet import reactor
 from twisted.internet.defer import Deferred, DeferredList
 from twisted.web import http, resource, server
-import twisted.web.client
-import twisted.web.error
 
-from deluge.common import is_magnet
 from deluge import component, httpdownloader
+from deluge.common import is_magnet
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.ui import common as uicommon
-from deluge.ui.client import client, Client
+from deluge.ui.client import Client, client
 from deluge.ui.coreconfig import CoreConfig
 from deluge.ui.sessionproxy import SessionProxy
-
 from deluge.ui.web.common import _, compress
 
 log = logging.getLogger(__name__)

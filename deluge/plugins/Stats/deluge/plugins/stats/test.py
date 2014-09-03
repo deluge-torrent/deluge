@@ -1,8 +1,10 @@
 from __future__ import print_function
-from deluge.ui.client import sclient, aclient
-sclient.set_core_uri()
-import graph
+
 import deluge
+import graph
+from deluge.ui.client import aclient, sclient
+
+sclient.set_core_uri()
 
 def test_sync():
     if 1:

@@ -9,16 +9,17 @@
 
 """The Deluge daemon"""
 
-import os
 import logging
+import os
+
 from twisted.internet import reactor
 
 import deluge.component as component
+from deluge.common import get_version, is_ip, windows_check
 from deluge.configmanager import get_config_dir
-from deluge.common import get_version, windows_check, is_ip
-from deluge.core.rpcserver import RPCServer, export
-from deluge.error import DaemonRunningError
 from deluge.core.core import Core
+from deluge.core.rpcserver import export, RPCServer
+from deluge.error import DaemonRunningError
 
 if windows_check():
     from win32api import SetConsoleCtrlHandler

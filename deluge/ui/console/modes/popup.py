@@ -40,8 +40,10 @@ try:
 except ImportError:
     pass
 
-import format_utils
 import logging
+
+import format_utils
+
 log = logging.getLogger(__name__)
 
 class ALIGN:

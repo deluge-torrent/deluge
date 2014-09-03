@@ -1,6 +1,8 @@
 from new import classobj
+
 from deluge.core.core import Core
 from deluge.core.daemon import Daemon
+
 
 class RpcApi:
     pass

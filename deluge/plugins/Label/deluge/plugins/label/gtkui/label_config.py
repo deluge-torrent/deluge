@@ -33,13 +33,15 @@
 #
 
 
+import logging
+import os
+
 import gtk
 import gtk.glade
-import os
-import logging
-import pkg_resources    # access plugin egg
-import deluge.component as component
+import pkg_resources  # access plugin egg
+
 import deluge.common
+import deluge.component as component
 from deluge.ui.client import client
 
 log = logging.getLogger(__name__)

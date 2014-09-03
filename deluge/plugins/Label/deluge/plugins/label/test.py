@@ -1,4 +1,3 @@
-from __future__ import print_function
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
@@ -31,6 +30,8 @@ from __future__ import print_function
 #    statement from all source files in the program, then also delete it here.
 #
 #
+
+from __future__ import print_function
 
 from deluge.ui.client import sclient
 

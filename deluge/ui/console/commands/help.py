@@ -35,9 +35,10 @@
 
 from twisted.internet import defer
 
-from deluge.ui.console.main import BaseCommand
-import deluge.ui.console.colors as colors
 import deluge.component as component
+import deluge.ui.console.colors as colors
+from deluge.ui.console.main import BaseCommand
+
 
 class Command(BaseCommand):
     """displays help on other commands"""

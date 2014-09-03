@@ -31,7 +31,7 @@
 #
 
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 __plugin_name__ = "Label"
 __author__ = "Martijn Voncken"

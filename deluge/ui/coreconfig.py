@@ -35,6 +35,7 @@
 
 
 import logging
+
 import deluge.component as component
 from deluge.ui.client import client
 

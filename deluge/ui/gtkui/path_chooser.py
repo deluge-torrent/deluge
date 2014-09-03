@@ -34,9 +34,9 @@
 
 import logging
 
+import deluge.component as component
 from deluge.ui.client import client
 from deluge.ui.gtkui.path_combo_chooser import PathChooserComboBox
-import deluge.component as component
 
 log = logging.getLogger(__name__)
 

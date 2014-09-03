@@ -33,9 +33,11 @@
 #    statement from all source files in the program, then also delete it here.
 #
 #
+from twisted.internet import error, reactor
+
 from deluge.ui.client import client
 from deluge.ui.console.main import BaseCommand
-from twisted.internet import reactor, error
+
 
 class Command(BaseCommand):
     """Exit from the client."""

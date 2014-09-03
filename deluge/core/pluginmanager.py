@@ -38,9 +38,9 @@
 
 import logging
 
-from deluge.event import PluginEnabledEvent, PluginDisabledEvent
-import deluge.pluginmanagerbase
 import deluge.component as component
+import deluge.pluginmanagerbase
+from deluge.event import PluginDisabledEvent, PluginEnabledEvent
 
 log = logging.getLogger(__name__)
 

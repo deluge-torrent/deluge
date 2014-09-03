@@ -7,22 +7,22 @@
 # See LICENSE for more details.
 #
 
-
 """The torrent view component that lists all torrents in the session."""
 
-import pygtk
-pygtk.require('2.0')
-import gtk
-import gobject
 import logging
 
+import gobject
+import gtk
+import pygtk
 from twisted.internet import reactor
 
-import listview
 import deluge.component as component
+import listview
+import torrentview_data_funcs as funcs
 from deluge.ui.client import client
 from removetorrentdialog import RemoveTorrentDialog
-import torrentview_data_funcs as funcs
+
+pygtk.require('2.0')
 
 log = logging.getLogger(__name__)
 

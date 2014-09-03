@@ -7,18 +7,19 @@
 # See LICENSE for more details.
 #
 
+import cPickle
+import logging
+import os.path
+
+import gobject
 import gtk
 import gtk.gdk
-import gobject
-import os.path
-import logging
-import cPickle
 
-from deluge.ui.gtkui.torrentdetails import Tab
-from deluge.ui.client import client
-import deluge.component as component
 import deluge.common
-from deluge.ui.gtkui.common import reparent_iter, save_pickled_state_file, load_pickled_state_file
+import deluge.component as component
+from deluge.ui.client import client
+from deluge.ui.gtkui.common import load_pickled_state_file, reparent_iter, save_pickled_state_file
+from deluge.ui.gtkui.torrentdetails import Tab
 
 log = logging.getLogger(__name__)
 

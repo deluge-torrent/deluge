@@ -34,22 +34,25 @@
 #
 #
 
-import os
-import pygtk
-pygtk.require('2.0')
-import gtk
 import logging
+import os
 from hashlib import sha1 as sha
 
-import deluge.component as component
-from deluge.ui.client import client
-from deluge.ui.gtkui.path_chooser import PathChooser
-import deluge.common
+import gtk
+import pygtk
+
 import common
+import deluge.common
+import deluge.component as component
+import deluge.configmanager
 import dialogs
 from deluge.configmanager import ConfigManager
-import deluge.configmanager
 from deluge.error import AuthManagerError, NotAuthorizedError
+from deluge.ui.client import client
+from deluge.ui.gtkui.path_chooser import PathChooser
+
+pygtk.require('2.0')
+
 
 log = logging.getLogger(__name__)
 

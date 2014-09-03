@@ -1,4 +1,3 @@
-from __future__ import print_function
 # -*- coding: utf-8 -*-
 #
 # test_transfer.py
@@ -34,13 +33,18 @@ from __future__ import print_function
 #    statement from all source files in the program, then also delete it here.
 #
 
+from __future__ import print_function
+
 import base64
+
 from twisted.trial import unittest
+
+import deluge.log
 import deluge.rencode as rencode
 from deluge.transfer import DelugeTransferProtocol
-import deluge.log
 
 deluge.log.setupLogger("none")
+
 
 class TransferTestClass(DelugeTransferProtocol):
 

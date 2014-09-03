@@ -7,15 +7,15 @@
 # See LICENSE for more details.
 #
 
-import os
 import fnmatch
-import logging
-import tempfile
-import mimetypes
 import json
+import logging
+import mimetypes
+import os
+import tempfile
 
-from twisted.application import service, internet
-from twisted.internet import reactor, defer, error
+from twisted.application import internet, service
+from twisted.internet import defer, error, reactor
 from twisted.internet.ssl import SSL
 from twisted.web import http, resource, server, static
 
@@ -23,7 +23,7 @@ from deluge import common, component, configmanager
 from deluge.core.rpcserver import check_ssl_keys
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.web.auth import Auth
-from deluge.ui.web.common import Template, compress
+from deluge.ui.web.common import compress, Template
 from deluge.ui.web.json_api import JSON, WebApi
 from deluge.ui.web.pluginmanager import PluginManager
 

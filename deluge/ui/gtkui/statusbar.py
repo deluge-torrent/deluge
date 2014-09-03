@@ -34,16 +34,16 @@
 #
 
 
-import gtk
-import gobject
 import logging
 
-from deluge.ui.client import client
-import deluge.component as component
+import gobject
+import gtk
+
 import deluge.common
-from deluge.ui.gtkui import common
-from deluge.ui.gtkui import dialogs
+import deluge.component as component
 from deluge.configmanager import ConfigManager
+from deluge.ui.client import client
+from deluge.ui.gtkui import common, dialogs
 
 log = logging.getLogger(__name__)
 

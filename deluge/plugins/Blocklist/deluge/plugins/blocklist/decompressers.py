@@ -7,9 +7,9 @@
 # See LICENSE for more details.
 #
 
+import bz2
 import gzip
 import zipfile
-import bz2
 
 
 def Zipped(reader):

@@ -43,14 +43,14 @@ from __future__ import print_function
 
 import os
 import sys
-from optparse import OptionParser
-from logging import FileHandler, getLogger
 from errno import EEXIST
+from logging import FileHandler, getLogger
+from optparse import OptionParser
 
-from deluge.log import setupLogger
-import deluge.error
 import deluge.common
 import deluge.configmanager
+import deluge.error
+from deluge.log import setupLogger
 
 
 def version_callback(option, opt_str, value, parser):

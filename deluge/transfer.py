@@ -39,9 +39,9 @@ try:
 except ImportError:
     import deluge.rencode as rencode
 
-import zlib
-import struct
 import logging
+import struct
+import zlib
 
 from twisted.internet.protocol import Protocol
 

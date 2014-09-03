@@ -33,15 +33,17 @@
 #
 #
 
-import os
-import gtk
 import logging
+import os
 
-from deluge.ui.client import client
+import gtk
+
 import deluge.common
 import deluge.component as component
+from deluge.ui.client import client
 
 log = logging.getLogger(__name__)
+
 
 class RemoveTorrentDialog(object):
     """

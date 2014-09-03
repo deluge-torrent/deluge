@@ -33,17 +33,17 @@
 #
 #
 
+import logging
 import os.path
 
-import gtk
-import logging
 import gobject
+import gtk
 
-import deluge.component as component
-from deluge.ui.gtkui.ipcinterface import process_args
-import deluge.common
-from deluge.configmanager import ConfigManager
 import common
+import deluge.common
+import deluge.component as component
+from deluge.configmanager import ConfigManager
+from deluge.ui.gtkui.ipcinterface import process_args
 
 log = logging.getLogger(__name__)
 

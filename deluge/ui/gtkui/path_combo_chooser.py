@@ -1,4 +1,3 @@
-from __future__ import print_function
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
@@ -35,13 +34,15 @@ from __future__ import print_function
 #    statement from all source files in the program, then also delete it here.
 #
 
+from __future__ import print_function
+
 import os
 
 import gobject
 import gtk
 from gtk import gdk, keysyms
 
-from deluge.path_chooser_common import get_resource, get_completion_paths
+from deluge.path_chooser_common import get_completion_paths, get_resource
 
 
 def is_ascii_value(keyval, ascii_key):

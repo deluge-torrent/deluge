@@ -35,11 +35,11 @@
 
 
 import logging
-from deluge.ui.client import client
-from deluge import component
-from deluge.plugins.pluginbase import WebPluginBase
 
 from common import get_resource
+from deluge import component
+from deluge.plugins.pluginbase import WebPluginBase
+from deluge.ui.client import client
 
 log = logging.getLogger(__name__)
 

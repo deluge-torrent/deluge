@@ -34,11 +34,12 @@
 #
 
 import logging
+import time
+
 from twisted.internet.defer import maybeDeferred, succeed
 
 import deluge.component as component
 from deluge.ui.client import client
-import time
 
 log = logging.getLogger(__name__)
 

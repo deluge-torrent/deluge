@@ -1,4 +1,3 @@
-from __future__ import print_function
 # -*- coding: utf-8 -*-
 # torrentview_data_funcs.py
 #
@@ -34,10 +33,14 @@ from __future__ import print_function
 #
 #
 
-import deluge.common as common
-import gtk
+from __future__ import print_function
+
 import warnings
+
 import gobject
+import gtk
+
+import deluge.common as common
 import deluge.component as component
 
 # Status icons.. Create them from file only once to avoid constantly

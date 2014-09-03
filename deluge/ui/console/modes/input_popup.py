@@ -42,11 +42,12 @@ try:
 except ImportError:
     pass
 
-import logging, os, os.path
-
-from popup import Popup, ALIGN
+import logging
+import os
+import os.path
 
 from deluge.ui.console import colors
+from popup import ALIGN, Popup
 
 log = logging.getLogger(__name__)
 
@@ -909,4 +910,3 @@ class InputPopup(Popup):
 
         self.refresh()
         return False
-

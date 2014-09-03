@@ -32,14 +32,16 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
-from twisted.web import client, http
-from twisted.web.error import PageRedirect
-from twisted.python.failure import Failure
-from twisted.internet import reactor
-from common import get_version
 import logging
 import os.path
 import zlib
+
+from twisted.internet import reactor
+from twisted.python.failure import Failure
+from twisted.web import client, http
+from twisted.web.error import PageRedirect
+
+from common import get_version
 
 log = logging.getLogger(__name__)
 

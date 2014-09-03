@@ -33,18 +33,45 @@
 #
 #
 
+import logging
+import os
+import sys
+import warnings
+
 import gobject
+import gtk
+from twisted.internet import gtk2reactor
+
+import deluge.common
+import deluge.component as component
+import deluge.error
+import dialogs
+from addtorrentdialog import AddTorrentDialog
+from deluge.configmanager import ConfigManager, get_config_dir
+from deluge.ui.client import client
+from deluge.ui.gtkui.common import associate_magnet_links
+from deluge.ui.sessionproxy import SessionProxy
+from deluge.ui.tracker_icons import TrackerIcons
+from deluge.ui.ui import _UI
+from filtertreeview import FilterTreeView
+from ipcinterface import IPCInterface
+from mainwindow import MainWindow
+from menubar import MenuBar
+from pluginmanager import PluginManager
+from preferences import Preferences
+from queuedtorrents import QueuedTorrents
+from sidebar import SideBar
+from statusbar import StatusBar
+from systemtray import SystemTray
+from toolbar import ToolBar
+from torrentdetails import TorrentDetails
+from torrentview import TorrentView
+
 gobject.set_prgname("deluge")
 
 # Install the twisted reactor
-from twisted.internet import gtk2reactor
 reactor = gtk2reactor.install()
 
-import os
-import gtk
-import sys
-import logging
-import warnings
 
 log = logging.getLogger(__name__)
 
@@ -53,31 +80,6 @@ try:
 except ImportError:
     setproctitle = lambda t: None
     getproctitle = lambda: None
-
-import deluge.component as component
-from deluge.ui.client import client
-from mainwindow import MainWindow
-from menubar import MenuBar
-from toolbar import ToolBar
-from torrentview import TorrentView
-from torrentdetails import TorrentDetails
-from sidebar import SideBar
-from filtertreeview import FilterTreeView
-from preferences import Preferences
-from systemtray import SystemTray
-from statusbar import StatusBar
-from pluginmanager import PluginManager
-from ipcinterface import IPCInterface
-from deluge.ui.tracker_icons import TrackerIcons
-from queuedtorrents import QueuedTorrents
-from addtorrentdialog import AddTorrentDialog
-from deluge.ui.sessionproxy import SessionProxy
-import dialogs
-from deluge.ui.gtkui.common import associate_magnet_links
-from deluge.configmanager import ConfigManager, get_config_dir
-import deluge.common
-import deluge.error
-from deluge.ui.ui import _UI
 
 
 class Gtk(_UI):

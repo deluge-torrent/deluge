@@ -7,10 +7,10 @@
 # See LICENSE for more details.
 #
 
-import time
-import random
 import hashlib
 import logging
+import random
+import time
 from datetime import datetime, timedelta
 from email.utils import formatdate
 
@@ -18,6 +18,7 @@ from twisted.internet.task import LoopingCall
 
 from deluge import component
 from deluge.common import utf8_encoded
+from deluge.ui.web.json_api import export, JSONComponent
 
 log = logging.getLogger(__name__)
 
@@ -38,7 +39,6 @@ class AuthError(Exception):
     pass
 
 # Import after as json_api imports the above AuthError and AUTH_LEVEL_DEFAULT
-from deluge.ui.web.json_api import JSONComponent, export
 
 
 def make_checksum(session_id):

@@ -34,20 +34,20 @@
 #
 
 
-import gtk
-import sys
-import os.path
-import gobject
 import base64
 import logging
+import os.path
+import sys
 
+import gobject
+import gtk
 from twisted.internet.threads import deferToThread
 
+import deluge.common
+import deluge.component as component
+from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
-import deluge.component as component
-import deluge.common
-from deluge.configmanager import ConfigManager
 
 log = logging.getLogger(__name__)
 

@@ -9,14 +9,15 @@
 
 import logging
 from datetime import datetime
+
 import gtk
 import gtk.glade
 
-from deluge.ui.client import client
-import deluge.component as component
-import deluge.common
-from deluge.plugins.pluginbase import GtkPluginBase
 import common
+import deluge.common
+import deluge.component as component
+from deluge.plugins.pluginbase import GtkPluginBase
+from deluge.ui.client import client
 
 log = logging.getLogger(__name__)
 

@@ -1,5 +1,7 @@
 from __future__ import print_function
+
 import deluge.pluginmanagerbase
+
 pm = deluge.pluginmanagerbase.PluginManagerBase("core.conf", "deluge.plugin.core")
 
 for p in pm.get_available_plugins():

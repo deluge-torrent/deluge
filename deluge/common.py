@@ -9,19 +9,22 @@
 
 """Common functions for various parts of Deluge to use."""
 
-import os
-import sys
-import time
-import subprocess
-import platform
-import chardet
-import logging
-import pkg_resources
+import base64
 import gettext
 import locale
-import base64
+import logging
+import os
+import platform
+import subprocess
+import sys
+import time
 import urllib
 import urlparse
+
+import chardet
+import pkg_resources
+
+from deluge.error import InvalidPathError
 
 try:
     import dbus
@@ -30,7 +33,6 @@ try:
 except:
     dbus_fileman = None
 
-from deluge.error import InvalidPathError
 
 log = logging.getLogger(__name__)
 

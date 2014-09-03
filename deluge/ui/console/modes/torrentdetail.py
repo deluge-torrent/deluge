@@ -34,31 +34,27 @@
 #
 #
 
-import deluge.component as component
-from basemode import BaseMode
-import deluge.common
-import deluge.common as common
-from deluge.ui.client import client
-
-from sys import maxint
+import logging
 from collections import deque
+from sys import maxint
 
-from deluge.ui.sessionproxy import SessionProxy
-
-from popup import Popup, SelectablePopup, MessagePopup
-from add_util import add_torrent
-from input_popup import InputPopup
+import deluge.common as common
+import deluge.component as component
 import deluge.ui.console.colors as colors
 import format_utils
-
-from torrent_actions import torrent_actions_popup, ACTION
+from add_util import add_torrent
+from basemode import BaseMode
+from deluge.ui.client import client
+from deluge.ui.sessionproxy import SessionProxy
+from input_popup import InputPopup
+from popup import MessagePopup, Popup, SelectablePopup
+from torrent_actions import ACTION, torrent_actions_popup
 
 try:
     import curses
 except ImportError:
     pass
 
-import logging
 log = logging.getLogger(__name__)
 
 # Big help string that gets displayed when the user hits 'h'

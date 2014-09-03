@@ -36,12 +36,14 @@
 
 """Logging functions"""
 
-import os
 import inspect
 import logging
-from deluge import common
+import os
+
 from twisted.internet import defer
 from twisted.python.log import PythonLoggingObserver
+
+from deluge import common
 
 __all__ = ["setupLogger", "setLoggerLevel", "getPluginLogger", "LOG"]
 

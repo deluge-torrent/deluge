@@ -33,23 +33,24 @@
 #
 #
 
-import os
-import gtk
-import time
 import hashlib
 import logging
+import os
+import time
+
+import gtk
 from twisted.internet import reactor
 
+import common
 import deluge.common
 import deluge.component as component
-import common
 import deluge.configmanager
-from deluge.ui.common import get_localhost_auth
-from deluge.ui.client import client
 import deluge.ui.client
+import dialogs
 from deluge.configmanager import ConfigManager
 from deluge.error import AuthenticationRequired, BadLoginError, IncompatibleClient
-import dialogs
+from deluge.ui.client import client
+from deluge.ui.common import get_localhost_auth
 
 log = logging.getLogger(__name__)
 

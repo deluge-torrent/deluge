@@ -35,28 +35,26 @@
 
 # a mode that show's a popup to select which host to connect to
 
-import hashlib, time
-
+import hashlib
+import logging
+import time
 from collections import deque
 
-import deluge.ui.client
-from deluge.ui.client import client
-from deluge.configmanager import ConfigManager
-from deluge.ui.coreconfig import CoreConfig
 import deluge.component as component
-
+import deluge.ui.client
 from alltorrents import AllTorrents
 from basemode import BaseMode
-from popup import SelectablePopup, MessagePopup
+from deluge.configmanager import ConfigManager
+from deluge.ui.client import client
+from deluge.ui.coreconfig import CoreConfig
 from input_popup import InputPopup
-
+from popup import MessagePopup, SelectablePopup
 
 try:
     import curses
 except ImportError:
     pass
 
-import logging
 log = logging.getLogger(__name__)
 
 DEFAULT_HOST = "127.0.0.1"

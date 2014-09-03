@@ -38,14 +38,14 @@ adds a status field for tracker.
 """
 
 import logging
-from deluge.plugins.pluginbase import CorePluginBase
-from deluge.core.rpcserver import export
-from deluge.configmanager import ConfigManager
-import deluge.component as component
+import re
+import traceback
 from urlparse import urlparse
 
-import traceback
-import re
+import deluge.component as component
+from deluge.configmanager import ConfigManager
+from deluge.core.rpcserver import export
+from deluge.plugins.pluginbase import CorePluginBase
 
 log = logging.getLogger(__name__)
 
