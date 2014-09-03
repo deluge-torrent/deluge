@@ -32,7 +32,8 @@
 
 __all__ = ("get_version")
 
-from subprocess import Popen, PIPE
+from subprocess import PIPE, Popen
+
 VERSION_FILE = "RELEASE-VERSION"
 
 

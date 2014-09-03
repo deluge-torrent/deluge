@@ -1,4 +1,4 @@
-include AUTHORS ChangeLog DEPENDS ez_setup.py LICENSE  msgfmt.py RELEASE-VERSION version.py
+include AUTHORS ChangeLog DEPENDS LICENSE  msgfmt.py RELEASE-VERSION version.py
 graft docs/man
 
 include deluge/i18n/*.po

@@ -1,8 +1,9 @@
 #!/usr/bin/env python
-import os
-import sys
 import fileinput
 import fnmatch
+import os
+import sys
+
 from slimit import minify
 
 """Minifies the Webui JS files

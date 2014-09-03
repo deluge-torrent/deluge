@@ -4,9 +4,10 @@
 #
 import os
 import re
-from version import get_version
-from subprocess import call
 from datetime import datetime
+from subprocess import call
+
+from version import get_version
 
 # Paths to exclude
 EXCLUSIONS = [

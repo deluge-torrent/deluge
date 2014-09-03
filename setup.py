@@ -22,24 +22,18 @@
 #   Boston, MA    02110-1301, USA.
 #
 
-try:
-    from setuptools import setup, find_packages
-except ImportError:
-    import ez_setup
-    ez_setup.use_setuptools()
-    from setuptools import setup, find_packages
-
-import os
-import sys
-import platform
-import msgfmt
 import glob
-
-from version import get_version
-
+import os
+import platform
+import sys
 from distutils import cmd
 from distutils.command.build import build as _build
 from distutils.command.clean import clean as _clean
+
+from setuptools import find_packages, setup
+
+import msgfmt
+from version import get_version
 
 try:
     from sphinx.setup_command import BuildDoc
