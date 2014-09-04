@@ -18,7 +18,6 @@ from twisted.internet.task import LoopingCall
 
 from deluge import component
 from deluge.common import utf8_encoded
-from deluge.ui.web.json_api import export, JSONComponent
 
 log = logging.getLogger(__name__)
 
@@ -39,7 +38,7 @@ class AuthError(Exception):
     pass
 
 # Import after as json_api imports the above AuthError and AUTH_LEVEL_DEFAULT
-
+from deluge.ui.web.json_api import export, JSONComponent  # isort:skip
 
 def make_checksum(session_id):
     return reduce(lambda x, y: x + y, map(ord, session_id))
