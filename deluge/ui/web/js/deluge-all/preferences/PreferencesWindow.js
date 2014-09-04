@@ -105,7 +105,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 
         this.addButton(_('Close'), this.onClose, this);
         this.addButton(_('Apply'), this.onApply, this);
-        this.addButton(_('Ok'), this.onOk, this);
+        this.addButton(_('OK'), this.onOk, this);
 
         this.optionsManager = new Deluge.OptionsManager();
         this.on('afterrender', this.onAfterRender, this);

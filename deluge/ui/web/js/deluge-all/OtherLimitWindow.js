@@ -1,6 +1,6 @@
 /*!
  * Deluge.OtherLimitWindow.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -36,7 +36,7 @@ Ext.ns('Deluge');
  * @extends Ext.Window
  */
 Deluge.OtherLimitWindow = Ext.extend(Ext.Window, {
-    
+
     layout: 'fit',
     width: 210,
     height: 100,
@@ -70,7 +70,7 @@ Deluge.OtherLimitWindow = Ext.extend(Ext.Window, {
         }
 
         this.addButton(_('Cancel'), this.onCancelClick, this);
-        this.addButton(_('Ok'), this.onOkClick, this);
+        this.addButton(_('OK'), this.onOkClick, this);
         this.afterMethod('show', this.doFocusField, this);
     },
 

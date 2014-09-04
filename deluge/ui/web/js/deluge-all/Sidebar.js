@@ -1,6 +1,6 @@
 /*!
  * Deluge.Sidebar.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -78,7 +78,7 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
             deluge.ui.update();
         });
         this.add(panel);
-    
+
         this.doLayout();
         this.panels[filter] = panel;
 
@@ -87,7 +87,7 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
                 deluge.ui.update();
             }
             if (!panel.list.getSelectionCount()) {
-                panel.list.select(0);    
+                panel.list.select(0);
             }
         });
         this.fireEvent('filtercreate', this, panel);

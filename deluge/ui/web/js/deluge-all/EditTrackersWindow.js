@@ -54,7 +54,7 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
         Deluge.EditTrackersWindow.superclass.initComponent.call(this);
 
         this.addButton(_('Cancel'), this.onCancelClick, this);
-        this.addButton(_('Ok'), this.onOkClick, this);
+        this.addButton(_('OK'), this.onOkClick, this);
         this.addEvents('save');
 
         this.on('show', this.onShow, this);

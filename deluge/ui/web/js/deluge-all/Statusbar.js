@@ -141,7 +141,7 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
                 }],
                 otherWin: {
                     title: _('Set Maximum Download Speed'),
-                    unit: _('Kib/s')
+                    unit: _('KiB/s')
                 }
             })
         }, '-', {
@@ -189,7 +189,7 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
                 }],
                 otherWin: {
                     title: _('Set Maximum Upload Speed'),
-                    unit: _('Kib/s')
+                    unit: _('KiB/s')
                 }
             })
         }, '-', {
