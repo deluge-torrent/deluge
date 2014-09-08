@@ -294,7 +294,9 @@ class FilterTreeView(component.Component):
         try:
             hide_cat = []
             if not self.config["sidebar_show_trackers"]:
-                hide_cat = ["tracker_host"]
+                hide_cat.append("tracker_host")
+            if not self.config["sidebar_show_owners"]:
+                hide_cat.append("owner")
             client.core.get_filter_tree(self.config["sidebar_show_zero"],
                                         hide_cat).addCallback(self.cb_update_filter_tree)
         except Exception as ex:

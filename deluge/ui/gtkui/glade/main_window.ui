@@ -319,6 +319,15 @@
                                 <signal name="toggled" handler="on_menuitem_sidebar_trackers_toggled" swapped="no"/>
                               </object>
                             </child>
+                            <child>
+                              <object class="GtkCheckMenuItem" id="sidebar_show_owners">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Show _Owners</property>
+                                <property name="active">True</property>
+                                <signal name="toggled" handler="on_menuitem_sidebar_owners_toggled" swapped="no"/>
+                              </object>
+                            </child>
                           </object>
                         </child>
                       </object>
