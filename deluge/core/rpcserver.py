@@ -24,6 +24,7 @@ import deluge.component as component
 import deluge.configmanager
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN, AUTH_LEVEL_DEFAULT, AUTH_LEVEL_NONE
 from deluge.error import DelugeError, IncompatibleClient, NotAuthorizedError, WrappedException, _ClientSideRecreateError
+from deluge.event import ClientDisconnectedEvent
 from deluge.transfer import DelugeTransferProtocol
 
 RPC_RESPONSE = 1
@@ -169,6 +170,8 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
         if self.transport.sessionno in self.factory.interested_events:
             del self.factory.interested_events[self.transport.sessionno]
 
+        if self.factory.state == "running":
+            component.get("EventManager").emit(ClientDisconnectedEvent(self.factory.session_id))
         log.info("Deluge client disconnected: %s", reason.value)
 
     def valid_session(self):
@@ -319,6 +322,7 @@ class RPCServer(component.Component):
         self.factory = Factory()
         self.factory.protocol = DelugeRPCProtocol
         self.factory.session_id = -1
+        self.factory.state = "running"
 
         # Holds the registered methods
         self.factory.methods = {}
@@ -506,6 +510,9 @@ class RPCServer(component.Component):
         log.debug("Sending event \"%s\" with args \"%s\" to session id \"%s\".",
                   event.name, event.args, session_id)
         self.factory.session_protocols[session_id].sendData((RPC_EVENT, event.name, event.args))
+
+    def stop(self):
+        self.factory.state = "stopping"
 
 
 def check_ssl_keys():

@@ -277,3 +277,11 @@ class PluginDisabledEvent(DelugeEvent):
     """
     def __init__(self, plugin_name):
         self._args = [plugin_name]
+
+
+class ClientDisconnectedEvent(DelugeEvent):
+    """
+    Emitted when a client disconnects.
+    """
+    def __init__(self, session_id):
+        self._args = [session_id]

@@ -23,7 +23,7 @@ log = logging.getLogger(__name__)
 MESSAGE_HEADER_SIZE = 5
 
 
-class DelugeTransferProtocol(Protocol):
+class DelugeTransferProtocol(Protocol, object):
     """
     Data messages are transfered using very a simple protocol.
     Data messages are transfered with a header containing
