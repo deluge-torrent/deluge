@@ -104,6 +104,19 @@ class TorrentStateChangedEvent(DelugeEvent):
         self._args = [torrent_id, state]
 
 
+class TorrentTrackerStatusEvent(DelugeEvent):
+    """
+    Emitted when a torrents tracker status changes.
+    """
+    def __init__(self, torrent_id, status):
+        """
+        Args:
+            torrent_id (str): the torrent_id
+            status (str): the new status
+        """
+        self._args = [torrent_id, status]
+
+
 class TorrentQueueChangedEvent(DelugeEvent):
     """
     Emitted when the queue order has changed.

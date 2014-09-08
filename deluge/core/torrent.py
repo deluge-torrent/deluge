@@ -29,7 +29,7 @@ from deluge._libtorrent import lt
 from deluge.common import decode_string, utf8_encoded
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
-from deluge.event import TorrentFolderRenamedEvent, TorrentStateChangedEvent
+from deluge.event import TorrentFolderRenamedEvent, TorrentStateChangedEvent, TorrentTrackerStatusEvent
 
 log = logging.getLogger(__name__)
 
@@ -602,10 +602,16 @@ class Torrent(object):
         Args:
             status (str): The tracker status.
 
+        Emits:
+            TorrentTrackerStatusEvent upon tracker status change.
+
         """
 
         self.tracker_host = None
-        self.tracker_status = status
+
+        if self.tracker_status != status:
+            self.tracker_status = status
+            component.get("EventManager").emit(TorrentTrackerStatusEvent(self.torrent_id, self.tracker_status))
 
     def merge_trackers(self, torrent_info):
         """Merges new trackers in torrent_info into torrent"""
