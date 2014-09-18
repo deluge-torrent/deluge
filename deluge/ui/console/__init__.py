@@ -34,3 +34,4 @@
 #
 UI_PATH = __path__[0]
 from main import start
+assert start  # silence pyflakes

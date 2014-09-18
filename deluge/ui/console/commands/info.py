@@ -1,37 +1,11 @@
-#
-# info.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 from optparse import make_option
@@ -47,38 +21,40 @@ from deluge.ui.console.modes import format_utils
 strwidth = format_utils.strwidth
 
 
-STATUS_KEYS = ["state",
-        "download_location",
-        "tracker_host",
-        "tracker_status",
-        "next_announce",
-        "name",
-        "total_size",
-        "progress",
-        "num_seeds",
-        "total_seeds",
-        "num_peers",
-        "total_peers",
-        "eta",
-        "download_payload_rate",
-        "upload_payload_rate",
-        "ratio",
-        "distributed_copies",
-        "num_pieces",
-        "piece_length",
-        "total_done",
-        "files",
-        "file_priorities",
-        "file_progress",
-        "peers",
-        "is_seed",
-        "is_finished",
-        "active_time",
-        "seeding_time"
-        ]
+STATUS_KEYS = [
+    "state",
+    "download_location",
+    "tracker_host",
+    "tracker_status",
+    "next_announce",
+    "name",
+    "total_size",
+    "progress",
+    "num_seeds",
+    "total_seeds",
+    "num_peers",
+    "total_peers",
+    "eta",
+    "download_payload_rate",
+    "upload_payload_rate",
+    "ratio",
+    "distributed_copies",
+    "num_pieces",
+    "piece_length",
+    "total_done",
+    "files",
+    "file_priorities",
+    "file_progress",
+    "peers",
+    "is_seed",
+    "is_finished",
+    "active_time",
+    "seeding_time"
+]
 
 # Add filter specific state to torrent states
 STATES = ["Active"] + common.TORRENT_STATE
+
 
 def format_progressbar(progress, width):
     """
@@ -90,9 +66,9 @@ def format_progressbar(progress, width):
 
     """
 
-    w = width - 2 # we use a [] for the beginning and end
+    w = width - 2  # we use a [] for the beginning and end
     s = "["
-    p = int(round((progress/100) * w))
+    p = int(round((progress / 100) * w))
     s += "#" * p
     s += "-" * (w - p)
     s += "]"
@@ -112,31 +88,29 @@ def format_time(seconds):
 class Command(BaseCommand):
     """Show information about the torrents"""
 
-    sort_help = 'sort items.  Possible keys: ' + ', '.join(STATUS_KEYS)
+    sort_help = "sort items.  Possible keys: " + ", ".join(STATUS_KEYS)
 
     option_list = BaseCommand.option_list + (
-            make_option('-v', '--verbose', action='store_true', default=False, dest='verbose',
-                        help='shows more information per torrent'),
-            make_option('-d', '--detailed', action='store_true', default=False, dest='detailed',
-                        help='shows detailed information about files and peers. '
-                        "Implies -v"),
-            make_option('-s', '--state', action='store', dest='state',
-                        help="show torrents with state STATE. "
-                        "Possible values are:              %s"%(", ".join(STATES))),
-            make_option('--sort', action='store', type='string', default='', dest='sort',
-                        help=sort_help),
-            make_option('--sort-reverse', action='store', type='string', default='', dest='sort_rev',
-                        help='sort items in reverse order.  Same keys allowed as for --sort.')
+        make_option("-v", "--verbose", action="store_true", default=False, dest="verbose",
+                    help="Show more information per torrent."),
+        make_option("-d", "--detailed", action="store_true", default=False, dest="detailed",
+                    help="Show more detailed information including files and peers."),
+        make_option("-s", "--state", action="store", dest="state",
+                    help="Show torrents with state STATE: %s." % (", ".join(STATES))),
+        make_option("--sort", action="store", type="string", default="", dest="sort", help=sort_help),
+        make_option("--sort-reverse", action="store", type="string", default="", dest="sort_rev",
+                    help="Same as --sort but items are in reverse order.")
     )
 
-    usage =  "Usage: info [-v | -d | -s <state>] [<torrent-id> [<torrent-id> ...]]\n"\
-             "       You can give the first few characters of a torrent-id to identify the torrent.\n"\
-             "       info * will list all torrents.\n\n"\
-             "       Tab Completion (info *pattern*<tab>):\n"\
-             "           | First press of <tab> will output up to 15 matches;\n"\
-             "           | hitting <tab> a second time, will print 15 more matches; \n"\
-             "           | and a third press will print all remaining matches.\n"\
-             "           | (To modify behaviour of third <tab>, set `third_tab_lists_all` to False)"
+    usage = """Usage: info [-v | -d | -s <state>] [<torrent-id> [<torrent-id> ...]]
+       You can give the first few characters of a torrent-id to identify the torrent.
+       info * will list all torrents.
+
+       Tab Completion (info *pattern*<tab>):
+           | First press of <tab> will output up to 15 matches;
+           | hitting <tab> a second time, will print 15 more matches;
+           | and a third press will print all remaining matches.
+           | (To modify behaviour of third <tab>, set `third_tab_lists_all` to False)"""
 
     def handle(self, *args, **options):
         self.console = component.get("ConsoleUI")
@@ -150,22 +124,20 @@ class Command(BaseCommand):
 
         def on_torrents_status(status):
             # Print out the information for each torrent
-            sort_key = options['sort']
+            sort_key = options["sort"]
             sort_reverse = False
             if not sort_key:
-                sort_key = options['sort_rev']
+                sort_key = options["sort_rev"]
                 sort_reverse = True
             if not sort_key:
-                sort_key = 'name'
+                sort_key = "name"
                 sort_reverse = False
-            if sort_key not in status_keys:
-                self.console.write('')
+            if sort_key not in STATUS_KEYS:
+                self.console.write("")
                 self.console.write("{!error!}Unknown sort key: " + sort_key + ", will sort on name")
-                sort_key = 'name'
+                sort_key = "name"
                 sort_reverse = False
-            for key, value in sorted(status.items(),
-                                     key=lambda x : x[1].get(sort_key),
-                                     reverse=sort_reverse):
+            for key, value in sorted(status.items(), key=lambda x: x[1].get(sort_key), reverse=sort_reverse):
                 self.show_info(key, status[key], options["verbose"], options["detailed"])
 
         def on_torrents_status_fail(reason):
@@ -178,8 +150,8 @@ class Command(BaseCommand):
             if options["state"] in STATES:
                 status_dict["state"] = options["state"]
             else:
-                self.console.write("Invalid state: %s"%options["state"])
-                self.console.write("Possible values are: %s."%(", ".join(STATES)))
+                self.console.write("Invalid state: %s" % options["state"])
+                self.console.write("Possible values are: %s." % (", ".join(STATES)))
                 return
 
         d = client.core.get_torrents_status(status_dict, STATUS_KEYS)
@@ -188,29 +160,28 @@ class Command(BaseCommand):
         return d
 
     def show_file_info(self, torrent_id, status):
-        SPACES_PER_LEVEL = 2
+        spaces_per_level = 2
 
         if hasattr(self.console, "screen"):
             cols = self.console.screen.cols
         else:
             cols = 80
 
-        dirs = []
         prevpath = []
         for i, file in enumerate(status["files"]):
             filename = file["path"].split(dirsep)[-1]
             filepath = file["path"].split(dirsep)[:-1]
 
             for depth, subdir in enumerate(filepath):
-                indent = " "*depth*SPACES_PER_LEVEL
-                if   depth >= len(prevpath):
+                indent = " " * depth * spaces_per_level
+                if depth >= len(prevpath):
                     self.console.write("%s{!cyan!}%s" % (indent, subdir))
                 elif subdir != prevpath[depth]:
                     self.console.write("%s{!cyan!}%s" % (indent, subdir))
 
             depth = len(filepath)
 
-            indent = " " * depth * SPACES_PER_LEVEL
+            indent = " " * depth * spaces_per_level
 
             col_filename = indent + filename
             col_size = " ({!cyan!}%s{!input!})" % common.fsize(file["size"])
@@ -226,20 +197,20 @@ class Command(BaseCommand):
                     col_priority += "{!success!}"
             else:
                 col_priority += "{!input!}"
-            col_priority+= fp
+            col_priority += fp
 
             rf = format_utils.remove_formatting
             tlen = lambda s: strwidth(rf(s))
 
             if not isinstance(col_filename, unicode):
-                col_filename = unicode(col_filename, 'utf-8')
+                col_filename = unicode(col_filename, "utf-8")
 
             col_all_info = col_size + col_progress + col_priority
             #Check how much space we've got left after writing all the info
             space_left = cols - tlen(col_all_info)
             #And how much we will potentially have with the longest possible column
             maxlen_space_left = cols - tlen(" (1000.0 MiB) 100.00% Priority: Do Not Download")
-            if   maxlen_space_left > tlen(col_filename) + 1:
+            if maxlen_space_left > tlen(col_filename) + 1:
                 #If there is enough space, pad it all nicely
                 col_all_info = ""
                 col_all_info += " ("
@@ -253,15 +224,14 @@ class Command(BaseCommand):
                 col_all_info += col_priority
                 col_all_info += " " * spaces_to_add
                 #And remember to put it to the left!
-                col_filename = format_utils.pad_string(col_filename, maxlen_space_left - 2, side = "right")
+                col_filename = format_utils.pad_string(col_filename, maxlen_space_left - 2, side="right")
             elif space_left > tlen(col_filename) + 1:
                 #If there is enough space, put the info to the right
-                col_filename = format_utils.pad_string(col_filename, space_left - 2, side = "right")
+                col_filename = format_utils.pad_string(col_filename, space_left - 2, side="right")
             else:
                 #And if there is not, shorten the name
-                col_filename = format_utils.trim_string( col_filename, space_left, True)
+                col_filename = format_utils.trim_string(col_filename, space_left, True)
             self.console.write(col_filename + col_all_info)
-
 
             prevpath = filepath
 
@@ -375,43 +345,43 @@ class Command(BaseCommand):
 
             s = "%s%s" % (colors.state_color[status["state"]], "[" + status["state"][0] + "]")
 
-            s+= " {!info!}" + ("%.2f%%" % status["progress"]).ljust(7, " ")
-            s+= " {!input!}%s" % (status["name"])
+            s += " {!info!}" + ("%.2f%%" % status["progress"]).ljust(7, " ")
+            s += " {!input!}%s" % (status["name"])
 
             #Shorten the ID if it's necessary. Pretty hacky
             #I _REALLY_ should make a nice function for it that can partition and shorten stuff
-            space_left = cols - strwidth("[s] 100.00% " + status["name"] + " "*3) - 2
+            space_left = cols - strwidth("[s] 100.00% " + status["name"] + " " * 3) - 2
 
             if space_left >= len(torrent_id) - 2:
                 #There's enough space, print it
                 s += " {!cyan!}%s" % torrent_id
             else:
                 #Shorten the ID
-                a = int(space_left * 2/3.0)
+                a = int(space_left * 2 / 3.0)
                 b = space_left - a
                 if a < 8:
-                    b = b - (8-a)
+                    b = b - (8 - a)
                     a = 8
                     if b < 0:
-                        a+= b
+                        a += b
                         b = 0
                 if a > 8:
                     #Print the shortened ID
-                    s += " {!cyan!}%s" % (torrent_id[0:a] + ".." + torrent_id[-b-1:-1])
+                    s += " {!cyan!}%s" % (torrent_id[0:a] + ".." + torrent_id[-b - 1:-1])
                 else:
                     #It has wrapped over to the second row anyway
                     s += " {!cyan!}%s" % torrent_id
             self.console.write(s)
 
             dl_info = "{!info!}DL: {!input!}"
-            dl_info+= "%s" % common.fsize(status["total_done"])
+            dl_info += "%s" % common.fsize(status["total_done"])
             if status["total_done"] != status["total_size"]:
-                dl_info+= "/%s" % common.fsize(status["total_size"])
+                dl_info += "/%s" % common.fsize(status["total_size"])
             if status["download_payload_rate"] > 0:
                 dl_info += " @ %s%s" % (down_color, common.fspeed(status["download_payload_rate"]))
 
             ul_info = " {!info!}UL: {!input!}"
-            ul_info+= "%s" % common.fsize(status["ratio"] * status["total_done"])
+            ul_info += "%s" % common.fsize(status["ratio"] * status["total_done"])
             if status["upload_payload_rate"] > 0:
                 ul_info += " @ %s%s" % (up_color, common.fspeed(status["upload_payload_rate"]))
 

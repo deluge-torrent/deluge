@@ -1,37 +1,10 @@
 # -*- coding: utf-8 -*-
 #
-# addtorrents.py
-#
 # Copyright (C) 2012 Arek Stefański <asmageddon@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 import base64
@@ -40,13 +13,11 @@ import os
 
 import deluge.common as common
 import deluge.component as component
-import deluge.ui.console.colors as colors
 import format_utils
 from basemode import BaseMode
 from deluge.ui.client import client
-from deluge.ui.sessionproxy import SessionProxy
 from input_popup import InputPopup
-from popup import MessagePopup, Popup
+from popup import MessagePopup
 
 try:
     import curses
@@ -83,6 +54,7 @@ if a file is highlighted
 {!info!}'q'{!normal!} - Go back to torrent overview
 """
 
+
 class AddTorrents(BaseMode, component.Component):
     def __init__(self, alltorrentmode, stdscr, console_config, encoding=None):
 
@@ -118,7 +90,6 @@ class AddTorrents(BaseMode, component.Component):
 
         self.__refresh_listing()
 
-
         component.Component.__init__(self, "AddTorrents", 1, depend=["SessionProxy"])
 
         component.start(["AddTorrents"])
@@ -129,6 +100,7 @@ class AddTorrents(BaseMode, component.Component):
     # component start/update
     def start(self):
         pass
+
     def update(self):
         pass
 
@@ -168,8 +140,8 @@ class AddTorrents(BaseMode, component.Component):
 
             row = [dirname, size, time, full_path, 1]
 
-            self.raw_rows.append( row )
-            self.raw_rows_dirs.append( row )
+            self.raw_rows.append(row)
+            self.raw_rows_dirs.append(row)
 
         #Highlight the directory we came from
         if self.path_stack_pos < len(self.path_stack):
@@ -189,8 +161,8 @@ class AddTorrents(BaseMode, component.Component):
 
             row = [filename, size, time, full_path, 0]
 
-            self.raw_rows.append( row )
-            self.raw_rows_files.append( row )
+            self.raw_rows.append(row)
+            self.raw_rows_files.append(row)
 
         self.__sort_rows()
 
@@ -201,7 +173,7 @@ class AddTorrents(BaseMode, component.Component):
 
         self.raw_rows_dirs.sort(key=lambda r: r[0].lower())
 
-        if   self.sort_column == "name":
+        if self.sort_column == "name":
             self.raw_rows_files.sort(key=lambda r: r[0].lower(), reverse=self.reverse_sort)
         elif self.sort_column == "date":
             self.raw_rows_files.sort(key=lambda r: r[2], reverse=self.reverse_sort)
@@ -275,7 +247,7 @@ class AddTorrents(BaseMode, component.Component):
 
         self.refresh()
 
-    def refresh(self,lines=None):
+    def refresh(self, lines=None):
 
         # Update the status bars
         self.stdscr.erase()
@@ -287,7 +259,7 @@ class AddTorrents(BaseMode, component.Component):
             string = self.statusbars.bottombar
             hstr = "Press {!magenta,blue,bold!}[h]{!status!} for help"
 
-            string += " " * ( self.cols - len(rf(string)) - len(rf(hstr))) + hstr
+            string += " " * (self.cols - len(rf(string)) - len(rf(hstr))) + hstr
 
             self.add_string(self.rows - 1, string)
         except:
@@ -321,8 +293,10 @@ class AddTorrents(BaseMode, component.Component):
         s = ""
         for i, (c, w) in enumerate(zip(cols, widths)):
             cn = ""
-            if   i == 0: cn = "name"
-            elif i == 2: cn = "date"
+            if i == 0:
+                cn = "name"
+            elif i == 2:
+                cn = "date"
 
             if cn == self.sort_column:
                 s += "{!black,green,bold!}" + c.ljust(w - 2)
@@ -361,7 +335,7 @@ class AddTorrents(BaseMode, component.Component):
                 color_string = "{!white,blue,bold!}"
 
             self.add_string(off, color_string + row)
-            off+= 1
+            off += 1
 
             if off > self.rows - 2:
                 break
@@ -403,7 +377,7 @@ class AddTorrents(BaseMode, component.Component):
             self.path_stack = self.path_stack[:self.path_stack_pos]
             self.path_stack.append(dirname)
 
-        path = os.path.join(*self.path_stack[:self.path_stack_pos+1])
+        path = os.path.join(*self.path_stack[:self.path_stack_pos + 1])
 
         if not os.access(path, os.R_OK):
             self.path_stack = self.path_stack[:self.path_stack_pos]
@@ -423,23 +397,20 @@ class AddTorrents(BaseMode, component.Component):
     def _show_add_dialog(self):
 
         def _do_add(result):
-            ress = {"succ":0,
-                "fail":0,
-                "total": len(self.marked),
-                "fmsg":[]}
+            ress = {"succ": 0, "fail": 0, "total": len(self.marked), "fmsg": []}
 
             def fail_cb(msg, t_file, ress):
-                log.debug("failed to add torrent: %s: %s"%(t_file, msg))
-                ress["fail"]+=1
-                ress["fmsg"].append("{!input!} * %s: {!error!}%s"%(t_file, msg))
-                if (ress["succ"]+ress["fail"]) >= ress["total"]:
+                log.debug("failed to add torrent: %s: %s" % (t_file, msg))
+                ress["fail"] += 1
+                ress["fmsg"].append("{!input!} * %s: {!error!}%s" % (t_file, msg))
+                if (ress["succ"] + ress["fail"]) >= ress["total"]:
                     self.alltorrentmode._report_add_status(ress["succ"], ress["fail"], ress["fmsg"])
 
             def success_cb(tid, t_file, ress):
                 if tid:
-                    log.debug("added torrent: %s (%s)"%(t_file, tid))
-                    ress["succ"]+=1
-                    if (ress["succ"]+ress["fail"]) >= ress["total"]:
+                    log.debug("added torrent: %s (%s)" % (t_file, tid))
+                    ress["succ"] += 1
+                    if (ress["succ"] + ress["fail"]) >= ress["total"]:
                         self.alltorrentmode._report_add_status(ress["succ"], ress["fail"], ress["fmsg"])
                 else:
                     fail_cb("Already in session (probably)", t_file, ress)
@@ -485,7 +456,6 @@ class AddTorrents(BaseMode, component.Component):
         self.popup.add_text_input("Download Folder:", "location", dl)
         self.popup.add_select_input("Add Paused:", "add_paused", ["Yes", "No"], [True, False], ap)
 
-
     def _go_up(self):
         #Go up in directory hierarchy
         if self.path_stack_pos > 1:
@@ -508,7 +478,7 @@ class AddTorrents(BaseMode, component.Component):
             return
 
         if c > 31 and c < 256:
-            if chr(c) == 'Q':
+            if chr(c) == "Q":
                 from twisted.internet import reactor
                 if client.connected():
                     def on_disconnect(result):
@@ -517,7 +487,7 @@ class AddTorrents(BaseMode, component.Component):
                 else:
                     reactor.stop()
                 return
-            elif chr(c) == 'q':
+            elif chr(c) == "q":
                 self.back_to_overview()
                 return
 
@@ -549,23 +519,23 @@ class AddTorrents(BaseMode, component.Component):
             self.back_to_overview()
         else:
             if c > 31 and c < 256:
-                if chr(c) == 'h':
+                if chr(c) == "h":
                     self.popup = MessagePopup(self, "Help", HELP_STR, width_req=0.75)
-                elif chr(c) == '>':
+                elif chr(c) == ">":
                     if self.sort_column == "date":
                         self.reverse_sort = not self.reverse_sort
                     else:
                         self.sort_column = "date"
                         self.reverse_sort = True
                     self.__sort_rows()
-                elif chr(c) == '<':
+                elif chr(c) == "<":
                     if self.sort_column == "name":
                         self.reverse_sort = not self.reverse_sort
                     else:
                         self.sort_column = "name"
                         self.reverse_sort = False
                     self.__sort_rows()
-                elif chr(c) == 'm':
+                elif chr(c) == "m":
                     s = self.raw_rows[self.cursel][0]
                     if s in self.marked:
                         self.marked.remove(s)
@@ -573,11 +543,11 @@ class AddTorrents(BaseMode, component.Component):
                         self.marked.add(s)
 
                     self.last_mark = self.cursel
-                elif chr(c) == 'j':
+                elif chr(c) == "j":
                     self.scroll_list_up(1)
-                elif chr(c) == 'k':
+                elif chr(c) == "k":
                     self.scroll_list_down(1)
-                elif chr(c) == 'M':
+                elif chr(c) == "M":
                     if self.last_mark != -1:
                         if self.last_mark > self.cursel:
                             m = range(self.cursel, self.last_mark)

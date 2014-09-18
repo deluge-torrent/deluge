@@ -1,39 +1,13 @@
+# -*- coding: utf-8 -*-
 #
-# connectionmanager.py
+# Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 #
-# Copyright (C) 2007-2009 Nick Lanham <nick@afternight.org>
-#
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
-# a mode that show's a popup to select which host to connect to
+""" A mode that show's a popup to select which host to connect to """
 
 import hashlib
 import logging
@@ -46,7 +20,6 @@ from alltorrents import AllTorrents
 from basemode import BaseMode
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
-from deluge.ui.coreconfig import CoreConfig
 from input_popup import InputPopup
 from popup import MessagePopup, SelectablePopup
 
@@ -77,12 +50,14 @@ class ConnectionManager(BaseMode):
 
     def __update_popup(self):
         self.popup = SelectablePopup(self, "Select Host", self.__host_selected)
-        self.popup.add_line("{!white,black,bold!}'Q'=quit, 'r'=refresh, 'a'=add new host, 'D'=delete host", selectable=False)
+        self.popup.add_line("{!white,black,bold!}'Q'=quit, 'r'=refresh, 'a'=add new host, 'D'=delete host",
+                            selectable=False)
         for host in self.config["hosts"]:
             if host[0] in self.statuses:
-                self.popup.add_line("%s:%d [Online] (%s)"%(host[1], host[2], self.statuses[host[0]]), data=host[0], foreground="green")
+                self.popup.add_line("%s:%d [Online] (%s)" % (host[1], host[2], self.statuses[host[0]]),
+                                    data=host[0], foreground="green")
             else:
-                self.popup.add_line("%s:%d [Offline]"%(host[1], host[2]), data=host[0], foreground="red")
+                self.popup.add_line("%s:%d [Offline]" % (host[1], host[2]), data=host[0], foreground="red")
         self.inlist = True
         self.refresh()
 
@@ -174,7 +149,7 @@ class ConnectionManager(BaseMode):
         self.draw_statusbars()
         self.stdscr.noutrefresh()
 
-        if self.popup == None and self.messages:
+        if self.popup is None and self.messages:
             title, msg = self.messages.popleft()
             self.popup = MessagePopup(self, title, msg)
 
@@ -198,8 +173,9 @@ class ConnectionManager(BaseMode):
         c = self.stdscr.getch()
 
         if c > 31 and c < 256:
-            if chr(c) == 'q' and self.inlist: return
-            if chr(c) == 'Q':
+            if chr(c) == "q" and self.inlist:
+                return
+            if chr(c) == "Q":
                 from twisted.internet import reactor
                 if client.connected():
                     def on_disconnect(result):
@@ -208,13 +184,13 @@ class ConnectionManager(BaseMode):
                 else:
                     reactor.stop()
                 return
-            if chr(c) == 'D' and self.inlist:
+            if chr(c) == "D" and self.inlist:
                 self.__delete_current_host()
                 self.__update_popup()
                 return
-            if chr(c) == 'r' and self.inlist:
+            if chr(c) == "r" and self.inlist:
                 self.__update_statuses()
-            if chr(c) == 'a' and self.inlist:
+            if chr(c) == "a" and self.inlist:
                 self.__add_popup()
                 return
 

@@ -1,39 +1,14 @@
-#
-# commander.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 #
-# Deluge is free software.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
-#
+
 
 from __future__ import print_function
 
@@ -68,7 +43,7 @@ class Commander:
         """
         if not cmd:
             return
-        cmd, _, line = cmd.partition(' ')
+        cmd, _, line = cmd.partition(" ")
         try:
             parser = self._commands[cmd].create_parser()
         except KeyError:
@@ -103,7 +78,7 @@ class Commander:
             self.write("{!error!}Error parsing options: %s" % ex)
             return
 
-        if not getattr(options, '_exit', False):
+        if not getattr(options, "_exit", False):
             try:
                 ret = self._commands[cmd].handle(*args, **options.__dict__)
             except Exception as ex:
@@ -119,7 +94,7 @@ class Commander:
         commands = []
         if args:
             # Multiple commands split by ";"
-            commands = [arg.strip() for arg in args.split(';')]
+            commands = [arg.strip() for arg in args.split(";")]
 
         def on_connect(result):
             def on_started(result):
@@ -156,8 +131,8 @@ class Commander:
         if not self.interactive:
             if commands[0].startswith("connect"):
                 d = self.do_command(commands.pop(0))
-            elif 'help' in commands:
-                self.do_command('help')
+            elif "help" in commands:
+                self.do_command("help")
                 sys.exit(0)
         d.addCallback(on_connect)
         d.addErrback(on_connect_fail)
