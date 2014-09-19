@@ -161,7 +161,7 @@ class JSON(resource.Resource, component.Component):
             # This will eventually process methods that the server adds
             # and any plugins.
             meth = self._local_methods[method]
-            meth.func_globals['__request__'] = request
+            meth.__globals__['__request__'] = request
             component.get("Auth").check_request(request, meth)
             return meth(*params)
         raise JSONException("Unknown system method")
