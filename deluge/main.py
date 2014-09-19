@@ -24,7 +24,7 @@ from optparse import OptionParser
 import deluge.common
 import deluge.configmanager
 import deluge.error
-from deluge.log import setupLogger
+from deluge.log import setup_logger
 
 
 def version_callback(option, opt_str, value, parser):
@@ -74,7 +74,7 @@ def start_ui():
     logfile_mode = 'w'
     if options.rotate_logs:
         logfile_mode = 'a'
-    setupLogger(level=options.loglevel, filename=options.logfile, filemode=logfile_mode)
+    setup_logger(level=options.loglevel, filename=options.logfile, filemode=logfile_mode)
     log = getLogger(__name__)
 
     if options.config:
@@ -181,7 +181,7 @@ def start_daemon():
     logfile_mode = 'w'
     if options.rotate_logs:
         logfile_mode = 'a'
-    setupLogger(level=options.loglevel, filename=options.logfile, filemode=logfile_mode)
+    setup_logger(level=options.loglevel, filename=options.logfile, filemode=logfile_mode)
     log = getLogger(__name__)
 
     # If no logfile specified add logging to default location (as well as stdout)

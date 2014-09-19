@@ -48,7 +48,7 @@ def windows_check():
 desktop_data = 'deluge/ui/data/share/applications/deluge.desktop'
 
 
-class build_trans(cmd.Command):
+class BuildTranslations(cmd.Command):
     description = 'Compile .po files into .mo files & create .desktop file'
 
     user_options = [
@@ -111,7 +111,7 @@ class build_trans(cmd.Command):
         sys.stdout.write('\b\b \nFinished compiling translation files. \n')
 
 
-class build_plugins(cmd.Command):
+class BuildPlugins(cmd.Command):
     description = "Build plugins into .eggs"
 
     user_options = [
@@ -142,7 +142,7 @@ class build_plugins(cmd.Command):
                     os.system("cd " + path + "&& " + sys.executable + " setup.py bdist_egg -d ..")
 
 
-class egg_info_plugins(cmd.Command):
+class EggInfoPlugins(cmd.Command):
     description = "create a distribution's .egg-info directory"
 
     user_options = []
@@ -162,7 +162,7 @@ class egg_info_plugins(cmd.Command):
                 os.system("cd " + path + "&& " + sys.executable + " setup.py egg_info")
 
 
-class build_docs(BuildDoc):
+class BuildDocs(BuildDoc):
     def run(self):
         class Mock(object):
             def __init__(self, *args, **kwargs):
@@ -200,8 +200,8 @@ class build_docs(BuildDoc):
         BuildDoc.run(self)
 
 
-class build(_build):
-    sub_commands = [('build_trans', None), ('build_plugins', None)] + _build.sub_commands
+class Build(_build):
+    sub_commands = [('BuildTranslations', None), ('BuildPlugins', None)] + _build.sub_commands
 
     def run(self):
         # Run all sub-commands (at least those that need to be run)
@@ -213,7 +213,7 @@ class build(_build):
             print "Warning libtorrent not found: %s" % e
 
 
-class clean_plugins(cmd.Command):
+class CleanPlugins(cmd.Command):
     description = "Cleans the plugin folders"
     user_options = [
         ('all', 'a', "remove all build output, not just temporary by-products")
@@ -262,8 +262,8 @@ class clean_plugins(cmd.Command):
             os.removedirs(path)
 
 
-class clean(_clean):
-    sub_commands = _clean.sub_commands + [('clean_plugins', None)]
+class Clean(_clean):
+    sub_commands = _clean.sub_commands + [('CleanPlugins', None)]
 
     def run(self):
         # Run all sub-commands (at least those that need to be run)
@@ -276,13 +276,13 @@ class clean(_clean):
             os.remove(desktop_data)
 
 cmdclass = {
-    'build': build,
-    'build_trans': build_trans,
-    'build_plugins': build_plugins,
-    'build_docs': build_docs,
-    'clean_plugins': clean_plugins,
-    'clean': clean,
-    'egg_info_plugins': egg_info_plugins
+    'Build': Build,
+    'BuildTranslations': BuildTranslations,
+    'BuildPlugins': BuildPlugins,
+    'BuildDocs': BuildDocs,
+    'CleanPlugins': CleanPlugins,
+    'Clean': Clean,
+    'EggInfoPlugins': EggInfoPlugins
 }
 
 # Data files to be installed to the system

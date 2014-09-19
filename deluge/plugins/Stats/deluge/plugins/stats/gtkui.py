@@ -1,43 +1,19 @@
-#
-# gtkui.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Ian Martin <ianmartin@cantab.net>
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
 #
 # Basic plugin template created by:
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
-# Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2007-2008 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA    02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
 
 import logging
 
-import gobject
 import gtk
 import gtk.glade
 from gtk.glade import XML
@@ -49,29 +25,31 @@ from deluge.plugins.pluginbase import GtkPluginBase
 from deluge.ui.client import client
 from deluge.ui.gtkui.torrentdetails import Tab
 
-from . import common, graph
+from . import common
+from .graph import Graph, size_formatter_scale
 
 log = logging.getLogger(__name__)
 
-DEFAULT_CONF = { 'version': 1,
-                 'colors' :{
-                 'bandwidth_graph': {'upload_rate': str(gtk.gdk.Color("blue")),
-                                     'download_rate': str(gtk.gdk.Color("green")),
+DEFAULT_CONF = {'version': 1,
+                'colors': {
+                    'bandwidth_graph': {'upload_rate': str(gtk.gdk.Color("blue")),
+                                        'download_rate': str(gtk.gdk.Color("green")),
+                                        },
+                    'connections_graph': {'dht_nodes': str(gtk.gdk.Color("orange")),
+                                          'dht_cache_nodes': str(gtk.gdk.Color("blue")),
+                                          'dht_torrents': str(gtk.gdk.Color("green")),
+                                          'num_connections': str(gtk.gdk.Color("darkred")),
+                                          },
+                    'seeds_graph': {'num_peers': str(gtk.gdk.Color("blue")),
                                     },
-                 'connections_graph': { 'dht_nodes': str(gtk.gdk.Color("orange")),
-                                        'dht_cache_nodes': str(gtk.gdk.Color("blue")),
-                                        'dht_torrents': str(gtk.gdk.Color("green")),
-                                        'num_connections': str(gtk.gdk.Color("darkred")),
-                                      },
-                 'seeds_graph': { 'num_peers': str(gtk.gdk.Color("blue")),
-                                  },
-                 }
-                 }
+                }
+                }
+
 
 def neat_time(column, cell, model, iter):
     """Render seconds as seconds or minutes with label"""
     seconds = model.get_value(iter, 0)
-    if seconds >60:
+    if seconds > 60:
         text = "%d %s" % (seconds / 60, _("minutes"))
     elif seconds == 60:
         text = _("1 minute")
@@ -82,16 +60,18 @@ def neat_time(column, cell, model, iter):
     cell.set_property('text', text)
     return
 
+
 def int_str(number):
     return (str(int(number)))
 
+
 def gtk_to_graph_color(color):
     """Turns a gtk.gdk.Color into a tuple with range 0-1 as used by the graph"""
-    MAX = float(65535)
+    max_val = float(65535)
     gtk_color = gtk.gdk.Color(color)
-    red = gtk_color.red / MAX
-    green = gtk_color.green / MAX
-    blue = gtk_color.blue / MAX
+    red = gtk_color.red / max_val
+    green = gtk_color.green / max_val
+    blue = gtk_color.blue / max_val
     return (red, green, blue)
 
 
@@ -120,7 +100,7 @@ class GraphsTab(Tab):
 
         self.notebook.connect('switch-page', self._on_notebook_switch_page)
 
-        self.selected_interval = 1 #should come from config or similar
+        self.selected_interval = 1  # Should come from config or similar
         self.select_bandwidth_graph()
 
         self.window.unparent()
@@ -134,12 +114,10 @@ class GraphsTab(Tab):
         self.intervals_combo.connect("changed", self._on_selected_interval_changed)
         self.update_intervals()
 
-
     def graph_expose(self, widget, event):
         context = self.graph_widget.window.cairo_create()
         # set a clip region
-        context.rectangle(event.area.x, event.area.y,
-                           event.area.width, event.area.height)
+        context.rectangle(event.area.x, event.area.y, event.area.width, event.area.height)
         context.clip()
         self.graph.draw_to_context(context,
                                    self.graph_widget.allocation.width,
@@ -150,6 +128,7 @@ class GraphsTab(Tab):
     def update(self):
         d1 = client.stats.get_stats(self.graph.stat_info.keys(), self.selected_interval)
         d1.addCallback(self.graph.set_stats)
+
         def _update_complete(result):
             self.graph_widget.queue_draw()
         d1.addCallback(_update_complete)
@@ -163,20 +142,20 @@ class GraphsTab(Tab):
 
     def select_bandwidth_graph(self):
         log.debug("Selecting bandwidth graph")
-        self.graph_widget =  self.bandwidth_graph
-        self.graph = graph.Graph()
+        self.graph_widget = self.bandwidth_graph
+        self.graph = Graph()
         colors = self.colors['bandwidth_graph']
         self.graph.add_stat('download_rate', label='Download Rate',
                             color=gtk_to_graph_color(colors['download_rate']))
         self.graph.add_stat('upload_rate', label='Upload Rate',
                             color=gtk_to_graph_color(colors['upload_rate']))
         self.graph.set_left_axis(formatter=fspeed, min=10240,
-                                 formatter_scale=graph.size_formatter_scale)
+                                 formatter_scale=size_formatter_scale)
 
     def select_connections_graph(self):
         log.debug("Selecting connections graph")
-        self.graph_widget =  self.connections_graph
-        g = graph.Graph()
+        self.graph_widget = self.connections_graph
+        g = Graph()
         self.graph = g
         colors = self.colors['connections_graph']
         g.add_stat('dht_nodes', color=gtk_to_graph_color(colors['dht_nodes']))
@@ -187,8 +166,8 @@ class GraphsTab(Tab):
 
     def select_seeds_graph(self):
         log.debug("Selecting connections graph")
-        self.graph_widget =  self.seeds_graph
-        self.graph = graph.Graph()
+        self.graph_widget = self.seeds_graph
+        self.graph = Graph()
         colors = self.colors['seeds_graph']
         self.graph.add_stat('num_peers', color=gtk_to_graph_color(colors['num_peers']))
         self.graph.set_left_axis(formatter=int_str, min=10)
@@ -197,7 +176,7 @@ class GraphsTab(Tab):
         self.colors = colors
         # Fake switch page to update the graph colors (HACKY)
         self._on_notebook_switch_page(self.notebook,
-                                      None, #This is unused
+                                      None,  # This is unused
                                       self.notebook.get_current_page())
 
     def _on_intervals_changed(self, intervals):
@@ -231,6 +210,7 @@ class GraphsTab(Tab):
             self.select_seeds_graph()
             self.update()
         return True
+
 
 class GtkUI(GtkPluginBase):
     def enable(self):
@@ -266,7 +246,7 @@ class GtkUI(GtkPluginBase):
         self.config['colors'] = gtkconf
         self.graphs_tab.set_colors(self.config['colors'])
 
-        config = { }
+        config = {}
         client.stats.set_config(config)
 
     def on_show_prefs(self):

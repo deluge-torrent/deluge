@@ -167,7 +167,7 @@ class ConnectionManager(BaseMode):
         self.stdscr.erase()
         self.refresh()
 
-    def _doRead(self):
+    def read_input(self):
         # Read the character
         c = self.stdscr.getch()
 

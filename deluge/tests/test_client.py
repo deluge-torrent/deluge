@@ -64,7 +64,7 @@ class NoVersionSendingClient(Client):
 
 class ClientTestCase(unittest.TestCase):
 
-    def setUp(self):
+    def setUp(self):  # NOQA
         self.listen_port = 58846
         tries = 10
         error = None
@@ -81,7 +81,7 @@ class ClientTestCase(unittest.TestCase):
         if error:
             raise error
 
-    def tearDown(self):
+    def tearDown(self):  # NOQA
         self.core.terminate()
 
     def test_connect_no_credentials(self):

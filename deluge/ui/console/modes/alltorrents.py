@@ -1137,7 +1137,7 @@ class AllTorrents(BaseMode, component.Component):
             self.search_state = SEARCH_EMPTY
             self.refresh([])
 
-    def _doRead(self):
+    def read_input(self):
         # Read the character
         effected_lines = None
 

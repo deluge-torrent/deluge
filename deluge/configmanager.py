@@ -97,7 +97,7 @@ class _ConfigManager:
 _configmanager = _ConfigManager()
 
 
-def ConfigManager(config, defaults=None):
+def ConfigManager(config, defaults=None):  # NOQA
     return _configmanager.get_config(config, defaults)
 
 

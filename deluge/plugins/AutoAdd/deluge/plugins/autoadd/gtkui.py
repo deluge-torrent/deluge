@@ -106,10 +106,10 @@ class OptionsDialog():
 
         for id in self.spin_ids + self.spin_int_ids:
             self.glade.get_widget(id).set_value(options.get(id, 0))
-            self.glade.get_widget(id+'_toggle').set_active(options.get(id+'_toggle', False))
+            self.glade.get_widget(id + "_toggle").set_active(options.get(id + "_toggle", False))
         for id in self.chk_ids:
             self.glade.get_widget(id).set_active(bool(options.get(id, True)))
-            self.glade.get_widget(id+'_toggle').set_active(options.get(id+'_toggle', False))
+            self.glade.get_widget(id + "_toggle").set_active(options.get(id + "_toggle", False))
         if not options.get('add_paused', True):
             self.glade.get_widget('isnt_add_paused').set_active(True)
         if not options.get('queue_to_top', True):
@@ -119,17 +119,17 @@ class OptionsDialog():
         for field in ['move_completed_path', 'path', 'download_location',
                       'copy_torrent']:
             if client.is_localhost():
-                self.glade.get_widget(field+"_chooser").set_current_folder(
+                self.glade.get_widget(field + "_chooser").set_current_folder(
                     options.get(field, os.path.expanduser("~"))
                 )
-                self.glade.get_widget(field+"_chooser").show()
-                self.glade.get_widget(field+"_entry").hide()
+                self.glade.get_widget(field + "_chooser").show()
+                self.glade.get_widget(field + "_entry").hide()
             else:
-                self.glade.get_widget(field+"_entry").set_text(
+                self.glade.get_widget(field + "_entry").set_text(
                     options.get(field, "")
                 )
-                self.glade.get_widget(field+"_entry").show()
-                self.glade.get_widget(field+"_chooser").hide()
+                self.glade.get_widget(field + "_entry").show()
+                self.glade.get_widget(field + "_chooser").hide()
         self.set_sensitive()
 
         def on_core_config(config):
@@ -225,7 +225,7 @@ class OptionsDialog():
                        'max_upload_speed', 'max_connections',
                        'max_upload_slots', 'add_paused', 'auto_managed',
                        'stop_at_ratio', 'queue_to_top', 'copy_torrent']
-        [self.on_toggle_toggled(self.glade.get_widget(x+'_toggle')) for x in maintoggles]
+        [self.on_toggle_toggled(self.glade.get_widget(x + "_toggle")) for x in maintoggles]
 
     def on_toggle_toggled(self, tb):
         toggle = str(tb.name).replace("_toggle", "")
@@ -329,13 +329,13 @@ class OptionsDialog():
 
         for id in self.spin_ids:
             options[id] = self.glade.get_widget(id).get_value()
-            options[id+'_toggle'] = self.glade.get_widget(id+'_toggle').get_active()
+            options[id + "_toggle"] = self.glade.get_widget(id + "_toggle").get_active()
         for id in self.spin_int_ids:
             options[id] = self.glade.get_widget(id).get_value_as_int()
-            options[id+'_toggle'] = self.glade.get_widget(id+'_toggle').get_active()
+            options[id + "_toggle"] = self.glade.get_widget(id + "_toggle").get_active()
         for id in self.chk_ids:
             options[id] = self.glade.get_widget(id).get_active()
-            options[id+'_toggle'] = self.glade.get_widget(id+'_toggle').get_active()
+            options[id + "_toggle"] = self.glade.get_widget(id + "_toggle").get_active()
 
         if options['copy_torrent_toggle'] and options['path'] == options['copy_torrent']:
             raise IncompatibleOption(_("\"Watch Folder\" directory and \"Copy of .torrent"

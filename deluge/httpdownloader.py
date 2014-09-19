@@ -49,11 +49,11 @@ class HTTPDownloader(client.HTTPDownloader):
         agent = "Deluge/%s (http://deluge-torrent.org)" % get_version()
         client.HTTPDownloader.__init__(self, url, filename, headers=headers, agent=agent)
 
-    def gotStatus(self, version, status, message):
+    def gotStatus(self, version, status, message):  # NOQA
         self.code = int(status)
         client.HTTPDownloader.gotStatus(self, version, status, message)
 
-    def gotHeaders(self, headers):
+    def gotHeaders(self, headers):  # NOQA
         if self.code == http.OK:
             if "content-length" in headers:
                 self.total_length = int(headers["content-length"][0])
@@ -89,7 +89,7 @@ class HTTPDownloader(client.HTTPDownloader):
 
         return client.HTTPDownloader.gotHeaders(self, headers)
 
-    def pagePart(self, data):
+    def pagePart(self, data):  # NOQA
         if self.code == http.OK:
             self.current_length += len(data)
             if self.decoder:
@@ -99,7 +99,7 @@ class HTTPDownloader(client.HTTPDownloader):
 
         return client.HTTPDownloader.pagePart(self, data)
 
-    def pageEnd(self):
+    def pageEnd(self):  # NOQA
         if self.decoder:
             data = self.decoder.flush()
             self.current_length -= len(data)

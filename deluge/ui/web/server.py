@@ -127,7 +127,7 @@ class Upload(resource.Resource):
 
 class Render(resource.Resource):
 
-    def getChild(self, path, request):
+    def getChild(self, path, request):  # NOQA
         request.render_file = path
         return self
 
@@ -152,7 +152,7 @@ class Tracker(resource.Resource):
         except KeyError:
             self.tracker_icons = TrackerIcons()
 
-    def getChild(self, path, request):
+    def getChild(self, path, request):  # NOQA
         request.tracker_name = path
         return self
 
@@ -175,7 +175,7 @@ class Tracker(resource.Resource):
 
 
 class Flag(resource.Resource):
-    def getChild(self, path, request):
+    def getChild(self, path, request):  # NOQA
         request.country = path
         return self
 
@@ -202,18 +202,18 @@ class LookupResource(resource.Resource, component.Component):
 
         self.__paths = {}
         for directory in directories:
-            self.addDirectory(directory)
+            self.add_directory(directory)
 
-    def addDirectory(self, directory, path=""):
+    def add_directory(self, directory, path=""):
         log.debug("Adding directory `%s` with path `%s`", directory, path)
         paths = self.__paths.setdefault(path, [])
         paths.append(directory)
 
-    def removeDirectory(self, directory, path=""):
+    def remove_directory(self, directory, path=""):
         log.debug("Removing directory `%s`", directory)
         self.__paths[path].remove(directory)
 
-    def getChild(self, path, request):
+    def getChild(self, path, request):  # NOQA
         if hasattr(request, 'lookup_path'):
             request.lookup_path = os.path.join(request.lookup_path, path)
         else:
@@ -365,7 +365,7 @@ class ScriptResource(resource.Resource, component.Component):
                 scripts.append("js/" + path)
         return scripts
 
-    def getChild(self, path, request):
+    def getChild(self, path, request):  # NOQA
         if hasattr(request, "lookup_path"):
             request.lookup_path += '/' + path
         else:
@@ -475,13 +475,13 @@ class TopLevel(resource.Resource):
         self.__scripts.remove(script)
         self.__debug_scripts.remove(script)
 
-    def getChild(self, path, request):
+    def getChild(self, path, request):  # NOQA
         if path == "":
             return self
         else:
             return resource.Resource.getChild(self, path, request)
 
-    def getChildWithDefault(self, path, request):
+    def getChildWithDefault(self, path, request):  # NOQA
         # Calculate the request base
         header = request.getHeader('x-deluge-base')
         base = header if header else component.get("DelugeWeb").base
@@ -540,7 +540,7 @@ class TopLevel(resource.Resource):
 
 class ServerContextFactory:
 
-    def getContext(self):
+    def getContext(self):  # NOQA
         """Creates an SSL context."""
         ctx = SSL.Context(SSL.SSLv3_METHOD)
         deluge_web = component.get("DelugeWeb")

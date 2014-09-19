@@ -1,17 +1,18 @@
 from __future__ import print_function
 
 from deluge.common import fsize
-from deluge.ui.client import aclient, sclient
+from deluge.ui.client import sclient
 
 sclient.set_core_uri()
+
 
 def print_totals(totals):
     for name, value in totals.iteritems():
         print(name, fsize(value))
 
     print("overhead:")
-    print("up:", fsize(totals["total_upload"]  - totals["total_payload_upload"] ))
-    print("down:", fsize(totals["total_download"]  - totals["total_payload_download"] ))
+    print("up:", fsize(totals["total_upload"] - totals["total_payload_upload"]))
+    print("down:", fsize(totals["total_download"] - totals["total_payload_download"]))
 
 
 print("==totals==")

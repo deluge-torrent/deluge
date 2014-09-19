@@ -1,5 +1,4 @@
-#
-# gtkui.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -7,40 +6,15 @@
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 import logging
 
 import gtk
 
-import deluge.common
 import deluge.component as component
 from deluge.plugins.pluginbase import GtkPluginBase
 from deluge.ui.client import client
@@ -51,10 +25,12 @@ log = logging.getLogger(__name__)
 
 DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
+
 class SchedulerSelectWidget(gtk.DrawingArea):
     def __init__(self, hover):
         gtk.DrawingArea.__init__(self)
-        self.set_events(gtk.gdk.BUTTON_PRESS_MASK | gtk.gdk.BUTTON_RELEASE_MASK | gtk.gdk.POINTER_MOTION_MASK | gtk.gdk.LEAVE_NOTIFY_MASK)
+        self.set_events(gtk.gdk.BUTTON_PRESS_MASK | gtk.gdk.BUTTON_RELEASE_MASK |
+                        gtk.gdk.POINTER_MOTION_MASK | gtk.gdk.LEAVE_NOTIFY_MASK)
 
         self.connect("expose_event", self.expose)
         self.connect("button_press_event", self.mouse_down)
@@ -62,7 +38,9 @@ class SchedulerSelectWidget(gtk.DrawingArea):
         self.connect("motion_notify_event", self.mouse_hover)
         self.connect("leave_notify_event", self.mouse_leave)
 
-        self.colors = [[115.0/255, 210.0/255, 22.0/255], [237.0/255, 212.0/255, 0.0/255], [204.0/255, 0.0/255, 0.0/255]]
+        self.colors = [[115.0 / 255, 210.0 / 255, 22.0 / 255],
+                       [237.0 / 255, 212.0 / 255, 0.0 / 255],
+                       [204.0 / 255, 0.0 / 255, 0.0 / 255]]
         self.button_state = [[0] * 7 for dummy in xrange(24)]
 
         self.start_point = [0, 0]
@@ -89,8 +67,11 @@ class SchedulerSelectWidget(gtk.DrawingArea):
 
         for y in xrange(7):
             for x in xrange(24):
-                self.context.set_source_rgba(self.colors[self.button_state[x][y]][0], self.colors[self.button_state[x][y]][1], self.colors[self.button_state[x][y]][2], 0.7)
-                self.context.rectangle(width*(6*x/145.0+1/145.0), height*(6*y/43.0+1/43.0), 5*width/145.0, 5*height/43.0)
+                self.context.set_source_rgba(self.colors[self.button_state[x][y]][0],
+                                             self.colors[self.button_state[x][y]][1],
+                                             self.colors[self.button_state[x][y]][2], 0.7)
+                self.context.rectangle(width * (6 * x / 145.0 + 1 / 145.0), height * (6 * y / 43.0 + 1 / 43.0),
+                                       5 * width / 145.0, 5 * height / 43.0)
                 self.context.fill_preserve()
                 self.context.set_source_rgba(0.5, 0.5, 0.5, 0.5)
                 self.context.stroke()
@@ -98,13 +79,17 @@ class SchedulerSelectWidget(gtk.DrawingArea):
     #coordinates --> which box
     def get_point(self, event):
         size = self.window.get_size()
-        x = int((event.x-size[0]*0.5/145.0)/(6*size[0]/145.0))
-        y = int((event.y-size[1]*0.5/43.0)/(6*size[1]/43.0))
+        x = int((event.x - size[0] * 0.5 / 145.0) / (6 * size[0] / 145.0))
+        y = int((event.y - size[1] * 0.5 / 43.0) / (6 * size[1] / 43.0))
 
-        if x > 23: x = 23
-        elif x < 0: x = 0
-        if y > 6: y = 6
-        elif y < 0: y = 0
+        if x > 23:
+            x = 23
+        elif x < 0:
+            x = 0
+        if y > 6:
+            y = 6
+        elif y < 0:
+            y = 0
 
         return [x, y]
 
@@ -136,13 +121,14 @@ class SchedulerSelectWidget(gtk.DrawingArea):
         if self.get_point(event) != self.hover_point:
             self.hover_point = self.get_point(event)
 
-            self.hover_label.set_text(self.hover_days[self.hover_point[1]] + " " + str(self.hover_point[0]) + ":00 - " + str(self.hover_point[0]) + ":59")
+            self.hover_label.set_text(self.hover_days[self.hover_point[1]] + " " + str(self.hover_point[0])
+                                      + ":00 - " + str(self.hover_point[0]) + ":59")
 
-            if self.mouse_press == True:
+            if self.mouse_press:
                 points = [[self.hover_point[0], self.start_point[0]], [self.hover_point[1], self.start_point[1]]]
 
-                for x in xrange(min(points[0]), max(points[0])+1):
-                    for y in xrange(min(points[1]), max(points[1])+1):
+                for x in xrange(min(points[0]), max(points[0]) + 1):
+                    for y in xrange(min(points[1]), max(points[1]) + 1):
                         self.button_state[x][y] = self.button_state[self.start_point[0]][self.start_point[1]]
 
                 self.queue_draw()
@@ -151,6 +137,7 @@ class SchedulerSelectWidget(gtk.DrawingArea):
     def mouse_leave(self, widget, event):
         self.hover_label.set_text("")
         self.hover_point = [-1, -1]
+
 
 class GtkUI(GtkPluginBase):
     def enable(self):
@@ -200,7 +187,6 @@ class GtkUI(GtkPluginBase):
             self.spin_active.set_value(config["low_active"])
             self.spin_active_down.set_value(config["low_active_down"])
             self.spin_active_up.set_value(config["low_active_up"])
-
 
         client.scheduler.get_config().addCallback(on_get_config)
 

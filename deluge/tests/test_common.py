@@ -7,10 +7,10 @@ from deluge.common import (fdate, fpcnt, fpeer, fsize, fspeed, ftime, get_path_s
 
 
 class CommonTestCase(unittest.TestCase):
-    def setUp(self):
+    def setUp(self):  # NOQA
         setup_translations()
 
-    def tearDown(self):
+    def tearDown(self):  # NOQA
         pass
 
     def test_fsize(self):
@@ -55,7 +55,7 @@ class CommonTestCase(unittest.TestCase):
         self.failUnless(is_ip("127.0.0.1"))
         self.failIf(is_ip("127..0.0"))
 
-    def test_VersionSplit(self):
+    def test_version_split(self):
         self.failUnless(VersionSplit("1.2.2") == VersionSplit("1.2.2"))
         self.failUnless(VersionSplit("1.2.1") < VersionSplit("1.2.2"))
         self.failUnless(VersionSplit("1.1.9") < VersionSplit("1.2.2"))

@@ -1,52 +1,25 @@
-#
-# sidebar_menu.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
-#
-
 
 import logging
 
 import gtk
 import gtk.glade
 
-import deluge.common
 import deluge.component as component
 from deluge.ui.client import client
 
 log = logging.getLogger(__name__)
 
 NO_LABEL = "No Label"
+
 
 #helpers:
 def get_resource(filename):
@@ -56,11 +29,12 @@ def get_resource(filename):
         "deluge.plugins.label", os.path.join("data", filename)
     )
 
+
 #menu
 class LabelSidebarMenu(object):
     def __init__(self):
 
-        self.treeview  = component.get("FilterTreeView")
+        self.treeview = component.get("FilterTreeView")
         self.menu = self.treeview.menu
         self.items = []
 
@@ -79,17 +53,16 @@ class LabelSidebarMenu(object):
         #hooks:
         self.menu.connect("show", self.on_show, None)
 
-
     def _add_item(self, id, label, stock):
         """I hate glade.
         id is automatically-added as self.item_<id>
         """
-        func  = getattr(self, "on_%s" %  id)
+        func = getattr(self, "on_%s" % id)
         item = gtk.ImageMenuItem(stock)
         item.get_children()[0].set_label(label)
         item.connect("activate", func)
         self.menu.prepend(item)
-        setattr(self, "item_%s" %  id, item)
+        setattr(self, "item_%s" % id, item)
         self.items.append(item)
         return item
 
@@ -99,7 +72,7 @@ class LabelSidebarMenu(object):
     def on_remove(self, event=None):
         client.label.remove(self.treeview.value)
 
-    def on_options (self, event=None):
+    def on_options(self, event=None):
         self.options_dialog.show(self.treeview.value)
 
     def on_show(self, widget=None, data=None):
@@ -114,7 +87,7 @@ class LabelSidebarMenu(object):
                 item.show()
             #default items
             sensitive = ((label not in (NO_LABEL, None, "", "All")) and (cat != "cat"))
-            for item  in self.items:
+            for item in self.items:
                 item.set_sensitive(sensitive)
 
             #add is allways enabled.
@@ -131,8 +104,6 @@ class LabelSidebarMenu(object):
             item.destroy()
             log.debug("disable02")
         self.items = []
-
-
 
 
 #dialogs:
@@ -164,15 +135,15 @@ class OptionsDialog(object):
     spin_ids = ["max_download_speed", "max_upload_speed", "stop_ratio"]
     spin_int_ids = ["max_upload_slots", "max_connections"]
     chk_ids = ["apply_max", "apply_queue", "stop_at_ratio", "apply_queue", "remove_at_ratio",
-        "apply_move_completed", "move_completed", "is_auto_managed", "auto_add"]
+               "apply_move_completed", "move_completed", "is_auto_managed", "auto_add"]
 
     #list of tuples, because order matters when nesting.
     sensitive_groups = [
         ("apply_max", ["max_download_speed", "max_upload_speed", "max_upload_slots", "max_connections"]),
         ("apply_queue", ["is_auto_managed", "stop_at_ratio"]),
-        ("stop_at_ratio", ["remove_at_ratio", "stop_ratio"]), #nested
+        ("stop_at_ratio", ["remove_at_ratio", "stop_ratio"]),  # nested
         ("apply_move_completed", ["move_completed"]),
-        ("move_completed", ["move_completed_path"]), #nested
+        ("move_completed", ["move_completed_path"]),  # nested
         ("auto_add", ["auto_add_trackers"])
     ]
 
@@ -192,7 +163,7 @@ class OptionsDialog(object):
         # Show the label name in the header label
         self.glade.get_widget("label_header").set_markup("<b>%s:</b> %s" % (_("Label Options"), self.label))
 
-        for chk_id, group in  self.sensitive_groups:
+        for chk_id, group in self.sensitive_groups:
             chk = self.glade.get_widget(chk_id)
             chk.connect("toggled", self.apply_sensitivity)
 
@@ -237,9 +208,9 @@ class OptionsDialog(object):
         else:
             options["move_completed_path"] = self.glade.get_widget("move_completed_path_entry").get_text()
 
-        buff = self.glade.get_widget("auto_add_trackers").get_buffer() #sometimes I hate gtk...
-        tracker_lst =  buff.get_text(buff.get_start_iter(), buff.get_end_iter()).strip().split("\n")
-        options["auto_add_trackers"] = [x for x in tracker_lst if x] #filter out empty lines.
+        buff = self.glade.get_widget("auto_add_trackers").get_buffer()  # sometimes I hate gtk...
+        tracker_lst = buff.get_text(buff.get_start_iter(), buff.get_end_iter()).strip().split("\n")
+        options["auto_add_trackers"] = [x for x in tracker_lst if x]  # filter out empty lines.
 
         log.debug(options)
         client.label.set_options(self.label, options)

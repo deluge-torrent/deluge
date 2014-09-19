@@ -22,13 +22,12 @@ print "Python Path: %s" % python_path
 gtk_root = os.path.join(gtk.__path__[0], "..\\runtime\\")
 
 # Include python modules not picked up automatically by bbfreeze
-includes=(
-            "libtorrent", "cairo", "pangocairo", "atk", "pango", "twisted.internet.utils",
-            "gio", "gzip", "email.mime.multipart", "email.mime.text"
-         )
-excludes=("numpy", "OpenGL", "psyco", "win32ui")
+includes = ("libtorrent", "cairo", "pangocairo", "atk", "pango", "twisted.internet.utils",
+            "gio", "gzip", "email.mime.multipart", "email.mime.text")
+excludes = ("numpy", "OpenGL", "psyco", "win32ui")
 
 dst = "..\\build-win32\\deluge-bbfreeze-" + build_version + "\\"
+
 
 # Need to override bbfreeze function so that it includes all gtk libraries
 # in the installer so users don't require a separate GTK+ installation.
@@ -72,12 +71,14 @@ for file in excludeDlls:
 # copy gtk locale files
 gtk_locale = os.path.join(gtk_root, 'share/locale')
 locale_include_list = ['gtk20.mo', 'locale.alias']
-def ignored_files(adir,filenames):
+
+
+def ignored_files(adir, filenames):
     return [
         filename for filename in filenames
         if not os.path.isdir(os.path.join(adir, filename))
         and filename not in locale_include_list
-        ]
+    ]
 shutil.copytree(gtk_locale, os.path.join(dst, 'share/locale'), ignore=ignored_files)
 
 # copy gtk theme files
@@ -88,7 +89,7 @@ theme_include_list = [
     ["DelugeStart Theme", "lib/gtk-2.0/2.10.0/engines/libmurrine.dll"],
     ["DelugeStart Theme", "share/themes/DelugeStart"],
     ["DelugeStart Theme", "etc/gtk-2.0/gtkrc"]
-    ]
+]
 for path_root, path in theme_include_list:
     full_path = os.path.join(path_root, path)
     if os.path.isdir(full_path):

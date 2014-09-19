@@ -41,11 +41,11 @@ class CursesStdIO(object):
         """ We want to select on FD 0 """
         return 0
 
-    def doRead(self):
+    def doRead(self):  # NOQA
         """called when input is ready"""
         pass
 
-    def logPrefix(self):
+    def logPrefix(self):  # NOQA
         return "CursesClient"
 
 
@@ -57,7 +57,7 @@ class BaseMode(CursesStdIO):
 
         Modes should subclass this and provide overrides for:
 
-        _doRead(self) - Handle user input
+        do_read(self) - Handle user input
         refresh(self) - draw the mode to the screen
         add_string(self, row, string) - add a string of text to be displayed.
                                         see method for detailed info
@@ -107,7 +107,7 @@ class BaseMode(CursesStdIO):
         self.on_resize_norefresh(args)
         self.refresh()
 
-    def connectionLost(self, reason):
+    def connectionLost(self, reason):  # NOQA
         self.close()
 
     def add_string(self, row, string, scr=None, col=0, pad=True, trim=True):
@@ -192,18 +192,18 @@ class BaseMode(CursesStdIO):
         self.stdscr.redrawwin()
         self.stdscr.refresh()
 
-    def doRead(self):
+    def doRead(self):  # NOQA
         """
         Called when there is data to be read, ie, input from the keyboard.
         """
         # We wrap this function to catch exceptions and shutdown the mainloop
         try:
-            self._doRead()
+            self.read_input()
         except Exception as ex:
             log.exception(ex)
             reactor.stop()
 
-    def _doRead(self):
+    def read_input(self):
         # Read the character
         self.stdscr.getch()
         self.stdscr.refresh()

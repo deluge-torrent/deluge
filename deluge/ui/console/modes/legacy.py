@@ -215,7 +215,7 @@ class Legacy(BaseMode, component.Component):
         self.add_string(self.rows - 2, self.statusbars.bottombar)
         self.stdscr.refresh()
 
-    def _doRead(self):
+    def read_input(self):
         # Read the character
         c = self.stdscr.getch()
 

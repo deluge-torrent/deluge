@@ -21,7 +21,7 @@ from deluge.ui.common import TorrentInfo
 log = logging.getLogger(__name__)
 
 
-def __bracket_fixup(path):
+def _bracket_fixup(path):
     if (path.find("[") == -1 and path.find("]") == -1):
         return path
     sentinal = 256
@@ -48,7 +48,7 @@ def add_torrent(t_file, options, success_cb, fail_cb, ress):
     if is_url or is_magnet:
         files = [t_file]
     else:
-        files = glob.glob(__bracket_fixup(t_file))
+        files = glob.glob(_bracket_fixup(t_file))
     num_files = len(files)
     ress["total"] = num_files
 

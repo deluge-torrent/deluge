@@ -67,14 +67,14 @@ class TopLevelResource(Resource):
 
 
 class CoreTestCase(unittest.TestCase):
-    def setUp(self):
+    def setUp(self):  # NOQA
         common.set_tmp_config_dir()
         self.rpcserver = RPCServer(listen=False)
         self.core = Core()
         self.listen_port = 51242
-        return component.start().addCallback(self.startWebserver)
+        return component.start().addCallback(self.start_web_server)
 
-    def startWebserver(self, result):
+    def start_web_server(self, result):
         self.website = Site(TopLevelResource())
         tries = 10
         error = None
@@ -92,7 +92,7 @@ class CoreTestCase(unittest.TestCase):
             raise error
         return result
 
-    def tearDown(self):
+    def tearDown(self):  # NOQA
 
         def on_shutdown(result):
             component._ComponentRegistry.components = {}

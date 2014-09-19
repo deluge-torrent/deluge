@@ -14,10 +14,10 @@ import deluge.error
 from deluge.core import rpcserver
 from deluge.core.authmanager import AuthManager
 from deluge.core.rpcserver import DelugeRPCProtocol, RPCServer
-from deluge.log import setupLogger
+from deluge.log import setup_logger
 from deluge.ui.common import get_localhost_auth
 
-setupLogger("none")
+setup_logger("none")
 
 
 class DelugeRPCProtocolTester(DelugeRPCProtocol):
@@ -30,7 +30,7 @@ class DelugeRPCProtocolTester(DelugeRPCProtocol):
 
 class RPCServerTestCase(unittest.TestCase):
 
-    def setUp(self):
+    def setUp(self):  # NOQA
         self.rpcserver = RPCServer(listen=False)
         self.rpcserver.factory.protocol = DelugeRPCProtocolTester
         self.factory = self.rpcserver.factory
@@ -45,7 +45,7 @@ class RPCServerTestCase(unittest.TestCase):
         self.protocol.sessionno = self.session_id
         return component.start()
 
-    def tearDown(self):
+    def tearDown(self):  # NOQA
         def on_shutdown(result):
             component._ComponentRegistry.components = {}
             del self.rpcserver

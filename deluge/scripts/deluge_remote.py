@@ -13,28 +13,36 @@
 
 import logging
 from optparse import OptionParser
-from sys import argv, exit, stderr
+from sys import exit, stderr
 
 
-def isFloatDigit (string):
+def is_float_digit(string):
     if string.isdigit():
         return True
     else:
         try:
-            tmp = float(string)
+            float(string)
             return True
-        except: return False;
+        except:
+            return False
 
 # set up command-line options
 parser = OptionParser()
 parser.add_option("--port", help="port for deluge backend host (default: 58846)", default="58846", dest="port")
-parser.add_option("--host", help="hostname of deluge backend to connect to (default: localhost)", default="localhost", dest="host")
-parser.add_option("--max_active_limit", help="sets the absolute maximum number of active torrents on the deluge backend", dest="max_active_limit")
-parser.add_option("--max_active_downloading", help="sets the maximum number of active downloading torrents on the deluge backend", dest="max_active_downloading")
-parser.add_option("--max_active_seeding", help="sets the maximum number of active seeding torrents on the deluge backend", dest="max_active_seeding")
-parser.add_option("--max_download_speed", help="sets the maximum global download speed on the deluge backend", dest="max_download_speed")
-parser.add_option("--max_upload_speed", help="sets the maximum global upload speed on the deluge backend", dest="max_upload_speed")
-parser.add_option("--debug", help="outputs debug information to the console", default=False, action="store_true", dest="debug")
+parser.add_option("--host", help="hostname of deluge backend to connect to (default: localhost)",
+                  default="localhost", dest="host")
+parser.add_option("--max_active_limit", dest="max_active_limit",
+                  help="sets the absolute maximum number of active torrents on the deluge backend")
+parser.add_option("--max_active_downloading", dest="max_active_downloading",
+                  help="sets the maximum number of active downloading torrents on the deluge backend")
+parser.add_option("--max_active_seeding", dest="max_active_seeding",
+                  help="sets the maximum number of active seeding torrents on the deluge backend")
+parser.add_option("--max_download_speed", help="sets the maximum global download speed on the deluge backend",
+                  dest="max_download_speed")
+parser.add_option("--max_upload_speed", help="sets the maximum global upload speed on the deluge backend",
+                  dest="max_upload_speed")
+parser.add_option("--debug", help="outputs debug information to the console", default=False, action="store_true",
+                  dest="debug")
 
 # grab command-line options
 (options, args) = parser.parse_args()
@@ -49,36 +57,38 @@ if options.max_active_limit:
     if options.max_active_limit.isdigit() and int(options.max_active_limit) >= 0:
         settings['max_active_limit'] = int(options.max_active_limit)
     else:
-        stderr.write ("ERROR: Invalid max_active_limit parameter!\n")
-        exit (-1)
+        stderr.write("ERROR: Invalid max_active_limit parameter!\n")
+        exit(-1)
 
 if options.max_active_downloading:
     if options.max_active_downloading.isdigit() and int(options.max_active_downloading) >= 0:
         settings['max_active_downloading'] = int(options.max_active_downloading)
     else:
-        stderr.write ("ERROR: Invalid max_active_downloading parameter!\n")
-        exit (-1)
+        stderr.write("ERROR: Invalid max_active_downloading parameter!\n")
+        exit(-1)
 
 if options.max_active_seeding:
     if options.max_active_seeding.isdigit() and int(options.max_active_seeding) >= 0:
         settings['max_active_seeding'] = int(options.max_active_seeding)
     else:
-        stderr.write ("ERROR: Invalid max_active_seeding parameter!\n")
-        exit (-1)
+        stderr.write("ERROR: Invalid max_active_seeding parameter!\n")
+        exit(-1)
 
 if options.max_download_speed:
-    if isFloatDigit(options.max_download_speed) and (float(options.max_download_speed) >= 0.0 or float(options.max_download_speed) == -1.0):
+    if is_float_digit(options.max_download_speed) and (
+            float(options.max_download_speed) >= 0.0 or float(options.max_download_speed) == -1.0):
         settings['max_download_speed'] = float(options.max_download_speed)
     else:
-        stderr.write ("ERROR: Invalid max_download_speed parameter!\n")
-        exit (-1)
+        stderr.write("ERROR: Invalid max_download_speed parameter!\n")
+        exit(-1)
 
 if options.max_upload_speed:
-    if isFloatDigit(options.max_upload_speed) and (float(options.max_upload_speed) >= 0.0 or float(options.max_upload_speed) == -1.0):
+    if is_float_digit(options.max_upload_speed) and (
+            float(options.max_upload_speed) >= 0.0 or float(options.max_upload_speed) == -1.0):
         settings['max_upload_speed'] = float(options.max_upload_speed)
     else:
-        stderr.write ("ERROR: Invalid max_upload_speed parameter!\n")
-        exit (-1)
+        stderr.write("ERROR: Invalid max_upload_speed parameter!\n")
+        exit(-1)
 
 # If there is something to do ...
 if settings:

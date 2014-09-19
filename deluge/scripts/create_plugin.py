@@ -72,15 +72,15 @@ def create_plugin():
 
     def write_file(path, filename, template, include_gpl=True):
         args = {
-            "author_name":  options.author_name,
+            "author_name": options.author_name,
             "author_email": options.author_email,
-            "name":         name,
-            "safe_name":    safe_name,
-            "filename":     filename,
-            "plugin_base":  plugin_base,
-            "python_path":  python_path,
-            "url":          options.url,
-            "configdir":    options.configdir,
+            "name": name,
+            "safe_name": safe_name,
+            "filename": filename,
+            "plugin_base": plugin_base,
+            "python_path": python_path,
+            "url": options.url,
+            "configdir": options.configdir,
             "current_year": datetime.utcnow().year
         }
 

@@ -15,11 +15,14 @@ from deluge.event import DelugeEvent
 
 log = logging.getLogger(__name__)
 
+
 class FooEvent(DelugeEvent):
     """foo Event"""
 
+
 class CustomEvent(DelugeEvent):
     """Just a custom event to test"""
+
 
 class TestEmailNotifications(component.Component):
     def __init__(self, imp):
@@ -32,6 +35,7 @@ class TestEmailNotifications(component.Component):
             CustomEvent()
         ]
         self.events_classes = []
+
     def enable(self):
         log.debug("\n\nEnabling %s", self.__class__.__name__)
         for event in self.events:
@@ -65,7 +69,7 @@ class TestEmailNotifications(component.Component):
     def update(self):
         if self.__imp == 'core':
             log.debug("\n\nUpdating %s", self.__class__.__name__)
-            self.events.append(self.events.pop(0)) # Re-Queue
+            self.events.append(self.events.pop(0))  # Re-Queue
             self.n += 1
             component.get("EventManager").emit(self.events[0])
 

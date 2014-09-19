@@ -41,8 +41,8 @@ class Popup:
         NB: The parent mode is responsible for calling refresh on any popups it wants to show.
             This should be called as the last thing in the parents refresh method.
 
-            The parent *must* also call _doRead on the popup instead of/in addition to
-            running its own _doRead code if it wants to have the popup handle user input.
+            The parent *must* also call read_input on the popup instead of/in addition to
+            running its own read_input code if it wants to have the popup handle user input.
 
         :param parent_mode: must be a basemode (or subclass) which the popup will be drawn over
         :parem title: string, the title of the popup window
@@ -54,7 +54,7 @@ class Popup:
 
         add_string(self, row, string) - add string at row. handles triming/ignoring if the string won't fit in the popup
 
-        _doRead(self) - handle user input to the popup.
+        read_input(self) - handle user input to the popup.
         """
         self.parent = parent_mode
 

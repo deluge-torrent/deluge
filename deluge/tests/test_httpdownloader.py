@@ -10,7 +10,7 @@ from twisted.web.server import Site
 
 import deluge.tests.common as common
 from deluge.httpdownloader import download_file
-from deluge.log import setupLogger
+from deluge.log import setup_logger
 from deluge.ui.web.common import compress
 
 try:
@@ -75,7 +75,7 @@ class TopLevelResource(Resource):
         self.putChild("redirect", TestRedirectResource())
         self.putChild("rename", TestRenameResource())
 
-    def getChild(self, path, request):
+    def getChild(self, path, request):  # NOQA
         if path == "":
             return self
         else:
@@ -89,8 +89,8 @@ class TopLevelResource(Resource):
 
 class DownloadFileTestCase(unittest.TestCase):
 
-    def setUp(self):
-        setupLogger("warning", "log_file")
+    def setUp(self):  # NOQA
+        setup_logger("warning", "log_file")
         self.website = Site(TopLevelResource())
         self.listen_port = 51242
         tries = 10
@@ -108,10 +108,10 @@ class DownloadFileTestCase(unittest.TestCase):
         if error:
             raise error
 
-    def tearDown(self):
+    def tearDown(self):  # NOQA
         return self.webserver.stopListening()
 
-    def assertContains(self, filename, contents):
+    def assertContains(self, filename, contents):  # NOQA
         f = open(filename)
         try:
             self.assertEqual(f.read(), contents)
@@ -121,7 +121,7 @@ class DownloadFileTestCase(unittest.TestCase):
             f.close()
         return filename
 
-    def failIfContains(self, filename, contents):
+    def failIfContains(self, filename, contents):  # NOQA
         f = open(filename)
         try:
             self.failIfEqual(f.read(), contents)

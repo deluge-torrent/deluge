@@ -10,8 +10,8 @@
 # All configuration values have a default value; values that are commented out
 # serve to show the default value.
 
-import sys, os
-import deluge.common
+import os
+import sys
 from version import get_version
 from datetime import date
 
@@ -19,6 +19,7 @@ from datetime import date
 # is relative to the documentation root, use os.path.abspath to make it
 # absolute, like shown here.
 sys.path.append(os.path.abspath(os.path.dirname(__file__ + '../../')))
+
 
 class Mock(object):
 
@@ -35,9 +36,9 @@ class Mock(object):
         if name in ('__file__', '__path__'):
             return '/dev/null'
         elif name[0] == name[0].upper():
-            mockType = type(name, (), {})
-            mockType.__module__ = __name__
-            return mockType
+            mock_type = type(name, (), {})
+            mock_type.__module__ = __name__
+            return mock_type
         else:
             return Mock()
 
@@ -193,8 +194,8 @@ htmlhelp_basename = 'delugedoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, document class [howto/manual]).
 latex_documents = [
-  ('index', 'deluge.tex', 'deluge Documentation',
-   'Deluge Team', 'manual'),
+    ('index', 'deluge.tex', 'deluge Documentation',
+     'Deluge Team', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
