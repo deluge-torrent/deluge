@@ -24,6 +24,7 @@ LOAD_LIBRARY_AS_DATAFILE = 2
 
 import struct
 import types
+
 try:
     StringTypes = types.StringTypes
 except AttributeError:

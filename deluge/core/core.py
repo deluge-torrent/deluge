@@ -61,8 +61,7 @@ from deluge.core.preferencesmanager import PreferencesManager
 from deluge.core.rpcserver import export
 from deluge.core.torrentmanager import TorrentManager
 from deluge.error import DelugeError, InvalidPathError, InvalidTorrentError
-from deluge.event import (NewVersionAvailableEvent, SessionPausedEvent, SessionResumedEvent,
-                          TorrentQueueChangedEvent)
+from deluge.event import NewVersionAvailableEvent, SessionPausedEvent, SessionResumedEvent, TorrentQueueChangedEvent
 from deluge.httpdownloader import download_file
 
 log = logging.getLogger(__name__)
