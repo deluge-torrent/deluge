@@ -1,13 +1,13 @@
 from __future__ import print_function
 
 import os
+import sys
 
 from twisted.trial import unittest
 
 import deluge.component as component
 import deluge.core.torrent
 import deluge.tests.common as common
-import test_torrent
 from deluge._libtorrent import lt
 from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer
@@ -41,7 +41,7 @@ class TorrentTestCase(unittest.TestCase):
     def setUp(self):
         # Save component and set back on teardown
         self.original_component = deluge.core.torrent.component
-        deluge.core.torrent.component = test_torrent
+        deluge.core.torrent.component = sys.modules[__name__]
         self.setup_config()
         global rpcserver
         global core
