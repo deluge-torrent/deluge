@@ -11,11 +11,6 @@
 import os
 
 
-def get_resource(filename):
-    import deluge
-    return deluge.common.resource_filename("deluge.ui.gtkui", os.path.join("glade", filename))
-
-
 def is_hidden(filepath):
     def has_hidden_attribute(filepath):
         import win32api

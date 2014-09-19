@@ -16,7 +16,8 @@ import gobject
 import gtk
 from gtk import gdk, keysyms
 
-from deluge.path_chooser_common import get_completion_paths, get_resource
+from deluge.common import resource_filename
+from deluge.path_chooser_common import get_completion_paths
 
 
 def is_ascii_value(keyval, ascii_key):
@@ -1036,7 +1037,9 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
         self.setting_accelerator_key = False
         self.builder = gtk.Builder()
         self.popup_buttonbox = self.builder.get_object("buttonbox")
-        self.builder.add_from_file(get_resource("path_combo_chooser.ui"))
+        self.builder.add_from_file(resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "path_combo_chooser.ui")
+        ))
         self.button_toggle = self.builder.get_object("button_toggle_dropdown")
         self.text_entry = self.builder.get_object("entry_text")
         self.open_filechooser_dialog_button = self.builder.get_object("button_open_dialog")
