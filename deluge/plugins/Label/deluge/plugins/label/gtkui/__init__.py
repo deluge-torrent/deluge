@@ -42,9 +42,9 @@ from deluge.plugins.pluginbase import GtkPluginBase
 import gtk, gobject
 from deluge.ui.client import client
 
-import sidebar_menu
-import label_config
-import submenu
+from . import sidebar_menu
+from . import label_config
+from . import submenu
 
 log = logging.getLogger(__name__)
 

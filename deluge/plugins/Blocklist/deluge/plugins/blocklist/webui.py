@@ -9,8 +9,9 @@
 
 import logging
 
-from common import get_resource
 from deluge.plugins.pluginbase import WebPluginBase
+
+from .common import get_resource
 
 log = logging.getLogger(__name__)
 

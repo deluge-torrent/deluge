@@ -352,4 +352,4 @@ class Graph:
         self.ctx.set_dash(dash, offset)
 
 if __name__ == "__main__":
-    import test
+    from . import test

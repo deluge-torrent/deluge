@@ -13,11 +13,12 @@ from datetime import datetime
 import gtk
 import gtk.glade
 
-import common
 import deluge.common
 import deluge.component as component
 from deluge.plugins.pluginbase import GtkPluginBase
 from deluge.ui.client import client
+
+from . import common
 
 log = logging.getLogger(__name__)
 

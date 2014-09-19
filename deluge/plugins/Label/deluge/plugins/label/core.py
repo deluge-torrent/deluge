@@ -348,4 +348,4 @@ class Core(CorePluginBase):
         return self.torrent_labels.get(torrent_id) or ""
 
 if __name__ == "__main__":
-    import test
+    from . import test

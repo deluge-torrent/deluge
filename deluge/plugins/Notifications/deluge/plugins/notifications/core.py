@@ -44,11 +44,12 @@ from email.utils import formatdate
 from twisted.internet import defer, threads
 
 import deluge.configmanager
-from common import CustomNotifications
 from deluge import component
 from deluge.core.rpcserver import export
 from deluge.event import known_events
 from deluge.plugins.pluginbase import CorePluginBase
+
+from .common import CustomNotifications
 
 log = logging.getLogger(__name__)
 

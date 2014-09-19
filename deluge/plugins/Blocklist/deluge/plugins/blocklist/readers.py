@@ -10,7 +10,7 @@
 import logging
 import re
 
-from common import BadIP, IP, raises_errors_as
+from .common import BadIP, IP, raises_errors_as
 
 log = logging.getLogger(__name__)
 

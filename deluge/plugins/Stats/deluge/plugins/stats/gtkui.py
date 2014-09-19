@@ -42,14 +42,14 @@ import gtk
 import gtk.glade
 from gtk.glade import XML
 
-import common
 import deluge
-import graph
 from deluge import component
 from deluge.common import fspeed
 from deluge.plugins.pluginbase import GtkPluginBase
 from deluge.ui.client import client
 from deluge.ui.gtkui.torrentdetails import Tab
+
+from . import common, graph
 
 log = logging.getLogger(__name__)
 

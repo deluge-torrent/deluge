@@ -47,9 +47,10 @@ from twisted.internet import defer
 import deluge.common
 import deluge.component as component
 import deluge.configmanager
-from common import CustomNotifications, get_resource
 from deluge.plugins.pluginbase import GtkPluginBase
 from deluge.ui.client import client
+
+from .common import CustomNotifications, get_resource
 
 # Relative imports
 

@@ -42,9 +42,10 @@ import gtk
 
 import deluge.common
 import deluge.component as component
-from common import get_resource
 from deluge.plugins.pluginbase import GtkPluginBase
 from deluge.ui.client import client
+
+from .common import get_resource
 
 log = logging.getLogger(__name__)
 

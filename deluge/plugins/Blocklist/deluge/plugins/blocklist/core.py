@@ -22,13 +22,14 @@ from twisted.web import error
 
 import deluge.component as component
 import deluge.configmanager
-from common import BadIP, IP
 from deluge.common import is_url
 from deluge.core.rpcserver import export
 from deluge.httpdownloader import download_file
 from deluge.plugins.pluginbase import CorePluginBase
-from detect import create_reader, detect_compression, detect_format, UnknownFormatError
-from readers import ReaderParseError
+
+from .common import BadIP, IP
+from .detect import create_reader, detect_compression, detect_format, UnknownFormatError
+from .readers import ReaderParseError
 
 # TODO: check return values for deferred callbacks
 # TODO: review class attributes for redundancy
