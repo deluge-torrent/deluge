@@ -1,47 +1,24 @@
-#
-# component.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007-2010 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 import logging
 from collections import defaultdict
-from twisted.internet.defer import maybeDeferred, succeed, DeferredList, fail
+
+from twisted.internet.defer import DeferredList, fail, maybeDeferred, succeed
 from twisted.internet.task import LoopingCall
 
 log = logging.getLogger(__name__)
 
+
 class ComponentAlreadyRegistered(Exception):
     pass
+
 
 class Component(object):
     """
@@ -218,6 +195,7 @@ class Component(object):
     def shutdown(self):
         pass
 
+
 class ComponentRegistry(object):
     """
     The ComponentRegistry holds a list of currently registered
@@ -263,6 +241,7 @@ class ComponentRegistry(object):
         if obj in self.components.values():
             log.debug("Deregistering Component: %s", obj._component_name)
             d = self.stop([obj._component_name])
+
             def on_stop(result, name):
                 del self.components[name]
             return d.addCallback(on_stop, obj._component_name)
@@ -428,6 +407,7 @@ pause = _ComponentRegistry.pause
 resume = _ComponentRegistry.resume
 update = _ComponentRegistry.update
 shutdown = _ComponentRegistry.shutdown
+
 
 def get(name):
     """

@@ -1,50 +1,24 @@
 # -*- coding: utf-8 -*-
 #
-# deluge/ui/common.py
-#
 # Copyright (C) Damien Churchill 2008-2009 <damoxc@gmail.com>
 # Copyright (C) Andrew Resch 2009 <andrewresch@gmail.com>
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 3, or (at your option)
-# any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, write to:
-#     The Free Software Foundation, Inc.,
-#     51 Franklin Street, Fifth Floor
-#     Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 """
-The ui common module contains methods and classes that are deemed useful for
-all the interfaces.
+The ui common module contains methods and classes that are deemed useful for all the interfaces.
 """
 
-import os
 import logging
+import os
 from hashlib import sha1 as sha
 
-from deluge import bencode
-from deluge.common import utf8_encoded, path_join
 import deluge.configmanager
+from deluge import bencode
+from deluge.common import path_join, utf8_encoded
 
 log = logging.getLogger(__name__)
 
@@ -90,9 +64,9 @@ class TorrentInfo(object):
             log.debug("Attempting to open %s.", filename)
             self.__m_filedata = open(filename, "rb").read()
             self.__m_metadata = bencode.bdecode(self.__m_filedata)
-        except Exception, e:
-            log.warning("Unable to open %s: %s", filename, e)
-            raise e
+        except Exception as ex:
+            log.warning("Unable to open %s: %s", filename, ex)
+            raise ex
 
         self.__m_info_hash = sha(bencode.bencode(self.__m_metadata["info"])).hexdigest()
 
@@ -115,7 +89,7 @@ class TorrentInfo(object):
         # Get list of files from torrent info
         paths = {}
         dirs = {}
-        if self.__m_metadata["info"].has_key("files"):
+        if "files" in self.__m_metadata["info"]:
             prefix = ""
             if len(self.__m_metadata["info"]["files"]) > 1:
                 prefix = self.__m_name
@@ -125,7 +99,8 @@ class TorrentInfo(object):
                     path = os.path.join(prefix, *f["path.utf-8"])
                     del f["path.utf-8"]
                 else:
-                    path = utf8_encoded(os.path.join(prefix, utf8_encoded(os.path.join(*f["path"]), self.encoding)), self.encoding)
+                    path = utf8_encoded(os.path.join(prefix, utf8_encoded(os.path.join(*f["path"]),
+                                                                          self.encoding)), self.encoding)
                 f["path"] = path
                 f["index"] = index
                 if "sha1" in f and len(f["sha1"]) == 20:
@@ -176,7 +151,7 @@ class TorrentInfo(object):
                 }
 
         self.__m_files = []
-        if self.__m_metadata["info"].has_key("files"):
+        if "files" in self.__m_metadata["info"]:
             prefix = ""
             if len(self.__m_metadata["info"]["files"]) > 1:
                 prefix = self.__m_name
@@ -192,7 +167,7 @@ class TorrentInfo(object):
                 "path": self.__m_name,
                 "size": self.__m_metadata["info"]["length"],
                 "download": True
-        })
+            })
 
     def as_dict(self, *keys):
         """
@@ -267,6 +242,7 @@ class TorrentInfo(object):
         """
         return self.__m_filedata
 
+
 class FileTree2(object):
     """
     Converts a list of paths in to a file tree.
@@ -328,16 +304,17 @@ class FileTree2(object):
             for path in directory["contents"].keys():
                 full_path = path_join(parent_path, path)
                 if directory["contents"][path]["type"] == "dir":
-                    directory["contents"][path] = callback(full_path, directory["contents"][path]) or \
-                             directory["contents"][path]
+                    directory["contents"][path] = callback(full_path, directory["contents"][path]
+                                                           ) or directory["contents"][path]
                     walk(directory["contents"][path], full_path)
                 else:
-                    directory["contents"][path] = callback(full_path, directory["contents"][path]) or \
-                             directory["contents"][path]
+                    directory["contents"][path] = callback(full_path, directory["contents"][path]
+                                                           ) or directory["contents"][path]
         walk(self.tree, "")
 
     def __str__(self):
         lines = []
+
         def write(path, item):
             depth = path.count("/")
             path = os.path.basename(path)
@@ -345,6 +322,7 @@ class FileTree2(object):
             lines.append("  " * depth + path)
         self.walk(write)
         return "\n".join(lines)
+
 
 class FileTree(object):
     """
@@ -404,16 +382,15 @@ class FileTree(object):
             for path in directory.keys():
                 full_path = os.path.join(parent_path, path)
                 if type(directory[path]) is dict:
-                    directory[path] = callback(full_path, directory[path]) or \
-                             directory[path]
+                    directory[path] = callback(full_path, directory[path]) or directory[path]
                     walk(directory[path], full_path)
                 else:
-                    directory[path] = callback(full_path, directory[path]) or \
-                             directory[path]
+                    directory[path] = callback(full_path, directory[path]) or directory[path]
         walk(self.tree, "")
 
     def __str__(self):
         lines = []
+
         def write(path, item):
             depth = path.count("/")
             path = os.path.basename(path)
@@ -421,6 +398,7 @@ class FileTree(object):
             lines.append("  " * depth + path)
         self.walk(write)
         return "\n".join(lines)
+
 
 def get_localhost_auth():
     """
@@ -439,12 +417,8 @@ def get_localhost_auth():
             if line.startswith("#"):
                 # This is a comment line
                 continue
-            line = line.strip()
-            try:
-                lsplit = line.split(":")
-            except Exception, e:
-                log.error("Your auth file is malformed: %s", e)
-                continue
+
+            lsplit = line.strip().split(":")
 
             if len(lsplit) == 2:
                 username, password = lsplit

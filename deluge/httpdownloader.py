@@ -1,47 +1,25 @@
-#
-# httpdownloader.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
-from twisted.web import client, http
-from twisted.web.error import PageRedirect
-from twisted.python.failure import Failure
-from twisted.internet import reactor
-from common import get_version
 import logging
 import os.path
 import zlib
 
+from twisted.internet import reactor
+from twisted.python.failure import Failure
+from twisted.web import client, http
+from twisted.web.error import PageRedirect
+
+from deluge.common import get_version
+
 log = logging.getLogger(__name__)
+
 
 class HTTPDownloader(client.HTTPDownloader):
     """
@@ -130,6 +108,7 @@ class HTTPDownloader(client.HTTPDownloader):
 
         return client.HTTPDownloader.pageEnd(self)
 
+
 def sanitise_filename(filename):
     """
     Sanitises a filename to use as a download destination file.
@@ -157,8 +136,8 @@ def sanitise_filename(filename):
 
     return filename
 
-def download_file(url, filename, callback=None, headers=None,
-                  force_filename=False, allow_compression=True):
+
+def download_file(url, filename, callback=None, headers=None, force_filename=False, allow_compression=True):
     """
     Downloads a file from a specific URL and returns a Deferred.  You can also
     specify a callback function to be called as parts are received.
@@ -196,7 +175,7 @@ def download_file(url, filename, callback=None, headers=None,
             headers = {}
         headers["accept-encoding"] = "deflate, gzip, x-gzip"
 
-    # In twisted 13.1.0 the _parse() function was replaced by the _URI class 
+    # In twisted 13.1.0 the _parse() function was replaced by the _URI class
     if hasattr(client, '_parse'):
         scheme, host, port, path = client._parse(url)
     else:
@@ -205,7 +184,6 @@ def download_file(url, filename, callback=None, headers=None,
         scheme = uri.scheme
         host = uri.host
         port = uri.port
-        path = uri.path
 
     factory = HTTPDownloader(url, filename, callback, headers, force_filename, allow_compression)
     if scheme == "https":

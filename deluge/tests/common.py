@@ -1,13 +1,14 @@
 import os
 import sys
-import time
 import tempfile
-from subprocess import Popen, PIPE
+import time
+from subprocess import PIPE, Popen
+
+from twisted.internet.error import CannotListenError
 
 import deluge.common
 import deluge.configmanager
 import deluge.log
-from twisted.internet.error import CannotListenError
 
 deluge.log.setupLogger("none")
 

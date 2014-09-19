@@ -1,45 +1,20 @@
 # -*- coding: utf-8 -*-
 #
-# piecesbar.py
-#
 # Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-#     The Free Software Foundation, Inc.,
-#     51 Franklin Street, Fifth Floor
-#     Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
-import gtk
-import cairo
-import pango
-import pangocairo
 import logging
 from math import pi
+
+import cairo
+import gtk
+import pango
+import pangocairo
+
 from deluge.configmanager import ConfigManager
 
 log = logging.getLogger(__name__)
@@ -122,16 +97,16 @@ class PiecesBar(gtk.DrawingArea):
 
     def __roundcorners_border(self):
         self.__create_roundcorners_subpath(
-            self.__cr, 0.5, 0.5, self.__width-1, self.__height-1
+            self.__cr, 0.5, 0.5, self.__width - 1, self.__height - 1
         )
         self.__cr.set_source_rgba(0.0, 0.0, 0.0, 0.9)
         self.__cr.stroke()
 
     def __create_roundcorners_subpath(self, ctx, x, y, width, height):
         aspect = 1.0
-        corner_radius = height/10.0
-        radius = corner_radius/aspect
-        degrees = pi/180.0
+        corner_radius = height / 10.0
+        radius = corner_radius / aspect
+        degrees = pi / 180.0
         ctx.new_sub_path()
         ctx.arc(x + width - radius, y + radius, radius, -90 * degrees, 0 * degrees)
         ctx.arc(x + width - radius, y + height - radius, radius, 0 * degrees, 90 * degrees)
@@ -150,14 +125,14 @@ class PiecesBar(gtk.DrawingArea):
             ctx = cairo.Context(self.__pieces_overlay)
             start_pos = 0
             num_pieces = self.__num_pieces and self.__num_pieces or len(self.__pieces)
-            piece_width = self.__width*1.0/num_pieces
+            piece_width = self.__width * 1.0 / num_pieces
 
             for state in self.__pieces:
                 color = self.gtkui_config["pieces_color_%s" % COLOR_STATES[state]]
                 ctx.set_source_rgb(
-                    color[0]/65535.0,
-                    color[1]/65535.0,
-                    color[2]/65535.0,
+                    color[0] / 65535.0,
+                    color[1] / 65535.0,
+                    color[2] / 65535.0,
                 )
                 ctx.rectangle(start_pos, 0, piece_width, self.__height)
                 ctx.fill()
@@ -174,15 +149,15 @@ class PiecesBar(gtk.DrawingArea):
                 cairo.FORMAT_ARGB32, self.__width, self.__height
             )
             ctx = cairo.Context(self.__pieces_overlay)
-            piece_width = self.__width*1.0/self.__num_pieces
+            piece_width = self.__width * 1.0 / self.__num_pieces
             start = 0
             for _ in range(self.__num_pieces):
                 # Like this to keep same aspect ratio
                 color = self.gtkui_config["pieces_color_%s" % COLOR_STATES[3]]
                 ctx.set_source_rgb(
-                    color[0]/65535.0,
-                    color[1]/65535.0,
-                    color[2]/65535.0,
+                    color[0] / 65535.0,
+                    color[1] / 65535.0,
+                    color[2] / 65535.0,
                 )
                 ctx.rectangle(start, 0, piece_width, self.__height)
                 ctx.fill()
@@ -202,7 +177,7 @@ class PiecesBar(gtk.DrawingArea):
             )
             ctx = cairo.Context(self.__progress_overlay)
             ctx.set_source_rgba(0.1, 0.1, 0.1, 0.3)  # Transparent
-            ctx.rectangle(0.0, 0.0, self.__width*self.__fraction, self.__height)
+            ctx.rectangle(0.0, 0.0, self.__width * self.__fraction, self.__height)
             ctx.fill()
         self.__cr.set_source_surface(self.__progress_overlay)
         self.__cr.paint()
@@ -235,15 +210,15 @@ class PiecesBar(gtk.DrawingArea):
                     format = "%d%%"
                 else:
                     format = "%.2f%%"
-                text += format % (self.__fraction*100)
+                text += format % (self.__fraction * 100)
             log.trace("PiecesBar text %r", text)
             pl.set_text(text)
             plsize = pl.get_size()
-            text_width = plsize[0]/pango.SCALE
-            text_height = plsize[1]/pango.SCALE
+            text_width = plsize[0] / pango.SCALE
+            text_height = plsize[1] / pango.SCALE
             area_width_without_text = self.__width - text_width
             area_height_without_text = self.__height - text_height
-            ctx.move_to(area_width_without_text/2, area_height_without_text/2)
+            ctx.move_to(area_width_without_text / 2, area_height_without_text / 2)
             ctx.set_source_rgb(1.0, 1.0, 1.0)
             pg.update_layout(pl)
             pg.show_layout(pl)
@@ -285,7 +260,7 @@ class PiecesBar(gtk.DrawingArea):
 
     def update_from_status(self, status):
         log.trace("Updating PiecesBar from status")
-        self.set_fraction(status["progress"]/100)
+        self.set_fraction(status["progress"] / 100)
         torrent_state = status["state"]
         self.set_state(torrent_state)
         if torrent_state == "Checking":

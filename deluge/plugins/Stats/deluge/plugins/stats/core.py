@@ -33,14 +33,14 @@
 #    but you are not obligated to do so. If you do not wish to do so, delete
 #    this exception statement from your version. If you delete this exception
 
-import time
 import logging
+import time
+
 from twisted.internet.task import LoopingCall
 
-from deluge.plugins.pluginbase import CorePluginBase
-from deluge import component
-from deluge import configmanager
+from deluge import component, configmanager
 from deluge.core.rpcserver import export
+from deluge.plugins.pluginbase import CorePluginBase
 
 DEFAULT_PREFS = {
     "test": "NiNiNi",
@@ -185,8 +185,8 @@ class Core(CorePluginBase):
             update_interval(30, 5, 6)
             update_interval(300, 30, 10)
 
-        except Exception, e:
-            log.error("Stats update error %s" % e)
+        except Exception as ex:
+            log.error("Stats update error %s" % ex)
         return True
 
     def save_stats(self):
@@ -194,8 +194,8 @@ class Core(CorePluginBase):
             self.saved_stats["stats"] = self.stats
             self.saved_stats.config.update(self.get_totals())
             self.saved_stats.save()
-        except Exception, e:
-            log.error("Stats save error", e)
+        except Exception as ex:
+            log.error("Stats save error", ex)
         return True
 
     # export:

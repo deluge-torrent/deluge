@@ -33,8 +33,9 @@
 #
 #
 
-import logging
 import copy
+import logging
+
 import deluge.component as component
 from deluge.common import TORRENT_STATE
 

@@ -35,25 +35,22 @@
 
 """RPCServer Module"""
 
-import sys
+import logging
 import os
 import stat
-import logging
+import sys
 import traceback
-
-from twisted.internet.protocol import Factory
-from twisted.internet import reactor, defer
+from types import FunctionType
 
 from OpenSSL import crypto, SSL
-from types import FunctionType
+from twisted.internet import defer, reactor
+from twisted.internet.protocol import Factory
 
 import deluge.component as component
 import deluge.configmanager
-from deluge.core.authmanager import (AUTH_LEVEL_NONE, AUTH_LEVEL_DEFAULT,
-                                     AUTH_LEVEL_ADMIN)
-from deluge.error import (DelugeError, NotAuthorizedError, WrappedException,
-                          _ClientSideRecreateError, IncompatibleClient)
-
+from deluge.core.authmanager import AUTH_LEVEL_ADMIN, AUTH_LEVEL_DEFAULT, AUTH_LEVEL_NONE
+from deluge.error import (_ClientSideRecreateError, DelugeError, IncompatibleClient, NotAuthorizedError,
+                          WrappedException)
 from deluge.transfer import DelugeTransferProtocol
 
 RPC_RESPONSE = 1
@@ -235,7 +232,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                     exceptionValue._kwargs,
                     formated_tb
                 ))
-            except AttributeError, err:
+            except AttributeError as err:
                 # This is not a deluge exception (object has no attribute '_args), let's wrap it
                 log.error("An exception occurred while sending RPC_ERROR to "
                           "client. Wrapping it and resending. Error to "
@@ -244,7 +241,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                     raise WrappedException(str(exceptionValue), exceptionType.__name__, formated_tb)
                 except:
                     send_error()
-            except Exception, err:
+            except Exception as err:
                 log.error("An exception occurred while sending RPC_ERROR to client: %s", err)
 
         if method == "daemon.info":
@@ -263,10 +260,10 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                 if ret:
                     self.factory.authorized_sessions[self.transport.sessionno] = (ret, args[0])
                     self.factory.session_protocols[self.transport.sessionno] = self
-            except Exception, e:
+            except Exception as ex:
                 send_error()
-                if not isinstance(e, _ClientSideRecreateError):
-                    log.exception(e)
+                if not isinstance(ex, _ClientSideRecreateError):
+                    log.exception(ex)
             else:
                 self.sendData((RPC_RESPONSE, request_id, (ret)))
                 if not ret:
@@ -282,7 +279,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                 if self.transport.sessionno not in self.factory.interested_events:
                     self.factory.interested_events[self.transport.sessionno] = []
                 self.factory.interested_events[self.transport.sessionno].extend(args[0])
-            except Exception, e:
+            except Exception:
                 send_error()
             else:
                 self.sendData((RPC_RESPONSE, request_id, (True)))
@@ -303,12 +300,12 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                 # which session is calling it.
                 self.factory.session_id = self.transport.sessionno
                 ret = self.factory.methods[method](*args, **kwargs)
-            except Exception, e:
+            except Exception as ex:
                 send_error()
                 # Don't bother printing out DelugeErrors, because they are just
                 # for the client
-                if not isinstance(e, DelugeError):
-                    log.exception("Exception calling RPC request: %s", e)
+                if not isinstance(ex, DelugeError):
+                    log.exception("Exception calling RPC request: %s", ex)
             else:
                 # Check if the return value is a deferred, since we'll need to
                 # wait for it to fire before sending the RPC_RESPONSE
@@ -380,9 +377,9 @@ class RPCServer(component.Component):
 
         try:
             reactor.listenSSL(port, self.factory, ServerContextFactory(), interface=hostname)
-        except Exception, e:
+        except Exception as ex:
             log.info("Daemon already running or port not available..")
-            log.error(e)
+            log.error(ex)
             sys.exit(0)
 
     def register_object(self, obj, name=None):
@@ -413,7 +410,7 @@ class RPCServer(component.Component):
 
         """
         for key, value in self.factory.methods.items():
-            if value.im_self == obj:
+            if value.__self__ == obj:
                 del self.factory.methods[key]
 
     def get_object_method(self, name):
@@ -576,7 +573,7 @@ def generate_ssl_keys():
     cert = crypto.X509()
     cert.set_serial_number(0)
     cert.gmtime_adj_notBefore(0)
-    cert.gmtime_adj_notAfter(60*60*24*365*5)  # Five Years
+    cert.gmtime_adj_notAfter(60 * 60 * 24 * 365 * 5)  # Five Years
     cert.set_issuer(req.get_subject())
     cert.set_subject(req.get_subject())
     cert.set_pubkey(req.get_pubkey())

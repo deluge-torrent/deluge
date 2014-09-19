@@ -1,49 +1,22 @@
+# -*- coding: utf-8 -*-
 #
-# statusbar.py
+# Copyright (C) 2007-2008 Andrew Resch <andrewresch@gmail.com>
 #
-# Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
-#
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
-
-import gtk
-import gobject
 import logging
 
-from deluge.ui.client import client
-import deluge.component as component
+import gobject
+import gtk
+
 import deluge.common
-from deluge.ui.gtkui import common
-from deluge.ui.gtkui import dialogs
+import deluge.component as component
 from deluge.configmanager import ConfigManager
+from deluge.ui.client import client
+from deluge.ui.gtkui import common, dialogs
 
 log = logging.getLogger(__name__)
 
@@ -221,8 +194,8 @@ class StatusBar(component.Component):
             self.remove_item(self.health_item)
             self.remove_item(self.traffic_item)
             self.remove_item(self.diskspace_item)
-        except Exception, e:
-            log.debug("Unable to remove StatusBar item: %s", e)
+        except Exception as ex:
+            log.debug("Unable to remove StatusBar item: %s", ex)
         self.show_not_connected()
 
     def visible(self, visible):
@@ -249,8 +222,8 @@ class StatusBar(component.Component):
         if item.get_eventbox() in self.hbox.get_children():
             try:
                 self.hbox.remove(item.get_eventbox())
-            except Exception, e:
-                log.debug("Unable to remove widget: %s", e)
+            except Exception as ex:
+                log.debug("Unable to remove widget: %s", ex)
 
     def add_timeout_item(self, seconds=3, image=None, stock=None, text=None, callback=None):
         """Adds an item to the StatusBar for seconds"""

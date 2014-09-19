@@ -1,63 +1,37 @@
-#
-# ipcinterface.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008-2009 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
-
-import sys
-import os
 import base64
 import logging
-from urllib import url2pathname
-from urlparse import urlparse
+import os
+import sys
 from glob import glob
 from tempfile import mkstemp
+from urllib import url2pathname
+from urlparse import urlparse
+
+import twisted.internet.error
+from twisted.internet import reactor
+from twisted.internet.protocol import ClientFactory, Factory, Protocol
+
+import deluge.component as component
+from deluge.common import is_magnet, is_url, windows_check
+from deluge.configmanager import ConfigManager, get_config_dir
+from deluge.ui.client import client
 
 try:
     import rencode
 except ImportError:
     import deluge.rencode as rencode
 
-import deluge.component as component
-from deluge.ui.client import client
-import deluge.common
-from deluge.configmanager import ConfigManager
-
-from twisted.internet.protocol import Factory, Protocol, ClientFactory
-from twisted.internet import reactor
-import twisted.internet.error
-
 log = logging.getLogger(__name__)
+
 
 class IPCProtocolServer(Protocol):
     def dataReceived(self, data):
@@ -67,6 +41,7 @@ class IPCProtocolServer(Protocol):
             component.get("MainWindow").present()
         process_args(data)
 
+
 class IPCProtocolClient(Protocol):
     def connectionMade(self):
         self.transport.write(rencode.dumps(self.factory.args))
@@ -75,6 +50,7 @@ class IPCProtocolClient(Protocol):
     def connectionLost(self, reason):
         reactor.stop()
         self.factory.stop = True
+
 
 class IPCClientFactory(ClientFactory):
     protocol = IPCProtocolClient
@@ -86,14 +62,15 @@ class IPCClientFactory(ClientFactory):
         log.warning("Connection to running instance failed.")
         reactor.stop()
 
+
 class IPCInterface(component.Component):
     def __init__(self, args):
         component.Component.__init__(self, "IPCInterface")
-        ipc_dir = deluge.configmanager.get_config_dir("ipc")
+        ipc_dir = get_config_dir("ipc")
         if not os.path.exists(ipc_dir):
             os.makedirs(ipc_dir)
         socket = os.path.join(ipc_dir, "deluge-gtk")
-        if deluge.common.windows_check():
+        if windows_check():
             # If we're on windows we need to check the global mutex to see if deluge is
             # already running.
             import win32event
@@ -134,17 +111,17 @@ class IPCInterface(component.Component):
                     log.debug("Removing lockfile since it's stale.")
                     try:
                         os.remove(lockfile)
-                    except OSError, ex:
+                    except OSError as ex:
                         log.error("Failed to delete IPC lockfile file: %s", ex)
                     try:
                         os.remove(socket)
-                    except OSError, ex:
+                    except OSError as ex:
                         log.error("Failed to delete IPC socket file: %s", ex)
             try:
                 self.factory = Factory()
                 self.factory.protocol = IPCProtocolServer
                 reactor.listenUNIX(socket, self.factory, wantPID=True)
-            except twisted.internet.error.CannotListenError, e:
+            except twisted.internet.error.CannotListenError as ex:
                 log.info("Deluge is already running! Sending arguments to running instance...")
                 self.factory = IPCClientFactory()
                 self.factory.args = args
@@ -157,10 +134,10 @@ class IPCInterface(component.Component):
                     sys.exit(0)
                 else:
                     if old_tempfile:
-                        log.error("Deluge restart failed: %s", e)
+                        log.error("Deluge restart failed: %s", ex)
                         sys.exit(1)
                     else:
-                        log.warning('Restarting Deluge... (%s)', e)
+                        log.warning('Restarting Deluge... (%s)', ex)
                         # Create a tempfile to keep track of restart
                         mkstemp('deluge', dir=ipc_dir)
                         os.execv(sys.argv[0], sys.argv)
@@ -168,9 +145,10 @@ class IPCInterface(component.Component):
                 process_args(args)
 
     def shutdown(self):
-        if deluge.common.windows_check():
+        if windows_check():
             import win32api
             win32api.CloseHandle(self.mutex)
+
 
 def process_args(args):
     """Process arguments sent to already running Deluge"""
@@ -189,7 +167,7 @@ def process_args(args):
             continue
         log.debug("arg: %s", arg)
 
-        if deluge.common.is_url(arg):
+        if is_url(arg):
             log.debug("Attempting to add url (%s) from external source...", arg)
             if config["interactive_add"]:
                 component.get("AddTorrentDialog").add_from_url(arg)
@@ -197,7 +175,7 @@ def process_args(args):
             else:
                 client.core.add_torrent_url(arg, None)
 
-        elif deluge.common.is_magnet(arg):
+        elif is_magnet(arg):
             log.debug("Attempting to add magnet (%s) from external source...", arg)
             if config["interactive_add"]:
                 component.get("AddTorrentDialog").add_from_magnets([arg])
@@ -219,4 +197,5 @@ def process_args(args):
                 component.get("AddTorrentDialog").add_from_files([path])
                 component.get("AddTorrentDialog").show(config["focus_add_dialog"])
             else:
-                client.core.add_torrent_file(os.path.split(path)[-1], base64.encodestring(open(path, "rb").read()), None)
+                client.core.add_torrent_file(os.path.split(path)[-1],
+                                             base64.encodestring(open(path, "rb").read()), None)

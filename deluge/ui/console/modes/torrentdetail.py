@@ -1,64 +1,30 @@
 # -*- coding: utf-8 -*-
 #
-# torrentdetail.py
-#
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 #
-# Deluge is free software.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
-#
+
+import logging
+from collections import deque
+from sys import maxint
 
 import deluge.component as component
-from basemode import BaseMode
-import deluge.common
-import deluge.common as common
+from deluge.common import fdate, FILE_PRIORITY, fsize, ftime
 from deluge.ui.client import client
-
-from sys import maxint
-from collections import deque
-
-from deluge.ui.sessionproxy import SessionProxy
-
-from popup import Popup,SelectablePopup,MessagePopup
-from add_util import add_torrent
-from input_popup import InputPopup
-import deluge.ui.console.colors as colors
-import format_utils
-
-from torrent_actions import torrent_actions_popup, ACTION
+from deluge.ui.console import colors, format_utils
+from deluge.ui.console.basemode import BaseMode
+from deluge.ui.console.input_popup import InputPopup
+from deluge.ui.console.popup import MessagePopup, SelectablePopup
+from deluge.ui.console.torrent_actions import ACTION, torrent_actions_popup
 
 try:
     import curses
 except ImportError:
     pass
 
-import logging
 log = logging.getLogger(__name__)
 
 # Big help string that gets displayed when the user hits 'h'
@@ -93,6 +59,7 @@ download priority of selected files and folders.
 
 {!info!}Left Arrow{!normal!} - Go back to torrent overview.
 """
+
 
 class TorrentDetail(BaseMode, component.Component):
     def __init__(self, alltorrentmode, torrentid, stdscr, console_config, encoding=None):
@@ -144,6 +111,7 @@ class TorrentDetail(BaseMode, component.Component):
     # component start/update
     def start(self):
         component.get("SessionProxy").get_torrent_status(self.torrentid, self._status_keys).addCallback(self.set_state)
+
     def update(self):
         component.get("SessionProxy").get_torrent_status(self.torrentid, self._status_keys).addCallback(self.set_state)
 
@@ -151,19 +119,21 @@ class TorrentDetail(BaseMode, component.Component):
         log.debug("got state")
 
         if state.get("files"):
-            self.full_names = dict([ (x['index'], x['path']) for x in state["files"]])
+            self.full_names = dict([(x["index"], x["path"]) for x in state["files"]])
 
         need_prio_update = False
         if not self.file_list:
             # don't keep getting the files once we've got them once
             if state.get("files"):
-                self.files_sep = "{!green,black,bold,underline!}%s"%(("Files (torrent has %d files)"%len(state["files"])).center(self.cols))
-                self.file_list,self.file_dict = self.build_file_list(state["files"],state["file_progress"],state["file_priorities"])
+                self.files_sep = "{!green,black,bold,underline!}%s" % (
+                    ("Files (torrent has %d files)" % len(state["files"])).center(self.cols))
+                self.file_list, self.file_dict = self.build_file_list(state["files"], state["file_progress"],
+                                                                      state["file_priorities"])
                 self._status_keys.remove("files")
             else:
-                self.files_sep = "{!green,black,bold,underline!}%s"%(("Files (File list unknown)").center(self.cols))
+                self.files_sep = "{!green,black,bold,underline!}%s" % (("Files (File list unknown)").center(self.cols))
             need_prio_update = True
-        self.__fill_progress(self.file_list,state["file_progress"])
+        self.__fill_progress(self.file_list, state["file_progress"])
         for i, prio in enumerate(state["file_priorities"]):
             if self.file_dict[i][6] != prio:
                 need_prio_update = True
@@ -185,7 +155,7 @@ class TorrentDetail(BaseMode, component.Component):
     #
     # Also returns a dictionary that maps index values to the file leaves
     # for fast updating of progress and priorities
-    def build_file_list(self, file_tuples,prog,prio):
+    def build_file_list(self, file_tuples, prog, prio):
         ret = []
         retdict = {}
         diridx = maxint
@@ -197,21 +167,21 @@ class TorrentDetail(BaseMode, component.Component):
                 if not cur or p != cur[-1][0]:
                     cl = []
                     if p == fin:
-                        ent = [p,f["index"],f["size"],cl,False,
-                               format_utils.format_progress(prog[f["index"]]*100),
+                        ent = [p, f["index"], f["size"], cl, False,
+                               format_utils.format_progress(prog[f["index"]] * 100),
                                prio[f["index"]]]
                         retdict[f["index"]] = ent
                     else:
-                        ent = [p,diridx,-1,cl,False,0,-1]
+                        ent = [p, diridx, -1, cl, False, 0, -1]
                         retdict[diridx] = ent
-                        diridx-=1
+                        diridx -= 1
                     cur.append(ent)
                     cur = cl
                 else:
                     cur = cur[-1][3]
         self.__build_sizes(ret)
-        self.__fill_progress(ret,prog)
-        return (ret,retdict)
+        self.__fill_progress(ret, prog)
+        return (ret, retdict)
 
     # fill in the sizes of the directory entries based on their children
     def __build_sizes(self, fs):
@@ -227,54 +197,55 @@ class TorrentDetail(BaseMode, component.Component):
 
     # fills in progress fields in all entries based on progs
     # returns the # of bytes complete in all the children of fs
-    def __fill_progress(self,fs,progs):
-        if not progs: return 0
+    def __fill_progress(self, fs, progs):
+        if not progs:
+            return 0
         tb = 0
         for f in fs:
-            if f[3]: # dir, has some children
-                bd = self.__fill_progress(f[3],progs)
-                f[5] = format_utils.format_progress((bd/f[2])*100)
-            else: # file, update own prog and add to total
-                bd = f[2]*progs[f[1]]
-                f[5] = format_utils.format_progress(progs[f[1]]*100)
+            if f[3]:  # dir, has some children
+                bd = self.__fill_progress(f[3], progs)
+                f[5] = format_utils.format_progress((bd / f[2]) * 100)
+            else:  # file, update own prog and add to total
+                bd = f[2] * progs[f[1]]
+                f[5] = format_utils.format_progress(progs[f[1]] * 100)
             tb += bd
         return tb
 
-    def __fill_prio(self,fs):
+    def __fill_prio(self, fs):
         for f in fs:
-            if f[3]: # dir, so fill in children and compute our prio
+            if f[3]:  # dir, so fill in children and compute our prio
                 self.__fill_prio(f[3])
-                s = set([e[6] for e in f[3]]) # pull out all child prios and turn into a set
-                if len(s) > 1:
+                child_prios = [e[6] for e in f[3]]
+                if len(child_prios) > 1:
                     f[6] = -2  # mixed
                 else:
-                    f[6] = s.pop()
+                    f[6] = child_prios.pop(0)
 
     def __update_columns(self):
-        self.column_widths = [-1,15,15,20]
-        req = sum(filter(lambda x:x >= 0,self.column_widths))
-        if (req > self.cols): # can't satisfy requests, just spread out evenly
-            cw = int(self.cols/len(self.column_names))
-            for i in range(0,len(self.column_widths)):
+        self.column_widths = [-1, 15, 15, 20]
+        req = sum(filter(lambda x: x >= 0, self.column_widths))
+        if (req > self.cols):  # can't satisfy requests, just spread out evenly
+            cw = int(self.cols / len(self.column_names))
+            for i in range(0, len(self.column_widths)):
                 self.column_widths[i] = cw
         else:
             rem = self.cols - req
-            var_cols = len(filter(lambda x: x < 0,self.column_widths))
-            vw = int(rem/var_cols)
+            var_cols = len(filter(lambda x: x < 0, self.column_widths))
+            vw = int(rem / var_cols)
             for i in range(0, len(self.column_widths)):
                 if (self.column_widths[i] < 0):
                     self.column_widths[i] = vw
 
-        self.column_string = "{!green,black,bold!}%s"%("".join(["%s%s"%(self.column_names[i]," "*(self.column_widths[i]-len(self.column_names[i]))) for i in range(0,len(self.column_names))]))
+        self.column_string = "{!green,black,bold!}%s" % ("".join(["%s%s" % (self.column_names[i], " " * (
+            self.column_widths[i] - len(self.column_names[i]))) for i in range(0, len(self.column_names))]))
 
-
-    def report_message(self,title,message):
-        self.messages.append((title,message))
+    def report_message(self, title, message):
+        self.messages.append((title, message))
 
     def clear_marks(self):
         self.marked = {}
 
-    def set_popup(self,pu):
+    def set_popup(self, pu):
         self.popup = pu
         self.refresh()
 
@@ -285,7 +256,8 @@ class TorrentDetail(BaseMode, component.Component):
     def _on_torrentfilerenamed_event(self, torrent_id, index, new_name):
         if torrent_id == self.torrentid:
             self.file_dict[index][0] = new_name.split("/")[-1]
-            component.get("SessionProxy").get_torrent_status(self.torrentid, self._status_keys).addCallback(self.set_state)
+            component.get("SessionProxy").get_torrent_status(
+                self.torrentid, self._status_keys).addCallback(self.set_state)
 
     def _on_torrentfolderrenamed_event(self, torrent_id, old_folder, new_folder):
         if torrent_id == self.torrentid:
@@ -302,9 +274,10 @@ class TorrentDetail(BaseMode, component.Component):
             fe[0] = new_folder.strip("/").rpartition("/")[-1]
 
             #self.__get_file_by_name(old_folder, self.file_list)[0] = new_folder.strip("/")
-            component.get("SessionProxy").get_torrent_status(self.torrentid, self._status_keys).addCallback(self.set_state)
+            component.get("SessionProxy").get_torrent_status(
+                self.torrentid, self._status_keys).addCallback(self.set_state)
 
-    def draw_files(self,files,depth,off,idx):
+    def draw_files(self, files, depth, off, idx):
 
         color_selected = "blue"
         color_partially_selected = "magenta"
@@ -313,30 +286,27 @@ class TorrentDetail(BaseMode, component.Component):
             #from sys import stderr
             #print >> stderr, fl[6]
             # kick out if we're going to draw too low on the screen
-            if (off >= self.rows-1):
+            if (off >= self.rows - 1):
                 self.more_to_draw = True
-                return -1,-1
+                return -1, -1
 
             self.file_limit = idx
-
 
             # default color values
             fg = "white"
             bg = "black"
             attr = ""
 
-            if   fl[6] == -2: priority = -1 #Mixed
+            if fl[6] == -2:
+                pass  # Mixed
             elif fl[6] == 0:
-                priority = 0 #Do Not Download
-                fg = "red"
+                fg = "red"  # Do Not Download
             elif fl[6] == 1:
-                priority = 1 #Normal
+                pass  # Normal
             elif fl[6] <= 6:
-                priority = 2 #High
-                fg = "yellow"
+                fg = "yellow"  # High
             elif fl[6] == 7:
-                priority = 3 #Highest
-                fg = "green"
+                fg = "green"  # Highest
 
             if idx >= self.file_off:
                 # set fg/bg colors based on whether the file is selected/marked or not
@@ -354,7 +324,7 @@ class TorrentDetail(BaseMode, component.Component):
                     if fl[1] in self.marked:
                         fg = color_selected
                         if fl[3]:
-                            if self.marked[fl[1]] < self.__get_contained_files_count(file_list = fl[3]):
+                            if self.marked[fl[1]] < self.__get_contained_files_count(file_list=fl[3]):
                                 fg = color_partially_selected
                     else:
                         if fg == "white":
@@ -362,40 +332,41 @@ class TorrentDetail(BaseMode, component.Component):
                         attr = "bold"
 
                 if attr:
-                    color_string = "{!%s,%s,%s!}"%(fg, bg, attr)
+                    color_string = "{!%s,%s,%s!}" % (fg, bg, attr)
                 else:
-                    color_string = "{!%s,%s!}"%(fg, bg)
+                    color_string = "{!%s,%s!}" % (fg, bg)
 
                 #actually draw the dir/file string
-                if fl[3] and fl[4]: # this is an expanded directory
-                    xchar = 'v'
-                elif fl[3]: # collapsed directory
-                    xchar = '>'
-                else: # file
-                    xchar = '-'
+                if fl[3] and fl[4]:  # this is an expanded directory
+                    xchar = "v"
+                elif fl[3]:  # collapsed directory
+                    xchar = ">"
+                else:  # file
+                    xchar = "-"
 
-                r = format_utils.format_row(["%s%s %s"%(" "*depth,xchar,fl[0]),
-                                             deluge.common.fsize(fl[2]),fl[5],
-                                             format_utils.format_priority(fl[6])],
+                r = format_utils.format_row(["%s%s %s" % (" " * depth, xchar, fl[0]),
+                                            fsize(fl[2]), fl[5],
+                                            format_utils.format_priority(fl[6])],
                                             self.column_widths)
 
-                self.add_string(off,"%s%s"%(color_string,r),trim=False)
+                self.add_string(off, "%s%s" % (color_string, r), trim=False)
                 off += 1
 
             if fl[3] and fl[4]:
                 # recurse if we have children and are expanded
-                off,idx = self.draw_files(fl[3],depth+1,off,idx+1)
-                if off < 0: return (off,idx)
+                off, idx = self.draw_files(fl[3], depth + 1, off, idx + 1)
+                if off < 0:
+                    return (off, idx)
             else:
                 idx += 1
 
-        return (off,idx)
+        return (off, idx)
 
     def __get_file_list_length(self, file_list=None):
         """
         Counts length of the displayed file list.
         """
-        if file_list == None:
+        if file_list is None:
             file_list = self.file_list
         length = 0
         if file_list:
@@ -405,16 +376,16 @@ class TorrentDetail(BaseMode, component.Component):
                     length += self.__get_file_list_length(element[3])
         return length
 
-    def __get_contained_files_count(self, file_list=None, idx = None):
+    def __get_contained_files_count(self, file_list=None, idx=None):
         length = 0
-        if file_list == None:
+        if file_list is None:
             file_list = self.file_list
-        if idx != None:
+        if idx is not None:
             for element in file_list:
-                if   element[1] == idx:
-                    return self.__get_contained_files_count(file_list = element[3])
+                if element[1] == idx:
+                    return self.__get_contained_files_count(file_list=element[3])
                 elif element[3]:
-                    c = self.__get_contained_files_count(file_list = element[3], idx=idx)
+                    c = self.__get_contained_files_count(file_list=element[3], idx=idx)
                     if c > 0:
                         return c
         else:
@@ -447,67 +418,80 @@ class TorrentDetail(BaseMode, component.Component):
 
         #Name
         s = "{!info!}Name: {!input!}%s" % status["name"]
-        self.add_string(off, s); off += 1
+        self.add_string(off, s)
+        off += 1
 
         #Print DL info and ETA
         if status["download_payload_rate"] > 0:
             s = "%sDownloading: {!input!}" % down_color
         else:
             s = "{!info!}Downloaded: {!input!}"
-        s+= common.fsize(status["all_time_download"])
+        s += fsize(status["all_time_download"])
         if status["progress"] != 100.0:
-            s+= "/%s" % common.fsize(status["total_wanted"])
+            s += "/%s" % fsize(status["total_wanted"])
         if status["download_payload_rate"] > 0:
-            s+= " {!yellow!}@ %s%s" % (down_color, common.fsize(status["download_payload_rate"]))
-            s+= "{!info!} ETA: {!input!}%s" % format_utils.format_time(status["eta"])
-        self.add_string(off, s); off += 1
+            s += " {!yellow!}@ %s%s" % (down_color, fsize(status["download_payload_rate"]))
+            s += "{!info!} ETA: {!input!}%s" % format_utils.format_time(status["eta"])
+        self.add_string(off, s)
+        off += 1
 
         #Print UL info and ratio
         if status["upload_payload_rate"] > 0:
             s = "%sUploading: {!input!}" % up_color
         else:
             s = "{!info!}Uploaded: {!input!}"
-        s+= common.fsize(status["total_uploaded"])
+        s += fsize(status["total_uploaded"])
         if status["upload_payload_rate"] > 0:
-            s+= " {!yellow!}@ %s%s" % (up_color, common.fsize(status["upload_payload_rate"]))
+            s += " {!yellow!}@ %s%s" % (up_color, fsize(status["upload_payload_rate"]))
         ratio_str = format_utils.format_float(status["ratio"])
-        if ratio_str == "-": ratio_str = "inf"
-        s+= " {!info!}Ratio: {!input!}%s" % ratio_str
-        self.add_string(off, s); off += 1
+        if ratio_str == "-":
+            ratio_str = "inf"
+        s += " {!info!}Ratio: {!input!}%s" % ratio_str
+        self.add_string(off, s)
+        off += 1
 
         #Seed/peer info
         s = "{!info!}Seeds:{!green!} %s {!input!}(%s)" % (status["num_seeds"], status["total_seeds"])
-        self.add_string(off, s); off += 1
+        self.add_string(off, s)
+        off += 1
         s = "{!info!}Peers:{!red!} %s {!input!}(%s)" % (status["num_peers"], status["total_peers"])
-        self.add_string(off, s); off += 1
+        self.add_string(off, s)
+        off += 1
 
         #Tracker
         if status["message"] == "OK":
             color = "{!green!}"
         else:
             color = "{!red!}"
-        s = "{!info!}Tracker: {!magenta!}%s{!input!} says \"%s%s{!input!}\"" % (status["tracker_host"], color, status["message"])
-        self.add_string(off, s); off += 1
+        s = "{!info!}Tracker: {!magenta!}%s{!input!} says \"%s%s{!input!}\"" % (
+            status["tracker_host"], color, status["message"])
+        self.add_string(off, s)
+        off += 1
 
         #Pieces and availability
-        s = "{!info!}Pieces: {!yellow!}%s {!input!}x {!yellow!}%s" % (status["num_pieces"], common.fsize(status["piece_length"]))
+        s = "{!info!}Pieces: {!yellow!}%s {!input!}x {!yellow!}%s" % (
+            status["num_pieces"], fsize(status["piece_length"]))
         if status["distributed_copies"]:
-            s+= " {!info!}Availability: {!input!}%s" % format_utils.format_float(status["distributed_copies"])
-        self.add_string(off, s); off += 1
+            s += " {!info!}Availability: {!input!}%s" % format_utils.format_float(status["distributed_copies"])
+        self.add_string(off, s)
+        off += 1
 
         #Time added
-        s = "{!info!}Added: {!input!}%s" % common.fdate(status["time_added"])
-        self.add_string(off, s); off += 1
+        s = "{!info!}Added: {!input!}%s" % fdate(status["time_added"])
+        self.add_string(off, s)
+        off += 1
 
         #Time active
-        s = "{!info!}Time active: {!input!}%s" % ( common.ftime(status["active_time"]) )
+        s = "{!info!}Time active: {!input!}%s" % (ftime(status["active_time"]))
         if status["seeding_time"]:
-            s+= ", {!cyan!}%s{!input!} seeding" % ( common.ftime(status["seeding_time"]) )
-        self.add_string(off, s); off += 1
+            s += ", {!cyan!}%s{!input!} seeding" % (ftime(status["seeding_time"]))
+        self.add_string(off, s)
+        off += 1
 
         #Download Folder
         s = "{!info!}Download Folder: {!input!}%s" % status["download_location"]
-        self.add_string(off, s); off += 1
+        self.add_string(off, s)
+        off += 1
 
         #Owner
         if status["owner"]:
@@ -515,15 +499,15 @@ class TorrentDetail(BaseMode, component.Component):
 
         return off
 
-    def refresh(self,lines=None):
+    def refresh(self, lines=None):
         # show a message popup if there's anything queued
-        if self.popup == None and self.messages:
-            title,msg = self.messages.popleft()
-            self.popup = MessagePopup(self,title,msg)
+        if self.popup is None and self.messages:
+            title, msg = self.messages.popleft()
+            self.popup = MessagePopup(self, title, msg)
 
         # Update the status bars
         self.stdscr.erase()
-        self.add_string(0,self.statusbars.topbar)
+        self.add_string(0, self.statusbars.topbar)
 
         #This will quite likely fail when switching modes
         try:
@@ -531,7 +515,7 @@ class TorrentDetail(BaseMode, component.Component):
             string = self.statusbars.bottombar
             hstr = "Press {!magenta,blue,bold!}[h]{!status!} for help"
 
-            string += " " * ( self.cols - len(rf(string)) - len(rf(hstr))) + hstr
+            string += " " * (self.cols - len(rf(string)) - len(rf(hstr))) + hstr
 
             self.add_string(self.rows - 1, string)
         except:
@@ -552,11 +536,11 @@ class TorrentDetail(BaseMode, component.Component):
         self._listing_start = off
         self._listing_space = self.rows - self._listing_start
 
-        self.add_string(off,self.column_string)
+        self.add_string(off, self.column_string)
         if self.file_list:
             off += 1
             self.more_to_draw = False
-            self.draw_files(self.file_list,0,off,0)
+            self.draw_files(self.file_list, 0, off, 0)
 
         if component.get("ConsoleUI").screen != self:
             return
@@ -583,14 +567,14 @@ class TorrentDetail(BaseMode, component.Component):
         if self.current_file_idx > maxlen:
             self.current_file_idx = maxlen
 
-        if self.current_file_idx > self.file_off  + (self._listing_space - 3):
+        if self.current_file_idx > self.file_off + (self._listing_space - 3):
             self.file_off = self.current_file_idx - (self._listing_space - 3)
 
         self.refresh()
 
     def file_list_up(self, rows=1):
-        self.current_file_idx = max(0,self.current_file_idx-rows)
-        self.file_off = min(self.file_off,self.current_file_idx)
+        self.current_file_idx = max(0, self.current_file_idx - rows)
+        self.file_off = min(self.file_off, self.current_file_idx)
         self.refresh()
 
     def back_to_overview(self):
@@ -608,18 +592,18 @@ class TorrentDetail(BaseMode, component.Component):
         for f in files:
             #Do not set priorities for the whole dir, just selected contents
             if f[3]:
-                self.build_prio_list(f[3],ret_list,parent_prio,selected_prio)
-            else: # file, need to add to list
+                self.build_prio_list(f[3], ret_list, parent_prio, selected_prio)
+            else:  # file, need to add to list
                 if f[1] in self.marked or parent_prio >= 0:
                     # selected (or parent selected), use requested priority
-                    ret_list.append((f[1],selected_prio))
+                    ret_list.append((f[1], selected_prio))
                 else:
                     # not selected, just keep old priority
-                    ret_list.append((f[1],f[6]))
+                    ret_list.append((f[1], f[6]))
 
     def do_priority(self, idx, data, was_empty):
         plist = []
-        self.build_prio_list(self.file_list,plist,-1,data)
+        self.build_prio_list(self.file_list, plist, -1, data)
         plist.sort()
         priorities = [p[1] for p in plist]
         log.debug("priorities: %s", priorities)
@@ -634,14 +618,14 @@ class TorrentDetail(BaseMode, component.Component):
     def show_priority_popup(self, was_empty):
         func = lambda idx, data, we=was_empty: self.do_priority(idx, data, we)
         if self.marked:
-            self.popup = SelectablePopup(self,"Set File Priority", func)
-            self.popup.add_line("_Do Not Download",data=deluge.common.FILE_PRIORITY["Do Not Download"], foreground="red")
-            self.popup.add_line("_Normal Priority",data=deluge.common.FILE_PRIORITY["Normal Priority"])
-            self.popup.add_line("_High Priority",data=deluge.common.FILE_PRIORITY["High Priority"], foreground="yellow")
-            self.popup.add_line("H_ighest Priority",data=deluge.common.FILE_PRIORITY["Highest Priority"], foreground="green")
+            self.popup = SelectablePopup(self, "Set File Priority", func)
+            self.popup.add_line("_Do Not Download", data=FILE_PRIORITY["Do Not Download"], foreground="red")
+            self.popup.add_line("_Normal Priority", data=FILE_PRIORITY["Normal Priority"])
+            self.popup.add_line("_High Priority", data=FILE_PRIORITY["High Priority"], foreground="yellow")
+            self.popup.add_line("H_ighest Priority", data=FILE_PRIORITY["Highest Priority"], foreground="green")
             self.popup._selected = 1
 
-    def __mark_unmark(self,idx):
+    def __mark_unmark(self, idx):
         """
         Selects or unselects file or a catalog(along with contained files)
         """
@@ -656,7 +640,7 @@ class TorrentDetail(BaseMode, component.Component):
             #Selected, unselect it
             self.__unmark_tree(self.file_list, idx)
 
-    def __mark_tree(self, file_list, idx, mark_all = False):
+    def __mark_tree(self, file_list, idx, mark_all=False):
         """
         Given file_list of TorrentDetail and index of file or folder,
         recursively selects all files contained
@@ -691,7 +675,7 @@ class TorrentDetail(BaseMode, component.Component):
 
         return total_marked
 
-    def __get_file_by_num(self, num, file_list, idx = 0):
+    def __get_file_by_num(self, num, file_list, idx=0):
         for element in file_list:
             if idx == num:
                 return element
@@ -707,7 +691,7 @@ class TorrentDetail(BaseMode, component.Component):
 
         return idx
 
-    def __get_file_by_name(self, name, file_list, idx = 0):
+    def __get_file_by_name(self, name, file_list, idx=0):
         for element in file_list:
             if element[0].strip("/") == name.strip("/"):
                 return element
@@ -723,7 +707,7 @@ class TorrentDetail(BaseMode, component.Component):
 
         return idx
 
-    def __unmark_tree(self, file_list, idx, unmark_all = False):
+    def __unmark_tree(self, file_list, idx, unmark_all=False):
         """
         Given file_list of TorrentDetail and index of file or folder,
         recursively deselects all files contained
@@ -760,8 +744,9 @@ class TorrentDetail(BaseMode, component.Component):
             total_marked += marked
         return total_marked
 
-    def _selection_to_file_idx(self, file_list = None, idx = 0, true_idx = 0, closed=False):
-        if not file_list: file_list = self.file_list
+    def _selection_to_file_idx(self, file_list=None, idx=0, true_idx=0, closed=False):
+        if not file_list:
+            file_list = self.file_list
 
         for element in file_list:
             if idx == self.current_file_idx:
@@ -786,8 +771,9 @@ class TorrentDetail(BaseMode, component.Component):
 
         return (idx, true_idx)
 
-    def _get_full_folder_path(self, num, file_list = None, path = "", idx = 0):
-        if not file_list: file_list = self.file_list
+    def _get_full_folder_path(self, num, file_list=None, path="", idx=0):
+        if not file_list:
+            file_list = self.file_list
 
         for element in file_list:
             if not element[3]:
@@ -798,7 +784,7 @@ class TorrentDetail(BaseMode, component.Component):
                 return "%s%s/" % (path, element[0])
 
             if element[4]:
-                i = self._get_full_folder_path(num, element[3], path + element[0] + "/", idx + 1 )
+                i = self._get_full_folder_path(num, element[3], path + element[0] + "/", idx + 1)
                 if not isinstance(i, int):
                     return i
                 else:
@@ -838,7 +824,7 @@ class TorrentDetail(BaseMode, component.Component):
                     new_fname = "%s/%s/" % (old_fname.strip("/").rpartition("/")[0], result["new_foldername"])
                     self._do_rename_folder(tid, old_fname, new_fname)
 
-                popup = InputPopup(self,"Rename folder (Esc to cancel)",close_cb=do_rename)
+                popup = InputPopup(self, "Rename folder (Esc to cancel)", close_cb=do_rename)
                 popup.add_text("{!info!}Renaming folder:{!input!}")
                 popup.add_text(" * %s\n" % old_filename)
                 popup.add_text_input("Enter new folder name:", "new_foldername", old_filename.strip("/"))
@@ -850,7 +836,7 @@ class TorrentDetail(BaseMode, component.Component):
                     fname = "%s/%s" % (self.full_names[idx].rpartition("/")[0], result["new_filename"])
                     self._do_rename_file(tid, idx, fname)
 
-                popup = InputPopup(self,"Rename file (Esc to cancel)",close_cb=do_rename)
+                popup = InputPopup(self, "Rename file (Esc to cancel)", close_cb=do_rename)
                 popup.add_text("{!info!}Renaming file:{!input!}")
                 popup.add_text(" * %s\n" % old_filename)
                 popup.add_text_input("Enter new filename:", "new_filename", old_filename)
@@ -867,7 +853,7 @@ class TorrentDetail(BaseMode, component.Component):
             return
 
         if c > 31 and c < 256:
-            if chr(c) == 'Q':
+            if chr(c) == "Q":
                 from twisted.internet import reactor
                 if client.connected():
                     def on_disconnect(result):
@@ -876,7 +862,7 @@ class TorrentDetail(BaseMode, component.Component):
                 else:
                     reactor.stop()
                 return
-            elif chr(c) == 'q':
+            elif chr(c) == "q":
                 self.back_to_overview()
                 return
 
@@ -892,14 +878,14 @@ class TorrentDetail(BaseMode, component.Component):
         if c == curses.KEY_UP:
             self.file_list_up()
         elif c == curses.KEY_PPAGE:
-            self.file_list_up(self._listing_space-2)
+            self.file_list_up(self._listing_space - 2)
         elif c == curses.KEY_HOME:
             self.file_off = 0
             self.current_file_idx = 0
         elif c == curses.KEY_DOWN:
             self.file_list_down()
         elif c == curses.KEY_NPAGE:
-            self.file_list_down(self._listing_space-2)
+            self.file_list_down(self._listing_space - 2)
         elif c == curses.KEY_END:
             self.current_file_idx = self.__get_file_list_length() - 1
             self.file_off = self.current_file_idx - (self._listing_space - 3)
@@ -916,24 +902,24 @@ class TorrentDetail(BaseMode, component.Component):
             self.expcol_cur_file()
         else:
             if c > 31 and c < 256:
-                if chr(c) == 'm':
+                if chr(c) == "m":
                     if self.current_file:
                         self.__mark_unmark(self.current_file[1])
-                elif chr(c) == 'r':
+                elif chr(c) == "r":
                     self._show_rename_popup()
-                elif chr(c) == 'c':
+                elif chr(c) == "c":
                     self.marked = {}
-                elif chr(c) == 'a':
-                    torrent_actions_popup(self,[self.torrentid],details=False)
+                elif chr(c) == "a":
+                    torrent_actions_popup(self, [self.torrentid], details=False)
                     return
-                elif chr(c) == 'o':
-                    torrent_actions_popup(self,[self.torrentid],action=ACTION.TORRENT_OPTIONS)
+                elif chr(c) == "o":
+                    torrent_actions_popup(self, [self.torrentid], action=ACTION.TORRENT_OPTIONS)
                     return
-                elif chr(c) == 'h':
+                elif chr(c) == "h":
                     self.popup = MessagePopup(self, "Help", HELP_STR, width_req=0.75)
-                elif chr(c) == 'j':
+                elif chr(c) == "j":
                     self.file_list_up()
-                if chr(c) == 'k':
+                if chr(c) == "k":
                     self.file_list_down()
 
         self.refresh()

@@ -36,7 +36,7 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 __plugin_name__ = "WebUi"
 __author__ = "Damien Churchill"

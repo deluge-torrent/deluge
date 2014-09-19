@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-from twisted.trial import unittest
 import os.path
+
+from twisted.trial import unittest
+
 from deluge.ui.common import TorrentInfo
 
 

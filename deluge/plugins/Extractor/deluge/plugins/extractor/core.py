@@ -11,17 +11,17 @@
 # See LICENSE for more details.
 #
 
-import os
 import logging
+import os
 
 from twisted.internet.utils import getProcessValue
 from twisted.python.procutils import which
 
-from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
-from deluge.core.rpcserver import export
 from deluge.common import windows_check
+from deluge.core.rpcserver import export
+from deluge.plugins.pluginbase import CorePluginBase
 
 log = logging.getLogger(__name__)
 
@@ -126,8 +126,8 @@ class Core(CorePluginBase):
             if not os.path.exists(dest):
                 try:
                     os.makedirs(dest)
-                except Exception, e:
-                    log.error("Error creating destination folder: %s", e)
+                except OSError as ex:
+                    log.error("Error creating destination folder: %s", ex)
                     return
 
             def on_extract_success(result, torrent_id, fpath):

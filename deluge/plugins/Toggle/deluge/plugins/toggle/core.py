@@ -38,10 +38,11 @@
 #
 
 import logging
-from deluge.plugins.pluginbase import CorePluginBase
+
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.rpcserver import export
+from deluge.plugins.pluginbase import CorePluginBase
 
 log = logging.getLogger(__name__)
 

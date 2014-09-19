@@ -8,17 +8,15 @@
 # See LICENSE for more details.
 #
 
+import logging
 import os
 import shutil
-import logging
 
 import deluge.component as component
 import deluge.configmanager as configmanager
-from deluge.common import (AUTH_LEVEL_ADMIN, AUTH_LEVEL_NONE, AUTH_LEVEL_NORMAL,
-                           AUTH_LEVEL_READONLY, AUTH_LEVEL_DEFAULT,
-                           create_localclient_account)
-
-from deluge.error import AuthManagerError, AuthenticationRequired, BadLoginError
+from deluge.common import (AUTH_LEVEL_ADMIN, AUTH_LEVEL_DEFAULT, AUTH_LEVEL_NONE, AUTH_LEVEL_NORMAL,
+                           AUTH_LEVEL_READONLY, create_localclient_account)
+from deluge.error import AuthenticationRequired, AuthManagerError, BadLoginError
 
 log = logging.getLogger(__name__)
 
@@ -134,9 +132,9 @@ class AuthManager(component.Component):
                                             AUTH_LEVELS_MAPPING[authlevel])
             self.write_auth_file()
             return True
-        except Exception, err:
-            log.exception(err)
-            raise err
+        except Exception as ex:
+            log.exception(ex)
+            raise ex
 
     def update_account(self, username, password, authlevel):
         if username not in self.__auth:
@@ -147,9 +145,9 @@ class AuthManager(component.Component):
             self.__auth[username].authlevel = AUTH_LEVELS_MAPPING[authlevel]
             self.write_auth_file()
             return True
-        except Exception, err:
-            log.exception(err)
-            raise err
+        except Exception as ex:
+            log.exception(ex)
+            raise ex
 
     def remove_account(self, username):
         if username not in self.__auth:
@@ -184,7 +182,7 @@ class AuthManager(component.Component):
                     _file.flush()
                     os.fsync(_file.fileno())
                 shutil.move(filepath_tmp, filepath)
-            except (IOError) as ex:
+            except IOError as ex:
                 log.error("Unable to save %s: %s", filename, ex)
                 if os.path.isfile(filepath_bak):
                     log.info("Restoring backup of %s from: %s", filename, filepath_bak)
@@ -215,7 +213,7 @@ class AuthManager(component.Component):
             try:
                 with open(_filepath, "rb") as _file:
                     file_data = _file.readlines()
-            except (IOError), ex:
+            except IOError as ex:
                 log.warning("Unable to load %s: %s", _filepath, ex)
                 file_data = []
             else:

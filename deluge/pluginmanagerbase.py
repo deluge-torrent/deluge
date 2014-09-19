@@ -1,49 +1,23 @@
-#
-# pluginmanagerbase.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 
 """PluginManagerBase"""
 
-import os.path
 import logging
+import os.path
+
 import pkg_resources
 
 import deluge.common
-import deluge.configmanager
-
 import deluge.component as component
+import deluge.configmanager
 
 log = logging.getLogger(__name__)
 
@@ -68,6 +42,7 @@ triggered this warning, please report to it's author.
 If you're the developer, please take a look at the plugins hosted on deluge's
 git repository to have an idea of what needs to be changed.
 """
+
 
 class PluginManagerBase:
     """PluginManagerBase is a base class for PluginManagers to inherit"""
@@ -130,9 +105,9 @@ class PluginManagerBase:
         self.available_plugins = []
         for name in self.pkg_env:
             log.debug("Found plugin: %s %s at %s",
-                self.pkg_env[name][0].project_name,
-                self.pkg_env[name][0].version,
-                self.pkg_env[name][0].location)
+                      self.pkg_env[name][0].project_name,
+                      self.pkg_env[name][0].version,
+                      self.pkg_env[name][0].location)
             self.available_plugins.append(self.pkg_env[name][0].project_name)
 
     def enable_plugin(self, plugin_name):
@@ -153,10 +128,9 @@ class PluginManagerBase:
             try:
                 cls = entry_point.load()
                 instance = cls(plugin_name.replace("-", "_"))
-            except Exception, e:
-                log.error("Unable to instantiate plugin %r from %r!",
-                          name, egg.location)
-                log.exception(e)
+            except Exception as ex:
+                log.error("Unable to instantiate plugin %r from %r!", name, egg.location)
+                log.exception(ex)
                 continue
             instance.enable()
             if not instance.__module__.startswith("deluge.plugins."):
@@ -171,8 +145,7 @@ class PluginManagerBase:
             plugin_name = plugin_name.replace("-", " ")
             self.plugins[plugin_name] = instance
             if plugin_name not in self.config["enabled_plugins"]:
-                log.debug("Adding %s to enabled_plugins list in config",
-                    plugin_name)
+                log.debug("Adding %s to enabled_plugins list in config", plugin_name)
                 self.config["enabled_plugins"].append(plugin_name)
             log.info("Plugin %s enabled..", plugin_name)
 

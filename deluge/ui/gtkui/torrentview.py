@@ -7,22 +7,22 @@
 # See LICENSE for more details.
 #
 
-
 """The torrent view component that lists all torrents in the session."""
 
-import pygtk
-pygtk.require('2.0')
-import gtk
-import gobject
 import logging
 
+import gobject
+import gtk
+import pygtk
 from twisted.internet import reactor
 
-import listview
 import deluge.component as component
 from deluge.ui.client import client
-from removetorrentdialog import RemoveTorrentDialog
-import torrentview_data_funcs as funcs
+from deluge.ui.gtkui import torrentview_data_funcs as funcs
+from deluge.ui.gtkui.listview import ListView
+from deluge.ui.gtkui.removetorrentdialog import RemoveTorrentDialog
+
+pygtk.require('2.0')
 
 log = logging.getLogger(__name__)
 
@@ -65,8 +65,8 @@ def seed_peer_column_sort(model, iter1, iter2, data):
     v1 = model[iter1][data]         # num seeds/peers
     v3 = model[iter2][data]         # num seeds/peers
     if v1 == v3:
-        v2 = model[iter1][data+1]   # total seeds/peers
-        v4 = model[iter2][data+1]   # total seeds/peers
+        v2 = model[iter1][data + 1]   # total seeds/peers
+        v4 = model[iter2][data + 1]   # total seeds/peers
         return queue_peer_seed_sort_function(v2, v4)
     return queue_peer_seed_sort_function(v1, v3)
 
@@ -199,13 +199,13 @@ class SearchBox(object):
         self.search_pending = reactor.callLater(0.7, self.torrentview.update)
 
 
-class TorrentView(listview.ListView, component.Component):
+class TorrentView(ListView, component.Component):
     """TorrentView handles the listing of torrents."""
     def __init__(self):
         component.Component.__init__(self, "TorrentView", interval=2, depend=["SessionProxy"])
         self.window = component.get("MainWindow")
         # Call the ListView constructor
-        listview.ListView.__init__(self, self.window.main_builder.get_object("torrent_view"), "torrentview.state")
+        ListView.__init__(self, self.window.main_builder.get_object("torrent_view"), "torrentview.state")
         log.debug("TorrentView Init..")
 
         # If we have gotten the state yet
@@ -352,12 +352,12 @@ class TorrentView(listview.ListView, component.Component):
         """
         Saves the state of the torrent view.
         """
-        listview.ListView.save_state(self, "torrentview.state")
+        ListView.save_state(self, "torrentview.state")
 
     def remove_column(self, header):
         """Removes the column with the name 'header' from the torrentview"""
         self.save_state()
-        listview.ListView.remove_column(self, header)
+        ListView.remove_column(self, header)
 
     def set_filter(self, filter_dict):
         """
@@ -562,8 +562,8 @@ class TorrentView(listview.ListView, component.Component):
             for path in paths:
                 try:
                     row = self.treeview.get_model().get_iter(path)
-                except Exception, e:
-                    log.debug("Unable to get iter from path: %s", e)
+                except Exception as ex:
+                    log.debug("Unable to get iter from path: %s", ex)
                     continue
 
                 child_row = self.treeview.get_model().convert_iter_to_child_iter(None, row)
@@ -571,8 +571,8 @@ class TorrentView(listview.ListView, component.Component):
                 if self.liststore.iter_is_valid(child_row):
                     try:
                         value = self.liststore.get_value(child_row, self.columns["torrent_id"].column_indices[0])
-                    except Exception, e:
-                        log.debug("Unable to get value from row: %s", e)
+                    except Exception as ex:
+                        log.debug("Unable to get value from row: %s", ex)
                     else:
                         torrent_ids.append(value)
             if len(torrent_ids) == 0:

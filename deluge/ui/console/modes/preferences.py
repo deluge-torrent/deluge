@@ -1,49 +1,23 @@
 # -*- coding: utf-8 -*-
 #
-# preferences.py
-#
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 #
-# Deluge is free software.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
-#
+
+import logging
+from collections import deque
 
 import deluge.component as component
 from deluge.ui.client import client
-from basemode import BaseMode
-from input_popup import Popup, SelectInput
-
-from preference_panes import (DownloadsPane, NetworkPane, BandwidthPane, InterfacePane,
-                              ColumnsPane, OtherPane, DaemonPane, QueuePane, ProxyPane,
-                              CachePane)
-
-from collections import deque
+from deluge.ui.console.basemode import BaseMode
+from deluge.ui.console.input_popup import Popup, SelectInput
+from deluge.ui.console.popup import MessagePopup
+from deluge.ui.console.preference_panes import (BandwidthPane, CachePane, ColumnsPane, DaemonPane,
+                                                DownloadsPane, InterfacePane, NetworkPane, OtherPane,
+                                                ProxyPane, QueuePane)
 
 try:
     import curses
@@ -51,14 +25,11 @@ except ImportError:
     pass
 
 
-import logging
 log = logging.getLogger(__name__)
 
 
 # Big help string that gets displayed when the user hits 'h'
-HELP_STR = \
-"""This screen lets you view and configure various options
-in deluge.
+HELP_STR = """This screen lets you view and configure various options in deluge.
 
 There are three main sections to this screen.  Only one
 section is active at a time.  You can switch the active
@@ -97,13 +68,14 @@ Special keys for various input types are as follows:
 
 
 """
-HELP_LINES = HELP_STR.split('\n')
+HELP_LINES = HELP_STR.split("\n")
 
 
 class ZONE:
     CATEGORIES = 0
     PREFRENCES = 1
     ACTIONS = 2
+
 
 class Preferences(BaseMode):
     def __init__(self, parent_mode, core_config, console_config, active_port, status, stdscr, encoding=None):
@@ -130,43 +102,43 @@ class Preferences(BaseMode):
         # create the panes
         self.__calc_sizes()
 
-        self.action_input = SelectInput(self,None,None,["Cancel","Apply","OK"],[0,1,2],0)
+        self.action_input = SelectInput(self, None, None, ["Cancel", "Apply", "OK"], [0, 1, 2], 0)
         self.refresh()
 
     def __calc_sizes(self):
-        self.prefs_width = self.cols-self.div_off-1
-        self.prefs_height = self.rows-4
+        self.prefs_width = self.cols - self.div_off - 1
+        self.prefs_height = self.rows - 4
         # Needs to be same order as self.categories
         self.panes = [
-            InterfacePane(self.div_off+2, self, self.prefs_width),
-            ColumnsPane(self.div_off+2, self, self.prefs_width),
-            DownloadsPane(self.div_off+2, self, self.prefs_width),
-            NetworkPane(self.div_off+2, self, self.prefs_width),
-            BandwidthPane(self.div_off+2, self, self.prefs_width),
-            OtherPane(self.div_off+2, self, self.prefs_width),
-            DaemonPane(self.div_off+2, self, self.prefs_width),
-            QueuePane(self.div_off+2, self, self.prefs_width),
-            ProxyPane(self.div_off+2, self, self.prefs_width),
-            CachePane(self.div_off+2, self, self.prefs_width)
+            InterfacePane(self.div_off + 2, self, self.prefs_width),
+            ColumnsPane(self.div_off + 2, self, self.prefs_width),
+            DownloadsPane(self.div_off + 2, self, self.prefs_width),
+            NetworkPane(self.div_off + 2, self, self.prefs_width),
+            BandwidthPane(self.div_off + 2, self, self.prefs_width),
+            OtherPane(self.div_off + 2, self, self.prefs_width),
+            DaemonPane(self.div_off + 2, self, self.prefs_width),
+            QueuePane(self.div_off + 2, self, self.prefs_width),
+            ProxyPane(self.div_off + 2, self, self.prefs_width),
+            CachePane(self.div_off + 2, self, self.prefs_width)
         ]
 
     def __draw_catetories(self):
-        for i,category in enumerate(self.categories):
+        for i, category in enumerate(self.categories):
             if i == self.cur_cat and self.active_zone == ZONE.CATEGORIES:
-                self.add_string(i+1,"- {!black,white,bold!}%s"%category,pad=False)
+                self.add_string(i + 1, "- {!black,white,bold!}%s" % category, pad=False)
             elif i == self.cur_cat:
-                self.add_string(i+1,"- {!black,white!}%s"%category,pad=False)
+                self.add_string(i + 1, "- {!black,white!}%s" % category, pad=False)
             else:
-                self.add_string(i+1,"- %s"%category)
-        self.stdscr.vline(1,self.div_off,'|',self.rows-2)
+                self.add_string(i + 1, "- %s" % category)
+        self.stdscr.vline(1, self.div_off, "|", self.rows - 2)
 
     def __draw_preferences(self):
-        self.panes[self.cur_cat].render(self,self.stdscr, self.prefs_width, self.active_zone == ZONE.PREFRENCES)
+        self.panes[self.cur_cat].render(self, self.stdscr, self.prefs_width, self.active_zone == ZONE.PREFRENCES)
 
     def __draw_actions(self):
         selected = self.active_zone == ZONE.ACTIONS
-        self.stdscr.hline(self.rows-3,self.div_off+1,"_",self.cols)
-        self.action_input.render(self.stdscr,self.rows-2,self.cols,selected,self.cols-22)
+        self.stdscr.hline(self.rows - 3, self.div_off + 1, "_", self.cols)
+        self.action_input.render(self.stdscr, self.rows - 2, self.cols, selected, self.cols - 22)
 
     def on_resize(self, *args):
         BaseMode.on_resize_norefresh(self, *args)
@@ -179,14 +151,14 @@ class Preferences(BaseMode):
         self.refresh()
 
     def refresh(self):
-        if self.popup == None and self.messages:
-            title,msg = self.messages.popleft()
-            self.popup = MessagePopup(self,title,msg)
+        if self.popup is None and self.messages:
+            title, msg = self.messages.popleft()
+            self.popup = MessagePopup(self, title, msg)
 
         self.stdscr.erase()
-        self.add_string(0,self.statusbars.topbar)
-        hstr =  "%sPress [h] for help"%(" "*(self.cols - len(self.statusbars.bottombar) - 10))
-        self.add_string(self.rows - 1, "%s%s"%(self.statusbars.bottombar,hstr))
+        self.add_string(0, self.statusbars.topbar)
+        hstr = "%sPress [h] for help" % (" " * (self.cols - len(self.statusbars.bottombar) - 10))
+        self.add_string(self.rows - 1, "%s%s" % (self.statusbars.bottombar, hstr))
 
         self.__draw_catetories()
         self.__draw_actions()
@@ -207,9 +179,9 @@ class Preferences(BaseMode):
     def __category_read(self, c):
         # Navigate prefs
         if c == curses.KEY_UP:
-            self.cur_cat = max(0,self.cur_cat-1)
+            self.cur_cat = max(0, self.cur_cat - 1)
         elif c == curses.KEY_DOWN:
-            self.cur_cat = min(len(self.categories)-1,self.cur_cat+1)
+            self.cur_cat = min(len(self.categories) - 1, self.cur_cat + 1)
 
     def __prefs_read(self, c):
         self.panes[self.cur_cat].handle_read(c)
@@ -217,7 +189,7 @@ class Preferences(BaseMode):
     def __apply_prefs(self):
         new_core_config = {}
         for pane in self.panes:
-            if not isinstance(pane,InterfacePane) and not isinstance(pane, ColumnsPane):
+            if not isinstance(pane, InterfacePane) and not isinstance(pane, ColumnsPane):
                 pane.add_config_values(new_core_config)
         # Apply Core Prefs
         if client.connected():
@@ -241,7 +213,7 @@ class Preferences(BaseMode):
         for pane in self.panes:
             # could just access panes by index, but that would break if panes
             # are ever reordered, so do it the slightly slower but safer way
-            if isinstance(pane,InterfacePane) or isinstance(pane, ColumnsPane):
+            if isinstance(pane, InterfacePane) or isinstance(pane, ColumnsPane):
                 pane.add_config_values(new_console_config)
         for key in new_console_config.keys():
             # The values do not match so this needs to be updated
@@ -253,8 +225,7 @@ class Preferences(BaseMode):
             self.console_config.save()
             self.parent_mode.update_config()
 
-
-    def __update_preferences(self,core_config):
+    def __update_preferences(self, core_config):
         self.core_config = core_config
         for pane in self.panes:
             pane.update_values(core_config)
@@ -263,15 +234,14 @@ class Preferences(BaseMode):
         self.action_input.handle_read(c)
         if c == curses.KEY_ENTER or c == 10:
             # take action
-            if self.action_input.selidx == 0: # cancel
+            if self.action_input.selidx == 0:  # Cancel
                 self.back_to_parent()
-            elif self.action_input.selidx == 1: # apply
+            elif self.action_input.selidx == 1:  # Apply
                 self.__apply_prefs()
                 client.core.get_config().addCallback(self.__update_preferences)
-            elif self.action_input.selidx == 2: #  OK
+            elif self.action_input.selidx == 2:  # OK
                 self.__apply_prefs()
                 self.back_to_parent()
-
 
     def back_to_parent(self):
         self.stdscr.erase()
@@ -288,7 +258,7 @@ class Preferences(BaseMode):
             return
 
         if c > 31 and c < 256:
-            if chr(c) == 'Q':
+            if chr(c) == "Q":
                 from twisted.internet import reactor
                 if client.connected():
                     def on_disconnect(result):
@@ -297,8 +267,8 @@ class Preferences(BaseMode):
                 else:
                     reactor.stop()
                 return
-            elif chr(c) == 'h':
-                self.popup = Popup(self,"Preferences Help")
+            elif chr(c) == "h":
+                self.popup = Popup(self, "Preferences Help")
                 for l in HELP_LINES:
                     self.popup.add_line(l)
 
@@ -313,7 +283,7 @@ class Preferences(BaseMode):
             if self.active_zone < ZONE.CATEGORIES:
                 self.active_zone = ZONE.ACTIONS
 
-        elif c == 114 and isinstance(self.panes[self.cur_cat],CachePane):
+        elif c == 114 and isinstance(self.panes[self.cur_cat], CachePane):
             client.core.get_cache_status().addCallback(self.panes[self.cur_cat].update_cache_status)
 
         else:
@@ -325,5 +295,3 @@ class Preferences(BaseMode):
                 self.__actions_read(c)
 
         self.refresh()
-
-

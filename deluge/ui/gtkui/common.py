@@ -8,17 +8,19 @@
 #
 """Common functions for various parts of gtkui to use."""
 
-import os
-import logging
 import cPickle
+import logging
+import os
 import shutil
 
-import pygtk
-pygtk.require('2.0')
 import gtk
+import pygtk
 from gobject import GError
 
 import deluge.common
+
+pygtk.require('2.0')
+
 
 log = logging.getLogger(__name__)
 

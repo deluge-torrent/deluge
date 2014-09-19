@@ -38,9 +38,9 @@
 
 import logging
 
-from deluge.event import PluginEnabledEvent, PluginDisabledEvent
-import deluge.pluginmanagerbase
 import deluge.component as component
+import deluge.pluginmanagerbase
+from deluge.event import PluginDisabledEvent, PluginEnabledEvent
 
 log = logging.getLogger(__name__)
 
@@ -74,8 +74,8 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, component.Compon
             if hasattr(self.plugins[plugin], "update"):
                 try:
                     self.plugins[plugin].update()
-                except Exception, e:
-                    log.exception(e)
+                except Exception as ex:
+                    log.exception(ex)
 
     def enable_plugin(self, name):
         if name not in self.plugins:

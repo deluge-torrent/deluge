@@ -1,50 +1,26 @@
-#
-# basemode.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
+# Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
-# Most code in this file taken from screen.py:
-#  Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
-#
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
-import sys
 import logging
+import sys
+
+from twisted.internet import reactor
+
+import deluge.component as component
+import deluge.ui.console.colors as colors
+
 try:
     import curses
 except ImportError:
     pass
 
-import deluge.component as component
-import deluge.ui.console.colors as colors
 try:
     import signal
     from fcntl import ioctl
@@ -53,9 +29,9 @@ try:
 except:
     pass
 
-from twisted.internet import reactor
 
 log = logging.getLogger(__name__)
+
 
 class CursesStdIO(object):
     """fake fd to be registered as a reader with the twisted reactor.
@@ -68,7 +44,9 @@ class CursesStdIO(object):
     def doRead(self):
         """called when input is ready"""
         pass
-    def logPrefix(self): return 'CursesClient'
+
+    def logPrefix(self):
+        return "CursesClient"
 
 
 class BaseMode(CursesStdIO):
@@ -105,7 +83,7 @@ class BaseMode(CursesStdIO):
         self.rows, self.cols = self.stdscr.getmaxyx()
         try:
             signal.signal(signal.SIGWINCH, self.on_resize)
-        except Exception, e:
+        except Exception:
             log.debug("Unable to catch SIGWINCH signal!")
 
         if not encoding:
@@ -122,7 +100,7 @@ class BaseMode(CursesStdIO):
     def on_resize_norefresh(self, *args):
         log.debug("on_resize_from_signal")
         # Get the new rows and cols value
-        self.rows, self.cols = struct.unpack("hhhh", ioctl(0, termios.TIOCGWINSZ ,"\000"*8))[0:2]
+        self.rows, self.cols = struct.unpack("hhhh", ioctl(0, termios.TIOCGWINSZ, "\000" * 8))[0:2]
         curses.resizeterm(self.rows, self.cols)
 
     def on_resize(self, *args):
@@ -132,7 +110,7 @@ class BaseMode(CursesStdIO):
     def connectionLost(self, reason):
         self.close()
 
-    def add_string(self, row, string, scr=None, col = 0, pad=True, trim=True):
+    def add_string(self, row, string, scr=None, col=0, pad=True, trim=True):
         """
         Adds a string to the desired `:param:row`.
 
@@ -168,8 +146,8 @@ class BaseMode(CursesStdIO):
             screen = self.stdscr
         try:
             parsed = colors.parse_color_string(string, self.encoding)
-        except colors.BadColorString, e:
-            log.error("Cannot add bad color string %s: %s", string, e)
+        except colors.BadColorString as ex:
+            log.error("Cannot add bad color string %s: %s", string, ex)
             return
 
         for index, (color, s) in enumerate(parsed):
@@ -177,9 +155,9 @@ class BaseMode(CursesStdIO):
                 # This is the last string so lets append some " " to it
                 s += " " * (self.cols - (col + len(s)) - 1)
             if trim:
-                y,x = screen.getmaxyx()
-                if (col+len(s)) > x:
-                    s = "%s..."%s[0:x-4-col]
+                y, x = screen.getmaxyx()
+                if (col + len(s)) > x:
+                    s = "%s..." % s[0:x - 4 - col]
             screen.addstr(row, col, s, color)
             col += len(s)
 
@@ -192,7 +170,7 @@ class BaseMode(CursesStdIO):
         pass
 
     # This mode doesn't do anything with popups
-    def set_popup(self,popup):
+    def set_popup(self, popup):
         pass
 
     # This mode doesn't support marking
@@ -209,7 +187,7 @@ class BaseMode(CursesStdIO):
         self.draw_statusbars()
         # Update the status bars
 
-        self.add_string(1,"{!info!}Base Mode (or subclass hasn't overridden refresh)")
+        self.add_string(1, "{!info!}Base Mode (or subclass hasn't overridden refresh)")
 
         self.stdscr.redrawwin()
         self.stdscr.refresh()
@@ -221,13 +199,13 @@ class BaseMode(CursesStdIO):
         # We wrap this function to catch exceptions and shutdown the mainloop
         try:
             self._doRead()
-        except Exception, e:
-            log.exception(e)
+        except Exception as ex:
+            log.exception(ex)
             reactor.stop()
 
     def _doRead(self):
         # Read the character
-        c = self.stdscr.getch()
+        self.stdscr.getch()
         self.stdscr.refresh()
 
     def close(self):

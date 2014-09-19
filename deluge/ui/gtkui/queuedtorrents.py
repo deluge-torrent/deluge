@@ -1,53 +1,26 @@
-#
-# queuedtorrents.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
-import base64
+import logging
 import os.path
 
-import gtk
-import logging
 import gobject
+import gtk
 
-import deluge.component as component
-from deluge.ui.client import client
-from deluge.ui.gtkui.ipcinterface import process_args
 import deluge.common
+import deluge.component as component
 from deluge.configmanager import ConfigManager
-import common
+from deluge.ui.gtkui.common import get_logo
+from deluge.ui.gtkui.ipcinterface import process_args
 
 log = logging.getLogger(__name__)
+
 
 class QueuedTorrents(component.Component):
     def __init__(self):
@@ -62,7 +35,7 @@ class QueuedTorrents(component.Component):
         )
         self.builder.get_object("chk_autoadd").set_active(self.config["autoadd_queued"])
         self.dialog = self.builder.get_object("queued_torrents_dialog")
-        self.dialog.set_icon(common.get_logo(32))
+        self.dialog.set_icon(get_logo(32))
 
         self.builder.connect_signals({
             "on_button_remove_clicked": self.on_button_remove_clicked,
@@ -120,14 +93,14 @@ class QueuedTorrents(component.Component):
         """Attempts to update status bar"""
         # If there are no queued torrents.. remove statusbar widgets and return
         if len(self.queue) == 0:
-            if self.status_item != None:
+            if self.status_item is not None:
                 component.get("StatusBar").remove_item(self.status_item)
                 self.status_item = None
             return False
 
         try:
-            statusbar = component.get("StatusBar")
-        except Exception, e:
+            component.get("StatusBar")
+        except Exception:
             # The statusbar hasn't been loaded yet, so we'll add a timer to
             # update it later.
             gobject.timeout_add(100, self.update_status_bar)
@@ -141,7 +114,7 @@ class QueuedTorrents(component.Component):
 
         # Add the statusbar items if needed, or just modify the label if they
         # have already been added.
-        if self.status_item == None:
+        if self.status_item is None:
             self.status_item = component.get("StatusBar").add_item(
                 stock=gtk.STOCK_SORT_DESCENDING,
                 text=label,
@@ -158,7 +131,7 @@ class QueuedTorrents(component.Component):
 
     def on_button_remove_clicked(self, widget):
         selected = self.treeview.get_selection().get_selected()[1]
-        if selected != None:
+        if selected is not None:
             path = self.liststore.get_value(selected, 1)
             self.liststore.remove(selected)
             self.queue.remove(path)
@@ -166,6 +139,7 @@ class QueuedTorrents(component.Component):
 
     def on_button_clear_clicked(self, widget):
         self.liststore.clear()
+        del self.queue[:]
         self.update_status_bar()
 
     def on_button_close_clicked(self, widget):

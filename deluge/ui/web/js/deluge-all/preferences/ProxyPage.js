@@ -60,6 +60,23 @@ Deluge.preferences.Proxy = Ext.extend(Ext.form.FormPanel, {
             name: 'i2p_proxy'
         }));
         deluge.preferences.getOptionsManager().bind('i2p_proxy', this.i2p_proxy);
+
+        var fieldset = this.add({
+            xtype: 'fieldset',
+            border: false,
+            title: _('Anonymous Mode'),
+            autoHeight: true,
+            labelWidth: 1,
+            defaultType: 'checkbox'
+        });
+        deluge.preferences.getOptionsManager().bind('anonymous_mode', fieldset.add({
+            fieldLabel: '',
+            labelSeparator: '',
+            height: 20,
+            name: 'anonymous_mode',
+            boxLabel: _('Hide Client Identity')
+        }));
+
     },
 
     getValue: function() {

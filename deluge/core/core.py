@@ -34,38 +34,36 @@
 #
 #
 
-from deluge._libtorrent import lt
-
-import os
-import glob
-import shutil
 import base64
+import glob
 import logging
-import threading
+import os
+import shutil
 import tempfile
+import threading
 from urlparse import urljoin
 
 import twisted.web.client
 import twisted.web.error
 
-from deluge.httpdownloader import download_file
-from deluge import path_chooser_common
-
-from deluge.configmanager import ConfigManager, get_config_dir
 import deluge.common
 import deluge.component as component
-from deluge.event import NewVersionAvailableEvent, SessionPausedEvent, SessionResumedEvent, TorrentQueueChangedEvent
-from deluge.error import DelugeError, InvalidTorrentError, InvalidPathError
-from deluge.core.authmanager import AUTH_LEVEL_ADMIN, AUTH_LEVEL_NONE
-from deluge.core.authmanager import AUTH_LEVELS_MAPPING, AUTH_LEVELS_MAPPING_REVERSE
-from deluge.core.torrentmanager import TorrentManager
-from deluge.core.pluginmanager import PluginManager
+from deluge import path_chooser_common
+from deluge._libtorrent import lt
+from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.alertmanager import AlertManager
-from deluge.core.filtermanager import FilterManager
-from deluge.core.preferencesmanager import PreferencesManager
-from deluge.core.authmanager import AuthManager
+from deluge.core.authmanager import (AUTH_LEVEL_ADMIN, AUTH_LEVEL_NONE, AUTH_LEVELS_MAPPING,
+                                     AUTH_LEVELS_MAPPING_REVERSE, AuthManager)
 from deluge.core.eventmanager import EventManager
+from deluge.core.filtermanager import FilterManager
+from deluge.core.pluginmanager import PluginManager
+from deluge.core.preferencesmanager import PreferencesManager
 from deluge.core.rpcserver import export
+from deluge.core.torrentmanager import TorrentManager
+from deluge.error import DelugeError, InvalidPathError, InvalidTorrentError
+from deluge.event import (NewVersionAvailableEvent, SessionPausedEvent, SessionResumedEvent,
+                          TorrentQueueChangedEvent)
+from deluge.httpdownloader import download_file
 
 log = logging.getLogger(__name__)
 
@@ -194,7 +192,7 @@ class Core(component.Component):
             try:
                 with open(_filepath, "rb") as _file:
                     state = lt.bdecode(_file.read())
-            except (IOError, EOFError, RuntimeError), ex:
+            except (IOError, EOFError, RuntimeError) as ex:
                 log.warning("Unable to load %s: %s", _filepath, ex)
             else:
                 log.info("Successfully loaded %s: %s", filename, _filepath)
@@ -203,12 +201,11 @@ class Core(component.Component):
 
     def get_new_release(self):
         log.debug("get_new_release")
-        from urllib2 import urlopen
+        from urllib2 import urlopen, URLError
         try:
-            self.new_release = urlopen(
-                "http://download.deluge-torrent.org/version-1.0").read().strip()
-        except Exception, e:
-            log.debug("Unable to get release info from website: %s", e)
+            self.new_release = urlopen("http://download.deluge-torrent.org/version-1.0").read().strip()
+        except URLError as ex:
+            log.debug("Unable to get release info from website: %s", ex)
             return
         self.check_new_release()
 
@@ -236,17 +233,17 @@ class Core(component.Component):
         """
         try:
             filedump = base64.decodestring(filedump)
-        except Exception, e:
+        except Exception as ex:
             log.error("There was an error decoding the filedump string!")
-            log.exception(e)
+            log.exception(ex)
 
         try:
             torrent_id = self.torrentmanager.add(
                 filedump=filedump, options=options, filename=filename
             )
-        except Exception, e:
+        except Exception as ex:
             log.error("There was an error adding the torrent file %s", filename)
-            log.exception(e)
+            log.exception(ex)
             torrent_id = None
 
         return torrent_id
@@ -275,11 +272,9 @@ class Core(component.Component):
             f.close()
             try:
                 os.remove(filename)
-            except Exception, e:
-                log.warning("Couldn't remove temp file: %s", e)
-            return self.add_torrent_file(
-                filename, base64.encodestring(data), options
-            )
+            except OSError as ex:
+                log.warning("Couldn't remove temp file: %s", ex)
+            return self.add_torrent_file(filename, base64.encodestring(data), options)
 
         def on_download_fail(failure):
             if failure.check(twisted.web.error.PageRedirect):
@@ -726,9 +721,9 @@ class Core(component.Component):
 
         try:
             filedump = base64.decodestring(filedump)
-        except Exception, e:
+        except Exception as ex:
             log.error("There was an error decoding the filedump string!")
-            log.exception(e)
+            log.exception(ex)
             return
 
         f = open(os.path.join(get_config_dir(), "plugins", filename), "wb")

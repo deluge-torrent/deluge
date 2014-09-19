@@ -13,20 +13,21 @@
 # See LICENSE for more details.
 #
 
-from deluge._libtorrent import lt
-import shutil
-import os
-import logging
 import base64
+import logging
+import os
+import shutil
 
-from deluge.plugins.pluginbase import CorePluginBase
+from twisted.internet import reactor
+from twisted.internet.task import deferLater, LoopingCall
+
 import deluge.component as component
 import deluge.configmanager
+from deluge._libtorrent import lt
 from deluge.common import AUTH_LEVEL_ADMIN
 from deluge.core.rpcserver import export
-from twisted.internet.task import LoopingCall, deferLater
-from twisted.internet import reactor
 from deluge.event import DelugeEvent
+from deluge.plugins.pluginbase import CorePluginBase
 
 log = logging.getLogger(__name__)
 
@@ -157,8 +158,8 @@ class Core(CorePluginBase):
             if not filedump:
                 raise RuntimeError("Torrent is 0 bytes!")
             _file.close()
-        except IOError, e:
-            log.warning("Unable to open %s: %s", filename, e)
+        except IOError as ex:
+            log.warning("Unable to open %s: %s", filename, ex)
             raise e
 
         # Get the info to see if any exceptions are raised
@@ -171,8 +172,8 @@ class Core(CorePluginBase):
         log.debug("Attempting to open %s for splitting magnets.", filename)
         try:
             _file = open(filename, "r")
-        except IOError, e:
-            log.warning("Unable to open %s: %s", filename, e)
+        except IOError as ex:
+            log.warning("Unable to open %s: %s", filename, ex)
             raise e
         else:
             magnets = list(filter(len, _file.readlines()))
@@ -191,8 +192,8 @@ class Core(CorePluginBase):
                     n += 1
                 try:
                     _mfile = open(mname, "w")
-                except IOError, e:
-                    log.warning("Unable to open %s: %s", mname, e)
+                except IOError as ex:
+                    log.warning("Unable to open %s: %s", mname, ex)
                 else:
                     _mfile.write(magnet)
                     _mfile.close()
@@ -231,9 +232,8 @@ class Core(CorePluginBase):
         for filename in os.listdir(watchdir["abspath"]):
             try:
                 filepath = os.path.join(watchdir["abspath"], filename)
-            except UnicodeDecodeError, e:
-                log.error("Unable to auto add torrent due to improper "
-                          "filename encoding: %s", e)
+            except UnicodeDecodeError as ex:
+                log.error("Unable to auto add torrent due to improper filename encoding: %s", ex)
                 continue
             if os.path.isdir(filepath):
                 # Skip directories
@@ -245,9 +245,8 @@ class Core(CorePluginBase):
         for filename in os.listdir(watchdir["abspath"]):
             try:
                 filepath = os.path.join(watchdir["abspath"], filename)
-            except UnicodeDecodeError, e:
-                log.error("Unable to auto add torrent due to improper "
-                          "filename encoding: %s", e)
+            except UnicodeDecodeError as ex:
+                log.error("Unable to auto add torrent due to improper filename encoding: %s", ex)
                 continue
             if os.path.isdir(filepath):
                 # Skip directories
@@ -262,11 +261,11 @@ class Core(CorePluginBase):
                     continue
                 try:
                     filedump = self.load_torrent(filepath, magnet)
-                except (RuntimeError, Exception), e:
+                except (RuntimeError, Exception) as ex:
                     # If the torrent is invalid, we keep track of it so that we
                     # can try again on the next pass.  This is because some
                     # torrents may not be fully saved during the pass.
-                    log.debug("Torrent is invalid: %s", e)
+                    log.debug("Torrent is invalid: %s", ex)
                     if filename in self.invalid_torrents:
                         self.invalid_torrents[filename] += 1
                         if self.invalid_torrents[filename] >= MAX_NUM_ATTEMPTS:
@@ -460,6 +459,6 @@ class Core(CorePluginBase):
                     log.info("Removed torrent file \"%s\" from \"%s\"",
                              torrent_fname, copy_torrent_path)
                     break
-                except OSError, e:
+                except OSError as ex:
                     log.info("Failed to removed torrent file \"%s\" from "
-                             "\"%s\": %s", torrent_fname, copy_torrent_path, e)
+                             "\"%s\": %s", torrent_fname, copy_torrent_path, ex)

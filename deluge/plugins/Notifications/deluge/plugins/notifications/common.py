@@ -38,7 +38,9 @@
 #
 
 import logging
+
 from twisted.internet import defer
+
 from deluge import component
 
 log = logging.getLogger(__name__)
@@ -127,7 +129,7 @@ class CustomNotifications(object):
             log.error("The event \"%s\" is not known" % eventtype)
             return False
         if known_events[eventtype].__module__.startswith('deluge.event'):
-            if handler.im_self is self:
+            if handler.__self__ is self:
                 return True
             log.error("You cannot register custom notification providers "
                       "for built-in event types.")
@@ -141,4 +143,3 @@ class CustomNotifications(object):
     def _on_notify_failure(self, failure, kind):
         log.debug("Notification failure using %s: %s", kind, failure)
         return failure
-

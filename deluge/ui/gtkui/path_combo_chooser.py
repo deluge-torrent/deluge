@@ -1,38 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# path_combo_chooser.py
-#
 # Copyright (C) 2013 Bro <bro.development@gmail.com>
 #
-# Deluge is free software.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-#       The Free Software Foundation, Inc.,
-#       51 Franklin Street, Fifth Floor
-#       Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+
+from __future__ import print_function
 
 import os
 
@@ -40,7 +16,8 @@ import gobject
 import gtk
 from gtk import gdk, keysyms
 
-from deluge.path_chooser_common import get_resource, get_completion_paths
+from deluge.common import resource_filename
+from deluge.path_chooser_common import get_completion_paths
 
 
 def is_ascii_value(keyval, ascii_key):
@@ -664,7 +641,7 @@ class PathChooserPopup(object):
         return x, y, width, height
 
     def popup_grab_window(self):
-        activate_time = 0L
+        activate_time = 0
         if gdk.pointer_grab(self.popup_window.window, True,
                             (gdk.BUTTON_PRESS_MASK |
                              gdk.BUTTON_RELEASE_MASK |
@@ -1060,7 +1037,9 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
         self.setting_accelerator_key = False
         self.builder = gtk.Builder()
         self.popup_buttonbox = self.builder.get_object("buttonbox")
-        self.builder.add_from_file(get_resource("path_combo_chooser.ui"))
+        self.builder.add_from_file(resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "path_combo_chooser.ui")
+        ))
         self.button_toggle = self.builder.get_object("button_toggle_dropdown")
         self.text_entry = self.builder.get_object("entry_text")
         self.open_filechooser_dialog_button = self.builder.get_object("button_open_dialog")
@@ -1157,8 +1136,8 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
             # Verify that the accelerator can be parsed
             keyval, mask = gtk.accelerator_parse(self.auto_completer.accelerator_string)
             self.auto_completer.accelerator_string = accelerator
-        except TypeError, e:
-            raise TypeError("TypeError when setting accelerator string: %s" % str(e))
+        except TypeError as ex:
+            raise TypeError("TypeError when setting accelerator string: %s" % ex)
 
     def get_auto_complete_enabled(self):
         return self.auto_completer.auto_complete_enabled
@@ -1560,7 +1539,7 @@ if __name__ == "__main__":
     entry2.set_filechooser_button_enabled(False)
 
     def list_value_added_event(widget, values):
-        print "Current list values:", widget.get_values()
+        print("Current list values:", widget.get_values())
 
     entry1.connect("list-value-added", list_value_added_event)
     entry2.connect("list-value-added", list_value_added_event)

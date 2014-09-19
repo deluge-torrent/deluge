@@ -33,18 +33,19 @@
 #
 #
 
-import os
-import time
 import hashlib
 import logging
+import os
+import time
+
 from twisted.internet.utils import getProcessOutputAndValue
 
-from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
+from deluge.common import utf8_encoded
 from deluge.configmanager import ConfigManager
 from deluge.core.rpcserver import export
 from deluge.event import DelugeEvent
-from deluge.common import utf8_encoded
+from deluge.plugins.pluginbase import CorePluginBase
 
 log = logging.getLogger(__name__)
 

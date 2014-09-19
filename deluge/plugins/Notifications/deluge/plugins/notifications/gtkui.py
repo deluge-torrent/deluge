@@ -39,18 +39,20 @@
 
 import logging
 from os.path import basename
+
 import gtk
 import gtk.glade
-
 from twisted.internet import defer
-from deluge.ui.client import client
-from deluge.plugins.pluginbase import GtkPluginBase
-import deluge.component as component
+
 import deluge.common
+import deluge.component as component
 import deluge.configmanager
+from deluge.plugins.pluginbase import GtkPluginBase
+from deluge.ui.client import client
+
+from .common import CustomNotifications, get_resource
 
 # Relative imports
-from common import get_resource, CustomNotifications
 
 log = logging.getLogger(__name__)
 
@@ -213,8 +215,8 @@ class GtkUiNotifications(CustomNotifications):
             alert_sound = pygame.mixer.music
             alert_sound.load(sound_path)
             alert_sound.play()
-        except pygame.error, message:
-            err_msg = _("Sound notification failed %s") % (message)
+        except pygame.error as ex:
+            err_msg = _("Sound notification failed %s") % ex
             log.warning(err_msg)
             return defer.fail(err_msg)
         else:
@@ -657,7 +659,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
                 if response == gtk.RESPONSE_OK:
                     new_filename = dialog.get_filename()
                     dialog.destroy()
-                    print new_filename
+                    log.debug(new_filename)
                     model.set(iter,
                               SND_PATH, new_filename,
                               SND_NAME, basename(new_filename))
@@ -710,4 +712,3 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         self.subscriptions_model[path][SUB_NOT_SOUND] = \
             not self.subscriptions_model[path][SUB_NOT_SOUND]
         return
-

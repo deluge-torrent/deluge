@@ -33,8 +33,10 @@
 #
 #
 
-import pkg_resources
 import os.path
+
+import pkg_resources
+
 
 def get_resource(filename):
     return pkg_resources.resource_filename("deluge.plugins.execute",

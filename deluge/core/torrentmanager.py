@@ -10,27 +10,26 @@
 """TorrentManager handles Torrent objects"""
 
 import cPickle
+import logging
+import operator
 import os
 import shutil
-import operator
-import logging
 import time
 
-from twisted.internet.task import LoopingCall
-from twisted.internet.defer import Deferred, DeferredList
 from twisted.internet import reactor
+from twisted.internet.defer import Deferred, DeferredList
+from twisted.internet.task import LoopingCall
 
-from deluge._libtorrent import lt
-
-from deluge.event import (TorrentAddedEvent, PreTorrentRemovedEvent, TorrentRemovedEvent,
-                          SessionStartedEvent, TorrentFinishedEvent, TorrentStateChangedEvent,
-                          TorrentResumedEvent, TorrentFileRenamedEvent, TorrentFileCompletedEvent)
-from deluge.error import InvalidTorrentError
 import deluge.component as component
+from deluge._libtorrent import lt
+from deluge.common import decode_string, get_magnet_info, utf8_encoded
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
-from deluge.core.torrent import Torrent, TorrentOptions, sanitize_filepath
-from deluge.common import utf8_encoded, decode_string, get_magnet_info
+from deluge.core.torrent import sanitize_filepath, Torrent, TorrentOptions
+from deluge.error import InvalidTorrentError
+from deluge.event import (PreTorrentRemovedEvent, SessionStartedEvent, TorrentAddedEvent,
+                          TorrentFileCompletedEvent, TorrentFileRenamedEvent, TorrentFinishedEvent,
+                          TorrentRemovedEvent, TorrentResumedEvent, TorrentStateChangedEvent)
 
 log = logging.getLogger(__name__)
 

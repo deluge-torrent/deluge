@@ -1,74 +1,47 @@
-#
-# createtorrentdialog.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
-
-import gtk
-import sys
-import os.path
-import gobject
 import base64
 import logging
+import os.path
 
+import gobject
+import gtk
 from twisted.internet.threads import deferToThread
 
+import deluge.component as component
+from deluge.common import get_path_size, is_url, resource_filename
+from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
-import deluge.component as component
-import deluge.common
-from deluge.configmanager import ConfigManager
 
 log = logging.getLogger(__name__)
+
 
 class CreateTorrentDialog:
     def show(self):
         self.builder = gtk.Builder()
 
         # The main dialog
-        self.builder.add_from_file(deluge.common.resource_filename(
+        self.builder.add_from_file(resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "create_torrent_dialog.ui")
         ))
         # The remote path dialog
-        self.builder.add_from_file(deluge.common.resource_filename(
+        self.builder.add_from_file(resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "create_torrent_dialog.remote_path.ui")
         ))
         # The remote save dialog
-        self.builder.add_from_file(deluge.common.resource_filename(
+        self.builder.add_from_file(resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "create_torrent_dialog.remote_save.ui")
         ))
         # The progress dialog
-        self.builder.add_from_file(deluge.common.resource_filename(
+        self.builder.add_from_file(resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "create_torrent_dialog.progress.ui")
         ))
 
@@ -145,7 +118,7 @@ class CreateTorrentDialog:
         """Adjusts the recommended piece based on the file/folder/path selected."""
         size = self.files_treestore[0][2]
         model = self.builder.get_object("combo_piece_size").get_model()
-        for index,value in enumerate(model):
+        for index, value in enumerate(model):
             psize = self.parse_piece_size_text(value[0])
             pieces = size / psize
             if pieces < 2048 or (index + 1) == len(model):
@@ -156,10 +129,10 @@ class CreateTorrentDialog:
         log.debug("_on_button_file_clicked")
         # Setup the filechooserdialog
         chooser = gtk.FileChooserDialog(_("Choose a file"),
-            self.dialog,
-            gtk.FILE_CHOOSER_ACTION_OPEN,
-            buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN,
-                        gtk.RESPONSE_OK))
+                                        self.dialog,
+                                        gtk.FILE_CHOOSER_ACTION_OPEN,
+                                        buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
+                                                 gtk.STOCK_OPEN, gtk.RESPONSE_OK))
 
         chooser.set_transient_for(self.dialog)
         chooser.set_select_multiple(False)
@@ -177,7 +150,7 @@ class CreateTorrentDialog:
         path = result.decode('utf-8')
 
         self.files_treestore.clear()
-        self.files_treestore.append(None, [result, gtk.STOCK_FILE, deluge.common.get_path_size(path)])
+        self.files_treestore.append(None, [result, gtk.STOCK_FILE, get_path_size(path)])
         self.adjust_piece_size()
         chooser.destroy()
 
@@ -185,10 +158,10 @@ class CreateTorrentDialog:
         log.debug("_on_button_folder_clicked")
         # Setup the filechooserdialog
         chooser = gtk.FileChooserDialog(_("Choose a folder"),
-            self.dialog,
-            gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
-            buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN,
-                        gtk.RESPONSE_OK))
+                                        self.dialog,
+                                        gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
+                                        buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
+                                                 gtk.STOCK_OPEN, gtk.RESPONSE_OK))
 
         chooser.set_transient_for(self.dialog)
         chooser.set_select_multiple(False)
@@ -205,7 +178,7 @@ class CreateTorrentDialog:
         path = result.decode('utf-8')
 
         self.files_treestore.clear()
-        self.files_treestore.append(None, [result, gtk.STOCK_OPEN, deluge.common.get_path_size(path)])
+        self.files_treestore.append(None, [result, gtk.STOCK_OPEN, get_path_size(path)])
         self.adjust_piece_size()
         chooser.destroy()
 
@@ -220,6 +193,7 @@ class CreateTorrentDialog:
 
         if response == gtk.RESPONSE_OK:
             result = entry.get_text()
+
             def _on_get_path_size(size):
                 log.debug("size: %s", size)
                 if size > 0:
@@ -261,10 +235,10 @@ class CreateTorrentDialog:
             dialog.hide()
         else:
             # Setup the filechooserdialog
-            chooser = gtk.FileChooserDialog(_("Save .torrent file"),
-                self.dialog,
-                gtk.FILE_CHOOSER_ACTION_SAVE,
-                buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_SAVE, gtk.RESPONSE_OK))
+            chooser = gtk.FileChooserDialog(_("Save .torrent file"), self.dialog,
+                                            gtk.FILE_CHOOSER_ACTION_SAVE,
+                                            buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
+                                                     gtk.STOCK_SAVE, gtk.RESPONSE_OK))
 
             chooser.set_transient_for(self.dialog)
             chooser.set_select_multiple(False)
@@ -315,9 +289,8 @@ class CreateTorrentDialog:
         webseeds = []
         b = self.builder.get_object("textview_webseeds").get_buffer()
         lines = b.get_text(b.get_start_iter(), b.get_end_iter()).strip().split("\n")
-        import deluge.common
         for l in lines:
-            if deluge.common.is_url(l):
+            if is_url(l):
                 webseeds.append(l)
         # Get the piece length in bytes
         combo = self.builder.get_object("combo_piece_size")
@@ -337,7 +310,7 @@ class CreateTorrentDialog:
                 self._on_create_torrent_progress(piece_count, num_pieces)
                 if piece_count == num_pieces:
                     from twisted.internet import reactor
-                    reactor.callLater(0.5, torrent_created) # pylint: disable-msg=E1101
+                    reactor.callLater(0.5, torrent_created)  # pylint: disable-msg=E1101
 
             client.register_event_handler("CreateTorrentProgressEvent", on_create_torrent_progress_event)
 
@@ -359,17 +332,17 @@ class CreateTorrentDialog:
                 self.builder.get_object("progress_dialog").hide_all()
 
             deferToThread(self.create_torrent,
-                    path.decode('utf-8'),
-                    tracker,
-                    piece_length,
-                    self._on_create_torrent_progress,
-                    comment,
-                    result.decode('utf-8'),
-                    webseeds,
-                    private,
-                    author,
-                    trackers,
-                    add_to_session).addCallback(hide_progress)
+                          path.decode('utf-8'),
+                          tracker,
+                          piece_length,
+                          self._on_create_torrent_progress,
+                          comment,
+                          result.decode('utf-8'),
+                          webseeds,
+                          private,
+                          author,
+                          trackers,
+                          add_to_session).addCallback(hide_progress)
 
         # Setup progress dialog
         self.builder.get_object("progress_dialog").set_transient_for(component.get("MainWindow").window)
@@ -399,11 +372,11 @@ class CreateTorrentDialog:
                 {"download_location": os.path.split(path)[0]})
 
     def _on_create_torrent_progress(self, value, num_pieces):
-        percent = float(value)/float(num_pieces)
+        percent = float(value) / float(num_pieces)
 
         def update_pbar_with_gobject(percent):
             pbar = self.builder.get_object("progressbar")
-            pbar.set_text("%.2f%%" % (percent*100))
+            pbar.set_text("%.2f%%" % (percent * 100))
             pbar.set_fraction(percent)
             return False
 
@@ -432,7 +405,7 @@ class CreateTorrentDialog:
     def _on_button_add_clicked(self, widget):
         log.debug("_on_button_add_clicked")
         builder = gtk.Builder()
-        builder.add_from_file(deluge.common.resource_filename(
+        builder.add_from_file(resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "edit_trackers.add.ui")
         ))
         dialog = builder.get_object("add_tracker_dialog")
@@ -453,7 +426,7 @@ class CreateTorrentDialog:
             self.config["createtorrent.trackers"] = lines
             log.debug("lines: %s", lines)
             for l in lines:
-                if deluge.common.is_url(l):
+                if is_url(l):
                     trackers.append(l)
 
             # We are going to add these trackers to the highest tier + 1

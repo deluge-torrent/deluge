@@ -6,18 +6,21 @@ example:
 python create_plugin.py --name MyPlugin2 --basepath . --author-name "Your Name" --author-email "yourname@example.com"
 
 """
+from __future__ import print_function
 
-from datetime import datetime
-from optparse import OptionParser
 import os
 import sys
+from datetime import datetime
+from optparse import OptionParser
+
 import deluge.common
+
 parser = OptionParser()
-parser.add_option("-n", "--name", dest="name",help="plugin name")
-parser.add_option("-m", "--module-name", dest="module",help="plugin name")
-parser.add_option("-p", "--basepath", dest="path",help="base path")
-parser.add_option("-a", "--author-name", dest="author_name",help="author name,for the GPL header")
-parser.add_option("-e", "--author-email", dest="author_email",help="author email,for the GPL header")
+parser.add_option("-n", "--name", dest="name", help="plugin name")
+parser.add_option("-m", "--module-name", dest="module", help="plugin name")
+parser.add_option("-p", "--basepath", dest="path", help="base path")
+parser.add_option("-a", "--author-name", dest="author_name", help="author name,for the GPL header")
+parser.add_option("-e", "--author-email", dest="author_email", help="author email,for the GPL header")
 parser.add_option("-u", "--url", dest="url", help="Homepage URL")
 parser.add_option("-c", "--config", dest="configdir", help="location of deluge configuration")
 
@@ -27,23 +30,23 @@ parser.add_option("-c", "--config", dest="configdir", help="location of deluge c
 
 def create_plugin():
     if not options.name:
-        print "--name is mandatory , use -h for more info"
+        print("--name is mandatory , use -h for more info")
         return
     if not options.path:
-        print "--basepath is mandatory , use -h for more info"
+        print("--basepath is mandatory , use -h for more info")
         return
     if not options.author_email:
-        print "--author-email is mandatory , use -h for more info"
+        print("--author-email is mandatory , use -h for more info")
         return
     if not options.author_email:
-        print "--author-name is mandatory , use -h for more info"
+        print("--author-name is mandatory , use -h for more info")
         return
 
     if not options.url:
         options.url = ""
 
     if not os.path.exists(options.path):
-        print "basepath does not exist"
+        print("basepath does not exist")
         return
 
     if not options.configdir:
@@ -64,7 +67,7 @@ def create_plugin():
     python_path = sys.executable
 
     if os.path.exists(plugin_base):
-        print "the directory %s already exists, delete it first" % plugin_base
+        print("the directory %s already exists, delete it first" % plugin_base)
         return
 
     def write_file(path, filename, template, include_gpl=True):
@@ -82,36 +85,36 @@ def create_plugin():
         }
 
         filename = os.path.join(path, filename)
-        f = open(filename,"w")
+        f = open(filename, "w")
         if filename.endswith(".py") and include_gpl:
             f.write(GPL % args)
         f.write(template % args)
         f.close()
 
-    print "creating folders.."
+    print("creating folders..")
     os.mkdir(plugin_base)
     os.mkdir(deluge_namespace)
     os.mkdir(plugins_namespace)
     os.mkdir(src)
     os.mkdir(data_dir)
 
-    print "creating files.."
-    write_file(plugin_base,"setup.py", SETUP)
+    print("creating files..")
+    write_file(plugin_base, "setup.py", SETUP)
     write_file(deluge_namespace, "__init__.py", NAMESPACE_INIT, False)
     write_file(plugins_namespace, "__init__.py", NAMESPACE_INIT, False)
-    write_file(src,"__init__.py", INIT)
-    write_file(src,"gtkui.py", GTKUI)
-    write_file(src,"webui.py", WEBUI)
-    write_file(src,"core.py", CORE)
+    write_file(src, "__init__.py", INIT)
+    write_file(src, "gtkui.py", GTKUI)
+    write_file(src, "webui.py", WEBUI)
+    write_file(src, "core.py", CORE)
     write_file(src, "common.py", COMMON)
     write_file(data_dir, "config.glade", GLADE)
     write_file(data_dir, "%s.js" % safe_name, DEFAULT_JS)
 
     #add an input parameter for this?
-    print "building dev-link.."
-    write_file(plugin_base,"create_dev_link.sh", CREATE_DEV_LINK)
+    print("building dev-link..")
+    write_file(plugin_base, "create_dev_link.sh", CREATE_DEV_LINK)
     dev_link_path = os.path.join(plugin_base, "create_dev_link.sh")
-    os.system("chmod +x %s" % dev_link_path) #lazy..
+    os.system("chmod +x %s" % dev_link_path)  # lazy..
     os.system(dev_link_path)
 
 
@@ -364,8 +367,8 @@ new %(name)sPlugin();
 """
 
 GPL = """#
-# %(filename)s
-#
+# -*- coding: utf-8 -*-#
+
 # Copyright (C) %(current_year)d %(author_name)s <%(author_email)s>
 #
 # Basic plugin template created by:
@@ -374,37 +377,13 @@ GPL = """#
 # Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
 # Copyright (C) 2010 Pedro Algarvio <pedro@algarvio.me>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 """
 
-NAMESPACE_INIT="""# this is a namespace package
+NAMESPACE_INIT = """# this is a namespace package
 import pkg_resources
 pkg_resources.declare_namespace(__name__)
 """
@@ -412,7 +391,8 @@ pkg_resources.declare_namespace(__name__)
 CREATE_DEV_LINK = """#!/bin/bash
 BASEDIR=$(cd `dirname $0` && pwd)
 CONFIG_DIR=$( test -z $1 && echo "%(configdir)s" || echo "$1")
-[ -d "$CONFIG_DIR/plugins" ] || echo "Config dir \"$CONFIG_DIR\" is either not a directory or is not a proper deluge config directory. Exiting"
+[ -d "$CONFIG_DIR/plugins" ] || echo "Config dir \"$CONFIG_DIR\" is either not a directory \
+or is not a proper deluge config directory. Exiting"
 [ -d "$CONFIG_DIR/plugins" ] || exit 1
 cd $BASEDIR
 test -d $BASEDIR/temp || mkdir $BASEDIR/temp

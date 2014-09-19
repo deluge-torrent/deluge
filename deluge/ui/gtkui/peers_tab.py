@@ -1,57 +1,34 @@
-#
-# peers_tab.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-#   The Free Software Foundation, Inc.,
-#   51 Franklin Street, Fifth Floor
-#   Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
-import gtk
 import logging
 import os.path
 from itertools import izip
 
-from deluge.ui.client import client
-import deluge.component as component
+import gtk
+
 import deluge.common
-from deluge.ui.gtkui.torrentview_data_funcs import cell_data_speed_down, cell_data_speed_up
-from deluge.ui.gtkui.torrentdetails import Tab
+import deluge.component as component
+from deluge.ui.client import client
 from deluge.ui.countries import COUNTRIES
-from deluge.ui.gtkui.common import save_pickled_state_file, load_pickled_state_file
+from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_file
+from deluge.ui.gtkui.torrentdetails import Tab
+from deluge.ui.gtkui.torrentview_data_funcs import cell_data_speed_down, cell_data_speed_up
 
 log = logging.getLogger(__name__)
+
 
 def cell_data_progress(column, cell, model, row, data):
     value = model.get_value(row, data)
     cell.set_property("value", value * 100)
     cell.set_property("text", "%.2f%%" % (value * 100))
+
 
 class PeersTab(Tab):
     def __init__(self):
@@ -190,7 +167,7 @@ class PeersTab(Tab):
     def load_state(self):
         state = load_pickled_state_file("peers_tab.state")
 
-        if state == None:
+        if state is None:
             return
 
         if len(state["columns"]) != len(self.listview.get_columns()):
@@ -202,7 +179,7 @@ class PeersTab(Tab):
 
         for (index, column) in enumerate(self.listview.get_columns()):
             cname = column.get_title()
-            if state["columns"].has_key(cname):
+            if cname in state["columns"]:
                 cstate = state["columns"][cname]
                 column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
                 column.set_fixed_width(cstate["width"] if cstate["width"] > 0 else 10)
@@ -240,15 +217,15 @@ class PeersTab(Tab):
         if country == "  ":
             return None
 
-        if not self.cached_flag_pixbufs.has_key(country):
+        if country not in self.cached_flag_pixbufs:
             # We haven't created a pixbuf for this country yet
             try:
                 self.cached_flag_pixbufs[country] = gtk.gdk.pixbuf_new_from_file(
                     deluge.common.resource_filename(
                         "deluge",
-                         os.path.join("ui", "data", "pixmaps", "flags", country.lower() + ".png")))
-            except Exception, e:
-                log.debug("Unable to load flag: %s", e)
+                        os.path.join("ui", "data", "pixmaps", "flags", country.lower() + ".png")))
+            except Exception as ex:
+                log.debug("Unable to load flag: %s", ex)
                 return None
 
         return self.cached_flag_pixbufs[country]
@@ -257,7 +234,7 @@ class PeersTab(Tab):
         new_ips = set()
         for peer in status["peers"]:
             new_ips.add(peer["ip"])
-            if self.peers.has_key(peer["ip"]):
+            if peer["ip"] in self.peers:
                 # We already have this peer in our list, so lets just update it
                 row = self.peers[peer["ip"]]
                 if not self.liststore.iter_is_valid(row):
@@ -289,7 +266,7 @@ class PeersTab(Tab):
                 if peer["ip"].count(":") == 1:
                     # This is an IPv4 address
                     ip_int = sum([int(byte) << shift
-                        for byte, shift in izip(peer["ip"].split(":")[0].split("."), (24, 16, 8, 0))])
+                                 for byte, shift in izip(peer["ip"].split(":")[0].split("."), (24, 16, 8, 0))])
                     peer_ip = peer["ip"]
                 else:
                     # This is an IPv6 address

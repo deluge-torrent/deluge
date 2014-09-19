@@ -7,10 +7,11 @@
 # See LICENSE for more details.
 #
 
-import pkg_resources
 import os.path
 from functools import wraps
 from sys import exc_info
+
+import pkg_resources
 
 
 def get_resource(filename):

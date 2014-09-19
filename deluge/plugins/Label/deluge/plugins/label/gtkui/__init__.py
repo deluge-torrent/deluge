@@ -42,9 +42,9 @@ from deluge.plugins.pluginbase import GtkPluginBase
 import gtk, gobject
 from deluge.ui.client import client
 
-import sidebar_menu
-import label_config
-import submenu
+from . import sidebar_menu
+from . import label_config
+from . import submenu
 
 log = logging.getLogger(__name__)
 
@@ -77,8 +77,8 @@ class GtkUI(GtkPluginBase):
             component.get("TorrentView").remove_column(_("Label"))
             log.debug(1.1)
 
-        except Exception, e:
-            log.debug(e)
+        except Exception as ex:
+            log.debug(ex)
 
     def load_interface(self):
         #sidebar

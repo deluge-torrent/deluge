@@ -434,7 +434,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="xalign">0</property>
-                                <property name="label" translatable="yes">Active Time:</property>
+                                <property name="label" translatable="yes">Active:</property>
                                 <attributes>
                                   <attribute name="weight" value="bold"/>
                                 </attributes>
@@ -466,7 +466,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="xalign">0</property>
-                                <property name="label" translatable="yes">Seeding Time:</property>
+                                <property name="label" translatable="yes">Seeding:</property>
                                 <attributes>
                                   <attribute name="weight" value="bold"/>
                                 </attributes>
@@ -685,17 +685,18 @@
                         <property name="row_spacing">5</property>
                         <child>
                           <object class="GtkLabel" id="summary_name">
-                            <property name="width_request">200</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="xalign">0</property>
                             <property name="wrap">True</property>
-                            <property name="wrap_mode">char</property>
+                            <property name="wrap_mode">word-char</property>
                             <property name="selectable">True</property>
+                            <property name="ellipsize">end</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
+                            <property name="x_options">GTK_SHRINK | GTK_FILL</property>
                             <property name="y_options">GTK_EXPAND</property>
                           </packing>
                         </child>
@@ -743,8 +744,8 @@
                           <packing>
                             <property name="left_attach">3</property>
                             <property name="right_attach">4</property>
-                            <property name="top_attach">3</property>
-                            <property name="bottom_attach">4</property>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"></property>
                           </packing>
@@ -758,8 +759,8 @@
                           <packing>
                             <property name="left_attach">4</property>
                             <property name="right_attach">5</property>
-                            <property name="top_attach">3</property>
-                            <property name="bottom_attach">4</property>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"></property>
                           </packing>
@@ -861,6 +862,7 @@
                             <property name="wrap">True</property>
                             <property name="wrap_mode">char</property>
                             <property name="selectable">True</property>
+                            <property name="ellipsize">start</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -895,6 +897,7 @@
                             <property name="wrap">True</property>
                             <property name="wrap_mode">char</property>
                             <property name="selectable">True</property>
+                            <property name="ellipsize">end</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -923,12 +926,12 @@
                         </child>
                         <child>
                           <object class="GtkLabel" id="summary_comments">
-                            <property name="width_request">150</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="xalign">0</property>
                             <property name="wrap_mode">char</property>
                             <property name="selectable">True</property>
+                            <property name="ellipsize">end</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -984,7 +987,6 @@
                         </child>
                         <child>
                           <object class="GtkLabel" id="summary_total_size">
-                            <property name="width_request">60</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="xalign">0</property>
@@ -995,7 +997,6 @@
                             <property name="right_attach">2</property>
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
-                            <property name="x_options">GTK_SHRINK | GTK_FILL</property>
                             <property name="y_options"></property>
                           </packing>
                         </child>
@@ -1028,7 +1029,6 @@
                             <property name="right_attach">2</property>
                             <property name="top_attach">2</property>
                             <property name="bottom_attach">3</property>
-                            <property name="x_options">GTK_SHRINK | GTK_FILL</property>
                             <property name="y_options"></property>
                           </packing>
                         </child>
@@ -1045,8 +1045,8 @@
                           <packing>
                             <property name="left_attach">3</property>
                             <property name="right_attach">4</property>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
+                            <property name="top_attach">3</property>
+                            <property name="bottom_attach">4</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"></property>
                           </packing>
@@ -1062,8 +1062,8 @@
                           <packing>
                             <property name="left_attach">4</property>
                             <property name="right_attach">5</property>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
+                            <property name="top_attach">3</property>
+                            <property name="bottom_attach">4</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"></property>
                           </packing>

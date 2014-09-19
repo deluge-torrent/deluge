@@ -7,16 +7,18 @@
 # See LICENSE for more details.
 #
 
+from __future__ import print_function
+
 import os
+from optparse import OptionGroup
 
 import deluge.common
 from deluge.ui.ui import _UI, UI
-from optparse import OptionGroup
 
 
 class WebUI(UI):
     def __init__(self, args):
-        import server
+        from deluge.ui.web import server
         deluge_web = server.DelugeWeb()
         deluge_web.start()
 
@@ -109,7 +111,7 @@ class Web(_UI):
                 self.options.user = pwd.getpwnam(self.options.user)[2]
             os.setuid(self.options.user)
 
-        import server
+        from deluge.ui.web import server
         self.__server = server.DelugeWeb()
 
         if self.options.base:
@@ -136,11 +138,11 @@ class Web(_UI):
             # Twisted catches signals to terminate
             def save_profile_stats():
                 profiler.dump_stats(profile_output)
-                print "Profile stats saved to %s" % profile_output
+                print("Profile stats saved to %s" % profile_output)
 
             from twisted.internet import reactor
             reactor.addSystemEventTrigger("before", "shutdown", save_profile_stats)
-            print "Running with profiler..."
+            print("Running with profiler...")
             profiler.runcall(run_server)
         else:
             run_server()

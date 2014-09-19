@@ -12,17 +12,19 @@
 # See LICENSE for more details.
 #
 
-import gtk
-import gtk.glade
 import logging
-from deluge.ui.client import client
-from deluge.ui.gtkui import dialogs
-from deluge.plugins.pluginbase import GtkPluginBase
-import deluge.component as component
-import deluge.common
 import os
 
-from common import get_resource
+import gtk
+import gtk.glade
+
+import deluge.common
+import deluge.component as component
+from deluge.plugins.pluginbase import GtkPluginBase
+from deluge.ui.client import client
+from deluge.ui.gtkui import dialogs
+
+from .common import get_resource
 
 log = logging.getLogger(__name__)
 
@@ -273,8 +275,8 @@ class OptionsDialog():
             client.autoadd.set_options(
                 str(self.watchdir_id), options
             ).addCallbacks(self.on_added, self.on_error_show)
-        except IncompatibleOption, err:
-            dialogs.ErrorDialog(_("Incompatible Option"), str(err), self.dialog).run()
+        except IncompatibleOption as ex:
+            dialogs.ErrorDialog(_("Incompatible Option"), str(ex), self.dialog).run()
 
     def on_error_show(self, result):
         d = dialogs.ErrorDialog(_("Error"), result.value.exception_msg, self.dialog)
@@ -288,8 +290,8 @@ class OptionsDialog():
         try:
             options = self.generate_opts()
             client.autoadd.add(options).addCallbacks(self.on_added, self.on_error_show)
-        except IncompatibleOption, err:
-            dialogs.ErrorDialog(_("Incompatible Option"), str(err), self.dialog).run()
+        except IncompatibleOption as ex:
+            dialogs.ErrorDialog(_("Incompatible Option"), str(ex), self.dialog).run()
 
     def on_cancel(self, event=None):
         self.dialog.destroy()

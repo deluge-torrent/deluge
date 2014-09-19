@@ -37,13 +37,15 @@
 #
 #
 
-import os
 import logging
+import os
+
 import pkg_resources
-from deluge.common import fspeed
-from deluge.ui.client import client
-from deluge.plugins.pluginbase import WebPluginBase
+
 from deluge import component
+from deluge.common import fspeed
+from deluge.plugins.pluginbase import WebPluginBase
+from deluge.ui.client import client
 
 log = logging.getLogger(__name__)
 

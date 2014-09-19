@@ -11,10 +11,10 @@
 #
 # Authour: Garett Harnish
 
-from sys import argv, exit, stderr
-from optparse import OptionParser
-
 import logging
+from optparse import OptionParser
+from sys import argv, exit, stderr
+
 
 def isFloatDigit (string):
     if string.isdigit():

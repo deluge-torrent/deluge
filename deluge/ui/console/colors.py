@@ -1,36 +1,10 @@
-#
-# colors.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 from deluge.ui.console.modes import format_utils
@@ -41,34 +15,34 @@ except ImportError:
     pass
 
 colors = [
-    'COLOR_BLACK',
-    'COLOR_BLUE',
-    'COLOR_CYAN',
-    'COLOR_GREEN',
-    'COLOR_MAGENTA',
-    'COLOR_RED',
-    'COLOR_WHITE',
-    'COLOR_YELLOW'
+    "COLOR_BLACK",
+    "COLOR_BLUE",
+    "COLOR_CYAN",
+    "COLOR_GREEN",
+    "COLOR_MAGENTA",
+    "COLOR_RED",
+    "COLOR_WHITE",
+    "COLOR_YELLOW"
 ]
 
 # {(fg, bg): pair_number, ...}
 color_pairs = {
-    ("white", "black"): 0 # Special case, can't be changed
+    ("white", "black"): 0  # Special case, can't be changed
 }
 
 # Some default color schemes
 schemes = {
     "input": ("white", "black"),
-    "normal": ("white","black"),
+    "normal": ("white", "black"),
     "status": ("yellow", "blue", "bold"),
     "info": ("white", "black", "bold"),
     "error": ("red", "black", "bold"),
     "success": ("green", "black", "bold"),
     "event": ("magenta", "black", "bold"),
     "selected": ("black", "white", "bold"),
-    "marked": ("white","blue","bold"),
-    "selectedmarked": ("blue","white","bold"),
-    "header": ("green","black","bold"),
+    "marked": ("white", "blue", "bold"),
+    "selectedmarked": ("blue", "white", "bold"),
+    "header": ("green", "black", "bold"),
     "filterstatus": ("green", "blue", "bold")
 }
 
@@ -92,6 +66,7 @@ type_color = {
     dict: "{!white,black,bold!}"
 }
 
+
 def init_colors():
     # Create the color_pairs dict
     counter = 1
@@ -107,12 +82,14 @@ def init_colors():
     # but can also fail on others, so we try/except
     try:
         curses.init_pair(counter, curses.COLOR_WHITE, curses.COLOR_BLACK)
-        color_pairs[("white","black")] = counter
+        color_pairs[("white", "black")] = counter
     except:
         pass
 
+
 class BadColorString(Exception):
     pass
+
 
 def replace_tabs(line):
     """
@@ -124,6 +101,7 @@ def replace_tabs(line):
         line = line.replace("\t", " " * tab_length, 1)
     return line
 
+
 def strip_colors(line):
     """
     Returns a string with the color formatting removed.
@@ -134,6 +112,7 @@ def strip_colors(line):
         line = line[:line.find("{!")] + line[line.find("!}") + 2:]
 
     return line
+
 
 def get_line_length(line, encoding="UTF-8"):
     """
@@ -153,6 +132,7 @@ def get_line_length(line, encoding="UTF-8"):
     line = replace_tabs(line)
     return len(line)
 
+
 def get_line_width(line, encoding="UTF-8"):
     """
     Get width of string considering double width characters
@@ -171,6 +151,7 @@ def get_line_width(line, encoding="UTF-8"):
     line = replace_tabs(line)
     return format_utils.strwidth(line)
 
+
 def parse_color_string(s, encoding="UTF-8"):
     """
     Parses a string and returns a list of 2-tuples (color, string).
@@ -187,7 +168,6 @@ def parse_color_string(s, encoding="UTF-8"):
 
     ret = []
     # Keep track of where the strings
-    col_index = 0
     while s.find("{!") != -1:
         begin = s.find("{!")
         if begin > 0:
@@ -198,9 +178,9 @@ def parse_color_string(s, encoding="UTF-8"):
             raise BadColorString("Missing closing '!}'")
 
         # Get a list of attributes in the bracketed section
-        attrs = s[begin+2:end].split(",")
+        attrs = s[begin + 2:end].split(",")
 
-        if len(attrs) == 1 and not attrs[0].strip(' '):
+        if len(attrs) == 1 and not attrs[0].strip(" "):
             raise BadColorString("No description in {! !}")
 
         def apply_attrs(cp, a):
@@ -238,10 +218,10 @@ def parse_color_string(s, encoding="UTF-8"):
         next_begin = s.find("{!", end)
 
         if next_begin == -1:
-            ret.append((color_pair, replace_tabs(s[end+2:])))
+            ret.append((color_pair, replace_tabs(s[end + 2:])))
             break
         else:
-            ret.append((color_pair, replace_tabs(s[end+2:next_begin])))
+            ret.append((color_pair, replace_tabs(s[end + 2:next_begin])))
             s = s[next_begin:]
 
     if not ret:

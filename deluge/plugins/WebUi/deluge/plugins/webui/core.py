@@ -36,12 +36,12 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
-import os
 import logging
+import os
 
 from deluge import common, component, configmanager
-from deluge.plugins.pluginbase import CorePluginBase
 from deluge.core.rpcserver import export
+from deluge.plugins.pluginbase import CorePluginBase
 
 log = logging.getLogger(__name__)
 

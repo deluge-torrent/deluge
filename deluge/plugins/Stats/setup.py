@@ -34,7 +34,7 @@
 #    but you are not obligated to do so. If you do not wish to do so, delete
 #    this exception statement from your version. If you delete this exception
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 __plugin_name__ = "Stats"
 __author__ = "Ian Martin"

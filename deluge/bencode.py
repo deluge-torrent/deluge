@@ -20,22 +20,22 @@ def decode_int(x, f):
     if x[f] == '-':
         if x[f + 1] == '0':
             raise ValueError
-    elif x[f] == '0' and newf != f+1:
+    elif x[f] == '0' and newf != f + 1:
         raise ValueError
-    return (n, newf+1)
+    return (n, newf + 1)
 
 
 def decode_string(x, f):
     colon = x.index(':', f)
     n = int(x[f:colon])
-    if x[f] == '0' and colon != f+1:
+    if x[f] == '0' and colon != f + 1:
         raise ValueError
     colon += 1
-    return (x[colon:colon+n], colon+n)
+    return (x[colon:colon + n], colon + n)
 
 
 def decode_list(x, f):
-    r, f = [], f+1
+    r, f = [], f + 1
     while x[f] != 'e':
         v, f = decode_func[x[f]](x, f)
         r.append(v)
@@ -43,7 +43,7 @@ def decode_list(x, f):
 
 
 def decode_dict(x, f):
-    r, f = {}, f+1
+    r, f = {}, f + 1
     while x[f] != 'e':
         k, f = decode_string(x, f)
         r[k], f = decode_func[x[f]](x, f)
@@ -75,7 +75,7 @@ def bdecode(x):
 
     return r
 
-from types import StringType, IntType, LongType, DictType, ListType, TupleType
+from types import DictType, IntType, ListType, LongType, StringType, TupleType
 
 
 class Bencached(object):

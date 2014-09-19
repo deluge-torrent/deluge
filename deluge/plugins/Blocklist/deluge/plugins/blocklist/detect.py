@@ -7,8 +7,8 @@
 # See LICENSE for more details.
 #
 
-from decompressers import Zipped, GZipped, BZipped2
-from readers import EmuleReader, SafePeerReader, PeerGuardianReader
+from .decompressers import BZipped2, GZipped, Zipped
+from .readers import EmuleReader, PeerGuardianReader, SafePeerReader
 
 COMPRESSION_TYPES = {
     "PK": "Zip",

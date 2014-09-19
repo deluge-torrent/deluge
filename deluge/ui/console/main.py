@@ -1,62 +1,37 @@
-#
-# main.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
-import os
-import sys
+from __future__ import print_function
+
+import locale
 import logging
 import optparse
+import os
 import re
-import locale
 import shlex
+import sys
 
 from twisted.internet import defer, reactor
 
+import deluge.common
 import deluge.component as component
 from deluge.ui.client import client
-import deluge.common
+from deluge.ui.console import colors, UI_PATH
+from deluge.ui.console.eventlog import EventLog
+from deluge.ui.console.statusbars import StatusBars
 from deluge.ui.coreconfig import CoreConfig
 from deluge.ui.sessionproxy import SessionProxy
-from deluge.ui.console.statusbars import StatusBars
-from deluge.ui.console.eventlog import EventLog
-import colors
 from deluge.ui.ui import _UI
-from deluge.ui.console import UI_PATH
-
 
 log = logging.getLogger(__name__)
+
 
 class Console(_UI):
 
@@ -73,26 +48,28 @@ class Console(_UI):
         self.parser.add_option_group(group)
         self.parser.disable_interspersed_args()
 
-        self.console_cmds = load_commands(os.path.join(UI_PATH, 'commands'))
+        self.console_cmds = load_commands(os.path.join(UI_PATH, "commands"))
+
         class CommandOptionGroup(optparse.OptionGroup):
             def __init__(self, parser, title, description=None, cmds=None):
-                optparse.OptionGroup.__init__(self,parser, title, description)
+                optparse.OptionGroup.__init__(self, parser, title, description)
                 self.cmds = cmds
 
             def format_help(self, formatter):
                 result = formatter.format_heading(self.title)
                 formatter.indent()
                 if self.description:
-                    result += "%s\n"%formatter.format_description(self.description)
+                    result += "%s\n" % formatter.format_description(self.description)
                 for cname in self.cmds:
                     cmd = self.cmds[cname]
-                    if cmd.interactive_only or cname in cmd.aliases: continue
+                    if cmd.interactive_only or cname in cmd.aliases:
+                        continue
                     allnames = [cname]
                     allnames.extend(cmd.aliases)
                     cname = "/".join(allnames)
-                    result += formatter.format_heading(" - ".join([cname,cmd.__doc__]))
+                    result += formatter.format_heading(" - ".join([cname, cmd.__doc__]))
                     formatter.indent()
-                    result += "%*s%s\n" % (formatter.current_indent, "", cmd.usage.split('\n')[0])
+                    result += "%*s%s\n" % (formatter.current_indent, "", cmd.usage.split("\n")[0])
                     formatter.dedent()
                 formatter.dedent()
                 return result
@@ -109,8 +86,10 @@ class Console(_UI):
         ConsoleUI(self.args, self.console_cmds, (self.options.daemon_addr, self.options.daemon_port,
                                                  self.options.daemon_user, self.options.daemon_pass))
 
+
 def start():
     Console().start()
+
 
 class DelugeHelpFormatter (optparse.IndentedHelpFormatter):
     """
@@ -164,7 +143,7 @@ class DelugeHelpFormatter (optparse.IndentedHelpFormatter):
             opts = "%*s%s\n" % (self.current_indent, "", opts)
             opts = self._format_colors(opts)
             indent_first = self.help_position
-        else:                       # start help on same line as opts
+        else:  # start help on same line as opts
             opts = "%*s%-*s  " % (self.current_indent, "", opt_width, opts)
             opts = self._format_colors(opts)
             indent_first = 0
@@ -180,6 +159,7 @@ class DelugeHelpFormatter (optparse.IndentedHelpFormatter):
             result.append("\n")
         return "".join(result)
 
+
 class OptionParser(optparse.OptionParser):
     """subclass from optparse.OptionParser so exit() won't exit."""
     def __init__(self, **kwargs):
@@ -190,7 +170,7 @@ class OptionParser(optparse.OptionParser):
     def exit(self, status=0, msg=None):
         self.values._exit = True
         if msg:
-            print msg
+            print(msg)
 
     def error(self, msg):
         """error(msg : string)
@@ -201,13 +181,13 @@ class OptionParser(optparse.OptionParser):
         """
         raise Exception(msg)
 
-    def print_usage(self, file = None):
+    def print_usage(self, file=None):
         console = component.get("ConsoleUI")
         if self.usage:
             for line in self.get_usage().splitlines():
                 console.write(line)
 
-    def print_help(self, file = None):
+    def print_help(self, file=None):
         console = component.get("ConsoleUI")
         console.set_batch_write(True)
         for line in self.format_help().splitlines():
@@ -234,19 +214,20 @@ class OptionParser(optparse.OptionParser):
 
 class BaseCommand(object):
 
-    usage = 'usage'
+    usage = "usage"
     interactive_only = False
     option_list = tuple()
     aliases = []
 
     def complete(self, text, *args):
         return []
+
     def handle(self, *args, **options):
         pass
 
     @property
     def name(self):
-        return 'base'
+        return "base"
 
     @property
     def epilog(self):
@@ -254,38 +235,35 @@ class BaseCommand(object):
 
     def split(self, text):
         if deluge.common.windows_check():
-            text = text.replace('\\', '\\\\')
+            text = text.replace("\\", "\\\\")
         result = shlex.split(text)
         for i, s in enumerate(result):
-            result[i] = s.replace(r'\ ', ' ')
-        result = filter(lambda s: s != '', result)
+            result[i] = s.replace(r"\ ", " ")
+        result = filter(lambda s: s != "", result)
         return result
 
     def create_parser(self):
-        return OptionParser(prog = self.name,
-                            usage = self.usage,
-                            epilog = self.epilog,
-                            option_list = self.option_list)
+        return OptionParser(prog=self.name, usage=self.usage, epilog=self.epilog, option_list=self.option_list)
 
 
 def load_commands(command_dir, exclude=[]):
     def get_command(name):
-        return getattr(__import__('deluge.ui.console.commands.%s' % name, {}, {}, ['Command']), 'Command')()
+        return getattr(__import__("deluge.ui.console.commands.%s" % name, {}, {}, ["Command"]), "Command")()
 
     try:
         commands = []
         for filename in os.listdir(command_dir):
-            if filename.split('.')[0] in exclude or filename.startswith('_'):
+            if filename.split(".")[0] in exclude or filename.startswith("_"):
                 continue
-            if not (filename.endswith('.py') or filename.endswith('.pyc')):
+            if not (filename.endswith(".py") or filename.endswith(".pyc")):
                 continue
-            cmd = get_command(filename.split('.')[len(filename.split('.')) - 2])
-            aliases = [ filename.split('.')[len(filename.split('.')) - 2] ]
+            cmd = get_command(filename.split(".")[len(filename.split(".")) - 2])
+            aliases = [filename.split(".")[len(filename.split(".")) - 2]]
             aliases.extend(cmd.aliases)
             for a in aliases:
                 commands.append((a, cmd))
         return dict(commands)
-    except OSError, e:
+    except OSError:
         return {}
 
 
@@ -297,13 +275,12 @@ class ConsoleUI(component.Component):
         self.events = []
 
         try:
-            locale.setlocale(locale.LC_ALL, '')
+            locale.setlocale(locale.LC_ALL, "")
             self.encoding = locale.getpreferredencoding()
         except:
             self.encoding = sys.getdefaultencoding()
 
         log.debug("Using encoding: %s", self.encoding)
-
 
         # start up the session proxy
         self.sessionproxy = SessionProxy()
@@ -314,13 +291,13 @@ class ConsoleUI(component.Component):
         self.interactive = True
         self._commands = cmds
         if args:
-            args = ' '.join(args)
+            args = " ".join(args)
             self.interactive = False
             if not cmds:
-                print "Sorry, couldn't find any commands"
+                print("Sorry, couldn't find any commands")
                 return
             else:
-                from commander import Commander
+                from deluge.ui.console.commander import Commander
                 cmdr = Commander(cmds)
                 if daemon:
                     cmdr.exec_args(args, *daemon)
@@ -334,13 +311,13 @@ class ConsoleUI(component.Component):
             import curses.wrapper
             curses.wrapper(self.run)
         elif self.interactive and deluge.common.windows_check():
-            print """\nDeluge-console does not run in interactive mode on Windows. \n
+            print("""\nDeluge-console does not run in interactive mode on Windows. \n
 Please use commands from the command line, eg:\n
     deluge-console.exe help
     deluge-console.exe info
     deluge-console.exe "add --help"
     deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
-            """
+            """)
         else:
             reactor.run()
 
@@ -356,7 +333,7 @@ Please use commands from the command line, eg:\n
         # pass it the function that handles commands
         colors.init_colors()
         self.statusbars = StatusBars()
-        from modes.connectionmanager import ConnectionManager
+        from deluge.ui.console.modes.connectionmanager import ConnectionManager
         self.stdscr = stdscr
         self.screen = ConnectionManager(stdscr, self.encoding)
         self.eventlog = EventLog()
@@ -372,12 +349,12 @@ Please use commands from the command line, eg:\n
         # Start the twisted mainloop
         reactor.run()
 
-
     def start(self):
         # Maintain a list of (torrent_id, name) for use in tab completion
         self.torrents = []
         if not self.interactive:
             self.started_deferred = defer.Deferred()
+
             def on_session_state(result):
                 def on_torrents_status(torrents):
                     for torrent_id, status in torrents.items():
@@ -386,7 +363,6 @@ Please use commands from the command line, eg:\n
 
                 client.core.get_torrents_status({"id": result}, ["name"]).addCallback(on_torrents_status)
             client.core.get_session_state().addCallback(on_session_state)
-
 
     def match_torrent(self, string):
         """
@@ -399,9 +375,9 @@ Please use commands from the command line, eg:\n
             no matches are found.
 
         """
-        if self.interactive and isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+        if self.interactive and isinstance(self.screen, deluge.ui.console.modes.legacy.Legacy):
             return self.screen.match_torrent(string)
-        matches  = []
+        matches = []
 
         string = string.decode(self.encoding)
         for tid, name in self.torrents:
@@ -410,9 +386,8 @@ Please use commands from the command line, eg:\n
 
         return matches
 
-
     def get_torrent_name(self, torrent_id):
-        if self.interactive and hasattr(self.screen,"get_torrent_name"):
+        if self.interactive and hasattr(self.screen, "get_torrent_name"):
             return self.screen.get_torrent_name(torrent_id)
 
         for tid, name in self.torrents:
@@ -421,17 +396,16 @@ Please use commands from the command line, eg:\n
 
         return None
 
-
     def set_batch_write(self, batch):
-        if self.interactive and isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+        if self.interactive and isinstance(self.screen, deluge.ui.console.modes.legacy.Legacy):
             return self.screen.set_batch_write(batch)
 
     def tab_complete_torrent(self, line):
-        if self.interactive and isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+        if self.interactive and isinstance(self.screen, deluge.ui.console.modes.legacy.Legacy):
             return self.screen.tab_complete_torrent(line)
 
     def tab_complete_path(self, line, type="file", ext="", sort="name", dirs_first=True):
-        if self.interactive and isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+        if self.interactive and isinstance(self.screen, deluge.ui.console.modes.legacy.Legacy):
             return self.screen.tab_complete_path(line, type=type, ext=ext, sort=sort, dirs_first=dirs_first)
 
     def set_mode(self, mode):
@@ -446,21 +420,21 @@ Please use commands from the command line, eg:\n
 
     def write(self, s):
         if self.interactive:
-            if isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+            if isinstance(self.screen, deluge.ui.console.modes.legacy.Legacy):
                 self.screen.write(s)
             else:
                 component.get("LegacyUI").add_line(s, False)
                 self.events.append(s)
         else:
-            print colors.strip_colors(s.encode(self.encoding))
+            print(colors.strip_colors(s.encode(self.encoding)))
 
     def write_event(self, s):
         if self.interactive:
-            if isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+            if isinstance(self.screen, deluge.ui.console.modes.legacy.Legacy):
                 self.events.append(s)
                 self.screen.write(s)
             else:
                 component.get("LegacyUI").add_line(s, False)
                 self.events.append(s)
         else:
-            print colors.strip_colors(s.encode(self.encoding))
+            print(colors.strip_colors(s.encode(self.encoding)))

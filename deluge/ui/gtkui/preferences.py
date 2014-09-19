@@ -1,55 +1,31 @@
-#
-# preferences.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-#     The Free Software Foundation, Inc.,
-#     51 Franklin Street, Fifth Floor
-#     Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
-import os
-import pygtk
-pygtk.require('2.0')
-import gtk
 import logging
+import os
 from hashlib import sha1 as sha
 
-import deluge.component as component
-from deluge.ui.client import client
-from deluge.ui.gtkui.path_chooser import PathChooser
+import gtk
+import pygtk
+
 import deluge.common
-import common
-import dialogs
-from deluge.configmanager import ConfigManager
-import deluge.configmanager
+import deluge.component as component
+from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.error import AuthManagerError, NotAuthorizedError
+from deluge.ui.client import client
+from deluge.ui.gtkui.common import associate_magnet_links, get_deluge_icon
+from deluge.ui.gtkui.dialogs import AccountDialog, ErrorDialog, InformationDialog, YesNoDialog
+from deluge.ui.gtkui.path_chooser import PathChooser
+
+pygtk.require('2.0')
+
 
 log = logging.getLogger(__name__)
 
@@ -73,7 +49,7 @@ class Preferences(component.Component):
         ))
         self.pref_dialog = self.builder.get_object("pref_dialog")
         self.pref_dialog.set_transient_for(component.get("MainWindow").window)
-        self.pref_dialog.set_icon(common.get_deluge_icon())
+        self.pref_dialog.set_icon(get_deluge_icon())
         self.treeview = self.builder.get_object("treeview")
         self.notebook = self.builder.get_object("notebook")
         self.gtkui_config = ConfigManager("gtkui.conf")
@@ -191,6 +167,7 @@ class Preferences(component.Component):
         if not deluge.common.osx_check() and not deluge.common.windows_check():
             try:
                 import appindicator
+                assert appindicator  # silence pyflakes
             except ImportError:
                 pass
             else:
@@ -367,7 +344,7 @@ class Preferences(component.Component):
             "chk_copy_torrent_file": ("active", "copy_torrent_file"),
             "chk_del_copy_torrent_file": ("active", "del_copy_torrent_file"),
             "chk_pre_allocation": ("active", "pre_allocate_storage"),
-            "chk_prioritize_first_last_pieces": ("active",  "prioritize_first_last_pieces"),
+            "chk_prioritize_first_last_pieces": ("active", "prioritize_first_last_pieces"),
             "chk_sequential_download": ("active", "sequential_download"),
             "chk_add_paused": ("active", "add_paused"),
             "active_port_label": ("text", lambda: str(self.active_port)),
@@ -399,6 +376,7 @@ class Preferences(component.Component):
             "spin_max_connections_per_second": ("value", "max_connections_per_second"),
             "chk_ignore_limits_on_local_network": ("active", "ignore_limits_on_local_network"),
             "chk_rate_limit_ip_overhead": ("active", "rate_limit_ip_overhead"),
+            "chk_anonymous_mode": ("active", "anonymous_mode"),
             "spin_max_connections_per_torrent": ("value", "max_connections_per_torrent"),
             "spin_max_upload_slots_per_torrent": ("value", "max_upload_slots_per_torrent"),
             "spin_max_download_per_torrent": ("value", "max_download_speed_per_torrent"),
@@ -419,7 +397,7 @@ class Preferences(component.Component):
             "chk_remove_ratio": ("active", "remove_seed_at_ratio"),
             "spin_cache_size": ("value", "cache_size"),
             "spin_cache_expiry": ("value", "cache_expiry"),
-            "combo_proxy_type":  ("active", lambda: self.core_config["proxy"]["type"]),
+            "combo_proxy_type": ("active", lambda: self.core_config["proxy"]["type"]),
             "entry_proxy_user": ("text", lambda: self.core_config["proxy"]["username"]),
             "entry_proxy_pass": ("text", lambda: self.core_config["proxy"]["password"]),
             "entry_proxy_host": ("text", lambda: self.core_config["proxy"]["hostname"]),
@@ -706,6 +684,7 @@ class Preferences(component.Component):
         new_core_config["i2p_proxy"] = {}
         new_core_config["i2p_proxy"]["hostname"] = self.builder.get_object("entry_i2p_host").get_text()
         new_core_config["i2p_proxy"]["port"] = self.builder.get_object("spin_i2p_port").get_value_as_int()
+        new_core_config["anonymous_mode"] = self.builder.get_object("chk_anonymous_mode").get_active()
 
         ## Queue tab ##
         new_core_config["queue_new_to_top"] = \
@@ -748,7 +727,7 @@ class Preferences(component.Component):
         else:
             active = self.language_combo.get_active()
             if active == -1:
-                dialog = dialogs.InformationDialog(
+                dialog = InformationDialog(
                     _("Attention"),
                     _("You must choose a language")
                 )
@@ -759,7 +738,7 @@ class Preferences(component.Component):
                 new_gtkui_config["language"] = model.get(model.get_iter(active), 0)[0]
 
         if new_gtkui_config["language"] != self.gtkui_config["language"]:
-            dialog = dialogs.InformationDialog(
+            dialog = InformationDialog(
                 _("Attention"),
                 _("You must now restart the deluge UI for the changes to take effect.")
             )
@@ -804,7 +783,7 @@ class Preferences(component.Component):
                     self.gtkui_config["classic_mode"] = not new_gtkui_in_classic_mode
                     self.builder.get_object("radio_classic").set_active(self.gtkui_config["classic_mode"])
                     self.builder.get_object("radio_thinclient").set_active(not self.gtkui_config["classic_mode"])
-            dialog = dialogs.YesNoDialog(
+            dialog = YesNoDialog(
                 _("Switching client mode..."),
                 _("Your current session will be stopped. Do you wish to continue?")
             )
@@ -1004,7 +983,7 @@ class Preferences(component.Component):
         filename = os.path.split(filepath)[1]
         shutil.copyfile(
             filepath,
-            os.path.join(deluge.configmanager.get_config_dir(), "plugins", filename))
+            os.path.join(get_config_dir(), "plugins", filename))
 
         component.get("PluginManager").scan_for_plugins()
 
@@ -1067,7 +1046,7 @@ class Preferences(component.Component):
             self.builder.get_object(show_entry).show()
 
     def _on_button_associate_magnet_clicked(self, widget):
-        common.associate_magnet_links(True)
+        associate_magnet_links(True)
 
     def _get_accounts_tab_data(self):
         def on_ok(accounts):
@@ -1078,7 +1057,7 @@ class Preferences(component.Component):
             if failure.type == NotAuthorizedError:
                 self.accounts_frame.hide()
             else:
-                dialogs.ErrorDialog(
+                ErrorDialog(
                     _("Server Side Error"),
                     _("An error ocurred on the server"),
                     parent=self.pref_dialog, details=failure.getErrorMessage()
@@ -1124,7 +1103,7 @@ class Preferences(component.Component):
             self.builder.get_object("accounts_delete").set_sensitive(False)
 
     def _on_accounts_add_clicked(self, widget):
-        dialog = dialogs.AccountDialog(
+        dialog = AccountDialog(
             levels_mapping=client.auth_levels_mapping,
             parent=self.pref_dialog
         )
@@ -1148,13 +1127,13 @@ class Preferences(component.Component):
 
             def add_fail(failure):
                 if failure.type == AuthManagerError:
-                    dialogs.ErrorDialog(
+                    ErrorDialog(
                         _("Error Adding Account"),
                         _("Authentication failed"),
                         parent=self.pref_dialog, details=failure.getErrorMessage()
                     ).run()
                 else:
-                    dialogs.ErrorDialog(
+                    ErrorDialog(
                         _("Error Adding Account"),
                         _("An error ocurred while adding account"),
                         parent=self.pref_dialog, details=failure.getErrorMessage()
@@ -1172,7 +1151,7 @@ class Preferences(component.Component):
         if not itr:
             return
 
-        dialog = dialogs.AccountDialog(
+        dialog = AccountDialog(
             model[itr][ACCOUNTS_USERNAME],
             model[itr][ACCOUNTS_PASSWORD],
             model[itr][ACCOUNTS_LEVEL],
@@ -1187,7 +1166,7 @@ class Preferences(component.Component):
                 model.set_value(itr, ACCOUNTS_LEVEL, dialog.get_authlevel())
 
             def update_fail(failure):
-                dialogs.ErrorDialog(
+                ErrorDialog(
                     _("Error Updating Account"),
                     _("An error ocurred while updating account"),
                     parent=self.pref_dialog, details=failure.getErrorMessage()
@@ -1211,7 +1190,7 @@ class Preferences(component.Component):
         header = _("Remove Account")
         text = _("Are you sure you wan't do remove the account with the "
                  "username \"%(username)s\"?" % dict(username=username))
-        dialog = dialogs.YesNoDialog(header, text, parent=self.pref_dialog)
+        dialog = YesNoDialog(header, text, parent=self.pref_dialog)
 
         def dialog_finished(response_id):
             def remove_ok(rc):
@@ -1219,13 +1198,13 @@ class Preferences(component.Component):
 
             def remove_fail(failure):
                 if failure.type == AuthManagerError:
-                    dialogs.ErrorDialog(
+                    ErrorDialog(
                         _("Error Removing Account"),
                         _("Auhentication failed"),
                         parent=self.pref_dialog, details=failure.getErrorMessage()
                     ).run()
                 else:
-                    dialogs.ErrorDialog(
+                    ErrorDialog(
                         _("Error Removing Account"),
                         _("An error ocurred while removing account"),
                         parent=self.pref_dialog, details=failure.getErrorMessage()

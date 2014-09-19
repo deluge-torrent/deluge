@@ -7,12 +7,13 @@
 # See LICENSE for more details.
 #
 
-import time
-import random
 import hashlib
 import logging
+import random
+import time
 from datetime import datetime, timedelta
 from email.utils import formatdate
+from functools import reduce
 
 from twisted.internet.task import LoopingCall
 
@@ -38,11 +39,11 @@ class AuthError(Exception):
     pass
 
 # Import after as json_api imports the above AuthError and AUTH_LEVEL_DEFAULT
-from deluge.ui.web.json_api import JSONComponent, export
+from deluge.ui.web.json_api import export, JSONComponent  # isort:skip
 
 
 def make_checksum(session_id):
-    return reduce(lambda x, y: x+y, map(ord, session_id))
+    return reduce(lambda x, y: x + y, map(ord, session_id))
 
 
 def get_session_id(session_id):
@@ -59,8 +60,8 @@ def get_session_id(session_id):
         if checksum == make_checksum(session_id):
             return session_id
         return None
-    except Exception, e:
-        log.exception(e)
+    except Exception as ex:
+        log.exception(ex)
         return None
 
 
@@ -118,7 +119,7 @@ class Auth(JSONComponent):
         checksum = str(make_checksum(session_id))
 
         request.addCookie('_session_id', session_id + checksum,
-                          path=request.base+"json", expires=expires_str)
+                          path=request.base + "json", expires=expires_str)
 
         log.debug("Creating session for %s", login)
         config = component.get("DelugeWeb").config
@@ -215,7 +216,7 @@ class Auth(JSONComponent):
 
             _session_id = request.getCookie("_session_id")
             request.addCookie('_session_id', _session_id,
-                              path=request.base+"json", expires=expires_str)
+                              path=request.base + "json", expires=expires_str)
 
         if method:
             if not hasattr(method, "_json_export"):

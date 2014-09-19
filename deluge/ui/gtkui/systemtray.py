@@ -1,53 +1,28 @@
-#
-# systemtray.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
-#
+
+import logging
+import os
+
+import gtk
+
+import deluge.common
+import deluge.component as component
+from deluge.configmanager import ConfigManager
+from deluge.ui.client import client
+from deluge.ui.gtkui import dialogs
+from deluge.ui.gtkui.common import build_menu_radio_list, get_logo
 
 try:
     import appindicator
 except ImportError:
     appindicator = None
-
-import os
-import gtk
-import logging
-
-import deluge.component as component
-from deluge.ui.client import client
-import deluge.common
-from deluge.configmanager import ConfigManager
-from deluge.ui.gtkui import dialogs
-import common
 
 log = logging.getLogger(__name__)
 
@@ -129,7 +104,7 @@ class SystemTray(component.Component):
         else:
             log.debug("Enabling the system tray icon..")
             if deluge.common.windows_check() or deluge.common.osx_check():
-                self.tray = gtk.status_icon_new_from_pixbuf(common.get_logo(32))
+                self.tray = gtk.status_icon_new_from_pixbuf(get_logo(32))
             else:
                 try:
                     self.tray = gtk.status_icon_new_from_icon_name("deluge")
@@ -188,8 +163,8 @@ class SystemTray(component.Component):
                 # Hide widgets in hide list because we're not connected to a host
                 for widget in self.hide_widget_list:
                     self.builder.get_object(widget).hide()
-            except Exception, e:
-                log.debug("Unable to hide system tray menu widgets: %s", e)
+            except Exception as ex:
+                log.debug("Unable to hide system tray menu widgets: %s", ex)
 
             self.tray.set_tooltip(_("Deluge") + "\n" + _("Not Connected..."))
 
@@ -262,14 +237,14 @@ class SystemTray(component.Component):
 
     def build_tray_bwsetsubmenu(self):
         # Create the Download speed list sub-menu
-        submenu_bwdownset = common.build_menu_radio_list(
+        submenu_bwdownset = build_menu_radio_list(
             self.config["tray_download_speed_list"], self.on_tray_setbwdown,
             self.max_download_speed,
             _("KiB/s"), show_notset=True, show_other=True
         )
 
         # Create the Upload speed list sub-menu
-        submenu_bwupset = common.build_menu_radio_list(
+        submenu_bwupset = build_menu_radio_list(
             self.config["tray_upload_speed_list"], self.on_tray_setbwup,
             self.max_upload_speed,
             _("KiB/s"), show_notset=True, show_other=True
@@ -305,8 +280,8 @@ class SystemTray(component.Component):
                 del self.tray
             del self.builder
             del self.tray_menu
-        except Exception, e:
-            log.debug("Unable to disable system tray: %s", e)
+        except Exception as ex:
+            log.debug("Unable to disable system tray: %s", ex)
 
     def blink(self, value):
         try:

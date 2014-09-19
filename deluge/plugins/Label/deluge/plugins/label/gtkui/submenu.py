@@ -34,11 +34,14 @@
 #
 
 
-import os
 import logging
-import pkg_resources    # access plugin egg
-from deluge import component    # for systray
-import gtk, gobject
+import os
+
+import gobject
+import gtk
+import pkg_resources  # access plugin egg
+
+from deluge import component  # for systray
 from deluge.ui.client import client
 
 log = logging.getLogger(__name__)
@@ -74,12 +77,12 @@ class LabelMenu(gtk.MenuItem):
             if label == NO_LABEL:
                 item = gtk.MenuItem(_(NO_LABEL))
             else:
-                item = gtk.MenuItem(label.replace("_","__"))
+                item = gtk.MenuItem(label.replace("_", "__"))
             item.connect("activate", self.on_select_label, label)
             self.sub_menu.append(item)
         self.show_all()
 
     def on_select_label(self, widget=None, label_id=None):
-        log.debug("select label:%s,%s" % (label_id ,self.get_torrent_ids()) )
+        log.debug("select label:%s,%s" % (label_id, self.get_torrent_ids()) )
         for torrent_id in self.get_torrent_ids():
             client.label.set_torrent(torrent_id, label_id)

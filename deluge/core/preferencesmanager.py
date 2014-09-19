@@ -34,17 +34,17 @@
 #
 
 
-import os
 import logging
+import os
 import threading
+
 from twisted.internet.task import LoopingCall
 
-from deluge._libtorrent import lt
-
-from deluge.event import ConfigValueChangedEvent
-import deluge.configmanager
 import deluge.common
 import deluge.component as component
+import deluge.configmanager
+from deluge._libtorrent import lt
+from deluge.event import ConfigValueChangedEvent
 
 log = logging.getLogger(__name__)
 
@@ -126,6 +126,7 @@ DEFAULT_PREFS = {
     "random_outgoing_ports": True,
     "peer_tos": "0x00",
     "rate_limit_ip_overhead": True,
+    "anonymous_mode": False,
     "geoip_db_location": "/usr/share/GeoIP/GeoIP.dat",
     "cache_size": 512,
     "cache_expiry": 60,
@@ -180,8 +181,8 @@ class PreferencesManager(component.Component):
         if self.config["copy_torrent_file"]:
             try:
                 os.makedirs(value)
-            except Exception, e:
-                log.debug("Unable to make directory: %s", e)
+            except OSError as ex:
+                log.debug("Unable to make directory: %s", ex)
 
     def _on_set_listen_ports(self, key, value):
         # Only set the listen ports if random_port is not true
@@ -204,7 +205,7 @@ class PreferencesManager(component.Component):
             listen_ports = []
             randrange = lambda: random.randrange(49152, 65525)
             listen_ports.append(randrange())
-            listen_ports.append(listen_ports[0]+10)
+            listen_ports.append(listen_ports[0] + 10)
         else:
             listen_ports = self.config["listen_ports"]
 
@@ -228,8 +229,8 @@ class PreferencesManager(component.Component):
         log.debug("setting peer_tos to: %s", value)
         try:
             self.session_set_setting("peer_tos", chr(int(value, 16)))
-        except ValueError, e:
-            log.debug("Invalid tos byte: %s", e)
+        except ValueError as ex:
+            log.debug("Invalid tos byte: %s", ex)
             return
 
     def _on_set_dht(self, key, value):
@@ -392,8 +393,8 @@ class PreferencesManager(component.Component):
                             + "&os=" + platform.system() \
                             + "&plugins=" + quote_plus(":".join(self.config["enabled_plugins"]))
                         urlopen(url)
-                    except IOError, e:
-                        log.debug("Network error while trying to send info: %s", e)
+                    except IOError as ex:
+                        log.debug("Network error while trying to send info: %s", ex)
                     else:
                         self.config["info_sent"] = now
         if value:
@@ -439,6 +440,10 @@ class PreferencesManager(component.Component):
         log.debug("%s: %s", key, value)
         self.session_set_setting("rate_limit_ip_overhead", value)
 
+    def _on_set_anonymous_mode(self, key, value):
+        log.debug("%s: %s", key, value)
+        self.session_set_setting("anonymous_mode", value)
+
     def _on_set_geoip_db_location(self, key, value):
         log.debug("%s: %s", key, value)
         # Load the GeoIP DB for country look-ups if available
@@ -455,9 +460,9 @@ class PreferencesManager(component.Component):
         if geoip_db:
             try:
                 self.session.load_country_db(str(geoip_db))
-            except Exception, e:
+            except RuntimeError as ex:
                 log.error("Unable to load geoip database!")
-                log.exception(e)
+                log.exception(ex)
 
     def _on_set_cache_size(self, key, value):
         log.debug("%s: %s", key, value)

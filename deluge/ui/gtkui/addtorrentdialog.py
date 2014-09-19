@@ -1,61 +1,35 @@
-#
-# addtorrentdialog.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-#   The Free Software Foundation, Inc.,
-#   51 Franklin Street, Fifth Floor
-#   Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
-
-import pygtk
-pygtk.require('2.0')
-import gtk
-import gobject
 import base64
 import logging
 import os
 from urlparse import urljoin
 
+import gobject
+import gtk
+import pygtk
 import twisted.web.client
 import twisted.web.error
-from deluge.ui.client import client
-from deluge.httpdownloader import download_file
-import deluge.component as component
-from torrentview_data_funcs import cell_data_size
-from deluge.configmanager import ConfigManager
-import deluge.common
-import deluge.ui.common
-import dialogs
-import common
 
+import deluge.common
+import deluge.component as component
+from deluge.configmanager import ConfigManager
+from deluge.httpdownloader import download_file
+from deluge.ui.client import client
+from deluge.ui.common import TorrentInfo
+from deluge.ui.gtkui.common import reparent_iter
+from deluge.ui.gtkui.dialogs import ErrorDialog
 from deluge.ui.gtkui.path_chooser import PathChooser
+from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
+
+pygtk.require('2.0')
 
 log = logging.getLogger(__name__)
 
@@ -212,15 +186,15 @@ class AddTorrentDialog(component.Component):
         for filename in filenames:
             # Get the torrent data from the torrent file
             try:
-                info = deluge.ui.common.TorrentInfo(filename)
-            except Exception, e:
-                log.debug("Unable to open torrent file: %s", e)
-                dialogs.ErrorDialog(_("Invalid File"), e, self.dialog).run()
+                info = TorrentInfo(filename)
+            except Exception as ex:
+                log.debug("Unable to open torrent file: %s", ex)
+                ErrorDialog(_("Invalid File"), ex, self.dialog).run()
                 continue
 
             if info.info_hash in self.files:
                 log.debug("Trying to add a duplicate torrent!")
-                dialogs.ErrorDialog(
+                ErrorDialog(
                     _("Duplicate Torrent"),
                     _("You cannot add the same torrent twice."),
                     self.dialog
@@ -319,10 +293,10 @@ class AddTorrentDialog(component.Component):
         if first_slash_index == -1:
             files_storage[file_name] = (file_num, file, download)
         else:
-            file_name_chunk = file_name[:first_slash_index+1]
+            file_name_chunk = file_name[:first_slash_index + 1]
             if file_name_chunk not in files_storage:
                 files_storage[file_name_chunk] = {}
-            self.prepare_file(file, file_name[first_slash_index+1:],
+            self.prepare_file(file, file_name[first_slash_index + 1:],
                               file_num, download, files_storage[file_name_chunk])
 
     def add_files(self, parent_iter, split_files):
@@ -633,7 +607,7 @@ class AddTorrentDialog(component.Component):
             elif deluge.common.is_magnet(url):
                 self.add_from_magnets([url])
             else:
-                dialogs.ErrorDialog(
+                ErrorDialog(
                     _("Invalid URL"),
                     "%s %s" % (url, _("is not a valid URL.")),
                     self.dialog
@@ -682,7 +656,7 @@ class AddTorrentDialog(component.Component):
             else:
                 log.debug("Download failed: %s", result)
                 dialog.destroy()
-                dialogs.ErrorDialog(
+                ErrorDialog(
                     _("Download Failed"), "%s %s" % (_("Failed to download:"), url),
                     details=result.getErrorMessage(), parent=self.dialog
                 ).run()
@@ -770,7 +744,7 @@ class AddTorrentDialog(component.Component):
                     os.path.split(filename)[-1],
                     base64.encodestring(self.infos[torrent_id]),
                     options
-                    )
+                )
 
             row = self.torrent_liststore.iter_next(row)
         self.hide()
@@ -856,7 +830,7 @@ class AddTorrentDialog(component.Component):
                     parent = self.files_treestore.append(parent, [True, s, 0, -1, False, gtk.STOCK_DIRECTORY])
 
                 self.files_treestore[itr][1] = split_text[-1]
-                common.reparent_iter(self.files_treestore, itr, parent)
+                reparent_iter(self.files_treestore, itr, parent)
             else:
                 # Update the row's text
                 self.files_treestore[itr][1] = new_text
@@ -917,7 +891,7 @@ class AddTorrentDialog(component.Component):
                 self.files_treestore[itr][1] = split_text[-1] + os.path.sep
 
                 # Now re-parent itr to parent
-                common.reparent_iter(self.files_treestore, itr, parent)
+                reparent_iter(self.files_treestore, itr, parent)
                 itr = parent
 
                 # We need to re-expand the view because it might contracted

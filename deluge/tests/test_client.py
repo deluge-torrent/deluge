@@ -1,11 +1,11 @@
 from twisted.internet import defer
+from twisted.internet.error import CannotListenError
 from twisted.trial import unittest
 
 import deluge.tests.common as common
-from twisted.internet.error import CannotListenError
 from deluge import error
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
-from deluge.ui.client import client, Client, DaemonSSLProxy
+from deluge.ui.client import Client, client, DaemonSSLProxy
 
 
 class NoVersionSendingDaemonSSLProxy(DaemonSSLProxy):
@@ -71,8 +71,8 @@ class ClientTestCase(unittest.TestCase):
         while tries > 0:
             try:
                 self.core = common.start_core(listen_port=self.listen_port)
-            except CannotListenError, e:
-                error = e
+            except CannotListenError as ex:
+                error = ex
                 self.listen_port += 1
                 tries -= 1
             else:
@@ -88,6 +88,7 @@ class ClientTestCase(unittest.TestCase):
         d = client.connect(
             "localhost", self.listen_port, username="", password=""
         )
+
         def on_connect(result):
             self.assertEqual(client.get_auth_level(), AUTH_LEVEL_ADMIN)
             self.addCleanup(client.disconnect)

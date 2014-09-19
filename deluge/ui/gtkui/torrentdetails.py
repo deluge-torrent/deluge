@@ -10,12 +10,13 @@
 
 """The torrent details component shows info about the selected torrent."""
 
-import gtk
 import logging
+
+import gtk
 
 import deluge.component as component
 from deluge.ui.client import client
-from deluge.ui.gtkui.common import save_pickled_state_file, load_pickled_state_file
+from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_file
 
 log = logging.getLogger(__name__)
 
@@ -62,12 +63,12 @@ class TorrentDetails(component.Component):
         self.tabs = {}
 
         # Add the default tabs
-        from status_tab import StatusTab
-        from details_tab import DetailsTab
-        from files_tab import FilesTab
-        from peers_tab import PeersTab
-        from options_tab import OptionsTab
-        from trackers_tab import TrackersTab
+        from deluge.ui.gtkui.status_tab import StatusTab
+        from deluge.ui.gtkui.details_tab import DetailsTab
+        from deluge.ui.gtkui.files_tab import FilesTab
+        from deluge.ui.gtkui.peers_tab import PeersTab
+        from deluge.ui.gtkui.options_tab import OptionsTab
+        from deluge.ui.gtkui.trackers_tab import TrackersTab
 
         default_tabs = {
             "Status": StatusTab,
@@ -76,7 +77,7 @@ class TorrentDetails(component.Component):
             "Peers": PeersTab,
             "Options": OptionsTab,
             "Trackers": TrackersTab
-            }
+        }
 
         # tab_name, visible
         default_order = [
@@ -360,8 +361,8 @@ class TorrentDetails(component.Component):
                     name = tab
             if name:
                 self.tabs[name].clear()
-        except Exception, e:
-            log.debug("Unable to clear torrentdetails: %s", e)
+        except Exception as ex:
+            log.debug("Unable to clear torrentdetails: %s", ex)
 
     def _on_switch_page(self, notebook, page, page_num):
         self.update(page_num)

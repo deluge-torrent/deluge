@@ -9,14 +9,16 @@
 
 import logging
 from datetime import datetime
+
 import gtk
 import gtk.glade
 
-from deluge.ui.client import client
-import deluge.component as component
 import deluge.common
+import deluge.component as component
 from deluge.plugins.pluginbase import GtkPluginBase
-import common
+from deluge.ui.client import client
+
+from . import common
 
 log = logging.getLogger(__name__)
 
@@ -28,7 +30,7 @@ class GtkUI(GtkPluginBase):
 
         try:
             self.load_preferences_page()
-        except Exception, err:
+        except Exception as err:
             log.exception(err)
             raise
 
@@ -198,7 +200,7 @@ class GtkUI(GtkPluginBase):
         try:
             ip = common.IP.parse(new_text)
             model.set(model.get_iter_from_string(path_string), 0, ip.address)
-        except common.BadIP, e:
+        except common.BadIP as e:
             model.remove(model.get_iter_from_string(path_string))
             from deluge.ui.gtkui import dialogs
             d = dialogs.ErrorDialog(_("Bad IP address"), e.message)

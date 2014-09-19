@@ -1,69 +1,42 @@
-#
-# plugin.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
-#
+
 from optparse import make_option
 
-from deluge.ui.console.main import BaseCommand
-from deluge.ui.client import client
-import deluge.ui.console.colors as colors
 import deluge.component as component
 import deluge.configmanager
+from deluge.ui.client import client
+from deluge.ui.console.main import BaseCommand
 
-import re
 
 class Command(BaseCommand):
     """Manage plugins with this command"""
     option_list = BaseCommand.option_list + (
-            make_option('-l', '--list', action='store_true', default=False, dest='list',
-                        help='lists available plugins'),
-            make_option('-s', '--show', action='store_true', default=False, dest='show',
-                        help='shows enabled plugins'),
-            make_option('-e', '--enable', dest='enable',
-                        help='enables a plugin'),
-            make_option('-d', '--disable', dest='disable',
-                        help='disables a plugin'),
-            make_option('-r', '--reload', action='store_true', default=False, dest='reload',
-                        help='reload list of available plugins'),
-            make_option('-i', '--install', dest='plugin_file',
-                        help='install a plugin from an .egg file'),
+        make_option("-l", "--list", action="store_true", default=False, dest="list",
+                    help="Lists available plugins"),
+        make_option("-s", "--show", action="store_true", default=False, dest="show",
+                    help="Shows enabled plugins"),
+        make_option("-e", "--enable", dest="enable",
+                    help="Enables a plugin"),
+        make_option("-d", "--disable", dest="disable",
+                    help="Disables a plugin"),
+        make_option("-r", "--reload", action="store_true", default=False, dest="reload",
+                    help="Reload list of available plugins"),
+        make_option("-i", "--install", dest="plugin_file",
+                    help="Install a plugin from an .egg file"),
     )
-    usage = "Usage: plugin [ -l | --list ]\n"\
-            "       plugin [ -s | --show ]\n"\
-            "       plugin [ -e | --enable ] <plugin-name>\n"\
-            "       plugin [ -d | --disable ] <plugin-name>\n"\
-            "       plugin [ -i | --install ] <plugin-file>\n"\
-            "       plugin [ -r | --reload]"
+    usage = """Usage: plugin [ -l | --list ]
+       plugin [ -s | --show ]
+       plugin [ -e | --enable ] <plugin-name>
+       plugin [ -d | --disable ] <plugin-name>
+       plugin [ -i | --install ] <plugin-file>
+       plugin [ -r | --reload]"""
 
     def handle(self, *args, **options):
         self.console = component.get("ConsoleUI")
@@ -131,7 +104,6 @@ class Command(BaseCommand):
                 self.console.write("{!error!}Invalid path: %s" % filepath)
                 return
 
-
             config_dir = deluge.configmanager.get_config_dir()
             filename = os.path.split(filepath)[1]
 
@@ -152,7 +124,6 @@ class Command(BaseCommand):
                     self.console.write("{!error!}An error occurred, plugin was not installed")
 
             self.console.write("{!green!}Plugin was successfully installed: %s" % filename)
-
 
     def complete(self, line):
         return component.get("ConsoleUI").tab_complete_path(line, ext=".egg", sort="name", dirs_first=-1)

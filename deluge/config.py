@@ -1,38 +1,11 @@
-#
-# config.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
-#
-
 
 """
 Deluge Config Module
@@ -68,10 +41,10 @@ version as this will be done internally.
 """
 
 import cPickle as pickle
-import logging
-import shutil
-import os
 import json
+import logging
+import os
+import shutil
 
 from deluge.common import get_default_config_dir, utf8_encoded
 
@@ -121,7 +94,7 @@ def find_json_objects(s):
         elif c == "}":
             opens -= 1
             if opens == 0:
-                objects.append((start, index+offset+1))
+                objects.append((start, index + offset + 1))
                 start = index + offset + 1
 
     return objects
@@ -197,7 +170,7 @@ what is currently in the config and it could not convert the value
         if isinstance(value, basestring):
             value = utf8_encoded(value)
 
-        if not self.__config.has_key(key):
+        if key not in self.__config:
             self.__config[key] = value
             log.debug("Setting '%s' to %s of %s", key, value, type(value))
             return
@@ -208,7 +181,7 @@ what is currently in the config and it could not convert the value
         # Do not allow the type to change unless it is None
         oldtype, newtype = type(self.__config[key]), type(value)
 
-        if value is not None and oldtype != type(None) and oldtype != newtype:
+        if value is not None and not isinstance(oldtype, type(None)) and not isinstance(oldtype, newtype):
             try:
                 if oldtype == unicode:
                     value = oldtype(value, "utf8")
@@ -419,8 +392,8 @@ what is currently in the config and it could not convert the value
 
         try:
             data = open(filename, "rb").read()
-        except IOError, e:
-            log.warning("Unable to open config file %s: %s", filename, e)
+        except IOError as ex:
+            log.warning("Unable to open config file %s: %s", filename, ex)
             return
 
         objects = find_json_objects(data)
@@ -429,15 +402,15 @@ what is currently in the config and it could not convert the value
             # No json objects found, try depickling it
             try:
                 self.__config.update(pickle.loads(data))
-            except Exception, e:
-                log.exception(e)
+            except Exception as ex:
+                log.exception(ex)
                 log.warning("Unable to load config file: %s", filename)
         elif len(objects) == 1:
             start, end = objects[0]
             try:
                 self.__config.update(json.loads(data[start:end]))
-            except Exception, e:
-                log.exception(e)
+            except Exception as ex:
+                log.exception(ex)
                 log.warning("Unable to load config file: %s", filename)
         elif len(objects) == 2:
             try:
@@ -445,8 +418,8 @@ what is currently in the config and it could not convert the value
                 self.__version.update(json.loads(data[start:end]))
                 start, end = objects[1]
                 self.__config.update(json.loads(data[start:end]))
-            except Exception, e:
-                log.exception(e)
+            except Exception as ex:
+                log.exception(ex)
                 log.warning("Unable to load config file: %s", filename)
 
         log.debug("Config %s version: %s.%s loaded: %s", filename,
@@ -477,8 +450,8 @@ what is currently in the config and it could not convert the value
                 if self._save_timer and self._save_timer.active():
                     self._save_timer.cancel()
                 return True
-        except (IOError, IndexError), e:
-            log.warning("Unable to open config file: %s because: %s", filename, e)
+        except (IOError, IndexError) as ex:
+            log.warning("Unable to open config file: %s because: %s", filename, ex)
 
         # Save the new config and make sure it's written to disk
         try:
@@ -489,24 +462,24 @@ what is currently in the config and it could not convert the value
             f.flush()
             os.fsync(f.fileno())
             f.close()
-        except IOError, e:
-            log.error("Error writing new config file: %s", e)
+        except IOError as ex:
+            log.error("Error writing new config file: %s", ex)
             return False
 
         # Make a backup of the old config
         try:
             log.debug("Backing up old config file to %s.bak", filename)
             shutil.move(filename, filename + ".bak")
-        except Exception, e:
-            log.warning("Unable to backup old config...")
+        except IOError as ex:
+            log.warning("Unable to backup old config: %s", ex)
 
         # The new config file has been written successfully, so let's move it over
         # the existing one.
         try:
             log.debug("Moving new config file %s to %s..", filename + ".new", filename)
             shutil.move(filename + ".new", filename)
-        except Exception, e:
-            log.error("Error moving new config file: %s", e)
+        except IOError as ex:
+            log.error("Error moving new config file: %s", ex)
             return False
         else:
             return True
@@ -538,11 +511,11 @@ what is currently in the config and it could not convert the value
 
         try:
             self.__config = func(self.__config)
-        except Exception, e:
-            log.exception(e)
+        except Exception as ex:
+            log.exception(ex)
             log.error("There was an exception try to convert config file %s %s to %s",
                       self.__config_file, self.__version["file"], output_version)
-            raise e
+            raise ex
         else:
             self.__version["file"] = output_version
             self.save()

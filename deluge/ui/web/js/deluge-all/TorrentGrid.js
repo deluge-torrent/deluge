@@ -106,7 +106,7 @@
 
         columns: [{
             id:'queue',
-            header: _('#'),
+            header: '#',
             width: 30,
             sortable: true,
             renderer: queueRenderer,

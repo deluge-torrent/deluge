@@ -36,15 +36,16 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
-import time
 import logging
-from deluge.plugins.pluginbase import CorePluginBase
+import time
+
+from twisted.internet import reactor
+
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.rpcserver import export
 from deluge.event import DelugeEvent
-
-from twisted.internet import reactor
+from deluge.plugins.pluginbase import CorePluginBase
 
 log = logging.getLogger(__name__)
 

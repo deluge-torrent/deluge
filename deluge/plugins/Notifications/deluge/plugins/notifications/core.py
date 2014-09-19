@@ -37,17 +37,19 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
-import smtplib
 import logging
+import smtplib
 from email.utils import formatdate
+
 from twisted.internet import defer, threads
+
+import deluge.configmanager
 from deluge import component
+from deluge.core.rpcserver import export
 from deluge.event import known_events
 from deluge.plugins.pluginbase import CorePluginBase
-import deluge.configmanager
-from deluge.core.rpcserver import export
 
-from common import CustomNotifications
+from .common import CustomNotifications
 
 log = logging.getLogger(__name__)
 
@@ -141,17 +143,17 @@ Date: %(date)s
                 # Python 2.5
                 server = smtplib.SMTP(self.config["smtp_host"],
                                       self.config["smtp_port"])
-        except Exception, err:
+        except Exception as ex:
             err_msg = _("There was an error sending the notification email:"
-                        " %s") % err
+                        " %s") % ex
             log.error(err_msg)
-            return err
+            return ex
 
         security_enabled = self.config['smtp_tls']
 
         if security_enabled:
             server.ehlo()
-            if not server.esmtp_features.has_key('starttls'):
+            if 'starttls' not in server.esmtp_features:
                 log.warning("TLS/SSL enabled but server does not support it")
             else:
                 server.starttls()
@@ -160,25 +162,25 @@ Date: %(date)s
         if self.config['smtp_user'] and self.config['smtp_pass']:
             try:
                 server.login(self.config['smtp_user'], self.config['smtp_pass'])
-            except smtplib.SMTPHeloError, err:
+            except smtplib.SMTPHeloError as ex:
                 err_msg = _("The server didn't reply properly to the helo "
-                            "greeting: %s") % err
+                            "greeting: %s") % ex
                 log.error(err_msg)
-                return err
-            except smtplib.SMTPAuthenticationError, err:
+                return ex
+            except smtplib.SMTPAuthenticationError as ex:
                 err_msg = _("The server didn't accept the username/password "
-                            "combination: %s") % err
+                            "combination: %s") % ex
                 log.error(err_msg)
-                return err
+                return ex
 
         try:
             try:
                 server.sendmail(self.config['smtp_from'], to_addrs, message)
-            except smtplib.SMTPException, err:
+            except smtplib.SMTPException as ex:
                 err_msg = _("There was an error sending the notification email:"
-                            " %s") % err
+                            " %s") % ex
                 log.error(err_msg)
-                return err
+                return ex
         finally:
             if security_enabled:
                 # avoid false failure detection when the server closes

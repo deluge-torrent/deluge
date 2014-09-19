@@ -1,51 +1,20 @@
 # -*- coding: utf-8 -*-
 #
-# manage.py
-#
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
-#
-
-from twisted.internet import defer
-
-from deluge.ui.console.main import BaseCommand
-import deluge.ui.console.colors as colors
-from deluge.ui.client import client
-import deluge.component as component
-from deluge.log import LOG as log
 
 from optparse import make_option
 
-import re
+from twisted.internet import defer
+
+import deluge.component as component
+from deluge.ui.client import client
+from deluge.ui.console.main import BaseCommand
 
 torrent_options = {
     "max_download_speed": float,
@@ -60,15 +29,14 @@ torrent_options = {
     "remove_at_ratio": bool,
     "move_on_completed": bool,
     "move_on_completed_path": str
-    }
+}
 
 
 class Command(BaseCommand):
     """Show and manage per-torrent options"""
 
     option_list = BaseCommand.option_list + (
-            make_option('-s', '--set', action='store', nargs=2, dest='set',
-                        help='set value for key'),
+        make_option("-s", "--set", action="store", nargs=2, dest="set", help="set value for key"),
     )
     usage = "Usage: manage <torrent-id> [<key1> [<key2> ...]]\n"\
             "       manage <torrent-id> --set <key> <value>"
@@ -79,7 +47,6 @@ class Command(BaseCommand):
             return self._set_option(*args, **options)
         else:
             return self._get_option(*args, **options)
-
 
     def _get_option(self, *args, **options):
 
@@ -106,14 +73,13 @@ class Command(BaseCommand):
                 return
             request_options.append(opt)
         if not request_options:
-            request_options = [ opt for opt in torrent_options.keys() ]
+            request_options = [opt for opt in torrent_options.keys()]
         request_options.append('name')
 
         d = client.core.get_torrents_status({"id": torrent_ids}, request_options)
         d.addCallback(on_torrents_status)
         d.addErrback(on_torrents_status_fail)
         return d
-
 
     def _set_option(self, *args, **options):
         deferred = defer.Deferred()
@@ -133,7 +99,6 @@ class Command(BaseCommand):
             deferred.callback(True)
 
         self.console.write("Setting %s to %s for torrents %s.." % (key, val, torrent_ids))
-
 
         for tid in torrent_ids:
             if key == "move_on_completed_path":

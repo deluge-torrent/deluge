@@ -8,27 +8,28 @@
 # See LICENSE for more details.
 #
 
-import os
-import time
 import logging
+import os
+import shutil
+import time
 from datetime import datetime, timedelta
 from email.utils import formatdate
 from urlparse import urljoin
-import shutil
 
+from twisted.internet import defer, threads
 from twisted.internet.task import LoopingCall
-from twisted.internet import threads, defer
 from twisted.web import error
 
-from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
 from deluge.common import is_url
 from deluge.core.rpcserver import export
 from deluge.httpdownloader import download_file
-from common import IP, BadIP
-from detect import detect_compression, detect_format, create_reader, UnknownFormatError
-from readers import ReaderParseError
+from deluge.plugins.pluginbase import CorePluginBase
+
+from .common import BadIP, IP
+from .detect import create_reader, detect_compression, detect_format, UnknownFormatError
+from .readers import ReaderParseError
 
 # TODO: check return values for deferred callbacks
 # TODO: review class attributes for redundancy
@@ -184,8 +185,8 @@ class Core(CorePluginBase):
                                 saved.add(ip.address)
                                 log.debug("Added %s to whitelisted", ip)
                                 self.num_whited += 1
-                            except BadIP, e:
-                                log.error("Bad IP: %s", e)
+                            except BadIP as ex:
+                                log.error("Bad IP: %s", ex)
                                 continue
                     if removed:
                         needs_blocklist_import = True
@@ -194,8 +195,8 @@ class Core(CorePluginBase):
                                 ip = IP.parse(ip)
                                 saved.remove(ip.address)
                                 log.debug("Removed %s from whitelisted", ip)
-                            except BadIP, e:
-                                log.error("Bad IP: %s", e)
+                            except BadIP as ex:
+                                log.error("Bad IP: %s", ex)
                                 continue
 
                 self.config[key] = list(saved)

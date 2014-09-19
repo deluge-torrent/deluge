@@ -32,21 +32,24 @@
 
 __all__ = ("get_version")
 
-from subprocess import Popen, PIPE
+from subprocess import PIPE, Popen
+
 VERSION_FILE = "RELEASE-VERSION"
 
-def call_git_describe(prefix='', suffix=''):
-    cmd = 'git describe --tags --match %s[0-9]*' % prefix
+
+def call_git_describe(prefix="", suffix=""):
+    cmd = "git describe --tags --match %s[0-9]*" % prefix
     try:
         version = Popen(cmd.split(), stdout=PIPE).communicate()[0]
-        version = version.strip().replace(prefix, '')
-        if '-' in version:
-            version = '.dev'.join(version.replace(suffix,'').split('-')[:2])
+        version = version.strip().replace(prefix, "")
+        if "-" in version:
+            version = ".dev".join(version.replace(suffix, "").split("-")[:2])
         return version
     except:
         return None
 
-def get_version(prefix='', suffix=''):
+
+def get_version(prefix="", suffix=""):
     try:
         with open(VERSION_FILE, "r") as f:
             release_version = f.readline().strip()
@@ -67,4 +70,4 @@ def get_version(prefix='', suffix=''):
     return version
 
 if __name__ == "__main__":
-    print get_version(prefix='deluge-', suffix='.dev0')
+    print get_version(prefix="deluge-", suffix=".dev0")

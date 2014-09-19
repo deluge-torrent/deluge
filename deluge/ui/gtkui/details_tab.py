@@ -10,7 +10,7 @@
 import logging
 
 import deluge.component as component
-from deluge.common import fsize, is_url, fdate
+from deluge.common import fdate, fsize, is_url
 from deluge.ui.gtkui.torrentdetails import Tab
 
 log = logging.getLogger(__name__)
@@ -20,7 +20,7 @@ def fpeer_size_second(first, second):
     return "%s (%s)" % (first, fsize(second))
 
 
-def fdate_blank(value):
+def fdate_or_dash(value):
     """Display value as date, eg 05/05/08 or dash"""
     if value > 0.0:
         return fdate(value)
@@ -48,7 +48,7 @@ class DetailsTab(Tab):
             (builder.get_object("summary_name"), None, ("name",)),
             (builder.get_object("summary_total_size"), fsize, ("total_size",)),
             (builder.get_object("summary_num_files"), str, ("num_files",)),
-            (builder.get_object("summary_completed"), fdate_blank, ("completed_time",)),
+            (builder.get_object("summary_completed"), fdate_or_dash, ("completed_time",)),
             (builder.get_object("summary_date_added"), fdate, ("time_added",)),
             (builder.get_object("summary_private"), str_yes_no, ("private",)),
             (builder.get_object("summary_torrent_path"), None, ("download_location",)),
@@ -86,7 +86,7 @@ class DetailsTab(Tab):
             if widget[1] is not None:
                 try:
                     args = [status[key] for key in widget[2]]
-                except KeyError, ex:
+                except KeyError as ex:
                     log.debug("Unable to get status value: %s", ex)
                     continue
                 txt = widget[1](*args)

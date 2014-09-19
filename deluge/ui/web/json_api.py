@@ -7,32 +7,31 @@
 # See LICENSE for more details.
 #
 
-import os
-import time
 import base64
-import shutil
-import logging
 import hashlib
-import tempfile
 import json
-from urlparse import urljoin
-from urllib import unquote_plus
-
+import logging
+import os
+import shutil
+import tempfile
+import time
 from types import FunctionType
+from urllib import unquote_plus
+from urlparse import urljoin
+
+import twisted.web.client
+import twisted.web.error
 from twisted.internet import reactor
 from twisted.internet.defer import Deferred, DeferredList
 from twisted.web import http, resource, server
-import twisted.web.client
-import twisted.web.error
 
-from deluge.common import is_magnet
 from deluge import component, httpdownloader
+from deluge.common import is_magnet
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.ui import common as uicommon
-from deluge.ui.client import client, Client
+from deluge.ui.client import Client, client
 from deluge.ui.coreconfig import CoreConfig
 from deluge.ui.sessionproxy import SessionProxy
-
 from deluge.ui.web.common import _, compress
 
 log = logging.getLogger(__name__)
@@ -162,7 +161,7 @@ class JSON(resource.Resource, component.Component):
             # This will eventually process methods that the server adds
             # and any plugins.
             meth = self._local_methods[method]
-            meth.func_globals['__request__'] = request
+            meth.__globals__['__request__'] = request
             component.get("Auth").check_request(request, meth)
             return meth(*params)
         raise JSONException("Unknown system method")
@@ -202,13 +201,13 @@ class JSON(resource.Resource, component.Component):
                 result = self._exec_remote(method, params, request)
             else:
                 error = {"message": "Unknown method", "code": 2}
-        except AuthError, e:
+        except AuthError:
             error = {"message": "Not authenticated", "code": 1}
-        except Exception, e:
+        except Exception as ex:
             log.error("Error calling method `%s`", method)
-            log.exception(e)
+            log.exception(ex)
 
-            error = {"message": e.message, "code": 3}
+            error = {"message": ex.message, "code": 3}
 
         return request_id, result, error
 
@@ -271,8 +270,8 @@ class JSON(resource.Resource, component.Component):
             request.json = request.content.read()
             self._on_json_request(request)
             return server.NOT_DONE_YET
-        except Exception, e:
-            return self._on_json_request_failed(e, request)
+        except Exception as ex:
+            return self._on_json_request_failed(ex, request)
 
     def register_object(self, obj, name=None):
         """
@@ -674,8 +673,8 @@ class WebApi(JSONComponent):
         try:
             torrent_info = uicommon.TorrentInfo(filename.strip(), 2)
             return torrent_info.as_dict("name", "info_hash", "files_tree")
-        except Exception, e:
-            log.exception(e)
+        except Exception as ex:
+            log.exception(ex)
             return False
 
     @export
@@ -758,7 +757,7 @@ class WebApi(JSONComponent):
         Return the hosts in the hostlist.
         """
         log.debug("get_hosts called")
-        return [(tuple(host[HOSTS_ID:HOSTS_PORT+1]) + (_("Offline"),)) for host in self.host_list["hosts"]]
+        return [(tuple(host[HOSTS_ID:HOSTS_PORT + 1]) + (_("Offline"),)) for host in self.host_list["hosts"]]
 
     @export
     def get_host_status(self, host_id):

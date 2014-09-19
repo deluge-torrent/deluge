@@ -34,6 +34,7 @@
 #
 
 import logging
+
 import deluge.component as component
 
 log = logging.getLogger(__name__)
@@ -58,8 +59,8 @@ class EventManager(component.Component):
                 #log.debug("Running handler %s for event %s with args: %s", event.name, handler, event.args)
                 try:
                     handler(*event.args)
-                except Exception, e:
-                    log.error("Event handler %s failed in %s with exception %s", event.name, handler, e)
+                except Exception as ex:
+                    log.error("Event handler %s failed in %s with exception %s", event.name, handler, ex)
 
     def register_event_handler(self, event, handler):
         """

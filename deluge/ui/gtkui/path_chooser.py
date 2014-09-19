@@ -1,52 +1,30 @@
-#
-# path_chooser.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2013 Bro <bro.development@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-#       The Free Software Foundation, Inc.,
-#       51 Franklin Street, Fifth Floor
-#       Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 import logging
 
+import deluge.component as component
 from deluge.ui.client import client
 from deluge.ui.gtkui.path_combo_chooser import PathChooserComboBox
-import deluge.component as component
 
 log = logging.getLogger(__name__)
 
+
 def singleton(cls):
     instances = {}
+
     def getinstance():
         if cls not in instances:
             instances[cls] = cls()
         return instances[cls]
     return getinstance
+
 
 @singleton
 class PathChoosersHandler(component.Component):
@@ -58,14 +36,16 @@ class PathChoosersHandler(component.Component):
         self.paths_list_keys = []
         self.config_properties = {}
         self.started = False
-        self.config_keys_to_funcs_mapping = {"path_chooser_show_chooser_button_on_localhost": "filechooser_button_visible",
-                                             "path_chooser_show_path_entry": "path_entry_visible",
-                                             "path_chooser_auto_complete_enabled": "auto_complete_enabled",
-                                             "path_chooser_show_folder_name": "show_folder_name_on_button",
-                                             "path_chooser_accelerator_string": "accelerator_string",
-                                             "path_chooser_show_hidden_files": "show_hidden_files",
-                                             "path_chooser_max_popup_rows": "max_popup_rows",
-                                             }
+        self.config_keys_to_funcs_mapping = {
+            "path_chooser_show_chooser_button_on_localhost": "filechooser_button_visible",
+            "path_chooser_show_path_entry": "path_entry_visible",
+            "path_chooser_auto_complete_enabled": "auto_complete_enabled",
+            "path_chooser_show_folder_name": "show_folder_name_on_button",
+            "path_chooser_accelerator_string": "accelerator_string",
+            "path_chooser_show_hidden_files": "show_hidden_files",
+            "path_chooser_max_popup_rows": "max_popup_rows",
+        }
+
     def start(self):
         self.started = True
         self.update_config_from_core()
@@ -108,6 +88,7 @@ class PathChoosersHandler(component.Component):
             # Since the max rows value can be changed fast with a spinbutton, we
             # delay saving to core until the values hasn't been changed in 1 second.
             self.max_rows_value_set = value
+
             def update(value_):
                 # The value hasn't been changed in one second, so save to core
                 if self.max_rows_value_set == value_:
@@ -117,7 +98,7 @@ class PathChoosersHandler(component.Component):
 
     def on_list_values_changed(self, values, key, caller):
         # Save to core
-        config = { key : values }
+        config = {key: values}
         client.core.set_config(config)
         # Set the values on all path choosers with that key
         for chooser in self.path_choosers:
@@ -129,6 +110,7 @@ class PathChoosersHandler(component.Component):
         keys = self.config_keys_to_funcs_mapping.keys()
         keys += self.paths_list_keys
         return keys
+
 
 class PathChooser(PathChooserComboBox):
 
@@ -177,8 +159,8 @@ class PathChooser(PathChooserComboBox):
             if key in config:
                 try:
                     self.config_key_funcs[key][1](config[key])
-                except TypeError, e:
-                    log.warn("TypeError: %s" % str(e))
+                except TypeError as ex:
+                    log.warn("TypeError: %s", ex)
 
         # Set the saved paths
         if self.paths_config_key and self.paths_config_key in config:

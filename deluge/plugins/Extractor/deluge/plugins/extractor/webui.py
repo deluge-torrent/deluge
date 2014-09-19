@@ -12,9 +12,9 @@
 #
 
 import logging
-from deluge.plugins.pluginbase import WebPluginBase
 
 from deluge.plugins.extractor.common import get_resource
+from deluge.plugins.pluginbase import WebPluginBase
 
 log = logging.getLogger(__name__)
 

@@ -1,46 +1,22 @@
 # -*- coding: utf-8 -*-
 #
-# listview.py
-#
 # Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-#     The Free Software Foundation, Inc.,
-#     51 Franklin Street, Fifth Floor
-#     Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 import logging
-import pygtk
-pygtk.require('2.0')
+
 import gtk
+import pygtk
 from gobject import signal_new, SIGNAL_RUN_LAST, TYPE_NONE
 
-from deluge.ui.gtkui.common import save_pickled_state_file, load_pickled_state_file
+from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_file
+
+pygtk.require('2.0')
+
 
 signal_new('button-press-event', gtk.TreeViewColumn, SIGNAL_RUN_LAST, TYPE_NONE, (gtk.gdk.Event,))
 
@@ -98,20 +74,20 @@ class ListView:
             label = gtk.Label(title)
             self.set_widget(label)
             label.show()
-            label.__realize = label.connect('realize', self.onRealize)
+            label.__realize = label.connect('realize', self.on_realize)
             self.title = title
             self.data_func = None
             self.data_func_data = None
             self.cell_renderer = None
 
-        def onRealize(self, widget):
+        def on_realize(self, widget):
             widget.disconnect(widget.__realize)
             del widget.__realize
             button = widget.get_ancestor(gtk.Button)
             if button is not None:
-                button.connect('button-press-event', self.onButtonPressed)
+                button.connect('button-press-event', self.on_button_pressed)
 
-        def onButtonPressed(self, widget, event):
+        def on_button_pressed(self, widget, event):
             self.emit('button-press-event', event)
 
         def set_cell_data_func_attributes(self, cell_renderer, func, func_data=None):
@@ -606,9 +582,9 @@ class ListView:
 
         return True
 
-    def on_keypress_search_by_name(self, model, columnn, key, iter):
-        TORRENT_NAME_COL = 5
-        return not model[iter][TORRENT_NAME_COL].lower().startswith(key.lower())
+    def on_keypress_search_by_name(self, model, column, key, iter):
+        torrent_name_col = self.columns["Name"].column_indices[1]
+        return not model[iter][torrent_name_col].lower().startswith(key.lower())
 
     def restore_columns_order_from_state(self):
         if self.state is None:

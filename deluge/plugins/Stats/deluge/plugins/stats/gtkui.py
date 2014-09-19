@@ -35,21 +35,21 @@
 #    but you are not obligated to do so. If you do not wish to do so, delete
 #    this exception statement from your version. If you delete this exception
 
+import logging
+
+import gobject
 import gtk
 import gtk.glade
-import gobject
-import logging
 from gtk.glade import XML
 
-import graph
 import deluge
 from deluge import component
 from deluge.common import fspeed
+from deluge.plugins.pluginbase import GtkPluginBase
 from deluge.ui.client import client
 from deluge.ui.gtkui.torrentdetails import Tab
-from deluge.plugins.pluginbase import GtkPluginBase
 
-import common
+from . import common, graph
 
 log = logging.getLogger(__name__)
 

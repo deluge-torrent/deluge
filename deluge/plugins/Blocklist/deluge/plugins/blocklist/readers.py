@@ -8,8 +8,9 @@
 #
 
 import logging
-from common import raises_errors_as, IP, BadIP
 import re
+
+from .common import BadIP, IP, raises_errors_as
 
 log = logging.getLogger(__name__)
 
@@ -37,8 +38,8 @@ class BaseReader(object):
         for start, end in self.readranges():
             try:
                 callback(IP.parse(start), IP.parse(end))
-            except BadIP, e:
-                log.error("Failed to parse IP: %s", e)
+            except BadIP as ex:
+                log.error("Failed to parse IP: %s", ex)
         return self.file
 
     def is_ignored(self, line):

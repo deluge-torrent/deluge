@@ -1,55 +1,28 @@
-#
-# connectionmanager.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-#   The Free Software Foundation, Inc.,
-#   51 Franklin Street, Fifth Floor
-#   Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
-import os
-import gtk
-import time
 import hashlib
 import logging
+import os
+import time
+
+import gtk
 from twisted.internet import reactor
 
-import deluge.common
 import deluge.component as component
-import common
-import deluge.configmanager
-from deluge.ui.common import get_localhost_auth
-from deluge.ui.client import client
-import deluge.ui.client
-from deluge.configmanager import ConfigManager
+from deluge.common import resource_filename
+from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.error import AuthenticationRequired, BadLoginError, IncompatibleClient
-import dialogs
+from deluge.ui.client import Client, client
+from deluge.ui.common import get_localhost_auth
+from deluge.ui.gtkui.common import get_deluge_icon, get_logo
+from deluge.ui.gtkui.dialogs import AuthenticationDialog, ErrorDialog
 
 log = logging.getLogger(__name__)
 
@@ -75,12 +48,14 @@ HOSTLIST_STATUS = [
     "Connected"
 ]
 
+
 def cell_render_host(column, cell, model, row, data):
     host, port, username = model.get(row, *data)
     text = host + ":" + str(port)
     if username:
         text = username + "@" + text
     cell.set_property('text', text)
+
 
 def cell_render_status(column, cell, model, row, data):
     status = model[row][data]
@@ -89,6 +64,7 @@ def cell_render_status(column, cell, model, row, data):
         pixbuf = HOSTLIST_PIXBUFS[HOSTLIST_STATUS.index(status)]
 
     cell.set_property("pixbuf", pixbuf)
+
 
 class ConnectionManager(component.Component):
     def __init__(self):
@@ -110,22 +86,22 @@ class ConnectionManager(component.Component):
         pass
 
     def __load_config(self):
-        auth_file = deluge.configmanager.get_config_dir("auth")
+        auth_file = get_config_dir("auth")
         if not os.path.exists(auth_file):
             from deluge.common import create_localclient_account
             create_localclient_account()
 
         localclient_username, localclient_password = get_localhost_auth()
-        DEFAULT_CONFIG = {
+        default_config = {
             "hosts": [(
                 hashlib.sha1(str(time.time())).hexdigest(),
-                 DEFAULT_HOST,
-                 DEFAULT_PORT,
-                 localclient_username,
-                 localclient_password
+                DEFAULT_HOST,
+                DEFAULT_PORT,
+                localclient_username,
+                localclient_password
             )]
         }
-        config = ConfigManager("hostlist.conf.1.2", DEFAULT_CONFIG)
+        config = ConfigManager("hostlist.conf.1.2", default_config)
         config.run_converter((0, 1), 2, self.__migrate_config_1_to_2)
         return config
 
@@ -138,15 +114,15 @@ class ConnectionManager(component.Component):
         # Get the gtk builder file for the connection manager
         self.builder = gtk.Builder()
         # The main dialog
-        self.builder.add_from_file(deluge.common.resource_filename(
+        self.builder.add_from_file(resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "connection_manager.ui")
         ))
         # The add host dialog
-        self.builder.add_from_file(deluge.common.resource_filename(
+        self.builder.add_from_file(resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "connection_manager.addhost.ui")
         ))
         # The ask password dialog
-        self.builder.add_from_file(deluge.common.resource_filename(
+        self.builder.add_from_file(resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "connection_manager.askpassword.ui")
         ))
         self.window = component.get("MainWindow")
@@ -155,13 +131,13 @@ class ConnectionManager(component.Component):
         self.connection_manager = self.builder.get_object("connection_manager")
         self.connection_manager.set_transient_for(self.window.window)
 
-        self.connection_manager.set_icon(common.get_deluge_icon())
+        self.connection_manager.set_icon(get_deluge_icon())
 
-        self.builder.get_object("image1").set_from_pixbuf(common.get_logo(32))
+        self.builder.get_object("image1").set_from_pixbuf(get_logo(32))
 
         self.askpassword_dialog = self.builder.get_object("askpassword_dialog")
         self.askpassword_dialog.set_transient_for(self.connection_manager)
-        self.askpassword_dialog.set_icon(common.get_deluge_icon())
+        self.askpassword_dialog.set_icon(get_deluge_icon())
         self.askpassword_dialog_entry = self.builder.get_object("askpassword_dialog_entry")
 
         self.hostlist = self.builder.get_object("hostlist")
@@ -213,7 +189,7 @@ class ConnectionManager(component.Component):
             self.hostlist.get_selection().select_path("0")
 
         # Run the dialog
-        response = self.connection_manager.run()
+        self.connection_manager.run()
         self.running = False
 
         # Save the toggle options
@@ -240,8 +216,7 @@ class ConnectionManager(component.Component):
         # Check to see if there is already an entry for this host and return
         # if thats the case
         for entry in self.liststore:
-            if [entry[HOSTLIST_COL_HOST], entry[HOSTLIST_COL_PORT],
-                entry[HOSTLIST_COL_USER]] == [host, port, username]:
+            if [entry[HOSTLIST_COL_HOST], entry[HOSTLIST_COL_PORT], entry[HOSTLIST_COL_USER]] == [host, port, username]:
                 raise Exception("Host already in list!")
 
         # Host isn't in the list, so lets add it
@@ -312,6 +287,7 @@ class ConnectionManager(component.Component):
             if not self.running:
                 return
             row = self.__get_host_row(host_id)
+
             def on_info(info, c):
                 if not self.running:
                     return
@@ -348,8 +324,9 @@ class ConnectionManager(component.Component):
             port = row[HOSTLIST_COL_PORT]
             user = row[HOSTLIST_COL_USER]
 
-            if client.connected() and \
-                (host, port, "localclient" if not user and host in ("127.0.0.1", "localhost") else user) == client.connection_info():
+            if (client.connected() and
+                    (host, port, "localclient" if not user and host in ("127.0.0.1", "localhost") else user)
+                    == client.connection_info()):
                 def on_info(info):
                     if not self.running:
                         return
@@ -363,7 +340,7 @@ class ConnectionManager(component.Component):
                 continue
 
             # Create a new Client instance
-            c = deluge.ui.client.Client()
+            c = Client()
             d = c.connect(host, port, skip_authentication=True)
             d.addCallback(on_connect, c, host_id)
             d.addErrback(on_connect_failed, host_id)
@@ -388,7 +365,8 @@ class ConnectionManager(component.Component):
         """
         self.gtkui_config["autoconnect"] = self.builder.get_object("chk_autoconnect").get_active()
         self.gtkui_config["autostart_localhost"] = self.builder.get_object("chk_autostart").get_active()
-        self.gtkui_config["show_connection_manager_on_start"] = not self.builder.get_object("chk_donotshow").get_active()
+        self.gtkui_config["show_connection_manager_on_start"] = not self.builder.get_object(
+            "chk_donotshow").get_active()
 
     def __update_buttons(self):
         """
@@ -473,22 +451,22 @@ class ConnectionManager(component.Component):
         """
         try:
             return client.start_daemon(port, config)
-        except OSError, e:
+        except OSError as ex:
             from errno import ENOENT
-            if e.errno == ENOENT:
-                dialogs.ErrorDialog(
+            if ex.errno == ENOENT:
+                ErrorDialog(
                     _("Unable to start daemon!"),
                     _("Deluge cannot find the 'deluged' executable, it is "
                       "likely that you forgot to install the deluged package "
                       "or it's not in your PATH.")).run()
                 return False
             else:
-                raise e
-        except Exception, e:
+                raise ex
+        except Exception:
             import traceback
             import sys
             tb = sys.exc_info()
-            dialogs.ErrorDialog(
+            ErrorDialog(
                 _("Unable to start daemon!"),
                 _("Please examine the details for more information."),
                 details=traceback.format_exc(tb[2])).run()
@@ -525,9 +503,8 @@ class ConnectionManager(component.Component):
 
         if reason.check(AuthenticationRequired, BadLoginError):
             log.debug("PasswordRequired exception")
-            dialog = dialogs.AuthenticationDialog(
-                reason.value.message, reason.value.username
-            )
+            dialog = AuthenticationDialog(reason.value.message, reason.value.username)
+
             def dialog_finished(response_id, host, port, user):
                 if response_id == gtk.RESPONSE_OK:
                     self.__connect(host_id, host, port,
@@ -537,24 +514,23 @@ class ConnectionManager(component.Component):
             return d
 
         elif reason.trap(IncompatibleClient):
-            dialog = dialogs.ErrorDialog(
+            dialog = ErrorDialog(
                 _("Incompatible Client"), reason.value.message
             )
             return dialog.run()
-
 
         if try_counter:
             log.info("Retrying connection.. Retries left: %s", try_counter)
             return reactor.callLater(
                 0.5, self.__connect, host_id, host, port, user, passwd,
-                try_counter=try_counter-1
+                try_counter=try_counter - 1
             )
 
         msg = str(reason.value)
         if not self.builder.get_object("chk_autostart").get_active():
             msg += '\n' + _("Auto-starting the daemon locally is not enabled. "
                             "See \"Options\" on the \"Connection Manager\".")
-        dialogs.ErrorDialog(_("Failed To Connect"), msg).run()
+        ErrorDialog(_("Failed To Connect"), msg).run()
 
     def on_button_connect_clicked(self, widget=None):
         model, row = self.hostlist.get_selection().get_selected()
@@ -573,10 +549,9 @@ class ConnectionManager(component.Component):
         user = model[row][HOSTLIST_COL_USER]
         password = model[row][HOSTLIST_COL_PASS]
 
-        if status == "Offline" and \
-                    self.builder.get_object("chk_autostart").get_active() and \
-                    host in ("127.0.0.1", "localhost"):
-            if not self.start_daemon(port, deluge.configmanager.get_config_dir()):
+        if (status == "Offline" and self.builder.get_object("chk_autostart").get_active() and
+                host in ("127.0.0.1", "localhost")):
+            if not self.start_daemon(port, get_config_dir()):
                 log.debug("Failed to auto-start daemon")
                 return
             return self.__connect(
@@ -613,9 +588,8 @@ class ConnectionManager(component.Component):
             try:
                 self.add_host(hostname, port_spinbutton.get_value_as_int(),
                               username, password)
-            except Exception, e:
-                from deluge.ui.gtkui.dialogs import ErrorDialog
-                ErrorDialog(_("Error Adding Host"), e).run()
+            except Exception as ex:
+                ErrorDialog(_("Error Adding Host"), ex).run()
 
         username_entry.set_text("")
         password_entry.set_text("")
@@ -698,7 +672,7 @@ class ConnectionManager(component.Component):
             self.add_host(DEFAULT_HOST, DEFAULT_PORT, *get_localhost_auth())
             # ..and start the daemon.
             self.start_daemon(
-                DEFAULT_PORT, deluge.configmanager.get_config_dir()
+                DEFAULT_PORT, get_config_dir()
             )
             return
 
@@ -725,7 +699,8 @@ class ConnectionManager(component.Component):
                 client.daemon.shutdown().addCallback(on_daemon_shutdown)
             elif user and password:
                 # Create a new client instance
-                c = deluge.ui.client.Client()
+                c = Client()
+
                 def on_connect(d, c):
                     log.debug("on_connect")
                     c.daemon.shutdown().addCallback(on_daemon_shutdown)
@@ -733,7 +708,7 @@ class ConnectionManager(component.Component):
                 c.connect(host, port, user, password).addCallback(on_connect, c)
 
         elif status == "Offline":
-            self.start_daemon(port, deluge.configmanager.get_config_dir())
+            self.start_daemon(port, get_config_dir())
             reactor.callLater(0.8, self.__update_list)
 
     def on_button_refresh_clicked(self, widget):

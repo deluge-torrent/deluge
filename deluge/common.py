@@ -9,19 +9,22 @@
 
 """Common functions for various parts of Deluge to use."""
 
-import os
-import sys
-import time
-import subprocess
-import platform
-import chardet
-import logging
-import pkg_resources
+import base64
 import gettext
 import locale
-import base64
+import logging
+import os
+import platform
+import subprocess
+import sys
+import time
 import urllib
 import urlparse
+
+import chardet
+import pkg_resources
+
+from deluge.error import InvalidPathError
 
 try:
     import dbus
@@ -30,7 +33,6 @@ try:
 except:
     dbus_fileman = None
 
-from deluge.error import InvalidPathError
 
 log = logging.getLogger(__name__)
 
@@ -99,8 +101,8 @@ def get_default_config_dir(filename=None):
         filename = ''
     try:
         return os.path.join(save_config_path("deluge"), filename)
-    except OSError, e:
-        log.error("Unable to use default config directory, exiting... (%s)", e)
+    except OSError as ex:
+        log.error("Unable to use default config directory, exiting... (%s)", ex)
         sys.exit(1)
 
 
@@ -181,7 +183,7 @@ def resource_filename(module, path):
     # enough.
     # This is a work-around that.
     return pkg_resources.require("Deluge>=%s" % get_version())[0].get_resource_filename(
-        pkg_resources._manager, os.path.join(*(module.split('.')+[path]))
+        pkg_resources._manager, os.path.join(*(module.split(".") + [path]))
     )
 
 
@@ -820,8 +822,9 @@ AUTH_LEVEL_DEFAULT = AUTH_LEVEL_NORMAL
 
 def create_auth_file():
     import stat
-    import configmanager
-    auth_file = configmanager.get_config_dir("auth")
+    import deluge.configmanager
+
+    auth_file = deluge.configmanager.get_config_dir("auth")
     # Check for auth file and create if necessary
     if not os.path.exists(auth_file):
         fd = open(auth_file, "w")
@@ -833,11 +836,11 @@ def create_auth_file():
 
 
 def create_localclient_account(append=False):
-    import configmanager
     import random
     from hashlib import sha1 as sha
+    import deluge.configmanager
 
-    auth_file = configmanager.get_config_dir("auth")
+    auth_file = deluge.configmanager.get_config_dir("auth")
     if not os.path.exists(auth_file):
         create_auth_file()
 
@@ -938,8 +941,8 @@ def set_language(lang):
     try:
         ro = gettext.translation("deluge", localedir=translations_path, languages=[lang])
         ro.install()
-    except IOError, e:
-        log.warn("IOError when loading translations: %s", e)
+    except IOError as ex:
+        log.warn("IOError when loading translations: %s", ex)
 
 
 # Initialize gettext
@@ -965,9 +968,9 @@ def setup_translations(setup_gettext=True, setup_pygtk=False):
             import gtk.glade
             gtk.glade.bindtextdomain(domain, translations_path)
             gtk.glade.textdomain(domain)
-        except Exception, e:
+        except Exception as ex:
             log.error("Unable to initialize glade translation!")
-            log.exception(e)
+            log.exception(ex)
     if setup_gettext:
         try:
             if hasattr(locale, "bindtextdomain"):
@@ -979,9 +982,9 @@ def setup_translations(setup_gettext=True, setup_pygtk=False):
             gettext.bind_textdomain_codeset(domain, 'UTF-8')
             gettext.textdomain(domain)
             gettext.install(domain, translations_path, unicode=True)
-        except Exception, e:
+        except Exception as ex:
             log.error("Unable to initialize gettext/locale!")
-            log.exception(e)
+            log.exception(ex)
             import __builtin__
             __builtin__.__dict__["_"] = lambda x: x
 

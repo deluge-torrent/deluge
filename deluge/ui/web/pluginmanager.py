@@ -7,13 +7,13 @@
 # See LICENSE for more details.
 #
 
-import os
 import logging
+import os
 
 from deluge import component
+from deluge.configmanager import ConfigManager
 from deluge.pluginmanagerbase import PluginManagerBase
 from deluge.ui.client import client
-from deluge.configmanager import ConfigManager
 
 log = logging.getLogger(__name__)
 

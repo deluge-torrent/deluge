@@ -9,19 +9,21 @@
 #
 
 
-import os.path
-import pygtk
-pygtk.require('2.0')
-import gtk
 import logging
+import os.path
 
-import deluge.error
-import deluge.component as component
-from deluge.ui.client import client
+import gtk
+import pygtk
+
 import deluge.common
-import dialogs
+import deluge.component as component
 from deluge.configmanager import ConfigManager
+from deluge.ui.client import client
+from deluge.ui.gtkui.dialogs import ErrorDialog, OtherDialog
 from deluge.ui.gtkui.path_chooser import PathChooser
+
+pygtk.require('2.0')
+
 
 log = logging.getLogger(__name__)
 
@@ -239,7 +241,7 @@ class MenuBar(component.Component):
 
     def on_menuitem_createtorrent_activate(self, data=None):
         log.debug("on_menuitem_createtorrent_activate")
-        from createtorrentdialog import CreateTorrentDialog
+        from deluge.ui.gtkui.createtorrentdialog import CreateTorrentDialog
         CreateTorrentDialog().show()
 
     def on_menuitem_quitdaemon_activate(self, data=None):
@@ -277,7 +279,7 @@ class MenuBar(component.Component):
 
     def on_menuitem_edittrackers_activate(self, data=None):
         log.debug("on_menuitem_edittrackers_activate")
-        from edittrackersdialog import EditTrackersDialog
+        from deluge.ui.gtkui.edittrackersdialog import EditTrackersDialog
         dialog = EditTrackersDialog(
             component.get("TorrentView").get_selected_torrent(),
             component.get("MainWindow").window)
@@ -287,7 +289,7 @@ class MenuBar(component.Component):
         log.debug("on_menuitem_remove_activate")
         torrent_ids = component.get("TorrentView").get_selected_torrents()
         if torrent_ids:
-            from removetorrentdialog import RemoveTorrentDialog
+            from deluge.ui.gtkui.removetorrentdialog import RemoveTorrentDialog
             RemoveTorrentDialog(torrent_ids).run()
 
     def on_menuitem_recheck_activate(self, data=None):
@@ -390,7 +392,7 @@ class MenuBar(component.Component):
 
     def on_menuitem_about_activate(self, data=None):
         log.debug("on_menuitem_about_activate")
-        from aboutdialog import AboutDialog
+        from deluge.ui.gtkui.aboutdialog import AboutDialog
         AboutDialog().run()
 
     def on_menuitem_set_unlimited(self, widget):
@@ -445,7 +447,7 @@ class MenuBar(component.Component):
                         options["stop_at_ratio"] = True
                     client.core.set_torrent_options(torrent_ids, options)
 
-            dialog = dialogs.OtherDialog(*other_dialog)
+            dialog = OtherDialog(*other_dialog)
             dialog.run().addCallback(set_value)
 
         torrent_ids = component.get("TorrentView").get_selected_torrents()
@@ -539,7 +541,7 @@ class MenuBar(component.Component):
             log.debug("Setting torrent owner \"%s\" on %s", username, update_torrents)
 
             def failed_change_owner(failure):
-                dialogs.ErrorDialog(
+                ErrorDialog(
                     _("Ownership Change Error"),
                     _("There was an error while trying changing ownership."),
                     self.window.window, details=failure.value.logable()

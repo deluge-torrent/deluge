@@ -1,37 +1,10 @@
 # -*- coding: utf-8 -*-
 #
-# transfer.py
-#
 # Copyright (C) 2012 Bro <bro.development@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-#   The Free Software Foundation, Inc.,
-#   51 Franklin Street, Fifth Floor
-#   Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 try:
@@ -39,15 +12,16 @@ try:
 except ImportError:
     import deluge.rencode as rencode
 
-import zlib
-import struct
 import logging
+import struct
+import zlib
 
 from twisted.internet.protocol import Protocol
 
 log = logging.getLogger(__name__)
 
 MESSAGE_HEADER_SIZE = 5
+
 
 class DelugeTransferProtocol(Protocol):
     """
@@ -127,8 +101,8 @@ class DelugeTransferProtocol(Protocol):
                 raise Exception("Message length is negative: %d" % self._message_length)
             # Remove the header from the buffer
             self._buffer = self._buffer[MESSAGE_HEADER_SIZE:]
-        except Exception, e:
-            log.warn("Error occurred when parsing message header: %s." % str(e))
+        except Exception as ex:
+            log.warn("Error occurred when parsing message header: %s.", ex)
             log.warn("This version of Deluge cannot communicate with the sender of this data.")
             self._message_length = 0
             self._buffer = ""
@@ -142,9 +116,8 @@ class DelugeTransferProtocol(Protocol):
         """
         try:
             self.message_received(rencode.loads(zlib.decompress(data), decode_utf8=True))
-        except Exception, e:
-            log.warn("Failed to decompress (%d bytes) and load serialized data "\
-                     "with rencode: %s" % (len(data), str(e)))
+        except Exception as ex:
+            log.warn("Failed to decompress (%d bytes) and load serialized data with rencode: %s", len(data), ex)
 
     def get_bytes_recv(self):
         """

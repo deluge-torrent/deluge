@@ -16,10 +16,10 @@
 # Written by Bram Cohen
 # Modifications for use in Deluge by Andrew Resch 2008
 
+import logging
 import os.path
 import sys
 import time
-import logging
 from hashlib import sha1 as sha
 
 import deluge.component as component
@@ -38,15 +38,18 @@ for i in xrange(0xFDD0, 0xFDF0):
 for i in (0xFFFE, 0xFFFF):
     noncharacter_translate[i] = ord('-')
 
+
 def gmtime():
     return time.mktime(time.gmtime())
+
 
 def get_filesystem_encoding():
     return sys.getfilesystemencoding()
 
+
 def decode_from_filesystem(path):
     encoding = get_filesystem_encoding()
-    if encoding == None:
+    if encoding is None:
         assert isinstance(path, unicode), "Path should be unicode not %s" % type(path)
         decoded_path = path
     else:
@@ -55,8 +58,10 @@ def decode_from_filesystem(path):
 
     return decoded_path
 
+
 def dummy(*v):
     pass
+
 
 class RemoteFileProgress(object):
     def __init__(self, session_id):
@@ -66,6 +71,7 @@ class RemoteFileProgress(object):
         component.get("RPCServer").emit_event_for_session_id(
             self.session_id, CreateTorrentProgressEvent(piece_count, num_pieces)
         )
+
 
 def make_meta_file(path, url, piece_length, progress=None, title=None, comment=None,
                    safe=None, content_type=None, target=None, webseeds=None, name=None,
@@ -127,15 +133,16 @@ def make_meta_file(path, url, piece_length, progress=None, title=None, comment=N
     h.write(bencode(data))
     h.close()
 
+
 def calcsize(path):
     total = 0
     for s in subfiles(os.path.abspath(path)):
         total += os.path.getsize(s[1])
     return total
 
-def makeinfo(path, piece_length, progress, name = None,
-             content_type = None, private=False):  # HEREDAVE. If path is directory,
-                                                   # how do we assign content type?
+
+def makeinfo(path, piece_length, progress, name=None, content_type=None, private=False):
+    # HEREDAVE. If path is directory, how do we assign content type?
     def to_utf8(name):
         if isinstance(name, unicode):
             u = name
@@ -150,8 +157,8 @@ def makeinfo(path, piece_length, progress, name = None,
 
         if u.translate(noncharacter_translate) != u:
             raise Exception('File/directory name "%s" contains reserved '
-                              'unicode values that do not correspond to '
-                              'characters.' % name)
+                            'unicode values that do not correspond to '
+                            'characters.' % name)
         return u.encode('utf-8')
     path = os.path.abspath(path)
     piece_count = 0
@@ -178,7 +185,7 @@ def makeinfo(path, piece_length, progress, name = None,
             p2 = [to_utf8(n) for n in p]
             if content_type:
                 fs.append({'length': size, 'path': p2,
-                           'content_type' : content_type}) # HEREDAVE. bad for batch!
+                           'content_type': content_type})  # HEREDAVE. bad for batch!
             else:
                 fs.append({'length': size, 'path': p2})
             h = file(f, 'rb')
@@ -208,9 +215,10 @@ def makeinfo(path, piece_length, progress, name = None,
             name = to_utf8(os.path.split(path)[1])
 
         return {'pieces': ''.join(pieces),
-            'piece length': piece_length, 'files': fs,
-            'name': name,
-            'private': private}
+                'piece length': piece_length,
+                'files': fs,
+                'name': name,
+                'private': private}
     else:
         size = os.path.getsize(path)
         if size >= piece_length:
@@ -232,14 +240,15 @@ def makeinfo(path, piece_length, progress, name = None,
         h.close()
         if content_type is not None:
             return {'pieces': ''.join(pieces),
+                    'piece length': piece_length, 'length': size,
+                    'name': to_utf8(os.path.split(path)[1]),
+                    'content_type': content_type,
+                    'private': private}
+        return {'pieces': ''.join(pieces),
                 'piece length': piece_length, 'length': size,
                 'name': to_utf8(os.path.split(path)[1]),
-                'content_type' : content_type,
-                'private': private }
-        return {'pieces': ''.join(pieces),
-            'piece length': piece_length, 'length': size,
-            'name': to_utf8(os.path.split(path)[1]),
-            'private': private}
+                'private': private}
+
 
 def subfiles(d):
     r = []

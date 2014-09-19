@@ -144,15 +144,15 @@ deluge.menus.torrent = new Ext.menu.Menu({
                 hideOnClick: false,
                 menu: new Ext.menu.Menu({
                     items: [{
-                        text: _('50')
+                        text: '50'
                     }, {
-                        text: _('100')
+                        text: '100'
                     }, {
-                        text: _('200')
+                        text: '200'
                     }, {
-                        text: _('300')
+                        text: '300'
                     }, {
-                        text: _('500')
+                        text: '500'
                     },{
                         text: _('Unlimited')
                     }]
@@ -163,15 +163,15 @@ deluge.menus.torrent = new Ext.menu.Menu({
                 hideOnClick: false,
                 menu: new Ext.menu.Menu({
                     items: [{
-                        text: _('0')
+                        text: '0'
                     }, {
-                        text: _('1')
+                        text: '1'
                     }, {
-                        text: _('2')
+                        text: '2'
                     }, {
-                        text: _('3')
+                        text: '3'
                     }, {
-                        text: _('5')
+                        text: '5'
                     },{
                         text: _('Unlimited')
                     }]
