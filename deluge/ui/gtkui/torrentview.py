@@ -17,10 +17,10 @@ import pygtk
 from twisted.internet import reactor
 
 import deluge.component as component
-import listview
-import torrentview_data_funcs as funcs
 from deluge.ui.client import client
-from removetorrentdialog import RemoveTorrentDialog
+from deluge.ui.gtkui import torrentview_data_funcs as funcs
+from deluge.ui.gtkui.listview import ListView
+from deluge.ui.gtkui.removetorrentdialog import RemoveTorrentDialog
 
 pygtk.require('2.0')
 
@@ -199,13 +199,13 @@ class SearchBox(object):
         self.search_pending = reactor.callLater(0.7, self.torrentview.update)
 
 
-class TorrentView(listview.ListView, component.Component):
+class TorrentView(ListView, component.Component):
     """TorrentView handles the listing of torrents."""
     def __init__(self):
         component.Component.__init__(self, "TorrentView", interval=2, depend=["SessionProxy"])
         self.window = component.get("MainWindow")
         # Call the ListView constructor
-        listview.ListView.__init__(self, self.window.main_builder.get_object("torrent_view"), "torrentview.state")
+        ListView.__init__(self, self.window.main_builder.get_object("torrent_view"), "torrentview.state")
         log.debug("TorrentView Init..")
 
         # If we have gotten the state yet
@@ -352,12 +352,12 @@ class TorrentView(listview.ListView, component.Component):
         """
         Saves the state of the torrent view.
         """
-        listview.ListView.save_state(self, "torrentview.state")
+        ListView.save_state(self, "torrentview.state")
 
     def remove_column(self, header):
         """Removes the column with the name 'header' from the torrentview"""
         self.save_state()
-        listview.ListView.remove_column(self, header)
+        ListView.remove_column(self, header)
 
     def set_filter(self, filter_dict):
         """

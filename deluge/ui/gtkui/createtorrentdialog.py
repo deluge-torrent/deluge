@@ -15,8 +15,8 @@ import gobject
 import gtk
 from twisted.internet.threads import deferToThread
 
-import deluge.common
 import deluge.component as component
+from deluge.common import get_path_size, is_url, resource_filename
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
@@ -29,19 +29,19 @@ class CreateTorrentDialog:
         self.builder = gtk.Builder()
 
         # The main dialog
-        self.builder.add_from_file(deluge.common.resource_filename(
+        self.builder.add_from_file(resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "create_torrent_dialog.ui")
         ))
         # The remote path dialog
-        self.builder.add_from_file(deluge.common.resource_filename(
+        self.builder.add_from_file(resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "create_torrent_dialog.remote_path.ui")
         ))
         # The remote save dialog
-        self.builder.add_from_file(deluge.common.resource_filename(
+        self.builder.add_from_file(resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "create_torrent_dialog.remote_save.ui")
         ))
         # The progress dialog
-        self.builder.add_from_file(deluge.common.resource_filename(
+        self.builder.add_from_file(resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "create_torrent_dialog.progress.ui")
         ))
 
@@ -150,7 +150,7 @@ class CreateTorrentDialog:
         path = result.decode('utf-8')
 
         self.files_treestore.clear()
-        self.files_treestore.append(None, [result, gtk.STOCK_FILE, deluge.common.get_path_size(path)])
+        self.files_treestore.append(None, [result, gtk.STOCK_FILE, get_path_size(path)])
         self.adjust_piece_size()
         chooser.destroy()
 
@@ -178,7 +178,7 @@ class CreateTorrentDialog:
         path = result.decode('utf-8')
 
         self.files_treestore.clear()
-        self.files_treestore.append(None, [result, gtk.STOCK_OPEN, deluge.common.get_path_size(path)])
+        self.files_treestore.append(None, [result, gtk.STOCK_OPEN, get_path_size(path)])
         self.adjust_piece_size()
         chooser.destroy()
 
@@ -289,9 +289,8 @@ class CreateTorrentDialog:
         webseeds = []
         b = self.builder.get_object("textview_webseeds").get_buffer()
         lines = b.get_text(b.get_start_iter(), b.get_end_iter()).strip().split("\n")
-        import deluge.common
         for l in lines:
-            if deluge.common.is_url(l):
+            if is_url(l):
                 webseeds.append(l)
         # Get the piece length in bytes
         combo = self.builder.get_object("combo_piece_size")
@@ -406,7 +405,7 @@ class CreateTorrentDialog:
     def _on_button_add_clicked(self, widget):
         log.debug("_on_button_add_clicked")
         builder = gtk.Builder()
-        builder.add_from_file(deluge.common.resource_filename(
+        builder.add_from_file(resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "edit_trackers.add.ui")
         ))
         dialog = builder.get_object("add_tracker_dialog")
@@ -427,7 +426,7 @@ class CreateTorrentDialog:
             self.config["createtorrent.trackers"] = lines
             log.debug("lines: %s", lines)
             for l in lines:
-                if deluge.common.is_url(l):
+                if is_url(l):
                     trackers.append(l)
 
             # We are going to add these trackers to the highest tier + 1

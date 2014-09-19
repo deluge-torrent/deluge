@@ -14,8 +14,8 @@ from twisted.internet import defer
 import deluge.component as component
 from deluge.ui.client import client
 from deluge.ui.console import colors
-from input_popup import InputPopup
-from popup import Popup, SelectablePopup
+from deluge.ui.console.input_popup import InputPopup
+from deluge.ui.console.popup import Popup, SelectablePopup
 
 log = logging.getLogger(__name__)
 

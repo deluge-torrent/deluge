@@ -11,13 +11,8 @@ import re
 from collections import deque
 
 import deluge.common
+from unicodedata import normalize as ud_normalize
 from unicodedata import east_asian_width
-
-try:
-    import unicodedata
-    haveud = True
-except:
-    haveud = False
 
 
 def format_speed(speed):
@@ -94,7 +89,7 @@ def trim_string(string, w, have_dbls):
         idx = 0
         while width < w:
             chrs.append(string[idx])
-            if unicodedata.east_asian_width(string[idx]) in ["W", "F"]:
+            if east_asian_width(string[idx]) in ["W", "F"]:
                 width += 2
             else:
                 width += 1
@@ -106,20 +101,16 @@ def trim_string(string, w, have_dbls):
     else:
         return u"%s " % (string[0:w - 1])
 
-#Dots are slow
-eaw = unicodedata.east_asian_width
-ud_normalize = unicodedata.normalize
-
 
 def format_column(col, lim):
     dbls = 0
     #Chosen over isinstance(col, unicode) and col.__class__ == unicode
     # for speed - it's ~3 times faster for non-unicode strings and ~1.5
     # for unicode strings.
-    if haveud and col.__class__ is unicode:
+    if col.__class__ is unicode:
         # might have some double width chars
         col = ud_normalize("NFC", col)
-        dbls = sum(eaw(c) in "WF" for c in col)
+        dbls = sum(east_asian_width(c) in "WF" for c in col)
     size = len(col) + dbls
     if (size >= lim - 1):
         return trim_string(col, lim, dbls > 0)

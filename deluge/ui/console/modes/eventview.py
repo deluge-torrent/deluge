@@ -10,9 +10,9 @@
 import logging
 
 import deluge.component as component
-import format_utils
-from basemode import BaseMode
 from deluge.ui.client import client
+from deluge.ui.console import format_utils
+from deluge.ui.console.basemode import BaseMode
 
 try:
     import curses

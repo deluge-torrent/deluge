@@ -15,11 +15,12 @@ import gobject
 import gtk
 import gtk.gdk
 
-import deluge.common
 import deluge.component as component
+from deluge.common import FILE_PRIORITY, open_file, show_file
 from deluge.ui.client import client
 from deluge.ui.gtkui.common import load_pickled_state_file, reparent_iter, save_pickled_state_file
 from deluge.ui.gtkui.torrentdetails import Tab
+from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
 
 log = logging.getLogger(__name__)
 
@@ -49,7 +50,7 @@ def cell_priority(column, cell, model, row, data):
         cell.set_property("text", "")
         return
     priority = model.get_value(row, data)
-    cell.set_property("text", _t(deluge.common.FILE_PRIORITY[priority]))
+    cell.set_property("text", _t(FILE_PRIORITY[priority]))
 
 
 def cell_priority_icon(column, cell, model, row, data):
@@ -58,13 +59,13 @@ def cell_priority_icon(column, cell, model, row, data):
         cell.set_property("stock-id", None)
         return
     priority = model.get_value(row, data)
-    if deluge.common.FILE_PRIORITY[priority] == "Do Not Download":
+    if FILE_PRIORITY[priority] == "Do Not Download":
         cell.set_property("stock-id", gtk.STOCK_NO)
-    elif deluge.common.FILE_PRIORITY[priority] == "Normal Priority":
+    elif FILE_PRIORITY[priority] == "Normal Priority":
         cell.set_property("stock-id", gtk.STOCK_YES)
-    elif deluge.common.FILE_PRIORITY[priority] == "High Priority":
+    elif FILE_PRIORITY[priority] == "High Priority":
         cell.set_property("stock-id", gtk.STOCK_GO_UP)
-    elif deluge.common.FILE_PRIORITY[priority] == "Highest Priority":
+    elif FILE_PRIORITY[priority] == "Highest Priority":
         cell.set_property("stock-id", gtk.STOCK_GOTO_TOP)
 
 
@@ -124,7 +125,7 @@ class FilesTab(Tab):
         column = gtk.TreeViewColumn(_("Size"))
         render = gtk.CellRendererText()
         column.pack_start(render, False)
-        column.set_cell_data_func(render, deluge.ui.gtkui.torrentview_data_funcs.cell_data_size, 1)
+        column.set_cell_data_func(render, cell_data_size, 1)
         column.set_sort_column_id(1)
         column.set_clickable(True)
         column.set_resizable(True)
@@ -324,7 +325,7 @@ class FilesTab(Tab):
             filepath = os.path.join(status["download_location"], *path)
             log.debug("Open file '%s'", filepath)
             timestamp = gtk.get_current_event_time()
-            deluge.common.open_file(filepath, timestamp=timestamp)
+            open_file(filepath, timestamp=timestamp)
 
     def _on_show_file(self, status):
         paths = self.listview.get_selection().get_selected_rows()[1]
@@ -337,7 +338,7 @@ class FilesTab(Tab):
             filepath = os.path.join(status["download_location"], *path)
             log.debug("Show file '%s'", filepath)
             timestamp = gtk.get_current_event_time()
-            deluge.common.show_file(filepath, timestamp=timestamp)
+            show_file(filepath, timestamp=timestamp)
 
     ## The following 3 methods create the folder/file view in the treeview
     def prepare_file_store(self, files):
@@ -551,22 +552,22 @@ class FilesTab(Tab):
     def _on_menuitem_donotdownload_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
             self.get_selected_files(),
-            deluge.common.FILE_PRIORITY["Do Not Download"])
+            FILE_PRIORITY["Do Not Download"])
 
     def _on_menuitem_normal_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
             self.get_selected_files(),
-            deluge.common.FILE_PRIORITY["Normal Priority"])
+            FILE_PRIORITY["Normal Priority"])
 
     def _on_menuitem_high_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
             self.get_selected_files(),
-            deluge.common.FILE_PRIORITY["High Priority"])
+            FILE_PRIORITY["High Priority"])
 
     def _on_menuitem_highest_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
             self.get_selected_files(),
-            deluge.common.FILE_PRIORITY["Highest Priority"])
+            FILE_PRIORITY["Highest Priority"])
 
     def _on_menuitem_expand_all_activate(self, menuitem):
         self.listview.expand_all()

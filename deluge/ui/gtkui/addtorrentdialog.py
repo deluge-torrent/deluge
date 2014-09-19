@@ -18,16 +18,16 @@ import pygtk
 import twisted.web.client
 import twisted.web.error
 
-import common
 import deluge.common
 import deluge.component as component
-import deluge.ui.common
-import dialogs
 from deluge.configmanager import ConfigManager
 from deluge.httpdownloader import download_file
 from deluge.ui.client import client
+from deluge.ui.common import TorrentInfo
+from deluge.ui.gtkui.common import reparent_iter
+from deluge.ui.gtkui.dialogs import ErrorDialog
 from deluge.ui.gtkui.path_chooser import PathChooser
-from torrentview_data_funcs import cell_data_size
+from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
 
 pygtk.require('2.0')
 
@@ -186,15 +186,15 @@ class AddTorrentDialog(component.Component):
         for filename in filenames:
             # Get the torrent data from the torrent file
             try:
-                info = deluge.ui.common.TorrentInfo(filename)
+                info = TorrentInfo(filename)
             except Exception as ex:
                 log.debug("Unable to open torrent file: %s", ex)
-                dialogs.ErrorDialog(_("Invalid File"), ex, self.dialog).run()
+                ErrorDialog(_("Invalid File"), ex, self.dialog).run()
                 continue
 
             if info.info_hash in self.files:
                 log.debug("Trying to add a duplicate torrent!")
-                dialogs.ErrorDialog(
+                ErrorDialog(
                     _("Duplicate Torrent"),
                     _("You cannot add the same torrent twice."),
                     self.dialog
@@ -607,7 +607,7 @@ class AddTorrentDialog(component.Component):
             elif deluge.common.is_magnet(url):
                 self.add_from_magnets([url])
             else:
-                dialogs.ErrorDialog(
+                ErrorDialog(
                     _("Invalid URL"),
                     "%s %s" % (url, _("is not a valid URL.")),
                     self.dialog
@@ -656,7 +656,7 @@ class AddTorrentDialog(component.Component):
             else:
                 log.debug("Download failed: %s", result)
                 dialog.destroy()
-                dialogs.ErrorDialog(
+                ErrorDialog(
                     _("Download Failed"), "%s %s" % (_("Failed to download:"), url),
                     details=result.getErrorMessage(), parent=self.dialog
                 ).run()
@@ -830,7 +830,7 @@ class AddTorrentDialog(component.Component):
                     parent = self.files_treestore.append(parent, [True, s, 0, -1, False, gtk.STOCK_DIRECTORY])
 
                 self.files_treestore[itr][1] = split_text[-1]
-                common.reparent_iter(self.files_treestore, itr, parent)
+                reparent_iter(self.files_treestore, itr, parent)
             else:
                 # Update the row's text
                 self.files_treestore[itr][1] = new_text
@@ -891,7 +891,7 @@ class AddTorrentDialog(component.Component):
                 self.files_treestore[itr][1] = split_text[-1] + os.path.sep
 
                 # Now re-parent itr to parent
-                common.reparent_iter(self.files_treestore, itr, parent)
+                reparent_iter(self.files_treestore, itr, parent)
                 itr = parent
 
                 # We need to re-expand the view because it might contracted

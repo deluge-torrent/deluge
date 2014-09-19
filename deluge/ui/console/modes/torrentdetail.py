@@ -12,14 +12,13 @@ from collections import deque
 from sys import maxint
 
 import deluge.component as component
-import deluge.ui.console.colors as colors
-import format_utils
-from basemode import BaseMode
+from deluge.common import fdate, FILE_PRIORITY, fsize, ftime
 from deluge.ui.client import client
-from deluge.common import fsize, fdate, ftime, FILE_PRIORITY
-from input_popup import InputPopup
-from popup import MessagePopup, SelectablePopup
-from torrent_actions import ACTION, torrent_actions_popup
+from deluge.ui.console import colors, format_utils
+from deluge.ui.console.basemode import BaseMode
+from deluge.ui.console.input_popup import InputPopup
+from deluge.ui.console.popup import MessagePopup, SelectablePopup
+from deluge.ui.console.torrent_actions import ACTION, torrent_actions_popup
 
 try:
     import curses

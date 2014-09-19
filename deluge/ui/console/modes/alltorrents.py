@@ -10,21 +10,21 @@
 import logging
 from collections import deque
 
-import column as console_column
 import deluge.common
 import deluge.component as component
-import format_utils
-from addtorrents import AddTorrents
-from basemode import BaseMode
+import deluge.ui.console.column
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
-from eventview import EventView
-from input_popup import InputPopup
-from legacy import Legacy
-from popup import MessagePopup, Popup, SelectablePopup
-from preferences import Preferences
-from torrent_actions import ACTION, torrent_actions_popup
-from torrentdetail import TorrentDetail
+from deluge.ui.console import format_utils
+from deluge.ui.console.addtorrents import AddTorrents
+from deluge.ui.console.basemode import BaseMode
+from deluge.ui.console.eventview import EventView
+from deluge.ui.console.input_popup import InputPopup
+from deluge.ui.console.legacy import Legacy
+from deluge.ui.console.popup import MessagePopup, Popup, SelectablePopup
+from deluge.ui.console.preferences import Preferences
+from deluge.ui.console.torrent_actions import ACTION, torrent_actions_popup
+from deluge.ui.console.torrentdetail import TorrentDetail
 
 try:
     import curses
@@ -365,7 +365,7 @@ class AllTorrents(BaseMode, component.Component):
                                if ("show_%s" % pref) not in self.config or self.config["show_%s" % pref]]
 
         self.__columns = [prefs_to_names[col] for col in self.__cols_to_show]
-        self.__status_fields = console_column.get_required_fields(self.__columns)
+        self.__status_fields = deluge.ui.console.column.get_required_fields(self.__columns)
 
         # we always need these, even if we're not displaying them
         for rf in ["state", "name", "queue", "progress"]:
@@ -870,7 +870,7 @@ class AllTorrents(BaseMode, component.Component):
             #Because dots are slow
             sorted_ids = self._sorted_ids
             curstate = self.curstate
-            gcv = console_column.get_column_value
+            gcv = deluge.ui.console.column.get_column_value
             fr = format_utils.format_row
             cols = self.__columns
             colw = self.column_widths

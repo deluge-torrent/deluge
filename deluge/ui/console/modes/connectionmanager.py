@@ -15,13 +15,12 @@ import time
 from collections import deque
 
 import deluge.component as component
-import deluge.ui.client
-from alltorrents import AllTorrents
-from basemode import BaseMode
 from deluge.configmanager import ConfigManager
-from deluge.ui.client import client
-from input_popup import InputPopup
-from popup import MessagePopup, SelectablePopup
+from deluge.ui.client import Client, client
+from deluge.ui.console.alltorrents import AllTorrents
+from deluge.ui.console.basemode import BaseMode
+from deluge.ui.console.input_popup import InputPopup
+from deluge.ui.console.popup import MessagePopup, SelectablePopup
 
 try:
     import curses
@@ -83,7 +82,7 @@ class ConnectionManager(BaseMode):
                 del self.statuses[host_id]
 
         for host in self.config["hosts"]:
-            c = deluge.ui.client.Client()
+            c = Client()
             hadr = host[1]
             port = host[2]
             user = host[3]

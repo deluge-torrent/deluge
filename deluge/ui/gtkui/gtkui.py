@@ -21,28 +21,29 @@ reactor = gtk2reactor.install()
 
 import deluge.common
 import deluge.component as component
-import deluge.error
-import dialogs
-from addtorrentdialog import AddTorrentDialog
 from deluge.configmanager import ConfigManager, get_config_dir
+from deluge.error import AuthenticationRequired, BadLoginError, DaemonRunningError
 from deluge.ui.client import client
+from deluge.ui.gtkui.addtorrentdialog import AddTorrentDialog
 from deluge.ui.gtkui.common import associate_magnet_links
+from deluge.ui.gtkui.dialogs import AuthenticationDialog, ErrorDialog, YesNoDialog
+from deluge.ui.gtkui.filtertreeview import FilterTreeView
+from deluge.ui.gtkui.ipcinterface import IPCInterface
+from deluge.ui.gtkui.mainwindow import MainWindow
+from deluge.ui.gtkui.menubar import MenuBar
+from deluge.ui.gtkui.pluginmanager import PluginManager
+from deluge.ui.gtkui.preferences import Preferences
+from deluge.ui.gtkui.queuedtorrents import QueuedTorrents
+from deluge.ui.gtkui.sidebar import SideBar
+from deluge.ui.gtkui.statusbar import StatusBar
+from deluge.ui.gtkui.systemtray import SystemTray
+from deluge.ui.gtkui.toolbar import ToolBar
+from deluge.ui.gtkui.torrentdetails import TorrentDetails
+from deluge.ui.gtkui.torrentview import TorrentView
 from deluge.ui.sessionproxy import SessionProxy
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.ui import _UI
-from filtertreeview import FilterTreeView
-from ipcinterface import IPCInterface
-from mainwindow import MainWindow
-from menubar import MenuBar
-from pluginmanager import PluginManager
-from preferences import Preferences
-from queuedtorrents import QueuedTorrents
-from sidebar import SideBar
-from statusbar import StatusBar
-from systemtray import SystemTray
-from toolbar import ToolBar
-from torrentdetails import TorrentDetails
-from torrentview import TorrentView
+
 
 gobject.set_prgname("deluge")
 
@@ -235,7 +236,7 @@ class GtkUI(object):
                 from deluge.ui.gtkui.ipcinterface import process_args
                 process_args([filename])
             self.osxapp.connect("NSApplicationOpenFile", nsapp_open_file)
-            from menubar_osx import menubar_osx
+            from deluge.ui.gtkui.menubar_osx import menubar_osx
             menubar_osx(self, self.osxapp)
             self.osxapp.ready()
 
@@ -243,7 +244,7 @@ class GtkUI(object):
         self.plugins = PluginManager()
 
         # Late import because of setting up translations
-        from connectionmanager import ConnectionManager
+        from deluge.ui.gtkui.connectionmanager import ConnectionManager
         # Show the connection manager
         self.connectionmanager = ConnectionManager()
 
@@ -310,8 +311,8 @@ class GtkUI(object):
             try:
                 try:
                     client.start_classic_mode()
-                except deluge.error.DaemonRunningError:
-                    d = dialogs.YesNoDialog(
+                except DaemonRunningError:
+                    d = YesNoDialog(
                         _("Switch to Thin Client Mode?"),
                         _("A Deluge daemon process (deluged) is already running. "
                           "To use Standalone mode, stop this daemon and restart Deluge."
@@ -321,7 +322,7 @@ class GtkUI(object):
                     d.addCallback(on_dialog_response)
                 except ImportError as ex:
                     if "No module named libtorrent" in ex.message:
-                        d = dialogs.YesNoDialog(
+                        d = YesNoDialog(
                             _("Switch to Thin Client Mode?"),
                             _("Only Thin Client mode is available because libtorrent is not installed."
                               "\n\n"
@@ -336,14 +337,14 @@ class GtkUI(object):
             except Exception:
                 import traceback
                 tb = sys.exc_info()
-                ed = dialogs.ErrorDialog(
+                ed = ErrorDialog(
                     _("Error Starting Core"),
                     _("An error occurred starting the core component required to run Deluge in Standalone mode."
                       "\n\n"
                       "Please see the details below for more information."), details=traceback.format_exc(tb[2])).run()
 
                 def on_ed_response(response):
-                    d = dialogs.YesNoDialog(
+                    d = YesNoDialog(
                         _("Switch to Thin Client Mode?"),
                         _("Unable to start Standalone mode would you like to continue in Thin Client mode?")
                     ).run()
@@ -379,7 +380,7 @@ class GtkUI(object):
                             )
                             log.debug("Localhost started: %s", try_connect)
                             if not try_connect:
-                                dialogs.ErrorDialog(
+                                ErrorDialog(
                                     _("Error Starting Daemon"),
                                     _("There was an error starting the daemon "
                                       "process.  Try running it from a console "
@@ -399,12 +400,9 @@ class GtkUI(object):
                             if not try_counter:
                                 return
 
-                            if reason.check(deluge.error.AuthenticationRequired,
-                                            deluge.error.BadLoginError):
+                            if reason.check(AuthenticationRequired, BadLoginError):
                                 log.debug("PasswordRequired exception")
-                                dialog = dialogs.AuthenticationDialog(
-                                    reason.value.message, reason.value.username
-                                )
+                                dialog = AuthenticationDialog(reason.value.message, reason.value.username)
 
                                 def dialog_finished(response_id, host, port):
                                     if response_id == gtk.RESPONSE_OK:
@@ -412,8 +410,7 @@ class GtkUI(object):
                                             0.5, do_connect, try_counter - 1,
                                             host, port, dialog.get_username(),
                                             dialog.get_password())
-                                dialog.run().addCallback(dialog_finished,
-                                                         host, port)
+                                dialog.run().addCallback(dialog_finished, host, port)
                                 return
 
                             log.info("Connection to host failed..")

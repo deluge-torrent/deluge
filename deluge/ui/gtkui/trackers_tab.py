@@ -91,6 +91,6 @@ class TrackersTab(Tab):
     def _on_button_edit_trackers_clicked(self, button):
         torrent_id = component.get("TorrentView").get_selected_torrent()
         if torrent_id:
-            from edittrackersdialog import EditTrackersDialog
+            from deluge.ui.gtkui.edittrackersdialog import EditTrackersDialog
             dialog = EditTrackersDialog(torrent_id, component.get("MainWindow").window)
             dialog.run()

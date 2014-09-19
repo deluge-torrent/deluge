@@ -10,9 +10,9 @@
 import gtk
 from twisted.internet import defer
 
-import deluge.common
 import deluge.component as component
-from deluge.ui.gtkui import common
+from deluge.common import get_pixmap, osx_check, windows_check
+from deluge.ui.gtkui.common import get_deluge_icon
 
 
 class BaseDialog(gtk.Dialog):
@@ -34,7 +34,7 @@ class BaseDialog(gtk.Dialog):
             flags=gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT | gtk.DIALOG_NO_SEPARATOR,
             buttons=buttons)
 
-        self.set_icon(common.get_deluge_icon())
+        self.set_icon(get_deluge_icon())
 
         self.connect("delete-event", self._on_delete_event)
         self.connect("response", self._on_response)
@@ -46,9 +46,9 @@ class BaseDialog(gtk.Dialog):
         image = gtk.Image()
         if not gtk.stock_lookup(icon) and (icon.endswith(".svg") or icon.endswith(".png")):
             # Hack for Windows since it doesn't support svg
-            if icon.endswith(".svg") and (deluge.common.windows_check() or deluge.common.osx_check()):
+            if icon.endswith(".svg") and (windows_check() or osx_check()):
                 icon = icon.rpartition(".svg")[0] + "16.png"
-            pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(deluge.common.get_pixmap(icon), 32, 32)
+            pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(get_pixmap(icon), 32, 32)
             image.set_from_pixbuf(pixbuf)
         else:
             image.set_from_stock(icon, gtk.ICON_SIZE_DIALOG)

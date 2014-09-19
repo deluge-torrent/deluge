@@ -9,10 +9,10 @@
 
 import logging
 
-import common
 import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager
+from deluge.ui.gtkui.common import get_logo
 
 log = logging.getLogger(__name__)
 
@@ -58,7 +58,7 @@ class Notification:
                 message = deluge.common.xml_encode("%s\n%s %i %s" % (status["name"],
                                                    _("Including"), status["num_files"], _("files")))
                 self.note = pynotify.Notification(title, message)
-                self.note.set_icon_from_pixbuf(common.get_logo(48))
+                self.note.set_icon_from_pixbuf(get_logo(48))
                 if not self.note.show():
                     log.warning("pynotify failed to show notification")
 

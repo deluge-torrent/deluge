@@ -16,7 +16,7 @@ from twisted.python.failure import Failure
 from twisted.web import client, http
 from twisted.web.error import PageRedirect
 
-from common import get_version
+from deluge.common import get_version
 
 log = logging.getLogger(__name__)
 

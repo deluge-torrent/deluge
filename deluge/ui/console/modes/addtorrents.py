@@ -13,11 +13,11 @@ import os
 
 import deluge.common as common
 import deluge.component as component
-import format_utils
-from basemode import BaseMode
 from deluge.ui.client import client
-from input_popup import InputPopup
-from popup import MessagePopup
+from deluge.ui.console import format_utils
+from deluge.ui.console.basemode import BaseMode
+from deluge.ui.console.input_popup import InputPopup
+from deluge.ui.console.popup import MessagePopup
 
 try:
     import curses

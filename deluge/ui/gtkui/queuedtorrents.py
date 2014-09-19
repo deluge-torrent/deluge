@@ -13,10 +13,10 @@ import os.path
 import gobject
 import gtk
 
-import common
 import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager
+from deluge.ui.gtkui.common import get_logo
 from deluge.ui.gtkui.ipcinterface import process_args
 
 log = logging.getLogger(__name__)
@@ -35,7 +35,7 @@ class QueuedTorrents(component.Component):
         )
         self.builder.get_object("chk_autoadd").set_active(self.config["autoadd_queued"])
         self.dialog = self.builder.get_object("queued_torrents_dialog")
-        self.dialog.set_icon(common.get_logo(32))
+        self.dialog.set_icon(get_logo(32))
 
         self.builder.connect_signals({
             "on_button_remove_clicked": self.on_button_remove_clicked,

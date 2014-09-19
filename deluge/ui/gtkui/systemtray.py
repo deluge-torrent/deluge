@@ -12,12 +12,12 @@ import os
 
 import gtk
 
-import common
 import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 from deluge.ui.gtkui import dialogs
+from deluge.ui.gtkui.common import build_menu_radio_list, get_logo
 
 try:
     import appindicator
@@ -104,7 +104,7 @@ class SystemTray(component.Component):
         else:
             log.debug("Enabling the system tray icon..")
             if deluge.common.windows_check() or deluge.common.osx_check():
-                self.tray = gtk.status_icon_new_from_pixbuf(common.get_logo(32))
+                self.tray = gtk.status_icon_new_from_pixbuf(get_logo(32))
             else:
                 try:
                     self.tray = gtk.status_icon_new_from_icon_name("deluge")
@@ -237,14 +237,14 @@ class SystemTray(component.Component):
 
     def build_tray_bwsetsubmenu(self):
         # Create the Download speed list sub-menu
-        submenu_bwdownset = common.build_menu_radio_list(
+        submenu_bwdownset = build_menu_radio_list(
             self.config["tray_download_speed_list"], self.on_tray_setbwdown,
             self.max_download_speed,
             _("KiB/s"), show_notset=True, show_other=True
         )
 
         # Create the Upload speed list sub-menu
-        submenu_bwupset = common.build_menu_radio_list(
+        submenu_bwupset = build_menu_radio_list(
             self.config["tray_upload_speed_list"], self.on_tray_setbwup,
             self.max_upload_speed,
             _("KiB/s"), show_notset=True, show_other=True

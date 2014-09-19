@@ -13,10 +13,10 @@ import os.path
 import gtk
 from twisted.internet import defer
 
-import common
-import deluge.common
 import deluge.component as component
+from deluge.common import is_url, resource_filename
 from deluge.ui.client import client
+from deluge.ui.gtkui.common import get_deluge_icon
 
 log = logging.getLogger(__name__)
 
@@ -26,15 +26,15 @@ class EditTrackersDialog:
         self.torrent_id = torrent_id
         self.builder = gtk.Builder()
         # Main dialog
-        self.builder.add_from_file(deluge.common.resource_filename(
+        self.builder.add_from_file(resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "edit_trackers.ui")
         ))
         # add tracker dialog
-        self.builder.add_from_file(deluge.common.resource_filename(
+        self.builder.add_from_file(resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "edit_trackers.add.ui")
         ))
         # edit tracker dialog
-        self.builder.add_from_file(deluge.common.resource_filename(
+        self.builder.add_from_file(resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "edit_trackers.edit.ui")
         ))
 
@@ -44,7 +44,7 @@ class EditTrackersDialog:
         self.add_tracker_dialog.set_transient_for(self.dialog)
         self.edit_tracker_entry = self.builder.get_object("edit_tracker_entry")
         self.edit_tracker_entry.set_transient_for(self.dialog)
-        self.dialog.set_icon(common.get_deluge_icon())
+        self.dialog.set_icon(get_deluge_icon())
 
         if parent is not None:
             self.dialog.set_transient_for(parent)
@@ -195,7 +195,7 @@ class EditTrackersDialog:
         b = textview.get_buffer()
         lines = b.get_text(b.get_start_iter(), b.get_end_iter()).strip().split("\n")
         for l in lines:
-            if deluge.common.is_url(l):
+            if is_url(l):
                 trackers.append(l)
 
         for tracker in trackers:

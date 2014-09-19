@@ -23,8 +23,8 @@ from twisted.internet import defer
 import deluge.component as component
 import deluge.configmanager
 import deluge.ui.console.colors as colors
-from basemode import BaseMode
 from deluge.ui.client import client
+from deluge.ui.console.basemode import BaseMode
 from deluge.ui.console.modes import format_utils
 
 strwidth = format_utils.strwidth

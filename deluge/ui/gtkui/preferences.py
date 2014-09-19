@@ -15,14 +15,13 @@ from hashlib import sha1 as sha
 import gtk
 import pygtk
 
-import common
 import deluge.common
 import deluge.component as component
-import deluge.configmanager
-import dialogs
-from deluge.configmanager import ConfigManager
+from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.error import AuthManagerError, NotAuthorizedError
 from deluge.ui.client import client
+from deluge.ui.gtkui.common import associate_magnet_links, get_deluge_icon
+from deluge.ui.gtkui.dialogs import AccountDialog, ErrorDialog, InformationDialog, YesNoDialog
 from deluge.ui.gtkui.path_chooser import PathChooser
 
 pygtk.require('2.0')
@@ -50,7 +49,7 @@ class Preferences(component.Component):
         ))
         self.pref_dialog = self.builder.get_object("pref_dialog")
         self.pref_dialog.set_transient_for(component.get("MainWindow").window)
-        self.pref_dialog.set_icon(common.get_deluge_icon())
+        self.pref_dialog.set_icon(get_deluge_icon())
         self.treeview = self.builder.get_object("treeview")
         self.notebook = self.builder.get_object("notebook")
         self.gtkui_config = ConfigManager("gtkui.conf")
@@ -728,7 +727,7 @@ class Preferences(component.Component):
         else:
             active = self.language_combo.get_active()
             if active == -1:
-                dialog = dialogs.InformationDialog(
+                dialog = InformationDialog(
                     _("Attention"),
                     _("You must choose a language")
                 )
@@ -739,7 +738,7 @@ class Preferences(component.Component):
                 new_gtkui_config["language"] = model.get(model.get_iter(active), 0)[0]
 
         if new_gtkui_config["language"] != self.gtkui_config["language"]:
-            dialog = dialogs.InformationDialog(
+            dialog = InformationDialog(
                 _("Attention"),
                 _("You must now restart the deluge UI for the changes to take effect.")
             )
@@ -784,7 +783,7 @@ class Preferences(component.Component):
                     self.gtkui_config["classic_mode"] = not new_gtkui_in_classic_mode
                     self.builder.get_object("radio_classic").set_active(self.gtkui_config["classic_mode"])
                     self.builder.get_object("radio_thinclient").set_active(not self.gtkui_config["classic_mode"])
-            dialog = dialogs.YesNoDialog(
+            dialog = YesNoDialog(
                 _("Switching client mode..."),
                 _("Your current session will be stopped. Do you wish to continue?")
             )
@@ -984,7 +983,7 @@ class Preferences(component.Component):
         filename = os.path.split(filepath)[1]
         shutil.copyfile(
             filepath,
-            os.path.join(deluge.configmanager.get_config_dir(), "plugins", filename))
+            os.path.join(get_config_dir(), "plugins", filename))
 
         component.get("PluginManager").scan_for_plugins()
 
@@ -1047,7 +1046,7 @@ class Preferences(component.Component):
             self.builder.get_object(show_entry).show()
 
     def _on_button_associate_magnet_clicked(self, widget):
-        common.associate_magnet_links(True)
+        associate_magnet_links(True)
 
     def _get_accounts_tab_data(self):
         def on_ok(accounts):
@@ -1058,7 +1057,7 @@ class Preferences(component.Component):
             if failure.type == NotAuthorizedError:
                 self.accounts_frame.hide()
             else:
-                dialogs.ErrorDialog(
+                ErrorDialog(
                     _("Server Side Error"),
                     _("An error ocurred on the server"),
                     parent=self.pref_dialog, details=failure.getErrorMessage()
@@ -1104,7 +1103,7 @@ class Preferences(component.Component):
             self.builder.get_object("accounts_delete").set_sensitive(False)
 
     def _on_accounts_add_clicked(self, widget):
-        dialog = dialogs.AccountDialog(
+        dialog = AccountDialog(
             levels_mapping=client.auth_levels_mapping,
             parent=self.pref_dialog
         )
@@ -1128,13 +1127,13 @@ class Preferences(component.Component):
 
             def add_fail(failure):
                 if failure.type == AuthManagerError:
-                    dialogs.ErrorDialog(
+                    ErrorDialog(
                         _("Error Adding Account"),
                         _("Authentication failed"),
                         parent=self.pref_dialog, details=failure.getErrorMessage()
                     ).run()
                 else:
-                    dialogs.ErrorDialog(
+                    ErrorDialog(
                         _("Error Adding Account"),
                         _("An error ocurred while adding account"),
                         parent=self.pref_dialog, details=failure.getErrorMessage()
@@ -1152,7 +1151,7 @@ class Preferences(component.Component):
         if not itr:
             return
 
-        dialog = dialogs.AccountDialog(
+        dialog = AccountDialog(
             model[itr][ACCOUNTS_USERNAME],
             model[itr][ACCOUNTS_PASSWORD],
             model[itr][ACCOUNTS_LEVEL],
@@ -1167,7 +1166,7 @@ class Preferences(component.Component):
                 model.set_value(itr, ACCOUNTS_LEVEL, dialog.get_authlevel())
 
             def update_fail(failure):
-                dialogs.ErrorDialog(
+                ErrorDialog(
                     _("Error Updating Account"),
                     _("An error ocurred while updating account"),
                     parent=self.pref_dialog, details=failure.getErrorMessage()
@@ -1191,7 +1190,7 @@ class Preferences(component.Component):
         header = _("Remove Account")
         text = _("Are you sure you wan't do remove the account with the "
                  "username \"%(username)s\"?" % dict(username=username))
-        dialog = dialogs.YesNoDialog(header, text, parent=self.pref_dialog)
+        dialog = YesNoDialog(header, text, parent=self.pref_dialog)
 
         def dialog_finished(response_id):
             def remove_ok(rc):
@@ -1199,13 +1198,13 @@ class Preferences(component.Component):
 
             def remove_fail(failure):
                 if failure.type == AuthManagerError:
-                    dialogs.ErrorDialog(
+                    ErrorDialog(
                         _("Error Removing Account"),
                         _("Auhentication failed"),
                         parent=self.pref_dialog, details=failure.getErrorMessage()
                     ).run()
                 else:
-                    dialogs.ErrorDialog(
+                    ErrorDialog(
                         _("Error Removing Account"),
                         _("An error ocurred while removing account"),
                         parent=self.pref_dialog, details=failure.getErrorMessage()

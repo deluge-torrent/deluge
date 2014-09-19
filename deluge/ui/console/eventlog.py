@@ -10,10 +10,10 @@
 import logging
 import time
 
-import colors
 import deluge.component as component
 from deluge.common import windows_check
 from deluge.ui.client import client
+from deluge.ui.console import colors
 
 log = logging.getLogger(__name__)
 

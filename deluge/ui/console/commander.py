@@ -18,9 +18,9 @@ import sys
 from twisted.internet import defer
 
 import deluge.component as component
-from colors import strip_colors
 from deluge.error import DelugeError
 from deluge.ui.client import client
+from deluge.ui.console.colors import strip_colors
 
 log = logging.getLogger(__name__)
 

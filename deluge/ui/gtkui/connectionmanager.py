@@ -15,16 +15,14 @@ import time
 import gtk
 from twisted.internet import reactor
 
-import common
-import deluge.common
 import deluge.component as component
-import deluge.configmanager
-import deluge.ui.client
-import dialogs
-from deluge.configmanager import ConfigManager
+from deluge.common import resource_filename
+from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.error import AuthenticationRequired, BadLoginError, IncompatibleClient
-from deluge.ui.client import client
+from deluge.ui.client import Client, client
 from deluge.ui.common import get_localhost_auth
+from deluge.ui.gtkui.common import get_deluge_icon, get_logo
+from deluge.ui.gtkui.dialogs import AuthenticationDialog, ErrorDialog
 
 log = logging.getLogger(__name__)
 
@@ -88,7 +86,7 @@ class ConnectionManager(component.Component):
         pass
 
     def __load_config(self):
-        auth_file = deluge.configmanager.get_config_dir("auth")
+        auth_file = get_config_dir("auth")
         if not os.path.exists(auth_file):
             from deluge.common import create_localclient_account
             create_localclient_account()
@@ -116,15 +114,15 @@ class ConnectionManager(component.Component):
         # Get the gtk builder file for the connection manager
         self.builder = gtk.Builder()
         # The main dialog
-        self.builder.add_from_file(deluge.common.resource_filename(
+        self.builder.add_from_file(resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "connection_manager.ui")
         ))
         # The add host dialog
-        self.builder.add_from_file(deluge.common.resource_filename(
+        self.builder.add_from_file(resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "connection_manager.addhost.ui")
         ))
         # The ask password dialog
-        self.builder.add_from_file(deluge.common.resource_filename(
+        self.builder.add_from_file(resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "connection_manager.askpassword.ui")
         ))
         self.window = component.get("MainWindow")
@@ -133,13 +131,13 @@ class ConnectionManager(component.Component):
         self.connection_manager = self.builder.get_object("connection_manager")
         self.connection_manager.set_transient_for(self.window.window)
 
-        self.connection_manager.set_icon(common.get_deluge_icon())
+        self.connection_manager.set_icon(get_deluge_icon())
 
-        self.builder.get_object("image1").set_from_pixbuf(common.get_logo(32))
+        self.builder.get_object("image1").set_from_pixbuf(get_logo(32))
 
         self.askpassword_dialog = self.builder.get_object("askpassword_dialog")
         self.askpassword_dialog.set_transient_for(self.connection_manager)
-        self.askpassword_dialog.set_icon(common.get_deluge_icon())
+        self.askpassword_dialog.set_icon(get_deluge_icon())
         self.askpassword_dialog_entry = self.builder.get_object("askpassword_dialog_entry")
 
         self.hostlist = self.builder.get_object("hostlist")
@@ -342,7 +340,7 @@ class ConnectionManager(component.Component):
                 continue
 
             # Create a new Client instance
-            c = deluge.ui.client.Client()
+            c = Client()
             d = c.connect(host, port, skip_authentication=True)
             d.addCallback(on_connect, c, host_id)
             d.addErrback(on_connect_failed, host_id)
@@ -456,7 +454,7 @@ class ConnectionManager(component.Component):
         except OSError as ex:
             from errno import ENOENT
             if ex.errno == ENOENT:
-                dialogs.ErrorDialog(
+                ErrorDialog(
                     _("Unable to start daemon!"),
                     _("Deluge cannot find the 'deluged' executable, it is "
                       "likely that you forgot to install the deluged package "
@@ -468,7 +466,7 @@ class ConnectionManager(component.Component):
             import traceback
             import sys
             tb = sys.exc_info()
-            dialogs.ErrorDialog(
+            ErrorDialog(
                 _("Unable to start daemon!"),
                 _("Please examine the details for more information."),
                 details=traceback.format_exc(tb[2])).run()
@@ -505,7 +503,7 @@ class ConnectionManager(component.Component):
 
         if reason.check(AuthenticationRequired, BadLoginError):
             log.debug("PasswordRequired exception")
-            dialog = dialogs.AuthenticationDialog(reason.value.message, reason.value.username)
+            dialog = AuthenticationDialog(reason.value.message, reason.value.username)
 
             def dialog_finished(response_id, host, port, user):
                 if response_id == gtk.RESPONSE_OK:
@@ -516,7 +514,7 @@ class ConnectionManager(component.Component):
             return d
 
         elif reason.trap(IncompatibleClient):
-            dialog = dialogs.ErrorDialog(
+            dialog = ErrorDialog(
                 _("Incompatible Client"), reason.value.message
             )
             return dialog.run()
@@ -532,7 +530,7 @@ class ConnectionManager(component.Component):
         if not self.builder.get_object("chk_autostart").get_active():
             msg += '\n' + _("Auto-starting the daemon locally is not enabled. "
                             "See \"Options\" on the \"Connection Manager\".")
-        dialogs.ErrorDialog(_("Failed To Connect"), msg).run()
+        ErrorDialog(_("Failed To Connect"), msg).run()
 
     def on_button_connect_clicked(self, widget=None):
         model, row = self.hostlist.get_selection().get_selected()
@@ -553,7 +551,7 @@ class ConnectionManager(component.Component):
 
         if (status == "Offline" and self.builder.get_object("chk_autostart").get_active() and
                 host in ("127.0.0.1", "localhost")):
-            if not self.start_daemon(port, deluge.configmanager.get_config_dir()):
+            if not self.start_daemon(port, get_config_dir()):
                 log.debug("Failed to auto-start daemon")
                 return
             return self.__connect(
@@ -591,7 +589,6 @@ class ConnectionManager(component.Component):
                 self.add_host(hostname, port_spinbutton.get_value_as_int(),
                               username, password)
             except Exception as ex:
-                from deluge.ui.gtkui.dialogs import ErrorDialog
                 ErrorDialog(_("Error Adding Host"), ex).run()
 
         username_entry.set_text("")
@@ -675,7 +672,7 @@ class ConnectionManager(component.Component):
             self.add_host(DEFAULT_HOST, DEFAULT_PORT, *get_localhost_auth())
             # ..and start the daemon.
             self.start_daemon(
-                DEFAULT_PORT, deluge.configmanager.get_config_dir()
+                DEFAULT_PORT, get_config_dir()
             )
             return
 
@@ -702,7 +699,7 @@ class ConnectionManager(component.Component):
                 client.daemon.shutdown().addCallback(on_daemon_shutdown)
             elif user and password:
                 # Create a new client instance
-                c = deluge.ui.client.Client()
+                c = Client()
 
                 def on_connect(d, c):
                     log.debug("on_connect")
@@ -711,7 +708,7 @@ class ConnectionManager(component.Component):
                 c.connect(host, port, user, password).addCallback(on_connect, c)
 
         elif status == "Offline":
-            self.start_daemon(port, deluge.configmanager.get_config_dir())
+            self.start_daemon(port, get_config_dir())
             reactor.callLater(0.8, self.__update_list)
 
     def on_button_refresh_clicked(self, widget):

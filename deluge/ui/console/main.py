@@ -20,11 +20,10 @@ import sys
 
 from twisted.internet import defer, reactor
 
-import colors
 import deluge.common
 import deluge.component as component
 from deluge.ui.client import client
-from deluge.ui.console import UI_PATH
+from deluge.ui.console import colors, UI_PATH
 from deluge.ui.console.eventlog import EventLog
 from deluge.ui.console.statusbars import StatusBars
 from deluge.ui.coreconfig import CoreConfig
@@ -298,7 +297,7 @@ class ConsoleUI(component.Component):
                 print("Sorry, couldn't find any commands")
                 return
             else:
-                from commander import Commander
+                from deluge.ui.console.commander import Commander
                 cmdr = Commander(cmds)
                 if daemon:
                     cmdr.exec_args(args, *daemon)
@@ -334,7 +333,7 @@ Please use commands from the command line, eg:\n
         # pass it the function that handles commands
         colors.init_colors()
         self.statusbars = StatusBars()
-        from modes.connectionmanager import ConnectionManager
+        from deluge.ui.console.modes.connectionmanager import ConnectionManager
         self.stdscr = stdscr
         self.screen = ConnectionManager(stdscr, self.encoding)
         self.eventlog = EventLog()

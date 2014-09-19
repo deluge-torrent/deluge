@@ -822,8 +822,9 @@ AUTH_LEVEL_DEFAULT = AUTH_LEVEL_NORMAL
 
 def create_auth_file():
     import stat
-    import configmanager
-    auth_file = configmanager.get_config_dir("auth")
+    import deluge.configmanager
+
+    auth_file = deluge.configmanager.get_config_dir("auth")
     # Check for auth file and create if necessary
     if not os.path.exists(auth_file):
         fd = open(auth_file, "w")
@@ -835,11 +836,11 @@ def create_auth_file():
 
 
 def create_localclient_account(append=False):
-    import configmanager
     import random
     from hashlib import sha1 as sha
+    import deluge.configmanager
 
-    auth_file = configmanager.get_config_dir("auth")
+    auth_file = deluge.configmanager.get_config_dir("auth")
     if not os.path.exists(auth_file):
         create_auth_file()
 

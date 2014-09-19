@@ -20,9 +20,9 @@ import twisted.internet.error
 from twisted.internet import reactor
 from twisted.internet.protocol import ClientFactory, Factory, Protocol
 
-import deluge.common
 import deluge.component as component
-from deluge.configmanager import ConfigManager
+from deluge.common import is_magnet, is_url, windows_check
+from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.ui.client import client
 
 try:
@@ -66,11 +66,11 @@ class IPCClientFactory(ClientFactory):
 class IPCInterface(component.Component):
     def __init__(self, args):
         component.Component.__init__(self, "IPCInterface")
-        ipc_dir = deluge.configmanager.get_config_dir("ipc")
+        ipc_dir = get_config_dir("ipc")
         if not os.path.exists(ipc_dir):
             os.makedirs(ipc_dir)
         socket = os.path.join(ipc_dir, "deluge-gtk")
-        if deluge.common.windows_check():
+        if windows_check():
             # If we're on windows we need to check the global mutex to see if deluge is
             # already running.
             import win32event
@@ -145,7 +145,7 @@ class IPCInterface(component.Component):
                 process_args(args)
 
     def shutdown(self):
-        if deluge.common.windows_check():
+        if windows_check():
             import win32api
             win32api.CloseHandle(self.mutex)
 
@@ -167,7 +167,7 @@ def process_args(args):
             continue
         log.debug("arg: %s", arg)
 
-        if deluge.common.is_url(arg):
+        if is_url(arg):
             log.debug("Attempting to add url (%s) from external source...", arg)
             if config["interactive_add"]:
                 component.get("AddTorrentDialog").add_from_url(arg)
@@ -175,7 +175,7 @@ def process_args(args):
             else:
                 client.core.add_torrent_url(arg, None)
 
-        elif deluge.common.is_magnet(arg):
+        elif is_magnet(arg):
             log.debug("Attempting to add magnet (%s) from external source...", arg)
             if config["interactive_add"]:
                 component.get("AddTorrentDialog").add_from_magnets([arg])

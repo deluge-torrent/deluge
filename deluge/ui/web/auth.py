@@ -40,6 +40,7 @@ class AuthError(Exception):
 # Import after as json_api imports the above AuthError and AUTH_LEVEL_DEFAULT
 from deluge.ui.web.json_api import export, JSONComponent  # isort:skip
 
+
 def make_checksum(session_id):
     return reduce(lambda x, y: x + y, map(ord, session_id))
 

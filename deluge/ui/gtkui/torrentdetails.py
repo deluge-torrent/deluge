@@ -63,12 +63,12 @@ class TorrentDetails(component.Component):
         self.tabs = {}
 
         # Add the default tabs
-        from status_tab import StatusTab
-        from details_tab import DetailsTab
-        from files_tab import FilesTab
-        from peers_tab import PeersTab
-        from options_tab import OptionsTab
-        from trackers_tab import TrackersTab
+        from deluge.ui.gtkui.status_tab import StatusTab
+        from deluge.ui.gtkui.details_tab import DetailsTab
+        from deluge.ui.gtkui.files_tab import FilesTab
+        from deluge.ui.gtkui.peers_tab import PeersTab
+        from deluge.ui.gtkui.options_tab import OptionsTab
+        from deluge.ui.gtkui.trackers_tab import TrackersTab
 
         default_tabs = {
             "Status": StatusTab,
