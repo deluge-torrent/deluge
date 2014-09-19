@@ -13,6 +13,7 @@ import random
 import time
 from datetime import datetime, timedelta
 from email.utils import formatdate
+from functools import reduce
 
 from twisted.internet.task import LoopingCall
 
