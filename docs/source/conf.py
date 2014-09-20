@@ -12,7 +12,7 @@
 
 import os
 import sys
-from version import get_version
+from ...version import get_version
 from datetime import date
 
 # If your extensions are in another directory, add it here. If the directory
