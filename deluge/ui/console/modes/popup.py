@@ -14,7 +14,7 @@ except ImportError:
 
 import logging
 
-from deluge.ui.console import format_utils
+from deluge.ui.console.modes import format_utils
 
 log = logging.getLogger(__name__)
 

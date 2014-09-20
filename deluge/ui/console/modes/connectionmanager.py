@@ -17,10 +17,10 @@ from collections import deque
 import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import Client, client
-from deluge.ui.console.alltorrents import AllTorrents
-from deluge.ui.console.basemode import BaseMode
-from deluge.ui.console.input_popup import InputPopup
-from deluge.ui.console.popup import MessagePopup, SelectablePopup
+from deluge.ui.console.modes.alltorrents import AllTorrents
+from deluge.ui.console.modes.basemode import BaseMode
+from deluge.ui.console.modes.input_popup import InputPopup
+from deluge.ui.console.modes.popup import MessagePopup, SelectablePopup
 
 try:
     import curses

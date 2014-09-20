@@ -12,11 +12,11 @@ from collections import deque
 
 import deluge.component as component
 from deluge.ui.client import client
-from deluge.ui.console.basemode import BaseMode
-from deluge.ui.console.input_popup import Popup, SelectInput
-from deluge.ui.console.popup import MessagePopup
-from deluge.ui.console.preference_panes import (BandwidthPane, CachePane, ColumnsPane, DaemonPane, DownloadsPane,
-                                                InterfacePane, NetworkPane, OtherPane, ProxyPane, QueuePane)
+from deluge.ui.console.modes.basemode import BaseMode
+from deluge.ui.console.modes.input_popup import Popup, SelectInput
+from deluge.ui.console.modes.popup import MessagePopup
+from deluge.ui.console.modes.preference_panes import (BandwidthPane, CachePane, ColumnsPane, DaemonPane, DownloadsPane,
+                                                      InterfacePane, NetworkPane, OtherPane, ProxyPane, QueuePane)
 
 try:
     import curses

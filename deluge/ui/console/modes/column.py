@@ -10,7 +10,7 @@
 import logging
 
 import deluge.common
-from deluge.ui.console import format_utils
+from deluge.ui.console.modes import format_utils
 
 log = logging.getLogger(__name__)
 

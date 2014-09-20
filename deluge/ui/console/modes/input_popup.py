@@ -19,7 +19,7 @@ import os
 import os.path
 
 from deluge.ui.console import colors
-from deluge.ui.console.popup import ALIGN, Popup
+from deluge.ui.console.modes.popup import ALIGN, Popup
 
 log = logging.getLogger(__name__)
 

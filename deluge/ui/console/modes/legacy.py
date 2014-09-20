@@ -24,8 +24,8 @@ import deluge.component as component
 import deluge.configmanager
 import deluge.ui.console.colors as colors
 from deluge.ui.client import client
-from deluge.ui.console.basemode import BaseMode
 from deluge.ui.console.modes import format_utils
+from deluge.ui.console.modes.basemode import BaseMode
 
 strwidth = format_utils.strwidth
 
