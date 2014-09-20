@@ -12,8 +12,14 @@
 
 import os
 import sys
-from ...version import get_version
 from datetime import date
+
+import pkg_resources
+
+try:
+    from ...version import get_version
+except ImportError:
+    get_version = None
 
 # If your extensions are in another directory, add it here. If the directory
 # is relative to the documentation root, use os.path.abspath to make it
@@ -76,9 +82,12 @@ copyright = '2008-%s, Deluge Team' % current_year
 #
 
 # The short X.Y version.
-version = get_version(prefix='deluge-', suffix='.dev0')
-# remove the created file by get_version
-os.remove('RELEASE-VERSION')
+if get_version:
+    version = get_version(prefix='deluge-', suffix='.dev0')
+    # remove the created file by get_version
+    os.remove('RELEASE-VERSION')
+else:
+    version = pkg_resources.require("Deluge")[0].version
 # The full version, including alpha/beta/rc tags.
 release = version
 
