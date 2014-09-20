@@ -468,7 +468,7 @@ class AddTorrents(BaseMode, component.Component):
 
             self.__refresh_listing()
 
-    def _doRead(self):
+    def read_input(self):
         c = self.stdscr.getch()
 
         if self.popup:

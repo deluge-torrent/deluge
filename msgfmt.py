@@ -37,7 +37,7 @@ __version__ = "1.1"
 MESSAGES = {}
 
 
-def usage (ecode, msg=''):
+def usage(ecode, msg=''):
     """
     Print usage and msg and exit with given code.
     """
@@ -47,7 +47,7 @@ def usage (ecode, msg=''):
     sys.exit(ecode)
 
 
-def add (msgid, transtr, fuzzy):
+def add(msgid, transtr, fuzzy):
     """
     Add a non-fuzzy translation to the dictionary.
     """
@@ -56,7 +56,7 @@ def add (msgid, transtr, fuzzy):
         MESSAGES[msgid] = transtr
 
 
-def generate ():
+def generate():
     """
     Return the generated output.
     """
@@ -76,7 +76,7 @@ def generate ():
     # The header is 7 32-bit unsigned integers.  We don't use hash tables, so
     # the keys start right after the index tables.
     # translated string.
-    keystart = 7*4+16*len(keys)
+    keystart = 7 * 4 + 16 * len(keys)
     # and the values start after the keys
     valuestart = keystart + len(ids)
     koffsets = []
@@ -84,15 +84,15 @@ def generate ():
     # The string table first has the list of keys, then the list of values.
     # Each entry has first the size of the string, then the file offset.
     for o1, l1, o2, l2 in offsets:
-        koffsets += [l1, o1+keystart]
-        voffsets += [l2, o2+valuestart]
+        koffsets += [l1, o1 + keystart]
+        voffsets += [l2, o2 + valuestart]
     offsets = koffsets + voffsets
     output = struct.pack("Iiiiiii",
                          0x950412deL,       # Magic
                          0,                 # Version
                          len(keys),         # # of entries
-                         7*4,               # start of key index
-                         7*4+len(keys)*8,   # start of value index
+                         7 * 4,             # start of key index
+                         7 * 4 + len(keys) * 8,   # start of value index
                          0, 0)              # size and offset of hash table
     output += array.array("i", offsets).tostring()
     output += ids
@@ -100,9 +100,9 @@ def generate ():
     return output
 
 
-def make (filename, outfile):
-    ID = 1
-    STR = 2
+def make(filename, outfile):
+    section_id = 1
+    section_str = 2
     global MESSAGES
     MESSAGES = {}
 
@@ -129,7 +129,7 @@ def make (filename, outfile):
     for l in lines:
         lno += 1
         # If we get a comment line after a msgstr, this is a new entry
-        if l[0] == '#' and section == STR:
+        if l[0] == '#' and section == section_str:
             add(msgid, msgstr, fuzzy)
             section = None
             fuzzy = 0
@@ -145,14 +145,14 @@ def make (filename, outfile):
             l = l[12:]
         # Now we are in a msgid section, output previous section
         elif l.startswith('msgid'):
-            if section == STR:
+            if section == section_str:
                 add(msgid, msgstr, fuzzy)
-            section = ID
+            section = section_id
             l = l[5:]
             msgid = msgstr = ''
         # Now we are in a msgstr section
         elif l.startswith('msgstr'):
-            section = STR
+            section = section_str
             l = l[6:]
             # Check for plural forms
             if l.startswith('['):
@@ -167,29 +167,28 @@ def make (filename, outfile):
             continue
         # XXX: Does this always follow Python escape semantics?
         l = eval(l)
-        if section == ID:
+        if section == section_id:
             msgid += l
-        elif section == STR:
+        elif section == section_str:
             msgstr += l
         else:
-            print >> sys.stderr, 'Syntax error on %s:%d' % (infile, lno), \
-                  'before:'
+            print >> sys.stderr, 'Syntax error on %s:%d' % (infile, lno), 'before:'
             print >> sys.stderr, l
             sys.exit(1)
     # Add last entry
-    if section == STR:
+    if section == section_str:
         add(msgid, msgstr, fuzzy)
 
     # Compute output
     output = generate()
 
     try:
-        open(outfile,"wb").write(output)
-    except IOError,msg:
+        open(outfile, "wb").write(output)
+    except IOError, msg:
         print >> sys.stderr, msg
 
 
-def main ():
+def main():
     try:
         opts, args = getopt.getopt(sys.argv[1:], 'hVo:',
                                    ['help', 'version', 'output-file='])

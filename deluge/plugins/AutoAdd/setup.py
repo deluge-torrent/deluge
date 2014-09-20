@@ -23,7 +23,7 @@ __url__ = "http://dev.deluge-torrent.org/wiki/Plugins/AutoAdd"
 __license__ = "GPLv3"
 __description__ = "Monitors folders for .torrent files."
 __long_description__ = """"""
-__pkg_data__ = {'deluge.plugins.'+__plugin_name__.lower(): ["template/*", "data/*"]}
+__pkg_data__ = {'deluge.plugins.' + __plugin_name__.lower(): ["template/*", "data/*"]}
 
 setup(
     name=__plugin_name__,
@@ -45,5 +45,5 @@ setup(
     %s = deluge.plugins.%s:GtkUIPlugin
     [deluge.plugin.web]
     %s = deluge.plugins.%s:WebUIPlugin
-    """ % ((__plugin_name__, __plugin_name__.lower())*3)
+    """ % ((__plugin_name__, __plugin_name__.lower()) * 3)
 )

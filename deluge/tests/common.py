@@ -10,7 +10,7 @@ import deluge.common
 import deluge.configmanager
 import deluge.log
 
-deluge.log.setupLogger("none")
+deluge.log.setup_logger("none")
 
 
 def set_tmp_config_dir():
@@ -27,8 +27,8 @@ deluge.common.setup_translations()
 
 
 def start_core(listen_port=58846):
-    CWD = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-    DAEMON_SCRIPT = """
+    cwd = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+    daemon_script = """
 import sys
 import deluge.main
 
@@ -38,10 +38,10 @@ deluge.main.start_daemon()
 """
     config_directory = set_tmp_config_dir()
     fp = tempfile.TemporaryFile()
-    fp.write(DAEMON_SCRIPT % (config_directory, listen_port))
+    fp.write(daemon_script % (config_directory, listen_port))
     fp.seek(0)
 
-    core = Popen([sys.executable], cwd=CWD, stdin=fp, stdout=PIPE, stderr=PIPE)
+    core = Popen([sys.executable], cwd=cwd, stdin=fp, stdout=PIPE, stderr=PIPE)
     while True:
         line = core.stderr.readline()
         if ("starting on %d" % listen_port) in line:

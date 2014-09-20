@@ -15,9 +15,8 @@ from deluge.ui.client import client
 from deluge.ui.console.basemode import BaseMode
 from deluge.ui.console.input_popup import Popup, SelectInput
 from deluge.ui.console.popup import MessagePopup
-from deluge.ui.console.preference_panes import (BandwidthPane, CachePane, ColumnsPane, DaemonPane,
-                                                DownloadsPane, InterfacePane, NetworkPane, OtherPane,
-                                                ProxyPane, QueuePane)
+from deluge.ui.console.preference_panes import (BandwidthPane, CachePane, ColumnsPane, DaemonPane, DownloadsPane,
+                                                InterfacePane, NetworkPane, OtherPane, ProxyPane, QueuePane)
 
 try:
     import curses
@@ -248,7 +247,7 @@ class Preferences(BaseMode):
         component.get("ConsoleUI").set_mode(self.parent_mode)
         self.parent_mode.resume()
 
-    def _doRead(self):
+    def read_input(self):
         c = self.stdscr.getch()
 
         if self.popup:

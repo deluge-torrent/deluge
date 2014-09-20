@@ -9,10 +9,10 @@
 
 import re
 from collections import deque
-
-import deluge.common
 from unicodedata import normalize as ud_normalize
 from unicodedata import east_asian_width
+
+import deluge.common
 
 
 def format_speed(speed):

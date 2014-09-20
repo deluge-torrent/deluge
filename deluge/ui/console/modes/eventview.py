@@ -85,7 +85,7 @@ class EventView(BaseMode):
         component.get("ConsoleUI").set_mode(self.parent_mode)
         self.parent_mode.resume()
 
-    def _doRead(self):
+    def read_input(self):
         c = self.stdscr.getch()
 
         if c > 31 and c < 256:

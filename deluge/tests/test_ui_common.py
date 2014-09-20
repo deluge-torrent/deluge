@@ -7,10 +7,10 @@ from deluge.ui.common import TorrentInfo
 
 
 class UICommonTestCase(unittest.TestCase):
-    def setUp(self):
+    def setUp(self):  # NOQA
         pass
 
-    def tearDown(self):
+    def tearDown(self):  # NOQA
         pass
 
     def test_utf8_encoded_paths(self):

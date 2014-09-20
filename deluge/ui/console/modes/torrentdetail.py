@@ -843,7 +843,7 @@ class TorrentDetail(BaseMode, component.Component):
 
                 self.popup = popup
 
-    def _doRead(self):
+    def read_input(self):
         c = self.stdscr.getch()
 
         if self.popup:

@@ -1,36 +1,15 @@
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
 #
-# Deluge is free software.
+# Basic plugin template created by:
+# Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
+# Copyright (C) 2007-2008 Andrew Resch <andrewresch@gmail.com>
 #
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
-#
-
 
 """
 torrent-label core plugin.
@@ -39,8 +18,6 @@ adds a status field for tracker.
 
 import logging
 import re
-import traceback
-from urlparse import urlparse
 
 import deluge.component as component
 from deluge.configmanager import ConfigManager
@@ -57,35 +34,35 @@ TRACKER = "tracker"
 KEYWORD = "keyword"
 LABEL = "label"
 CONFIG_DEFAULTS = {
-    "torrent_labels": {}, #torrent_id:label_id
-    "labels": {}, #label_id:{name:value}
+    "torrent_labels": {},  # torrent_id:label_id
+    "labels": {},  # label_id:{name:value}
 }
 
 CORE_OPTIONS = ["auto_add_trackers"]
 
 OPTIONS_DEFAULTS = {
-    "apply_max":False,
-    "max_download_speed":-1,
-    "max_upload_speed":-1,
-    "max_connections":-1,
-    "max_upload_slots":-1,
-    "prioritize_first_last":False,
-    "apply_queue":False,
-    "is_auto_managed":False,
-    "stop_at_ratio":False,
-    "stop_ratio":2.0,
-    "remove_at_ratio":False,
-    "apply_move_completed":False,
-    "move_completed":False,
-    "move_completed_path":"",
-    "auto_add":False,
-    "auto_add_trackers":[]
+    "apply_max": False,
+    "max_download_speed": -1,
+    "max_upload_speed": -1,
+    "max_connections": -1,
+    "max_upload_slots": -1,
+    "prioritize_first_last": False,
+    "apply_queue": False,
+    "is_auto_managed": False,
+    "stop_at_ratio": False,
+    "stop_ratio": 2.0,
+    "remove_at_ratio": False,
+    "apply_move_completed": False,
+    "move_completed": False,
+    "move_completed_path": "",
+    "auto_add": False,
+    "auto_add_trackers": []
 }
 
 NO_LABEL = "No Label"
 
 
-def CheckInput(cond, message):
+def check_input(cond, message):
     if not cond:
         raise Exception(message)
 
@@ -173,7 +150,7 @@ class Core(CorePluginBase):
 
         for label, options in self.labels.items():
             for key, value in options.items():
-                if value == None:
+                if value is None:
                     self.labels[label][key] = OPTIONS_DEFAULTS[key]
 
     def save_config(self):
@@ -191,9 +168,9 @@ class Core(CorePluginBase):
         see label_set_options for more options.
         """
         label_id = label_id.lower()
-        CheckInput(RE_VALID.match(label_id), _("Invalid label, valid characters:[a-z0-9_-]"))
-        CheckInput(label_id, _("Empty Label"))
-        CheckInput(not (label_id in self.labels), _("Label already exists"))
+        check_input(RE_VALID.match(label_id), _("Invalid label, valid characters:[a-z0-9_-]"))
+        check_input(label_id, _("Empty Label"))
+        check_input(not (label_id in self.labels), _("Label already exists"))
 
         self.labels[label_id] = dict(OPTIONS_DEFAULTS)
         self.config.save()
@@ -201,7 +178,7 @@ class Core(CorePluginBase):
     @export
     def remove(self, label_id):
         """remove a label"""
-        CheckInput(label_id in self.labels, _("Unknown Label"))
+        check_input(label_id in self.labels, _("Unknown Label"))
         del self.labels[label_id]
         self.clean_config()
         self.config.save()
@@ -211,7 +188,7 @@ class Core(CorePluginBase):
         torrent = self.torrents[torrent_id]
 
         if not options["move_completed_path"]:
-            options["move_completed_path"] = "" #no None.
+            options["move_completed_path"] = ""  # no None.
 
         if options["apply_max"]:
             torrent.set_max_download_speed(options["max_download_speed"])
@@ -281,7 +258,7 @@ class Core(CorePluginBase):
             "move_completed_to":string() or None
         }
         """
-        CheckInput(label_id in self.labels, _("Unknown Label"))
+        check_input(label_id in self.labels, _("Unknown Label"))
         for key in options_dict.keys():
             if not key in OPTIONS_DEFAULTS:
                 raise Exception("label: Invalid options_dict key:%s" % key)
@@ -316,8 +293,8 @@ class Core(CorePluginBase):
         if label_id == NO_LABEL:
             label_id = None
 
-        CheckInput((not label_id) or (label_id in self.labels), _("Unknown Label"))
-        CheckInput(torrent_id in self.torrents, _("Unknown Torrent"))
+        check_input((not label_id) or (label_id in self.labels), _("Unknown Label"))
+        check_input(torrent_id in self.torrents, _("Unknown Torrent"))
 
         if torrent_id in self.torrent_labels:
             self._unset_torrent_options(torrent_id, self.torrent_labels[torrent_id])
@@ -346,6 +323,3 @@ class Core(CorePluginBase):
 
     def _status_get_label(self, torrent_id):
         return self.torrent_labels.get(torrent_id) or ""
-
-if __name__ == "__main__":
-    from . import test

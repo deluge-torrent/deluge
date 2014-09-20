@@ -13,7 +13,7 @@ DEFAULTS = {"string": "foobar", "int": 1, "float": 0.435, "bool": True, "unicode
 
 
 class ConfigTestCase(unittest.TestCase):
-    def setUp(self):
+    def setUp(self):  # NOQA
         self.config_dir = set_tmp_config_dir()
 
     def test_init(self):

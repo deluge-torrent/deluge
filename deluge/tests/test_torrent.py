@@ -38,7 +38,7 @@ class TorrentTestCase(unittest.TestCase):
                                            config_dir=config_dir)
         core_config.save()
 
-    def setUp(self):
+    def setUp(self):  # NOQA
         # Save component and set back on teardown
         self.original_component = deluge.core.torrent.component
         deluge.core.torrent.component = sys.modules[__name__]
@@ -51,7 +51,7 @@ class TorrentTestCase(unittest.TestCase):
         self.torrent = None
         return component.start()
 
-    def tearDown(self):
+    def tearDown(self):  # NOQA
         deluge.core.torrent.component = self.original_component
 
         def on_shutdown(result):

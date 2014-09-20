@@ -17,7 +17,7 @@ import deluge.log
 import deluge.rencode as rencode
 from deluge.transfer import DelugeTransferProtocol
 
-deluge.log.setupLogger("none")
+deluge.log.setup_logger("none")
 
 
 class TransferTestClass(DelugeTransferProtocol):
@@ -49,7 +49,7 @@ class TransferTestClass(DelugeTransferProtocol):
     def get_messages_in(self):
         return self.messages_in
 
-    def dataReceived_old_protocol(self, data):
+    def data_received_old_protocol(self, data):
         """
         This is the original method logic (as close as possible) for handling data receival on the client
 
@@ -106,7 +106,7 @@ class TransferTestClass(DelugeTransferProtocol):
 
 class DelugeTransferProtocolTestCase(unittest.TestCase):
 
-    def setUp(self):
+    def setUp(self):  # NOQA
         """
         The expected messages corresponds to the test messages (msg1, msg2) after they've been processed
         by DelugeTransferProtocol.send, which means that they've first been encoded with pickle,
@@ -247,7 +247,7 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
         print("two_messages_byte_count:", two_messages_byte_count)
         print("three_messages_byte_count:", three_messages_byte_count)
 
-        for d in self.receive_parts_helper(msg_bytes, packet_size, self.transfer.dataReceived_old_protocol):
+        for d in self.receive_parts_helper(msg_bytes, packet_size, self.transfer.data_received_old_protocol):
             bytes_received = self.transfer.get_bytes_recv()
 
             if bytes_received >= three_messages_byte_count:

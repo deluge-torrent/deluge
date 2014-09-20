@@ -90,7 +90,7 @@ deluge.ui.sessionproxy.client = client
 
 
 class SessionProxyTestCase(unittest.TestCase):
-    def setUp(self):
+    def setUp(self):  # NOQA
         self.sp = deluge.ui.sessionproxy.SessionProxy()
         client.core.reset()
         d = self.sp.start()
@@ -101,7 +101,7 @@ class SessionProxyTestCase(unittest.TestCase):
         d.addCallback(do_get_torrents_status)
         return d
 
-    def tearDown(self):
+    def tearDown(self):  # NOQA
         return component.deregister(self.sp)
 
     def test_startup(self):

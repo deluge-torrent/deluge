@@ -1,5 +1,4 @@
-#
-# gtkui.py
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009-2010 Pedro Algarvio <pedro@algarvio.me>
 #
@@ -8,33 +7,9 @@
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
 #
-# Deluge is free software.
-#
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option)
-# any later version.
-#
-# deluge is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with deluge.    If not, write to:
-#     The Free Software Foundation, Inc.,
-#     51 Franklin Street, Fifth Floor
-#     Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
 #
 
 import logging
@@ -94,6 +69,7 @@ RECIPIENT_FIELD, RECIPIENT_EDIT = range(2)
 (SUB_EVENT, SUB_EVENT_DOC, SUB_NOT_EMAIL, SUB_NOT_POPUP, SUB_NOT_BLINK,
  SUB_NOT_SOUND) = range(6)
 SND_EVENT, SND_EVENT_DOC, SND_NAME, SND_PATH = range(4)
+
 
 class GtkUiNotifications(CustomNotifications):
 
@@ -190,8 +166,7 @@ class GtkUiNotifications(CustomNotifications):
             return defer.fail(_("pynotify is not installed"))
 
         if pynotify.init("Deluge"):
-            icon = gtk.gdk.pixbuf_new_from_file_at_size(
-                            deluge.common.get_pixmap("deluge.svg"), 48, 48)
+            icon = gtk.gdk.pixbuf_new_from_file_at_size(deluge.common.get_pixmap("deluge.svg"), 48, 48)
             self.note = pynotify.Notification(title, message)
             self.note.set_icon_from_pixbuf(icon)
             if not self.note.show():
@@ -225,7 +200,7 @@ class GtkUiNotifications(CustomNotifications):
             return defer.succeed(msg)
 
     def _on_torrent_finished_event_blink(self, torrent_id):
-        return True # Yes, Blink
+        return True  # Yes, Blink
 
     def _on_torrent_finished_event_sound(self, torrent_id):
         # Since there's no custom sound hardcoded, just return ''
@@ -248,6 +223,7 @@ class GtkUiNotifications(CustomNotifications):
                     "has finished downloading.") % torrent_status
         return title, message
 
+
 class GtkUI(GtkPluginBase, GtkUiNotifications):
     def __init__(self, plugin_name):
         GtkPluginBase.__init__(self, plugin_name)
@@ -266,7 +242,6 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         self.build_sounds_model_populate_treeview()
         self.build_notifications_model_populate_treeview()
 
-
         client.notifications.get_handled_events().addCallback(
             self.popuplate_what_needs_handled_events
         )
@@ -279,8 +254,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
             'on_enabled_toggled': self.on_enabled_toggled,
             'on_sound_enabled_toggled': self.on_sound_enabled_toggled,
             'on_sounds_edit_button_clicked': self.on_sounds_edit_button_clicked,
-            'on_sounds_revert_button_clicked': \
-                                        self.on_sounds_revert_button_clicked,
+            'on_sounds_revert_button_clicked': self.on_sounds_revert_button_clicked,
             'on_sound_path_update_preview': self.on_sound_path_update_preview
         })
 
@@ -413,15 +387,15 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         self.subscriptions_treeview.append_column(column)
 
         renderer = gtk.CellRendererToggle()
-        renderer.set_property('activatable', True)
-        renderer.connect( 'toggled', self._on_popup_col_toggled)
+        renderer.set_property("activatable", True)
+        renderer.connect("toggled", self._on_popup_col_toggled)
         column = gtk.TreeViewColumn("Popup", renderer, active=SUB_NOT_POPUP)
         column.set_clickable(True)
         self.subscriptions_treeview.append_column(column)
 
         renderer = gtk.CellRendererToggle()
-        renderer.set_property('activatable', True)
-        renderer.connect( 'toggled', self._on_blink_col_toggled)
+        renderer.set_property("activatable", True)
+        renderer.connect("toggled", self._on_blink_col_toggled)
         column = gtk.TreeViewColumn("Blink", renderer, active=SUB_NOT_BLINK)
         column.set_clickable(True)
         self.subscriptions_treeview.append_column(column)
@@ -470,7 +444,6 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
                 SUB_NOT_BLINK, event_name in subscriptions_dict['blink'],
                 SUB_NOT_SOUND, event_name in subscriptions_dict['sound']
             )
-
 
     def on_apply_prefs(self):
         log.debug("applying prefs for Notifications")
@@ -523,7 +496,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
             "smtp_from": self.glade.get_widget("smtp_from").get_text(),
             "smtp_tls": self.glade.get_widget("smtp_tls").get_active(),
             "smtp_recipients": [dest[0] for dest in self.recipients_model if
-                                dest[0]!='USER@HOST'],
+                                dest[0] != "USER@HOST"],
             "subscriptions": {"email": current_email_subscriptions}
         }
 
@@ -587,12 +560,10 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         selection = treeview.get_selection()
         model, iter = selection.get_selected()
         if iter:
-            path = model.get_path(iter)[0]
             model.remove(iter)
 
     def on_cell_edited(self, cell, path_string, new_text, model):
         iter = model.get_iter_from_string(path_string)
-        path = model.get_path(iter)[0]
         model.set(iter, RECIPIENT_FIELD, new_text)
 
     def on_recipients_treeview_selection_changed(self, selection):
@@ -616,21 +587,17 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
     def on_sounds_treeview_selection_changed(self, selection):
         model, iter = selection.get_selected()
         if iter:
-            self.glade.get_widget("sounds_edit_button").set_property(
-                                                            'sensitive', True)
+            self.glade.get_widget("sounds_edit_button").set_property("sensitive", True)
             path = model.get(iter, SND_PATH)[0]
             log.debug("Sound selection changed: %s", path)
             if path != self.config['sound_path']:
-                self.glade.get_widget("sounds_revert_button").set_property(
-                                                            'sensitive', True)
+                self.glade.get_widget("sounds_revert_button").set_property("sensitive", True)
             else:
-                self.glade.get_widget("sounds_revert_button").set_property(
-                                                            'sensitive', False)
+                self.glade.get_widget("sounds_revert_button").set_property("sensitive", False)
         else:
-            self.glade.get_widget("sounds_edit_button").set_property(
-                                                            'sensitive', False)
-            self.glade.get_widget("sounds_revert_button").set_property(
-                                                            'sensitive', False)
+            self.glade.get_widget("sounds_edit_button").set_property("sensitive", False)
+            self.glade.get_widget("sounds_revert_button").set_property("sensitive", False)
+
     def on_sounds_revert_button_clicked(self, widget):
         log.debug("on_sounds_revert_button_clicked")
         selection = self.sounds_treeview.get_selection()
@@ -655,6 +622,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
                          gtk.RESPONSE_OK)
             )
             dialog.set_filename(path)
+
             def update_model(response):
                 if response == gtk.RESPONSE_OK:
                     new_filename = dialog.get_filename()

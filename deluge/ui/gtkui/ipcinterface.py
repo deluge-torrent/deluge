@@ -34,7 +34,7 @@ log = logging.getLogger(__name__)
 
 
 class IPCProtocolServer(Protocol):
-    def dataReceived(self, data):
+    def dataReceived(self, data):  # NOQA
         config = ConfigManager("gtkui.conf")
         data = rencode.loads(data, decode_utf8=True)
         if not data or config["focus_main_window_on_add"]:
@@ -43,11 +43,11 @@ class IPCProtocolServer(Protocol):
 
 
 class IPCProtocolClient(Protocol):
-    def connectionMade(self):
+    def connectionMade(self):  # NOQA
         self.transport.write(rencode.dumps(self.factory.args))
         self.transport.loseConnection()
 
-    def connectionLost(self, reason):
+    def connectionLost(self, reason):  # NOQA
         reactor.stop()
         self.factory.stop = True
 
@@ -58,7 +58,7 @@ class IPCClientFactory(ClientFactory):
     def __init__(self):
         self.stop = False
 
-    def clientConnectionFailed(self, connector, reason):
+    def clientConnectionFailed(self, connector, reason):  # NOQA
         log.warning("Connection to running instance failed.")
         reactor.stop()
 

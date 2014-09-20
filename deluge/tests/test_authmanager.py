@@ -4,7 +4,7 @@ from deluge.core.authmanager import AUTH_LEVEL_ADMIN, AuthManager
 
 
 class AuthManagerTestCase(unittest.TestCase):
-    def setUp(self):
+    def setUp(self):  # NOQA
         self.auth = AuthManager()
         self.auth.start()
 

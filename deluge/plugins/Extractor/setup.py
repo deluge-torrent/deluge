@@ -30,7 +30,7 @@ Windows support: .rar, .zip, .tar, .7z, .xz, .lzma
 
 Note: Will not extract with 'Move Completed' enabled
 """
-__pkg_data__ = {"deluge.plugins."+__plugin_name__.lower(): ["template/*", "data/*"]}
+__pkg_data__ = {"deluge.plugins." + __plugin_name__.lower(): ["template/*", "data/*"]}
 
 setup(
     name=__plugin_name__,
@@ -53,5 +53,5 @@ setup(
     %s = deluge.plugins.%s:GtkUIPlugin
     [deluge.plugin.web]
     %s = deluge.plugins.%s:WebUIPlugin
-    """ % ((__plugin_name__, __plugin_name__.lower())*3)
+    """ % ((__plugin_name__, __plugin_name__.lower()) * 3)
 )

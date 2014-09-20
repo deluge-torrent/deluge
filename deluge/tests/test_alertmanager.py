@@ -5,13 +5,13 @@ from deluge.core.core import Core
 
 
 class AlertManagerTestCase(unittest.TestCase):
-    def setUp(self):
+    def setUp(self):  # NOQA
         self.core = Core()
 
         self.am = component.get("AlertManager")
         component.start(["AlertManager"])
 
-    def tearDown(self):
+    def tearDown(self):  # NOQA
         def on_shutdown(result):
             component._ComponentRegistry.components = {}
             del self.am

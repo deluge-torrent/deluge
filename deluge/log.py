@@ -19,7 +19,7 @@ from twisted.python.log import PythonLoggingObserver
 
 from deluge import common
 
-__all__ = ["setupLogger", "setLoggerLevel", "getPluginLogger", "LOG"]
+__all__ = ["setup_logger", "set_logger_level", "get_plugin_logger", "LOG"]
 
 LoggingLoggerClass = logging.getLoggerClass()
 
@@ -79,7 +79,7 @@ class Logging(LoggingLoggerClass):
     def exception(self, msg, *args, **kwargs):
         yield LoggingLoggerClass.exception(self, msg, *args, **kwargs)
 
-    def findCaller(self):
+    def find_caller(self):
         f = logging.currentframe().f_back
         rv = "(unknown file)", 0, "(unknown function)"
         while hasattr(f, "f_code"):
@@ -106,7 +106,7 @@ levels = {
 }
 
 
-def setupLogger(level="error", filename=None, filemode="w"):
+def setup_logger(level="error", filename=None, filemode="w"):
     """
     Sets up the basic logger and if `:param:filename` is set, then it will log
     to that file instead of stdout.
@@ -192,10 +192,10 @@ def tweak_logging_levels():
             continue
 
         log.warn("Setting logger \"%s\" to logging level \"%s\"", name, level)
-        setLoggerLevel(level, name)
+        set_logger_level(level, name)
 
 
-def setLoggerLevel(level, logger_name=None):
+def set_logger_level(level, logger_name=None):
     """
     Sets the logger level.
 
@@ -208,7 +208,7 @@ def setLoggerLevel(level, logger_name=None):
     logging.getLogger(logger_name).setLevel(levels.get(level, "error"))
 
 
-def getPluginLogger(logger_name):
+def get_plugin_logger(logger_name):
     import warnings
     stack = inspect.stack()
     stack.pop(0)                # The logging call from this module
@@ -229,10 +229,10 @@ DEPRECATION_WARNING = """You seem to be using old style logging on your code, ie
     from deluge.log import LOG as log
 
 or:
-    from deluge.log import getPluginLogger
+    from deluge.log import get_plugin_logger
 
 This has been deprecated in favour of an enhanced logging system and both "LOG"
-and "getPluginLogger" will be removed on the next major version release of Deluge,
+and "get_plugin_logger" will be removed on the next major version release of Deluge,
 meaning, code will break, specially plugins.
 If you're seeing this message and you're not the developer of the plugin which
 triggered this warning, please report to it's author.

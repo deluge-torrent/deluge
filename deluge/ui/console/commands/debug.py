@@ -21,9 +21,9 @@ class Command(BaseCommand):
 
     def handle(self, state="", **options):
         if state == "on":
-            deluge.log.setLoggerLevel("debug")
+            deluge.log.set_logger_level("debug")
         elif state == "off":
-            deluge.log.setLoggerLevel("error")
+            deluge.log.set_logger_level("error")
         else:
             component.get("ConsoleUI").write("{!error!}%s" % self.usage)
 
