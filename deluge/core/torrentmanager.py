@@ -80,9 +80,10 @@ class TorrentManagerState:
 
 
 class TorrentManager(component.Component):
-    """TorrentManager contains a list of torrents in the current libtorrent
-    session. This object is also responsible for saving the state of the
-    session for use on restart.
+    """TorrentManager contains a list of torrents in the current libtorrent session.
+
+    This object is also responsible for saving the state of the session for use on restart.
+
     """
 
     def __init__(self):
@@ -726,7 +727,8 @@ class TorrentManager(component.Component):
 
         Returns:
             t.i.d.DeferredList: A list of twisted Deferred callbacks that will
-                be invoked when save is complete.
+            be invoked when save is complete.
+
         """
         if torrent_ids is None:
             torrent_ids = (t[0] for t in self.torrents.iteritems() if t[1].handle.need_save_resume_data())
@@ -1170,7 +1172,9 @@ class TorrentManager(component.Component):
 
     def on_alert_file_completed(self, alert):
         """Alert handler for libtorrent file_completed_alert
+
         Emits a TorrentFileCompletedEvent when an individual file completes downloading
+
         """
         log.debug("file_completed_alert: %s", decode_string(alert.message()))
         try:
@@ -1182,8 +1186,10 @@ class TorrentManager(component.Component):
 
     def on_alert_state_update(self, alert):
         """Alert handler for libtorrent state_update_alert
+
         Result of a session.post_torrent_updates() call and contains the torrent status
         of all torrents that changed since last time this was posted.
+
         """
         log.debug("on_status_notification: %s", alert.message())
         self.last_state_update_alert_ts = time.time()
