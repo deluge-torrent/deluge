@@ -14,6 +14,7 @@ import os
 import sys
 from datetime import date
 
+import mock
 import pkg_resources
 
 try:
@@ -22,6 +23,7 @@ except ImportError:
     get_version = None
 
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+on_travis = os.environ.get('TRAVIS', None) == 'true'
 
 # If your extensions are in another directory, add it here. If the directory
 # is relative to the documentation root, use os.path.abspath to make it
@@ -55,7 +57,7 @@ MOCK_MODULES = ['deluge.ui.languages', 'deluge.ui.countries', 'deluge.ui.gtkui.g
                 'twisted.web', 'twisted.web.client', 'twisted.web.error',
                 'win32gui', 'win32api', 'win32con', '_winreg']
 
-if on_rtd:
+if on_rtd or on_travis:
     MOCK_MODULES += ['libtorrent', 'pygtk', "gtk", "gobject", "gtk.gdk", "pango", "cairo", "pangocairo"]
 
 for mod_name in MOCK_MODULES:
@@ -67,7 +69,7 @@ for mod_name in MOCK_MODULES:
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest', 'sphinxcontrib.napoleon']
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest', 'sphinxcontrib.napoleon', 'sphinx.ext.coverage']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
