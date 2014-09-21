@@ -7,7 +7,7 @@ from twisted.trial import unittest
 
 import deluge.component as component
 import deluge.core.torrent
-import deluge.tests.common as common
+from . import common
 from deluge._libtorrent import lt
 from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer

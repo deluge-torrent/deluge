@@ -1,0 +1,7 @@
+[html]
+directory = docs/build/htmlcoverage
+
+[run]
+source = deluge
+omit = deluge/tests/*
+branch = True

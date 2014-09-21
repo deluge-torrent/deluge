@@ -1,0 +1,44 @@
+from twisted.trial import unittest
+import twisted.internet.defer as defer
+
+from deluge.common import fsize
+from deluge.ui.client import client
+from deluge.tests import common as tests_common
+
+import deluge.component as component
+
+
+def print_totals(totals):
+    for name, value in totals.iteritems():
+        print(name, fsize(value))
+
+    print("overhead:")
+    print("up:", fsize(totals["total_upload"] - totals["total_payload_upload"]))
+    print("down:", fsize(totals["total_download"] - totals["total_payload_download"]))
+
+
+class StatsTestCase(unittest.TestCase):
+
+    def setUp(self):  # NOQA
+        defer.setDebugging(True)
+        tests_common.set_tmp_config_dir()
+        client.start_classic_mode()
+        client.core.enable_plugin("Stats")
+
+    def tearDown(self):  # NOQA
+        # d = client.stop_classic_mode()
+        def on_shutdown(result):
+            component._ComponentRegistry.components = {}
+        return component.shutdown().addCallback(on_shutdown)
+
+    def test_client_totals(self):
+        def callback(args):
+            print_totals(args)
+        d = client.stats.get_totals()
+        d.addCallback(callback)
+
+    def test_session_totals(self):
+        def callback(args):
+            print_totals(args)
+        d = client.stats.get_session_totals()
+        d.addCallback(callback)
