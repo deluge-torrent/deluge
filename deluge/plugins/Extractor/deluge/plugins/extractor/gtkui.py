@@ -17,7 +17,7 @@ import gtk
 import gtk.glade
 
 import deluge.component as component
-from deluge.plugins.extractor.common import get_resource
+from .common import get_resource
 from deluge.plugins.pluginbase import GtkPluginBase
 from deluge.ui.client import client
 
