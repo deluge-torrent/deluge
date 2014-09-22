@@ -276,7 +276,7 @@ class Auth(JSONComponent):
         :returns: True if the session is valid, False if not.
         :rtype: booleon
         """
-        return __request__.session_id is not None  # NOQA
+        return __request__.session_id is not None
 
     @export
     def delete_session(self):
@@ -287,7 +287,7 @@ class Auth(JSONComponent):
         :type session_id: string
         """
         config = component.get("DelugeWeb").config
-        del config["sessions"][__request__.session_id]  # NOQA
+        del config["sessions"][__request__.session_id]
         return True
 
     @export(AUTH_LEVEL_NONE)
@@ -301,7 +301,7 @@ class Auth(JSONComponent):
         :rtype: string or False
         """
         if self.check_password(password):
-            return self._create_session(__request__)  # NOQA
+            return self._create_session(__request__)
         else:
-            log.error('Login failed (ClientIP %s)', __request__.getClientIP())  # NOQA
+            log.error('Login failed (ClientIP %s)', __request__.getClientIP())
             return False
