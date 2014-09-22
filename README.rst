@@ -1,6 +1,8 @@
-==========================
+=========================
  Deluge BitTorrent Client
-==========================
+=========================
+
+|build-status| |docs|
 
 Homepage: http://deluge-torrent.org
 
@@ -19,39 +21,48 @@ For detailed instructions see: http://dev.deluge-torrent.org/wiki/Installing/Sou
 
 Ensure build dependencies are installed, see DEPENDS for a full listing.
 
-Build and install by running:
+Build and install by running::
 
     $ python setup.py build
     $ sudo python setup.py install
 
-==========================
+================
 Contact/Support:
-==========================
+================
 
-   Forum: http://forum.deluge-torrent.org
-   IRC Channel: #deluge on irc.freenode.net
+:Forum: http://forum.deluge-torrent.org
+:IRC Channel: #deluge on irc.freenode.net
 
-==========================
+===
 FAQ
-==========================
+===
 
 For the full FAQ see: http://dev.deluge-torrent.org/wiki/Faq
 
-How to start the various user-interfaces
+How to start the various user-interfaces:
+    Gtk::
 
-    Gtk:
         deluge or deluge-gtk
-    Console:
+
+    Console::
+
         deluge-console
-    Web:
+
+    Web::
+
         deluge-web
         Go to http://localhost:8112/ default-password = "deluge"
-    
-How do I start the daemon?
 
+How do I start the daemon?:
     deluged
 
-I can't connect to the daemon from another machine
-
+I can't connect to the daemon from another machine:
     See: http://dev.deluge-torrent.org/wiki/UserGuide/ThinClient
 
+
+.. |build-status| image:: https://travis-ci.org/deluge-torrent/deluge.svg
+    :target: https://travis-ci.org/deluge-torrent/deluge
+
+.. |docs| image:: https://readthedocs.org/projects/pip/badge/?version=latest
+    :target: https://readthedocs.org/projects/pip/?badge=latest
+    :alt: Documentation Status

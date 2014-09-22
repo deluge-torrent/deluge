@@ -727,10 +727,10 @@ class WebApi(JSONComponent):
         Add torrents by file
 
         :param torrents: A list of dictionaries containing the torrent \
-        path and torrent options to add with.
+            path and torrent options to add with.
         :type torrents: list
 
-        **Usage**
+        ::
 
             json_api.web.add_torrents([{
                 "path": "/tmp/deluge-web/some-torrent-file.torrent",

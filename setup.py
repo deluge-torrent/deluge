@@ -276,13 +276,13 @@ class Clean(_clean):
             os.remove(desktop_data)
 
 cmdclass = {
-    'Build': Build,
-    'BuildTranslations': BuildTranslations,
-    'BuildPlugins': BuildPlugins,
-    'BuildDocs': BuildDocs,
-    'CleanPlugins': CleanPlugins,
-    'Clean': Clean,
-    'EggInfoPlugins': EggInfoPlugins
+    'build': Build,
+    'build_trans': BuildTranslations,
+    'build_plugins': BuildPlugins,
+    'build_docs': BuildDocs,
+    'clean_plugins': CleanPlugins,
+    'clean': Clean,
+    'egg_info_plugins': EggInfoPlugins
 }
 
 # Data files to be installed to the system
