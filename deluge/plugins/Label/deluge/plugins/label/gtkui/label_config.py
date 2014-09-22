@@ -59,5 +59,5 @@ class LabelConfig(object):
 
     def on_apply_prefs(self):
         options = {}
-        #update options dict here.
+        # update options dict here.
         client.label.set_config(options)

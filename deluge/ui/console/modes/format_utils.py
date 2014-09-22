@@ -104,7 +104,7 @@ def trim_string(string, w, have_dbls):
 
 def format_column(col, lim):
     dbls = 0
-    #Chosen over isinstance(col, unicode) and col.__class__ == unicode
+    # Chosen over isinstance(col, unicode) and col.__class__ == unicode
     # for speed - it's ~3 times faster for non-unicode strings and ~1.5
     # for unicode strings.
     if col.__class__ is unicode:
@@ -199,7 +199,7 @@ def wrap_string(string, width, min_lines=0, strip_colors=True):
         for i in range(len(ret), min_lines):
             ret.append(" ")
 
-    #Carry colors over to the next line
+    # Carry colors over to the next line
     last_color_string = ""
     for i, line in enumerate(ret):
         if i != 0:

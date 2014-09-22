@@ -341,11 +341,11 @@ class PeersTab(Tab):
             value = txt_ip.get_text()
             if value and ':' in value:
                 if ']' in value:
-                    #ipv6
+                    # ipv6
                     ip = value.split("]")[0][1:]
                     port = value.split("]")[1][1:]
                 else:
-                    #ipv4
+                    # ipv4
                     ip = value.split(":")[0]
                     port = value.split(":")[1]
                 if deluge.common.is_ip(ip):

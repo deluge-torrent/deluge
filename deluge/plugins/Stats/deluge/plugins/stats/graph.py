@@ -121,7 +121,7 @@ class Graph:
         ratio = (right - left) / float(duration)
 
         if duration < 1800 * 10:
-            #try rounding to nearest 1min, 5mins, 10mins, 30mins
+            # try rounding to nearest 1min, 5mins, 10mins, 30mins
             for step in [60, 300, 600, 1800]:
                 if duration / step < 10:
                     x_step = step
@@ -130,7 +130,7 @@ class Graph:
         # if there wasnt anything useful find a nice fitting hourly divisor
             x_step = ((duration / 5) / 3600) * 3600
 
-        #this doesnt allow for dst and timezones...
+        # this doesnt allow for dst and timezones...
         seconds_to_step = math.ceil(start / float(x_step)) * x_step - start
 
         for i in xrange(0, duration / x_step + 1):
@@ -146,7 +146,7 @@ class Graph:
         font_extents = self.ctx.font_extents()
         x_axis_space = font_extents[2] + 2 + self.line_size / 2.0
         plot_height = self.height - x_axis_space
-        #lets say we need 2n-1*font height pixels to plot the y ticks
+        # lets say we need 2n-1*font height pixels to plot the y ticks
         tick_limit = (plot_height / font_extents[3])  # / 2.0
 
         max_value = 0
@@ -163,7 +163,7 @@ class Graph:
 
         y_ticks = self.intervalise(max_value, tick_limit)
         max_value = y_ticks[-1]
-        #find the width of the y_ticks
+        # find the width of the y_ticks
         y_tick_text = [self.left_axis['formatter'](tick) for tick in y_ticks]
 
         def space_required(text):
@@ -182,8 +182,8 @@ class Graph:
         """Given a value x create an array of tick points to got with the graph
         The number of ticks returned can be constrained by limit, minimum of 3
         """
-    #Limit is the number of ticks which is 1 + the number of steps as we
-    #count the 0 tick in limit
+    # Limit is the number of ticks which is 1 + the number of steps as we
+    # count the 0 tick in limit
         if limit is not None:
             if limit < 3:
                 limit = 2
@@ -194,7 +194,7 @@ class Graph:
             scale = self.left_axis['formatter_scale'](x)
             x = x / float(scale)
 
-    #Find the largest power of 10 less than x
+    # Find the largest power of 10 less than x
         log = math.log10(x)
         intbit = math.floor(log)
 

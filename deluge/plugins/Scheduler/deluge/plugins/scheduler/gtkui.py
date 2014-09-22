@@ -56,7 +56,7 @@ class SchedulerSelectWidget(gtk.DrawingArea):
             self.button_state.append(list(s))
         log.debug(self.button_state)
 
-    #redraw the whole thing
+    # redraw the whole thing
     def expose(self, widget, event):
         self.context = self.window.cairo_create()
         self.context.rectangle(event.area.x, event.area.y, event.area.width, event.area.height)
@@ -76,7 +76,7 @@ class SchedulerSelectWidget(gtk.DrawingArea):
                 self.context.set_source_rgba(0.5, 0.5, 0.5, 0.5)
                 self.context.stroke()
 
-    #coordinates --> which box
+    # coordinates --> which box
     def get_point(self, event):
         size = self.window.get_size()
         x = int((event.x - size[0] * 0.5 / 145.0) / (6 * size[0] / 145.0))
@@ -93,17 +93,17 @@ class SchedulerSelectWidget(gtk.DrawingArea):
 
         return [x, y]
 
-    #mouse down
+    # mouse down
     def mouse_down(self, widget, event):
         self.mouse_press = True
         self.start_point = self.get_point(event)
 
-    #if the same box -> change it
+    # if the same box -> change it
     def mouse_up(self, widget, event):
         self.mouse_press = False
         end_point = self.get_point(event)
 
-        #change color on mouseclick depending on the button
+        # change color on mouseclick depending on the button
         if end_point[0] is self.start_point[0] and end_point[1] is self.start_point[1]:
             if event.button == 1:
                 self.button_state[end_point[0]][end_point[1]] += 1
@@ -115,8 +115,8 @@ class SchedulerSelectWidget(gtk.DrawingArea):
                     self.button_state[end_point[0]][end_point[1]] = 2
             self.queue_draw()
 
-    #if box changed and mouse is pressed draw all boxes from start point to end point
-    #set hover text etc..
+    # if box changed and mouse is pressed draw all boxes from start point to end point
+    # set hover text etc..
     def mouse_hover(self, widget, event):
         if self.get_point(event) != self.hover_point:
             self.hover_point = self.get_point(event)
@@ -133,7 +133,7 @@ class SchedulerSelectWidget(gtk.DrawingArea):
 
                 self.queue_draw()
 
-    #clear hover text on mouse leave
+    # clear hover text on mouse leave
     def mouse_leave(self, widget, event):
         self.hover_label.set_text("")
         self.hover_point = [-1, -1]
@@ -199,9 +199,9 @@ class GtkUI(GtkPluginBase):
     def on_status_item_clicked(self, widget, event):
         component.get("Preferences").show("Scheduler")
 
-    #Configuration dialog
+    # Configuration dialog
     def create_prefs_page(self):
-        #Select Widget
+        # Select Widget
         hover = gtk.Label()
         self.scheduler_select = SchedulerSelectWidget(hover)
 

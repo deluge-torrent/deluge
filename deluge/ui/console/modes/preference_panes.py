@@ -263,7 +263,7 @@ class ColumnsPane(BasePane):
 
         for cpn in deluge.ui.console.modes.alltorrents.column_pref_names:
             pn = "show_%s" % cpn
-            #If there is no option for it, it's not togglable
+            # If there is no option for it, it's not togglable
             # We check in default_prefs because it might still exist in config files
             if pn not in default_prefs:
                 continue

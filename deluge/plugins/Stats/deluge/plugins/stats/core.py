@@ -113,11 +113,11 @@ class Core(CorePluginBase):
 
     def update_stats(self):
         try:
-            #Get all possible stats!
+            # Get all possible stats!
             stats = {}
             for key in self.stats_keys:
-                #try all keys we have, very inefficient but saves having to
-                #work out where a key comes from...
+                # try all keys we have, very inefficient but saves having to
+                # work out where a key comes from...
                 try:
                     stats.update(self.core.get_session_status([key]))
                 except AttributeError:
@@ -134,8 +134,8 @@ class Core(CorePluginBase):
             update_time = time.time()
             self.last_update[1] = update_time
 
-            #extract the ones we are interested in
-            #adding them to the 1s array
+            # extract the ones we are interested in
+            # adding them to the 1s array
             for stat, stat_list in self.stats[1].iteritems():
                 if stat in stats:
                     stat_list.insert(0, int(stats[stat]))

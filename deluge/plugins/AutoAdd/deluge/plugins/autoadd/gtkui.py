@@ -57,12 +57,12 @@ class OptionsDialog():
         self.dialog.set_transient_for(component.get("Preferences").pref_dialog)
 
         if watchdir_id:
-            #We have an existing watchdir_id, we are editing
+            # We have an existing watchdir_id, we are editing
             self.glade.get_widget('opts_add_button').hide()
             self.glade.get_widget('opts_apply_button').show()
             self.watchdir_id = watchdir_id
         else:
-            #We don't have an id, adding
+            # We don't have an id, adding
             self.glade.get_widget('opts_add_button').show()
             self.glade.get_widget('opts_apply_button').hide()
             self.watchdir_id = None
@@ -439,7 +439,7 @@ class GtkUI(GtkPluginBase):
         pass
 
     def on_add_button_clicked(self, event=None):
-        #display options_window
+        # display options_window
         self.opts_dialog.show()
 
     def on_remove_button_clicked(self, event=None):

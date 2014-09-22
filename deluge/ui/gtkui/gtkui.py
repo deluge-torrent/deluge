@@ -143,7 +143,7 @@ class GtkUI(object):
             import gnome.ui
             import gnome
 
-            #Suppress: Warning: Attempt to add property GnomeProgram::*** after class was initialised
+            # Suppress: Warning: Attempt to add property GnomeProgram::*** after class was initialised
             original_filters = warnings.filters[:]
             warnings.simplefilter("ignore")
             try:

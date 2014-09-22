@@ -111,22 +111,22 @@ class MenuBar(component.Component):
 
         ### Connect main window Signals ###
         component.get("MainWindow").connect_signals({
-            ## File Menu
+            # File Menu
             "on_menuitem_addtorrent_activate": self.on_menuitem_addtorrent_activate,
             "on_menuitem_createtorrent_activate": self.on_menuitem_createtorrent_activate,
             "on_menuitem_quitdaemon_activate": self.on_menuitem_quitdaemon_activate,
             "on_menuitem_quit_activate": self.on_menuitem_quit_activate,
 
-            ## Edit Menu
+            # Edit Menu
             "on_menuitem_preferences_activate": self.on_menuitem_preferences_activate,
             "on_menuitem_connectionmanager_activate": self.on_menuitem_connectionmanager_activate,
 
-            ## View Menu
+            # View Menu
             "on_menuitem_toolbar_toggled": self.on_menuitem_toolbar_toggled,
             "on_menuitem_sidebar_toggled": self.on_menuitem_sidebar_toggled,
             "on_menuitem_statusbar_toggled": self.on_menuitem_statusbar_toggled,
 
-            ## Help Menu
+            # Help Menu
             "on_menuitem_homepage_activate": self.on_menuitem_homepage_activate,
             "on_menuitem_faq_activate": self.on_menuitem_faq_activate,
             "on_menuitem_community_activate": self.on_menuitem_community_activate,
@@ -137,7 +137,7 @@ class MenuBar(component.Component):
 
         # Connect menubar signals
         self.builder.connect_signals({
-            ## Torrent Menu
+            # Torrent Menu
             "on_menuitem_pause_activate": self.on_menuitem_pause_activate,
             "on_menuitem_resume_activate": self.on_menuitem_resume_activate,
             "on_menuitem_updatetracker_activate": self.on_menuitem_updatetracker_activate,

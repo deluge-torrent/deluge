@@ -97,7 +97,7 @@ def make_meta_file(path, url, piece_length, progress=None, title=None, comment=N
 
     info = makeinfo(path, piece_length, progress, name, content_type, private)
 
-    #check_info(info)
+    # check_info(info)
     h = file(f, 'wb')
 
     data['info'] = info

@@ -771,7 +771,7 @@ class Core(component.Component):
         torrents = ((self.torrentmanager.get_queue_position(torrent_id), torrent_id) for torrent_id in torrent_ids)
         torrent_moved = True
         prev_queue_position = None
-        #torrent_ids must be sorted before moving.
+        # torrent_ids must be sorted before moving.
         for queue_position, torrent_id in sorted(torrents):
             # Move the torrent if and only if there is space (by not moving it we preserve the order)
             if torrent_moved or queue_position - prev_queue_position > 1:
@@ -791,7 +791,7 @@ class Core(component.Component):
         torrents = ((self.torrentmanager.get_queue_position(torrent_id), torrent_id) for torrent_id in torrent_ids)
         torrent_moved = True
         prev_queue_position = None
-        #torrent_ids must be sorted before moving.
+        # torrent_ids must be sorted before moving.
         for queue_position, torrent_id in sorted(torrents, reverse=True):
             # Move the torrent if and only if there is space (by not moving it we preserve the order)
             if torrent_moved or prev_queue_position - queue_position > 1:

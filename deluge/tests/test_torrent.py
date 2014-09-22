@@ -112,7 +112,7 @@ class TorrentTestCase(unittest.TestCase):
         # The length of the list of new priorites is the same as the original
         self.assertEquals(len(priorities_original), len(new_priorites))
 
-        #self.print_priority_list(priorities)
+        # self.print_priority_list(priorities)
 
     def test_set_prioritize_first_last_pieces_false(self):
         atp = self.get_torrent_atp("dir_with_6_files.torrent")
@@ -128,4 +128,4 @@ class TorrentTestCase(unittest.TestCase):
         for i in priorities:
             self.assertEquals(priorities[i], 1)
 
-        #self.print_priority_list(priorities)
+        # self.print_priority_list(priorities)

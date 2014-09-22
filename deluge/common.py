@@ -245,7 +245,7 @@ def open_url_in_browser(url):
     import webbrowser
     webbrowser.open(url)
 
-## Formatting text functions
+# Formatting text functions
 
 # For performance reasons these fsize units are translated outside the function
 byte_txt = "Bytes"
@@ -617,7 +617,7 @@ def is_ip(ip):
 
     """
     import socket
-    #first we test ipv4
+    # first we test ipv4
     try:
         if windows_check():
             if socket.inet_aton(ip):
@@ -628,7 +628,7 @@ def is_ip(ip):
     except socket.error:
         if not socket.has_ipv6:
             return False
-    #now test ipv6
+    # now test ipv6
     try:
         if windows_check():
             log.warning("ipv6 check unavailable on windows")

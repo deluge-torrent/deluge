@@ -744,7 +744,7 @@ class TextInput(InputField):
             # This is a correct path, check to see if it's a directory
             if os.path.isdir(line):
                 # Directory, so we need to show contents of directory
-                #ret.extend(os.listdir(line))
+                # ret.extend(os.listdir(line))
                 for f in os.listdir(line):
                     # Skip hidden
                     if f.startswith("."):
@@ -786,7 +786,7 @@ class InputPopup(Popup):
         self.additional_formatting = additional_formatting
         self.immediate_action = immediate_action
 
-        #We need to replicate some things in order to wrap our inputs
+        # We need to replicate some things in order to wrap our inputs
         self.encoding = parent_mode.encoding
 
     def move(self, r, c):
@@ -833,7 +833,7 @@ class InputPopup(Popup):
         self.inputs.append(CheckedInput(self, message, name, checked,
                            additional_formatting=self.additional_formatting))
 
-    #def add_checked_plus_input(self, message, name, child)
+    # def add_checked_plus_input(self, message, name, child)
 
     def add_float_spin_input(self, message, name, value=0.0, inc_amt=1.0, precision=1, min_val=None, max_val=None):
         i = FloatSpinInput(self, message, name, self.move, value, inc_amt, precision, min_val, max_val,

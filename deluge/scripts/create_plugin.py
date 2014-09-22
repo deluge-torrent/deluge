@@ -110,7 +110,7 @@ def create_plugin():
     write_file(data_dir, "config.glade", GLADE)
     write_file(data_dir, "%s.js" % safe_name, DEFAULT_JS)
 
-    #add an input parameter for this?
+    # add an input parameter for this?
     print("building dev-link..")
     write_file(plugin_base, "create_dev_link.sh", CREATE_DEV_LINK)
     dev_link_path = os.path.join(plugin_base, "create_dev_link.sh")

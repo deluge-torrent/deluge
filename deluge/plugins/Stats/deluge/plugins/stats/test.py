@@ -100,7 +100,7 @@ def test_write():
     f.write(data)
     f.close()
 
-#test_sync()
+# test_sync()
 test_async()
 test_dht()
-#test_write()
+# test_write()

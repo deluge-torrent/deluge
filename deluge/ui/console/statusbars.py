@@ -56,25 +56,25 @@ class StatusBars(component.Component):
             info = client.connection_info()
             connection_info = ""
 
-            #Client name
+            # Client name
             if info[2] == "localclient":
                 connection_info += "{!white,blue!}%s"
             else:
                 connection_info += "{!green,blue,bold!}%s"
 
-            #Hostname
+            # Hostname
             if info[0] == "127.0.0.1":
                 connection_info += "{!white,blue,bold!}@{!white,blue!}%s"
             else:
                 connection_info += "{!white,blue,bold!}@{!red,blue,bold!}%s"
 
-            #Port
+            # Port
             if info[1] == DEFAULT_PREFS["daemon_port"]:
                 connection_info += "{!white,blue!}:%s"
             else:
                 connection_info += "{!status!}:%s"
 
-            #Change color back to normal, just in case
+            # Change color back to normal, just in case
             connection_info += "{!status!}"
 
             self.topbar += connection_info % (info[2], info[0], info[1])

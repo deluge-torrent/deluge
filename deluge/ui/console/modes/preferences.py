@@ -143,7 +143,7 @@ class Preferences(BaseMode):
         BaseMode.on_resize_norefresh(self, *args)
         self.__calc_sizes()
 
-        #Always refresh Legacy(it will also refresh AllTorrents), otherwise it will bug deluge out
+        # Always refresh Legacy(it will also refresh AllTorrents), otherwise it will bug deluge out
         legacy = component.get("LegacyUI")
         legacy.on_resize(*args)
         self.stdscr.erase()

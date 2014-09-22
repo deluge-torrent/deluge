@@ -18,12 +18,12 @@ sclient.set_core_uri()
 
 print(sclient.get_enabled_plugins())
 
-#enable plugin.
+# enable plugin.
 if not "label" in sclient.get_enabled_plugins():
     sclient.enable_plugin("label")
 
 
-#test labels.
+# test labels.
 print("#init labels")
 try:
     sclient.label_remove("test")

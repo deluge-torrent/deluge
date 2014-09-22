@@ -358,7 +358,7 @@ class SystemTray(component.Component):
 
     def on_tray_setbwdown(self, widget, data=None):
         if isinstance(widget, gtk.RadioMenuItem):
-            #ignore previous radiomenuitem value
+            # ignore previous radiomenuitem value
             if not widget.get_active():
                 return
         self.setbwlimit(widget, _("Download Speed Limit"), _("Set the maximum download speed"),
@@ -367,7 +367,7 @@ class SystemTray(component.Component):
 
     def on_tray_setbwup(self, widget, data=None):
         if isinstance(widget, gtk.RadioMenuItem):
-            #ignore previous radiomenuitem value
+            # ignore previous radiomenuitem value
             if not widget.get_active():
                 return
         self.setbwlimit(widget, _("Upload Speed Limit"), _("Set the maximum upload speed"),

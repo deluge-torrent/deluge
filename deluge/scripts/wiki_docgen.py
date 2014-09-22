@@ -9,8 +9,8 @@
 #
 
 #
-#generate docs for deluge-wiki
-#client doc's For core.
+# generate docs for deluge-wiki
+# client doc's For core.
 #
 
 from __future__ import print_function

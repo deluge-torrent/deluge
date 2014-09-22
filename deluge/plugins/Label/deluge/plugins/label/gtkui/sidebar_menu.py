@@ -21,7 +21,7 @@ log = logging.getLogger(__name__)
 NO_LABEL = "No Label"
 
 
-#helpers:
+# helpers:
 def get_resource(filename):
     import pkg_resources
     import os
@@ -30,7 +30,7 @@ def get_resource(filename):
     )
 
 
-#menu
+# menu
 class LabelSidebarMenu(object):
     def __init__(self):
 
@@ -38,7 +38,7 @@ class LabelSidebarMenu(object):
         self.menu = self.treeview.menu
         self.items = []
 
-        #add items, in reverse order, because they are prepended.
+        # add items, in reverse order, because they are prepended.
         sep = gtk.SeparatorMenuItem()
         self.items.append(sep)
         self.menu.prepend(sep)
@@ -47,10 +47,10 @@ class LabelSidebarMenu(object):
         self._add_item("add", _("_Add Label"), gtk.STOCK_ADD)
 
         self.menu.show_all()
-        #dialogs:
+        # dialogs:
         self.add_dialog = AddDialog()
         self.options_dialog = OptionsDialog()
-        #hooks:
+        # hooks:
         self.menu.connect("show", self.on_show, None)
 
     def _add_item(self, id, label, stock):
@@ -82,18 +82,18 @@ class LabelSidebarMenu(object):
         cat = self.treeview.cat
         label = self.treeview.value
         if cat == "label" or (cat == "cat" and label == "label"):
-            #is a label : show  menu-items
+            # is a label : show  menu-items
             for item in self.items:
                 item.show()
-            #default items
+            # default items
             sensitive = ((label not in (NO_LABEL, None, "", "All")) and (cat != "cat"))
             for item in self.items:
                 item.set_sensitive(sensitive)
 
-            #add is allways enabled.
+            # add is allways enabled.
             self.item_add.set_sensitive(True)
         else:
-            #not a label -->hide everything.
+            # not a label -->hide everything.
             for item in self.items:
                 item.hide()
 
@@ -106,7 +106,7 @@ class LabelSidebarMenu(object):
         self.items = []
 
 
-#dialogs:
+# dialogs:
 class AddDialog(object):
     def __init__(self):
         pass
@@ -137,7 +137,7 @@ class OptionsDialog(object):
     chk_ids = ["apply_max", "apply_queue", "stop_at_ratio", "apply_queue", "remove_at_ratio",
                "apply_move_completed", "move_completed", "is_auto_managed", "auto_add"]
 
-    #list of tuples, because order matters when nesting.
+    # list of tuples, because order matters when nesting.
     sensitive_groups = [
         ("apply_max", ["max_download_speed", "max_upload_speed", "max_upload_slots", "max_connections"]),
         ("apply_queue", ["is_auto_managed", "stop_at_ratio"]),

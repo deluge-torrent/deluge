@@ -95,7 +95,7 @@ class Popup:
 
         log.debug("Resizing(or creating) popup window")
 
-        #Height
+        # Height
         if hr == 0:
             hr = int(self.parent.rows / 2)
         elif hr == -1:
@@ -103,7 +103,7 @@ class Popup:
         elif hr > self.parent.rows - 2:
             hr = self.parent.rows - 2
 
-        #Width
+        # Width
         if wr == 0:
             wr = int(self.parent.cols / 2)
         elif wr == -1:

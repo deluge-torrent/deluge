@@ -557,7 +557,7 @@ class PathChooserPopup(object):
         """
 
         # Necessary for the first call, to make treeview.size_request give sensible values
-        #self.popup_window.realize()
+        # self.popup_window.realize()
         self.treeview.realize()
 
         # We start with the coordinates of the parent window
@@ -1249,7 +1249,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
         self.auto_completer._end_completion(args)
 
 ######################################
-## Callbacks and internal functions
+# Callbacks and internal functions
 ######################################
 
     def on_entry_text_changed(self, entry):
@@ -1349,7 +1349,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
         self._stored_values_popping_down = False
 
 ######################################
-## Config dialog
+# Config dialog
 ######################################
 
     def _on_button_toggle_dropdown_button_press_event(self, widget, event):
@@ -1535,7 +1535,7 @@ if __name__ == "__main__":
                     cursor_end=False)
 
     entry2.set_filechooser_button_visible(False)
-    #entry2.set_enable_properties(False)
+    # entry2.set_enable_properties(False)
     entry2.set_filechooser_button_enabled(False)
 
     def list_value_added_event(widget, values):

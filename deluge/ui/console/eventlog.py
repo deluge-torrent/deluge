@@ -49,7 +49,7 @@ class EventLog(component.Component):
             self.write("{!green!}Torrent Added: {!info!}%s ({!cyan!}%s{!info!})" % (
                 status["name"], torrent_id)
             )
-            #Write out what state the added torrent took
+            # Write out what state the added torrent took
             self.on_torrent_state_changed_event(torrent_id, status["state"])
 
         client.core.get_torrent_status(torrent_id, ["name", "state"]).addCallback(on_torrent_status)
@@ -59,7 +59,7 @@ class EventLog(component.Component):
                    (self.console.get_torrent_name(torrent_id), torrent_id))
 
     def on_torrent_state_changed_event(self, torrent_id, state):
-        #It's probably a new torrent, ignore it
+        # It's probably a new torrent, ignore it
         if not state:
             return
         # Modify the state string color
@@ -68,7 +68,7 @@ class EventLog(component.Component):
 
         t_name = self.console.get_torrent_name(torrent_id)
 
-        #Again, it's most likely a new torrent
+        # Again, it's most likely a new torrent
         if not t_name:
             return
 

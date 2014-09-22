@@ -52,23 +52,23 @@ class GtkUI(GtkPluginBase):
             log.debug(ex)
 
     def load_interface(self):
-        #sidebar
-        #disabled
+        # sidebar
+        # disabled
         if not self.sidebar_menu:
             self.sidebar_menu = sidebar_menu.LabelSidebarMenu()
-        #self.sidebar.load()
+        # self.sidebar.load()
 
-        #menu:
+        # menu:
         log.debug("add items to torrentview-popup menu.")
         torrentmenu = component.get("MenuBar").torrentmenu
         self.label_menu = submenu.LabelMenu()
         torrentmenu.append(self.label_menu)
         self.label_menu.show_all()
 
-        #columns:
+        # columns:
         self.load_columns()
 
-        #config:
+        # config:
         if not self.labelcfg:
             self.labelcfg = label_config.LabelConfig(self.plugin)
         self.labelcfg.load()

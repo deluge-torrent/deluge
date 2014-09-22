@@ -340,7 +340,7 @@ class FilesTab(Tab):
             timestamp = gtk.get_current_event_time()
             show_file(filepath, timestamp=timestamp)
 
-    ## The following 3 methods create the folder/file view in the treeview
+    # The following 3 methods create the folder/file view in the treeview
     def prepare_file_store(self, files):
         split_files = {}
         i = 0

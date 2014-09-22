@@ -82,7 +82,7 @@ class Core(CorePluginBase):
         self.config = ConfigManager("label.conf", defaults=CONFIG_DEFAULTS)
         self.core_cfg = ConfigManager("core.conf")
 
-        #reduce typing, assigning some values to self...
+        # reduce typing, assigning some values to self...
         self.torrents = core.torrentmanager.torrents
         self.labels = self.config["labels"]
         self.torrent_labels = self.config["torrent_labels"]
@@ -92,7 +92,7 @@ class Core(CorePluginBase):
         component.get("EventManager").register_event_handler("TorrentAddedEvent", self.post_torrent_add)
         component.get("EventManager").register_event_handler("TorrentRemovedEvent", self.post_torrent_remove)
 
-        #register tree:
+        # register tree:
         component.get("FilterManager").register_tree_field("label", self.init_filter_dict)
 
         log.debug("Label plugin enabled..")
@@ -161,7 +161,7 @@ class Core(CorePluginBase):
     def get_labels(self):
         return sorted(self.labels.keys())
 
-    #Labels:
+    # Labels:
     @export
     def add(self, label_id):
         """add a label
@@ -265,12 +265,12 @@ class Core(CorePluginBase):
 
         self.labels[label_id].update(options_dict)
 
-        #apply
+        # apply
         for torrent_id, label in self.torrent_labels.iteritems():
             if label_id == label and torrent_id in self.torrents:
                 self._set_torrent_options(torrent_id, label_id)
 
-        #auto add
+        # auto add
         options = self.labels[label_id]
         if options["auto_add"]:
             for torrent_id, torrent in self.torrents.iteritems():

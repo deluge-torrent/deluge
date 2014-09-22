@@ -143,7 +143,7 @@ class AddTorrents(BaseMode, component.Component):
             self.raw_rows.append(row)
             self.raw_rows_dirs.append(row)
 
-        #Highlight the directory we came from
+        # Highlight the directory we came from
         if self.path_stack_pos < len(self.path_stack):
             selected = self.path_stack[self.path_stack_pos]
             ld = sorted(self.listing_dirs, key=lambda n: n.lower())
@@ -204,7 +204,7 @@ class AddTorrents(BaseMode, component.Component):
                 widths = [self.cols - 35, 12, 23]
                 self.formatted_rows.append(format_utils.format_row(cols, widths))
             else:
-                #Size of .torrent file itself couldn't matter less so we'll leave it out
+                # Size of .torrent file itself couldn't matter less so we'll leave it out
                 try:
                     filename = filename.decode("utf8")
                 except:
@@ -236,7 +236,7 @@ class AddTorrents(BaseMode, component.Component):
     def on_resize(self, *args):
         BaseMode.on_resize_norefresh(self, *args)
 
-        #Always refresh Legacy(it will also refresh AllTorrents), otherwise it will bug deluge out
+        # Always refresh Legacy(it will also refresh AllTorrents), otherwise it will bug deluge out
         legacy = component.get("LegacyUI")
         legacy.on_resize(*args)
 
@@ -253,7 +253,7 @@ class AddTorrents(BaseMode, component.Component):
         self.stdscr.erase()
         self.add_string(0, self.statusbars.topbar)
 
-        #This will quite likely fail when switching modes
+        # This will quite likely fail when switching modes
         try:
             rf = format_utils.remove_formatting
             string = self.statusbars.bottombar
@@ -267,7 +267,7 @@ class AddTorrents(BaseMode, component.Component):
 
         off = 1
 
-        #Render breadcrumbs
+        # Render breadcrumbs
         s = "Location: "
         for i, e in enumerate(self.path_stack):
             if e == "/":
@@ -287,7 +287,7 @@ class AddTorrents(BaseMode, component.Component):
         self.add_string(off, s)
         off += 1
 
-        #Render header
+        # Render header
         cols = ["Name", "Contents", "Modification time"]
         widths = [self.cols - 35, 12, 23]
         s = ""
@@ -309,10 +309,10 @@ class AddTorrents(BaseMode, component.Component):
         self.add_string(off, s)
         off += 1
 
-        #Render files and folders
+        # Render files and folders
         for i, row in enumerate(self.formatted_rows[self.view_offset:]):
             i += self.view_offset
-            #It's a folder
+            # It's a folder
             color_string = ""
             if self.raw_rows[i][4]:
                 if self.raw_rows[i][1] == -1:
@@ -369,7 +369,7 @@ class AddTorrents(BaseMode, component.Component):
             self._show_add_dialog()
 
     def _enter_dir(self):
-        #Enter currently selected directory
+        # Enter currently selected directory
         dirname = self.raw_rows[self.cursel][0]
         new_dir = self.path_stack_pos >= len(self.path_stack)
         new_dir = new_dir or (dirname != self.path_stack[self.path_stack_pos])
@@ -457,7 +457,7 @@ class AddTorrents(BaseMode, component.Component):
         self.popup.add_select_input("Add Paused:", "add_paused", ["Yes", "No"], [True, False], ap)
 
     def _go_up(self):
-        #Go up in directory hierarchy
+        # Go up in directory hierarchy
         if self.path_stack_pos > 1:
             self.path_stack_pos -= 1
 
@@ -495,14 +495,14 @@ class AddTorrents(BaseMode, component.Component):
         if c == curses.KEY_UP:
             self.scroll_list_up(1)
         elif c == curses.KEY_PPAGE:
-            #self.scroll_list_up(self._listing_space-2)
+            # self.scroll_list_up(self._listing_space-2)
             self.scroll_list_up(self.rows // 2)
         elif c == curses.KEY_HOME:
             self.scroll_list_up(len(self.formatted_rows))
         elif c == curses.KEY_DOWN:
             self.scroll_list_down(1)
         elif c == curses.KEY_NPAGE:
-            #self.scroll_list_down(self._listing_space-2)
+            # self.scroll_list_down(self._listing_space-2)
             self.scroll_list_down(self.rows // 2)
         elif c == curses.KEY_END:
             self.scroll_list_down(len(self.formatted_rows))
@@ -514,7 +514,7 @@ class AddTorrents(BaseMode, component.Component):
         # Enter Key
         elif c == curses.KEY_ENTER or c == 10:
             self._perform_action()
-        #Escape
+        # Escape
         elif c == 27:
             self.back_to_overview()
         else:
