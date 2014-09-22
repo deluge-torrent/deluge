@@ -1,7 +1,16 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
-# This script creates the deluge.pot template file for translators
+# Copyright (C) 2011-2013 Calum Lind <calumlind@gmail.com>
+# Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
+#
+
+"""Parses Python and Javascript code for translation strings to create the 'deluge.pot' template for translators"""
+
 import os
 import re
 from datetime import datetime

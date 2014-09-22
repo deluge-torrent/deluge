@@ -1,20 +1,15 @@
-# Taken from http://download.bittorrent.com/dl/BitTorrent-5.3-GPL.tar.gz
+# -*- coding: utf-8 -*-
 #
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+# Original file from BitTorrent-5.3-GPL.tar.gz
+# Copyright (C) Bram Cohen
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# Modifications for use in Deluge:
+# Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 #
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-# Written by Bram Cohen
-# Modifications for use in Deluge by Andrew Resch 2008
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
+#
 
 import logging
 import os.path
