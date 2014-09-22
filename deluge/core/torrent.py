@@ -277,7 +277,7 @@ class Torrent(object):
             self.set_prioritize_first_last_pieces(True)
         self.write_torrentfile()
 
-    ## Options methods ##
+    # --- Options methods ---
     def set_options(self, options):
         """Set the torrent options.
 
@@ -551,7 +551,7 @@ class Torrent(object):
         if self.rpcserver.get_session_auth_level() == AUTH_LEVEL_ADMIN:
             self.options["owner"] = account
 
-    ### End Options methods ###
+    # End Options methods #
 
     def set_trackers(self, trackers):
         """Sets the trackers for this torrent.

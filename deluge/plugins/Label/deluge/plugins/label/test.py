@@ -19,7 +19,7 @@ sclient.set_core_uri()
 print(sclient.get_enabled_plugins())
 
 # enable plugin.
-if not "label" in sclient.get_enabled_plugins():
+if "label" not in sclient.get_enabled_plugins():
     sclient.enable_plugin("label")
 
 

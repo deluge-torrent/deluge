@@ -104,7 +104,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
 
         if message_type == RPC_EVENT:
             event = request[1]
-            #log.debug("Received RPCEvent: %s", event)
+            # log.debug("Received RPCEvent: %s", event)
             # A RPCEvent was received from the daemon so run any handlers
             # associated with it.
             if event in self.factory.event_handlers:
@@ -178,7 +178,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
             # response to this request.  We use the extra information when printing
             # out the error for debugging purposes.
             self.__rpc_requests[request.request_id] = request
-            #log.debug("Sending RPCRequest %s: %s", request.request_id, request)
+            # log.debug("Sending RPCRequest %s: %s", request.request_id, request)
             # Send the request in a tuple because multiple requests can be sent at once
             self.transfer_message((request.format_message(),))
         except Exception as ex:
@@ -450,7 +450,7 @@ class DaemonClassicProxy(DaemonProxy):
         self.__daemon = None
 
     def call(self, method, *args, **kwargs):
-        #log.debug("call: %s %s %s", method, args, kwargs)
+        # log.debug("call: %s %s %s", method, args, kwargs)
 
         import copy
 

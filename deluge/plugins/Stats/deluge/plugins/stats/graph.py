@@ -94,9 +94,9 @@ class Graph:
         self.stats = stats
         return
 
-  #  def set_config(self, config):
-  #      self.length = config["length"]
-  #      self.interval = config["update_interval"]
+    # def set_config(self, config):
+    #      self.length = config["length"]
+    #      self.interval = config["update_interval"]
 
     def set_interval(self, interval):
         self.interval = interval
@@ -127,7 +127,7 @@ class Graph:
                     x_step = step
                     break
         else:
-        # if there wasnt anything useful find a nice fitting hourly divisor
+            # If there wasnt anything useful find a nice fitting hourly divisor
             x_step = ((duration / 5) / 3600) * 3600
 
         # this doesnt allow for dst and timezones...
@@ -172,7 +172,7 @@ class Graph:
         y_tick_width = max((space_required(text) for text in y_tick_text))
 
         top = font_extents[2] / 2.0
-        #bounds(left, top, right, bottom)
+        # bounds(left, top, right, bottom)
         bounds = (y_tick_width + 4, top + 2, self.width, self.height - x_axis_space)
 
         self.draw_x_axis(bounds)

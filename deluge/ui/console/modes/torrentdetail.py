@@ -274,7 +274,7 @@ class TorrentDetail(BaseMode, component.Component):
                 fl = s[3]
             fe[0] = new_folder.strip("/").rpartition("/")[-1]
 
-            #self.__get_file_by_name(old_folder, self.file_list)[0] = new_folder.strip("/")
+            # self.__get_file_by_name(old_folder, self.file_list)[0] = new_folder.strip("/")
             component.get("SessionProxy").get_torrent_status(
                 self.torrentid, self._status_keys).addCallback(self.set_state)
 
@@ -284,8 +284,8 @@ class TorrentDetail(BaseMode, component.Component):
         color_partially_selected = "magenta"
         color_highlighted = "white"
         for fl in files:
-            #from sys import stderr
-            #print >> stderr, fl[6]
+            # from sys import stderr
+            # print >> stderr, fl[6]
             # kick out if we're going to draw too low on the screen
             if (off >= self.rows - 1):
                 self.more_to_draw = True
@@ -469,7 +469,7 @@ class TorrentDetail(BaseMode, component.Component):
         self.add_string(off, s)
         off += 1
 
-        #Pieces and availability
+        # Pieces and availability
         s = "{!info!}Pieces: {!yellow!}%s {!input!}x {!yellow!}%s" % (
             status["num_pieces"], fsize(status["piece_length"]))
         if status["distributed_copies"]:

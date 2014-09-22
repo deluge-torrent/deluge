@@ -75,7 +75,7 @@ class Core(CorePluginBase):
 
         self.length = self.config["length"]
 
-        #self.stats = get_key(self.saved_stats, "stats") or {}
+        # self.stats = get_key(self.saved_stats, "stats") or {}
         self.stats_keys = []
         self.add_stats(
             'upload_rate',
@@ -126,10 +126,10 @@ class Core(CorePluginBase):
             stats.update(self.core.get_config_values(["max_download",
                                                       "max_upload",
                                                       "max_num_connections"]))
-           # status = self.core.session.status()
-           # for stat in dir(status):
-           #     if not stat.startswith('_') and stat not in stats:
-           #         stats[stat] = getattr(status, stat, None)
+            # status = self.core.session.status()
+            # for stat in dir(status):
+            #     if not stat.startswith('_') and stat not in stats:
+            #         stats[stat] = getattr(status, stat, None)
 
             update_time = time.time()
             self.last_update[1] = update_time

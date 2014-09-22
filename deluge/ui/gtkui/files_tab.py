@@ -374,7 +374,6 @@ class FilesTab(Tab):
                                       value[1]["size"], "", 0, 0, value[0], gtk.STOCK_FILE])
                 ret += value[1]["size"]
         return ret
-    ###
 
     def update_files(self):
         self.treestore.clear()
@@ -839,7 +838,7 @@ class FilesTab(Tab):
                 client.core.rename_folder(self.torrent_id, pp + model[selected[0]][0],
                                           parent_path + model[selected[0]][0])
             else:
-                #[(index, filepath), ...]
+                # [(index, filepath), ...]
                 to_rename = []
                 for s in selected:
                     to_rename.append((model[s][5], parent_path + model[s][0]))

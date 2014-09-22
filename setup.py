@@ -189,11 +189,11 @@ class BuildDocs(BuildDoc):
             try:
                 return old_import(name, globals, locals, fromlist, level)
             except ImportError as ex:
-                #sys.stdout.write("ImportError: %s\n" % ex)
+                # sys.stdout.write("ImportError: %s\n" % ex)
                 return Mock()
 
             except Exception as ex:
-                #sys.stdout.write("Skipping Exception: %s\n" % ex)
+                # sys.stdout.write("Skipping Exception: %s\n" % ex)
                 return Mock()
         __builtins__.__import__ = new_import
 

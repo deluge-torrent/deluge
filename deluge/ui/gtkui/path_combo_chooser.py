@@ -283,7 +283,7 @@ class ValueList(object):
                     next = None
 
         # If next is None, we won't change the selection
-        if not next is None:
+        if next is not None:
             # We move the selection either one up or down.
             # If we reach end of list, we wrap
             index = path[0] if path else 0
@@ -674,9 +674,9 @@ class PathChooserPopup(object):
     def get_max_popup_rows(self):
         return self.max_visible_rows
 
-###################################################
+#################
 # Callbacks
-###################################################
+#################
 
     def on_popup_window_button_press_event(self, window, event):
         # If we're clicking outside of the window close the popup
@@ -760,9 +760,9 @@ class StoredValuesPopup(StoredValuesList, PathChooserPopup):
         # Set value selected if it exists
         self.set_selected_value(path_without_trailing_path_sep(self.path_entry.get_text()))
 
-###################################################
+#################
 # Callbacks
-###################################################
+#################
 
     def on_stored_values_popup_window_focus_out_event(self, entry, event):
         """
@@ -885,9 +885,9 @@ class PathCompletionPopup(CompletionList, PathChooserPopup):
         self.text_entry.set_position(len(self.path_entry.text_entry.get_text()))
         self.set_selected_value(path_without_trailing_path_sep(self.path_entry.get_text()), select_first=True)
 
-###################################################
+#################
 # Callbacks
-###################################################
+#################
 
     def on_completion_popup_window_focus_out_event(self, entry, event):
         """
@@ -1104,7 +1104,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
         folder_name = ""
         if self.show_folder_name_on_button or not self.path_entry_visible:
             folder_name = path_without_trailing_path_sep(text)
-            if not folder_name is "/" and os.path.basename(folder_name):
+            if folder_name is not "/" and os.path.basename(folder_name):
                 folder_name = os.path.basename(folder_name)
         self.folder_name_label.set_text(folder_name)
         # Only trigger event if text has changed
@@ -1248,9 +1248,9 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
         """
         self.auto_completer._end_completion(args)
 
-######################################
+##############
 # Callbacks and internal functions
-######################################
+##############
 
     def on_entry_text_changed(self, entry):
         self.emit("text-changed", self.get_text())
@@ -1348,9 +1348,9 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
         self.button_toggle.set_active(False)
         self._stored_values_popping_down = False
 
-######################################
+##############
 # Config dialog
-######################################
+##############
 
     def _on_button_toggle_dropdown_button_press_event(self, widget, event):
         """Show config when right clicking dropdown toggle button"""

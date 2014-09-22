@@ -274,10 +274,8 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
             self.glade.get_widget("popup_enabled").set_property('sensitive',
                                                                 False)
         if not SOUND_AVAILABLE:
-#            for widget_name in ('sound_enabled', 'sound_path', 'sounds_page',
-#                                'sounds_page_label'):
-#                self.glade.get_widget(widget_name).set_property('sensitive',
-#                                                                False)
+            # for widget_name in ('sound_enabled', 'sound_path', 'sounds_page', 'sounds_page_label'):
+            #    self.glade.get_widget(widget_name).set_property('sensitive', False)
             self.glade.get_widget("sound_enabled").set_property('sensitive',
                                                                 False)
             self.glade.get_widget('sound_path').set_property('sensitive', False)

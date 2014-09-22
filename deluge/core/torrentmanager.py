@@ -886,7 +886,7 @@ class TorrentManager(component.Component):
         for key in self.torrents.keys():
             self.torrents[key].set_max_download_speed(value)
 
-    ## Alert handlers ##
+    # --- Alert handlers ---
     def on_alert_torrent_finished(self, alert):
         """Alert handler for libtorrent torrent_finished_alert"""
         log.debug("on_alert_torrent_finished")
@@ -1244,7 +1244,7 @@ class TorrentManager(component.Component):
 
         # Get the torrent status for each torrent_id
         for torrent_id in torrent_ids:
-            if not torrent_id in self.torrents:
+            if torrent_id not in self.torrents:
                 # The torrent_id does not exist in the dict.
                 # Could be the clients cache (sessionproxy) isn't up to speed.
                 del status_dict[torrent_id]

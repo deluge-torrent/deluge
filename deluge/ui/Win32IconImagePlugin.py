@@ -199,11 +199,11 @@ class Win32IcoFile(object):
                 im = im.convert('RGBA')
                 im.putalpha(mask)
                 log.debug("image mode: %s", im.mode)
-          # end if !'RGBA'
+            # end if !'RGBA'
         # end if (png)/else(bmp)
 
         return im
-      # end frame
+    # end frame
 
     def __repr__(self):
         s = 'Microsoft Icon: %d images (max %dx%d %dbpp)' % (

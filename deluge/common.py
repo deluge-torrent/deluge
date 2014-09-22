@@ -720,7 +720,7 @@ def decode_string(s, encoding="utf8"):
                  lambda: (chardet.detect(s)["encoding"], 'strict'),
                  lambda: (encoding, 'ignore')]
 
-    if not encoding is "utf8":
+    if encoding is not "utf8":
         encodings.insert(0, lambda: (encoding, 'strict'))
 
     for l in encodings:

@@ -212,7 +212,7 @@ class SessionProxy(component.Component):
                             break
 
             return to_fetch
-        #-----------------------------------------------------------------------
+        # -----------------------------------------------------------------------
 
         if not filter_dict:
             # This means we want all the torrents status

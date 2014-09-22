@@ -61,7 +61,7 @@ class FilterTreeView(component.Component):
         self.sidebar.notebook.connect("hide", self._on_hide)
 
         # Create the treestore
-        #cat, value, label, count, pixmap, visible
+        # cat, value, label, count, pixmap, visible
         self.treestore = gtk.TreeStore(str, str, str, int, gtk.gdk.Pixbuf, bool)
 
         # Create the column and cells
@@ -151,7 +151,7 @@ class FilterTreeView(component.Component):
     def cb_update_filter_tree(self, filter_items):
         # create missing cat_nodes
         for cat in filter_items:
-            if not cat in self.cat_nodes:
+            if cat not in self.cat_nodes:
                 label = _(cat)
                 if cat == "label":
                     label = _("Labels")
@@ -170,7 +170,7 @@ class FilterTreeView(component.Component):
 
         # hide items not returned by core-plugin.
         for f in self.filters:
-            if not f in visible_filters:
+            if f not in visible_filters:
                 self.treestore.set_value(self.filters[f], FILTER_COLUMN, False)
 
         if self.expand_rows:
@@ -300,7 +300,7 @@ class FilterTreeView(component.Component):
         except Exception as ex:
             log.debug(ex)
 
-    ### Callbacks ###
+    # Callbacks #
     def on_button_press_event(self, widget, event):
         """This is a callback for showing the right-click context menu."""
         x, y = event.get_coords()

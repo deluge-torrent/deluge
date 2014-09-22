@@ -480,7 +480,7 @@ class TrackerIcons(Component):
             host = self.redirects[host]
         return "http://%s/" % host
 
-################################ HELPER CLASSES ###############################
+# ------- HELPER CLASSES ------
 
 
 class FaviconParser(HTMLParser):
@@ -525,7 +525,7 @@ class FaviconParser(HTMLParser):
         return self.icons
 
 
-############################### HELPER FUNCTIONS ##############################
+# ------ HELPER FUNCTIONS ------
 
 def url_to_host(url):
     """
@@ -604,7 +604,7 @@ def extension_to_mimetype(extension):
     """
     return MIME_MAP[extension.lower()]
 
-################################## EXCEPTIONS #################################
+#  ------ EXCEPTIONS ------
 
 
 class NoIconsError(Exception):

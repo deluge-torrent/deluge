@@ -810,7 +810,7 @@ class AllTorrents(BaseMode, component.Component):
 
     def refresh(self, lines=None):
         # log.error("ref")
-        #import traceback
+        # import traceback
         # traceback.print_stack()
         # Something has requested we scroll to the top of the list
         if self._go_top:

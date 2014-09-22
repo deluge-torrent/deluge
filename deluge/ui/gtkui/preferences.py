@@ -462,13 +462,13 @@ class Preferences(component.Component):
                 # Update the toggle status if necessary
                 self.on_toggle(widget)
 
-        ## Downloads tab ##
+        # Downloads tab #
         self.builder.get_object("chk_show_dialog").set_active(
             self.gtkui_config["interactive_add"])
         self.builder.get_object("chk_focus_dialog").set_active(
             self.gtkui_config["focus_add_dialog"])
 
-        ## Interface tab ##
+        # Interface tab #
         self.builder.get_object("chk_use_tray").set_active(
             self.gtkui_config["enable_system_tray"])
         self.builder.get_object("chk_min_on_close").set_active(
@@ -495,15 +495,15 @@ class Preferences(component.Component):
         self.__set_color("waiting", from_config=True)
         self.__set_color("missing", from_config=True)
 
-        ## Other tab ##
+        # Other tab #
         self.builder.get_object("chk_show_new_releases").set_active(
             self.gtkui_config["show_new_releases"])
 
-        ## Cache tab ##
+        # Cache tab #
         if client.connected():
             self.__update_cache_status()
 
-        ## Plugins tab ##
+        # Plugins tab #
         all_plugins = self.all_plugins
         enabled_plugins = self.enabled_plugins
         # Clear the existing list so we don't duplicate entries.
@@ -534,7 +534,7 @@ class Preferences(component.Component):
         new_core_config = {}
         new_gtkui_config = {}
 
-        ## Downloads tab ##
+        # Downloads tab #
         new_gtkui_config["interactive_add"] = \
             self.builder.get_object("chk_show_dialog").get_active()
         new_gtkui_config["focus_add_dialog"] = \
@@ -563,7 +563,7 @@ class Preferences(component.Component):
         new_core_config["add_paused"] = self.builder.get_object("chk_add_paused").get_active()
         new_core_config["pre_allocate_storage"] = self.builder.get_object("chk_pre_allocation").get_active()
 
-        ## Network tab ##
+        # Network tab #
         listen_ports = (
             self.builder.get_object("spin_port_min").get_value_as_int(),
             self.builder.get_object("spin_port_max").get_value_as_int()
@@ -599,7 +599,7 @@ class Preferences(component.Component):
         new_core_config["enc_level"] = \
             self.builder.get_object("combo_enclevel").get_active()
 
-        ## Bandwidth tab ##
+        # Bandwidth tab #
         new_core_config["max_connections_global"] = \
             self.builder.get_object(
                 "spin_max_connections_global").get_value_as_int()
@@ -632,7 +632,7 @@ class Preferences(component.Component):
         new_core_config["rate_limit_ip_overhead"] = \
             self.builder.get_object("chk_rate_limit_ip_overhead").get_active()
 
-        ## Interface tab ##
+        # Interface tab #
         new_gtkui_config["enable_system_tray"] = \
             self.builder.get_object("chk_use_tray").get_active()
         new_gtkui_config["close_to_tray"] = \
@@ -655,7 +655,7 @@ class Preferences(component.Component):
         new_gtkui_config["focus_main_window_on_add"] = \
             self.builder.get_object("chk_focus_main_window_on_add").get_active()
 
-        ## Other tab ##
+        # Other tab #
         new_gtkui_config["show_new_releases"] = \
             self.builder.get_object("chk_show_new_releases").get_active()
         new_core_config["send_info"] = \
@@ -663,7 +663,7 @@ class Preferences(component.Component):
         new_core_config["geoip_db_location"] = \
             self.builder.get_object("entry_geoip").get_text()
 
-        ## Daemon tab ##
+        # Daemon tab #
         new_core_config["daemon_port"] = \
             self.builder.get_object("spin_daemon_port").get_value_as_int()
         new_core_config["allow_remote"] = \
@@ -671,7 +671,7 @@ class Preferences(component.Component):
         new_core_config["new_release_check"] = \
             self.builder.get_object("chk_new_releases").get_active()
 
-        ## Proxy tab ##
+        # Proxy tab #
         new_core_config["proxy"] = {}
         new_core_config["proxy"]["type"] = self.builder.get_object("combo_proxy_type").get_active()
         new_core_config["proxy"]["username"] = self.builder.get_object("entry_proxy_user").get_text()
@@ -686,7 +686,7 @@ class Preferences(component.Component):
         new_core_config["i2p_proxy"]["port"] = self.builder.get_object("spin_i2p_port").get_value_as_int()
         new_core_config["anonymous_mode"] = self.builder.get_object("chk_anonymous_mode").get_active()
 
-        ## Queue tab ##
+        # Queue tab #
         new_core_config["queue_new_to_top"] = \
             self.builder.get_object("chk_queue_new_top").get_active()
         new_core_config["max_active_seeding"] = \
@@ -712,7 +712,7 @@ class Preferences(component.Component):
         new_core_config["seed_time_limit"] = \
             self.builder.get_object("spin_seed_time_limit").get_value()
 
-        ## Cache tab ##
+        # Cache tab #
         new_core_config["cache_size"] = \
             self.builder.get_object("spin_cache_size").get_value_as_int()
         new_core_config["cache_expiry"] = \
@@ -1025,8 +1025,8 @@ class Preferences(component.Component):
         # 0:"None"
         if proxy_type == 0:
             hides.extend(["entry_proxy_pass", "entry_proxy_user", "entry_proxy_host", "spin_proxy_port",
-                         "label_proxy_pass", "label_proxy_user", "label_proxy_host", "label_proxy_port",
-                         "chk_proxy_host_resolve", "chk_proxy_peer_conn"])
+                          "label_proxy_pass", "label_proxy_user", "label_proxy_host", "label_proxy_port",
+                          "chk_proxy_host_resolve", "chk_proxy_peer_conn"])
         # 1:"Socks4", 2:"Socks5", 4:"HTTP"
         elif proxy_type in (1, 2, 4):
             if proxy_type in (2, 4):

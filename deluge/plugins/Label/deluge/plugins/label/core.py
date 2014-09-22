@@ -77,7 +77,7 @@ class Core(CorePluginBase):
         self.plugin = component.get("CorePluginManager")
         self.plugin.register_status_field("label", self._status_get_label)
 
-        #__init__
+        # __init__
         core = component.get("Core")
         self.config = ConfigManager("label.conf", defaults=CONFIG_DEFAULTS)
         self.core_cfg = ConfigManager("core.conf")
@@ -111,7 +111,7 @@ class Core(CorePluginBase):
         filter_dict['All'] = len(self.torrents.keys())
         return filter_dict
 
-    ## Plugin hooks ##
+    # Plugin hooks #
     def post_torrent_add(self, torrent_id, from_state):
         if from_state:
             return
@@ -129,11 +129,11 @@ class Core(CorePluginBase):
         if torrent_id in self.torrent_labels:
             del self.torrent_labels[torrent_id]
 
-    ## Utils ##
+    # Utils #
     def clean_config(self):
         """remove invalid data from config-file"""
         for torrent_id, label_id in list(self.torrent_labels.iteritems()):
-            if (not label_id in self.labels) or (not torrent_id in self.torrents):
+            if (label_id not in self.labels) or (torrent_id not in self.torrents):
                 log.debug("label: rm %s:%s" % (torrent_id, label_id))
                 del self.torrent_labels[torrent_id]
 
@@ -260,7 +260,7 @@ class Core(CorePluginBase):
         """
         check_input(label_id in self.labels, _("Unknown Label"))
         for key in options_dict.keys():
-            if not key in OPTIONS_DEFAULTS:
+            if key not in OPTIONS_DEFAULTS:
                 raise Exception("label: Invalid options_dict key:%s" % key)
 
         self.labels[label_id].update(options_dict)

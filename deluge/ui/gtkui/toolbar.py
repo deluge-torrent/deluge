@@ -28,7 +28,7 @@ class ToolBar(component.Component):
         self.window = component.get("MainWindow")
         self.toolbar = self.window.get_builder().get_object("toolbar")
         self.config = ConfigManager("gtkui.conf")
-        ### Connect main window Signals ###
+        # Connect main window Signals #
         self.window.connect_signals({
             "on_toolbutton_add_clicked": self.on_toolbutton_add_clicked,
             "on_toolbutton_remove_clicked": self.on_toolbutton_remove_clicked,
@@ -106,7 +106,7 @@ class ToolBar(component.Component):
         """Removes a widget from the toolbar"""
         self.toolbar.remove(widget)
 
-    ### Callbacks (Uses the menubar's callback) ###
+    # Callbacks (Uses the menubar's callback) #
 
     def on_toolbutton_add_clicked(self, data):
         log.debug("on_toolbutton_add_clicked")

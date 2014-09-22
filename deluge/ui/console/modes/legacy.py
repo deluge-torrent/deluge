@@ -166,8 +166,8 @@ class Legacy(BaseMode, component.Component):
             # simply scan for lines beginning with ">>> "
             for i, line in enumerate(self.lines):
                 # if not isinstance(line, unicode):
-                    #line = line.encode(self.encoding)
-                    #self.lines[i] = line
+                    # line = line.encode(self.encoding)
+                    # self.lines[i] = line
                 line = format_utils.remove_formatting(line)
                 if line.startswith(">>> "):
                     input = line[4:]

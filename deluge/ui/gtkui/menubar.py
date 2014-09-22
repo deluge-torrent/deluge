@@ -109,7 +109,7 @@ class MenuBar(component.Component):
         self.main_builder.get_object("sidebar_show_zero").set_active(self.config["sidebar_show_zero"])
         self.main_builder.get_object("sidebar_show_trackers").set_active(self.config["sidebar_show_trackers"])
 
-        ### Connect main window Signals ###
+        # Connect main window Signals #
         component.get("MainWindow").connect_signals({
             # File Menu
             "on_menuitem_addtorrent_activate": self.on_menuitem_addtorrent_activate,
@@ -220,7 +220,7 @@ class MenuBar(component.Component):
         sep.show()
         return sep
 
-    ### Callbacks ###
+    # Callbacks #
     def on_torrentstatechanged_event(self, torrent_id, state):
         if state == "Paused":
             self.update_menu()
@@ -234,7 +234,7 @@ class MenuBar(component.Component):
     def on_sessionresumed_event(self):
         self.update_menu()
 
-    ## File Menu ##
+    # File Menu #
     def on_menuitem_addtorrent_activate(self, data=None):
         log.debug("on_menuitem_addtorrent_activate")
         component.get("AddTorrentDialog").show()
@@ -252,7 +252,7 @@ class MenuBar(component.Component):
         log.debug("on_menuitem_quit_activate")
         self.window.quit()
 
-    ## Edit Menu ##
+    # Edit Menu #
     def on_menuitem_preferences_activate(self, data=None):
         log.debug("on_menuitem_preferences_activate")
         component.get("Preferences").show()
@@ -261,7 +261,7 @@ class MenuBar(component.Component):
         log.debug("on_menuitem_connectionmanager_activate")
         component.get("ConnectionManager").show()
 
-    ## Torrent Menu ##
+    # Torrent Menu #
     def on_menuitem_pause_activate(self, data=None):
         log.debug("on_menuitem_pause_activate")
         client.core.pause_torrent(
@@ -364,7 +364,7 @@ class MenuBar(component.Component):
         log.debug("on_menuitem_queue_bottom_activate")
         client.core.queue_bottom(component.get("TorrentView").get_selected_torrents())
 
-    ## View Menu ##
+    # View Menu #
     def on_menuitem_toolbar_toggled(self, value):
         log.debug("on_menuitem_toolbar_toggled")
         component.get("ToolBar").visible(value.get_active())
@@ -377,7 +377,7 @@ class MenuBar(component.Component):
         log.debug("on_menuitem_statusbar_toggled")
         component.get("StatusBar").visible(value.get_active())
 
-    ## Help Menu ##
+    # Help Menu #
     def on_menuitem_homepage_activate(self, data=None):
         log.debug("on_menuitem_homepage_activate")
         deluge.common.open_url_in_browser("http://deluge-torrent.org")

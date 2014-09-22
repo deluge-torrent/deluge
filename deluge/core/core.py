@@ -59,7 +59,7 @@ class Core(component.Component):
         # Load the session state if available
         self.__load_session_state()
 
-        ## Set session settings ##
+        # --- Set session settings ---
         settings = self.session.get_settings()
         settings["user_agent"] = "Deluge/%(deluge_version)s libtorrent/%(lt_version)s" % {
             'deluge_version': deluge.common.get_version(),
@@ -73,7 +73,7 @@ class Core(component.Component):
             settings["disk_io_read_mode"] = lt.io_buffer_mode_t.disable_os_cache
         self.session.set_settings(settings)
 
-        ## libtorrent plugins ##
+        # --- libtorrent plugins ---
         # Allows peers to download the metadata from the swarm directly
         self.session.add_extension("metadata_transfer")
         self.session.add_extension("ut_metadata")

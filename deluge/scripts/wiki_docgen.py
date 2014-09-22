@@ -28,7 +28,7 @@ print("\n\n")
 
 if 0:  # aclient non-core
     methods = sorted([m for m in dir(aclient) if not m.startswith('_')
-                     if not m in ['add_torrent_file', 'has_callback', 'get_method', 'methodHelp',
+                     if m not in ['add_torrent_file', 'has_callback', 'get_method', 'methodHelp',
                                   'methodSignature', 'list_methods', 'add_torrent_file_binary']])
 
     for m in methods:
@@ -57,8 +57,7 @@ if 1:  # baseclient/core
             func = getattr(Core, m)
 
         params = inspect.getargspec(func)[0][1:]
-        if (aclient.has_callback(method_name)
-                and not method_name in ['add_torrent_file_binary']):
+        if (aclient.has_callback(method_name) and method_name not in ['add_torrent_file_binary']):
             params = ["[callback]"] + params
 
         print("\n'''%s(%s): '''\n" % (method_name, ", ".join(params)))

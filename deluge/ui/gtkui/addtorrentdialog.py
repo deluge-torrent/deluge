@@ -137,7 +137,7 @@ class AddTorrentDialog(component.Component):
             "move_completed_path",
             "move_completed_paths_list",
         ]
-        #self.core_keys += self.move_completed_path_chooser.get_config_keys()
+        # self.core_keys += self.move_completed_path_chooser.get_config_keys()
         self.builder.get_object("notebook1").connect("switch-page", self._on_switch_page)
 
     def start(self):

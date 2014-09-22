@@ -195,8 +195,8 @@ class GtkUI(GtkPluginBase):
         self.whitelist_treeview.set_model(self.whitelist_model)
 
     def on_cell_edited(self, cell, path_string, new_text, model):
-        #~ iter = model.get_iter_from_string(path_string)
-        #~ path = model.get_path(iter)[0]
+        # iter = model.get_iter_from_string(path_string)
+        # path = model.get_path(iter)[0]
         try:
             ip = common.IP.parse(new_text)
             model.set(model.get_iter_from_string(path_string), 0, ip.address)
@@ -223,7 +223,7 @@ class GtkUI(GtkPluginBase):
         selection = treeview.get_selection()
         model, iter = selection.get_selected()
         if iter:
-            #~ path = model.get_path(iter)[0]
+            # path = model.get_path(iter)[0]
             model.remove(iter)
 
     def populate_whitelist(self, whitelist):
