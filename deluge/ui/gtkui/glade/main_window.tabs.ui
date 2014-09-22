@@ -49,7 +49,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="hscrollbar_policy">automatic</property>
-            <property name="vscrollbar_policy">never</property>
+            <property name="vscrollbar_policy">automatic</property>
             <child>
               <object class="GtkViewport" id="viewport1">
                 <property name="visible">True</property>
@@ -61,7 +61,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="top_padding">5</property>
-                    <property name="bottom_padding">10</property>
+                    <property name="bottom_padding">2</property>
                     <property name="left_padding">10</property>
                     <property name="right_padding">10</property>
                     <child>
@@ -671,8 +671,8 @@
                     <property name="can_focus">False</property>
                     <property name="yalign">0</property>
                     <property name="yscale">0</property>
-                    <property name="top_padding">10</property>
-                    <property name="bottom_padding">10</property>
+                    <property name="top_padding">5</property>
+                    <property name="bottom_padding">2</property>
                     <property name="left_padding">10</property>
                     <property name="right_padding">15</property>
                     <child>
@@ -1199,8 +1199,8 @@
                   <object class="GtkAlignment" id="alignment1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="top_padding">10</property>
-                    <property name="bottom_padding">10</property>
+                    <property name="top_padding">5</property>
+                    <property name="bottom_padding">2</property>
                     <property name="left_padding">5</property>
                     <property name="right_padding">15</property>
                     <child>
@@ -1732,8 +1732,8 @@
                   <object class="GtkAlignment" id="alignment6">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="top_padding">10</property>
-                    <property name="bottom_padding">10</property>
+                    <property name="top_padding">5</property>
+                    <property name="bottom_padding">2</property>
                     <property name="left_padding">10</property>
                     <property name="right_padding">15</property>
                     <child>

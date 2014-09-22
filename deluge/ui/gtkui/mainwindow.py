@@ -106,8 +106,8 @@ class MainWindow(component.Component):
         self.window = self.main_builder.get_object("main_window")
 
         self.window.set_icon(deluge.ui.gtkui.common.get_deluge_icon())
-
         self.vpaned = self.main_builder.get_object("vpaned")
+
         self.initial_vpaned_position = self.config["window_pane_position"]
 
         # Load the window state
@@ -141,10 +141,10 @@ class MainWindow(component.Component):
                 self.window.get_property("visible"):
             log.debug("Showing window")
             self.main_builder.prev_connect_signals(self.gtk_builder_signals_holder)
+            self.vpaned.set_position(self.initial_vpaned_position)
             self.show()
             while gtk.events_pending():
                 gtk.main_iteration(False)
-            self.vpaned.set_position(self.initial_vpaned_position)
 
     def show(self):
         try:
