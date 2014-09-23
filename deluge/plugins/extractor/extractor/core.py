@@ -55,16 +55,20 @@ DEFAULT_PREFS = {
 }
 
 if windows_check():
-    import _winreg
-    hkey = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, "Software\\7-Zip")
-    win_7z_path = os.path.join(_winreg.QueryValueEx(hkey, "Path")[0], "7z.exe")
-    _winreg.CloseKey(hkey)
-    win_7z_exes = [
-        win_7z_path,
-        '7z.exe',
-        'C:\\Program Files\\7-Zip\\7z.exe',
-        'C:\\Program Files (x86)\\7-Zip\\7z.exe',
-    ]
+    try:
+        import _winreg
+        hkey = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, "Software\\7-Zip")
+        win_7z_path = os.path.join(_winreg.QueryValueEx(hkey, "Path")[0], "7z.exe")
+        _winreg.CloseKey(hkey)
+        win_7z_exes = [
+            win_7z_path,
+        ]
+    except:
+        win_7z_exes = [
+            '7z.exe',
+            'C:\\Program Files\\7-Zip\\7z.exe',
+            'C:\\Program Files (x86)\\7-Zip\\7z.exe',
+        ]
     switch_7z = "x -y"
     ## Future suport:
     ## 7-zip cannot extract tar.* with single command.
