@@ -63,9 +63,9 @@ if windows_check():
     win_7z_path = os.path.join(win_7z_dir_path, "7z.exe")
     win_7z_exes = [
     win_7z_path,
-    '7z.exe',
-    'C:\\Program Files\\7-Zip\\7z.exe',
-    'C:\\Program Files (x86)\\7-Zip\\7z.exe',
+        '7z.exe',
+        'C:\\Program Files\\7-Zip\\7z.exe',
+        'C:\\Program Files (x86)\\7-Zip\\7z.exe',
     ]
     switch_7z = "x -y"
     ## Future suport:
