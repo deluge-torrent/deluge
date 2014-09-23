@@ -28,7 +28,7 @@ def check_version(lt):
         raise ImportError("This version of Deluge requires libtorrent >=%s!" % REQUIRED_VERSION)
 
 try:
-    import deluge.libtorrent as lt
+    from deluge import libtorrent as lt
     check_version(lt)
 except ImportError:
     import libtorrent as lt

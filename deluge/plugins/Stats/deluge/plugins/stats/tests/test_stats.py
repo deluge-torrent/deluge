@@ -26,7 +26,8 @@ class StatsTestCase(unittest.TestCase):
         client.core.enable_plugin("Stats")
 
     def tearDown(self):  # NOQA
-        # d = client.stop_classic_mode()
+        client.stop_classic_mode()
+
         def on_shutdown(result):
             component._ComponentRegistry.components = {}
         return component.shutdown().addCallback(on_shutdown)
