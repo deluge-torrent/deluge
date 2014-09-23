@@ -151,6 +151,7 @@ class TorrentManager(component.Component):
         self.alerts.register_handler("state_update_alert", self.on_alert_state_update)
         self.alerts.register_handler("external_ip_alert", self.on_alert_external_ip)
         self.alerts.register_handler("performance_alert", self.on_alert_performance)
+        self.alerts.register_handler("fastresume_rejected_alert", self.on_alert_fastresume_rejected)
 
         # Define timers
         self.save_state_timer = LoopingCall(self.save_state)
@@ -1070,7 +1071,7 @@ class TorrentManager(component.Component):
             return
 
         if torrent_id in self.torrents:
-            # Libtorrent in add_torrent() expects resume_data to be bencoded
+            # libtorrent add_torrent expects bencoded resume_data.
             self.resume_data[torrent_id] = lt.bencode(alert.resume_data)
 
         if torrent_id in self.waiting_on_resume_data:
@@ -1086,6 +1087,24 @@ class TorrentManager(component.Component):
 
         if torrent_id in self.waiting_on_resume_data:
             self.waiting_on_resume_data[torrent_id].errback(Exception(decode_string(alert.message())))
+
+    def on_alert_fastresume_rejected(self, alert):
+        """Alert handler for libtorrent fastresume_rejected_alert"""
+        log.warning("on_alert_fastresume_rejected: %s", decode_string(alert.message()))
+        try:
+            torrent_id = str(alert.handle.info_hash())
+            torrent = self.torrents[torrent_id]
+        except (RuntimeError, KeyError):
+            return
+
+        if alert.error.value() == 134:
+            if not os.path.isdir(torrent.options["download_location"]):
+                error_msg = "Unable to locate Download Folder!"
+            else:
+                error_msg = "Missing or invalid torrent data!"
+        else:
+            error_msg = "Problem with resume data: %s" % decode_string(alert.message()).split(':', 1)[1].strip()
+        torrent.force_error_state(error_msg)
 
     def on_alert_file_renamed(self, alert):
         """Alert handler for libtorrent file_renamed_alert
