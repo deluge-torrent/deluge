@@ -188,7 +188,7 @@ class BuildDocs(BuildDoc):
 
 
 class Build(_build):
-    sub_commands = [('BuildTranslations', None), ('BuildPlugins', None)] + _build.sub_commands
+    sub_commands = [('build_trans', None), ('build_plugins', None)] + _build.sub_commands
 
     def run(self):
         # Run all sub-commands (at least those that need to be run)
@@ -250,7 +250,7 @@ class CleanPlugins(cmd.Command):
 
 
 class Clean(_clean):
-    sub_commands = _clean.sub_commands + [('CleanPlugins', None)]
+    sub_commands = _clean.sub_commands + [('clean_plugins', None)]
 
     def run(self):
         # Run all sub-commands (at least those that need to be run)
