@@ -122,7 +122,7 @@ class GraphsTab(Tab):
         self.graph.draw_to_context(context,
                                    self.graph_widget.allocation.width,
                                    self.graph_widget.allocation.height)
-        #Do not propagate the event
+        # Do not propagate the event
         return False
 
     def update(self):
@@ -188,7 +188,7 @@ class GraphsTab(Tab):
             current = intervals.index(self.selected_interval)
         except:
             current = 0
-        #should select the value saved in config
+        # should select the value saved in config
         self.intervals_combo.set_active(current)
 
     def _on_selected_interval_changed(self, combobox):

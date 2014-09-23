@@ -37,8 +37,8 @@ if windows_check():
         'C:\\Program Files (x86)\\7-Zip\\7z.exe',
     ]
     switch_7z = "x -y"
-    ## Future suport:
-    ## 7-zip cannot extract tar.* with single command.
+    # Future suport:
+    # 7-zip cannot extract tar.* with single command.
     #    ".tar.gz", ".tgz",
     #    ".tar.bz2", ".tbz",
     #    ".tar.lzma", ".tlz",
@@ -53,9 +53,9 @@ if windows_check():
             break
 else:
     required_cmds = ["unrar", "unzip", "tar", "unxz", "unlzma", "7zr", "bunzip2"]
-    ## Possible future suport:
+    # Possible future suport:
     # gunzip: gz (cmd will delete original archive)
-    ## the following do not extract to dest dir
+    # the following do not extract to dest dir
     # ".xz": ["xz", "-d --keep"],
     # ".lzma": ["xz", "-d --format=lzma --keep"],
     # ".bz2": ["bzip2", "-d --keep"],

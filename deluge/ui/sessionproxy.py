@@ -188,7 +188,7 @@ class SessionProxy(component.Component):
                     for k in value:
                         self.cache_times[key][k] = t
                 except KeyError:
-                    #The torrent was removed
+                    # The torrent was removed
                     continue
 
             # Create the status dict
@@ -212,7 +212,7 @@ class SessionProxy(component.Component):
                             break
 
             return to_fetch
-        #-----------------------------------------------------------------------
+        # -----------------------------------------------------------------------
 
         if not filter_dict:
             # This means we want all the torrents status

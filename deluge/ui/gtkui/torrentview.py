@@ -284,7 +284,7 @@ class TorrentView(ListView, component.Component):
         # Set filter to None for now
         self.filter = None
 
-        ### Connect Signals ###
+        # Connect Signals #
         # Connect to the 'button-press-event' to know when to bring up the
         # torrent menu popup.
         self.treeview.connect("button-press-event", self.on_button_press_event)
@@ -536,7 +536,7 @@ class TorrentView(ListView, component.Component):
     def mark_dirty(self, torrent_id=None):
         for row in self.liststore:
             if not torrent_id or row[self.columns["torrent_id"].column_indices[0]] == torrent_id:
-                #log.debug("marking %s dirty", torrent_id)
+                # log.debug("marking %s dirty", torrent_id)
                 row[self.columns["dirty"].column_indices[0]] = True
                 if torrent_id:
                     break
@@ -592,7 +592,7 @@ class TorrentView(ListView, component.Component):
     def get_visible_torrents(self):
         return self.status.keys()
 
-    ### Callbacks ###
+    # Callbacks #
     def on_button_press_event(self, widget, event):
         """This is a callback for showing the right-click context menu."""
         log.debug("on_button_press_event")

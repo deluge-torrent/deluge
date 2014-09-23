@@ -274,7 +274,7 @@ class TorrentDetail(BaseMode, component.Component):
                 fl = s[3]
             fe[0] = new_folder.strip("/").rpartition("/")[-1]
 
-            #self.__get_file_by_name(old_folder, self.file_list)[0] = new_folder.strip("/")
+            # self.__get_file_by_name(old_folder, self.file_list)[0] = new_folder.strip("/")
             component.get("SessionProxy").get_torrent_status(
                 self.torrentid, self._status_keys).addCallback(self.set_state)
 
@@ -284,8 +284,8 @@ class TorrentDetail(BaseMode, component.Component):
         color_partially_selected = "magenta"
         color_highlighted = "white"
         for fl in files:
-            #from sys import stderr
-            #print >> stderr, fl[6]
+            # from sys import stderr
+            # print >> stderr, fl[6]
             # kick out if we're going to draw too low on the screen
             if (off >= self.rows - 1):
                 self.more_to_draw = True
@@ -337,7 +337,7 @@ class TorrentDetail(BaseMode, component.Component):
                 else:
                     color_string = "{!%s,%s!}" % (fg, bg)
 
-                #actually draw the dir/file string
+                # actually draw the dir/file string
                 if fl[3] and fl[4]:  # this is an expanded directory
                     xchar = "v"
                 elif fl[3]:  # collapsed directory
@@ -400,7 +400,7 @@ class TorrentDetail(BaseMode, component.Component):
     def on_resize(self, *args):
         BaseMode.on_resize_norefresh(self, *args)
 
-        #Always refresh Legacy(it will also refresh AllTorrents), otherwise it will bug deluge out
+        # Always refresh Legacy(it will also refresh AllTorrents), otherwise it will bug deluge out
         legacy = component.get("LegacyUI")
         legacy.on_resize(*args)
 
@@ -417,12 +417,12 @@ class TorrentDetail(BaseMode, component.Component):
         up_color = colors.state_color["Seeding"]
         down_color = colors.state_color["Downloading"]
 
-        #Name
+        # Name
         s = "{!info!}Name: {!input!}%s" % status["name"]
         self.add_string(off, s)
         off += 1
 
-        #Print DL info and ETA
+        # Print DL info and ETA
         if status["download_payload_rate"] > 0:
             s = "%sDownloading: {!input!}" % down_color
         else:
@@ -436,7 +436,7 @@ class TorrentDetail(BaseMode, component.Component):
         self.add_string(off, s)
         off += 1
 
-        #Print UL info and ratio
+        # Print UL info and ratio
         if status["upload_payload_rate"] > 0:
             s = "%sUploading: {!input!}" % up_color
         else:
@@ -451,7 +451,7 @@ class TorrentDetail(BaseMode, component.Component):
         self.add_string(off, s)
         off += 1
 
-        #Seed/peer info
+        # Seed/peer info
         s = "{!info!}Seeds:{!green!} %s {!input!}(%s)" % (status["num_seeds"], status["total_seeds"])
         self.add_string(off, s)
         off += 1
@@ -459,7 +459,7 @@ class TorrentDetail(BaseMode, component.Component):
         self.add_string(off, s)
         off += 1
 
-        #Tracker
+        # Tracker
         if status["message"] == "OK":
             color = "{!green!}"
         else:
@@ -469,7 +469,7 @@ class TorrentDetail(BaseMode, component.Component):
         self.add_string(off, s)
         off += 1
 
-        #Pieces and availability
+        # Pieces and availability
         s = "{!info!}Pieces: {!yellow!}%s {!input!}x {!yellow!}%s" % (
             status["num_pieces"], fsize(status["piece_length"]))
         if status["distributed_copies"]:
@@ -477,24 +477,24 @@ class TorrentDetail(BaseMode, component.Component):
         self.add_string(off, s)
         off += 1
 
-        #Time added
+        # Time added
         s = "{!info!}Added: {!input!}%s" % fdate(status["time_added"])
         self.add_string(off, s)
         off += 1
 
-        #Time active
+        # Time active
         s = "{!info!}Time active: {!input!}%s" % (ftime(status["active_time"]))
         if status["seeding_time"]:
             s += ", {!cyan!}%s{!input!} seeding" % (ftime(status["seeding_time"]))
         self.add_string(off, s)
         off += 1
 
-        #Download Folder
+        # Download Folder
         s = "{!info!}Download Folder: {!input!}%s" % status["download_location"]
         self.add_string(off, s)
         off += 1
 
-        #Owner
+        # Owner
         if status["owner"]:
             s = "{!info!}Owner: {!input!}%s" % status["owner"]
 
@@ -510,7 +510,7 @@ class TorrentDetail(BaseMode, component.Component):
         self.stdscr.erase()
         self.add_string(0, self.statusbars.topbar)
 
-        #This will quite likely fail when switching modes
+        # This will quite likely fail when switching modes
         try:
             rf = format_utils.remove_formatting
             string = self.statusbars.bottombar
@@ -591,7 +591,7 @@ class TorrentDetail(BaseMode, component.Component):
     def build_prio_list(self, files, ret_list, parent_prio, selected_prio):
         # has a priority been set on my parent (if so, I inherit it)
         for f in files:
-            #Do not set priorities for the whole dir, just selected contents
+            # Do not set priorities for the whole dir, just selected contents
             if f[3]:
                 self.build_prio_list(f[3], ret_list, parent_prio, selected_prio)
             else:  # file, need to add to list
@@ -632,13 +632,13 @@ class TorrentDetail(BaseMode, component.Component):
         """
         fc = self.__get_contained_files_count(idx=idx)
         if idx not in self.marked:
-            #Not selected, select it
+            # Not selected, select it
             self.__mark_tree(self.file_list, idx)
         elif self.marked[idx] < fc:
-            #Partially selected, unselect all contents
+            # Partially selected, unselect all contents
             self.__unmark_tree(self.file_list, idx)
         else:
-            #Selected, unselect it
+            # Selected, unselect it
             self.__unmark_tree(self.file_list, idx)
 
     def __mark_tree(self, file_list, idx, mark_all=False):
@@ -650,10 +650,10 @@ class TorrentDetail(BaseMode, component.Component):
         total_marked = 0
         for element in file_list:
             marked = 0
-            #Select the file if it's the one we want or
+            # Select the file if it's the one we want or
             # if it's inside a directory that got selected
             if (element[1] == idx) or mark_all:
-                #If it's a folder then select everything inside
+                # If it's a folder then select everything inside
                 if element[3]:
                     marked = self.__mark_tree(element[3], idx, True)
                     self.marked[element[1]] = marked
@@ -661,17 +661,17 @@ class TorrentDetail(BaseMode, component.Component):
                     marked = 1
                     self.marked[element[1]] = 1
             else:
-                #Does not match but the item to be selected might be inside, recurse
+                # Does not match but the item to be selected might be inside, recurse
                 if element[3]:
                     marked = self.__mark_tree(element[3], idx, False)
-                    #Partially select the folder if it contains files that were selected
+                    # Partially select the folder if it contains files that were selected
                     if marked > 0:
                         self.marked[element[1]] = marked
                 else:
                     if element[1] in self.marked:
-                        #It's not the element we want but it's marked so count it
+                        # It's not the element we want but it's marked so count it
                         marked = 1
-            #Count and then return total amount of files selected in all subdirectories
+            # Count and then return total amount of files selected in all subdirectories
             total_marked += marked
 
         return total_marked
@@ -717,30 +717,30 @@ class TorrentDetail(BaseMode, component.Component):
         total_marked = 0
         for element in file_list:
             marked = 0
-            #It's either the item we want to select or
+            # It's either the item we want to select or
             # a contained item, deselect it
             if (element[1] == idx) or unmark_all:
                 if element[1] in self.marked:
                     del self.marked[element[1]]
-                    #Deselect all contents if it's a catalog
+                    # Deselect all contents if it's a catalog
                     if element[3]:
                         self.__unmark_tree(element[3], idx, True)
             else:
-                #Not file we wanted but it might be inside this folder, recurse inside
+                # Not file we wanted but it might be inside this folder, recurse inside
                 if element[3]:
                     marked = self.__unmark_tree(element[3], idx, False)
-                    #If none of the contents remain selected, unselect this folder as well
+                    # If none of the contents remain selected, unselect this folder as well
                     if marked == 0:
                         if element[1] in self.marked:
                             del self.marked[element[1]]
-                    #Otherwise update selection count
+                    # Otherwise update selection count
                     else:
                         self.marked[element[1]] = marked
                 else:
                     if element[1] in self.marked:
                         marked = 1
 
-            #Count and then return selection count so we can update
+            # Count and then return selection count so we can update
             # directories higher up in the hierarchy
             total_marked += marked
         return total_marked
@@ -753,7 +753,7 @@ class TorrentDetail(BaseMode, component.Component):
             if idx == self.current_file_idx:
                 return true_idx
 
-            #It's a folder
+            # It's a folder
             if element[3]:
                 i = self._selection_to_file_idx(element[3], idx + 1, true_idx, closed or not element[4])
                 if isinstance(i, tuple):
@@ -804,7 +804,7 @@ class TorrentDetail(BaseMode, component.Component):
         client.core.rename_files(torrent_id, [(file_idx, new_filename)])
 
     def _show_rename_popup(self):
-        #Perhaps in the future: Renaming multiple files
+        # Perhaps in the future: Renaming multiple files
         if self.marked:
             title = "Error (Enter to close)"
             text = "Sorry, you can't rename multiple files, please clear selection with {!info!}'c'{!normal!} key"

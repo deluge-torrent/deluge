@@ -59,7 +59,7 @@ class Core(component.Component):
         # Load the session state if available
         self.__load_session_state()
 
-        ## Set session settings ##
+        # --- Set session settings ---
         settings = self.session.get_settings()
         settings["user_agent"] = "Deluge/%(deluge_version)s libtorrent/%(lt_version)s" % {
             'deluge_version': deluge.common.get_version(),
@@ -73,7 +73,7 @@ class Core(component.Component):
             settings["disk_io_read_mode"] = lt.io_buffer_mode_t.disable_os_cache
         self.session.set_settings(settings)
 
-        ## libtorrent plugins ##
+        # --- libtorrent plugins ---
         # Allows peers to download the metadata from the swarm directly
         self.session.add_extension("metadata_transfer")
         self.session.add_extension("ut_metadata")
@@ -771,7 +771,7 @@ class Core(component.Component):
         torrents = ((self.torrentmanager.get_queue_position(torrent_id), torrent_id) for torrent_id in torrent_ids)
         torrent_moved = True
         prev_queue_position = None
-        #torrent_ids must be sorted before moving.
+        # torrent_ids must be sorted before moving.
         for queue_position, torrent_id in sorted(torrents):
             # Move the torrent if and only if there is space (by not moving it we preserve the order)
             if torrent_moved or queue_position - prev_queue_position > 1:
@@ -791,7 +791,7 @@ class Core(component.Component):
         torrents = ((self.torrentmanager.get_queue_position(torrent_id), torrent_id) for torrent_id in torrent_ids)
         torrent_moved = True
         prev_queue_position = None
-        #torrent_ids must be sorted before moving.
+        # torrent_ids must be sorted before moving.
         for queue_position, torrent_id in sorted(torrents, reverse=True):
             # Move the torrent if and only if there is space (by not moving it we preserve the order)
             if torrent_moved or prev_queue_position - queue_position > 1:

@@ -95,7 +95,7 @@ class Popup:
 
         log.debug("Resizing(or creating) popup window")
 
-        #Height
+        # Height
         if hr == 0:
             hr = int(self.parent.rows / 2)
         elif hr == -1:
@@ -103,7 +103,7 @@ class Popup:
         elif hr > self.parent.rows - 2:
             hr = self.parent.rows - 2
 
-        #Width
+        # Width
         if wr == 0:
             wr = int(self.parent.cols / 2)
         elif wr == -1:
@@ -334,7 +334,7 @@ class MessagePopup(Popup):
     """
     def __init__(self, parent_mode, title, message, align=ALIGN.DEFAULT, width_req=0.5):
         self.message = message
-        #self.width= int(parent_mode.cols/2)
+        # self.width= int(parent_mode.cols/2)
         Popup.__init__(self, parent_mode, title, align=align, width_req=width_req)
         lns = format_utils.wrap_string(self.message, self.width - 2, 3, True)
         self.height_req = min(len(lns) + 2, int(parent_mode.rows * 2 / 3))

@@ -167,7 +167,7 @@ class Daemon(object):
         Returns:
             bool: True if authorized to call RPC, otherwise False.
         """
-        if not rpc in self.get_method_list():
+        if rpc not in self.get_method_list():
             return False
 
         return self.rpcserver.get_session_auth_level() >= self.rpcserver.get_rpc_auth_level(rpc)

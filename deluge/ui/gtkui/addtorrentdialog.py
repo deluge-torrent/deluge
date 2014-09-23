@@ -69,7 +69,7 @@ class AddTorrentDialog(component.Component):
         })
 
         self.torrent_liststore = gtk.ListStore(str, str, str)
-        #download?, path, filesize, sequence number, inconsistent?
+        # download?, path, filesize, sequence number, inconsistent?
         self.files_treestore = gtk.TreeStore(
             bool, str, gobject.TYPE_UINT64, gobject.TYPE_INT64, bool, str)
         self.files_treestore.set_sort_column_id(1, gtk.SORT_ASCENDING)
@@ -137,7 +137,7 @@ class AddTorrentDialog(component.Component):
             "move_completed_path",
             "move_completed_paths_list",
         ]
-        #self.core_keys += self.move_completed_path_chooser.get_config_keys()
+        # self.core_keys += self.move_completed_path_chooser.get_config_keys()
         self.builder.get_object("notebook1").connect("switch-page", self._on_switch_page)
 
     def start(self):
@@ -516,7 +516,7 @@ class AddTorrentDialog(component.Component):
                     self.files_treestore.set_value(iter, 4, True)
                 else:
                     self.files_treestore.set_value(iter, 0, toggle)
-                    #set inconsistent to false
+                    # set inconsistent to false
                     self.files_treestore.set_value(iter, 4, False)
             else:
                 toggle = self.files_treestore.get_value(iter, 0)

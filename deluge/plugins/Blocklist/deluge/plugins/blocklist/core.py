@@ -111,7 +111,7 @@ class Core(CorePluginBase):
     def update(self):
         pass
 
-    ## Exported RPC methods ###
+    # Exported RPC methods #
     @export
     def check_import(self, force=False):
         """Imports latest blocklist specified by blocklist url.
@@ -375,7 +375,7 @@ class Core(CorePluginBase):
 
         def on_read_ip_range(start, end):
             """Add ip range to blocklist"""
-            #~ log.trace("Adding ip range %s - %s to ipfilter as blocked", start, end)
+            # log.trace("Adding ip range %s - %s to ipfilter as blocked", start, end)
             self.blocklist.add_rule(start.address, end.address, BLOCK_RANGE)
             self.num_blocked += 1
 
@@ -417,7 +417,7 @@ class Core(CorePluginBase):
         log.debug("Importing using reader: %s", self.reader)
         log.debug("Reader type: %s compression: %s", self.config["list_type"], self.config["list_compression"])
         log.debug("Clearing current ip filtering")
-        #~ self.blocklist.add_rule("0.0.0.0", "255.255.255.255", ALLOW_RANGE)
+        # self.blocklist.add_rule("0.0.0.0", "255.255.255.255", ALLOW_RANGE)
         d = threads.deferToThread(self.reader(blocklist).read, on_read_ip_range)
         d.addCallback(on_finish_read).addErrback(on_reader_failure)
 

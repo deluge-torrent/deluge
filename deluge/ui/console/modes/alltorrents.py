@@ -411,7 +411,7 @@ class AllTorrents(BaseMode, component.Component):
             ccol = column
             width = self.column_widths[i]
 
-            #Trim the column if it's too long to fit
+            # Trim the column if it's too long to fit
             if len(ccol) > width:
                 ccol = ccol[:width - 1]
 
@@ -538,7 +538,7 @@ class AllTorrents(BaseMode, component.Component):
 
         result = state
 
-        #Sort first by secondary sort field and then primary sort field
+        # Sort first by secondary sort field and then primary sort field
         # so it all works out
 
         cmp_func = self._queue_sort
@@ -551,7 +551,7 @@ class AllTorrents(BaseMode, component.Component):
 
             reverse = field in reverse_sort_fields
 
-            #Get first element so we can check if it has given field
+            # Get first element so we can check if it has given field
             # and if it's a string
             first_element = state[state.keys()[0]]
             if field in first_element:
@@ -560,7 +560,7 @@ class AllTorrents(BaseMode, component.Component):
                 sort_key = lambda s: sg(s)[field]
                 sort_key2 = lambda s: sg(s)[field].lower()
 
-                #If it's a string, sort case-insensitively but preserve A>a order
+                # If it's a string, sort case-insensitively but preserve A>a order
                 if is_string:
                     result = sorted(result, cmp_func, sort_key, reverse)
                     result = sorted(result, cmp_func, sort_key2, reverse)
@@ -572,7 +572,7 @@ class AllTorrents(BaseMode, component.Component):
 
             return result
 
-        #Just in case primary and secondary fields are empty and/or
+        # Just in case primary and secondary fields are empty and/or
         # both are too ambiguous, also sort by queue position first
         if "queue" not in [s_secondary, s_primary]:
             result = sort_by_field(state, result, "queue")
@@ -809,9 +809,9 @@ class AllTorrents(BaseMode, component.Component):
         self.refresh()
 
     def refresh(self, lines=None):
-        #log.error("ref")
-        #import traceback
-        #traceback.print_stack()
+        # log.error("ref")
+        # import traceback
+        # traceback.print_stack()
         # Something has requested we scroll to the top of the list
         if self._go_top:
             self.cursel = 1
@@ -847,7 +847,7 @@ class AllTorrents(BaseMode, component.Component):
 
             self.add_string(self.rows - 1, string)
         else:
-            #This will quite likely fail when switching modes
+            # This will quite likely fail when switching modes
             try:
                 rf = format_utils.remove_formatting
                 string = self.statusbars.bottombar
@@ -867,7 +867,7 @@ class AllTorrents(BaseMode, component.Component):
             tidx = self.curoff
             currow = 2
 
-            #Because dots are slow
+            # Because dots are slow
             sorted_ids = self._sorted_ids
             curstate = self.curstate
             gcv = deluge.ui.console.modes.column.get_column_value
@@ -956,7 +956,7 @@ class AllTorrents(BaseMode, component.Component):
                 try:
                     self.add_string(currow, "%s%s" % (colorstr, row[0]), trim=False)
                 except:
-                    #Yeah, this should be fixed in some better way
+                    # Yeah, this should be fixed in some better way
                     pass
                 tidx += 1
                 currow += 1
@@ -965,7 +965,7 @@ class AllTorrents(BaseMode, component.Component):
         else:
             self.add_string(1, "Waiting for torrents from core...")
 
-        #self.stdscr.redrawwin()
+        # self.stdscr.redrawwin()
         if self.entering_search:
             curses.curs_set(2)
             self.stdscr.move(self.rows - 1, len(self.search_string) + 17)

@@ -145,7 +145,7 @@ class TorrentDetails(component.Component):
     def add_tab(self, tab, generate_menu=True, visible=None):
         name = tab.get_name()
 
-        #find position of tab in self.state, this is the tab weight
+        # find position of tab in self.state, this is the tab weight
         weight = None
         for w, item in enumerate(self.state):
             if item[0] == name:
@@ -164,7 +164,7 @@ class TorrentDetails(component.Component):
 
         if visible:
             tab.is_visible = True
-            #add the tab at position guided by the weight
+            # add the tab at position guided by the weight
             insert_pos = self.tab_insert_position(weight)
             log.debug("Trying to insert tab at %d" % insert_pos)
             pos = self.notebook.insert_page(
@@ -382,9 +382,9 @@ class TorrentDetails(component.Component):
 
     def save_state(self):
         """We save the state, which is basically the tab_index list"""
-        #Update the visiblity status of all tabs
-        #Leave tabs we dont know anything about it the state as they
-        #might come from a plugin
+        # Update the visiblity status of all tabs
+        # Leave tabs we dont know anything about it the state as they
+        # might come from a plugin
         for i, (name, visible) in enumerate(self.state):
             log.debug("Testing name: %s" % name)
             if name in self.tabs:

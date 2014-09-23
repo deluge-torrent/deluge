@@ -77,12 +77,12 @@ class Core(CorePluginBase):
         self.plugin = component.get("CorePluginManager")
         self.plugin.register_status_field("label", self._status_get_label)
 
-        #__init__
+        # __init__
         core = component.get("Core")
         self.config = ConfigManager("label.conf", defaults=CONFIG_DEFAULTS)
         self.core_cfg = ConfigManager("core.conf")
 
-        #reduce typing, assigning some values to self...
+        # reduce typing, assigning some values to self...
         self.torrents = core.torrentmanager.torrents
         self.labels = self.config["labels"]
         self.torrent_labels = self.config["torrent_labels"]
@@ -92,7 +92,7 @@ class Core(CorePluginBase):
         component.get("EventManager").register_event_handler("TorrentAddedEvent", self.post_torrent_add)
         component.get("EventManager").register_event_handler("TorrentRemovedEvent", self.post_torrent_remove)
 
-        #register tree:
+        # register tree:
         component.get("FilterManager").register_tree_field("label", self.init_filter_dict)
 
         log.debug("Label plugin enabled..")
@@ -111,7 +111,7 @@ class Core(CorePluginBase):
         filter_dict['All'] = len(self.torrents.keys())
         return filter_dict
 
-    ## Plugin hooks ##
+    # Plugin hooks #
     def post_torrent_add(self, torrent_id, from_state):
         if from_state:
             return
@@ -129,11 +129,11 @@ class Core(CorePluginBase):
         if torrent_id in self.torrent_labels:
             del self.torrent_labels[torrent_id]
 
-    ## Utils ##
+    # Utils #
     def clean_config(self):
         """remove invalid data from config-file"""
         for torrent_id, label_id in list(self.torrent_labels.iteritems()):
-            if (not label_id in self.labels) or (not torrent_id in self.torrents):
+            if (label_id not in self.labels) or (torrent_id not in self.torrents):
                 log.debug("label: rm %s:%s" % (torrent_id, label_id))
                 del self.torrent_labels[torrent_id]
 
@@ -161,7 +161,7 @@ class Core(CorePluginBase):
     def get_labels(self):
         return sorted(self.labels.keys())
 
-    #Labels:
+    # Labels:
     @export
     def add(self, label_id):
         """add a label
@@ -260,17 +260,17 @@ class Core(CorePluginBase):
         """
         check_input(label_id in self.labels, _("Unknown Label"))
         for key in options_dict.keys():
-            if not key in OPTIONS_DEFAULTS:
+            if key not in OPTIONS_DEFAULTS:
                 raise Exception("label: Invalid options_dict key:%s" % key)
 
         self.labels[label_id].update(options_dict)
 
-        #apply
+        # apply
         for torrent_id, label in self.torrent_labels.iteritems():
             if label_id == label and torrent_id in self.torrents:
                 self._set_torrent_options(torrent_id, label_id)
 
-        #auto add
+        # auto add
         options = self.labels[label_id]
         if options["auto_add"]:
             for torrent_id, torrent in self.torrents.iteritems():

@@ -102,7 +102,7 @@ class DelugeHelpFormatter (optparse.IndentedHelpFormatter):
         "\.\.\.": "{!yellow!}%s{!input!}",
         "\s\*\s": "{!blue!}%s{!input!}",
         "(?<![\-a-z])(-[a-zA-Z0-9])": "{!red!}%s{!input!}",
-        #"(\-[a-zA-Z0-9])": "{!red!}%s{!input!}",
+        # "(\-[a-zA-Z0-9])": "{!red!}%s{!input!}",
         "--[_\-a-zA-Z0-9]+": "{!green!}%s{!input!}",
         "(\[|\])": "{!info!}%s{!input!}",
 

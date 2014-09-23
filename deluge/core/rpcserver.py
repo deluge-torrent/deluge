@@ -128,7 +128,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                 log.debug("Received invalid rpc request: number of items "
                           "in request is %s", len(call))
                 continue
-            #log.debug("RPCRequest: %s", format_request(call))
+            # log.debug("RPCRequest: %s", format_request(call))
             reactor.callLater(0, self.dispatch, *call)
 
     def sendData(self, data):  # NOQA

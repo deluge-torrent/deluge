@@ -72,7 +72,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, component.Compon
     def _on_plugin_disabled_event(self, name):
         self.disable_plugin(name)
 
-    ## Hook functions
+    # Hook functions
     def run_on_show_prefs(self):
         """This hook is run before the user is shown the preferences dialog.
         It is designed so that plugins can update their preference page with
@@ -89,7 +89,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, component.Compon
         for function in self.hooks["on_apply_prefs"]:
             function()
 
-    ## Plugin functions.. will likely move to own class..
+    # Plugin functions.. will likely move to own class..
 
     def add_torrentview_text_column(self, *args, **kwargs):
         return component.get("TorrentView").add_text_column(*args, **kwargs)

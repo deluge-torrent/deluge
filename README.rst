@@ -63,6 +63,6 @@ I can't connect to the daemon from another machine:
 .. |build-status| image:: https://travis-ci.org/deluge-torrent/deluge.svg
     :target: https://travis-ci.org/deluge-torrent/deluge
 
-.. |docs| image:: https://readthedocs.org/projects/pip/badge/?version=latest
-    :target: https://readthedocs.org/projects/pip/?badge=latest
+.. |docs| image:: https://readthedocs.org/projects/deluge/badge/?version=develop
+    :target: https://readthedocs.org/projects/deluge/?badge=develop
     :alt: Documentation Status

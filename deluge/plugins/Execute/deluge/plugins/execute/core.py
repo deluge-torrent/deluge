@@ -131,7 +131,7 @@ class Core(CorePluginBase):
             event_manager.deregister_event_handler(event, handler)
         log.debug("Execute core plugin disabled!")
 
-    ### Exported RPC methods ###
+    # Exported RPC methods #
     @export
     def add_command(self, event, command):
         command_id = hashlib.sha1(str(time.time())).hexdigest()

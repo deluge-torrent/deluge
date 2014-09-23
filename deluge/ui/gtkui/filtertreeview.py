@@ -57,11 +57,11 @@ class FilterTreeView(component.Component):
         self.treeview = gtk.TreeView()
         self.sidebar.add_tab(self.treeview, "filters", "Filters")
 
-        #set filter to all when hidden:
+        # set filter to all when hidden:
         self.sidebar.notebook.connect("hide", self._on_hide)
 
         # Create the treestore
-        #cat, value, label, count, pixmap, visible
+        # cat, value, label, count, pixmap, visible
         self.treestore = gtk.TreeStore(str, str, str, int, gtk.gdk.Pixbuf, bool)
 
         # Create the column and cells
@@ -98,7 +98,7 @@ class FilterTreeView(component.Component):
 
         self.treeview.connect("button-press-event", self.on_button_press_event)
 
-        #colors using current theme.
+        # colors using current theme.
         style = self.window.window.get_style()
         self.colour_background = style.bg[gtk.STATE_NORMAL]
         self.colour_foreground = style.fg[gtk.STATE_NORMAL]
@@ -116,11 +116,11 @@ class FilterTreeView(component.Component):
         self.default_menu_items = self.menu.get_children()
 
     def start(self):
-        #add Cat nodes:
+        # add Cat nodes:
         self.cat_nodes = {}
         self.filters = {}
 
-        #initial order of state filter:
+        # initial order of state filter:
         self.cat_nodes["state"] = self.treestore.append(None, ["cat", "state", _("States"), 0, None, False])
         for state in ["All", "Active"] + TORRENT_STATE:
             self.update_row("state", state, 0, _(state))
@@ -149,15 +149,15 @@ class FilterTreeView(component.Component):
         self.treeview.set_model(self.model_filter)
 
     def cb_update_filter_tree(self, filter_items):
-        #create missing cat_nodes
+        # create missing cat_nodes
         for cat in filter_items:
-            if not cat in self.cat_nodes:
+            if cat not in self.cat_nodes:
                 label = _(cat)
                 if cat == "label":
                     label = _("Labels")
                 self.cat_nodes[cat] = self.treestore.append(None, ["cat", cat, label, 0, None, False])
 
-        #update rows
+        # update rows
         visible_filters = []
         for cat, filters in filter_items.iteritems():
             for value, count in filters:
@@ -170,7 +170,7 @@ class FilterTreeView(component.Component):
 
         # hide items not returned by core-plugin.
         for f in self.filters:
-            if not f in visible_filters:
+            if f not in visible_filters:
                 self.treestore.set_value(self.filters[f], FILTER_COLUMN, False)
 
         if self.expand_rows:
@@ -214,7 +214,7 @@ class FilterTreeView(component.Component):
         label = model.get_value(row, 2)
         count = model.get_value(row, 3)
 
-        #Supress Warning: g_object_set_qdata: assertion `G_IS_OBJECT (object)' failed
+        # Supress Warning: g_object_set_qdata: assertion `G_IS_OBJECT (object)' failed
         original_filters = warnings.filters[:]
         warnings.simplefilter("ignore")
         try:
@@ -300,7 +300,7 @@ class FilterTreeView(component.Component):
         except Exception as ex:
             log.debug(ex)
 
-    ### Callbacks ###
+    # Callbacks #
     def on_button_press_event(self, widget, event):
         """This is a callback for showing the right-click context menu."""
         x, y = event.get_coords()
@@ -324,7 +324,7 @@ class FilterTreeView(component.Component):
                 return True
 
         elif event.button == 3:
-            #assign current cat, value to self:
+            # assign current cat, value to self:
             x, y = event.get_coords()
             path = self.treeview.get_path_at_pos(int(x), int(y))
             if not path:
@@ -334,7 +334,7 @@ class FilterTreeView(component.Component):
             self.value = self.model_filter.get_value(row, 1)
             self.count = self.model_filter.get_value(row, 3)
 
-            #Show the pop-up menu
+            # Show the pop-up menu
             self.set_menu_sensitivity()
             self.menu.hide()
             self.menu.popup(None, None, None, event.button, event.time)
@@ -345,7 +345,7 @@ class FilterTreeView(component.Component):
                 return True
 
     def set_menu_sensitivity(self):
-        #select-all/pause/resume
+        # select-all/pause/resume
         sensitive = (self.cat != "cat" and self.count != 0)
         for item in self.default_menu_items:
             item.set_sensitive(sensitive)

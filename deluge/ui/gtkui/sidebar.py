@@ -30,7 +30,7 @@ class SideBar(component.Component):
         self.notebook = builder.get_object("sidebar_notebook")
         self.hpaned = builder.get_object("main_window_hpaned")
         self.config = ConfigManager("gtkui.conf")
-        #self.hpaned_position = self.hpaned.get_position()
+        # self.hpaned_position = self.hpaned.get_position()
 
         # Tabs holds references to the Tab widgets by their name
         self.tabs = {}

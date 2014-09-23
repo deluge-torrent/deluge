@@ -81,7 +81,7 @@ def check_input(cond, message):
 class Core(CorePluginBase):
     def enable(self):
 
-        #reduce typing, assigning some values to self...
+        # reduce typing, assigning some values to self...
         self.config = deluge.configmanager.ConfigManager("autoadd.conf", DEFAULT_PREFS)
         self.config.run_converter((0, 1), 2, self.__migrate_config_1_to_2)
         self.config.save()
@@ -104,7 +104,7 @@ class Core(CorePluginBase):
                 self.enable_watchdir(watchdir_id)
 
     def disable(self):
-        #disable all running looping calls
+        # disable all running looping calls
         component.get("EventManager").deregister_event_handler(
             "PreTorrentRemovedEvent", self.__on_pre_torrent_removed
         )
@@ -135,12 +135,12 @@ class Core(CorePluginBase):
             if key not in OPTIONS_AVAILABLE:
                 if key not in [key2 + "_toggle" for key2 in OPTIONS_AVAILABLE.iterkeys()]:
                     raise Exception("autoadd: Invalid options key:%s" % key)
-        #disable the watch loop if it was active
+        # disable the watch loop if it was active
         if watchdir_id in self.update_timers:
             self.disable_watchdir(watchdir_id)
 
         self.watchdirs[watchdir_id].update(options)
-        #re-enable watch loop if appropriate
+        # re-enable watch loop if appropriate
         if self.watchdirs[watchdir_id]["enabled"]:
             self.enable_watchdir(watchdir_id)
         self.config.save()

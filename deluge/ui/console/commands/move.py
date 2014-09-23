@@ -54,7 +54,7 @@ class Command(BaseCommand):
             # This is a correct path, check to see if it's a directory
             if os.path.isdir(line):
                 # Directory, so we need to show contents of directory
-                #ret.extend(os.listdir(line))
+                # ret.extend(os.listdir(line))
                 for f in os.listdir(line):
                     # Skip hidden
                     if f.startswith("."):

@@ -975,7 +975,7 @@ class WebApi(JSONComponent):
         :param event: The event name
         :type event: string
         """
-        self.event_queue.add_listener(__request__.session_id, event)  # NOQA
+        self.event_queue.add_listener(__request__.session_id, event)
 
     @export
     def deregister_event_listener(self, event):
@@ -985,11 +985,11 @@ class WebApi(JSONComponent):
         :param event: The event name
         :type event: string
         """
-        self.event_queue.remove_listener(__request__.session_id, event)  # NOQA
+        self.event_queue.remove_listener(__request__.session_id, event)
 
     @export
     def get_events(self):
         """
         Retrieve the pending events for the session.
         """
-        return self.event_queue.get_events(__request__.session_id)  # NOQA
+        return self.event_queue.get_events(__request__.session_id)

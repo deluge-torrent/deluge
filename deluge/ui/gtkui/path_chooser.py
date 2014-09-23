@@ -30,7 +30,7 @@ def singleton(cls):
 class PathChoosersHandler(component.Component):
 
     def __init__(self, paths_config_key=None):
-        #self.chooser_name = "PathChooser_%d" % (len(PathChooser.path_choosers) +1)
+        # self.chooser_name = "PathChooser_%d" % (len(PathChooser.path_choosers) +1)
         component.Component.__init__(self, "PathChoosersHandler")
         self.path_choosers = []
         self.paths_list_keys = []
@@ -70,7 +70,7 @@ class PathChoosersHandler(component.Component):
             chooser.config_key_funcs[key][1] = getattr(chooser, "set_%s" % self.config_keys_to_funcs_mapping[key])
 
         self.path_choosers.append(chooser)
-        if not chooser.paths_config_key in self.paths_list_keys:
+        if chooser.paths_config_key not in self.paths_list_keys:
             self.paths_list_keys.append(chooser.paths_config_key)
             if self.started:
                 self.update_config_from_core()
@@ -82,7 +82,7 @@ class PathChoosersHandler(component.Component):
             chooser.config_key_funcs[key][1](value)
 
         # Save to core
-        if not key is "path_chooser_max_popup_rows":
+        if key is not "path_chooser_max_popup_rows":
             client.core.set_config({key: value})
         else:
             # Since the max rows value can be changed fast with a spinbutton, we

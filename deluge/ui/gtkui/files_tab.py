@@ -340,7 +340,7 @@ class FilesTab(Tab):
             timestamp = gtk.get_current_event_time()
             show_file(filepath, timestamp=timestamp)
 
-    ## The following 3 methods create the folder/file view in the treeview
+    # The following 3 methods create the folder/file view in the treeview
     def prepare_file_store(self, files):
         split_files = {}
         i = 0
@@ -374,7 +374,6 @@ class FilesTab(Tab):
                                       value[1]["size"], "", 0, 0, value[0], gtk.STOCK_FILE])
                 ret += value[1]["size"]
         return ret
-    ###
 
     def update_files(self):
         self.treestore.clear()
@@ -839,7 +838,7 @@ class FilesTab(Tab):
                 client.core.rename_folder(self.torrent_id, pp + model[selected[0]][0],
                                           parent_path + model[selected[0]][0])
             else:
-                #[(index, filepath), ...]
+                # [(index, filepath), ...]
                 to_rename = []
                 for s in selected:
                     to_rename.append((model[s][5], parent_path + model[s][0]))

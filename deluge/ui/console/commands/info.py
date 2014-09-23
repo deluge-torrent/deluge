@@ -206,12 +206,12 @@ class Command(BaseCommand):
                 col_filename = unicode(col_filename, "utf-8")
 
             col_all_info = col_size + col_progress + col_priority
-            #Check how much space we've got left after writing all the info
+            # Check how much space we've got left after writing all the info
             space_left = cols - tlen(col_all_info)
-            #And how much we will potentially have with the longest possible column
+            # And how much we will potentially have with the longest possible column
             maxlen_space_left = cols - tlen(" (1000.0 MiB) 100.00% Priority: Do Not Download")
             if maxlen_space_left > tlen(col_filename) + 1:
-                #If there is enough space, pad it all nicely
+                # If there is enough space, pad it all nicely
                 col_all_info = ""
                 col_all_info += " ("
                 spaces_to_add = tlen(" (1000.0 MiB)") - tlen(col_size)
@@ -223,13 +223,13 @@ class Command(BaseCommand):
                 spaces_to_add = tlen(" Priority: Do Not Download") - tlen(col_priority)
                 col_all_info += col_priority
                 col_all_info += " " * spaces_to_add
-                #And remember to put it to the left!
+                # And remember to put it to the left!
                 col_filename = format_utils.pad_string(col_filename, maxlen_space_left - 2, side="right")
             elif space_left > tlen(col_filename) + 1:
-                #If there is enough space, put the info to the right
+                # If there is enough space, put the info to the right
                 col_filename = format_utils.pad_string(col_filename, space_left - 2, side="right")
             else:
-                #And if there is not, shorten the name
+                # And if there is not, shorten the name
                 col_filename = format_utils.trim_string(col_filename, space_left, True)
             self.console.write(col_filename + col_all_info)
 
@@ -348,15 +348,15 @@ class Command(BaseCommand):
             s += " {!info!}" + ("%.2f%%" % status["progress"]).ljust(7, " ")
             s += " {!input!}%s" % (status["name"])
 
-            #Shorten the ID if it's necessary. Pretty hacky
-            #I _REALLY_ should make a nice function for it that can partition and shorten stuff
+            # Shorten the ID if it's necessary. Pretty hacky
+            # I _REALLY_ should make a nice function for it that can partition and shorten stuff
             space_left = cols - strwidth("[s] 100.00% " + status["name"] + " " * 3) - 2
 
             if space_left >= len(torrent_id) - 2:
-                #There's enough space, print it
+                # There's enough space, print it
                 s += " {!cyan!}%s" % torrent_id
             else:
-                #Shorten the ID
+                # Shorten the ID
                 a = int(space_left * 2 / 3.0)
                 b = space_left - a
                 if a < 8:
@@ -366,10 +366,10 @@ class Command(BaseCommand):
                         a += b
                         b = 0
                 if a > 8:
-                    #Print the shortened ID
+                    # Print the shortened ID
                     s += " {!cyan!}%s" % (torrent_id[0:a] + ".." + torrent_id[-b - 1:-1])
                 else:
-                    #It has wrapped over to the second row anyway
+                    # It has wrapped over to the second row anyway
                     s += " {!cyan!}%s" % torrent_id
             self.console.write(s)
 

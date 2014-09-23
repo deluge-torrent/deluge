@@ -127,7 +127,7 @@ class Legacy(BaseMode, component.Component):
 
         self.console_config = component.get("AllTorrents").config
 
-        #To avoid having to truncate the file every time we're writing
+        # To avoid having to truncate the file every time we're writing
         # or doing it on exit(and therefore relying on an error-less
         # or in other words clean exit, we're going to have two files
         # that we swap around based on length
@@ -153,7 +153,7 @@ class Legacy(BaseMode, component.Component):
                 lines2 = []
                 self._hf_lines[1] = 0
 
-            #The non-full file is the active one
+            # The non-full file is the active one
             if self._hf_lines[0] > self._hf_lines[1]:
                 self.lines = lines1 + lines2
             else:
@@ -162,12 +162,12 @@ class Legacy(BaseMode, component.Component):
             if len(self.lines) > MAX_HISTFILE_SIZE:
                 self.lines = self.lines[-MAX_HISTFILE_SIZE:]
 
-            #Instead of having additional input history file, we can
+            # Instead of having additional input history file, we can
             # simply scan for lines beginning with ">>> "
             for i, line in enumerate(self.lines):
-                #if not isinstance(line, unicode):
-                    #line = line.encode(self.encoding)
-                    #self.lines[i] = line
+                # if not isinstance(line, unicode):
+                    # line = line.encode(self.encoding)
+                    # self.lines[i] = line
                 line = format_utils.remove_formatting(line)
                 if line.startswith(">>> "):
                     input = line[4:]
@@ -219,7 +219,7 @@ class Legacy(BaseMode, component.Component):
         # Read the character
         c = self.stdscr.getch()
 
-        #An ugly, ugly, UGLY UGLY way to handle alt+backspace
+        # An ugly, ugly, UGLY UGLY way to handle alt+backspace
         # deleting more characters than it should, but without a more
         # complex input handling system, a more elegant solution
         # is not viable
@@ -385,7 +385,7 @@ class Legacy(BaseMode, component.Component):
     def on_resize(self, *args):
         BaseMode.on_resize_norefresh(self, *args)
 
-        #We need to also refresh AllTorrents because otherwise it will
+        # We need to also refresh AllTorrents because otherwise it will
         # be only us that get properly resized
         all_torrents = component.get("AllTorrents")
         all_torrents.on_resize(*args)
@@ -464,8 +464,8 @@ class Legacy(BaseMode, component.Component):
         """
 
         if self.console_config["save_legacy_history"]:
-            #Determine which file is the active one
-            #If both are under maximum, it's first, otherwise it's the one not full
+            # Determine which file is the active one
+            # If both are under maximum, it's first, otherwise it's the one not full
             if self._hf_lines[0] < MAX_HISTFILE_SIZE and self._hf_lines[1] < MAX_HISTFILE_SIZE:
                 active_file = 0
             elif self._hf_lines[0] == MAX_HISTFILE_SIZE:
@@ -473,7 +473,7 @@ class Legacy(BaseMode, component.Component):
             else:
                 active_file = 0
 
-            #Write the line
+            # Write the line
             f = open(self.history_file[active_file], "a")
 
             if isinstance(text, unicode):
@@ -482,10 +482,10 @@ class Legacy(BaseMode, component.Component):
 
             f.write(os.linesep)
 
-            #And increment line counter
+            # And increment line counter
             self._hf_lines[active_file] += 1
 
-            #If the active file reaches max size, we truncate it
+            # If the active file reaches max size, we truncate it
             # therefore swapping the currently active file
             if self._hf_lines[active_file] == MAX_HISTFILE_SIZE:
                 self._hf_lines[1 - active_file] = 0
@@ -684,7 +684,7 @@ class Legacy(BaseMode, component.Component):
         # First check to see if there is no space, this will mean that it's a
         # command that needs to be completed.
 
-        #We don't want to split by escaped spaces
+        # We don't want to split by escaped spaces
         def split(string):
             return re.split(r"(?<!\\) ", string)
 
@@ -714,11 +714,11 @@ class Legacy(BaseMode, component.Component):
         # return it, else we need to print out the matches without modifying
         # the line.
         elif len(possible_matches) == 1:
-            #Do not append space after directory names
+            # Do not append space after directory names
             new_line = line_prefix + possible_matches[0]
             if not new_line.endswith("/") and not new_line.endswith(r"\\"):
                 new_line += " "
-            #We only want to print eventual colors or other control characters, not return them
+            # We only want to print eventual colors or other control characters, not return them
             new_line = format_utils.remove_formatting(new_line)
             return (new_line, len(new_line))
         else:
@@ -746,7 +746,7 @@ class Legacy(BaseMode, component.Component):
 
                     if match_count >= 4:
                         self.write("{!green!}Autocompletion matches:")
-                #Only list some of the matching torrents as there can be hundreds of them
+                # Only list some of the matching torrents as there can be hundreds of them
                 if self.console_config["third_tab_lists_all"]:
                     if hits == 2 and left > max_list:
                         for i in range(listed, listed + max_list):
@@ -771,7 +771,7 @@ class Legacy(BaseMode, component.Component):
                         if hits > 2:
                             self.write("{!green!}Finished listing %i torrents (%i/%i)" % (match_count, hits - 1, pages))
 
-            #We only want to print eventual colors or other control characters, not return them
+            # We only want to print eventual colors or other control characters, not return them
             line = format_utils.remove_formatting(line)
             cursor = len(line)
             return (line, cursor)
@@ -786,7 +786,7 @@ class Legacy(BaseMode, component.Component):
             # This is a correct path, check to see if it's a directory
             if os.path.isdir(line):
                 # Directory, so we need to show contents of directory
-                #ret.extend(os.listdir(line))
+                # ret.extend(os.listdir(line))
                 try:
                     for f in os.listdir(line):
                         # Skip hidden
@@ -839,7 +839,7 @@ class Legacy(BaseMode, component.Component):
         elif dirs_first == -1:
             ret = sorted(ret, key=lambda p: os.path.isdir(p), reverse=False)
 
-        #Highlight directory names
+        # Highlight directory names
         for i, filename in enumerate(ret):
             if os.path.isdir(filename):
                 ret[i] = "{!cyan!}%s" % filename
@@ -863,7 +863,7 @@ class Legacy(BaseMode, component.Component):
         else:
             empty = False
 
-        #Remove dangling backslashes to avoid breaking shlex
+        # Remove dangling backslashes to avoid breaking shlex
         if line.endswith("\\"):
             line = line[:-1]
 
@@ -903,9 +903,9 @@ class Legacy(BaseMode, component.Component):
             else:
                 l = len(raw_line)
 
-                #Let's avoid listing all torrents twice if there's no pattern
+                # Let's avoid listing all torrents twice if there's no pattern
                 if not empty and torrent_id.startswith(line):
-                    #Highlight the matching part
+                    # Highlight the matching part
                     text = "{!info!}%s{!input!}%s - '%s'" % (torrent_id[:l], torrent_id[l:], torrent_name)
                     possible_matches.append(text)
                 if torrent_name.startswith(line):

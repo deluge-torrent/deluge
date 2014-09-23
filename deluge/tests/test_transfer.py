@@ -91,7 +91,7 @@ class TransferTestClass(DelugeTransferProtocol):
                       (len(data), len(data) - len(dobj.unused_data), len(dobj.unused_data)))
                 print("Packet count:", self.packet_count)
             except Exception as ex:
-                #log.debug("Received possible invalid message (%r): %s", data, e)
+                # log.debug("Received possible invalid message (%r): %s", data, e)
                 # This could be cut-off data, so we'll save this in the buffer
                 # and try to prepend it on the next dataReceived()
                 self._buffer = data
@@ -306,7 +306,7 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
         self.assertEquals(rencode.dumps(self.msg2), rencode.dumps(message2))
 
     # Needs file containing big data structure e.g. like thetorrent list as it is transfered by the daemon
-    #def test_simulate_big_transfer(self):
+    # def test_simulate_big_transfer(self):
     #    filename = "../deluge.torrentlist"
     #
     #    f = open(filename, "r")
@@ -314,9 +314,9 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
     #    message_to_send = eval(data)
     #    self.transfer.transfer_message(message_to_send)
     #
-    #    # Get the data as sent to the network by DelugeTransferProtocol
+    # Get the data as sent to the network by DelugeTransferProtocol
     #    compressed_data = self.transfer.get_messages_out_joined()
-    #    packet_size = 16000 # Or something smaller...
+    # packet_size = 16000 # Or something smaller...
     #
     #    for d in self.receive_parts_helper(compressed_data, packet_size):
     #        bytes_recv = self.transfer.get_bytes_recv()
@@ -324,16 +324,16 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
     #            self.assertEquals(len(self.transfer.get_messages_in()), 0)
     #        else:
     #            self.assertEquals(len(self.transfer.get_messages_in()), 1)
-    #    # Get the data as received by DelugeTransferProtocol
+    # Get the data as received by DelugeTransferProtocol
     #    transfered_message = self.transfer.get_messages_in().pop(0)
-    #    # Test that the data structures are equal
-    #    #self.assertEquals(transfered_message, message_to_send)
-    #    #self.assertTrue(transfered_message == message_to_send)
+    # Test that the data structures are equal
+    # self.assertEquals(transfered_message, message_to_send)
+    # self.assertTrue(transfered_message == message_to_send)
     #
-    #    #f.close()
-    #    #f = open("rencode.torrentlist", "w")
-    #    #f.write(str(transfered_message))
-    #    #f.close()
+    # f.close()
+    # f = open("rencode.torrentlist", "w")
+    # f.write(str(transfered_message))
+    # f.close()
 
     def receive_parts_helper(self, data, packet_size, receive_func=None):
         byte_count = len(data)

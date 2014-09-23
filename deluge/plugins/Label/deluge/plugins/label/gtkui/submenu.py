@@ -33,7 +33,7 @@ class LabelMenu(gtk.MenuItem):
         self.set_submenu(self.sub_menu)
         self.items = []
 
-        #attach..
+        # attach..
         component.get("MenuBar").torrentmenu
         self.sub_menu.connect("show", self.on_show, None)
 

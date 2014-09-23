@@ -36,7 +36,7 @@ class EventView(BaseMode):
 
         self.add_string(0, self.statusbars.topbar)
         hstr = "%sPress [h] for help" % (" " * (self.cols - len(self.statusbars.bottombar) - 10))
-        #This will quite likely fail when switching modes
+        # This will quite likely fail when switching modes
         try:
             rf = format_utils.remove_formatting
             string = self.statusbars.bottombar
@@ -74,7 +74,7 @@ class EventView(BaseMode):
     def on_resize(self, *args):
         BaseMode.on_resize_norefresh(self, *args)
 
-        #Always refresh Legacy(it will also refresh AllTorrents), otherwise it will bug deluge out
+        # Always refresh Legacy(it will also refresh AllTorrents), otherwise it will bug deluge out
         legacy = component.get("LegacyUI")
         legacy.on_resize(*args)
         self.stdscr.erase()

@@ -84,7 +84,7 @@ class Win32IcoFile(object):
             icon_header['color_depth'] = (icon_header['bpp'] or (icon_header['nb_color'] == 16 and 4))
             icon_header['dim'] = (icon_header['width'], icon_header['height'])
             self.entry.append(icon_header)
-        #end for (read headers)
+        # end for (read headers)
 
         # order by size and color depth
         self.entry.sort(lambda x, y: cmp(x['width'], y['width'])
@@ -144,7 +144,7 @@ class Win32IcoFile(object):
                 if mode == PIL.BmpImagePlugin.BIT2MODE[k][1]:
                     bpp = k
                     break
-            #end for
+            # end for
             log.debug("o:%s, w:%s, h:%s, bpp:%s", o, im.size[0], im.size[1], bpp)
             and_mask_offset = o + (im.size[0] * im.size[1] * (bpp / 8.0))
 
@@ -199,18 +199,18 @@ class Win32IcoFile(object):
                 im = im.convert('RGBA')
                 im.putalpha(mask)
                 log.debug("image mode: %s", im.mode)
-          #end if !'RGBA'
-        #end if (png)/else(bmp)
+            # end if !'RGBA'
+        # end if (png)/else(bmp)
 
         return im
-      #end frame
+    # end frame
 
     def __repr__(self):
         s = 'Microsoft Icon: %d images (max %dx%d %dbpp)' % (
             len(self.entry), self.entry[0]['width'], self.entry[0]['height'],
             self.entry[0]['bpp'])
         return s
-#end Win32IcoFile
+# end Win32IcoFile
 
 
 class Win32IconImageFile (PIL.ImageFile.ImageFile):
@@ -242,7 +242,7 @@ class Win32IconImageFile (PIL.ImageFile.ImageFile):
         self.im = im.im
         self.mode = im.mode
         self.size = im.size
-#end class Win32IconImageFile
+# end class Win32IconImageFile
 
 
 def _accept(prefix):
@@ -250,7 +250,7 @@ def _accept(prefix):
     Quick file test helper for Image.open()
     """
     return prefix[:4] == _MAGIC
-#end _accept
+# end _accept
 
 
 # register our decoder with PIL
