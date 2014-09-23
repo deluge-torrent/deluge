@@ -57,10 +57,8 @@ DEFAULT_PREFS = {
 if windows_check():
     import _winreg
     hkey = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, "Software\\7-Zip")
-    win_7z_dir_path = _winreg.QueryValueEx(hkey, "Path")[0]
+    win_7z_path = os.path.join(_winreg.QueryValueEx(hkey, "Path")[0], "7z.exe")
     _winreg.CloseKey(hkey)
-
-    win_7z_path = os.path.join(win_7z_dir_path, "7z.exe")
     win_7z_exes = [
         win_7z_path,
         '7z.exe',
