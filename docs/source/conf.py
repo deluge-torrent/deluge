@@ -14,6 +14,7 @@ import os
 import sys
 from datetime import date
 
+import mock
 import pkg_resources
 
 try:
@@ -22,11 +23,13 @@ except ImportError:
     get_version = None
 
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+on_travis = os.environ.get('TRAVIS', None) == 'true'
+
 
 # If your extensions are in another directory, add it here. If the directory
 # is relative to the documentation root, use os.path.abspath to make it
 # absolute, like shown here.
-sys.path.append(os.path.abspath(os.path.dirname(__file__ + '../../')))
+sys.path.append(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.path.pardir), os.path.pardir)))
 
 
 class Mock(object):
@@ -51,14 +54,17 @@ class Mock(object):
             return Mock()
 
 MOCK_MODULES = ['deluge.ui.languages', 'deluge.ui.countries', 'deluge.ui.gtkui.gtkui',
-                'deluge.libtorrent', 'psyco', 'rencode', 'win32file', 'win32event',
+                'psyco', 'rencode', 'win32file', 'win32event',
+                'twisted.web', 'twisted.web.client', 'twisted.web.error',
                 'win32gui', 'win32api', 'win32con', '_winreg']
 
-if on_rtd:
-    MOCK_MODULES += ['libtorrent', 'pytgtk']
+if on_rtd or on_travis:
+    MOCK_MODULES += ['libtorrent', 'pygtk', "gtk", "gobject", "gtk.gdk", "pango", "cairo", "pangocairo"]
 
 for mod_name in MOCK_MODULES:
     sys.modules[mod_name] = Mock()
+
+sys.modules['deluge.libtorrent'] = mock.Mock(version='1')
 
 
 # General configuration
@@ -66,7 +72,7 @@ for mod_name in MOCK_MODULES:
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest', 'sphinxcontrib.napoleon']
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest', 'sphinxcontrib.napoleon', 'sphinx.ext.coverage']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -108,7 +114,7 @@ today_fmt = '%B %d, %Y'
 # List of directories, relative to source directories, that shouldn't be searched
 # for source files.
 # exclude_dirs = []
-exclude_pattern = ['deluge/_libtorrent.py', 'deluge/__rpcapi.py']
+exclude_patterns = ['deluge/_libtorrent.py', 'deluge/__rpcapi.py']
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 # default_role = None

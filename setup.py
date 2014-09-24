@@ -18,6 +18,7 @@ from distutils.command.build import build as _build
 from distutils.command.clean import clean as _clean
 
 from setuptools import find_packages, setup
+from setuptools.command.test import test as TestCommand
 
 import msgfmt
 from version import get_version
@@ -33,6 +34,23 @@ def windows_check():
     return platform.system() in ('Windows', 'Microsoft')
 
 desktop_data = 'deluge/ui/data/share/applications/deluge.desktop'
+
+
+class PyTest(TestCommand):
+
+    def initialize_options(self):
+        TestCommand.initialize_options(self)
+        self.pytest_args = []
+
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+
+    def run_tests(self):
+        import pytest
+        errcode = pytest.main(self.test_args)
+        sys.exit(errcode)
 
 
 class BuildTranslations(cmd.Command):
@@ -269,7 +287,8 @@ cmdclass = {
     'build_docs': BuildDocs,
     'clean_plugins': CleanPlugins,
     'clean': Clean,
-    'egg_info_plugins': EggInfoPlugins
+    'egg_info_plugins': EggInfoPlugins,
+    'test': PyTest,
 }
 
 # Data files to be installed to the system
@@ -333,6 +352,7 @@ setup(
     url="http://deluge-torrent.org",
     license="GPLv3",
     cmdclass=cmdclass,
+    tests_require=['pytest'],
     data_files=_data_files,
     package_data={"deluge": ["ui/gtkui/glade/*.glade",
                              "ui/gtkui/glade/*.ui",
