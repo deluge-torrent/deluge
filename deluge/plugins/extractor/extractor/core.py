@@ -60,6 +60,15 @@ if windows_check():
         'C:\\Program Files\\7-Zip\\7z.exe',
         'C:\\Program Files (x86)\\7-Zip\\7z.exe',
     ]
+    import _winreg
+    try:
+        hkey = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, "Software\\7-Zip")
+    except:
+        pass
+    else:
+        win_7z_path = os.path.join(_winreg.QueryValueEx(hkey, "Path")[0], "7z.exe")
+        _winreg.CloseKey(hkey)
+        win_7z_exes.insert(1, win_7z_path)
     switch_7z = "x -y"
     ## Future suport:
     ## 7-zip cannot extract tar.* with single command.
