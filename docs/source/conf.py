@@ -13,8 +13,8 @@
 import os
 import sys
 from datetime import date
-import mock
 
+import mock
 import pkg_resources
 
 try:
@@ -72,7 +72,7 @@ sys.modules['deluge.libtorrent'] = mock.Mock(version='1')
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest', 'sphinxcontrib.napoleon']
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest', 'sphinxcontrib.napoleon', 'sphinx.ext.coverage']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

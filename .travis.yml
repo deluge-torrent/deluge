@@ -18,9 +18,9 @@ script:
 env:
   - TOX_ENV=pydef
   - TOX_ENV=plugins
-  - TOX_ENV=pep8
-  - TOX_ENV=flakes
   - TOX_ENV=flake8
+  - TOX_ENV=flake8-complexity
+  - TOX_ENV=isort
   - TOX_ENV=docs
   - TOX_ENV=testcoverage
 

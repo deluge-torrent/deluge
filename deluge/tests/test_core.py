@@ -13,10 +13,11 @@ from twisted.web.static import File
 
 import deluge.component as component
 import deluge.error
-from . import common
 from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer
 from deluge.ui.web.common import compress
+
+from . import common
 
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 warnings.resetwarnings()

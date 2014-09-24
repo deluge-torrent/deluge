@@ -3,8 +3,9 @@ import os
 from twisted.trial import unittest
 
 import deluge.ui.tracker_icons
-from .common import set_tmp_config_dir
 from deluge.ui.tracker_icons import TrackerIcon, TrackerIcons
+
+from .common import set_tmp_config_dir
 
 set_tmp_config_dir()
 icons = TrackerIcons()

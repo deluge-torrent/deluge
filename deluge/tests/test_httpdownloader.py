@@ -9,11 +9,11 @@ from twisted.trial import unittest
 from twisted.web.http import NOT_MODIFIED
 from twisted.web.server import Site
 
-from . import common
 from deluge.httpdownloader import download_file
 from deluge.log import setup_logger
 from deluge.ui.web.common import compress
 
+from . import common
 
 try:
     from twisted.web.resource import Resource

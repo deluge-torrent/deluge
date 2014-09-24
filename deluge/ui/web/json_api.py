@@ -29,7 +29,7 @@ from deluge import component, httpdownloader
 from deluge.common import is_magnet
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.ui import common as uicommon
-from deluge.ui.client import Client, client
+from deluge.ui.client import client, Client
 from deluge.ui.coreconfig import CoreConfig
 from deluge.ui.sessionproxy import SessionProxy
 from deluge.ui.web.common import _, compress

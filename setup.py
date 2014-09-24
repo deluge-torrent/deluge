@@ -29,9 +29,9 @@ import sys
 from distutils import cmd
 from distutils.command.build import build as _build
 from distutils.command.clean import clean as _clean
-from setuptools.command.test import test as TestCommand
 
 from setuptools import find_packages, setup
+from setuptools.command.test import test as TestCommand
 
 import msgfmt
 from version import get_version

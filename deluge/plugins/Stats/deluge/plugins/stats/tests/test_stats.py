@@ -1,11 +1,10 @@
-from twisted.trial import unittest
 import twisted.internet.defer as defer
-
-from deluge.common import fsize
-from deluge.ui.client import client
-from deluge.tests import common as tests_common
+from twisted.trial import unittest
 
 import deluge.component as component
+from deluge.common import fsize
+from deluge.tests import common as tests_common
+from deluge.ui.client import client
 
 
 def print_totals(totals):
