@@ -63,13 +63,7 @@ if windows_check():
     import _winreg
     try:
         hkey = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, "Software\\7-Zip")
-    except:
-        win_7z_exes = [
-            '7z.exe',
-            'C:\\Program Files\\7-Zip\\7z.exe',
-            'C:\\Program Files (x86)\\7-Zip\\7z.exe',
-        ]
-    else:
+    pass:
         win_7z_path = os.path.join(_winreg.QueryValueEx(hkey, "Path")[0], "7z.exe")
         _winreg.CloseKey(hkey)
         win_7z_exes.insert(1, win_7z_path)
