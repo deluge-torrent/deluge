@@ -1,7 +1,6 @@
 twisted
 pyopenssl
 sphinxcontrib-napoleon
-mock
 pyxdg
 service_identity
 PIL
