@@ -1,9 +1,7 @@
---allow-all-external
---allow-unverified PIL
 twisted
 pyopenssl
 sphinxcontrib-napoleon
 pyxdg
 service_identity
-PIL
+pillow
 mako
