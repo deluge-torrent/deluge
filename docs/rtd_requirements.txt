@@ -1,3 +1,5 @@
+--allow-all-external
+--allow-unverified PIL
 twisted
 pyopenssl
 sphinxcontrib-napoleon
