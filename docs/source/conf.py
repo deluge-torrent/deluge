@@ -14,7 +14,6 @@ import os
 import sys
 from datetime import date
 
-import mock
 import pkg_resources
 
 try:

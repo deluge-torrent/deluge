@@ -4,7 +4,7 @@ from twisted.trial import unittest
 
 from deluge import error
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
-from deluge.ui.client import client, Client, DaemonSSLProxy
+from deluge.ui.client import Client, client, DaemonSSLProxy
 
 from . import common
 
