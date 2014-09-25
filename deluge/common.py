@@ -30,7 +30,6 @@ try:
     import dbus
     bus = dbus.SessionBus()
     dbus_fileman = bus.get_object("org.freedesktop.FileManager1", "/org/freedesktop/FileManager1")
-
 except:
     dbus_fileman = None
 

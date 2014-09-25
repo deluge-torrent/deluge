@@ -15,9 +15,7 @@ import warnings
 import gobject
 import gtk
 from twisted.internet import gtk2reactor
-
-# Install the twisted reactor
-reactor = gtk2reactor.install()
+reactor = gtk2reactor.install()  # Install twisted reactor, before any other modules import reactor.
 
 import deluge.common
 import deluge.component as component
