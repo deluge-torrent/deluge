@@ -51,17 +51,14 @@ class Mock(object):
         else:
             return Mock()
 
-MOCK_MODULES = ['deluge.ui.languages', 'deluge.ui.countries', 'deluge.ui.gtkui.gtkui',
-                'psyco', 'rencode', 'win32file', 'win32event',
+MOCK_MODULES = ['deluge.ui.languages', 'deluge.ui.countries', 'deluge.ui.gtkui.gtkui', 'deluge._libtorrent',
+                'libtorrent', 'psyco', 'rencode',
                 'twisted.web', 'twisted.web.client', 'twisted.web.error',
-                'win32gui', 'win32api', 'win32con', '_winreg']
-
-if on_rtd or on_travis:
-    MOCK_MODULES += ['libtorrent', 'pygtk', "gtk", "gobject", "gtk.gdk", "pango", "cairo", "pangocairo"]
+                'win32file', 'win32event', 'win32gui', 'win32api', 'win32con', '_winreg',
+                'pygtk', "gtk", "gobject", "gtk.gdk", "pango", "cairo", "pangocairo"]
 
 for mod_name in MOCK_MODULES:
     sys.modules[mod_name] = Mock()
-
 
 # General configuration
 # ---------------------
@@ -110,7 +107,7 @@ today_fmt = '%B %d, %Y'
 # List of directories, relative to source directories, that shouldn't be searched
 # for source files.
 # exclude_dirs = []
-exclude_patterns = ['deluge/_libtorrent.py', 'deluge/__rpcapi.py']
+# exclude_patterns = []
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 # default_role = None
