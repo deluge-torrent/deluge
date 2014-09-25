@@ -26,7 +26,7 @@ on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 # If your extensions are in another directory, add it here. If the directory
 # is relative to the documentation root, use os.path.abspath to make it
 # absolute, like shown here.
-sys.path.append(os.path.abspath(os.path.dirname(__file__ + '../../')))
+sys.path.append(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.path.pardir), os.path.pardir)))
 
 
 class Mock(object):
@@ -51,11 +51,12 @@ class Mock(object):
             return Mock()
 
 MOCK_MODULES = ['deluge.ui.languages', 'deluge.ui.countries', 'deluge.ui.gtkui.gtkui',
-                'deluge.libtorrent', 'psyco', 'rencode', 'win32file', 'win32event',
+                'psyco', 'rencode', 'win32file', 'win32event',
+                'twisted.web', 'twisted.web.client', 'twisted.web.error',
                 'win32gui', 'win32api', 'win32con', '_winreg']
 
 if on_rtd:
-    MOCK_MODULES += ['libtorrent', 'pytgtk']
+    MOCK_MODULES += ['libtorrent', 'pygtk', "gtk", "gobject", "gtk.gdk", "pango", "cairo", "pangocairo"]
 
 for mod_name in MOCK_MODULES:
     sys.modules[mod_name] = Mock()
@@ -108,7 +109,7 @@ today_fmt = '%B %d, %Y'
 # List of directories, relative to source directories, that shouldn't be searched
 # for source files.
 # exclude_dirs = []
-exclude_pattern = ['deluge/_libtorrent.py', 'deluge/__rpcapi.py']
+exclude_patterns = ['deluge/_libtorrent.py', 'deluge/__rpcapi.py']
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 # default_role = None
