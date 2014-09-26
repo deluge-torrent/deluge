@@ -18,7 +18,7 @@ import deluge.component as component
 from deluge.common import get_version, is_ip, windows_check
 from deluge.configmanager import get_config_dir
 from deluge.core.core import Core
-from deluge.core.rpcserver import export, RPCServer
+from deluge.core.rpcserver import RPCServer, export
 from deluge.error import DaemonRunningError
 
 if windows_check():

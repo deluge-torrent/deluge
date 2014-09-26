@@ -19,7 +19,7 @@ import os
 import shutil
 
 from twisted.internet import reactor
-from twisted.internet.task import deferLater, LoopingCall
+from twisted.internet.task import LoopingCall, deferLater
 
 import deluge.component as component
 import deluge.configmanager

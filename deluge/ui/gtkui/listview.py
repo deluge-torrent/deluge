@@ -11,7 +11,7 @@ import logging
 
 import gtk
 import pygtk
-from gobject import signal_new, SIGNAL_RUN_LAST, TYPE_NONE
+from gobject import SIGNAL_RUN_LAST, TYPE_NONE, signal_new
 
 from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_file
 

@@ -27,8 +27,8 @@ from deluge.core.rpcserver import export
 from deluge.httpdownloader import download_file
 from deluge.plugins.pluginbase import CorePluginBase
 
-from .common import BadIP, IP
-from .detect import create_reader, detect_compression, detect_format, UnknownFormatError
+from .common import IP, BadIP
+from .detect import UnknownFormatError, create_reader, detect_compression, detect_format
 from .readers import ReaderParseError
 
 # TODO: check return values for deferred callbacks

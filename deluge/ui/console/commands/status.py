@@ -12,7 +12,7 @@ from optparse import make_option
 from twisted.internet import defer
 
 import deluge.component as component
-from deluge.common import fspeed, TORRENT_STATE
+from deluge.common import TORRENT_STATE, fspeed
 from deluge.ui.client import client
 from deluge.ui.console.main import BaseCommand
 

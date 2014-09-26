@@ -23,7 +23,7 @@ from deluge import common, component, configmanager
 from deluge.core.rpcserver import check_ssl_keys
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.web.auth import Auth
-from deluge.ui.web.common import compress, Template
+from deluge.ui.web.common import Template, compress
 from deluge.ui.web.json_api import JSON, WebApi
 from deluge.ui.web.pluginmanager import PluginManager
 

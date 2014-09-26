@@ -2,8 +2,8 @@ import os
 
 from twisted.trial import unittest
 
-from deluge.common import (fdate, fpcnt, fpeer, fsize, fspeed, ftime, get_path_size, is_ip, is_magnet, is_url,
-                           setup_translations, VersionSplit)
+from deluge.common import (VersionSplit, fdate, fpcnt, fpeer, fsize, fspeed, ftime, get_path_size, is_ip, is_magnet,
+                           is_url, setup_translations)
 
 
 class CommonTestCase(unittest.TestCase):

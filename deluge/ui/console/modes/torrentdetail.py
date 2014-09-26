@@ -12,7 +12,7 @@ from collections import deque
 from sys import maxint
 
 import deluge.component as component
-from deluge.common import fdate, FILE_PRIORITY, fsize, ftime
+from deluge.common import FILE_PRIORITY, fdate, fsize, ftime
 from deluge.ui.client import client
 from deluge.ui.console import colors
 from deluge.ui.console.modes import format_utils
