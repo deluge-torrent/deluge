@@ -179,16 +179,16 @@ what is currently in the config and it could not convert the value
             return
 
         # Do not allow the type to change unless it is None
-        oldtype, newtype = type(self.__config[key]), type(value)
-
-        if value is not None and not isinstance(oldtype, type(None)) and not isinstance(oldtype, newtype):
+        if value is not None and not isinstance(
+                self.__config[key], type(None)) and not isinstance(self.__config[key], type(value)):
             try:
-                if oldtype == unicode:
+                oldtype = type(self.__config[key])
+                if isinstance(self.__config[key], unicode):
                     value = oldtype(value, "utf8")
                 else:
                     value = oldtype(value)
             except ValueError:
-                log.warning("Type '%s' invalid for '%s'", newtype, key)
+                log.warning("Type '%s' invalid for '%s'", type(value), key)
                 raise
 
         log.debug("Setting '%s' to %s of %s", key, value, type(value))
