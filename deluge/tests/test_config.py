@@ -44,6 +44,27 @@ class ConfigTestCase(unittest.TestCase):
 
         config._save_timer.cancel()
 
+    def test_set_get_item_none(self):
+        config = Config("test.conf", config_dir=self.config_dir)
+
+        config["foo"] = None
+        self.assertIsNone(config["foo"])
+        self.assertIsInstance(config["foo"], type(None))
+
+        config["foo"] = 1
+        self.assertEquals(config.get("foo"), 1)
+
+        config["foo"] = None
+        self.assertIsNone(config["foo"])
+
+        config["bar"] = None
+        self.assertIsNone(config["bar"])
+
+        config["bar"] = None
+        self.assertIsNone(config["bar"])
+
+        config._save_timer.cancel()
+
     def test_get(self):
         config = Config("test.conf", config_dir=self.config_dir)
         config["foo"] = 1
