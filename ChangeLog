@@ -33,6 +33,7 @@
 	* #378: Allow showing a pieces bar instead of a regular progress bar in a
 	torrent's status tab.
 	* #2093: Make torrent opening compatible with all unicode paths.
+	* #1084: Fix magnet association button on Windows
 
 ==== WebUI ====
 	* Server (deluge-web) now daemonizes by default, use -d or --do-not-daemonize to disable.

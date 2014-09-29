@@ -161,11 +161,11 @@ SectionEnd
 
 # Create magnet uri association
 Section "Create magnet uri link association for Deluge" Section3
-    DeleteRegKey HKCR "magnet"
-    WriteRegStr HKCR "magnet" "" "URL:magnet protocol"
-    WriteRegStr HKCR "magnet" "URL Protocol" ""
+    DeleteRegKey HKCR "Magnet"
+    WriteRegStr HKCR "Magnet" "" "URL:Magnet Protocol"
+    WriteRegStr HKCR "Magnet" "URL Protocol" ""
 
-    WriteRegStr HKCR "magnet\shell\open\command" "" '"$INSTDIR\deluge.exe" "%1"'
+    WriteRegStr HKCR "Magnet\shell\open\command" "" '"$INSTDIR\deluge.exe" "%1"'
 SectionEnd
 
 

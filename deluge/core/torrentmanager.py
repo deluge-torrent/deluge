@@ -25,7 +25,7 @@ from deluge._libtorrent import lt
 from deluge.common import decode_string, get_magnet_info, utf8_encoded
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
-from deluge.core.torrent import sanitize_filepath, Torrent, TorrentOptions
+from deluge.core.torrent import Torrent, TorrentOptions, sanitize_filepath
 from deluge.error import InvalidTorrentError
 from deluge.event import (PreTorrentRemovedEvent, SessionStartedEvent, TorrentAddedEvent, TorrentFileCompletedEvent,
                           TorrentFileRenamedEvent, TorrentFinishedEvent, TorrentRemovedEvent, TorrentResumedEvent,

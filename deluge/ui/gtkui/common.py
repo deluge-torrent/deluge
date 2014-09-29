@@ -12,6 +12,7 @@ import cPickle
 import logging
 import os
 import shutil
+import sys
 
 import gtk
 import pygtk
@@ -158,7 +159,29 @@ def associate_magnet_links(overwrite=False):
     Returns:
         bool: True if association was set
     """
-    if not deluge.common.windows_check():
+
+    if deluge.common.windows_check():
+        import _winreg
+
+        try:
+            hkey = _winreg.OpenKey(_winreg.HKEY_CLASSES_ROOT, "Magnet")
+        except WindowsError:
+            overwrite = True
+        else:
+            _winreg.CloseKey(hkey)
+
+        if overwrite:
+            deluge_exe = os.path.join(os.path.dirname(sys.executable), "deluge.exe")
+            magnet_key = _winreg.CreateKey(_winreg.HKEY_CLASSES_ROOT, "Magnet")
+            _winreg.SetValue(magnet_key, "", _winreg.REG_SZ, "URL:Magnet Protocol")
+            _winreg.SetValueEx(magnet_key, "URL Protocol", 0, _winreg.REG_SZ, "")
+            _winreg.SetValueEx(magnet_key, "BrowserFlags", 0, _winreg.REG_DWORD, 0x8)
+            _winreg.SetValue(magnet_key, "DefaultIcon", _winreg.REG_SZ, "{},0".format(deluge_exe))
+            _winreg.SetValue(magnet_key, r"shell\open\command", _winreg.REG_SZ, '"{}" "%1"'.format(deluge_exe))
+            _winreg.CloseKey(magnet_key)
+
+    # Don't try associate magnet on OSX see: #2420
+    elif not deluge.common.osx_check():
         # gconf method is only available in a GNOME environment
         try:
             import gconf

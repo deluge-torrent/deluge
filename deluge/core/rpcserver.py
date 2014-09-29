@@ -16,14 +16,14 @@ import sys
 import traceback
 from types import FunctionType
 
-from OpenSSL import crypto, SSL
+from OpenSSL import SSL, crypto
 from twisted.internet import defer, reactor
 from twisted.internet.protocol import Factory
 
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN, AUTH_LEVEL_DEFAULT, AUTH_LEVEL_NONE
-from deluge.error import _ClientSideRecreateError, DelugeError, IncompatibleClient, NotAuthorizedError, WrappedException
+from deluge.error import DelugeError, IncompatibleClient, NotAuthorizedError, WrappedException, _ClientSideRecreateError
 from deluge.transfer import DelugeTransferProtocol
 
 RPC_RESPONSE = 1

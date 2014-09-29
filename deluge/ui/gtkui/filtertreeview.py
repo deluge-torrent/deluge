@@ -18,7 +18,7 @@ import pango
 from gobject import GError
 
 import deluge.component as component
-from deluge.common import get_pixmap, resource_filename, TORRENT_STATE
+from deluge.common import TORRENT_STATE, get_pixmap, resource_filename
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 

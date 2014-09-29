@@ -18,6 +18,7 @@ from distutils.command.build import build as _build
 from distutils.command.clean import clean as _clean
 
 from setuptools import find_packages, setup
+from setuptools.command.test import test as _test
 
 import msgfmt
 from version import get_version
@@ -33,6 +34,23 @@ def windows_check():
     return platform.system() in ('Windows', 'Microsoft')
 
 desktop_data = 'deluge/ui/data/share/applications/deluge.desktop'
+
+
+class PyTest(_test):
+
+    def initialize_options(self):
+        _test.initialize_options(self)
+        self.pytest_args = []
+
+    def finalize_options(self):
+        _test.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+
+    def run_tests(self):
+        import pytest
+        errcode = pytest.main(self.test_args)
+        sys.exit(errcode)
 
 
 class BuildTranslations(cmd.Command):
@@ -149,44 +167,6 @@ class EggInfoPlugins(cmd.Command):
                 os.system("cd " + path + "&& " + sys.executable + " setup.py egg_info")
 
 
-class BuildDocs(BuildDoc):
-    def run(self):
-        class Mock(object):
-            def __init__(self, *args, **kwargs):
-                pass
-
-            def __call__(self, *args, **kwargs):
-                return Mock()
-
-            def __getattr__(self, key):
-                return Mock()
-
-            def __setattr__(self, key, value):
-                self.__dict__[key] = value
-
-            def __len__(self):
-                return 0
-
-            def __getitem__(self, ii):
-                return " "
-
-        old_import = __builtins__.__import__
-
-        def new_import(name, globals={}, locals={}, fromlist=[], level=-1):
-            try:
-                return old_import(name, globals, locals, fromlist, level)
-            except ImportError as ex:
-                # sys.stdout.write("ImportError: %s\n" % ex)
-                return Mock()
-
-            except Exception as ex:
-                # sys.stdout.write("Skipping Exception: %s\n" % ex)
-                return Mock()
-        __builtins__.__import__ = new_import
-
-        BuildDoc.run(self)
-
-
 class Build(_build):
     sub_commands = [('build_trans', None), ('build_plugins', None)] + _build.sub_commands
 
@@ -266,10 +246,11 @@ cmdclass = {
     'build': Build,
     'build_trans': BuildTranslations,
     'build_plugins': BuildPlugins,
-    'build_docs': BuildDocs,
+    'build_docs': BuildDoc,
     'clean_plugins': CleanPlugins,
     'clean': Clean,
-    'egg_info_plugins': EggInfoPlugins
+    'egg_info_plugins': EggInfoPlugins,
+    'test': PyTest,
 }
 
 # Data files to be installed to the system
@@ -333,6 +314,7 @@ setup(
     url="http://deluge-torrent.org",
     license="GPLv3",
     cmdclass=cmdclass,
+    tests_require=['pytest'],
     data_files=_data_files,
     package_data={"deluge": ["ui/gtkui/glade/*.glade",
                              "ui/gtkui/glade/*.ui",

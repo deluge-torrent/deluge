@@ -23,7 +23,7 @@ from twisted.internet import defer, reactor
 import deluge.common
 import deluge.component as component
 from deluge.ui.client import client
-from deluge.ui.console import colors, UI_PATH
+from deluge.ui.console import UI_PATH, colors
 from deluge.ui.console.eventlog import EventLog
 from deluge.ui.console.statusbars import StatusBars
 from deluge.ui.coreconfig import CoreConfig

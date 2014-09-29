@@ -7,7 +7,8 @@ from twisted.trial import unittest
 
 import deluge.config
 from deluge.config import Config
-from deluge.tests.common import set_tmp_config_dir
+
+from .common import set_tmp_config_dir
 
 DEFAULTS = {"string": "foobar", "int": 1, "float": 0.435, "bool": True, "unicode": u"foobar"}
 
@@ -40,6 +41,27 @@ class ConfigTestCase(unittest.TestCase):
 
         config["unicode"] = "foostring"
         self.assertTrue(isinstance(config.get_item("unicode"), unicode))
+
+        config._save_timer.cancel()
+
+    def test_set_get_item_none(self):
+        config = Config("test.conf", config_dir=self.config_dir)
+
+        config["foo"] = None
+        self.assertIsNone(config["foo"])
+        self.assertIsInstance(config["foo"], type(None))
+
+        config["foo"] = 1
+        self.assertEquals(config.get("foo"), 1)
+
+        config["foo"] = None
+        self.assertIsNone(config["foo"])
+
+        config["bar"] = None
+        self.assertIsNone(config["bar"])
+
+        config["bar"] = None
+        self.assertIsNone(config["bar"])
 
         config._save_timer.cancel()
 
