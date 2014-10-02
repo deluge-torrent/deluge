@@ -99,24 +99,28 @@ class IPCInterface(component.Component):
                 sys.exit(0)
         else:
             # Find and remove any restart tempfiles
-            old_tempfile = glob(os.path.join(ipc_dir, 'tmp*deluge'))
-            for f in old_tempfile:
+            restart_tempfile = glob(os.path.join(ipc_dir, 'tmp*deluge'))
+            for f in restart_tempfile:
                 os.remove(f)
             lockfile = socket + ".lock"
             log.debug("Checking if lockfile exists: %s", lockfile)
-            if os.path.lexists(lockfile) or os.path.lexists(socket):
-                try:
-                    os.kill(int(os.readlink(lockfile)), 0)
-                except OSError:
+            if os.path.lexists(lockfile):
+                def delete_lockfile():
                     log.debug("Removing lockfile since it's stale.")
                     try:
                         os.remove(lockfile)
-                    except OSError as ex:
-                        log.error("Failed to delete IPC lockfile file: %s", ex)
-                    try:
                         os.remove(socket)
                     except OSError as ex:
-                        log.error("Failed to delete IPC socket file: %s", ex)
+                        log.error("Failed to delete lockfile: %s", ex)
+
+                try:
+                    os.kill(int(os.readlink(lockfile)), 0)
+                except OSError:
+                    delete_lockfile()
+                else:
+                    if restart_tempfile:
+                        log.warning("Found running PID but it is not a Deluge process, removing lockfile...")
+                        delete_lockfile()
             try:
                 self.factory = Factory()
                 self.factory.protocol = IPCProtocolServer
@@ -133,7 +137,7 @@ class IPCInterface(component.Component):
                     gtk.gdk.notify_startup_complete()
                     sys.exit(0)
                 else:
-                    if old_tempfile:
+                    if restart_tempfile:
                         log.error("Deluge restart failed: %s", ex)
                         sys.exit(1)
                     else:
