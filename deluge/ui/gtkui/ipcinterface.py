@@ -131,7 +131,7 @@ class IPCInterface(component.Component):
                     try:
                         os.remove(lockfile)
                         os.remove(socket)
-                    except OSError as ex:
+                    except OSError, ex:
                         log.error("Failed to delete lockfile: %s", ex)
 
                 try:
