@@ -29,6 +29,8 @@ from deluge.ui.gtkui.dialogs import ErrorDialog
 from deluge.ui.gtkui.path_chooser import PathChooser
 from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
 
+from . import util
+
 pygtk.require('2.0')
 
 log = logging.getLogger(__name__)
@@ -914,42 +916,24 @@ class AddTorrentDialog(component.Component):
         self.builder.get_object("chk_sequential_download").set_sensitive(full_allocation_active)
 
     def _on_button_copy_title_to_clipboard(self, menuitem):
-        torrent_title = self.get_value_in_selected_row(self.listview_torrents,
-                                                       self.torrent_liststore,
-                                                       column_index=1)
+        torrent_title = util.get_treeview_value_in_selected_row(self.listview_torrents,
+                                                                self.torrent_liststore,
+                                                                column_index=1)
         if torrent_title is not None:
             gtk.clipboard_get().set_text(torrent_title)
 
     def _on_mouse_button_press_event(self, treeview, event, popupmenu):
         """ Shows popup on selected row when right clicking """
-        if event.button == 3:
-            x = int(event.x)
-            y = int(event.y)
-            time = event.time
-            pthinfo = treeview.get_path_at_pos(x, y)
-            model = treeview.get_model()
-            it = model.get_iter(pthinfo[0])
-            link = model.get_value(it, 0)
-            if link is None:
-                return False
-            if pthinfo is not None:
-                path, col, cellx, celly = pthinfo
-                treeview.grab_focus()
-                # Only show popup when right clicking a selected file
-                if not treeview.get_selection().iter_is_selected(it):
-                    return True
-                popupmenu.popup(None, None, None, event.button, time, data=path)
-                popupmenu.show_all()
-            return True
+        it, cursor_path = util.popup_menu_helper(treeview, event, popupmenu)
+        if it is None:
+            return
+        link = treeview.get_model().get_value(it, 0)
+        if link is None:
+            return False
+        if cursor_path is not None:
+            path, col, cellx, celly = cursor_path
+            treeview.grab_focus()
+            popupmenu.popup(None, None, None, event.button, event.time, data=path)
+            popupmenu.show_all()
+        return True
 
-    def get_value_in_selected_row(self, treeview, store, column_index=0):
-        """
-        Helper to get the value at index 'index_column' of the selected element
-        in the given treeview.
-        return None of no item is selected.
-        """
-        tree, tree_id = treeview.get_selection().get_selected()
-        if tree_id:
-            value = store.get_value(tree_id, column_index)
-            return value
-        return None
