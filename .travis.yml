@@ -17,6 +17,8 @@ script:
 
 env:
   - TOX_ENV=pydef
+  - TOX_ENV=trial
+  - TOX_ENV=todo
 #  - TOX_ENV=plugins
   - TOX_ENV=flake8
   - TOX_ENV=flake8-complexity

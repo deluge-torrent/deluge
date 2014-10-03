@@ -1,7 +1,7 @@
 import os
-import warnings
 from hashlib import sha1 as sha
 
+import pytest
 from twisted.internet import reactor
 from twisted.internet.error import CannotListenError
 from twisted.python.failure import Failure
@@ -19,13 +19,12 @@ from deluge.ui.web.common import compress
 from . import common
 from .basetest import BaseTestCase
 
-warnings.filterwarnings("ignore", category=RuntimeWarning)
-warnings.resetwarnings()
+common.disable_new_release_check()
 
 rpath = common.rpath
 
 
-class TestCookieResource(Resource):
+class CookieResource(Resource):
 
     def render(self, request):
         if request.getCookie("password") != "deluge":
@@ -36,7 +35,7 @@ class TestCookieResource(Resource):
         return open(rpath("ubuntu-9.04-desktop-i386.iso.torrent")).read()
 
 
-class TestPartialDownload(Resource):
+class PartialDownload(Resource):
 
     def render(self, request):
         data = open(rpath("ubuntu-9.04-desktop-i386.iso.torrent")).read()
@@ -47,7 +46,7 @@ class TestPartialDownload(Resource):
         return data
 
 
-class TestRedirectResource(Resource):
+class RedirectResource(Resource):
 
     def render(self, request):
         request.redirect("/ubuntu-9.04-desktop-i386.iso.torrent")
@@ -60,9 +59,9 @@ class TopLevelResource(Resource):
 
     def __init__(self):
         Resource.__init__(self)
-        self.putChild("cookie", TestCookieResource())
-        self.putChild("partial", TestPartialDownload())
-        self.putChild("redirect", TestRedirectResource())
+        self.putChild("cookie", CookieResource())
+        self.putChild("partial", PartialDownload())
+        self.putChild("redirect", RedirectResource())
         self.putChild("ubuntu-9.04-desktop-i386.iso.torrent",
                       File(common.rpath("ubuntu-9.04-desktop-i386.iso.torrent")))
 
@@ -196,6 +195,7 @@ class CoreTestCase(BaseTestCase):
         self.assertTrue(space >= 0)
         self.assertEquals(self.core.get_free_space("/someinvalidpath"), -1)
 
+    @pytest.mark.slow
     def test_test_listen_port(self):
         d = self.core.test_listen_port()
 
