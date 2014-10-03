@@ -77,7 +77,6 @@ class TorrentState:
             queue=None,
             auto_managed=True,
             is_finished=False,
-            error_statusmsg=None,
             stop_ratio=2.00,
             stop_at_ratio=False,
             remove_at_ratio=False,
@@ -92,7 +91,6 @@ class TorrentState:
         self.trackers = trackers
         self.queue = queue
         self.is_finished = is_finished
-        self.error_statusmsg = error_statusmsg
         self.magnet = magnet
         self.time_added = time_added
 
@@ -112,7 +110,6 @@ class TorrentState:
         self.remove_at_ratio = remove_at_ratio
         self.move_completed = move_completed
         self.move_completed_path = move_completed_path
-
 
 class TorrentManagerState:
     def __init__(self):
@@ -675,7 +672,7 @@ class TorrentManager(component.Component):
         # Create the state for each Torrent and append to the list
         for torrent in self.torrents.values():
             paused = False
-            if torrent.state in ["Paused", "Error"]:
+            if torrent.state == "Paused":
                 paused = True
 
             torrent_state = TorrentState(
@@ -695,7 +692,6 @@ class TorrentManager(component.Component):
                 torrent.get_queue_position(),
                 torrent.options["auto_managed"],
                 torrent.is_finished,
-                torrent.error_statusmsg,
                 torrent.options["stop_ratio"],
                 torrent.options["stop_at_ratio"],
                 torrent.options["remove_at_ratio"],

@@ -169,11 +169,6 @@ class Torrent(object):
             # Set the filename
             self.filename = state.filename
             self.is_finished = state.is_finished
-            last_sess_prepend = "[Error from Previous Session] "
-            if state.error_statusmsg and not state.error_statusmsg.startswith(last_sess_prepend):
-                self.error_statusmsg = last_sess_prepend + state.error_statusmsg
-            else:
-                self.error_statusmsg = state.error_statusmsg
         else:
             # Tracker list
             self.trackers = []
@@ -186,7 +181,6 @@ class Torrent(object):
                 else:
                     tracker = value
                 self.trackers.append(tracker)
-            self.error_statusmsg = None
 
         # Various torrent options
         self.handle.resolve_countries(True)
@@ -389,26 +383,13 @@ class Torrent(object):
 
         # First we check for an error from libtorrent, and set the state to that
         # if any occurred.
-        status_error = deluge.common.decode_string(self.handle.status().error)
-        if status_error or self.error_statusmsg:
+        if len(self.handle.status().error) > 0:
             # This is an error'd torrent
             self.state = "Error"
-            if status_error:
-                self.error_statusmsg = status_error
-            self.set_status_message(self.error_statusmsg)
-
+            self.set_status_message(self.handle.status().error)
             if self.handle.is_paused():
                 self.handle.auto_managed(False)
-            else:
-                self.handle.pause()
-
-            if not status_error:
-                # As this is not a libtorrent Error we should emit a state changed event
-                component.get("EventManager").emit(TorrentStateChangedEvent(self.torrent_id, "Error"))
             return
-        else:
-            self.set_status_message("OK")
-            self.error_statusmsg = None
 
         if ltstate == LTSTATE["Queued"] or ltstate == LTSTATE["Checking"]:
             if self.handle.is_paused():
@@ -822,7 +803,6 @@ class Torrent(object):
         else:
             # Reset the status message just in case of resuming an Error'd torrent
             self.set_status_message("OK")
-            self.error_statusmsg = None
 
             if self.handle.is_finished():
                 # If the torrent has already reached it's 'stop_seed_ratio' then do not do anything
