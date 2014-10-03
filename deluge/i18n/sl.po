@@ -7,110 +7,125 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2012-11-26 16:33+0000\n"
-"PO-Revision-Date: 2012-05-17 17:10+0000\n"
-"Last-Translator: Klemen Košir <klemen913@gmail.com>\n"
+"POT-Creation-Date: 2014-07-09 19:10+0100\n"
+"PO-Revision-Date: 2014-08-21 12:38+0000\n"
+"Last-Translator: Damir Jerovšek <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-09 18:02+0000\n"
-"X-Generator: Launchpad (build 17100)\n"
+"X-Launchpad-Export-Date: 2014-10-03 20:29+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
-#: deluge/common.py:279
+#: deluge/pluginmanagerbase.py:173
+msgid "Not available"
+msgstr "Ni na voljo"
+
+#: deluge/common.py:260
 msgid "KiB"
 msgstr "KiB"
 
-#: deluge/common.py:282
+#: deluge/common.py:261
 msgid "MiB"
 msgstr "MiB"
 
-#: deluge/common.py:284
+#: deluge/common.py:262
 msgid "GiB"
 msgstr "GiB"
 
-#: deluge/common.py:303
+#: deluge/common.py:310
 msgid "K"
 msgstr "K"
 
-#: deluge/common.py:306
+#: deluge/common.py:313
 msgid "M"
 msgstr "M"
 
-#: deluge/common.py:308
+#: deluge/common.py:315
 msgid "G"
 msgstr "G"
 
-#: deluge/common.py:344
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:630
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:644
-#: deluge/plugins/label/label/data/label_options.glade:132
-#: deluge/plugins/label/label/data/label_options.glade:195
-#: deluge/ui/console/statusbars.py:96 deluge/ui/console/statusbars.py:101
-#: deluge/ui/gtkui/systemtray.py:245 deluge/ui/gtkui/systemtray.py:249
-#: deluge/ui/gtkui/systemtray.py:265 deluge/ui/gtkui/systemtray.py:271
-#: deluge/ui/gtkui/systemtray.py:425 deluge/ui/gtkui/menubar.py:435
-#: deluge/ui/gtkui/menubar.py:436 deluge/ui/gtkui/status_tab.py:62
-#: deluge/ui/gtkui/statusbar.py:363 deluge/ui/gtkui/statusbar.py:373
-#: deluge/ui/gtkui/statusbar.py:378 deluge/ui/gtkui/statusbar.py:390
-#: deluge/ui/gtkui/statusbar.py:401 deluge/ui/gtkui/statusbar.py:418
-#: deluge/ui/gtkui/statusbar.py:429
-#: deluge/ui/gtkui/glade/main_window.glade:1831
-#: deluge/ui/gtkui/glade/main_window.glade:1843
+#: deluge/common.py:353
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:857
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:872
+#: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:337
+#: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:408
+#: deluge/ui/console/statusbars.py:122 deluge/ui/console/statusbars.py:130
+#: deluge/ui/gtkui/systemtray.py:222 deluge/ui/gtkui/systemtray.py:226
+#: deluge/ui/gtkui/systemtray.py:243 deluge/ui/gtkui/systemtray.py:250
+#: deluge/ui/gtkui/systemtray.py:401 deluge/ui/gtkui/menubar.py:423
+#: deluge/ui/gtkui/menubar.py:425 deluge/ui/gtkui/status_tab.py:41
+#: deluge/ui/gtkui/statusbar.py:338 deluge/ui/gtkui/statusbar.py:348
+#: deluge/ui/gtkui/statusbar.py:353 deluge/ui/gtkui/statusbar.py:365
+#: deluge/ui/gtkui/statusbar.py:367 deluge/ui/gtkui/statusbar.py:399
+#: deluge/ui/gtkui/statusbar.py:412
+#: deluge/ui/gtkui/glade/main_window.tabs.ui.h:34
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:76
+#: deluge/ui/web/js/deluge-all/Statusbar.js:144
+#: deluge/ui/web/js/deluge-all/Statusbar.js:192
+#: deluge/ui/web/js/deluge-all/details/OptionsTab.js:114
+#: deluge/ui/web/js/deluge-all/details/OptionsTab.js:141
 msgid "KiB/s"
 msgstr "KiB/s"
 
-#: deluge/common.py:347
+#: deluge/common.py:356
 msgid "MiB/s"
 msgstr "MiB/s"
 
-#: deluge/common.py:349
+#: deluge/common.py:358
 msgid "GiB/s"
 msgstr "GiB/s"
 
-#: deluge/core/filtermanager.py:94 deluge/core/torrentmanager.py:1002
-#: deluge/ui/gtkui/torrentview.py:90 deluge/ui/gtkui/filtertreeview.py:77
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:281
+#: deluge/ui/common.py:41 deluge/ui/common.py:45
+#: deluge/ui/gtkui/statusbar.py:309 deluge/ui/gtkui/filtertreeview.py:131
+#: deluge/ui/web/js/deluge-all/Statusbar.js:313
+#: deluge/ui/web/js/deluge-all/ConnectionManager.js:308
+#: deluge/ui/web/js/deluge-all/ConnectionManager.js:364
+#: deluge/ui/web/js/deluge-all/AddConnectionWindow.js:103
+#: deluge/ui/web/js/deluge-all/details/StatusTab.js:121
+#: deluge/ui/web/js/deluge-all/add/AddWindow.js:209
 msgid "Error"
 msgstr "Napaka"
 
-#: deluge/core/torrentmanager.py:968
+#: deluge/ui/common.py:47 deluge/ui/web/js/deluge-all/details/StatusTab.js:123
 msgid "Announce OK"
 msgstr "Najava je v redu"
 
-#: deluge/core/torrentmanager.py:984
+#: deluge/ui/common.py:48 deluge/ui/web/js/deluge-all/details/StatusTab.js:124
 msgid "Announce Sent"
 msgstr "Najava poslana"
 
-#: deluge/core/torrentmanager.py:992
+#: deluge/ui/common.py:46 deluge/ui/web/js/deluge-all/details/StatusTab.js:122
 msgid "Warning"
 msgstr "Opozorilo"
 
-#: deluge/plugins/notifications/notifications/core.py:142
-#: deluge/plugins/notifications/notifications/core.py:175
+#: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:146
+#: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:179
 #, python-format
 msgid "There was an error sending the notification email: %s"
 msgstr "Med pošiljanjem obvestilne e-pošte je prišlo do napake: %s"
 
-#: deluge/plugins/notifications/notifications/core.py:161
+#: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:165
 #, python-format
 msgid "The server didn't reply properly to the helo greeting: %s"
 msgstr "Strežnik se ni pravilno odzval pozdravnemu sporočilu: %s"
 
-#: deluge/plugins/notifications/notifications/core.py:166
+#: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:170
 #, python-format
 msgid "The server didn't accept the username/password combination: %s"
 msgstr "Strežnik ni sprejel uporabniškega imena in gesla: %s"
 
-#: deluge/plugins/notifications/notifications/core.py:190
+#: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:194
 msgid "Notification email sent."
 msgstr "Obvestilna e-pošta poslana."
 
-#: deluge/plugins/notifications/notifications/core.py:198
+#: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:202
 #, python-format
 msgid "Finished Torrent \"%(name)s\""
 msgstr "Prejemanje torrenta \"%(name)s\" je končano"
 
-#: deluge/plugins/notifications/notifications/core.py:200
+#: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:204
 #, python-format
 msgid ""
 "This email is to inform you that Deluge has finished downloading "
@@ -129,175 +144,183 @@ msgstr ""
 "Hvala,\n"
 "Deluge"
 
-#: deluge/plugins/notifications/notifications/gtkui.py:178
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:182
 msgid "Notification Blink shown"
 msgstr "Utripanje obvestil je prikazano"
 
-#: deluge/plugins/notifications/notifications/gtkui.py:183
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:187
 msgid "Popup notification is not enabled."
 msgstr "Obveščanje s pojavnim oknom ni omogočeno."
 
-#: deluge/plugins/notifications/notifications/gtkui.py:185
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:189
 msgid "pynotify is not installed"
 msgstr "Program pynotify ni nameščen"
 
-#: deluge/plugins/notifications/notifications/gtkui.py:193
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:197
 msgid "pynotify failed to show notification"
 msgstr "Programu pynotify ni uspelo prikazati obvestila"
 
-#: deluge/plugins/notifications/notifications/gtkui.py:196
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:200
 msgid "Notification popup shown"
 msgstr "Pojavno okno je prikazano"
 
-#: deluge/plugins/notifications/notifications/gtkui.py:200
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:204
 msgid "Sound notification not enabled"
 msgstr "Obvestilo z zvokom ni omogočeno"
 
-#: deluge/plugins/notifications/notifications/gtkui.py:202
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:206
 msgid "pygame is not installed"
 msgstr "Program pygame ni nameščen"
 
-#: deluge/plugins/notifications/notifications/gtkui.py:214
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:218
 #, python-format
 msgid "Sound notification failed %s"
 msgstr "Obvestilo z zvokom ni uspelo %s"
 
-#: deluge/plugins/notifications/notifications/gtkui.py:218
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:222
 msgid "Sound notification Success"
 msgstr "Obvestilo z zvokom je bilo uspešno"
 
-#: deluge/plugins/notifications/notifications/gtkui.py:241
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:245
 msgid "Finished Torrent"
 msgstr "Prejemanje torrenta je končano"
 
-#: deluge/plugins/notifications/notifications/gtkui.py:242
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:246
 #, python-format
 msgid ""
-"The torrent \"%(name)s\" including %(num_files)i has finished downloading."
+"The torrent \"%(name)s\" including %(num_files)i file(s) has finished "
+"downloading."
 msgstr ""
-"Prejemanje torrenta \"%(name)s, ki vsebuje %(num_files)i datotek, je končano."
 
-#: deluge/plugins/notifications/notifications/gtkui.py:646
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:291
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:324
+msgid "Notifications"
+msgstr "Obvestila"
+
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:650
 msgid "Choose Sound File"
 msgstr "Izberite zvočno datoteko"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:26
+#: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:29
 msgid "<b><i><big>Notifications</big></i></b>"
 msgstr "<b><i><big>Obvestila</big></i></b>"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:76
+#: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:81
 msgid "Tray icon blinks enabled"
 msgstr "Utripanje ikone sistemske vrstice omogočeno"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:88
+#: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:93
 msgid "Popups enabled"
 msgstr "Pojavna okna so omogočena"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:103
+#: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:108
 msgid "Sound enabled"
 msgstr "Zvok je omogočen"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:139
+#: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:144
 msgid "<b>UI Notifications</b>"
 msgstr "<b>Obvestila uporabniškega vmesnika</b>"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:170
-#: deluge/ui/gtkui/glade/connection_manager.glade:28
+#: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:175
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:131
+#: deluge/ui/gtkui/glade/connection_manager.addhost.ui.h:2
 msgid "Hostname:"
 msgstr "Ime gostitelja:"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:194
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3353
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3540
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3727
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3916
-#: deluge/ui/gtkui/glade/connection_manager.glade:57
+#: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:199
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:132
+#: deluge/ui/gtkui/glade/connection_manager.addhost.ui.h:3
+#: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:84
 msgid "Port:"
 msgstr "Vrata:"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:226
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3435
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3622
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3809
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3999
-#: deluge/ui/gtkui/glade/connection_manager.glade:146
+#: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:231
+#: deluge/ui/gtkui/dialogs.py:197 deluge/ui/gtkui/dialogs.py:258
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:133
+#: deluge/ui/gtkui/glade/connection_manager.addhost.ui.h:5
+#: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:96
 msgid "Username:"
 msgstr "Uporabniško ime:"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:250
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2133
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3299
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3486
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3673
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3860
-#: deluge/ui/gtkui/glade/connection_manager.glade:135
+#: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:255
+#: deluge/ui/gtkui/dialogs.py:205 deluge/ui/gtkui/dialogs.py:286
+#: deluge/ui/gtkui/dialogs.py:397
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:38
+#: deluge/ui/gtkui/glade/connection_manager.addhost.ui.h:4
+#: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:105
 msgid "Password:"
 msgstr "Geslo:"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:354
+#: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:360
 msgid "<b>Recipients</b>"
 msgstr "<b>Prejemniki</b>"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:377
+#: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:383
 msgid "Server requires TLS/SSL"
 msgstr "Strežnik potrebuje TLS/SSL"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:392
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:633
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:782
+#: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:398
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:102
 msgid "From:"
 msgstr "Od:"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:415
-#: deluge/ui/gtkui/preferences.py:92
+#: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:421
+#: deluge/ui/gtkui/preferences.py:124
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:2
+#: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:65
+#: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:83
+#: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:81
 msgid "Enabled"
 msgstr "Omogočeno"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:437
+#: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:443
 msgid "<b>Email Notifications</b>"
 msgstr "<b>Obvestila po elektronski pošti</b>"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:454
+#: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:460
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:147
+#: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:51
+#: deluge/ui/web/js/deluge-all/preferences/CachePage.js:52
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:488
+#: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:495
 msgid ""
 "This configuration does not mean that you'll actually receive notifications "
 "for all these events."
 msgstr ""
 "Te nastavitve ne pomenijo, da boste prejeli obvestila za vse te dogodke."
 
-#: deluge/plugins/notifications/notifications/data/config.glade:506
+#: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:513
 msgid "Subscriptions"
 msgstr "Naročnine"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:586
+#: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:594
 msgid "Sound Customization"
 msgstr "Prilagajanje zvoka"
 
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:27
+#: deluge/plugins/Extractor/deluge/plugins/extractor/gtkui.py:31
+#: deluge/plugins/Extractor/deluge/plugins/extractor/gtkui.py:37
+msgid "Extractor"
+msgstr ""
+
+#: deluge/plugins/Extractor/deluge/plugins/extractor/data/extractor_prefs.glade:27
 msgid "Extract to:"
 msgstr "Razširi v:"
 
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:41
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:126
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:300
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:377
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:161
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:228
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:289
-#: deluge/ui/gtkui/glade/main_window.glade:2026
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:369
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:443
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:134
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:318
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:438
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:531
+#: deluge/plugins/Extractor/deluge/plugins/extractor/data/extractor_prefs.glade:41
 msgid "Select A Folder"
 msgstr "Izberite mapo"
 
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:69
+#: deluge/plugins/Extractor/deluge/plugins/extractor/data/extractor_prefs.glade:69
 msgid "Create torrent name sub-folder"
 msgstr "Ustvari podmapo z imenom torrenta"
 
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:73
+#: deluge/plugins/Extractor/deluge/plugins/extractor/data/extractor_prefs.glade:73
 msgid ""
 "This option will create a sub-folder using the torrent's name within the "
 "selected extract folder and put the extracted files there."
@@ -305,148 +328,145 @@ msgstr ""
 "Ta možnost bo ustvarila podmapo z imenom torrenta in v izbrano mapo "
 "razširila datoteke."
 
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:52
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2844
-#: deluge/ui/gtkui/glade/main_window.glade:2177
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:776
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:65
+#: deluge/plugins/Extractor/deluge/plugins/extractor/data/extractor_prefs.glade:87
+#: deluge/ui/gtkui/glade/path_combo_chooser.ui.h:3
 msgid "<b>General</b>"
 msgstr "<b>Splošno</b>"
 
-#: deluge/plugins/execute/execute/gtkui.py:51
+#: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:56
 msgid "Torrent Complete"
 msgstr "Torrent je dokončan"
 
-#: deluge/plugins/execute/execute/gtkui.py:52
+#: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:57
 msgid "Torrent Added"
 msgstr "Torrent je dodan"
 
-#: deluge/plugins/execute/execute/gtkui.py:77
-#: deluge/plugins/execute/execute/gtkui.py:88
+#: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:83
+#: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:94
 msgid "Execute"
 msgstr "Izvedi"
 
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:28
+#: deluge/plugins/Execute/deluge/plugins/execute/data/execute_prefs.glade:29
 msgid "Event"
 msgstr "Dogodek"
 
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:40
+#: deluge/plugins/Execute/deluge/plugins/execute/data/execute_prefs.glade:41
 msgid "Command"
 msgstr "Ukaz"
 
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:111
+#: deluge/plugins/Execute/deluge/plugins/execute/data/execute_prefs.glade:112
 msgid "<b>Add Command</b>"
 msgstr "<b>Dodaj ukaz</b>"
 
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:149
+#: deluge/plugins/Execute/deluge/plugins/execute/data/execute_prefs.glade:151
 msgid "<b>Commands</b>"
 msgstr "<b>Ukazi</b>"
 
-#: deluge/plugins/blocklist/blocklist/webui.py:49
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/webui.py:18
 msgid "Emule IP list (GZip)"
 msgstr "Seznam Emule IP (GZip)"
 
-#: deluge/plugins/blocklist/blocklist/webui.py:50
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/webui.py:19
 msgid "SafePeer Text (Zipped)"
 msgstr "Besedilo SafePeer (Zip)"
 
-#: deluge/plugins/blocklist/blocklist/webui.py:51
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/webui.py:20
 msgid "PeerGuardian Text (Uncompressed)"
 msgstr "Besedilo PeerGuardian (nestisnjeno)"
 
-#: deluge/plugins/blocklist/blocklist/webui.py:52
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/webui.py:21
 msgid "PeerGuardian P2B (GZip)"
 msgstr "PeerGuardian P2B (GZip)"
 
-#: deluge/plugins/blocklist/blocklist/peerguardian.py:31
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/peerguardian.py:39
 msgid "Invalid leader"
 msgstr "Neveljaven povzetek"
 
-#: deluge/plugins/blocklist/blocklist/peerguardian.py:35
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/peerguardian.py:43
 msgid "Invalid magic code"
 msgstr "Neveljavna čarobna koda"
 
-#: deluge/plugins/blocklist/blocklist/peerguardian.py:40
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/peerguardian.py:48
 msgid "Invalid version"
 msgstr "Neveljavna različica"
 
-#: deluge/plugins/blocklist/blocklist/gtkui.py:67
-#: deluge/plugins/blocklist/blocklist/gtkui.py:155
-#: deluge/plugins/blocklist/blocklist/gtkui.py:186
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/gtkui.py:51
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/gtkui.py:138
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/gtkui.py:177
 msgid "Blocklist"
 msgstr "Črni seznam"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:26
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:381
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1087
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:32
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:436
+#: deluge/ui/gtkui/glade/add_torrent_dialog.url.ui.h:3
 msgid "URL:"
 msgstr "URL:"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:89
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:107
 msgid "Days"
 msgstr "dni"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:115
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:138
 msgid "Check for new list every:"
 msgstr "Preveri za nov seznam vsakih:"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:131
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:154
 msgid "Import blocklist on startup"
 msgstr "Uvozi črni seznam ob zagonu"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:151
-#: deluge/plugins/webui/webui/data/config.glade:92
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4176
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:176
+#: deluge/plugins/WebUi/deluge/plugins/webui/data/config.glade:94
 msgid "<b>Settings</b>"
 msgstr "<b>Nastavitve</b>"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:187
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:216
 msgid "Download the blocklist file if necessary and import the file."
 msgstr "Če je potrebno, datoteko s črnim seznamom prenese in uvozi."
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:207
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:240
 msgid "Check Download and Import"
 msgstr "Preveri prejem in uvoz"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:229
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:262
 msgid "Download a new blocklist file and import it."
 msgstr "Prenese nov črni seznam in ga uvozi."
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:249
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:286
 msgid "Force Download and Import"
 msgstr "Vsili prejem in uvoz"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:273
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:313
 msgid "Blocklist is up to date"
 msgstr "Črni seznam je posodobljen"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:290
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:474
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:333
 msgid "<b>Options</b>"
 msgstr "<b>Možnosti</b>"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:393
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3423
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3610
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3797
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3987
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:449
+#: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:48
 msgid "Type:"
 msgstr "Vrsta:"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:405
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:462
 msgid "Date:"
 msgstr "Datum:"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:417
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:475
 msgid "File Size:"
 msgstr "Velikost datoteke:"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:437
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4822
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:496
 msgid "<b>Info</b>"
 msgstr "<b>Podatki</b>"
 
-#: deluge/plugins/webui/webui/gtkui.py:97
+#: deluge/plugins/WebUi/deluge/plugins/webui/gtkui.py:56
+#: deluge/plugins/WebUi/deluge/plugins/webui/gtkui.py:63
+msgid "WebUi"
+msgstr ""
+
+#: deluge/plugins/WebUi/deluge/plugins/webui/gtkui.py:100
 msgid ""
 "The Deluge web interface is not installed, please install the\n"
 "interface and try again"
@@ -454,28 +474,33 @@ msgstr ""
 "Spletni vmesnik programa Deluge ni nameščen.\n"
 "Prosimo, namestite ga in poskusite znova"
 
-#: deluge/plugins/webui/webui/data/config.glade:25
+#: deluge/plugins/WebUi/deluge/plugins/webui/data/config.glade:27
 msgid "Enable web interface"
 msgstr "Omogoči spletni vmesnik"
 
-#: deluge/plugins/webui/webui/data/config.glade:39
+#: deluge/plugins/WebUi/deluge/plugins/webui/data/config.glade:41
 msgid "Enable SSL"
 msgstr "Omogoči SSL"
 
-#: deluge/plugins/webui/webui/data/config.glade:58
+#: deluge/plugins/WebUi/deluge/plugins/webui/data/config.glade:60
 msgid "Listening port:"
 msgstr "Vrata za poslušanje:"
 
-#: deluge/plugins/autoadd/autoadd/core.py:136
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/core.py:124
 msgid "Watch folder does not exist."
 msgstr "Opazovana mapa ne obstaja."
 
-#: deluge/plugins/autoadd/autoadd/core.py:139
-#: deluge/plugins/autoadd/autoadd/core.py:383
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/core.py:129
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/core.py:404
 msgid "Path does not exist."
 msgstr "Pot ne obstaja."
 
-#: deluge/plugins/autoadd/autoadd/data/config.glade:39
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:386
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:390
+msgid "AutoAdd"
+msgstr ""
+
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/config.glade:41
 msgid "<b>Watch Folders:</b>"
 msgstr "<b>Opazovane mape:</b>"
 
@@ -483,31 +508,31 @@ msgstr "<b>Opazovane mape:</b>"
 msgid "AutoAdd Error"
 msgstr "Napaka AutoAdd"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:78
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:7
 msgid "Watch Folder Properties"
 msgstr "Lastnosti opazovane mape"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:139
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:151
 msgid "Enable this watch folder"
 msgstr "Omogoči to opazovano mapo"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:160
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:173
 msgid "<b>Watch Folder</b>"
 msgstr "<b>Opazovana mapa</b>"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:190
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:211
 msgid "Delete .torrent after adding"
 msgstr "Po dodajanju izbriši datoteko .torrent"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:206
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:232
 msgid "Append extension after adding:"
 msgstr "Po dodajanju dodaj pripono:"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:223
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:254
 msgid ".added"
 msgstr ".dodano"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:243
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:367
 msgid "<b>Torrent File Action</b>"
 msgstr "<b>Datoteka .torrent</b>"
 
@@ -524,188 +549,204 @@ msgstr "<b>Mesto shranjevanja</b>"
 msgid "Set move completed location"
 msgstr "Nastavi mesto shranjevanja dokončanih datotek"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:411
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:569
 msgid "<b>Move Completed</b>"
 msgstr "<b>Premakni dokončano</b>"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:437
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:599
 msgid "Label: "
 msgstr "Oznaka: "
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:468
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:632
 msgid "<b>Label</b>"
 msgstr "<b>Oznaka</b>"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:485
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:652
 msgid "Main"
 msgstr "Glavno"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:516
-#: deluge/ui/gtkui/glade/main_window.glade:1808
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:726
 msgid "Max Upload Speed:"
 msgstr "Najvišja hitrost pošiljanja:"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:533
-#: deluge/ui/gtkui/glade/main_window.glade:1795
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:623
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:743
 msgid "Max Connections:"
 msgstr "Največje število povezav:"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:550
-#: deluge/ui/gtkui/glade/main_window.glade:1858
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:637
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:760
 msgid "Max Upload Slots:"
 msgstr "Največje število mest za pošiljanje:"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:657
-#: deluge/ui/gtkui/glade/main_window.glade:1821
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:885
 msgid "Max Download Speed:"
 msgstr "Najvišja hitrost prejemanja:"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:683
-#: deluge/ui/gtkui/glade/main_window.glade:1897
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:706
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:912
 msgid "<b>Bandwidth</b>"
 msgstr "<b>Pasovna širina</b>"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:714
-#: deluge/plugins/label/label/data/label_options.glade:349
-#: deluge/ui/gtkui/glade/main_window.glade:1947
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:951
+#: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:583
+#: deluge/ui/gtkui/glade/main_window.tabs.ui.h:42
 msgid "Stop seed at ratio:"
 msgstr "Ustavi sejanje pri delilnem razmerju:"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:738
-#: deluge/plugins/label/label/data/label_options.glade:364
-#: deluge/ui/gtkui/glade/main_window.glade:1988
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:976
+#: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:599
+#: deluge/ui/gtkui/glade/main_window.tabs.ui.h:43
+#: deluge/ui/web/js/deluge-all/details/OptionsTab.js:253
 msgid "Remove at ratio"
 msgstr "Odstrani pri delilnem razmerju"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:754
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:992
 msgid "Auto Managed:"
 msgstr "Samodejno upravljanje:"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:882
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:1131
 msgid "Add Paused:"
 msgstr "Dodaj v stanju premora:"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:928
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:1184
 msgid "Queue to:"
 msgstr "Dodaj v čakalno vrsto:"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:946
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:1203
+#: deluge/ui/web/js/deluge-all/Menus.js:192
 msgid "Top"
 msgstr "Na vrh"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:959
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:1218
+#: deluge/ui/web/js/deluge-all/Menus.js:210
 msgid "Bottom"
 msgstr "Na dno"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:1009
-#: deluge/ui/gtkui/glade/main_window.glade:2065
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:1278
 msgid "<b>Queue</b>"
 msgstr "<b>Čakalna vrsta</b>"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:1029
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:626
-#: deluge/ui/gtkui/glade/connection_manager.glade:460
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:1301
+#: deluge/ui/gtkui/glade/connection_manager.ui.h:6
+#: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:14
+#: deluge/ui/web/js/deluge-all/Menus.js:99
+#: deluge/ui/web/js/deluge-all/details/OptionsTab.js:49
+#: deluge/ui/web/js/deluge-all/add/OptionsTab.js:40
+#: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:92
 msgid "Options"
 msgstr "Možnosti"
 
-#: deluge/plugins/scheduler/scheduler/gtkui.py:238
+#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:174
+#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:298
+msgid "Scheduler"
+msgstr "Razporejevalnik"
+
+#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:240
 msgid "Download Limit:"
 msgstr "Omejitev prejemanja:"
 
-#: deluge/plugins/scheduler/scheduler/gtkui.py:247
+#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:249
 msgid "Upload Limit:"
 msgstr "Omejitev pošiljanja:"
 
-#: deluge/plugins/scheduler/scheduler/gtkui.py:256
+#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:258
 msgid "Active Torrents:"
 msgstr "Dejavni torrenti:"
 
-#: deluge/plugins/scheduler/scheduler/gtkui.py:265
+#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:267
 msgid "Active Downloading:"
 msgstr "Dejavni prejemi:"
 
-#: deluge/plugins/scheduler/scheduler/gtkui.py:274
+#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:276
 msgid "Active Seeding:"
 msgstr "Dejavna sejanja:"
 
-#: deluge/plugins/scheduler/scheduler/gtkui.py:288
+#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:290
 msgid "<b>Slow Settings</b>"
 msgstr "<b>Nastavitve</b>"
 
-#: deluge/plugins/label/label/core.py:191
+#: deluge/plugins/Label/deluge/plugins/label/core.py:194
 msgid "Invalid label, valid characters:[a-z0-9_-]"
 msgstr "Neveljavna oznaka, veljavni znaki: [a-z0-9_-]"
 
-#: deluge/plugins/label/label/core.py:192
+#: deluge/plugins/Label/deluge/plugins/label/core.py:195
 msgid "Empty Label"
 msgstr "Prazna oznaka"
 
-#: deluge/plugins/label/label/core.py:193
+#: deluge/plugins/Label/deluge/plugins/label/core.py:196
 msgid "Label already exists"
 msgstr "Oznaka že obstaja"
 
-#: deluge/plugins/label/label/core.py:201
-#: deluge/plugins/label/label/core.py:281
-#: deluge/plugins/label/label/core.py:316
+#: deluge/plugins/Label/deluge/plugins/label/core.py:204
+#: deluge/plugins/Label/deluge/plugins/label/core.py:284
+#: deluge/plugins/Label/deluge/plugins/label/core.py:319
 msgid "Unknown Label"
 msgstr "Neznana oznaka"
 
-#: deluge/plugins/label/label/core.py:317
+#: deluge/plugins/Label/deluge/plugins/label/core.py:320
 msgid "Unknown Torrent"
 msgstr "Neznan torrent"
 
-#: deluge/plugins/label/label/data/label_options.glade:7
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:188
+#: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:174
+#: deluge/plugins/Label/deluge/plugins/label/gtkui/sidebar_menu.py:193
 msgid "Label Options"
 msgstr "Možnosti oznake"
 
-#: deluge/plugins/label/label/data/label_options.glade:36
+#: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:252
 msgid "<b>Label Options</b>"
 msgstr "<b>Možnosti oznake</b>"
 
-#: deluge/plugins/label/label/data/label_options.glade:158
+#: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:368
 msgid "Upload Slots:\t"
 msgstr "Mesta za pošiljanje:\t"
 
-#: deluge/plugins/label/label/data/label_options.glade:171
+#: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:382
+#: deluge/ui/gtkui/glade/main_window.tabs.ui.h:32
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:69
 msgid "Upload Speed:"
 msgstr "Hitrost pošiljanja:"
 
-#: deluge/plugins/label/label/data/label_options.glade:184
+#: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:396
+#: deluge/ui/gtkui/glade/main_window.tabs.ui.h:33
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:75
 msgid "Download Speed:"
 msgstr "Hitrost prejemanja:"
 
-#: deluge/plugins/label/label/data/label_options.glade:226
+#: deluge/plugins/Stats/deluge/plugins/stats/data/config.glade:168
+#: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:444
+#: deluge/ui/gtkui/glade/main_window.tabs.ui.h:31
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:71
+#: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:28
 msgid "Connections:"
 msgstr "Povezave:"
 
-#: deluge/plugins/label/label/data/label_options.glade:270
+#: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:512
 msgid "Apply per torrent max settings:"
 msgstr "Uveljavi omejitve glede na torrent:"
 
-#: deluge/plugins/label/label/data/label_options.glade:283
+#: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:529
 msgid "Maximum"
 msgstr "Omejitve"
 
-#: deluge/plugins/label/label/data/label_options.glade:336
-#: deluge/ui/gtkui/glade/main_window.glade:1926
+#: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:569
+#: deluge/ui/gtkui/glade/main_window.tabs.ui.h:41
+#: deluge/ui/web/js/deluge-all/Menus.js:181
+#: deluge/ui/web/js/deluge-all/details/OptionsTab.js:215
 msgid "Auto Managed"
 msgstr "Samodejno upravljanje"
 
-#: deluge/plugins/label/label/data/label_options.glade:410
+#: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:666
 msgid "Apply Queue settings:"
 msgstr "Uveljavi nastavitve čakalne vrste:"
 
-#: deluge/plugins/label/label/data/label_options.glade:426
-#: deluge/ui/gtkui/preferences.py:78
+#: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:686
+#: deluge/ui/console/modes/preferences.py:110
+#: deluge/ui/gtkui/preferences.py:76 deluge/ui/web/js/deluge-all/Menus.js:186
+#: deluge/ui/web/js/deluge-all/details/OptionsTab.js:196
+#: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:41
 msgid "Queue"
 msgstr "Čakalna vrsta"
 
-#: deluge/plugins/label/label/data/label_options.glade:453
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:204
+#: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:714
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:44
 msgid "Move completed to:"
 msgstr "Premakni dokončane v:"
 
@@ -713,68 +754,70 @@ msgstr "Premakni dokončane v:"
 msgid "Apply location settings:"
 msgstr "Uveljavi nastavitve mesta:"
 
-#: deluge/plugins/label/label/data/label_options.glade:520
+#: deluge/ui/web/js/deluge-all/preferences/OtherPage.js:104
 msgid "Location"
 msgstr "Mesto"
 
-#: deluge/plugins/label/label/data/label_options.glade:560
+#: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:841
 msgid "<i>(1 line per tracker)</i>"
 msgstr "<i>(1 vrstica na sledilnik)</i>"
 
-#: deluge/plugins/label/label/data/label_options.glade:576
+#: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:856
 msgid "Automatically apply label:"
 msgstr "Samodejno uveljavi oznako:"
 
-#: deluge/plugins/label/label/data/label_options.glade:593
-#: deluge/ui/gtkui/filtertreeview.py:69
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:464
+#: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:877
+#: deluge/ui/gtkui/filtertreeview.py:129
+#: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:9
+#: deluge/ui/web/js/deluge-all/AddTrackerWindow.js:66
 msgid "Trackers"
 msgstr "Sledilniki"
 
-#: deluge/plugins/label/label/data/label_options.glade:646
+#: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:8
 msgid "Add Label"
 msgstr "Dodaj oznako"
 
-#: deluge/plugins/label/label/data/label_options.glade:680
+#: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:94
 msgid "<b>Add Label</b>"
 msgstr "<b>Dodaj oznako</b>"
 
-#: deluge/plugins/label/label/data/label_options.glade:711
+#: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:130
+#: deluge/ui/gtkui/glade/main_window.tabs.ui.h:23
 msgid "Name:"
 msgstr "Ime:"
 
-#: deluge/plugins/label/label/data/label_pref.glade:22
+#: deluge/plugins/Label/deluge/plugins/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
 msgstr ""
 "<i>Za dodajanje, urejanje ali odstranjevanje oznak uporabite stransko "
 "vrstico. </i>\n"
 
-#: deluge/plugins/label/label/data/label_pref.glade:32
+#: deluge/plugins/Label/deluge/plugins/label/data/label_pref.glade:32
 msgid "<b>Labels</b>"
 msgstr "<b>Oznake</b>"
 
-#: deluge/plugins/label/label/gtkui/__init__.py:77
-#: deluge/plugins/label/label/gtkui/__init__.py:111
-#: deluge/plugins/label/label/gtkui/submenu.py:51
-#: deluge/plugins/label/label/gtkui/label_config.py:59
-#: deluge/plugins/label/label/gtkui/label_config.py:66
+#: deluge/plugins/Label/deluge/plugins/label/gtkui/__init__.py:77
+#: deluge/plugins/Label/deluge/plugins/label/gtkui/__init__.py:110
+#: deluge/plugins/Label/deluge/plugins/label/gtkui/submenu.py:56
+#: deluge/plugins/Label/deluge/plugins/label/gtkui/label_config.py:63
+#: deluge/plugins/Label/deluge/plugins/label/gtkui/label_config.py:70
 msgid "Label"
 msgstr "Oznaka"
 
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:66
+#: deluge/plugins/Label/deluge/plugins/label/gtkui/sidebar_menu.py:71
 msgid "Label _Options"
 msgstr "Možnosti _oznake"
 
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:67
+#: deluge/plugins/Label/deluge/plugins/label/gtkui/sidebar_menu.py:72
 msgid "_Remove Label"
 msgstr "_Odstrani oznako"
 
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:68
+#: deluge/plugins/Label/deluge/plugins/label/gtkui/sidebar_menu.py:73
 msgid "_Add Label"
 msgstr "_Dodaj oznako"
 
-#: deluge/plugins/label/label/gtkui/submenu.py:46
-#: deluge/ui/gtkui/filtertreeview.py:80
+#: deluge/plugins/Label/deluge/plugins/label/gtkui/submenu.py:51
+#: deluge/ui/gtkui/filtertreeview.py:196
 msgid "No Label"
 msgstr "Brez oznake"
 
@@ -1762,7 +1805,7 @@ msgstr "Zambija"
 msgid "Zimbabwe"
 msgstr "Zimbabve"
 
-#: deluge/ui/client.py:590 deluge/ui/gtkui/connectionmanager.py:416
+#: deluge/ui/client.py:629 deluge/ui/gtkui/connectionmanager.py:461
 msgid ""
 "Deluge cannot find the 'deluged' executable, it is likely that you forgot to "
 "install the deluged package or it's not in your PATH."
@@ -1770,46 +1813,51 @@ msgstr ""
 "Izvedljive datoteke 'deluged' ni mogoče najti. Ali ste pozabili namestiti "
 "paket deluged ali pa ni naveden v spremenljivki PATH."
 
-#: deluge/ui/web/server.py:661
+#: deluge/ui/web/server.py:622
 msgid "Starting server in PID"
 msgstr "Zaganjanje strežnika v PID"
 
-#: deluge/ui/web/json_api.py:780 deluge/ui/web/json_api.py:799
-#: deluge/ui/web/json_api.py:808 deluge/ui/web/json_api.py:811
-#: deluge/ui/web/json_api.py:818
+#: deluge/ui/web/json_api.py:760 deluge/ui/web/json_api.py:779
+#: deluge/ui/web/json_api.py:788 deluge/ui/web/json_api.py:791
+#: deluge/ui/web/json_api.py:796
+#: deluge/ui/web/js/deluge-all/ConnectionManager.js:180
+#: deluge/ui/web/js/deluge-all/ConnectionManager.js:188
 msgid "Offline"
 msgstr "Nedosegljiv"
 
-#: deluge/ui/web/json_api.py:804
+#: deluge/ui/web/json_api.py:784
 msgid "Online"
 msgstr "Dosegljiv"
 
-#: deluge/ui/web/json_api.py:824
+#: deluge/ui/web/json_api.py:802
+#: deluge/ui/web/js/deluge-all/ConnectionManager.js:177
+#: deluge/ui/web/js/deluge-all/ConnectionManager.js:225
 msgid "Connected"
 msgstr "Povezan"
 
-#: deluge/ui/web/json_api.py:851
+#: deluge/ui/web/json_api.py:829
 msgid "Daemon doesn't exist"
 msgstr "Ozadnji program ne obstaja"
 
-#: deluge/ui/web/json_api.py:857
+#: deluge/ui/web/json_api.py:835
 msgid "Daemon not running"
 msgstr "Ozadnji program ni zagnan"
 
-#: deluge/ui/console/statusbars.py:104
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1071
+#: deluge/ui/console/statusbars.py:133
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:125
+#: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:224
 msgid "DHT"
 msgstr "DHT"
 
-#: deluge/ui/gtkui/notification.py:79
+#: deluge/ui/gtkui/notification.py:57
 msgid "Torrent complete"
 msgstr "Prejemanje torrenta končano"
 
-#: deluge/ui/gtkui/notification.py:80
+#: deluge/ui/gtkui/notification.py:59
 msgid "Including"
 msgstr "Vsebuje:"
 
-#: deluge/ui/gtkui/notification.py:80
+#: deluge/ui/gtkui/notification.py:59
 msgid "files"
 msgstr "datotek"
 
@@ -1832,234 +1880,273 @@ msgstr ""
 "Hvala,\n"
 "Deluge"
 
-#: deluge/ui/gtkui/torrentview.py:85 deluge/ui/gtkui/filtertreeview.py:72
+#: deluge/ui/common.py:36
 msgid "Downloading"
 msgstr "Prejemanje"
 
-#: deluge/ui/gtkui/torrentview.py:86 deluge/ui/gtkui/filtertreeview.py:73
+#: deluge/ui/common.py:37 deluge/ui/gtkui/glade/preferences_dialog.ui.h:99
+#: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:120
 msgid "Seeding"
 msgstr "Sejanje"
 
-#: deluge/ui/gtkui/torrentview.py:87 deluge/ui/gtkui/filtertreeview.py:74
+#: deluge/ui/common.py:38
 msgid "Paused"
 msgstr "V premoru"
 
-#: deluge/ui/gtkui/torrentview.py:88 deluge/ui/gtkui/filtertreeview.py:75
+#: deluge/ui/common.py:35 deluge/ui/common.py:39
 msgid "Checking"
 msgstr "Preverjanje"
 
-#: deluge/ui/gtkui/torrentview.py:89 deluge/ui/gtkui/filtertreeview.py:76
+#: deluge/ui/common.py:40
 msgid "Queued"
 msgstr "V čakalni vrsti"
 
-#: deluge/ui/gtkui/torrentview.py:236
+#: deluge/ui/gtkui/torrentview.py:143 deluge/ui/gtkui/torrentview.py:229
+#: deluge/ui/web/js/deluge-all/TorrentGrid.js:116
+#: deluge/ui/web/js/deluge-all/details/DetailsTab.js:46
 msgid "Name"
 msgstr "Ime"
 
-#: deluge/ui/gtkui/torrentview.py:239
-#: deluge/ui/gtkui/createtorrentdialog.py:90 deluge/ui/gtkui/files_tab.py:143
-#: deluge/ui/gtkui/addtorrentdialog.py:125
+#: deluge/ui/gtkui/torrentview.py:233
+#: deluge/ui/gtkui/createtorrentdialog.py:78 deluge/ui/gtkui/files_tab.py:124
+#: deluge/ui/gtkui/addtorrentdialog.py:110
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:167
+#: deluge/ui/web/js/deluge-all/TorrentGrid.js:122
+#: deluge/ui/web/js/deluge-all/details/FilesTab.js:44
+#: deluge/ui/web/js/deluge-all/add/FilesTab.js:54
 msgid "Size"
 msgstr "Velikost"
 
-#: deluge/ui/gtkui/torrentview.py:242
+#: deluge/ui/gtkui/torrentview.py:236
+#: deluge/ui/web/js/deluge-all/TorrentGrid.js:235
 msgid "Downloaded"
 msgstr "Prejeto"
 
-#: deluge/ui/gtkui/torrentview.py:245
+#: deluge/ui/gtkui/torrentview.py:239
+#: deluge/ui/web/js/deluge-all/TorrentGrid.js:242
 msgid "Uploaded"
 msgstr "Poslano"
 
-#: deluge/ui/gtkui/torrentview.py:248 deluge/ui/gtkui/torrentview.py:578
-#: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/files_tab.py:156
+#: deluge/ui/gtkui/torrentview.py:244 deluge/ui/gtkui/peers_tab.py:103
+#: deluge/ui/gtkui/files_tab.py:137
+#: deluge/ui/web/js/deluge-all/TorrentGrid.js:128
+#: deluge/ui/web/js/deluge-all/details/FilesTab.js:52
 msgid "Progress"
 msgstr "Napredek"
 
-#: deluge/ui/gtkui/torrentview.py:252 deluge/ui/gtkui/torrentview.py:258
+#: deluge/ui/gtkui/torrentview.py:260 deluge/ui/gtkui/torrentview.py:266
 msgid "Seeders"
 msgstr "Sejalci"
 
-#: deluge/ui/gtkui/torrentview.py:255 deluge/ui/gtkui/torrentview.py:258
+#: deluge/ui/gtkui/torrentview.py:251
+#: deluge/ui/web/js/deluge-all/TorrentGrid.js:141
+#: deluge/ui/web/js/deluge-all/details/PeersTab.js:63
 msgid "Peers"
 msgstr "Soležniki"
 
-#: deluge/ui/gtkui/torrentview.py:260 deluge/ui/gtkui/peers_tab.py:142
+#: deluge/ui/gtkui/torrentview.py:256 deluge/ui/gtkui/peers_tab.py:116
+#: deluge/ui/web/js/deluge-all/TorrentGrid.js:148
 msgid "Down Speed"
 msgstr "Hitrost prejemanja"
 
-#: deluge/ui/gtkui/torrentview.py:262 deluge/ui/gtkui/peers_tab.py:155
+#: deluge/ui/gtkui/torrentview.py:258 deluge/ui/gtkui/peers_tab.py:129
+#: deluge/ui/web/js/deluge-all/TorrentGrid.js:154
 msgid "Up Speed"
 msgstr "Hitrost pošiljanja"
 
-#: deluge/ui/gtkui/torrentview.py:264
+#: deluge/ui/gtkui/torrentview.py:260
+#: deluge/ui/web/js/deluge-all/TorrentGrid.js:256
 msgid "Down Limit"
 msgstr "Omejitev prejemanja"
 
-#: deluge/ui/gtkui/torrentview.py:266
+#: deluge/ui/gtkui/torrentview.py:262
+#: deluge/ui/web/js/deluge-all/TorrentGrid.js:263
 msgid "Up Limit"
 msgstr "Omejitev pošiljanja"
 
-#: deluge/ui/gtkui/torrentview.py:268
+#: deluge/ui/gtkui/torrentview.py:264
+#: deluge/ui/web/js/deluge-all/TorrentGrid.js:160
 msgid "ETA"
 msgstr "PČP"
 
-#: deluge/ui/gtkui/torrentview.py:270
+#: deluge/ui/gtkui/torrentview.py:266
+#: deluge/ui/web/js/deluge-all/TorrentGrid.js:166
 msgid "Ratio"
 msgstr "Razmerje"
 
-#: deluge/ui/gtkui/torrentview.py:272
+#: deluge/ui/gtkui/torrentview.py:268
+#: deluge/ui/web/js/deluge-all/TorrentGrid.js:173
 msgid "Avail"
 msgstr "Razpoložljivost"
 
-#: deluge/ui/gtkui/torrentview.py:274
+#: deluge/ui/gtkui/torrentview.py:270
+#: deluge/ui/web/js/deluge-all/TorrentGrid.js:180
 msgid "Added"
 msgstr "Dodano dne"
 
 #: deluge/ui/gtkui/torrentview.py:276
-#: deluge/ui/gtkui/createtorrentdialog.py:105
-#: deluge/ui/gtkui/edittrackersdialog.py:86
+#: deluge/ui/gtkui/createtorrentdialog.py:93
+#: deluge/ui/gtkui/edittrackersdialog.py:72
+#: deluge/ui/web/js/deluge-all/EditTrackersWindow.js:80
+#: deluge/ui/web/js/deluge-all/TorrentGrid.js:201
+#: deluge/ui/web/js/deluge-all/EditTrackerWindow.js:66
+#: deluge/ui/web/js/deluge-all/details/DetailsTab.js:53
 msgid "Tracker"
 msgstr "Sledilnik"
 
-#: deluge/ui/gtkui/torrentview.py:280
+#: deluge/ui/gtkui/torrentview.py:288
 msgid "Save Path"
 msgstr "Mesto shranjevanja"
 
-#: deluge/ui/gtkui/peers_tab.py:100
+#: deluge/ui/gtkui/peers_tab.py:74
 msgid "Address"
 msgstr "Naslov"
 
-#: deluge/ui/gtkui/peers_tab.py:116
+#: deluge/ui/gtkui/peers_tab.py:90
 msgid "Client"
 msgstr "Odjemalec"
 
-#: deluge/ui/gtkui/new_release_dialog.py:72
+#: deluge/ui/gtkui/new_release_dialog.py:46
 msgid "<i>Client Version</i>"
 msgstr "<i>Različica odjemalca</i>"
 
-#: deluge/ui/gtkui/systemtray.py:113 deluge/ui/gtkui/systemtray.py:195
-#: deluge/ui/gtkui/systemtray.py:252 deluge/ui/gtkui/aboutdialog.py:55
-#: deluge/data/share/applications/deluge.desktop.in.h:1
+#: deluge/ui/data/share/applications/deluge.desktop.in.h:1
+#: deluge/ui/gtkui/systemtray.py:86 deluge/ui/gtkui/systemtray.py:169
+#: deluge/ui/gtkui/systemtray.py:229 deluge/ui/gtkui/aboutdialog.py:28
+#: deluge/ui/web/js/deluge-all/Toolbar.js:45
 msgid "Deluge"
 msgstr "Deluge"
 
-#: deluge/ui/gtkui/systemtray.py:195
+#: deluge/ui/gtkui/systemtray.py:169
 msgid "Not Connected..."
 msgstr "Ni povezave ..."
 
-#: deluge/ui/gtkui/systemtray.py:243 deluge/ui/gtkui/systemtray.py:247
-#: deluge/ui/gtkui/common.py:70
+#: deluge/ui/gtkui/systemtray.py:220 deluge/ui/gtkui/systemtray.py:224
+#: deluge/ui/web/js/deluge-all/Statusbar.js:85
+#: deluge/ui/web/js/deluge-all/Statusbar.js:133
+#: deluge/ui/web/js/deluge-all/Statusbar.js:181
+#: deluge/ui/web/js/deluge-all/Menus.js:119
+#: deluge/ui/web/js/deluge-all/Menus.js:138
+#: deluge/ui/web/js/deluge-all/Menus.js:157
+#: deluge/ui/web/js/deluge-all/Menus.js:176
 msgid "Unlimited"
 msgstr "Neomejeno"
 
-#: deluge/ui/gtkui/systemtray.py:252
+#: deluge/ui/gtkui/systemtray.py:229
+#: deluge/ui/gtkui/glade/path_combo_chooser.ui.h:36
+#: deluge/ui/web/js/deluge-all/EditTrackersWindow.js:107
+#: deluge/ui/web/js/deluge-all/Menus.js:204
+#: deluge/ui/web/js/deluge-all/Toolbar.js:89
 msgid "Down"
 msgstr "Prejemanje"
 
-#: deluge/ui/gtkui/systemtray.py:253
+#: deluge/ui/gtkui/systemtray.py:230
+#: deluge/ui/gtkui/glade/path_combo_chooser.ui.h:34
+#: deluge/ui/web/js/deluge-all/EditTrackersWindow.js:102
+#: deluge/ui/web/js/deluge-all/Menus.js:198
+#: deluge/ui/web/js/deluge-all/Toolbar.js:83
+#: deluge/ui/web/js/deluge-all/FileBrowser.js:53
 msgid "Up"
 msgstr "Pošiljanje"
 
-#: deluge/ui/gtkui/systemtray.py:397 deluge/ui/gtkui/menubar.py:435
-#: deluge/ui/gtkui/statusbar.py:401
+#: deluge/ui/web/js/deluge-all/Statusbar.js:143
 msgid "Set Maximum Download Speed"
 msgstr "Nastavi najvišjo hitrost prejemanja"
 
-#: deluge/ui/gtkui/systemtray.py:405 deluge/ui/gtkui/menubar.py:436
-#: deluge/ui/gtkui/statusbar.py:429
+#: deluge/ui/web/js/deluge-all/Statusbar.js:191
 msgid "Set Maximum Upload Speed"
 msgstr "Nastavi najvišjo hitrost pošiljanja"
-
-#: deluge/ui/gtkui/systemtray.py:467
-msgid "Deluge is password protected!"
-msgstr "Deluge je zaščiten z geslom."
-
-#: deluge/ui/gtkui/systemtray.py:473
-msgid "Enter your password to continue"
-msgstr "Za nadaljevanje vnesite geslo"
 
 #: deluge/ui/gtkui/common.py:73
 msgid "Activated"
 msgstr "Omogočeno"
 
-#: deluge/ui/gtkui/common.py:127 deluge/ui/gtkui/menubar.py:81
+#: deluge/ui/gtkui/common.py:95 deluge/ui/gtkui/menubar.py:72
 msgid "Other..."
 msgstr "Drugo ..."
 
-#: deluge/ui/gtkui/createtorrentdialog.py:80 deluge/ui/gtkui/files_tab.py:122
-#: deluge/ui/gtkui/addtorrentdialog.py:112
+#: deluge/ui/gtkui/createtorrentdialog.py:68 deluge/ui/gtkui/files_tab.py:103
+#: deluge/ui/gtkui/addtorrentdialog.py:97
+#: deluge/ui/web/js/deluge-all/details/FilesTab.js:40
+#: deluge/ui/web/js/deluge-all/add/FilesTab.js:50
 msgid "Filename"
 msgstr "Ime datoteke"
 
-#: deluge/ui/gtkui/createtorrentdialog.py:103
-#: deluge/ui/gtkui/edittrackersdialog.py:84
+#: deluge/ui/gtkui/createtorrentdialog.py:91
+#: deluge/ui/gtkui/edittrackersdialog.py:70
+#: deluge/ui/web/js/deluge-all/EditTrackersWindow.js:76
 msgid "Tier"
 msgstr "Stopnja"
 
-#: deluge/ui/gtkui/createtorrentdialog.py:143
+#: deluge/ui/gtkui/createtorrentdialog.py:131
 msgid "Choose a file"
 msgstr "Izberite datoteko"
 
-#: deluge/ui/gtkui/createtorrentdialog.py:172
+#: deluge/ui/gtkui/createtorrentdialog.py:160
 msgid "Choose a folder"
 msgstr "Izberite mapo"
 
-#: deluge/ui/gtkui/createtorrentdialog.py:241
+#: deluge/ui/gtkui/createtorrentdialog.py:238
+#: deluge/ui/gtkui/glade/create_torrent_dialog.remote_save.ui.h:2
 msgid "Save .torrent file"
 msgstr "Shrani datoteko .torrent"
 
-#: deluge/ui/gtkui/createtorrentdialog.py:253
-#: deluge/ui/gtkui/addtorrentdialog.py:590
+#: deluge/ui/gtkui/createtorrentdialog.py:249
+#: deluge/ui/gtkui/addtorrentdialog.py:548
 msgid "Torrent files"
 msgstr "Datoteke Torrent"
 
-#: deluge/ui/gtkui/createtorrentdialog.py:257
-#: deluge/ui/gtkui/addtorrentdialog.py:594
+#: deluge/ui/gtkui/createtorrentdialog.py:253
+#: deluge/ui/gtkui/addtorrentdialog.py:552
 msgid "All files"
 msgstr "Vse datoteke"
 
-#: deluge/ui/gtkui/files_tab.py:56
+#: deluge/ui/gtkui/files_tab.py:31 deluge/ui/web/js/deluge-all/Menus.js:257
+#: deluge/ui/web/js/deluge-all/Deluge.js:156
 msgid "Do Not Download"
 msgstr "Ne prejmi"
 
-#: deluge/ui/gtkui/files_tab.py:57
+#: deluge/ui/gtkui/files_tab.py:32 deluge/ui/web/js/deluge-all/Menus.js:262
+#: deluge/ui/web/js/deluge-all/Deluge.js:157
 msgid "Normal Priority"
 msgstr "Običajna prednost"
 
-#: deluge/ui/gtkui/files_tab.py:58
+#: deluge/ui/gtkui/files_tab.py:33 deluge/ui/web/js/deluge-all/Menus.js:267
+#: deluge/ui/web/js/deluge-all/Deluge.js:158
 msgid "High Priority"
 msgstr "Visoka prednost"
 
-#: deluge/ui/gtkui/files_tab.py:59
+#: deluge/ui/gtkui/files_tab.py:34 deluge/ui/web/js/deluge-all/Menus.js:272
+#: deluge/ui/web/js/deluge-all/Deluge.js:159
 msgid "Highest Priority"
 msgstr "Najvišja prednost"
 
-#: deluge/ui/gtkui/files_tab.py:169
+#: deluge/ui/gtkui/files_tab.py:150
+#: deluge/ui/web/js/deluge-all/details/FilesTab.js:60
 msgid "Priority"
 msgstr "Prednost"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:104
-#: deluge/ui/gtkui/queuedtorrents.py:76
+#: deluge/ui/gtkui/addtorrentdialog.py:89 deluge/ui/gtkui/queuedtorrents.py:50
 msgid "Torrent"
 msgstr "Torrent"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:222
+#: deluge/ui/gtkui/addtorrentdialog.py:192
 msgid "Invalid File"
 msgstr "Neveljavna datoteka"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:227
+#: deluge/ui/gtkui/addtorrentdialog.py:198
 msgid "Duplicate Torrent"
 msgstr "Podvojen torrent"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:227
+#: deluge/ui/gtkui/addtorrentdialog.py:199
 msgid "You cannot add the same torrent twice."
 msgstr "Enakega torrenta ne morete dodati dvakrat."
 
-#: deluge/ui/gtkui/addtorrentdialog.py:528
+#: deluge/ui/gtkui/addtorrentdialog.py:532
 msgid "Unable to set file priority!"
 msgstr "Prednosti datoteke ni mogoče nastaviti!"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:528
+#: deluge/ui/gtkui/addtorrentdialog.py:532
 msgid ""
 "File prioritization is unavailable when using Compact allocation.  Would you "
 "like to switch to Full allocation?"
@@ -2067,103 +2154,164 @@ msgstr ""
 "Pri strnjenem dodeljevanju nastavljanje prednosti datotekam ni na voljo. Ali "
 "želite preklopiti na polno dodeljevanje?"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:577
+#: deluge/ui/gtkui/addtorrentdialog.py:534
 msgid "Choose a .torrent file"
 msgstr "Izberite datoteko .torrent"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:663
+#: deluge/ui/gtkui/addtorrentdialog.py:611
 msgid "Invalid URL"
 msgstr "Neveljaven naslov URL"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:663
+#: deluge/ui/gtkui/addtorrentdialog.py:612
 msgid "is not a valid URL."
 msgstr "ni veljaven naslov URL."
 
-#: deluge/ui/gtkui/addtorrentdialog.py:667
+#: deluge/ui/gtkui/addtorrentdialog.py:618
 msgid "Downloading..."
 msgstr "Prejemanje ..."
 
-#: deluge/ui/gtkui/addtorrentdialog.py:709
+#: deluge/ui/gtkui/addtorrentdialog.py:660
 msgid "Download Failed"
 msgstr "Prejemanje ni uspelo"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:709
+#: deluge/ui/gtkui/addtorrentdialog.py:660
 msgid "Failed to download:"
 msgstr "Napaka pri prejemanju:"
 
-#: deluge/ui/gtkui/queuedtorrents.py:136
+#: deluge/ui/gtkui/queuedtorrents.py:111
 msgid " Torrents Queued"
 msgstr " torrentov v čakalni vrsti"
 
-#: deluge/ui/gtkui/queuedtorrents.py:138
+#: deluge/ui/gtkui/queuedtorrents.py:113
 msgid " Torrent Queued"
 msgstr " torrent v čakalni vrsti"
 
-#: deluge/ui/gtkui/preferences.py:73
+#: deluge/ui/gtkui/preferences.py:72
+#: deluge/ui/web/js/deluge-all/preferences/PreferencesWindow.js:85
 msgid "Categories"
 msgstr "Kategorije"
 
-#: deluge/ui/gtkui/preferences.py:77
+#: deluge/ui/console/modes/preferences.py:109
+#: deluge/ui/gtkui/preferences.py:76
+#: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:42
 msgid "Downloads"
 msgstr "Prejemi"
 
-#: deluge/ui/gtkui/preferences.py:77
+#: deluge/ui/console/modes/preferences.py:109
+#: deluge/ui/gtkui/preferences.py:76
+#: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:51
 msgid "Network"
 msgstr "Omrežje"
 
-#: deluge/ui/gtkui/preferences.py:77
+#: deluge/plugins/Stats/deluge/plugins/stats/data/tabs.glade:94
+#: deluge/ui/console/modes/preferences.py:109
+#: deluge/ui/gtkui/preferences.py:76
+#: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:31
+#: deluge/ui/web/js/deluge-all/details/OptionsTab.js:88
+#: deluge/ui/web/js/deluge-all/add/OptionsTab.js:94
+#: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:42
 msgid "Bandwidth"
 msgstr "Pasovna širina"
 
-#: deluge/ui/gtkui/preferences.py:78
+#: deluge/ui/console/modes/preferences.py:109
+#: deluge/ui/gtkui/preferences.py:76
+#: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:41
+#: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:53
 msgid "Interface"
 msgstr "Vmesnik"
 
-#: deluge/ui/gtkui/preferences.py:78
+#: deluge/ui/console/modes/preferences.py:110
+#: deluge/ui/gtkui/preferences.py:77
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:181
+#: deluge/ui/web/js/deluge-all/Statusbar.js:90
+#: deluge/ui/web/js/deluge-all/Statusbar.js:138
+#: deluge/ui/web/js/deluge-all/Statusbar.js:186
+#: deluge/ui/web/js/deluge-all/preferences/OtherPage.js:42
+#: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:84
 msgid "Other"
 msgstr "Drugo"
 
-#: deluge/ui/gtkui/preferences.py:78
+#: deluge/ui/console/modes/preferences.py:110
+#: deluge/ui/gtkui/preferences.py:77 deluge/ui/gtkui/preferences.py:902
+#: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:41
 msgid "Daemon"
 msgstr "Ozadnji program"
 
-#: deluge/ui/gtkui/preferences.py:78
+#: deluge/ui/console/modes/preferences.py:110
+#: deluge/ui/gtkui/preferences.py:77
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:139
+#: deluge/ui/web/js/deluge-all/preferences/ProxyPage.js:42
+#: deluge/ui/web/js/deluge-all/preferences/ProxyPage.js:52
 msgid "Proxy"
 msgstr "Posredniški strežnik"
 
-#: deluge/ui/gtkui/preferences.py:79
+#: deluge/ui/console/modes/preferences.py:110
+#: deluge/ui/gtkui/preferences.py:77
+#: deluge/ui/web/js/deluge-all/preferences/CachePage.js:41
 msgid "Cache"
 msgstr "Predpomnilnik"
 
-#: deluge/ui/gtkui/preferences.py:79
+#: deluge/ui/gtkui/preferences.py:77
+#: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:41
 msgid "Plugins"
 msgstr "Vstavki"
 
-#: deluge/ui/gtkui/preferences.py:94
+#: deluge/ui/gtkui/preferences.py:126
+#: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:92
 msgid "Plugin"
 msgstr "Vstavek"
 
-#: deluge/ui/gtkui/preferences.py:759
+#: deluge/ui/gtkui/preferences.py:769
 msgid "You must restart the deluge UI to change classic mode. Quit now?"
 msgstr ""
 
-#: deluge/ui/gtkui/preferences.py:915
+#: deluge/ui/gtkui/preferences.py:956
 msgid "Select the Plugin"
 msgstr "Izberite vstavek"
 
-#: deluge/ui/gtkui/preferences.py:926
+#: deluge/ui/gtkui/preferences.py:968
 msgid "Plugin Eggs"
 msgstr "Datoteke Egg"
 
-#: deluge/ui/gtkui/menubar.py:77
+#: deluge/ui/gtkui/torrentdetails.py:93
+msgid "_All"
+msgstr "_Vse"
+
+#: deluge/ui/gtkui/torrentdetails.py:94
+#: deluge/ui/gtkui/glade/main_window.tabs.ui.h:15
+msgid "_Status"
+msgstr "_Stanje"
+
+#: deluge/ui/gtkui/torrentdetails.py:95
+#: deluge/ui/gtkui/glade/main_window.tabs.ui.h:28
+msgid "_Details"
+msgstr "_Podrobnosti"
+
+#: deluge/ui/gtkui/torrentdetails.py:96
+#: deluge/ui/gtkui/glade/main_window.tabs.ui.h:29
+msgid "_Files"
+msgstr "_Datoteke"
+
+#: deluge/ui/gtkui/torrentdetails.py:97
+#: deluge/ui/gtkui/glade/main_window.tabs.ui.h:30
+msgid "_Peers"
+msgstr "_Soležniki"
+
+#: deluge/ui/gtkui/torrentdetails.py:98
+#: deluge/ui/gtkui/glade/main_window.tabs.ui.h:44
+#: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:34
+msgid "_Options"
+msgstr "_Možnosti"
+
+#: deluge/ui/gtkui/menubar.py:68
 msgid "Set Unlimited"
 msgstr "Nastavi na neomejeno"
 
-#: deluge/ui/gtkui/menubar.py:89 deluge/ui/gtkui/status_tab.py:128
+#: deluge/ui/gtkui/menubar.py:80
 msgid "On"
 msgstr "Vključeno"
 
-#: deluge/ui/gtkui/menubar.py:92 deluge/ui/gtkui/status_tab.py:130
+#: deluge/ui/gtkui/menubar.py:83
 msgid "Off"
 msgstr "Izključeno"
 
@@ -2171,7 +2319,7 @@ msgstr "Izključeno"
 msgid "Choose a directory to move files to"
 msgstr "Izberite mapo, v katero želite premakniti datoteke"
 
-#: deluge/ui/gtkui/menubar.py:437 deluge/ui/gtkui/statusbar.py:456
+#: deluge/ui/web/js/deluge-all/Statusbar.js:96
 msgid "Set Maximum Connections"
 msgstr "Nastavi največje število povezav"
 
@@ -2179,11 +2327,11 @@ msgstr "Nastavi največje število povezav"
 msgid "Set Maximum Upload Slots"
 msgstr "Nastavi največje število mest za pošiljanje"
 
-#: deluge/ui/gtkui/gtkui.py:312 deluge/ui/gtkui/gtkui.py:327
+#: deluge/ui/gtkui/gtkui.py:332 deluge/ui/gtkui/gtkui.py:359
 msgid "Turn off Classic Mode?"
 msgstr "Ali želite izključiti običajni način?"
 
-#: deluge/ui/gtkui/gtkui.py:313
+#: deluge/ui/gtkui/gtkui.py:333
 msgid ""
 "It appears that a Deluge daemon process (deluged) is already running.\n"
 "\n"
@@ -2194,11 +2342,22 @@ msgstr ""
 "Za nadaljevanje boste morali zaustaviti ozadnji program ali izključiti "
 "običajni način."
 
-#: deluge/ui/gtkui/gtkui.py:322
+#: deluge/ui/gtkui/gtkui.py:340
+msgid "Enable Thin Client Mode?"
+msgstr ""
+
+#: deluge/ui/gtkui/gtkui.py:341
+msgid ""
+"Thin client mode is only available because libtorrent is not installed.\n"
+"\n"
+"To use Deluge standalone (Classic mode) please install libtorrent."
+msgstr ""
+
+#: deluge/ui/gtkui/gtkui.py:340
 msgid "Error Starting Core"
 msgstr "Napaka med zaganjanjem jedra"
 
-#: deluge/ui/gtkui/gtkui.py:323
+#: deluge/ui/gtkui/gtkui.py:355
 msgid ""
 "There was an error starting the core component which is required to run "
 "Deluge in Classic Mode.\n"
@@ -2210,7 +2369,7 @@ msgstr ""
 "\n"
 "Za več podrobnosti si oglejte spodnje podatke."
 
-#: deluge/ui/gtkui/gtkui.py:328
+#: deluge/ui/gtkui/gtkui.py:360
 msgid ""
 "Since there was an error starting in Classic Mode would you like to continue "
 "by turning it off?"
@@ -2218,11 +2377,11 @@ msgstr ""
 "Ali želite zaradi napake med zaganjanjem običajnega načina le-tega "
 "izključiti?"
 
-#: deluge/ui/gtkui/gtkui.py:352
+#: deluge/ui/gtkui/gtkui.py:383
 msgid "Error Starting Daemon"
 msgstr "Napaka med zaganjanjem ozadnjega programa"
 
-#: deluge/ui/gtkui/gtkui.py:353
+#: deluge/ui/gtkui/gtkui.py:384
 msgid ""
 "There was an error starting the daemon process.  Try running it from a "
 "console to see if there is an error."
@@ -2230,61 +2389,81 @@ msgstr ""
 "Med zaganjanjem ozadnjega programa je prišlo do napake. Poskusite ga zagnati "
 "iz terminala."
 
-#: deluge/ui/gtkui/connectionmanager.py:149
+#: deluge/ui/gtkui/connectionmanager.py:163
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:168
+#: deluge/ui/web/js/deluge-all/ConnectionManager.js:68
+#: deluge/ui/web/js/deluge-all/details/StatusTab.js:39
+#: deluge/ui/web/js/deluge-all/details/DetailsTab.js:52
 msgid "Status"
 msgstr "Stanje"
 
-#: deluge/ui/gtkui/connectionmanager.py:153
+#: deluge/ui/gtkui/connectionmanager.py:167
+#: deluge/ui/web/js/deluge-all/ConnectionManager.js:74
+#: deluge/ui/web/js/deluge-all/AddConnectionWindow.js:66
+#: deluge/ui/web/js/deluge-all/preferences/ProxyI2PField.js:49
 msgid "Host"
 msgstr "Gostitelj"
 
-#: deluge/ui/gtkui/connectionmanager.py:158
+#: deluge/ui/gtkui/connectionmanager.py:172
+#: deluge/ui/web/js/deluge-all/ConnectionManager.js:80
 msgid "Version"
 msgstr "Različica"
 
-#: deluge/ui/gtkui/connectionmanager.py:386
+#: deluge/ui/gtkui/connectionmanager.py:426
 msgid "_Stop Daemon"
 msgstr "Zau_stavi ozadnji program"
 
-#: deluge/ui/gtkui/connectionmanager.py:394
+#: deluge/ui/gtkui/connectionmanager.py:434
 msgid "_Start Daemon"
 msgstr "_Zaženi ozadnji program"
 
-#: deluge/ui/gtkui/connectionmanager.py:415
-#: deluge/ui/gtkui/connectionmanager.py:425
+#: deluge/ui/gtkui/connectionmanager.py:460
+#: deluge/ui/gtkui/connectionmanager.py:472
 msgid "Unable to start daemon!"
 msgstr "Ozadnjega programa ni mogoče zagnati!"
 
-#: deluge/ui/gtkui/connectionmanager.py:426
+#: deluge/ui/gtkui/connectionmanager.py:473
 msgid "Please examine the details for more information."
 msgstr "Za več podatkov si oglejte podrobnosti."
 
-#: deluge/ui/gtkui/connectionmanager.py:510
+#: deluge/ui/gtkui/connectionmanager.py:595
 msgid "Error Adding Host"
 msgstr "Napaka med dodajanjem gostitelja"
 
-#: deluge/ui/gtkui/removetorrentdialog.py:78
+#: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:6
 msgid "Torrents"
 msgstr "Torrenti"
 
-#: deluge/ui/gtkui/dialogs.py:174
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4730
+#: deluge/ui/gtkui/dialogs.py:170
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:183
 msgid "Details:"
 msgstr "Podrobnosti:"
 
-#: deluge/ui/gtkui/mainwindow.py:257
+#: deluge/ui/gtkui/dialogs.py:390
+msgid "Password Protected"
+msgstr "Zaščiteno z geslom"
+
+#: deluge/ui/gtkui/mainwindow.py:191
+msgid "Enter your password to show Deluge..."
+msgstr ""
+
+#: deluge/ui/gtkui/mainwindow.py:235
+msgid "Enter your password to Quit Deluge..."
+msgstr ""
+
+#: deluge/ui/gtkui/mainwindow.py:315
 msgid "D:"
 msgstr "Pre:"
 
-#: deluge/ui/gtkui/mainwindow.py:257
+#: deluge/ui/gtkui/mainwindow.py:315
 msgid "U:"
 msgstr "Poš:"
 
-#: deluge/ui/gtkui/aboutdialog.py:59
+#: deluge/ui/gtkui/aboutdialog.py:32
 msgid "Copyright 2007-2011 Deluge Team"
 msgstr "Avtorske pravice 2007 - 2011 Ekipa Deluge"
 
-#: deluge/ui/gtkui/aboutdialog.py:61
+#: deluge/ui/gtkui/aboutdialog.py:34
 msgid ""
 "A peer-to-peer file sharing program\n"
 "utilizing the BitTorrent protocol."
@@ -2292,19 +2471,19 @@ msgstr ""
 "Program za deljenje datotek,\n"
 "ki uporablja protokol BitTorrent."
 
-#: deluge/ui/gtkui/aboutdialog.py:62
+#: deluge/ui/gtkui/aboutdialog.py:35
 msgid "Client:"
 msgstr "Odjemalec:"
 
-#: deluge/ui/gtkui/aboutdialog.py:65
+#: deluge/ui/gtkui/aboutdialog.py:38
 msgid "Current Developers:"
 msgstr "Trenutni razvijalci:"
 
-#: deluge/ui/gtkui/aboutdialog.py:67
+#: deluge/ui/gtkui/aboutdialog.py:40
 msgid "Past Developers or Contributors:"
 msgstr "Bivši razvijalci:"
 
-#: deluge/ui/gtkui/aboutdialog.py:252
+#: deluge/ui/gtkui/aboutdialog.py:225
 msgid ""
 "This program is free software; you can redistribute it and/or modify it "
 "under the terms of the GNU General Public License as published by the Free "
@@ -2331,63 +2510,77 @@ msgid ""
 "also delete it here."
 msgstr ""
 
-#: deluge/ui/gtkui/aboutdialog.py:287
+#: deluge/ui/gtkui/aboutdialog.py:260
 msgid "Server:"
 msgstr "Strežnik:"
 
-#: deluge/ui/gtkui/aboutdialog.py:290
+#: deluge/ui/gtkui/aboutdialog.py:263
 msgid "libtorrent:"
 msgstr "libtorrent:"
 
-#: deluge/ui/gtkui/statusbar.py:146
+#: deluge/ui/gtkui/statusbar.py:128
+#: deluge/ui/web/js/deluge-all/Statusbar.js:39
 msgid "Not Connected"
 msgstr "Brez povezave"
 
-#: deluge/ui/gtkui/statusbar.py:163
+#: deluge/plugins/Stats/deluge/plugins/stats/data/tabs.glade:112
+#: deluge/ui/gtkui/statusbar.py:145
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:179
+#: deluge/ui/web/js/deluge-all/Statusbar.js:57
+#: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:68
 msgid "Connections"
 msgstr "Povezave"
 
-#: deluge/ui/gtkui/statusbar.py:168
+#: deluge/ui/gtkui/statusbar.py:150
+#: deluge/ui/web/js/deluge-all/Statusbar.js:104
 msgid "Download Speed"
 msgstr "Hitrost prejemanja"
 
-#: deluge/ui/gtkui/statusbar.py:173
+#: deluge/ui/gtkui/statusbar.py:155
+#: deluge/ui/web/js/deluge-all/Statusbar.js:152
 msgid "Upload Speed"
 msgstr "Hitrost pošiljanja"
 
-#: deluge/ui/gtkui/statusbar.py:178
+#: deluge/ui/gtkui/statusbar.py:160
+#: deluge/ui/web/js/deluge-all/Statusbar.js:200
 msgid "Protocol Traffic Download/Upload"
 msgstr "Promet"
 
-#: deluge/ui/gtkui/statusbar.py:181
+#: deluge/ui/gtkui/statusbar.py:163
+#: deluge/ui/web/js/deluge-all/Statusbar.js:210
 msgid "DHT Nodes"
 msgstr "Vozlišča DHT"
 
-#: deluge/ui/gtkui/statusbar.py:186
+#: deluge/ui/gtkui/statusbar.py:168
 msgid "Free Disk Space"
 msgstr "Nezaseden prostor na disku"
 
-#: deluge/ui/gtkui/statusbar.py:190
+#: deluge/ui/gtkui/statusbar.py:172
 msgid "No Incoming Connections!"
 msgstr "Ni dohodnih povezav!"
 
-#: deluge/ui/gtkui/filtertreeview.py:68
+#: deluge/ui/gtkui/filtertreeview.py:124
 msgid "States"
 msgstr "Stanja"
 
-#: deluge/ui/gtkui/filtertreeview.py:70
+#: deluge/ui/gtkui/filtertreeview.py:157
 msgid "Labels"
 msgstr "Oznake"
 
-#: deluge/ui/gtkui/filtertreeview.py:71
+#: deluge/ui/common.py:32 deluge/ui/gtkui/filtertreeview.py:130
+#: deluge/ui/web/js/deluge-all/FilterPanel.js:124
 msgid "All"
 msgstr "Vsi"
 
-#: deluge/ui/gtkui/filtertreeview.py:78
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:410
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:454
+#: deluge/ui/common.py:33
 msgid "Active"
 msgstr "Dejaven"
 
-#: deluge/ui/gtkui/filtertreeview.py:79
+#: deluge/ui/gtkui/filtertreeview.py:132 deluge/ui/gtkui/filtertreeview.py:136
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:7
+#: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:56
 msgid "None"
 msgstr "Brez"
 
@@ -2407,7 +2600,10 @@ msgstr "Odstrani s _podatki"
 msgid "Remove _Torrent"
 msgstr "Odstrani _torrent"
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:9
+#: deluge/ui/gtkui/glade/edit_trackers.ui.h:1
+#: deluge/ui/web/js/deluge-all/EditTrackersWindow.js:40
+#: deluge/ui/web/js/deluge-all/Menus.js:224
+#: deluge/ui/web/js/deluge-all/details/OptionsTab.js:332
 msgid "Edit Trackers"
 msgstr "Uredi sledilnike"
 
@@ -2415,7 +2611,8 @@ msgstr "Uredi sledilnike"
 msgid "<big><b>Edit Trackers</b></big>"
 msgstr "<big><b>Uredi sledilnike</b></big>"
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:224
+#: deluge/ui/gtkui/glade/edit_trackers.add.ui.h:1
+#: deluge/ui/web/js/deluge-all/AddTrackerWindow.js:40
 msgid "Add Tracker"
 msgstr "Dodaj sledilnik"
 
@@ -2423,12 +2620,13 @@ msgstr "Dodaj sledilnik"
 msgid "<b>Add Trackers</b>"
 msgstr "<b>Dodaj sledilnike</b>"
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:296
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1283
+#: deluge/ui/gtkui/glade/add_torrent_dialog.infohash.ui.h:4
+#: deluge/ui/gtkui/glade/edit_trackers.add.ui.h:3
 msgid "Trackers:"
 msgstr "Sledilniki:"
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:380
+#: deluge/ui/gtkui/glade/edit_trackers.edit.ui.h:1
+#: deluge/ui/web/js/deluge-all/EditTrackerWindow.js:40
 msgid "Edit Tracker"
 msgstr "Uredi sledilnik"
 
@@ -2436,21 +2634,20 @@ msgstr "Uredi sledilnik"
 msgid "<b>Edit Tracker</b>"
 msgstr "<b>Uredi sledilnik</b>"
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:450
+#: deluge/ui/gtkui/glade/edit_trackers.edit.ui.h:2
 msgid "Tracker:"
 msgstr "Sledilnik:"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:12
+#: deluge/ui/gtkui/glade/tray_menu.ui.h:1
 msgid "_Show Deluge"
 msgstr "_Pokaži Deluge"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:26
-#: deluge/ui/gtkui/glade/main_window.glade:26
+#: deluge/ui/gtkui/glade/main_window.ui.h:2
+#: deluge/ui/gtkui/glade/tray_menu.ui.h:2
 msgid "_Add Torrent"
 msgstr "_Dodaj torrent"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:49
-#: deluge/ui/gtkui/glade/filtertree_menu.glade:26
+#: deluge/ui/gtkui/glade/filtertree_menu.ui.h:2
 msgid "_Pause All"
 msgstr "_Premor vseh"
 
@@ -2458,36 +2655,37 @@ msgstr "_Premor vseh"
 msgid "_Resume All"
 msgstr "_Nadaljuj vse"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:88
-#: deluge/ui/gtkui/glade/torrent_menu.glade:212
+#: deluge/ui/gtkui/glade/torrent_menu.options.ui.h:1
+#: deluge/ui/gtkui/glade/tray_menu.ui.h:5
 msgid "_Download Speed Limit"
 msgstr "_Omejitev hitrosti prejemanja"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:105
-#: deluge/ui/gtkui/glade/torrent_menu.glade:227
+#: deluge/ui/gtkui/glade/torrent_menu.options.ui.h:2
+#: deluge/ui/gtkui/glade/tray_menu.ui.h:6
 msgid "_Upload Speed Limit"
 msgstr "Omejitev hitrosti _pošiljanja"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:127
+#: deluge/ui/gtkui/glade/tray_menu.ui.h:7
 msgid "Quit & Shutdown Daemon"
 msgstr "Končaj in izklopi ozadnji program"
 
-#: deluge/ui/gtkui/glade/filtertree_menu.glade:10
+#: deluge/ui/gtkui/glade/filtertree_menu.ui.h:1
 msgid "_Select All"
 msgstr "Izberi _vse"
 
-#: deluge/ui/gtkui/glade/filtertree_menu.glade:41
-#: deluge/ui/gtkui/glade/torrent_menu.glade:48
+#: deluge/ui/gtkui/glade/filtertree_menu.ui.h:4
+#: deluge/ui/gtkui/glade/torrent_menu.ui.h:4
 msgid "Resume selected torrents."
 msgstr "Nadaljuj izbrane torrente."
 
-#: deluge/ui/gtkui/glade/filtertree_menu.glade:42
+#: deluge/ui/gtkui/glade/filtertree_menu.ui.h:3
 msgid "Resu_me All"
 msgstr "Na_daljuj vse"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:8
-#: deluge/ui/gtkui/glade/main_window.glade:439
-#: deluge/ui/gtkui/glade/main_window.glade:440
+#: deluge/ui/gtkui/glade/main_window.ui.h:38
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:13
+#: deluge/ui/web/js/deluge-all/Toolbar.js:94
+#: deluge/ui/web/js/deluge-all/preferences/PreferencesWindow.js:47
 msgid "Preferences"
 msgstr "Možnosti"
 
@@ -2499,19 +2697,21 @@ msgstr "<b><i><big>Prejemi</big></i></b>"
 msgid "Auto add .torrents from:"
 msgstr "Samodejno dodaj datoteke .torrent iz:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:254
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:48
 msgid "Download to:"
 msgstr "Prejmi v:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:262
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:281
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:45
 msgid "Copy of .torrent files to:"
 msgstr "Kopije datotek .torrent v:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:318
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:334
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:46
 msgid "Delete copy of torrent file on remove"
 msgstr "Ob odstranitvi izbriši kopijo datoteke torrent"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:322
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:47
 msgid ""
 "Delete the copy of the torrent file created when the torrent is removed"
 msgstr "Izbriši kopijo datoteke torrent, ko je torrent odstranjen"
@@ -2545,15 +2745,17 @@ msgstr "Strnjeno dodeljevanje zasede prostor po potrebi"
 msgid "<b>Allocation</b>"
 msgstr "<b>Dodeljevanje</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:442
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:50
+#: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:103
 msgid "Prioritize first and last pieces of torrent"
 msgstr "Začni s prvimi in zadnjimi kosi torrenta"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:447
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:51
 msgid "Prioritize first and last pieces of files in torrent"
 msgstr "Najprej prenesi prve in zadnje kose torrenta"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:457
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:59
+#: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:115
 msgid "Add torrents in Paused state"
 msgstr "Dodaj torrente v stanju premora"
 
@@ -2561,8 +2763,8 @@ msgstr "Dodaj torrente v stanju premora"
 msgid "<b><i><big>Network</big></i></b>"
 msgstr "<b><i><big>Omrežje</big></i></b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:569
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:762
+#: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:86
+#: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:141
 msgid "Use Random Ports"
 msgstr "Uporabi naključna vrata"
 
@@ -2570,16 +2772,15 @@ msgstr "Uporabi naključna vrata"
 msgid "Deluge will automatically choose a different port to use every time."
 msgstr "Deluge bo vsakič samodejno izbral druga vrata."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:592
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:106
 msgid "Active Port:"
 msgstr "Dejavna vrata:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:662
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:811
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:103
 msgid "To:"
 msgstr "Do:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:690
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:107
 msgid "Test Active Port"
 msgstr "Preizkusi dejavna vrata"
 
@@ -2611,7 +2812,8 @@ msgstr ""
 "TOS-bajt, ki bo nastavljen v glavi vsakega paketa, ki bo poslan soležnikom "
 "(tudi spletnim sejalcem). Pričakovana je šestnajstiška vrednost."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:939
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:129
+#: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:247
 msgid "Peer TOS Byte:"
 msgstr "TOS-bajt soležnika:"
 
@@ -2619,36 +2821,39 @@ msgstr "TOS-bajt soležnika:"
 msgid "<b>TOS</b>"
 msgstr "<b>TOS</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1006
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:115
+#: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:198
 msgid "UPnP"
 msgstr "UPnP"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1010
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:116
 msgid "Universal Plug and Play"
 msgstr "Universal Plug and Play"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1021
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:117
+#: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:204
 msgid "NAT-PMP"
 msgstr "NAT-PMP"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1025
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:118
 msgid "NAT Port Mapping Protocol"
 msgstr "NAT Port Mapping Protocol"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1038
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1042
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:119
+#: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:211
 msgid "Peer Exchange"
 msgstr "Peer Exchange"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1055
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:123
+#: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:218
 msgid "LSD"
 msgstr "LSD"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1060
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:124
 msgid "Local Service Discovery finds local peers on your network."
 msgstr "Local Service Discovery poišče krajevne soležnike na vašem omrežju."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1075
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:126
 msgid "Distributed hash table may improve the amount of active connections."
 msgstr "Distributed Hash Table lahko poveča količino dejavnih povezav."
 
@@ -2660,7 +2865,8 @@ msgstr "<b>Omrežni dodatki</b>"
 msgid "Inbound:"
 msgstr "Vhodno:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1145
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:113
+#: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:93
 msgid "Level:"
 msgstr "Nivo:"
 
@@ -2709,8 +2915,7 @@ msgstr "Največje število poskusov povezav na sekundo:"
 msgid "Maximum Half-Open Connections:"
 msgstr "Največje število napol odprtih povezav:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1414
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1504
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:68
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr ""
 "Najvišja hitrost pošiljanja za vse torrente. Za neomejeno nastavite na -1."
@@ -2720,8 +2925,7 @@ msgstr ""
 msgid "Maximum Upload Speed (KiB/s):"
 msgstr "Najvišja hitrost pošiljanja (KiB/s):"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1427
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1452
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:70
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
 msgstr "Največje dovoljeno število povezav. Za neomejeno nastavite na -1."
 
@@ -2730,8 +2934,7 @@ msgstr "Največje dovoljeno število povezav. Za neomejeno nastavite na -1."
 msgid "Maximum Connections:"
 msgstr "Največje število povezav:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1438
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1523
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:72
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
 msgstr ""
 "Največje število mest za pošiljanje za vse torrente. Za neomejeno nastavite "
@@ -2742,8 +2945,7 @@ msgstr ""
 msgid "Maximum Upload Slots:"
 msgstr "Največje število mest za pošiljanje:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1470
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1485
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:74
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
 msgstr ""
 "Najvišja hitrost prejemanja za vse torrente. Za neomejeno nastavite na -1."
@@ -2753,15 +2955,17 @@ msgstr ""
 msgid "Maximum Download Speed (KiB/s):"
 msgstr "Najvišja hitrost prejemanja (KiB/s):"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1549
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:77
+#: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:122
 msgid "Ignore limits on local network"
 msgstr "Na krajevnem omrežju prezri omejitve"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1568
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:78
+#: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:129
 msgid "Rate limit IP overhead"
 msgstr "Upoštevaj prekoračitev TCP/IP"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1572
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:79
 msgid ""
 "If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
 "to avoid exceeding the limits with the total traffic"
@@ -2773,16 +2977,22 @@ msgstr ""
 msgid "<b>Global Bandwidth Usage</b>"
 msgstr "<b>Splošna uporaba pasovne širine</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1628
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:81
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
 msgstr ""
 "Največje število mest za pošiljanje na torrent. Za neomejeno nastavite na -1."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1647
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1713
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1731
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:82
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
 msgstr "Največje število povezav na torrent. Za neomejeno nastavite na -1."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1713
+msgid "The maximum download speed per torrent.  Set -1 for unlimited."
+msgstr ""
+
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:84
+msgid "The maximum upload speed per torrent.  Set -1 for unlimited."
+msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1753
 msgid "<b>Per Torrent Bandwidth Usage</b>"
@@ -2812,11 +3022,12 @@ msgstr ""
 msgid "<b>Classic Mode</b>"
 msgstr "<b>Običajni način</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1892
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:19
+#: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:64
 msgid "Show session speed in titlebar"
 msgstr "V nazivni vrstici pokaži hitrost seje"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1905
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:20
 msgid "Focus window when adding torrent"
 msgstr ""
 
@@ -2824,11 +3035,11 @@ msgstr ""
 msgid "<b>Main Window</b>"
 msgstr "<b>Glavno okno</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1955
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:63
 msgid "Always show"
 msgstr "Vedno prikaži"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1973
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:64
 msgid "Bring the dialog to focus"
 msgstr "Postavi okno v žarišče"
 
@@ -2836,15 +3047,15 @@ msgstr "Postavi okno v žarišče"
 msgid "<b>Add Torrents Dialog</b>"
 msgstr "<b>Pogovorno okno \"Dodaj torrent\"</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2024
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:32
 msgid "Enable system tray icon"
 msgstr "Omogoči ikono sistemske vrstice"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2042
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:35
 msgid "Minimize to tray on close"
 msgstr "Ob zaprtju pomanjšaj v sistemsko vrstico"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2062
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:36
 msgid "Start in tray"
 msgstr "Zaženi v sistemski vrstici"
 
@@ -2852,7 +3063,7 @@ msgstr "Zaženi v sistemski vrstici"
 msgid "Enable Application Indicator"
 msgstr "Omogoči kazalnik"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2103
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:37
 msgid "Password protect system tray"
 msgstr "Zaščiti sistemsko vrstico z geslom"
 
@@ -2864,7 +3075,7 @@ msgstr "<b>Sistemska vrstica</b>"
 msgid "<i><b><big>Other</big></b></i>"
 msgstr "<i><b><big>Drugo</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2268
+#: deluge/ui/web/js/deluge-all/preferences/OtherPage.js:66
 msgid "Be alerted about new releases"
 msgstr "Obveščanje o novih različicah"
 
@@ -2879,7 +3090,7 @@ msgstr ""
 msgid "<b>Updates</b>"
 msgstr "<b>Posodobitve</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2328
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:169
 msgid ""
 "Help us improve Deluge by sending us your Python version, PyGTK version, OS "
 "and processor types.  Absolutely no other information is sent."
@@ -2888,7 +3099,8 @@ msgstr ""
 "Pythona in PyGTK, vrsti operacijskega sistema in procesorja. Poslani ne bodo "
 "nobeni drugi podatki."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2345
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:170
+#: deluge/ui/web/js/deluge-all/preferences/OtherPage.js:90
 msgid "Yes, please send anonymous statistics"
 msgstr "Da, prosim, pošlji brezimno statistiko"
 
@@ -2896,11 +3108,11 @@ msgstr "Da, prosim, pošlji brezimno statistiko"
 msgid "<b>System Information</b>"
 msgstr "<b>Podatki o sistemu</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2409
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:172
 msgid "Location:"
 msgstr "Mesto:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2422
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:173
 msgid ""
 "If Deluge cannot find the database file at this location it will fallback to "
 "using DNS to resolve the peer's country."
@@ -2912,7 +3124,7 @@ msgstr ""
 msgid "<b>GeoIP Database</b>"
 msgstr "<b>Podatkovna zbirka GeoIP</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2491
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:175
 msgid "Associate Magnet links with Deluge"
 msgstr "Poveži povezave Magnet s programom Deluge"
 
@@ -2920,7 +3132,7 @@ msgstr "Poveži povezave Magnet s programom Deluge"
 msgid "<i><b><big>Daemon</big></b></i>"
 msgstr "<i><b><big>Ozadnji program</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2602
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:176
 msgid "Daemon port:"
 msgstr "Vrata ozadnjega programa:"
 
@@ -2928,7 +3140,8 @@ msgstr "Vrata ozadnjega programa:"
 msgid "<b>Port</b>"
 msgstr "<b>Vrata</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2668
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:178
+#: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:77
 msgid "Allow Remote Connections"
 msgstr "Dovoli oddaljene povezave"
 
@@ -2936,7 +3149,8 @@ msgstr "Dovoli oddaljene povezave"
 msgid "<b>Connections</b>"
 msgstr "<b>Povezave</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2711
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:180
+#: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:93
 msgid "Periodically check the website for new releases"
 msgstr "Obveščanje o novih različicah"
 
@@ -2948,23 +3162,25 @@ msgstr "<b>Drugo</b>"
 msgid "<i><b><big>Queue</big></b></i>"
 msgstr "<i><b><big>Čakalna vrsta</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2825
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:86
+#: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:62
 msgid "Queue new torrents to top"
 msgstr "Postavi nove torrente na vrh čakalne vrste"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2919
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:88
 msgid "Total active seeding:"
 msgstr "Skupno dejavnih sejanj:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2932
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:89
 msgid "Total active:"
 msgstr "Skupno dejavnih:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2961
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:90
 msgid "Total active downloading:"
 msgstr "Skupno dejavnih prejemanj:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2976
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:91
+#: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:107
 msgid "Do not count slow torrents"
 msgstr "Ne upoštevaj počasnih torrentov"
 
@@ -2972,23 +3188,24 @@ msgstr "Ne upoštevaj počasnih torrentov"
 msgid "<b>Active Torrents</b>"
 msgstr "<b>Dejavni torrenti</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3035
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:94
 msgid "Share Ratio Limit:"
 msgstr "Omejitev delilnega razmerja:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3045
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:95
 msgid "Seed Time Ratio:"
 msgstr "Časovno razmerje sejanja:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3057
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:96
 msgid "Seed Time (m):"
 msgstr "Čas sejanja (min):"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3125
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:97
+#: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:175
 msgid "Stop seeding when share ratio reaches:"
 msgstr "Ustavi sejanje, ko delilno razmerje doseže:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3170
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:98
 msgid "Remove torrent when share ratio reached"
 msgstr "Odstrani torrent, ko je delilno razmerje doseženo"
 
@@ -3000,10 +3217,7 @@ msgstr "<b>Sejanje</b>"
 msgid "<i><b><big>Proxy</big></b></i>"
 msgstr "<i><b><big>Posredniški strežnik</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3327
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3514
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3701
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3889
+#: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:75
 msgid "Host:"
 msgstr "Gostitelj:"
 
@@ -3046,11 +3260,11 @@ msgstr "<b>DHT</b>"
 msgid "<b><i><big>Cache</big></i></b>"
 msgstr "<b><i><big>Predpomnilnik</big></i></b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4115
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:144
 msgid "Cache Size (16 KiB blocks):"
 msgstr "Velikost predpomnilnika (16 KiB bloki):"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4125
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:145
 msgid ""
 "The number of seconds from the last cached write to a piece in the write "
 "cache, to when it's forcefully flushed to disk. Default is 60 seconds."
@@ -3058,31 +3272,31 @@ msgstr ""
 "Število sekund od zadnjega zapisa v predpomnilnik, preden se le-ta vsiljeno "
 "počisti na disk. Privzeto je 60 sekund."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4127
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:146
 msgid "Cache Expiry (seconds):"
 msgstr "Potek predpomnilnika (v sekundah):"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4222
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:148
 msgid ""
 "The total number of 16 KiB blocks written to disk since this session was "
 "started."
 msgstr "Skupno število 16 KiB blokov, zapisanih na disk od začetka seje."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4224
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:149
 msgid "Blocks Written:"
 msgstr "Zapisani bloki:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4233
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:150
 msgid ""
 "The total number of write operations performed since this session was "
 "started."
 msgstr "Skupno število izvedenih pisanj od začetka seje."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4235
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:151
 msgid "Writes:"
 msgstr "Število pisanj:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4246
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:152
 msgid ""
 "The ratio (blocks_written - writes) / blocks_written represents the number "
 "of saved write operations per total write operations, i.e. a kind of cache "
@@ -3092,7 +3306,7 @@ msgstr ""
 "shranjenih zapisov na skupno število zapisov oz. število zadetkov pisalnega "
 "predpomnilnika."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4248
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:153
 msgid "Write Cache Hit Ratio:"
 msgstr "Razmerje pisalnega predpomnilnika:"
 
@@ -3100,7 +3314,7 @@ msgstr "Razmerje pisalnega predpomnilnika:"
 msgid "<b>Write</b>"
 msgstr "<b>Pisanje</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4330
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:155
 msgid ""
 "The number of blocks that were requested from the bittorrent engine (from "
 "peers), that were served from disk or cache."
@@ -3108,32 +3322,32 @@ msgstr ""
 "Število blokov, ki jih je zahteval pogon bittorrent (ali soležniki), "
 "prebranih iz diska ali predpomnilnika."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4332
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:156
 msgid "Blocks Read:"
 msgstr "Na zahtevo prebrani bloki:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4341
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:157
 msgid "The number of blocks that were served from cache."
 msgstr "Število blokov, prebranih z diska ali predpomnilnika."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4343
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:158
 msgid "Blocks Read Hit:"
 msgstr "Prebrani bloki:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4354
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:159
 msgid "The cache hit ratio for the read cache."
 msgstr "Razmerje zadetkov za bralni predpomnilnik."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4356
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:160
 msgid "Read Cache Hit Ratio:"
 msgstr "Razmerje bralnega predpomnilnika:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4405
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:161
 msgid ""
 "The total number of read operations performed since this session was started."
 msgstr "Skupno število izvedenih branj od začetka seje."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4407
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:162
 msgid "Reads:"
 msgstr "Število branj:"
 
@@ -3141,7 +3355,7 @@ msgstr "Število branj:"
 msgid "<b>Read</b>"
 msgstr "<b>Branje</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4464
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:164
 msgid ""
 "The number of 16 KiB blocks currently in the disk cache. This includes both "
 "read and write cache."
@@ -3149,11 +3363,11 @@ msgstr ""
 "Število 16 KiB blokov, ki so trenutno v predpomnilniku diska. Le-ta "
 "vključuje bralni in pisalni predpomnilnik."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4466
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:165
 msgid "Cache Size:"
 msgstr "Predpomnilnik:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4476
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:166
 msgid "Read Cache Size:"
 msgstr "Bralni predpomnilnik:"
 
@@ -3169,20 +3383,20 @@ msgstr "<b>Stanje</b>"
 msgid "<i><b><big>Plugins</big></b></i>"
 msgstr "<i><b><big>Vstavki</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4743
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:184
 msgid "Version:"
 msgstr "Različica:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4756
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:264
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:185
+#: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:6
 msgid "Author:"
 msgstr "Avtor:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4767
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:186
 msgid "Homepage:"
 msgstr "Spletna stran:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4780
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:187
 msgid "Author Email:"
 msgstr "E-poštni naslov avtorja:"
 
@@ -3198,7 +3412,7 @@ msgstr "_Osveži vstavke"
 msgid "_Find More Plugins"
 msgstr "_Najdi nove vstavke"
 
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:8
+#: deluge/ui/gtkui/glade/queuedtorrents.ui.h:1
 msgid "Queued Torrents"
 msgstr "Torrenti v čakalni vrsti"
 
@@ -3206,11 +3420,11 @@ msgstr "Torrenti v čakalni vrsti"
 msgid "<big><b>Add Queued Torrents</b></big>"
 msgstr "<big><b>Dodaj torrente iz čakalne vrste</b></big>"
 
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:127
+#: deluge/ui/gtkui/glade/queuedtorrents.ui.h:3
 msgid "Automatically add torrents on connect"
 msgstr "Ob vzpostavitvi povezave samodejno dodaj torrente"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:7
+#: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:1
 msgid "Create Torrent"
 msgstr "Ustvari torrent"
 
@@ -3218,17 +3432,17 @@ msgstr "Ustvari torrent"
 msgid "<big><b>Create Torrent</b></big>"
 msgstr "<big><b>Ustvari torrent</b></big>"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:123
-#: deluge/ui/gtkui/glade/main_window.glade:20
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:96
+#: deluge/ui/gtkui/glade/main_window.ui.h:1
+#: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:2
+#: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:2
 msgid "_File"
 msgstr "_Datoteka"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:160
+#: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:3
 msgid "Fol_der"
 msgstr "_Mapa"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:200
+#: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:4
 msgid "_Remote Path"
 msgstr "_Oddaljena pot"
 
@@ -3236,19 +3450,22 @@ msgstr "_Oddaljena pot"
 msgid "<b>Files</b>"
 msgstr "<b>Datoteke</b>"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:294
+#: deluge/ui/gtkui/glade/main_window.tabs.ui.h:22
+#: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:7
 msgid "Comments:"
 msgstr "Opombe:"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:333
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:188
+#: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:8
+#: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:135
 msgid "Info"
 msgstr "Podatki"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:514
+#: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:10
 msgid "Webseeds"
 msgstr "Spletni sejalci"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:544
+#: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:11
 msgid "Piece Size:"
 msgstr "Velikost kosa:"
 
@@ -3276,15 +3493,15 @@ msgstr ""
 "8 MiB\n"
 "16 MiB\n"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:582
+#: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:12
 msgid "Set Private Flag"
 msgstr "Nastavi zasebno zastavico"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:596
+#: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:13
 msgid "Add this torrent to the session"
 msgstr "Dodaj torrent k seji"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:694
+#: deluge/ui/gtkui/glade/create_torrent_dialog.remote_path.ui.h:1
 msgid "Enter Remote Path"
 msgstr "Vnesite oddaljeno pot"
 
@@ -3292,16 +3509,16 @@ msgstr "Vnesite oddaljeno pot"
 msgid "<b>Remote Path</b>"
 msgstr "<b>Oddaljena pot</b>"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:764
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:947
+#: deluge/ui/gtkui/glade/create_torrent_dialog.remote_save.ui.h:3
+#: deluge/ui/gtkui/glade/create_torrent_dialog.remote_path.ui.h:3
 msgid "Path:"
 msgstr "Pot:"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:840
+#: deluge/ui/gtkui/glade/create_torrent_dialog.progress.ui.h:1
 msgid "Creating Torrent"
 msgstr "Ustvarjanje torrenta"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:877
+#: deluge/ui/gtkui/glade/create_torrent_dialog.remote_save.ui.h:1
 msgid "Save .torrent as"
 msgstr "Shrani datoteko .torrent kot"
 
@@ -3309,13 +3526,14 @@ msgstr "Shrani datoteko .torrent kot"
 msgid "<b>Save .torrent file</b>"
 msgstr "<b>Shrani datoteko .torrent</b>"
 
-#: deluge/ui/gtkui/glade/connection_manager.glade:8
+#: deluge/ui/gtkui/glade/connection_manager.addhost.ui.h:1
 msgid "Add Host"
 msgstr "Dodaj gostitelja"
 
-#: deluge/ui/gtkui/glade/connection_manager.glade:207
-#: deluge/ui/gtkui/glade/main_window.glade:454
-#: deluge/ui/gtkui/glade/main_window.glade:455
+#: deluge/ui/gtkui/glade/main_window.ui.h:39
+#: deluge/ui/gtkui/glade/connection_manager.ui.h:1
+#: deluge/ui/web/js/deluge-all/ConnectionManager.js:43
+#: deluge/ui/web/js/deluge-all/Toolbar.js:100
 msgid "Connection Manager"
 msgstr "Upravljalnik povezav"
 
@@ -3323,163 +3541,171 @@ msgstr "Upravljalnik povezav"
 msgid "<big><b>Connection Manager</b></big>"
 msgstr "<big><b>Upravljalnik povezav</b></big>"
 
-#: deluge/ui/gtkui/glade/connection_manager.glade:366
+#: deluge/ui/gtkui/glade/connection_manager.ui.h:2
 msgid "_Start local daemon"
 msgstr "_Zaženi krajevni ozadnji program"
 
-#: deluge/ui/gtkui/glade/connection_manager.glade:418
+#: deluge/ui/gtkui/glade/connection_manager.ui.h:3
 msgid "Automatically connect to selected host on start-up"
 msgstr "Ob zagonu se samodejno poveži z izbranim gostiteljem"
 
-#: deluge/ui/gtkui/glade/connection_manager.glade:429
+#: deluge/ui/gtkui/glade/connection_manager.ui.h:4
 msgid "Automatically start localhost if needed"
 msgstr "Po potrebi samodejno zaženi krajevnega gostitelja"
 
-#: deluge/ui/gtkui/glade/connection_manager.glade:443
+#: deluge/ui/gtkui/glade/connection_manager.ui.h:5
 msgid "Do not show this dialog on start-up"
 msgstr "Ob zagonu ne pokaži tega pogovornega okna"
 
-#: deluge/ui/gtkui/glade/main_window.glade:44
+#: deluge/ui/gtkui/glade/main_window.ui.h:3
 msgid "_Create Torrent"
 msgstr "_Ustvari torrent"
 
-#: deluge/ui/gtkui/glade/main_window.glade:64
+#: deluge/ui/gtkui/glade/main_window.ui.h:4
 msgid "Quit & _Shutdown Daemon"
 msgstr "_Končaj in izklopi ozadnji program"
 
-#: deluge/ui/gtkui/glade/main_window.glade:100
+#: deluge/ui/gtkui/glade/main_window.ui.h:5
 msgid "_Edit"
 msgstr "Ur_edi"
 
-#: deluge/ui/gtkui/glade/main_window.glade:117
+#: deluge/ui/gtkui/glade/main_window.ui.h:6
 msgid "_Connection Manager"
 msgstr "Upravljalnik _povezav"
 
-#: deluge/ui/gtkui/glade/main_window.glade:139
+#: deluge/ui/gtkui/glade/main_window.ui.h:7
 msgid "_Torrent"
 msgstr "_Torrent"
 
-#: deluge/ui/gtkui/glade/main_window.glade:146
+#: deluge/ui/gtkui/glade/main_window.ui.h:8
 msgid "_View"
 msgstr "_Pogled"
 
-#: deluge/ui/gtkui/glade/main_window.glade:154
+#: deluge/ui/gtkui/glade/main_window.ui.h:9
 msgid "_Toolbar"
 msgstr "_Orodna vrstica"
 
-#: deluge/ui/gtkui/glade/main_window.glade:164
+#: deluge/ui/gtkui/glade/main_window.ui.h:10
 msgid "_Sidebar"
 msgstr "_Stranska vrstica"
 
-#: deluge/ui/gtkui/glade/main_window.glade:173
+#: deluge/ui/gtkui/glade/main_window.ui.h:11
 msgid "Status_bar"
 msgstr "_Vrstica stanja"
 
-#: deluge/ui/gtkui/glade/main_window.glade:187
+#: deluge/ui/gtkui/glade/main_window.ui.h:12
 msgid "T_abs"
 msgstr "_Zavihki"
 
-#: deluge/ui/gtkui/glade/main_window.glade:194
+#: deluge/ui/gtkui/glade/main_window.ui.h:13
 msgid "_Columns"
 msgstr "_Stolpci"
 
-#: deluge/ui/gtkui/glade/main_window.glade:202
+#: deluge/ui/gtkui/glade/main_window.ui.h:15
 msgid "S_idebar"
 msgstr "_Stranska vrstica"
 
-#: deluge/ui/gtkui/glade/main_window.glade:211
+#: deluge/ui/gtkui/glade/main_window.ui.h:16
 msgid "Show _Zero Hits"
 msgstr "Pokaži stanja, ki ne vsebujejo torrentov"
 
-#: deluge/ui/gtkui/glade/main_window.glade:220
+#: deluge/ui/gtkui/glade/main_window.ui.h:17
 msgid "Show _Trackers"
 msgstr "Pokaži _sledilnike"
 
-#: deluge/ui/gtkui/glade/main_window.glade:237
+#: deluge/ui/gtkui/glade/main_window.ui.h:18
 msgid "_Help"
 msgstr "Pomo_č"
 
-#: deluge/ui/gtkui/glade/main_window.glade:243
+#: deluge/ui/gtkui/glade/main_window.ui.h:19
 msgid "_Homepage"
 msgstr "_Spletna stran"
 
-#: deluge/ui/gtkui/glade/main_window.glade:260
+#: deluge/ui/gtkui/glade/main_window.ui.h:20
 msgid "_FAQ"
 msgstr "_FAQ"
 
-#: deluge/ui/gtkui/glade/main_window.glade:263
+#: deluge/ui/gtkui/glade/main_window.ui.h:21
 msgid "Frequently Asked Questions"
 msgstr "Pogosto zastavljena vprašanja"
 
-#: deluge/ui/gtkui/glade/main_window.glade:279
+#: deluge/ui/gtkui/glade/main_window.ui.h:22
 msgid "_Community"
 msgstr "_Skupnost"
 
-#: deluge/ui/gtkui/glade/main_window.glade:326
+#: deluge/ui/gtkui/glade/main_window.ui.h:23
 msgid "Add torrent"
 msgstr "Dodaj torrent"
 
-#: deluge/ui/gtkui/glade/main_window.glade:327
+#: deluge/ui/gtkui/glade/main_window.ui.h:24
 msgid "Add Torrent"
 msgstr "Dodaj torrent"
 
-#: deluge/ui/gtkui/glade/main_window.glade:341
+#: deluge/ui/gtkui/glade/main_window.ui.h:25
 msgid "Remove torrent"
 msgstr "Odstrani torrent"
 
-#: deluge/ui/gtkui/glade/main_window.glade:342
+#: deluge/ui/gtkui/glade/main_window.ui.h:26
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.ui.h:1
+#: deluge/ui/web/js/deluge-all/Menus.js:230
+#: deluge/ui/web/js/deluge-all/RemoveWindow.js:39
+#: deluge/ui/web/js/deluge-all/RemoveWindow.js:57
 msgid "Remove Torrent"
 msgstr "Odstrani torrent"
 
-#: deluge/ui/gtkui/glade/main_window.glade:363
+#: deluge/ui/gtkui/glade/main_window.ui.h:30
 msgid "Pause the selected torrents"
 msgstr "Začasno ustavi trenutno izbrane torrente"
 
-#: deluge/ui/gtkui/glade/main_window.glade:364
+#: deluge/ui/gtkui/glade/main_window.ui.h:31
+#: deluge/ui/web/js/deluge-all/Menus.js:88
+#: deluge/ui/web/js/deluge-all/Toolbar.js:70
 msgid "Pause"
 msgstr "Premor"
 
-#: deluge/ui/gtkui/glade/main_window.glade:379
+#: deluge/ui/gtkui/glade/main_window.ui.h:32
 msgid "Resume the selected torrents"
 msgstr "Nadaljuj trenutno izbrane torrente"
 
-#: deluge/ui/gtkui/glade/main_window.glade:380
+#: deluge/ui/gtkui/glade/main_window.ui.h:33
+#: deluge/ui/web/js/deluge-all/Menus.js:94
+#: deluge/ui/web/js/deluge-all/Toolbar.js:76
 msgid "Resume"
 msgstr "Nadaljuj"
 
-#: deluge/ui/gtkui/glade/main_window.glade:402
+#: deluge/ui/gtkui/glade/main_window.ui.h:34
 msgid "Queue Torrent Up"
 msgstr "Premakni v čakalni vrsti navzgor"
 
-#: deluge/ui/gtkui/glade/main_window.glade:403
+#: deluge/ui/gtkui/glade/main_window.ui.h:35
 msgid "Queue Up"
 msgstr "Premakni navzgor"
 
-#: deluge/ui/gtkui/glade/main_window.glade:417
+#: deluge/ui/gtkui/glade/main_window.ui.h:36
 msgid "Queue Torrent Down"
 msgstr "Premakni v čakalni vrsti navzdol"
 
-#: deluge/ui/gtkui/glade/main_window.glade:418
+#: deluge/ui/gtkui/glade/main_window.ui.h:37
 msgid "Queue Down"
 msgstr "Premakni navzdol"
 
-#: deluge/ui/gtkui/glade/main_window.glade:568
+#: deluge/ui/gtkui/glade/main_window.tabs.menu_file.ui.h:2
 msgid "_Expand All"
 msgstr "_Razširi vse"
 
-#: deluge/ui/gtkui/glade/main_window.glade:589
+#: deluge/ui/gtkui/glade/main_window.tabs.menu_file.ui.h:3
 msgid "_Do Not Download"
 msgstr "_Ne prejmi"
 
-#: deluge/ui/gtkui/glade/main_window.glade:605
+#: deluge/ui/gtkui/glade/main_window.tabs.menu_file.ui.h:4
 msgid "_Normal Priority"
 msgstr "_Običajna prednost"
 
-#: deluge/ui/gtkui/glade/main_window.glade:621
+#: deluge/ui/gtkui/glade/main_window.tabs.menu_file.ui.h:5
 msgid "_High Priority"
 msgstr "_Visoka prednost"
 
-#: deluge/ui/gtkui/glade/main_window.glade:637
+#: deluge/ui/gtkui/glade/main_window.tabs.menu_file.ui.h:6
 msgid "Hi_ghest Priority"
 msgstr "Naj_višja prednost"
 
@@ -3551,10 +3777,6 @@ msgstr "<b>Prejeto:</b>"
 msgid "<b>Date Added:</b>"
 msgstr "<b>Dodano dne:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1246
-msgid "_Status"
-msgstr "_Stanje"
-
 #: deluge/ui/gtkui/glade/main_window.glade:1307
 msgid "<b>Comments:</b>"
 msgstr "<b>Opombe:</b>"
@@ -3587,41 +3809,25 @@ msgstr "<b>Mesto:</b>"
 msgid "<b>Status:</b>"
 msgstr "<b>Stanje:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1591
-msgid "_Details"
-msgstr "_Podrobnosti"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1643
-msgid "_Files"
-msgstr "_Datoteke"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1695
-msgid "_Peers"
-msgstr "_Soležniki"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2004
+#: deluge/ui/gtkui/glade/main_window.tabs.ui.h:40
 msgid "Move completed:"
 msgstr "Premakni dokončane:"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2099
+#: deluge/ui/web/js/deluge-all/details/OptionsTab.js:300
 msgid "Private"
 msgstr "Zasebno"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2114
+#: deluge/ui/gtkui/glade/main_window.tabs.ui.h:38
+#: deluge/ui/web/js/deluge-all/details/OptionsTab.js:308
 msgid "Prioritize First/Last"
 msgstr "Začni s prvimi/zadnjimi"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2152
-#: deluge/ui/gtkui/glade/torrent_menu.glade:130
+#: deluge/ui/gtkui/glade/main_window.tabs.ui.h:48
+#: deluge/ui/gtkui/glade/torrent_menu.ui.h:8
 msgid "_Edit Trackers"
 msgstr "Ur_edi sledilnike"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2259
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:938
-msgid "_Options"
-msgstr "_Možnosti"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2279
+#: deluge/ui/gtkui/glade/main_window.move_storage.ui.h:1
 msgid "Remove Torrent?"
 msgstr "Ali želite odstraniti izbrane torrente?"
 
@@ -3639,11 +3845,11 @@ msgstr "<i>Povezana datoteka .torrent bo izbrisana!</i>"
 msgid "<i>The downloaded data will be deleted!</i>"
 msgstr "<i>Prejeti podatki bodo izbrisani!</i>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2452
+#: deluge/ui/gtkui/glade/main_window.move_storage.ui.h:2
 msgid "Remove Selected Torrent"
 msgstr "Odstrani izbrane torrente"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2476
+#: deluge/ui/gtkui/glade/main_window.new_release.ui.h:1
 msgid "New Release"
 msgstr "Nova različica"
 
@@ -3663,19 +3869,19 @@ msgstr "<i>Trenutna različica:</i>"
 msgid "<i>Server Version</i>"
 msgstr "<i>Različica strežnika</i>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2627
+#: deluge/ui/gtkui/glade/main_window.new_release.ui.h:7
 msgid "Do not show this dialog in the future"
 msgstr "Tega pogovornega okna v prihodnje ne pokaži"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2666
+#: deluge/ui/gtkui/glade/main_window.new_release.ui.h:2
 msgid "_Goto Website"
 msgstr "Pojdi na _spletno stran"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2694
+#: deluge/ui/gtkui/glade/main_window.tabs.menu_peer.ui.h:1
 msgid "_Add Peer"
 msgstr "_Dodaj soležnika"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2696
+#: deluge/ui/gtkui/glade/main_window.tabs.menu_peer.ui.h:2
 msgid "Add a peer by its IP"
 msgstr "Dodaj soležnika z njegovim naslovom IP"
 
@@ -3683,31 +3889,31 @@ msgstr "Dodaj soležnika z njegovim naslovom IP"
 msgid "_Open Folder"
 msgstr "_Odpri mapo"
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:33
+#: deluge/ui/gtkui/glade/torrent_menu.ui.h:2
 msgid "_Pause"
 msgstr "_Premor"
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:49
+#: deluge/ui/gtkui/glade/torrent_menu.ui.h:3
 msgid "Resu_me"
 msgstr "Na_daljuj"
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:71
+#: deluge/ui/gtkui/glade/torrent_menu.ui.h:5
 msgid "Opt_ions"
 msgstr "_Možnosti"
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:93
+#: deluge/ui/gtkui/glade/torrent_menu.ui.h:6
 msgid "_Queue"
 msgstr "Postavi v čakalno _vrsto"
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:113
+#: deluge/ui/gtkui/glade/torrent_menu.ui.h:7
 msgid "_Update Tracker"
 msgstr "_Osveži sledilnike"
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:152
+#: deluge/ui/gtkui/glade/torrent_menu.ui.h:9
 msgid "_Remove Torrent"
 msgstr "Odst_rani torrent"
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:174
+#: deluge/ui/gtkui/glade/torrent_menu.ui.h:10
 msgid "_Force Re-check"
 msgstr "_Vsili ponovno preverjanje"
 
@@ -3715,15 +3921,15 @@ msgstr "_Vsili ponovno preverjanje"
 msgid "Move _Storage"
 msgstr "_Premakni podatke"
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:242
+#: deluge/ui/gtkui/glade/torrent_menu.options.ui.h:3
 msgid "_Connection Limit"
 msgstr "_Omejitev števila povezav"
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:258
+#: deluge/ui/gtkui/glade/torrent_menu.options.ui.h:4
 msgid "Upload _Slot Limit"
 msgstr "Omejitev _mest za pošiljanje"
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:273
+#: deluge/ui/gtkui/glade/torrent_menu.options.ui.h:6
 msgid "_Auto Managed"
 msgstr "_Samodejno upravljanje"
 
@@ -3735,23 +3941,24 @@ msgstr "Premakni podatke"
 msgid "<b>Move Storage</b>"
 msgstr "<b>Premakni podatke</b>"
 
-#: deluge/ui/gtkui/glade/move_storage_dialog.glade:78
+#: deluge/ui/gtkui/glade/move_storage_dialog.ui.h:3
 msgid "Destination:"
 msgstr "Cilj:"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:8
+#: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:1
+#: deluge/ui/web/js/deluge-all/add/AddWindow.js:37
 msgid "Add Torrents"
 msgstr "Dodaj torrente"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:144
+#: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:3
 msgid "_URL"
 msgstr "_URL"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:192
+#: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:4
 msgid "Info_hash"
 msgstr "Razpršilo"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:238
+#: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:5
 msgid "_Remove"
 msgstr "Odst_rani"
 
@@ -3759,7 +3966,7 @@ msgstr "Odst_rani"
 msgid "<b>Torrents</b>"
 msgstr "<b>Torrenti</b>"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:328
+#: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:7
 msgid "Fi_les"
 msgstr "Da_toteke"
 
@@ -3783,23 +3990,24 @@ msgstr "Najvišja hitrost prejemanja:"
 msgid "Max Up Speed:"
 msgstr "Najvišja hitrost pošiljanja:"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:739
+#: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:10
 msgid "Add In _Paused State"
 msgstr "Dodaj v stanju _premora"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:755
+#: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:11
+#: deluge/ui/web/js/deluge-all/add/OptionsTab.js:137
 msgid "Prioritize First/Last Pieces"
 msgstr "Začni s prvimi/zadnjimi kosi"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:833
+#: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:33
 msgid "Revert To Defaults"
 msgstr "Povrni privzeto"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:887
+#: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:32
 msgid "Apply To All"
 msgstr "Uveljavi za vse"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1015
+#: deluge/ui/gtkui/glade/add_torrent_dialog.url.ui.h:1
 msgid "Add URL"
 msgstr "Dodaj URL"
 
@@ -3807,7 +4015,7 @@ msgstr "Dodaj URL"
 msgid "<b>From URL</b>"
 msgstr "<b>Dodaj URL</b>"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1174
+#: deluge/ui/gtkui/glade/add_torrent_dialog.infohash.ui.h:1
 msgid "Add Infohash"
 msgstr "Dodaj razpršilo"
 
@@ -3815,15 +4023,15 @@ msgstr "Dodaj razpršilo"
 msgid "<b>From Infohash</b>"
 msgstr "<b>Dodaj razpršilo</b>"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1246
+#: deluge/ui/gtkui/glade/add_torrent_dialog.infohash.ui.h:3
 msgid "Infohash:"
 msgstr "Razpršilo:"
 
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:98
+#: deluge/ui/gtkui/glade/other_dialog.ui.h:1
 msgid "label"
 msgstr "oznaka"
 
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:154
+#: deluge/ui/gtkui/glade/connect_peer_dialog.ui.h:1
 msgid "Add Peer"
 msgstr "Dodaj soležnika"
 
@@ -3831,19 +4039,19 @@ msgstr "Dodaj soležnika"
 msgid "<b>Add Peer</b>"
 msgstr "<b>Dodaj soležnika</b>"
 
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:212
+#: deluge/ui/gtkui/glade/connect_peer_dialog.ui.h:2
 msgid "hostname:port"
 msgstr "gostitelj:vrata"
 
-#: deluge/data/share/applications/deluge.desktop.in.h:2
+#: deluge/ui/data/share/applications/deluge.desktop.in.h:2
 msgid "BitTorrent Client"
 msgstr "Odjemalec za BitTorrent"
 
-#: deluge/data/share/applications/deluge.desktop.in.h:3
+#: deluge/ui/data/share/applications/deluge.desktop.in.h:3
 msgid "Deluge BitTorrent Client"
 msgstr "Deluge, odjemalec za BitTorrent"
 
-#: deluge/data/share/applications/deluge.desktop.in.h:4
+#: deluge/ui/data/share/applications/deluge.desktop.in.h:4
 msgid "Download and share files over BitTorrent"
 msgstr "Prejemajte in delite datoteke preko protokola BitTorrent"
 

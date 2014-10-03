@@ -1,3 +1,42 @@
+=== Deluge 1.3.8 (In Development) ===
+==== Core ====
+	* #1126 & #2322: Emit FinishedEvent after moving storage complete
+	* Fixes to mitigate fastresume corruption
+
+==== GtkUI ====
+	* #2335: Fix application startup failing with 'cannot acquire lock' error
+	* #2497: Fix the Queued Torrents 'Clear' button not properly clearing the list of torrent
+	* #2496: Fix updating core_config before setting default options
+	* #2493: Fix TypeError if active workspace is None
+	* LP:#1168858: Nautilus window opens behind current window
+	* Fix showing the open_folder menuitem
+	* Suppress unimportant gnome warnings
+	* Optimized the updating of the torrent view
+	* Fixed Indicator icon label issue
+	* Fix listview error with new config
+
+==== WebUI ====
+	* Ensure values are updated from config upon showing a plugin page
+
+==== Extractor ====
+	* Add WebUI plugin page
+	* Find 7-zip application path on Windows via registry
+
+==== Execute ====
+	* #1290: Add a TorrentRemoved event option
+
+==== Scheduler ====
+	* #2238: Fix an 'undefined this.scheduleCells' error in javascript console
+
+==== Notifications ====
+	* #1310: Add WebUI plugin page
+
+==== Blocklist ====
+	* #2478: Add WebUI plugin page
+
+==== Console ====
+	* #2470: Fix console parsing args
+
 === Deluge 1.3.7 (9 July 2014) ===
 ==== Core ====
 	* #2324: Encryption level set by Deluge did not match libtorrent values
