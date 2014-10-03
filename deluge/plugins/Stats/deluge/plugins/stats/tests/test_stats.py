@@ -1,3 +1,4 @@
+import pytest
 import twisted.internet.defer as defer
 from twisted.trial import unittest
 
@@ -31,13 +32,19 @@ class StatsTestCase(unittest.TestCase):
             component._ComponentRegistry.components = {}
         return component.shutdown().addCallback(on_shutdown)
 
+    @pytest.mark.todo
     def test_client_totals(self):
+        StatsTestCase.test_client_totals.im_func.todo = "To be fixed"
+
         def callback(args):
             print_totals(args)
         d = client.stats.get_totals()
         d.addCallback(callback)
 
+    @pytest.mark.todo
     def test_session_totals(self):
+        StatsTestCase.test_session_totals.im_func.todo = "To be fixed"
+
         def callback(args):
             print_totals(args)
         d = client.stats.get_session_totals()

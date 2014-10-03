@@ -13,6 +13,11 @@ import deluge.log
 deluge.log.setup_logger("none")
 
 
+def disable_new_release_check():
+    import deluge.core.preferencesmanager
+    deluge.core.preferencesmanager.DEFAULT_PREFS["new_release_check"] = False
+
+
 def set_tmp_config_dir():
     config_directory = tempfile.mkdtemp()
     deluge.configmanager.set_config_dir(config_directory)
