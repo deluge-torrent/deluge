@@ -2458,8 +2458,8 @@ msgid "U:"
 msgstr "Brzina dijeljenja:"
 
 #: deluge/ui/gtkui/aboutdialog.py:32
-msgid "Copyright 2007-2011 Deluge Team"
-msgstr "Autorska prava 2007-2011 Deluge Tim"
+msgid "Copyright 2007-2014 Deluge Team"
+msgstr "Autorska prava 2007-2014 Deluge Tim"
 
 #: deluge/ui/gtkui/aboutdialog.py:34
 msgid ""

@@ -2460,8 +2460,8 @@ msgid "U:"
 msgstr "U:"
 
 #: deluge/ui/gtkui/aboutdialog.py:32
-msgid "Copyright 2007-2011 Deluge Team"
-msgstr "Autortiesības 2007-2011 Deluge komanda"
+msgid "Copyright 2007-2014 Deluge Team"
+msgstr "Autortiesības 2007-2014 Deluge komanda"
 
 #: deluge/ui/gtkui/aboutdialog.py:34
 msgid ""

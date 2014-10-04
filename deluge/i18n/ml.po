@@ -2221,7 +2221,7 @@ msgid "Up:"
 msgstr ""
 
 #: deluge/ui/gtkui/aboutdialog.py:59
-msgid "Copyright 2007-2011 Deluge Team"
+msgid "Copyright 2007-2014 Deluge Team"
 msgstr ""
 
 #: deluge/ui/gtkui/aboutdialog.py:61

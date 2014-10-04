@@ -2458,8 +2458,8 @@ msgid "U:"
 msgstr "U:"
 
 #: deluge/ui/gtkui/aboutdialog.py:32
-msgid "Copyright 2007-2011 Deluge Team"
-msgstr "ප්‍රකාශන හිමිකම 2007-2011 Deluge කණ්ඩායම"
+msgid "Copyright 2007-2014 Deluge Team"
+msgstr "ප්‍රකාශන හිමිකම 2007-2014 Deluge කණ්ඩායම"
 
 #: deluge/ui/gtkui/aboutdialog.py:34
 msgid ""

@@ -56,7 +56,7 @@ class AboutDialog:
 
         version = deluge.common.get_version()
 
-        self.about.set_copyright(_('Copyright 2007-2011 Deluge Team'))
+        self.about.set_copyright(_("Copyright %s-%s Deluge Team") % (2007, 2014))
         self.about.set_comments(
             _("A peer-to-peer file sharing program\nutilizing the BitTorrent protocol.")
             + "\n\n" + _("Client:") + " %s\n" % version)
