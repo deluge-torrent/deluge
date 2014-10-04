@@ -608,6 +608,8 @@ class TorrentView(listview.ListView, component.Component):
         self.save_state()
 
     def on_torrentadded_event(self, torrent_id):
+        if self.got_state is False:
+            return
         self.add_row(torrent_id)
         self.mark_dirty(torrent_id)
 
