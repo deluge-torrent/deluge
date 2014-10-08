@@ -414,6 +414,7 @@ class ListView:
         if self.liststore is not None:
             self.liststore.foreach(copy_row, (new_list, self.columns))
         self.liststore = new_list
+        self.create_model_filter()
         return
 
     def remove_column(self, header):
