@@ -146,6 +146,13 @@ class ListView:
             # If this is set, it is used to sort the model
             self.sort_func = None
             self.sort_id = None
+            # Values needed to update TreeViewColumns
+            self.column_type = None
+            self.renderer = None
+            self.text_index = 0
+            self.value_index = 0
+            self.pixbuf_index = 0
+            self.data_func = None
 
     class TreeviewColumn(gtk.TreeViewColumn):
         """
@@ -172,6 +179,14 @@ class ListView:
 
         def onButtonPressed(self, widget, event):
             self.emit('button-press-event', event)
+
+        def set_col_attributes(self, renderer, add=True, **kw):
+            """Helper function to add and set attributes"""
+            if add is True:
+                for attr, value in kw.iteritems():
+                    self.add_attribute(renderer, attr, value)
+            else:
+                self.set_attributes(renderer, **kw)
 
     def __init__(self, treeview_widget=None, state_file=None):
         log.debug("ListView initialized..")
@@ -417,6 +432,49 @@ class ListView:
         self.create_model_filter()
         return
 
+    def update_treeview_column(self, header, add=True):
+        """Update TreeViewColumn based on ListView column mappings"""
+        column = self.columns[header]
+        tree_column = self.columns[header].column
+
+        if column.column_type == "text":
+            if add:
+                tree_column.pack_start(column.renderer)
+            tree_column.set_col_attributes(column.renderer, add=add,
+                                           text=column.column_indices[column.text_index])
+        elif column.column_type == "bool":
+            if add:
+                tree_column.pack_start(column.renderer)
+            tree_column.set_col_attributes(column.renderer, active=column.column_indices[0])
+        elif column.column_type == "func":
+            if add:
+                tree_column.pack_start(column.renderer, True)
+            indice_arg = column.column_indices[0]
+            if len(column.column_indices) > 1:
+                indice_arg = tuple(column.column_indices)
+            tree_column.set_cell_data_func(column.renderer, column.data_func, indice_arg)
+        elif column.column_type == "progress":
+            if add:
+                tree_column.pack_start(column.renderer)
+            if column.data_func is None:
+                tree_column.set_col_attributes(column.renderer, add=add,
+                                               text=column.column_indices[column.text_index],
+                                               value=column.column_indices[column.value_index])
+            else:
+                tree_column.set_cell_data_func(column.renderer, column.data_func,
+                                               tuple(column.column_indices))
+        elif column.column_type == "texticon":
+            if add:
+                tree_column.pack_start(column.renderer[column.pixbuf_index], False)
+                tree_column.pack_start(column.renderer[column.text_index], True)
+            tree_column.set_col_attributes(column.renderer[column.text_index], add=add,
+                                           text=column.column_indices[column.text_index])
+            if column.data_func is not None:
+                tree_column.set_cell_data_func(
+                    column.renderer[column.pixbuf_index], column.data_func,
+                    column.column_indices[column.pixbuf_index])
+        return True
+
     def remove_column(self, header):
         """Removes the column with the name 'header' from the listview"""
         # Store a copy of this columns state in case it's re-added
@@ -435,13 +493,14 @@ class ListView:
         for column in self.columns.values():
             if column.column_indices[0] > column_indices[0]:
                 # We need to shift this column_indices
-                for index in column.column_indices:
-                    index = index - len(column_indices)
+                for i, index in enumerate(column.column_indices):
+                    column.column_indices[i] = index - len(column_indices)
+                # Update the associated TreeViewColumn
+                self.update_treeview_column(column.name, add=False)
 
         # Remove from the liststore columns list
         for index in column_indices:
             del self.liststore_columns[index]
-
         # Create a new liststore
         self.create_new_liststore()
 
@@ -471,53 +530,27 @@ class ListView:
             self.column_index.append(header)
 
         # Create a new column object and add it to the list
+        column = self.TreeviewColumn(header)
         self.columns[header] = self.ListViewColumn(header, column_indices)
-
+        self.columns[header].column = column
         self.columns[header].status_field = status_field
         self.columns[header].sort_func = sort_func
         self.columns[header].sort_id = column_indices[sortid]
+        # Store creation details
+        self.columns[header].column_type = column_type
+        self.columns[header].renderer = render
+        self.columns[header].text_index = text
+        self.columns[header].value_index = value
+        self.columns[header].pixbuf_index = pixbuf
+        self.columns[header].data_func = function
 
         # Create a new list with the added column
         self.create_new_liststore()
 
-        column = self.TreeviewColumn(header)
-
-        if column_type == "text":
-            column.pack_start(render)
-            column.add_attribute(render, "text",
-                    self.columns[header].column_indices[text])
-        elif column_type == "bool":
-            column.pack_start(render)
-            column.add_attribute(render, "active",
-                    self.columns[header].column_indices[0])
-        elif column_type == "func":
-            column.pack_start(render, True)
-            if len(self.columns[header].column_indices) > 1:
-                column.set_cell_data_func(render, function,
-                        tuple(self.columns[header].column_indices))
-            else:
-                column.set_cell_data_func(render, function,
-                            self.columns[header].column_indices[0])
-        elif column_type == "progress":
-            column.pack_start(render)
-            if function is None:
-                column.add_attribute(render, "text",
-                    self.columns[header].column_indices[text])
-                column.add_attribute(render, "value",
-                    self.columns[header].column_indices[value])
-            else:
-                column.set_cell_data_func(render, function,
-                    tuple(self.columns[header].column_indices))
-        elif column_type == "texticon":
-            column.pack_start(render[pixbuf], False)
-            if function is not None:
-                column.set_cell_data_func(render[pixbuf], function,
-                            self.columns[header].column_indices[pixbuf])
-            column.pack_start(render[text], True)
-            column.add_attribute(render[text], "text",
-                    self.columns[header].column_indices[text])
-        elif column_type == None:
+        if column_type == None:
             return
+
+        self.update_treeview_column(header)
 
         column.set_sort_column_id(self.columns[header].column_indices[sortid])
         column.set_clickable(True)
@@ -555,7 +588,6 @@ class ListView:
 
         # Set hidden in the column
         self.columns[header].hidden = hidden
-        self.columns[header].column = column
         # Re-create the menu item because of the new column
         self.create_checklist_menu()
 
