@@ -39,7 +39,13 @@ gobject.set_prgname("deluge")
 
 # Install the twisted reactor
 from twisted.internet import gtk2reactor
-reactor = gtk2reactor.install()
+from twisted.internet.error import ReactorAlreadyInstalledError
+
+try:
+    reactor = gtk2reactor.install()
+except ReactorAlreadyInstalledError, e:
+    # Running unit tests so trial already installed a rector
+    pass
 
 import gettext
 import locale
