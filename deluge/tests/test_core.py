@@ -5,7 +5,6 @@ from hashlib import sha1 as sha
 from twisted.internet import reactor
 from twisted.internet.error import CannotListenError
 from twisted.python.failure import Failure
-from twisted.trial import unittest
 from twisted.web.http import FORBIDDEN
 from twisted.web.resource import Resource
 from twisted.web.server import Site
@@ -18,6 +17,7 @@ from deluge.core.rpcserver import RPCServer
 from deluge.ui.web.common import compress
 
 from . import common
+from .basetest import BaseTestCase
 
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 warnings.resetwarnings()
@@ -67,7 +67,7 @@ class TopLevelResource(Resource):
                       File(common.rpath("ubuntu-9.04-desktop-i386.iso.torrent")))
 
 
-class CoreTestCase(unittest.TestCase):
+class CoreTestCase(BaseTestCase):
     def setUp(self):  # NOQA
         common.set_tmp_config_dir()
         self.rpcserver = RPCServer(listen=False)
@@ -96,7 +96,6 @@ class CoreTestCase(unittest.TestCase):
     def tearDown(self):  # NOQA
 
         def on_shutdown(result):
-            component._ComponentRegistry.components = {}
             del self.rpcserver
             del self.core
             return self.webserver.stopListening()

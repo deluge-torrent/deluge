@@ -1,10 +1,11 @@
 import time
 
 from twisted.internet.defer import maybeDeferred, succeed
-from twisted.trial import unittest
 
 import deluge.component as component
 import deluge.ui.sessionproxy
+
+from .basetest import BaseTestCase
 
 
 class Core(object):
@@ -89,8 +90,9 @@ client = Client()
 deluge.ui.sessionproxy.client = client
 
 
-class SessionProxyTestCase(unittest.TestCase):
-    def setUp(self):  # NOQA
+class SessionProxyTestCase(BaseTestCase):
+
+    def set_up(self):
         self.sp = deluge.ui.sessionproxy.SessionProxy()
         client.core.reset()
         d = self.sp.start()
@@ -101,7 +103,7 @@ class SessionProxyTestCase(unittest.TestCase):
         d.addCallback(do_get_torrents_status)
         return d
 
-    def tearDown(self):  # NOQA
+    def tear_down(self):
         return component.deregister(self.sp)
 
     def test_startup(self):

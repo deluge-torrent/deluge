@@ -385,8 +385,13 @@ class ComponentRegistry(object):
         :rtype: twisted.internet.defer.Deferred
 
         """
+        def on_success(result, key):
+            del _ComponentRegistry.components[key]
+            return succeed(result)
+
         def on_stopped(result):
-            return DeferredList(map(lambda c: c._component_shutdown(), self.components.values()))
+            return DeferredList(map(lambda t: t[1]._component_shutdown().addCallback(on_success, t[0]),
+                                    self.components.items()))
 
         return self.stop(self.components.keys()).addCallback(on_stopped)
 
