@@ -4,12 +4,13 @@ import deluge.component as component
 import deluge.ui.tracker_icons
 from deluge.ui.tracker_icons import TrackerIcon, TrackerIcons
 
+from . import common
 from .basetest import BaseTestCase
-from .common import set_tmp_config_dir
 
-set_tmp_config_dir()
+common.set_tmp_config_dir()
 dirname = os.path.dirname(__file__)
 deluge.ui.tracker_icons.PIL_INSTALLED = False
+common.disable_new_release_check()
 
 
 class TrackerIconsTestCase(BaseTestCase):

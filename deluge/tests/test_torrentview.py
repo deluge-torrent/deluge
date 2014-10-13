@@ -1,15 +1,27 @@
 import pytest
-import gobject
 from twisted.trial import unittest
 
 import deluge.common
 import deluge.component as component
-from deluge.ui.gtkui.mainwindow import MainWindow
-from deluge.ui.gtkui.menubar import MenuBar
-from deluge.ui.gtkui.torrentdetails import TorrentDetails
-from deluge.ui.gtkui.torrentview import TorrentView
+from deluge.configmanager import ConfigManager
 
+from . import common
 from .basetest import BaseTestCase
+
+libs_available = True
+# Allow running other tests without GTKUI dependencies available
+try:
+    from gobject import TYPE_UINT64
+    from deluge.ui.gtkui.mainwindow import MainWindow
+    from deluge.ui.gtkui.menubar import MenuBar
+    from deluge.ui.gtkui.torrentdetails import TorrentDetails
+    from deluge.ui.gtkui.torrentview import TorrentView
+    from deluge.ui.gtkui.gtkui import DEFAULT_PREFS
+except ImportError as err:
+    libs_available = False
+    TYPE_UINT64 = "Whatever"
+    import traceback
+    traceback.print_exc()
 
 deluge.common.setup_translations()
 
@@ -23,13 +35,19 @@ class TorrentviewTestCase(BaseTestCase):
                             u'Up Speed', u'Down Limit', u'Up Limit', u'ETA', u'Ratio',
                             u'Avail', u'Added', u'Completed', u'Complete Seen',
                             u'Tracker', u'Download Folder', u'Owner', u'Shared']
-    default_liststore_columns = [bool, str, bool, int, str, str, gobject.TYPE_UINT64,
-                                 gobject.TYPE_UINT64, gobject.TYPE_UINT64, gobject.TYPE_UINT64,
+    default_liststore_columns = [bool, str, bool, int, str, str, TYPE_UINT64,
+                                 TYPE_UINT64, TYPE_UINT64, TYPE_UINT64,
                                  float, str, int, int, int, int, float, float, float,
                                  float, float, int, float, float, float, float,
                                  float, str, str, str, str, bool]
 
     def set_up(self):
+        if libs_available is False:
+            raise unittest.SkipTest("GTKUI dependencies not available")
+
+        common.set_tmp_config_dir()
+        # MainWindow loads this config file, so lets make sure it contains the defaults
+        ConfigManager("gtkui.conf", defaults=DEFAULT_PREFS)
         self.mainwindow = MainWindow()
         self.torrentview = TorrentView()
         self.torrentdetails = TorrentDetails()
