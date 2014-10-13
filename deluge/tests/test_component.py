@@ -1,7 +1,8 @@
 from twisted.internet import threads
-from twisted.trial import unittest
 
 import deluge.component as component
+
+from .basetest import BaseTestCase
 
 
 class TestComponent(component.Component):
@@ -56,10 +57,9 @@ class TestComponentShutdown(component.Component):
         self.stop_count += 1
 
 
-class ComponentTestClass(unittest.TestCase):
-    def tearDown(self):  # NOQA
-        component.stop()
-        component._ComponentRegistry.components = {}
+class ComponentTestClass(BaseTestCase):
+    def tear_down(self):
+        return component.shutdown()
 
     def test_start_component(self):
         def on_start(result, c):

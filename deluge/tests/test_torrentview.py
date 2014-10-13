@@ -1,3 +1,4 @@
+import pytest
 import gobject
 from twisted.trial import unittest
 
@@ -8,10 +9,13 @@ from deluge.ui.gtkui.menubar import MenuBar
 from deluge.ui.gtkui.torrentdetails import TorrentDetails
 from deluge.ui.gtkui.torrentview import TorrentView
 
+from .basetest import BaseTestCase
+
 deluge.common.setup_translations()
 
 
-class TorrentviewTestCase(unittest.TestCase):
+@pytest.mark.gtkui
+class TorrentviewTestCase(BaseTestCase):
 
     default_column_index = ['filter', 'torrent_id', 'dirty', '#', u'Name', u'Size',
                             u'Downloaded', u'Uploaded', u'Remaining', u'Progress',
@@ -25,16 +29,14 @@ class TorrentviewTestCase(unittest.TestCase):
                                  float, float, int, float, float, float, float,
                                  float, str, str, str, str, bool]
 
-    def setUp(self):  # NOQA
+    def set_up(self):
         self.mainwindow = MainWindow()
         self.torrentview = TorrentView()
         self.torrentdetails = TorrentDetails()
         self.menubar = MenuBar()
 
-    def tearDown(self):  # NOQA
-        def on_shutdown(result):
-            component._ComponentRegistry.components = {}
-        return component.shutdown().addCallback(on_shutdown)
+    def tear_down(self):
+        return component.shutdown()
 
     def test_torrentview_columns(self):
 
