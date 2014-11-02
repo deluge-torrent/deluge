@@ -18,7 +18,8 @@ import gtk.gdk
 import deluge.component as component
 from deluge.common import FILE_PRIORITY, open_file, show_file
 from deluge.ui.client import client
-from deluge.ui.gtkui.common import load_pickled_state_file, reparent_iter, save_pickled_state_file
+from deluge.ui.gtkui.common import (listview_replace_treestore, load_pickled_state_file, reparent_iter,
+                                    save_pickled_state_file)
 from deluge.ui.gtkui.torrentdetails import Tab
 from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
 
@@ -376,8 +377,8 @@ class FilesTab(Tab):
         return ret
 
     def update_files(self):
-        self.treestore.clear()
-        self.prepare_file_store(self.files_list[self.torrent_id])
+        with listview_replace_treestore(self.listview):
+            self.prepare_file_store(self.files_list[self.torrent_id])
         self.listview.expand_row("0", False)
 
     def get_selected_files(self):

@@ -8,6 +8,7 @@
 #
 """Common functions for various parts of gtkui to use."""
 
+import contextlib
 import cPickle
 import logging
 import os
@@ -262,3 +263,29 @@ def load_pickled_state_file(filename):
         else:
             log.info("Successfully loaded %s: %s", filename, _filepath)
             return state
+
+
+@contextlib.contextmanager
+def listview_replace_treestore(listview):
+    """Prepare a listview's treestore to be entirely replaced.
+
+    Params:
+        listview: a listview backed by a treestore
+    """
+    # From http://faq.pygtk.org/index.py?req=show&file=faq13.043.htp
+    # "tips for improving performance when adding many rows to a Treeview"
+    listview.freeze_child_notify()
+    treestore = listview.get_model()
+    listview.set_model(None)
+    treestore.clear()
+    treestore.set_default_sort_func(lambda *args: 0)
+    original_sort = treestore.get_sort_column_id()
+    treestore.set_sort_column_id(-1, gtk.SORT_ASCENDING)
+
+    yield
+
+    if original_sort != (None, None):
+        treestore.set_sort_column_id(*original_sort)
+
+    listview.set_model(treestore)
+    listview.thaw_child_notify()
