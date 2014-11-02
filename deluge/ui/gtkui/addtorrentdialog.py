@@ -313,29 +313,27 @@ class AddTorrentDialog(component.Component):
                     value[2], key, value[1]["size"],
                     value[0], False, gtk.STOCK_FILE
                 ])
-
-                if parent_iter and self.files_treestore.iter_has_child(parent_iter):
-                    # Iterate through the children and see what we should label the
-                    # folder, download true, download false or inconsistent.
-                    itr = self.files_treestore.iter_children(parent_iter)
-                    download = []
-                    download_value = False
-                    inconsistent = False
-                    while itr:
-                        download.append(self.files_treestore.get_value(itr, 0))
-                        itr = self.files_treestore.iter_next(itr)
-
-                    if sum(download) == len(download):
-                        download_value = True
-                    elif sum(download) == 0:
-                        download_value = False
-                    else:
-                        inconsistent = True
-
-                    self.files_treestore.set_value(parent_iter, 0, download_value)
-                    self.files_treestore.set_value(parent_iter, 4, inconsistent)
-
                 ret += value[1]["size"]
+        if parent_iter and self.files_treestore.iter_has_child(parent_iter):
+            # Iterate through the children and see what we should label the
+            # folder, download true, download false or inconsistent.
+            itr = self.files_treestore.iter_children(parent_iter)
+            download = []
+            download_value = False
+            inconsistent = False
+            while itr:
+                download.append(self.files_treestore.get_value(itr, 0))
+                itr = self.files_treestore.iter_next(itr)
+
+            if sum(download) == len(download):
+                download_value = True
+            elif sum(download) == 0:
+                download_value = False
+            else:
+                inconsistent = True
+
+            self.files_treestore.set_value(parent_iter, 0, download_value)
+            self.files_treestore.set_value(parent_iter, 4, inconsistent)
         return ret
 
     def load_path_choosers_data(self):
