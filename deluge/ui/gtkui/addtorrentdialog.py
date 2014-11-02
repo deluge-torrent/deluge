@@ -24,7 +24,7 @@ from deluge.configmanager import ConfigManager
 from deluge.httpdownloader import download_file
 from deluge.ui.client import client
 from deluge.ui.common import TorrentInfo
-from deluge.ui.gtkui.common import reparent_iter
+from deluge.ui.gtkui.common import listview_replace_treestore, reparent_iter
 from deluge.ui.gtkui.dialogs import ErrorDialog
 from deluge.ui.gtkui.path_chooser import PathChooser
 from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
@@ -275,17 +275,13 @@ class AddTorrentDialog(component.Component):
         self.save_torrent_options()
 
     def prepare_file_store(self, files):
-        self.listview_files.set_model(None)
-        self.files_treestore.clear()
-        split_files = {}
-        i = 0
-        for file in files:
-            self.prepare_file(
-                file, file["path"], i, file["download"], split_files
-            )
-            i += 1
-        self.add_files(None, split_files)
-        self.listview_files.set_model(self.files_treestore)
+        with listview_replace_treestore(self.listview_files):
+            split_files = {}
+            for i, file in enumerate(files):
+                self.prepare_file(
+                    file, file["path"], i, file["download"], split_files
+                )
+            self.add_files(None, split_files)
         self.listview_files.expand_row("0", False)
 
     def prepare_file(self, file, file_name, file_num, download, files_storage):
