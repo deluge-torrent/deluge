@@ -96,6 +96,7 @@ class FilesTab(Tab):
         self.listview = builder.get_object("files_listview")
         # filename, size, progress string, progress value, priority, file index, icon id
         self.treestore = gtk.TreeStore(str, gobject.TYPE_UINT64, str, float, int, int, str)
+        self.treestore.set_sort_column_id(0, gtk.SORT_ASCENDING)
 
         # We need to store the row that's being edited to prevent updating it until
         # it's been done editing
