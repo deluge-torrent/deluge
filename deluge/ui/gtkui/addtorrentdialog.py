@@ -24,7 +24,7 @@ from deluge.configmanager import ConfigManager
 from deluge.httpdownloader import download_file
 from deluge.ui.client import client
 from deluge.ui.common import TorrentInfo
-from deluge.ui.gtkui.common import reparent_iter
+from deluge.ui.gtkui.common import listview_replace_treestore, reparent_iter
 from deluge.ui.gtkui.dialogs import ErrorDialog
 from deluge.ui.gtkui.path_chooser import PathChooser
 from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
@@ -275,17 +275,13 @@ class AddTorrentDialog(component.Component):
         self.save_torrent_options()
 
     def prepare_file_store(self, files):
-        self.listview_files.set_model(None)
-        self.files_treestore.clear()
-        split_files = {}
-        i = 0
-        for file in files:
-            self.prepare_file(
-                file, file["path"], i, file["download"], split_files
-            )
-            i += 1
-        self.add_files(None, split_files)
-        self.listview_files.set_model(self.files_treestore)
+        with listview_replace_treestore(self.listview_files):
+            split_files = {}
+            for i, file in enumerate(files):
+                self.prepare_file(
+                    file, file["path"], i, file["download"], split_files
+                )
+            self.add_files(None, split_files)
         self.listview_files.expand_row("0", False)
 
     def prepare_file(self, file, file_name, file_num, download, files_storage):
@@ -313,29 +309,27 @@ class AddTorrentDialog(component.Component):
                     value[2], key, value[1]["size"],
                     value[0], False, gtk.STOCK_FILE
                 ])
-
-                if parent_iter and self.files_treestore.iter_has_child(parent_iter):
-                    # Iterate through the children and see what we should label the
-                    # folder, download true, download false or inconsistent.
-                    itr = self.files_treestore.iter_children(parent_iter)
-                    download = []
-                    download_value = False
-                    inconsistent = False
-                    while itr:
-                        download.append(self.files_treestore.get_value(itr, 0))
-                        itr = self.files_treestore.iter_next(itr)
-
-                    if sum(download) == len(download):
-                        download_value = True
-                    elif sum(download) == 0:
-                        download_value = False
-                    else:
-                        inconsistent = True
-
-                    self.files_treestore.set_value(parent_iter, 0, download_value)
-                    self.files_treestore.set_value(parent_iter, 4, inconsistent)
-
                 ret += value[1]["size"]
+        if parent_iter and self.files_treestore.iter_has_child(parent_iter):
+            # Iterate through the children and see what we should label the
+            # folder, download true, download false or inconsistent.
+            itr = self.files_treestore.iter_children(parent_iter)
+            download = []
+            download_value = False
+            inconsistent = False
+            while itr:
+                download.append(self.files_treestore.get_value(itr, 0))
+                itr = self.files_treestore.iter_next(itr)
+
+            if sum(download) == len(download):
+                download_value = True
+            elif sum(download) == 0:
+                download_value = False
+            else:
+                inconsistent = True
+
+            self.files_treestore.set_value(parent_iter, 0, download_value)
+            self.files_treestore.set_value(parent_iter, 4, inconsistent)
         return ret
 
     def load_path_choosers_data(self):
