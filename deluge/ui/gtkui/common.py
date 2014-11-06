@@ -170,8 +170,12 @@ def associate_magnet_links(overwrite=False):
         else:
             _winreg.CloseKey(hkey)
 
-        if overwrite:
+        if os.path.basename(sys.executable).lower() == 'python.exe':
+            deluge_exe = os.path.join(os.path.dirname(sys.executable), "Scripts\deluge.exe")
+        else:
             deluge_exe = os.path.join(os.path.dirname(sys.executable), "deluge.exe")
+
+        if os.path.isfile(deluge_exe) and overwrite:
             magnet_key = _winreg.CreateKey(_winreg.HKEY_CLASSES_ROOT, "Magnet")
             _winreg.SetValue(magnet_key, "", _winreg.REG_SZ, "URL:Magnet Protocol")
             _winreg.SetValueEx(magnet_key, "URL Protocol", 0, _winreg.REG_SZ, "")
