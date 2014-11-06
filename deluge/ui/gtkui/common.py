@@ -172,7 +172,12 @@ def associate_magnet_links(overwrite=False):
 
         if overwrite:
             deluge_exe = os.path.join(os.path.dirname(sys.executable), "deluge.exe")
-            magnet_key = _winreg.CreateKey(_winreg.HKEY_CLASSES_ROOT, "Magnet")
+            try:
+                magnet_key = _winreg.CreateKey(_winreg.HKEY_CLASSES_ROOT, "Magnet")
+            except WindowsError:
+                # Could not create for all users, falling back to current user
+                magnet_key = _winreg.CreateKey(_winreg.HKEY_CURRENT_USER, "Software\\Classes\\Magnet")
+
             _winreg.SetValue(magnet_key, "", _winreg.REG_SZ, "URL:Magnet Protocol")
             _winreg.SetValueEx(magnet_key, "URL Protocol", 0, _winreg.REG_SZ, "")
             _winreg.SetValueEx(magnet_key, "BrowserFlags", 0, _winreg.REG_DWORD, 0x8)
