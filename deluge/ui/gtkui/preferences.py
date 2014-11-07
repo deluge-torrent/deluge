@@ -20,7 +20,7 @@ import deluge.component as component
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.error import AuthManagerError, NotAuthorizedError
 from deluge.ui.client import client
-from deluge.ui.gtkui.common import associate_magnet_links, get_deluge_icon
+from deluge.ui.gtkui.common import associate_magnet_links, associate_torrent_files, get_deluge_icon
 from deluge.ui.gtkui.dialogs import AccountDialog, ErrorDialog, InformationDialog, YesNoDialog
 from deluge.ui.gtkui.path_chooser import PathChooser
 
@@ -1047,6 +1047,9 @@ class Preferences(component.Component):
 
     def _on_button_associate_magnet_clicked(self, widget):
         associate_magnet_links(True)
+
+    def _on_button_associate_torrent_clicked(self, widget):
+        associate_torrent_files(True)
 
     def _get_accounts_tab_data(self):
         def on_ok(accounts):
