@@ -39,11 +39,16 @@ gobject.set_prgname("deluge")
 
 # Install the twisted reactor
 from twisted.internet import gtk2reactor
-from twisted.internet.error import ReactorAlreadyInstalledError
+
+try:
+    from twisted.internet.error import ReactorAlreadyInstalledError
+except ImportError:
+    # ReactorAlreadyInstalledError not available in Twisted version < 10
+    pass
 
 try:
     reactor = gtk2reactor.install()
-except ReactorAlreadyInstalledError, e:
+except ReactorAlreadyInstalledError:
     # Running unit tests so trial already installed a rector
     pass
 
