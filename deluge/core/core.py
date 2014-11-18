@@ -67,10 +67,6 @@ class Core(component.Component):
         }
         # No SSL torrent support in code so disable the listen port.
         settings["ssl_listen"] = 0
-        # On Windows OS set the disk I/O read/write to bypass OS cache
-        if deluge.common.windows_check():
-            settings["disk_io_write_mode"] = lt.io_buffer_mode_t.disable_os_cache
-            settings["disk_io_read_mode"] = lt.io_buffer_mode_t.disable_os_cache
         self.session.set_settings(settings)
 
         # --- libtorrent plugins ---
