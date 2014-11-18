@@ -100,7 +100,7 @@ class Core(component.Component):
 
         # Set session settings
         self.settings.send_redundant_have = True
-        if deluge.common.windows_check():
+        if deluge.common.windows_check() and lt.version_major == 0 and lt.version_minor <= 15:
             self.settings.disk_io_write_mode = \
                 lt.io_buffer_mode_t.disable_os_cache
             self.settings.disk_io_read_mode = \
