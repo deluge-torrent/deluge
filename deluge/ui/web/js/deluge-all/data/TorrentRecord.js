@@ -50,7 +50,7 @@ Deluge.data.Torrent = Ext.data.Record.create([{
         type: 'string',
         sortType: Deluge.data.SortTypes.asName
     }, {
-        name: 'total_size',
+        name: 'total_wanted',
         type: 'int'
     }, {
         name: 'state',
