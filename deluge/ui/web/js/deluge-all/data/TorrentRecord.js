@@ -91,5 +91,26 @@ Deluge.data.Torrent = Ext.data.Record.create([{
     }, {
         name: 'tracker_host',
         type: 'string'
+    }, {
+        name: 'save_path',
+        type: 'string'
+    }, {
+        name: 'total_done',
+        type: 'int'
+    }, {
+        name: 'total_uploaded',
+        type: 'int'
+    }, {
+        name: 'total_remaining',
+        type: 'int'
+    }, {
+        name: 'max_download_speed',
+        type: 'int'
+    }, {
+        name: 'max_upload_speed',
+        type: 'int'
+    }, {
+        name: 'seeds_peers_ratio',
+        type: 'float'
     }
 ]);
