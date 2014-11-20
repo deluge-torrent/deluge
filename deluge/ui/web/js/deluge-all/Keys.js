@@ -39,7 +39,7 @@ Deluge.Keys = {
 
 	/**
 	 * Keys that are used within the torrent grid.
-	 * <pre>['queue', 'name', 'total_size', 'state', 'progress', 'num_seeds',
+	 * <pre>['queue', 'name', 'total_wanted', 'state', 'progress', 'num_seeds',
 	 * 'total_seeds', 'num_peers', 'total_peers', 'download_payload_rate',
 	 * 'upload_payload_rate', 'eta', 'ratio', 'distributed_copies',
 	 * 'is_auto_managed', 'time_added', 'tracker_host', 'save_path',
@@ -47,7 +47,7 @@ Deluge.Keys = {
 	 * 'seeds_peers_ratio']</pre>
 	 */
     Grid: [
-        'queue', 'name', 'total_size', 'state', 'progress', 'num_seeds',
+        'queue', 'name', 'total_wanted', 'state', 'progress', 'num_seeds',
         'total_seeds', 'num_peers', 'total_peers', 'download_payload_rate',
         'upload_payload_rate', 'eta', 'ratio', 'distributed_copies',
         'is_auto_managed', 'time_added', 'tracker_host', 'save_path',
