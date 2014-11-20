@@ -542,7 +542,8 @@ class ServerContextFactory:
 
     def getContext(self):  # NOQA
         """Creates an SSL context."""
-        ctx = SSL.Context(SSL.TLSv1_METHOD)
+        ctx = SSL.Context(SSL.SSLv23_METHOD)
+        ctx.set_options(SSL.OP_NO_SSLv2 | SSL.OP_NO_SSLv3)
         deluge_web = component.get("DelugeWeb")
         log.debug("Enabling SSL using:")
         log.debug("Pkey: %s", deluge_web.pkey)
