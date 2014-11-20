@@ -488,8 +488,8 @@ class ListView:
         # Delete the column
         del self.columns[header]
         self.column_index.remove(header)
-        # Shift the column_indices values of those columns effected by the
-        # removal.  Any column_indices > the one removed.
+        # Shift the column_indices values of those columns affected by the
+        # removal. Any column_indices > the one removed.
         for column in self.columns.values():
             if column.column_indices[0] > column_indices[0]:
                 # We need to shift this column_indices
@@ -499,7 +499,7 @@ class ListView:
                 self.update_treeview_column(column.name, add=False)
 
         # Remove from the liststore columns list
-        for index in column_indices:
+        for index in sorted(column_indices, reverse=True):
             del self.liststore_columns[index]
         # Create a new liststore
         self.create_new_liststore()

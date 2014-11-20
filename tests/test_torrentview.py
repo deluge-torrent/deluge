@@ -30,6 +30,8 @@ class TorrentviewTestCase(unittest.TestCase):
         self.assertEquals(self.torrentview.liststore_columns, default_liststore_columns)
 
         self.assertEquals(self.torrentview.columns["Save Path"].column_indices, [26])
+
+        # Add a text column
         test_col = "Test column"
         self.torrentview.add_text_column(test_col, status_field=["label"])
         self.assertEquals(len(self.torrentview.liststore_columns), 28)
@@ -37,6 +39,7 @@ class TorrentviewTestCase(unittest.TestCase):
         self.assertEquals(self.torrentview.column_index[-1], test_col)
         self.assertEquals(self.torrentview.columns[test_col].column_indices, [27])
 
+        # Add a second text column
         test_col2 = "Test column2"
         self.torrentview.add_text_column(test_col2, status_field=["label2"])
         self.assertEquals(len(self.torrentview.liststore_columns), 29)
@@ -44,7 +47,23 @@ class TorrentviewTestCase(unittest.TestCase):
         self.assertEquals(self.torrentview.column_index[-1], test_col2)
         self.assertEquals(self.torrentview.columns[test_col2].column_indices, [28])
 
+        # Remove column
         self.torrentview.remove_column(test_col)
+        self.assertEquals(len(self.torrentview.liststore_columns), 28)
+        self.assertEquals(len(self.torrentview.column_index), 23)
+        self.assertEquals(self.torrentview.column_index[-1], test_col2)
+        self.assertEquals(self.torrentview.columns[test_col2].column_indices, [27])
+
+        # Add a column with multiple column types
+        test_col3 = "Test column3"
+        self.torrentview.add_progress_column(test_col3, status_field=["progress", "label3"], col_types=[float, str])
+        self.assertEquals(len(self.torrentview.liststore_columns), 30)
+        self.assertEquals(len(self.torrentview.column_index), 24)
+        self.assertEquals(self.torrentview.column_index[-1], test_col3)
+        self.assertEquals(self.torrentview.columns[test_col3].column_indices, [28, 29])
+
+        # Remove multiple column-types column
+        self.torrentview.remove_column(test_col3)
         self.assertEquals(len(self.torrentview.liststore_columns), 28)
         self.assertEquals(len(self.torrentview.column_index), 23)
         self.assertEquals(self.torrentview.column_index[-1], test_col2)
