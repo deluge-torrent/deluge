@@ -11,6 +11,7 @@
  * chardet
  * geoip-database (optional)
  * setproctitle (optional)
+ * pillow (optional)
 
  * libtorrent (rasterbar) >= 0.14
 
@@ -25,6 +26,7 @@
  * xdg-utils
  * python-notify (optional)
  * pygame (optional)
+ * python-appindicator (optional)
 
 === Web ===
  * mako
