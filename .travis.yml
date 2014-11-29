@@ -33,7 +33,7 @@ env:
     - TOX_ENV=todo
     - TOX_ENV=trial              APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
     - TOX_ENV=pygtkui            APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
-    - TOX_ENV=testcoverage       APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
+#    - TOX_ENV=testcoverage       APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
 #    - TOX_ENV=plugins
 
 virtualenv:
