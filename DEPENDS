@@ -9,6 +9,7 @@
  * gettext
  * geoip-database (optional)
  * setproctitle (optional)
+ * pillow (optional)
  * rencode >= 1.0.2 (optional), python port bundled.
 
 === Gtk UI ===
@@ -18,6 +19,7 @@
  * intltool
  * python-notify (optional)
  * pygame (optional)
+ * python-appindicator (optional)
 
 === Web UI ===
  * mako

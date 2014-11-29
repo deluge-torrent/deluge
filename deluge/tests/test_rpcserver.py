@@ -7,8 +7,6 @@
 # See LICENSE for more details.
 #
 
-from twisted.trial import unittest
-
 import deluge.component as component
 import deluge.error
 from deluge.core import rpcserver
@@ -16,6 +14,8 @@ from deluge.core.authmanager import AuthManager
 from deluge.core.rpcserver import DelugeRPCProtocol, RPCServer
 from deluge.log import setup_logger
 from deluge.ui.common import get_localhost_auth
+
+from .basetest import BaseTestCase
 
 setup_logger("none")
 
@@ -28,9 +28,9 @@ class DelugeRPCProtocolTester(DelugeRPCProtocol):
         self.messages.append(data)
 
 
-class RPCServerTestCase(unittest.TestCase):
+class RPCServerTestCase(BaseTestCase):
 
-    def setUp(self):  # NOQA
+    def set_up(self):
         self.rpcserver = RPCServer(listen=False)
         self.rpcserver.factory.protocol = DelugeRPCProtocolTester
         self.factory = self.rpcserver.factory
@@ -45,9 +45,8 @@ class RPCServerTestCase(unittest.TestCase):
         self.protocol.sessionno = self.session_id
         return component.start()
 
-    def tearDown(self):  # NOQA
+    def tear_down(self):
         def on_shutdown(result):
-            component._ComponentRegistry.components = {}
             del self.rpcserver
         return component.shutdown().addCallback(on_shutdown)
 

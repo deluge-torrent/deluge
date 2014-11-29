@@ -1,35 +1,50 @@
 language: python
 
 python:
-#    - "2.6"
     - "2.7"
 
-# command to install dependencies
-install:
-  - pip install tox
+# Cache packages download with apt
+cache:
+  directories:
+    - $HOME/.pip-cache/
+
+before_install:
   - lsb_release -a
   - sudo add-apt-repository ppa:deluge-team/ppa -y
   - sudo apt-get update
-  - sudo apt-get install python-libtorrent
 
-script:
-  - tox
+# command to install dependencies
+install:
+  - bash -c "echo $APTPACKAGES"
+  - sudo apt-get install $APTPACKAGES
+  - pip install "tox>=1.8" --download-cache $HOME/.pip-cache
 
 env:
-  - TOX_ENV=pydef
-#  - TOX_ENV=plugins
-  - TOX_ENV=flake8
-  - TOX_ENV=flake8-complexity
-  - TOX_ENV=isort
-  - TOX_ENV=docs
-  - TOX_ENV=testcoverage
+  global:
+    - PIP_DOWNLOAD_CACHE=$HOME/.pip-cache/
+    - APTPACKAGES="python-libtorrent"
+    - APTPACKAGES_GTKUI="python-gobject python-glade2"
+  matrix:
+    - TOX_ENV=pydef
+    - TOX_ENV=flake8
+    - TOX_ENV=flake8-complexity
+    - TOX_ENV=isort
+    - TOX_ENV=docs
+    - TOX_ENV=todo
+    - TOX_ENV=trial              APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
+    - TOX_ENV=pygtkui            APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
+#    - TOX_ENV=testcoverage       APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
+#    - TOX_ENV=plugins
 
 virtualenv:
   system_site_packages: true
 
+# We use xvfb for the GTKUI tests
 before_script:
   - export PYTHONPATH=$PYTHONPATH:$PWD
   - python -c "import libtorrent as lt; print lt.version"
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
 
 script:
   - tox -e $TOX_ENV

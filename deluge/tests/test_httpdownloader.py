@@ -1,5 +1,4 @@
 import tempfile
-import warnings
 from email.utils import formatdate
 
 from twisted.internet import reactor
@@ -22,10 +21,6 @@ except ImportError:
     from twisted.web.error import Resource
 
 
-warnings.filterwarnings("ignore", category=RuntimeWarning)
-warnings.resetwarnings()
-
-
 rpath = common.rpath
 temp_dir = tempfile.mkdtemp()
 
@@ -34,13 +29,13 @@ def fname(name):
     return "%s/%s" % (temp_dir, name)
 
 
-class TestRedirectResource(Resource):
+class RedirectResource(Resource):
 
     def render(self, request):
         request.redirect("http://localhost:51242/")
 
 
-class TestRenameResource(Resource):
+class RenameResource(Resource):
 
     def render(self, request):
         filename = request.args.get("filename", ["renamed_file"])[0]
@@ -50,7 +45,7 @@ class TestRenameResource(Resource):
         return "This file should be called " + filename
 
 
-class TestCookieResource(Resource):
+class CookieResource(Resource):
 
     def render(self, request):
         request.setHeader("Content-Type", "text/plain")
@@ -63,7 +58,7 @@ class TestCookieResource(Resource):
         return request.getCookie("password")
 
 
-class TestGzipResource(Resource):
+class GzipResource(Resource):
 
     def render(self, request):
         message = request.args.get("msg", ["EFFICIENCY!"])[0]
@@ -77,10 +72,10 @@ class TopLevelResource(Resource):
 
     def __init__(self):
         Resource.__init__(self)
-        self.putChild("cookie", TestCookieResource())
-        self.putChild("gzip", TestGzipResource())
-        self.putChild("redirect", TestRedirectResource())
-        self.putChild("rename", TestRenameResource())
+        self.putChild("cookie", CookieResource())
+        self.putChild("gzip", GzipResource())
+        self.putChild("redirect", RedirectResource())
+        self.putChild("rename", RenameResource())
 
     def getChild(self, path, request):  # NOQA
         if path == "":
@@ -97,7 +92,7 @@ class TopLevelResource(Resource):
 class DownloadFileTestCase(unittest.TestCase):
 
     def setUp(self):  # NOQA
-        setup_logger("warning", "log_file")
+        setup_logger("warning", fname("log_file"))
         self.website = Site(TopLevelResource())
         self.listen_port = 51242
         tries = 10
