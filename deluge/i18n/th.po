@@ -8,42 +8,42 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-07-09 19:10+0100\n"
-"PO-Revision-Date: 2012-01-02 22:50+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2014-11-27 01:08+0000\n"
+"Last-Translator: thetooi <phisarn.b@gmail.com>\n"
 "Language-Team: Thai <th@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-10-03 20:29+0000\n"
-"X-Generator: Launchpad (build 17196)\n"
+"X-Launchpad-Export-Date: 2014-11-30 21:45+0000\n"
+"X-Generator: Launchpad (build 17267)\n"
 
 #: deluge/pluginmanagerbase.py:173
 msgid "Not available"
-msgstr ""
+msgstr "ไม่สามารถใช้ได้"
 
 #: deluge/common.py:260
 msgid "KiB"
-msgstr ""
+msgstr "กิโลไบต์"
 
 #: deluge/common.py:261
 msgid "MiB"
-msgstr ""
+msgstr "เมกะไบต์"
 
 #: deluge/common.py:262
 msgid "GiB"
-msgstr ""
+msgstr "กิกะไบต์"
 
 #: deluge/common.py:310
 msgid "K"
-msgstr ""
+msgstr "กิโลไบต์"
 
 #: deluge/common.py:313
 msgid "M"
-msgstr ""
+msgstr "เมกกะไบต์"
 
 #: deluge/common.py:315
 msgid "G"
-msgstr ""
+msgstr "กิกกะไบต์"
 
 #: deluge/common.py:353
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:857
@@ -66,15 +66,15 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:114
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:141
 msgid "KiB/s"
-msgstr ""
+msgstr "กิโลไบต์/วินาที"
 
 #: deluge/common.py:356
 msgid "MiB/s"
-msgstr ""
+msgstr "เมกกะไบต์/วินาที"
 
 #: deluge/common.py:358
 msgid "GiB/s"
-msgstr ""
+msgstr "กิกกะไบต์/วินาที"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:281
 #: deluge/ui/common.py:41 deluge/ui/common.py:45
@@ -86,15 +86,15 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/details/StatusTab.js:121
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:209
 msgid "Error"
-msgstr ""
+msgstr "ผิดพลาด"
 
 #: deluge/ui/common.py:47 deluge/ui/web/js/deluge-all/details/StatusTab.js:123
 msgid "Announce OK"
-msgstr ""
+msgstr "Announce OK"
 
 #: deluge/ui/common.py:48 deluge/ui/web/js/deluge-all/details/StatusTab.js:124
 msgid "Announce Sent"
-msgstr ""
+msgstr "Announce Sent"
 
 #: deluge/ui/common.py:46 deluge/ui/web/js/deluge-all/details/StatusTab.js:122
 msgid "Warning"

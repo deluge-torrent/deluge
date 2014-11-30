@@ -1,3 +1,16 @@
+=== Deluge 1.3.11 (30 November 2014) ===
+==== GtkUI ====
+	* Fixed ImportError for users with Twisted < 10
+	* #2698: Fixed column issue when disabling a plugin
+
+==== Core ====
+	* Fixed cache issue with libtorrent 0.16 on Windows
+	* #2555: Disabled use of SSLv3 protocol for DelugeRPC
+
+==== WebUI ====
+	* Modify SSL Context to allow >= TLSv1 protocol
+	* #2588: Fixed Size column to show total_wanted instead of total_size
+
 === Deluge 1.3.10 (15 October 2014) ===
 ==== GtkUI ====
 	* #2256: Indexes are not updated correctly when removing column

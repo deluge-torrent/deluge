@@ -125,7 +125,7 @@ Deluge.data.Peer = Ext.data.Record.create([
 ]);
 /*!
  * Deluge.data.TorrentRecord.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -175,7 +175,7 @@ Deluge.data.Torrent = Ext.data.Record.create([{
 		type: 'string',
 		sortType: Deluge.data.SortTypes.asName
 	}, {
-		name: 'total_size',
+		name: 'total_wanted',
 		type: 'int'
 	}, {
 		name: 'state',
@@ -216,6 +216,24 @@ Deluge.data.Torrent = Ext.data.Record.create([{
 	}, {
 		name: 'tracker_host',
 		type: 'string'
+	}, {
+		name: 'save_path',
+		type: 'string'
+	}, {
+		name: 'total_done',
+		type: 'int'
+	}, {
+		name: 'total_uploaded',
+		type: 'int'
+	}, {
+		name: 'max_download_speed',
+		type: 'int'
+	}, {
+		name: 'max_upload_speed',
+		type: 'int'
+	}, {
+		name: 'seeds_peers_ratio',
+		type: 'float'
 	}
 ]);
 /*!
@@ -7020,7 +7038,7 @@ Deluge.Keys = {
 
 	/**
 	 * Keys that are used within the torrent grid.
-	 * <pre>['queue', 'name', 'total_size', 'state', 'progress', 'num_seeds',
+	 * <pre>['queue', 'name', 'total_wanted', 'state', 'progress', 'num_seeds',
 	 * 'total_seeds', 'num_peers', 'total_peers', 'download_payload_rate',
 	 * 'upload_payload_rate', 'eta', 'ratio', 'distributed_copies',
 	 * 'is_auto_managed', 'time_added', 'tracker_host', 'save_path',
@@ -7028,7 +7046,7 @@ Deluge.Keys = {
 	 * 'seeds_peers_ratio']</pre>
 	 */
     Grid: [
-        'queue', 'name', 'total_size', 'state', 'progress', 'num_seeds',
+        'queue', 'name', 'total_wanted', 'state', 'progress', 'num_seeds',
         'total_seeds', 'num_peers', 'total_peers', 'download_payload_rate',
         'upload_payload_rate', 'eta', 'ratio', 'distributed_copies',
         'is_auto_managed', 'time_added', 'tracker_host', 'save_path',
@@ -8967,7 +8985,7 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 			width: 75,
 			sortable: true,
 			renderer: fsize,
-			dataIndex: 'total_size'
+			dataIndex: 'total_wanted'
 		}, {
 			header: _('Progress'),
 			width: 150,
@@ -9084,7 +9102,7 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 			fields: [
 				{name: 'queue', sortType: Deluge.data.SortTypes.asQueuePosition},
 				{name: 'name', sortType: Deluge.data.SortTypes.asName},
-				{name: 'total_size', type: 'int'},
+				{name: 'total_wanted', type: 'int'},
 				{name: 'state'},
 				{name: 'progress', type: 'float'},
 				{name: 'num_seeds', type: 'int'},
