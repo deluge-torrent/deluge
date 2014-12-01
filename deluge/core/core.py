@@ -19,6 +19,7 @@ from urlparse import urljoin
 
 import twisted.web.client
 import twisted.web.error
+from twisted.internet import reactor, task
 
 import deluge.common
 import deluge.component as component
@@ -186,6 +187,33 @@ class Core(component.Component):
                 return self.new_release
         return False
 
+    def _add_torrent_file(self, filename, filedump, options, save_state=True):
+        """Adds a torrent file to the session.
+
+        Args:
+            filename (str): the filename of the torrent
+            filedump (str): A base64 encoded string of the torrent file contents
+            options (dict): The options to apply to the torrent on add
+            save_state (bool): If the state should be saved after adding the file
+
+        Returns:
+            str: The torrent_id or None
+
+        """
+        try:
+            filedump = base64.decodestring(filedump)
+        except Exception as ex:
+            log.error("There was an error decoding the filedump string: %s", ex)
+
+        try:
+            torrent_id = self.torrentmanager.add(
+                filedump=filedump, options=options, filename=filename, save_state=save_state
+            )
+        except RuntimeError as ex:
+            log.error("There was an error adding the torrent file %s: %s", filename, ex)
+            torrent_id = None
+        return torrent_id
+
     # Exported Methods
     @export
     def add_torrent_file(self, filename, filedump, options):
@@ -200,22 +228,29 @@ class Core(component.Component):
             str: The torrent_id or None
 
         """
-        try:
-            filedump = base64.decodestring(filedump)
-        except Exception as ex:
-            log.error("There was an error decoding the filedump string!")
-            log.exception(ex)
+        return self._add_torrent_file(filename, filedump, options)
 
-        try:
-            torrent_id = self.torrentmanager.add(
-                filedump=filedump, options=options, filename=filename
-            )
-        except Exception as ex:
-            log.error("There was an error adding the torrent file %s", filename)
-            log.exception(ex)
-            torrent_id = None
+    @export
+    def add_torrent_files(self, torrent_files):
+        """
+        Adds multiple torrent files to the session.
 
-        return torrent_id
+        Args:
+            torrent_files (list): Tuples of (filename, filedump, options)
+
+        Returns:
+            Deferred
+
+        """
+        def add_torrents():
+            torrent_ids = []
+            count = len(torrent_files)
+            for idx, torrent in enumerate(torrent_files):
+                torrent_id = self._add_torrent_file(torrent[0], torrent[1],
+                                                    torrent[2], save_state=idx == (count - 1))
+                torrent_ids.append(torrent_id)
+            return torrent_ids
+        return task.deferLater(reactor, 0, add_torrents)
 
     @export
     def add_torrent_url(self, url, options, headers=None):
