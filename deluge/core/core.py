@@ -19,6 +19,7 @@ from urlparse import urljoin
 
 import twisted.web.client
 import twisted.web.error
+from twisted.internet import reactor, task
 
 import deluge.common
 import deluge.component as component
@@ -292,21 +293,47 @@ class Core(component.Component):
 
     @export
     def remove_torrent(self, torrent_id, remove_data):
-        """
-        Removes a torrent from the session.
+        """Removes a torrent from the session.
 
-        :param torrent_id: the torrent_id of the torrent to remove
-        :type torrent_id: string
-        :param remove_data: if True, remove the data associated with this torrent
-        :type remove_data: boolean
-        :returns: True if removed successfully
-        :rtype: bool
+        Args:
+            torrent_id (str): The torrent ID to remove.
+            remove_data (bool): If True, remove the downloaded data.
 
-        :raises InvalidTorrentError: if the torrent_id does not exist in the session
+        Returns:
+            bool: True if removed successfully.
+
+        Raises:
+             InvalidTorrentError: if the torrent_id does not exist in the session.
 
         """
         log.debug("Removing torrent %s from the core.", torrent_id)
         return self.torrentmanager.remove(torrent_id, remove_data)
+
+    @export
+    def remove_torrents(self, torrent_ids, remove_data):
+        """Remove torrents from the session.
+
+        Args:
+            torrent_ids (list): The torrent IDs to remove
+            remove_data (bool, optional): If True, remove the downloaded data, defaults to False.
+
+        Returns:
+            list: a list containing all the errors, empty list if no errors occured
+
+        """
+        log.info("Removing %d torrents from core.", len(torrent_ids))
+
+        def do_remove_torrents():
+            errors = []
+            for torrent_id in torrent_ids:
+                try:
+                    self.torrentmanager.remove(torrent_id, remove_data=remove_data, save_state=False)
+                except InvalidTorrentError, ite:
+                    errors.append((torrent_id, ite))
+            # Save the session state
+            self.torrentmanager.save_state()
+            return errors
+        return task.deferLater(reactor, 0, do_remove_torrents)
 
     @export
     def get_session_status(self, keys):
