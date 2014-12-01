@@ -182,6 +182,7 @@ class AddTorrentDialog(component.Component):
 
     def add_from_files(self, filenames):
         new_row = None
+        already_added = 0
 
         for filename in filenames:
             # Get the torrent data from the torrent file
@@ -193,12 +194,7 @@ class AddTorrentDialog(component.Component):
                 continue
 
             if info.info_hash in self.files:
-                log.debug("Trying to add a duplicate torrent!")
-                ErrorDialog(
-                    _("Duplicate Torrent"),
-                    _("You cannot add the same torrent twice."),
-                    self.dialog
-                ).run()
+                already_added += 1
                 continue
 
             new_row = self.torrent_liststore.append([info.info_hash, info.name, filename])
@@ -212,6 +208,16 @@ class AddTorrentDialog(component.Component):
         (model, row) = self.listview_torrents.get_selection().get_selected()
         if not row and new_row:
             self.listview_torrents.get_selection().select_iter(new_row)
+
+        self.builder.get_object("label_torrent_count").set_text("Torrents (%d)" % len(self.torrent_liststore))
+
+        if already_added:
+            log.debug("Tried to add %d duplicate torrents!", already_added)
+            ErrorDialog(
+                _("Duplicate Torrent(s)"),
+                _("You cannot add the same torrent twice. %d torrents were already added." % already_added),
+                self.dialog
+            ).run()
 
     def add_from_magnets(self, uris):
         new_row = None
@@ -712,10 +718,15 @@ class AddTorrentDialog(component.Component):
 
     def _on_button_add_clicked(self, widget):
         log.debug("_on_button_add_clicked")
-        # Save the options for selected torrent prior to adding
+        self.add_torrents()
+        self.hide()
+
+    def add_torrents(self):
         (model, row) = self.listview_torrents.get_selection().get_selected()
         if row is not None:
             self.save_torrent_options(row)
+
+        torrents_to_add = []
 
         row = self.torrent_liststore.get_iter_first()
         while row is not None:
@@ -734,14 +745,14 @@ class AddTorrentDialog(component.Component):
                 del options["file_priorities"]
                 client.core.add_torrent_magnet(filename, options)
             else:
-                client.core.add_torrent_file(
-                    os.path.split(filename)[-1],
-                    base64.encodestring(self.infos[torrent_id]),
-                    options
-                )
-
+                torrents_to_add.append((os.path.split(filename)[-1],
+                                        base64.encodestring(self.infos[torrent_id]),
+                                        options))
             row = self.torrent_liststore.iter_next(row)
-        self.hide()
+
+        def on_torrents_added(torrent_ids):
+            log.info("Added %d torrents", len(torrent_ids))
+        client.core.add_torrent_files(torrents_to_add).addCallback(on_torrents_added)
 
     def _on_button_apply_clicked(self, widget):
         log.debug("_on_button_apply_clicked")
