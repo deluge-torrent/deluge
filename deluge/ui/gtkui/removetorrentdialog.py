@@ -67,8 +67,14 @@ class RemoveTorrentDialog(object):
         # Unselect all to avoid issues with the selection changed event
         component.get("TorrentView").treeview.get_selection().unselect_all()
 
-        for torrent_id in self.__torrent_ids:
-            client.core.remove_torrent(torrent_id, remove_data)
+        def on_removed_finished(errors):
+            if errors:
+                log.info("Error(s) occured when trying to delete torrent(s).")
+                for t_id, e_msg in errors:
+                    log.warn("Error removing torrent %s : %s" % (t_id, e_msg))
+
+        d = client.core.remove_torrents(self.__torrent_ids, remove_data)
+        d.addCallback(on_removed_finished)
 
     def run(self):
         """

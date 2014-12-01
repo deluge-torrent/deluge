@@ -1,3 +1,4 @@
+import base64
 import os
 from hashlib import sha1 as sha
 
@@ -11,9 +12,10 @@ from twisted.web.server import Site
 from twisted.web.static import File
 
 import deluge.component as component
-import deluge.error
+import deluge.core.torrent
 from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer
+from deluge.error import InvalidTorrentError
 from deluge.ui.web.common import compress
 
 from . import common
@@ -104,7 +106,6 @@ class CoreTestCase(BaseTestCase):
     def test_add_torrent_file(self):
         options = {}
         filename = os.path.join(os.path.dirname(__file__), "test.torrent")
-        import base64
         torrent_id = self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
 
         # Get the info hash from the test.torrent
@@ -168,15 +169,52 @@ class CoreTestCase(BaseTestCase):
     def test_remove_torrent(self):
         options = {}
         filename = os.path.join(os.path.dirname(__file__), "test.torrent")
-        import base64
         torrent_id = self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
-
-        self.assertRaises(deluge.error.InvalidTorrentError, self.core.remove_torrent, "torrentidthatdoesntexist", True)
-
-        ret = self.core.remove_torrent(torrent_id, True)
-
-        self.assertTrue(ret)
+        removed = self.core.remove_torrent(torrent_id, True)
+        self.assertTrue(removed)
         self.assertEquals(len(self.core.get_session_state()), 0)
+
+    def test_remove_torrent_invalid(self):
+        d = self.core.remove_torrents(["torrentidthatdoesntexist"], True)
+
+        def test_true(val):
+            self.assertTrue(val[0][0] == "torrentidthatdoesntexist")
+
+            self.assertTrue(type(val[0][1]) == InvalidTorrentError)
+        d.addCallback(test_true)
+        return d
+
+    def test_remove_torrents(self):
+        options = {}
+        filename = os.path.join(os.path.dirname(__file__), "test.torrent")
+        torrent_id = self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
+        filename2 = os.path.join(os.path.dirname(__file__), "unicode_filenames.torrent")
+        torrent_id2 = self.core.add_torrent_file(filename2, base64.encodestring(open(filename2).read()), options)
+        d = self.core.remove_torrents([torrent_id, torrent_id2], True)
+
+        def test_ret(val):
+            self.assertTrue(val == [])
+        d.addCallback(test_ret)
+
+        def test_session_state(val):
+            self.assertEquals(len(self.core.get_session_state()), 0)
+        d.addCallback(test_session_state)
+        return d
+
+    def test_remove_torrents_invalid(self):
+        options = {}
+        filename = os.path.join(os.path.dirname(__file__), "test.torrent")
+        torrent_id = self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
+        d = self.core.remove_torrents(["invalidid1", "invalidid2", torrent_id], False)
+
+        def test_ret(val):
+            self.assertTrue(len(val) == 2)
+            self.assertTrue(val[0][0] == "invalidid1")
+            self.assertTrue(type(val[0][1]) == InvalidTorrentError)
+            self.assertTrue(val[1][0] == "invalidid2")
+            self.assertTrue(type(val[1][1]) == InvalidTorrentError)
+        d.addCallback(test_ret)
+        return d
 
     def test_get_session_status(self):
         status = self.core.get_session_status(["upload_rate", "download_rate"])
