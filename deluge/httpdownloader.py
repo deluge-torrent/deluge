@@ -1,25 +1,120 @@
-# -*- coding: utf-8 -*-
+#
+# httpdownloader.py
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
-# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
-# the additional special exception to link portions of this program with the OpenSSL library.
-# See LICENSE for more details.
+# Deluge is free software.
+#
+# You may redistribute it and/or modify it under the terms of the
+# GNU General Public License, as published by the Free Software
+# Foundation; either version 3 of the License, or (at your option)
+# any later version.
+#
+# deluge is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with deluge.    If not, write to:
+# 	The Free Software Foundation, Inc.,
+# 	51 Franklin Street, Fifth Floor
+# 	Boston, MA  02110-1301, USA.
+#
+#    In addition, as a special exception, the copyright holders give
+#    permission to link the code of portions of this program with the OpenSSL
+#    library.
+#    You must obey the GNU General Public License in all respects for all of
+#    the code used other than OpenSSL. If you modify file(s) with this
+#    exception, you may extend this exception to your version of the file(s),
+#    but you are not obligated to do so. If you do not wish to do so, delete
+#    this exception statement from your version. If you delete this exception
+#    statement from all source files in the program, then also delete it here.
 #
 
+from twisted.web import client, http
+from twisted.web.error import PageRedirect
+from twisted.python.failure import Failure
+from twisted.internet import reactor
+from twisted.internet import ssl
+from mp.network import https
+from common import get_version
+import base64
 import logging
 import os.path
 import zlib
 
-from twisted.internet import reactor
-from twisted.python.failure import Failure
-from twisted.web import client, http
-from twisted.web.error import PageRedirect
-
-from deluge.common import get_version
-
 log = logging.getLogger(__name__)
 
+proxy_host = None
+proxy_port = None
+proxy_user = None
+proxy_pass = None
+self.proxy_type = proxy_type
+self.proxy_host = proxy_host
+self.proxy_port = proxy_port
+self.proxy_user = proxy_user
+self.proxy_pass = proxy_pass
+
+client.core.get_config_values(["proxy_type", "proxy_host",
+                                     "proxy_port", "proxy_user", "proxy_pass"])
+
+class ProxyHTTPClientFactory(client.HTTPClientFactory):
+
+    def __init__(self, uri, proxy_host, proxy_port, *args, **kwargs):
+        self.proxy_host = proxy_host
+        self.proxy_port = proxy_port
+        client.HTTPClientFactory.__init__(self, uri, *args, **kwargs)
+
+    def buildProtocol(self, addr):
+        logging.info('Connected')
+        return client.HTTPClientFactory.buildProtocol(self, addr)
+
+    def setURL(self, url):
+        #logging.debug('Setting URL: %s', url)
+        prev_host = getattr(self, 'host', None)
+        client.HTTPClientFactory.setURL(self, url)
+        #logging.debug('After parse: %s %s %s %s', self.scheme, self.host, self.port, self.path)
+        self.path = url
+        if prev_host!=self.host:
+            self.headers['Host'] = self.host
+        self.host = self.proxy_host
+        self.port = self.proxy_port
+
+class ProxyHTTPDownloader(client.HTTPDownloader):
+
+    def __init__(self, uri, file, proxy_host, proxy_port, *args, **kwargs):
+        self.proxy_host = proxy_host
+        self.proxy_port = proxy_port
+        if 'followRedirect' in kwargs:
+            del kwargs['followRedirect']
+        client.HTTPDownloader.__init__(self, uri, file, *args, **kwargs)
+
+    def buildProtocol(self, addr):
+        #logging.info('Connected')
+        return client.HTTPDownloader.buildProtocol(self, addr)
+
+    def setURL(self, url):
+        #logging.debug('Setting URL: %s', url)
+        prev_host = getattr(self, 'host', None)
+        client.HTTPDownloader.setURL(self, url)
+        #logging.debug('After parse: %s %s %s %s', self.scheme, self.host, self.port, self.path)
+        self.path = url
+        if prev_host!=self.host:
+            self.headers['Host'] = self.host
+        self.host = self.proxy_host
+        self.port = self.proxy_port
+
+def proxifyFactory(factory, host, port, use_ssl = False):
+    if not proxy_host or not proxy_port:
+        logging.debug('No proxy information - default behaviour')
+        if use_ssl:
+            reactor.connectSSL(host, port, factory, ssl.ClientContextFactory())
+        else:
+            reactor.connectTCP(host, port, factory)
+        return
+    https_factory = https.ProxyHTTPSConnectionFactory(factory, host, port, use_ssl, proxy_user, proxy_pass)
+    reactor.connectTCP(proxy_host, proxy_port, https_factory)
 
 class HTTPDownloader(client.HTTPDownloader):
     """
@@ -49,11 +144,11 @@ class HTTPDownloader(client.HTTPDownloader):
         agent = "Deluge/%s (http://deluge-torrent.org)" % get_version()
         client.HTTPDownloader.__init__(self, url, filename, headers=headers, agent=agent)
 
-    def gotStatus(self, version, status, message):  # NOQA
+    def gotStatus(self, version, status, message):
         self.code = int(status)
         client.HTTPDownloader.gotStatus(self, version, status, message)
 
-    def gotHeaders(self, headers):  # NOQA
+    def gotHeaders(self, headers):
         if self.code == http.OK:
             if "content-length" in headers:
                 self.total_length = int(headers["content-length"][0])
@@ -89,7 +184,7 @@ class HTTPDownloader(client.HTTPDownloader):
 
         return client.HTTPDownloader.gotHeaders(self, headers)
 
-    def pagePart(self, data):  # NOQA
+    def pagePart(self, data):
         if self.code == http.OK:
             self.current_length += len(data)
             if self.decoder:
@@ -99,7 +194,7 @@ class HTTPDownloader(client.HTTPDownloader):
 
         return client.HTTPDownloader.pagePart(self, data)
 
-    def pageEnd(self):  # NOQA
+    def pageEnd(self):
         if self.decoder:
             data = self.decoder.flush()
             self.current_length -= len(data)
@@ -107,7 +202,6 @@ class HTTPDownloader(client.HTTPDownloader):
             self.pagePart(data)
 
         return client.HTTPDownloader.pageEnd(self)
-
 
 def sanitise_filename(filename):
     """
@@ -136,8 +230,8 @@ def sanitise_filename(filename):
 
     return filename
 
-
-def download_file(url, filename, callback=None, headers=None, force_filename=False, allow_compression=True):
+def download_file(url, filename, callback=None, headers=None,
+                  force_filename=False, allow_compression=True):
     """
     Downloads a file from a specific URL and returns a Deferred.  You can also
     specify a callback function to be called as parts are received.
@@ -175,7 +269,7 @@ def download_file(url, filename, callback=None, headers=None, force_filename=Fal
             headers = {}
         headers["accept-encoding"] = "deflate, gzip, x-gzip"
 
-    # In twisted 13.1.0 the _parse() function was replaced by the _URI class
+    # In twisted 13.1.0 the _parse() function was replaced by the _URI class 
     if hasattr(client, '_parse'):
         scheme, host, port, path = client._parse(url)
     else:
@@ -184,12 +278,13 @@ def download_file(url, filename, callback=None, headers=None, force_filename=Fal
         scheme = uri.scheme
         host = uri.host
         port = uri.port
+        path = uri.path
 
-    factory = HTTPDownloader(url, filename, callback, headers, force_filename, allow_compression)
+    factory = proxyFactoryFactory(url, proxy_host, proxy_port, followRedirect = 0, *args, **kwargs)
     if scheme == "https":
         from twisted.internet import ssl
-        reactor.connectSSL(host, port, factory, ssl.ClientContextFactory())
+        reactor.connectSSL(self.proxy_url, self.proxy_port,factory, contextFactory)
     else:
-        reactor.connectTCP(host, port, factory)
+        reactor.connectTCP(proxy_host, proxy_port, factory)
 
     return factory.deferred
