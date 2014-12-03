@@ -523,12 +523,13 @@ class TorrentManager(component.Component):
                      from_state and "loaded" or "added")
         return torrent.torrent_id
 
-    def remove(self, torrent_id, remove_data=False):
-        """Remove specified torrent from the session.
+    def remove(self, torrent_id, remove_data=False, save_state=True):
+        """Remove a torrent from the session.
 
         Args:
-            torrent_id (str): The torrent to remove.
+            torrent_id (str): The torrent ID to remove.
             remove_data (bool, optional): If True, remove the downloaded data, defaults to False.
+            save_state (bool, optional): If True, save the session state after removal, defaults to True.
 
         Returns:
             bool: True if removed successfully, False if not.
@@ -538,16 +539,16 @@ class TorrentManager(component.Component):
 
         """
         try:
-            torrent_name = self.torrents[torrent_id].get_status(["name"])["name"]
+            torrent = self.torrents[torrent_id]
         except KeyError:
-            raise InvalidTorrentError("torrent_id not in session")
+            raise InvalidTorrentError("torrent_id '%s' not in session." % torrent_id)
 
         # Emit the signal to the clients
         component.get("EventManager").emit(PreTorrentRemovedEvent(torrent_id))
 
         try:
-            self.session.remove_torrent(self.torrents[torrent_id].handle, 1 if remove_data else 0)
-        except (RuntimeError, KeyError) as ex:
+            self.session.remove_torrent(torrent.handle, 1 if remove_data else 0)
+        except RuntimeError as ex:
             log.warning("Error removing torrent: %s", ex)
             return False
 
@@ -555,10 +556,11 @@ class TorrentManager(component.Component):
         self.resume_data.pop(torrent_id, None)
 
         # Remove the .torrent file in the state
-        self.torrents[torrent_id].delete_torrentfile()
+        torrent.delete_torrentfile()
 
         # Remove the torrent file from the user specified directory
-        filename = self.torrents[torrent_id].filename
+        torrent_name = torrent.get_status(["name"])["name"]
+        filename = torrent.filename
         if self.config["copy_torrent_file"] and self.config["del_copy_torrent_file"] and filename:
             users_torrent_file = os.path.join(self.config["torrentfiles_location"], filename)
             log.info("Delete user's torrent file: %s", users_torrent_file)
@@ -568,25 +570,22 @@ class TorrentManager(component.Component):
                 log.warning("Unable to remove copy torrent file: %s", ex)
 
         # Remove from set if it wasn't finished
-        if not self.torrents[torrent_id].is_finished:
+        if not torrent.is_finished:
             try:
                 self.queued_torrents.remove(torrent_id)
             except KeyError:
                 log.debug("%s isn't in queued torrents set?", torrent_id)
+                raise InvalidTorrentError("%s isn't in queued torrents set?" % torrent_id)
 
         # Remove the torrent from deluge's session
-        try:
-            del self.torrents[torrent_id]
-        except (KeyError, ValueError):
-            return False
+        del self.torrents[torrent_id]
 
-        # Save the session state
-        self.save_state()
+        if save_state:
+            self.save_state()
 
         # Emit the signal to the clients
         component.get("EventManager").emit(TorrentRemovedEvent(torrent_id))
-        log.info("Torrent %s removed by user: %s", torrent_name,
-                 component.get("RPCServer").get_session_user())
+        log.info("Torrent %s removed by user: %s", torrent_name, component.get("RPCServer").get_session_user())
         return True
 
     def load_state(self):
