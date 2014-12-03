@@ -347,7 +347,7 @@
 
     initComponent: function() {
         Deluge.TorrentGrid.superclass.initComponent.call(this);
-        deluge.events.on('torrentRemoved', this.onTorrentRemoved, this);
+        deluge.events.on('torrentsRemoved', this.onTorrentsRemoved, this);
         deluge.events.on('disconnect', this.onDisconnect, this);
 
         this.on('rowcontextmenu', function(grid, rowIndex, e) {
@@ -459,7 +459,7 @@
     },
 
     // private
-    onTorrentRemoved: function(torrentIds) {
+    onTorrentsRemoved: function(torrentIds) {
         var selModel = this.getSelectionModel();
         Ext.each(torrentIds, function(torrentId) {
             var record = this.getStore().getById(torrentId);

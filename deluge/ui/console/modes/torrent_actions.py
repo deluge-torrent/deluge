@@ -146,10 +146,18 @@ def torrent_action(idx, data, mode, ids):
                     return
                 mode.clear_marks()
 
-                wd = data["remove_files"]
-                for tid in ids:
-                    log.debug("Removing torrent: %s, %d", tid, wd)
-                    client.core.remove_torrent(tid, wd).addErrback(action_error, mode)
+                remove_data = data["remove_files"]
+
+                def on_removed_finished(errors):
+                    if errors:
+                        error_msgs = ""
+                        for t_id, e_msg in errors:
+                            error_msgs += "Error removing torrent %s : %s\n" % (t_id, e_msg)
+                        mode.report_message("Error(s) occured when trying to delete torrent(s).", error_msgs)
+                        mode.refresh()
+
+                d = client.core.remove_torrents(ids, remove_data)
+                d.addCallback(on_removed_finished)
 
             def got_status(status):
                 return (status["name"], status["state"])

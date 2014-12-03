@@ -1,6 +1,6 @@
 /*!
  * Deluge.RemoveWindow.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -35,61 +35,61 @@
  * @extends Ext.Window
  */
 Deluge.RemoveWindow = Ext.extend(Ext.Window, {
-    
+
     title:  _('Remove Torrent'),
     layout: 'fit',
     width:  350,
     height: 100,
-    
+
     buttonAlign: 'right',
     closeAction: 'hide',
     closable:    true,
     iconCls:     'x-deluge-remove-window-icon',
     plain:       true,
-    
+
     bodyStyle: 'padding: 5px; padding-left: 10px;',
     html: 'Are you sure you wish to remove the torrent (s)?',
-    
+
     initComponent: function() {
         Deluge.RemoveWindow.superclass.initComponent.call(this);
         this.addButton(_('Cancel'), this.onCancel, this);
         this.addButton(_('Remove With Data'), this.onRemoveData, this);
         this.addButton(_('Remove Torrent'), this.onRemove, this);
     },
-    
+
     remove: function(removeData) {
-        Ext.each(this.torrentIds, function(torrentId) {
-            deluge.client.core.remove_torrent(torrentId, removeData, {
-                success: function() {
-                    this.onRemoved(torrentId);
-                },
-                scope: this,
-                torrentId: torrentId
-            });
-        }, this);
-        
+        deluge.client.core.remove_torrents(this.torrentIds, removeData, {
+            success: function(result) {
+                if (result) {
+                    console.log("Error(s) occured when trying to delete torrent(s).");
+                }
+                this.onRemoved(this.torrentIds);
+            },
+            scope: this,
+            torrentIds: this.torrentIds
+        });
     },
-    
+
     show: function(ids) {
         Deluge.RemoveWindow.superclass.show.call(this);
         this.torrentIds = ids;
     },
-    
+
     onCancel: function() {
         this.hide();
         this.torrentIds = null;
     },
-    
+
     onRemove: function() {
         this.remove(false);
     },
-    
+
     onRemoveData: function() {
         this.remove(true);
     },
-    
-    onRemoved: function(torrentId) {
-        deluge.events.fire('torrentRemoved', torrentId);
+
+    onRemoved: function(torrentIds) {
+        deluge.events.fire('torrentsRemoved', torrentIds);
         this.hide();
         deluge.ui.update();
     }

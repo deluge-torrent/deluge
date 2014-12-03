@@ -34,8 +34,14 @@ class Command(BaseCommand):
         for arg in args:
             torrent_ids.extend(self.console.match_torrent(arg))
 
-        for torrent_id in torrent_ids:
-            client.core.remove_torrent(torrent_id, options["remove_data"])
+        def on_removed_finished(errors):
+            if errors:
+                self.console.write("Error(s) occured when trying to delete torrent(s).")
+                for t_id, e_msg in errors:
+                    self.console.write("Error removing torrent %s : %s" % (t_id, e_msg))
+
+        d = client.core.remove_torrents(torrent_ids, options["remove_data"])
+        d.addCallback(on_removed_finished)
 
     def complete(self, line):
         # We use the ConsoleUI torrent tab complete method
