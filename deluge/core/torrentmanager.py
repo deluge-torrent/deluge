@@ -1190,7 +1190,7 @@ class TorrentManager(component.Component):
         of all torrents that changed since last time this was posted.
 
         """
-        log.debug("on_status_notification: %s", alert.message())
+        log.debug("on_status_notification: %s", decode_string(alert.message()))
         self.last_state_update_alert_ts = time.time()
 
         for t_status in alert.status:
@@ -1205,11 +1205,11 @@ class TorrentManager(component.Component):
 
     def on_alert_external_ip(self, alert):
         """Alert handler for libtorrent external_ip_alert"""
-        log.info("on_alert_external_ip: %s", alert.message())
+        log.info("on_alert_external_ip: %s", decode_string(alert.message()))
 
     def on_alert_performance(self, alert):
         """Alert handler for libtorrent performance_alert"""
-        log.warning("on_alert_performance: %s, %s", alert.message(), alert.warning_code)
+        log.warning("on_alert_performance: %s, %s", decode_string(alert.message()), alert.warning_code)
         if alert.warning_code == lt.performance_warning_t.send_buffer_watermark_too_low:
             max_send_buffer_watermark = 3 * 1024 * 1024  # 3MiB
             settings = self.session.get_settings()
