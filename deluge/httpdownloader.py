@@ -175,12 +175,17 @@ def download_file(url, filename, callback=None, headers=None, force_filename=Fal
             headers = {}
         headers["accept-encoding"] = "deflate, gzip, x-gzip"
 
-    # In twisted 13.1.0 the _parse() function was replaced by the _URI class
-    if hasattr(client, '_parse'):
+    # In Twisted 13.1.0 _parse() function replaced by _URI class.
+    # In Twisted 15.0.0 _URI class renamed to URI.
+    if hasattr(client, "_parse"):
         scheme, host, port, path = client._parse(url)
     else:
-        from twisted.web.client import _URI
-        uri = _URI.fromBytes(url)
+        try:
+            from twisted.web.client import _URI as URI
+        except ImportError:
+            from twisted.web.client import URI
+
+        uri = URI.fromBytes(url)
         scheme = uri.scheme
         host = uri.host
         port = uri.port
