@@ -4675,6 +4675,70 @@ the proxy instead of using the local DNS service</property>
                                 <property name="position">2</property>
                               </packing>
                             </child>
+                            <child>
+                              <object class="GtkAlignment" id="alignment31">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="left_padding">12</property>
+                                <child>
+                                  <object class="GtkHButtonBox" id="hbuttonbox4">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="layout_style">start</property>
+                                    <child>
+                                      <object class="GtkButton" id="button_associate_torrent">
+                                        <property name="use_action_appearance">False</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                        <signal name="clicked" handler="on_button_associate_torrent_clicked" swapped="no"/>
+                                        <child>
+                                          <object class="GtkHBox" id="hbox16">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="spacing">2</property>
+                                            <child>
+                                              <object class="GtkImage" id="image_magnet">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="stock">gtk-missing-image</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">True</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkLabel" id="label60">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="label" translatable="yes">Associate torrent files with Deluge</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">True</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">2</property>
+                                              </packing>
+                                            </child>
+                                          </object>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">3</property>
+                              </packing>
+                            </child>
                           </object>
                         </child>
                       </object>

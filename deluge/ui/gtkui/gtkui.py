@@ -29,7 +29,7 @@ from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.error import AuthenticationRequired, BadLoginError, DaemonRunningError
 from deluge.ui.client import client
 from deluge.ui.gtkui.addtorrentdialog import AddTorrentDialog
-from deluge.ui.gtkui.common import associate_magnet_links
+from deluge.ui.gtkui.common import associate_magnet_links, associate_torrent_files
 from deluge.ui.gtkui.dialogs import AuthenticationDialog, ErrorDialog, YesNoDialog
 from deluge.ui.gtkui.filtertreeview import FilterTreeView
 from deluge.ui.gtkui.ipcinterface import IPCInterface
@@ -190,6 +190,10 @@ class GtkUI(object):
         # Attempt to register a magnet URI handler with gconf, but do not overwrite
         # if already set by another program.
         associate_magnet_links(False)
+
+        # Attempt to register files with gconf, but do not overwrite
+        # if already set by another program.
+        associate_torrent_files(False)
 
         # Make sure gtkui.conf has at least the defaults set
         self.config = ConfigManager("gtkui.conf", DEFAULT_PREFS)

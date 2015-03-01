@@ -209,6 +209,43 @@ def associate_magnet_links(overwrite=False):
                     return False
     return False
 
+def associate_torrent_files(overwrite=False):
+    """
+    Associates torrent files to Deluge.
+
+    Params:
+        overwrite (bool): if this is True, the current setting will be overwritten
+
+    Returns:
+        bool: True if association was set
+    """
+
+    if deluge.common.windows_check():
+        import _winreg
+
+        try:
+            hkey = _winreg.OpenKey(_winreg.HKEY_CLASSES_ROOT, ".torrent")
+        except WindowsError:
+            overwrite = True
+        else:
+            _winreg.CloseKey(hkey)
+
+        if overwrite:
+            deluge_exe = os.path.join(os.path.dirname(sys.executable), "deluge.exe")
+            try:
+                torrent_key = _winreg.CreateKey(_winreg.HKEY_CLASSES_ROOT, ".torrent")
+            except WindowsError:
+                # Could not create for all users, falling back to current user
+                torrent_key = _winreg.CreateKey(_winreg.HKEY_CURRENT_USER, "Software\\Classes\\.torrent")
+
+            _winreg.SetValueEx(torrent_key, "(Default)", 0, _winreg.REG_SZ, "Deluge")
+            _winreg.SetValueEx(torrent_key, "Content Type", 0, _winreg.REG_SZ, application/x-bittorrent)
+            _winreg.CloseKey(torrent_key)
+
+    # Past Notes: Don't try associate magnet on OSX see: #2420
+    # Fix This Section to work on mac for .torrent files
+    return False
+
 
 def save_pickled_state_file(filename, state):
     """Save a file in the config directory and creates a backup
