@@ -272,7 +272,7 @@ _data_files = [
     ('share/man/man1', [
         'docs/man/deluge.1',
         'docs/man/deluged.1',
-        'docs/man/deluge-gtk.1',
+        'docs/man/deluge-Gtk.1',
         'docs/man/deluge-web.1',
         'docs/man/deluge-console.1'])
 ]

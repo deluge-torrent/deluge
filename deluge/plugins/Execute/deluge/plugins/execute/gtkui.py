@@ -10,7 +10,7 @@
 import logging
 
 import gtk
-import gtk.glade
+import Gtk.glade
 
 import deluge.component as component
 from deluge.plugins.pluginbase import GtkPluginBase
@@ -41,14 +41,14 @@ class ExecutePreferences(object):
 
     def load(self):
         log.debug("Adding Execute Preferences page")
-        self.glade = gtk.glade.XML(common.get_resource("execute_prefs.glade"))
+        self.glade = Gtk.glade.XML(common.get_resource("execute_prefs.glade"))
         self.glade.signal_autoconnect({
             "on_add_button_clicked": self.on_add_button_clicked
         })
 
         events = self.glade.get_widget("event_combobox")
 
-        store = gtk.ListStore(str, str)
+        store = Gtk.ListStore(str, str)
         for event in EVENTS:
             event_label = EVENT_MAP[event]
             store.append((event_label, event))
@@ -72,24 +72,24 @@ class ExecutePreferences(object):
     def add_command(self, command_id, event, command):
         log.debug("Adding command `%s`", command_id)
         vbox = self.glade.get_widget("commands_vbox")
-        hbox = gtk.HBox(False, 5)
+        hbox = Gtk.HBox(False, 5)
         hbox.set_name(command_id + "_" + event)
-        label = gtk.Label(EVENT_MAP[event])
-        entry = gtk.Entry()
+        label = Gtk.Label(label=EVENT_MAP[event])
+        entry = Gtk.Entry()
         entry.set_text(command)
-        button = gtk.Button()
+        button = Gtk.Button()
         button.set_name("remove_%s" % command_id)
         button.connect("clicked", self.on_remove_button_clicked)
 
-        img = gtk.Image()
-        img.set_from_stock(gtk.STOCK_REMOVE, gtk.ICON_SIZE_BUTTON)
+        img = Gtk.Image()
+        img.set_from_stock(Gtk.STOCK_REMOVE, Gtk.IconSize.BUTTON)
         button.set_image(img)
 
         hbox.pack_start(label, False, False)
-        hbox.pack_start(entry)
+        hbox.pack_start(entry, True, True, 0)
         hbox.pack_start(button, False, False)
         hbox.show_all()
-        vbox.pack_start(hbox)
+        vbox.pack_start(hbox, True, True, 0)
 
     def remove_command(self, command_id):
         vbox = self.glade.get_widget("commands_vbox")
@@ -131,7 +131,7 @@ class ExecutePreferences(object):
         for child in children:
             command_id, event = child.get_name().split("_")
             for widget in child.get_children():
-                if type(widget) == gtk.Entry:
+                if type(widget) == Gtk.Entry:
                     command = widget.get_text()
             client.execute.save_command(command_id, event, command)
 

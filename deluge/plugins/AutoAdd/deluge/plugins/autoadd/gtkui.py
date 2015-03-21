@@ -16,7 +16,7 @@ import logging
 import os
 
 import gtk
-import gtk.glade
+import Gtk.glade
 
 import deluge.common
 import deluge.component as component
@@ -40,12 +40,12 @@ class OptionsDialog():
                "add_paused", "auto_managed", "queue_to_top"]
 
     def __init__(self):
-        self.accounts = gtk.ListStore(str)
-        self.labels = gtk.ListStore(str)
+        self.accounts = Gtk.ListStore(str)
+        self.labels = Gtk.ListStore(str)
         self.core_config = {}
 
     def show(self, options={}, watchdir_id=None):
-        self.glade = gtk.glade.XML(get_resource("autoadd_options.glade"))
+        self.glade = Gtk.glade.XML(get_resource("autoadd_options.glade"))
         self.glade.signal_autoconnect({
             "on_opts_add": self.on_add,
             "on_opts_apply": self.on_apply,
@@ -93,13 +93,13 @@ class OptionsDialog():
         self.accounts.clear()
         self.labels.clear()
         combobox = self.glade.get_widget('OwnerCombobox')
-        combobox_render = gtk.CellRendererText()
+        combobox_render = Gtk.CellRendererText()
         combobox.pack_start(combobox_render, True)
         combobox.add_attribute(combobox_render, 'text', 0)
         combobox.set_model(self.accounts)
 
         label_widget = self.glade.get_widget('label')
-        label_widget.child.set_text(options.get('label', ''))
+        label_widget.get_child().set_text(options.get('label', ''))
         label_widget.set_model(self.labels)
         label_widget.set_text_column(0)
         self.glade.get_widget('label_toggle').set_active(options.get('label_toggle', False))
@@ -317,7 +317,7 @@ class OptionsDialog():
             options['copy_torrent'] = self.glade.get_widget(
                 'copy_torrent_entry').get_text()
 
-        options['label'] = self.glade.get_widget('label').child.get_text().lower()
+        options['label'] = self.glade.get_widget('label').get_child().get_text().lower()
         options['append_extension'] = self.glade.get_widget('append_extension').get_text()
         options['owner'] = self.accounts[
             self.glade.get_widget('OwnerCombobox').get_active()][0]
@@ -346,7 +346,7 @@ class OptionsDialog():
 class GtkUI(GtkPluginBase):
     def enable(self):
 
-        self.glade = gtk.glade.XML(get_resource("config.glade"))
+        self.glade = Gtk.glade.XML(get_resource("config.glade"))
         self.glade.signal_autoconnect({
             "on_add_button_clicked": self.on_add_button_clicked,
             "on_edit_button_clicked": self.on_edit_button_clicked,
@@ -367,15 +367,15 @@ class GtkUI(GtkPluginBase):
         self.watchdirs = {}
 
         vbox = self.glade.get_widget("watchdirs_vbox")
-        sw = gtk.ScrolledWindow()
-        sw.set_shadow_type(gtk.SHADOW_ETCHED_IN)
-        sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+        sw = Gtk.ScrolledWindow()
+        sw.set_shadow_type(Gtk.ShadowType.ETCHED_IN)
+        sw.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
 
         vbox.pack_start(sw, True, True, 0)
 
         self.store = self.create_model()
 
-        self.treeView = gtk.TreeView(self.store)
+        self.treeView = Gtk.TreeView(self.store)
         self.treeView.connect("cursor-changed", self.on_listitem_activated)
         self.treeView.connect("row-activated", self.on_edit_button_clicked)
         self.treeView.set_rules_hint(True)
@@ -397,7 +397,7 @@ class GtkUI(GtkPluginBase):
         )
 
     def create_model(self):
-        store = gtk.ListStore(str, bool, str, str)
+        store = Gtk.ListStore(str, bool, str, str)
         for watchdir_id, watchdir in self.watchdirs.iteritems():
             store.append([
                 watchdir_id, watchdir['enabled'],
@@ -406,29 +406,29 @@ class GtkUI(GtkPluginBase):
         return store
 
     def create_columns(self, treeview):
-        renderer_toggle = gtk.CellRendererToggle()
-        column = gtk.TreeViewColumn(
+        renderer_toggle = Gtk.CellRendererToggle()
+        column = Gtk.TreeViewColumn(
             _("Active"), renderer_toggle, activatable=1, active=1
         )
         column.set_sort_column_id(1)
         treeview.append_column(column)
-        tt = gtk.Tooltip()
+        tt = Gtk.Tooltip()
         tt.set_text(_('Double-click to toggle'))
         treeview.set_tooltip_cell(tt, None, None, renderer_toggle)
 
-        renderertext = gtk.CellRendererText()
-        column = gtk.TreeViewColumn(_("Owner"), renderertext, text=2)
+        renderertext = Gtk.CellRendererText()
+        column = Gtk.TreeViewColumn(_("Owner"), renderertext, text=2)
         column.set_sort_column_id(2)
         treeview.append_column(column)
-        tt2 = gtk.Tooltip()
+        tt2 = Gtk.Tooltip()
         tt2.set_text(_('Double-click to edit'))
         treeview.set_has_tooltip(True)
 
-        renderertext = gtk.CellRendererText()
-        column = gtk.TreeViewColumn(_("Path"), renderertext, text=3)
+        renderertext = Gtk.CellRendererText()
+        column = Gtk.TreeViewColumn(_("Path"), renderertext, text=3)
         column.set_sort_column_id(3)
         treeview.append_column(column)
-        tt2 = gtk.Tooltip()
+        tt2 = Gtk.Tooltip()
         tt2.set_text(_('Double-click to edit'))
         treeview.set_has_tooltip(True)
 

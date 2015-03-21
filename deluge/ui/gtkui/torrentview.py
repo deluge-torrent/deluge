@@ -13,7 +13,7 @@ import logging
 
 import gobject
 import gtk
-import pygtk
+import gi
 from twisted.internet import reactor
 
 import deluge.component as component
@@ -22,7 +22,7 @@ from deluge.ui.gtkui import torrentview_data_funcs as funcs
 from deluge.ui.gtkui.listview import ListView
 from deluge.ui.gtkui.removetorrentdialog import RemoveTorrentDialog
 
-pygtk.require('2.0')
+gi.require_version('Gtk', '3.0')
 
 log = logging.getLogger(__name__)
 
@@ -190,7 +190,7 @@ class SearchBox(object):
             self.search_pending = reactor.callLater(0.7, self.torrentview.update)
 
     def on_search_torrents_entry_icon_press(self, entry, icon, event):
-        if icon != gtk.ENTRY_ICON_SECONDARY:
+        if icon != Gtk.EntryIconPosition.SECONDARY:
             return
         self.clear_search()
 
@@ -231,15 +231,15 @@ class TorrentView(ListView, component.Component):
                                  function=funcs.cell_data_statusicon,
                                  default_sort=True)
         self.add_func_column(_("Size"), funcs.cell_data_size,
-                             [gobject.TYPE_UINT64],
+                             [GObject.TYPE_UINT64],
                              status_field=["total_wanted"])
         self.add_func_column(_("Downloaded"), funcs.cell_data_size,
-                             [gobject.TYPE_UINT64],
+                             [GObject.TYPE_UINT64],
                              status_field=["all_time_download"], default=False)
         self.add_func_column(_("Uploaded"), funcs.cell_data_size,
-                             [gobject.TYPE_UINT64],
+                             [GObject.TYPE_UINT64],
                              status_field=["total_uploaded"], default=False)
-        self.add_func_column(_("Remaining"), funcs.cell_data_size, [gobject.TYPE_UINT64],
+        self.add_func_column(_("Remaining"), funcs.cell_data_size, [GObject.TYPE_UINT64],
                              status_field=["total_remaining"], default=False)
         self.add_progress_column(_("Progress"),
                                  status_field=["progress", "state"],
@@ -437,7 +437,7 @@ class TorrentView(ListView, component.Component):
                 # An update request is scheduled, let's wait for that one
                 return
             # Send a status request
-            gobject.idle_add(self.send_status_request, None, select_row)
+            GObject.idle_add(self.send_status_request, None, select_row)
 
     def update_view(self, load_new_list=False):
         """Update the torrent view model with data we've received."""
@@ -677,7 +677,7 @@ class TorrentView(ListView, component.Component):
 
     # Handle keyboard shortcuts
     def on_key_press_event(self, widget, event):
-        keyname = gtk.gdk.keyval_name(event.keyval)
+        keyname = Gdk.keyval_name(event.keyval)
         if keyname is not None:
             func = getattr(self, 'keypress_' + keyname.lower(), None)
             if func:
@@ -687,7 +687,7 @@ class TorrentView(ListView, component.Component):
         log.debug("keypress_delete")
         torrents = self.get_selected_torrents()
         if torrents:
-            if event.state & gtk.gdk.SHIFT_MASK:
+            if event.get_state() & Gdk.ModifierType.SHIFT_MASK:
                 RemoveTorrentDialog(torrents, delete_files=True).run()
             else:
                 RemoveTorrentDialog(torrents).run()

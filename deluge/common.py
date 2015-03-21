@@ -965,9 +965,9 @@ def setup_translations(setup_gettext=True, setup_pygtk=False):
 
             # Use glade for plugins that still uses it
             import gtk
-            import gtk.glade
-            gtk.glade.bindtextdomain(domain, translations_path)
-            gtk.glade.textdomain(domain)
+            import Gtk.glade
+            Gtk.glade.bindtextdomain(domain, translations_path)
+            Gtk.glade.textdomain(domain)
         except Exception as ex:
             log.error("Unable to initialize glade translation!")
             log.exception(ex)

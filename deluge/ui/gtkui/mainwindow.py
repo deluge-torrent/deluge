@@ -13,7 +13,7 @@ import os.path
 from hashlib import sha1 as sha
 
 import gtk
-import pygtk
+import gi
 from twisted.internet import reactor
 from twisted.internet.error import ReactorNotRunning
 
@@ -25,7 +25,7 @@ from deluge.ui.client import client
 from deluge.ui.gtkui.dialogs import PasswordDialog
 from deluge.ui.gtkui.ipcinterface import process_args
 
-pygtk.require('2.0')
+gi.require_version('Gtk', '3.0')
 
 
 try:
@@ -61,11 +61,11 @@ class _GtkBuilderSignalsHolder(object):
 class MainWindow(component.Component):
     def __init__(self):
         if wnck:
-            self.screen = wnck.screen_get_default()
+            self.screen = Wnck.Screen.get_default()
         component.Component.__init__(self, "MainWindow", interval=2)
         self.config = ConfigManager("gtkui.conf")
         self.gtk_builder_signals_holder = _GtkBuilderSignalsHolder()
-        self.main_builder = gtk.Builder()
+        self.main_builder = Gtk.Builder()
         # Patch this GtkBuilder to avoid connecting signals from elsewhere
         #
         # Think about splitting up the main window gtkbuilder file into the necessary parts
@@ -117,7 +117,7 @@ class MainWindow(component.Component):
         # UI when it is minimized.
         self.is_minimized = False
 
-        self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL, [('text/uri-list', 0, 80)], gtk.gdk.ACTION_COPY)
+        self.window.drag_dest_set(Gtk.DestDefaults.ALL, [('text/uri-list', 0, 80)], Gdk.DragAction.COPY)
 
         # Connect events
         self.window.connect("window-state-event", self.on_window_state_event)
@@ -143,8 +143,8 @@ class MainWindow(component.Component):
             self.main_builder.prev_connect_signals(self.gtk_builder_signals_holder)
             self.vpaned.set_position(self.initial_vpaned_position)
             self.show()
-            while gtk.events_pending():
-                gtk.main_iteration(False)
+            while Gtk.events_pending():
+                Gtk.main_iteration(False)
 
     def show(self):
         try:
@@ -191,7 +191,7 @@ class MainWindow(component.Component):
             dialog = PasswordDialog(_("Enter your password to show Deluge..."))
 
             def on_dialog_response(response_id):
-                if response_id == gtk.RESPONSE_OK:
+                if response_id == Gtk.ResponseType.OK:
                     if self.config["tray_password"] == sha(dialog.get_password()).hexdigest():
                         restore()
             dialog.run().addCallback(on_dialog_response)
@@ -235,7 +235,7 @@ class MainWindow(component.Component):
             dialog = PasswordDialog(_("Enter your password to Quit Deluge..."))
 
             def on_dialog_response(response_id):
-                if response_id == gtk.RESPONSE_OK:
+                if response_id == Gtk.ResponseType.OK:
                     if self.config["tray_password"] == sha(dialog.get_password()).hexdigest():
                         quit_gtkui()
             dialog.run().addCallback(on_dialog_response)
@@ -260,14 +260,14 @@ class MainWindow(component.Component):
             self.config["window_height"] = event.height
 
     def on_window_state_event(self, widget, event):
-        if event.changed_mask & gtk.gdk.WINDOW_STATE_MAXIMIZED:
-            if event.new_window_state & gtk.gdk.WINDOW_STATE_MAXIMIZED:
+        if event.changed_mask & Gdk.WindowState.MAXIMIZED:
+            if event.new_window_state & Gdk.WindowState.MAXIMIZED:
                 log.debug("pos: %s", self.window.get_position())
                 self.config["window_maximized"] = True
-            elif not event.new_window_state & gtk.gdk.WINDOW_STATE_WITHDRAWN:
+            elif not event.new_window_state & Gdk.WindowState.WITHDRAWN:
                 self.config["window_maximized"] = False
-        if event.changed_mask & gtk.gdk.WINDOW_STATE_ICONIFIED:
-            if event.new_window_state & gtk.gdk.WINDOW_STATE_ICONIFIED:
+        if event.changed_mask & Gdk.WindowState.ICONIFIED:
+            if event.new_window_state & Gdk.WindowState.ICONIFIED:
                 log.debug("MainWindow is minimized..")
                 component.pause("TorrentView")
                 component.pause("StatusBar")
@@ -341,7 +341,7 @@ class MainWindow(component.Component):
         """
         if not wnck:
             return True
-        win = wnck.window_get(self.window.window.xid)
+        win = Wnck.window_get(self.window.window.xid)
         active_wksp = win.get_screen().get_active_workspace()
         if active_wksp:
             return win.is_on_workspace(active_wksp)

@@ -24,7 +24,7 @@ log = logging.getLogger(__name__)
 class EditTrackersDialog:
     def __init__(self, torrent_id, parent=None):
         self.torrent_id = torrent_id
-        self.builder = gtk.Builder()
+        self.builder = Gtk.Builder()
         # Main dialog
         self.builder.add_from_file(resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "edit_trackers.ui")
@@ -63,16 +63,16 @@ class EditTrackersDialog:
         })
 
         # Create a liststore for tier, url
-        self.liststore = gtk.ListStore(int, str)
+        self.liststore = Gtk.ListStore(int, str)
 
         # Create the columns
         self.treeview.append_column(
-            gtk.TreeViewColumn(_("Tier"), gtk.CellRendererText(), text=0))
+            Gtk.TreeViewColumn(_("Tier"), Gtk.CellRendererText(), text=0))
         self.treeview.append_column(
-            gtk.TreeViewColumn(_("Tracker"), gtk.CellRendererText(), text=1))
+            Gtk.TreeViewColumn(_("Tracker"), Gtk.CellRendererText(), text=1))
 
         self.treeview.set_model(self.liststore)
-        self.liststore.set_sort_column_id(0, gtk.SORT_ASCENDING)
+        self.liststore.set_sort_column_id(0, Gtk.SortType.ASCENDING)
 
         self.dialog.connect("delete-event", self._on_delete_event)
         self.dialog.connect("response", self._on_response)
@@ -93,7 +93,7 @@ class EditTrackersDialog:
         return self.deferred
 
     def _on_delete_event(self, widget, event):
-        self.deferred.callback(gtk.RESPONSE_DELETE_EVENT)
+        self.deferred.callback(Gtk.ResponseType.DELETE_EVENT)
         self.dialog.destroy()
 
     def _on_response(self, widget, response):
@@ -109,11 +109,11 @@ class EditTrackersDialog:
             if self.old_trackers != self.trackers:
                 # Set the torrens trackers
                 client.core.set_torrent_trackers(self.torrent_id, self.trackers)
-                self.deferred.callback(gtk.RESPONSE_OK)
+                self.deferred.callback(Gtk.ResponseType.OK)
             else:
-                self.deferred.callback(gtk.RESPONSE_CANCEL)
+                self.deferred.callback(Gtk.ResponseType.CANCEL)
         else:
-            self.deferred.callback(gtk.RESPONSE_CANCEL)
+            self.deferred.callback(Gtk.ResponseType.CANCEL)
         self.dialog.destroy()
 
     def _on_get_torrent_status(self, status):
@@ -224,6 +224,6 @@ class EditTrackersDialog:
     def on_button_add_cancel_clicked(self, widget):
         log.debug("on_button_add_cancel_clicked")
         # Clear the entry widget and hide the dialog
-        b = gtk.TextBuffer()
+        b = Gtk.TextBuffer()
         self.builder.get_object("textview_trackers").set_buffer(b)
         self.add_tracker_dialog.hide()
