@@ -12,7 +12,7 @@ import os
 import sys
 import warnings
 
-import gobject
+from gi.repository import GObject
 import gtk
 from twisted.internet import gtk2reactor
 from twisted.internet.error import ReactorAlreadyInstalledError

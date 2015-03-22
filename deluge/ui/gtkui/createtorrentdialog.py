@@ -11,7 +11,7 @@ import base64
 import logging
 import os.path
 
-import gobject
+from gi.repository import GObject
 import gtk
 from twisted.internet.threads import deferToThread
 

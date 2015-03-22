@@ -11,7 +11,7 @@ from __future__ import print_function
 
 import warnings
 
-import gobject
+from gi.repository import GObject
 import gtk
 
 import deluge.common as common

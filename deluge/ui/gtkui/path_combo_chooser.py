@@ -12,7 +12,7 @@ from __future__ import print_function
 
 import os
 
-import gobject
+from gi.repository import GObject
 import gtk
 from gtk import gdk, keysyms
 

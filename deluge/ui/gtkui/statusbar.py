@@ -9,7 +9,7 @@
 
 import logging
 
-import gobject
+from gi.repository import GObject
 import gtk
 
 import deluge.common
