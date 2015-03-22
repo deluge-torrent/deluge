@@ -11,7 +11,7 @@ import logging
 import os.path
 
 from gi.repository import GObject
-import gtk
+from gi.repository import Gtk
 
 import deluge.common
 import deluge.component as component

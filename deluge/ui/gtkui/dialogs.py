@@ -7,7 +7,7 @@
 # See LICENSE for more details.
 #
 
-import gtk
+from gi.repository import Gtk
 from twisted.internet import defer
 
 import deluge.component as component

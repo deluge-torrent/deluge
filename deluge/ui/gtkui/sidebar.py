@@ -10,7 +10,7 @@
 
 import logging
 
-import gtk
+from gi.repository import Gtk
 
 import deluge.component as component
 from deluge.configmanager import ConfigManager

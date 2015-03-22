@@ -7,7 +7,7 @@
 # See LICENSE for more details.
 #
 
-import gtk
+from gi.repository import Gtk
 import gi
 
 from deluge.common import get_pixmap, get_version, open_url_in_browser

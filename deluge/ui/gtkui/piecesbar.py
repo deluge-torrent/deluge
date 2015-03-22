@@ -11,7 +11,7 @@ import logging
 from math import pi
 
 import cairo
-import gtk
+from gi.repository import Gtk
 import pango
 import pangocairo
 

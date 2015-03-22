@@ -12,7 +12,7 @@ from __future__ import print_function
 import warnings
 
 from gi.repository import GObject
-import gtk
+from gi.repository import Gtk
 
 import deluge.common as common
 import deluge.component as component

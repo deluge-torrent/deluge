@@ -12,7 +12,7 @@ import logging
 import os.path
 from hashlib import sha1 as sha
 
-import gtk
+from gi.repository import Gtk
 import gi
 from twisted.internet import reactor
 from twisted.internet.error import ReactorNotRunning

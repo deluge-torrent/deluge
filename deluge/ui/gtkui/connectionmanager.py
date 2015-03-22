@@ -12,7 +12,7 @@ import logging
 import os
 import time
 
-import gtk
+from gi.repository import Gtk
 from twisted.internet import reactor
 
 import deluge.component as component

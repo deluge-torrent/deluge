@@ -12,7 +12,7 @@ import logging
 import os.path
 
 from gi.repository import GObject
-import gtk
+from gi.repository import Gtk
 from twisted.internet.threads import deferToThread
 
 import deluge.component as component

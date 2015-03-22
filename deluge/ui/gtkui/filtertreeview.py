@@ -13,7 +13,7 @@ import logging
 import os
 import warnings
 
-import gtk
+from gi.repository import Gtk
 import pango
 from GObject import GError
 

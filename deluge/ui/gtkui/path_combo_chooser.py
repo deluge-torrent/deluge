@@ -13,8 +13,8 @@ from __future__ import print_function
 import os
 
 from gi.repository import GObject
-import gtk
-from gtk import gdk, keysyms
+from gi.repository import Gtk
+from Gtk import gdk, keysyms
 
 from deluge.common import resource_filename
 from deluge.path_chooser_common import get_completion_paths

@@ -12,8 +12,8 @@ import logging
 import os.path
 
 from gi.repository import GObject
-import gtk
-import Gtk.gdk
+from gi.repository import Gtk
+from gi.repository import Gdk
 
 import deluge.component as component
 from deluge.common import FILE_PRIORITY, open_file, show_file

@@ -13,7 +13,7 @@ import os
 from urlparse import urljoin
 
 from gi.repository import GObject
-import gtk
+from gi.repository import Gtk
 import gi
 import twisted.web.client
 import twisted.web.error

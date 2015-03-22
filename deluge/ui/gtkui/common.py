@@ -15,7 +15,7 @@ import os
 import shutil
 import sys
 
-import gtk
+from gi.repository import Gtk
 import gi
 from GObject import GError
 

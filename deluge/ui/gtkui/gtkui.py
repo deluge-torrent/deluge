@@ -13,7 +13,7 @@ import sys
 import warnings
 
 from gi.repository import GObject
-import gtk
+from gi.repository import Gtk
 from twisted.internet import gtk3reactor
 from twisted.internet.error import ReactorAlreadyInstalledError
 

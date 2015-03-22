@@ -7,7 +7,7 @@
 # See LICENSE for more details.
 #
 
-import gtk
+from gi.repository import Gtk
 
 from deluge.configmanager import ConfigManager
 

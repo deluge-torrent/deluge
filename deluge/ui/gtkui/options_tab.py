@@ -7,7 +7,7 @@
 # See LICENSE for more details.
 #
 
-import Gtk.gdk
+from gi.repository import Gdk
 
 import deluge.component as component
 from deluge.ui.client import client

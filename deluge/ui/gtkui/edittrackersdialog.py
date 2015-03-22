@@ -10,7 +10,7 @@
 import logging
 import os.path
 
-import gtk
+from gi.repository import Gtk
 from twisted.internet import defer
 
 import deluge.component as component

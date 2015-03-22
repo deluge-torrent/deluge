@@ -12,7 +12,7 @@
 import logging
 
 from gi.repository import GObject
-import gtk
+from gi.repository import Gtk
 import gi
 from twisted.internet import reactor
 
