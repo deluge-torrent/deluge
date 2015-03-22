@@ -9,7 +9,7 @@
 
 import logging
 
-from gi.repository import Gtk
+from gi.repository import Gtk, GObject
 import gi
 from GObject import SIGNAL_RUN_LAST, TYPE_NONE, signal_new
 

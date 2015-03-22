@@ -15,7 +15,7 @@ import warnings
 
 from gi.repository import Gtk
 import pango
-from GObject import GError
+from gi.repository.GLib import GError
 
 import deluge.component as component
 from deluge.common import TORRENT_STATE, get_pixmap, resource_filename

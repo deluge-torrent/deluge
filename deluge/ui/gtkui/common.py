@@ -17,7 +17,7 @@ import sys
 
 from gi.repository import Gtk
 import gi
-from GObject import GError
+from gi.repository.GLib import GError
 
 import deluge.common
 
