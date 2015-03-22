@@ -14,11 +14,11 @@ import warnings
 
 from gi.repository import GObject
 import gtk
-from twisted.internet import gtk2reactor
+from twisted.internet import gtk3reactor
 from twisted.internet.error import ReactorAlreadyInstalledError
 
 try:
-    reactor = gtk2reactor.install()  # Install twisted reactor, before any other modules import reactor.
+    reactor = gtk3reactor.install()  # Install twisted reactor, before any other modules import reactor.
 except ReactorAlreadyInstalledError:
     # Running unit tests so trial already installed a rector
     pass
