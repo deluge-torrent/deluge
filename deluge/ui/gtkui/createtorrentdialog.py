@@ -11,8 +11,7 @@ import base64
 import logging
 import os.path
 
-from gi.repository import GObject
-from gi.repository import Gtk
+from gi.repository import GObject, Gtk
 from twisted.internet.threads import deferToThread
 
 import deluge.component as component

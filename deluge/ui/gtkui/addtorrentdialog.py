@@ -12,8 +12,7 @@ import logging
 import os
 from urlparse import urljoin
 
-from gi.repository import GObject
-from gi.repository import Gtk
+from gi.repository import GObject, Gtk
 import gi
 import twisted.web.client
 import twisted.web.error

@@ -11,8 +11,7 @@ from __future__ import print_function
 
 import warnings
 
-from gi.repository import GObject
-from gi.repository import Gtk
+from gi.repository import GObject, Gtk
 
 import deluge.common as common
 import deluge.component as component

@@ -11,9 +11,7 @@ import cPickle
 import logging
 import os.path
 
-from gi.repository import GObject
-from gi.repository import Gtk
-from gi.repository import Gdk
+from gi.repository import GObject, Gtk, Gdk
 
 import deluge.component as component
 from deluge.common import FILE_PRIORITY, open_file, show_file

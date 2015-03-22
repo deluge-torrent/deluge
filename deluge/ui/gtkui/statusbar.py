@@ -9,8 +9,7 @@
 
 import logging
 
-from gi.repository import GObject
-from gi.repository import Gtk
+from gi.repository import GObject, Gtk
 
 import deluge.common
 import deluge.component as component
