@@ -11,7 +11,7 @@ import cPickle
 import logging
 import os.path
 
-import gobject
+from gi.repository import GObject
 import gtk
 import Gtk.gdk
 

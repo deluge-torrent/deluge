@@ -12,7 +12,7 @@ import logging
 import os
 from urlparse import urljoin
 
-import gobject
+from gi.repository import GObject
 import gtk
 import gi
 import twisted.web.client

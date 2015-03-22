@@ -17,7 +17,7 @@ import sys
 
 import gtk
 import gi
-from gobject import GError
+from GObject import GError
 
 import deluge.common
 
