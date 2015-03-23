@@ -15,8 +15,8 @@
 import logging
 
 import gtk
-import gtk.glade
-from gtk.glade import XML
+import Gtk.glade
+from Gtk.glade import XML
 
 import deluge
 from deluge import component
@@ -32,15 +32,15 @@ log = logging.getLogger(__name__)
 
 DEFAULT_CONF = {'version': 1,
                 'colors': {
-                    'bandwidth_graph': {'upload_rate': str(gtk.gdk.Color("blue")),
-                                        'download_rate': str(gtk.gdk.Color("green")),
+                    'bandwidth_graph': {'upload_rate': str(Gdk.Color("blue")),
+                                        'download_rate': str(Gdk.Color("green")),
                                         },
-                    'connections_graph': {'dht_nodes': str(gtk.gdk.Color("orange")),
-                                          'dht_cache_nodes': str(gtk.gdk.Color("blue")),
-                                          'dht_torrents': str(gtk.gdk.Color("green")),
-                                          'num_connections': str(gtk.gdk.Color("darkred")),
+                    'connections_graph': {'dht_nodes': str(Gdk.Color("orange")),
+                                          'dht_cache_nodes': str(Gdk.Color("blue")),
+                                          'dht_torrents': str(Gdk.Color("green")),
+                                          'num_connections': str(Gdk.Color("darkred")),
                                           },
-                    'seeds_graph': {'num_peers': str(gtk.gdk.Color("blue")),
+                    'seeds_graph': {'num_peers': str(Gdk.Color("blue")),
                                     },
                 }
                 }
@@ -66,9 +66,9 @@ def int_str(number):
 
 
 def gtk_to_graph_color(color):
-    """Turns a gtk.gdk.Color into a tuple with range 0-1 as used by the graph"""
+    """Turns a Gdk.Color into a tuple with range 0-1 as used by the graph"""
     max_val = float(65535)
-    gtk_color = gtk.gdk.Color(color)
+    gtk_color = Gdk.Color(color)
     red = gtk_color.red / max_val
     green = gtk_color.green / max_val
     blue = gtk_color.blue / max_val
@@ -108,7 +108,7 @@ class GraphsTab(Tab):
 
         self.intervals = None
         self.intervals_combo = self.glade.get_widget('combo_intervals')
-        cell = gtk.CellRendererText()
+        cell = Gtk.CellRendererText()
         self.intervals_combo.pack_start(cell, True)
         self.intervals_combo.set_cell_data_func(cell, neat_time)
         self.intervals_combo.connect("changed", self._on_selected_interval_changed)
@@ -180,7 +180,7 @@ class GraphsTab(Tab):
                                       self.notebook.get_current_page())
 
     def _on_intervals_changed(self, intervals):
-        liststore = gtk.ListStore(int)
+        liststore = Gtk.ListStore(int)
         for inter in intervals:
             liststore.append([inter])
         self.intervals_combo.set_model(liststore)
@@ -254,7 +254,7 @@ class GtkUI(GtkPluginBase):
             for value, color in colors.items():
                 try:
                     color_btn = self.glade.get_widget("%s_%s_color" % (graph, value))
-                    color_btn.set_color(gtk.gdk.Color(color))
+                    color_btn.set_color(Gdk.Color(color))
                 except:
                     log.debug("Unable to set %s %s %s" % (graph, value, color))
         client.stats.get_config().addCallback(self.cb_get_config)

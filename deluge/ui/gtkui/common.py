@@ -15,13 +15,14 @@ import os
 import shutil
 import sys
 
-import gtk
-import pygtk
-from gobject import GError
+from gi.repository import Gtk
+import gi
+from gi.repository.GLib import GError
+from gi.repository.GdkPixbuf import Pixbuf
 
 import deluge.common
 
-pygtk.require('2.0')
+gi.require_version('Gtk', '3.0')
 
 
 log = logging.getLogger(__name__)
@@ -34,13 +35,13 @@ def get_logo(size):
         size (int): Size of logo in pixels
 
     Returns:
-        gtk.gdk.Pixbuf: deluge logo
+        GdkPixbuf.Pixbuf: deluge logo
     """
     filename = "deluge.svg"
     if deluge.common.windows_check() or deluge.common.osx_check():
         filename = "deluge.png"
     try:
-        return gtk.gdk.pixbuf_new_from_file_at_size(deluge.common.get_pixmap(filename), size, size)
+        return Pixbuf.new_from_file_at_size(deluge.common.get_pixmap(filename), size, size)
     except GError as ex:
         log.warning(ex)
 
@@ -62,9 +63,9 @@ def build_menu_radio_list(value_list, callback, pref_value=None, suffix=None, sh
     The pref_value is what you would like to test for the default active radio item.
 
     Returns:
-        gtk.Menu: The menu radio
+        Gtk.Menu: The menu radio
     """
-    menu = gtk.Menu()
+    menu = Gtk.Menu()
     group = None
 
     if pref_value > -1 and pref_value not in value_list:
@@ -75,7 +76,7 @@ def build_menu_radio_list(value_list, callback, pref_value=None, suffix=None, sh
         item_text = str(value)
         if suffix:
             item_text += " " + suffix
-        menuitem = gtk.RadioMenuItem(group, item_text)
+        menuitem = Gtk.RadioMenuItem(group, item_text)
         group = menuitem
         if pref_value and value == pref_value:
             menuitem.set_active(True)
@@ -84,7 +85,7 @@ def build_menu_radio_list(value_list, callback, pref_value=None, suffix=None, sh
         menu.append(menuitem)
 
     if show_notset:
-        menuitem = gtk.RadioMenuItem(group, notset_label)
+        menuitem = Gtk.RadioMenuItem(group, notset_label)
         menuitem.set_name("unlimited")
         if pref_value and pref_value < notset_lessthan:
             menuitem.set_active(True)
@@ -92,9 +93,9 @@ def build_menu_radio_list(value_list, callback, pref_value=None, suffix=None, sh
         menu.append(menuitem)
 
     if show_other:
-        menuitem = gtk.SeparatorMenuItem()
+        menuitem = Gtk.SeparatorMenuItem()
         menu.append(menuitem)
-        menuitem = gtk.MenuItem(_("Other..."))
+        menuitem = Gtk.MenuItem(_("Other..."))
         menuitem.set_name("other")
         menuitem.connect("activate", callback)
         menu.append(menuitem)
@@ -138,13 +139,13 @@ def get_deluge_icon():
     that is distributed with the package.
 
     Returns:
-        gtk.gdk.Pixbuf: the deluge icon
+        GdkPixbuf.Pixbuf: the deluge icon
     """
     if deluge.common.windows_check():
         return get_logo(32)
     else:
         try:
-            icon_theme = gtk.icon_theme_get_default()
+            icon_theme = Gtk.IconTheme.get_default()
             return icon_theme.load_icon("deluge", 64, 0)
         except GError:
             return get_logo(64)
@@ -196,7 +197,7 @@ def associate_magnet_links(overwrite=False):
             return False
         else:
             key = "/desktop/gnome/url-handlers/magnet/command"
-            gconf_client = gconf.client_get_default()
+            gconf_client = GConf.Client.get_default()
             if (gconf_client.get(key) and overwrite) or not gconf_client.get(key):
                 # We are either going to overwrite the key, or do it if it hasn't been set yet
                 if gconf_client.set_string(key, "deluge '%s'"):
@@ -277,7 +278,7 @@ def listview_replace_treestore(listview):
     Params:
         listview: a listview backed by a treestore
     """
-    # From http://faq.pygtk.org/index.py?req=show&file=faq13.043.htp
+    # From http://faq.pyGtk.org/index.py?req=show&file=faq13.043.htp
     # "tips for improving performance when adding many rows to a Treeview"
     listview.freeze_child_notify()
     treestore = listview.get_model()
@@ -285,7 +286,7 @@ def listview_replace_treestore(listview):
     treestore.clear()
     treestore.set_default_sort_func(lambda *args: 0)
     original_sort = treestore.get_sort_column_id()
-    treestore.set_sort_column_id(-1, gtk.SORT_ASCENDING)
+    treestore.set_sort_column_id(-1, Gtk.SortType.ASCENDING)
 
     yield
 

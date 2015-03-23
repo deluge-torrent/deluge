@@ -14,7 +14,7 @@
 import logging
 
 import gtk
-import gtk.glade
+import Gtk.glade
 
 import deluge.component as component
 from deluge.plugins.pluginbase import GtkPluginBase
@@ -27,7 +27,7 @@ log = logging.getLogger(__name__)
 
 class GtkUI(GtkPluginBase):
     def enable(self):
-        self.glade = gtk.glade.XML(get_resource("config.glade"))
+        self.glade = Gtk.glade.XML(get_resource("config.glade"))
 
         component.get("Preferences").add_page(_("WebUi"), self.glade.get_widget("prefs_box"))
         component.get("PluginManager").register_hook("on_apply_prefs", self.on_apply_prefs)
@@ -68,16 +68,16 @@ class GtkUI(GtkPluginBase):
 
         vbox = self.glade.get_widget("prefs_box")
 
-        hbox = gtk.HBox()
-        icon = gtk.image_new_from_stock(gtk.STOCK_DIALOG_ERROR, gtk.ICON_SIZE_SMALL_TOOLBAR)
+        hbox = Gtk.HBox()
+        icon = Gtk.Image.new_from_stock(Gtk.STOCK_DIALOG_ERROR, Gtk.IconSize.SMALL_TOOLBAR)
         icon.set_padding(5, 5)
         hbox.pack_start(icon, False, False)
 
-        label = gtk.Label(_("The Deluge web interface is not installed, "
+        label = Gtk.Label(_("The Deluge web interface is not installed, "
                             "please install the\ninterface and try again"))
         label.set_alignment(0, 0.5)
         label.set_padding(5, 5)
-        hbox.pack_start(label)
+        hbox.pack_start(label, True, True, 0)
 
         vbox.pack_start(hbox, False, False, 10)
         vbox.reorder_child(hbox, 0)

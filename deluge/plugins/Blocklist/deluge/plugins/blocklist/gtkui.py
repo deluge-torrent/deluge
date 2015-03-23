@@ -11,7 +11,7 @@ import logging
 from datetime import datetime
 
 import gtk
-import gtk.glade
+import Gtk.glade
 
 import deluge.common
 import deluge.component as component
@@ -141,7 +141,7 @@ class GtkUI(GtkPluginBase):
     def load_preferences_page(self):
         """Initializes the preferences page and adds it to the preferences dialog"""
         # Load the preferences page
-        self.glade = gtk.glade.XML(common.get_resource("blocklist_pref.glade"))
+        self.glade = Gtk.glade.XML(common.get_resource("blocklist_pref.glade"))
 
         self.whitelist_frame = self.glade.get_widget("whitelist_frame")
         self.progress_bar = self.glade.get_widget("progressbar")
@@ -184,12 +184,12 @@ class GtkUI(GtkPluginBase):
         treeview_selection.connect(
             "changed", self.on_whitelist_treeview_selection_changed
         )
-        self.whitelist_model = gtk.ListStore(str, bool)
-        renderer = gtk.CellRendererText()
+        self.whitelist_model = Gtk.ListStore(str, bool)
+        renderer = Gtk.CellRendererText()
         renderer.connect("edited", self.on_cell_edited, self.whitelist_model)
         renderer.set_data("ip", 0)
 
-        column = gtk.TreeViewColumn("IPs", renderer, text=0, editable=1)
+        column = Gtk.TreeViewColumn("IPs", renderer, text=0, editable=1)
         column.set_expand(True)
         self.whitelist_treeview.append_column(column)
         self.whitelist_treeview.set_model(self.whitelist_model)

@@ -134,7 +134,7 @@ class IPCInterface(component.Component):
                 if self.factory.stop:
                     log.info("Success sending arguments to running Deluge.")
                     import gtk
-                    gtk.gdk.notify_startup_complete()
+                    Gdk.notify_startup_complete()
                     sys.exit(0)
                 else:
                     if restart_tempfile:

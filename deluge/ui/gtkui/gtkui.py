@@ -12,13 +12,12 @@ import os
 import sys
 import warnings
 
-import gobject
-import gtk
-from twisted.internet import gtk2reactor
+from gi.repository import GObject, Gtk, Gdk
+from twisted.internet import gtk3reactor
 from twisted.internet.error import ReactorAlreadyInstalledError
 
 try:
-    reactor = gtk2reactor.install()  # Install twisted reactor, before any other modules import reactor.
+    reactor = gtk3reactor.install()  # Install twisted reactor, before any other modules import reactor.
 except ReactorAlreadyInstalledError:
     # Running unit tests so trial already installed a rector
     pass
@@ -49,7 +48,7 @@ from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.ui import _UI
 
 
-gobject.set_prgname("deluge")
+GObject.set_prgname("deluge")
 
 log = logging.getLogger(__name__)
 
@@ -176,7 +175,7 @@ class GtkUI(object):
                     return 1
             SetConsoleCtrlHandler(win_handler)
 
-        if deluge.common.osx_check() and gtk.gdk.WINDOWING == "quartz":
+        if deluge.common.osx_check() and Gdk.WINDOWING == "quartz":
             import gtkosx_application
             self.osxapp = gtkosx_application.gtkosx_application_get()
 
@@ -212,7 +211,7 @@ class GtkUI(object):
         self.ipcinterface = IPCInterface(args)
 
         # Initialize gdk threading
-        gtk.gdk.threads_init()
+        Gdk.threads_init()
 
         # We make sure that the UI components start once we get a core URI
         client.set_disconnect_callback(self.__on_disconnect)
@@ -232,7 +231,7 @@ class GtkUI(object):
         self.statusbar = StatusBar()
         self.addtorrentdialog = AddTorrentDialog()
 
-        if deluge.common.osx_check() and gtk.gdk.WINDOWING == "quartz":
+        if deluge.common.osx_check() and Gdk.WINDOWING == "quartz":
             def nsapp_open_file(osxapp, filename):
                 # Will be raised at app launch (python opening main script)
                 if filename.endswith('Deluge-bin'):
@@ -259,10 +258,10 @@ class GtkUI(object):
         reactor.callWhenRunning(self._on_reactor_start)
 
         # Initialize gdk threading
-        gtk.gdk.threads_enter()
+        Gdk.threads_enter()
         reactor.run()
         self.shutdown()
-        gtk.gdk.threads_leave()
+        Gdk.threads_leave()
 
     def shutdown(self, *args, **kwargs):
         log.debug("gtkui shutting down..")
@@ -270,8 +269,8 @@ class GtkUI(object):
         component.stop()
 
         # Process any pending gtk events since the mainloop has been quit
-        while gtk.events_pending():
-            gtk.main_iteration(0)
+        while Gtk.events_pending():
+            Gtk.main_iteration(0)
 
         # Shutdown all components
         component.shutdown()
@@ -304,7 +303,7 @@ class GtkUI(object):
 
         if self.config["classic_mode"]:
             def on_dialog_response(response):
-                if response != gtk.RESPONSE_YES:
+                if response != Gtk.ResponseType.YES:
                     # The user does not want to turn Standalone Mode off, so just quit
                     self.mainwindow.quit()
                     return
@@ -409,7 +408,7 @@ class GtkUI(object):
                                 dialog = AuthenticationDialog(reason.value.message, reason.value.username)
 
                                 def dialog_finished(response_id, host, port):
-                                    if response_id == gtk.RESPONSE_OK:
+                                    if response_id == Gtk.ResponseType.OK:
                                         reactor.callLater(
                                             0.5, do_connect, try_counter - 1,
                                             host, port, dialog.get_username(),

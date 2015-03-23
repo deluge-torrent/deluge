@@ -19,7 +19,7 @@ if python_path.endswith("Scripts"):
 python_path += os.path.sep
 
 print "Python Path: %s" % python_path
-gtk_root = os.path.join(gtk.__path__[0], "..\\runtime\\")
+gtk_root = os.path.join(Gtk.__path__[0], "..\\runtime\\")
 
 # Include python modules not picked up automatically by bbfreeze
 includes = ("libtorrent", "cairo", "pangocairo", "atk", "pango", "twisted.internet.utils",

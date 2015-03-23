@@ -10,7 +10,7 @@
 
 import logging
 
-import gtk
+from gi.repository import Gtk
 
 import deluge.component as component
 from deluge.configmanager import ConfigManager
@@ -59,10 +59,10 @@ class SideBar(component.Component):
         """Adds a tab object to the notebook."""
         log.debug("add tab: %s", tab_name)
         self.tabs[tab_name] = widget
-        scrolled = gtk.ScrolledWindow()
-        scrolled.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+        scrolled = Gtk.ScrolledWindow()
+        scrolled.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
         scrolled.add(widget)
-        self.notebook.insert_page(scrolled, gtk.Label(label), -1)
+        self.notebook.insert_page(scrolled, Gtk.Label(label=label), -1)
         scrolled.show_all()
 
         self.after_update()

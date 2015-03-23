@@ -11,7 +11,7 @@
 import logging
 
 import gtk
-import gtk.glade
+import Gtk.glade
 
 import deluge.component as component
 from deluge.ui.client import client
@@ -39,12 +39,12 @@ class LabelSidebarMenu(object):
         self.items = []
 
         # add items, in reverse order, because they are prepended.
-        sep = gtk.SeparatorMenuItem()
+        sep = Gtk.SeparatorMenuItem()
         self.items.append(sep)
         self.menu.prepend(sep)
-        self._add_item("options", _("Label _Options"), gtk.STOCK_PREFERENCES)
-        self._add_item("remove", _("_Remove Label"), gtk.STOCK_REMOVE)
-        self._add_item("add", _("_Add Label"), gtk.STOCK_ADD)
+        self._add_item("options", _("Label _Options"), Gtk.STOCK_PREFERENCES)
+        self._add_item("remove", _("_Remove Label"), Gtk.STOCK_REMOVE)
+        self._add_item("add", _("_Add Label"), Gtk.STOCK_ADD)
 
         self.menu.show_all()
         # dialogs:
@@ -58,7 +58,7 @@ class LabelSidebarMenu(object):
         id is automatically-added as self.item_<id>
         """
         func = getattr(self, "on_%s" % id)
-        item = gtk.ImageMenuItem(stock)
+        item = Gtk.ImageMenuItem(stock)
         item.get_children()[0].set_label(label)
         item.connect("activate", func)
         self.menu.prepend(item)
@@ -112,7 +112,7 @@ class AddDialog(object):
         pass
 
     def show(self):
-        self.glade = gtk.glade.XML(get_resource("label_options.glade"))
+        self.glade = Gtk.glade.XML(get_resource("label_options.glade"))
         self.dialog = self.glade.get_widget("dlg_label_add")
         self.dialog.set_transient_for(component.get("MainWindow").window)
 
@@ -152,7 +152,7 @@ class OptionsDialog(object):
 
     def show(self, label):
         self.label = label
-        self.glade = gtk.glade.XML(get_resource("label_options.glade"))
+        self.glade = Gtk.glade.XML(get_resource("label_options.glade"))
         self.dialog = self.glade.get_widget("dlg_label_options")
         self.dialog.set_transient_for(component.get("MainWindow").window)
         self.glade.signal_autoconnect({
@@ -208,7 +208,7 @@ class OptionsDialog(object):
         else:
             options["move_completed_path"] = self.glade.get_widget("move_completed_path_entry").get_text()
 
-        buff = self.glade.get_widget("auto_add_trackers").get_buffer()  # sometimes I hate gtk...
+        buff = self.glade.get_widget("auto_add_trackers").get_buffer()  # sometimes I hate Gtk...
         tracker_lst = buff.get_text(buff.get_start_iter(), buff.get_end_iter()).strip().split("\n")
         options["auto_add_trackers"] = [x for x in tracker_lst if x]  # filter out empty lines.
 

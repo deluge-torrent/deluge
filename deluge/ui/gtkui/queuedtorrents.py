@@ -10,8 +10,7 @@
 import logging
 import os.path
 
-import gobject
-import gtk
+from gi.repository import GObject, Gtk
 
 import deluge.common
 import deluge.component as component
@@ -29,7 +28,7 @@ class QueuedTorrents(component.Component):
         self.status_item = None
 
         self.config = ConfigManager("gtkui.conf")
-        self.builder = gtk.Builder()
+        self.builder = Gtk.Builder()
         self.builder.add_from_file(deluge.common.resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "queuedtorrents.ui"))
         )
@@ -47,9 +46,9 @@ class QueuedTorrents(component.Component):
 
         self.treeview = self.builder.get_object("treeview")
         self.treeview.append_column(
-            gtk.TreeViewColumn(_("Torrent"), gtk.CellRendererText(), text=0))
+            Gtk.TreeViewColumn(_("Torrent"), Gtk.CellRendererText(), text=0))
 
-        self.liststore = gtk.ListStore(str, str)
+        self.liststore = Gtk.ListStore(str, str)
         self.treeview.set_model(self.liststore)
 
     def run(self):
@@ -103,7 +102,7 @@ class QueuedTorrents(component.Component):
         except Exception:
             # The statusbar hasn't been loaded yet, so we'll add a timer to
             # update it later.
-            gobject.timeout_add(100, self.update_status_bar)
+            GObject.timeout_add(100, self.update_status_bar)
             return False
 
         # Set the label text for statusbar
@@ -116,7 +115,7 @@ class QueuedTorrents(component.Component):
         # have already been added.
         if self.status_item is None:
             self.status_item = component.get("StatusBar").add_item(
-                stock=gtk.STOCK_SORT_DESCENDING,
+                stock=Gtk.STOCK_SORT_DESCENDING,
                 text=label,
                 callback=self.on_statusbar_click)
         else:

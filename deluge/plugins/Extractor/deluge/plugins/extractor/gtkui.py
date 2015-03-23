@@ -14,7 +14,7 @@
 import logging
 
 import gtk
-import gtk.glade
+import Gtk.glade
 
 import deluge.component as component
 from .common import get_resource
@@ -26,7 +26,7 @@ log = logging.getLogger(__name__)
 
 class GtkUI(GtkPluginBase):
     def enable(self):
-        self.glade = gtk.glade.XML(get_resource("extractor_prefs.glade"))
+        self.glade = Gtk.glade.XML(get_resource("extractor_prefs.glade"))
 
         component.get("Preferences").add_page(_("Extractor"), self.glade.get_widget("extractor_prefs_box"))
         component.get("PluginManager").register_hook("on_apply_prefs", self.on_apply_prefs)
