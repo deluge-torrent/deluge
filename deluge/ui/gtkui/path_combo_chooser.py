@@ -683,7 +683,7 @@ class PathChooserPopup(object):
         # Also if the intersection of self and the event is empty, hide
         # the path_list
         if (tuple(self.popup_window.allocation.intersect(
-                (x=int(event.x), y=int(event.y),
+                gdk.Rectangle(x=int(event.x), y=int(event.y),
                               width=1, height=1))) == (0, 0, 0, 0)):
             hide = True
         # Toplevel is the window that received the event, and parent is the
