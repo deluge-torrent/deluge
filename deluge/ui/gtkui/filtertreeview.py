@@ -13,8 +13,7 @@ import logging
 import os
 import warnings
 
-from gi.repository import Gtk
-import pango
+from gi.repository import Gtk, Gdk, cairo, Pango, PangoCairo
 from gi.repository.GLib import GError
 
 import deluge.component as component
