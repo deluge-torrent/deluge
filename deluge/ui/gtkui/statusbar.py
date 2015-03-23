@@ -207,13 +207,13 @@ class StatusBar(component.Component):
 
     def show_not_connected(self):
         self.hbox.pack_start(
-            self.not_connected_item.get_eventbox(, True, True, 0), expand=False, fill=False)
+            self.not_connected_item.get_eventbox(True, True, 0), expand=False, fill=False)
 
     def add_item(self, image=None, stock=None, text=None, callback=None, tooltip=None):
         """Adds an item to the status bar"""
         # The return tuple.. we return whatever widgets we add
         item = StatusBarItem(image, stock, text, callback, tooltip)
-        self.hbox.pack_start(item.get_eventbox(, True, True, 0), expand=False, fill=False)
+        self.hbox.pack_start(item.get_eventbox(True, True, 0), expand=False, fill=False)
         return item
 
     def remove_item(self, item):
@@ -276,7 +276,7 @@ class StatusBar(component.Component):
         self.dht_status = value
         if value:
             self.hbox.pack_start(
-                self.dht_item.get_eventbox(, True, True, 0), expand=False, fill=False)
+                self.dht_item.get_eventbox(True, True, 0), expand=False, fill=False)
             self.send_status_request()
         else:
             self.remove_item(self.dht_item)
