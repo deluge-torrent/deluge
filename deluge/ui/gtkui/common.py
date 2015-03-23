@@ -18,6 +18,7 @@ import sys
 from gi.repository import Gtk
 import gi
 from gi.repository.GLib import GError
+from gi.repository.GdkPixbuf import Pixbuf
 
 import deluge.common
 
@@ -40,7 +41,7 @@ def get_logo(size):
     if deluge.common.windows_check() or deluge.common.osx_check():
         filename = "deluge.png"
     try:
-        return GdkPixbuf.Pixbuf.new_from_file_at_size(deluge.common.get_pixmap(filename), size, size)
+        return Pixbuf.new_from_file_at_size(deluge.common.get_pixmap(filename), size, size)
     except GError as ex:
         log.warning(ex)
 
