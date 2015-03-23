@@ -9,9 +9,9 @@
 
 import logging
 
-from gi.repository import Gtk, GObject
+from gi.repository import Gtk, GObject, Gdk
 import gi
-from GObject import SIGNAL_RUN_LAST, TYPE_NONE, signal_new
+from gi.repository.GObject import SIGNAL_RUN_LAST, TYPE_NONE, signal_new
 
 from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_file
 
