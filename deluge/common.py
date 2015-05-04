@@ -217,7 +217,7 @@ def show_file(path, timestamp=None):
 
     """
     if windows_check():
-        subprocess.Popen(["explorer", "/select,", path])
+        subprocess.Popen(["explorer", "/select, \"", path, "\""])
     elif osx_check():
         subprocess.Popen(["open", "-R", path])
     else:
