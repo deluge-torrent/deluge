@@ -1,5 +1,3 @@
-/win32/ export-ignore
-/osx/ export-ignore
 docs/build/ export-ignore
 docs/source/ export-ignore
 /tests/ export-ignore
@@ -9,9 +7,7 @@ generate_pot.py export-ignore
 gen_web_gettext.py export-ignore
 deluge/ui/web/css/*-debug.css export-ignore
 deluge/ui/web/js/*-debug.js export-ignore
-deluge/ui/web/js/deluge-all/ export-ignore
 deluge/ui/web/js/extjs/ext-extensions/ export-ignore
-deluge/ui/web/build export-ignore
 deluge/ui/web/docs/ export-ignore
 
 .gitattributes export-ignore
