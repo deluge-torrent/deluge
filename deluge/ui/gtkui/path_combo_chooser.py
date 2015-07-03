@@ -18,6 +18,12 @@ from deluge.path_chooser_common import get_completion_paths
 # from gi.overrides import keysyms
 from gi.repository import Gdk, GObject, Gtk
 
+try:
+    # Import only on X11
+    from gi.repository import GdkX11
+except:
+    pass
+
 warnings.filterwarnings('ignore')
 
 
@@ -215,7 +221,7 @@ class ValueList(object):
         if event.button != 3:
             # Double clicked a row, set this as the entry value
             # and close the popup
-            if (double_click and event.type == Gdk._2BUTTON_PRESS) or\
+            if (double_click and event.type == Gdk.EventType._2BUTTON_PRESS) or\
                     (not double_click and event.type == Gdk.EventType.BUTTON_PRESS):
                 path = self.get_selection_path()
                 if path:
@@ -351,7 +357,7 @@ class StoredValuesList(ValueList):
         """
         self.rendererText.set_property('editable', True)
         self.treeview.grab_focus()
-        self.treeview.set_cursor(path, focus_column=column, start_editing=True)
+        self.treeview.set_cursor(path, column=column, start_editing=True)
 
     def on_treeview_mouse_button_press_event(self, treeview, event):
         """
@@ -562,21 +568,21 @@ class PathChooserPopup(object):
         self.treeview.realize()
 
         # We start with the coordinates of the parent window
-        x, y = self.path_entry.window.get_origin()
+        z, x, y = self.path_entry.get_window().get_origin()
 
         # Add the position of the alignment_widget relative to the parent window.
-        x += self.alignment_widget.allocation.x
-        y += self.alignment_widget.allocation.y
+        x += self.alignment_widget.get_allocation().x
+        y += self.alignment_widget.get_allocation().y
 
         height_extra = 8
         buttonbox_width = 0
-        height = self.popup_window.size_request()[1]
-        width = self.popup_window.size_request()[0]
+        height = self.popup_window.size_request().height
+        width = self.popup_window.size_request().width
 
         if self.popup_buttonbox:
-            buttonbox_height = max(self.popup_buttonbox.size_request()[1], self.popup_buttonbox.allocation.height)
-            buttonbox_width = max(self.popup_buttonbox.size_request()[0], self.popup_buttonbox.allocation.width)
-            treeview_width = self.treeview.size_request()[0]
+            buttonbox_height = max(self.popup_buttonbox.size_request().height, self.popup_buttonbox.get_allocation().height)
+            buttonbox_width = max(self.popup_buttonbox.size_request().width, self.popup_buttonbox.get_allocation().width)
+            treeview_width = self.treeview.size_request().width
             # After removing an element from the tree store, self.treeview.size_request()[0]
             # returns -1 for some reason, so the requested width cannot be used until the treeview
             # has been displayed once.
@@ -587,16 +593,16 @@ class PathChooserPopup(object):
             elif len(self.tree_store) == 0:
                 width = 0
 
-        if width < self.alignment_widget.allocation.width:
-            width = self.alignment_widget.allocation.width
+        if width < self.alignment_widget.get_allocation().width:
+            width = self.alignment_widget.get_allocation().width
 
         # 10 is extra spacing
-        content_width = self.treeview.size_request()[0] + buttonbox_width + 10
+        content_width = self.treeview.size_request().width + buttonbox_width + 10
 
         # Adjust height according to number of list items
         if len(self.tree_store) > 0 and self.max_visible_rows > 0:
             # The height for one row in the list
-            self.row_height = self.treeview.size_request()[1] / len(self.tree_store)
+            self.row_height = self.treeview.size_request().height / len(self.tree_store)
             # Set height to number of rows
             height = len(self.tree_store) * self.row_height + height_extra
             # Adjust the height according to the max number of rows
@@ -617,7 +623,7 @@ class PathChooserPopup(object):
             width = content_width
 
         screen = self.path_entry.get_screen()
-        monitor_num = screen.get_monitor_at_window(self.path_entry.window)
+        monitor_num = screen.get_monitor_at_window(self.path_entry.get_window())
         monitor = screen.get_monitor_geometry(monitor_num)
 
         if x < monitor.x:
@@ -626,14 +632,14 @@ class PathChooserPopup(object):
             x = monitor.x + monitor.width - width
 
         # Set the position
-        if y + self.path_entry.allocation.height + height <= monitor.y + monitor.height:
-            y += self.path_entry.allocation.height
+        if y + self.path_entry.get_allocation().height + height <= monitor.y + monitor.height:
+            y += self.path_entry.get_allocation().height
         # Not enough space downwards on the screen
         elif y - height >= monitor.y:
             y -= height
-        elif (monitor.y + monitor.height - (y + self.path_entry.allocation.height) >
+        elif (monitor.y + monitor.height - (y + self.path_entry.get_allocation().height) >
               y - monitor.y):
-            y += self.path_entry.allocation.height
+            y += self.path_entry.get_allocation().height
             height = monitor.y + monitor.height - y
         else:
             height = y - monitor.y
@@ -643,15 +649,15 @@ class PathChooserPopup(object):
 
     def popup_grab_window(self):
         activate_time = 0
-        if Gdk.pointer_grab(self.popup_window.window, True,
+        if Gdk.pointer_grab(self.popup_window.get_window(), True,
                             (Gdk.EventMask.BUTTON_PRESS_MASK |
                              Gdk.EventMask.BUTTON_RELEASE_MASK |
                              Gdk.EventMask.POINTER_MOTION_MASK),
                             None, None, activate_time) == 0:
-            if Gdk.keyboard_grab(self.popup_window.window, True, activate_time) == 0:
+            if Gdk.keyboard_grab(self.popup_window.get_window(), True, activate_time) == 0:
                 return True
             else:
-                self.popup_window.window.get_display().pointer_ungrab(activate_time)
+                self.popup_window.get_window().get_display().pointer_ungrab(activate_time)
                 return False
         return False
 
@@ -680,24 +686,12 @@ class PathChooserPopup(object):
 #################
 
     def on_popup_window_button_press_event(self, window, event):
-        # If we're clicking outside of the window close the popup
         hide = False
-        # Also if the intersection of self and the event is empty, hide
-        # the path_list
-        if (tuple(self.popup_window.allocation.intersect(
-                Gdk.Rectangle(x=int(event.x), y=int(event.y),
-                              width=1, height=1))) == (0, 0, 0, 0)):
-            hide = True
-        # Toplevel is the window that received the event, and parent is the
-        # path_list window. If they are not the same, means the popup should
-        # be hidden. This is necessary for when the event happens on another
-        # widget
-        toplevel = event.window.get_toplevel()
-        parent = self.popup_window.window
+        # If we're clicking outside of the window close the popup
+        allocation = self.popup_window.get_allocation()
 
-        if toplevel != parent:
-            hide = True
-        if hide:
+        if ((event.x < allocation.x or event.x > allocation.width) or
+            (event.y < allocation.y or event.y > allocation.height)):
             self.popdown()
 
 
@@ -751,7 +745,8 @@ class StoredValuesPopup(StoredValuesList, PathChooserPopup):
         PathChooserPopup.popup(self)
         self.popup_window.grab_focus()
 
-        if not (self.treeview.flags() & Gtk.HAS_FOCUS):
+        print("HELLO")
+        if not (self.treeview.has_focus()):
             self.treeview.grab_focus()
         if not self.popup_grab_window():
             self.popup_window.hide()
@@ -874,7 +869,7 @@ class PathCompletionPopup(CompletionList, PathChooserPopup):
         PathChooserPopup.popup(self)
         self.popup_window.grab_focus()
 
-        if not (self.treeview.flags() & Gtk.HAS_FOCUS):
+        if not (self.treeview.has_focus()):
             self.treeview.grab_focus()
 
         if not self.popup_grab_window():
@@ -972,10 +967,23 @@ class PathAutoCompleter(object):
             else:
                 self.completion_popup.handle_list_scroll(next=True)
             return True
-        self.path_entry.text_entry.emit("key-press-event", event)
+        # Buggy stuff (in pygobject?) causing type mismatch between EventKey and GdkEvent. Convert manually...
+        n = Gdk.Event()
+        n.type = event.type
+        n.window = event.window
+        n.send_event = event.send_event
+        n.time = event.time
+        n.state = event.state
+        n.keyval = event.keyval
+        n.length = event.length
+        n.string = event.string
+        n.hardware_keycode = event.hardware_keycode
+        n.group = event.group
+        n.is_modifier = event.is_modifier
+        self.path_entry.text_entry.emit("key-press-event", n)
 
     def is_auto_completion_accelerator(self, keyval, state):
-        return Gtk.accelerator_name(keyval, state.numerator) == self.accelerator_string
+        return Gtk.accelerator_name(keyval, state) == self.accelerator_string
 
     def do_completion(self, value=None, forward_completion=True):
         if not value:
@@ -1027,9 +1035,7 @@ class PathChooserComboBox(Gtk.HBox, StoredValuesPopup, GObject.GObject):
     }
 
     def __init__(self, max_visible_rows=20, auto_complete=True, use_completer_popup=True):
-        Gtk.HBox.__init__(self)
-        # gobject.GObject.__init__(self)
-        # GObject.GObject.__init__(self)
+        Gtk.Box.__init__(self)
         GObject.GObject.__init__(self)
         self._stored_values_popping_down = False
         self.filechooser_visible = True
@@ -1052,9 +1058,13 @@ class PathChooserComboBox(Gtk.HBox, StoredValuesPopup, GObject.GObject):
         self.folder_name_label = self.builder.get_object("folder_name_label")
         self.default_text = None
         self.button_properties = self.builder.get_object("button_properties")
+
+        self.window = self.builder.get_object("combobox_window")
         self.combo_hbox = self.builder.get_object("entry_combobox_hbox")
         # Change the parent of the hbox from the glade Window to this hbox.
-        self.combo_hbox.reparent(self)
+        self.window.remove(self.combo_hbox)
+        self.window = self.get_window()
+        self.add(self.combo_hbox)
         StoredValuesPopup.__init__(self, self.builder, self, max_visible_rows, self.combo_hbox)
         self.tooltips = Gtk.Tooltip()
         self.auto_completer = PathAutoCompleter(self.builder, self, max_visible_rows)
@@ -1091,7 +1101,6 @@ class PathChooserComboBox(Gtk.HBox, StoredValuesPopup, GObject.GObject):
         old_text = self.text_entry.get_text()
         # We must block the "delete-text" signal to avoid the signal handler being called
         self.text_entry.handler_block_by_func(self.auto_completer.on_entry_text_delete_text)
-        # print("set_text:", text)
         self.text_entry.set_text(text)
         self.text_entry.handler_unblock_by_func(self.auto_completer.on_entry_text_delete_text)
 
@@ -1303,6 +1312,7 @@ class PathChooserComboBox(Gtk.HBox, StoredValuesPopup, GObject.GObject):
         Return True whenever we want no other event listeners to be called.
 
         """
+        print("on_entry_text_key_press_event Errors follow here when pressing ALT key while popup is visible")
         keyval = event.keyval
         state = event.get_state() & Gtk.accelerator_get_default_mod_mask()
         ctrl = event.get_state() & Gdk.ModifierType.CONTROL_MASK
@@ -1498,6 +1508,8 @@ class PathChooserComboBox(Gtk.HBox, StoredValuesPopup, GObject.GObject):
 GObject.type_register(PathChooserComboBox)
 
 if __name__ == "__main__":
+    import signal
+    signal.signal(signal.SIGINT, signal.SIG_DFL) # necessary to exit with CTRL-C (https://bugzilla.gnome.org/show_bug.cgi?id=622084)
     import sys
     w = Gtk.Window()
     w.set_position(Gtk.WindowPosition.CENTER)
