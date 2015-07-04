@@ -70,9 +70,7 @@ class MainWindow(component.Component):
         # in order not to have to monkey patch GtkBuilder. Those parts would then need to
         # be added to the main window "by hand".
 
-        # self.main_builder.prev_connect_signals = copy.deepcopy(self.main_builder.connect_signals)
         self.main_builder.prev_connect_signals = self.main_builder.connect_signals
-        # TOFIX
 
         def patched_connect_signals(*a, **k):
             raise RuntimeError("In order to connect signals to this GtkBuilder instance please use "
