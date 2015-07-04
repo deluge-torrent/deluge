@@ -13,14 +13,12 @@ import logging
 import os
 import warnings
 
-import gtk
-import pango
-from gobject import GError
-
 import deluge.component as component
 from deluge.common import TORRENT_STATE, get_pixmap, resource_filename
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
+from gi.repository import GdkPixbuf, Gtk, Pango
+from gi.repository.GLib import GError
 
 log = logging.getLogger(__name__)
 
@@ -54,7 +52,7 @@ class FilterTreeView(component.Component):
         self.tracker_icons = component.get("TrackerIcons")
 
         self.sidebar = component.get("SideBar")
-        self.treeview = gtk.TreeView()
+        self.treeview = Gtk.TreeView()
         self.sidebar.add_tab(self.treeview, "filters", "Filters")
 
         # set filter to all when hidden:
@@ -62,25 +60,27 @@ class FilterTreeView(component.Component):
 
         # Create the treestore
         # cat, value, label, count, pixmap, visible
-        self.treestore = gtk.TreeStore(str, str, str, int, gtk.gdk.Pixbuf, bool)
+        self.treestore = Gtk.TreeStore(str, str, str, int, GdkPixbuf.Pixbuf, bool)
 
         # Create the column and cells
-        column = gtk.TreeViewColumn("Filters")
-        column.set_sizing(gtk.TREE_VIEW_COLUMN_AUTOSIZE)
+        column = Gtk.TreeViewColumn("Filters")
+        column.set_sizing(Gtk.TreeViewColumnSizing.AUTOSIZE)
         # icon cell
-        self.cell_pix = gtk.CellRendererPixbuf()
+        self.cell_pix = Gtk.CellRendererPixbuf()
+        # column.pack_start(self.cell_pix, False, True, 0)
         column.pack_start(self.cell_pix, expand=False)
         column.add_attribute(self.cell_pix, 'pixbuf', 4)
         # label cell
-        cell_label = gtk.CellRendererText()
-        cell_label.set_property('ellipsize', pango.ELLIPSIZE_END)
+        cell_label = Gtk.CellRendererText()
+        cell_label.set_property('ellipsize', Pango.EllipsizeMode.END)
         column.pack_start(cell_label, expand=True)
         column.set_cell_data_func(cell_label, self.render_cell_data, None)
         # count cell
-        self.cell_count = gtk.CellRendererText()
+        self.cell_count = Gtk.CellRendererText()
         self.cell_count.set_property('xalign', 1.0)
         self.cell_count.set_padding(3, 0)
         column.pack_start(self.cell_count, expand=False)
+        # column.pack_start(self.cell_count, False, True, 0)
 
         self.treeview.append_column(column)
 
@@ -89,7 +89,7 @@ class FilterTreeView(component.Component):
         self.treeview.set_headers_visible(False)
         self.treeview.set_level_indentation(-21)
         # Force theme to use expander-size so we don't cut out entries due to indentation hack.
-        gtk.rc_parse_string("""style "treeview-style" {GtkTreeView::expander-size = 7}
+        Gtk.rc_parse_string("""style "treeview-style" {GtkTreeView::expander-size = 7}
                             class "GtkTreeView" style "treeview-style" """)
 
         self.treeview.set_model(self.treestore)
@@ -99,12 +99,13 @@ class FilterTreeView(component.Component):
         self.treeview.connect("button-press-event", self.on_button_press_event)
 
         # colors using current theme.
-        style = self.window.window.get_style()
-        self.colour_background = style.bg[gtk.STATE_NORMAL]
-        self.colour_foreground = style.fg[gtk.STATE_NORMAL]
+        # style = self.window.window.get_style()
+        # TOFIX
+        # self.colour_background = style.bg[Gtk.StateType.NORMAL]
+        # self.colour_foreground = style.fg[Gtk.StateType.NORMAL]
 
         # filtertree menu
-        builder = gtk.Builder()
+        builder = Gtk.Builder()
         builder.add_from_file(resource_filename("deluge.ui.gtkui", os.path.join("glade", "filtertree_menu.ui")))
         self.menu = builder.get_object("filtertree_menu")
         builder.connect_signals({
@@ -244,20 +245,24 @@ class FilterTreeView(component.Component):
 
         if pix:
             try:
-                return gtk.gdk.pixbuf_new_from_file(get_pixmap("%s16.png" % pix))
+                return GdkPixbuf.Pixbuf.new_from_file(get_pixmap("%s16.png" % pix))
             except GError as ex:
                 log.warning(ex)
         return self.get_transparent_pix(16, 16)
 
     def get_transparent_pix(self, width, height):
-        pix = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, width, height)
-        pix.fill(0x0000000)
-        return pix
+        # pix = GdkPixbuf.Pixbuf(GdkPixbuf.Colorspace.RGB, True, 8, width, height)
+        # pix.fill(0x0000000)
+        # return pix
+
+        # Should really give back a properly size pixbuf...
+        from deluge.ui.gtkui import torrentview_data_funcs as funcs
+        return funcs.icon_empty
 
     def set_row_image(self, cat, value, filename):
         pix = None
         try:  # assume we could get trashed images here..
-            pix = gtk.gdk.pixbuf_new_from_file_at_size(filename, 16, 16)
+            pix = GdkPixbuf.Pixbuf.new_from_file_at_size(filename, 16, 16)
         except Exception as ex:
             log.debug(ex)
 
@@ -337,7 +342,7 @@ class FilterTreeView(component.Component):
             # Show the pop-up menu
             self.set_menu_sensitivity()
             self.menu.hide()
-            self.menu.popup(None, None, None, event.button, event.time)
+            self.menu.popup(None, None, None, self.menu.show, event.button, event.time)
             self.menu.show()
 
             if cat == "cat":

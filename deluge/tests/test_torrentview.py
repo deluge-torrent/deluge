@@ -11,7 +11,7 @@ from .basetest import BaseTestCase
 libs_available = True
 # Allow running other tests without GTKUI dependencies available
 try:
-    from gobject import TYPE_UINT64
+    from gi.repository.GObject import TYPE_UINT64
     from deluge.ui.gtkui.mainwindow import MainWindow
     from deluge.ui.gtkui.menubar import MenuBar
     from deluge.ui.gtkui.torrentdetails import TorrentDetails

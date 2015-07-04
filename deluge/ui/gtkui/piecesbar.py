@@ -11,11 +11,9 @@ import logging
 from math import pi
 
 import cairo
-import gtk
-import pango
-import pangocairo
 
 from deluge.configmanager import ConfigManager
+from gi.repository import Gdk, Gtk, Pango, PangoCairo
 
 log = logging.getLogger(__name__)
 
@@ -28,17 +26,17 @@ COLOR_STATES = {
 }
 
 
-class PiecesBar(gtk.DrawingArea):
+class PiecesBar(Gtk.DrawingArea):
     # Draw in response to an expose-event
-    __gsignals__ = {"expose-event": "override"}
+    # __gsignals__ = {"expose-event": "override"} # TOFIX
 
     def __init__(self):
-        gtk.DrawingArea.__init__(self)
+        Gtk.DrawingArea.__init__(self)
         # Get progress bar styles, in order to keep font consistency
-        pb = gtk.ProgressBar()
+        pb = Gtk.ProgressBar()
         pb_style = pb.get_style()
         self.__text_font = pb_style.font_desc
-        self.__text_font.set_weight(pango.WEIGHT_BOLD)
+        self.__text_font.set_weight(Pango.Weight.BOLD)
         # Done with the ProgressBar styles, don't keep refs of it
         del pb, pb_style
 
@@ -55,7 +53,7 @@ class PiecesBar(gtk.DrawingArea):
         self.__cr = None
 
         self.connect('size-allocate', self.do_size_allocate_event)
-        self.set_colormap(gtk.gdk.colormap_get_system())
+        self.set_colormap(Gdk.colormap_get_system())
         self.show()
 
     def do_size_allocate_event(self, widget, size):
@@ -195,7 +193,7 @@ class PiecesBar(gtk.DrawingArea):
                 cairo.FORMAT_ARGB32, self.__width, self.__height
             )
             ctx = cairo.Context(self.__text_overlay)
-            pg = pangocairo.CairoContext(ctx)
+            pg = PangoCairo.CairoContext(ctx)
             pl = pg.create_layout()
             pl.set_font_description(self.__text_font)
             pl.set_width(-1)    # No text wrapping
@@ -214,8 +212,8 @@ class PiecesBar(gtk.DrawingArea):
             log.trace("PiecesBar text %r", text)
             pl.set_text(text)
             plsize = pl.get_size()
-            text_width = plsize[0] / pango.SCALE
-            text_height = plsize[1] / pango.SCALE
+            text_width = plsize[0] / Pango.SCALE
+            text_height = plsize[1] / Pango.SCALE
             area_width_without_text = self.__width - text_width
             area_height_without_text = self.__height - text_height
             ctx.move_to(area_width_without_text / 2, area_height_without_text / 2)

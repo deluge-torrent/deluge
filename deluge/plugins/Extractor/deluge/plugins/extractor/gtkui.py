@@ -13,8 +13,7 @@
 
 import logging
 
-import gtk
-import gtk.glade
+from gi.repository import Gtk
 
 import deluge.component as component
 from .common import get_resource
@@ -26,9 +25,10 @@ log = logging.getLogger(__name__)
 
 class GtkUI(GtkPluginBase):
     def enable(self):
-        self.glade = gtk.glade.XML(get_resource("extractor_prefs.glade"))
+        self.main_builder = Gtk.Builder()
+        self.glade = self.main_builder.add_from_file(get_resource("extractor_prefs.ui"))
 
-        component.get("Preferences").add_page(_("Extractor"), self.glade.get_widget("extractor_prefs_box"))
+        component.get("Preferences").add_page(_("Extractor"), self.main_builder.get_object("extractor_prefs_box"))
         component.get("PluginManager").register_hook("on_apply_prefs", self.on_apply_prefs)
         component.get("PluginManager").register_hook("on_show_prefs", self.on_show_prefs)
         self.on_show_prefs()
@@ -37,36 +37,35 @@ class GtkUI(GtkPluginBase):
         component.get("Preferences").remove_page(_("Extractor"))
         component.get("PluginManager").deregister_hook("on_apply_prefs", self.on_apply_prefs)
         component.get("PluginManager").deregister_hook("on_show_prefs", self.on_show_prefs)
-        del self.glade
 
     def on_apply_prefs(self):
         log.debug("applying prefs for Extractor")
         if client.is_localhost():
-            path = self.glade.get_widget("folderchooser_path").get_filename()
+            path = self.main_builder.get_object("folderchooser_path").get_filename()
         else:
-            path = self.glade.get_widget("entry_path").get_text()
+            path = self.main_builder.get_object("entry_path").get_text()
 
         config = {
             "extract_path": path,
-            "use_name_folder": self.glade.get_widget("chk_use_name").get_active()
+            "use_name_folder": self.main_builder.get_object("chk_use_name").get_active()
         }
 
         client.extractor.set_config(config)
 
     def on_show_prefs(self):
         if client.is_localhost():
-            self.glade.get_widget("folderchooser_path").show()
-            self.glade.get_widget("entry_path").hide()
+            self.main_builder.get_object("folderchooser_path").show()
+            self.main_builder.get_object("entry_path").hide()
         else:
-            self.glade.get_widget("folderchooser_path").hide()
-            self.glade.get_widget("entry_path").show()
+            self.main_builder.get_object("folderchooser_path").hide()
+            self.main_builder.get_object("entry_path").show()
 
         def on_get_config(config):
             if client.is_localhost():
-                self.glade.get_widget("folderchooser_path").set_current_folder(config["extract_path"])
+                self.main_builder.get_object("folderchooser_path").set_current_folder(config["extract_path"])
             else:
-                self.glade.get_widget("entry_path").set_text(config["extract_path"])
+                self.main_builder.get_object("entry_path").set_text(config["extract_path"])
 
-            self.glade.get_widget("chk_use_name").set_active(config["use_name_folder"])
+            self.main_builder.get_object("chk_use_name").set_active(config["use_name_folder"])
 
         client.extractor.get_config().addCallback(on_get_config)

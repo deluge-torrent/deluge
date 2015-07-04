@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.18.3 -->
 <interface>
-  <requires lib="gtk+" version="2.16"/>
-  <!-- interface-naming-policy project-wide -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkMenu" id="queue_torrent_menu">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -10,7 +10,6 @@
         <property name="label">gtk-goto-top</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
         <signal name="activate" handler="on_menuitem_queue_top_activate" swapped="no"/>
@@ -21,7 +20,6 @@
         <property name="label">gtk-go-up</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
         <signal name="activate" handler="on_menuitem_queue_up_activate" swapped="no"/>
@@ -32,7 +30,6 @@
         <property name="label">gtk-go-down</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
         <signal name="activate" handler="on_menuitem_queue_down_activate" swapped="no"/>
@@ -43,7 +40,6 @@
         <property name="label">gtk-goto-bottom</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
         <signal name="activate" handler="on_menuitem_queue_bottom_activate" swapped="no"/>

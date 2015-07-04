@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.18.3 -->
 <interface>
-  <requires lib="gtk+" version="2.16"/>
-  <!-- interface-naming-policy project-wide -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-zoom-fit</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="image2">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-no</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="image3">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-yes</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="image4">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-go-up</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="image5">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-goto-top</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkMenu" id="menu_file_tab">
     <property name="visible">True</property>
@@ -38,9 +38,9 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_open_file">
         <property name="label">gtk-open</property>
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
         <signal name="activate" handler="on_menuitem_open_file_activate" swapped="no"/>
@@ -48,10 +48,10 @@
     </child>
     <child>
       <object class="GtkImageMenuItem" id="menuitem_show_file">
-        <property name="label" translatable="yes">_Show</property>
+        <property name="label">_Show</property>
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
         <signal name="activate" handler="on_menuitem_show_file_activate" swapped="no"/>
@@ -66,9 +66,9 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_expand_all">
         <property name="label" translatable="yes">_Expand All</property>
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">image1</property>
         <property name="use_stock">False</property>
@@ -84,9 +84,9 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_donotdownload">
         <property name="label" translatable="yes">_Do Not Download</property>
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">image2</property>
         <property name="use_stock">False</property>
@@ -96,9 +96,9 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_normal">
         <property name="label" translatable="yes">_Normal Priority</property>
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">image3</property>
         <property name="use_stock">False</property>
@@ -108,9 +108,9 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_high">
         <property name="label" translatable="yes">_High Priority</property>
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">image4</property>
         <property name="use_stock">False</property>
@@ -120,9 +120,9 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_highest">
         <property name="label" translatable="yes">Hi_ghest Priority</property>
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">image5</property>
         <property name="use_stock">False</property>

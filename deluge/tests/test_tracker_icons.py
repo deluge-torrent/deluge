@@ -62,13 +62,6 @@ class TrackerIconsTestCase(BaseTestCase):
         d.addCallback(self.assertEquals, icon)
         return d
 
-    def test_get_publicbt_ico(self):
-        icon = TrackerIcon(os.path.join(dirname, "publicbt.ico"))
-        d = self.icons.fetch("publicbt.org")
-        d.addCallback(self.assertNotIdentical, None)
-        d.addCallback(self.assertEquals, icon)
-        return d
-
     def test_get_empty_string_tracker(self):
         d = self.icons.fetch("")
         d.addCallback(self.assertIdentical, None)

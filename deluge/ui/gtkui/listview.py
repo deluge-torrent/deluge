@@ -9,16 +9,16 @@
 
 import logging
 
-import gtk
-import pygtk
-from gobject import SIGNAL_RUN_LAST, TYPE_NONE, signal_new
-
+import gi
 from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_file
+from gi.repository import Gdk, GObject, Gtk
+from gi.repository.GObject import SIGNAL_RUN_LAST, TYPE_NONE, signal_new
 
-pygtk.require('2.0')
+gi.require_version('Gtk', '3.0')
 
+# signal_new('button-press-event', Gtk.TreeViewColumn, SIGNAL_RUN_LAST, TYPE_NONE, (object,))
 
-signal_new('button-press-event', gtk.TreeViewColumn, SIGNAL_RUN_LAST, TYPE_NONE, (gtk.gdk.Event,))
+signal_new('button-press-event', Gtk.TreeViewColumn, SIGNAL_RUN_LAST, TYPE_NONE, (Gdk.Event,))
 
 log = logging.getLogger(__name__)
 
@@ -32,6 +32,12 @@ class ListViewColumnState:
         self.visible = visible
         self.sort = sort
         self.sort_order = sort_order
+
+
+class TreeModel(GObject.Object, Gtk.TreeModel):
+
+    def __init__(self, filter):
+        Gtk.TreeModel.__init__(self, filter)
 
 
 class ListView:
@@ -67,7 +73,7 @@ class ListView:
             self.pixbuf_index = 0
             self.data_func = None
 
-    class TreeviewColumn(gtk.TreeViewColumn, object):
+    class TreeviewColumn(Gtk.TreeViewColumn, object):
         """
             TreeViewColumn does not signal right-click events, and we need them
             This subclass is equivalent to TreeViewColumn, but it signals these events
@@ -76,9 +82,9 @@ class ListView:
         """
 
         def __init__(self, title=None, cell_renderer=None, ** args):
-            """ Constructor, see gtk.TreeViewColumn """
-            gtk.TreeViewColumn.__init__(self, title, cell_renderer, ** args)
-            label = gtk.Label(title)
+            """ Constructor, see Gtk.TreeViewColumn """
+            Gtk.TreeViewColumn.__init__(self, title, cell_renderer, ** args)
+            label = Gtk.Label(label=title)
             self.set_widget(label)
             label.show()
             label.__realize = label.connect('realize', self.on_realize)
@@ -90,12 +96,13 @@ class ListView:
         def on_realize(self, widget):
             widget.disconnect(widget.__realize)
             del widget.__realize
-            button = widget.get_ancestor(gtk.Button)
+            button = widget.get_ancestor(Gtk.Button)
             if button is not None:
                 button.connect('button-press-event', self.on_button_pressed)
 
         def on_button_pressed(self, widget, event):
-            self.emit('button-press-event', event)
+            # self.emit('button-press-event', event)
+            pass
 
         def set_cell_data_func_attributes(self, cell_renderer, func, func_data=None):
             """Store the values to be set by set_cell_data_func"""
@@ -104,7 +111,7 @@ class ListView:
             self.cell_renderer = cell_renderer
 
         def set_visible(self, visible):
-            gtk.TreeViewColumn.set_visible(self, visible)
+            Gtk.TreeViewColumn.set_visible(self, visible)
             if self.data_func:
                 if not visible:
                     # Set data function to None to prevent unecessary calls when column is hidden
@@ -126,7 +133,7 @@ class ListView:
             # User supplied a treeview widget
             self.treeview = treeview_widget
         else:
-            self.treeview = gtk.TreeView()
+            self.treeview = Gtk.TreeView()
 
         self.treeview.set_enable_search(True)
         self.treeview.set_search_equal_func(self.on_keypress_search_by_name)
@@ -139,7 +146,7 @@ class ListView:
 
         self.treeview.set_rules_hint(True)
         self.treeview.set_reorderable(False)
-        self.treeview.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
+        self.treeview.get_selection().set_mode(Gtk.SelectionMode.MULTIPLE)
 
         # Dictionary of 'header' or 'name' to ListViewColumn object
         self.columns = {}
@@ -174,7 +181,12 @@ class ListView:
         model_filter = self.liststore.filter_new()
         model_filter.set_visible_column(
             self.columns["filter"].column_indices[0])
-        self.model_filter = gtk.TreeModelSort(model_filter)
+        self.model_filter = Gtk.TreeModelSort(model_filter)
+
+        # print "self.model_filter:", type(self.model_filter)
+        # iter_is_valid(iter)
+        # self.model_filter = TreeModel(model_filter)
+
         self.model_filter.connect("sort-column-changed", self.on_model_sort_changed)
         self.model_filter.connect("row-inserted", self.on_model_row_inserted)
         self.treeview.set_model(self.model_filter)
@@ -187,8 +199,9 @@ class ListView:
             self.treeview.get_model().set_sort_column_id(column_state.sort, column_state.sort_order)
         # Using the default sort column
         elif self.default_sort_column_id:
-            self.model_filter.set_sort_column_id(self.default_sort_column_id, gtk.SORT_ASCENDING)
-        self.model_filter.set_default_sort_func(None)
+            self.model_filter.set_sort_column_id(self.default_sort_column_id, Gtk.SortType.ASCENDING)
+        # self.model_filter.set_default_sort_func(None) # TOFIX
+        # self.model_filter.set_sort_func(None, None)
 
     def get_sort_column_from_state(self):
         """Find the first (should only be one) state with sort enabled"""
@@ -320,9 +333,17 @@ class ListView:
             self.columns[unicode(name)].column.set_visible(widget.get_active())
         return
 
+        # def callback(treeviewcolumn, user_param1, ...)'
+        # clicked
+
     def on_treeview_header_right_clicked(self, column, event):
+        print "on_treeview_header_right_clicked"
         if event.button == 3:
-            self.menu.popup(None, None, None, event.button, event.get_time())
+            # self.menu.popup(None, None, None, event.button, event.get_time())
+            # self.menu.popup(None, None, pos, self, event.button, event.time)
+            # self.menu.popup(None, None, None, self, event.button, event.time)
+            self.menu.popup(None, None, None, None, event.button, event.get_time())
+            pass
 
     def register_checklist_menu(self, menu):
         """Register a checklist menu with the listview.  It will automatically
@@ -332,7 +353,7 @@ class ListView:
 
     def create_checklist_menu(self):
         """Creates a menu used for toggling the display of columns."""
-        menu = self.menu = gtk.Menu()
+        menu = self.menu = Gtk.Menu()
         # Iterate through the column_index list to preserve order
         for name in self.column_index:
             column = self.columns[name]
@@ -340,7 +361,7 @@ class ListView:
             # menu.
             if column.hidden is True:
                 continue
-            menuitem = gtk.CheckMenuItem(column.name)
+            menuitem = Gtk.CheckMenuItem(column.name)
             # If the column is currently visible, make sure it's set active
             # (or checked) in the menu.
             if column.column.get_visible() is True:
@@ -360,7 +381,7 @@ class ListView:
         """Creates a new GtkListStore based on the liststore_columns list"""
         # Create a new liststore with added column and move the data from the
         # old one to the new one.
-        new_list = gtk.ListStore(*tuple(self.liststore_columns))
+        new_list = Gtk.ListStore(*tuple(self.liststore_columns))
 
         # This function is used in the liststore.foreach method with user_data
         # being the new liststore and the columns list
@@ -386,12 +407,12 @@ class ListView:
 
         if column.column_type == "text":
             if add:
-                tree_column.pack_start(column.renderer)
+                tree_column.pack_start(column.renderer, True)
             tree_column.set_col_attributes(column.renderer, add=add,
                                            text=column.column_indices[column.text_index])
         elif column.column_type == "bool":
             if add:
-                tree_column.pack_start(column.renderer)
+                tree_column.pack_start(column.renderer, True)
             tree_column.set_col_attributes(column.renderer, active=column.column_indices[0])
         elif column.column_type == "func":
             if add:
@@ -402,7 +423,7 @@ class ListView:
             tree_column.set_cell_data_func(column.renderer, column.data_func, indice_arg)
         elif column.column_type == "progress":
             if add:
-                tree_column.pack_start(column.renderer)
+                tree_column.pack_start(column.renderer, True)
             if column.data_func is None:
                 tree_column.set_col_attributes(column.renderer, add=add,
                                                text=column.column_indices[column.text_index],
@@ -518,8 +539,9 @@ class ListView:
         column.set_min_width(10)
         column.set_reorderable(True)
         column.set_visible(not hidden)
-        column.connect('button-press-event',
-                       self.on_treeview_header_right_clicked)
+        # column.connect('button-press-event',
+        #               self.on_treeview_header_right_clicked)
+        # column.connect('clicked', self.on_treeview_header_right_clicked)
 
         if tooltip:
             column.get_widget().set_tooltip_markup(tooltip)
@@ -532,7 +554,7 @@ class ListView:
                     # We found a loaded state
                     column_in_state = True
                     if column_state.width > 0:
-                        column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
+                        column.set_sizing(Gtk.TreeViewColumnSizing.FIXED)
                         column.set_fixed_width(column_state.width)
 
                     column.set_visible(column_state.visible)
@@ -563,7 +585,7 @@ class ListView:
                         default_sort=False):
         """Add a text column to the listview.  Only the header name is required.
         """
-        render = gtk.CellRendererText()
+        render = Gtk.CellRendererText()
         self.add_column(header, render, col_type, hidden, position,
                         status_field, sortid, column_type=column_type,
                         sort_func=sort_func, tooltip=tooltip, default=default,
@@ -576,7 +598,7 @@ class ListView:
                         column_type="bool", tooltip=None, default=True):
 
         """Add a bool column to the listview"""
-        render = gtk.CellRendererToggle()
+        render = Gtk.CellRendererToggle()
         self.add_column(header, render, col_type, hidden, position,
                         status_field, sortid, column_type=column_type,
                         tooltip=tooltip, default=default)
@@ -587,7 +609,7 @@ class ListView:
         """Add a function column to the listview.  Need a header name, the
         function and the column types."""
 
-        render = gtk.CellRendererText()
+        render = Gtk.CellRendererText()
         self.add_column(header, render, col_types, hidden, position,
                         status_field, sortid, column_type=column_type,
                         function=function, sort_func=sort_func, tooltip=tooltip, default=default)
@@ -600,7 +622,7 @@ class ListView:
                             tooltip=None, default=True):
         """Add a progress column to the listview."""
 
-        render = gtk.CellRendererProgress()
+        render = Gtk.CellRendererProgress()
         self.add_column(header, render, col_types, hidden, position,
                         status_field, sortid, function=function,
                         column_type=column_type, value=0, text=1,
@@ -613,8 +635,8 @@ class ListView:
                             column_type="texticon", function=None,
                             tooltip=None, default=True, default_sort=False):
         """Adds a texticon column to the listview."""
-        render1 = gtk.CellRendererPixbuf()
-        render2 = gtk.CellRendererText()
+        render1 = Gtk.CellRendererPixbuf()
+        render2 = Gtk.CellRendererText()
 
         self.add_column(header, (render1, render2), col_types, hidden, position,
                         status_field, sortid, column_type=column_type,

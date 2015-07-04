@@ -7,12 +7,11 @@
 # See LICENSE for more details.
 #
 
-import gtk.gdk
-
 import deluge.component as component
 from deluge.ui.client import client
 from deluge.ui.gtkui.path_chooser import PathChooser
 from deluge.ui.gtkui.torrentdetails import Tab
+from gi.repository import Gdk
 
 
 class OptionsTab(Tab):
@@ -247,7 +246,7 @@ class OptionsTab(Tab):
             self.button_apply.set_sensitive(True)
 
     def _on_key_press_event(self, widget, event):
-        keyname = gtk.gdk.keyval_name(event.keyval).lstrip("KP_").lower()
+        keyname = Gdk.keyval_name(event.keyval).lstrip("KP_").lower()
         if keyname.isdigit() or keyname in ["period", "minus", "delete", "backspace"]:
             if not self.button_apply.is_sensitive():
                 self.button_apply.set_sensitive(True)

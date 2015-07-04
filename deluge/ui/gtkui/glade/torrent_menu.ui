@@ -1,66 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.18.3 -->
 <interface>
-  <requires lib="gtk+" version="2.16"/>
-  <!-- interface-naming-policy toplevel-contextual -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkAccelGroup" id="accelgroup1"/>
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-preferences</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image12">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-edit</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image13">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-media-play</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image14">
     <property name="can_focus">False</property>
     <property name="stock">gtk-media-pause</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image19">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-sort-descending</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image5">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-refresh</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image6">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-redo</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image7">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-open</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image8">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-save-as</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image9">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-remove</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkMenu" id="torrent_menu">
     <property name="visible">True</property>
@@ -70,7 +70,6 @@
         <property name="label" translatable="yes">_Open Download Folder</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image7</property>
         <property name="use_stock">False</property>
@@ -88,7 +87,6 @@
         <property name="label" translatable="yes">_Pause</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image14</property>
         <property name="use_stock">False</property>
@@ -101,7 +99,6 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="tooltip_text" translatable="yes">Resume selected torrents.</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image13</property>
         <property name="use_stock">False</property>
@@ -119,7 +116,6 @@
         <property name="label" translatable="yes">Opt_ions</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">image1</property>
         <property name="use_stock">False</property>
@@ -136,7 +132,6 @@
         <property name="label" translatable="yes">_Queue</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image19</property>
         <property name="use_stock">False</property>
@@ -153,7 +148,6 @@
         <property name="label" translatable="yes">_Update Tracker</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image5</property>
         <property name="use_stock">False</property>
@@ -165,7 +159,6 @@
         <property name="label" translatable="yes">_Edit Trackers</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image12</property>
         <property name="use_stock">False</property>
@@ -183,7 +176,6 @@
         <property name="label" translatable="yes">_Remove Torrent</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image9</property>
         <property name="use_stock">False</property>
@@ -201,7 +193,6 @@
         <property name="label" translatable="yes">_Force Re-check</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image6</property>
         <property name="use_stock">False</property>
@@ -213,7 +204,6 @@
         <property name="label" translatable="yes">_Move Download Folder</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image8</property>
         <property name="use_stock">False</property>

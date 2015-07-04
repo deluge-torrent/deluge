@@ -10,14 +10,13 @@
 import logging
 import os
 
-import gtk
-
 import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 from deluge.ui.gtkui import dialogs
 from deluge.ui.gtkui.common import build_menu_radio_list, get_logo
+from gi.repository import Gtk
 
 try:
     import appindicator
@@ -62,7 +61,7 @@ class SystemTray(component.Component):
 
     def enable(self):
         """Enables the system tray icon."""
-        self.builder = gtk.Builder()
+        self.builder = Gtk.Builder()
         self.builder.add_from_file(deluge.common.resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "tray_menu.ui"))
         )
@@ -103,14 +102,19 @@ class SystemTray(component.Component):
 
         else:
             log.debug("Enabling the system tray icon..")
-            if deluge.common.windows_check() or deluge.common.osx_check():
-                self.tray = gtk.status_icon_new_from_pixbuf(get_logo(32))
-            else:
-                try:
-                    self.tray = gtk.status_icon_new_from_icon_name("deluge")
-                except:
-                    log.warning("Update PyGTK to 2.10 or greater for SystemTray..")
-                    return
+            self.tray = Gtk.StatusIcon.new_from_pixbuf(get_logo(32))
+            # TODO: Is the platform specific code below necessary?
+            # The above line works when testing on Ubuntu 14.04
+
+            # if deluge.common.windows_check() or deluge.common.osx_check():
+            #     self.tray = Gtk.StatusIcon.new_from_pixbuf(get_logo(32))
+            # else:
+            #     try:
+            #         self.tray = Gtk.StatusIcon.new_from_pixbuf(get_logo(32))
+            #     except:
+            #         self.tray = None
+            #         log.warning("Update PyGTK to 2.10 or greater for SystemTray..")
+            #         return
 
             self.tray.connect("activate", self.on_tray_clicked)
             self.tray.connect("popup-menu", self.on_tray_popup)
@@ -166,13 +170,14 @@ class SystemTray(component.Component):
             except Exception as ex:
                 log.debug("Unable to hide system tray menu widgets: %s", ex)
 
-            self.tray.set_tooltip(_("Deluge") + "\n" + _("Not Connected..."))
+            # if self.tray:
+            #    self.tray.set_tooltip(_("Deluge") + "\n" + _("Not Connected..."))
 
     def shutdown(self):
         if self.config["enable_system_tray"]:
             if appindicator and self.config["enable_appindicator"]:
                 self.indicator.set_status(appindicator.STATUS_PASSIVE)
-            else:
+            elif self.tray:
                 self.tray.set_visible(False)
 
     def send_status_request(self):
@@ -231,8 +236,8 @@ class SystemTray(component.Component):
         )
 
         # Set the tooltip
-        self.tray.set_tooltip(msg)
-
+        if self.tray:
+            self.tray.set_tooltip_text(msg)
         self.send_status_request()
 
     def build_tray_bwsetsubmenu(self):
@@ -323,11 +328,11 @@ class SystemTray(component.Component):
         else:
             self.builder.get_object("menuitem_show_deluge").set_active(False)
 
-        popup_function = gtk.status_icon_position_menu
+        popup_function = Gtk.StatusIcon.position_menu
         if deluge.common.windows_check():
             popup_function = None
             button = 0
-        self.tray_menu.popup(None, None, popup_function, button, activate_time, status_icon)
+        self.tray_menu.popup(None, None, None, popup_function, button, activate_time)
 
     def on_menuitem_show_deluge_activate(self, menuitem):
         log.debug("on_menuitem_show_deluge_activate")
@@ -357,7 +362,7 @@ class SystemTray(component.Component):
         self.window.quit(shutdown=True)
 
     def on_tray_setbwdown(self, widget, data=None):
-        if isinstance(widget, gtk.RadioMenuItem):
+        if isinstance(widget, Gtk.RadioMenuItem):
             # ignore previous radiomenuitem value
             if not widget.get_active():
                 return
@@ -366,7 +371,7 @@ class SystemTray(component.Component):
                         "downloading.svg")
 
     def on_tray_setbwup(self, widget, data=None):
-        if isinstance(widget, gtk.RadioMenuItem):
+        if isinstance(widget, Gtk.RadioMenuItem):
             # ignore previous radiomenuitem value
             if not widget.get_active():
                 return
