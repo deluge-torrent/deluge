@@ -7,25 +7,24 @@
 # See LICENSE for more details.
 #
 
-import gtk
-
 from deluge.configmanager import ConfigManager
+from gi.repository import Gdk, Gtk
 
 
 def accel_swap(item, group, skey, smod, dkey, dmod):
     item.remove_accelerator(group, ord(skey), smod)
-    item.add_accelerator("activate", group, ord(dkey), dmod, gtk.ACCEL_VISIBLE)
+    item.add_accelerator("activate", group, ord(dkey), dmod, Gtk.AccelFlags.VISIBLE)
 
 
 def accel_meta(item, group, key):
-    accel_swap(item, group, key, gtk.gdk.CONTROL_MASK, key, gtk.gdk.META_MASK)
+    accel_swap(item, group, key, Gdk.ModifierType.CONTROL_MASK, key, Gdk.EventMask.META_MASK)
 
 
 def menubar_osx(gtkui, osxapp):
     window = gtkui.mainwindow
     main_builder = window.get_builder()
     menubar = main_builder.get_object("menubar")
-    group = gtk.accel_groups_from_object(window.window)[0]
+    group = Gtk.accel_groups_from_object(window.window)[0]
 
     config = ConfigManager("gtkui.conf")
 
@@ -38,8 +37,8 @@ def menubar_osx(gtkui, osxapp):
     accel_meta(file_items[0], group, 'o')
     accel_meta(file_items[1], group, 'n')
     quit_all_item = file_items[3]
-    accel_swap(quit_all_item, group, 'q', gtk.gdk.SHIFT_MASK | gtk.gdk.CONTROL_MASK,
-               'q', gtk.gdk.SHIFT_MASK | gtk.gdk.META_MASK)
+    accel_swap(quit_all_item, group, 'q', Gdk.ModifierType.SHIFT_MASK | Gdk.ModifierType.CONTROL_MASK,
+               'q', Gdk.ModifierType.SHIFT_MASK | Gdk.EventMask.META_MASK)
     for item in range(2, len(file_items)):  # remove quits
         file_menu.remove(file_items[item])
 
@@ -47,7 +46,7 @@ def menubar_osx(gtkui, osxapp):
     edit_menu = menu_widget.get_submenu()
     edit_items = edit_menu.get_children()
     pref_item = edit_items[0]
-    accel_swap(pref_item, group, 'p', gtk.gdk.CONTROL_MASK, ',', gtk.gdk.META_MASK)
+    accel_swap(pref_item, group, 'p', Gdk.ModifierType.CONTROL_MASK, ',', Gdk.EventMask.META_MASK)
     edit_menu.remove(pref_item)
 
     conn_item = edit_items[1]
@@ -66,10 +65,10 @@ def menubar_osx(gtkui, osxapp):
     osxapp.set_menu_bar(menubar)
     # populate app menu
     osxapp.insert_app_menu_item(about_item, 0)
-    osxapp.insert_app_menu_item(gtk.SeparatorMenuItem(), 1)
+    osxapp.insert_app_menu_item(Gtk.SeparatorMenuItem(), 1)
     osxapp.insert_app_menu_item(pref_item, 2)
     if not config["classic_mode"]:
         osxapp.insert_app_menu_item(conn_item, 3)
     if quit_all_item.get_visible():
-        osxapp.insert_app_menu_item(gtk.SeparatorMenuItem(), 4)
+        osxapp.insert_app_menu_item(Gtk.SeparatorMenuItem(), 4)
         osxapp.insert_app_menu_item(quit_all_item, 5)

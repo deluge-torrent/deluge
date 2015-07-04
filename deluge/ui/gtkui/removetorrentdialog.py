@@ -10,11 +10,10 @@
 import logging
 import os
 
-import gtk
-
 import deluge.common
 import deluge.component as component
 from deluge.ui.client import client
+from gi.repository import Gtk
 
 log = logging.getLogger(__name__)
 
@@ -39,7 +38,7 @@ class RemoveTorrentDialog(object):
 
         self.__torrent_ids = torrent_ids
 
-        self.builder = gtk.Builder()
+        self.builder = Gtk.Builder()
         self.builder.add_from_file(deluge.common.resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "remove_torrent_dialog.ui"))
         )
@@ -81,6 +80,6 @@ class RemoveTorrentDialog(object):
         Shows the dialog and awaits for user input.  The user can select to
         remove the torrent(s) from the session with or without their data.
         """
-        if self.__dialog.run() == gtk.RESPONSE_OK:
+        if self.__dialog.run() == Gtk.ResponseType.OK:
             self.__remove_torrents(self.builder.get_object("delete_files").get_active())
         self.__dialog.destroy()

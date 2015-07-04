@@ -13,26 +13,30 @@
 
 import logging
 
-import gtk
+from gi.repository import Gtk, Gdk
 
 import deluge.component as component
 from deluge.plugins.pluginbase import GtkPluginBase
 from deluge.ui.client import client
+from gi import pygtkcompat
 
 from .common import get_resource
+
+pygtkcompat.enable()
+pygtkcompat.enable_gtk(version='3.0')
 
 log = logging.getLogger(__name__)
 
 DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
 
-class SchedulerSelectWidget(gtk.DrawingArea):
+class SchedulerSelectWidget(Gtk.DrawingArea):
     def __init__(self, hover):
-        gtk.DrawingArea.__init__(self)
-        self.set_events(gtk.gdk.BUTTON_PRESS_MASK | gtk.gdk.BUTTON_RELEASE_MASK |
-                        gtk.gdk.POINTER_MOTION_MASK | gtk.gdk.LEAVE_NOTIFY_MASK)
+        Gtk.DrawingArea.__init__(self)
+        self.set_events(Gdk.EventMask.BUTTON_PRESS_MASK | Gdk.EventMask.BUTTON_RELEASE_MASK |
+                        Gdk.EventMask.POINTER_MOTION_MASK | Gdk.EventMask.LEAVE_NOTIFY_MASK)
 
-        self.connect("expose_event", self.expose)
+        self.connect("draw", self.expose)
         self.connect("button_press_event", self.mouse_down)
         self.connect("button_release_event", self.mouse_up)
         self.connect("motion_notify_event", self.mouse_hover)
@@ -59,11 +63,12 @@ class SchedulerSelectWidget(gtk.DrawingArea):
     # redraw the whole thing
     def expose(self, widget, event):
         self.context = self.window.cairo_create()
-        self.context.rectangle(event.area.x, event.area.y, event.area.width, event.area.height)
+        alloc = Gtk.Window.get_allocation(widget)
+        x, y, w, h = alloc.x, alloc.y, alloc.width, alloc.height
+        width = w
+        height = h
+        self.context.rectangle(0, 0, width, height)
         self.context.clip()
-
-        width = self.window.get_size()[0]
-        height = self.window.get_size()[1]
 
         for y in xrange(7):
             for x in xrange(24):
@@ -78,9 +83,13 @@ class SchedulerSelectWidget(gtk.DrawingArea):
 
     # coordinates --> which box
     def get_point(self, event):
-        size = self.window.get_size()
-        x = int((event.x - size[0] * 0.5 / 145.0) / (6 * size[0] / 145.0))
-        y = int((event.y - size[1] * 0.5 / 43.0) / (6 * size[1] / 43.0))
+        alloc = Gtk.Window.get_allocation(self)
+        x, y, w, h = alloc.x, alloc.y, alloc.width, alloc.height
+        width = w
+        height = h
+        # size = self.window.get_size()
+        x = int((event.x - width * 0.5 / 145.0) / (6 * width / 145.0))
+        y = int((event.y - height * 0.5 / 43.0) / (6 * height / 43.0))
 
         if x > 23:
             x = 23
@@ -202,81 +211,81 @@ class GtkUI(GtkPluginBase):
     # Configuration dialog
     def create_prefs_page(self):
         # Select Widget
-        hover = gtk.Label()
+        hover = Gtk.Label()
         self.scheduler_select = SchedulerSelectWidget(hover)
 
-        vbox = gtk.VBox(False, 5)
-        hbox = gtk.HBox(False, 5)
-        vbox_days = gtk.VBox()
+        vbox = Gtk.VBox(False, 5)
+        hbox = Gtk.HBox(False, 5)
+        vbox_days = Gtk.VBox()
         for day in DAYS:
-            vbox_days.pack_start(gtk.Label(day))
+            vbox_days.pack_start(Gtk.Label(day, True, True, 0))
         hbox.pack_start(vbox_days, False, False)
         hbox.pack_start(self.scheduler_select, True, True)
-        frame = gtk.Frame()
-        label = gtk.Label()
+        frame = Gtk.Frame()
+        label = Gtk.Label()
         label.set_markup("<b>Schedule</b>")
         frame.set_label_widget(label)
-        frame.set_shadow_type(gtk.SHADOW_NONE)
+        frame.set_shadow_type(Gtk.ShadowType.NONE)
         frame.add(hbox)
 
         vbox.pack_start(frame, True, True)
-        vbox.pack_start(hover)
+        vbox.pack_start(hover, True, True, 0)
 
-        table = gtk.Table(3, 4)
+        table = Gtk.Table(3, 4)
 
-        label = gtk.Label(_("Download Limit:"))
+        label = Gtk.Label(label=_("Download Limit:"))
         label.set_alignment(0.0, 0.6)
-        table.attach(label, 0, 1, 0, 1, gtk.FILL)
-        self.spin_download = gtk.SpinButton()
+        table.attach(label, 0, 1, 0, 1, Gtk.AttachOptions.FILL)
+        self.spin_download = Gtk.SpinButton()
         self.spin_download.set_numeric(True)
         self.spin_download.set_range(-1.0, 99999.0)
         self.spin_download.set_increments(1, 10)
-        table.attach(self.spin_download, 1, 2, 0, 1, gtk.FILL)
+        table.attach(self.spin_download, 1, 2, 0, 1, Gtk.AttachOptions.FILL)
 
-        label = gtk.Label(_("Upload Limit:"))
+        label = Gtk.Label(label=_("Upload Limit:"))
         label.set_alignment(0.0, 0.6)
-        table.attach(label, 0, 1, 1, 2, gtk.FILL)
-        self.spin_upload = gtk.SpinButton()
+        table.attach(label, 0, 1, 1, 2, Gtk.AttachOptions.FILL)
+        self.spin_upload = Gtk.SpinButton()
         self.spin_upload.set_numeric(True)
         self.spin_upload.set_range(-1.0, 99999.0)
         self.spin_upload.set_increments(1, 10)
-        table.attach(self.spin_upload, 1, 2, 1, 2, gtk.FILL)
+        table.attach(self.spin_upload, 1, 2, 1, 2, Gtk.AttachOptions.FILL)
 
-        label = gtk.Label(_("Active Torrents:"))
+        label = Gtk.Label(label=_("Active Torrents:"))
         label.set_alignment(0.0, 0.6)
-        table.attach(label, 2, 3, 0, 1, gtk.FILL)
-        self.spin_active = gtk.SpinButton()
+        table.attach(label, 2, 3, 0, 1, Gtk.AttachOptions.FILL)
+        self.spin_active = Gtk.SpinButton()
         self.spin_active.set_numeric(True)
         self.spin_active.set_range(-1, 9999)
         self.spin_active.set_increments(1, 10)
-        table.attach(self.spin_active, 3, 4, 0, 1, gtk.FILL)
+        table.attach(self.spin_active, 3, 4, 0, 1, Gtk.AttachOptions.FILL)
 
-        label = gtk.Label(_("Active Downloading:"))
+        label = Gtk.Label(label=_("Active Downloading:"))
         label.set_alignment(0.0, 0.6)
-        table.attach(label, 2, 3, 1, 2, gtk.FILL)
-        self.spin_active_down = gtk.SpinButton()
+        table.attach(label, 2, 3, 1, 2, Gtk.AttachOptions.FILL)
+        self.spin_active_down = Gtk.SpinButton()
         self.spin_active_down.set_numeric(True)
         self.spin_active_down.set_range(-1, 9999)
         self.spin_active_down.set_increments(1, 10)
-        table.attach(self.spin_active_down, 3, 4, 1, 2, gtk.FILL)
+        table.attach(self.spin_active_down, 3, 4, 1, 2, Gtk.AttachOptions.FILL)
 
-        label = gtk.Label(_("Active Seeding:"))
+        label = Gtk.Label(label=_("Active Seeding:"))
         label.set_alignment(0.0, 0.6)
-        table.attach(label, 2, 3, 2, 3, gtk.FILL)
-        self.spin_active_up = gtk.SpinButton()
+        table.attach(label, 2, 3, 2, 3, Gtk.AttachOptions.FILL)
+        self.spin_active_up = Gtk.SpinButton()
         self.spin_active_up.set_numeric(True)
         self.spin_active_up.set_range(-1, 9999)
         self.spin_active_up.set_increments(1, 10)
-        table.attach(self.spin_active_up, 3, 4, 2, 3, gtk.FILL)
+        table.attach(self.spin_active_up, 3, 4, 2, 3, Gtk.AttachOptions.FILL)
 
-        eventbox = gtk.EventBox()
-        eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#EDD400"))
+        eventbox = Gtk.EventBox()
+        eventbox.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse("#EDD400"))
         eventbox.add(table)
-        frame = gtk.Frame()
-        label = gtk.Label()
+        frame = Gtk.Frame()
+        label = Gtk.Label()
         label.set_markup(_("<b>Slow Settings</b>"))
         frame.set_label_widget(label)
-        frame.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#CDB400"))
+        frame.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse("#CDB400"))
         frame.set_border_width(2)
         frame.add(eventbox)
         vbox.pack_start(frame, False, False)

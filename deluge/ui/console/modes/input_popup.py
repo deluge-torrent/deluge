@@ -107,11 +107,11 @@ class CheckedPlusInput(InputField):
         self.name = name
         self.checked = checked
         self.msglen = len(self.chkd_inact) + 1
-        self.child = child
+        # child = self.get_child() TOFIX
         self.child_active = False
 
     def get_height(self):
-        return max(2, self.child.height)
+        return max(2, self.get_child().height)
 
     def render(self, screen, row, width, active, col=1):
         isact = active and not self.child_active
@@ -131,12 +131,12 @@ class CheckedPlusInput(InputField):
         rows = 2
         # show child
         if self.checked:
-            if isinstance(self.child, (TextInput, IntSpinInput, FloatSpinInput)):
-                crows = self.child.render(screen, row, width - self.msglen,
-                                          self.child_active and active, col + self.msglen, self.msglen)
+            if isinstance(self.get_child(), (TextInput, IntSpinInput, FloatSpinInput)):
+                crows = self.get_child().render(screen, row, width - self.msglen,
+                                                self.child_active and active, col + self.msglen, self.msglen)
             else:
-                crows = self.child.render(screen, row, width - self.msglen,
-                                          self.child_active and active, col + self.msglen)
+                crows = self.get_child().render(screen, row, width - self.msglen,
+                                                self.child_active and active, col + self.msglen)
             rows = max(rows, crows)
         else:
             self.parent.add_string(row, "(enable to view/edit value)", screen, col + self.msglen, False, True)
@@ -148,7 +148,7 @@ class CheckedPlusInput(InputField):
                 self.child_active = False
                 return
             # pass keys through to child
-            self.child.handle_read(c)
+            self.get_child().handle_read(c)
         else:
             if c == 32:
                 self.checked = not self.checked
@@ -162,7 +162,7 @@ class CheckedPlusInput(InputField):
         self.checked = c
 
     def get_child(self):
-        return self.child
+        return self.get_child()
 
 
 class IntSpinInput(InputField):

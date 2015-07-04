@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.18.3 -->
 <interface>
-  <requires lib="gtk+" version="2.16"/>
-  <!-- interface-naming-policy project-wide -->
+  <requires lib="gtk+" version="3.0"/>
+  <object class="GtkAdjustment" id="adjustment_port">
+    <property name="upper">65535</property>
+    <property name="value">58846</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkDialog" id="addhost_dialog">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
@@ -11,22 +17,22 @@
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox5">
+      <object class="GtkBox" id="dialog-vbox5">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area5">
+          <object class="GtkButtonBox" id="dialog-action_area5">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="button_addhost_cancel">
                 <property name="label">gtk-cancel</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -38,12 +44,12 @@
             <child>
               <object class="GtkButton" id="button_addhost_add">
                 <property name="label">gtk-add</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="has_default">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -55,9 +61,9 @@
             <child>
               <object class="GtkButton" id="button_addhost_save">
                 <property name="label">gtk-save</property>
+                <property name="use_action_appearance">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -75,7 +81,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkHBox" id="hbox2">
+          <object class="GtkBox" id="hbox2">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">5</property>
@@ -103,11 +109,8 @@
                     <property name="invisible_char">•</property>
                     <property name="activates_default">True</property>
                     <property name="truncate_multiline">True</property>
-                    <property name="invisible_char_set">True</property>
                     <property name="primary_icon_activatable">False</property>
                     <property name="secondary_icon_activatable">False</property>
-                    <property name="primary_icon_sensitive">True</property>
-                    <property name="secondary_icon_sensitive">True</property>
                   </object>
                 </child>
               </object>
@@ -137,12 +140,9 @@
                 <property name="invisible_char">•</property>
                 <property name="width_chars">5</property>
                 <property name="xalign">1</property>
-                <property name="invisible_char_set">True</property>
                 <property name="progress_pulse_step">1</property>
                 <property name="primary_icon_activatable">False</property>
                 <property name="secondary_icon_activatable">False</property>
-                <property name="primary_icon_sensitive">True</property>
-                <property name="secondary_icon_sensitive">True</property>
                 <property name="adjustment">adjustment_port</property>
                 <property name="climb_rate">1</property>
                 <property name="numeric">True</property>
@@ -178,11 +178,8 @@
                     <property name="visibility">False</property>
                     <property name="invisible_char">•</property>
                     <property name="truncate_multiline">True</property>
-                    <property name="invisible_char_set">True</property>
                     <property name="primary_icon_activatable">False</property>
                     <property name="secondary_icon_activatable">False</property>
-                    <property name="primary_icon_sensitive">True</property>
-                    <property name="secondary_icon_sensitive">True</property>
                   </object>
                 </child>
               </object>
@@ -204,11 +201,8 @@
                     <property name="can_focus">True</property>
                     <property name="invisible_char">•</property>
                     <property name="truncate_multiline">True</property>
-                    <property name="invisible_char_set">True</property>
                     <property name="primary_icon_activatable">False</property>
                     <property name="secondary_icon_activatable">False</property>
-                    <property name="primary_icon_sensitive">True</property>
-                    <property name="secondary_icon_sensitive">True</property>
                   </object>
                 </child>
               </object>
@@ -256,11 +250,5 @@
       <action-widget response="1">button_addhost_add</action-widget>
       <action-widget response="2">button_addhost_save</action-widget>
     </action-widgets>
-  </object>
-  <object class="GtkAdjustment" id="adjustment_port">
-    <property name="upper">65535</property>
-    <property name="value">58846</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
   </object>
 </interface>

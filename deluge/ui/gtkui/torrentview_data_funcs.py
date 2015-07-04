@@ -11,20 +11,19 @@ from __future__ import print_function
 
 import warnings
 
-import gobject
-import gtk
-
 import deluge.common as common
 import deluge.component as component
+from gi.repository import GdkPixbuf, GObject
 
 # Status icons.. Create them from file only once to avoid constantly
 # re-creating them.
-icon_downloading = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("downloading16.png"))
-icon_seeding = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("seeding16.png"))
-icon_inactive = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("inactive16.png"))
-icon_alert = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("alert16.png"))
-icon_queued = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("queued16.png"))
-icon_checking = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("checking16.png"))
+icon_downloading = GdkPixbuf.Pixbuf.new_from_file(common.get_pixmap("downloading16.png"))
+icon_seeding = GdkPixbuf.Pixbuf.new_from_file(common.get_pixmap("seeding16.png"))
+icon_inactive = GdkPixbuf.Pixbuf.new_from_file(common.get_pixmap("inactive16.png"))
+icon_alert = GdkPixbuf.Pixbuf.new_from_file(common.get_pixmap("alert16.png"))
+icon_queued = GdkPixbuf.Pixbuf.new_from_file(common.get_pixmap("queued16.png"))
+icon_checking = GdkPixbuf.Pixbuf.new_from_file(common.get_pixmap("checking16.png"))
+icon_empty = GdkPixbuf.Pixbuf.new_from_file(common.get_pixmap("empty16.png"))
 
 # Holds the info for which status icon to display based on TORRENT_STATE
 ICON_STATE = {
@@ -81,10 +80,27 @@ def cell_data_statusicon(column, cell, model, row, data):
         pass
 
 
+# from array import array
+# from gi.repository import Gtk as gtk, GdkPixbuf
+#
+# pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(icon.get_filename(), 16, 16)
+#
+# pixels = array('H')
+# for i in range(20):
+#    for j in range(20):
+#        px = (i < 10, j >= 10, (i < 10) ^ (j < 10))
+#        pixels.extend(65535 * c for c in px)
+#
+#
+# img_data = header + pixels
+#
+# l = GdkPixbuf.PixbufLoader.new_with_type('pnm')
+# l.write(img_data)
+#
+# w.add(gtk.Image.new_from_pixbuf(l.get_pixbuf()))
+
 def create_blank_pixbuf():
-    i = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, 16, 16)
-    i.fill(0x00000000)
-    return i
+    return GdkPixbuf.Pixbuf.new(GdkPixbuf.Colorspace.RGB, True, 8, 16, 16)
 
 
 def set_icon(icon, cell):
@@ -92,14 +108,16 @@ def set_icon(icon, cell):
         pixbuf = icon.get_cached_icon()
         if pixbuf is None:
             try:
-                pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(icon.get_filename(), 16, 16)
-            except gobject.GError:
+                pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(icon.get_filename(), 16, 16)
+            except GObject.GError:
                 # Failed to load the pixbuf (Bad image file), so set a blank pixbuf
-                pixbuf = create_blank_pixbuf()
+                pixbuf = icon_empty
+                # pixbuf = create_blank_pixbuf()
             finally:
                 icon.set_cached_icon(pixbuf)
     else:
-        pixbuf = create_blank_pixbuf()
+        pixbuf = icon_empty
+        # pixbuf = create_blank_pixbuf()
 
     # Suppress Warning: g_object_set_qdata: assertion `G_IS_OBJECT (object)' failed
     with warnings.catch_warnings():

@@ -48,16 +48,16 @@ class Notification:
         """popups up notification of finished torrent"""
         if not deluge.common.windows_check():
             try:
-                import pynotify
+                from gi.repository import Notify
             except:
                 log.warning("pynotify is not installed")
             else:
-                if not pynotify.init("Deluge"):
+                if not Notify.init("Deluge"):
                     return
                 title = deluge.common.xml_encode(_("Torrent complete"))
                 message = deluge.common.xml_encode("%s\n%s %i %s" % (status["name"],
                                                    _("Including"), status["num_files"], _("files")))
-                self.note = pynotify.Notification(title, message)
+                self.note = Notify.Notification(title, message)
                 self.note.set_icon_from_pixbuf(get_logo(48))
                 if not self.note.show():
                     log.warning("pynotify failed to show notification")

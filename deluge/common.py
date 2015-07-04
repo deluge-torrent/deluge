@@ -26,12 +26,13 @@ import pkg_resources
 
 from deluge.error import InvalidPathError
 
-try:
-    import dbus
-    bus = dbus.SessionBus()
-    dbus_fileman = bus.get_object("org.freedesktop.FileManager1", "/org/freedesktop/FileManager1")
-except:
-    dbus_fileman = None
+# try:
+#    import dbus
+#    bus = dbus.SessionBus()
+#    dbus_fileman = bus.get_object("org.freedesktop.FileManager1", "/org/freedesktop/FileManager1")
+# except:
+
+dbus_fileman = None
 
 
 log = logging.getLogger(__name__)
@@ -957,17 +958,17 @@ def setup_translations(setup_gettext=True, setup_pygtk=False):
 
             if windows_check():
                 import ctypes
-                libintl = ctypes.cdll.intl
+                libintl = ctypes.cdll.LoadLibrary('libintl-8.dll')
                 libintl.bindtextdomain(domain, translations_path.encode(sys.getfilesystemencoding()))
                 libintl.textdomain(domain)
                 libintl.bind_textdomain_codeset(domain, "UTF-8")
                 libintl.gettext.restype = ctypes.c_char_p
 
             # Use glade for plugins that still uses it
-            import gtk
-            import gtk.glade
-            gtk.glade.bindtextdomain(domain, translations_path)
-            gtk.glade.textdomain(domain)
+            # Gtk.glade no longer available change plugins
+            # import Gtk.glade
+            # Gtk.glade.bindtextdomain(domain, translations_path)  # TOFIX
+            # Gtk.glade.textdomain(domain)
         except Exception as ex:
             log.error("Unable to initialize glade translation!")
             log.exception(ex)
