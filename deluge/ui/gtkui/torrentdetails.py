@@ -12,11 +12,10 @@
 
 import logging
 
-import gtk
-
 import deluge.component as component
 from deluge.ui.client import client
 from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_file
+from gi.repository import Gtk
 
 log = logging.getLogger(__name__)
 
@@ -90,13 +89,13 @@ class TorrentDetails(component.Component):
         ]
 
         self.translate_tabs = {
-            "All": _("_All"),
-            "Status": _("_Status"),
-            "Details": _("_Details"),
-            "Files": _("_Files"),
-            "Peers": _("_Peers"),
-            "Options": _("_Options"),
-            "Trackers": _("_Trackers")
+            "All": _("All"),
+            "Status": _("Status"),
+            "Details": _("Details"),
+            "Files": _("Files"),
+            "Peers": _("Peers"),
+            "Options": _("Options"),
+            "Trackers": _("Trackers")
         }
 
         # Get the state from saved file
@@ -256,9 +255,9 @@ class TorrentDetails(component.Component):
 
     def generate_menu(self):
         """Generates the checklist menu for all the tabs and attaches it"""
-        menu = gtk.Menu()
+        menu = Gtk.Menu()
         # Create 'All' menuitem and a separator
-        menuitem = gtk.CheckMenuItem(self.translate_tabs["All"], True)
+        menuitem = Gtk.CheckMenuItem(self.translate_tabs["All"], True)
         menuitem.set_name("All")
 
         all_tabs = True
@@ -271,7 +270,7 @@ class TorrentDetails(component.Component):
 
         menu.append(menuitem)
 
-        menuitem = gtk.SeparatorMenuItem()
+        menuitem = Gtk.SeparatorMenuItem()
         menu.append(menuitem)
 
         # Create a list in order of tabs to create menu
@@ -281,7 +280,7 @@ class TorrentDetails(component.Component):
         menuitem_list.sort()
 
         for pos, name in menuitem_list:
-            menuitem = gtk.CheckMenuItem(self.translate_tabs[name], True)
+            menuitem = Gtk.CheckMenuItem(self.translate_tabs[name], True)
             menuitem.set_name(name)
             menuitem.set_active(self.tabs[name].is_visible)
             menuitem.connect("toggled", self._on_menuitem_toggled)

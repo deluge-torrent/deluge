@@ -224,7 +224,7 @@ def get_resource(filename):
 """
 
 GTKUI = """
-import gtk
+from gi.repository import Gtk
 import logging
 
 from deluge.ui.client import client
@@ -238,7 +238,7 @@ log = logging.getLogger(__name__)
 
 class GtkUI(GtkPluginBase):
     def enable(self):
-        self.glade = gtk.glade.XML(get_resource("config.glade"))
+        self.glade = Gtk.glade.XML(get_resource("config.glade"))
 
         component.get("Preferences").add_page("%(name)s", self.glade.get_widget("prefs_box"))
         component.get("PluginManager").register_hook("on_apply_prefs", self.on_apply_prefs)

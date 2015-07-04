@@ -10,10 +10,9 @@
 
 import logging
 
-import gtk
-
 from deluge import component  # for systray
 from deluge.ui.client import client
+from gi.repository import Gtk
 
 log = logging.getLogger(__name__)
 
@@ -25,11 +24,11 @@ NO_LABEL = _("No Label")
 del _
 
 
-class LabelMenu(gtk.MenuItem):
+class LabelMenu(Gtk.MenuItem):
     def __init__(self):
-        gtk.MenuItem.__init__(self, _("Label"))
+        Gtk.MenuItem.__init__(self, _("Label"))
 
-        self.sub_menu = gtk.Menu()
+        self.sub_menu = Gtk.Menu()
         self.set_submenu(self.sub_menu)
         self.items = []
 
@@ -49,9 +48,9 @@ class LabelMenu(gtk.MenuItem):
             self.sub_menu.remove(child)
         for label in [NO_LABEL] + list(labels):
             if label == NO_LABEL:
-                item = gtk.MenuItem(_(NO_LABEL))
+                item = Gtk.MenuItem(_(NO_LABEL))
             else:
-                item = gtk.MenuItem(label.replace("_", "__"))
+                item = Gtk.MenuItem(label.replace("_", "__"))
             item.connect("activate", self.on_select_label, label)
             self.sub_menu.append(item)
         self.show_all()
