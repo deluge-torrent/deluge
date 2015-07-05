@@ -216,6 +216,9 @@ class GtkUI(object):
         # TOFIX Threading in glib 2.4x
         # causes crashes in windows
         # glib 2.4x is current for pygi
+        # gdk_threads_init has been deprecated since version 3.6 
+		# and should not be used in newly-written code.
+        # All GDK and GTK+ calls should be made from the main thread
         # Gdk.threads_init()
 
         # We make sure that the UI components start once we get a core URI

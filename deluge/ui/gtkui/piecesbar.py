@@ -28,7 +28,7 @@ COLOR_STATES = {
 
 class PiecesBar(Gtk.DrawingArea):
     # Draw in response to an expose-event
-    # __gsignals__ = {"draw": "override"}
+    __gsignals__ = {"draw": "override"}
 
     def __init__(self):
         Gtk.DrawingArea.__init__(self)

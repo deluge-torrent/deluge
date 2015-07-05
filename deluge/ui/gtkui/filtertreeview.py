@@ -99,7 +99,7 @@ class FilterTreeView(component.Component):
         self.treeview.connect("button-press-event", self.on_button_press_event)
 
         # colors using current theme.
-        # style = self.window.window.get_style()
+        style = self.window.window.get_style()
         # TOFIX
         # self.colour_background = style.bg[Gtk.StateType.NORMAL]
         # self.colour_foreground = style.fg[Gtk.StateType.NORMAL]
