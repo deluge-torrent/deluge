@@ -32,21 +32,21 @@ log = logging.getLogger(__name__)
 DEFAULT_CONF = {'version': 1,
                 'colors': {
                     'bandwidth_graph': {'upload_rate':
-                    str(Gdk.RGBA(red=0.541176, green=0.886275, blue=0.203922, alpha=1.000000)),
+                                        str(Gdk.RGBA(red=0.541176, green=0.886275, blue=0.203922, alpha=1.000000)),
                                         'download_rate':
-                    str(Gdk.RGBA(red=0.074510, green=0.411765, blue=0.862745, alpha=1.000000)),
+                                        str(Gdk.RGBA(red=0.074510, green=0.411765, blue=0.862745, alpha=1.000000)),
                                         },
                     'connections_graph': {'dht_nodes':
-                    str(Gdk.RGBA(red=0.988235, green=0.686275, blue=0.243137, alpha=1.000000)),
+                                        str(Gdk.RGBA(red=0.988235, green=0.686275, blue=0.243137, alpha=1.000000)),
                                           'dht_cache_nodes':
-                    str(Gdk.RGBA(red=0.074510, green=0.411765, blue=0.862745, alpha=1.000000)),
+                                        str(Gdk.RGBA(red=0.074510, green=0.411765, blue=0.862745, alpha=1.000000)),
                                           'dht_torrents':
-                    str(Gdk.RGBA(red=0.541176, green=0.886275, blue=0.203922, alpha=1.000000)),
+                                        str(Gdk.RGBA(red=0.541176, green=0.886275, blue=0.203922, alpha=1.000000)),
                                           'num_connections':
-                    str(Gdk.RGBA(red=0.800000, green=0.000000, blue=0.000000, alpha=1.000000)),
+                                        str(Gdk.RGBA(red=0.800000, green=0.000000, blue=0.000000, alpha=1.000000)),
                                           },
                     'seeds_graph': {'num_peers':
-                    str(Gdk.RGBA(red=0.074510, green=0.411765, blue=0.862745, alpha=1.000000)),
+                                        str(Gdk.RGBA(red=0.074510, green=0.411765, blue=0.862745, alpha=1.000000)),
                                     },
                 }
                 }

@@ -345,7 +345,7 @@ class MainWindow(component.Component):
 
         # TODO: Linux specific code required? Above code fails on Ubuntu 14.04...
         # Necessary to import this for get_xid() to work, at least when testing on Ubuntu 14.04
-        from gi.repository import Gtk, GdkX11 # NOQA
+        from gi.repository import Gtk, GdkX11  # NOQA
         screen = Wnck.Screen.get_default()
         xid = self.window.get_window().get_xid()
         win = Wnck.Window.get(xid)
