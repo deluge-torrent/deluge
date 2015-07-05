@@ -1,7 +1,11 @@
 echo "Starting...."
 echo off
 cd C:\Deluge
-echo "building deluge hang tight...."
+echo "Getting all Deluge source code"
+git fetch --all
+echo "Changing to development branch"
+git checkout development
+echo "Building deluge hang tight...."
 python setup.py clean -a
 python setup.py build
 python setup.py install

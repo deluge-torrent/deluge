@@ -37,5 +37,11 @@ Option B:
 Note: The build proccess will run once everyday at 8:00AM till 31/12/2100.
     Also this will clean build directory's before each build so remember to copy your installer after
     or add a "copy *source* *destination*" line to the bat file to automate this.
-1. Run:
-    schtasks /create /tn DailyDelugeBuilds /tr c:\deluge\win32\makeinstaller.bat /sc daily /st 08:00 /ed 31/12/2100
+    This process assumes you not only meet the build steps requirments but also
+    have git installed and in your system "path" environment variable.
+1. Run once in cmd:
+    cd C:\
+    git clone https://github.com/deluge-torrent/deluge
+2. Run once in cmd:
+    schtasks /create /tn DailyDelugeBuilds /tr c:\deluge\win32\makenightlyinstaller.bat /sc daily /st 08:00 /ed 31/12/2100
+3. From now all builds will be made automatically(until year 2100) no need to re-run above commands.
