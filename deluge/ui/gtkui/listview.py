@@ -136,7 +136,7 @@ class ListView:
             self.treeview = Gtk.TreeView()
 
         self.treeview.set_enable_search(True)
-        self.treeview.set_search_equal_func(self.on_keypress_search_by_name)
+        self.treeview.set_search_equal_func(self.on_keypress_search_by_name, None)
 
         if state_file:
             self.load_state(state_file)
