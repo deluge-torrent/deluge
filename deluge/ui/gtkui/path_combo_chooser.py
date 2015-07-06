@@ -688,12 +688,11 @@ class PathChooserPopup(object):
 #################
 
     def on_popup_window_button_press_event(self, window, event):
-        hide = False
         # If we're clicking outside of the window close the popup
         allocation = self.popup_window.get_allocation()
 
         if ((event.x < allocation.x or event.x > allocation.width) or
-            (event.y < allocation.y or event.y > allocation.height)):
+           (event.y < allocation.y or event.y > allocation.height)):
             self.popdown()
 
 
