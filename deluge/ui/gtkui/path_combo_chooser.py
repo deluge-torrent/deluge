@@ -20,7 +20,7 @@ from gi.repository import Gdk, GObject, Gtk
 
 try:
     # Import only on X11
-    from gi.repository import GdkX11
+    from gi.repository import GdkX11  # NOQA
 except:
     pass
 
@@ -580,8 +580,10 @@ class PathChooserPopup(object):
         width = self.popup_window.size_request().width
 
         if self.popup_buttonbox:
-            buttonbox_height = max(self.popup_buttonbox.size_request().height, self.popup_buttonbox.get_allocation().height)
-            buttonbox_width = max(self.popup_buttonbox.size_request().width, self.popup_buttonbox.get_allocation().width)
+            buttonbox_height = max(self.popup_buttonbox.size_request().height,
+                                   self.popup_buttonbox.get_allocation().height)
+            buttonbox_width = max(self.popup_buttonbox.size_request().width,
+                                  self.popup_buttonbox.get_allocation().width)
             treeview_width = self.treeview.size_request().width
             # After removing an element from the tree store, self.treeview.size_request()[0]
             # returns -1 for some reason, so the requested width cannot be used until the treeview
@@ -1042,7 +1044,7 @@ class PathChooserComboBox(GtkGI.Box, StoredValuesPopup, GObject.GObject):
         print("Gtk.Box:", type(Gtk.Box))
         GtkGI.Box.__init__(self)
         GObject.GObject.__init__(self)
-        #self.list_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        # self.list_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         self._stored_values_popping_down = False
         self.filechooser_visible = True
         self.filechooser_enabled = True
@@ -1515,7 +1517,8 @@ GObject.type_register(PathChooserComboBox)
 
 if __name__ == "__main__":
     import signal
-    signal.signal(signal.SIGINT, signal.SIG_DFL) # necessary to exit with CTRL-C (https://bugzilla.gnome.org/show_bug.cgi?id=622084)
+    # necessary to exit with CTRL-C (https://bugzilla.gnome.org/show_bug.cgi?id=622084)
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
     import sys
     w = Gtk.Window()
     w.set_position(Gtk.WindowPosition.CENTER)
