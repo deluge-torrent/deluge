@@ -965,6 +965,7 @@ def setup_translations(setup_gettext=True, setup_pygtk=False):
                 libintl.gettext.restype = ctypes.c_char_p
 
             # Use glade for plugins that still uses it
+            from gi.repository import Gtk
             Gtk.glade.bindtextdomain(domain, translations_path)
             Gtk.glade.textdomain(domain)
         except Exception as ex:
