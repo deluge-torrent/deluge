@@ -15,7 +15,7 @@ import warnings
 
 from deluge.common import resource_filename
 from deluge.path_chooser_common import get_completion_paths
-# from gi.overrides import keysyms
+from gi.module import get_introspection_module
 from gi.repository import Gdk, GObject, Gtk
 
 try:
@@ -1019,7 +1019,6 @@ class PathAutoCompleter(object):
             self.completion_popup.popdown()
 
 
-from gi.module import get_introspection_module
 GtkGI = get_introspection_module('Gtk')
 
 
