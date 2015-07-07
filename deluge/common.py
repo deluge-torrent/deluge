@@ -24,6 +24,7 @@ import urlparse
 import chardet
 import pkg_resources
 
+from deluge.common import windows_check
 from deluge.error import InvalidPathError
 
 # This works on windows but is not needed and in pygi/GTK3
