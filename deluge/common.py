@@ -29,14 +29,14 @@ from deluge.error import InvalidPathError
 # This works on windows but is not needed and in pygi/GTK3
 # The dbus process doesnt close causeing many to open.
 # Only run on other platforms where its needed.
-if not windows_check():
+if sys.platform == 'linux':
     try:
         import dbus
         bus = dbus.SessionBus()
         dbus_fileman = bus.get_object("org.freedesktop.FileManager1", "/org/freedesktop/FileManager1")
     except:
         dbus_filename = None
-if windows_check():
+if sys.platform == 'win32':
     dbus_fileman = None
 
 
