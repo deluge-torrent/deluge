@@ -67,7 +67,6 @@ class FilterTreeView(component.Component):
         column.set_sizing(Gtk.TreeViewColumnSizing.AUTOSIZE)
         # icon cell
         self.cell_pix = Gtk.CellRendererPixbuf()
-        # column.pack_start(self.cell_pix, False, True, 0)
         column.pack_start(self.cell_pix, expand=False)
         column.add_attribute(self.cell_pix, 'pixbuf', 4)
         # label cell
@@ -80,7 +79,6 @@ class FilterTreeView(component.Component):
         self.cell_count.set_property('xalign', 1.0)
         self.cell_count.set_padding(3, 0)
         column.pack_start(self.cell_count, expand=False)
-        # column.pack_start(self.cell_count, False, True, 0)
 
         self.treeview.append_column(column)
 
