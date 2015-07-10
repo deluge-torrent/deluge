@@ -17,7 +17,7 @@ import deluge.component as component
 from deluge.common import TORRENT_STATE, get_pixmap, resource_filename
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
-from gi.repository import GdkPixbuf, Gtk, Pango
+from gi.repository import GdkPixbuf, Gdk, Gtk, Pango
 from gi.repository.GLib import GError
 
 log = logging.getLogger(__name__)
@@ -99,10 +99,9 @@ class FilterTreeView(component.Component):
         self.treeview.connect("button-press-event", self.on_button_press_event)
 
         # colors using current theme.
-        # style = self.window.window.get_style()
-        # TOFIX
-        # self.colour_background = style.bg[Gtk.StateType.NORMAL]
-        # self.colour_foreground = style.fg[Gtk.StateType.NORMAL]
+        style = self.window.window.get_style().copy()
+        self.colour_background = self.window.window.modify_bg(Gtk.StateType.NORMAL)
+        self.colour_foreground = self.window.window.modify_fg(Gtk.StateType.NORMAL)
 
         # filtertree menu
         builder = Gtk.Builder()
