@@ -84,9 +84,10 @@
           </packing>
         </child>
         <child>
-          <object class="GtkVPaned" id="vpaned1">
+          <object class="GtkPaned" id="vpaned1">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="orientation">vertical</property>
             <child>
               <object class="GtkFrame" id="frame2">
                 <property name="visible">True</property>
@@ -104,7 +105,7 @@
                       <object class="GtkBox" id="vbox2">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-						<property name="orientation">vertical</property>
+                        <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkScrolledWindow" id="scrolledwindow1">
                             <property name="visible">True</property>
@@ -129,7 +130,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkHButtonBox" id="hbuttonbox1">
+                          <object class="GtkButtonBox" id="hbuttonbox1">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="layout_style">center</property>
@@ -414,8 +415,8 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="border_width">5</property>
+                    <property name="orientation">vertical</property>
                     <property name="spacing">5</property>
-					<property name="orientation">vertical</property>
                     <child>
                       <object class="GtkFrame" id="frame7">
                         <property name="visible">True</property>
@@ -536,7 +537,7 @@
                                   <object class="GtkBox" id="vbox5">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-									<property name="orientation">vertical</property>
+                                    <property name="orientation">vertical</property>
                                     <child>
                                       <object class="GtkCheckButton" id="chk_paused">
                                         <property name="label" translatable="yes">Add In _Paused State</property>

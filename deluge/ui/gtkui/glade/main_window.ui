@@ -13,7 +13,7 @@
       <object class="GtkBox" id="vbox1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-		<property name="orientation">vertical</property>
+        <property name="orientation">vertical</property>
         <child>
           <object class="GtkMenuBar" id="menubar">
             <property name="visible">True</property>
@@ -539,11 +539,12 @@ This will filter torrents for the current selection on the sidebar.</property>
             <property name="can_focus">False</property>
             <property name="top_padding">2</property>
             <child>
-              <object class="GtkVPaned" id="vpaned">
+              <object class="GtkPaned" id="vpaned">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
                 <child>
-                  <object class="GtkHPaned" id="main_window_hpaned">
+                  <object class="GtkPaned" id="main_window_hpaned">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <child>
@@ -560,7 +561,7 @@ This will filter torrents for the current selection on the sidebar.</property>
                       <object class="GtkBox" id="vbox2">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-						<property name="orientation">vertical</property>
+                        <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkBox" id="search_box">
                             <property name="can_focus">False</property>

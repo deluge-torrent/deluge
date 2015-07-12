@@ -77,8 +77,8 @@
           <object class="GtkBox" id="vbox3">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="orientation">vertical</property>
             <property name="spacing">5</property>
-			<property name="orientation">vertical</property>
             <child>
               <object class="GtkViewport" id="viewport1">
                 <property name="visible">True</property>
@@ -112,7 +112,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkHButtonBox" id="hbuttonbox2">
+                  <object class="GtkButtonBox" id="hbuttonbox2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="layout_style">start</property>
@@ -265,7 +265,7 @@
                   <object class="GtkBox" id="vbox2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-					<property name="orientation">vertical</property>
+                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkCheckButton" id="chk_autoconnect">
                         <property name="label" translatable="yes">Automatically connect to selected host on start-up</property>

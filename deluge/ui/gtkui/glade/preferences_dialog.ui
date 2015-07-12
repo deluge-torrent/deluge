@@ -4350,7 +4350,7 @@ the proxy instead of using the local DNS service</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkHButtonBox" id="hbuttonbox3">
+                                          <object class="GtkButtonBox" id="hbuttonbox3">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="layout_style">start</property>
@@ -4602,7 +4602,7 @@ the proxy instead of using the local DNS service</property>
                                 <property name="can_focus">False</property>
                                 <property name="left_padding">12</property>
                                 <child>
-                                  <object class="GtkHButtonBox" id="hbuttonbox4">
+                                  <object class="GtkButtonBox" id="hbuttonbox4">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="layout_style">start</property>
@@ -4881,12 +4881,13 @@ the proxy instead of using the local DNS service</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkVButtonBox" id="vbuttonbox1">
+                                          <object class="GtkButtonBox" id="vbuttonbox1">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="spacing">5</property>
                                             <property name="homogeneous">True</property>
                                             <property name="layout_style">start</property>
+                                            <property name="orientation">vertical</property>
                                             <child>
                                               <object class="GtkButton" id="accounts_add">
                                                 <property name="label">gtk-add</property>
@@ -5218,7 +5219,7 @@ the proxy instead of using the local DNS service</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkHButtonBox" id="hbuttonbox1">
+                              <object class="GtkButtonBox" id="hbuttonbox1">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="layout_style">center</property>

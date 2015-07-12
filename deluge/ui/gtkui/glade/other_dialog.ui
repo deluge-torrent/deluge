@@ -107,7 +107,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkHSeparator" id="hseparator2">
+          <object class="GtkSeparator" id="hseparator2">
             <property name="can_focus">False</property>
           </object>
           <packing>
