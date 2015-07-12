@@ -1334,7 +1334,7 @@ also delete the .torrent file used to add it.</property>
               </packing>
             </child>
             <child>
-              <object class="GtkHButtonBox" id="hbuttonbox2">
+              <object class="GtkButtonBox" id="hbuttonbox2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
               </object>
