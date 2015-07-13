@@ -142,7 +142,12 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
         :type data: object
 
         """
-        self.transfer_message(data)
+        try:
+            self.transfer_message(data)
+        except Exception as ex:
+            log.warn("Error occurred when sending message: %s.", ex)
+            log.exception(ex)
+            raise
 
     def connectionMade(self):  # NOQA
         """
@@ -215,7 +220,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                           "send(causing exception goes next):\n%s", formated_tb)
                 try:
                     raise WrappedException(str(exceptionValue), exceptionType.__name__, formated_tb)
-                except Exception:
+                except WrappedException:
                     send_error()
             except Exception as ex:
                 log.error("An exception occurred while sending RPC_ERROR to client: %s", ex)
@@ -245,7 +250,12 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                 if not ret:
                     self.transport.loseConnection()
             return
-        elif method == "daemon.set_event_interest" and self.valid_session():
+
+        # Anything below requires a valid session
+        if not self.valid_session():
+            return
+
+        if method == "daemon.set_event_interest":
             log.debug("RPC dispatch daemon.set_event_interest")
             # This special case is to allow clients to set which events they are
             # interested in receiving.
@@ -260,44 +270,54 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                 self.sendData((RPC_RESPONSE, request_id, (True)))
             return
 
-        if method in self.factory.methods and self.valid_session():
-            log.debug("RPC dispatch %s", method)
+        if method not in self.factory.methods:
             try:
-                method_auth_requirement = self.factory.methods[method]._rpcserver_auth_level
-                auth_level = self.factory.authorized_sessions[self.transport.sessionno][0]
-                if auth_level < method_auth_requirement:
-                    # This session is not allowed to call this method
-                    log.debug("Session %s is trying to call a method it is not "
-                              "authorized to call!", self.transport.sessionno)
-                    raise NotAuthorizedError(auth_level, method_auth_requirement)
-                # Set the session_id in the factory so that methods can know
-                # which session is calling it.
-                self.factory.session_id = self.transport.sessionno
-                ret = self.factory.methods[method](*args, **kwargs)
-            except Exception as ex:
+                # Raise exception to be sent back to client
+                raise AttributeError("RPC call on invalid function '%s'." % method)
+            except AttributeError:
                 send_error()
-                # Don't bother printing out DelugeErrors, because they are just
-                # for the client
-                if not isinstance(ex, DelugeError):
-                    log.exception("Exception calling RPC request: %s", ex)
-            else:
-                # Check if the return value is a deferred, since we'll need to
-                # wait for it to fire before sending the RPC_RESPONSE
-                if isinstance(ret, defer.Deferred):
-                    def on_success(result):
+                return
+
+        log.debug("RPC dispatch %s", method)
+        try:
+            method_auth_requirement = self.factory.methods[method]._rpcserver_auth_level
+            auth_level = self.factory.authorized_sessions[self.transport.sessionno][0]
+            if auth_level < method_auth_requirement:
+                # This session is not allowed to call this method
+                log.debug("Session %s is attempting an unauthorized method call!",
+                          self.transport.sessionno)
+                raise NotAuthorizedError(auth_level, method_auth_requirement)
+            # Set the session_id in the factory so that methods can know
+            # which session is calling it.
+            self.factory.session_id = self.transport.sessionno
+            ret = self.factory.methods[method](*args, **kwargs)
+        except Exception as ex:
+            send_error()
+            # Don't bother printing out DelugeErrors, because they are just
+            # for the client
+            if not isinstance(ex, DelugeError):
+                log.exception("Exception calling RPC request: %s", ex)
+        else:
+            # Check if the return value is a deferred, since we'll need to
+            # wait for it to fire before sending the RPC_RESPONSE
+            if isinstance(ret, defer.Deferred):
+                def on_success(result):
+                    try:
                         self.sendData((RPC_RESPONSE, request_id, result))
-                        return result
+                    except Exception:
+                        send_error()
+                    return result
 
-                    def on_fail(failure):
-                        try:
-                            failure.raiseException()
-                        except Exception:
-                            send_error()
-                        return failure
+                def on_fail(failure):
+                    try:
+                        failure.raiseException()
+                    except Exception:
+                        send_error()
+                    return failure
 
-                    ret.addCallbacks(on_success, on_fail)
-                else:
-                    self.sendData((RPC_RESPONSE, request_id, ret))
+                ret.addCallbacks(on_success, on_fail)
+            else:
+                self.sendData((RPC_RESPONSE, request_id, ret))
 
 
 class RPCServer(component.Component):
