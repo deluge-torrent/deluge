@@ -148,8 +148,9 @@ class PreferencesManager(component.Component):
         self.session.set_settings(settings)
 
     def _on_config_value_change(self, key, value):
-        self.do_config_set_func(key, value)
-        component.get("EventManager").emit(ConfigValueChangedEvent(key, value))
+        if self.get_state() == "Started":
+            self.do_config_set_func(key, value)
+            component.get("EventManager").emit(ConfigValueChangedEvent(key, value))
 
     def _on_set_torrentfiles_location(self, key, value):
         if self.config["copy_torrent_file"]:
