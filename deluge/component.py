@@ -183,6 +183,9 @@ class Component(object):
         d.addCallback(on_stop)
         return d
 
+    def get_state(self):
+        return self._component_state
+
     def start(self):
         pass
 
