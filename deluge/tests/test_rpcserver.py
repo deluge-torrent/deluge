@@ -78,10 +78,20 @@ class RPCServerTestCase(BaseTestCase):
 
     def test_client_login_error(self):
         # This test causes error log prints while running the test...
-        self.protocol.transport = None   # This should causes AttributeError
+        self.protocol.transport = None   # This should cause AttributeError
         self.authmanager = AuthManager()
         auth = get_localhost_auth()
         self.protocol.dispatch(self.request_id, "daemon.login", auth, {"client_version": "Test"})
+        msg = self.protocol.messages.pop()
+        self.assertEquals(msg[0], rpcserver.RPC_ERROR)
+        self.assertEquals(msg[1], self.request_id)
+        self.assertEquals(msg[2], "WrappedException")
+        self.assertEquals(msg[3][1], "AttributeError")
+
+    def test_client_invalid_method_call(self):
+        self.authmanager = AuthManager()
+        auth = get_localhost_auth()
+        self.protocol.dispatch(self.request_id, "invalid_function", auth, {})
         msg = self.protocol.messages.pop()
         self.assertEquals(msg[0], rpcserver.RPC_ERROR)
         self.assertEquals(msg[1], self.request_id)
