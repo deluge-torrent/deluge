@@ -6,6 +6,8 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
+# We skip isorting this file as it want to move the gtk2reactor.install() below the imports
+# isort:skip_file
 
 import logging
 import os
@@ -18,7 +20,8 @@ from twisted.internet import gtk2reactor
 from twisted.internet.error import ReactorAlreadyInstalledError
 
 try:
-    reactor = gtk2reactor.install()  # Install twisted reactor, before any other modules import reactor.
+    # Install twisted reactor, before any other modules import reactor.
+    reactor = gtk2reactor.install()
 except ReactorAlreadyInstalledError:
     # Running unit tests so trial already installed a rector
     pass
