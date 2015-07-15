@@ -4,11 +4,12 @@ import warnings
 
 from twisted.trial import unittest
 
-import common
 from deluge import component
 from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer
 from deluge.error import InvalidTorrentError
+
+from . import common
 
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 warnings.resetwarnings()
