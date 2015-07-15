@@ -8,14 +8,15 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-07-10 16:58+0100\n"
-"PO-Revision-Date: 2009-11-18 08:22+0000\n"
+"PO-Revision-Date: 2015-07-15 15:49-0400\n"
 "Last-Translator: René Pärts <Unknown>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-07-11 13:01+0000\n"
-"X-Generator: Launchpad (build 13388)\n"
+"X-Generator: Poedit 1.8.2\n"
+"Language: et\n"
 
 #: deluge/common.py:274
 msgid "KiB"
@@ -57,112 +58,134 @@ msgid "GiB/s"
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
+#, fuzzy
 msgid "Notification Blink shown"
-msgstr ""
+msgstr "Teate Blink programmi"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:183
+#, fuzzy
 msgid "Popup notification is not enabled."
-msgstr ""
+msgstr "Popup teate pole lubatud."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:185
+#, fuzzy
 msgid "pynotify is not installed"
-msgstr ""
+msgstr "pynotify pole installitud"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:193
+#, fuzzy
 msgid "pynotify failed to show notification"
-msgstr ""
+msgstr "pynotify ole tõendanud teatamine"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:196
+#, fuzzy
 msgid "Notification popup shown"
-msgstr ""
+msgstr "Teate popup programmi"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:200
+#, fuzzy
 msgid "Sound notification not enabled"
-msgstr ""
+msgstr "Heli teatamise pole lubatud"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:202
+#, fuzzy
 msgid "pygame is not installed"
-msgstr ""
+msgstr "pygame pole installitud"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:214
-#, python-format
+#, fuzzy, python-format
 msgid "Sound notification failed %s"
-msgstr ""
+msgstr "Heli teatamise nurjus %s"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:218
+#, fuzzy
 msgid "Sound notification Success"
-msgstr ""
+msgstr "Heli teatamise edu"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:241
+#, fuzzy
 msgid "Finished Torrent"
-msgstr ""
+msgstr "Lõpetanud Torrent"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:242
-#, python-format
-msgid ""
-"The torrent \"%(name)s\" including %(num_files)i has finished downloading."
+#, fuzzy, python-format
+msgid "The torrent \"%(name)s\" including %(num_files)i has finished downloading."
 msgstr ""
+"Torrent \"(nimi) %s\" sealhulgas % (num_files) ma allalaadimine on lõppenud."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:646
+#, fuzzy
 msgid "Choose Sound File"
-msgstr ""
+msgstr "Valige helifail"
 
 #: deluge/plugins/notifications/notifications/core.py:138
 #: deluge/plugins/notifications/notifications/core.py:171
-#, python-format
+#, fuzzy, python-format
 msgid "There was an error sending the notification email: %s"
-msgstr ""
+msgstr "Teate meili saatmisel ilmnes tõrge: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:157
-#, python-format
+#, fuzzy, python-format
 msgid "The server didn't reply properly to the helo greeting: %s"
-msgstr ""
+msgstr "Server ei vastanud nõuetekohaselt helo tervitus: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:162
-#, python-format
+#, fuzzy, python-format
 msgid "The server didn't accept the username/password combination: %s"
-msgstr ""
+msgstr "Server ei aktsepteerinud kasutajanime/parooli kombinatsiooni: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:186
+#, fuzzy
 msgid "Notification email sent."
-msgstr ""
+msgstr "Teavituse e-mail"
 
 #: deluge/plugins/notifications/notifications/core.py:194
-#, python-format
+#, fuzzy, python-format
 msgid "Finished Torrent \"%(name)s\""
-msgstr ""
+msgstr "Lõpetanud Torrent \"(nimi) %s\""
 
 #: deluge/plugins/notifications/notifications/core.py:196
-#, python-format
+#, fuzzy, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading "
-"\"%(name)s\", which includes %(num_files)i files.\n"
-"To stop receiving these alerts, simply turn off email notification in "
-"Deluge's preferences.\n"
+"This email is to inform you that Deluge has finished downloading \"%(name)s\", "
+"which includes %(num_files)i files.\n"
+"To stop receiving these alerts, simply turn off email notification in Deluge's "
+"preferences.\n"
 "\n"
 "Thank you,\n"
 "Deluge."
 msgstr ""
+"See email on teile teatada, et veeuputus on lõpetanud allalaadimine \"(nimi) %s"
+"\", mis sisaldab % (num_files) ma faile.\n"
+"Nende teadete mittesaamiseks lihtsalt välja lülitada meiliteadet ummistama 's "
+"eelistustes.\n"
+"\n"
+"Aitäh, veeuputus."
 
 #: deluge/plugins/notifications/notifications/data/config.glade:29
+#, fuzzy
 msgid "<b><i><big>Notifications</big></i></b>"
-msgstr ""
+msgstr "Teavitused"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:81
+#, fuzzy
 msgid "Tray icon blinks enabled"
-msgstr ""
+msgstr "Tray ikoon vilgub lubatud"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:93
+#, fuzzy
 msgid "Popups enabled"
-msgstr ""
+msgstr "Lubatud hüpikaknad"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:108
+#, fuzzy
 msgid "Sound enabled"
-msgstr ""
+msgstr "Heli lubatud"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:144
+#, fuzzy
 msgid "<b>UI Notifications</b>"
-msgstr ""
+msgstr "<b>UI teated</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:175
 #: deluge/ui/gtkui/glade/connection_manager.glade:28
@@ -198,12 +221,14 @@ msgid "Password:"
 msgstr "Parool:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:360
+#, fuzzy
 msgid "<b>Recipients</b>"
-msgstr ""
+msgstr "ABISAAJAD"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:383
+#, fuzzy
 msgid "Server requires TLS/SSL"
-msgstr ""
+msgstr "Server nõuab TLS/SSL"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:398
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:633
@@ -217,43 +242,52 @@ msgid "Enabled"
 msgstr "Lubatud"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:443
+#, fuzzy
 msgid "<b>Email Notifications</b>"
-msgstr ""
+msgstr "<b>E-posti teated</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:460
 msgid "Settings"
 msgstr "Seaded"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:495
+#, fuzzy
 msgid ""
-"This configuration does not mean that you'll actually receive notifications "
-"for all these events."
+"This configuration does not mean that you'll actually receive notifications for "
+"all these events."
 msgstr ""
+"See konfiguratsioon ei tähenda, et saate tegelikult kõikide ürituste teatised."
 
 #: deluge/plugins/notifications/notifications/data/config.glade:513
+#, fuzzy
 msgid "Subscriptions"
-msgstr ""
+msgstr "Tellimine"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:594
+#, fuzzy
 msgid "Sound Customization"
-msgstr ""
+msgstr "Heli kohandamine"
 
 #: deluge/plugins/autoadd/autoadd/core.py:136
+#, fuzzy
 msgid "Watch folder does not exist."
-msgstr ""
+msgstr "Jälgi kataloogi pole olemas."
 
 #: deluge/plugins/autoadd/autoadd/core.py:139
 #: deluge/plugins/autoadd/autoadd/core.py:308
+#, fuzzy
 msgid "Path does not exist."
-msgstr ""
+msgstr "Teed pole olemas."
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
+#, fuzzy
 msgid "AutoAdd Error"
-msgstr ""
+msgstr "AutoAdd tõrge"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:78
+#, fuzzy
 msgid "Watch Folder Properties"
-msgstr ""
+msgstr "Vaadata kausta atribuudid"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
@@ -268,32 +302,38 @@ msgid "Select A Folder"
 msgstr "Vali kaust"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:143
+#, fuzzy
 msgid "Enable this watch folder"
-msgstr ""
+msgstr "Lubade kasutada Jälgi kataloogi"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:164
+#, fuzzy
 msgid "<b>Watch Folder</b>"
-msgstr ""
+msgstr "<b>Jälgi kataloogi</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:195
+#, fuzzy
 msgid "Delete .torrent after adding"
-msgstr ""
+msgstr "Kustuta .torrent lisamisel"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:211
+#, fuzzy
 msgid "Append extension after adding:"
-msgstr ""
+msgstr "Lisa segule laiendamine:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:228
 msgid ".added"
 msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:248
+#, fuzzy
 msgid "<b>Torrent File Action</b>"
-msgstr ""
+msgstr "<b>Torrent fail tegevus</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:275
+#, fuzzy
 msgid "Set download location"
-msgstr ""
+msgstr "Set laadida asukoht"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:325
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:396
@@ -301,20 +341,24 @@ msgid "<b>Download Location</b>"
 msgstr "<b>Allalaadimise koht</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:353
+#, fuzzy
 msgid "Set move completed location"
-msgstr ""
+msgstr "Täidetud Sea liikuda asukohta"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:418
+#, fuzzy
 msgid "<b>Move Completed</b>"
-msgstr ""
+msgstr "<b>Teisaldada lõpetatud</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:444
+#, fuzzy
 msgid "Label: "
-msgstr ""
+msgstr "Märgis:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:475
+#, fuzzy
 msgid "<b>Label</b>"
-msgstr ""
+msgstr "Etikett"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:492
 msgid "Main"
@@ -361,16 +405,19 @@ msgid "Remove at ratio"
 msgstr "Eemalda suhtega"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:762
+#, fuzzy
 msgid "Auto Managed:"
-msgstr ""
+msgstr "Auto õnnestus:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:890
+#, fuzzy
 msgid "Add Paused:"
-msgstr ""
+msgstr "Lisa peatatud:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:936
+#, fuzzy
 msgid "Queue to:"
-msgstr ""
+msgstr "Järjekorda, et:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:954
 msgid "Top"
@@ -392,8 +439,9 @@ msgid "Options"
 msgstr "Eelistused"
 
 #: deluge/plugins/autoadd/autoadd/data/config.glade:41
+#, fuzzy
 msgid "<b>Watch Folders:</b>"
-msgstr ""
+msgstr "<b>Vaata kaustu:</b>"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:238
 msgid "Download Limit:"
@@ -408,12 +456,14 @@ msgid "Active Torrents:"
 msgstr "Aktiivsed torrentid:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:265
+#, fuzzy
 msgid "Active Downloading:"
-msgstr ""
+msgstr "Aktiivne allalaadimine:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:274
+#, fuzzy
 msgid "Active Seeding:"
-msgstr ""
+msgstr "Aktiivne külv:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:288
 msgid "<b>Slow Settings</b>"
@@ -431,8 +481,7 @@ msgstr "Tühi silt"
 msgid "Label already exists"
 msgstr "Silt juba olemas"
 
-#: deluge/plugins/label/label/core.py:199
-#: deluge/plugins/label/label/core.py:279
+#: deluge/plugins/label/label/core.py:199 deluge/plugins/label/label/core.py:279
 #: deluge/plugins/label/label/core.py:314
 msgid "Unknown Label"
 msgstr "Tundmatu silt"
@@ -548,8 +597,7 @@ msgstr "Nimi:"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
-msgstr ""
-"<i>Siltide lisamiseks, muutmiseks ja eemaldamiseks kasuta külgriba</i>\n"
+msgstr "<i>Siltide lisamiseks, muutmiseks ja eemaldamiseks kasuta külgriba</i>\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:32
 msgid "<b>Labels</b>"
@@ -580,10 +628,12 @@ msgid "<b>General</b>"
 msgstr "<b>Üldine</b>"
 
 #: deluge/plugins/webui/webui/gtkui.py:97
+#, fuzzy
 msgid ""
 "The Deluge web interface is not installed, please install the\n"
 "interface and try again"
 msgstr ""
+"Veeuputus veebiliidese pole installitud, installige liides ja proovige uuesti"
 
 #: deluge/plugins/webui/webui/data/config.glade:27
 msgid "Enable web interface"
@@ -1794,8 +1844,7 @@ msgstr "Alla kiirus"
 msgid "Up Speed"
 msgstr "Üles kiirus"
 
-#: deluge/ui/gtkui/queuedtorrents.py:75
-#: deluge/ui/gtkui/addtorrentdialog.py:103
+#: deluge/ui/gtkui/queuedtorrents.py:75 deluge/ui/gtkui/addtorrentdialog.py:103
 msgid "Torrent"
 msgstr "Torrent"
 
@@ -1838,8 +1887,9 @@ msgid "Deluge"
 msgstr "Deluge"
 
 #: deluge/ui/gtkui/systemtray.py:201
+#, fuzzy
 msgid "Not Connected..."
-msgstr ""
+msgstr "Pole ühendatud..."
 
 #: deluge/ui/gtkui/systemtray.py:258
 msgid "Down"
@@ -1860,50 +1910,55 @@ msgid "Set Maximum Upload Speed"
 msgstr "Maksimaalne üleslaadimiskiirus"
 
 #: deluge/ui/gtkui/systemtray.py:470
+#, fuzzy
 msgid "Deluge is password protected!"
-msgstr ""
+msgstr "Veeuputus on parooliga kaitstud!"
 
 #: deluge/ui/gtkui/systemtray.py:476
+#, fuzzy
 msgid "Enter your password to continue"
-msgstr ""
+msgstr "Sisestage parool jätkata"
 
 #: deluge/ui/gtkui/notification.py:79
 msgid "Torrent complete"
 msgstr "Torrent valmis"
 
 #: deluge/ui/gtkui/notification.py:80
+#, fuzzy
 msgid "Including"
-msgstr ""
+msgstr "sellest:"
 
 #: deluge/ui/gtkui/notification.py:80
+#, fuzzy
 msgid "files"
-msgstr ""
+msgstr "Failid"
 
 #: deluge/ui/gtkui/notification.py:109
 #, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading %(name)s ,  "
-"           which includes %(num_files)i files.\n"
-"To stop receiving these alerts, simply turn off             email "
-"notification in Deluge's preferences.\n"
+"This email is to inform you that Deluge has finished downloading "
+"%(name)s ,             which includes %(num_files)i files.\n"
+"To stop receiving these alerts, simply turn off             email notification "
+"in Deluge's preferences.\n"
 "\n"
 "Thank you,\n"
 "Deluge"
 msgstr ""
 "Deluge on lõpetanud %(name)s allalaadimise, mis kaasab %(num_files)i faili.\n"
-"Nende teadete keelamiseks lülita välja e-posti teavitus Deluge "
-"eelistustest.\n"
+"Nende teadete keelamiseks lülita välja e-posti teavitus Deluge eelistustest.\n"
 "\n"
 "Aitäh,\n"
 "Deluge"
 
 #: deluge/ui/gtkui/new_release_dialog.py:72
+#, fuzzy
 msgid "<i>Client Version</i>"
-msgstr ""
+msgstr "<i>Kliendi versioon</i>"
 
 #: deluge/ui/gtkui/preferences.py:72
+#, fuzzy
 msgid "Categories"
-msgstr ""
+msgstr "Kategooriad"
 
 #: deluge/ui/gtkui/preferences.py:76
 msgid "Downloads"
@@ -1981,10 +2036,13 @@ msgid "Unable to set file priority!"
 msgstr "Faili tähtsuse määramine ebaõnnestus!"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:492
+#, fuzzy
 msgid ""
 "File prioritization is unavailable when using Compact allocation.  Would you "
 "like to switch to Full allocation?"
 msgstr ""
+"Faili prioritiseerimine pole saadaval, kasutades kompaktne jaotamist.  Kas "
+"soovite lülituda täielikult ära?"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:541
 msgid "Choose a .torrent file"
@@ -2005,20 +2063,23 @@ msgid "Invalid URL"
 msgstr "Vigane URL"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:622
+#, fuzzy
 msgid "is not a valid URL."
-msgstr ""
+msgstr "pole kehtiv URL."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:626
+#, fuzzy
 msgid "Downloading..."
-msgstr ""
+msgstr "Allalaadimine..."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
 msgid "Download Failed"
 msgstr "Allalaadimine ebaõnnestus"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
+#, fuzzy
 msgid "Failed to download:"
-msgstr ""
+msgstr "Allalaadimine nurjus:"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:103
 #: deluge/ui/gtkui/edittrackersdialog.py:84
@@ -2067,8 +2128,9 @@ msgid "DHT Nodes"
 msgstr "DHT sõlmed"
 
 #: deluge/ui/gtkui/statusbar.py:186
+#, fuzzy
 msgid "Free Disk Space"
-msgstr ""
+msgstr "Vaba kettaruumi"
 
 #: deluge/ui/gtkui/statusbar.py:190
 msgid "No Incoming Connections!"
@@ -2115,8 +2177,9 @@ msgid "Queued"
 msgstr "Järjekorras"
 
 #: deluge/ui/gtkui/filtertreeview.py:79
+#, fuzzy
 msgid "Active"
-msgstr ""
+msgstr "Vältus"
 
 #: deluge/ui/gtkui/filtertreeview.py:80
 msgid "None"
@@ -2128,65 +2191,73 @@ msgstr "Sildita"
 
 #: deluge/ui/gtkui/aboutdialog.py:253
 msgid ""
-"This program is free software; you can redistribute it and/or modify it "
-"under the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 3 of the License, or (at your option) "
-"any later version. \n"
+"This program is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free Software "
+"Foundation; either version 3 of the License, or (at your option) any later "
+"version. \n"
 "\n"
-"This program is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
-"more details. \n"
+"This program is distributed in the hope that it will be useful, but WITHOUT ANY "
+"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A "
+"PARTICULAR PURPOSE. See the GNU General Public License for more details. \n"
 "\n"
 "You should have received a copy of the GNU General Public License along with "
 "this program; if not, see <http://www.gnu.org/licenses>. \n"
 "\n"
-"In addition, as a special exception, the copyright holders give permission "
-"to link the code of portions of this program with the OpenSSL library. You "
-"must obey the GNU General Public License in all respects for all of the code "
-"used other than OpenSSL. \n"
+"In addition, as a special exception, the copyright holders give permission to "
+"link the code of portions of this program with the OpenSSL library. You must "
+"obey the GNU General Public License in all respects for all of the code used "
+"other than OpenSSL. \n"
 "\n"
 "If you modify file(s) with this exception, you may extend this exception to "
-"your version of the file(s), but you are not obligated to do so. If you do "
-"not wish to do so, delete this exception statement from your version. If you "
-"delete this exception statement from all source files in the program, then "
-"also delete it here."
+"your version of the file(s), but you are not obligated to do so. If you do not "
+"wish to do so, delete this exception statement from your version. If you delete "
+"this exception statement from all source files in the program, then also delete "
+"it here."
 msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:149
+#, fuzzy
 msgid "Status"
-msgstr ""
+msgstr "Staatus"
 
 #: deluge/ui/gtkui/connectionmanager.py:153
 msgid "Host"
 msgstr "Host"
 
 #: deluge/ui/gtkui/connectionmanager.py:158
+#, fuzzy
 msgid "Version"
-msgstr ""
+msgstr "Versioon"
 
 #: deluge/ui/gtkui/connectionmanager.py:386
+#, fuzzy
 msgid "_Stop Daemon"
-msgstr ""
+msgstr "_Stop deemon"
 
 #: deluge/ui/gtkui/connectionmanager.py:394
+#, fuzzy
 msgid "_Start Daemon"
-msgstr ""
+msgstr "_Start deemon"
 
 #: deluge/ui/gtkui/connectionmanager.py:414
 #: deluge/ui/gtkui/connectionmanager.py:424
+#, fuzzy
 msgid "Unable to start daemon!"
-msgstr ""
+msgstr "Ei saa käivitada daemon!"
 
 #: deluge/ui/gtkui/connectionmanager.py:415
+#, fuzzy
 msgid ""
 "Deluge cannot find the 'deluged' executable, it is likely that you forgot to "
 "install the deluged package or it's not in your PATH."
 msgstr ""
+"Veeuputus ei leia 'deluged' käivitatav, on tõenäoline, et unustasin "
+"installimine deluged pakett või see pole sinu tee."
 
 #: deluge/ui/gtkui/connectionmanager.py:425
+#, fuzzy
 msgid "Please examine the details for more information."
-msgstr ""
+msgstr "Palun uurige lisateabe üksikasju."
 
 #: deluge/ui/gtkui/connectionmanager.py:509
 msgid "Error Adding Host"
@@ -2212,22 +2283,21 @@ msgstr "Viga tuuma käivitamisel"
 
 #: deluge/ui/gtkui/gtkui.py:313
 msgid ""
-"There was an error starting the core component which is required to run "
-"Deluge in Classic Mode.\n"
+"There was an error starting the core component which is required to run Deluge "
+"in Classic Mode.\n"
 "\n"
 "Please see the details below for more information."
 msgstr ""
-"Tekkis viga tuuma komponendi käivitamisel, mis on vajalik Deluge "
-"kasutamiseks klassikalises režiimis.\n"
+"Tekkis viga tuuma komponendi käivitamisel, mis on vajalik Deluge kasutamiseks "
+"klassikalises režiimis.\n"
 "\n"
 "Rohkema informatsiooni saamiseks loe edasi alt."
 
 #: deluge/ui/gtkui/gtkui.py:318
 msgid ""
-"Since there was an error starting in Classic Mode would you like to continue "
-"by turning it off?"
-msgstr ""
-"Viga klassikalise režiimi käivitamisel. Kas lülitada välja, et jätkata?"
+"Since there was an error starting in Classic Mode would you like to continue by "
+"turning it off?"
+msgstr "Viga klassikalise režiimi käivitamisel. Kas lülitada välja, et jätkata?"
 
 #: deluge/ui/gtkui/gtkui.py:342
 msgid "Error Starting Daemon"
@@ -2235,10 +2305,9 @@ msgstr "Viga deemoni käivitamisel"
 
 #: deluge/ui/gtkui/gtkui.py:343
 msgid ""
-"There was an error starting the daemon process.  Try running it from a "
-"console to see if there is an error."
-msgstr ""
-"Viga deemoni käivitamisel. proovige käivitada konsoolist et näha viga."
+"There was an error starting the daemon process.  Try running it from a console "
+"to see if there is an error."
+msgstr "Viga deemoni käivitamisel. proovige käivitada konsoolist et näha viga."
 
 #: deluge/ui/gtkui/status_tab.py:128 deluge/ui/gtkui/menubar.py:89
 msgid "On"
@@ -2261,20 +2330,24 @@ msgid "Set Maximum Upload Slots"
 msgstr "Maksimaalselt üleslaadimispesasid"
 
 #: deluge/ui/gtkui/files_tab.py:56
+#, fuzzy
 msgid "Do Not Download"
-msgstr ""
+msgstr "Ärge laadida"
 
 #: deluge/ui/gtkui/files_tab.py:57
+#, fuzzy
 msgid "Normal Priority"
-msgstr ""
+msgstr "Tavaline prioriteet"
 
 #: deluge/ui/gtkui/files_tab.py:58
+#, fuzzy
 msgid "High Priority"
-msgstr ""
+msgstr "Kõrge prioriteet"
 
 #: deluge/ui/gtkui/files_tab.py:59
+#, fuzzy
 msgid "Highest Priority"
-msgstr ""
+msgstr "Kõrgeim prioriteet"
 
 #: deluge/ui/gtkui/files_tab.py:169
 msgid "Priority"
@@ -2306,12 +2379,14 @@ msgid "Peers"
 msgstr "Masinad"
 
 #: deluge/ui/gtkui/torrentview.py:241
+#, fuzzy
 msgid "Down Limit"
-msgstr ""
+msgstr "Alla piirmäära"
 
 #: deluge/ui/gtkui/torrentview.py:243
+#, fuzzy
 msgid "Up Limit"
-msgstr ""
+msgstr "Kuni limiidi"
 
 #: deluge/ui/gtkui/torrentview.py:245
 msgid "ETA"
@@ -2330,8 +2405,9 @@ msgid "Added"
 msgstr "Lisatud"
 
 #: deluge/ui/gtkui/torrentview.py:257
+#, fuzzy
 msgid "Save Path"
-msgstr ""
+msgstr "Salvesta tee"
 
 #: deluge/ui/gtkui/glade/main_window.glade:21
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:99
@@ -2349,8 +2425,9 @@ msgid "_Create Torrent"
 msgstr "_Loo torrent"
 
 #: deluge/ui/gtkui/glade/main_window.glade:65
+#, fuzzy
 msgid "Quit & _Shutdown Daemon"
-msgstr ""
+msgstr "Quit- & _Shutdown deemon"
 
 #: deluge/ui/gtkui/glade/main_window.glade:101
 msgid "_Edit"
@@ -2644,8 +2721,7 @@ msgid "Remove Torrent?"
 msgstr "Eemalda torrent?"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2324
-msgid ""
-"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
+msgid "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
 msgstr "<big><b>Oled kinnel et soovid eemaltada valitud torrenti?</b></big>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2376
@@ -2677,8 +2753,9 @@ msgid "<i>Current Version:</i>"
 msgstr "<i>Praegune versioon:</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2604
+#, fuzzy
 msgid "<i>Server Version</i>"
-msgstr ""
+msgstr "<i>Serveri versioon</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2637
 msgid "Do not show this dialog in the future"
@@ -2842,6 +2919,7 @@ msgid "Piece Size:"
 msgstr "Tüki suurus:"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
+#, fuzzy
 msgid ""
 "32 KiB\n"
 "64 KiB\n"
@@ -2853,7 +2931,7 @@ msgid ""
 "4 MiB\n"
 "8 MiB\n"
 "16 MiB\n"
-msgstr ""
+msgstr "32 KiB 64 KiB 128 KiB 256 KiB 512 KiB 1 MiB 2 MiB 4 MiB 8 MiB 16 MiB"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:580
 msgid "Set Private Flag"
@@ -2957,13 +3035,14 @@ msgid "Copy of .torrent files to:"
 msgstr ".torrent failid kopeeritakse:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:316
+#, fuzzy
 msgid "Delete copy of torrent file on remove"
-msgstr ""
+msgstr "Kustuta torrent faili eemaldamine"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:320
-msgid ""
-"Delete the copy of the torrent file created when the torrent is removed"
-msgstr ""
+#, fuzzy
+msgid "Delete the copy of the torrent file created when the torrent is removed"
+msgstr "Kustuta loodud torrent väljaviimisel torrent faili koopia"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:337
 msgid "<b>Folders</b>"
@@ -3049,8 +3128,8 @@ msgstr "<b>Kasutajaliides</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:939
 msgid ""
-"The TOS byte set in the IP header of every packet sent to peers (including "
-"web seeds).  Expects a Hex value."
+"The TOS byte set in the IP header of every packet sent to peers (including web "
+"seeds).  Expects a Hex value."
 msgstr ""
 "IP päises oleva TOS-baidi saatmine masinatele (k.a veebilevitamises). Eeldab "
 "heksakoodi."
@@ -3162,8 +3241,7 @@ msgstr "Maksimaalselt pool-avatud ühendusi:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1509
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr ""
-"Maksimaalne üleslaadimiskiirus kõigile torrentitele. Määra -1 piiramatu "
-"puhul."
+"Maksimaalne üleslaadimiskiirus kõigile torrentitele. Määra -1 piiramatu puhul."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1421
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1706
@@ -3184,8 +3262,7 @@ msgstr "Maksimaalselt ühendusi:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1528
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
 msgstr ""
-"Maksimaalselt üleslaadimise pesi kõigile torrentitele. Määra -1 piiramatu "
-"puhul."
+"Maksimaalselt üleslaadimise pesi kõigile torrentitele. Määra -1 piiramatu puhul."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1445
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1680
@@ -3196,8 +3273,7 @@ msgstr "Maksimaalne üleslaadimiste pesad:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1490
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
 msgstr ""
-"Maksimaalne allalaadimiskiirus kõigile torrentitele. Määra -1 piiramatu "
-"puhul."
+"Maksimaalne allalaadimiskiirus kõigile torrentitele. Määra -1 piiramatu puhul."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1477
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1693
@@ -3209,16 +3285,17 @@ msgid "Ignore limits on local network"
 msgstr "Piirangute eiramine kohtvõrgus"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1573
+#, fuzzy
 msgid "Rate limit IP overhead"
-msgstr ""
+msgstr "Löögisageduse piir IP üldkulu"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1577
 msgid ""
-"If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
-"to avoid exceeding the limits with the total traffic"
+"If checked, the estimated TCP/IP overhead is drained from the rate limiters, to "
+"avoid exceeding the limits with the total traffic"
 msgstr ""
-"Kui see on lubatud, ligikaudne TCP / IP  üldkulu lubatud kiiruse piirajaid, "
-"et vältida koguliikluse ületamist"
+"Kui see on lubatud, ligikaudne TCP / IP  üldkulu lubatud kiiruse piirajaid, et "
+"vältida koguliikluse ületamist"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1594
 msgid "<b>Global Bandwidth Usage</b>"
@@ -3234,8 +3311,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1718
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1736
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
-msgstr ""
-"Maksimaalne ühenduste arv iga torrenti kohta. Määra -1 piiramatu puhul."
+msgstr "Maksimaalne ühenduste arv iga torrenti kohta. Määra -1 piiramatu puhul."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1758
 msgid "<b>Per Torrent Bandwidth Usage</b>"
@@ -3256,9 +3332,9 @@ msgid ""
 "advantage of running Deluge as a daemon. You need to restart Deluge for this "
 "setting to take effect."
 msgstr ""
-"Klassikaline režiim peidab enamuse deemoni funktsionaalsusest ja muudab "
-"Deluge näiliselt terviklikuks rakenduseks. Kasuta, kui ei soovi käivitada "
-"Deluget deemonina. Rakendamiseks on vajalik Deluge taaskäivitus."
+"Klassikaline režiim peidab enamuse deemoni funktsionaalsusest ja muudab Deluge "
+"näiliselt terviklikuks rakenduseks. Kasuta, kui ei soovi käivitada Deluget "
+"deemonina. Rakendamiseks on vajalik Deluge taaskäivitus."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1866
 msgid "<b>Classic Mode</b>"
@@ -3330,12 +3406,12 @@ msgstr "<b>Uuendused</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2326
 msgid ""
-"Help us improve Deluge by sending us your Python version, PyGTK version, OS "
-"and processor types.  Absolutely no other information is sent."
+"Help us improve Deluge by sending us your Python version, PyGTK version, OS and "
+"processor types.  Absolutely no other information is sent."
 msgstr ""
-"Aita kaasa Deluge täiustamisele ja saada oma Pythoni ja PyGTK versioonid "
-"ning operatsioonisüsteemi ja protsessori tüübid. Absoluutselt muud "
-"informatsiooni ei saadeta."
+"Aita kaasa Deluge täiustamisele ja saada oma Pythoni ja PyGTK versioonid ning "
+"operatsioonisüsteemi ja protsessori tüübid. Absoluutselt muud informatsiooni ei "
+"saadeta."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2343
 msgid "Yes, please send anonymous statistics"
@@ -3354,8 +3430,8 @@ msgid ""
 "If Deluge cannot find the database file at this location it will fallback to "
 "using DNS to resolve the peer's country."
 msgstr ""
-"Kui asukohta Deluge andmebaasist ei leita, kasutatakse masina riigi "
-"määramiseks DNS-i."
+"Kui asukohta Deluge andmebaasist ei leita, kasutatakse masina riigi määramiseks "
+"DNS-i."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2444
 msgid "<b>GeoIP Database</b>"
@@ -3500,10 +3576,13 @@ msgid "Cache Size (16 KiB blocks):"
 msgstr "Puhvri suurus (16 KiB blokid):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4122
+#, fuzzy
 msgid ""
-"The number of seconds from the last cached write to a piece in the write "
-"cache, to when it's forcefully flushed to disk. Default is 60 seconds."
+"The number of seconds from the last cached write to a piece in the write cache, "
+"to when it's forcefully flushed to disk. Default is 60 seconds."
 msgstr ""
+"Mitu sekundit vahemällu talletatud kirjutada paberile kirjutada vahemälu, kuna "
+"see on jõuliselt joondatud kettale. Vaikimisi on 60 sekundit."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4124
 msgid "Cache Expiry (seconds):"
@@ -3521,8 +3600,7 @@ msgstr "Blokke kirjutatud:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4231
 msgid ""
-"The total number of write operations performed since this session was "
-"started."
+"The total number of write operations performed since this session was started."
 msgstr "Kirjutamiste arv kokku alates sessiooni algusest."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4233
@@ -3530,15 +3608,20 @@ msgid "Writes:"
 msgstr "Kirjutamisi:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4244
+#, fuzzy
 msgid ""
-"The ratio (blocks_written - writes) / blocks_written represents the number "
-"of saved write operations per total write operations, i.e. a kind of cache "
-"hit ratio for the write cache."
+"The ratio (blocks_written - writes) / blocks_written represents the number of "
+"saved write operations per total write operations, i.e. a kind of cache hit "
+"ratio for the write cache."
 msgstr ""
+"Suhe (blocks_written - kirjutab) / blocks_written tähistab salvestatud "
+"Kirjutamisoperatsioonid kohta kokku Kirjutamisoperatsioonid arvu, st omamoodi "
+"vahemälu tabamuste suhtarv kirjutada vahemälu."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4246
+#, fuzzy
 msgid "Write Cache Hit Ratio:"
-msgstr ""
+msgstr "Kirjutage tabamuste suhe:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4298
 msgid "<b>Write</b>"
@@ -3561,16 +3644,19 @@ msgid "The number of blocks that were served from cache."
 msgstr "Puhvrist serveeritud blokkide arv."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4341
+#, fuzzy
 msgid "Blocks Read Hit:"
-msgstr ""
+msgstr "Hit plokki loe:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4352
+#, fuzzy
 msgid "The cache hit ratio for the read cache."
-msgstr ""
+msgstr "Vahemälutabamuste suhe Loe vahemälu."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4354
+#, fuzzy
 msgid "Read Cache Hit Ratio:"
-msgstr ""
+msgstr "Loe tabamuste suhe:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4403
 msgid ""
@@ -3714,16 +3800,19 @@ msgid "If you remove the data, it will be lost permanently."
 msgstr "Kui kustutad kirje, on see jäädavalt kadunud"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:127
+#, fuzzy
 msgid "action"
-msgstr ""
+msgstr "Tegevus"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:129
+#, fuzzy
 msgid "Remove Files"
-msgstr ""
+msgstr "Failide eemaldamine"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:198
+#, fuzzy
 msgid "Keep Files"
-msgstr ""
+msgstr "Hoida faile"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:9
 msgid "Edit Trackers"
@@ -4114,11 +4203,9 @@ msgstr "Sihtkoht:"
 #~ msgid "Error in Path."
 #~ msgstr "Viga rajas."
 
-#~ msgid ""
-#~ "Select a valid choice. That choice is not one of the available choices."
+#~ msgid "Select a valid choice. That choice is not one of the available choices."
 #~ msgstr "Vali õige valiku varjant. See valik ei ole üks valiku varjantidest."
 
-#, python-format
 #~ msgid "Select a valid choice. %s is not one of the available choices."
 #~ msgstr "Vali õige valiku varjant. %s ei ole üks valiku varjantidest."
 
@@ -4153,7 +4240,6 @@ msgstr "Sihtkoht:"
 #~ msgid "Community"
 #~ msgstr "Kommuun"
 
-#, python-format
 #~ msgid "Importing %s"
 #~ msgstr "Impordin %s"
 
@@ -4163,7 +4249,6 @@ msgstr "Sihtkoht:"
 #~ msgid "State"
 #~ msgstr "Olek"
 
-#, python-format
 #~ msgid "%.2f%%"
 #~ msgstr "%.2f%%"
 
@@ -4185,7 +4270,6 @@ msgstr "Sihtkoht:"
 #~ msgid "Https"
 #~ msgstr "Https"
 
-#, python-format
 #~ msgid "Key not found at '%s'"
 #~ msgstr "Võtit ei leitud '%s'"
 
@@ -4360,14 +4444,12 @@ msgstr "Sihtkoht:"
 #~ msgid "Refresh status"
 #~ msgstr "Uuenda olekut"
 
-#, python-format
 #~ msgid "Including %i files"
 #~ msgstr "Kaasatud %i faili"
 
-#, python-format
 #~ msgid ""
-#~ "This email is to inform you that Deluge has finished downloading %s ,        "
-#~ "     which includes %i files.\n"
+#~ "This email is to inform you that Deluge has finished downloading "
+#~ "%s ,             which includes %i files.\n"
 #~ "To stop receiving these alerts, simply turn off             email "
 #~ "notification in Deluge's preferences.\n"
 #~ "\n"
@@ -4435,11 +4517,9 @@ msgstr "Sihtkoht:"
 #~ msgid "Force Download"
 #~ msgstr "Allalaadimine jõuga"
 
-#, python-format
 #~ msgid "Blocked Ranges: %s"
 #~ msgstr "Blokeeritud vahemikud: %s"
 
-#, python-format
 #~ msgid "Downloading %.2f%%"
 #~ msgstr "%.2f%% allalaadimine"
 
@@ -4479,7 +4559,6 @@ msgstr "Sihtkoht:"
 #~ msgid "Manually restart webui to apply changes."
 #~ msgstr "Muutuste rakendamiseks käsitsi webui restart"
 
-#, python-format
 #~ msgid "Certificate not found at '%s'"
 #~ msgstr "Sertifikaati ei leitud '%s'"
 
@@ -4499,11 +4578,9 @@ msgstr "Sihtkoht:"
 #~ "Deluge\n"
 #~ "Ühenduseta.."
 
-#, python-format
 #~ msgid "Failed to download : %s"
 #~ msgstr "Allalaadimine ebaõnnestus : %s"
 
-#, python-format
 #~ msgid "%s is not a valid URL."
 #~ msgstr "%s pole sobiv URL."
 
@@ -4521,16 +4598,16 @@ msgstr "Sihtkoht:"
 #~ "useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
 #~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
 #~ "Public License for more details. You should have received a copy of the GNU "
-#~ "General Public License along with this program; if not, see "
-#~ "<http://www.gnu.org/licenses>. In addition, as a special exception, the "
-#~ "copyright holders give permission to link the code of portions of this "
-#~ "program with the OpenSSL library. You must obey the GNU General Public "
-#~ "License in all respects for all of the code used other than OpenSSL. If you "
-#~ "modify file(s) with this exception, you may extend this exception to your "
-#~ "version of the file(s), but you are not obligated to do so. If you do not "
-#~ "wish to do so, delete this exception statement from your version. If you "
-#~ "delete this exception statement from all source files in the program, then "
-#~ "also delete it here."
+#~ "General Public License along with this program; if not, see <http://www.gnu."
+#~ "org/licenses>. In addition, as a special exception, the copyright holders "
+#~ "give permission to link the code of portions of this program with the "
+#~ "OpenSSL library. You must obey the GNU General Public License in all "
+#~ "respects for all of the code used other than OpenSSL. If you modify file(s) "
+#~ "with this exception, you may extend this exception to your version of the "
+#~ "file(s), but you are not obligated to do so. If you do not wish to do so, "
+#~ "delete this exception statement from your version. If you delete this "
+#~ "exception statement from all source files in the program, then also delete "
+#~ "it here."
 #~ msgstr ""
 #~ "See programm on vaba tarkvara. Te võite seda edasi levitada ja/või muuta "
 #~ "vastavalt GNU Üldise Avaliku Litsentsi tingimustele, nagu need on Vaba "
@@ -4602,8 +4679,8 @@ msgstr "Sihtkoht:"
 #~ "useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
 #~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
 #~ "Public License for more details. You should have received a copy of the GNU "
-#~ "General Public License along with this program; if not, see "
-#~ "<http://www.gnu.org/licenses>."
+#~ "General Public License along with this program; if not, see <http://www.gnu."
+#~ "org/licenses>."
 #~ msgstr ""
 #~ "See programm on vaba tarkvara. Te võite seda edasi levitada ja/või muuta "
 #~ "vastavalt GNU Üldise Avaliku Litsentsi tingimustele, nagu need on Vaba "
@@ -4645,24 +4722,18 @@ msgstr "Sihtkoht:"
 #~ msgid "No file was submitted."
 #~ msgstr "Ühtegi faili ei saadetud."
 
-#, python-format
 #~ msgid "Ensure that there are no more than %s decimal places."
 #~ msgstr "Veendu, et poleks rohkem kui %s kümnendkohta."
 
-#, python-format
-#~ msgid ""
-#~ "Ensure that there are no more than %s digits before the decimal point."
+#~ msgid "Ensure that there are no more than %s digits before the decimal point."
 #~ msgstr "Veendu, et poleks rohkem kui %s numbrit enne koma."
 
-#, python-format
 #~ msgid "Ensure that there are no more than %s digits in total."
 #~ msgstr "Veendu, et poleks kokku rohkem kui %s numbrit."
 
-#, python-format
 #~ msgid "Ensure this value is less than or equal to %s."
 #~ msgstr "Veendu, et väärtus oleks väiksem või võrdne kui %s."
 
-#, python-format
 #~ msgid "Ensure this value is greater than or equal to %s."
 #~ msgstr "Veendu, et väärtus oleks suurem või võrdne kui %s."
 
@@ -4684,14 +4755,11 @@ msgstr "Sihtkoht:"
 #~ msgid "Auto Add enabled"
 #~ msgstr "Automaatlisamine lubatud"
 
-#, python-format
 #~ msgid "Ensure this value has at most %(max)d characters (it has %(length)d)."
 #~ msgstr ""
 #~ "Veendu, et väärtusel poleks rohkem kui %(max)d tähemärki (praegu %(length)d)."
 
-#, python-format
-#~ msgid ""
-#~ "Ensure this value has at least %(min)d characters (it has %(length)d)."
+#~ msgid "Ensure this value has at least %(min)d characters (it has %(length)d)."
 #~ msgstr ""
 #~ "Veendu, et väärtusel poleks vähem kui %(min)d tähemärki (praegu %(length)d)."
 

@@ -8,14 +8,15 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-07-10 16:58+0100\n"
-"PO-Revision-Date: 2009-11-21 19:25+0000\n"
+"PO-Revision-Date: 2015-07-15 14:12-0400\n"
 "Last-Translator: Hesed Franquet <Unknown>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-07-11 13:01+0000\n"
-"X-Generator: Launchpad (build 13388)\n"
+"X-Generator: Poedit 1.8.2\n"
+"Language: ca\n"
 
 #: deluge/plugins/label/label/data/label_options.glade:226
 msgid "Connections:"
@@ -54,7 +55,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/main_window.glade:1846
 #: deluge/ui/console/statusbars.py:96 deluge/ui/console/statusbars.py:101
 msgid "KiB/s"
-msgstr "KiB/s"
+msgstr ""
 
 #: deluge/common.py:318
 msgid "MiB/s"
@@ -65,112 +66,136 @@ msgid "GiB/s"
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
+#, fuzzy
 msgid "Notification Blink shown"
-msgstr ""
+msgstr "Notificació parpellejar mostrat"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:183
+#, fuzzy
 msgid "Popup notification is not enabled."
-msgstr ""
+msgstr "Notificació desplegable no està habilitada."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:185
+#, fuzzy
 msgid "pynotify is not installed"
-msgstr ""
+msgstr "pynotify no s'instal·la"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:193
+#, fuzzy
 msgid "pynotify failed to show notification"
-msgstr ""
+msgstr "pynotify no va poder demostrar la notificació"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:196
+#, fuzzy
 msgid "Notification popup shown"
-msgstr ""
+msgstr "Desplegable de notificació mostrat"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:200
+#, fuzzy
 msgid "Sound notification not enabled"
-msgstr ""
+msgstr "Sonar notificació no permès"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:202
+#, fuzzy
 msgid "pygame is not installed"
-msgstr ""
+msgstr "pygame no està instal·lat"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:214
-#, python-format
+#, fuzzy, python-format
 msgid "Sound notification failed %s"
-msgstr ""
+msgstr "So notification fracassat %s"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:218
+#, fuzzy
 msgid "Sound notification Success"
-msgstr ""
+msgstr "So notification èxit"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:241
+#, fuzzy
 msgid "Finished Torrent"
-msgstr ""
+msgstr "Acabat de Torrent"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:242
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "The torrent \"%(name)s\" including %(num_files)i has finished downloading."
 msgstr ""
+"El torrent \"(nom) de %s\" incloent % (num_files) ha acabat descarregant."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:646
+#, fuzzy
 msgid "Choose Sound File"
-msgstr ""
+msgstr "Trieu el fitxer de so"
 
 #: deluge/plugins/notifications/notifications/core.py:138
 #: deluge/plugins/notifications/notifications/core.py:171
-#, python-format
+#, fuzzy, python-format
 msgid "There was an error sending the notification email: %s"
-msgstr ""
+msgstr "Hi havia un error en enviar el correu electrònic de notificació: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:157
-#, python-format
+#, fuzzy, python-format
 msgid "The server didn't reply properly to the helo greeting: %s"
 msgstr ""
+"El servidor no va respondre correctament a la salutació d'helicòpter: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:162
-#, python-format
+#, fuzzy, python-format
 msgid "The server didn't accept the username/password combination: %s"
-msgstr ""
+msgstr "El servidor no accepta la combinació de nom d'usuari/contrasenya: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:186
+#, fuzzy
 msgid "Notification email sent."
-msgstr ""
+msgstr "Correu electrònic de notificació enviat."
 
 #: deluge/plugins/notifications/notifications/core.py:194
-#, python-format
+#, fuzzy, python-format
 msgid "Finished Torrent \"%(name)s\""
-msgstr ""
+msgstr "Torrent acabat \"(nom) de %s\""
 
 #: deluge/plugins/notifications/notifications/core.py:196
-#, python-format
+#, fuzzy, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading "
-"\"%(name)s\", which includes %(num_files)i files.\n"
+"This email is to inform you that Deluge has finished downloading \"%(name)s"
+"\", which includes %(num_files)i files.\n"
 "To stop receiving these alerts, simply turn off email notification in "
 "Deluge's preferences.\n"
 "\n"
 "Thank you,\n"
 "Deluge."
 msgstr ""
+"Aquest correu és per informar-vos que diluvi ha acabat de descarregar "
+"\"(nom) de %s\", que inclou % (num_files) arxius.\n"
+"Per deixar de rebre aquests avisos, simplement apagar notificació per correu "
+"electrònic a les preferències del diluvi.\n"
+"\n"
+"Gràcies, diluvi."
 
 #: deluge/plugins/notifications/notifications/data/config.glade:29
+#, fuzzy
 msgid "<b><i><big>Notifications</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Notificacions</big></i></b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:81
+#, fuzzy
 msgid "Tray icon blinks enabled"
-msgstr ""
+msgstr "Parpelleja de icona safata habilitat"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:93
+#, fuzzy
 msgid "Popups enabled"
-msgstr ""
+msgstr "Finestres emergents que permesos"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:108
+#, fuzzy
 msgid "Sound enabled"
-msgstr ""
+msgstr "S ≥ activat"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:144
+#, fuzzy
 msgid "<b>UI Notifications</b>"
-msgstr ""
+msgstr "<b>Notificacions d'interfície d'usuari</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:175
 #: deluge/ui/gtkui/glade/connection_manager.glade:28
@@ -184,7 +209,7 @@ msgstr "Nom de la màquina:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3726
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3912
 msgid "Port:"
-msgstr "Port:"
+msgstr ""
 
 #: deluge/plugins/notifications/notifications/data/config.glade:231
 #: deluge/ui/gtkui/glade/connection_manager.glade:143
@@ -206,12 +231,14 @@ msgid "Password:"
 msgstr "Contrasenya:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:360
+#, fuzzy
 msgid "<b>Recipients</b>"
-msgstr ""
+msgstr "<b>Destinataris</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:383
+#, fuzzy
 msgid "Server requires TLS/SSL"
-msgstr ""
+msgstr "Servidor requereix TLS/SSL"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:398
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:633
@@ -225,43 +252,54 @@ msgid "Enabled"
 msgstr "Habilitat"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:443
+#, fuzzy
 msgid "<b>Email Notifications</b>"
-msgstr ""
+msgstr "<b>Notificacions per correu electrònic</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:460
+#, fuzzy
 msgid "Settings"
-msgstr ""
+msgstr "Configuració"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:495
+#, fuzzy
 msgid ""
 "This configuration does not mean that you'll actually receive notifications "
 "for all these events."
 msgstr ""
+"Aquesta configuració no significa que realment Rebreu notificacions per a "
+"tots aquests esdeveniments."
 
 #: deluge/plugins/notifications/notifications/data/config.glade:513
+#, fuzzy
 msgid "Subscriptions"
-msgstr ""
+msgstr "Subscripció"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:594
+#, fuzzy
 msgid "Sound Customization"
-msgstr ""
+msgstr "Personalització de so"
 
 #: deluge/plugins/autoadd/autoadd/core.py:136
+#, fuzzy
 msgid "Watch folder does not exist."
-msgstr ""
+msgstr "Veure la carpeta no existeix."
 
 #: deluge/plugins/autoadd/autoadd/core.py:139
 #: deluge/plugins/autoadd/autoadd/core.py:308
+#, fuzzy
 msgid "Path does not exist."
-msgstr ""
+msgstr "&apos; no existeix."
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
+#, fuzzy
 msgid "AutoAdd Error"
-msgstr ""
+msgstr "AutoAdd Error"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:78
+#, fuzzy
 msgid "Watch Folder Properties"
-msgstr ""
+msgstr "Veure propietats de carpeta"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
@@ -276,32 +314,39 @@ msgid "Select A Folder"
 msgstr "Selecciona una carpeta"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:143
+#, fuzzy
 msgid "Enable this watch folder"
-msgstr ""
+msgstr "Permetre aquesta carpeta de guàrdies"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:164
+#, fuzzy
 msgid "<b>Watch Folder</b>"
-msgstr ""
+msgstr "<b>Carpeta d'inspecció</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:195
+#, fuzzy
 msgid "Delete .torrent after adding"
-msgstr ""
+msgstr "Suprimir. torrent després d'afegir"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:211
+#, fuzzy
 msgid "Append extension after adding:"
-msgstr ""
+msgstr "Afegeixi extensió després d'afegir:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:228
+#, fuzzy
 msgid ".added"
-msgstr ""
+msgstr "afegits"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:248
+#, fuzzy
 msgid "<b>Torrent File Action</b>"
-msgstr ""
+msgstr "<b>Acció d'arxiu de torrent</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:275
+#, fuzzy
 msgid "Set download location"
-msgstr ""
+msgstr "Conjunt descarregar localització"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:325
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:396
@@ -309,20 +354,24 @@ msgid "<b>Download Location</b>"
 msgstr "<b>Lloc de baixada</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:353
+#, fuzzy
 msgid "Set move completed location"
-msgstr ""
+msgstr "Localització de moviment conjunt completat"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:418
+#, fuzzy
 msgid "<b>Move Completed</b>"
-msgstr ""
+msgstr "<b>Moviment completat</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:444
+#, fuzzy
 msgid "Label: "
-msgstr ""
+msgstr "Etiqueta"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:475
+#, fuzzy
 msgid "<b>Label</b>"
-msgstr ""
+msgstr "Etiqueta"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:492
 msgid "Main"
@@ -330,8 +379,9 @@ msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:524
 #: deluge/ui/gtkui/glade/main_window.glade:1811
+#, fuzzy
 msgid "Max Upload Speed:"
-msgstr ""
+msgstr "Velocitat de càrrega màxima:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:541
 #: deluge/ui/gtkui/glade/main_window.glade:1798
@@ -347,8 +397,9 @@ msgstr "Ranures de càrrega màximes:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:665
 #: deluge/ui/gtkui/glade/main_window.glade:1824
+#, fuzzy
 msgid "Max Download Speed:"
-msgstr ""
+msgstr "Velocitat màxima baixada:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:691
 #: deluge/ui/gtkui/glade/main_window.glade:1900
@@ -369,16 +420,19 @@ msgid "Remove at ratio"
 msgstr "Eliminar a la proporció"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:762
+#, fuzzy
 msgid "Auto Managed:"
-msgstr ""
+msgstr "Auto gestionat:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:890
+#, fuzzy
 msgid "Add Paused:"
-msgstr ""
+msgstr "Afegir aturades:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:936
+#, fuzzy
 msgid "Queue to:"
-msgstr ""
+msgstr "A la cua:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:954
 msgid "Top"
@@ -400,8 +454,9 @@ msgid "Options"
 msgstr "Opcions"
 
 #: deluge/plugins/autoadd/autoadd/data/config.glade:41
+#, fuzzy
 msgid "<b>Watch Folders:</b>"
-msgstr ""
+msgstr "<b>Mirar carpetes:</b>"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:238
 msgid "Download Limit:"
@@ -416,12 +471,14 @@ msgid "Active Torrents:"
 msgstr "Torrents actius"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:265
+#, fuzzy
 msgid "Active Downloading:"
-msgstr ""
+msgstr "Descàrrega activa:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:274
+#, fuzzy
 msgid "Active Seeding:"
-msgstr ""
+msgstr "Sembra actiu:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:288
 msgid "<b>Slow Settings</b>"
@@ -580,10 +637,13 @@ msgid "<b>General</b>"
 msgstr "<b>General</b>"
 
 #: deluge/plugins/webui/webui/gtkui.py:97
+#, fuzzy
 msgid ""
 "The Deluge web interface is not installed, please install the\n"
 "interface and try again"
 msgstr ""
+"L'allau interfície web no està instal·lat, instal·leu la interfície i provar "
+"una altra vegada"
 
 #: deluge/plugins/webui/webui/data/config.glade:27
 msgid "Enable web interface"
@@ -737,8 +797,9 @@ msgid "Announce OK"
 msgstr "Comunicat correcte"
 
 #: deluge/core/torrentmanager.py:953
+#, fuzzy
 msgid "Announce Sent"
-msgstr ""
+msgstr "Anunciar enviat"
 
 #: deluge/core/torrentmanager.py:961
 msgid "Warning"
@@ -1764,16 +1825,18 @@ msgid "Connected"
 msgstr "Conectat"
 
 #: deluge/ui/web/json_api.py:802
+#, fuzzy
 msgid "Daemon doesn't exist"
-msgstr ""
+msgstr "Dimoni no existeix"
 
 #: deluge/ui/web/json_api.py:808
 msgid "Daemon not running"
 msgstr "El dimoni no s'està executant"
 
 #: deluge/ui/web/server.py:661
+#, fuzzy
 msgid "Starting server in PID"
-msgstr ""
+msgstr "Partida servidor en PID"
 
 #: deluge/ui/gtkui/peers_tab.py:100
 msgid "Address"
@@ -1840,8 +1903,9 @@ msgid "Deluge"
 msgstr "Deluge"
 
 #: deluge/ui/gtkui/systemtray.py:201
+#, fuzzy
 msgid "Not Connected..."
-msgstr ""
+msgstr "No connectat..."
 
 #: deluge/ui/gtkui/systemtray.py:258
 msgid "Down"
@@ -1862,30 +1926,34 @@ msgid "Set Maximum Upload Speed"
 msgstr "Establir Velocitat Màxima de Descàrrega"
 
 #: deluge/ui/gtkui/systemtray.py:470
+#, fuzzy
 msgid "Deluge is password protected!"
-msgstr ""
+msgstr "Diluvi és contrasenya protegida!"
 
 #: deluge/ui/gtkui/systemtray.py:476
+#, fuzzy
 msgid "Enter your password to continue"
-msgstr ""
+msgstr "Introduïu la vostra contrasenya per continuar"
 
 #: deluge/ui/gtkui/notification.py:79
 msgid "Torrent complete"
 msgstr "Torrent completat"
 
 #: deluge/ui/gtkui/notification.py:80
+#, fuzzy
 msgid "Including"
-msgstr ""
+msgstr "Incloent-hi"
 
 #: deluge/ui/gtkui/notification.py:80
+#, fuzzy
 msgid "files"
-msgstr ""
+msgstr "Fitxers"
 
 #: deluge/ui/gtkui/notification.py:109
 #, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading %(name)s ,  "
-"           which includes %(num_files)i files.\n"
+"This email is to inform you that Deluge has finished downloading "
+"%(name)s ,             which includes %(num_files)i files.\n"
 "To stop receiving these alerts, simply turn off             email "
 "notification in Deluge's preferences.\n"
 "\n"
@@ -1901,8 +1969,9 @@ msgstr ""
 "Deluge"
 
 #: deluge/ui/gtkui/new_release_dialog.py:72
+#, fuzzy
 msgid "<i>Client Version</i>"
-msgstr ""
+msgstr "<i>Versió de client</i>"
 
 #: deluge/ui/gtkui/preferences.py:72
 msgid "Categories"
@@ -1984,10 +2053,13 @@ msgid "Unable to set file priority!"
 msgstr "No s'ha pogut asignar la prioritat de l'arxiu!"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:492
+#, fuzzy
 msgid ""
 "File prioritization is unavailable when using Compact allocation.  Would you "
 "like to switch to Full allocation?"
 msgstr ""
+"Priorització de fitxer no està disponible quan utilitzant assignació "
+"compacte.  Voleu canviar a l'assignació total?"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:541
 msgid "Choose a .torrent file"
@@ -2008,20 +2080,23 @@ msgid "Invalid URL"
 msgstr "URL invàlida"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:622
+#, fuzzy
 msgid "is not a valid URL."
-msgstr ""
+msgstr "no és una adreça URL vàlida."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:626
+#, fuzzy
 msgid "Downloading..."
-msgstr ""
+msgstr "Descàrrega"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
 msgid "Download Failed"
 msgstr "Descàrrega Fallida"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
+#, fuzzy
 msgid "Failed to download:"
-msgstr ""
+msgstr "Fracassava a descarregar:"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:103
 #: deluge/ui/gtkui/edittrackersdialog.py:84
@@ -2070,8 +2145,9 @@ msgid "DHT Nodes"
 msgstr "Nodes DHT"
 
 #: deluge/ui/gtkui/statusbar.py:186
+#, fuzzy
 msgid "Free Disk Space"
-msgstr ""
+msgstr "Espai lliure en disc"
 
 #: deluge/ui/gtkui/statusbar.py:190
 msgid "No Incoming Connections!"
@@ -2086,48 +2162,57 @@ msgid "Torrents"
 msgstr "Torrents"
 
 #: deluge/ui/gtkui/filtertreeview.py:69
+#, fuzzy
 msgid "States"
-msgstr ""
+msgstr "Estat"
 
 #: deluge/ui/gtkui/filtertreeview.py:71
 msgid "Labels"
 msgstr "Etiquetes"
 
 #: deluge/ui/gtkui/filtertreeview.py:72
+#, fuzzy
 msgid "All"
-msgstr ""
+msgstr "Tot"
 
 #: deluge/ui/gtkui/filtertreeview.py:73
+#, fuzzy
 msgid "Downloading"
-msgstr ""
+msgstr "Descàrrega"
 
 #: deluge/ui/gtkui/filtertreeview.py:74
+#, fuzzy
 msgid "Seeding"
-msgstr ""
+msgstr "Sembra"
 
 #: deluge/ui/gtkui/filtertreeview.py:75
+#, fuzzy
 msgid "Paused"
-msgstr ""
+msgstr "En pausa"
 
 #: deluge/ui/gtkui/filtertreeview.py:76
+#, fuzzy
 msgid "Checking"
-msgstr ""
+msgstr "Comprovació"
 
 #: deluge/ui/gtkui/filtertreeview.py:77
+#, fuzzy
 msgid "Queued"
-msgstr ""
+msgstr "En cua"
 
 #: deluge/ui/gtkui/filtertreeview.py:79
+#, fuzzy
 msgid "Active"
-msgstr ""
+msgstr "Actiu"
 
 #: deluge/ui/gtkui/filtertreeview.py:80
 msgid "None"
 msgstr "Cap"
 
 #: deluge/ui/gtkui/filtertreeview.py:81
+#, fuzzy
 msgid "No Label"
-msgstr ""
+msgstr "Sense etiqueta"
 
 #: deluge/ui/gtkui/aboutdialog.py:253
 msgid ""
@@ -2157,39 +2242,49 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:149
+#, fuzzy
 msgid "Status"
-msgstr ""
+msgstr "Estat"
 
 #: deluge/ui/gtkui/connectionmanager.py:153
+#, fuzzy
 msgid "Host"
-msgstr ""
+msgstr "Amfitrió"
 
 #: deluge/ui/gtkui/connectionmanager.py:158
+#, fuzzy
 msgid "Version"
-msgstr ""
+msgstr "Versió"
 
 #: deluge/ui/gtkui/connectionmanager.py:386
+#, fuzzy
 msgid "_Stop Daemon"
-msgstr ""
+msgstr "Dimoni _Stop"
 
 #: deluge/ui/gtkui/connectionmanager.py:394
+#, fuzzy
 msgid "_Start Daemon"
-msgstr ""
+msgstr "Dimoni _Start"
 
 #: deluge/ui/gtkui/connectionmanager.py:414
 #: deluge/ui/gtkui/connectionmanager.py:424
+#, fuzzy
 msgid "Unable to start daemon!"
-msgstr ""
+msgstr "No es pot iniciar el dimoni!"
 
 #: deluge/ui/gtkui/connectionmanager.py:415
+#, fuzzy
 msgid ""
 "Deluge cannot find the 'deluged' executable, it is likely that you forgot to "
 "install the deluged package or it's not in your PATH."
 msgstr ""
+"Diluvi no pot trobar 'deluged' l'executable, és probable que us heu oblidat "
+"d'instal·lar el paquet deluged o no és al seu camí."
 
 #: deluge/ui/gtkui/connectionmanager.py:425
+#, fuzzy
 msgid "Please examine the details for more information."
-msgstr ""
+msgstr "Consulteu els detalls per a més informació."
 
 #: deluge/ui/gtkui/connectionmanager.py:509
 msgid "Error Adding Host"
@@ -2265,16 +2360,19 @@ msgid "Set Maximum Upload Slots"
 msgstr "Establir la Quantitat Màxima d'Slots de Pujada"
 
 #: deluge/ui/gtkui/files_tab.py:56
+#, fuzzy
 msgid "Do Not Download"
-msgstr ""
+msgstr "No descarregueu"
 
 #: deluge/ui/gtkui/files_tab.py:57
+#, fuzzy
 msgid "Normal Priority"
-msgstr ""
+msgstr "Prioritat normal"
 
 #: deluge/ui/gtkui/files_tab.py:58
+#, fuzzy
 msgid "High Priority"
-msgstr ""
+msgstr "Alta prioritat"
 
 #: deluge/ui/gtkui/files_tab.py:59
 msgid "Highest Priority"
@@ -2310,12 +2408,14 @@ msgid "Peers"
 msgstr "Clients"
 
 #: deluge/ui/gtkui/torrentview.py:241
+#, fuzzy
 msgid "Down Limit"
-msgstr ""
+msgstr "Avall límit"
 
 #: deluge/ui/gtkui/torrentview.py:243
+#, fuzzy
 msgid "Up Limit"
-msgstr ""
+msgstr "El límit"
 
 #: deluge/ui/gtkui/torrentview.py:245
 msgid "ETA"
@@ -2334,8 +2434,9 @@ msgid "Added"
 msgstr "Afegit"
 
 #: deluge/ui/gtkui/torrentview.py:257
+#, fuzzy
 msgid "Save Path"
-msgstr ""
+msgstr "Salvar camí"
 
 #: deluge/ui/gtkui/glade/main_window.glade:21
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:99
@@ -2353,8 +2454,9 @@ msgid "_Create Torrent"
 msgstr "_Crear Torrent"
 
 #: deluge/ui/gtkui/glade/main_window.glade:65
+#, fuzzy
 msgid "Quit & _Shutdown Daemon"
-msgstr ""
+msgstr "Sortiu 59 _Shutdown dimoni"
 
 #: deluge/ui/gtkui/glade/main_window.glade:101
 msgid "_Edit"
@@ -2509,12 +2611,14 @@ msgid "<b>Auto Managed:</b>"
 msgstr "<b>Autogestionat:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:762
+#, fuzzy
 msgid "<b>Seed Rank:</b>"
-msgstr ""
+msgstr "<b>Rang de llavor:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:777
+#, fuzzy
 msgid "<b>Seeding Time:</b>"
-msgstr ""
+msgstr "<b>Sembra de temps:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:803
 msgid "<b>Active Time:</b>"
@@ -2545,12 +2649,14 @@ msgid "<b>ETA:</b>"
 msgstr "<b>Temps estimat:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1032
+#, fuzzy
 msgid "<b>Up Speed:</b>"
-msgstr ""
+msgstr "<b>Velocitat:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1054
+#, fuzzy
 msgid "<b>Down Speed:</b>"
-msgstr ""
+msgstr "<b>Avall velocitat:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1073
 msgid "<b>Next Announce:</b>"
@@ -2621,16 +2727,18 @@ msgid "_Peers"
 msgstr "C_lients"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2009
+#, fuzzy
 msgid "Move completed:"
-msgstr ""
+msgstr "Moviment completades:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2105
 msgid "Private"
 msgstr "Privat"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2120
+#, fuzzy
 msgid "Prioritize First/Last"
-msgstr ""
+msgstr "Prioritzar la primera i l'última"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2158
 #: deluge/ui/gtkui/glade/torrent_menu.glade:130
@@ -2643,61 +2751,74 @@ msgid "_Options"
 msgstr "_Opcions"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2285
+#, fuzzy
 msgid "Remove Torrent?"
-msgstr ""
+msgstr "Eliminar Torrent?"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2324
-msgid ""
-"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
+#, fuzzy
+msgid "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
 msgstr ""
+"<big><b>Esteu segur que voleu suprimir el torrent seleccionat?</b></big>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2376
+#, fuzzy
 msgid "<i>The associated .torrent will be deleted!</i>"
-msgstr ""
+msgstr "<i>El. torrent associat seran esborrats!</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2416
+#, fuzzy
 msgid "<i>The downloaded data will be deleted!</i>"
-msgstr ""
+msgstr "<i>Se suprimiran les dades descarregades!</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2460
+#, fuzzy
 msgid "Remove Selected Torrent"
-msgstr ""
+msgstr "Treure Torrent seleccionat"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2484
+#, fuzzy
 msgid "New Release"
-msgstr ""
+msgstr "Nova versió"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2518
+#, fuzzy
 msgid "<b><big>New Release Available!</big></b>"
-msgstr ""
+msgstr "<b><big>Nova versió disponible!</big></b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2570
+#, fuzzy
 msgid "<i>Available Version:</i>"
-msgstr ""
+msgstr "<i>Versió disponible:</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2593
+#, fuzzy
 msgid "<i>Current Version:</i>"
-msgstr ""
+msgstr "Versió actual"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2604
+#, fuzzy
 msgid "<i>Server Version</i>"
-msgstr ""
+msgstr "<i>Versió del servidor</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2637
+#, fuzzy
 msgid "Do not show this dialog in the future"
-msgstr ""
+msgstr "No mostrar aquest diàleg en el futur"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2676
+#, fuzzy
 msgid "_Goto Website"
-msgstr ""
+msgstr "_Goto lloc web"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2704
 msgid "_Add Peer"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:2706
+#, fuzzy
 msgid "Add a peer by its IP"
-msgstr ""
+msgstr "Afegir un iguals per seu IP"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:10
 msgid "_Select All"
@@ -2808,16 +2929,18 @@ msgid "Create Torrent"
 msgstr "Crea torrent"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:34
+#, fuzzy
 msgid "<big><b>Create Torrent</b></big>"
-msgstr ""
+msgstr "<big><b>Crear Torrent</b></big>"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:159
 msgid "Fol_der"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:199
+#, fuzzy
 msgid "_Remote Path"
-msgstr ""
+msgstr "Camí de _Remote"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
 msgid "<b>Files</b>"
@@ -2845,6 +2968,7 @@ msgid "Piece Size:"
 msgstr "Mida de la Peça:"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
+#, fuzzy
 msgid ""
 "32 KiB\n"
 "64 KiB\n"
@@ -2856,23 +2980,26 @@ msgid ""
 "4 MiB\n"
 "8 MiB\n"
 "16 MiB\n"
-msgstr ""
+msgstr "32 KiB 64 KiB 128 KiB 256 KiB 512 KiB 1 MiB 2 MiB 4 MiB 8 MiB 16 MiB"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:580
 msgid "Set Private Flag"
 msgstr "Estableix un senyalitzador privat"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:594
+#, fuzzy
 msgid "Add this torrent to the session"
-msgstr ""
+msgstr "Afegir aquest torrent a la sessió"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:692
+#, fuzzy
 msgid "Enter Remote Path"
-msgstr ""
+msgstr "Introduïu el camí remot"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:728
+#, fuzzy
 msgid "<b>Remote Path</b>"
-msgstr ""
+msgstr "<b>Camí remot</b>"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:762
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:944
@@ -2884,36 +3011,43 @@ msgid "Creating Torrent"
 msgstr "S'està creant un torrent"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:874
+#, fuzzy
 msgid "Save .torrent as"
-msgstr ""
+msgstr "Salvar. torrent com"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:910
+#, fuzzy
 msgid "<b>Save .torrent file</b>"
-msgstr ""
+msgstr "<b>Salvi l'arxiu. torrent</b>"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:8
+#, fuzzy
 msgid "Queued Torrents"
-msgstr ""
+msgstr "Torrents en cua"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:47
+#, fuzzy
 msgid "<big><b>Add Queued Torrents</b></big>"
-msgstr ""
+msgstr "<big><b>Afegir Torrents en cua</b></big>"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:127
+#, fuzzy
 msgid "Automatically add torrents on connect"
-msgstr ""
+msgstr "Automàticament afegir torrents en connectar"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:98
 msgid "label"
 msgstr "etiqueta"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:154
+#, fuzzy
 msgid "Add Peer"
-msgstr ""
+msgstr "Afegir Peer"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:187
+#, fuzzy
 msgid "<b>Add Peer</b>"
-msgstr ""
+msgstr "<b>Afegir Peer</b>"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:211
 msgid "hostname:port"
@@ -2924,24 +3058,29 @@ msgid "Add Host"
 msgstr "Afegeix una màquina"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:237
+#, fuzzy
 msgid "<big><b>Connection Manager</b></big>"
-msgstr ""
+msgstr "<big><b>Director de connexió</b></big>"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:363
+#, fuzzy
 msgid "_Start local daemon"
-msgstr ""
+msgstr "Dimoni local _Start"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:415
+#, fuzzy
 msgid "Automatically connect to selected host on start-up"
-msgstr ""
+msgstr "Automàticament connectar a amfitrió seleccionat a l'inici"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:426
+#, fuzzy
 msgid "Automatically start localhost if needed"
-msgstr ""
+msgstr "Començar automàticament localhost si és necessari"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:440
+#, fuzzy
 msgid "Do not show this dialog on start-up"
-msgstr ""
+msgstr "No mostrar aquest diàleg a l'inici"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:78
 msgid "<b><i><big>Downloads</big></i></b>"
@@ -2960,13 +3099,15 @@ msgid "Copy of .torrent files to:"
 msgstr "Còpia els fitxers .torrent a"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:316
+#, fuzzy
 msgid "Delete copy of torrent file on remove"
-msgstr ""
+msgstr "Suprimeix la còpia d'arxiu de torrent a eliminar"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:320
-msgid ""
-"Delete the copy of the torrent file created when the torrent is removed"
+#, fuzzy
+msgid "Delete the copy of the torrent file created when the torrent is removed"
 msgstr ""
+"Suprimeix la còpia de l'arxiu de torrent creada quan s'elimina el torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:337
 msgid "<b>Folders</b>"
@@ -2990,8 +3131,7 @@ msgstr "Utilitza l'assignació compacta"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:392
 msgid "Compact allocation only allocates space as needed"
-msgstr ""
-"L'assignació compacta només reserva l'espai a mesura que es necessita"
+msgstr "L'assignació compacta només reserva l'espai a mesura que es necessita"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:440
 msgid "Prioritize first and last pieces of torrent"
@@ -2999,12 +3139,12 @@ msgstr "Prioritza les primeres i les últimes peces d'un torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:445
 msgid "Prioritize first and last pieces of files in torrent"
-msgstr ""
-"Prioritza les primeres i les últimes peces dels fitxers en el torrent"
+msgstr "Prioritza les primeres i les últimes peces dels fitxers en el torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:455
+#, fuzzy
 msgid "Add torrents in Paused state"
-msgstr ""
+msgstr "Afegir torrents en estat de pausa"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:529
 msgid "<b><i><big>Network</big></i></b>"
@@ -3043,10 +3183,13 @@ msgid "<b>Outgoing Ports</b>"
 msgstr "<b>Ports de Sortida</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:882
+#, fuzzy
 msgid ""
 "Enter the IP address of the interface to listen for incoming bittorrent "
 "connections on.  Leave this empty if you want to use the default."
 msgstr ""
+"Introduïu l'adreça IP de la interfície d'escoltar per a connexions de "
+"bittorrent en.  Deixeu aquest buit si voleu utilitzar el valor per defecte."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:903
 msgid "<b>Interface</b>"
@@ -3217,14 +3360,18 @@ msgid "Ignore limits on local network"
 msgstr "Ignora els límits a la xarxa local"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1573
+#, fuzzy
 msgid "Rate limit IP overhead"
-msgstr ""
+msgstr "Taxa límit IP despeses generals"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1577
+#, fuzzy
 msgid ""
 "If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
 "to avoid exceeding the limits with the total traffic"
 msgstr ""
+"Si està marcada, el TCP/IP estimada despeses indirectes es drena de "
+"limitadors de la taxa, per evitar superar els límits amb el trànsit total"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1594
 msgid "<b>Global Bandwidth Usage</b>"
@@ -3284,12 +3431,14 @@ msgid "Always show"
 msgstr "Mostra sempre"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1968
+#, fuzzy
 msgid "Bring the dialog to focus"
-msgstr ""
+msgstr "Portar el diàleg a l'enfocament"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1988
+#, fuzzy
 msgid "<b>Add Torrents Dialog</b>"
-msgstr ""
+msgstr "<b>Afegir diàleg de Torrents</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2020
 msgid "Enable system tray icon"
@@ -3304,8 +3453,9 @@ msgid "Start in tray"
 msgstr "Inicia a la safata"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2078
+#, fuzzy
 msgid "Enable Application Indicator"
-msgstr ""
+msgstr "Permetre l'indicador d'aplicació"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2099
 msgid "Password protect system tray"
@@ -3356,18 +3506,23 @@ msgid "Location:"
 msgstr "Ubicació:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2420
+#, fuzzy
 msgid ""
 "If Deluge cannot find the database file at this location it will fallback to "
 "using DNS to resolve the peer's country."
 msgstr ""
+"Si diluvi no troba el fitxer de base de dades en aquesta ubicació, això will "
+"fallback a mitjançant DNS resoldre el país de les iguals."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2444
+#, fuzzy
 msgid "<b>GeoIP Database</b>"
-msgstr ""
+msgstr "<b>Base de dades d'anar a es</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2489
+#, fuzzy
 msgid "Associate Magnet links with Deluge"
-msgstr ""
+msgstr "Enllaços Magnet amb diluvi"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2558
 msgid "<i><b><big>Daemon</big></b></i>"
@@ -3406,8 +3561,9 @@ msgid "Queue new torrents to top"
 msgstr "Encua nous torrents en cap"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2923
+#, fuzzy
 msgid "Total active seeding:"
-msgstr ""
+msgstr "Total actiu sembra:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2936
 msgid "Total active:"
@@ -3426,24 +3582,29 @@ msgid "<b>Active Torrents</b>"
 msgstr "<b>Torrents Actius</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3040
+#, fuzzy
 msgid "Share Ratio Limit:"
-msgstr ""
+msgstr "Compartir proporció límit:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3050
+#, fuzzy
 msgid "Seed Time Ratio:"
-msgstr ""
+msgstr "Proporció de temps de llavor:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3062
+#, fuzzy
 msgid "Seed Time (m):"
-msgstr ""
+msgstr "Temps de llavor (m):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3130
+#, fuzzy
 msgid "Stop seeding when share ratio reaches:"
-msgstr ""
+msgstr "Deixar de sembra quan arriba a la proporció de porció:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3175
+#, fuzzy
 msgid "Remove torrent when share ratio reached"
-msgstr ""
+msgstr "Treure torrent quan va arribar la proporció de porció"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3197
 msgid "<b>Seeding</b>"
@@ -3480,126 +3641,165 @@ msgstr ""
 "HTTP W/ Auth"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3454
+#, fuzzy
 msgid "<b>Peer</b>"
-msgstr ""
+msgstr "<b>Entre iguals</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3638
+#, fuzzy
 msgid "<b>Web Seed</b>"
-msgstr ""
+msgstr "<b>Llavor de web</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3822
+#, fuzzy
 msgid "<b>Tracker</b>"
-msgstr ""
+msgstr "<b>Rastrejador</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4010
 msgid "<b>DHT</b>"
 msgstr "<b>DHT</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4067
+#, fuzzy
 msgid "<b><i><big>Cache</big></i></b>"
-msgstr ""
+msgstr "Memòria cau"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4112
+#, fuzzy
 msgid "Cache Size (16 KiB blocks):"
-msgstr ""
+msgstr "Mida de memòria cau (16 KiB blocs):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4122
+#, fuzzy
 msgid ""
 "The number of seconds from the last cached write to a piece in the write "
 "cache, to when it's forcefully flushed to disk. Default is 60 seconds."
 msgstr ""
+"El nombre de segons de l'últim cau escriure a una peça en l'amagatall "
+"d'escriptura, per quan enèrgicament ha buidat al disc. Per defecte és de 60 "
+"segons."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4124
+#, fuzzy
 msgid "Cache Expiry (seconds):"
-msgstr ""
+msgstr "Caducitat de memòria cau (segons):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4220
+#, fuzzy
 msgid ""
 "The total number of 16 KiB blocks written to disk since this session was "
 "started."
 msgstr ""
+"El nombre total de 16 KiB blocs han escrit al disc des que va començar "
+"aquesta sessió."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4222
+#, fuzzy
 msgid "Blocks Written:"
-msgstr ""
+msgstr "Blocs han escrit:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4231
+#, fuzzy
 msgid ""
 "The total number of write operations performed since this session was "
 "started."
 msgstr ""
+"El nombre total d'escriure les operacions realitzades des que va començar "
+"aquesta sessió."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4233
+#, fuzzy
 msgid "Writes:"
-msgstr ""
+msgstr "Escriu:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4244
+#, fuzzy
 msgid ""
 "The ratio (blocks_written - writes) / blocks_written represents the number "
 "of saved write operations per total write operations, i.e. a kind of cache "
 "hit ratio for the write cache."
 msgstr ""
+"La relació (blocks_written - escriu) / blocks_written representa el nombre "
+"d'operacions d'escriptura salvada per escriure total operacions, és a dir, "
+"una mena d'amagatall índex d'encerts de la memòria cau d'escriptura."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4246
+#, fuzzy
 msgid "Write Cache Hit Ratio:"
-msgstr ""
+msgstr "Escriure encerts:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4298
 msgid "<b>Write</b>"
 msgstr "<b>Escriu</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4328
+#, fuzzy
 msgid ""
 "The number of blocks that were requested from the bittorrent engine (from "
 "peers), that were served from disk or cache."
 msgstr ""
+"El nombre de blocs que s'han sol·licitat des del motor de bittorrent (dels "
+"companys), que van servir de disc o memòria cau."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4330
+#, fuzzy
 msgid "Blocks Read:"
-msgstr ""
+msgstr "Lectura de blocs:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4339
+#, fuzzy
 msgid "The number of blocks that were served from cache."
-msgstr ""
+msgstr "El nombre de blocs que van servir d'amagatall."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4341
+#, fuzzy
 msgid "Blocks Read Hit:"
-msgstr ""
+msgstr "Llegir blocs colpejar:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4352
+#, fuzzy
 msgid "The cache hit ratio for the read cache."
-msgstr ""
+msgstr "L'amagatall d'encerts de la memòria cau de lectura."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4354
+#, fuzzy
 msgid "Read Cache Hit Ratio:"
-msgstr ""
+msgstr "Encerts de llegir:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4403
+#, fuzzy
 msgid ""
 "The total number of read operations performed since this session was started."
 msgstr ""
+"El nombre total d'operacions de lectura perquè aquesta sessió es va iniciar."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4405
+#, fuzzy
 msgid "Reads:"
-msgstr ""
+msgstr "Llegeix:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4432
 msgid "<b>Read</b>"
 msgstr "<b>Llegeix</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4462
+#, fuzzy
 msgid ""
 "The number of 16 KiB blocks currently in the disk cache. This includes both "
 "read and write cache."
 msgstr ""
+"El nombre de 16 KiB blocs actualment a la memòria cau del disc. Això inclou "
+"tant llegir i escriure de memòria cau."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4464
+#, fuzzy
 msgid "Cache Size:"
-msgstr ""
+msgstr "Mida de memòria cau:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4474
+#, fuzzy
 msgid "Read Cache Size:"
-msgstr ""
+msgstr "Antememòria de llegir:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4513
 msgid "<b>Size</b>"
@@ -3610,8 +3810,9 @@ msgid "<b>Status</b>"
 msgstr "<b>Estat</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4618
+#, fuzzy
 msgid "<i><b><big>Plugins</big></b></i>"
-msgstr ""
+msgstr "Connector"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4743
 msgid "Version:"
@@ -3714,40 +3915,47 @@ msgid "If you remove the data, it will be lost permanently."
 msgstr "Si esborres les dades, seran perdudes permanentment"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:127
+#, fuzzy
 msgid "action"
-msgstr ""
+msgstr "acció"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:129
+#, fuzzy
 msgid "Remove Files"
-msgstr ""
+msgstr "Suprimeix els fitxers"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:198
+#, fuzzy
 msgid "Keep Files"
-msgstr ""
+msgstr "Mantenir arxius"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:9
 msgid "Edit Trackers"
 msgstr "Edita els rastrejadors"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:47
+#, fuzzy
 msgid "<big><b>Edit Trackers</b></big>"
-msgstr ""
+msgstr "<big><b>Editar rastrejadors</b></big>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:224
 msgid "Add Tracker"
 msgstr "Afegeix seguidor"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:260
+#, fuzzy
 msgid "<b>Add Trackers</b>"
-msgstr ""
+msgstr "<b>Afegir rastrejadors</b>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:380
+#, fuzzy
 msgid "Edit Tracker"
-msgstr ""
+msgstr "Edita el rastrejador"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:416
+#, fuzzy
 msgid "<b>Edit Tracker</b>"
-msgstr ""
+msgstr "<b>Edita el rastrejador</b>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:450
 msgid "Tracker:"
@@ -3762,12 +3970,14 @@ msgid "Remove _Torrent"
 msgstr "Esborra el _Torrent"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:9
+#, fuzzy
 msgid "Move Storage"
-msgstr ""
+msgstr "Moure d'emmagatzematge"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:44
+#, fuzzy
 msgid "<b>Move Storage</b>"
-msgstr ""
+msgstr "<b>Moure d'emmagatzematge</b>"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:78
 msgid "Destination:"
@@ -3999,7 +4209,6 @@ msgstr "Destí:"
 #~ msgid "BlockList"
 #~ msgstr "Llista de Bloquejats"
 
-#, python-format
 #~ msgid "Importing %s"
 #~ msgstr "Important %s"
 
@@ -4018,7 +4227,6 @@ msgstr "Destí:"
 #~ msgid "Timeout (seconds)"
 #~ msgstr "Temps d'espera (segons)"
 
-#, python-format
 #~ msgid "Blocked Ranges: %s"
 #~ msgstr "Rangs Bloquejats: %s"
 
@@ -4055,11 +4263,9 @@ msgstr "Destí:"
 #~ msgid "Downloading.."
 #~ msgstr "Descarregant.."
 
-#, python-format
 #~ msgid "%s is not a valid URL."
 #~ msgstr "%s no és una URL vàlida"
 
-#, python-format
 #~ msgid "Failed to download : %s"
 #~ msgstr "La descàrrega ha fallat: %s"
 
@@ -4076,11 +4282,9 @@ msgstr "Destí:"
 #~ msgid "<b><big>Deluge is password protected!</big></b>"
 #~ msgstr "<b><big>Deluge està protegit amb contrasenya!</big></b>"
 
-#, python-format
 #~ msgid "Including %i files"
 #~ msgstr "Incloent %i fitxers"
 
-#, python-format
 #~ msgid "%.2f%%"
 #~ msgstr "%.2f%%"
 

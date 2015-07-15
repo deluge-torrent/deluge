@@ -8,16 +8,15 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-07-10 16:58+0100\n"
-"PO-Revision-Date: 2011-07-11 08:08+0000\n"
+"PO-Revision-Date: 2015-07-15 17:32-0400\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <trebelnik2@Gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-07-11 13:01+0000\n"
-"X-Generator: Launchpad (build 13388)\n"
-"X-Poedit-Country: CROATIA\n"
-"X-Poedit-Language: Croatian\n"
+"X-Generator: Poedit 1.8.2\n"
+"Language: hr_HR\n"
 
 #: deluge/common.py:274
 msgid "KiB"
@@ -101,10 +100,8 @@ msgstr "Torrent završen"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:242
 #, python-format
-msgid ""
-"The torrent \"%(name)s\" including %(num_files)i has finished downloading."
-msgstr ""
-"Torrent \"%(name)s\"koji uključuje %(num_files)i je završio preuzimanje."
+msgid "The torrent \"%(name)s\" including %(num_files)i has finished downloading."
+msgstr "Torrent \"%(name)s\"koji uključuje %(num_files)i je završio preuzimanje."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:646
 msgid "Choose Sound File"
@@ -138,10 +135,10 @@ msgstr "Završeno preuzimanje torrenta \"%(name)s\""
 #: deluge/plugins/notifications/notifications/core.py:196
 #, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading "
-"\"%(name)s\", which includes %(num_files)i files.\n"
-"To stop receiving these alerts, simply turn off email notification in "
-"Deluge's preferences.\n"
+"This email is to inform you that Deluge has finished downloading \"%(name)s\", "
+"which includes %(num_files)i files.\n"
+"To stop receiving these alerts, simply turn off email notification in Deluge's "
+"preferences.\n"
 "\n"
 "Thank you,\n"
 "Deluge."
@@ -236,8 +233,8 @@ msgstr "Postavke"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:495
 msgid ""
-"This configuration does not mean that you'll actually receive notifications "
-"for all these events."
+"This configuration does not mean that you'll actually receive notifications for "
+"all these events."
 msgstr ""
 "Ova postavka ustvari ne znači da ćete primiti obavijest za sve ove događaje."
 
@@ -442,8 +439,7 @@ msgstr "Prazan naziv"
 msgid "Label already exists"
 msgstr "Naziv već postoji"
 
-#: deluge/plugins/label/label/core.py:199
-#: deluge/plugins/label/label/core.py:279
+#: deluge/plugins/label/label/core.py:199 deluge/plugins/label/label/core.py:279
 #: deluge/plugins/label/label/core.py:314
 msgid "Unknown Label"
 msgstr "Nepoznat naziv"
@@ -559,8 +555,7 @@ msgstr "Naziv:"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
-msgstr ""
-"<i>Koristite bočnu traku da dodate, uredite i uklonite nazive. </i>\n"
+msgstr "<i>Koristite bočnu traku da dodate, uredite i uklonite nazive. </i>\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:32
 msgid "<b>Labels</b>"
@@ -1807,8 +1802,7 @@ msgstr "Brzina preuzimanja"
 msgid "Up Speed"
 msgstr "Brzina dijeljenja"
 
-#: deluge/ui/gtkui/queuedtorrents.py:75
-#: deluge/ui/gtkui/addtorrentdialog.py:103
+#: deluge/ui/gtkui/queuedtorrents.py:75 deluge/ui/gtkui/addtorrentdialog.py:103
 msgid "Torrent"
 msgstr "Torrent"
 
@@ -1895,10 +1889,10 @@ msgstr "datoteke"
 #: deluge/ui/gtkui/notification.py:109
 #, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading %(name)s ,  "
-"           which includes %(num_files)i files.\n"
-"To stop receiving these alerts, simply turn off             email "
-"notification in Deluge's preferences.\n"
+"This email is to inform you that Deluge has finished downloading "
+"%(name)s ,             which includes %(num_files)i files.\n"
+"To stop receiving these alerts, simply turn off             email notification "
+"in Deluge's preferences.\n"
 "\n"
 "Thank you,\n"
 "Deluge"
@@ -1912,8 +1906,9 @@ msgstr ""
 "Deluge"
 
 #: deluge/ui/gtkui/new_release_dialog.py:72
+#, fuzzy
 msgid "<i>Client Version</i>"
-msgstr ""
+msgstr "cliente"
 
 #: deluge/ui/gtkui/preferences.py:72
 msgid "Categories"
@@ -2099,8 +2094,9 @@ msgid "Torrents"
 msgstr "Torrenti"
 
 #: deluge/ui/gtkui/filtertreeview.py:69
+#, fuzzy
 msgid "States"
-msgstr ""
+msgstr "Država"
 
 #: deluge/ui/gtkui/filtertreeview.py:71
 msgid "Labels"
@@ -2135,8 +2131,9 @@ msgid "Active"
 msgstr "Aktivno"
 
 #: deluge/ui/gtkui/filtertreeview.py:80
+#, fuzzy
 msgid "None"
-msgstr ""
+msgstr "Ništa"
 
 #: deluge/ui/gtkui/filtertreeview.py:81
 msgid "No Label"
@@ -2144,61 +2141,61 @@ msgstr "Nema naziva"
 
 #: deluge/ui/gtkui/aboutdialog.py:253
 msgid ""
-"This program is free software; you can redistribute it and/or modify it "
-"under the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 3 of the License, or (at your option) "
-"any later version. \n"
+"This program is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free Software "
+"Foundation; either version 3 of the License, or (at your option) any later "
+"version. \n"
 "\n"
-"This program is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
-"more details. \n"
+"This program is distributed in the hope that it will be useful, but WITHOUT ANY "
+"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A "
+"PARTICULAR PURPOSE. See the GNU General Public License for more details. \n"
 "\n"
 "You should have received a copy of the GNU General Public License along with "
 "this program; if not, see <http://www.gnu.org/licenses>. \n"
 "\n"
-"In addition, as a special exception, the copyright holders give permission "
-"to link the code of portions of this program with the OpenSSL library. You "
-"must obey the GNU General Public License in all respects for all of the code "
-"used other than OpenSSL. \n"
+"In addition, as a special exception, the copyright holders give permission to "
+"link the code of portions of this program with the OpenSSL library. You must "
+"obey the GNU General Public License in all respects for all of the code used "
+"other than OpenSSL. \n"
 "\n"
 "If you modify file(s) with this exception, you may extend this exception to "
-"your version of the file(s), but you are not obligated to do so. If you do "
-"not wish to do so, delete this exception statement from your version. If you "
-"delete this exception statement from all source files in the program, then "
-"also delete it here."
+"your version of the file(s), but you are not obligated to do so. If you do not "
+"wish to do so, delete this exception statement from your version. If you delete "
+"this exception statement from all source files in the program, then also delete "
+"it here."
 msgstr ""
-"Ovaj program je slobodan software; možete ga redistribuirati i/ili "
-"modificirati pod uvjetima GNU Opće Javne Licence (General Public License) "
-"objavljene od Fundacije Slobodnog Softvera (Free Software Foundation); ili "
-"inačice 3 Licence ili (po vašemu mišljenju) svaka kasnija inačica.\n"
+"Ovaj program je slobodan software; možete ga redistribuirati i/ili modificirati "
+"pod uvjetima GNU Opće Javne Licence (General Public License) objavljene od "
+"Fundacije Slobodnog Softvera (Free Software Foundation); ili inačice 3 Licence "
+"ili (po vašemu mišljenju) svaka kasnija inačica.\n"
 "\n"
 "Ovaj program je distribuiran u nadi da će biti koristan ali BEZ IKAKVOG "
-"JAMSTVA; čak i bez podrazumjevanog jamstva ili POGODNOSTI ZA ODREĐENU "
-"NAMJENU. Pogledajte GNU Opću Javnu Licencu (General Public License) za više "
+"JAMSTVA; čak i bez podrazumjevanog jamstva ili POGODNOSTI ZA ODREĐENU NAMJENU. "
+"Pogledajte GNU Opću Javnu Licencu (General Public License) za više "
 "informacija.\n"
 "\n"
-"Trebali ste dobiti primjerak GNU Opće Javne Licence (General Public License) "
-"uz ovaj program; ako niste pogledajte <http://www.gnu.org/licenses>.\n"
+"Trebali ste dobiti primjerak GNU Opće Javne Licence (General Public License) uz "
+"ovaj program; ako niste pogledajte <http://www.gnu.org/licenses>.\n"
 "\n"
 "Osim toga, kao posebna iznimka, nositelji autorskih prava daju dopuštenje za "
-"povezivanje dijelova koda programa sa OpenSSL knjižnicom. Morate se "
-"pridržavati GNU Opće Javne Licence (General Public License) u svim pogledima "
-"za svaki kod korišten drugdje osim u OpenSSL-u.\n"
+"povezivanje dijelova koda programa sa OpenSSL knjižnicom. Morate se pridržavati "
+"GNU Opće Javne Licence (General Public License) u svim pogledima za svaki kod "
+"korišten drugdje osim u OpenSSL-u.\n"
 "\n"
 "Ako mijenjate datoteku ili datoteke sa ovim izuzetkom, morate proširiti ovaj "
-"izuzetak na vašu inačicu datoteke ili datoteka, ali vi niste dužni to "
-"učiniti. Ako ne želite to učiniti izbrišite izjavu o izuzetku iz vaše "
-"inačice. Ako obrišete izjavu o izuzetku sa svih izvornih datoteka u "
-"programu, stoga ju obrišite i ovdje."
+"izuzetak na vašu inačicu datoteke ili datoteka, ali vi niste dužni to učiniti. "
+"Ako ne želite to učiniti izbrišite izjavu o izuzetku iz vaše inačice. Ako "
+"obrišete izjavu o izuzetku sa svih izvornih datoteka u programu, stoga ju "
+"obrišite i ovdje."
 
 #: deluge/ui/gtkui/connectionmanager.py:149
 msgid "Status"
 msgstr "Status"
 
 #: deluge/ui/gtkui/connectionmanager.py:153
+#, fuzzy
 msgid "Host"
-msgstr ""
+msgstr "Računalo"
 
 #: deluge/ui/gtkui/connectionmanager.py:158
 msgid "Version"
@@ -2253,20 +2250,20 @@ msgstr "Pogreška pri pokretanju jezgre"
 
 #: deluge/ui/gtkui/gtkui.py:313
 msgid ""
-"There was an error starting the core component which is required to run "
-"Deluge in Classic Mode.\n"
+"There was an error starting the core component which is required to run Deluge "
+"in Classic Mode.\n"
 "\n"
 "Please see the details below for more information."
 msgstr ""
-"Pojavila se pogreška prilikom pokretanja dijelova jezgre koji su neophodni "
-"za pokretanje Deluge u Klasičnom Modu.\n"
+"Pojavila se pogreška prilikom pokretanja dijelova jezgre koji su neophodni za "
+"pokretanje Deluge u Klasičnom Modu.\n"
 "\n"
 "Molimo vas da pogledate detalje iznad radi više informacija."
 
 #: deluge/ui/gtkui/gtkui.py:318
 msgid ""
-"Since there was an error starting in Classic Mode would you like to continue "
-"by turning it off?"
+"Since there was an error starting in Classic Mode would you like to continue by "
+"turning it off?"
 msgstr ""
 "Budući da se dogodila pogreška pri pokretanju u Klasičnom Modu želite li "
 "nastaviti tako da ga isključite?"
@@ -2277,11 +2274,11 @@ msgstr "Pogreška pri pokretanju Deamona"
 
 #: deluge/ui/gtkui/gtkui.py:343
 msgid ""
-"There was an error starting the daemon process.  Try running it from a "
-"console to see if there is an error."
+"There was an error starting the daemon process.  Try running it from a console "
+"to see if there is an error."
 msgstr ""
-"Pojavila se pogreška pri pokretanju daemon procesa. Pokušajte ga pokrenuti "
-"iz konzole da provjerite je li nastala pogreška."
+"Pojavila se pogreška pri pokretanju daemon procesa. Pokušajte ga pokrenuti iz "
+"konzole da provjerite je li nastala pogreška."
 
 #: deluge/ui/gtkui/status_tab.py:128 deluge/ui/gtkui/menubar.py:89
 msgid "On"
@@ -2686,10 +2683,8 @@ msgid "Remove Torrent?"
 msgstr "Uklonite torrent?"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2324
-msgid ""
-"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
-msgstr ""
-"<big><b>Jeste li sigurni da želite ukloniti odabrani torrent?</b></big>"
+msgid "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
+msgstr "<big><b>Jeste li sigurni da želite ukloniti odabrani torrent?</b></big>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2376
 msgid "<i>The associated .torrent will be deleted!</i>"
@@ -3014,8 +3009,7 @@ msgid "Delete copy of torrent file on remove"
 msgstr "Izbriši kopiju torrent datoteke prilikom uklanjanja."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:320
-msgid ""
-"Delete the copy of the torrent file created when the torrent is removed"
+msgid "Delete the copy of the torrent file created when the torrent is removed"
 msgstr "Izbriši kopiju torrent datoteke napravljenu kada se torrent ukloni"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:337
@@ -3093,8 +3087,8 @@ msgid ""
 "Enter the IP address of the interface to listen for incoming bittorrent "
 "connections on.  Leave this empty if you want to use the default."
 msgstr ""
-"Unesite IP adresu sučelja za promatranje dolaznih bittorrent veza. Ostavite "
-"ovo prazno ako želite koristiti zadane postavke."
+"Unesite IP adresu sučelja za promatranje dolaznih bittorrent veza. Ostavite ovo "
+"prazno ako želite koristiti zadane postavke."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:903
 msgid "<b>Interface</b>"
@@ -3102,11 +3096,11 @@ msgstr "<b>Sučelje</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:939
 msgid ""
-"The TOS byte set in the IP header of every packet sent to peers (including "
-"web seeds).  Expects a Hex value."
+"The TOS byte set in the IP header of every packet sent to peers (including web "
+"seeds).  Expects a Hex value."
 msgstr ""
-"TOS bajt je zadan u IP zaglavlju svako paketa poslanog točki (uključujući "
-"web dijelitelje). Očekujte Hex vrijednosti"
+"TOS bajt je zadan u IP zaglavlju svako paketa poslanog točki (uključujući web "
+"dijelitelje). Očekujte Hex vrijednosti"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:940
 msgid "Peer TOS Byte:"
@@ -3213,8 +3207,7 @@ msgstr "Maksimum poluotvorenih veza:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1509
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr ""
-"Makismalna brzina dijeljenja za sve torrente. Postavite na -1 za "
-"neograničeno."
+"Makismalna brzina dijeljenja za sve torrente. Postavite na -1 za neograničeno."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1421
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1706
@@ -3224,8 +3217,7 @@ msgstr "Maksimalna brzina dijeljenja (KiB/s):"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1432
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1457
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr ""
-"Maksimalan broj dopuštenih konekcija. Postavite na -1 za neograničeno."
+msgstr "Maksimalan broj dopuštenih konekcija. Postavite na -1 za neograničeno."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1434
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1669
@@ -3247,8 +3239,7 @@ msgstr "Maksimalni broj  slotova za dijeljenje:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1490
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
 msgstr ""
-"Makismalna brzina preuzimanja za sve torrente. Postavite na -1 za "
-"neograničeno."
+"Makismalna brzina preuzimanja za sve torrente. Postavite na -1 za neograničeno."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1477
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1693
@@ -3265,8 +3256,8 @@ msgstr "Ocjeni gornje  IP ograničenje"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1577
 msgid ""
-"If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
-"to avoid exceeding the limits with the total traffic"
+"If checked, the estimated TCP/IP overhead is drained from the rate limiters, to "
+"avoid exceeding the limits with the total traffic"
 msgstr ""
 "Ako je označeno, gornja TCP/IP procjena je izvučena iz limitera ocjena, da "
 "izbjegnete prekomjerno ograničenje ukupnog prometa"
@@ -3278,15 +3269,13 @@ msgstr "<b>Globalno zauzeće propusnosti</b>"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1633
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
 msgstr ""
-"Maksimalni broj slotova za dijeljenje po torrentu. Postavi na -1 za "
-"neograničeno"
+"Maksimalni broj slotova za dijeljenje po torrentu. Postavi na -1 za neograničeno"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1652
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1718
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1736
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
-msgstr ""
-"Maksimalni broj konekcija po torrentu. Postavi na -1 za neograničeno."
+msgstr "Maksimalni broj konekcija po torrentu. Postavi na -1 za neograničeno."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1758
 msgid "<b>Per Torrent Bandwidth Usage</b>"
@@ -3307,10 +3296,10 @@ msgid ""
 "advantage of running Deluge as a daemon. You need to restart Deluge for this "
 "setting to take effect."
 msgstr ""
-"Klasični način će sakriti većinu funkcionalnosti daemona i Deluge će se "
-"činiti kao da je jedinstvena aplikacija. Koristite ovo ako ne želite "
-"iskoristiti prednosti korištenja Deluge daemona. Morate ponovno pokrenuti "
-"Deluge da bi ova postavka imala učinka."
+"Klasični način će sakriti većinu funkcionalnosti daemona i Deluge će se činiti "
+"kao da je jedinstvena aplikacija. Koristite ovo ako ne želite iskoristiti "
+"prednosti korištenja Deluge daemona. Morate ponovno pokrenuti Deluge da bi ova "
+"postavka imala učinka."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1866
 msgid "<b>Classic Mode</b>"
@@ -3382,12 +3371,12 @@ msgstr "<b>Nadogradnja</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2326
 msgid ""
-"Help us improve Deluge by sending us your Python version, PyGTK version, OS "
-"and processor types.  Absolutely no other information is sent."
+"Help us improve Deluge by sending us your Python version, PyGTK version, OS and "
+"processor types.  Absolutely no other information is sent."
 msgstr ""
-"Pomozite nam poboljšati Deluge tako što ćete nam poslati svoju inačicu "
-"Pythona, inačicu PyGTK, operacijski sustav i tipove procesora. Apsolutno "
-"nikakve druge informacije se ne šalju."
+"Pomozite nam poboljšati Deluge tako što ćete nam poslati svoju inačicu Pythona, "
+"inačicu PyGTK, operacijski sustav i tipove procesora. Apsolutno nikakve druge "
+"informacije se ne šalju."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2343
 msgid "Yes, please send anonymous statistics"
@@ -3406,8 +3395,8 @@ msgid ""
 "If Deluge cannot find the database file at this location it will fallback to "
 "using DNS to resolve the peer's country."
 msgstr ""
-"Ako Deluge ne može pronaći datoteku baze podataka na toj lokaciji, ponovno "
-"će koristiti DNS da riješi zemlju točke."
+"Ako Deluge ne može pronaći datoteku baze podataka na toj lokaciji, ponovno će "
+"koristiti DNS da riješi zemlju točke."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2444
 msgid "<b>GeoIP Database</b>"
@@ -3505,8 +3494,9 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3517
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3701
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3886
+#, fuzzy
 msgid "Host:"
-msgstr ""
+msgstr "Računalo"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3407
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3591
@@ -3553,11 +3543,11 @@ msgstr "Veličina priručne memorije (16 KiB blokova):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4122
 msgid ""
-"The number of seconds from the last cached write to a piece in the write "
-"cache, to when it's forcefully flushed to disk. Default is 60 seconds."
+"The number of seconds from the last cached write to a piece in the write cache, "
+"to when it's forcefully flushed to disk. Default is 60 seconds."
 msgstr ""
-"Broj sekundi od posljednjeg zapisa priručne memorije u dijelu zapisa "
-"priručne memorije, kada je prisilno zapisana na disk. Zadano je 60 sekundi."
+"Broj sekundi od posljednjeg zapisa priručne memorije u dijelu zapisa priručne "
+"memorije, kada je prisilno zapisana na disk. Zadano je 60 sekundi."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4124
 msgid "Cache Expiry (seconds):"
@@ -3576,11 +3566,9 @@ msgstr "Zapisano blokova:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4231
 msgid ""
-"The total number of write operations performed since this session was "
-"started."
+"The total number of write operations performed since this session was started."
 msgstr ""
-"Ukupan broj od zapisanih operacija koje se izvode od kada je sesija "
-"pokrenuta."
+"Ukupan broj od zapisanih operacija koje se izvode od kada je sesija pokrenuta."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4233
 msgid "Writes:"
@@ -3588,13 +3576,13 @@ msgstr "Zapisa:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4244
 msgid ""
-"The ratio (blocks_written - writes) / blocks_written represents the number "
-"of saved write operations per total write operations, i.e. a kind of cache "
-"hit ratio for the write cache."
+"The ratio (blocks_written - writes) / blocks_written represents the number of "
+"saved write operations per total write operations, i.e. a kind of cache hit "
+"ratio for the write cache."
 msgstr ""
-"Omjer (blokova_zapisano - zapisa) / blokova_zapisano prikazuje broj "
-"pohranjenih operacija zapisa po ukupnom zapisu informacija, npr. vrsta "
-"pogođenih omjera priručne memorije za zapis priručne memorije."
+"Omjer (blokova_zapisano - zapisa) / blokova_zapisano prikazuje broj pohranjenih "
+"operacija zapisa po ukupnom zapisu informacija, npr. vrsta pogođenih omjera "
+"priručne memorije za zapis priručne memorije."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4246
 msgid "Write Cache Hit Ratio:"
@@ -3609,8 +3597,8 @@ msgid ""
 "The number of blocks that were requested from the bittorrent engine (from "
 "peers), that were served from disk or cache."
 msgstr ""
-"Broj blokada zahtjevanih iz bittorrent engina (iz točaka), koji su posluženi "
-"iz diska ili priručne memorije."
+"Broj blokada zahtjevanih iz bittorrent engina (iz točaka), koji su posluženi iz "
+"diska ili priručne memorije."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4330
 msgid "Blocks Read:"
@@ -3635,8 +3623,7 @@ msgstr "Omjer pogodaka čitanja priručne memorije:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4403
 msgid ""
 "The total number of read operations performed since this session was started."
-msgstr ""
-"Konačan broj izvedenih operacija čitanja od kada je ova sesija pokrenuta."
+msgstr "Konačan broj izvedenih operacija čitanja od kada je ova sesija pokrenuta."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4405
 msgid "Reads:"
@@ -4052,14 +4039,12 @@ msgstr "Destinacija:"
 #~ msgid "FAQ"
 #~ msgstr "FAQ"
 
-#, python-format
 #~ msgid "%s is not a valid URL."
 #~ msgstr "%s nije valjan URL."
 
 #~ msgid "Downloading.."
 #~ msgstr "Preuzimanje..."
 
-#, python-format
 #~ msgid "Failed to download : %s"
 #~ msgstr "Neuspjelo preuzimanje: %s"
 
@@ -4073,7 +4058,6 @@ msgstr "Destinacija:"
 #~ msgid "<i>Enter your password to continue</i>"
 #~ msgstr "<i>Unesite lozinku da bi nastavili</i>"
 
-#, python-format
 #~ msgid "Including %i files"
 #~ msgstr "Uključujući %i datoteke"
 
@@ -4134,7 +4118,6 @@ msgstr "Destinacija:"
 #~ msgid "You're running low on disk space:\n"
 #~ msgstr "Koristite malo slobodnog prostora na disku:\n"
 
-#, python-format
 #~ msgid "  %s%% ocupation in %s\n"
 #~ msgstr "  %s%% zauzeto u %s\n"
 
@@ -4155,16 +4138,16 @@ msgstr "Destinacija:"
 #~ "useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
 #~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
 #~ "Public License for more details. You should have received a copy of the GNU "
-#~ "General Public License along with this program; if not, see "
-#~ "<http://www.gnu.org/licenses>. In addition, as a special exception, the "
-#~ "copyright holders give permission to link the code of portions of this "
-#~ "program with the OpenSSL library. You must obey the GNU General Public "
-#~ "License in all respects for all of the code used other than OpenSSL. If you "
-#~ "modify file(s) with this exception, you may extend this exception to your "
-#~ "version of the file(s), but you are not obligated to do so. If you do not "
-#~ "wish to do so, delete this exception statement from your version. If you "
-#~ "delete this exception statement from all source files in the program, then "
-#~ "also delete it here."
+#~ "General Public License along with this program; if not, see <http://www.gnu."
+#~ "org/licenses>. In addition, as a special exception, the copyright holders "
+#~ "give permission to link the code of portions of this program with the "
+#~ "OpenSSL library. You must obey the GNU General Public License in all "
+#~ "respects for all of the code used other than OpenSSL. If you modify file(s) "
+#~ "with this exception, you may extend this exception to your version of the "
+#~ "file(s), but you are not obligated to do so. If you do not wish to do so, "
+#~ "delete this exception statement from your version. If you delete this "
+#~ "exception statement from all source files in the program, then also delete "
+#~ "it here."
 #~ msgstr ""
 #~ "Ovaj program je slobodan software; možete ga redistribuirati i/ili "
 #~ "modificirati pod uvjetima GNU Opće Javne Licence (General Public License) "
@@ -4174,16 +4157,16 @@ msgstr "Destinacija:"
 #~ "čak i bez podrazumjevanog jamstva ili POGODNOSTI ZA ODREĐENU NAMJENU. "
 #~ "Pogledajte GNU Opću Javnu Licencu (General Public License) za više "
 #~ "informacija. Trebali ste dobiti primjerak GNU Opće Javne Licence (General "
-#~ "Public License) uz ovaj program; ako niste, pogledajte "
-#~ "<http://www.gnu.org/licenses>. Osim toga, kao posebna iznimka, nositelji "
-#~ "autorskih prava daju dopuštenje za povezivanje dijelova koda programa sa "
-#~ "OpenSSL knjižnicom. Morate se pridržavati GNU Opće Javne Licence (General "
-#~ "Public License) u svim pogledima za svaki kod korišten drugdje osim u "
-#~ "OpenSSL-u. Ako mijenjate datoteku ili datoteke sa ovim izuzetkom, morate "
-#~ "proširiti ovaj izuzetak na vašu inačicu datoteke ili datoteka, ali vi niste "
-#~ "dužni to učiniti. Ako ne želite to učiniti, izbrišite izjavu o izuzetku iz "
-#~ "vaše inačice. Ako obrišete izjavu o izuzetku sa svih izvornih datoteka u "
-#~ "programu, stoga ju obrišite i ovdje."
+#~ "Public License) uz ovaj program; ako niste, pogledajte <http://www.gnu.org/"
+#~ "licenses>. Osim toga, kao posebna iznimka, nositelji autorskih prava daju "
+#~ "dopuštenje za povezivanje dijelova koda programa sa OpenSSL knjižnicom. "
+#~ "Morate se pridržavati GNU Opće Javne Licence (General Public License) u svim "
+#~ "pogledima za svaki kod korišten drugdje osim u OpenSSL-u. Ako mijenjate "
+#~ "datoteku ili datoteke sa ovim izuzetkom, morate proširiti ovaj izuzetak na "
+#~ "vašu inačicu datoteke ili datoteka, ali vi niste dužni to učiniti. Ako ne "
+#~ "želite to učiniti, izbrišite izjavu o izuzetku iz vaše inačice. Ako obrišete "
+#~ "izjavu o izuzetku sa svih izvornih datoteka u programu, stoga ju obrišite i "
+#~ "ovdje."
 
 #~ msgid "<b><big>Deluge is password protected!</big></b>"
 #~ msgstr "<b><big>Deluge je zaštićen lozinkom!</big></b>"

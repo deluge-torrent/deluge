@@ -1,19 +1,18 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-07-10 16:58+0100\n"
-"PO-Revision-Date: 2009-01-17 08:45+0000\n"
+"PO-Revision-Date: 2015-07-15 13:36-0400\n"
 "Last-Translator: shaiful <Unknown>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-07-11 13:01+0000\n"
-"X-Generator: Launchpad (build 13388)\n"
-"X-Poedit-Country: BANGLADESH\n"
-"X-Poedit-Language: Bengali\n"
+"X-Generator: Poedit 1.8.2\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"Language-Team: \n"
+"Language: bn_BD\n"
 
 #: deluge/common.py:274
 msgid "KiB"
@@ -48,48 +47,54 @@ msgstr "কি.বাইট/সেকেন্ড"
 
 #: deluge/common.py:318
 msgid "MiB/s"
-msgstr ""
 
 #: deluge/common.py:320
 msgid "GiB/s"
-msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
+#, fuzzy
 msgid "Notification Blink shown"
-msgstr ""
+msgstr "জ্বলেনিভে করা"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:183
+#, fuzzy
 msgid "Popup notification is not enabled."
-msgstr ""
+msgstr "বিজ্ঞপ্তি সেটিংস"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:185
+#, fuzzy
 msgid "pynotify is not installed"
-msgstr ""
+msgstr "ইনস্টল করা হয়েছে"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:193
+#, fuzzy
 msgid "pynotify failed to show notification"
-msgstr ""
+msgstr "সেভ করতে ব্যর্থ হয়েছে"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:196
+#, fuzzy
 msgid "Notification popup shown"
-msgstr ""
+msgstr "বিজ্ঞপ্তি সেটিংস"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:200
+#, fuzzy
 msgid "Sound notification not enabled"
-msgstr ""
+msgstr "শব্দ"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:202
+#, fuzzy
 msgid "pygame is not installed"
-msgstr ""
+msgstr "ইনস্টল করা হয়েছে"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:214
-#, python-format
+#, fuzzy, python-format
 msgid "Sound notification failed %s"
-msgstr ""
+msgstr "শব্দ"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:218
+#, fuzzy
 msgid "Sound notification Success"
-msgstr ""
+msgstr "শব্দ"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:241
 msgid "Finished Torrent"
@@ -102,19 +107,20 @@ msgid ""
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:646
+#, fuzzy
 msgid "Choose Sound File"
-msgstr ""
+msgstr "সহায়িকা বেছে নিন"
 
 #: deluge/plugins/notifications/notifications/core.py:138
 #: deluge/plugins/notifications/notifications/core.py:171
-#, python-format
+#, fuzzy, python-format
 msgid "There was an error sending the notification email: %s"
-msgstr ""
+msgstr "ত্রুটি: স্মার্টকার্ডে প্রশ্ন পাঠাতে ব্যর্থ"
 
 #: deluge/plugins/notifications/notifications/core.py:157
-#, python-format
+#, fuzzy, python-format
 msgid "The server didn't reply properly to the helo greeting: %s"
-msgstr ""
+msgstr "একটি উত্তর ত্যাগ %s"
 
 #: deluge/plugins/notifications/notifications/core.py:162
 #, python-format
@@ -122,8 +128,9 @@ msgid "The server didn't accept the username/password combination: %s"
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/core.py:186
+#, fuzzy
 msgid "Notification email sent."
-msgstr ""
+msgstr "ই-মেইল"
 
 #: deluge/plugins/notifications/notifications/core.py:194
 #, python-format
@@ -133,8 +140,8 @@ msgstr ""
 #: deluge/plugins/notifications/notifications/core.py:196
 #, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading "
-"\"%(name)s\", which includes %(num_files)i files.\n"
+"This email is to inform you that Deluge has finished downloading \"%(name)s"
+"\", which includes %(num_files)i files.\n"
 "To stop receiving these alerts, simply turn off email notification in "
 "Deluge's preferences.\n"
 "\n"
@@ -143,24 +150,29 @@ msgid ""
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/data/config.glade:29
+#, fuzzy
 msgid "<b><i><big>Notifications</big></i></b>"
-msgstr ""
+msgstr "বিজ্ঞপ্তি"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:81
+#, fuzzy
 msgid "Tray icon blinks enabled"
-msgstr ""
+msgstr "ব্রেকপয়েন্ট সক্রিয়/নিষ্ক্রিয়"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:93
+#, fuzzy
 msgid "Popups enabled"
-msgstr ""
+msgstr "ব্রেকপয়েন্ট সক্রিয়/নিষ্ক্রিয়"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:108
+#, fuzzy
 msgid "Sound enabled"
-msgstr ""
+msgstr "শব্দ"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:144
+#, fuzzy
 msgid "<b>UI Notifications</b>"
-msgstr ""
+msgstr "বিজ্ঞপ্তি"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:175
 #: deluge/ui/gtkui/glade/connection_manager.glade:28
@@ -173,8 +185,9 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3542
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3726
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3912
+#, fuzzy
 msgid "Port:"
-msgstr ""
+msgstr "বন্দর"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:231
 #: deluge/ui/gtkui/glade/connection_manager.glade:143
@@ -206,21 +219,25 @@ msgstr ""
 #: deluge/plugins/notifications/notifications/data/config.glade:398
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:633
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:783
+#, fuzzy
 msgid "From:"
-msgstr ""
+msgstr "থেকে"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:421
 #: deluge/ui/gtkui/preferences.py:91
+#, fuzzy
 msgid "Enabled"
-msgstr ""
+msgstr "সক্রিয়"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:443
+#, fuzzy
 msgid "<b>Email Notifications</b>"
-msgstr ""
+msgstr "বিজ্ঞপ্তি"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:460
+#, fuzzy
 msgid "Settings"
-msgstr ""
+msgstr "সেটিংগুলি"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:495
 msgid ""
@@ -229,29 +246,35 @@ msgid ""
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/data/config.glade:513
+#, fuzzy
 msgid "Subscriptions"
-msgstr ""
+msgstr "সাবস্ক্রিপশন"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:594
+#, fuzzy
 msgid "Sound Customization"
-msgstr ""
+msgstr "শব্দ"
 
 #: deluge/plugins/autoadd/autoadd/core.py:136
+#, fuzzy
 msgid "Watch folder does not exist."
-msgstr ""
+msgstr "এই ফ্রেমটির অস্তিত্ব নেই।"
 
 #: deluge/plugins/autoadd/autoadd/core.py:139
 #: deluge/plugins/autoadd/autoadd/core.py:308
+#, fuzzy
 msgid "Path does not exist."
-msgstr ""
+msgstr "এই ফ্রেমটির অস্তিত্ব নেই।"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
+#, fuzzy
 msgid "AutoAdd Error"
-msgstr ""
+msgstr "ত্রুটি"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:78
+#, fuzzy
 msgid "Watch Folder Properties"
-msgstr ""
+msgstr "ফোল্ডার"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
@@ -262,202 +285,244 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:162
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:228
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:288
+#, fuzzy
 msgid "Select A Folder"
-msgstr ""
+msgstr "নির্বাচন করা"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:143
+#, fuzzy
 msgid "Enable this watch folder"
-msgstr ""
+msgstr "ওয়াচ সক্রিয় করো"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:164
+#, fuzzy
 msgid "<b>Watch Folder</b>"
-msgstr ""
+msgstr "ফোল্ডার"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:195
+#, fuzzy
 msgid "Delete .torrent after adding"
-msgstr ""
+msgstr "মুছে ফেলুন"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:211
+#, fuzzy
 msgid "Append extension after adding:"
-msgstr ""
+msgstr "শীট যোগ করুন"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:228
 msgid ".added"
 msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:248
+#, fuzzy
 msgid "<b>Torrent File Action</b>"
-msgstr ""
+msgstr "লাইসেন্স অ্যাকশন"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:275
+#, fuzzy
 msgid "Set download location"
-msgstr ""
+msgstr "অবস্থান"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:325
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:396
+#, fuzzy
 msgid "<b>Download Location</b>"
-msgstr ""
+msgstr "অবস্থান"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:353
+#, fuzzy
 msgid "Set move completed location"
-msgstr ""
+msgstr "অবস্থান"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:418
+#, fuzzy
 msgid "<b>Move Completed</b>"
-msgstr ""
+msgstr "আপনার অনুরোধ সম্পূর্ণ করা হয়েছে."
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:444
+#, fuzzy
 msgid "Label: "
-msgstr ""
+msgstr "ন্যাভিগেশন লেবেল"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:475
+#, fuzzy
 msgid "<b>Label</b>"
-msgstr ""
+msgstr "ন্যাভিগেশন লেবেল"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:492
+#, fuzzy
 msgid "Main"
-msgstr ""
+msgstr "প্রধান প্রবেশপথ"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:524
 #: deluge/ui/gtkui/glade/main_window.glade:1811
+#, fuzzy
 msgid "Max Upload Speed:"
-msgstr ""
+msgstr "আপলোড করুন"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:541
 #: deluge/ui/gtkui/glade/main_window.glade:1798
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:551
+#, fuzzy
 msgid "Max Connections:"
-msgstr ""
+msgstr "সামাজিক যোগাযোগগুলি"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:558
 #: deluge/ui/gtkui/glade/main_window.glade:1861
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:565
+#, fuzzy
 msgid "Max Upload Slots:"
-msgstr ""
+msgstr "আপলোড করুন"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:665
 #: deluge/ui/gtkui/glade/main_window.glade:1824
+#, fuzzy
 msgid "Max Download Speed:"
-msgstr ""
+msgstr "Fast"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:691
 #: deluge/ui/gtkui/glade/main_window.glade:1900
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:634
+#, fuzzy
 msgid "<b>Bandwidth</b>"
 msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:722
 #: deluge/plugins/label/label/data/label_options.glade:349
 #: deluge/ui/gtkui/glade/main_window.glade:1952
+#, fuzzy
 msgid "Stop seed at ratio:"
-msgstr ""
+msgstr "থামানো"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:746
 #: deluge/plugins/label/label/data/label_options.glade:364
 #: deluge/ui/gtkui/glade/main_window.glade:1993
+#, fuzzy
 msgid "Remove at ratio"
-msgstr ""
+msgstr "অপসারণ করুন"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:762
+#, fuzzy
 msgid "Auto Managed:"
-msgstr ""
+msgstr "স্বয়ংক্রিয় ভরাট"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:890
+#, fuzzy
 msgid "Add Paused:"
-msgstr ""
+msgstr "যোগ করুন"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:936
+#, fuzzy
 msgid "Queue to:"
-msgstr ""
+msgstr "-এ সেভ করুন"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:954
+#, fuzzy
 msgid "Top"
-msgstr ""
+msgstr "উপর"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:967
+#, fuzzy
 msgid "Bottom"
-msgstr ""
+msgstr "নীচ"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:1017
 #: deluge/ui/gtkui/glade/main_window.glade:2069
+#, fuzzy
 msgid "<b>Queue</b>"
 msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:1037
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:624
 #: deluge/ui/gtkui/glade/connection_manager.glade:457
+#, fuzzy
 msgid "Options"
-msgstr ""
+msgstr "অপশন"
 
 #: deluge/plugins/autoadd/autoadd/data/config.glade:41
+#, fuzzy
 msgid "<b>Watch Folders:</b>"
-msgstr ""
+msgstr "ঘড়ি"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:238
+#, fuzzy
 msgid "Download Limit:"
-msgstr ""
+msgstr "এখন ডাউনলোড করুন"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:247
+#, fuzzy
 msgid "Upload Limit:"
-msgstr ""
+msgstr "আপলোড করুন"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:256
+#, fuzzy
 msgid "Active Torrents:"
-msgstr ""
+msgstr "সক্রিয়"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:265
+#, fuzzy
 msgid "Active Downloading:"
-msgstr ""
+msgstr "সক্রিয়"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:274
+#, fuzzy
 msgid "Active Seeding:"
-msgstr ""
+msgstr "সক্রিয়"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:288
+#, fuzzy
 msgid "<b>Slow Settings</b>"
-msgstr ""
+msgstr "সেটিংগুলি"
 
 #: deluge/plugins/label/label/core.py:189
 msgid "Invalid label, valid characters:[a-z0-9_-]"
 msgstr ""
 
 #: deluge/plugins/label/label/core.py:190
+#, fuzzy
 msgid "Empty Label"
-msgstr ""
+msgstr "খালি"
 
 #: deluge/plugins/label/label/core.py:191
+#, fuzzy
 msgid "Label already exists"
-msgstr ""
+msgstr "ট্যাগ আগে থেকেই আছে"
 
 #: deluge/plugins/label/label/core.py:199
 #: deluge/plugins/label/label/core.py:279
 #: deluge/plugins/label/label/core.py:314
+#, fuzzy
 msgid "Unknown Label"
-msgstr ""
+msgstr "সমীকরণ"
 
 #: deluge/plugins/label/label/core.py:315
+#, fuzzy
 msgid "Unknown Torrent"
-msgstr ""
+msgstr "সমীকরণ"
 
 #: deluge/plugins/label/label/gtkui/submenu.py:48
 #: deluge/plugins/label/label/gtkui/__init__.py:77
 #: deluge/plugins/label/label/gtkui/__init__.py:111
 #: deluge/plugins/label/label/gtkui/label_config.py:59
 #: deluge/plugins/label/label/gtkui/label_config.py:66
+#, fuzzy
 msgid "Label"
-msgstr ""
+msgstr "লেবেল"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:66
+#, fuzzy
 msgid "Label _Options"
-msgstr ""
+msgstr "ন্যাভিগেশন লেবেল"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:67
+#, fuzzy
 msgid "_Remove Label"
-msgstr ""
+msgstr "ন্যাভিগেশন লেবেল"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:68
+#, fuzzy
 msgid "_Add Label"
-msgstr ""
+msgstr "ন্যাভিগেশন লেবেল"
 
 #: deluge/plugins/label/label/data/label_options.glade:7
 msgid "Label Options"
@@ -497,8 +562,9 @@ msgid "Auto Managed"
 msgstr "স্বয়ংক্রিয়ভাবে পরিচালিত"
 
 #: deluge/plugins/label/label/data/label_options.glade:410
+#, fuzzy
 msgid "Apply Queue settings:"
-msgstr ""
+msgstr "সেটিংগুলি"
 
 #: deluge/plugins/label/label/data/label_options.glade:426
 #: deluge/ui/gtkui/preferences.py:77
@@ -507,20 +573,23 @@ msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:453
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:204
+#, fuzzy
 msgid "Move completed to:"
-msgstr ""
+msgstr "আপনার অনুরোধ সম্পূর্ণ করা হয়েছে."
 
 #: deluge/plugins/label/label/data/label_options.glade:504
+#, fuzzy
 msgid "Apply location settings:"
-msgstr ""
+msgstr "অবস্থান সেটিংস"
 
 #: deluge/plugins/label/label/data/label_options.glade:520
 msgid "Location"
 msgstr "অবস্থান"
 
 #: deluge/plugins/label/label/data/label_options.glade:560
+#, fuzzy
 msgid "<i>(1 line per tracker)</i>"
-msgstr ""
+msgstr "সমস্যা অনুসরণ"
 
 #: deluge/plugins/label/label/data/label_options.glade:576
 msgid "Automatically apply label:"
@@ -533,16 +602,19 @@ msgid "Trackers"
 msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:646
+#, fuzzy
 msgid "Add Label"
-msgstr ""
+msgstr "যোগ করুন"
 
 #: deluge/plugins/label/label/data/label_options.glade:680
+#, fuzzy
 msgid "<b>Add Label</b>"
-msgstr ""
+msgstr "যোগ করুন"
 
 #: deluge/plugins/label/label/data/label_options.glade:711
+#, fuzzy
 msgid "Name:"
-msgstr ""
+msgstr "নাম"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
@@ -553,12 +625,14 @@ msgid "<b>Labels</b>"
 msgstr "<b>লেবেল</b>"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:27
+#, fuzzy
 msgid "Extract to:"
-msgstr ""
+msgstr "ফ্লোচার্ট: এক্সট্রাক্ট"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:69
+#, fuzzy
 msgid "Create torrent name sub-folder"
-msgstr ""
+msgstr "ফোল্ডার"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:73
 msgid ""
@@ -571,32 +645,38 @@ msgstr ""
 #: deluge/ui/gtkui/glade/main_window.glade:2183
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:705
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2847
+#, fuzzy
 msgid "<b>General</b>"
-msgstr ""
+msgstr "সাধারণ"
 
 #: deluge/plugins/webui/webui/gtkui.py:97
+#, fuzzy
 msgid ""
 "The Deluge web interface is not installed, please install the\n"
 "interface and try again"
-msgstr ""
+msgstr "ব্যবহারকারীর নাম নেওয়া হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন।"
 
 #: deluge/plugins/webui/webui/data/config.glade:27
+#, fuzzy
 msgid "Enable web interface"
-msgstr ""
+msgstr "ইন্টারফেস"
 
 #: deluge/plugins/webui/webui/data/config.glade:41
+#, fuzzy
 msgid "Enable SSL"
-msgstr ""
+msgstr "ওয়াচ সক্রিয় করো"
 
 #: deluge/plugins/webui/webui/data/config.glade:60
+#, fuzzy
 msgid "Listening port:"
-msgstr ""
+msgstr "বন্দর"
 
 #: deluge/plugins/webui/webui/data/config.glade:94
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:153
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4173
+#, fuzzy
 msgid "<b>Settings</b>"
-msgstr ""
+msgstr "সেটিংগুলি"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:49
 msgid "Emule IP list (GZip)"
@@ -615,16 +695,19 @@ msgid "PeerGuardian P2B (GZip)"
 msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:31
+#, fuzzy
 msgid "Invalid leader"
-msgstr ""
+msgstr "নেতৃত্ব"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:35
+#, fuzzy
 msgid "Invalid magic code"
-msgstr ""
+msgstr "জাদু"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:40
+#, fuzzy
 msgid "Invalid version"
-msgstr ""
+msgstr "%s (অকার্যকর)"
 
 #: deluge/plugins/blocklist/blocklist/gtkui.py:67
 #: deluge/plugins/blocklist/blocklist/gtkui.py:155
@@ -635,66 +718,76 @@ msgstr ""
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:27
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:385
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1018
+#, fuzzy
 msgid "URL:"
-msgstr ""
+msgstr "লিংকঃ"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:91
 msgid "Days"
 msgstr "দিন"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:117
+#, fuzzy
 msgid "Check for new list every:"
-msgstr ""
+msgstr "চেক বক্স"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:133
+#, fuzzy
 msgid "Import blocklist on startup"
-msgstr ""
+msgstr "আমদানি করুন"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:190
 msgid "Download the blocklist file if necessary and import the file."
 msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:210
+#, fuzzy
 msgid "Check Download and Import"
-msgstr ""
+msgstr "আমদানি করুন"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:232
 msgid "Download a new blocklist file and import it."
 msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:252
+#, fuzzy
 msgid "Force Download and Import"
-msgstr ""
+msgstr "আমদানি করুন"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:276
+#, fuzzy
 msgid "Blocklist is up to date"
-msgstr ""
+msgstr "স্বয়ং"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:293
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:472
+#, fuzzy
 msgid "<b>Options</b>"
-msgstr ""
+msgstr "অপশন"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:397
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3427
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3611
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3795
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3982
+#, fuzzy
 msgid "Type:"
-msgstr ""
+msgstr "ধরণ"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:409
 msgid "Date:"
 msgstr "তারিখ:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:421
+#, fuzzy
 msgid "File Size:"
-msgstr ""
+msgstr "মাপ"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:441
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4822
+#, fuzzy
 msgid "<b>Info</b>"
-msgstr ""
+msgstr "তথ্য"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
 msgid "Torrent Complete"
@@ -726,6 +819,7 @@ msgid "<b>Commands</b>"
 msgstr "<b>আদেশগুলি<b>"
 
 #: deluge/core/torrentmanager.py:937
+#, fuzzy
 msgid "Announce OK"
 msgstr ""
 
@@ -739,744 +833,912 @@ msgstr ""
 
 #: deluge/core/torrentmanager.py:971 deluge/core/filtermanager.py:94
 #: deluge/ui/gtkui/filtertreeview.py:78
+#, fuzzy
 msgid "Error"
-msgstr ""
+msgstr "ত্রুটি"
 
 #: deluge/ui/countries.py:9
+#, fuzzy
 msgid "Afghanistan"
-msgstr ""
+msgstr "আফগানিস্তান"
 
 #: deluge/ui/countries.py:10
+#, fuzzy
 msgid "Aland Islands"
-msgstr ""
+msgstr "অলান্দ দ্বীপপুঞ্জ"
 
 #: deluge/ui/countries.py:11
+#, fuzzy
 msgid "Albania"
-msgstr ""
+msgstr "আলবেনিয়া"
 
 #: deluge/ui/countries.py:12
+#, fuzzy
 msgid "Algeria"
-msgstr ""
+msgstr "আলজেরিয়া"
 
 #: deluge/ui/countries.py:13
+#, fuzzy
 msgid "American Samoa"
-msgstr ""
+msgstr "সামোয়া"
 
 #: deluge/ui/countries.py:14
+#, fuzzy
 msgid "Andorra"
-msgstr ""
+msgstr "অ্যান্ডোরা"
 
 #: deluge/ui/countries.py:15
+#, fuzzy
 msgid "Angola"
-msgstr ""
+msgstr "অ্যাঙ্গোলা"
 
 #: deluge/ui/countries.py:16
 msgid "Anguilla"
 msgstr ""
 
 #: deluge/ui/countries.py:17
+#, fuzzy
 msgid "Antarctica"
-msgstr ""
+msgstr "অ্যান্টার্কটিকা"
 
 #: deluge/ui/countries.py:18
+#, fuzzy
 msgid "Antigua and Barbuda"
-msgstr ""
+msgstr "অ্যান্টিগুয়া ও বার্বুডা"
 
 #: deluge/ui/countries.py:19
+#, fuzzy
 msgid "Argentina"
-msgstr ""
+msgstr "আর্জেন্টিনা"
 
 #: deluge/ui/countries.py:20
+#, fuzzy
 msgid "Armenia"
-msgstr ""
+msgstr "আর্মেনিয়া"
 
 #: deluge/ui/countries.py:21
+#, fuzzy
 msgid "Aruba"
-msgstr ""
+msgstr "আরুবা"
 
 #: deluge/ui/countries.py:22
+#, fuzzy
 msgid "Australia"
-msgstr ""
+msgstr "অস্ট্রেলিয়া"
 
 #: deluge/ui/countries.py:23
+#, fuzzy
 msgid "Austria"
-msgstr ""
+msgstr "অস্ট্রিয়া"
 
 #: deluge/ui/countries.py:24
+#, fuzzy
 msgid "Azerbaijan"
-msgstr ""
+msgstr "আজারবাইজান"
 
 #: deluge/ui/countries.py:25
 msgid "Bahamas"
 msgstr ""
 
 #: deluge/ui/countries.py:26
+#, fuzzy
 msgid "Bahrain"
-msgstr ""
+msgstr "বাহরাইন"
 
 #: deluge/ui/countries.py:27
+#, fuzzy
 msgid "Bangladesh"
-msgstr ""
+msgstr "বাংলাদেশ"
 
 #: deluge/ui/countries.py:28
+#, fuzzy
 msgid "Barbados"
-msgstr ""
+msgstr "বার্বাডোস"
 
 #: deluge/ui/countries.py:29
+#, fuzzy
 msgid "Belarus"
-msgstr ""
+msgstr "বেলারুশ"
 
 #: deluge/ui/countries.py:30
+#, fuzzy
 msgid "Belgium"
-msgstr ""
+msgstr "বেলজিয়াম"
 
 #: deluge/ui/countries.py:31
+#, fuzzy
 msgid "Belize"
-msgstr ""
+msgstr "বেলিজ"
 
 #: deluge/ui/countries.py:32
+#, fuzzy
 msgid "Benin"
-msgstr ""
+msgstr "বেনিন"
 
 #: deluge/ui/countries.py:33
 msgid "Bermuda"
 msgstr ""
 
 #: deluge/ui/countries.py:34
+#, fuzzy
 msgid "Bhutan"
-msgstr ""
+msgstr "ভুটান"
 
 #: deluge/ui/countries.py:35
+#, fuzzy
 msgid "Bolivia"
-msgstr ""
+msgstr "বলিভিয়া"
 
 #: deluge/ui/countries.py:36
+#, fuzzy
 msgid "Bosnia and Herzegovina"
-msgstr ""
+msgstr "বসনিয়া ও হার্জেগোভিনা"
 
 #: deluge/ui/countries.py:37
+#, fuzzy
 msgid "Botswana"
-msgstr ""
+msgstr "বতসোয়ানা"
 
 #: deluge/ui/countries.py:38
+#, fuzzy
 msgid "Bouvet Island"
-msgstr ""
+msgstr "দ্বীপ"
 
 #: deluge/ui/countries.py:39
+#, fuzzy
 msgid "Brazil"
-msgstr ""
+msgstr "ব্রাজিল"
 
 #: deluge/ui/countries.py:40
+#, fuzzy
 msgid "British Indian Ocean Territory"
-msgstr ""
+msgstr "ভারত মহাসাগর"
 
 #: deluge/ui/countries.py:41
+#, fuzzy
 msgid "Brunei Darussalam"
-msgstr ""
+msgstr "ব্রুনাই"
 
 #: deluge/ui/countries.py:42
+#, fuzzy
 msgid "Bulgaria"
-msgstr ""
+msgstr "বুলগেরিয়া"
 
 #: deluge/ui/countries.py:43
 msgid "Burkina Faso"
 msgstr ""
 
 #: deluge/ui/countries.py:44
+#, fuzzy
 msgid "Burundi"
-msgstr ""
+msgstr "বুরুন্ডি"
 
 #: deluge/ui/countries.py:45
+#, fuzzy
 msgid "Cambodia"
-msgstr ""
+msgstr "কম্বোডিয়া"
 
 #: deluge/ui/countries.py:46
+#, fuzzy
 msgid "Cameroon"
-msgstr ""
+msgstr "ক্যামেরুন"
 
 #: deluge/ui/countries.py:47
+#, fuzzy
 msgid "Canada"
-msgstr ""
+msgstr "কানাডা"
 
 #: deluge/ui/countries.py:48
+#, fuzzy
 msgid "Cape Verde"
-msgstr ""
+msgstr "কেপ ভার্দ"
 
 #: deluge/ui/countries.py:49
+#, fuzzy
 msgid "Cayman Islands"
-msgstr ""
+msgstr "অলান্দ দ্বীপপুঞ্জ"
 
 #: deluge/ui/countries.py:50
+#, fuzzy
 msgid "Central African Republic"
-msgstr ""
+msgstr "প্রজাতন্ত্র"
 
 #: deluge/ui/countries.py:51
+#, fuzzy
 msgid "Chad"
-msgstr ""
+msgstr "চাদ"
 
 #: deluge/ui/countries.py:52
+#, fuzzy
 msgid "Chile"
-msgstr ""
+msgstr "চিলি"
 
 #: deluge/ui/countries.py:53
+#, fuzzy
 msgid "China"
-msgstr ""
+msgstr "গণচীন"
 
 #: deluge/ui/countries.py:54
+#, fuzzy
 msgid "Christmas Island"
-msgstr ""
+msgstr "বড়দিন"
 
 #: deluge/ui/countries.py:55
+#, fuzzy
 msgid "Cocos (Keeling) Islands"
-msgstr ""
+msgstr "অলান্দ দ্বীপপুঞ্জ"
 
 #: deluge/ui/countries.py:56
+#, fuzzy
 msgid "Colombia"
-msgstr ""
+msgstr "কলম্বিয়া"
 
 #: deluge/ui/countries.py:57
+#, fuzzy
 msgid "Comoros"
-msgstr ""
+msgstr "কোমোরোস"
 
 #: deluge/ui/countries.py:58
 msgid "Congo"
 msgstr ""
 
 #: deluge/ui/countries.py:59
+#, fuzzy
 msgid "Congo, The Democratic Republic of the"
-msgstr ""
+msgstr "প্রজাতন্ত্র"
 
 #: deluge/ui/countries.py:60
+#, fuzzy
 msgid "Cook Islands"
-msgstr ""
+msgstr "অলান্দ দ্বীপপুঞ্জ"
 
 #: deluge/ui/countries.py:61
+#, fuzzy
 msgid "Costa Rica"
-msgstr ""
+msgstr "কোস্টা রিকা"
 
 #: deluge/ui/countries.py:62
 msgid "Cote d'Ivoire"
 msgstr ""
 
 #: deluge/ui/countries.py:63
+#, fuzzy
 msgid "Croatia"
-msgstr ""
+msgstr "ক্রোয়েশিয়া"
 
 #: deluge/ui/countries.py:64
+#, fuzzy
 msgid "Cuba"
-msgstr ""
+msgstr "কিউবা"
 
 #: deluge/ui/countries.py:65
+#, fuzzy
 msgid "Cyprus"
-msgstr ""
+msgstr "সাইপ্রাস"
 
 #: deluge/ui/countries.py:66
+#, fuzzy
 msgid "Czech Republic"
-msgstr ""
+msgstr "চেক প্রজাতন্ত্র"
 
 #: deluge/ui/countries.py:67
+#, fuzzy
 msgid "Denmark"
-msgstr ""
+msgstr "ডেনমার্ক"
 
 #: deluge/ui/countries.py:68
+#, fuzzy
 msgid "Djibouti"
-msgstr ""
+msgstr "জিবুতি"
 
 #: deluge/ui/countries.py:69
+#, fuzzy
 msgid "Dominica"
-msgstr ""
+msgstr "ডোমিনিকা"
 
 #: deluge/ui/countries.py:70
+#, fuzzy
 msgid "Dominican Republic"
-msgstr ""
+msgstr "ডোমিনিকান প্রজাতন্ত্র"
 
 #: deluge/ui/countries.py:71
+#, fuzzy
 msgid "Ecuador"
-msgstr ""
+msgstr "ইকুয়েডর"
 
 #: deluge/ui/countries.py:72
+#, fuzzy
 msgid "Egypt"
-msgstr ""
+msgstr "মিশর"
 
 #: deluge/ui/countries.py:73
+#, fuzzy
 msgid "El Salvador"
-msgstr ""
+msgstr "এল সালভাদোর"
 
 #: deluge/ui/countries.py:74
+#, fuzzy
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "বিষুবীয় গিনি"
 
 #: deluge/ui/countries.py:75
+#, fuzzy
 msgid "Eritrea"
-msgstr ""
+msgstr "ইরিত্রিয়া"
 
 #: deluge/ui/countries.py:76
+#, fuzzy
 msgid "Estonia"
-msgstr ""
+msgstr "ইস্তোনিয়া"
 
 #: deluge/ui/countries.py:77
+#, fuzzy
 msgid "Ethiopia"
-msgstr ""
+msgstr "ইথিওপিয়া"
 
 #: deluge/ui/countries.py:78
+#, fuzzy
 msgid "Falkland Islands (Malvinas)"
-msgstr ""
+msgstr "অলান্দ দ্বীপপুঞ্জ"
 
 #: deluge/ui/countries.py:79
+#, fuzzy
 msgid "Faroe Islands"
-msgstr ""
+msgstr "অলান্দ দ্বীপপুঞ্জ"
 
 #: deluge/ui/countries.py:80
+#, fuzzy
 msgid "Fiji"
-msgstr ""
+msgstr "ফিজি"
 
 #: deluge/ui/countries.py:81
+#, fuzzy
 msgid "Finland"
-msgstr ""
+msgstr "ফিনল্যান্ড"
 
 #: deluge/ui/countries.py:82
+#, fuzzy
 msgid "France"
-msgstr ""
+msgstr "ফ্রান্স"
 
 #: deluge/ui/countries.py:83
+#, fuzzy
 msgid "French Guiana"
-msgstr ""
+msgstr "ফরাসি গায়ানা"
 
 #: deluge/ui/countries.py:84
+#, fuzzy
 msgid "French Polynesia"
-msgstr ""
+msgstr "ফরাসি"
 
 #: deluge/ui/countries.py:85
+#, fuzzy
 msgid "French Southern Territories"
-msgstr ""
+msgstr "ফরাসি"
 
 #: deluge/ui/countries.py:86
+#, fuzzy
 msgid "Gabon"
-msgstr ""
+msgstr "গাবন"
 
 #: deluge/ui/countries.py:87
 msgid "Gambia"
 msgstr ""
 
 #: deluge/ui/countries.py:88
+#, fuzzy
 msgid "Georgia"
-msgstr ""
+msgstr "জর্জিয়া"
 
 #: deluge/ui/countries.py:89
+#, fuzzy
 msgid "Germany"
-msgstr ""
+msgstr "জার্মানি"
 
 #: deluge/ui/countries.py:90 deluge/ui/countries.py:241
+#, fuzzy
 msgid "United Kingdom"
-msgstr ""
+msgstr "যুক্তরাজ্য"
 
 #: deluge/ui/countries.py:91
+#, fuzzy
 msgid "Ghana"
-msgstr ""
+msgstr "ঘানা"
 
 #: deluge/ui/countries.py:92
+#, fuzzy
 msgid "Gibraltar"
-msgstr ""
+msgstr "জিব্রাল্টার"
 
 #: deluge/ui/countries.py:93
+#, fuzzy
 msgid "Greece"
-msgstr ""
+msgstr "গ্রিস"
 
 #: deluge/ui/countries.py:94
+#, fuzzy
 msgid "Greenland"
-msgstr ""
+msgstr "গ্রিনল্যান্ড"
 
 #: deluge/ui/countries.py:95
+#, fuzzy
 msgid "Grenada"
-msgstr ""
+msgstr "গ্রানাডা"
 
 #: deluge/ui/countries.py:96
+#, fuzzy
 msgid "Guadeloupe"
-msgstr ""
+msgstr "গুয়াদলুপ"
 
 #: deluge/ui/countries.py:97
+#, fuzzy
 msgid "Guam"
-msgstr ""
+msgstr "গুয়াম"
 
 #: deluge/ui/countries.py:98
+#, fuzzy
 msgid "Guatemala"
-msgstr ""
+msgstr "গুয়াতেমালা"
 
 #: deluge/ui/countries.py:99
 msgid "Guernsey"
 msgstr ""
 
 #: deluge/ui/countries.py:100
+#, fuzzy
 msgid "Guinea"
-msgstr ""
+msgstr "গিনি"
 
 #: deluge/ui/countries.py:101
+#, fuzzy
 msgid "Guinea-Bissau"
-msgstr ""
+msgstr "গিনি-বিসাউ"
 
 #: deluge/ui/countries.py:102
+#, fuzzy
 msgid "Guyana"
-msgstr ""
+msgstr "গায়ানা"
 
 #: deluge/ui/countries.py:103
+#, fuzzy
 msgid "Haiti"
-msgstr ""
+msgstr "হাইতি"
 
 #: deluge/ui/countries.py:104
+#, fuzzy
 msgid "Heard Island and McDonald Islands"
-msgstr ""
+msgstr "দ্বীপ"
 
 #: deluge/ui/countries.py:105
+#, fuzzy
 msgid "Holy See (Vatican City State)"
-msgstr ""
+msgstr "রাষ্ট্র"
 
 #: deluge/ui/countries.py:106
+#, fuzzy
 msgid "Honduras"
-msgstr ""
+msgstr "হন্ডুরাস"
 
 #: deluge/ui/countries.py:107
+#, fuzzy
 msgid "Hong Kong"
-msgstr ""
+msgstr "হংকং"
 
 #: deluge/ui/countries.py:108
+#, fuzzy
 msgid "Hungary"
-msgstr ""
+msgstr "হাঙ্গেরি"
 
 #: deluge/ui/countries.py:109
+#, fuzzy
 msgid "Iceland"
-msgstr ""
+msgstr "আইসল্যান্ড"
 
 #: deluge/ui/countries.py:110
+#, fuzzy
 msgid "India"
-msgstr ""
+msgstr "ভারত"
 
 #: deluge/ui/countries.py:111
+#, fuzzy
 msgid "Indonesia"
-msgstr ""
+msgstr "ইন্দোনেশিয়া"
 
 #: deluge/ui/countries.py:112
+#, fuzzy
 msgid "Iran, Islamic Republic of"
-msgstr ""
+msgstr "প্রজাতন্ত্র"
 
 #: deluge/ui/countries.py:113
+#, fuzzy
 msgid "Iraq"
-msgstr ""
+msgstr "ইরাক"
 
 #: deluge/ui/countries.py:114
+#, fuzzy
 msgid "Ireland"
-msgstr ""
+msgstr "আয়ারল্যান্ড"
 
 #: deluge/ui/countries.py:115
+#, fuzzy
 msgid "Isle of Man"
-msgstr ""
+msgstr "অভ্র"
 
 #: deluge/ui/countries.py:116
+#, fuzzy
 msgid "Israel"
-msgstr ""
+msgstr "ইসরায়েল"
 
 #: deluge/ui/countries.py:117
+#, fuzzy
 msgid "Italy"
-msgstr ""
+msgstr "ইতালি"
 
 #: deluge/ui/countries.py:118
+#, fuzzy
 msgid "Jamaica"
-msgstr ""
+msgstr "জামাইকা"
 
 #: deluge/ui/countries.py:119
+#, fuzzy
 msgid "Japan"
-msgstr ""
+msgstr "জাপান"
 
 #: deluge/ui/countries.py:120
 msgid "Jersey"
 msgstr ""
 
 #: deluge/ui/countries.py:121
+#, fuzzy
 msgid "Jordan"
-msgstr ""
+msgstr "জর্দান"
 
 #: deluge/ui/countries.py:122
+#, fuzzy
 msgid "Kazakhstan"
-msgstr ""
+msgstr "কাজাখস্তান"
 
 #: deluge/ui/countries.py:123
+#, fuzzy
 msgid "Kenya"
-msgstr ""
+msgstr "কেনিয়া"
 
 #: deluge/ui/countries.py:124
+#, fuzzy
 msgid "Kiribati"
-msgstr ""
+msgstr "কিরিবাস"
 
 #: deluge/ui/countries.py:125
 msgid "Korea, Democratic People's Republic of"
 msgstr ""
 
 #: deluge/ui/countries.py:126
+#, fuzzy
 msgid "Korea, Republic of"
-msgstr ""
+msgstr "কোরিয়া"
 
 #: deluge/ui/countries.py:127
+#, fuzzy
 msgid "Kuwait"
-msgstr ""
+msgstr "কুয়েত"
 
 #: deluge/ui/countries.py:128
+#, fuzzy
 msgid "Kyrgyzstan"
-msgstr ""
+msgstr "কিরগিজিস্তান"
 
 #: deluge/ui/countries.py:129
+#, fuzzy
 msgid "Lao People's Democratic Republic"
-msgstr ""
+msgstr "প্রজাতন্ত্র"
 
 #: deluge/ui/countries.py:130
+#, fuzzy
 msgid "Latvia"
-msgstr ""
+msgstr "লাতভিয়া"
 
 #: deluge/ui/countries.py:131
+#, fuzzy
 msgid "Lebanon"
-msgstr ""
+msgstr "লেবানন"
 
 #: deluge/ui/countries.py:132
+#, fuzzy
 msgid "Lesotho"
-msgstr ""
+msgstr "লেসোথো"
 
 #: deluge/ui/countries.py:133
+#, fuzzy
 msgid "Liberia"
-msgstr ""
+msgstr "লাইবেরিয়া"
 
 #: deluge/ui/countries.py:134
 msgid "Libyan Arab Jamahiriya"
 msgstr ""
 
 #: deluge/ui/countries.py:135
+#, fuzzy
 msgid "Liechtenstein"
-msgstr ""
+msgstr "লিশটেনস্টাইন"
 
 #: deluge/ui/countries.py:136
+#, fuzzy
 msgid "Lithuania"
-msgstr ""
+msgstr "লিথুয়ানিয়া"
 
 #: deluge/ui/countries.py:137
+#, fuzzy
 msgid "Luxembourg"
-msgstr ""
+msgstr "লুক্সেমবুর্গ"
 
 #: deluge/ui/countries.py:138
 msgid "Macao"
 msgstr ""
 
 #: deluge/ui/countries.py:139
+#, fuzzy
 msgid "Macedonia, The Former Yugoslav Republic of"
-msgstr ""
+msgstr "প্রজাতন্ত্র"
 
 #: deluge/ui/countries.py:140
+#, fuzzy
 msgid "Madagascar"
-msgstr ""
+msgstr "মাদাগাস্কার"
 
 #: deluge/ui/countries.py:141
+#, fuzzy
 msgid "Malawi"
-msgstr ""
+msgstr "মালাউই"
 
 #: deluge/ui/countries.py:142
+#, fuzzy
 msgid "Malaysia"
-msgstr ""
+msgstr "মালয়েশিয়া"
 
 #: deluge/ui/countries.py:143
+#, fuzzy
 msgid "Maldives"
-msgstr ""
+msgstr "মালদ্বীপ"
 
 #: deluge/ui/countries.py:144
+#, fuzzy
 msgid "Mali"
-msgstr ""
+msgstr "মালি"
 
 #: deluge/ui/countries.py:145
+#, fuzzy
 msgid "Malta"
-msgstr ""
+msgstr "মাল্টা"
 
 #: deluge/ui/countries.py:146
+#, fuzzy
 msgid "Marshall Islands"
-msgstr ""
+msgstr "মার্শাল দ্বীপপুঞ্জ"
 
 #: deluge/ui/countries.py:147
+#, fuzzy
 msgid "Martinique"
-msgstr ""
+msgstr "মার্তিনিক"
 
 #: deluge/ui/countries.py:148
+#, fuzzy
 msgid "Mauritania"
-msgstr ""
+msgstr "মৌরিতানিয়া"
 
 #: deluge/ui/countries.py:149
+#, fuzzy
 msgid "Mauritius"
-msgstr ""
+msgstr "মরিশাস"
 
 #: deluge/ui/countries.py:150
+#, fuzzy
 msgid "Mayotte"
-msgstr ""
+msgstr "মায়োত"
 
 #: deluge/ui/countries.py:151
+#, fuzzy
 msgid "Mexico"
-msgstr ""
+msgstr "মেক্সিকো"
 
 #: deluge/ui/countries.py:152
+#, fuzzy
 msgid "Micronesia, Federated States of"
-msgstr ""
+msgstr "মার্কিন যুক্তরাষ্ট্র"
 
 #: deluge/ui/countries.py:153
+#, fuzzy
 msgid "Moldova"
-msgstr ""
+msgstr "মলদোভা"
 
 #: deluge/ui/countries.py:154
+#, fuzzy
 msgid "Monaco"
-msgstr ""
+msgstr "মোনাকো"
 
 #: deluge/ui/countries.py:155
+#, fuzzy
 msgid "Mongolia"
-msgstr ""
+msgstr "মঙ্গোলিয়া"
 
 #: deluge/ui/countries.py:156
+#, fuzzy
 msgid "Montenegro"
-msgstr ""
+msgstr "মন্টিনিগ্রো"
 
 #: deluge/ui/countries.py:157
 msgid "Montserrat"
 msgstr ""
 
 #: deluge/ui/countries.py:158
+#, fuzzy
 msgid "Morocco"
-msgstr ""
+msgstr "মরোক্কো"
 
 #: deluge/ui/countries.py:159
+#, fuzzy
 msgid "Mozambique"
-msgstr ""
+msgstr "মোজাম্বিক"
 
 #: deluge/ui/countries.py:160
+#, fuzzy
 msgid "Myanmar"
-msgstr ""
+msgstr "মায়ানমার"
 
 #: deluge/ui/countries.py:161
+#, fuzzy
 msgid "Namibia"
-msgstr ""
+msgstr "নামিবিয়া"
 
 #: deluge/ui/countries.py:162
+#, fuzzy
 msgid "Nauru"
-msgstr ""
+msgstr "নাউরু"
 
 #: deluge/ui/countries.py:163
+#, fuzzy
 msgid "Nepal"
-msgstr ""
+msgstr "নেপাল"
 
 #: deluge/ui/countries.py:164
+#, fuzzy
 msgid "Netherlands"
-msgstr ""
+msgstr "নেদারল্যান্ডস"
 
 #: deluge/ui/countries.py:165
+#, fuzzy
 msgid "Netherlands Antilles"
-msgstr ""
+msgstr "নেদারল্যান্ডস"
 
 #: deluge/ui/countries.py:166
+#, fuzzy
 msgid "New Caledonia"
-msgstr ""
+msgstr "নিউ ক্যালিডোনিয়া"
 
 #: deluge/ui/countries.py:167
+#, fuzzy
 msgid "New Zealand"
-msgstr ""
+msgstr "নিউজিল্যান্ড"
 
 #: deluge/ui/countries.py:168
+#, fuzzy
 msgid "Nicaragua"
-msgstr ""
+msgstr "নিকারাগুয়া"
 
 #: deluge/ui/countries.py:169
+#, fuzzy
 msgid "Niger"
-msgstr ""
+msgstr "নাইজার"
 
 #: deluge/ui/countries.py:170
+#, fuzzy
 msgid "Nigeria"
-msgstr ""
+msgstr "নাইজেরিয়া"
 
 #: deluge/ui/countries.py:171
 msgid "Niue"
 msgstr ""
 
 #: deluge/ui/countries.py:172
+#, fuzzy
 msgid "Norfolk Island"
-msgstr ""
+msgstr "দ্বীপ"
 
 #: deluge/ui/countries.py:173
+#, fuzzy
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "অলান্দ দ্বীপপুঞ্জ"
 
 #: deluge/ui/countries.py:174
+#, fuzzy
 msgid "Norway"
-msgstr ""
+msgstr "নরওয়ে"
 
 #: deluge/ui/countries.py:175
+#, fuzzy
 msgid "Oman"
-msgstr ""
+msgstr "ওমান"
 
 #: deluge/ui/countries.py:176
+#, fuzzy
 msgid "Pakistan"
-msgstr ""
+msgstr "পাকিস্তান"
 
 #: deluge/ui/countries.py:177
+#, fuzzy
 msgid "Palau"
-msgstr ""
+msgstr "পালাউ"
 
 #: deluge/ui/countries.py:178
 msgid "Palestinian Territory, Occupied"
 msgstr ""
 
 #: deluge/ui/countries.py:179
+#, fuzzy
 msgid "Panama"
-msgstr ""
+msgstr "পানামা"
 
 #: deluge/ui/countries.py:180
+#, fuzzy
 msgid "Papua New Guinea"
-msgstr ""
+msgstr "গিনি"
 
 #: deluge/ui/countries.py:181
+#, fuzzy
 msgid "Paraguay"
-msgstr ""
+msgstr "প্যারাগুয়ে"
 
 #: deluge/ui/countries.py:182
+#, fuzzy
 msgid "Peru"
-msgstr ""
+msgstr "পেরু"
 
 #: deluge/ui/countries.py:183
+#, fuzzy
 msgid "Philippines"
-msgstr ""
+msgstr "ফিলিপাইন"
 
 #: deluge/ui/countries.py:184
 msgid "Pitcairn"
 msgstr ""
 
 #: deluge/ui/countries.py:185
+#, fuzzy
 msgid "Poland"
-msgstr ""
+msgstr "পোল্যান্ড"
 
 #: deluge/ui/countries.py:186
+#, fuzzy
 msgid "Portugal"
-msgstr ""
+msgstr "পর্তুগাল"
 
 #: deluge/ui/countries.py:187
+#, fuzzy
 msgid "Puerto Rico"
-msgstr ""
+msgstr "পুয়ের্তো রিকো"
 
 #: deluge/ui/countries.py:188
+#, fuzzy
 msgid "Qatar"
-msgstr ""
+msgstr "কাতার"
 
 #: deluge/ui/countries.py:189
 msgid "Reunion"
 msgstr ""
 
 #: deluge/ui/countries.py:190
+#, fuzzy
 msgid "Romania"
-msgstr ""
+msgstr "রোমানিয়া"
 
 #: deluge/ui/countries.py:191
+#, fuzzy
 msgid "Russian Federation"
-msgstr ""
+msgstr "রাশিয়ান"
 
 #: deluge/ui/countries.py:192
+#, fuzzy
 msgid "Rwanda"
-msgstr ""
+msgstr "রুয়ান্ডা"
 
 #: deluge/ui/countries.py:193
 msgid "Saint Barthelemy"
@@ -1507,224 +1769,274 @@ msgid "Saint Vincent and the Grenadines"
 msgstr ""
 
 #: deluge/ui/countries.py:200
+#, fuzzy
 msgid "Samoa"
-msgstr ""
+msgstr "সামোয়া"
 
 #: deluge/ui/countries.py:201
+#, fuzzy
 msgid "San Marino"
-msgstr ""
+msgstr "সান মারিনো"
 
 #: deluge/ui/countries.py:202
 msgid "Sao Tome and Principe"
 msgstr ""
 
 #: deluge/ui/countries.py:203
+#, fuzzy
 msgid "Saudi Arabia"
-msgstr ""
+msgstr "সৌদি আরব"
 
 #: deluge/ui/countries.py:204
+#, fuzzy
 msgid "Senegal"
-msgstr ""
+msgstr "সেনেগাল"
 
 #: deluge/ui/countries.py:205
+#, fuzzy
 msgid "Serbia"
-msgstr ""
+msgstr "সার্বিয়া"
 
 #: deluge/ui/countries.py:206
+#, fuzzy
 msgid "Seychelles"
-msgstr ""
+msgstr "সেশেল"
 
 #: deluge/ui/countries.py:207
+#, fuzzy
 msgid "Sierra Leone"
-msgstr ""
+msgstr "সিয়েরা লিওন"
 
 #: deluge/ui/countries.py:208
+#, fuzzy
 msgid "Singapore"
-msgstr ""
+msgstr "সিঙ্গাপুর"
 
 #: deluge/ui/countries.py:209
+#, fuzzy
 msgid "Slovakia"
-msgstr ""
+msgstr "স্লোভাকিয়া"
 
 #: deluge/ui/countries.py:210
+#, fuzzy
 msgid "Slovenia"
-msgstr ""
+msgstr "স্লোভেনিয়া"
 
 #: deluge/ui/countries.py:211
+#, fuzzy
 msgid "Solomon Islands"
-msgstr ""
+msgstr "সলোমন দ্বীপপুঞ্জ"
 
 #: deluge/ui/countries.py:212
+#, fuzzy
 msgid "Somalia"
-msgstr ""
+msgstr "সোমালিয়া"
 
 #: deluge/ui/countries.py:213
+#, fuzzy
 msgid "South Africa"
-msgstr ""
+msgstr "দক্ষিণ আফ্রিকা"
 
 #: deluge/ui/countries.py:214
 msgid "South Georgia and the South Sandwich Islands"
 msgstr ""
 
 #: deluge/ui/countries.py:215
+#, fuzzy
 msgid "Spain"
-msgstr ""
+msgstr "স্পেন"
 
 #: deluge/ui/countries.py:216
+#, fuzzy
 msgid "Sri Lanka"
-msgstr ""
+msgstr "শ্রীলঙ্কা"
 
 #: deluge/ui/countries.py:217
+#, fuzzy
 msgid "Sudan"
-msgstr ""
+msgstr "সুদান"
 
 #: deluge/ui/countries.py:218
+#, fuzzy
 msgid "Suriname"
-msgstr ""
+msgstr "সুরিনাম"
 
 #: deluge/ui/countries.py:219
 msgid "Svalbard and Jan Mayen"
 msgstr ""
 
 #: deluge/ui/countries.py:220
+#, fuzzy
 msgid "Swaziland"
-msgstr ""
+msgstr "সোয়াজিল্যান্ড"
 
 #: deluge/ui/countries.py:221
+#, fuzzy
 msgid "Sweden"
-msgstr ""
+msgstr "সুইডেন"
 
 #: deluge/ui/countries.py:222
+#, fuzzy
 msgid "Switzerland"
-msgstr ""
+msgstr "সুইজারল্যান্ড"
 
 #: deluge/ui/countries.py:223
+#, fuzzy
 msgid "Syrian Arab Republic"
-msgstr ""
+msgstr "প্রজাতন্ত্র"
 
 #: deluge/ui/countries.py:224
+#, fuzzy
 msgid "Taiwan, Province of China"
-msgstr ""
+msgstr "গণচীন"
 
 #: deluge/ui/countries.py:225
+#, fuzzy
 msgid "Tajikistan"
-msgstr ""
+msgstr "তাজিকিস্তান"
 
 #: deluge/ui/countries.py:226
+#, fuzzy
 msgid "Tanzania, United Republic of"
-msgstr ""
+msgstr "তানজানিয়া"
 
 #: deluge/ui/countries.py:227
+#, fuzzy
 msgid "Thailand"
-msgstr ""
+msgstr "থাইল্যান্ড"
 
 #: deluge/ui/countries.py:228
+#, fuzzy
 msgid "Timor-Leste"
-msgstr ""
+msgstr "পূর্ব টিমোর"
 
 #: deluge/ui/countries.py:229
+#, fuzzy
 msgid "Togo"
-msgstr ""
+msgstr "টোগো"
 
 #: deluge/ui/countries.py:230
 msgid "Tokelau"
 msgstr ""
 
 #: deluge/ui/countries.py:231
+#, fuzzy
 msgid "Tonga"
-msgstr ""
+msgstr "টোঙ্গা"
 
 #: deluge/ui/countries.py:232
+#, fuzzy
 msgid "Trinidad and Tobago"
-msgstr ""
+msgstr "এবং"
 
 #: deluge/ui/countries.py:233
+#, fuzzy
 msgid "Tunisia"
-msgstr ""
+msgstr "তিউনিসিয়া"
 
 #: deluge/ui/countries.py:234
+#, fuzzy
 msgid "Turkey"
-msgstr ""
+msgstr "তুরস্ক"
 
 #: deluge/ui/countries.py:235
+#, fuzzy
 msgid "Turkmenistan"
-msgstr ""
+msgstr "তুর্কমেনিস্তান"
 
 #: deluge/ui/countries.py:236
+#, fuzzy
 msgid "Turks and Caicos Islands"
-msgstr ""
+msgstr "অলান্দ দ্বীপপুঞ্জ"
 
 #: deluge/ui/countries.py:237
+#, fuzzy
 msgid "Tuvalu"
-msgstr ""
+msgstr "টুভালু"
 
 #: deluge/ui/countries.py:238
+#, fuzzy
 msgid "Uganda"
-msgstr ""
+msgstr "উগান্ডা"
 
 #: deluge/ui/countries.py:239
+#, fuzzy
 msgid "Ukraine"
-msgstr ""
+msgstr "ইউক্রেন"
 
 #: deluge/ui/countries.py:240
+#, fuzzy
 msgid "United Arab Emirates"
-msgstr ""
+msgstr "জাতিসংঘ"
 
 #: deluge/ui/countries.py:242
+#, fuzzy
 msgid "United States"
-msgstr ""
+msgstr "মার্কিন যুক্তরাষ্ট্র"
 
 #: deluge/ui/countries.py:243
+#, fuzzy
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "মার্কিন যুক্তরাষ্ট্র"
 
 #: deluge/ui/countries.py:244
+#, fuzzy
 msgid "Uruguay"
-msgstr ""
+msgstr "উরুগুয়ে"
 
 #: deluge/ui/countries.py:245
+#, fuzzy
 msgid "Uzbekistan"
-msgstr ""
+msgstr "উজবেকিস্তান"
 
 #: deluge/ui/countries.py:246
+#, fuzzy
 msgid "Vanuatu"
-msgstr ""
+msgstr "ভানুয়াটু"
 
 #: deluge/ui/countries.py:247
+#, fuzzy
 msgid "Venezuela"
-msgstr ""
+msgstr "ভেনেজুয়েলা"
 
 #: deluge/ui/countries.py:248
 msgid "Viet Nam"
 msgstr ""
 
 #: deluge/ui/countries.py:249
+#, fuzzy
 msgid "Virgin Islands, British"
-msgstr ""
+msgstr "ব্রিটিশ"
 
 #: deluge/ui/countries.py:250
+#, fuzzy
 msgid "Virgin Islands, U.S."
-msgstr ""
+msgstr "অলান্দ দ্বীপপুঞ্জ"
 
 #: deluge/ui/countries.py:251
+#, fuzzy
 msgid "Wallis and Futuna"
-msgstr ""
+msgstr "এবং"
 
 #: deluge/ui/countries.py:252
+#, fuzzy
 msgid "Western Sahara"
-msgstr ""
+msgstr "পশ্চিম সাহারা"
 
 #: deluge/ui/countries.py:253
+#, fuzzy
 msgid "Yemen"
-msgstr ""
+msgstr "ইয়েমেন"
 
 #: deluge/ui/countries.py:254
+#, fuzzy
 msgid "Zambia"
-msgstr ""
+msgstr "জাম্বিয়া"
 
 #: deluge/ui/countries.py:255
+#, fuzzy
 msgid "Zimbabwe"
-msgstr ""
+msgstr "জিম্বাবুয়ে"
 
 #: deluge/ui/web/json_api.py:733 deluge/ui/web/json_api.py:750
 #: deluge/ui/web/json_api.py:759 deluge/ui/web/json_api.py:762
@@ -1737,8 +2049,9 @@ msgstr ""
 #: deluge/ui/gtkui/connectionmanager.py:389
 #: deluge/ui/gtkui/connectionmanager.py:452
 #: deluge/ui/gtkui/connectionmanager.py:569
+#, fuzzy
 msgid "Offline"
-msgstr ""
+msgstr "অফলাইন"
 
 #: deluge/ui/web/json_api.py:755 deluge/ui/gtkui/connectionmanager.py:76
 #: deluge/ui/gtkui/connectionmanager.py:274
@@ -1753,8 +2066,9 @@ msgstr ""
 #: deluge/ui/gtkui/connectionmanager.py:382
 #: deluge/ui/gtkui/connectionmanager.py:440
 #: deluge/ui/gtkui/connectionmanager.py:552
+#, fuzzy
 msgid "Connected"
-msgstr ""
+msgstr "সংযুক্ত অ্যাকাউন্টগুলি"
 
 #: deluge/ui/web/json_api.py:802
 msgid "Daemon doesn't exist"
@@ -1769,8 +2083,9 @@ msgid "Starting server in PID"
 msgstr ""
 
 #: deluge/ui/gtkui/peers_tab.py:100
+#, fuzzy
 msgid "Address"
-msgstr ""
+msgstr "ঠিকানা"
 
 #: deluge/ui/gtkui/peers_tab.py:116
 msgid "Client"
@@ -1806,43 +2121,51 @@ msgstr ""
 #: deluge/ui/gtkui/systemtray.py:253 deluge/ui/gtkui/systemtray.py:423
 #: deluge/ui/gtkui/statusbar.py:397 deluge/ui/gtkui/statusbar.py:425
 #: deluge/ui/gtkui/statusbar.py:452
+#, fuzzy
 msgid "Unlimited"
-msgstr ""
+msgstr "* সীমাহীন শেয়ারিং এর ক্ষমতা"
 
 #: deluge/ui/gtkui/common.py:70
+#, fuzzy
 msgid "Activated"
-msgstr ""
+msgstr "সক্রিয়"
 
 #: deluge/ui/gtkui/common.py:124 deluge/ui/gtkui/common.py:125
 #: deluge/ui/gtkui/systemtray.py:426 deluge/ui/gtkui/statusbar.py:399
 #: deluge/ui/gtkui/statusbar.py:427 deluge/ui/gtkui/statusbar.py:454
 #: deluge/ui/gtkui/menubar.py:81
+#, fuzzy
 msgid "Other..."
-msgstr ""
+msgstr "অনান্য"
 
 #: deluge/ui/gtkui/mainwindow.py:235
+#, fuzzy
 msgid "Down:"
-msgstr ""
+msgstr "নীচে"
 
 #: deluge/ui/gtkui/mainwindow.py:235
+#, fuzzy
 msgid "Up:"
-msgstr ""
+msgstr "আপ (চলচ্চিত্র)"
 
 #: deluge/ui/gtkui/systemtray.py:201 deluge/ui/gtkui/systemtray.py:258
 msgid "Deluge"
 msgstr ""
 
 #: deluge/ui/gtkui/systemtray.py:201
+#, fuzzy
 msgid "Not Connected..."
-msgstr ""
+msgstr "সংযুক্ত অ্যাকাউন্টগুলি"
 
 #: deluge/ui/gtkui/systemtray.py:258
+#, fuzzy
 msgid "Down"
-msgstr ""
+msgstr "নীচে"
 
 #: deluge/ui/gtkui/systemtray.py:259
+#, fuzzy
 msgid "Up"
-msgstr ""
+msgstr "আপ (চলচ্চিত্র)"
 
 #: deluge/ui/gtkui/systemtray.py:403 deluge/ui/gtkui/statusbar.py:401
 #: deluge/ui/gtkui/menubar.py:436
@@ -1851,34 +2174,39 @@ msgstr ""
 
 #: deluge/ui/gtkui/systemtray.py:417 deluge/ui/gtkui/statusbar.py:429
 #: deluge/ui/gtkui/menubar.py:437
+#, fuzzy
 msgid "Set Maximum Upload Speed"
-msgstr ""
+msgstr "আপলোড করুন"
 
 #: deluge/ui/gtkui/systemtray.py:470
+#, fuzzy
 msgid "Deluge is password protected!"
-msgstr ""
+msgstr "পাসওয়ার্ড"
 
 #: deluge/ui/gtkui/systemtray.py:476
+#, fuzzy
 msgid "Enter your password to continue"
-msgstr ""
+msgstr "পাসওয়ার্ড"
 
 #: deluge/ui/gtkui/notification.py:79
+#, fuzzy
 msgid "Torrent complete"
-msgstr ""
+msgstr "ব্যবহার করে ক্রিয়াকলাপ সম্পূর্ণ করুন"
 
 #: deluge/ui/gtkui/notification.py:80
 msgid "Including"
 msgstr ""
 
 #: deluge/ui/gtkui/notification.py:80
+#, fuzzy
 msgid "files"
-msgstr ""
+msgstr "ফাইল সম্পাদন করুন"
 
 #: deluge/ui/gtkui/notification.py:109
 #, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading %(name)s ,  "
-"           which includes %(num_files)i files.\n"
+"This email is to inform you that Deluge has finished downloading "
+"%(name)s ,             which includes %(num_files)i files.\n"
 "To stop receiving these alerts, simply turn off             email "
 "notification in Deluge's preferences.\n"
 "\n"
@@ -1887,32 +2215,38 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/new_release_dialog.py:72
+#, fuzzy
 msgid "<i>Client Version</i>"
-msgstr ""
+msgstr "সংস্করন দৃশ্যমান"
 
 #: deluge/ui/gtkui/preferences.py:72
+#, fuzzy
 msgid "Categories"
-msgstr ""
+msgstr "বিভাগ"
 
 #: deluge/ui/gtkui/preferences.py:76
+#, fuzzy
 msgid "Downloads"
-msgstr ""
+msgstr "ডাউনলোড হচ্ছে ..."
 
 #: deluge/ui/gtkui/preferences.py:76
+#, fuzzy
 msgid "Network"
-msgstr ""
+msgstr "আমার নেটওয়ার্ক"
 
 #: deluge/ui/gtkui/preferences.py:76
 msgid "Bandwidth"
 msgstr "ব্যান্ডউইড্থ"
 
 #: deluge/ui/gtkui/preferences.py:77
+#, fuzzy
 msgid "Interface"
-msgstr ""
+msgstr "ইন্টারফেস"
 
 #: deluge/ui/gtkui/preferences.py:77
+#, fuzzy
 msgid "Other"
-msgstr ""
+msgstr "অনান্য"
 
 #: deluge/ui/gtkui/preferences.py:77
 msgid "Daemon"
@@ -1923,20 +2257,24 @@ msgid "Proxy"
 msgstr ""
 
 #: deluge/ui/gtkui/preferences.py:78
+#, fuzzy
 msgid "Cache"
-msgstr ""
+msgstr "ওয়েব ক্যাশে"
 
 #: deluge/ui/gtkui/preferences.py:78
+#, fuzzy
 msgid "Plugins"
-msgstr ""
+msgstr "প্লাগইন"
 
 #: deluge/ui/gtkui/preferences.py:93
+#, fuzzy
 msgid "Plugin"
-msgstr ""
+msgstr "প্লাগইন"
 
 #: deluge/ui/gtkui/preferences.py:891
+#, fuzzy
 msgid "Select the Plugin"
-msgstr ""
+msgstr "নির্বাচন করা"
 
 #: deluge/ui/gtkui/preferences.py:902
 msgid "Plugin Eggs"
@@ -1944,8 +2282,9 @@ msgstr ""
 
 #: deluge/ui/gtkui/addtorrentdialog.py:111
 #: deluge/ui/gtkui/createtorrentdialog.py:80 deluge/ui/gtkui/files_tab.py:122
+#, fuzzy
 msgid "Filename"
-msgstr ""
+msgstr "ফাইলের নাম"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:124
 #: deluge/ui/gtkui/createtorrentdialog.py:90 deluge/ui/gtkui/files_tab.py:143
@@ -1954,20 +2293,23 @@ msgid "Size"
 msgstr "আকার"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:206
+#, fuzzy
 msgid "Invalid File"
-msgstr ""
+msgstr "অবৈধ ফাইল ফরম্যাট"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:211
 msgid "Duplicate Torrent"
 msgstr ""
 
 #: deluge/ui/gtkui/addtorrentdialog.py:211
+#, fuzzy
 msgid "You cannot add the same torrent twice."
-msgstr ""
+msgstr "সার্ভারের সাথে যোগাযোগ করা যাবে না।"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:492
+#, fuzzy
 msgid "Unable to set file priority!"
-msgstr ""
+msgstr "ফাইলের শেষে সরাও"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:492
 msgid ""
@@ -1976,8 +2318,9 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/addtorrentdialog.py:541
+#, fuzzy
 msgid "Choose a .torrent file"
-msgstr ""
+msgstr "সহায়িকা বেছে নিন"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:553
 #: deluge/ui/gtkui/createtorrentdialog.py:253
@@ -1986,28 +2329,34 @@ msgstr ""
 
 #: deluge/ui/gtkui/addtorrentdialog.py:557
 #: deluge/ui/gtkui/createtorrentdialog.py:257
+#, fuzzy
 msgid "All files"
-msgstr ""
+msgstr "সবগুলি"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:622
+#, fuzzy
 msgid "Invalid URL"
-msgstr ""
+msgstr "অবৈধ ছবির URL"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:622
+#, fuzzy
 msgid "is not a valid URL."
-msgstr ""
+msgstr "ইউজারনেম / ইমেইল ফরম্যাট বৈধ নয়।"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:626
+#, fuzzy
 msgid "Downloading..."
-msgstr ""
+msgstr "ডাউনলোড হচ্ছে ..."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
+#, fuzzy
 msgid "Download Failed"
-msgstr ""
+msgstr "ডাউনলোড ব্যর্থ হয়েছে"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
+#, fuzzy
 msgid "Failed to download:"
-msgstr ""
+msgstr "সেভ করতে ব্যর্থ হয়েছে"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:103
 #: deluge/ui/gtkui/edittrackersdialog.py:84
@@ -2016,76 +2365,91 @@ msgstr ""
 
 #: deluge/ui/gtkui/createtorrentdialog.py:105
 #: deluge/ui/gtkui/edittrackersdialog.py:86 deluge/ui/gtkui/torrentview.py:253
+#, fuzzy
 msgid "Tracker"
-msgstr ""
+msgstr "সমস্যা অনুসরণ"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:143
+#, fuzzy
 msgid "Choose a file"
-msgstr ""
+msgstr "সহায়িকা বেছে নিন"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:172
+#, fuzzy
 msgid "Choose a folder"
-msgstr ""
+msgstr "ফোল্ডার"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:241
+#, fuzzy
 msgid "Save .torrent file"
-msgstr ""
+msgstr "সেভ করুন"
 
 #: deluge/ui/gtkui/statusbar.py:146
+#, fuzzy
 msgid "Not Connected"
-msgstr ""
+msgstr "সংযুক্ত অ্যাকাউন্টগুলি"
 
 #: deluge/ui/gtkui/statusbar.py:163
+#, fuzzy
 msgid "Connections"
-msgstr ""
+msgstr "সামাজিক যোগাযোগগুলি"
 
 #: deluge/ui/gtkui/statusbar.py:168
 msgid "Download Speed"
 msgstr ""
 
 #: deluge/ui/gtkui/statusbar.py:173
+#, fuzzy
 msgid "Upload Speed"
-msgstr ""
+msgstr "আপলোড করুন"
 
 #: deluge/ui/gtkui/statusbar.py:178
+#, fuzzy
 msgid "Protocol Traffic Download/Upload"
-msgstr ""
+msgstr "আপলোড করুন"
 
 #: deluge/ui/gtkui/statusbar.py:181
 msgid "DHT Nodes"
 msgstr ""
 
 #: deluge/ui/gtkui/statusbar.py:186
+#, fuzzy
 msgid "Free Disk Space"
-msgstr ""
+msgstr "মহাকাশ"
 
 #: deluge/ui/gtkui/statusbar.py:190
+#, fuzzy
 msgid "No Incoming Connections!"
-msgstr ""
+msgstr "সামাজিক যোগাযোগগুলি"
 
 #: deluge/ui/gtkui/statusbar.py:456 deluge/ui/gtkui/menubar.py:438
+#, fuzzy
 msgid "Set Maximum Connections"
-msgstr ""
+msgstr "সামাজিক যোগাযোগগুলি"
 
 #: deluge/ui/gtkui/removetorrentdialog.py:78
 msgid "Torrents"
 msgstr ""
 
 #: deluge/ui/gtkui/filtertreeview.py:69
+#, fuzzy
 msgid "States"
-msgstr ""
+msgstr "মার্কিন যুক্তরাষ্ট্র"
 
 #: deluge/ui/gtkui/filtertreeview.py:71
+#, fuzzy
 msgid "Labels"
-msgstr ""
+msgstr "তথ্যের লেবেল... (~ড)"
 
 #: deluge/ui/gtkui/filtertreeview.py:72
+#, fuzzy
 msgid "All"
-msgstr ""
+msgstr "সবগুলি"
 
 #: deluge/ui/gtkui/filtertreeview.py:73
+#, fuzzy
 msgid "Downloading"
-msgstr ""
+msgstr "ডাউনলোড"
 
 #: deluge/ui/gtkui/filtertreeview.py:74
 msgid "Seeding"
@@ -2096,24 +2460,28 @@ msgid "Paused"
 msgstr ""
 
 #: deluge/ui/gtkui/filtertreeview.py:76
+#, fuzzy
 msgid "Checking"
-msgstr ""
+msgstr "পরীক্ষা করা হচ্ছে"
 
 #: deluge/ui/gtkui/filtertreeview.py:77
 msgid "Queued"
 msgstr ""
 
 #: deluge/ui/gtkui/filtertreeview.py:79
+#, fuzzy
 msgid "Active"
-msgstr ""
+msgstr "সক্রিয়"
 
 #: deluge/ui/gtkui/filtertreeview.py:80
+#, fuzzy
 msgid "None"
-msgstr ""
+msgstr "কোনটি নয়"
 
 #: deluge/ui/gtkui/filtertreeview.py:81
+#, fuzzy
 msgid "No Label"
-msgstr ""
+msgstr "না"
 
 #: deluge/ui/gtkui/aboutdialog.py:253
 msgid ""
@@ -2143,16 +2511,19 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:149
+#, fuzzy
 msgid "Status"
-msgstr ""
+msgstr "অবস্থা"
 
 #: deluge/ui/gtkui/connectionmanager.py:153
+#, fuzzy
 msgid "Host"
-msgstr ""
+msgstr "নিমন্ত্রণকর্তা"
 
 #: deluge/ui/gtkui/connectionmanager.py:158
+#, fuzzy
 msgid "Version"
-msgstr ""
+msgstr "সংস্করন দৃশ্যমান"
 
 #: deluge/ui/gtkui/connectionmanager.py:386
 msgid "_Stop Daemon"
@@ -2164,8 +2535,9 @@ msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:414
 #: deluge/ui/gtkui/connectionmanager.py:424
+#, fuzzy
 msgid "Unable to start daemon!"
-msgstr ""
+msgstr "শুরু"
 
 #: deluge/ui/gtkui/connectionmanager.py:415
 msgid ""
@@ -2174,16 +2546,19 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:425
+#, fuzzy
 msgid "Please examine the details for more information."
-msgstr ""
+msgstr "যার জন্য একটি দোয়ার অনুরোধ করা হচ্ছে অনুগ্রহ করে তার বিষয়ে তথ্য জানান."
 
 #: deluge/ui/gtkui/connectionmanager.py:509
+#, fuzzy
 msgid "Error Adding Host"
-msgstr ""
+msgstr "ত্রুটি"
 
 #: deluge/ui/gtkui/gtkui.py:302 deluge/ui/gtkui/gtkui.py:317
+#, fuzzy
 msgid "Turn off Classic Mode?"
-msgstr ""
+msgstr "মোড"
 
 #: deluge/ui/gtkui/gtkui.py:303
 msgid ""
@@ -2193,8 +2568,9 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/gtkui.py:312
+#, fuzzy
 msgid "Error Starting Core"
-msgstr ""
+msgstr "ত্রুটি"
 
 #: deluge/ui/gtkui/gtkui.py:313
 msgid ""
@@ -2211,8 +2587,9 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/gtkui.py:342
+#, fuzzy
 msgid "Error Starting Daemon"
-msgstr ""
+msgstr "ত্রুটি"
 
 #: deluge/ui/gtkui/gtkui.py:343
 msgid ""
@@ -2221,36 +2598,44 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/status_tab.py:128 deluge/ui/gtkui/menubar.py:89
+#, fuzzy
 msgid "On"
-msgstr ""
+msgstr "কন্নড় ভাষা"
 
 #: deluge/ui/gtkui/status_tab.py:130 deluge/ui/gtkui/menubar.py:92
+#, fuzzy
 msgid "Off"
-msgstr ""
+msgstr "বন্ধ"
 
 #: deluge/ui/gtkui/menubar.py:77
+#, fuzzy
 msgid "Set Unlimited"
-msgstr ""
+msgstr "সেট করুন"
 
 #: deluge/ui/gtkui/menubar.py:319
+#, fuzzy
 msgid "Choose a directory to move files to"
-msgstr ""
+msgstr "নির্বাচন করুন"
 
 #: deluge/ui/gtkui/menubar.py:439
+#, fuzzy
 msgid "Set Maximum Upload Slots"
-msgstr ""
+msgstr "আপলোড করুন"
 
 #: deluge/ui/gtkui/files_tab.py:56
+#, fuzzy
 msgid "Do Not Download"
-msgstr ""
+msgstr "এখন ডাউনলোড করুন"
 
 #: deluge/ui/gtkui/files_tab.py:57
+#, fuzzy
 msgid "Normal Priority"
-msgstr ""
+msgstr "স্বাভাবিক"
 
 #: deluge/ui/gtkui/files_tab.py:58
+#, fuzzy
 msgid "High Priority"
-msgstr ""
+msgstr "তীব্র কনট্রাস্ট/বৈসাদৃশ্য (~হ)"
 
 #: deluge/ui/gtkui/files_tab.py:59
 msgid "Highest Priority"
@@ -2262,20 +2647,24 @@ msgstr ""
 
 #: deluge/ui/gtkui/dialogs.py:174
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4730
+#, fuzzy
 msgid "Details:"
-msgstr ""
+msgstr "বিবরণ:"
 
 #: deluge/ui/gtkui/torrentview.py:213
+#, fuzzy
 msgid "Name"
-msgstr ""
+msgstr "নাম"
 
 #: deluge/ui/gtkui/torrentview.py:219
+#, fuzzy
 msgid "Downloaded"
-msgstr ""
+msgstr "ডাউনলোড"
 
 #: deluge/ui/gtkui/torrentview.py:222
+#, fuzzy
 msgid "Uploaded"
-msgstr ""
+msgstr "সফলভাবে আপলোড হয়েছে"
 
 #: deluge/ui/gtkui/torrentview.py:229 deluge/ui/gtkui/torrentview.py:235
 msgid "Seeders"
@@ -2286,12 +2675,14 @@ msgid "Peers"
 msgstr ""
 
 #: deluge/ui/gtkui/torrentview.py:241
+#, fuzzy
 msgid "Down Limit"
-msgstr ""
+msgstr "নীচে"
 
 #: deluge/ui/gtkui/torrentview.py:243
+#, fuzzy
 msgid "Up Limit"
-msgstr ""
+msgstr "আপ (চলচ্চিত্র)"
 
 #: deluge/ui/gtkui/torrentview.py:245
 msgid "ETA"
@@ -2302,16 +2693,19 @@ msgid "Ratio"
 msgstr ""
 
 #: deluge/ui/gtkui/torrentview.py:249
+#, fuzzy
 msgid "Avail"
-msgstr ""
+msgstr "পাওয়া যায়:"
 
 #: deluge/ui/gtkui/torrentview.py:251
+#, fuzzy
 msgid "Added"
-msgstr ""
+msgstr "আইটেম সফলভাবে MEMBOX_NAME-এ যোগ করা হয়েছিল"
 
 #: deluge/ui/gtkui/torrentview.py:257
+#, fuzzy
 msgid "Save Path"
-msgstr ""
+msgstr "সেভ করুন"
 
 #: deluge/ui/gtkui/glade/main_window.glade:21
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:99
@@ -2337,8 +2731,9 @@ msgid "_Edit"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:118
+#, fuzzy
 msgid "_Connection Manager"
-msgstr ""
+msgstr "বিক্রয় ব্যবস্থাপক"
 
 #: deluge/ui/gtkui/glade/main_window.glade:140
 msgid "_Torrent"
@@ -2373,12 +2768,14 @@ msgid "S_idebar"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:212
+#, fuzzy
 msgid "Show _Zero Hits"
-msgstr ""
+msgstr "নোট দেখাও"
 
 #: deluge/ui/gtkui/glade/main_window.glade:221
+#, fuzzy
 msgid "Show _Trackers"
-msgstr ""
+msgstr "নোট দেখাও"
 
 #: deluge/ui/gtkui/glade/main_window.glade:238
 msgid "_Help"
@@ -2393,80 +2790,95 @@ msgid "_FAQ"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:264
+#, fuzzy
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "ঘন ঘন ব্যবহৃত"
 
 #: deluge/ui/gtkui/glade/main_window.glade:280
 msgid "_Community"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:327
+#, fuzzy
 msgid "Add torrent"
-msgstr ""
+msgstr "যোগ করুন"
 
 #: deluge/ui/gtkui/glade/main_window.glade:328
+#, fuzzy
 msgid "Add Torrent"
-msgstr ""
+msgstr "যোগ করুন"
 
 #: deluge/ui/gtkui/glade/main_window.glade:342
+#, fuzzy
 msgid "Remove torrent"
-msgstr ""
+msgstr "অপসারণ করুন"
 
 #: deluge/ui/gtkui/glade/main_window.glade:343
+#, fuzzy
 msgid "Remove Torrent"
-msgstr ""
+msgstr "অপসারণ করুন"
 
 #: deluge/ui/gtkui/glade/main_window.glade:364
+#, fuzzy
 msgid "Pause the selected torrents"
-msgstr ""
+msgstr "ছবিগুলি নির্বাচিত হয়েছে"
 
 #: deluge/ui/gtkui/glade/main_window.glade:365
 msgid "Pause"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:380
+#, fuzzy
 msgid "Resume the selected torrents"
-msgstr ""
+msgstr "ছবিগুলি নির্বাচিত হয়েছে"
 
 #: deluge/ui/gtkui/glade/main_window.glade:381
 msgid "Resume"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:403
+#, fuzzy
 msgid "Queue Torrent Up"
-msgstr ""
+msgstr "আপ (চলচ্চিত্র)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:404
+#, fuzzy
 msgid "Queue Up"
-msgstr ""
+msgstr "আপ (চলচ্চিত্র)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:418
+#, fuzzy
 msgid "Queue Torrent Down"
-msgstr ""
+msgstr "নীচে"
 
 #: deluge/ui/gtkui/glade/main_window.glade:419
+#, fuzzy
 msgid "Queue Down"
-msgstr ""
+msgstr "নীচে"
 
 #: deluge/ui/gtkui/glade/main_window.glade:440
 #: deluge/ui/gtkui/glade/main_window.glade:441
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:8
+#, fuzzy
 msgid "Preferences"
-msgstr ""
+msgstr "বিষয়বস্তু পছন্দগুলি"
 
 #: deluge/ui/gtkui/glade/main_window.glade:455
 #: deluge/ui/gtkui/glade/main_window.glade:456
 #: deluge/ui/gtkui/glade/connection_manager.glade:204
+#, fuzzy
 msgid "Connection Manager"
-msgstr ""
+msgstr "সংযোগের ধরন..."
 
 #: deluge/ui/gtkui/glade/main_window.glade:570
+#, fuzzy
 msgid "_Expand All"
-msgstr ""
+msgstr "সবগুলি"
 
 #: deluge/ui/gtkui/glade/main_window.glade:591
+#, fuzzy
 msgid "_Do Not Download"
-msgstr ""
+msgstr "এখন ডাউনলোড করুন"
 
 #: deluge/ui/gtkui/glade/main_window.glade:607
 msgid "_Normal Priority"
@@ -2481,28 +2893,33 @@ msgid "Hi_ghest Priority"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:721
+#, fuzzy
 msgid "<b>Auto Managed:</b>"
-msgstr ""
+msgstr "স্বয়ংক্রিয় ভরাট"
 
 #: deluge/ui/gtkui/glade/main_window.glade:762
 msgid "<b>Seed Rank:</b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:777
+#, fuzzy
 msgid "<b>Seeding Time:</b>"
-msgstr ""
+msgstr "সময়"
 
 #: deluge/ui/gtkui/glade/main_window.glade:803
+#, fuzzy
 msgid "<b>Active Time:</b>"
-msgstr ""
+msgstr "সক্রিয়"
 
 #: deluge/ui/gtkui/glade/main_window.glade:860
+#, fuzzy
 msgid "<b>Tracker Status:</b>"
-msgstr ""
+msgstr "টেক্সট স্ট্যাটাস"
 
 #: deluge/ui/gtkui/glade/main_window.glade:890
+#, fuzzy
 msgid "<b>Availability:</b>"
-msgstr ""
+msgstr "পাওয়া যায়:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:944
 msgid "<b>Peers:</b>"
@@ -2529,32 +2946,37 @@ msgid "<b>Down Speed:</b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1073
+#, fuzzy
 msgid "<b>Next Announce:</b>"
-msgstr ""
+msgstr "পরবর্তী"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1092
+#, fuzzy
 msgid "<b>Share Ratio:</b>"
-msgstr ""
+msgstr "বিনিময় করুন"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1111
+#, fuzzy
 msgid "<b>Uploaded:</b>"
-msgstr ""
+msgstr "সফলভাবে আপলোড হয়েছে"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1130
 msgid "<b>Downloaded:</b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1191
+#, fuzzy
 msgid "<b>Date Added:</b>"
-msgstr ""
+msgstr "তারিখ (~ড)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1249
 msgid "_Status"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1310
+#, fuzzy
 msgid "<b>Comments:</b>"
-msgstr ""
+msgstr "মন্তব্য"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1339
 msgid "<b># of files:</b>"
@@ -2565,24 +2987,28 @@ msgid "<b>Hash:</b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1401
+#, fuzzy
 msgid "<b>Tracker:</b>"
-msgstr ""
+msgstr "সমস্যা অনুসরণ"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1421
+#, fuzzy
 msgid "<b>Total Size:</b>"
-msgstr ""
+msgstr "মাপ"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1459
+#, fuzzy
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "নাম"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1479
 msgid "<b>Path:</b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1513
+#, fuzzy
 msgid "<b>Status:</b>"
-msgstr ""
+msgstr "টেক্সট স্ট্যাটাস"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1594
 msgid "_Details"
@@ -2597,16 +3023,19 @@ msgid "_Peers"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:2009
+#, fuzzy
 msgid "Move completed:"
-msgstr ""
+msgstr "আপনার অনুরোধ সম্পূর্ণ করা হয়েছে."
 
 #: deluge/ui/gtkui/glade/main_window.glade:2105
+#, fuzzy
 msgid "Private"
-msgstr ""
+msgstr "ব্যক্তিগত"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2120
+#, fuzzy
 msgid "Prioritize First/Last"
-msgstr ""
+msgstr "প্রাথমিক চিকিৎসা"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2158
 #: deluge/ui/gtkui/glade/torrent_menu.glade:130
@@ -2619,13 +3048,14 @@ msgid "_Options"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:2285
+#, fuzzy
 msgid "Remove Torrent?"
-msgstr ""
+msgstr "অপসারণ করুন"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2324
-msgid ""
-"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
-msgstr ""
+#, fuzzy
+msgid "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
+msgstr "আপনি আপনার নির্বাচিত খসড়া (গুলি) মুছে ফেলার ব্যাপারে নিশ্চিত?"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2376
 msgid "<i>The associated .torrent will be deleted!</i>"
@@ -2636,36 +3066,44 @@ msgid "<i>The downloaded data will be deleted!</i>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:2460
+#, fuzzy
 msgid "Remove Selected Torrent"
-msgstr ""
+msgstr "অপসারণ করুন"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2484
+#, fuzzy
 msgid "New Release"
-msgstr ""
+msgstr "নতুন"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2518
+#, fuzzy
 msgid "<b><big>New Release Available!</big></b>"
-msgstr ""
+msgstr "পাওয়া যায়:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2570
+#, fuzzy
 msgid "<i>Available Version:</i>"
-msgstr ""
+msgstr "পাওয়া যায়:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2593
+#, fuzzy
 msgid "<i>Current Version:</i>"
-msgstr ""
+msgstr "বর্তমান তারিখ"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2604
+#, fuzzy
 msgid "<i>Server Version</i>"
-msgstr ""
+msgstr "সংস্করন দৃশ্যমান"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2637
+#, fuzzy
 msgid "Do not show this dialog in the future"
-msgstr ""
+msgstr "আমাকে এই দোয়া দেখাবেন না."
 
 #: deluge/ui/gtkui/glade/main_window.glade:2676
+#, fuzzy
 msgid "_Goto Website"
-msgstr ""
+msgstr "ওয়েবসাইট"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2704
 msgid "_Add Peer"
@@ -2676,26 +3114,31 @@ msgid "Add a peer by its IP"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:10
+#, fuzzy
 msgid "_Select All"
-msgstr ""
+msgstr "সবগুলি নির্বাচন করুন"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:26
 #: deluge/ui/gtkui/glade/tray_menu.glade:48
+#, fuzzy
 msgid "_Pause All"
-msgstr ""
+msgstr "সবগুলি"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:41
 #: deluge/ui/gtkui/glade/torrent_menu.glade:48
+#, fuzzy
 msgid "Resume selected torrents."
-msgstr ""
+msgstr "ছবিগুলি নির্বাচিত হয়েছে"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:42
+#, fuzzy
 msgid "Resu_me All"
-msgstr ""
+msgstr "সবগুলি"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:8
+#, fuzzy
 msgid "Add Torrents"
-msgstr ""
+msgstr "যোগ করুন"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:147
 msgid "_URL"
@@ -2710,16 +3153,18 @@ msgid "_Remove"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:274
+#, fuzzy
 msgid "<b>Torrents</b>"
-msgstr ""
+msgstr "B"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:331
 msgid "Fi_les"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
+#, fuzzy
 msgid "Full"
-msgstr ""
+msgstr "পূর্ণিমা"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:450
 msgid "Compact"
@@ -2739,36 +3184,43 @@ msgid "Max Up Speed:"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:668
+#, fuzzy
 msgid "Add In _Paused State"
-msgstr ""
+msgstr "রাষ্ট্র"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:684
+#, fuzzy
 msgid "Prioritize First/Last Pieces"
-msgstr ""
+msgstr "প্রাথমিক চিকিৎসা"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:762
 msgid "Revert To Defaults"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:816
+#, fuzzy
 msgid "Apply To All"
-msgstr ""
+msgstr "প্রয়োগ করুন"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:944
+#, fuzzy
 msgid "Add URL"
-msgstr ""
+msgstr "যোগ করুন"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:983
+#, fuzzy
 msgid "<b>From URL</b>"
-msgstr ""
+msgstr "লিংক"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1104
+#, fuzzy
 msgid "Add Infohash"
-msgstr ""
+msgstr "যোগ করুন"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1143
+#, fuzzy
 msgid "<b>From Infohash</b>"
-msgstr ""
+msgstr "থেকে"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1178
 msgid "Infohash:"
@@ -2780,12 +3232,14 @@ msgid "Trackers:"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:7
+#, fuzzy
 msgid "Create Torrent"
-msgstr ""
+msgstr "তৈরি করুন"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:34
+#, fuzzy
 msgid "<big><b>Create Torrent</b></big>"
-msgstr ""
+msgstr "তৈরি করুন"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:159
 msgid "Fol_der"
@@ -2796,29 +3250,34 @@ msgid "_Remote Path"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
+#, fuzzy
 msgid "<b>Files</b>"
-msgstr ""
+msgstr "B"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:263
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4756
+#, fuzzy
 msgid "Author:"
-msgstr ""
+msgstr "টুইটার"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:292
+#, fuzzy
 msgid "Comments:"
-msgstr ""
+msgstr "মন্তব্য"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:331
+#, fuzzy
 msgid "Info"
-msgstr ""
+msgstr "তথ্য"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
 msgid "Webseeds"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
+#, fuzzy
 msgid "Piece Size:"
-msgstr ""
+msgstr "মাপ"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
 msgid ""
@@ -2835,16 +3294,19 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:580
+#, fuzzy
 msgid "Set Private Flag"
-msgstr ""
+msgstr "ব্যক্তিগত"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:594
+#, fuzzy
 msgid "Add this torrent to the session"
-msgstr ""
+msgstr "স্বয়ং"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:692
+#, fuzzy
 msgid "Enter Remote Path"
-msgstr ""
+msgstr "ম~ধ্যবর্তী (~ধ)"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:728
 msgid "<b>Remote Path</b>"
@@ -2856,16 +3318,19 @@ msgid "Path:"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:837
+#, fuzzy
 msgid "Creating Torrent"
-msgstr ""
+msgstr "একটি গ্রিডের সাহায্যে কোলাজ তৈরি শুরু করুন"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:874
+#, fuzzy
 msgid "Save .torrent as"
-msgstr ""
+msgstr "অন্য নামে সংরক্ষন করো... (~অ)"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:910
+#, fuzzy
 msgid "<b>Save .torrent file</b>"
-msgstr ""
+msgstr "সেভ করুন"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:8
 msgid "Queued Torrents"
@@ -2880,28 +3345,34 @@ msgid "Automatically add torrents on connect"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:98
+#, fuzzy
 msgid "label"
-msgstr ""
+msgstr "ন্যাভিগেশন লেবেল"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:154
+#, fuzzy
 msgid "Add Peer"
-msgstr ""
+msgstr "যোগ করুন"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:187
+#, fuzzy
 msgid "<b>Add Peer</b>"
-msgstr ""
+msgstr "যোগ করুন"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:211
+#, fuzzy
 msgid "hostname:port"
-msgstr ""
+msgstr "বন্দর"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:8
+#, fuzzy
 msgid "Add Host"
-msgstr ""
+msgstr "যোগ করুন"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:237
+#, fuzzy
 msgid "<big><b>Connection Manager</b></big>"
-msgstr ""
+msgstr "সংযোগের ধরন..."
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:363
 msgid "_Start local daemon"
@@ -2912,12 +3383,14 @@ msgid "Automatically connect to selected host on start-up"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:426
+#, fuzzy
 msgid "Automatically start localhost if needed"
-msgstr ""
+msgstr "শুরু"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:440
+#, fuzzy
 msgid "Do not show this dialog on start-up"
-msgstr ""
+msgstr "আমাকে এই দোয়া দেখাবেন না."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:78
 msgid "<b><i><big>Downloads</big></i></b>"
@@ -2928,29 +3401,32 @@ msgid "Auto add .torrents from:"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:253
+#, fuzzy
 msgid "Download to:"
-msgstr ""
+msgstr "এখন ডাউনলোড করুন"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:261
 msgid "Copy of .torrent files to:"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:316
+#, fuzzy
 msgid "Delete copy of torrent file on remove"
-msgstr ""
+msgstr "ফাইল মুছুন"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:320
-msgid ""
-"Delete the copy of the torrent file created when the torrent is removed"
+msgid "Delete the copy of the torrent file created when the torrent is removed"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:337
+#, fuzzy
 msgid "<b>Folders</b>"
-msgstr ""
+msgstr "ফোল্ডার"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:370
+#, fuzzy
 msgid "Use Full Allocation"
-msgstr ""
+msgstr "ব্যবহার করুন"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:375
 msgid ""
@@ -2959,8 +3435,9 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:387
+#, fuzzy
 msgid "Use Compact Allocation"
-msgstr ""
+msgstr "ব্যবহার করুন"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:392
 msgid "Compact allocation only allocates space as needed"
@@ -2975,34 +3452,40 @@ msgid "Prioritize first and last pieces of files in torrent"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:455
+#, fuzzy
 msgid "Add torrents in Paused state"
-msgstr ""
+msgstr "রাষ্ট্র"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:529
+#, fuzzy
 msgid "<b><i><big>Network</big></i></b>"
-msgstr ""
+msgstr "আমার নেটওয়ার্ক"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:569
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:763
+#, fuzzy
 msgid "Use Random Ports"
-msgstr ""
+msgstr "এলোপাথাড়ি বার"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:574
 msgid "Deluge will automatically choose a different port to use every time."
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:592
+#, fuzzy
 msgid "Active Port:"
-msgstr ""
+msgstr "সক্রিয়"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:662
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:812
+#, fuzzy
 msgid "To:"
-msgstr ""
+msgstr "-এ সেভ করুন"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:690
+#, fuzzy
 msgid "Test Active Port"
-msgstr ""
+msgstr "সক্রিয়"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:732
 msgid "<b>Incoming Ports</b>"
@@ -3019,8 +3502,9 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:903
+#, fuzzy
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "ইন্টারফেস"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:939
 msgid ""
@@ -3029,8 +3513,9 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:940
+#, fuzzy
 msgid "Peer TOS Byte:"
-msgstr ""
+msgstr "বাইট"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:973
 msgid "<b>TOS</b>"
@@ -3041,21 +3526,24 @@ msgid "UPnP"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1010
+#, fuzzy
 msgid "Universal Plug and Play"
-msgstr ""
+msgstr "প্লে করুন"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1021
 msgid "NAT-PMP"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1025
+#, fuzzy
 msgid "NAT Port Mapping Protocol"
-msgstr ""
+msgstr "হাইপার টেক্সট ট্রান্সফার প্রোটোকল"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1038
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1042
+#, fuzzy
 msgid "Peer Exchange"
-msgstr ""
+msgstr "বাক্য"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1055
 msgid "LSD"
@@ -3075,8 +3563,9 @@ msgid "Distributed hash table may improve the amount of active connections."
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1097
+#, fuzzy
 msgid "<b>Network Extras</b>"
-msgstr ""
+msgstr "আমার নেটওয়ার্ক"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1136
 msgid "Inbound:"
@@ -3088,11 +3577,12 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1167
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1217
+#, fuzzy
 msgid ""
 "Forced\n"
 "Enabled\n"
 "Disabled"
-msgstr ""
+msgstr "প্রতিবন্ধী"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1178
 msgid ""
@@ -3106,8 +3596,9 @@ msgid "Outbound:"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1233
+#, fuzzy
 msgid "Encrypt entire stream"
-msgstr ""
+msgstr "প্রবাহ"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1258
 msgid "<b>Encryption</b>"
@@ -3118,12 +3609,14 @@ msgid "<b><i><big>Bandwidth</big></i></b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1396
+#, fuzzy
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "সেকেন্ড"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1408
+#, fuzzy
 msgid "Maximum Half-Open Connections:"
-msgstr ""
+msgstr "সামাজিক যোগাযোগগুলি"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1419
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1509
@@ -3132,8 +3625,9 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1421
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1706
+#, fuzzy
 msgid "Maximum Upload Speed (KiB/s):"
-msgstr ""
+msgstr "আপলোড করুন"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1432
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1457
@@ -3142,8 +3636,9 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1434
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1669
+#, fuzzy
 msgid "Maximum Connections:"
-msgstr ""
+msgstr "সামাজিক যোগাযোগগুলি"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1443
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1528
@@ -3152,8 +3647,9 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1445
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1680
+#, fuzzy
 msgid "Maximum Upload Slots:"
-msgstr ""
+msgstr "আপলোড করুন"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1475
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1490
@@ -3166,12 +3662,14 @@ msgid "Maximum Download Speed (KiB/s):"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1554
+#, fuzzy
 msgid "Ignore limits on local network"
-msgstr ""
+msgstr "আমার নেটওয়ার্ক"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1573
+#, fuzzy
 msgid "Rate limit IP overhead"
-msgstr ""
+msgstr "এণ্ট্রি সীমা"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1577
 msgid ""
@@ -3180,8 +3678,9 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1594
+#, fuzzy
 msgid "<b>Global Bandwidth Usage</b>"
-msgstr ""
+msgstr "global warmig"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1633
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
@@ -3198,12 +3697,14 @@ msgid "<b>Per Torrent Bandwidth Usage</b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1818
+#, fuzzy
 msgid "<i><b><big>Interface</big></b></i>"
-msgstr ""
+msgstr "ইন্টারফেস"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1851
+#, fuzzy
 msgid "Enable"
-msgstr ""
+msgstr "ওয়াচ সক্রিয় করো"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1856
 msgid ""
@@ -3214,60 +3715,73 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1866
+#, fuzzy
 msgid "<b>Classic Mode</b>"
-msgstr ""
+msgstr "মোড"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1899
 msgid "Show session speed in titlebar"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1917
+#, fuzzy
 msgid "<b>Main Window</b>"
-msgstr ""
+msgstr "জানালা"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1950
+#, fuzzy
 msgid "Always show"
-msgstr ""
+msgstr "নোট দেখাও"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1968
+#, fuzzy
 msgid "Bring the dialog to focus"
-msgstr ""
+msgstr "সামনে নিয়ে আসো (~ব)"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1988
+#, fuzzy
 msgid "<b>Add Torrents Dialog</b>"
-msgstr ""
+msgstr "রেজল্যুশন ডায়লগ দেখান"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2020
+#, fuzzy
 msgid "Enable system tray icon"
-msgstr ""
+msgstr "পদ্ধতি"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2038
+#, fuzzy
 msgid "Minimize to tray on close"
-msgstr ""
+msgstr "বন্ধ করুন"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2058
+#, fuzzy
 msgid "Start in tray"
-msgstr ""
+msgstr "শুরু"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2078
+#, fuzzy
 msgid "Enable Application Indicator"
-msgstr ""
+msgstr "অ্যাপ্লিকেশন"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2099
+#, fuzzy
 msgid "Password protect system tray"
-msgstr ""
+msgstr "পাসওয়ার্ড"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2165
+#, fuzzy
 msgid "<b>System Tray</b>"
-msgstr ""
+msgstr "পদ্ধতি"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2224
+#, fuzzy
 msgid "<i><b><big>Other</big></b></i>"
-msgstr ""
+msgstr "অনান্য"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2265
+#, fuzzy
 msgid "Be alerted about new releases"
-msgstr ""
+msgstr "সম্পর্কে"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2270
 msgid ""
@@ -3276,8 +3790,9 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2289
+#, fuzzy
 msgid "<b>Updates</b>"
-msgstr ""
+msgstr "আপডেট করুন"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2326
 msgid ""
@@ -3286,16 +3801,19 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2343
+#, fuzzy
 msgid "Yes, please send anonymous statistics"
-msgstr ""
+msgstr "পরিসংখ্যান"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2365
+#, fuzzy
 msgid "<b>System Information</b>"
-msgstr ""
+msgstr "পদ্ধতি"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2408
+#, fuzzy
 msgid "Location:"
-msgstr ""
+msgstr "অবস্থান"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2420
 msgid ""
@@ -3304,88 +3822,106 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2444
+#, fuzzy
 msgid "<b>GeoIP Database</b>"
-msgstr ""
+msgstr "ডেটাবেজ"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2489
+#, fuzzy
 msgid "Associate Magnet links with Deluge"
-msgstr ""
+msgstr "লিংক"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2558
 msgid "<i><b><big>Daemon</big></b></i>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2602
+#, fuzzy
 msgid "Daemon port:"
-msgstr ""
+msgstr "বন্দর"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2639
+#, fuzzy
 msgid "<b>Port</b>"
-msgstr ""
+msgstr "বন্দর"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2668
+#, fuzzy
 msgid "Allow Remote Connections"
-msgstr ""
+msgstr "সামাজিক যোগাযোগগুলি"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2682
+#, fuzzy
 msgid "<b>Connections</b>"
-msgstr ""
+msgstr "সামাজিক যোগাযোগগুলি"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2711
+#, fuzzy
 msgid "Periodically check the website for new releases"
-msgstr ""
+msgstr "ওয়েবসাইট"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2725
+#, fuzzy
 msgid "<b>Other</b>"
-msgstr ""
+msgstr "অনান্য"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2785
 msgid "<i><b><big>Queue</big></b></i>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2828
+#, fuzzy
 msgid "Queue new torrents to top"
-msgstr ""
+msgstr "উপরে"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2923
+#, fuzzy
 msgid "Total active seeding:"
-msgstr ""
+msgstr "সক্রিয়"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2936
+#, fuzzy
 msgid "Total active:"
-msgstr ""
+msgstr "সক্রিয়"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2965
+#, fuzzy
 msgid "Total active downloading:"
-msgstr ""
+msgstr "সক্রিয়"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2980
+#, fuzzy
 msgid "Do not count slow torrents"
-msgstr ""
+msgstr "মোট পৃষ্ঠা (~চ)"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2998
+#, fuzzy
 msgid "<b>Active Torrents</b>"
-msgstr ""
+msgstr "সক্রিয়"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3040
+#, fuzzy
 msgid "Share Ratio Limit:"
-msgstr ""
+msgstr "বিনিময় করুন"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3050
+#, fuzzy
 msgid "Seed Time Ratio:"
-msgstr ""
+msgstr "সময়"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3062
 msgid "Seed Time (m):"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3130
+#, fuzzy
 msgid "Stop seeding when share ratio reaches:"
-msgstr ""
+msgstr "বিনিময় করুন"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3175
+#, fuzzy
 msgid "Remove torrent when share ratio reached"
-msgstr ""
+msgstr "বিনিময় করুন"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3197
 msgid "<b>Seeding</b>"
@@ -3424,20 +3960,23 @@ msgid "<b>Web Seed</b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3822
+#, fuzzy
 msgid "<b>Tracker</b>"
-msgstr ""
+msgstr "সমস্যা অনুসরণ"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4010
 msgid "<b>DHT</b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4067
+#, fuzzy
 msgid "<b><i><big>Cache</big></i></b>"
-msgstr ""
+msgstr "ওয়েব ক্যাশে"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4112
+#, fuzzy
 msgid "Cache Size (16 KiB blocks):"
-msgstr ""
+msgstr "ওয়েব ক্যাশে"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4122
 msgid ""
@@ -3446,8 +3985,9 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4124
+#, fuzzy
 msgid "Cache Expiry (seconds):"
-msgstr ""
+msgstr "সেকেন্ড"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4220
 msgid ""
@@ -3466,8 +4006,9 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4233
+#, fuzzy
 msgid "Writes:"
-msgstr ""
+msgstr "লিখন"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4244
 msgid ""
@@ -3477,8 +4018,9 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4246
+#, fuzzy
 msgid "Write Cache Hit Ratio:"
-msgstr ""
+msgstr "ওয়েব ক্যাশে"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4298
 msgid "<b>Write</b>"
@@ -3491,24 +4033,27 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4330
+#, fuzzy
 msgid "Blocks Read:"
-msgstr ""
+msgstr "বিস্তারিত পড়ুন"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4339
 msgid "The number of blocks that were served from cache."
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4341
+#, fuzzy
 msgid "Blocks Read Hit:"
-msgstr ""
+msgstr "বিস্তারিত পড়ুন"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4352
 msgid "The cache hit ratio for the read cache."
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4354
+#, fuzzy
 msgid "Read Cache Hit Ratio:"
-msgstr ""
+msgstr "ওয়েব ক্যাশে"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4403
 msgid ""
@@ -3516,12 +4061,14 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4405
+#, fuzzy
 msgid "Reads:"
-msgstr ""
+msgstr "বিস্তারিত পড়ুন"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4432
+#, fuzzy
 msgid "<b>Read</b>"
-msgstr ""
+msgstr "বিস্তারিত পড়ুন"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4462
 msgid ""
@@ -3530,56 +4077,65 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4464
+#, fuzzy
 msgid "Cache Size:"
-msgstr ""
+msgstr "ওয়েব ক্যাশে"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4474
+#, fuzzy
 msgid "Read Cache Size:"
-msgstr ""
+msgstr "ওয়েব ক্যাশে"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4513
+#, fuzzy
 msgid "<b>Size</b>"
-msgstr ""
+msgstr "মাপ"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4556
+#, fuzzy
 msgid "<b>Status</b>"
-msgstr ""
+msgstr "টেক্সট স্ট্যাটাস"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4618
 msgid "<i><b><big>Plugins</big></b></i>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4743
+#, fuzzy
 msgid "Version:"
-msgstr ""
+msgstr "সংস্করন দৃশ্যমান"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4767
 msgid "Homepage:"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4780
+#, fuzzy
 msgid "Author Email:"
-msgstr ""
+msgstr "ই-মেইল"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4872
+#, fuzzy
 msgid "_Install Plugin"
-msgstr ""
+msgstr "আপনার প্লাগইন আপডেট ইনস্টল করার অনুমতি নেই"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4915
 msgid "_Rescan Plugins"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4968
+#, fuzzy
 msgid "_Find More Plugins"
-msgstr ""
+msgstr "অধিক"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:12
 msgid "_Show Deluge"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:65
+#, fuzzy
 msgid "_Resume All"
-msgstr ""
+msgstr "সবগুলি"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:87
 #: deluge/ui/gtkui/glade/torrent_menu.glade:212
@@ -3596,8 +4152,9 @@ msgid "Quit & Shutdown Daemon"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:11
+#, fuzzy
 msgid "_Open Folder"
-msgstr ""
+msgstr "ফোল্ডার"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:49
 msgid "Resu_me"
@@ -3612,28 +4169,32 @@ msgid "_Queue"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:113
+#, fuzzy
 msgid "_Update Tracker"
-msgstr ""
+msgstr "সমস্যা অনুসরণ"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:152
 msgid "_Remove Torrent"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:174
+#, fuzzy
 msgid "_Force Re-check"
-msgstr ""
+msgstr "চেক বক্স"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:191
 msgid "Move _Storage"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:242
+#, fuzzy
 msgid "_Connection Limit"
-msgstr ""
+msgstr "এণ্ট্রি সীমা"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:258
+#, fuzzy
 msgid "Upload _Slot Limit"
-msgstr ""
+msgstr "আপলোড করুন"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:273
 msgid "_Auto Managed"
@@ -3641,8 +4202,9 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:51
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
+#, fuzzy
 msgid "<big><b>Remove the selected torrent?</b></big>"
-msgstr ""
+msgstr "অপসারণ করুন"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:66
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
@@ -3650,60 +4212,74 @@ msgid "If you remove the data, it will be lost permanently."
 msgstr ""
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:127
+#, fuzzy
 msgid "action"
-msgstr ""
+msgstr "কর্ম"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:129
+#, fuzzy
 msgid "Remove Files"
-msgstr ""
+msgstr "অপসারণ করুন"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:198
+#, fuzzy
 msgid "Keep Files"
-msgstr ""
+msgstr "পড়তে থাকুন"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:9
+#, fuzzy
 msgid "Edit Trackers"
-msgstr ""
+msgstr "পরিবর্তন"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:47
+#, fuzzy
 msgid "<big><b>Edit Trackers</b></big>"
-msgstr ""
+msgstr "পরিবর্তন"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:224
+#, fuzzy
 msgid "Add Tracker"
-msgstr ""
+msgstr "যোগ করুন"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:260
+#, fuzzy
 msgid "<b>Add Trackers</b>"
-msgstr ""
+msgstr "যোগ করুন"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:380
+#, fuzzy
 msgid "Edit Tracker"
-msgstr ""
+msgstr "পরিবর্তন"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:416
+#, fuzzy
 msgid "<b>Edit Tracker</b>"
-msgstr ""
+msgstr "পরিবর্তন"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:450
+#, fuzzy
 msgid "Tracker:"
-msgstr ""
+msgstr "সমস্যা অনুসরণ"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
+#, fuzzy
 msgid "Remove With _Data"
-msgstr ""
+msgstr "অপসারণ করুন"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
+#, fuzzy
 msgid "Remove _Torrent"
-msgstr ""
+msgstr "অপসারণ করুন"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:9
+#, fuzzy
 msgid "Move Storage"
-msgstr ""
+msgstr "ফ্লোচার্ট: অভ্যন্তরীন সংরক্ষণাগার"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:44
+#, fuzzy
 msgid "<b>Move Storage</b>"
-msgstr ""
+msgstr "ফ্লোচার্ট: অভ্যন্তরীন সংরক্ষণাগার"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:78
 msgid "Destination:"

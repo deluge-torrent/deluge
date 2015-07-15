@@ -8,18 +8,20 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-07-10 16:58+0100\n"
-"PO-Revision-Date: 2008-05-15 16:34+0000\n"
+"PO-Revision-Date: 2015-07-15 14:46-0400\n"
 "Last-Translator: Me <Glich.Glich@googlemail.com>\n"
 "Language-Team: Welsh <cy@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-07-11 13:01+0000\n"
-"X-Generator: Launchpad (build 13388)\n"
+"X-Generator: Poedit 1.8.2\n"
+"Language: cy\n"
 
 #: deluge/common.py:274
+#, fuzzy
 msgid "KiB"
-msgstr ""
+msgstr "Asesu'r effaith ar iechyd"
 
 #: deluge/common.py:277
 msgid "MiB"
@@ -57,117 +59,142 @@ msgid "GiB/s"
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
+#, fuzzy
 msgid "Notification Blink shown"
-msgstr ""
+msgstr "Fflachio'r hysbysiad yn dangos"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:183
+#, fuzzy
 msgid "Popup notification is not enabled."
-msgstr ""
+msgstr "Mae hysbysiad ffenestr naid ddim wedi'i alluogi."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:185
+#, fuzzy
 msgid "pynotify is not installed"
-msgstr ""
+msgstr "Dydy'r pynotify ddim wedi'i osod"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:193
+#, fuzzy
 msgid "pynotify failed to show notification"
-msgstr ""
+msgstr "pynotify wedi methu â dangos hysbysiad"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:196
+#, fuzzy
 msgid "Notification popup shown"
-msgstr ""
+msgstr "Ffenestr naid hysbysiad yn dangos"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:200
+#, fuzzy
 msgid "Sound notification not enabled"
-msgstr ""
+msgstr "Hysbysiad cadarn ddim wedi'i alluogi"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:202
+#, fuzzy
 msgid "pygame is not installed"
-msgstr ""
+msgstr "Dydy'r pygame ddim wedi'i osod"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:214
-#, python-format
+#, fuzzy, python-format
 msgid "Sound notification failed %s"
-msgstr ""
+msgstr "Methodd hysbysiad sain %s"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:218
+#, fuzzy
 msgid "Sound notification Success"
-msgstr ""
+msgstr "Hysbysiad gadarn llwyddiant"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:241
+#, fuzzy
 msgid "Finished Torrent"
-msgstr ""
+msgstr "Torrent gorffenedig"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:242
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "The torrent \"%(name)s\" including %(num_files)i has finished downloading."
 msgstr ""
+"Torrent \"s % (enw)\" gan gynnwys % (num_files) yr wyf wedi gorffen llwytho "
+"i lawr."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:646
+#, fuzzy
 msgid "Choose Sound File"
-msgstr ""
+msgstr "Dewis ffeil sain"
 
 #: deluge/plugins/notifications/notifications/core.py:138
 #: deluge/plugins/notifications/notifications/core.py:171
-#, python-format
+#, fuzzy, python-format
 msgid "There was an error sending the notification email: %s"
-msgstr ""
+msgstr "Digwyddodd gwall wrth anfon yr hysbysiad e-bost: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:157
-#, python-format
+#, fuzzy, python-format
 msgid "The server didn't reply properly to the helo greeting: %s"
-msgstr ""
+msgstr "Nid oedd y gweinydd yn ateb yn iawn i y cyfarchiad helo: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:162
-#, python-format
+#, fuzzy, python-format
 msgid "The server didn't accept the username/password combination: %s"
-msgstr ""
+msgstr "Nid oedd y gweinydd yn derbyn y cyfuniad enw defnyddiwr/cyfrinair: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:186
+#, fuzzy
 msgid "Notification email sent."
-msgstr ""
+msgstr "E-bost hysbysiad anfon."
 
 #: deluge/plugins/notifications/notifications/core.py:194
-#, python-format
+#, fuzzy, python-format
 msgid "Finished Torrent \"%(name)s\""
-msgstr ""
+msgstr "Torrent gorffenedig \"s % (enw)\""
 
 #: deluge/plugins/notifications/notifications/core.py:196
-#, python-format
+#, fuzzy, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading "
-"\"%(name)s\", which includes %(num_files)i files.\n"
+"This email is to inform you that Deluge has finished downloading \"%(name)s"
+"\", which includes %(num_files)i files.\n"
 "To stop receiving these alerts, simply turn off email notification in "
 "Deluge's preferences.\n"
 "\n"
 "Thank you,\n"
 "Deluge."
 msgstr ""
+"E-bost hwn yw eich hysbysu fod dilyw wedi gorffen llwytho i lawr \"s % "
+"(enw)\", sy'n cynnwys % (num_files) fy ffeiliau.\n"
+"I beidio derbyn rhybuddion hyn, dim ond troi oddi ar neges e-bost yn "
+"dewisiadau y dilyw.\n"
+"\n"
+"Diolch ichi, dilyw."
 
 #: deluge/plugins/notifications/notifications/data/config.glade:29
+#, fuzzy
 msgid "<b><i><big>Notifications</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Hysbysiadau</big></i></b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:81
+#, fuzzy
 msgid "Tray icon blinks enabled"
-msgstr ""
+msgstr "Hambwrdd eicon blinks galluogi"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:93
+#, fuzzy
 msgid "Popups enabled"
-msgstr ""
+msgstr "Rhwystrwr galluogi"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:108
+#, fuzzy
 msgid "Sound enabled"
-msgstr ""
+msgstr "Galluogi Sain"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:144
+#, fuzzy
 msgid "<b>UI Notifications</b>"
-msgstr ""
+msgstr "<b>Hysbysiadau UI</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:175
 #: deluge/ui/gtkui/glade/connection_manager.glade:28
+#, fuzzy
 msgid "Hostname:"
-msgstr ""
+msgstr "Enw lletywr:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:199
 #: deluge/ui/gtkui/glade/connection_manager.glade:56
@@ -175,8 +202,9 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3542
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3726
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3912
+#, fuzzy
 msgid "Port:"
-msgstr ""
+msgstr "Porthladd"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:231
 #: deluge/ui/gtkui/glade/connection_manager.glade:143
@@ -184,8 +212,9 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3623
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3807
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3994
+#, fuzzy
 msgid "Username:"
-msgstr ""
+msgstr "Enw defnyddiwr:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:255
 #: deluge/ui/gtkui/glade/connection_manager.glade:132
@@ -198,12 +227,14 @@ msgid "Password:"
 msgstr "Cyfrinair:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:360
+#, fuzzy
 msgid "<b>Recipients</b>"
-msgstr ""
+msgstr "<b>Derbynwyr</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:383
+#, fuzzy
 msgid "Server requires TLS/SSL"
-msgstr ""
+msgstr "Gweinydd yn gofyn am TLS/SSL"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:398
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:633
@@ -213,47 +244,59 @@ msgstr ""
 
 #: deluge/plugins/notifications/notifications/data/config.glade:421
 #: deluge/ui/gtkui/preferences.py:91
+#, fuzzy
 msgid "Enabled"
-msgstr ""
+msgstr "Galluogwyd"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:443
+#, fuzzy
 msgid "<b>Email Notifications</b>"
-msgstr ""
+msgstr "<b>Hysbysiadau e-bost</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:460
+#, fuzzy
 msgid "Settings"
-msgstr ""
+msgstr "Gosodiadau"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:495
+#, fuzzy
 msgid ""
 "This configuration does not mean that you'll actually receive notifications "
 "for all these events."
 msgstr ""
+"Nid yw ffurfweddiad hwn yn golygu y byddwch mewn gwirionedd yn derbyn "
+"hysbysiadau am holl ddigwyddiadau hyn."
 
 #: deluge/plugins/notifications/notifications/data/config.glade:513
+#, fuzzy
 msgid "Subscriptions"
-msgstr ""
+msgstr "Tanysgrifiadau"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:594
+#, fuzzy
 msgid "Sound Customization"
-msgstr ""
+msgstr "Addasu gadarn"
 
 #: deluge/plugins/autoadd/autoadd/core.py:136
+#, fuzzy
 msgid "Watch folder does not exist."
-msgstr ""
+msgstr "Gwylio ddim yn bodoli."
 
 #: deluge/plugins/autoadd/autoadd/core.py:139
 #: deluge/plugins/autoadd/autoadd/core.py:308
+#, fuzzy
 msgid "Path does not exist."
-msgstr ""
+msgstr "Dydy'r llwybr ddim yn bodoli."
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
+#, fuzzy
 msgid "AutoAdd Error"
-msgstr ""
+msgstr "Gwall wrth AutoAdd"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:78
+#, fuzzy
 msgid "Watch Folder Properties"
-msgstr ""
+msgstr "Gwylio priodweddau ffolder"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
@@ -268,32 +311,38 @@ msgid "Select A Folder"
 msgstr "Dewiswch Blygell"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:143
+#, fuzzy
 msgid "Enable this watch folder"
-msgstr ""
+msgstr "Galluogi ffolder hon watch"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:164
+#, fuzzy
 msgid "<b>Watch Folder</b>"
-msgstr ""
+msgstr "<b>Gwylio ffolder</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:195
+#, fuzzy
 msgid "Delete .torrent after adding"
-msgstr ""
+msgstr "Dileu.torrent ar ôl ychwanegu"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:211
+#, fuzzy
 msgid "Append extension after adding:"
-msgstr ""
+msgstr "Atodi estyniad ar ôl ychwanegu:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:228
 msgid ".added"
 msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:248
+#, fuzzy
 msgid "<b>Torrent File Action</b>"
-msgstr ""
+msgstr "<b>Gweithredu ffeil torrent</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:275
+#, fuzzy
 msgid "Set download location"
-msgstr ""
+msgstr "Lawrlwytho gosod lleoliad"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:325
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:396
@@ -301,12 +350,14 @@ msgid "<b>Download Location</b>"
 msgstr "<b>Lleoliad Lawrlwytho</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:353
+#, fuzzy
 msgid "Set move completed location"
-msgstr ""
+msgstr "Gosod symud gwblhau lleoliad"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:418
+#, fuzzy
 msgid "<b>Move Completed</b>"
-msgstr ""
+msgstr "<b>Symud wedi'u cwblhau</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:444
 msgid "Label: "
@@ -317,107 +368,128 @@ msgid "<b>Label</b>"
 msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:492
+#, fuzzy
 msgid "Main"
-msgstr ""
+msgstr "Afon Main"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:524
 #: deluge/ui/gtkui/glade/main_window.glade:1811
+#, fuzzy
 msgid "Max Upload Speed:"
-msgstr ""
+msgstr "Cyflymder lanlwytho Max:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:541
 #: deluge/ui/gtkui/glade/main_window.glade:1798
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:551
+#, fuzzy
 msgid "Max Connections:"
-msgstr ""
+msgstr "Max cysylltiadau:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:558
 #: deluge/ui/gtkui/glade/main_window.glade:1861
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:565
+#, fuzzy
 msgid "Max Upload Slots:"
-msgstr ""
+msgstr "Max lanlwytho slotiau:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:665
 #: deluge/ui/gtkui/glade/main_window.glade:1824
+#, fuzzy
 msgid "Max Download Speed:"
-msgstr ""
+msgstr "Max cyflymder lawrlwytho:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:691
 #: deluge/ui/gtkui/glade/main_window.glade:1900
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:634
+#, fuzzy
 msgid "<b>Bandwidth</b>"
-msgstr ""
+msgstr "<b>Lled band</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:722
 #: deluge/plugins/label/label/data/label_options.glade:349
 #: deluge/ui/gtkui/glade/main_window.glade:1952
+#, fuzzy
 msgid "Stop seed at ratio:"
-msgstr ""
+msgstr "Stopio hadau ar gymhareb:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:746
 #: deluge/plugins/label/label/data/label_options.glade:364
 #: deluge/ui/gtkui/glade/main_window.glade:1993
+#, fuzzy
 msgid "Remove at ratio"
-msgstr ""
+msgstr "Gwared ar gymhareb"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:762
+#, fuzzy
 msgid "Auto Managed:"
-msgstr ""
+msgstr "Awto rheoli:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:890
+#, fuzzy
 msgid "Add Paused:"
-msgstr ""
+msgstr "Ychwanegu wedi rhewi rhywbeth:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:936
+#, fuzzy
 msgid "Queue to:"
-msgstr ""
+msgstr "Ciwio i:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:954
 msgid "Top"
 msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:967
+#, fuzzy
 msgid "Bottom"
-msgstr ""
+msgstr "Gwaelod"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:1017
 #: deluge/ui/gtkui/glade/main_window.glade:2069
+#, fuzzy
 msgid "<b>Queue</b>"
-msgstr ""
+msgstr "<b>Ciw</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:1037
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:624
 #: deluge/ui/gtkui/glade/connection_manager.glade:457
+#, fuzzy
 msgid "Options"
-msgstr ""
+msgstr "Dewisiadau"
 
 #: deluge/plugins/autoadd/autoadd/data/config.glade:41
+#, fuzzy
 msgid "<b>Watch Folders:</b>"
-msgstr ""
+msgstr "<b>Gwylio ffolderi:</b>"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:238
+#, fuzzy
 msgid "Download Limit:"
-msgstr ""
+msgstr "Cyfyngiad lawrlwytho:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:247
+#, fuzzy
 msgid "Upload Limit:"
-msgstr ""
+msgstr "Lanlwytho terfyn:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:256
+#, fuzzy
 msgid "Active Torrents:"
-msgstr ""
+msgstr "Gweithredol mawr:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:265
+#, fuzzy
 msgid "Active Downloading:"
-msgstr ""
+msgstr "Llwytho i lawr egnïol:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:274
+#, fuzzy
 msgid "Active Seeding:"
-msgstr ""
+msgstr "Hadu egnïol:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:288
+#, fuzzy
 msgid "<b>Slow Settings</b>"
-msgstr ""
+msgstr "<b>Gosodiadau araf</b>"
 
 #: deluge/plugins/label/label/core.py:189
 msgid "Invalid label, valid characters:[a-z0-9_-]"
@@ -438,8 +510,9 @@ msgid "Unknown Label"
 msgstr ""
 
 #: deluge/plugins/label/label/core.py:315
+#, fuzzy
 msgid "Unknown Torrent"
-msgstr ""
+msgstr "Torrent anhysbys"
 
 #: deluge/plugins/label/label/gtkui/submenu.py:48
 #: deluge/plugins/label/label/gtkui/__init__.py:77
@@ -470,163 +543,201 @@ msgid "<b>Label Options</b>"
 msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:158
+#, fuzzy
 msgid "Upload Slots:\t"
-msgstr ""
+msgstr "Lanlwytho slotiau:"
 
 #: deluge/plugins/label/label/data/label_options.glade:171
+#, fuzzy
 msgid "Upload Speed:"
-msgstr ""
+msgstr "Lanlwytho cyflymder:"
 
 #: deluge/plugins/label/label/data/label_options.glade:184
+#, fuzzy
 msgid "Download Speed:"
-msgstr ""
+msgstr "Cyflymder lawrlwytho:"
 
 #: deluge/plugins/label/label/data/label_options.glade:226
+#, fuzzy
 msgid "Connections:"
-msgstr ""
+msgstr "Cysylltiadau:"
 
 #: deluge/plugins/label/label/data/label_options.glade:270
+#, fuzzy
 msgid "Apply per torrent max settings:"
-msgstr ""
+msgstr "Gymwys fesul torrent uchafswm gosodiadau:"
 
 #: deluge/plugins/label/label/data/label_options.glade:283
+#, fuzzy
 msgid "Maximum"
-msgstr ""
+msgstr "Uchafbwyntiau ac isafbwyntiau"
 
 #: deluge/plugins/label/label/data/label_options.glade:336
 #: deluge/ui/gtkui/glade/main_window.glade:1930
+#, fuzzy
 msgid "Auto Managed"
-msgstr ""
+msgstr "Awto rheoli"
 
 #: deluge/plugins/label/label/data/label_options.glade:410
+#, fuzzy
 msgid "Apply Queue settings:"
-msgstr ""
+msgstr "Defnyddio'r gosodiadau ciw:"
 
 #: deluge/plugins/label/label/data/label_options.glade:426
 #: deluge/ui/gtkui/preferences.py:77
+#, fuzzy
 msgid "Queue"
-msgstr ""
+msgstr "Ciw"
 
 #: deluge/plugins/label/label/data/label_options.glade:453
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:204
+#, fuzzy
 msgid "Move completed to:"
-msgstr ""
+msgstr "Symud wedi'u cwblhau at:"
 
 #: deluge/plugins/label/label/data/label_options.glade:504
+#, fuzzy
 msgid "Apply location settings:"
-msgstr ""
+msgstr "Defnyddio'r gosodiadau lleoliad:"
 
 #: deluge/plugins/label/label/data/label_options.glade:520
+#, fuzzy
 msgid "Location"
-msgstr ""
+msgstr "Lleoliad"
 
 #: deluge/plugins/label/label/data/label_options.glade:560
+#, fuzzy
 msgid "<i>(1 line per tracker)</i>"
-msgstr ""
+msgstr "<i>(llinell 1 fesul olrhain)</i>"
 
 #: deluge/plugins/label/label/data/label_options.glade:576
+#, fuzzy
 msgid "Automatically apply label:"
-msgstr ""
+msgstr "Yn defnyddio'r label yn awtomatig:"
 
 #: deluge/plugins/label/label/data/label_options.glade:593
 #: deluge/ui/gtkui/filtertreeview.py:70
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
+#, fuzzy
 msgid "Trackers"
-msgstr ""
+msgstr "Gall dyfais dracio"
 
 #: deluge/plugins/label/label/data/label_options.glade:646
+#, fuzzy
 msgid "Add Label"
-msgstr ""
+msgstr "Ychwanegu Label"
 
 #: deluge/plugins/label/label/data/label_options.glade:680
+#, fuzzy
 msgid "<b>Add Label</b>"
-msgstr ""
+msgstr "<b>Ychwanegu Label</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:711
 msgid "Name:"
-msgstr "Enw:"
+msgstr ""
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
+#, fuzzy
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
-msgstr ""
+msgstr "<i>Defnyddiwch y bar ochr i ychwanegu, golygu a thynnu labeli.</i>"
 
 #: deluge/plugins/label/label/data/label_pref.glade:32
+#, fuzzy
 msgid "<b>Labels</b>"
-msgstr ""
+msgstr "<b>Labeli</b>"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:27
+#, fuzzy
 msgid "Extract to:"
-msgstr ""
+msgstr "Dyfyniad:"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:69
+#, fuzzy
 msgid "Create torrent name sub-folder"
-msgstr ""
+msgstr "Creu torrent is-enw ffolder"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:73
+#, fuzzy
 msgid ""
 "This option will create a sub-folder using the torrent's name within the "
 "selected extract folder and put the extracted files there."
 msgstr ""
+"Bydd opsiwn hwn greu is-ffolder gan ddefnyddio enw y torrent yn y ffolder "
+"dyfyniad dethol a rhoi y ffeiliau sydd wedi'u hechdynnu yno."
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:53
 #: deluge/ui/gtkui/glade/main_window.glade:2183
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:705
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2847
+#, fuzzy
 msgid "<b>General</b>"
-msgstr ""
+msgstr "<b>Cyffredinol</b>"
 
 #: deluge/plugins/webui/webui/gtkui.py:97
+#, fuzzy
 msgid ""
 "The Deluge web interface is not installed, please install the\n"
 "interface and try again"
 msgstr ""
+"Mae rhyngwyneb y we dilyw ddim wedi'i osod, gosodwch y rhyngwyneb a rhowch "
+"gynnig arall arni"
 
 #: deluge/plugins/webui/webui/data/config.glade:27
+#, fuzzy
 msgid "Enable web interface"
-msgstr ""
+msgstr "Galluogi rhyngwyneb gwe"
 
 #: deluge/plugins/webui/webui/data/config.glade:41
+#, fuzzy
 msgid "Enable SSL"
-msgstr ""
+msgstr "Galluogi SSL"
 
 #: deluge/plugins/webui/webui/data/config.glade:60
+#, fuzzy
 msgid "Listening port:"
-msgstr ""
+msgstr "Gwrando Porth:"
 
 #: deluge/plugins/webui/webui/data/config.glade:94
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:153
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4173
+#, fuzzy
 msgid "<b>Settings</b>"
-msgstr ""
+msgstr "<b>Gosodiadau</b>"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:49
+#, fuzzy
 msgid "Emule IP list (GZip)"
-msgstr ""
+msgstr "Rhestr eiddo deallusol Emule (GZip)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:50
+#, fuzzy
 msgid "SafePeer Text (Zipped)"
-msgstr ""
+msgstr "Testun SafePeer (wedi'i zipio)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:51
+#, fuzzy
 msgid "PeerGuardian Text (Uncompressed)"
-msgstr ""
+msgstr "PeerGuardian testun (heb ei chywasgu)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:52
 msgid "PeerGuardian P2B (GZip)"
-msgstr "PeerGuardian P2B (GZip)"
+msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:31
+#, fuzzy
 msgid "Invalid leader"
-msgstr ""
+msgstr "Arweinydd annilys"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:35
+#, fuzzy
 msgid "Invalid magic code"
-msgstr ""
+msgstr "Cod hud annilys"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:40
+#, fuzzy
 msgid "Invalid version"
-msgstr ""
+msgstr "Fersiwn annilys"
 
 #: deluge/plugins/blocklist/blocklist/gtkui.py:67
 #: deluge/plugins/blocklist/blocklist/gtkui.py:155
@@ -638,44 +749,53 @@ msgstr ""
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:385
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1018
 msgid "URL:"
-msgstr "URL:"
+msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:91
+#, fuzzy
 msgid "Days"
-msgstr ""
+msgstr "Diwrnodau"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:117
+#, fuzzy
 msgid "Check for new list every:"
-msgstr ""
+msgstr "Chwilio am restr newydd bob:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:133
+#, fuzzy
 msgid "Import blocklist on startup"
-msgstr ""
+msgstr "Blocklist mewnforio wrth gychwyn"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:190
+#, fuzzy
 msgid "Download the blocklist file if necessary and import the file."
-msgstr ""
+msgstr "Lawrlwytho'r ffeil blocklist os oes angen a fewngludo'r ffeil."
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:210
+#, fuzzy
 msgid "Check Download and Import"
-msgstr ""
+msgstr "Gwirio llwytho i lawr a mewnforio"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:232
+#, fuzzy
 msgid "Download a new blocklist file and import it."
-msgstr ""
+msgstr "Lawrlwytho ffeil blocklist newydd a mewnforio iddo."
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:252
+#, fuzzy
 msgid "Force Download and Import"
-msgstr ""
+msgstr "Lawrlwytho rym a mewnforio"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:276
+#, fuzzy
 msgid "Blocklist is up to date"
-msgstr ""
+msgstr "Blocklist yn gyfredol"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:293
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:472
+#, fuzzy
 msgid "<b>Options</b>"
-msgstr ""
+msgstr "Dewisiadau"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:397
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3427
@@ -686,54 +806,66 @@ msgid "Type:"
 msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:409
+#, fuzzy
 msgid "Date:"
-msgstr ""
+msgstr "Dyddiad:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:421
+#, fuzzy
 msgid "File Size:"
-msgstr ""
+msgstr "Maint y ffeil:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:441
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4822
+#, fuzzy
 msgid "<b>Info</b>"
-msgstr ""
+msgstr "<b>Gwybodaeth am</b>"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
+#, fuzzy
 msgid "Torrent Complete"
-msgstr ""
+msgstr "Torrent cyflawn"
 
 #: deluge/plugins/execute/execute/gtkui.py:52
+#, fuzzy
 msgid "Torrent Added"
-msgstr ""
+msgstr "Torrent ychwanegu"
 
 #: deluge/plugins/execute/execute/gtkui.py:77
 #: deluge/plugins/execute/execute/gtkui.py:88
+#, fuzzy
 msgid "Execute"
-msgstr ""
+msgstr "Y gosb eithaf"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:29
+#, fuzzy
 msgid "Event"
-msgstr ""
+msgstr "Digwyddiad"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:41
+#, fuzzy
 msgid "Command"
-msgstr ""
+msgstr "Gorchymyn"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:112
+#, fuzzy
 msgid "<b>Add Command</b>"
-msgstr ""
+msgstr "<b>Ychwanegu Gorchymyn</b>"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:151
+#, fuzzy
 msgid "<b>Commands</b>"
-msgstr ""
+msgstr "<b>Gorchmynion</b>"
 
 #: deluge/core/torrentmanager.py:937
+#, fuzzy
 msgid "Announce OK"
-msgstr ""
+msgstr "Gyhoeddi OK"
 
 #: deluge/core/torrentmanager.py:953
+#, fuzzy
 msgid "Announce Sent"
-msgstr ""
+msgstr "Gyhoeddi anfon"
 
 #: deluge/core/torrentmanager.py:961
 msgid "Warning"
@@ -745,988 +877,1233 @@ msgid "Error"
 msgstr "Gwall"
 
 #: deluge/ui/countries.py:9
+#, fuzzy
 msgid "Afghanistan"
-msgstr ""
+msgstr "Afghanistan"
 
 #: deluge/ui/countries.py:10
+#, fuzzy
 msgid "Aland Islands"
-msgstr ""
+msgstr "Ynysoedd Aland"
 
 #: deluge/ui/countries.py:11
+#, fuzzy
 msgid "Albania"
-msgstr ""
+msgstr "Albania"
 
 #: deluge/ui/countries.py:12
+#, fuzzy
 msgid "Algeria"
-msgstr ""
+msgstr "Algeria"
 
 #: deluge/ui/countries.py:13
+#, fuzzy
 msgid "American Samoa"
-msgstr ""
+msgstr "Samoa America"
 
 #: deluge/ui/countries.py:14
+#, fuzzy
 msgid "Andorra"
-msgstr ""
+msgstr "Andorra"
 
 #: deluge/ui/countries.py:15
+#, fuzzy
 msgid "Angola"
-msgstr ""
+msgstr "Angola"
 
 #: deluge/ui/countries.py:16
+#, fuzzy
 msgid "Anguilla"
-msgstr ""
+msgstr "Anguilla"
 
 #: deluge/ui/countries.py:17
+#, fuzzy
 msgid "Antarctica"
-msgstr ""
+msgstr "Yr Antarctig"
 
 #: deluge/ui/countries.py:18
+#, fuzzy
 msgid "Antigua and Barbuda"
-msgstr ""
+msgstr "Antigua a Barbuda"
 
 #: deluge/ui/countries.py:19
+#, fuzzy
 msgid "Argentina"
-msgstr ""
+msgstr "Yr Ariannin"
 
 #: deluge/ui/countries.py:20
+#, fuzzy
 msgid "Armenia"
-msgstr ""
+msgstr "Armenia"
 
 #: deluge/ui/countries.py:21
+#, fuzzy
 msgid "Aruba"
-msgstr ""
+msgstr "Arwba"
 
 #: deluge/ui/countries.py:22
+#, fuzzy
 msgid "Australia"
-msgstr ""
+msgstr "Awstralia"
 
 #: deluge/ui/countries.py:23
+#, fuzzy
 msgid "Austria"
-msgstr ""
+msgstr "Awstria"
 
 #: deluge/ui/countries.py:24
+#, fuzzy
 msgid "Azerbaijan"
-msgstr ""
+msgstr "Azerbaijan"
 
 #: deluge/ui/countries.py:25
+#, fuzzy
 msgid "Bahamas"
-msgstr ""
+msgstr "Y Bahamas"
 
 #: deluge/ui/countries.py:26
+#, fuzzy
 msgid "Bahrain"
-msgstr ""
+msgstr "Bahrain"
 
 #: deluge/ui/countries.py:27
+#, fuzzy
 msgid "Bangladesh"
-msgstr ""
+msgstr "Bangladesh"
 
 #: deluge/ui/countries.py:28
+#, fuzzy
 msgid "Barbados"
-msgstr ""
+msgstr "Barbados"
 
 #: deluge/ui/countries.py:29
+#, fuzzy
 msgid "Belarus"
-msgstr ""
+msgstr "Belarws"
 
 #: deluge/ui/countries.py:30
+#, fuzzy
 msgid "Belgium"
-msgstr ""
+msgstr "Gwlad Belg"
 
 #: deluge/ui/countries.py:31
+#, fuzzy
 msgid "Belize"
-msgstr ""
+msgstr "Belize"
 
 #: deluge/ui/countries.py:32
+#, fuzzy
 msgid "Benin"
-msgstr ""
+msgstr "Benin"
 
 #: deluge/ui/countries.py:33
+#, fuzzy
 msgid "Bermuda"
-msgstr ""
+msgstr "Bermuda"
 
 #: deluge/ui/countries.py:34
+#, fuzzy
 msgid "Bhutan"
-msgstr ""
+msgstr "Bhwtan"
 
 #: deluge/ui/countries.py:35
+#, fuzzy
 msgid "Bolivia"
-msgstr ""
+msgstr "Bolifia"
 
 #: deluge/ui/countries.py:36
+#, fuzzy
 msgid "Bosnia and Herzegovina"
-msgstr ""
+msgstr "Bosnia a Herzegovina"
 
 #: deluge/ui/countries.py:37
+#, fuzzy
 msgid "Botswana"
-msgstr ""
+msgstr "Botswana"
 
 #: deluge/ui/countries.py:38
+#, fuzzy
 msgid "Bouvet Island"
-msgstr ""
+msgstr "Ynys Bouvet"
 
 #: deluge/ui/countries.py:39
+#, fuzzy
 msgid "Brazil"
-msgstr ""
+msgstr "Brasil"
 
 #: deluge/ui/countries.py:40
+#, fuzzy
 msgid "British Indian Ocean Territory"
-msgstr ""
+msgstr "Tiriogaeth Brydeinig Cefnfor India"
 
 #: deluge/ui/countries.py:41
+#, fuzzy
 msgid "Brunei Darussalam"
-msgstr ""
+msgstr "Brunei Darussalam"
 
 #: deluge/ui/countries.py:42
+#, fuzzy
 msgid "Bulgaria"
-msgstr ""
+msgstr "Bwlgaria"
 
 #: deluge/ui/countries.py:43
+#, fuzzy
 msgid "Burkina Faso"
-msgstr ""
+msgstr "Bwrcina Ffaso"
 
 #: deluge/ui/countries.py:44
+#, fuzzy
 msgid "Burundi"
-msgstr ""
+msgstr "Bwrwndi"
 
 #: deluge/ui/countries.py:45
+#, fuzzy
 msgid "Cambodia"
-msgstr ""
+msgstr "Cambodia"
 
 #: deluge/ui/countries.py:46
 msgid "Cameroon"
 msgstr ""
 
 #: deluge/ui/countries.py:47
+#, fuzzy
 msgid "Canada"
-msgstr ""
+msgstr "Canada"
 
 #: deluge/ui/countries.py:48
+#, fuzzy
 msgid "Cape Verde"
-msgstr ""
+msgstr "Penrhyn Verde"
 
 #: deluge/ui/countries.py:49
+#, fuzzy
 msgid "Cayman Islands"
-msgstr ""
+msgstr "Ynysoedd Caiman"
 
 #: deluge/ui/countries.py:50
+#, fuzzy
 msgid "Central African Republic"
-msgstr ""
+msgstr "Gweriniaeth Canolbarth Affrica"
 
 #: deluge/ui/countries.py:51
+#, fuzzy
 msgid "Chad"
-msgstr ""
+msgstr "Tchad"
 
 #: deluge/ui/countries.py:52
+#, fuzzy
 msgid "Chile"
-msgstr ""
+msgstr "Chile"
 
 #: deluge/ui/countries.py:53
+#, fuzzy
 msgid "China"
-msgstr ""
+msgstr "Tsieina"
 
 #: deluge/ui/countries.py:54
+#, fuzzy
 msgid "Christmas Island"
-msgstr ""
+msgstr "Ynys y Nadolig"
 
 #: deluge/ui/countries.py:55
+#, fuzzy
 msgid "Cocos (Keeling) Islands"
-msgstr ""
+msgstr "Ynysoedd Cocos (Keeling)"
 
 #: deluge/ui/countries.py:56
+#, fuzzy
 msgid "Colombia"
-msgstr ""
+msgstr "Colombia"
 
 #: deluge/ui/countries.py:57
+#, fuzzy
 msgid "Comoros"
-msgstr ""
+msgstr "Y Comoros"
 
 #: deluge/ui/countries.py:58
+#, fuzzy
 msgid "Congo"
-msgstr ""
+msgstr "Congo"
 
 #: deluge/ui/countries.py:59
+#, fuzzy
 msgid "Congo, The Democratic Republic of the"
-msgstr ""
+msgstr "Congo, Gweriniaeth Ddemocrataidd y"
 
 #: deluge/ui/countries.py:60
+#, fuzzy
 msgid "Cook Islands"
-msgstr ""
+msgstr "Ynysoedd Cook"
 
 #: deluge/ui/countries.py:61
+#, fuzzy
 msgid "Costa Rica"
-msgstr ""
+msgstr "Costa Rica"
 
 #: deluge/ui/countries.py:62
+#, fuzzy
 msgid "Cote d'Ivoire"
-msgstr ""
+msgstr "Cote d'Ivoire"
 
 #: deluge/ui/countries.py:63
+#, fuzzy
 msgid "Croatia"
-msgstr ""
+msgstr "Croatia"
 
 #: deluge/ui/countries.py:64
+#, fuzzy
 msgid "Cuba"
-msgstr ""
+msgstr "Cuba"
 
 #: deluge/ui/countries.py:65
+#, fuzzy
 msgid "Cyprus"
-msgstr ""
+msgstr "Cyprus"
 
 #: deluge/ui/countries.py:66
+#, fuzzy
 msgid "Czech Republic"
-msgstr ""
+msgstr "Gweriniaeth Tsiec"
 
 #: deluge/ui/countries.py:67
+#, fuzzy
 msgid "Denmark"
-msgstr ""
+msgstr "Denmarc"
 
 #: deluge/ui/countries.py:68
+#, fuzzy
 msgid "Djibouti"
-msgstr ""
+msgstr "Jibwti"
 
 #: deluge/ui/countries.py:69
+#, fuzzy
 msgid "Dominica"
-msgstr ""
+msgstr "Dominica"
 
 #: deluge/ui/countries.py:70
+#, fuzzy
 msgid "Dominican Republic"
-msgstr ""
+msgstr "Gweriniaeth Dominica"
 
 #: deluge/ui/countries.py:71
+#, fuzzy
 msgid "Ecuador"
-msgstr ""
+msgstr "Ecwador"
 
 #: deluge/ui/countries.py:72
+#, fuzzy
 msgid "Egypt"
-msgstr ""
+msgstr "Yr Aifft"
 
 #: deluge/ui/countries.py:73
+#, fuzzy
 msgid "El Salvador"
-msgstr ""
+msgstr "El Salvador"
 
 #: deluge/ui/countries.py:74
+#, fuzzy
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "Gini Gyhydeddol"
 
 #: deluge/ui/countries.py:75
+#, fuzzy
 msgid "Eritrea"
-msgstr ""
+msgstr "Eritrea"
 
 #: deluge/ui/countries.py:76
+#, fuzzy
 msgid "Estonia"
-msgstr ""
+msgstr "Estonia"
 
 #: deluge/ui/countries.py:77
+#, fuzzy
 msgid "Ethiopia"
-msgstr ""
+msgstr "Ethiopia"
 
 #: deluge/ui/countries.py:78
+#, fuzzy
 msgid "Falkland Islands (Malvinas)"
-msgstr ""
+msgstr "Ynysoedd Falkland (Malvinas)"
 
 #: deluge/ui/countries.py:79
+#, fuzzy
 msgid "Faroe Islands"
-msgstr ""
+msgstr "Ynysoedd Ffaro"
 
 #: deluge/ui/countries.py:80
+#, fuzzy
 msgid "Fiji"
-msgstr ""
+msgstr "Fiji"
 
 #: deluge/ui/countries.py:81
+#, fuzzy
 msgid "Finland"
-msgstr ""
+msgstr "Y Ffindir"
 
 #: deluge/ui/countries.py:82
+#, fuzzy
 msgid "France"
-msgstr ""
+msgstr "Ffrainc"
 
 #: deluge/ui/countries.py:83
+#, fuzzy
 msgid "French Guiana"
-msgstr ""
+msgstr "Guyane"
 
 #: deluge/ui/countries.py:84
+#, fuzzy
 msgid "French Polynesia"
-msgstr ""
+msgstr "Polynesia Ffrengig"
 
 #: deluge/ui/countries.py:85
+#, fuzzy
 msgid "French Southern Territories"
-msgstr ""
+msgstr "Tiriogaethau Deheuol Ffrengig"
 
 #: deluge/ui/countries.py:86
+#, fuzzy
 msgid "Gabon"
-msgstr ""
+msgstr "Gabon"
 
 #: deluge/ui/countries.py:87
+#, fuzzy
 msgid "Gambia"
-msgstr ""
+msgstr "Y Gambia"
 
 #: deluge/ui/countries.py:88
+#, fuzzy
 msgid "Georgia"
-msgstr ""
+msgstr "Georgia"
 
 #: deluge/ui/countries.py:89
+#, fuzzy
 msgid "Germany"
-msgstr ""
+msgstr "Yr Almaen"
 
 #: deluge/ui/countries.py:90 deluge/ui/countries.py:241
+#, fuzzy
 msgid "United Kingdom"
-msgstr ""
+msgstr "Y Deyrnas Unedig"
 
 #: deluge/ui/countries.py:91
+#, fuzzy
 msgid "Ghana"
-msgstr ""
+msgstr "Ghana"
 
 #: deluge/ui/countries.py:92
+#, fuzzy
 msgid "Gibraltar"
-msgstr ""
+msgstr "Gibraltar"
 
 #: deluge/ui/countries.py:93
+#, fuzzy
 msgid "Greece"
-msgstr ""
+msgstr "Gwlad Groeg"
 
 #: deluge/ui/countries.py:94
+#, fuzzy
 msgid "Greenland"
-msgstr ""
+msgstr "Yr Ynys Las"
 
 #: deluge/ui/countries.py:95
+#, fuzzy
 msgid "Grenada"
-msgstr ""
+msgstr "Grenada"
 
 #: deluge/ui/countries.py:96
+#, fuzzy
 msgid "Guadeloupe"
-msgstr ""
+msgstr "Gwadelwp"
 
 #: deluge/ui/countries.py:97
+#, fuzzy
 msgid "Guam"
-msgstr ""
+msgstr "Gwam"
 
 #: deluge/ui/countries.py:98
+#, fuzzy
 msgid "Guatemala"
-msgstr ""
+msgstr "Guatemala"
 
 #: deluge/ui/countries.py:99
+#, fuzzy
 msgid "Guernsey"
-msgstr ""
+msgstr "Ynys y Garn"
 
 #: deluge/ui/countries.py:100
+#, fuzzy
 msgid "Guinea"
-msgstr ""
+msgstr "Guinée"
 
 #: deluge/ui/countries.py:101
+#, fuzzy
 msgid "Guinea-Bissau"
-msgstr ""
+msgstr "Gini Bisaw"
 
 #: deluge/ui/countries.py:102
+#, fuzzy
 msgid "Guyana"
-msgstr ""
+msgstr "Gaiana"
 
 #: deluge/ui/countries.py:103
+#, fuzzy
 msgid "Haiti"
-msgstr ""
+msgstr "Haiti"
 
 #: deluge/ui/countries.py:104
+#, fuzzy
 msgid "Heard Island and McDonald Islands"
-msgstr ""
+msgstr "Ynys Heard ac Ynysoedd McDonald"
 
 #: deluge/ui/countries.py:105
+#, fuzzy
 msgid "Holy See (Vatican City State)"
-msgstr ""
+msgstr "Sanctaidd Gweler (Dinas y Fatican Wladwriaeth)"
 
 #: deluge/ui/countries.py:106
+#, fuzzy
 msgid "Honduras"
-msgstr ""
+msgstr "Honduras"
 
 #: deluge/ui/countries.py:107
+#, fuzzy
 msgid "Hong Kong"
-msgstr ""
+msgstr "Hong Kong"
 
 #: deluge/ui/countries.py:108
+#, fuzzy
 msgid "Hungary"
-msgstr ""
+msgstr "Hwngari"
 
 #: deluge/ui/countries.py:109
+#, fuzzy
 msgid "Iceland"
-msgstr ""
+msgstr "Gwlad yr Iâ"
 
 #: deluge/ui/countries.py:110
+#, fuzzy
 msgid "India"
-msgstr ""
+msgstr "India"
 
 #: deluge/ui/countries.py:111
+#, fuzzy
 msgid "Indonesia"
-msgstr ""
+msgstr "Indonesia"
 
 #: deluge/ui/countries.py:112
+#, fuzzy
 msgid "Iran, Islamic Republic of"
-msgstr ""
+msgstr "Iran, Gweriniaeth Islamaidd o"
 
 #: deluge/ui/countries.py:113
+#, fuzzy
 msgid "Iraq"
-msgstr ""
+msgstr "Irac"
 
 #: deluge/ui/countries.py:114
+#, fuzzy
 msgid "Ireland"
-msgstr ""
+msgstr "Iwerddon"
 
 #: deluge/ui/countries.py:115
+#, fuzzy
 msgid "Isle of Man"
-msgstr ""
+msgstr "Manaw"
 
 #: deluge/ui/countries.py:116
+#, fuzzy
 msgid "Israel"
-msgstr ""
+msgstr "Israel"
 
 #: deluge/ui/countries.py:117
+#, fuzzy
 msgid "Italy"
-msgstr ""
+msgstr "Yr Eidal"
 
 #: deluge/ui/countries.py:118
+#, fuzzy
 msgid "Jamaica"
-msgstr ""
+msgstr "Jamaica"
 
 #: deluge/ui/countries.py:119
+#, fuzzy
 msgid "Japan"
-msgstr ""
+msgstr "Japan"
 
 #: deluge/ui/countries.py:120
+#, fuzzy
 msgid "Jersey"
-msgstr ""
+msgstr "Jersey"
 
 #: deluge/ui/countries.py:121
+#, fuzzy
 msgid "Jordan"
-msgstr ""
+msgstr "Gwlad Iorddonen"
 
 #: deluge/ui/countries.py:122
+#, fuzzy
 msgid "Kazakhstan"
-msgstr ""
+msgstr "Kazakstan"
 
 #: deluge/ui/countries.py:123
+#, fuzzy
 msgid "Kenya"
-msgstr ""
+msgstr "Kenya"
 
 #: deluge/ui/countries.py:124
+#, fuzzy
 msgid "Kiribati"
-msgstr ""
+msgstr "Kiribati"
 
 #: deluge/ui/countries.py:125
+#, fuzzy
 msgid "Korea, Democratic People's Republic of"
-msgstr ""
+msgstr "Gweriniaeth Korea, Democrataidd Pobl"
 
 #: deluge/ui/countries.py:126
+#, fuzzy
 msgid "Korea, Republic of"
-msgstr ""
+msgstr "Korea, Gweriniaeth"
 
 #: deluge/ui/countries.py:127
+#, fuzzy
 msgid "Kuwait"
-msgstr ""
+msgstr "Kuwait"
 
 #: deluge/ui/countries.py:128
+#, fuzzy
 msgid "Kyrgyzstan"
-msgstr ""
+msgstr "Cirgistan"
 
 #: deluge/ui/countries.py:129
+#, fuzzy
 msgid "Lao People's Democratic Republic"
-msgstr ""
+msgstr "Lao Bobl Gweriniaeth Ddemocrataidd"
 
 #: deluge/ui/countries.py:130
+#, fuzzy
 msgid "Latvia"
-msgstr ""
+msgstr "Latfia"
 
 #: deluge/ui/countries.py:131
+#, fuzzy
 msgid "Lebanon"
-msgstr ""
+msgstr "Libanus"
 
 #: deluge/ui/countries.py:132
+#, fuzzy
 msgid "Lesotho"
-msgstr ""
+msgstr "Lesotho"
 
 #: deluge/ui/countries.py:133
+#, fuzzy
 msgid "Liberia"
-msgstr ""
+msgstr "Liberia"
 
 #: deluge/ui/countries.py:134
+#, fuzzy
 msgid "Libyan Arab Jamahiriya"
-msgstr ""
+msgstr "Libya Arabaidd Jamahiriya"
 
 #: deluge/ui/countries.py:135
+#, fuzzy
 msgid "Liechtenstein"
-msgstr ""
+msgstr "Liechtenstein"
 
 #: deluge/ui/countries.py:136
+#, fuzzy
 msgid "Lithuania"
-msgstr ""
+msgstr "Lithwania"
 
 #: deluge/ui/countries.py:137
+#, fuzzy
 msgid "Luxembourg"
-msgstr ""
+msgstr "Luxembourg"
 
 #: deluge/ui/countries.py:138
+#, fuzzy
 msgid "Macao"
-msgstr ""
+msgstr "Macau"
 
 #: deluge/ui/countries.py:139
+#, fuzzy
 msgid "Macedonia, The Former Yugoslav Republic of"
-msgstr ""
+msgstr "Macedonia; Cyn Weriniaeth Iwgoslafaidd"
 
 #: deluge/ui/countries.py:140
+#, fuzzy
 msgid "Madagascar"
-msgstr ""
+msgstr "Madagasgar"
 
 #: deluge/ui/countries.py:141
+#, fuzzy
 msgid "Malawi"
-msgstr ""
+msgstr "Malawi"
 
 #: deluge/ui/countries.py:142
+#, fuzzy
 msgid "Malaysia"
-msgstr ""
+msgstr "Malaysia"
 
 #: deluge/ui/countries.py:143
+#, fuzzy
 msgid "Maldives"
-msgstr ""
+msgstr "Maldives"
 
 #: deluge/ui/countries.py:144
+#, fuzzy
 msgid "Mali"
-msgstr ""
+msgstr "Mali"
 
 #: deluge/ui/countries.py:145
+#, fuzzy
 msgid "Malta"
-msgstr ""
+msgstr "Malta"
 
 #: deluge/ui/countries.py:146
+#, fuzzy
 msgid "Marshall Islands"
-msgstr ""
+msgstr "Ynysoedd Marshall"
 
 #: deluge/ui/countries.py:147
+#, fuzzy
 msgid "Martinique"
-msgstr ""
+msgstr "Martinique"
 
 #: deluge/ui/countries.py:148
+#, fuzzy
 msgid "Mauritania"
-msgstr ""
+msgstr "Mawritania"
 
 #: deluge/ui/countries.py:149
+#, fuzzy
 msgid "Mauritius"
-msgstr ""
+msgstr "Mawrisiws"
 
 #: deluge/ui/countries.py:150
+#, fuzzy
 msgid "Mayotte"
-msgstr ""
+msgstr "Mayotte"
 
 #: deluge/ui/countries.py:151
+#, fuzzy
 msgid "Mexico"
-msgstr ""
+msgstr "Mecsico"
 
 #: deluge/ui/countries.py:152
+#, fuzzy
 msgid "Micronesia, Federated States of"
-msgstr ""
+msgstr "Micronesia, Taleithiau Ffederal"
 
 #: deluge/ui/countries.py:153
+#, fuzzy
 msgid "Moldova"
-msgstr ""
+msgstr "Moldofa"
 
 #: deluge/ui/countries.py:154
+#, fuzzy
 msgid "Monaco"
-msgstr ""
+msgstr "Monaco"
 
 #: deluge/ui/countries.py:155
+#, fuzzy
 msgid "Mongolia"
-msgstr ""
+msgstr "Mongolia"
 
 #: deluge/ui/countries.py:156
+#, fuzzy
 msgid "Montenegro"
-msgstr ""
+msgstr "Montenegro"
 
 #: deluge/ui/countries.py:157
+#, fuzzy
 msgid "Montserrat"
-msgstr ""
+msgstr "Montserrat"
 
 #: deluge/ui/countries.py:158
+#, fuzzy
 msgid "Morocco"
-msgstr ""
+msgstr "Moroco"
 
 #: deluge/ui/countries.py:159
+#, fuzzy
 msgid "Mozambique"
-msgstr ""
+msgstr "Mosambic"
 
 #: deluge/ui/countries.py:160
+#, fuzzy
 msgid "Myanmar"
-msgstr ""
+msgstr "Byrmaneg"
 
 #: deluge/ui/countries.py:161
+#, fuzzy
 msgid "Namibia"
-msgstr ""
+msgstr "Namibia"
 
 #: deluge/ui/countries.py:162
+#, fuzzy
 msgid "Nauru"
-msgstr ""
+msgstr "Nawrw"
 
 #: deluge/ui/countries.py:163
+#, fuzzy
 msgid "Nepal"
-msgstr ""
+msgstr "Nepal"
 
 #: deluge/ui/countries.py:164
+#, fuzzy
 msgid "Netherlands"
-msgstr ""
+msgstr "Yr Iseldiroedd"
 
 #: deluge/ui/countries.py:165
+#, fuzzy
 msgid "Netherlands Antilles"
-msgstr ""
+msgstr "Antilles yr Iseldiroedd"
 
 #: deluge/ui/countries.py:166
+#, fuzzy
 msgid "New Caledonia"
-msgstr ""
+msgstr "Caledonia Newydd"
 
 #: deluge/ui/countries.py:167
+#, fuzzy
 msgid "New Zealand"
-msgstr ""
+msgstr "Seland Newydd"
 
 #: deluge/ui/countries.py:168
+#, fuzzy
 msgid "Nicaragua"
-msgstr ""
+msgstr "Nicaragwa"
 
 #: deluge/ui/countries.py:169
+#, fuzzy
 msgid "Niger"
-msgstr ""
+msgstr "Niger"
 
 #: deluge/ui/countries.py:170
+#, fuzzy
 msgid "Nigeria"
-msgstr ""
+msgstr "Nigeria"
 
 #: deluge/ui/countries.py:171
+#, fuzzy
 msgid "Niue"
-msgstr ""
+msgstr "Niue"
 
 #: deluge/ui/countries.py:172
+#, fuzzy
 msgid "Norfolk Island"
-msgstr ""
+msgstr "Ynys Norfolk"
 
 #: deluge/ui/countries.py:173
+#, fuzzy
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "Ynysoedd Gogledd Mariana"
 
 #: deluge/ui/countries.py:174
+#, fuzzy
 msgid "Norway"
-msgstr ""
+msgstr "Norwy"
 
 #: deluge/ui/countries.py:175
+#, fuzzy
 msgid "Oman"
-msgstr ""
+msgstr "Oman"
 
 #: deluge/ui/countries.py:176
+#, fuzzy
 msgid "Pakistan"
-msgstr ""
+msgstr "Pakistan"
 
 #: deluge/ui/countries.py:177
+#, fuzzy
 msgid "Palau"
-msgstr ""
+msgstr "Palau"
 
 #: deluge/ui/countries.py:178
+#, fuzzy
 msgid "Palestinian Territory, Occupied"
-msgstr ""
+msgstr "Tiriogaeth Palesteina, Occupied"
 
 #: deluge/ui/countries.py:179
+#, fuzzy
 msgid "Panama"
-msgstr ""
+msgstr "Panama"
 
 #: deluge/ui/countries.py:180
+#, fuzzy
 msgid "Papua New Guinea"
-msgstr ""
+msgstr "Papwa Gini Newydd"
 
 #: deluge/ui/countries.py:181
+#, fuzzy
 msgid "Paraguay"
-msgstr ""
+msgstr "Paragwâi"
 
 #: deluge/ui/countries.py:182
+#, fuzzy
 msgid "Peru"
-msgstr ""
+msgstr "Periw"
 
 #: deluge/ui/countries.py:183
+#, fuzzy
 msgid "Philippines"
-msgstr ""
+msgstr "Y Philipinau"
 
 #: deluge/ui/countries.py:184
+#, fuzzy
 msgid "Pitcairn"
-msgstr ""
+msgstr "Pitcairn"
 
 #: deluge/ui/countries.py:185
+#, fuzzy
 msgid "Poland"
-msgstr ""
+msgstr "Gwlad Pwyl"
 
 #: deluge/ui/countries.py:186
+#, fuzzy
 msgid "Portugal"
-msgstr ""
+msgstr "Portiwgal"
 
 #: deluge/ui/countries.py:187
+#, fuzzy
 msgid "Puerto Rico"
-msgstr ""
+msgstr "Puerto Rico"
 
 #: deluge/ui/countries.py:188
+#, fuzzy
 msgid "Qatar"
-msgstr ""
+msgstr "Catar"
 
 #: deluge/ui/countries.py:189
+#, fuzzy
 msgid "Reunion"
-msgstr ""
+msgstr "Aduniad"
 
 #: deluge/ui/countries.py:190
+#, fuzzy
 msgid "Romania"
-msgstr ""
+msgstr "Rwmania"
 
 #: deluge/ui/countries.py:191
+#, fuzzy
 msgid "Russian Federation"
-msgstr ""
+msgstr "Ffederasiwn Rwsia"
 
 #: deluge/ui/countries.py:192
+#, fuzzy
 msgid "Rwanda"
-msgstr ""
+msgstr "Rwanda"
 
 #: deluge/ui/countries.py:193
+#, fuzzy
 msgid "Saint Barthelemy"
-msgstr ""
+msgstr "Barthelemy Sant"
 
 #: deluge/ui/countries.py:194
+#, fuzzy
 msgid "Saint Helena"
-msgstr ""
+msgstr "Saint Helena"
 
 #: deluge/ui/countries.py:195
+#, fuzzy
 msgid "Saint Kitts and Nevis"
-msgstr ""
+msgstr "Nevis a Kitts Sant"
 
 #: deluge/ui/countries.py:196
+#, fuzzy
 msgid "Saint Lucia"
-msgstr ""
+msgstr "Saint Lucia"
 
 #: deluge/ui/countries.py:197
+#, fuzzy
 msgid "Saint Martin"
-msgstr ""
+msgstr "Sant Martin"
 
 #: deluge/ui/countries.py:198
+#, fuzzy
 msgid "Saint Pierre and Miquelon"
-msgstr ""
+msgstr "Saint Pierre a Miquelon"
 
 #: deluge/ui/countries.py:199
+#, fuzzy
 msgid "Saint Vincent and the Grenadines"
-msgstr ""
+msgstr "Saint Vincent a'r Grenadines"
 
 #: deluge/ui/countries.py:200
+#, fuzzy
 msgid "Samoa"
-msgstr ""
+msgstr "Samoa"
 
 #: deluge/ui/countries.py:201
+#, fuzzy
 msgid "San Marino"
-msgstr ""
+msgstr "San Marino"
 
 #: deluge/ui/countries.py:202
+#, fuzzy
 msgid "Sao Tome and Principe"
-msgstr ""
+msgstr "Sao Tome a Principe"
 
 #: deluge/ui/countries.py:203
+#, fuzzy
 msgid "Saudi Arabia"
-msgstr ""
+msgstr "Saudi Arabia"
 
 #: deluge/ui/countries.py:204
+#, fuzzy
 msgid "Senegal"
-msgstr ""
+msgstr "Senegal"
 
 #: deluge/ui/countries.py:205
+#, fuzzy
 msgid "Serbia"
-msgstr ""
+msgstr "Serbia"
 
 #: deluge/ui/countries.py:206
+#, fuzzy
 msgid "Seychelles"
-msgstr ""
+msgstr "Seychelles"
 
 #: deluge/ui/countries.py:207
+#, fuzzy
 msgid "Sierra Leone"
-msgstr ""
+msgstr "Sierra Leone"
 
 #: deluge/ui/countries.py:208
+#, fuzzy
 msgid "Singapore"
-msgstr ""
+msgstr "Singapore"
 
 #: deluge/ui/countries.py:209
+#, fuzzy
 msgid "Slovakia"
-msgstr ""
+msgstr "Slofacia"
 
 #: deluge/ui/countries.py:210
+#, fuzzy
 msgid "Slovenia"
-msgstr ""
+msgstr "Slofenia"
 
 #: deluge/ui/countries.py:211
+#, fuzzy
 msgid "Solomon Islands"
-msgstr ""
+msgstr "Ynysoedd Solomon"
 
 #: deluge/ui/countries.py:212
+#, fuzzy
 msgid "Somalia"
-msgstr ""
+msgstr "Somalia"
 
 #: deluge/ui/countries.py:213
+#, fuzzy
 msgid "South Africa"
-msgstr ""
+msgstr "De'r Affrig, De Affrica"
 
 #: deluge/ui/countries.py:214
+#, fuzzy
 msgid "South Georgia and the South Sandwich Islands"
-msgstr ""
+msgstr "De Georgia ac Ynysoedd Sandwich y De"
 
 #: deluge/ui/countries.py:215
+#, fuzzy
 msgid "Spain"
-msgstr ""
+msgstr "Sbaen"
 
 #: deluge/ui/countries.py:216
+#, fuzzy
 msgid "Sri Lanka"
-msgstr ""
+msgstr "Sri Lanca"
 
 #: deluge/ui/countries.py:217
+#, fuzzy
 msgid "Sudan"
-msgstr ""
+msgstr "Sudan"
 
 #: deluge/ui/countries.py:218
+#, fuzzy
 msgid "Suriname"
-msgstr ""
+msgstr "Swrinam"
 
 #: deluge/ui/countries.py:219
+#, fuzzy
 msgid "Svalbard and Jan Mayen"
-msgstr ""
+msgstr "Svalbard a Jan Mayen"
 
 #: deluge/ui/countries.py:220
+#, fuzzy
 msgid "Swaziland"
-msgstr ""
+msgstr "Gwlad Swasi"
 
 #: deluge/ui/countries.py:221
+#, fuzzy
 msgid "Sweden"
-msgstr ""
+msgstr "Sweden"
 
 #: deluge/ui/countries.py:222
+#, fuzzy
 msgid "Switzerland"
-msgstr ""
+msgstr "Y Swistir"
 
 #: deluge/ui/countries.py:223
+#, fuzzy
 msgid "Syrian Arab Republic"
-msgstr ""
+msgstr "Syria Arabaidd Gweriniaeth"
 
 #: deluge/ui/countries.py:224
+#, fuzzy
 msgid "Taiwan, Province of China"
-msgstr ""
+msgstr "Taiwan, Talaith o Tsieina"
 
 #: deluge/ui/countries.py:225
+#, fuzzy
 msgid "Tajikistan"
-msgstr ""
+msgstr "Tajicistan"
 
 #: deluge/ui/countries.py:226
+#, fuzzy
 msgid "Tanzania, United Republic of"
-msgstr ""
+msgstr "Tanzania, United Gweriniaeth"
 
 #: deluge/ui/countries.py:227
+#, fuzzy
 msgid "Thailand"
-msgstr ""
+msgstr "Gwlad Thai"
 
 #: deluge/ui/countries.py:228
+#, fuzzy
 msgid "Timor-Leste"
-msgstr ""
+msgstr "Timor-Leste"
 
 #: deluge/ui/countries.py:229
+#, fuzzy
 msgid "Togo"
-msgstr ""
+msgstr "Togo"
 
 #: deluge/ui/countries.py:230
+#, fuzzy
 msgid "Tokelau"
-msgstr ""
+msgstr "Tocelaw"
 
 #: deluge/ui/countries.py:231
+#, fuzzy
 msgid "Tonga"
-msgstr ""
+msgstr "Tonga"
 
 #: deluge/ui/countries.py:232
+#, fuzzy
 msgid "Trinidad and Tobago"
-msgstr ""
+msgstr "Trinidad a Tobago"
 
 #: deluge/ui/countries.py:233
+#, fuzzy
 msgid "Tunisia"
-msgstr ""
+msgstr "Tunisia"
 
 #: deluge/ui/countries.py:234
+#, fuzzy
 msgid "Turkey"
-msgstr ""
+msgstr "Twrci"
 
 #: deluge/ui/countries.py:235
+#, fuzzy
 msgid "Turkmenistan"
-msgstr ""
+msgstr "Turkmenistan"
 
 #: deluge/ui/countries.py:236
+#, fuzzy
 msgid "Turks and Caicos Islands"
-msgstr ""
+msgstr "Ynysoedd Turks a Caicos"
 
 #: deluge/ui/countries.py:237
+#, fuzzy
 msgid "Tuvalu"
-msgstr ""
+msgstr "Twfalw"
 
 #: deluge/ui/countries.py:238
+#, fuzzy
 msgid "Uganda"
-msgstr ""
+msgstr "Uganda"
 
 #: deluge/ui/countries.py:239
+#, fuzzy
 msgid "Ukraine"
-msgstr ""
+msgstr "Wcráin"
 
 #: deluge/ui/countries.py:240
+#, fuzzy
 msgid "United Arab Emirates"
-msgstr ""
+msgstr "Emiradau Arabaidd Unedig"
 
 #: deluge/ui/countries.py:242
+#, fuzzy
 msgid "United States"
-msgstr ""
+msgstr "Americanaidd"
 
 #: deluge/ui/countries.py:243
+#, fuzzy
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "Ynysoedd yr Unol Daleithiau Mân"
 
 #: deluge/ui/countries.py:244
+#, fuzzy
 msgid "Uruguay"
-msgstr ""
+msgstr "Wrwgwái"
 
 #: deluge/ui/countries.py:245
+#, fuzzy
 msgid "Uzbekistan"
-msgstr ""
+msgstr "Wsbecistan"
 
 #: deluge/ui/countries.py:246
+#, fuzzy
 msgid "Vanuatu"
-msgstr ""
+msgstr "Vanuatu"
 
 #: deluge/ui/countries.py:247
+#, fuzzy
 msgid "Venezuela"
-msgstr ""
+msgstr "Feneswela"
 
 #: deluge/ui/countries.py:248
+#, fuzzy
 msgid "Viet Nam"
-msgstr ""
+msgstr "Viet Nam"
 
 #: deluge/ui/countries.py:249
+#, fuzzy
 msgid "Virgin Islands, British"
-msgstr ""
+msgstr "Ynysoedd Virgin, Prydeinig"
 
 #: deluge/ui/countries.py:250
+#, fuzzy
 msgid "Virgin Islands, U.S."
-msgstr ""
+msgstr "Ynysoedd y Wyryf, Unol Daleithiau"
 
 #: deluge/ui/countries.py:251
+#, fuzzy
 msgid "Wallis and Futuna"
-msgstr ""
+msgstr "Wallis a Futuna"
 
 #: deluge/ui/countries.py:252
+#, fuzzy
 msgid "Western Sahara"
-msgstr ""
+msgstr "Gorllewin Sahara"
 
 #: deluge/ui/countries.py:253
+#, fuzzy
 msgid "Yemen"
-msgstr ""
+msgstr "Yemen"
 
 #: deluge/ui/countries.py:254
+#, fuzzy
 msgid "Zambia"
-msgstr ""
+msgstr "Zambia"
 
 #: deluge/ui/countries.py:255
+#, fuzzy
 msgid "Zimbabwe"
-msgstr ""
+msgstr "Zimbabwe"
 
 #: deluge/ui/web/json_api.py:733 deluge/ui/web/json_api.py:750
 #: deluge/ui/web/json_api.py:759 deluge/ui/web/json_api.py:762
@@ -1739,15 +2116,17 @@ msgstr ""
 #: deluge/ui/gtkui/connectionmanager.py:389
 #: deluge/ui/gtkui/connectionmanager.py:452
 #: deluge/ui/gtkui/connectionmanager.py:569
+#, fuzzy
 msgid "Offline"
-msgstr ""
+msgstr "Heb gysylltu"
 
 #: deluge/ui/web/json_api.py:755 deluge/ui/gtkui/connectionmanager.py:76
 #: deluge/ui/gtkui/connectionmanager.py:274
 #: deluge/ui/gtkui/connectionmanager.py:382
 #: deluge/ui/gtkui/connectionmanager.py:552
+#, fuzzy
 msgid "Online"
-msgstr ""
+msgstr "Ar-lein"
 
 #: deluge/ui/web/json_api.py:775 deluge/ui/gtkui/connectionmanager.py:77
 #: deluge/ui/gtkui/connectionmanager.py:313
@@ -1755,28 +2134,34 @@ msgstr ""
 #: deluge/ui/gtkui/connectionmanager.py:382
 #: deluge/ui/gtkui/connectionmanager.py:440
 #: deluge/ui/gtkui/connectionmanager.py:552
+#, fuzzy
 msgid "Connected"
-msgstr ""
+msgstr "Sy'n gysylltiedig"
 
 #: deluge/ui/web/json_api.py:802
+#, fuzzy
 msgid "Daemon doesn't exist"
-msgstr ""
+msgstr "Dydy'r daemon ddim yn bodoli"
 
 #: deluge/ui/web/json_api.py:808
+#, fuzzy
 msgid "Daemon not running"
-msgstr ""
+msgstr "Daemon ddim yn rhedeg"
 
 #: deluge/ui/web/server.py:661
+#, fuzzy
 msgid "Starting server in PID"
-msgstr ""
+msgstr "Gweinydd cychwyn yn PID"
 
 #: deluge/ui/gtkui/peers_tab.py:100
+#, fuzzy
 msgid "Address"
-msgstr ""
+msgstr "addysgu"
 
 #: deluge/ui/gtkui/peers_tab.py:116
+#, fuzzy
 msgid "Client"
-msgstr ""
+msgstr "Cleient"
 
 #: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/files_tab.py:156
 #: deluge/ui/gtkui/torrentview.py:225 deluge/ui/gtkui/torrentview.py:555
@@ -1784,25 +2169,30 @@ msgid "Progress"
 msgstr "Cynnydd"
 
 #: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:237
+#, fuzzy
 msgid "Down Speed"
-msgstr ""
+msgstr "I lawr cyflymder"
 
 #: deluge/ui/gtkui/peers_tab.py:155 deluge/ui/gtkui/torrentview.py:239
+#, fuzzy
 msgid "Up Speed"
-msgstr ""
+msgstr "Fyny cyflymder"
 
 #: deluge/ui/gtkui/queuedtorrents.py:75
 #: deluge/ui/gtkui/addtorrentdialog.py:103
+#, fuzzy
 msgid "Torrent"
-msgstr ""
+msgstr "Torrent"
 
 #: deluge/ui/gtkui/queuedtorrents.py:135
+#, fuzzy
 msgid " Torrents Queued"
-msgstr ""
+msgstr "Roedd mawr mewn ciw"
 
 #: deluge/ui/gtkui/queuedtorrents.py:137
+#, fuzzy
 msgid " Torrent Queued"
-msgstr ""
+msgstr "Roedd torrent mewn ciw"
 
 #: deluge/ui/gtkui/common.py:67 deluge/ui/gtkui/systemtray.py:249
 #: deluge/ui/gtkui/systemtray.py:253 deluge/ui/gtkui/systemtray.py:423
@@ -1812,8 +2202,9 @@ msgid "Unlimited"
 msgstr "Digyfwng"
 
 #: deluge/ui/gtkui/common.py:70
+#, fuzzy
 msgid "Activated"
-msgstr ""
+msgstr "Actifadu"
 
 #: deluge/ui/gtkui/common.py:124 deluge/ui/gtkui/common.py:125
 #: deluge/ui/gtkui/systemtray.py:426 deluge/ui/gtkui/statusbar.py:399
@@ -1823,20 +2214,23 @@ msgid "Other..."
 msgstr "Arall..."
 
 #: deluge/ui/gtkui/mainwindow.py:235
+#, fuzzy
 msgid "Down:"
-msgstr ""
+msgstr "I lawr:"
 
 #: deluge/ui/gtkui/mainwindow.py:235
+#, fuzzy
 msgid "Up:"
-msgstr ""
+msgstr "fyny"
 
 #: deluge/ui/gtkui/systemtray.py:201 deluge/ui/gtkui/systemtray.py:258
 msgid "Deluge"
-msgstr "Deluge"
+msgstr ""
 
 #: deluge/ui/gtkui/systemtray.py:201
+#, fuzzy
 msgid "Not Connected..."
-msgstr ""
+msgstr "Heb gysylltu"
 
 #: deluge/ui/gtkui/systemtray.py:258
 msgid "Down"
@@ -1848,53 +2242,68 @@ msgstr "Fyny"
 
 #: deluge/ui/gtkui/systemtray.py:403 deluge/ui/gtkui/statusbar.py:401
 #: deluge/ui/gtkui/menubar.py:436
+#, fuzzy
 msgid "Set Maximum Download Speed"
-msgstr ""
+msgstr "Gosod cyflymder lawrlwytho uchafswm"
 
 #: deluge/ui/gtkui/systemtray.py:417 deluge/ui/gtkui/statusbar.py:429
 #: deluge/ui/gtkui/menubar.py:437
+#, fuzzy
 msgid "Set Maximum Upload Speed"
-msgstr ""
+msgstr "Gosod cyflymder lanlwytho uchafswm"
 
 #: deluge/ui/gtkui/systemtray.py:470
+#, fuzzy
 msgid "Deluge is password protected!"
-msgstr ""
+msgstr "Dilyw wedi'i warchod gan gyfrinair!"
 
 #: deluge/ui/gtkui/systemtray.py:476
+#, fuzzy
 msgid "Enter your password to continue"
-msgstr ""
+msgstr "Rhowch eich cyfrinair i barhau"
 
 #: deluge/ui/gtkui/notification.py:79
+#, fuzzy
 msgid "Torrent complete"
-msgstr ""
+msgstr "Torrent cyflawn"
 
 #: deluge/ui/gtkui/notification.py:80
+#, fuzzy
 msgid "Including"
-msgstr ""
+msgstr "Gan gynnwys"
 
 #: deluge/ui/gtkui/notification.py:80
+#, fuzzy
 msgid "files"
-msgstr ""
+msgstr "Ffeiliau"
 
 #: deluge/ui/gtkui/notification.py:109
-#, python-format
+#, fuzzy, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading %(name)s ,  "
-"           which includes %(num_files)i files.\n"
+"This email is to inform you that Deluge has finished downloading "
+"%(name)s ,             which includes %(num_files)i files.\n"
 "To stop receiving these alerts, simply turn off             email "
 "notification in Deluge's preferences.\n"
 "\n"
 "Thank you,\n"
 "Deluge"
 msgstr ""
+"E-bost hwn yw eich hysbysu fod dilyw wedi gorffen llwytho i lawr % (enw) s, "
+"sy'n cynnwys % (num_files) ffeiliau wyf.\n"
+"I beidio derbyn rhybuddion hyn, dim ond troi oddi ar neges e-bost yn "
+"dewisiadau y dilyw.\n"
+"\n"
+"Diolch i chi, dilyw"
 
 #: deluge/ui/gtkui/new_release_dialog.py:72
+#, fuzzy
 msgid "<i>Client Version</i>"
-msgstr ""
+msgstr "<i>Fersiwn cleient</i>"
 
 #: deluge/ui/gtkui/preferences.py:72
+#, fuzzy
 msgid "Categories"
-msgstr ""
+msgstr "Categorïau: %@"
 
 #: deluge/ui/gtkui/preferences.py:76
 msgid "Downloads"
@@ -1909,40 +2318,47 @@ msgid "Bandwidth"
 msgstr "Ystod"
 
 #: deluge/ui/gtkui/preferences.py:77
+#, fuzzy
 msgid "Interface"
-msgstr ""
+msgstr "Rhyngwyneb"
 
 #: deluge/ui/gtkui/preferences.py:77
 msgid "Other"
 msgstr "Arall"
 
 #: deluge/ui/gtkui/preferences.py:77
+#, fuzzy
 msgid "Daemon"
-msgstr ""
+msgstr "Daemon"
 
 #: deluge/ui/gtkui/preferences.py:77
+#, fuzzy
 msgid "Proxy"
-msgstr ""
+msgstr "Proxy"
 
 #: deluge/ui/gtkui/preferences.py:78
+#, fuzzy
 msgid "Cache"
-msgstr ""
+msgstr "Storfa"
 
 #: deluge/ui/gtkui/preferences.py:78
 msgid "Plugins"
 msgstr "Ategion"
 
 #: deluge/ui/gtkui/preferences.py:93
+#, fuzzy
 msgid "Plugin"
-msgstr ""
+msgstr "Ategyn"
 
 #: deluge/ui/gtkui/preferences.py:891
+#, fuzzy
 msgid "Select the Plugin"
-msgstr ""
+msgstr "Dewiswch yr ategyn"
 
 #: deluge/ui/gtkui/preferences.py:902
+#, fuzzy
 msgid "Plugin Eggs"
-msgstr ""
+msgstr "Wyau ategyn"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:111
 #: deluge/ui/gtkui/createtorrentdialog.py:80 deluge/ui/gtkui/files_tab.py:122
@@ -1956,35 +2372,44 @@ msgid "Size"
 msgstr "Maint"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:206
+#, fuzzy
 msgid "Invalid File"
-msgstr ""
+msgstr "Ffeil annilys"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:211
+#, fuzzy
 msgid "Duplicate Torrent"
-msgstr ""
+msgstr "Torrent dyblyg"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:211
+#, fuzzy
 msgid "You cannot add the same torrent twice."
-msgstr ""
+msgstr "Chewch chi ddim ychwanegu torrent un ddwywaith."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:492
+#, fuzzy
 msgid "Unable to set file priority!"
-msgstr ""
+msgstr "Does dim modd gosod blaenoriaeth ffeil!"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:492
+#, fuzzy
 msgid ""
 "File prioritization is unavailable when using Compact allocation.  Would you "
 "like to switch to Full allocation?"
 msgstr ""
+"Dydy'r ffeil flaenoriaethu pan fyddant yn defnyddio'r dyraniad Compact.  "
+"Hoffech chi ei newid i'r dyraniad llawn?"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:541
+#, fuzzy
 msgid "Choose a .torrent file"
-msgstr ""
+msgstr "Dewis ffeil.torrent"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:553
 #: deluge/ui/gtkui/createtorrentdialog.py:253
+#, fuzzy
 msgid "Torrent files"
-msgstr ""
+msgstr "Ffeiliau torrent"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:557
 #: deluge/ui/gtkui/createtorrentdialog.py:257
@@ -1992,130 +2417,160 @@ msgid "All files"
 msgstr "Pob ffeil"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:622
+#, fuzzy
 msgid "Invalid URL"
-msgstr ""
+msgstr "URL Annilys"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:622
+#, fuzzy
 msgid "is not a valid URL."
-msgstr ""
+msgstr "Nid yw URL dilys."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:626
+#, fuzzy
 msgid "Downloading..."
-msgstr ""
+msgstr "Llwytho i lawr..."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
+#, fuzzy
 msgid "Download Failed"
-msgstr ""
+msgstr "Wedi methu llwytho i lawr"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
+#, fuzzy
 msgid "Failed to download:"
-msgstr ""
+msgstr "Wedi methu llwytho i lawr:"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:103
 #: deluge/ui/gtkui/edittrackersdialog.py:84
+#, fuzzy
 msgid "Tier"
-msgstr ""
+msgstr "Haen"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:105
 #: deluge/ui/gtkui/edittrackersdialog.py:86 deluge/ui/gtkui/torrentview.py:253
+#, fuzzy
 msgid "Tracker"
-msgstr ""
+msgstr "Olrhain"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:143
+#, fuzzy
 msgid "Choose a file"
-msgstr ""
+msgstr "Dewis ffeil"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:172
+#, fuzzy
 msgid "Choose a folder"
-msgstr ""
+msgstr "Dewiswch ffolder"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:241
+#, fuzzy
 msgid "Save .torrent file"
-msgstr ""
+msgstr "Cadw'r ffeil.torrent"
 
 #: deluge/ui/gtkui/statusbar.py:146
+#, fuzzy
 msgid "Not Connected"
-msgstr ""
+msgstr "Heb gysylltu"
 
 #: deluge/ui/gtkui/statusbar.py:163
 msgid "Connections"
 msgstr "Cysylltiadau"
 
 #: deluge/ui/gtkui/statusbar.py:168
+#, fuzzy
 msgid "Download Speed"
-msgstr ""
+msgstr "Cyflymder lawrlwytho"
 
 #: deluge/ui/gtkui/statusbar.py:173
+#, fuzzy
 msgid "Upload Speed"
-msgstr ""
+msgstr "Lanlwytho cyflymder"
 
 #: deluge/ui/gtkui/statusbar.py:178
+#, fuzzy
 msgid "Protocol Traffic Download/Upload"
-msgstr ""
+msgstr "Protocol traffig lawrlwytho/llwytho"
 
 #: deluge/ui/gtkui/statusbar.py:181
+#, fuzzy
 msgid "DHT Nodes"
-msgstr ""
+msgstr "Cwgn APD"
 
 #: deluge/ui/gtkui/statusbar.py:186
+#, fuzzy
 msgid "Free Disk Space"
-msgstr ""
+msgstr "O le rhydd ar y ddisg"
 
 #: deluge/ui/gtkui/statusbar.py:190
+#, fuzzy
 msgid "No Incoming Connections!"
-msgstr ""
+msgstr "Nid oes cysylltiadau i mewn!"
 
 #: deluge/ui/gtkui/statusbar.py:456 deluge/ui/gtkui/menubar.py:438
+#, fuzzy
 msgid "Set Maximum Connections"
-msgstr ""
+msgstr "Gosod cysylltiadau mwyaf"
 
 #: deluge/ui/gtkui/removetorrentdialog.py:78
+#, fuzzy
 msgid "Torrents"
-msgstr ""
+msgstr "Mawr"
 
 #: deluge/ui/gtkui/filtertreeview.py:69
+#, fuzzy
 msgid "States"
-msgstr ""
+msgstr "Wladwriaethau"
 
 #: deluge/ui/gtkui/filtertreeview.py:71
+#, fuzzy
 msgid "Labels"
-msgstr ""
+msgstr "Labeli"
 
 #: deluge/ui/gtkui/filtertreeview.py:72
+#, fuzzy
 msgid "All"
-msgstr ""
+msgstr "Y Cyfan"
 
 #: deluge/ui/gtkui/filtertreeview.py:73
+#, fuzzy
 msgid "Downloading"
-msgstr ""
+msgstr "Wrthi'n llwytho i lawr"
 
 #: deluge/ui/gtkui/filtertreeview.py:74
+#, fuzzy
 msgid "Seeding"
-msgstr ""
+msgstr "Hadu"
 
 #: deluge/ui/gtkui/filtertreeview.py:75
+#, fuzzy
 msgid "Paused"
-msgstr ""
+msgstr "Wedi rhewi"
 
 #: deluge/ui/gtkui/filtertreeview.py:76
+#, fuzzy
 msgid "Checking"
-msgstr ""
+msgstr "Gwirio"
 
 #: deluge/ui/gtkui/filtertreeview.py:77
+#, fuzzy
 msgid "Queued"
-msgstr ""
+msgstr "Mewn ciw"
 
 #: deluge/ui/gtkui/filtertreeview.py:79
+#, fuzzy
 msgid "Active"
-msgstr ""
+msgstr "Bywiog"
 
 #: deluge/ui/gtkui/filtertreeview.py:80
+#, fuzzy
 msgid "None"
-msgstr ""
+msgstr "Dim"
 
 #: deluge/ui/gtkui/filtertreeview.py:81
+#, fuzzy
 msgid "No Label"
-msgstr ""
+msgstr "Unrhyw Label"
 
 #: deluge/ui/gtkui/aboutdialog.py:253
 msgid ""
@@ -2149,114 +2604,150 @@ msgid "Status"
 msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:153
+#, fuzzy
 msgid "Host"
-msgstr ""
+msgstr "cad"
 
 #: deluge/ui/gtkui/connectionmanager.py:158
+#, fuzzy
 msgid "Version"
-msgstr ""
+msgstr "Fersiwn"
 
 #: deluge/ui/gtkui/connectionmanager.py:386
+#, fuzzy
 msgid "_Stop Daemon"
-msgstr ""
+msgstr "_Stop daemon"
 
 #: deluge/ui/gtkui/connectionmanager.py:394
+#, fuzzy
 msgid "_Start Daemon"
-msgstr ""
+msgstr "_Start daemon"
 
 #: deluge/ui/gtkui/connectionmanager.py:414
 #: deluge/ui/gtkui/connectionmanager.py:424
+#, fuzzy
 msgid "Unable to start daemon!"
-msgstr ""
+msgstr "Does dim modd cychwyn daemon!"
 
 #: deluge/ui/gtkui/connectionmanager.py:415
+#, fuzzy
 msgid ""
 "Deluge cannot find the 'deluged' executable, it is likely that you forgot to "
 "install the deluged package or it's not in your PATH."
 msgstr ""
+"Ni all dilyw yn canfod y gweithredadwy 'deluged', mae'n debygol y bu ichi "
+"anghofio i osod y pecyn deluged neu nad yw yn eich llwybr."
 
 #: deluge/ui/gtkui/connectionmanager.py:425
+#, fuzzy
 msgid "Please examine the details for more information."
-msgstr ""
+msgstr "Os gwelwch y manylion am fwy o wybodaeth."
 
 #: deluge/ui/gtkui/connectionmanager.py:509
+#, fuzzy
 msgid "Error Adding Host"
-msgstr ""
+msgstr "Gwall wrth ychwanegu llu"
 
 #: deluge/ui/gtkui/gtkui.py:302 deluge/ui/gtkui/gtkui.py:317
+#, fuzzy
 msgid "Turn off Classic Mode?"
-msgstr ""
+msgstr "Diffodd y modd clasurol?"
 
 #: deluge/ui/gtkui/gtkui.py:303
+#, fuzzy
 msgid ""
 "It appears that a Deluge daemon process (deluged) is already running.\n"
 "\n"
 "You will either need to stop the daemon or turn off Classic Mode to continue."
 msgstr ""
+"Mae'n ymddangos bod proses daemon Dilyw (cael eu boddi) eisoes yn rhedeg.\n"
+"\n"
+"Bydd chi naill ai angen i atal y daemon neu ddiffodd modd clasurol i barhau."
 
 #: deluge/ui/gtkui/gtkui.py:312
+#, fuzzy
 msgid "Error Starting Core"
-msgstr ""
+msgstr "Gwall wrth gychwyn craidd"
 
 #: deluge/ui/gtkui/gtkui.py:313
+#, fuzzy
 msgid ""
 "There was an error starting the core component which is required to run "
 "Deluge in Classic Mode.\n"
 "\n"
 "Please see the details below for more information."
 msgstr ""
+"Roedd gwall wrth gychwyn y gydran craidd y mae'n ofynnol i redeg dilyw mewn "
+"modd clasurol.\n"
+"\n"
+"Gweler y manylion isod am fwy o wybodaeth."
 
 #: deluge/ui/gtkui/gtkui.py:318
+#, fuzzy
 msgid ""
 "Since there was an error starting in Classic Mode would you like to continue "
 "by turning it off?"
 msgstr ""
+"Ers Roedd gwall yn dechrau yn y modd clasurol hoffech barhau drwy ei "
+"ddiffodd?"
 
 #: deluge/ui/gtkui/gtkui.py:342
+#, fuzzy
 msgid "Error Starting Daemon"
-msgstr ""
+msgstr "Daemon dechrau gwall"
 
 #: deluge/ui/gtkui/gtkui.py:343
+#, fuzzy
 msgid ""
 "There was an error starting the daemon process.  Try running it from a "
 "console to see if there is an error."
 msgstr ""
+"Digwyddodd gwall wrth gychwyn y broses daemon.  Ceisiwch ei rhedeg gan "
+"consol i weld os oes gwall."
 
 #: deluge/ui/gtkui/status_tab.py:128 deluge/ui/gtkui/menubar.py:89
+#, fuzzy
 msgid "On"
-msgstr ""
+msgstr "Ymlaen"
 
 #: deluge/ui/gtkui/status_tab.py:130 deluge/ui/gtkui/menubar.py:92
 msgid "Off"
 msgstr "Diffodd"
 
 #: deluge/ui/gtkui/menubar.py:77
+#, fuzzy
 msgid "Set Unlimited"
-msgstr ""
+msgstr "Gosod diderfyn"
 
 #: deluge/ui/gtkui/menubar.py:319
+#, fuzzy
 msgid "Choose a directory to move files to"
-msgstr ""
+msgstr "Dewiswch gyfeiriadur i symud ffeiliau i"
 
 #: deluge/ui/gtkui/menubar.py:439
+#, fuzzy
 msgid "Set Maximum Upload Slots"
-msgstr ""
+msgstr "Gosod slotiau lanlwytho uchafswm"
 
 #: deluge/ui/gtkui/files_tab.py:56
+#, fuzzy
 msgid "Do Not Download"
-msgstr ""
+msgstr "Nid oes llwytho i lawr"
 
 #: deluge/ui/gtkui/files_tab.py:57
+#, fuzzy
 msgid "Normal Priority"
-msgstr ""
+msgstr "Blaenoriaeth normal"
 
 #: deluge/ui/gtkui/files_tab.py:58
+#, fuzzy
 msgid "High Priority"
-msgstr ""
+msgstr "Blaenoriaeth uchel"
 
 #: deluge/ui/gtkui/files_tab.py:59
+#, fuzzy
 msgid "Highest Priority"
-msgstr ""
+msgstr "Flaenoriaeth uchaf"
 
 #: deluge/ui/gtkui/files_tab.py:169
 msgid "Priority"
@@ -2264,8 +2755,9 @@ msgstr "Blaenoriaeth"
 
 #: deluge/ui/gtkui/dialogs.py:174
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4730
+#, fuzzy
 msgid "Details:"
-msgstr ""
+msgstr "Manylion:"
 
 #: deluge/ui/gtkui/torrentview.py:213
 msgid "Name"
@@ -2276,8 +2768,9 @@ msgid "Downloaded"
 msgstr "Lawrlwytho"
 
 #: deluge/ui/gtkui/torrentview.py:222
+#, fuzzy
 msgid "Uploaded"
-msgstr ""
+msgstr "Llwytho i fyny"
 
 #: deluge/ui/gtkui/torrentview.py:229 deluge/ui/gtkui/torrentview.py:235
 msgid "Seeders"
@@ -2288,12 +2781,14 @@ msgid "Peers"
 msgstr "Partneriaid"
 
 #: deluge/ui/gtkui/torrentview.py:241
+#, fuzzy
 msgid "Down Limit"
-msgstr ""
+msgstr "I lawr terfyn"
 
 #: deluge/ui/gtkui/torrentview.py:243
+#, fuzzy
 msgid "Up Limit"
-msgstr ""
+msgstr "Hyd terfyn"
 
 #: deluge/ui/gtkui/torrentview.py:245
 msgid "ETA"
@@ -2304,16 +2799,19 @@ msgid "Ratio"
 msgstr "Cymhareb"
 
 #: deluge/ui/gtkui/torrentview.py:249
+#, fuzzy
 msgid "Avail"
-msgstr ""
+msgstr "Chaeir"
 
 #: deluge/ui/gtkui/torrentview.py:251
+#, fuzzy
 msgid "Added"
-msgstr ""
+msgstr "Ychwanegwyd"
 
 #: deluge/ui/gtkui/torrentview.py:257
+#, fuzzy
 msgid "Save Path"
-msgstr ""
+msgstr "Cadw'r llwybr"
 
 #: deluge/ui/gtkui/glade/main_window.glade:21
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:99
@@ -2395,60 +2893,69 @@ msgid "_FAQ"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:264
+#, fuzzy
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "Cwestiynau cyffredin"
 
 #: deluge/ui/gtkui/glade/main_window.glade:280
 msgid "_Community"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:327
+#, fuzzy
 msgid "Add torrent"
-msgstr ""
+msgstr "Ychwanegu torrent"
 
 #: deluge/ui/gtkui/glade/main_window.glade:328
 msgid "Add Torrent"
 msgstr "Ychwanegu Torrent"
 
 #: deluge/ui/gtkui/glade/main_window.glade:342
+#, fuzzy
 msgid "Remove torrent"
-msgstr ""
+msgstr "Dileu torrent"
 
 #: deluge/ui/gtkui/glade/main_window.glade:343
 msgid "Remove Torrent"
 msgstr "Tynnu Torrent"
 
 #: deluge/ui/gtkui/glade/main_window.glade:364
+#, fuzzy
 msgid "Pause the selected torrents"
-msgstr ""
+msgstr "Oedi mawr dan sylw"
 
 #: deluge/ui/gtkui/glade/main_window.glade:365
 msgid "Pause"
 msgstr "Seibio"
 
 #: deluge/ui/gtkui/glade/main_window.glade:380
+#, fuzzy
 msgid "Resume the selected torrents"
-msgstr ""
+msgstr "Ailgydio yn y mawr dan sylw"
 
 #: deluge/ui/gtkui/glade/main_window.glade:381
 msgid "Resume"
 msgstr "Ail-ddechrau"
 
 #: deluge/ui/gtkui/glade/main_window.glade:403
+#, fuzzy
 msgid "Queue Torrent Up"
-msgstr ""
+msgstr "Torrent ciw fyny"
 
 #: deluge/ui/gtkui/glade/main_window.glade:404
+#, fuzzy
 msgid "Queue Up"
-msgstr ""
+msgstr "Ciwio"
 
 #: deluge/ui/gtkui/glade/main_window.glade:418
+#, fuzzy
 msgid "Queue Torrent Down"
-msgstr ""
+msgstr "Torrent ciw i lawr"
 
 #: deluge/ui/gtkui/glade/main_window.glade:419
+#, fuzzy
 msgid "Queue Down"
-msgstr ""
+msgstr "Ciwio i lawr"
 
 #: deluge/ui/gtkui/glade/main_window.glade:440
 #: deluge/ui/gtkui/glade/main_window.glade:441
@@ -2459,84 +2966,102 @@ msgstr "Blaenoriaethau"
 #: deluge/ui/gtkui/glade/main_window.glade:455
 #: deluge/ui/gtkui/glade/main_window.glade:456
 #: deluge/ui/gtkui/glade/connection_manager.glade:204
+#, fuzzy
 msgid "Connection Manager"
-msgstr ""
+msgstr "Rheolwr cysylltu"
 
 #: deluge/ui/gtkui/glade/main_window.glade:570
+#, fuzzy
 msgid "_Expand All"
-msgstr ""
+msgstr "_Expand holl"
 
 #: deluge/ui/gtkui/glade/main_window.glade:591
+#, fuzzy
 msgid "_Do Not Download"
-msgstr ""
+msgstr "_Do na llwytho i lawr"
 
 #: deluge/ui/gtkui/glade/main_window.glade:607
+#, fuzzy
 msgid "_Normal Priority"
-msgstr ""
+msgstr "Blaenoriaeth _Normal"
 
 #: deluge/ui/gtkui/glade/main_window.glade:623
+#, fuzzy
 msgid "_High Priority"
-msgstr ""
+msgstr "Blaenoriaeth _High"
 
 #: deluge/ui/gtkui/glade/main_window.glade:639
+#, fuzzy
 msgid "Hi_ghest Priority"
-msgstr ""
+msgstr "Blaenoriaeth Hi_ghest"
 
 #: deluge/ui/gtkui/glade/main_window.glade:721
+#, fuzzy
 msgid "<b>Auto Managed:</b>"
-msgstr ""
+msgstr "<b>Awto rheoli:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:762
+#, fuzzy
 msgid "<b>Seed Rank:</b>"
-msgstr ""
+msgstr "<b>Hadau safle:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:777
+#, fuzzy
 msgid "<b>Seeding Time:</b>"
-msgstr ""
+msgstr "<b>Hadu amser:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:803
+#, fuzzy
 msgid "<b>Active Time:</b>"
-msgstr ""
+msgstr "<b>Amser egnïol:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:860
+#, fuzzy
 msgid "<b>Tracker Status:</b>"
-msgstr ""
+msgstr "<b>Olrhain statws:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:890
+#, fuzzy
 msgid "<b>Availability:</b>"
-msgstr ""
+msgstr "<b>Ar gael:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:944
+#, fuzzy
 msgid "<b>Peers:</b>"
-msgstr ""
+msgstr "<b>Cyfoedion:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:970
+#, fuzzy
 msgid "<b>Seeders:</b>"
-msgstr ""
+msgstr "<b>Seeders:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:988
 msgid "<b>Pieces:</b>"
 msgstr "<b>Darnau:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1010
+#, fuzzy
 msgid "<b>ETA:</b>"
-msgstr ""
+msgstr "amser cyrraedd tybiedyg"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1032
+#, fuzzy
 msgid "<b>Up Speed:</b>"
-msgstr ""
+msgstr "<b>Fyny cyflymder:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1054
+#, fuzzy
 msgid "<b>Down Speed:</b>"
-msgstr ""
+msgstr "<b>I lawr cyflymder:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1073
 msgid "<b>Next Announce:</b>"
 msgstr "<b>Datgan Nesa:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1092
+#, fuzzy
 msgid "<b>Share Ratio:</b>"
-msgstr ""
+msgstr "<b>Cymhareb rhannu:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1111
 msgid "<b>Uploaded:</b>"
@@ -2547,28 +3072,32 @@ msgid "<b>Downloaded:</b>"
 msgstr "<b>Lawrlwythwyd:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1191
+#, fuzzy
 msgid "<b>Date Added:</b>"
-msgstr ""
+msgstr "<b>Dyddiad ychwanegu:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1249
 msgid "_Status"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1310
+#, fuzzy
 msgid "<b>Comments:</b>"
-msgstr ""
+msgstr "Sylwadau"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1339
 msgid "<b># of files:</b>"
 msgstr "<b># o ffeiliau:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1371
+#, fuzzy
 msgid "<b>Hash:</b>"
-msgstr ""
+msgstr "<b>Stwnsh:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1401
+#, fuzzy
 msgid "<b>Tracker:</b>"
-msgstr ""
+msgstr "<b>Olrhain:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1421
 msgid "<b>Total Size:</b>"
@@ -2583,8 +3112,9 @@ msgid "<b>Path:</b>"
 msgstr "<b>Llwybr:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1513
+#, fuzzy
 msgid "<b>Status:</b>"
-msgstr ""
+msgstr "<b>Statws:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1594
 msgid "_Details"
@@ -2599,16 +3129,19 @@ msgid "_Peers"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:2009
+#, fuzzy
 msgid "Move completed:"
-msgstr ""
+msgstr "Symud gwblhau:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2105
+#, fuzzy
 msgid "Private"
-msgstr ""
+msgstr "Preifat"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2120
+#, fuzzy
 msgid "Prioritize First/Last"
-msgstr ""
+msgstr "Flaenoriaethu cyntaf/olaf"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2158
 #: deluge/ui/gtkui/glade/torrent_menu.glade:130
@@ -2621,65 +3154,79 @@ msgid "_Options"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:2285
+#, fuzzy
 msgid "Remove Torrent?"
-msgstr ""
+msgstr "Dileu Torrent?"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2324
-msgid ""
-"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
+#, fuzzy
+msgid "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
 msgstr ""
+"<big><b>Ydych chi'n siŵr eich bod am dynnu'r torrent dan sylw?</b></big>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2376
+#, fuzzy
 msgid "<i>The associated .torrent will be deleted!</i>"
-msgstr ""
+msgstr "<i>Bydd dileu y.torrent cysylltiedig!</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2416
+#, fuzzy
 msgid "<i>The downloaded data will be deleted!</i>"
-msgstr ""
+msgstr "<i>Bydd dileu data wedi'u llwytho i lawr!</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2460
+#, fuzzy
 msgid "Remove Selected Torrent"
-msgstr ""
+msgstr "Tynnu dethol Torrent"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2484
+#, fuzzy
 msgid "New Release"
-msgstr ""
+msgstr "Rhyddhau newydd"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2518
+#, fuzzy
 msgid "<b><big>New Release Available!</big></b>"
-msgstr ""
+msgstr "<b><big>Datganiad newydd ar gael!</big></b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2570
+#, fuzzy
 msgid "<i>Available Version:</i>"
-msgstr ""
+msgstr "<i>Fersiwn ar gael:</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2593
+#, fuzzy
 msgid "<i>Current Version:</i>"
-msgstr ""
+msgstr "<i>Fersiwn gyfredol:</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2604
+#, fuzzy
 msgid "<i>Server Version</i>"
-msgstr ""
+msgstr "<i>Fersiwn gweinydd</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2637
+#, fuzzy
 msgid "Do not show this dialog in the future"
-msgstr ""
+msgstr "Peidio â dangos y blwch deialog hwn yn y dyfodol"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2676
+#, fuzzy
 msgid "_Goto Website"
-msgstr ""
+msgstr "Gwefan _Goto"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2704
 msgid "_Add Peer"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:2706
+#, fuzzy
 msgid "Add a peer by its IP"
-msgstr ""
+msgstr "Ychwanegu cymheiriaid gan ei eiddo deallusol"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:10
+#, fuzzy
 msgid "_Select All"
-msgstr ""
+msgstr "_Select holl"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:26
 #: deluge/ui/gtkui/glade/tray_menu.glade:48
@@ -2688,16 +3235,19 @@ msgstr "_Seibio Popeth"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:41
 #: deluge/ui/gtkui/glade/torrent_menu.glade:48
+#, fuzzy
 msgid "Resume selected torrents."
-msgstr ""
+msgstr "Ailddechrau mawr dan sylw."
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:42
+#, fuzzy
 msgid "Resu_me All"
-msgstr ""
+msgstr "Resu_me holl"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:8
+#, fuzzy
 msgid "Add Torrents"
-msgstr ""
+msgstr "Ychwanegu mawr"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:147
 msgid "_URL"
@@ -2708,20 +3258,23 @@ msgid "Info_hash"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:241
+#, fuzzy
 msgid "_Remove"
-msgstr ""
+msgstr "_Remove"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:274
+#, fuzzy
 msgid "<b>Torrents</b>"
-msgstr ""
+msgstr "<b>Mawr</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:331
 msgid "Fi_les"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
+#, fuzzy
 msgid "Full"
-msgstr ""
+msgstr "llawn"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:450
 msgid "Compact"
@@ -2729,48 +3282,59 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:472
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:409
+#, fuzzy
 msgid "<b>Allocation</b>"
-msgstr ""
+msgstr "<b>Dyraniad</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:525
+#, fuzzy
 msgid "Max Down Speed:"
-msgstr ""
+msgstr "Cyflymder i lawr Max:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:537
+#, fuzzy
 msgid "Max Up Speed:"
-msgstr ""
+msgstr "Cyflymder Max i fyny:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:668
+#, fuzzy
 msgid "Add In _Paused State"
-msgstr ""
+msgstr "Ychwanegu mewn cyflwr _Paused"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:684
+#, fuzzy
 msgid "Prioritize First/Last Pieces"
-msgstr ""
+msgstr "Flaenoriaethu darnau cyntaf/olaf"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:762
+#, fuzzy
 msgid "Revert To Defaults"
-msgstr ""
+msgstr "Mynd yn ôl y rhagosodiadau"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:816
+#, fuzzy
 msgid "Apply To All"
-msgstr ""
+msgstr "Yn berthnasol i bawb"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:944
+#, fuzzy
 msgid "Add URL"
-msgstr ""
+msgstr "Ychwanegu URL"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:983
+#, fuzzy
 msgid "<b>From URL</b>"
-msgstr ""
+msgstr "<b>O'r URL</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1104
+#, fuzzy
 msgid "Add Infohash"
-msgstr ""
+msgstr "Ychwanegu Infohash"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1143
+#, fuzzy
 msgid "<b>From Infohash</b>"
-msgstr ""
+msgstr "<b>Gan Infohash</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1178
 msgid "Infohash:"
@@ -2778,51 +3342,62 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1214
 #: deluge/ui/gtkui/glade/edit_trackers.glade:296
+#, fuzzy
 msgid "Trackers:"
-msgstr ""
+msgstr "Gall dyfais dracio:"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:7
+#, fuzzy
 msgid "Create Torrent"
-msgstr ""
+msgstr "Creu Torrent"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:34
+#, fuzzy
 msgid "<big><b>Create Torrent</b></big>"
-msgstr ""
+msgstr "<big><b>Creu Torrent</b></big>"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:159
+#, fuzzy
 msgid "Fol_der"
-msgstr ""
+msgstr "Fol_der"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:199
+#, fuzzy
 msgid "_Remote Path"
-msgstr ""
+msgstr "Llwybr _Remote"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
+#, fuzzy
 msgid "<b>Files</b>"
-msgstr ""
+msgstr "<b>Ffeiliau</b>"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:263
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4756
+#, fuzzy
 msgid "Author:"
-msgstr ""
+msgstr "Awdur"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:292
+#, fuzzy
 msgid "Comments:"
-msgstr ""
+msgstr "Sylwadau"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:331
+#, fuzzy
 msgid "Info"
-msgstr ""
+msgstr "Gwybodaeth am"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
 msgid "Webseeds"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
+#, fuzzy
 msgid "Piece Size:"
-msgstr ""
+msgstr "Maint y darn:"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
+#, fuzzy
 msgid ""
 "32 KiB\n"
 "64 KiB\n"
@@ -2835,150 +3410,186 @@ msgid ""
 "8 MiB\n"
 "16 MiB\n"
 msgstr ""
+"32 KiB 64 KiB 128 KiB 256 KiB 512 KiB 1 MiB 2 MiB 4 MiB 8 MiB 16 Bwrdd "
+"gwybodaeth reoli"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:580
+#, fuzzy
 msgid "Set Private Flag"
-msgstr ""
+msgstr "Gosod fflag preifat"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:594
+#, fuzzy
 msgid "Add this torrent to the session"
-msgstr ""
+msgstr "Ychwanegu torrent hwn at y sesiwn"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:692
+#, fuzzy
 msgid "Enter Remote Path"
-msgstr ""
+msgstr "Rhowch lwybr o bell"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:728
+#, fuzzy
 msgid "<b>Remote Path</b>"
-msgstr ""
+msgstr "<b>Llwybr o bell</b>"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:762
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:944
+#, fuzzy
 msgid "Path:"
-msgstr ""
+msgstr "Llwybr:"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:837
+#, fuzzy
 msgid "Creating Torrent"
-msgstr ""
+msgstr "Creu Torrent"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:874
+#, fuzzy
 msgid "Save .torrent as"
-msgstr ""
+msgstr "Achub.torrent fel"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:910
+#, fuzzy
 msgid "<b>Save .torrent file</b>"
-msgstr ""
+msgstr "<b>Cadw'r ffeil.torrent</b>"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:8
+#, fuzzy
 msgid "Queued Torrents"
-msgstr ""
+msgstr "Mawr mewn ciw"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:47
+#, fuzzy
 msgid "<big><b>Add Queued Torrents</b></big>"
-msgstr ""
+msgstr "<big><b>Ychwanegu mawr mewn ciw</b></big>"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:127
+#, fuzzy
 msgid "Automatically add torrents on connect"
-msgstr ""
+msgstr "Ychwanegu awtomatig Mae cyswllt mawr ar"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:98
 msgid "label"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:154
+#, fuzzy
 msgid "Add Peer"
-msgstr ""
+msgstr "Ychwanegu cyfoedion"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:187
+#, fuzzy
 msgid "<b>Add Peer</b>"
-msgstr ""
+msgstr "<b>Ychwanegu cyfoedion</b>"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:211
 msgid "hostname:port"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:8
+#, fuzzy
 msgid "Add Host"
-msgstr ""
+msgstr "Ychwanegu llu"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:237
+#, fuzzy
 msgid "<big><b>Connection Manager</b></big>"
-msgstr ""
+msgstr "<big><b>Rheolwr cysylltu</b></big>"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:363
+#, fuzzy
 msgid "_Start local daemon"
-msgstr ""
+msgstr "_Start daemon lleol"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:415
+#, fuzzy
 msgid "Automatically connect to selected host on start-up"
-msgstr ""
+msgstr "Cysylltu'n awtomatig â llu dethol ar cychwyn"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:426
+#, fuzzy
 msgid "Automatically start localhost if needed"
-msgstr ""
+msgstr "Dechrau localhost yn awtomatig os bydd angen"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:440
+#, fuzzy
 msgid "Do not show this dialog on start-up"
-msgstr ""
+msgstr "Peidio â dangos y blwch deialog hwn ar cychwyn"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:78
+#, fuzzy
 msgid "<b><i><big>Downloads</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Llwytho i lawr</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:188
+#, fuzzy
 msgid "Auto add .torrents from:"
-msgstr ""
+msgstr "Awto ychwanegu.torrents gan:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:253
+#, fuzzy
 msgid "Download to:"
-msgstr ""
+msgstr "Llwytho i lawr:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:261
+#, fuzzy
 msgid "Copy of .torrent files to:"
-msgstr ""
+msgstr "Copi o'r ffeiliau.torrent i:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:316
+#, fuzzy
 msgid "Delete copy of torrent file on remove"
-msgstr ""
+msgstr "Dileu copi o'r ffeil torrent ar tynnu"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:320
-msgid ""
-"Delete the copy of the torrent file created when the torrent is removed"
-msgstr ""
+#, fuzzy
+msgid "Delete the copy of the torrent file created when the torrent is removed"
+msgstr "Dileu copi o'r ffeil torrent a grëwyd pan dilëir y torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:337
+#, fuzzy
 msgid "<b>Folders</b>"
-msgstr ""
+msgstr "<b>Ffolderi</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:370
+#, fuzzy
 msgid "Use Full Allocation"
-msgstr ""
+msgstr "Defnyddio'r dyraniad llawn"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:375
+#, fuzzy
 msgid ""
 "Full allocation preallocates all of the space that is needed for the torrent "
 "and prevents disk fragmentation"
 msgstr ""
+"Mae dyraniad llawn yn preallocates pob un ar y lle sydd ei angen ar gyfer y "
+"torrent ac atal darnio ddisg"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:387
+#, fuzzy
 msgid "Use Compact Allocation"
-msgstr ""
+msgstr "Ddefnyddio dyraniad Compact"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:392
+#, fuzzy
 msgid "Compact allocation only allocates space as needed"
-msgstr ""
+msgstr "Dim ond dyranna'r dyraniad compact le yn ôl yr angen"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:440
+#, fuzzy
 msgid "Prioritize first and last pieces of torrent"
-msgstr ""
+msgstr "Flaenoriaethu darnau cyntaf ac olaf o torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:445
+#, fuzzy
 msgid "Prioritize first and last pieces of files in torrent"
-msgstr ""
+msgstr "Flaenoriaethu darnau cyntaf a'r diwethaf o ffeiliau yn torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:455
+#, fuzzy
 msgid "Add torrents in Paused state"
-msgstr ""
+msgstr "Ychwanegu mawr mewn cyflwr Paused"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:529
 msgid "<b><i><big>Network</big></i></b>"
@@ -2986,86 +3597,108 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:569
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:763
+#, fuzzy
 msgid "Use Random Ports"
-msgstr ""
+msgstr "Defnyddio porthladdoedd ar hap"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:574
+#, fuzzy
 msgid "Deluge will automatically choose a different port to use every time."
-msgstr ""
+msgstr "Bydd dilyw awtomatig Dewiswch borth gwahanol i ddefnyddio bob tro."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:592
+#, fuzzy
 msgid "Active Port:"
-msgstr ""
+msgstr "Port gweithredol:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:662
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:812
+#, fuzzy
 msgid "To:"
-msgstr ""
+msgstr "At:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:690
+#, fuzzy
 msgid "Test Active Port"
-msgstr ""
+msgstr "Prawf gweithredol Port"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:732
+#, fuzzy
 msgid "<b>Incoming Ports</b>"
-msgstr ""
+msgstr "<b>Porthladdoedd i mewn</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:850
+#, fuzzy
 msgid "<b>Outgoing Ports</b>"
-msgstr ""
+msgstr "<b>Porthladdoedd ymadawol</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:882
+#, fuzzy
 msgid ""
 "Enter the IP address of the interface to listen for incoming bittorrent "
 "connections on.  Leave this empty if you want to use the default."
 msgstr ""
+"Rhowch gyfeiriad IP y rhyngwyneb i wrando ar gyfer cysylltiadau bittorrent i "
+"mewn ar.  Gadael hyn yn wag os ydych am ddefnyddio diofyn."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:903
+#, fuzzy
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "<b>Rhyngwyneb</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:939
+#, fuzzy
 msgid ""
 "The TOS byte set in the IP header of every packet sent to peers (including "
 "web seeds).  Expects a Hex value."
 msgstr ""
+"Gosod y beit siopa ym mhennyn IP bob pecyn anfon cyfoedion (gan gynnwys "
+"hadau we).  Disgwyl gwerth hecs."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:940
+#, fuzzy
 msgid "Peer TOS Byte:"
-msgstr ""
+msgstr "Beitiau siopa cyfoedion:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:973
+#, fuzzy
 msgid "<b>TOS</b>"
-msgstr ""
+msgstr "<b>SIOPA</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1006
 msgid "UPnP"
 msgstr "UPnP"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1010
+#, fuzzy
 msgid "Universal Plug and Play"
-msgstr ""
+msgstr "Cyffredinol parod"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1021
 msgid "NAT-PMP"
 msgstr "NAT-PMP"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1025
+#, fuzzy
 msgid "NAT Port Mapping Protocol"
-msgstr ""
+msgstr "Protocol mapio NAT Port"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1038
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1042
+#, fuzzy
 msgid "Peer Exchange"
-msgstr ""
+msgstr "Cyfnewid gan gymheiriaid"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1055
+#, fuzzy
 msgid "LSD"
-msgstr ""
+msgstr "LSD"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1060
+#, fuzzy
 msgid "Local Service Discovery finds local peers on your network."
 msgstr ""
+"Mae darganfod gwasanaeth lleol yn canfod cyfoedion lleol ar eich rhwydwaith."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1071
 #: deluge/ui/console/statusbars.py:104
@@ -3073,16 +3706,21 @@ msgid "DHT"
 msgstr "DHT"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1075
+#, fuzzy
 msgid "Distributed hash table may improve the amount of active connections."
 msgstr ""
+"Efallai y bydd tabl Clwyd dosbarthu yn gwella faint o gysylltiadau "
+"gweithredol."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1097
+#, fuzzy
 msgid "<b>Network Extras</b>"
-msgstr ""
+msgstr "<b>Ychwanegiadau rhwydwaith</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1136
+#, fuzzy
 msgid "Inbound:"
-msgstr ""
+msgstr "I mewn:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1146
 msgid "Level:"
@@ -3090,77 +3728,93 @@ msgstr "Lefel:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1167
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1217
+#, fuzzy
 msgid ""
 "Forced\n"
 "Enabled\n"
 "Disabled"
-msgstr ""
+msgstr "Gorfodi pobl anabl wedi'u galluogi"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1178
+#, fuzzy
 msgid ""
 "Handshake\n"
 "Full Stream\n"
 "Either"
-msgstr ""
+msgstr "Ysgwyd llaw llawn ffrwd naill ai"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1206
+#, fuzzy
 msgid "Outbound:"
-msgstr ""
+msgstr "Allan:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1233
+#, fuzzy
 msgid "Encrypt entire stream"
-msgstr ""
+msgstr "Amgryptio'r ffrwd gyfan"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1258
 msgid "<b>Encryption</b>"
 msgstr "<b>Amgryptiad</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1319
+#, fuzzy
 msgid "<b><i><big>Bandwidth</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Lled band</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1396
+#, fuzzy
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "Cysylltiad mwyaf ymdrechion yr eiliad:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1408
+#, fuzzy
 msgid "Maximum Half-Open Connections:"
-msgstr ""
+msgstr "Uchafswm hanner-agored cysylltiadau:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1419
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1509
+#, fuzzy
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr ""
+"Y cyflymder lanlwytho uchafswm ar gyfer pob mawr.  Gosod-1 ar gyfer diderfyn."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1421
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1706
+#, fuzzy
 msgid "Maximum Upload Speed (KiB/s):"
-msgstr ""
+msgstr "Cyflymder lanlwytho uchaf (KiB/s):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1432
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1457
+#, fuzzy
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr ""
+msgstr "Uchafswm nifer y cysylltiadau a ganiateir.  Gosod-1 ar gyfer diderfyn."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1434
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1669
+#, fuzzy
 msgid "Maximum Connections:"
-msgstr ""
+msgstr "Cysylltiadau mwyaf:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1443
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1528
+#, fuzzy
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
 msgstr ""
+"Y slotiau lanlwytho uchafswm ar gyfer pob mawr.  Gosod-1 ar gyfer diderfyn."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1445
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1680
+#, fuzzy
 msgid "Maximum Upload Slots:"
-msgstr ""
+msgstr "Llwytho uchafswm slotiau:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1475
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1490
+#, fuzzy
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
-msgstr ""
+msgstr "Y cyflymder lawrlwytho ar gyfer pob mawr.  Gosod-1 ar gyfer diderfyn."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1477
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1693
@@ -3168,241 +3822,310 @@ msgid "Maximum Download Speed (KiB/s):"
 msgstr "Cyflymder Lawrlwytho Cyflymaf (KiB/s):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1554
+#, fuzzy
 msgid "Ignore limits on local network"
-msgstr ""
+msgstr "Anwybyddu'r terfynau ar rhwydwaith lleol"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1573
+#, fuzzy
 msgid "Rate limit IP overhead"
-msgstr ""
+msgstr "IP terfyn gyfradd gorbenion"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1577
+#, fuzzy
 msgid ""
 "If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
 "to avoid exceeding the limits with the total traffic"
 msgstr ""
+"Os gwirio, mae TCP/IP amcangyfrif gorbenion draenio o'r cyfyngwyr gyfradd, "
+"er mwyn osgoi Rhagori y terfynau gyda'r traffig cyfanswm"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1594
+#, fuzzy
 msgid "<b>Global Bandwidth Usage</b>"
-msgstr ""
+msgstr "<b>Defnyddio lled band fyd-eang</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1633
+#, fuzzy
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
 msgstr ""
+"Yr uchafswm lanlwytho slotiau fesul torrent.  Gosod-1 ar gyfer diderfyn."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1652
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1718
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1736
+#, fuzzy
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
 msgstr ""
+"Y nifer mwyaf posibl o gysylltiadau fesul torrent.  Gosod-1 ar gyfer "
+"diderfyn."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1758
+#, fuzzy
 msgid "<b>Per Torrent Bandwidth Usage</b>"
-msgstr ""
+msgstr "<b>Fesul defnyddio lled band Torrent</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1818
+#, fuzzy
 msgid "<i><b><big>Interface</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Rhyngwyneb</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1851
 msgid "Enable"
 msgstr "Galluogi"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1856
+#, fuzzy
 msgid ""
 "Classic Mode will hide most of the daemon functionality and will make Deluge "
 "appear to be a single application.  Use this if you do not want to take "
 "advantage of running Deluge as a daemon. You need to restart Deluge for this "
 "setting to take effect."
 msgstr ""
+"Bydd modd clasurol yn cuddio y rhan fwyaf o'r swyddogaethau y daemon a bydd "
+"yn gwneud dilyw yn ymddangos i fod yn un cais.  Defnyddio hwn os ydych chi "
+"am fanteisio ar y dilyw yn rhedeg fel daemon. Dylech ailgychwyn y dilyw "
+"lleoliad hwn ddod i rym."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1866
+#, fuzzy
 msgid "<b>Classic Mode</b>"
-msgstr ""
+msgstr "<b>Modd clasurol</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1899
+#, fuzzy
 msgid "Show session speed in titlebar"
-msgstr ""
+msgstr "Cyflymder sesiwn sioe yn titlebar"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1917
+#, fuzzy
 msgid "<b>Main Window</b>"
-msgstr ""
+msgstr "<b>Brif ffenestr</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1950
+#, fuzzy
 msgid "Always show"
-msgstr ""
+msgstr "Dangos bob amser"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1968
+#, fuzzy
 msgid "Bring the dialog to focus"
-msgstr ""
+msgstr "Dwyn y blwch deialog i ganolbwyntio"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1988
+#, fuzzy
 msgid "<b>Add Torrents Dialog</b>"
-msgstr ""
+msgstr "<b>Ychwanegu deialog mawr</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2020
+#, fuzzy
 msgid "Enable system tray icon"
-msgstr ""
+msgstr "Galluogi eicon y drôr system"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2038
+#, fuzzy
 msgid "Minimize to tray on close"
-msgstr ""
+msgstr "Lleihau i hambwrdd ar ben"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2058
+#, fuzzy
 msgid "Start in tray"
-msgstr ""
+msgstr "Dechrau mewn hambwrdd"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2078
+#, fuzzy
 msgid "Enable Application Indicator"
-msgstr ""
+msgstr "Galluogi dangosydd cais"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2099
+#, fuzzy
 msgid "Password protect system tray"
-msgstr ""
+msgstr "Drôr y system gwarchod gyda chyfrinair"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2165
+#, fuzzy
 msgid "<b>System Tray</b>"
-msgstr ""
+msgstr "Drôr y System"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2224
+#, fuzzy
 msgid "<i><b><big>Other</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Eraill</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2265
+#, fuzzy
 msgid "Be alerted about new releases"
-msgstr ""
+msgstr "Eu rhybuddio ynghylch datganiadau newydd"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2270
+#, fuzzy
 msgid ""
 "Deluge will check our servers and will tell you if a newer version has been "
 "released"
 msgstr ""
+"Bydd dilyw yn gwirio ein gweinyddion a bydd yn dweud wrthych os rhyddhawyd "
+"fersiwn diweddarach"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2289
+#, fuzzy
 msgid "<b>Updates</b>"
-msgstr ""
+msgstr "<b>Diweddariadau</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2326
+#, fuzzy
 msgid ""
 "Help us improve Deluge by sending us your Python version, PyGTK version, OS "
 "and processor types.  Absolutely no other information is sent."
 msgstr ""
+"Ein helpu i wella dilyw gan anfon eich fersiwn chi Python, mathau fersiwn, "
+"AO a prosesydd PyGTK.  Hollol anfonir unrhyw wybodaeth arall."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2343
+#, fuzzy
 msgid "Yes, please send anonymous statistics"
-msgstr ""
+msgstr "Ie, anfonwch ystadegau dienw"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2365
+#, fuzzy
 msgid "<b>System Information</b>"
-msgstr ""
+msgstr "<b>Gwybodaeth am y system</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2408
+#, fuzzy
 msgid "Location:"
-msgstr ""
+msgstr "Lleoliad:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2420
+#, fuzzy
 msgid ""
 "If Deluge cannot find the database file at this location it will fallback to "
 "using DNS to resolve the peer's country."
 msgstr ""
+"Os na all dilyw yn canfod y ffeil ddata yn y lleoliad hwn bydd yn "
+"ddarpariaeth wrth gefn i ddefnyddio DNS ddatrys wlad y cyfoedion."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2444
+#, fuzzy
 msgid "<b>GeoIP Database</b>"
-msgstr ""
+msgstr "<b>Cronfa ddata GeoIP</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2489
+#, fuzzy
 msgid "Associate Magnet links with Deluge"
-msgstr ""
+msgstr "Cysylltiadau magned cyswllt â dilyw"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2558
+#, fuzzy
 msgid "<i><b><big>Daemon</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Daemon</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2602
+#, fuzzy
 msgid "Daemon port:"
-msgstr ""
+msgstr "Daemon Porth:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2639
+#, fuzzy
 msgid "<b>Port</b>"
-msgstr ""
+msgstr "Porthladd"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2668
+#, fuzzy
 msgid "Allow Remote Connections"
-msgstr ""
+msgstr "Caniatáu cysylltiadau o bell"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2682
+#, fuzzy
 msgid "<b>Connections</b>"
-msgstr ""
+msgstr "<b>Cysylltiadau</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2711
+#, fuzzy
 msgid "Periodically check the website for new releases"
-msgstr ""
+msgstr "Edrych ar y wefan ar gyfer datganiadau newydd o bryd i'w gilydd"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2725
+#, fuzzy
 msgid "<b>Other</b>"
-msgstr ""
+msgstr "<b>Eraill</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2785
+#, fuzzy
 msgid "<i><b><big>Queue</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Ciw</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2828
+#, fuzzy
 msgid "Queue new torrents to top"
-msgstr ""
+msgstr "Ciw mawr newydd i'r brig"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2923
+#, fuzzy
 msgid "Total active seeding:"
-msgstr ""
+msgstr "Hadu egnïol Cyfanswm:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2936
+#, fuzzy
 msgid "Total active:"
-msgstr ""
+msgstr "Cyfanswm egnïol:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2965
+#, fuzzy
 msgid "Total active downloading:"
-msgstr ""
+msgstr "Cyfanswm gweithgar wrthi'n llwytho i lawr:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2980
+#, fuzzy
 msgid "Do not count slow torrents"
-msgstr ""
+msgstr "Nid yw'r cyfrif mawr araf"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2998
+#, fuzzy
 msgid "<b>Active Torrents</b>"
-msgstr ""
+msgstr "<b>Mawr gweithredol</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3040
+#, fuzzy
 msgid "Share Ratio Limit:"
-msgstr ""
+msgstr "Rhannu gymhareb terfyn:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3050
+#, fuzzy
 msgid "Seed Time Ratio:"
-msgstr ""
+msgstr "Cymhareb amser hadau:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3062
+#, fuzzy
 msgid "Seed Time (m):"
-msgstr ""
+msgstr "Amser hadau (m):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3130
+#, fuzzy
 msgid "Stop seeding when share ratio reaches:"
-msgstr ""
+msgstr "Stopio hau pan fydd cyrraedd cymhareb rhannu:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3175
+#, fuzzy
 msgid "Remove torrent when share ratio reached"
-msgstr ""
+msgstr "Dileu torrent pan gyrhaeddodd cymhareb rhannu"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3197
+#, fuzzy
 msgid "<b>Seeding</b>"
-msgstr ""
+msgstr "<b>Hadu</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3262
+#, fuzzy
 msgid "<i><b><big>Proxy</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Procsi</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3333
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3517
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3701
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3886
+#, fuzzy
 msgid "Host:"
-msgstr ""
+msgstr "cad"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3407
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3591
@@ -3424,298 +4147,380 @@ msgstr ""
 "HTTP W/ Auth"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3454
+#, fuzzy
 msgid "<b>Peer</b>"
-msgstr ""
+msgstr "<b>Cyfoedion</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3638
+#, fuzzy
 msgid "<b>Web Seed</b>"
-msgstr ""
+msgstr "<b>We had</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3822
+#, fuzzy
 msgid "<b>Tracker</b>"
-msgstr ""
+msgstr "<b>Olrhain</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4010
 msgid "<b>DHT</b>"
 msgstr "<b>DHT</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4067
+#, fuzzy
 msgid "<b><i><big>Cache</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Storfa</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4112
+#, fuzzy
 msgid "Cache Size (16 KiB blocks):"
-msgstr ""
+msgstr "Maint y storfa (blociau KiB 16):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4122
+#, fuzzy
 msgid ""
 "The number of seconds from the last cached write to a piece in the write "
 "cache, to when it's forcefully flushed to disk. Default is 60 seconds."
 msgstr ""
+"Nifer yr eiliadau o ysgrifennu storiwyd diwethaf i ddarn yn y storfa "
+"ysgrifennu, i pan rymus wedi fflysio i ddisg. Diofyn yn 60 eiliad."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4124
+#, fuzzy
 msgid "Cache Expiry (seconds):"
-msgstr ""
+msgstr "Storfa ddod i ben (eiliadau):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4220
+#, fuzzy
 msgid ""
 "The total number of 16 KiB blocks written to disk since this session was "
 "started."
 msgstr ""
+"Cyfanswm nifer y blociau KiB 16 ysgrifenedig i ddisg ers dechrau sesiwn hwn."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4222
+#, fuzzy
 msgid "Blocks Written:"
-msgstr ""
+msgstr "Blociau ysgrifenedig:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4231
+#, fuzzy
 msgid ""
 "The total number of write operations performed since this session was "
 "started."
 msgstr ""
+"Cyfanswm nifer y llawdriniaethau ysgrifennu a gyflawnir ers dechrau sesiwn "
+"hwn."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4233
+#, fuzzy
 msgid "Writes:"
-msgstr ""
+msgstr "Ysgrifennu:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4244
+#, fuzzy
 msgid ""
 "The ratio (blocks_written - writes) / blocks_written represents the number "
 "of saved write operations per total write operations, i.e. a kind of cache "
 "hit ratio for the write cache."
 msgstr ""
+"Y gymhareb (blocks_written-yn ysgrifennu) / Mae blocks_written yn "
+"cynrychioli nifer y llawdriniaethau ysgrifennu gadwyd fesul gweithrediadau "
+"cyfanswm ysgrifennu, h.y. Mae rhyw fath o storfa yn taro gymhareb ar gyfer y "
+"storfa ysgrifennu."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4246
+#, fuzzy
 msgid "Write Cache Hit Ratio:"
-msgstr ""
+msgstr "Ysgrifennu gymhareb taro Cache:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4298
+#, fuzzy
 msgid "<b>Write</b>"
-msgstr ""
+msgstr "<b>Ysgrifennu</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4328
+#, fuzzy
 msgid ""
 "The number of blocks that were requested from the bittorrent engine (from "
 "peers), that were served from disk or cache."
 msgstr ""
+"Nifer y blociau y gofynnwyd gan injan bittorrent (gan gymheiriaid), sydd yn "
+"gwasanaethu o ddisg neu cache."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4330
+#, fuzzy
 msgid "Blocks Read:"
-msgstr ""
+msgstr "Blociau darllen:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4339
+#, fuzzy
 msgid "The number of blocks that were served from cache."
-msgstr ""
+msgstr "Nifer y blociau hynny oedd gwasanaethu o'r storfa."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4341
+#, fuzzy
 msgid "Blocks Read Hit:"
-msgstr ""
+msgstr "Darllen blociau taro:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4352
+#, fuzzy
 msgid "The cache hit ratio for the read cache."
-msgstr ""
+msgstr "Tarodd y storfa gymhareb ar gyfer y storfa darllen."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4354
+#, fuzzy
 msgid "Read Cache Hit Ratio:"
-msgstr ""
+msgstr "Cymhareb taro Cache darllen:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4403
+#, fuzzy
 msgid ""
 "The total number of read operations performed since this session was started."
 msgstr ""
+"Cyfanswm nifer y llawdriniaethau darllen a gyflawnir ers dechrau sesiwn hwn."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4405
+#, fuzzy
 msgid "Reads:"
-msgstr ""
+msgstr "Darllen:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4432
+#, fuzzy
 msgid "<b>Read</b>"
-msgstr ""
+msgstr "darllen"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4462
+#, fuzzy
 msgid ""
 "The number of 16 KiB blocks currently in the disk cache. This includes both "
 "read and write cache."
 msgstr ""
+"Nifer y blociau KiB 16 ar hyn o bryd yn y storfa ddisg. Mae hyn yn cynnwys "
+"ddau ddarllen ac ysgrifennu storfa."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4464
+#, fuzzy
 msgid "Cache Size:"
-msgstr ""
+msgstr "Maint y storfa:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4474
+#, fuzzy
 msgid "Read Cache Size:"
-msgstr ""
+msgstr "Maint y storfa darllen:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4513
+#, fuzzy
 msgid "<b>Size</b>"
-msgstr ""
+msgstr "Maint"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4556
+#, fuzzy
 msgid "<b>Status</b>"
-msgstr ""
+msgstr "<b>Statws</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4618
+#, fuzzy
 msgid "<i><b><big>Plugins</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Ategion</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4743
+#, fuzzy
 msgid "Version:"
-msgstr ""
+msgstr "Fersiwn:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4767
+#, fuzzy
 msgid "Homepage:"
-msgstr ""
+msgstr "Hafan:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4780
+#, fuzzy
 msgid "Author Email:"
-msgstr ""
+msgstr "Awdur e-bost:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4872
+#, fuzzy
 msgid "_Install Plugin"
-msgstr ""
+msgstr "Ategyn _Install"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4915
+#, fuzzy
 msgid "_Rescan Plugins"
-msgstr ""
+msgstr "_Rescan ategion"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4968
+#, fuzzy
 msgid "_Find More Plugins"
-msgstr ""
+msgstr "_Find ategion mwy"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:12
+#, fuzzy
 msgid "_Show Deluge"
-msgstr ""
+msgstr "_Show dilyw"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:65
+#, fuzzy
 msgid "_Resume All"
-msgstr ""
+msgstr "_Resume holl"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:87
 #: deluge/ui/gtkui/glade/torrent_menu.glade:212
+#, fuzzy
 msgid "_Download Speed Limit"
-msgstr ""
+msgstr "Terfyn cyflymder _Download"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:103
 #: deluge/ui/gtkui/glade/torrent_menu.glade:227
+#, fuzzy
 msgid "_Upload Speed Limit"
-msgstr ""
+msgstr "Terfyn cyflymder _Upload"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:124
+#, fuzzy
 msgid "Quit & Shutdown Daemon"
-msgstr ""
+msgstr "Caewch & Daemon gau"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:11
+#, fuzzy
 msgid "_Open Folder"
-msgstr ""
+msgstr "Ffolder _Open"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:49
+#, fuzzy
 msgid "Resu_me"
-msgstr ""
+msgstr "Resu_me"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:71
+#, fuzzy
 msgid "Opt_ions"
-msgstr ""
+msgstr "Opt_ions"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:93
+#, fuzzy
 msgid "_Queue"
-msgstr ""
+msgstr "_Queue"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:113
+#, fuzzy
 msgid "_Update Tracker"
-msgstr ""
+msgstr "Olrhain _Update"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:152
+#, fuzzy
 msgid "_Remove Torrent"
-msgstr ""
+msgstr "_Remove torrent"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:174
+#, fuzzy
 msgid "_Force Re-check"
-msgstr ""
+msgstr "_Force ail-wirio'r"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:191
+#, fuzzy
 msgid "Move _Storage"
-msgstr ""
+msgstr "Symudiad _Storage"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:242
+#, fuzzy
 msgid "_Connection Limit"
-msgstr ""
+msgstr "Terfyn _Connection"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:258
+#, fuzzy
 msgid "Upload _Slot Limit"
-msgstr ""
+msgstr "Lanlwytho terfyn _Slot"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:273
+#, fuzzy
 msgid "_Auto Managed"
-msgstr ""
+msgstr "_Auto rheoli"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:51
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
+#, fuzzy
 msgid "<big><b>Remove the selected torrent?</b></big>"
-msgstr ""
+msgstr "<big><b>Dileu torrent dan sylw?</b></big>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:66
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
+#, fuzzy
 msgid "If you remove the data, it will be lost permanently."
-msgstr ""
+msgstr "Os ydych yn tynnu data, bydd yn colli barhaol."
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:127
+#, fuzzy
 msgid "action"
-msgstr ""
+msgstr "Gweithred"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:129
+#, fuzzy
 msgid "Remove Files"
-msgstr ""
+msgstr "Tynnu'r ffeiliau"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:198
+#, fuzzy
 msgid "Keep Files"
-msgstr ""
+msgstr "_Cadw Ffeiliau"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:9
+#, fuzzy
 msgid "Edit Trackers"
-msgstr ""
+msgstr "Golygu gall dyfais dracio"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:47
+#, fuzzy
 msgid "<big><b>Edit Trackers</b></big>"
-msgstr ""
+msgstr "<big><b>Golygu gall dyfais dracio</b></big>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:224
+#, fuzzy
 msgid "Add Tracker"
-msgstr ""
+msgstr "Ychwanegu olrhain"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:260
+#, fuzzy
 msgid "<b>Add Trackers</b>"
-msgstr ""
+msgstr "<b>Ychwanegu gall dyfais dracio</b>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:380
+#, fuzzy
 msgid "Edit Tracker"
-msgstr ""
+msgstr "Golygu olrhain"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:416
+#, fuzzy
 msgid "<b>Edit Tracker</b>"
-msgstr ""
+msgstr "<b>Golygu olrhain</b>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:450
+#, fuzzy
 msgid "Tracker:"
-msgstr ""
+msgstr "Olrhain:"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
+#, fuzzy
 msgid "Remove With _Data"
-msgstr ""
+msgstr "Gwared â _Data"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
+#, fuzzy
 msgid "Remove _Torrent"
-msgstr ""
+msgstr "Gwared _Torrent"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:9
+#, fuzzy
 msgid "Move Storage"
-msgstr ""
+msgstr "Symud storio"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:44
+#, fuzzy
 msgid "<b>Move Storage</b>"
-msgstr ""
+msgstr "<b>Symud storio</b>"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:78
+#, fuzzy
 msgid "Destination:"
-msgstr ""
+msgstr "Cyrchfan:"
 
 #~ msgid "Add"
 #~ msgstr "Ychwanegu"
