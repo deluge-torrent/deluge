@@ -98,10 +98,11 @@ class OptionsDialog():
         combobox.add_attribute(combobox_render, 'text', 0)
         combobox.set_model(self.accounts)
 
-        label_widget = self.main_builder.get_object('label')
-        # label_widget.get_child().set_text(options.get('label', '')) TOFIX
-        label_widget.set_model(self.labels)
-        # label_widget.set_text_column(0) TOFIX
+        combobox = self.main_builder.get_object('label')
+        combobox_render = Gtk.CellRendererText()
+        combobox.pack_start(combobox_render, True)
+        combobox.add_attribute(combobox_render, 'text', 0)
+        combobox.set_model(self.labels)
         self.main_builder.get_object('label_toggle').set_active(options.get('label_toggle', False))
 
         for id in self.spin_ids + self.spin_int_ids:
@@ -195,7 +196,6 @@ class OptionsDialog():
                 self.labels.set_value(self.labels.append(), 0, label)
             label_widget = self.main_builder.get_object('label')
             label_widget.set_model(self.labels)
-            label_widget.set_text_column(0)
 
         def on_failure(failure):
             log.exception(failure)
@@ -317,7 +317,7 @@ class OptionsDialog():
             options['copy_torrent'] = self.main_builder.get_object(
                 'copy_torrent_entry').get_text()
 
-        # options['label'] = self.main_builder.get_object('label').get_child().get_text().lower() TOFIX
+        # options['label'] = self.main_builder.get_object('label').get_child().get_text().lower()
         options['append_extension'] = self.main_builder.get_object('append_extension').get_text()
         options['owner'] = self.accounts[
             self.main_builder.get_object('OwnerCombobox').get_active()][0]
