@@ -303,7 +303,6 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
 
         renderer = Gtk.CellRendererText()
         renderer.connect("edited", self.on_cell_edited, self.recipients_model)
-        # renderer.set_data("recipient", RECIPIENT_FIELD) TOFIX
         column = Gtk.TreeViewColumn("Recipients", renderer,
                                     text=RECIPIENT_FIELD,
                                     editable=RECIPIENT_EDIT)
@@ -323,24 +322,20 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         self.sounds_model = Gtk.ListStore(str, str, str, str)
 
         renderer = Gtk.CellRendererText()
-        # renderer.set_data("event", SND_EVENT) TOFIX
         column = Gtk.TreeViewColumn("Event", renderer, text=SND_EVENT)
         column.set_expand(True)
         self.sounds_treeview.append_column(column)
 
         renderer = Gtk.CellRendererText()
-        # renderer.set_data("event_doc", SND_EVENT_DOC) TOFIX
         column = Gtk.TreeViewColumn("Doc", renderer, text=SND_EVENT_DOC)
         column.set_property('visible', False)
         self.sounds_treeview.append_column(column)
 
         renderer = Gtk.CellRendererText()
-        # renderer.set_data("sound_name", SND_NAME) TOFIX
         column = Gtk.TreeViewColumn("Name", renderer, text=SND_NAME)
         self.sounds_treeview.append_column(column)
 
         renderer = Gtk.CellRendererText()
-        # renderer.set_data("sound_path", SND_PATH) TOFIX
         column = Gtk.TreeViewColumn("Path", renderer, text=SND_PATH)
         column.set_property('visible', False)
         self.sounds_treeview.append_column(column)
@@ -358,13 +353,11 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         self.subscriptions_model = Gtk.ListStore(str, str, bool, bool, bool, bool)
 
         renderer = Gtk.CellRendererText()
-        # renderer.set_data("event", SUB_EVENT) TOFIX
         column = Gtk.TreeViewColumn("Event", renderer, text=SUB_EVENT)
         column.set_expand(True)
         self.subscriptions_treeview.append_column(column)
 
         renderer = Gtk.CellRendererText()
-        # renderer.set_data("event_doc", SUB_EVENT) TOFIX
         column = Gtk.TreeViewColumn("Doc", renderer, text=SUB_EVENT_DOC)
         column.set_property('visible', False)
         self.subscriptions_treeview.append_column(column)
