@@ -150,7 +150,7 @@
             }, this);
             store.add(newPeers);
 
-            // Remove any peers that shouldn't be left in the store
+            // Remove any peers that should not be left in the store.
             store.each(function(record) {
                 if (!addresses[record.id]) {
                     store.remove(record);

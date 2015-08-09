@@ -1,6 +1,6 @@
 /*!
  * Deluge.details.DetailsPanel.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -47,7 +47,7 @@ Deluge.details.DetailsPanel = Ext.extend(Ext.TabPanel, {
         this.add(new Deluge.details.PeersTab());
         this.add(new Deluge.details.OptionsTab());
     },
-    
+
     clear: function() {
         this.items.each(function(panel) {
             if (panel.clear) {
@@ -56,42 +56,41 @@ Deluge.details.DetailsPanel = Ext.extend(Ext.TabPanel, {
             }
         });
     },
-    
-    
+
+
     update: function(tab) {
         var torrent = deluge.torrents.getSelected();
         if (!torrent) {
             this.clear();
             return;
         }
-        
+
         this.items.each(function(tab) {
             if (tab.disabled) tab.enable();
         });
-        
+
         tab = tab || this.getActiveTab();
         if (tab.update) tab.update(torrent.id);
     },
-    
+
     /* Event Handlers */
-    
-    // We need to add the events in onRender since Deluge.Torrents hasn't
-    // been created yet.
+
+    // We need to add the events in onRender since Deluge.Torrents has not been created yet.
     onRender: function(ct, position) {
         Deluge.details.DetailsPanel.superclass.onRender.call(this, ct, position);
         deluge.events.on('disconnect', this.clear, this);
         deluge.torrents.on('rowclick', this.onTorrentsClick, this);
         this.on('tabchange', this.onTabChange, this);
-        
+
         deluge.torrents.getSelectionModel().on('selectionchange', function(selModel) {
             if (!selModel.hasSelection()) this.clear();
         }, this);
     },
-    
+
     onTabChange: function(panel, tab) {
         this.update(tab);
     },
-    
+
     onTorrentsClick: function(grid, rowIndex, e) {
         this.update();
     }

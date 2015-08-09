@@ -1,6 +1,6 @@
 /*!
  * Deluge.StatusbarMenu.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -37,7 +37,7 @@ Ext.ns('Deluge');
  * @extends Ext.menu.Menu
  */
 Deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
-    
+
     initComponent: function() {
         Deluge.StatusbarMenu.superclass.initComponent.call(this);
         this.otherWin = new Deluge.OtherLimitWindow(this.initialConfig.otherWin || {});
@@ -51,7 +51,7 @@ Deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
             }
         }, this);
     },
-    
+
     setValue: function(value) {
         var beenSet = false;
         // set the new value
@@ -67,12 +67,12 @@ Deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
                     beenSet = true;
                 } else {
                     item.setChecked(false);
-                }   
+                }
                 item.resumeEvents();
-            }   
+            }
 
             if (item.value == 'other') other = item;
-        }); 
+        });
 
         if (beenSet) return;
 
@@ -82,7 +82,7 @@ Deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
     },
 
     onLimitChanged: function(item, checked) {
-        if (!checked || item.value == 'other') return; // we don't care about unchecks or other
+        if (!checked || item.value == 'other') return; // We do not care about unchecked or other.
         var config = {}
         config[item.group] = item.value
         deluge.client.core.set_config(config, {

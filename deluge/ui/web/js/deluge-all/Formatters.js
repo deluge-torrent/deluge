@@ -39,12 +39,12 @@
  */
 Deluge.Formatters = {
     /**
-     * Formats a date string in the locale's date representation based on the
-     * systems timezone.
+     * Formats a date string in the date representation of the current locale,
+     * based on the systems timezone.
      *
-     * @param {Number} timestamp time in seconds since the Epoch
-     * @return {String} a string in the locale's date representation or ""
-     * if seconds < 0
+     * @param {Number} timestamp time in seconds since the Epoch.
+     * @return {String} a string in the date representation of the current locale
+     * or "" if seconds < 0.
      */
     date: function(timestamp) {
         function zeroPad(num, count) {

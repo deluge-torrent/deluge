@@ -75,8 +75,9 @@ with open(infiles_list, "wb") as f:
         f.write(line + "\n")
 
 # Force xgettext language to parse javascript and update pot file
+# Note: For javascript files xgettext will parse comments, so single apostrophes or quotes are
+# flagged as a 'warning: untermined string'. Either ignore warning or edit javascript comment.
 output = call(xgettext_cmd + ["--language=Python", "-j"])
-print "====== Javascript 'unterminated string' warnings can be ignored ======"
 
 # Replace YEAR and PACKAGE in the copyright message
 with open(pot_filepath, "r") as f:

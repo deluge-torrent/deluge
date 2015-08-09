@@ -106,7 +106,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
         };
 
         for (var field in this.fields) {
-            if (!Ext.isDefined(data[field])) continue; // this is a field we aren't responsible for.
+            if (!Ext.isDefined(data[field])) continue; // This is a field we are not responsible for.
             if (data[field] == this.oldData[field]) continue;
             this.fields[field].dom.innerHTML = Ext.escapeHTML(data[field]);
         }

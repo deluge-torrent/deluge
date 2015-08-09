@@ -375,7 +375,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
     update: function(torrentId) {
         if (this.torrentId && !torrentId) this.clear(); // we want to clear the pane if we get a null torrent torrentIds
 
-        if (!torrentId) return; // we don't care about null torrentIds
+        if (!torrentId) return; // We do not care about null torrentIds.
 
         if (this.torrentId != torrentId) {
             this.torrentId = torrentId;

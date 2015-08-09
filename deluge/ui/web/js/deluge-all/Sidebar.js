@@ -149,7 +149,7 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
             }
         }
 
-        // Perform a cleanup of fitlers that aren't enabled any more
+        // Perform a cleanup of fitlers that are not enabled any more.
         Ext.each(Ext.keys(this.panels), function(filter) {
             if (Ext.keys(filters).indexOf(filter) == -1) {
                 // We need to remove the panel
