@@ -781,7 +781,7 @@ class VersionSplit(object):
             ver = ver.lower()
             vs = ver.replace("_", "-").split("-")
 
-        self.version = [int(x) for x in vs[0].split(".")]
+        self.version = [int(x) for x in vs[0].split(".") if x.isdigit()]
         self.suffix = None
         self.dev = False
         if len(vs) > 1:
