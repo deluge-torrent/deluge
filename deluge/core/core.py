@@ -80,7 +80,7 @@ class Core(component.Component):
         log.info("Starting libtorrent %s session..", lt.version)
 
         # Create the client fingerprint
-        version = [int(value.split("-")[0]) for value in deluge.common.get_version().split(".")]
+        version = deluge.common.VersionSplit(deluge.common.get_version()).version
         while len(version) < 4:
             version.append(0)
 
