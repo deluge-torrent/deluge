@@ -200,9 +200,10 @@ class CleanPlugins(cmd.Command):
 
         for path in glob.glob(plugin_path):
             if os.path.exists(os.path.join(path, "setup.py")):
-                c = "cd " + path + "&& " + sys.executable + " setup.py clean"
+                c = "cd " + path + " && " + sys.executable + " setup.py clean"
                 if self.all:
                     c += " -a"
+                print("Calling '%s'" % c)
                 os.system(c)
 
             # Delete the .eggs

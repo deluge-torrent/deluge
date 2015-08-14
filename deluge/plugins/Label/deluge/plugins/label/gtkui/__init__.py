@@ -8,12 +8,11 @@
 #
 
 import logging
+
 from deluge import component  # for systray
 from deluge.plugins.pluginbase import GtkPluginBase
 
-from . import sidebar_menu
-from . import label_config
-from . import submenu
+from . import label_config, sidebar_menu, submenu
 
 log = logging.getLogger(__name__)
 

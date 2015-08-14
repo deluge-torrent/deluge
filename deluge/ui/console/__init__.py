@@ -9,4 +9,5 @@
 
 UI_PATH = __path__[0]
 from deluge.ui.console.main import start
+
 assert start  # silence pyflakes
