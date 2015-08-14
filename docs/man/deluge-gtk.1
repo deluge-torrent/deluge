@@ -1,28 +1,58 @@
-.TH DELUGE-GTK 1 "January 2099" "1.3.900-dev"
+.TH DELUGE-GTK 1 "January 2099" "2.0-dev"
 
 .SH NAME
 deluge-gtk - a bittorrent client gtk interface
 
 .SH SYNOPSIS
-.B deluge-gtk [options] [torrent]
+.B deluge-gtk [options]
+.RI [ torrent-file\fR]
 
 .SH DESCRIPTION
-.br
-.P
 Deluge utilizes a client/server model, with 'deluged' being the daemon process and 'deluge-gtk' being used to launch a GTK+ user-interface.
-.br
 .P
 By default, Deluge will run in 'Classic' mode where the daemon functionality will be hidden.  You can turn this off in the Preferences dialog.
 
 .SH OPTIONS
-See `deluge`.
+.SS General Options
+.TP
+.BI -c\  path \fR,\ \fB--config= path
+Set the config directory location.
+
+.SS UI Options
+.TP
+.BI -u\  ui \fR,\ \fB--ui= ui
+The UI that you wish to launch, current options include: gtk, web or console
+.TP
+.BI -s\  default_ui \fR,\ \fB--set-default-ui= default_ui
+Sets the default UI to be run when no UI is specified
+.TP
+.BI -a\  args \fR,\ \fB--args= args
+Arguments to pass to a UI, -a '--option args'
+
+.SS Logging Options
+.TP
+.BI -l\  file \fR,\ \fB--logfile= file
+Output to designated logfile instead of stdout
+.TP
+.BI -L\  loglevel \fR,\ \fB--loglevel= loglevel
+Set the log level (default is error):
+.B none, info, warning, error, critical, debug
+.TP
+.B -q, --quiet
+Sets the log level to 'none', same as `\-L none`
+
+.SS Help Options
+.TP
+.B -v, --version
+Show program's version number and exit.
+.TP
+.B -h, --help
+Show help message and exit.
 
 .SH SEE ALSO
-.B Homepage:
-http://www.deluge-torrent.org/
+.BR deluged(1),
+.BR deluge-web(1),
+.BR deluge-console(1)
 
-.SH AUTHOR
-This manual page was written by Andrew Resch <andrewresch@gmail.com>.
-.br
-Permission is granted to copy, distribute and/or modify this document under the terms of the GNU General Public License, Version 3 or any later version published by the Free Software Foundation
-.br
+.SH AUTHORS
+.B Deluge Team: http://www.deluge-torrent.org

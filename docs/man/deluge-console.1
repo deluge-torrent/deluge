@@ -1,4 +1,4 @@
-.TH DELUGE-CONSOLE 1 "January 2099" "1.3.900-dev"
+.TH DELUGE-CONSOLE 1 "January 2099" "2.0-dev"
 
 .SH NAME
 deluge-console - a bittorrent client curses interface
@@ -7,23 +7,42 @@ deluge-console - a bittorrent client curses interface
 .B deluge-console [options]
 
 .SH DESCRIPTION
-.br
-.P
 Deluge utilizes a client/server model, with 'deluged' being the daemon process and 'deluge-console' being used to launch a console user-interface.
-.br
 .P
-You can pass console commands directly from the command line, see `deluge-console \-\-help` for a list of commands.
-Run multiple commands by separating them with a semi-colon (;).
+You can pass console commands directly from the command line and run multiple commands by separating them with a semi-colon (;).
+.SS Console Commands:
+    info quit pause help resume del plugin cache add exit connect debug rm config recheck halt
 
 .SH OPTIONS
-See `deluge`.
+.SS General Options
+.TP
+.BI -c\  path \fR,\ \fB--config= path
+Set the config directory location.
+
+.SS Logging Options
+.TP
+.BI -l\  file \fR,\ \fB--logfile= file
+Output to designated logfile instead of stdout
+.TP
+.BI -L\  loglevel \fR,\ \fB--loglevel= loglevel
+Set the log level (default is error):
+.B none, info, warning, error, critical, debug
+.TP
+.B -q, --quiet
+Sets the log level to 'none', same as `\-L none`
+
+.SS Help Options
+.TP
+.B -v, --version
+Show program's version number and exit.
+.TP
+.B -h, --help
+Show help message and exit.
 
 .SH SEE ALSO
-.B Homepage:
-http://www.deluge-torrent.org/
+.BR deluge(1),
+.BR deluged(1),
+.BR deluge-web(1)
 
-.SH AUTHOR
-This manual page was written by Andrew Resch <andrewresch@gmail.com>.
-.br
-Permission is granted to copy, distribute and/or modify this document under the terms of the GNU General Public License, Version 3 or any later version published by the Free Software Foundation
-.br
+.SH AUTHORS
+.B Deluge Team: http://www.deluge-torrent.org

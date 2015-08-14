@@ -1,4 +1,4 @@
-.TH DELUGED 1 ""January 2099" "1.3.900-dev"
+.TH DELUGED 1 ""January 2099" "2.0-dev"
 
 .SH NAME
 deluged - a bittorrent client daemon
@@ -7,54 +7,57 @@ deluged - a bittorrent client daemon
 .B deluged [options]
 
 .SH DESCRIPTION
-.br
-.P
 Deluge utilizes a client/server model, with 'deluged' being the daemon process and 'deluge' being used to launch a user-interface.
-.br
 .P
 By default, 'deluged' will run as a daemon, to prevent this you can run deluged with the \-d option.  This option is useful for running deluged with the start-stop-daemon.
 
 .SH OPTIONS
+.SS General Options
 .TP
-.I --version
-Show program's version number and exit.
+.BI -c\  path \fR,\ \fB--config= path
+Set the config directory location.
+
+.SS Daemon Options
 .TP
-.I -h, --help
-Show this help message and exit.
-.TP
-.I -p PORT, --port=PORT
+.BI -p\  port \fR,\ \fB--port= port
 Port daemon will listen on, default is 58846
 .TP
-.I -i INTERFACE, --interface=INTERFACE
+.BI -i\  ip_address \fR,\ \fB--interface= ip_address
 Interface daemon will listen for bittorrent connections on, this should be an IP address
 .TP
-.I -u UI_INTERFACE, --ui-interface=UI_INTERFACE
+.BI -u\  ip_address \fR,\ \fB--ui-interface= ip_address
 Interface daemon will listen for UI connections on, this should be an IP address
 .TP
-.I -d, --do-not-daemonize
+.B -d, --do-not-daemonize
 Do not daemonize
 .TP
-.I -c CONFIG, --config=CONFIG
-Sets the configuration path.
+.BI -P\  file \fR,\ \fB--pidfile= file
+Use pidfile to store process id
+
+.SS Logging Options
 .TP
-.I -l LOGFILE, --logfile=LOGFILE
+.BI -l\  file \fR,\ \fB--logfile= file
 Output to designated logfile instead of stdout
 .TP
-.I -P PIDFILE, --pidfile=PIDFILE
-Use pidfile to store process id
+.BI -L\  loglevel \fR,\ \fB--loglevel= loglevel
+Set the log level (default is error):
+.B none, info, warning, error, critical, debug
 .TP
-.I -L LOGLEVEL, --loglevel=LOGLEVEL
-Set the log level (default is error): none, info, warning, error, critical, debug
+.B -q, --quiet
+Sets the log level to 'none', same as `\-L none`
+
+.SS Help Options
 .TP
-.I -q --quiet
-Sets the log level to 'none', this is the same as `\-L none`
+.B -v, --version
+Show program's version number and exit.
+.TP
+.B -h, --help
+Show help message and exit.
 
 .SH SEE ALSO
-.B Homepage:
-http://www.deluge-torrent.org/
+.BR deluge(1),
+.BR deluge-web(1),
+.BR deluge-console(1)
 
-.SH AUTHOR
-This manual page was written by Andrew Resch <andrewresch@gmail.com>.
-.br
-Permission is granted to copy, distribute and/or modify this document under the terms of the GNU General Public License, Version 3 or any later version published by the Free Software Foundation
-.br
+.SH AUTHORS
+.B Deluge Team: http://www.deluge-torrent.org

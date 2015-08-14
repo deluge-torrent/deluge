@@ -1,54 +1,58 @@
-.TH DELUGE 1 "January 2099" "1.3.900-dev"
+.TH DELUGE 1 "January 2099" "2.0-dev"
 
 .SH NAME
 deluge - a bittorrent client
 
 .SH SYNOPSIS
-.B deluge [options] [torrent]
+.B deluge [options]
+.RI [ torrent-file\fR]
 
 .SH DESCRIPTION
-.br
-.P
 Deluge utilizes a client/server model, with 'deluged' being the daemon process and 'deluge' being used to launch a user-interface.
-.br
 .P
 By default, Deluge will run in 'Classic' mode where the daemon functionality will be hidden and the GtkUI will automatically launch a 'deluged' process.  You can turn this off in the Preferences dialog.
 
 .SH OPTIONS
+.SS General Options
 .TP
-.I [torrent]
-List of ".torrent" files to add to the download queue.
+.BI -c\  path \fR,\ \fB--config= path
+Set the config directory location.
+
+.SS UI Options
 .TP
-.I --version
-Show program's version number and exit.
-.TP
-.I -h, --help
-Show this help message and exit.
-.TP
-.I -c CONFIG, --config=CONFIG
-Sets the configuration path.
-.TP
-.I -u UI, --ui=UI
+.BI -u\  ui \fR,\ \fB--ui= ui
 The UI that you wish to launch, current options include: gtk, web or console
 .TP
-.I -l LOGFILE, --logfile=LOGFILE
+.BI -s\  default_ui \fR,\ \fB--set-default-ui= default_ui
+Sets the default UI to be run when no UI is specified
+.TP
+.BI -a\  args \fR,\ \fB--args= args
+Arguments to pass to a UI, -a '--option args'
+
+.SS Logging Options
+.TP
+.BI -l\  file \fR,\ \fB--logfile= file
 Output to designated logfile instead of stdout
 .TP
-.I -L LOGLEVEL, --loglevel=LOGLEVEL
-Set the log level (default is error): none, info, warning, error, critical, debug
+.BI -L\  loglevel \fR,\ \fB--loglevel= loglevel
+Set the log level (default is error):
+.B none, info, warning, error, critical, debug
 .TP
-.I -q --quiet
-Sets the log level to 'none', this is the same as `\-L none`
+.B -q, --quiet
+Sets the log level to 'none', same as `\-L none`
+
+.SS Help Options
 .TP
-.I -s DEFAULT_UI, --set-default-ui=DEFAULT_UI
-Sets the default UI to be run when no UI is specified
+.B -v, --version
+Show program's version number and exit.
+.TP
+.B -h, --help
+Show help message and exit.
 
 .SH SEE ALSO
-.B Homepage:
-http://www.deluge-torrent.org/
+.BR deluged(1),
+.BR deluge-web(1),
+.BR deluge-console(1)
 
-.SH AUTHOR
-This manual page was written by Andrew Resch <andrewresch@gmail.com>.
-.br
-Permission is granted to copy, distribute and/or modify this document under the terms of the GNU General Public License, Version 3 or any later version published by the Free Software Foundation
-.br
+.SH AUTHORS
+.B Deluge Team: http://www.deluge-torrent.org
