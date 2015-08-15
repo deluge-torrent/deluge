@@ -20,11 +20,9 @@ shutil.copy(python_path + "Scripts\deluge-gtk-script.pyw", python_path + "Script
 shutil.copy(python_path + "Scripts\deluge-console-script.py", python_path + "Scripts\deluge-console.py")
 
 # Include python modules not picked up automatically by bbfreeze
-includes=(
-            "libtorrent", "cairo", "pangocairo", "atk", "pango", "twisted.internet.utils",
-            "gio", "gzip", "email.mime.multipart", "email.mime.text"
-         )
-excludes=("numpy", "OpenGL", "psyco", "win32ui")
+includes = ("libtorrent", "cairo", "pangocairo", "atk", "pango", "twisted.internet.utils",
+            "gio", "gzip", "email.mime.multipart", "email.mime.text", "_cffi_backend")
+excludes = ("numpy", "OpenGL", "psyco", "win32ui")
 
 dst = "..\\build-win32\\deluge-bbfreeze-" + build_version + "\\"
 
