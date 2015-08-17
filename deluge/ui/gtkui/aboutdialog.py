@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # aboutdialog.py
 #
-# Copyright (C) 2007 Marcos Pinto ('markybob') <markybob@gmail.com>
+# Copyright (C) 2007 Marcos Mobley ('markybob') <markybob@gmail.com>
 #
 # Deluge is free software.
 #
@@ -66,7 +66,7 @@ class AboutDialog:
             _("Current Developers:"), "Andrew Resch", "Damien Churchill",
             "John Garland", "Calum Lind", "", "libtorrent (libtorrent.org):",
             "Arvid Norberg", "", _("Past Developers or Contributors:"),
-            "Zach Tibbitts", "Alon Zakai", "Marcos Pinto", "Alex Dedul",
+            "Zach Tibbitts", "Alon Zakai", "Marcos Mobley", "Alex Dedul",
             "Sadrul Habib Chowdhury", "Ido Abramovich", "Martijn Voncken"
         ])
         self.about.set_artists(["Andrew Wedderburn", "Andrew Resch"])
@@ -164,7 +164,7 @@ class AboutDialog:
             "Major Kong", "Malaki", "malde", "Malte Lenz", "Mantas Kriaučiūnas",
             "Mara Sorella", "Marcin", "Marcin Falkiewicz", "marcobra",
             "Marco da Silva", "Marco de Moulin", "Marco Rodrigues", "Marcos",
-            "Marcos Escalier", "Marcos Pinto", "Marcus Ekstrom",
+            "Marcos Escalier", "Marcos Mobley", "Marcus Ekstrom",
             "Marek Dębowski", "Mário Buči", "Mario Munda", "Marius Andersen",
             "Marius Hudea", "Marius Mihai", "Mariusz Cielecki",
             "Mark Krapivner", "marko-markovic", "Markus Brummer",

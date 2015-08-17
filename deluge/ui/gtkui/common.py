@@ -1,7 +1,7 @@
 #
 # common.py
 #
-# Copyright (C) 2008 Marcos Pinto ('markybob') <markybob@gmail.com>
+# Copyright (C) 2008 Marcos Mobley ('markybob') <markybob@gmail.com>
 #
 # Deluge is free software.
 #
