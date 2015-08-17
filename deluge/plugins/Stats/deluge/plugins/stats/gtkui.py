@@ -127,9 +127,7 @@ class GraphsTab(Tab):
         w, h = alloc.width, alloc.height
         context.rectangle(0, 0, w, h)
         context.clip()
-        self.graph.draw_to_context(context,
-                                   w,
-                                   h)
+        self.graph.draw_to_context(context, w, h)
         # Do not propagate the event
         return False
 
@@ -225,7 +223,7 @@ class GtkUI(GtkPluginBase):
         log.debug("Stats plugin enable called")
         self.config = deluge.configmanager.ConfigManager("stats.gtkui.conf", DEFAULT_CONF)
         self.main_builder = Gtk.Builder()
-        self.glade = self.main_builder.add_from_file(get_resource("config.ui"))
+        self.main_builder.add_from_file(get_resource("config.ui"))
         component.get("Preferences").add_page("Stats", self.main_builder.get_object("prefs_box"))
         component.get("PluginManager").register_hook("on_apply_prefs", self.on_apply_prefs)
         component.get("PluginManager").register_hook("on_show_prefs", self.on_show_prefs)

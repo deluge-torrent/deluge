@@ -53,13 +53,13 @@ class GtkUI(GtkPluginBase):
 
         # Remove status item
         component.get("StatusBar").remove_item(self.status_item)
-        # del self.status_item
+        del self.status_item
 
         # Deregister the hooks
         self.plugin.deregister_hook("on_apply_prefs", self._on_apply_prefs)
         self.plugin.deregister_hook("on_show_prefs", self._on_show_prefs)
 
-        # del self.glade
+        del self.glade
 
     def update(self):
         def _on_get_status(status):
@@ -71,9 +71,9 @@ class GtkUI(GtkPluginBase):
 
                 self.status_item.set_text(
                     "Downloading %.2f%%" % (status["file_progress"] * 100))
-                self.progress.set_text("Downloading %.2f%%" % (status["file_progress"] * 100))
-                self.progress.set_fraction(status["file_progress"])
-                self.progress.show()
+                self.progress_bar.set_text("Downloading %.2f%%" % (status["file_progress"] * 100))
+                self.progress_bar.set_fraction(status["file_progress"])
+                self.progress_bar.show()
 
             elif status["state"] == "Importing":
                 self.table_info.hide()
@@ -83,12 +83,12 @@ class GtkUI(GtkPluginBase):
 
                 self.status_item.set_text(
                     "Importing " + str(status["num_blocked"]))
-                self.progress.set_text("Importing %s" % (status["num_blocked"]))
-                self.progress.pulse()
-                self.progress.show()
+                self.progress_bar.set_text("Importing %s" % (status["num_blocked"]))
+                self.progress_bar.pulse()
+                self.progress_bar.show()
 
             elif status["state"] == "Idle":
-                self.progress.hide()
+                self.progress_bar.hide()
                 self.main_builder.get_object("button_check_download").set_sensitive(True)
                 self.main_builder.get_object("button_force_download").set_sensitive(True)
                 if status["up_to_date"]:
@@ -145,11 +145,11 @@ class GtkUI(GtkPluginBase):
         self.glade = self.main_builder.add_from_file(get_resource("blocklist_pref.ui"))
 
         self.whitelist_frame = self.main_builder.get_object("whitelist_frame")
-        self.progress = Gtk.ProgressBar()
+        self.progress_bar = Gtk.ProgressBar()
         self.table_info = self.main_builder.get_object("table_info")
 
         # Hide the progress bar initially
-        self.progress.hide()
+        self.progress_bar.hide()
         self.table_info.show()
 
         # Create the whitelisted model

@@ -338,11 +338,11 @@ class OtherDialog(BaseDialog):
             parent)
 
         hbox = Gtk.HBox(spacing=5)
-        alignment_spacer = Gtk.Alignment.new(1, 0.5, 1, 1)
+        alignment_spacer = Gtk.Alignment.new(0, 0, 0, 0)
         hbox.pack_start(alignment_spacer, True, True, 0)
         alignment_spin = Gtk.Alignment.new(1, 0.5, 1, 1)
         adjustment_spin = Gtk.Adjustment.new(50.0, -1.0, 100000.0, 1.0, 10.0, 0.0)
-        self.spinbutton = Gtk.SpinButton.new(adjustment_spin, 5.0, 0)
+        self.spinbutton = Gtk.SpinButton.new(adjustment_spin, 0, 0)
         self.spinbutton.set_value(default)
         self.spinbutton.select_region(0, -1)
         self.spinbutton.set_width_chars(6)

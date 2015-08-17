@@ -806,7 +806,7 @@ class FilesTab(Tab):
 
     def _on_drag_data_received_data(self, treeview, context, x, y, selection, info, etime):
         try:
-            selected = cPickle.loads(selection)
+            selected = cPickle.loads(selection.data)
         except cPickle.UnpicklingError:
             log.debug("Invalid selection data: %s", selection.data)
             return

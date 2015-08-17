@@ -276,7 +276,7 @@ def listview_replace_treestore(listview):
     Params:
         listview: a listview backed by a treestore
     """
-    # From http://faq.pyGtk.org/index.py?req=show&file=faq13.043.htp
+    # From http://faq.pygtk.org/index.py?req=show&file=faq13.043.htp
     # "tips for improving performance when adding many rows to a Treeview"
     listview.freeze_child_notify()
     treestore = listview.get_model()

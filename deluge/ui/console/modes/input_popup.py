@@ -108,6 +108,7 @@ class CheckedPlusInput(InputField):
         self.checked = checked
         self.msglen = len(self.chkd_inact) + 1
         self.child_active = False
+        self.child = child
 
     def get_height(self):
         return max(2, self.get_child().height)

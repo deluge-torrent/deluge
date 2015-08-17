@@ -27,7 +27,7 @@ log = logging.getLogger(__name__)
 class GtkUI(GtkPluginBase):
     def enable(self):
         self.main_builder = Gtk.Builder()
-        self.glade = self.main_builder.add_from_file(get_resource("config.ui"))
+        self.main_builder.add_from_file(get_resource("config.ui"))
 
         component.get("Preferences").add_page(_("WebUi"), self.main_builder.get_object("prefs_box"))
         component.get("PluginManager").register_hook("on_apply_prefs", self.on_apply_prefs)

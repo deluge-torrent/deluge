@@ -107,7 +107,7 @@ def create_plugin():
     write_file(src, "webui.py", WEBUI)
     write_file(src, "core.py", CORE)
     write_file(src, "common.py", COMMON)
-    write_file(data_dir, "config.glade", GLADE)
+    write_file(data_dir, "config.ui", GLADE)
     write_file(data_dir, "%s.js" % safe_name, DEFAULT_JS)
 
     # add an input parameter for this?
@@ -238,7 +238,7 @@ log = logging.getLogger(__name__)
 
 class GtkUI(GtkPluginBase):
     def enable(self):
-        self.glade = Gtk.glade.XML(get_resource("config.glade"))
+        self.glade = Gtk.glade.XML(get_resource("config.ui"))
 
         component.get("Preferences").add_page("%(name)s", self.glade.get_widget("prefs_box"))
         component.get("PluginManager").register_hook("on_apply_prefs", self.on_apply_prefs)
@@ -264,33 +264,33 @@ class GtkUI(GtkPluginBase):
         self.glade.get_widget("txt_test").set_text(config["test"])
 """
 
-GLADE = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Fri Aug  8 23:34:44 2008 -->
-<glade-interface>
-  <widget class="GtkWindow" id="window1">
+GLADE = """<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.18.3 -->
+<interface>
+  <requires lib="gtk+" version="3.0"/>
+  <object class="GtkWindow" id="window1">
     <child>
-      <widget class="GtkHBox" id="prefs_box">
+      <object class="GtkHBox" id="prefs_box">
         <property name="visible">True</property>
         <child>
-          <widget class="GtkLabel" id="label1">
+          <object class="GtkLabel" id="label1">
             <property name="visible">True</property>
             <property name="label" translatable="yes">Test config value:</property>
-          </widget>
+          </object>
         </child>
         <child>
-          <widget class="GtkEntry" id="txt_test">
+          <object class="GtkEntry" id="txt_test">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-          </widget>
+          </object>
           <packing>
             <property name="position">1</property>
           </packing>
         </child>
-      </widget>
+      </object>
     </child>
-  </widget>
-</glade-interface>
+  </object>
+</interface>
 """
 
 WEBUI = """

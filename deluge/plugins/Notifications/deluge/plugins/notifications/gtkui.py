@@ -168,7 +168,7 @@ class GtkUiNotifications(CustomNotifications):
             self.note = Notify.Notification(title, message)
             self.note.set_icon_from_pixbuf(icon)
             if not self.note.show():
-                err_msg = _("pynotify failed to show notification")
+                err_msg = _("Notify failed to show notification")
                 log.warning(err_msg)
                 return defer.fail(err_msg)
         return defer.succeed(_("Notification popup shown"))
