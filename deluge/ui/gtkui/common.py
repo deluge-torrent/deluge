@@ -17,8 +17,9 @@ import sys
 
 import deluge.common
 import gi
-from gi.repository import GdkPixbuf, Gtk
+from gi.repository import Gtk
 from gi.repository.GLib import GError
+from gi.repository import GdkPixbuf
 
 gi.require_version('Gtk', '3.0')
 

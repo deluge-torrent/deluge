@@ -15,7 +15,8 @@ import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.ui.gtkui.common import get_logo
 from deluge.ui.gtkui.ipcinterface import process_args
-from gi.repository import GObject, Gtk
+from gi.repository import Gtk
+from gi.overrides import GObject
 
 log = logging.getLogger(__name__)
 

@@ -20,7 +20,8 @@ from deluge.ui.client import client
 from deluge.ui.gtkui import torrentview_data_funcs as funcs
 from deluge.ui.gtkui.listview import ListView
 from deluge.ui.gtkui.removetorrentdialog import RemoveTorrentDialog
-from gi.repository import Gdk, GObject, Gtk
+from gi.repository import Gdk, Gtk
+from gi.overrides import GObject
 
 warnings.filterwarnings('error', category=UnicodeWarning)
 # warnings.filterwarnings('error', message='*equal comparison failed*')

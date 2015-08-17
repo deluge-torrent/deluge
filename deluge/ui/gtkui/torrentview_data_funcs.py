@@ -13,7 +13,8 @@ import warnings
 
 import deluge.common as common
 import deluge.component as component
-from gi.repository import GdkPixbuf, GObject
+from gi.repository import GdkPixbuf
+from gi.overrides import GObject
 
 # Status icons.. Create them from file only once to avoid constantly
 # re-creating them.

@@ -120,14 +120,15 @@ class PathChooser(PathChooserComboBox):
         self.chooser_handler = PathChoosersHandler()
         self.chooser_handler.register_chooser(self)
         self.set_auto_completer_func(self.on_completion)
-        self.connect("list-values-changed", self.on_list_values_changed_event)
-        self.connect("auto-complete-enabled-toggled", self.on_auto_complete_enabled_toggled)
-        self.connect("show-filechooser-toggled", self.on_show_filechooser_toggled)
-        self.connect("show-folder-name-on-button", self.on_show_folder_on_button_toggled)
-        self.connect("show-path-entry-toggled", self.on_show_path_entry_toggled)
-        self.connect("accelerator-set", self.on_accelerator_set)
-        self.connect("max-rows-changed", self.on_max_rows_changed)
-        self.connect("show-hidden-files-toggled", self.on_show_hidden_files_toggled)
+        #self.connect("list-values-changed", self.on_list_values_changed_event)
+        #self.connect("auto-complete-enabled-toggled", self.on_auto_complete_enabled_toggled)
+        #self.connect("show-filechooser-toggled", self.on_show_filechooser_toggled)
+        #self.connect("show-folder-name-on-button", self.on_show_folder_on_button_toggled)
+        #self.connect("show-path-entry-toggled", self.on_show_path_entry_toggled)
+        #self.connect("accelerator-set", self.on_accelerator_set)
+        #self.connect("max-rows-changed", self.on_max_rows_changed)
+        #self.connect("show-hidden-files-toggled", self.on_show_hidden_files_toggled)
+        #  TODO fix GObject which is a pygtk depricated thing
 
     def on_auto_complete_enabled_toggled(self, widget, value):
         self.chooser_handler.set_value_for_path_choosers(value, "path_chooser_auto_complete_enabled")

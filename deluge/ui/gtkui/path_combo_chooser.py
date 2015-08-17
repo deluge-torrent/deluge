@@ -16,7 +16,8 @@ import warnings
 from deluge.common import resource_filename
 from deluge.path_chooser_common import get_completion_paths
 from gi.module import get_introspection_module
-from gi.repository import Gdk, GObject, Gtk
+from gi.repository import Gdk, Gtk
+from gi.overrides import GObject
 
 try:
     # Import only on X11
@@ -113,8 +114,10 @@ class ValueList(object):
                 self.handle_list_scroll(path=tree_path)
 
         if emit_signal:
-            self.emit("list-value-added", paths)
-            self.emit("list-values-changed", self.get_values())
+            #  TODO fix GObject which is a pygtk depricated thing
+            # self.emit("list-value-added", paths)
+            # self.emit("list-values-changed", self.get_values())
+            nothing = things
 
     def set_values(self, paths, scroll_to_row=False, preserve_selection=True):
         """
@@ -162,8 +165,9 @@ class ValueList(object):
                 path = (index, )
             self.treeview.set_cursor(path)
             self.set_path_selected(path)
-            self.emit("list-value-removed", path_value)
-            self.emit("list-values-changed", self.get_values())
+            # self.emit("list-value-removed", path_value)
+            # self.emit("list-values-changed", self.get_values())
+            #  TODO fix GObject which is a pygtk depricated thing
 
     def set_selected_value(self, value, select_first=False):
         """
@@ -306,8 +310,9 @@ class ValueList(object):
                 p1 = self.tree_store[path][0]
                 p2 = self.tree_store[new_path][0]
                 self.tree_store.swap(self.tree_store.get_iter(path), self.tree_store.get_iter(new_path))
-                self.emit("list-values-reordered", [p1, p2])
-                self.emit("list-values-changed", self.get_values())
+                #self.emit("list-values-reordered", [p1, p2])
+                #self.emit("list-values-changed", self.get_values())
+                #  TODO fix GObject which is a pygtk depricated thing
             path = new_path
 
         self.treeview.set_cursor(path)
@@ -1023,20 +1028,21 @@ GtkGI = get_introspection_module('Gtk')
 
 class PathChooserComboBox(GtkGI.Box, StoredValuesPopup, GObject.GObject):
 
-    __gsignals__ = {
-        "list-value-added": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
-        "list-value-removed": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
-        "list-values-reordered": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
-        "list-values-changed": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
-        "auto-complete-enabled-toggled": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
-        "show-filechooser-toggled": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
-        "show-path-entry-toggled": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
-        "show-folder-name-on-button": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
-        "show-hidden-files-toggled": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
-        "accelerator-set": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
-        "max-rows-changed": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
-        "text-changed": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
-    }
+    #  TODO fix GObject which is a pygtk depricated thing
+    #__gsignals__ = {
+    #    "list-value-added": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
+    #    "list-value-removed": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
+    #    "list-values-reordered": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
+    #    "list-values-changed": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
+    #    "auto-complete-enabled-toggled": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
+    #    "show-filechooser-toggled": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
+    #    "show-path-entry-toggled": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
+    #    "show-folder-name-on-button": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
+    #    "show-hidden-files-toggled": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
+    #    "accelerator-set": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
+    #    "max-rows-changed": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
+    #    "text-changed": (GObject.SignalFlags.RUN_FIRST, None, (object, )),
+    #}
 
     def __init__(self, max_visible_rows=20, auto_complete=True, use_completer_popup=True):
         print("Gtk.Box:", type(Gtk.Box))
