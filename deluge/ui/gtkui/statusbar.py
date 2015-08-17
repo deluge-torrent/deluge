@@ -14,8 +14,7 @@ import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 from deluge.ui.gtkui import common, dialogs
-from gi.repository import Gtk
-from gi.overrides import GObject
+from gi.repository import GObject, Gtk
 
 log = logging.getLogger(__name__)
 

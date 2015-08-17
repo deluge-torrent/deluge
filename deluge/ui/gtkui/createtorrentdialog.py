@@ -18,8 +18,7 @@ from deluge.common import get_path_size, is_url, resource_filename
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
-from gi.repository import Gtk
-from gi.overrides import GObject
+from gi.repository import GObject, Gtk
 
 log = logging.getLogger(__name__)
 

@@ -18,8 +18,7 @@ from deluge.ui.gtkui.common import (listview_replace_treestore, load_pickled_sta
                                     save_pickled_state_file)
 from deluge.ui.gtkui.torrentdetails import Tab
 from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
-from gi.repository import Gdk, Gtk
-from gi.overrides import GObject
+from gi.repository import Gdk, GObject, Gtk
 
 log = logging.getLogger(__name__)
 

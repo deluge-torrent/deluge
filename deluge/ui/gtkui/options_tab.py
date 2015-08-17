@@ -43,8 +43,7 @@ class OptionsTab(Tab):
         self.move_completed_path_chooser.set_sensitive(self.chk_move_completed.get_active())
         self.move_completed_hbox.add(self.move_completed_path_chooser)
         self.move_completed_hbox.show_all()
-        #self.move_completed_path_chooser.connect("text-changed", self._on_path_chooser_text_changed_event)
-        #  TODO fix GObject which is a pygtk depricated thing
+        self.move_completed_path_chooser.connect("text-changed", self._on_path_chooser_text_changed_event)
 
         self.prev_torrent_id = None
         self.prev_status = None
