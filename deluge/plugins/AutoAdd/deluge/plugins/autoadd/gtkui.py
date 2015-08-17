@@ -316,7 +316,8 @@ class OptionsDialog():
                 'move_completed_path_entry').get_text()
             options['copy_torrent'] = self.main_builder.get_object(
                 'copy_torrent_entry').get_text()
-
+        #  AttributeError: 'ComboBox' object has no attribute 'child'
+        # options['label'] = self.main_builder.get_object('label').child.get_text().lower()
         options['append_extension'] = self.main_builder.get_object('append_extension').get_text()
         options['owner'] = self.accounts[
             self.main_builder.get_object('OwnerCombobox').get_active()][0]
