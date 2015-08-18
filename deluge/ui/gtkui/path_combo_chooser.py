@@ -15,7 +15,9 @@ import warnings
 
 from deluge.common import resource_filename
 from deluge.path_chooser_common import get_completion_paths
-from gi.module import get_introspection_module
+# FIXME: use this as fallback to get_introspection_module?
+from gi.importer import modules
+#from gi.module import get_introspection_module
 from gi.repository import Gdk, GObject, Gtk
 
 try:
@@ -1017,8 +1019,9 @@ class PathAutoCompleter(object):
         elif self.completion_popup.is_popped_up() and args["forward_completion"]:
             self.completion_popup.popdown()
 
-
-GtkGI = get_introspection_module('Gtk')
+# FIXME: use this as fallback to get_introspection_module?
+GtkGI = modules['Gtk']._introspection_module
+#GtkGI = get_introspection_module('Gtk')
 
 
 class PathChooserComboBox(GtkGI.Box, StoredValuesPopup, GObject.GObject):
