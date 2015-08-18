@@ -349,6 +349,8 @@ class MainWindow(component.Component):
         xid = self.window.get_window().get_xid()
         win = Wnck.Window.get(xid)
 
+        # FIXME: Should this not be active_wksp = win.get_screen().get_active_workspace()? 
+        # Would negate the need for line 349
         active_wksp = screen.get_active_workspace()
         if active_wksp:
             return win.is_on_workspace(active_wksp)
