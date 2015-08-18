@@ -21,7 +21,7 @@ print "Python Path: %s" % python_path
 gtk_root = os.path.join(os.path.dirname(sys.executable), "\\Lib\\site-packages\\gnome")
 
 # Include python modules not picked up automatically by bbfreeze
-includes = ("libtorrent", "cairo", "twisted.internet.utils",
+includes = ("libtorrent", "twisted.internet.utils",
             "gzip", "email.mime.multipart", "email.mime.text")
 excludes = ("numpy", "OpenGL", "psyco", "win32ui")
 
