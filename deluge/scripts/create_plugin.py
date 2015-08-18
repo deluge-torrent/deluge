@@ -238,9 +238,10 @@ log = logging.getLogger(__name__)
 
 class GtkUI(GtkPluginBase):
     def enable(self):
-        self.glade = Gtk.glade.XML(get_resource("config.ui"))
+        self.main_builder = Gtk.Builder()
+        self.main_builder.add_from_file(get_resource("config.ui"))
 
-        component.get("Preferences").add_page("%(name)s", self.glade.get_widget("prefs_box"))
+        component.get("Preferences").add_page("%(name)s", self.main_builder.get_object("prefs_box"))
         component.get("PluginManager").register_hook("on_apply_prefs", self.on_apply_prefs)
         component.get("PluginManager").register_hook("on_show_prefs", self.on_show_prefs)
 
@@ -252,7 +253,7 @@ class GtkUI(GtkPluginBase):
     def on_apply_prefs(self):
         log.debug("applying prefs for %(name)s")
         config = {
-            "test":self.glade.get_widget("txt_test").get_text()
+            "test":self.main_builder.get_object("txt_test").get_text()
         }
         client.%(safe_name)s.set_config(config)
 
