@@ -29,6 +29,7 @@ from .graph import Graph, size_formatter_scale
 log = logging.getLogger(__name__)
 
 
+# FIXME use gdk_rgba_parse?
 DEFAULT_CONF = {'version': 1,
                 'colors': {
                     'bandwidth_graph': {'upload_rate':
@@ -74,6 +75,7 @@ def int_str(number):
 def gtk_to_graph_color(color):
     """Turns a Gdk.Color into a tuple with range 0-1 as used by the graph"""
     # max_val = float(65535)
+    # FIXME figure out how to use gdk_rgba_to_string instead
     gtk_color = eval(color)
     red = gtk_color.red
     green = gtk_color.green
