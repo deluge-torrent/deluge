@@ -89,13 +89,13 @@ class TorrentDetails(component.Component):
         ]
 
         self.translate_tabs = {
-            "All": _("All"),
-            "Status": _("Status"),
-            "Details": _("Details"),
-            "Files": _("Files"),
-            "Peers": _("Peers"),
-            "Options": _("Options"),
-            "Trackers": _("Trackers")
+            "All": _("_All"),
+            "Status": _("_Status"),
+            "Details": _("_Details"),
+            "Files": _("_Files"),
+            "Peers": _("_Peers"),
+            "Options": _("_Options"),
+            "Trackers": _("_Trackers")
         }
 
         # Get the state from saved file
