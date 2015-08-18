@@ -527,7 +527,7 @@ class ListView:
         column.set_min_width(10)
         column.set_reorderable(True)
         column.set_visible(not hidden)
-        # TODO
+        # FIXME
         # column.connect('button-press-event',
         #               self.on_treeview_header_right_clicked)
         # column.connect('clicked', self.on_treeview_header_right_clicked)

@@ -343,7 +343,7 @@ class MainWindow(component.Component):
         if not Wnck:
             return True
 
-        # TODO: Linux specific code required? Above code fails on Ubuntu 14.04...
+        # FIXME: Linux specific code required? Above code fails on Ubuntu 14.04...
         # Necessary to import this for get_xid() to work, at least when testing on Ubuntu 14.04
         from gi.repository import GdkX11  # NOQA
         screen = Wnck.Screen.get_default()
