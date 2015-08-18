@@ -299,6 +299,7 @@ class MainWindow(component.Component):
             process_args(selection_data.get_uris())
         else:
             process_args(selection_data.data.split())
+        # FIXME TypeError: finish() takes exactly 4 arguments (3 given)
         drag_context.finish(True, True)
 
     def on_expose_event(self, widget, event):
