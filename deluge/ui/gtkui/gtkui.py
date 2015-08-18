@@ -212,14 +212,6 @@ class GtkUI(object):
         self.queuedtorrents = QueuedTorrents()
         self.ipcinterface = IPCInterface(args)
 
-        # Initialize gdk threading
-        # Gdk Threading
-        # causes crashes in windows
-        # gdk_threads_init has been deprecated since version 3.6
-        # and should not be used in newly-written code.
-        # All GDK and GTK+ calls should be made from the main thread
-        # Gdk.threads_init()
-
         # We make sure that the UI components start once we get a core URI
         client.set_disconnect_callback(self.__on_disconnect)
 
@@ -264,11 +256,8 @@ class GtkUI(object):
 
         reactor.callWhenRunning(self._on_reactor_start)
 
-        # Initialize gdk threading
-        # Gdk.threads_enter()
         reactor.run()
         self.shutdown()
-        # Gdk.threads_leave()
 
     def shutdown(self, *args, **kwargs):
         log.debug("gtkui shutting down..")
