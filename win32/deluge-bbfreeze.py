@@ -3,10 +3,10 @@ import os
 import shutil
 import sys
 
-import bbfreeze
+import bbfreeze.recipes
 import deluge.common
 import icon
-from bbfreeze import Freezer, recipes  # NOQA
+from bbfreeze import Freezer
 from gi.repository import Gtk  # NOQA
 
 # Get build_version from installed deluge
@@ -18,7 +18,7 @@ if python_path.endswith("Scripts"):
 python_path += os.path.sep
 
 print "Python Path: %s" % python_path
-gtk_root = "C:\\Python27\\Lib\\site-packages\\gnome"
+gtk_root = os.path.join(os.path.dirname(sys.executable), "\\Lib\\site-packages\\gnome")
 
 # Include python modules not picked up automatically by bbfreeze
 includes = ("libtorrent", "cairo", "twisted.internet.utils",

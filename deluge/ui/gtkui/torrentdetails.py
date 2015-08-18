@@ -257,7 +257,7 @@ class TorrentDetails(component.Component):
         """Generates the checklist menu for all the tabs and attaches it"""
         menu = Gtk.Menu()
         # Create 'All' menuitem and a separator
-        menuitem = Gtk.CheckMenuItem(self.translate_tabs["All"], True)
+        menuitem = Gtk.CheckMenuItem.new_with_mnemonic(self.translate_tabs["All"])
         menuitem.set_name("All")
 
         all_tabs = True
@@ -280,7 +280,7 @@ class TorrentDetails(component.Component):
         menuitem_list.sort()
 
         for pos, name in menuitem_list:
-            menuitem = Gtk.CheckMenuItem(self.translate_tabs[name], True)
+            menuitem = Gtk.CheckMenuItem.new_with_mnemonic(self.translate_tabs[name])
             menuitem.set_name(name)
             menuitem.set_active(self.tabs[name].is_visible)
             menuitem.connect("toggled", self._on_menuitem_toggled)
