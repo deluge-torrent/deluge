@@ -490,20 +490,16 @@ class TorrentView(ListView, component.Component):
                 to_update = []
                 for i, status_field in fields_to_update:
                     row_value = status[torrent_id][status_field]
-                    try:
-                        # if row[i] != row_value:
+                    # FIXME: Seeing UnicodeWarning??
+                    if row[i] != row_value:
                         to_update.append(i)
                         to_update.append(row_value)
-                    except UnicodeWarning:
-                        # print "UnicodeWarning:", E
-                        # print "row_value: (%s) '%s'" % (type(row_value), row_value)
-                        # print "row[%d]: (%s): '%s'" % (i, type(row[i]), row[i])
-                        pass
 
-                        # raise
                 # Update fields in the liststore
                 if to_update:
-                    self.liststore.set(row.iter, *to_update)
+                    # FIXME: exceptions.ValueError: Expected a float for column 25 but got <type 'int'>
+                    #self.liststore.set(row.iter, *to_update)
+                    pass
 
         if load_new_list:
             # Create the model filter. This sets the model for the treeview and enables sorting.
