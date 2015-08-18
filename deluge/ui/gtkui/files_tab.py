@@ -11,6 +11,8 @@ import cPickle
 import logging
 import os.path
 
+from gi.repository import Gdk, GObject, Gtk
+
 import deluge.component as component
 from deluge.common import FILE_PRIORITY, open_file, show_file
 from deluge.ui.client import client
@@ -18,7 +20,6 @@ from deluge.ui.gtkui.common import (listview_replace_treestore, load_pickled_sta
                                     save_pickled_state_file)
 from deluge.ui.gtkui.torrentdetails import Tab
 from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
-from gi.repository import Gdk, GObject, Gtk
 
 log = logging.getLogger(__name__)
 

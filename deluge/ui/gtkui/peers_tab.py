@@ -11,6 +11,8 @@ import logging
 import os.path
 from itertools import izip
 
+from gi.repository import GdkPixbuf, Gtk
+
 import deluge.common
 import deluge.component as component
 from deluge.ui.client import client
@@ -18,7 +20,6 @@ from deluge.ui.countries import COUNTRIES
 from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_file
 from deluge.ui.gtkui.torrentdetails import Tab
 from deluge.ui.gtkui.torrentview_data_funcs import cell_data_speed_down, cell_data_speed_up
-from gi.repository import GdkPixbuf, Gtk
 
 log = logging.getLogger(__name__)
 

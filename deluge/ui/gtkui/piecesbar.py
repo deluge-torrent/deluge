@@ -10,8 +10,9 @@
 import logging
 from math import pi
 
+from gi.repository import Gdk, Gtk, Pango, PangoCairo, cairo
+
 from deluge.configmanager import ConfigManager
-from gi.repository import cairo, Gdk, Gtk, Pango, PangoCairo
 
 log = logging.getLogger(__name__)
 

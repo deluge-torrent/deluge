@@ -9,12 +9,13 @@
 
 import logging
 
+from gi.repository import GObject, Gtk
+
 import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 from deluge.ui.gtkui import common, dialogs
-from gi.repository import GObject, Gtk
 
 log = logging.getLogger(__name__)
 

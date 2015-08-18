@@ -10,9 +10,10 @@
 import logging
 
 import gi
-from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_file
 from gi.repository import Gdk, GObject, Gtk
 from gi.repository.GObject import SIGNAL_RUN_LAST, TYPE_NONE, signal_new
+
+from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_file
 
 gi.require_version('Gtk', '3.0')
 
@@ -197,7 +198,7 @@ class ListView:
         elif self.default_sort_column_id:
             self.model_filter.set_sort_column_id(self.default_sort_column_id, Gtk.SortType.ASCENDING)
         # FIXME: This does not match the orginal code below, should not need to call set_sort_func.
-        #self.model_filter.set_default_sort_func(None)
+        # self.model_filter.set_default_sort_func(None)
         self.model_filter.set_default_sort_func(self.generic_sort_func, self.default_sort_column_id)
         self.model_filter.set_sort_func(0, self.generic_sort_func, None)
 

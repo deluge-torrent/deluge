@@ -12,16 +12,17 @@ import logging
 import os
 from hashlib import sha1 as sha
 
+import gi
+from gi.repository import Gdk, Gtk
+
 import deluge.common
 import deluge.component as component
-import gi
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.error import AuthManagerError, NotAuthorizedError
 from deluge.ui.client import client
 from deluge.ui.gtkui.common import associate_magnet_links, get_deluge_icon
 from deluge.ui.gtkui.dialogs import AccountDialog, ErrorDialog, InformationDialog, YesNoDialog
 from deluge.ui.gtkui.path_chooser import PathChooser
-from gi.repository import Gdk, Gtk
 
 gi.require_version('Gtk', '3.0')
 

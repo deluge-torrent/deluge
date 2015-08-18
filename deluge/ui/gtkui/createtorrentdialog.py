@@ -11,6 +11,7 @@ import base64
 import logging
 import os.path
 
+from gi.repository import GObject, Gtk
 from twisted.internet.threads import deferToThread
 
 import deluge.component as component
@@ -18,7 +19,6 @@ from deluge.common import get_path_size, is_url, resource_filename
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
-from gi.repository import GObject, Gtk
 
 log = logging.getLogger(__name__)
 

@@ -10,13 +10,13 @@
 import logging
 import os.path
 
+from gi.repository import Gtk
 from twisted.internet import defer
 
 import deluge.component as component
 from deluge.common import is_url, resource_filename
 from deluge.ui.client import client
 from deluge.ui.gtkui.common import get_deluge_icon
-from gi.repository import Gtk
 
 log = logging.getLogger(__name__)
 

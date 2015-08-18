@@ -7,12 +7,12 @@
 # See LICENSE for more details.
 #
 
+from gi.repository import GdkPixbuf, Gtk
 from twisted.internet import defer
 
 import deluge.component as component
 from deluge.common import get_pixmap, osx_check, windows_check
 from deluge.ui.gtkui.common import get_deluge_icon
-from gi.repository import GdkPixbuf, Gtk
 
 
 class BaseDialog(Gtk.Dialog):

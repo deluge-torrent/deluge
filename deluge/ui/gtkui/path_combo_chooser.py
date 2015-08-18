@@ -13,12 +13,13 @@ from __future__ import print_function
 import os
 import warnings
 
-from deluge.common import resource_filename
-from deluge.path_chooser_common import get_completion_paths
 # FIXME: use this as fallback to get_introspection_module?
 from gi.importer import modules
-#from gi.module import get_introspection_module
+# from gi.module import get_introspection_module
 from gi.repository import Gdk, GObject, Gtk
+
+from deluge.common import resource_filename
+from deluge.path_chooser_common import get_completion_paths
 
 try:
     # Import only on X11
@@ -1021,7 +1022,7 @@ class PathAutoCompleter(object):
 
 # FIXME: use this as fallback to get_introspection_module?
 GtkGI = modules['Gtk']._introspection_module
-#GtkGI = get_introspection_module('Gtk')
+# GtkGI = get_introspection_module('Gtk')
 
 
 class PathChooserComboBox(GtkGI.Box, StoredValuesPopup, GObject.GObject):

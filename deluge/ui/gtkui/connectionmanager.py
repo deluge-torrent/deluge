@@ -12,6 +12,7 @@ import logging
 import os
 import time
 
+from gi.repository import Gtk
 from twisted.internet import reactor
 
 import deluge.component as component
@@ -22,7 +23,6 @@ from deluge.ui.client import Client, client
 from deluge.ui.common import get_localhost_auth
 from deluge.ui.gtkui.common import get_deluge_icon, get_logo
 from deluge.ui.gtkui.dialogs import AuthenticationDialog, ErrorDialog
-from gi.repository import Gtk
 
 log = logging.getLogger(__name__)
 

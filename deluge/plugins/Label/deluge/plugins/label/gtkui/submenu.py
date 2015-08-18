@@ -10,9 +10,10 @@
 
 import logging
 
+from gi.repository import Gtk
+
 from deluge import component  # for systray
 from deluge.ui.client import client
-from gi.repository import Gtk
 
 log = logging.getLogger(__name__)
 

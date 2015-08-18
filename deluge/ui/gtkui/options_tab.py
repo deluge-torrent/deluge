@@ -7,11 +7,12 @@
 # See LICENSE for more details.
 #
 
+from gi.repository import Gdk
+
 import deluge.component as component
 from deluge.ui.client import client
 from deluge.ui.gtkui.path_chooser import PathChooser
 from deluge.ui.gtkui.torrentdetails import Tab
-from gi.repository import Gdk
 
 
 class OptionsTab(Tab):

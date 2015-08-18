@@ -10,18 +10,18 @@
 """The torrent view component that lists all torrents in the session."""
 
 import logging
-import warnings
 
+import gi
+from gi.repository import Gdk, GObject, Gtk
 from twisted.internet import reactor
 
 import deluge.component as component
-import gi
 from deluge.ui.client import client
 from deluge.ui.gtkui import torrentview_data_funcs as funcs
 from deluge.ui.gtkui.listview import ListView
 from deluge.ui.gtkui.removetorrentdialog import RemoveTorrentDialog
-from gi.repository import Gdk, GObject, Gtk
 
+# FIXME: remove this code if unneeded
 # warnings.filterwarnings('error', message='*equal comparison failed*')
 
 gi.require_version('Gtk', '3.0')
@@ -498,7 +498,7 @@ class TorrentView(ListView, component.Component):
                 # Update fields in the liststore
                 if to_update:
                     # FIXME: exceptions.ValueError: Expected a float for column 25 but got <type 'int'>
-                    #self.liststore.set(row.iter, *to_update)
+                    # self.liststore.set(row.iter, *to_update)
                     pass
 
         if load_new_list:

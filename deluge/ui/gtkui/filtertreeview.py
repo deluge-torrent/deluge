@@ -13,12 +13,13 @@ import logging
 import os
 import warnings
 
+from gi.repository import GdkPixbuf, Gtk, Pango
+from gi.repository.GLib import GError
+
 import deluge.component as component
 from deluge.common import TORRENT_STATE, get_pixmap, resource_filename
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
-from gi.repository import GdkPixbuf, Gtk, Pango
-from gi.repository.GLib import GError
 
 log = logging.getLogger(__name__)
 

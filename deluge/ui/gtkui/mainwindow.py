@@ -11,18 +11,18 @@ import logging
 import os.path
 from hashlib import sha1 as sha
 
+import gi
+from gi.repository import Gdk, Gtk
 from twisted.internet import reactor
 from twisted.internet.error import ReactorNotRunning
 
 import deluge.common
 import deluge.component as component
 import deluge.ui.gtkui.common
-import gi
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 from deluge.ui.gtkui.dialogs import PasswordDialog
 from deluge.ui.gtkui.ipcinterface import process_args
-from gi.repository import Gdk, Gtk
 
 gi.require_version('Gtk', '3.0')
 

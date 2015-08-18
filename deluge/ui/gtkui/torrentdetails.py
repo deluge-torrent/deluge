@@ -12,10 +12,11 @@
 
 import logging
 
+from gi.repository import Gtk
+
 import deluge.component as component
 from deluge.ui.client import client
 from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_file
-from gi.repository import Gtk
 
 log = logging.getLogger(__name__)
 
