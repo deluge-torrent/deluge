@@ -14,7 +14,7 @@ import os
 import sys
 import warnings
 
-from gi.repository import GObject, Gdk
+from gi.repository import GObject, Gdk, Gtk
 from twisted.internet import gtk3reactor
 from twisted.internet.error import ReactorAlreadyInstalledError
 
@@ -61,20 +61,20 @@ except ImportError:
     getproctitle = lambda: None
 
 
-class Gtk(_UI):
+class GtkStart(_UI):
 
     help = """Starts the Deluge GTK+ interface"""
 
     def __init__(self):
-        super(Gtk, self).__init__("gtk")
+        super(GtkStart, self).__init__("gtk")
 
     def start(self):
-        super(Gtk, self).start()
+        super(GtkStart, self).start()
         GtkUI(self.args)
 
 
 def start():
-    Gtk().start()
+    GtkStart().start()
 
 DEFAULT_PREFS = {
     "classic_mode": True,
@@ -265,9 +265,8 @@ class GtkUI(object):
         component.stop()
 
         # Process any pending gtk events since the mainloop has been quit
-        # FIXME if still needed
-        # while Gdk.events_pending:
-        #    Gtk.main_iteration()
+        while Gtk.events_pending():
+            Gtk.main_iteration_do(False)
 
         # Shutdown all components
         component.shutdown()

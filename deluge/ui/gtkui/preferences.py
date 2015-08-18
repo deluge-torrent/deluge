@@ -79,7 +79,7 @@ class Preferences(component.Component):
         def set_separator(model, iter, data=None):
             if "_separator_" == model.get_value(iter, 1):
                 return True
-        self.treeview.set_row_separator_func(set_separator)
+        self.treeview.set_row_separator_func(set_separator, None)
 
         # Setup accounts tab lisview
         self.accounts_levels_mapping = None

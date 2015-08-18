@@ -16,8 +16,7 @@ from gi.repository.GObject import SIGNAL_RUN_LAST, TYPE_NONE, signal_new
 
 gi.require_version('Gtk', '3.0')
 
-# signal_new('button-press-event', Gtk.TreeViewColumn, SIGNAL_RUN_LAST, TYPE_NONE, (object,))
-
+# FIXME: ?
 signal_new('button-press-event', Gtk.TreeViewColumn, SIGNAL_RUN_LAST, TYPE_NONE, (Gdk.Event,))
 
 log = logging.getLogger(__name__)
@@ -98,11 +97,12 @@ class ListView:
             del widget.__realize
             button = widget.get_ancestor(Gtk.Button)
             if button is not None:
+                # FIXME: ?
                 button.connect('button-press-event', self.on_button_pressed)
 
         def on_button_pressed(self, widget, event):
+            # FIXME: ?
             self.emit('button-press-event', event)
-            pass
 
         def set_cell_data_func_attributes(self, cell_renderer, func, func_data=None):
             """Store the values to be set by set_cell_data_func"""
@@ -527,10 +527,8 @@ class ListView:
         column.set_min_width(10)
         column.set_reorderable(True)
         column.set_visible(not hidden)
-        # FIXME
-        # column.connect('button-press-event',
-        #               self.on_treeview_header_right_clicked)
-        # column.connect('clicked', self.on_treeview_header_right_clicked)
+        # FIXME: Check for errors with button press, related new signal
+        column.connect('button-press-event', self.on_treeview_header_right_clicked)
 
         if tooltip:
             column.get_widget().set_tooltip_markup(tooltip)

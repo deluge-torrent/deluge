@@ -97,8 +97,9 @@ class FilterTreeView(component.Component):
         self.treeview.connect("button-press-event", self.on_button_press_event)
 
         # colors using current theme.
-        self.colour_background = self.window.window.modify_bg(Gtk.StateType.NORMAL)
-        self.colour_foreground = self.window.window.modify_fg(Gtk.StateType.NORMAL)
+        style_ctx = self.window.window.get_style_context()
+        self.colour_background = style_ctx.get_background_color(Gtk.StateFlags.NORMAL)
+        self.colour_foreground = style_ctx.get_color(Gtk.StateFlags.NORMAL)
 
         # filtertree menu
         builder = Gtk.Builder()

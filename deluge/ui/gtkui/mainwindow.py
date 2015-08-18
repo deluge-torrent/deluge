@@ -69,7 +69,7 @@ class MainWindow(component.Component):
         # Think about splitting up the main window gtkbuilder file into the necessary parts
         # in order not to have to monkey patch GtkBuilder. Those parts would then need to
         # be added to the main window "by hand".
-
+        # FIXME: The deepcopy has been removed: copy.deepcopy(self.main_builder.connect_signals)
         self.main_builder.prev_connect_signals = self.main_builder.connect_signals
 
         def patched_connect_signals(*a, **k):
@@ -340,19 +340,14 @@ class MainWindow(component.Component):
             bool: True if on active workspace (or wnck module not available), otherwise False.
 
         """
+
         if not Wnck:
             return True
 
-        # FIXME: Linux specific code required? Above code fails on Ubuntu 14.04...
-        # Necessary to import this for get_xid() to work, at least when testing on Ubuntu 14.04
         from gi.repository import GdkX11  # NOQA
-        screen = Wnck.Screen.get_default()
-        xid = self.window.get_window().get_xid()
-        win = Wnck.Window.get(xid)
+        win = Wnck.Window.get(self.window.get_window().get_xid())
+        active_wksp = win.get_screen().get_active_workspace()
 
-        # FIXME: Should this not be active_wksp = win.get_screen().get_active_workspace()? 
-        # Would negate the need for line 349
-        active_wksp = screen.get_active_workspace()
         if active_wksp:
             return win.is_on_workspace(active_wksp)
         else:
