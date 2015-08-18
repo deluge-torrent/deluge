@@ -102,19 +102,15 @@ class SystemTray(component.Component):
 
         else:
             log.debug("Enabling the system tray icon..")
-            self.tray = Gtk.StatusIcon.new_from_pixbuf(get_logo(32))
-            # TODO: Is the platform specific code below necessary?
-            # The above line works when testing on Ubuntu 14.04
-
-            # if deluge.common.windows_check() or deluge.common.osx_check():
-            #     self.tray = Gtk.StatusIcon.new_from_pixbuf(get_logo(32))
-            # else:
-            #     try:
-            #         self.tray = Gtk.StatusIcon.new_from_pixbuf(get_logo(32))
-            #     except:
-            #         self.tray = None
-            #         log.warning("Update PyGTK to 2.10 or greater for SystemTray..")
-            #         return
+            if deluge.common.windows_check() or deluge.common.osx_check():
+                self.tray = Gtk.StatusIcon.new_from_pixbuf(get_logo(32))
+            else:
+                try:
+                    self.tray = Gtk.StatusIcon.new_from_pixbuf(get_logo(32))
+                except:
+                    self.tray = None
+                    log.warning("Update PyGTK to 2.10 or greater for SystemTray..")
+                    return
 
             self.tray.connect("activate", self.on_tray_clicked)
             self.tray.connect("popup-menu", self.on_tray_popup)
