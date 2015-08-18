@@ -539,7 +539,7 @@ class ListView:
         column_in_state = False
         if self.state is not None:
             for column_state in self.state:
-                if header == column_state.name:
+                if header.decode("utf-8") == column_state.name.decode("utf-8"):
                     # We found a loaded state
                     column_in_state = True
                     if column_state.width > 0:
