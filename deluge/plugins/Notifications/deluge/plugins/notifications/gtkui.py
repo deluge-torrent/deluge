@@ -230,7 +230,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
 
     def enable(self):
         self.config = deluge.configmanager.ConfigManager(
-            "notifications-Gtk.conf", DEFAULT_PREFS
+            "notifications-gtk.conf", DEFAULT_PREFS
         )
         self.main_builder = Gtk.Builder()
         self.main_builder.add_from_file(get_resource("config.ui"))
