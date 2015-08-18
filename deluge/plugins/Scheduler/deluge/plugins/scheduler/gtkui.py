@@ -12,13 +12,13 @@
 #
 
 import logging
+import pygtkcompat
 
 from gi.repository import Gtk, Gdk
 
 import deluge.component as component
 from deluge.plugins.pluginbase import GtkPluginBase
 from deluge.ui.client import client
-import pygtkcompat
 
 from .common import get_resource
 

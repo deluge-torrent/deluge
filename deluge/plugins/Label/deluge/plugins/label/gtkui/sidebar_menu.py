@@ -111,7 +111,7 @@ class AddDialog(object):
 
     def show(self):
         self.main_builder = Gtk.Builder()
-        self.glade = self.main_builder.add_from_file(get_resource("label_options.ui"))
+        self.main_builder.add_from_file(get_resource("label_options.ui"))
         self.dialog = self.main_builder.get_object("dlg_label_add")
         self.dialog.set_transient_for(component.get("MainWindow").window)
 
@@ -152,7 +152,7 @@ class OptionsDialog(object):
     def show(self, label):
         self.label = label
         self.main_builder = Gtk.Builder()
-        self.glade = self.main_builder.add_from_file(get_resource("label_options.ui"))
+        self.main_builder.add_from_file(get_resource("label_options.ui"))
         self.dialog = self.main_builder.get_object("dlg_label_options")
         self.dialog.set_transient_for(component.get("MainWindow").window)
         self.main_builder.connect_signals({

@@ -1318,7 +1318,7 @@ class PathChooserComboBox(GtkGI.Box, StoredValuesPopup, GObject.GObject):
         Return True whenever we want no other event listeners to be called.
 
         """
-        print("on_entry_text_key_press_event Errors follow here when pressing ALT key while popup is visible")
+        # on_entry_text_key_press_event Errors follow here when pressing ALT key while popup is visible")
         keyval = event.keyval
         state = event.get_state() & Gtk.accelerator_get_default_mod_mask()
         ctrl = event.get_state() & Gdk.ModifierType.CONTROL_MASK

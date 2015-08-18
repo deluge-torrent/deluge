@@ -232,7 +232,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
             "notifications-Gtk.conf", DEFAULT_PREFS
         )
         self.main_builder = Gtk.Builder()
-        self.glade = self.main_builder.add_from_file(get_resource("config.ui"))
+        self.main_builder.add_from_file(get_resource("config.ui"))
         self.main_builder.get_object("smtp_port").set_value(25)
         self.prefs = self.main_builder.get_object("prefs_box")
         self.prefs.show_all()

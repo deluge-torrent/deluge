@@ -183,10 +183,6 @@ class ListView:
             self.columns["filter"].column_indices[0])
         self.model_filter = Gtk.TreeModelSort(model_filter)
 
-        # print "self.model_filter:", type(self.model_filter)
-        # iter_is_valid(iter)
-        # self.model_filter = TreeModel(model_filter)
-
         self.model_filter.connect("sort-column-changed", self.on_model_sort_changed)
         self.model_filter.connect("row-inserted", self.on_model_row_inserted)
         self.treeview.set_model(self.model_filter)
@@ -333,17 +329,9 @@ class ListView:
             self.columns[unicode(name)].column.set_visible(widget.get_active())
         return
 
-        # def callback(treeviewcolumn, user_param1, ...)'
-        # clicked
-
     def on_treeview_header_right_clicked(self, column, event):
-        print "on_treeview_header_right_clicked"
         if event.button == 3:
-            # self.menu.popup(None, None, None, event.button, event.get_time())
-            # self.menu.popup(None, None, pos, self, event.button, event.time)
-            # self.menu.popup(None, None, None, self, event.button, event.time)
             self.menu.popup(None, None, None, None, event.button, event.get_time())
-            pass
 
     def register_checklist_menu(self, menu):
         """Register a checklist menu with the listview.  It will automatically
@@ -539,6 +527,7 @@ class ListView:
         column.set_min_width(10)
         column.set_reorderable(True)
         column.set_visible(not hidden)
+        # TODO
         # column.connect('button-press-event',
         #               self.on_treeview_header_right_clicked)
         # column.connect('clicked', self.on_treeview_header_right_clicked)

@@ -31,7 +31,7 @@ class LabelConfig(object):
     def load(self):
         log.debug('Adding Label Preferences page')
         self.main_builder = Gtk.Builder()
-        self.glade = self.main_builder.add_from_file(get_resource("label_pref.ui"))
+        self.main_builder.add_from_file(get_resource("label_pref.ui"))
 
         self.plugin.add_preferences_page(_("Label"), self.main_builder.get_object("label_prefs_box"))
         self.plugin.register_hook("on_show_prefs", self.load_settings)

@@ -142,7 +142,7 @@ class GtkUI(GtkPluginBase):
         """Initializes the preferences page and adds it to the preferences dialog"""
         # Load the preferences page
         self.main_builder = Gtk.Builder()
-        self.glade = self.main_builder.add_from_file(get_resource("blocklist_pref.ui"))
+        self.main_builder.add_from_file(get_resource("blocklist_pref.ui"))
 
         self.whitelist_frame = self.main_builder.get_object("whitelist_frame")
         self.progress_bar = Gtk.ProgressBar()

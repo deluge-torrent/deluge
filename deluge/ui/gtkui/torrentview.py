@@ -22,7 +22,6 @@ from deluge.ui.gtkui.listview import ListView
 from deluge.ui.gtkui.removetorrentdialog import RemoveTorrentDialog
 from gi.repository import Gdk, GObject, Gtk
 
-warnings.filterwarnings('error', category=UnicodeWarning)
 # warnings.filterwarnings('error', message='*equal comparison failed*')
 
 gi.require_version('Gtk', '3.0')
@@ -645,12 +644,7 @@ class TorrentView(ListView, component.Component):
             else:
                 self.treeview.get_selection().select_iter(row)
             torrentmenu = component.get("MenuBar").torrentmenu
-            # torrentmenu.popup(None, None, None, event.button, event.time, None)
-            # def pos(menu, icon):
-            #    return (Gtk.StatusIcon.position_menu(menu, icon))
-            # torrentmenu.popup_for_device(None, None, pos, self, event.button, event.time)
             torrentmenu.popup(None, None, None, None, event.button, event.time)
-            # torrentmenu.popup(None, None, pos, self, event.button, event.time)
             return True
 
     def on_selection_changed(self, treeselection):
