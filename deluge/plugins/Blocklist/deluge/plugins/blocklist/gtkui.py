@@ -188,6 +188,8 @@ class GtkUI(GtkPluginBase):
         self.whitelist_model = Gtk.ListStore(str, bool)
         renderer = Gtk.CellRendererText()
         renderer.connect("edited", self.on_cell_edited, self.whitelist_model)
+        # FIXME
+        # renderer.set_data("ip", 0)
 
         column = Gtk.TreeViewColumn("IPs", renderer, text=0, editable=1)
         column.set_expand(True)
