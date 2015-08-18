@@ -294,7 +294,7 @@ class MainWindow(component.Component):
         self.config["window_pane_position"] = self.vpaned.get_position()
 
     def on_drag_data_received_event(self, widget, drag_context, x, y, selection_data, info, timestamp):
-        log.debug("Selection(s) dropped on main window %s", selection_data)  # fixed AttributeError: 'SelectionData' object has no attribute 'data'
+        log.debug("Selection(s) dropped on main window %s", selection_data.get_text())
         if selection_data.get_uris():
             process_args(selection_data.get_uris())
         else:
