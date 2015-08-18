@@ -80,26 +80,6 @@ def ignored_files(adir, filenames):
     ]
 shutil.copytree(gtk_locale, os.path.join(dst, 'share/locale'), ignore=ignored_files)
 
-# copy gtk theme files
-theme_include_list = [
-    [gtk_root, "share/icons/hicolor/index.theme"],
-    [gtk_root, "share/themes/MS-Windows"],
-    ["DelugeStart Theme", "lib/gtk-2.0/2.10.0/engines/libmurrine.dll"],
-    ["DelugeStart Theme", "share/themes/DelugeStart"],
-    ["DelugeStart Theme", "etc/gtk-2.0/gtkrc"]
-]
-for path_root, path in theme_include_list:
-    full_path = os.path.join(path_root, path)
-    if os.path.isdir(full_path):
-        shutil.copytree(full_path, os.path.join(dst, path))
-    else:
-        dst_dir = os.path.join(dst, os.path.dirname(path))
-        try:
-            os.makedirs(dst_dir)
-        except:
-            pass
-        shutil.copy(full_path, dst_dir)
-
 file = open('VERSION.tmp', 'w')
 file.write("build_version = \"%s\"" % build_version)
 file.close()
