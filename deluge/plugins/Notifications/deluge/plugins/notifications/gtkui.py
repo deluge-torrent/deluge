@@ -163,6 +163,7 @@ class GtkUiNotifications(CustomNotifications):
         if not POPUP_AVAILABLE:
             return defer.fail(_("pynotify is not installed"))
 
+        # FIXME needs review/testing
         if Notify.init("Deluge"):
             icon = GdkPixbuf.Pixbuf.new_from_file_at_size(deluge.common.get_pixmap("deluge.svg"), 48, 48)
             self.note = Notify.Notification(title, message)
