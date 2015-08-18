@@ -101,7 +101,7 @@ class ListView:
                 button.connect('button-press-event', self.on_button_pressed)
 
         def on_button_pressed(self, widget, event):
-            # self.emit('button-press-event', event)
+            self.emit('button-press-event', event)
             pass
 
         def set_cell_data_func_attributes(self, cell_renderer, func, func_data=None):
