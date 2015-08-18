@@ -40,9 +40,9 @@ class LabelSidebarMenu(object):
         sep = Gtk.SeparatorMenuItem()
         self.items.append(sep)
         self.menu.prepend(sep)
-        self._add_item("options", _("Label Options"), Gtk.STOCK_PREFERENCES)
-        self._add_item("remove", _("Remove Label"), Gtk.STOCK_REMOVE)
-        self._add_item("add", _("Add Label"), Gtk.STOCK_ADD)
+        self._add_item("options", _("Label _Options"), Gtk.STOCK_PREFERENCES)
+        self._add_item("remove", _("_Remove Label"), Gtk.STOCK_REMOVE)
+        self._add_item("add", _("_Add Label"), Gtk.STOCK_ADD)
 
         self.menu.show_all()
         # dialogs:
