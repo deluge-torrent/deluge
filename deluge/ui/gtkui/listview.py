@@ -196,8 +196,8 @@ class ListView:
         # Using the default sort column
         elif self.default_sort_column_id:
             self.model_filter.set_sort_column_id(self.default_sort_column_id, Gtk.SortType.ASCENDING)
-        # self.model_filter.set_default_sort_func(self.generic_sort_func, None)
-        # self.model_filter.set_sort_func(0, self.generic_sort_func, None)
+        self.model_filter.set_default_sort_func(self.generic_sort_func, self.default_sort_column_id)
+        self.model_filter.set_sort_func(0, self.generic_sort_func, None)
 
     def get_sort_column_from_state(self):
         """Find the first (should only be one) state with sort enabled"""
