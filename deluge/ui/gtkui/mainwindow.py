@@ -105,7 +105,6 @@ class MainWindow(component.Component):
         self.window = self.main_builder.get_object("main_window")
 
         self.window.set_icon(deluge.ui.gtkui.common.get_deluge_icon())
-        self.window.set_keep_above(False)
         self.vpaned = self.main_builder.get_object("vpaned")
 
         self.initial_vpaned_position = self.config["window_pane_position"]
