@@ -262,6 +262,7 @@ class GtkUI(GtkPluginBase):
             for value, color in colors.items():
                 try:
                     color_btn = self.main_builder.get_object("%s_%s_color" % (graph, value))
+                    # FIXME "eval does not seem good replacement code"
                     col_gdk_color = eval(color).to_color()
                     color_btn.set_color(col_gdk_color)
                 except:
