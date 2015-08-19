@@ -68,6 +68,16 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
                 header: _('Status'),
                 width: .24,
                 sortable: true,
+                tpl: new Ext.XTemplate(
+                    '<tpl if="status == \'Online\'">',
+                        _('Online'),
+                    '</tpl>',
+                    '<tpl if="status == \'Offline\'">',
+                        _('Offline'),
+                    '</tpl>',
+                    '<tpl if="status == \'Connected\'">',
+                        _('Connected'),
+                    '</tpl>'),
                 dataIndex: 'status'
             }, {
                 id:'host',
@@ -174,18 +184,18 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
         var button = this.buttons[1], status = record.get('status');
 
         // Update the Connect/Disconnect button
-        if (status == _('Connected')) {
+        if (status == 'Connected') {
             button.enable();
             button.setText(_('Disconnect'));
-        } else if (status == _('Offline')) {
+        } else if (status == 'Offline') {
             button.disable();
         } else {
             button.enable();
-            button.setText(_('Connect'));
+            button.setText('Connect');
         }
 
         // Update the Stop/Start Daemon button
-        if (status == _('Offline')) {
+        if (status == 'Offline') {
             if (record.get('host') == '127.0.0.1' || record.get('host') == 'localhost') {
                 this.stopHostButton.enable();
                 this.stopHostButton.setText(_('Start Daemon'));
@@ -222,7 +232,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
         var selected = this.list.getSelectedRecords()[0];
         if (!selected) return;
 
-        if (selected.get('status') == _('Connected')) {
+        if (selected.get('status') == 'Connected') {
             deluge.client.web.disconnect({
                 success: function(result) {
                     this.update(this);
@@ -272,10 +282,9 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
     // private
     onLogin: function() {
         if (deluge.config.first_login) {
-            Ext.MessageBox.confirm('Change password',
-                'As this is your first login, we recommend that you ' +
-                'change your password. Would you like to ' +
-                'do this now?', function(res) {
+            Ext.MessageBox.confirm(_('Change Default Password'),
+                _('We recommend changing the default password.<br><br>Would you like to change it now?'),
+                function(res) {
                     this.checkConnected();
                     if (res == 'yes') {
                         deluge.preferences.show();

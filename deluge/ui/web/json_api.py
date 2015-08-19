@@ -757,7 +757,7 @@ class WebApi(JSONComponent):
         Return the hosts in the hostlist.
         """
         log.debug("get_hosts called")
-        return [(tuple(host[HOSTS_ID:HOSTS_PORT + 1]) + (_("Offline"),)) for host in self.host_list["hosts"]]
+        return [(tuple(host[HOSTS_ID:HOSTS_PORT + 1]) + ("Offline",)) for host in self.host_list["hosts"]]
 
     @export
     def get_host_status(self, host_id):
@@ -776,30 +776,30 @@ class WebApi(JSONComponent):
         except TypeError:
             host = None
             port = None
-            return response(_("Offline"))
+            return response("Offline")
 
         def on_connect(connected, c, host_id):
             def on_info(info, c):
                 c.disconnect()
-                return response(_("Online"), info)
+                return response("Online", info)
 
             def on_info_fail(reason, c):
                 c.disconnect()
-                return response(_("Offline"))
+                return response("Offline")
 
             if not connected:
-                return response(_("Offline"))
+                return response("Offline")
 
             return c.daemon.info().addCallback(on_info, c).addErrback(on_info_fail, c)
 
         def on_connect_failed(reason, host_id):
-            return response(_("Offline"))
+            return response("Offline")
 
         if client.connected() and (host, port, "localclient" if not
                                    user and host in ("127.0.0.1", "localhost") else
                                    user) == client.connection_info():
             def on_info(info):
-                return response(_("Connected"), info)
+                return response("Connected", info)
 
             return client.daemon.info().addCallback(on_info)
         else:
