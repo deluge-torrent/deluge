@@ -80,7 +80,7 @@ GetText.add('80 KiB/s', '${escape(_("80 KiB/s"))}')
 // QueuePage.js:69
 GetText.add('Active Torrents', '${escape(_("Active Torrents"))}')
 
-// EditTrackersWindow.js:112, ConnectionManager.js:100, AddConnectionWindow.js:56, Toolbar.js:58, AddTrackerWindow.js:57, UrlWindow.js:50, FileWindow.js:53, AddWindow.js:52
+// EditTrackersWindow.js:112, ConnectionManager.js:110, AddConnectionWindow.js:56, Toolbar.js:58, AddTrackerWindow.js:57, UrlWindow.js:50, FileWindow.js:53, AddWindow.js:52
 GetText.add('Add', '${escape(_("Add"))}')
 
 // AddConnectionWindow.js:40
@@ -167,6 +167,9 @@ GetText.add('Certificate', '${escape(_("Certificate"))}')
 // InterfacePage.js:117
 GetText.add('Change', '${escape(_("Change"))}')
 
+// ConnectionManager.js:284
+GetText.add('Change Default Password', '${escape(_("Change Default Password"))}')
+
 // InterfacePage.js:224
 GetText.add('Change Successful', '${escape(_("Change Successful"))}')
 
@@ -182,10 +185,10 @@ GetText.add('Compact', '${escape(_("Compact"))}')
 // InterfacePage.js:105
 GetText.add('Confirm Password', '${escape(_("Confirm Password"))}')
 
-// ConnectionManager.js:55, ConnectionManager.js:184
+// ConnectionManager.js:55, ConnectionManager.js:193
 GetText.add('Connect', '${escape(_("Connect"))}')
 
-// ConnectionManager.js:177, ConnectionManager.js:225
+// ConnectionManager.js:79
 GetText.add('Connected', '${escape(_("Connected"))}')
 
 // Menus.js:142
@@ -233,10 +236,10 @@ GetText.add('Details', '${escape(_("Details"))}')
 // EncryptionPage.js:65, EncryptionPage.js:82
 GetText.add('Disabled', '${escape(_("Disabled"))}')
 
-// ConnectionManager.js:179
+// ConnectionManager.js:188
 GetText.add('Disconnect', '${escape(_("Disconnect"))}')
 
-// Menus.js:257, Deluge.js:156
+// Menus.js:257, Deluge.js:163
 GetText.add('Do Not Download', '${escape(_("Do Not Download"))}')
 
 // QueuePage.js:107
@@ -293,7 +296,7 @@ GetText.add('Encrypt entire stream', '${escape(_("Encrypt entire stream"))}')
 // EncryptionPage.js:41
 GetText.add('Encryption', '${escape(_("Encryption"))}')
 
-// ConnectionManager.js:308, ConnectionManager.js:364, AddConnectionWindow.js:103, UrlWindow.js:116, FileWindow.js:103, AddWindow.js:211
+// ConnectionManager.js:316, ConnectionManager.js:372, AddConnectionWindow.js:103, UrlWindow.js:116, FileWindow.js:103, AddWindow.js:211
 GetText.add('Error', '${escape(_("Error"))}')
 
 // Menus.js:253
@@ -371,16 +374,16 @@ GetText.add('Hash', '${escape(_("Hash"))}')
 // Toolbar.js:107
 GetText.add('Help', '${escape(_("Help"))}')
 
-// Menus.js:267, Deluge.js:158
+// Menus.js:267, Deluge.js:165
 GetText.add('High Priority', '${escape(_("High Priority"))}')
 
-// Menus.js:272, Deluge.js:159
+// Menus.js:272, Deluge.js:166
 GetText.add('Highest Priority', '${escape(_("Highest Priority"))}')
 
 // FileBrowser.js:56
 GetText.add('Home', '${escape(_("Home"))}')
 
-// ConnectionManager.js:74, AddConnectionWindow.js:66, ProxyField.js:74
+// ConnectionManager.js:84, AddConnectionWindow.js:66, ProxyField.js:74
 GetText.add('Host', '${escape(_("Host"))}')
 
 // BandwidthPage.js:122
@@ -509,7 +512,7 @@ GetText.add('New Password', '${escape(_("New Password"))}')
 // ProxyField.js:55
 GetText.add('None', '${escape(_("None"))}')
 
-// Menus.js:262, Deluge.js:157
+// Menus.js:262, Deluge.js:164
 GetText.add('Normal Priority', '${escape(_("Normal Priority"))}')
 
 // Statusbar.js:39
@@ -518,7 +521,7 @@ GetText.add('Not Connected', '${escape(_("Not Connected"))}')
 // AddWindow.js:212
 GetText.add('Not a valid torrent', '${escape(_("Not a valid torrent"))}')
 
-// ConnectionManager.js:180, ConnectionManager.js:188
+// ConnectionManager.js:76
 GetText.add('Offline', '${escape(_("Offline"))}')
 
 // EditTrackersWindow.js:57, OtherLimitWindow.js:73, PreferencesWindow.js:108
@@ -526,6 +529,9 @@ GetText.add('Ok', '${escape(_("Ok"))}')
 
 // InterfacePage.js:97
 GetText.add('Old Password', '${escape(_("Old Password"))}')
+
+// ConnectionManager.js:73
+GetText.add('Online', '${escape(_("Online"))}')
 
 // Menus.js:99, OptionsTab.js:49, OptionsTab.js:40, DownloadsPage.js:129
 GetText.add('Options', '${escape(_("Options"))}')
@@ -620,7 +626,7 @@ GetText.add('Rate limit IP overhead', '${escape(_("Rate limit IP overhead"))}')
 // TorrentGrid.js:162
 GetText.add('Ratio', '${escape(_("Ratio"))}')
 
-// EditTrackersWindow.js:122, ConnectionManager.js:107, Toolbar.js:64, AddWindow.js:112
+// EditTrackersWindow.js:122, ConnectionManager.js:117, Toolbar.js:64, AddWindow.js:112
 GetText.add('Remove', '${escape(_("Remove"))}')
 
 // Menus.js:230, RemoveWindow.js:39, RemoveWindow.js:57
@@ -701,7 +707,7 @@ GetText.add('Socksv5', '${escape(_("Socksv5"))}')
 // ProxyField.js:58
 GetText.add('Socksv5 with Auth', '${escape(_("Socksv5 with Auth"))}')
 
-// ConnectionManager.js:191
+// ConnectionManager.js:200
 GetText.add('Start Daemon', '${escape(_("Start Daemon"))}')
 
 // Sidebar.js:34
@@ -710,7 +716,7 @@ GetText.add('State', '${escape(_("State"))}')
 // ConnectionManager.js:68, StatusTab.js:39, DetailsTab.js:52
 GetText.add('Status', '${escape(_("Status"))}')
 
-// ConnectionManager.js:115, ConnectionManager.js:197, ConnectionManager.js:328
+// ConnectionManager.js:125, ConnectionManager.js:206, ConnectionManager.js:336
 GetText.add('Stop Daemon', '${escape(_("Stop Daemon"))}')
 
 // OptionsTab.js:225
@@ -815,8 +821,11 @@ GetText.add('Use SSL (paths relative to Deluge config folder)', '${escape(_("Use
 // AddConnectionWindow.js:83, ProxyField.js:93
 GetText.add('Username', '${escape(_("Username"))}')
 
-// ConnectionManager.js:80
+// ConnectionManager.js:90
 GetText.add('Version', '${escape(_("Version"))}')
+
+// ConnectionManager.js:285
+GetText.add('We recommend changing the default password. Would you like to change it now?', '${escape(_("We recommend changing the default password. Would you like to change it now?"))}')
 
 // ProxyPage.js:58
 GetText.add('Web Seed', '${escape(_("Web Seed"))}')
