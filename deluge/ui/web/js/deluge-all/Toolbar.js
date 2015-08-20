@@ -1,6 +1,6 @@
 /*!
  * Deluge.Toolbar.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -123,53 +123,53 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
     connectedButtons: [
         'add', 'remove', 'pause', 'resume', 'up', 'down'
     ],
-    
+
     initComponent: function() {
         Deluge.Toolbar.superclass.initComponent.call(this);
         deluge.events.on('connect', this.onConnect, this);
         deluge.events.on('login', this.onLogin, this);
     },
-    
+
     onConnect: function() {
         Ext.each(this.connectedButtons, function(buttonId) {
             this.items.get(buttonId).enable();
         }, this);
     },
-    
+
     onDisconnect: function() {
         Ext.each(this.connectedButtons, function(buttonId) {
             this.items.get(buttonId).disable();
         }, this);
     },
-    
+
     onLogin: function() {
         this.items.get('logout').enable();
     },
-    
+
     onLogout: function() {
         this.items.get('logout').disable();
         deluge.login.logout();
     },
-    
+
     onConnectionManagerClick: function() {
         deluge.connectionManager.show();
     },
-    
+
     onHelpClick: function() {
         window.open('http://dev.deluge-torrent.org/wiki/UserGuide');
     },
-    
+
     onPreferencesClick: function() {
         deluge.preferences.show();
     },
-    
+
     onTorrentAction: function(item) {
         var selection = deluge.torrents.getSelections();
         var ids = [];
         Ext.each(selection, function(record) {
             ids.push(record.id);
         });
-        
+
         switch (item.id) {
             case 'remove':
                 deluge.removeWindow.show(ids);
@@ -192,7 +192,7 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
                 break;
         }
     },
-    
+
     onTorrentAdd: function() {
         deluge.add.show();
     }

@@ -1,6 +1,6 @@
 /*!
  * Deluge.EventsManager.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -42,7 +42,7 @@ Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
         this.on('login', this.onLogin, this);
         Deluge.EventsManager.superclass.constructor.call(this);
     },
-    
+
     /**
      * Append an event handler to this object.
      */
@@ -116,14 +116,14 @@ Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
 
 /**
  * Appends an event handler to this object (shorthand for {@link #addListener})
- * @method 
+ * @method
  */
 Deluge.EventsManager.prototype.on = Deluge.EventsManager.prototype.addListener
 
 /**
  * Fires the specified event with the passed parameters (minus the
  * event name).
- * @method 
+ * @method
  */
 Deluge.EventsManager.prototype.fire = Deluge.EventsManager.prototype.fireEvent
 deluge.events = new Deluge.EventsManager();

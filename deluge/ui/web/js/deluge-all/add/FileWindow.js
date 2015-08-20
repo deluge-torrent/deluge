@@ -51,7 +51,7 @@ Deluge.add.FileWindow = Ext.extend(Deluge.add.Window, {
     initComponent: function() {
         Deluge.add.FileWindow.superclass.initComponent.call(this);
         this.addButton(_('Add'), this.onAddClick, this);
-        
+
         this.form = this.add({
             xtype: 'form',
             baseCls: 'x-plain',
@@ -72,7 +72,7 @@ Deluge.add.FileWindow = Ext.extend(Deluge.add.Window, {
             }]
         });
     },
-    
+
     // private
     onAddClick: function(field, e) {
         if (this.form.getForm().isValid()) {
@@ -89,7 +89,7 @@ Deluge.add.FileWindow = Ext.extend(Deluge.add.Window, {
             this.fireEvent('beforeadd', this.torrentId, name);
         }
     },
-    
+
     // private
     onGotInfo: function(info, obj, response, request) {
         info['filename'] = request.options.filename;
@@ -100,7 +100,7 @@ Deluge.add.FileWindow = Ext.extend(Deluge.add.Window, {
     onUploadFailure: function(form, action) {
         this.hide();
     },
-    
+
     // private
     onUploadSuccess: function(fp, upload) {
         this.hide();

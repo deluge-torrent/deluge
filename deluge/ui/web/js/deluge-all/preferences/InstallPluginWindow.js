@@ -1,6 +1,6 @@
 /*!
  * Deluge.preferences.InstallPluginWindow.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -41,7 +41,7 @@ Deluge.preferences.InstallPluginWindow = Ext.extend(Ext.Window, {
     layout: 'fit',
     height: 115,
     width: 350,
-    
+
     bodyStyle: 'padding: 10px 5px;',
     buttonAlign: 'center',
     closeAction: 'hide',
@@ -52,7 +52,7 @@ Deluge.preferences.InstallPluginWindow = Ext.extend(Ext.Window, {
     initComponent: function() {
         Deluge.add.FileWindow.superclass.initComponent.call(this);
         this.addButton(_('Install'), this.onInstall, this);
-        
+
         this.form = this.add({
             xtype: 'form',
             baseCls: 'x-plain',
@@ -78,7 +78,7 @@ Deluge.preferences.InstallPluginWindow = Ext.extend(Ext.Window, {
             waitMsg: _('Uploading your plugin...'),
             success: this.onUploadSuccess,
             scope: this
-        }); 
+        });
     },
 
     onUploadPlugin: function(info, obj, response, request) {

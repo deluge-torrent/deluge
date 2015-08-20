@@ -1,6 +1,6 @@
 /*!
  * Deluge.MultiOptionsManager.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -43,7 +43,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
         this.stored = {};
         Deluge.MultiOptionsManager.superclass.constructor.call(this, config);
     },
-    
+
     /**
      * Changes bound fields to use the specified id.
      * @param {String} id
@@ -70,7 +70,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
         this.stored[this.currentId] = Ext.apply(this.stored[this.currentId], this.changed[this.currentId]);
         this.reset();
     },
-    
+
     /**
      * Get the value for an option
      * @param {String/Array} option A single option or an array of options to return.
@@ -164,15 +164,15 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
         } else {
             var oldValue = this.getDefault(option);
             value = this.convertValueType(oldValue, value);
-            
-            // If the value is the same as the old value there is 
+
+            // If the value is the same as the old value there is
             // no point in setting it again.
             if (oldValue == value) return;
-            
+
             // Store the new default
             if (!this.stored[this.currentId]) this.stored[this.currentId] = {};
             this.stored[this.currentId][option] = value;
-            
+
             if (!this.isDirty(option)) {
                 this.fireEvent('changed', option, value, oldValue);
             }
@@ -197,7 +197,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 
             var defaultValue = this.getDefault(option);
             value = this.convertValueType(defaultValue, value);
-            
+
             var oldValue = this.get(option);
             if (oldValue == value) return;
 
