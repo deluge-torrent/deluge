@@ -12,20 +12,35 @@
 
 import os
 import re
+import sys
 
-output_file = "js/gettext.js"
-string_re = re.compile('_\\(\'(.*?)\'\\)')
+if len(sys.argv) != 2:
+    WEBUI_JS_DIR = 'deluge/ui/web/js/deluge-all'
+else:
+    WEBUI_JS_DIR = os.path.abspath(sys.argv[1])
+
+OUTPUT_FILE = os.path.join(os.path.dirname(WEBUI_JS_DIR), 'gettext.js')
+STRING_RE = re.compile('_\\(\'(.*?)\'\\)')
+
 strings = {}
+for root, dnames, files in os.walk(WEBUI_JS_DIR):
+    for filename in files:
+        if os.path.splitext(filename)[1] == '.js':
+            for lineno, line in enumerate(open(os.path.join(root, filename))):
+                for match in STRING_RE.finditer(line):
+                    string = match.group(1)
+                    locations = strings.get(string, [])
+                    locations.append((os.path.basename(filename), lineno + 1))
+                    strings[string] = locations
 
+keys = strings.keys()
+keys.sort()
 
-gettext_tpl = """## -*- coding: utf-8 -*-
-/*
+gettext_tpl = """/*!
  * Script: gettext.js
- *  A script file that is run through the template renderer in order for
- *  translated strings to be used.
+ *  A script file that is run through the template renderer in order for translated strings to be used.
  *
- * Copyright:
- *  (c) 2009 Damien Churchill <damoxc@gmail.com>
+ * Copyright (c) 2009 Damien Churchill <damoxc@gmail.com>
  */
 
 GetText = {
@@ -48,27 +63,10 @@ function _(string) {
 
 """
 
-for root, dnames, files in os.walk('js/deluge-all'):
-    for filename in files:
-        if filename.startswith('.'):
-            continue
-        if not filename.endswith('.js'):
-            continue
+with open(OUTPUT_FILE, 'w') as fp:
+    fp.write(gettext_tpl)
+    for key in keys:
+        fp.write('// %s\n' % ', '.join(map(lambda x: '%s:%s' % x, strings[key])))
+        fp.write("GetText.add('%(key)s', '${escape(_(\"%(key)s\"))}')\n\n" % locals())
 
-        for lineno, line in enumerate(open(os.path.join(root, filename))):
-            for match in string_re.finditer(line):
-                string = match.group(1)
-                locations = strings.get(string, [])
-                locations.append((os.path.basename(filename), lineno + 1))
-                strings[string] = locations
-
-
-keys = strings.keys()
-keys.sort()
-
-fp = open(output_file, 'w')
-fp.write(gettext_tpl)
-for key in keys:
-    fp.write('// %s\n' % ', '.join(map(lambda x: '%s:%s' % x, strings[key])))
-    fp.write("GetText.add('%(key)s', '${escape(_(\"%(key)s\"))}')\n\n" % locals())
-fp.close()
+print "Created %s" % OUTPUT_FILE

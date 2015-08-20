@@ -23,9 +23,11 @@ from deluge.common import path_join, utf8_encoded
 log = logging.getLogger(__name__)
 
 
-# Dummy tranlation dict so Torrent states text is available for Translators
-# All entries in deluge.common.TORRENT_STATE should be here. It does not need importing
-# as the string matches the translation text so using the _() function is enough.
+# Dummy translation dicts so Torrent and Tracker states are available for Translators.
+#
+# All entries in deluge.common.TORRENT_STATE should be added here.
+#
+# No need to import these, just simply use the `_()` function around a status variable.
 def _(message):
     return message
 STATE_TRANSLATION = {

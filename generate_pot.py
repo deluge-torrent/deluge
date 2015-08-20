@@ -24,18 +24,19 @@ EXCLUSIONS = [
     "deluge/i18n",
     "deluge/tests",
 ]
-webui_js_dir = "deluge/ui/web/js/deluge-all"
-infiles_list = "infiles.list"
-pot_filepath = os.path.join("deluge", "i18n", "deluge.pot")
+WEBUI_JS_DIR = "deluge/ui/web/js/deluge-all"
+WEBUI_RENDER_DIR = "deluge/ui/web/render"
+INFILES_LIST = "infiles.list"
+POT_FILEPATH = os.path.join("deluge", "i18n", "deluge.pot")
 
-re_exc_plugin_build = re.compile("deluge\/plugins\/.*\/build")
+RE_EXC_PLUGIN_BUILD = re.compile("deluge\/plugins\/.*\/build")
 
 xgettext_cmd = [
     "xgettext",
     "--from-code=UTF-8",
     "-kN_:1",
-    "-f%s" % infiles_list,
-    "-o%s" % pot_filepath,
+    "-f%s" % INFILES_LIST,
+    "-o%s" % POT_FILEPATH,
     "--package-name=%s" % "Deluge",
     "--copyright-holder=%s" % "Deluge Team",
     "--package-version=%s" % get_version(prefix='deluge-', suffix='.dev0'),
@@ -45,7 +46,7 @@ xgettext_cmd = [
 to_translate = []
 for (dirpath, dirnames, filenames) in os.walk("deluge"):
     for filename in filenames:
-        if dirpath not in EXCLUSIONS and not re_exc_plugin_build.match(dirpath):
+        if dirpath not in EXCLUSIONS and not RE_EXC_PLUGIN_BUILD.match(dirpath):
             filepath = os.path.join(dirpath, filename)
             if os.path.splitext(filepath)[1] in (".py", ".glade"):
                 to_translate.append(filepath)
@@ -56,7 +57,7 @@ for (dirpath, dirnames, filenames) in os.walk("deluge"):
                 call(["intltool-extract", "--quiet", "--type=gettext/glade", filepath])
                 to_translate.append(filepath + ".h")
 
-with open(infiles_list, "wb") as f:
+with open(INFILES_LIST, "wb") as f:
     for line in to_translate:
         f.write(line + "\n")
 
@@ -65,24 +66,30 @@ call(xgettext_cmd)
 
 # find javascript files
 js_to_translate = []
-for (dirpath, dirnames, filenames) in os.walk(webui_js_dir):
+for (dirpath, dirnames, filenames) in os.walk(WEBUI_JS_DIR):
     for filename in filenames:
         if os.path.splitext(filename)[1] == ".js":
             js_to_translate.append(os.path.join(dirpath, filename))
 
-with open(infiles_list, "wb") as f:
+# find render html files
+for (dirpath, dirnames, filenames) in os.walk(WEBUI_RENDER_DIR):
+    for filename in filenames:
+        if os.path.splitext(filename)[1] == ".html":
+            js_to_translate.append(os.path.join(dirpath, filename))
+
+with open(INFILES_LIST, "wb") as f:
     for line in js_to_translate:
         f.write(line + "\n")
 
 # Force xgettext language to parse javascript and update pot file
 # Note: For javascript files xgettext will parse comments, so single apostrophes or quotes are
 # flagged as a 'warning: untermined string'. Either ignore warning or edit javascript comment.
-output = call(xgettext_cmd + ["--language=Python", "-j"])
+call(xgettext_cmd + ["--language=Python", "-j"])
 
 # Replace YEAR and PACKAGE in the copyright message
-with open(pot_filepath, "r") as f:
+with open(POT_FILEPATH, "r") as f:
     lines = f.readlines()
-with open(pot_filepath, "w") as f:
+with open(POT_FILEPATH, "w") as f:
     for line in lines:
         if "YEAR" in line:
             line = line.replace("YEAR", str(datetime.now().year))
@@ -91,9 +98,9 @@ with open(pot_filepath, "w") as f:
         f.write(line)
 
 # Clean up temp files
-os.remove(infiles_list)
+os.remove(INFILES_LIST)
 for filepath in to_translate:
     if filepath.endswith(".h"):
         os.remove(filepath)
 
-print "Created %s" % pot_filepath
+print "Created %s" % POT_FILEPATH
