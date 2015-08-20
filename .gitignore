@@ -9,6 +9,7 @@ dist
 _trial_temp
 deluge/i18n/*/
 deluge.pot
+gettext.js
 *.desktop
 .build_data*
 osx/app
