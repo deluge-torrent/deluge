@@ -66,13 +66,15 @@ Deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
         optMan.bind('download_location', fieldset.add({
             xtype: 'textfield',
             name: 'download_location',
-            fieldLabel: _('Download to'),
+            fieldLabel: _('Download to:'),
+            labelSeparator: '',
             width: 280
         }));
 
         var field = fieldset.add({
             name: 'move_completed_path',
-            fieldLabel: _('Move completed to'),
+            fieldLabel: _('Move completed to:'),
+            labelSeparator: '',
             width: 280
         });
         optMan.bind('move_completed', field.toggle);
@@ -80,7 +82,8 @@ Deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
 
         field = fieldset.add({
             name: 'torrentfiles_location',
-            fieldLabel: _('Copy of .torrent files to'),
+            fieldLabel: _('Copy of .torrent files to:'),
+            labelSeparator: '',
             width: 280
         });
         optMan.bind('copy_torrent_file', field.toggle);

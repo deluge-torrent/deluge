@@ -105,7 +105,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
                 style: 'margin-right: 10px;'
             },
             items: [{
-                fieldLabel: 'From:',
+                fieldLabel: _('From:'),
                 labelSeparator: '',
                 strategy: {
                     xtype: 'number',
@@ -114,7 +114,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
                     maxValue: 99999
                 }
             }, {
-                fieldLabel: 'To:',
+                fieldLabel: _('To:'),
                 labelSeparator: '',
                 strategy: {
                     xtype: 'number',
@@ -160,7 +160,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
                 style: 'margin-right: 10px;'
             },
             items: [{
-                fieldLabel: 'From:',
+                fieldLabel: _('From:'),
                 labelSeparator: '',
                 strategy: {
                     xtype: 'number',
@@ -169,7 +169,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
                     maxValue: 99999
                 }
             }, {
-                fieldLabel: 'To:',
+                fieldLabel: _('To:'),
                 labelSeparator: '',
                 strategy: {
                     xtype: 'number',

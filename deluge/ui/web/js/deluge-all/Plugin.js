@@ -1,6 +1,6 @@
 /*!
  * Deluge.Plugin.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -51,33 +51,33 @@ Deluge.Plugin = Ext.extend(Ext.util.Observable, {
              * @event enabled
              * @param {Plugin} plugin the plugin instance
              */
-            "enabled": true,
+            'enabled': true,
 
             /**
              * @event disabled
              * @param {Plugin} plugin the plugin instance
              */
-            "disabled": true
+            'disabled': true
         });
         Deluge.Plugin.superclass.constructor.call(this, config);
     },
-    
+
     /**
      * Disables the plugin, firing the "{@link #disabled}" event and
      * then executing the plugins clean up method onDisabled.
      */
     disable: function() {
-        this.fireEvent("disabled", this);
+        this.fireEvent('disabled', this);
         if (this.onDisable) this.onDisable();
     },
-    
+
     /**
      * Enables the plugin, firing the "{@link #enabled}" event and
      * then executes the plugins setup method, onEnabled.
      */
     enable: function() {
         deluge.client.reloadMethods();
-        this.fireEvent("enable", this);
+        this.fireEvent('enable', this);
         if (this.onEnable) this.onEnable();
     },
 

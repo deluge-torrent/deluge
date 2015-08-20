@@ -39,18 +39,19 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
     autoScroll: true,
     queuedItems: {},
 
+
     oldData: {},
 
     initComponent: function() {
         Deluge.details.DetailsTab.superclass.initComponent.call(this);
-        this.addItem('torrent_name', _('Name'));
-        this.addItem('hash', _('Hash'));
-        this.addItem('path', _('Download Folder'));
-        this.addItem('size', _('Total Size'));
-        this.addItem('files', _('Total Files'));
-        this.addItem('comment', _('Comment'));
-        this.addItem('status', _('Status'));
-        this.addItem('tracker', _('Tracker'));
+        this.addItem('torrent_name', _('Name:'));
+        this.addItem('hash', _('Hash:'));
+        this.addItem('path', _('Download Folder:'));
+        this.addItem('size', _('Total Size:'));
+        this.addItem('files', _('Total Files:'));
+        this.addItem('comment', _('Comment:'));
+        this.addItem('status', _('Status:'));
+        this.addItem('tracker', _('Tracker:'));
     },
 
     onRender: function(ct, position) {
@@ -73,7 +74,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 
     // private
     doAddItem: function(id, label) {
-        Ext.DomHelper.append(this.dl, {tag: 'dt', cls: id, html: label + ':'});
+        Ext.DomHelper.append(this.dl, {tag: 'dt', cls: id, html: label});
         this.fields[id] = Ext.DomHelper.append(this.dl, {tag: 'dd', cls: id, html: ''}, true);
     },
 

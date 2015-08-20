@@ -46,14 +46,24 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
     initComponent: function() {
         Deluge.FilterPanel.superclass.initComponent.call(this);
         this.filterType = this.initialConfig.filter;
-
-        var title = this.filterType.replace('_', ' '),
-            parts = title.split(' '),
-            title = '';
-        Ext.each(parts, function(p) {
-            fl = p.substring(0, 1).toUpperCase();
-            title += fl + p.substring(1) + ' ';
-        });
+        var title = '';
+        if (this.filterType == 'state') {
+            title = _('States');
+        } else if (this.filterType == 'tracker_host') {
+            title = _('Trackers');
+        } else if (this.filterType == 'owner') {
+            title = _('Owner');
+        } else if (this.filterType == 'label') {
+            title = _('Labels');
+        } else {
+            title = this.filterType.replace('_', ' '),
+                parts = title.split(' '),
+                title = '';
+            Ext.each(parts, function(p) {
+                fl = p.substring(0, 1).toUpperCase();
+                title += fl + p.substring(1) + ' ';
+            });
+        }
         this.setTitle(_(title));
 
         if (Deluge.FilterPanel.templates[this.filterType]) {
@@ -121,7 +131,7 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
         if (!show_zero) {
             var newStates = [];
             Ext.each(states, function(state) {
-                if (state[1] > 0 || state[0] == _('All')) {
+                if (state[1] > 0 || state[0] == 'All') {
                     newStates.push(state);
                 }
             });
@@ -141,7 +151,7 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
                 store.insert(i, record);
             }
             record.beginEdit();
-            record.set('filter', s[0]);
+            record.set('filter', _(s[0]));
             record.set('count', s[1]);
             record.endEdit();
             filters[s[0]] = true;

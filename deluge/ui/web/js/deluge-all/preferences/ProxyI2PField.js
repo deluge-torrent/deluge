@@ -46,7 +46,8 @@ Deluge.preferences.ProxyI2PField = Ext.extend(Ext.form.FieldSet, {
         this.hostname = this.add({
             xtype: 'textfield',
             name: 'hostname',
-            fieldLabel: _('Host'),
+            fieldLabel: _('Host:'),
+            labelSeparator: '',
             width: 220
         });
         this.hostname.on('change', this.onFieldChange, this);
@@ -54,7 +55,8 @@ Deluge.preferences.ProxyI2PField = Ext.extend(Ext.form.FieldSet, {
         this.port = this.add({
             xtype: 'spinnerfield',
             name: 'port',
-            fieldLabel: _('Port'),
+            fieldLabel: _('Port:'),
+            labelSeparator: '',
             width: 80,
             decimalPrecision: 0,
             minValue: 0,

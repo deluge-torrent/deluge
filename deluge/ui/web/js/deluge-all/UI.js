@@ -30,6 +30,30 @@
  * statement from all source files in the program, then also delete it here.
  */
 
+/** Dummy translation arrays so Torrent and Tracker states are available for Translators.
+*
+* All entries in deluge.common.TORRENT_STATE should be added here.
+*
+* No need to import these, just simply use the `_()` function around a status variable.
+*/
+var TORRENT_STATE_TRANSLATION = [
+    _('All'),
+    _('Active'),
+    _('Allocating'),
+    _('Checking'),
+    _('Downloading'),
+    _('Seeding'),
+    _('Paused'),
+    _('Checking'),
+    _('Queued'),
+    _('Error')];
+
+var TRACKER_STATUS_TRANSLATION = [
+    _('Error'),
+    _('Warning'),
+    _('Announce OK'),
+    _('Announce Sent')];
+
 /**
  * @static
  * @class Deluge.UI
@@ -92,8 +116,8 @@ deluge.ui = {
             items: [this.MainPanel]
         });
 
-        deluge.events.on("connect", this.onConnect, this);
-        deluge.events.on("disconnect", this.onDisconnect, this);
+        deluge.events.on('connect', this.onConnect, this);
+        deluge.events.on('disconnect', this.onDisconnect, this);
         deluge.events.on('PluginDisabledEvent', this.onPluginDisabled, this);
         deluge.events.on('PluginEnabledEvent', this.onPluginEnabled, this);
         deluge.client = new Ext.ux.util.RpcClient({

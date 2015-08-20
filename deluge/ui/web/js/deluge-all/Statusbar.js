@@ -310,6 +310,6 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
         });
 
         this.items.get('statusbar-dht').setText(stats.dht_nodes);
-        this.items.get('statusbar-freespace').setText(stats.free_space >= 0 ? fsize(stats.free_space): _("Error"));
+        this.items.get('statusbar-freespace').setText(stats.free_space >= 0 ? fsize(stats.free_space): _('Error'));
     }
 });

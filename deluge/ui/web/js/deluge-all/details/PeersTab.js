@@ -43,8 +43,8 @@
         var peer_ip = value.split(':');
         if (peer_ip.length > 2) {
             var port = peer_ip.pop();
-            var ip = peer_ip.join(":");
-            value = "[" + ip + "]:" + port;
+            var ip = peer_ip.join(':');
+            value = '[' + ip + ']:' + port;
         }
         return String.format('<div class="{0}">{1}</div>', seed, value);
     }

@@ -50,7 +50,7 @@
     function torrentProgressRenderer(value, p, r) {
         value = new Number(value);
         var progress = value;
-        var text = r.data['state'] + ' ' + value.toFixed(2) + '%';
+        var text = _(r.data['state']) + ' ' + value.toFixed(2) + '%';
         if ( this.style ) {
             var style = this.style
         } else {
@@ -85,7 +85,7 @@
     }
 
     function dateOrNever(date) {
-        return date > 0.0 ? fdate(date) : "Never"
+        return date > 0.0 ? fdate(date) : _('Never')
     }
 
     /**

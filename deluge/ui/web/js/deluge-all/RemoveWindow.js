@@ -61,7 +61,7 @@ Deluge.RemoveWindow = Ext.extend(Ext.Window, {
         deluge.client.core.remove_torrents(this.torrentIds, removeData, {
             success: function(result) {
                 if (result) {
-                    console.log("Error(s) occured when trying to delete torrent(s).");
+                    console.log('Error(s) occured when trying to delete torrent(s).');
                 }
                 this.onRemoved(this.torrentIds);
             },

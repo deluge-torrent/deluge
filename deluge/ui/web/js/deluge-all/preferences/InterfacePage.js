@@ -1,6 +1,6 @@
 /*!
  * Deluge.preferences.InterfacePage.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -40,13 +40,13 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
     border: false,
     title: _('Interface'),
     layout: 'form',
-    
+
     initComponent: function() {
         Deluge.preferences.Interface.superclass.initComponent.call(this);
-        
+
         var om = this.optionsManager = new Deluge.OptionsManager();
         this.on('show', this.onPageShow, this);
-        
+
         var fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -77,7 +77,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             labelSeparator: '',
             boxLabel: _('Allow the use of multiple filters at once')
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -91,20 +91,23 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
                 inputType: 'password'
             }
         });
-        
+
         this.oldPassword = fieldset.add({
             name: 'old_password',
-            fieldLabel: _('Old Password')
+            fieldLabel: _('Old Password:'),
+            labelSeparator: '',
         });
         this.newPassword = fieldset.add({
             name: 'new_password',
-            fieldLabel: _('New Password')
+            fieldLabel: _('New Password:'),
+            labelSeparator: '',
         });
         this.confirmPassword = fieldset.add({
             name: 'confirm_password',
-            fieldLabel: _('Confirm Password')
+            fieldLabel: _('Confirm Password:'),
+            labelSeparator: '',
         });
-        
+
         var panel = fieldset.add({
             xtype: 'panel',
             autoHeight: true,
@@ -122,7 +125,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
                 }
             }
         });
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -137,14 +140,16 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
         });
         om.bind('session_timeout', fieldset.add({
             name: 'session_timeout',
-            fieldLabel: _('Session Timeout'),
+            fieldLabel: _('Session Timeout:'),
+            labelSeparator: '',
             decimalPrecision: 0,
             minValue: -1,
             maxValue: 99999
         }));
         om.bind('port', fieldset.add({
             name: 'port',
-            fieldLabel: _('Port'),
+            fieldLabel: _('Port:'),
+            labelSeparator: '',
             decimalPrecision: 0,
             minValue: -1,
             maxValue: 99999
@@ -163,17 +168,19 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             disabled: true,
             name: 'pkey',
             width: 180,
-            fieldLabel: _('Private Key')
+            fieldLabel: _('Private Key:'),
+            labelSeparator: ''
         }));
         this.certField = om.bind('cert', fieldset.add({
             xtype: 'textfield',
             disabled: true,
             name: 'cert',
             width: 180,
-            fieldLabel: _('Certificate')
+            fieldLabel: _('Certificate:'),
+            labelSeparator: ''
         }));
     },
-    
+
     onApply: function() {
         var changed = this.optionsManager.getDirty();
         if (!Ext.isObjectEmpty(changed)) {
@@ -187,11 +194,11 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             }
         }
     },
-    
+
     onGotConfig: function(config) {
         this.optionsManager.set(config);
     },
-    
+
     onPasswordChange: function() {
         var newPassword = this.newPassword.getValue();
         if (newPassword != this.confirmPassword.getValue()) {
@@ -205,7 +212,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             });
             return;
         }
-        
+
         var oldPassword = this.oldPassword.getValue();
         deluge.client.auth.change_password(oldPassword, newPassword, {
             success: function(result) {
@@ -236,18 +243,18 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             scope: this
         });
     },
-    
+
     onSetConfig: function() {
         this.optionsManager.commit();
     },
-    
+
     onPageShow: function() {
         deluge.client.web.get_config({
             success: this.onGotConfig,
             scope: this
         })
     },
-    
+
     onSSLCheck: function(e, checked) {
         this.pkeyField.setDisabled(!checked);
         this.certField.setDisabled(!checked);

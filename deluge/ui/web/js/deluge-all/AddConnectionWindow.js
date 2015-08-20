@@ -1,6 +1,6 @@
 /*!
  * Deluge.AddConnectionWindow.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -51,25 +51,27 @@ Deluge.AddConnectionWindow = Ext.extend(Ext.Window, {
         Deluge.AddConnectionWindow.superclass.initComponent.call(this);
 
         this.addEvents('hostadded');
-    
+
         this.addButton(_('Close'), this.hide, this);
         this.addButton(_('Add'), this.onAddClick, this);
-    
+
         this.on('hide', this.onHide, this);
-    
+
         this.form = this.add({
             xtype: 'form',
             defaultType: 'textfield',
             baseCls: 'x-plain',
             labelWidth: 60,
             items: [{
-                fieldLabel: _('Host'),
+                fieldLabel: _('Host:'),
+                labelSeparator : '',
                 name: 'host',
                 anchor: '75%',
                 value: ''
             }, {
                 xtype: 'spinnerfield',
-                fieldLabel: _('Port'),
+                fieldLabel: _('Port:'),
+                labelSeparator : '',
                 name: 'port',
                 strategy: {
                     xtype: 'number',
@@ -80,12 +82,14 @@ Deluge.AddConnectionWindow = Ext.extend(Ext.Window, {
                 value: '58846',
                 anchor: '40%'
             }, {
-                fieldLabel: _('Username'),
+                fieldLabel: _('Username:'),
+                labelSeparator : '',
                 name: 'username',
                 anchor: '75%',
                 value: ''
             }, {
-                fieldLabel: _('Password'),
+                fieldLabel: _('Password:'),
+                labelSeparator : '',
                 anchor: '75%',
                 name: 'password',
                 inputType: 'password',
@@ -101,7 +105,7 @@ Deluge.AddConnectionWindow = Ext.extend(Ext.Window, {
                 if (!result[0]) {
                     Ext.MessageBox.show({
                         title: _('Error'),
-                        msg: "Unable to add host: " + result[1],
+                        msg: 'Unable to add host: ' + result[1],
                         buttons: Ext.MessageBox.OK,
                         modal: false,
                         icon: Ext.MessageBox.ERROR,

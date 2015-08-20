@@ -101,7 +101,8 @@ types. Absolutely no other information is sent.')
         });
         optMan.bind('geoip_db_location', fieldset.add({
             name: 'geoip_db_location',
-            fieldLabel: _('Location'),
+            fieldLabel: _('Path:'),
+            labelSeparator: '',
             width: 200
         }));
     }

@@ -1,6 +1,6 @@
 /*!
  * Deluge.preferences.DaemonPage.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -40,12 +40,12 @@ Deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
     border: false,
     title: _('Daemon'),
     layout: 'form',
-    
+
     initComponent: function() {
         Deluge.preferences.Daemon.superclass.initComponent.call(this);
 
         var om = deluge.preferences.getOptionsManager();
-        
+
         var fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -54,14 +54,15 @@ Deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
             defaultType: 'spinnerfield'
         });
         om.bind('daemon_port', fieldset.add({
-            fieldLabel: _('Daemon port'),
+            fieldLabel: _('Daemon port:'),
+            labelSeparator: '',
             name: 'daemon_port',
             value: 58846,
             decimalPrecision: 0,
             minValue: -1,
             maxValue: 99999
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -77,7 +78,7 @@ Deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
             boxLabel: _('Allow Remote Connections'),
             name: 'allow_remote'
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,

@@ -1,6 +1,6 @@
 /*!
  * Deluge.Client.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify

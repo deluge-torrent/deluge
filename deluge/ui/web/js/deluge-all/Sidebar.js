@@ -67,7 +67,7 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
     // private
     initComponent: function() {
         Deluge.Sidebar.superclass.initComponent.call(this);
-        deluge.events.on("disconnect", this.onDisconnect, this);
+        deluge.events.on('disconnect', this.onDisconnect, this);
     },
 
     createFilter: function(filter, states) {

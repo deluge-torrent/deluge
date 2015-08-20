@@ -94,7 +94,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
          */
         this.fieldsets.bandwidth.add({
             xtype: 'label',
-            text: _('Max Download Speed'),
+            text: _('Max Download Speed:'),
             forId: 'max_download_speed',
             cls: 'x-deluge-options-label'
         });
@@ -120,7 +120,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
          */
         this.fieldsets.bandwidth.add({
             xtype: 'label',
-            text: _('Max Upload Speed'),
+            text: _('Max Upload Speed:'),
             forId: 'max_upload_speed',
             cls: 'x-deluge-options-label'
         });
@@ -147,7 +147,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
          */
         this.fieldsets.bandwidth.add({
             xtype: 'label',
-            text: _('Max Connections'),
+            text: _('Max Connections:'),
             forId: 'max_connections',
             cls: 'x-deluge-options-label'
         });
@@ -170,7 +170,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
          */
         this.fieldsets.bandwidth.add({
             xtype: 'label',
-            text: _('Max Upload Slots'),
+            text: _('Max Upload Slots:'),
             forId: 'max_upload_slots',
             cls: 'x-deluge-options-label'
         });
@@ -222,7 +222,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             labelSeparator: '',
             id: 'stop_at_ratio',
             width: 120,
-            boxLabel: _('Stop seed at ratio'),
+            boxLabel: _('Stop seed at ratio:'),
             handler: this.onStopRatioChecked,
             scope: this
         });
@@ -259,7 +259,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             fieldLabel: '',
             labelSeparator: '',
             id: 'move_completed',
-            boxLabel: _('Move Completed'),
+            boxLabel: _('Move Completed:'),
             colspan: 2,
             handler: this.onMoveCompletedChecked,
             scope: this

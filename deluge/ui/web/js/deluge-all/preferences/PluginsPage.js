@@ -45,11 +45,11 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 
     pluginTemplate: new Ext.Template(
         '<dl class="singleline">' +
-            '<dt>Author:</dt><dd>{author}</dd>' +
-            '<dt>Version:</dt><dd>{version}</dd>' +
-            '<dt>Author Email:</dt><dd>{email}</dd>' +
-            '<dt>Homepage:</dt><dd>{homepage}</dd>' +
-            '<dt>Details:</dt><dd>{details}</dd>' +
+            '<dt>' + _('Author:') + '</dt><dd>{author}</dd>' +
+            '<dt>' + _('Version:') + '</dt><dd>{version}</dd>' +
+            '<dt>' + _('Author Email:') + '</dt><dd>{email}</dd>' +
+            '<dt>' + _('Homepage:') + '</dt><dd>{homepage}</dd>' +
+            '<dt>' + _('Details:') + '</dt><dd>{details}</dd>' +
         '</dl>'
     ),
 
