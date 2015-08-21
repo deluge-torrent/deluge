@@ -315,6 +315,7 @@ class PeersTab(Tab):
         if not widget.get_tooltip_context(x, y, keyboard_tip):
             return False
         else:
+            # FIXME: ValueError: too many values to unpack
             model, path, iter = widget.get_tooltip_context(x, y, keyboard_tip)
 
             country_code = model.get(iter, 5)[0]

@@ -217,7 +217,8 @@ class ListView:
 
             def record_position(model, path, iter, data):
                 # FIXME: TypeError: 'TreePath' object does not support indexing
-                self.last_sort_order[model[iter][self.unique_column_id]] = path[0]
+                # Verify
+                self.last_sort_order[model[iter][self.unique_column_id]] = int(str(model.get_path(iter)))
             model.foreach(record_position, None)
 
     def on_model_row_inserted(self, model, path, iter):
