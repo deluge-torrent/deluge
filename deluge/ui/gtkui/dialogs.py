@@ -169,7 +169,7 @@ class ErrorDialog(BaseDialog):
             sw.add(textview)
             label = Gtk.Label(label=_("Details:"))
             label.set_alignment(0.0, 0.5)
-            self.vbox.pack_start(label, False, False)
+            self.vbox.pack_start(label, False, False, 0)
             self.vbox.pack_start(sw, True, True, 0)
             self.vbox.show_all()
 
