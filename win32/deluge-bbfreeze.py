@@ -23,7 +23,7 @@ gtk_root = os.path.join(gtk.__path__[0], "..\\runtime\\")
 
 # Include python modules not picked up automatically by bbfreeze
 includes = ("libtorrent", "cairo", "pangocairo", "atk", "pango", "twisted.internet.utils",
-            "gio", "gzip", "email.mime.multipart", "email.mime.text")
+            "gio", "gzip", "email.mime.multipart", "email.mime.text", "_cffi_backend")
 excludes = ("numpy", "OpenGL", "psyco", "win32ui")
 
 dst = "..\\build-win32\\deluge-bbfreeze-" + build_version + "\\"
