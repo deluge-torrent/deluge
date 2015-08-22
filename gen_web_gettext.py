@@ -12,61 +12,43 @@
 
 import os
 import re
-import sys
 
-if len(sys.argv) != 2:
-    WEBUI_JS_DIR = 'deluge/ui/web/js/deluge-all'
-else:
-    WEBUI_JS_DIR = os.path.abspath(sys.argv[1])
+WEBUI_JS_DIR = 'deluge/ui/web/js/deluge-all'
+# Enabling Debug adds file and line number as comments to the gettext file.
+DEBUG = False
 
-OUTPUT_FILE = os.path.join(os.path.dirname(WEBUI_JS_DIR), 'gettext.js')
-STRING_RE = re.compile('_\\(\'(.*?)\'\\)')
 
-strings = {}
-for root, dnames, files in os.walk(WEBUI_JS_DIR):
-    for filename in files:
-        if os.path.splitext(filename)[1] == '.js':
-            for lineno, line in enumerate(open(os.path.join(root, filename))):
-                for match in STRING_RE.finditer(line):
-                    string = match.group(1)
-                    locations = strings.get(string, [])
-                    locations.append((os.path.basename(filename), lineno + 1))
-                    strings[string] = locations
+def create_gettext_js(js_dir):
+    string_re = re.compile('_\\(\'(.*?)\'\\)')
 
-keys = strings.keys()
-keys.sort()
+    strings = {}
+    for root, dnames, files in os.walk(js_dir):
+        for filename in files:
+            if os.path.splitext(filename)[1] == '.js':
+                for lineno, line in enumerate(open(os.path.join(root, filename))):
+                    for match in string_re.finditer(line):
+                        string = match.group(1)
+                        locations = strings.get(string, [])
+                        locations.append((os.path.basename(filename), lineno + 1))
+                        strings[string] = locations
 
-gettext_tpl = """/*!
- * Script: gettext.js
- *  A script file that is run through the template renderer in order for translated strings to be used.
- *
- * Copyright (c) 2009 Damien Churchill <damoxc@gmail.com>
- */
+    keys = strings.keys()
+    keys.sort()
 
-GetText = {
-    maps: {},
-    add: function(string, translation) {
-        this.maps[string] = translation;
-    },
-    get: function(string) {
-        if (this.maps[string]) {
-            return this.maps[string];
-        } else {
-            return string;
-        }
-    }
-}
+    gettext_tpl = """GetText={maps:{},\
+    add:function(string,translation) {this.maps[string]=translation},\
+    get:function(string) {if (this.maps[string]) {string=this.maps[string]} return string}}
+    function _(string) {return GetText.get(string)}\
+    """
 
-function _(string) {
-    return GetText.get(string);
-}
+    gettext_file = os.path.join(os.path.dirname(js_dir), 'gettext.js')
+    with open(gettext_file, 'w') as fp:
+        fp.write(gettext_tpl)
+        for key in keys:
+            if DEBUG:
+                fp.write('\n// %s\n' % ', '.join(map(lambda x: '%s:%s' % x, strings[key])))
+            fp.write("GetText.add('%(key)s','${escape(_(\"%(key)s\"))}')\n" % locals())
 
-"""
-
-with open(OUTPUT_FILE, 'w') as fp:
-    fp.write(gettext_tpl)
-    for key in keys:
-        fp.write('// %s\n' % ', '.join(map(lambda x: '%s:%s' % x, strings[key])))
-        fp.write("GetText.add('%(key)s', '${escape(_(\"%(key)s\"))}')\n\n" % locals())
-
-print "Created %s" % OUTPUT_FILE
+if __name__ == '__main__':
+    create_gettext_js(WEBUI_JS_DIR)
+    print "Created %s" % WEBUI_JS_DIR
