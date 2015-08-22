@@ -328,9 +328,12 @@ class Torrent(object):
         if trackers == None:
             trackers = []
             for value in self.handle.trackers():
-                tracker = {}
-                tracker["url"] = value.url
-                tracker["tier"] = value.tier
+                if lt.version_major == 0 and lt.version_minor < 15:
+                    tracker = {}
+                    tracker["url"] = value.url
+                    tracker["tier"] = value.tier
+                else:
+                    tracker = value
                 trackers.append(tracker)
             self.trackers = trackers
             self.tracker_host = None
