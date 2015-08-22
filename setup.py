@@ -60,6 +60,46 @@ class PyTest(_test):
         sys.exit(errcode)
 
 
+class BuildWebUI(cmd.Command):
+    description = 'Minify WebUI files'
+
+    user_options = [
+        ('build-lib', None, 'build folder containing javascript files'),
+        ('develop', 'D', 'build javascript files in develop mode')
+    ]
+    boolean_options = ['develop']
+
+    def initialize_options(self):
+        self.build_lib = None
+        self.develop = False
+
+    def finalize_options(self):
+        self.set_undefined_options('build', ('build_lib', 'build_lib'))
+
+    def run(self):
+        if self.develop:
+            js_basedir = os.path.join(os.path.dirname(__file__), 'deluge', 'ui', 'web', 'js')
+        else:
+            js_basedir = os.path.join(self.build_lib, 'deluge', 'ui', 'web', 'js')
+
+        js_source_dirs = [os.path.join(js_basedir, 'deluge-all'),
+                          os.path.join(js_basedir, 'extjs', 'ext-extensions')]
+
+        import_error = ''
+        try:
+            from minify_web_js import minify_js_dir
+        except ImportError as err:
+            import_error = err
+
+        for source_dir in js_source_dirs:
+            # If unable to import minify script and there is no existing minified file, raise error.
+            if import_error:
+                js_file = os.path.join(os.path.dirname(source_dir), os.path.basename(source_dir)) + '.js'
+                if not os.path.exists(js_file):
+                    raise ImportError(import_error)
+            minify_js_dir(source_dir)
+
+
 class BuildTranslations(cmd.Command):
     description = 'Compile .po files into .mo files & create .desktop file'
 
@@ -77,7 +117,7 @@ class BuildTranslations(cmd.Command):
         self.set_undefined_options('build', ('build_lib', 'build_lib'))
 
     def run(self):
-        po_dir = os.path.join(os.path.dirname(__file__), 'deluge/i18n/')
+        po_dir = os.path.join(os.path.dirname(__file__), 'deluge', 'i18n')
 
         if self.develop:
             basedir = po_dir
@@ -175,7 +215,7 @@ class EggInfoPlugins(cmd.Command):
 
 
 class Build(_build):
-    sub_commands = [('build_trans', None), ('build_plugins', None)] + _build.sub_commands
+    sub_commands = [('build_webui', None), ('build_trans', None), ('build_plugins', None)] + _build.sub_commands
 
     def run(self):
         # Run all sub-commands (at least those that need to be run).
@@ -267,6 +307,7 @@ class Clean(_clean):
 
 cmdclass = {
     'build': Build,
+    'build_webui': BuildWebUI,
     'build_trans': BuildTranslations,
     'build_plugins': BuildPlugins,
     'build_docs': BuildDoc,
