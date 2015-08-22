@@ -1,4 +1,915 @@
 /*!
+ * Ext JS Library 3.4.0
+ * Copyright(c) 2006-2011 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
+ */
+Ext.ns('Ext.ux.form');
+
+/**
+ * @class Ext.ux.form.FileUploadField
+ * @extends Ext.form.TextField
+ * Creates a file upload field.
+ * @xtype fileuploadfield
+ */
+Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField,  {
+    /**
+     * @cfg {String} buttonText The button text to display on the upload button (defaults to
+     * 'Browse...').  Note that if you supply a value for {@link #buttonCfg}, the buttonCfg.text
+     * value will be used instead if available.
+     */
+    buttonText: 'Browse...',
+    /**
+     * @cfg {Boolean} buttonOnly True to display the file upload field as a button with no visible
+     * text field (defaults to false).  If true, all inherited TextField members will still be available.
+     */
+    buttonOnly: false,
+    /**
+     * @cfg {Number} buttonOffset The number of pixels of space reserved between the button and the text field
+     * (defaults to 3).  Note that this only applies if {@link #buttonOnly} = false.
+     */
+    buttonOffset: 3,
+    /**
+     * @cfg {Object} buttonCfg A standard {@link Ext.Button} config object.
+     */
+
+    // private
+    readOnly: true,
+
+    /**
+     * @hide
+     * @method autoSize
+     */
+    autoSize: Ext.emptyFn,
+
+    // private
+    initComponent: function(){
+        Ext.ux.form.FileUploadField.superclass.initComponent.call(this);
+
+        this.addEvents(
+            /**
+             * @event fileselected
+             * Fires when the underlying file input field's value has changed from the user
+             * selecting a new file from the system file selection dialog.
+             * @param {Ext.ux.form.FileUploadField} this
+             * @param {String} value The file value returned by the underlying file input field
+             */
+            'fileselected'
+        );
+    },
+
+    // private
+    onRender : function(ct, position){
+        Ext.ux.form.FileUploadField.superclass.onRender.call(this, ct, position);
+
+        this.wrap = this.el.wrap({cls:'x-form-field-wrap x-form-file-wrap'});
+        this.el.addClass('x-form-file-text');
+        this.el.dom.removeAttribute('name');
+        this.createFileInput();
+
+        var btnCfg = Ext.applyIf(this.buttonCfg || {}, {
+            text: this.buttonText
+        });
+        this.button = new Ext.Button(Ext.apply(btnCfg, {
+            renderTo: this.wrap,
+            cls: 'x-form-file-btn' + (btnCfg.iconCls ? ' x-btn-icon' : '')
+        }));
+
+        if(this.buttonOnly){
+            this.el.hide();
+            this.wrap.setWidth(this.button.getEl().getWidth());
+        }
+
+        this.bindListeners();
+        this.resizeEl = this.positionEl = this.wrap;
+    },
+    
+    bindListeners: function(){
+        this.fileInput.on({
+            scope: this,
+            mouseenter: function() {
+                this.button.addClass(['x-btn-over','x-btn-focus'])
+            },
+            mouseleave: function(){
+                this.button.removeClass(['x-btn-over','x-btn-focus','x-btn-click'])
+            },
+            mousedown: function(){
+                this.button.addClass('x-btn-click')
+            },
+            mouseup: function(){
+                this.button.removeClass(['x-btn-over','x-btn-focus','x-btn-click'])
+            },
+            change: function(){
+                var v = this.fileInput.dom.value;
+                this.setValue(v);
+                this.fireEvent('fileselected', this, v);    
+            }
+        }); 
+    },
+    
+    createFileInput : function() {
+        this.fileInput = this.wrap.createChild({
+            id: this.getFileInputId(),
+            name: this.name||this.getId(),
+            cls: 'x-form-file',
+            tag: 'input',
+            type: 'file',
+            size: 1
+        });
+    },
+    
+    reset : function(){
+        if (this.rendered) {
+            this.fileInput.remove();
+            this.createFileInput();
+            this.bindListeners();
+        }
+        Ext.ux.form.FileUploadField.superclass.reset.call(this);
+    },
+
+    // private
+    getFileInputId: function(){
+        return this.id + '-file';
+    },
+
+    // private
+    onResize : function(w, h){
+        Ext.ux.form.FileUploadField.superclass.onResize.call(this, w, h);
+
+        this.wrap.setWidth(w);
+
+        if(!this.buttonOnly){
+            var w = this.wrap.getWidth() - this.button.getEl().getWidth() - this.buttonOffset;
+            this.el.setWidth(w);
+        }
+    },
+
+    // private
+    onDestroy: function(){
+        Ext.ux.form.FileUploadField.superclass.onDestroy.call(this);
+        Ext.destroy(this.fileInput, this.button, this.wrap);
+    },
+    
+    onDisable: function(){
+        Ext.ux.form.FileUploadField.superclass.onDisable.call(this);
+        this.doDisable(true);
+    },
+    
+    onEnable: function(){
+        Ext.ux.form.FileUploadField.superclass.onEnable.call(this);
+        this.doDisable(false);
+
+    },
+    
+    // private
+    doDisable: function(disabled){
+        this.fileInput.dom.disabled = disabled;
+        this.button.setDisabled(disabled);
+    },
+
+
+    // private
+    preFocus : Ext.emptyFn,
+
+    // private
+    alignErrorIcon : function(){
+        this.errorIcon.alignTo(this.wrap, 'tl-tr', [2, 0]);
+    }
+
+});
+
+Ext.reg('fileuploadfield', Ext.ux.form.FileUploadField);
+
+// backwards compat
+Ext.form.FileUploadField = Ext.ux.form.FileUploadField;
+/*!
+ * Ext.ux.form.RadioGroup.js
+ * 
+ * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, write to:
+ *     The Free Software Foundation, Inc.,
+ *     51 Franklin Street, Fifth Floor
+ *     Boston, MA  02110-1301, USA.
+ *
+ * In addition, as a special exception, the copyright holders give
+ * permission to link the code of portions of this program with the OpenSSL
+ * library.
+ * You must obey the GNU General Public License in all respects for all of
+ * the code used other than OpenSSL. If you modify file(s) with this
+ * exception, you may extend this exception to your version of the file(s),
+ * but you are not obligated to do so. If you do not wish to do so, delete
+ * this exception statement from your version. If you delete this exception
+ * statement from all source files in the program, then also delete it here.
+ */
+
+// Allow radiogroups to be treated as a single form element.
+Ext.override(Ext.form.RadioGroup, {
+
+    afterRender: function() {
+        this.items.each(function(i) {
+            this.relayEvents(i, ['check']);
+        }, this);
+        if (this.lazyValue) {
+            this.setValue(this.value);
+            delete this.value;
+            delete this.lazyValue;
+        }
+        Ext.form.RadioGroup.superclass.afterRender.call(this)
+    },
+
+    getName: function() {
+        return this.items.first().getName();
+    },
+
+    getValue: function() {
+        return this.items.first().getGroupValue();
+    },
+
+    setValue: function(v) {
+        if (!this.items.each) {
+            this.value = v;
+            this.lazyValue = true;
+            return;
+        }
+        this.items.each(function(item) {
+            if (item.rendered) {
+                var checked = (item.el.getValue() == String(v));
+                item.el.dom.checked = checked;
+                item.el.dom.defaultChecked = checked;
+                item.wrap[checked ? 'addClass' : 'removeClass'](item.checkedCls);
+            }
+        });
+    }
+});
+/*!
+ * Ext JS Library 3.4.0
+ * Copyright(c) 2006-2011 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
+ */
+Ext.ns('Ext.ux.form');
+
+/**
+ * @class Ext.ux.form.SpinnerField
+ * @extends Ext.form.NumberField
+ * Creates a field utilizing Ext.ux.Spinner
+ * @xtype spinnerfield
+ */
+Ext.ux.form.SpinnerField = Ext.extend(Ext.form.NumberField, {
+    actionMode: 'wrap',
+    deferHeight: true,
+    autoSize: Ext.emptyFn,
+    onBlur: Ext.emptyFn,
+    adjustSize: Ext.BoxComponent.prototype.adjustSize,
+
+    constructor: function(config) {
+            var spinnerConfig = Ext.copyTo({}, config, 'incrementValue,alternateIncrementValue,accelerate,defaultValue,triggerClass,splitterClass');
+
+            var spl = this.spinner = new Ext.ux.Spinner(spinnerConfig);
+
+            var plugins = config.plugins
+                    ? (Ext.isArray(config.plugins)
+                            ? config.plugins.push(spl)
+                            : [config.plugins, spl])
+                    : spl;
+
+            Ext.ux.form.SpinnerField.superclass.constructor.call(this, Ext.apply(config, {plugins: plugins}));
+    },
+
+    // private
+    getResizeEl: function(){
+        return this.wrap;
+    },
+
+    // private
+    getPositionEl: function(){
+        return this.wrap;
+    },
+
+    // private
+    alignErrorIcon: function(){
+        if (this.wrap) {
+            this.errorIcon.alignTo(this.wrap, 'tl-tr', [2, 0]);
+        }
+    },
+
+    validateBlur: function(){
+        return true;
+    }
+});
+
+Ext.reg('spinnerfield', Ext.ux.form.SpinnerField);
+
+//backwards compat
+Ext.form.SpinnerField = Ext.ux.form.SpinnerField;
+/*!
+ * Ext.ux.form.SpinnerField.js
+ * 
+ * Copyright (c) Damien Churchill 2010 <damoxc@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, write to:
+ *     The Free Software Foundation, Inc.,
+ *     51 Franklin Street, Fifth Floor
+ *     Boston, MA  02110-1301, USA.
+ *
+ * In addition, as a special exception, the copyright holders give
+ * permission to link the code of portions of this program with the OpenSSL
+ * library.
+ * You must obey the GNU General Public License in all respects for all of
+ * the code used other than OpenSSL. If you modify file(s) with this
+ * exception, you may extend this exception to your version of the file(s),
+ * but you are not obligated to do so. If you do not wish to do so, delete
+ * this exception statement from your version. If you delete this exception
+ * statement from all source files in the program, then also delete it here.
+ */
+
+Ext.override(Ext.ux.form.SpinnerField, {
+    onBlur: Ext.form.Field.prototype.onBlur
+});
+/*!
+ * Ext.ux.form.SpinnerGroup.js
+ *
+ * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, write to:
+ *     The Free Software Foundation, Inc.,
+ *     51 Franklin Street, Fifth Floor
+ *     Boston, MA  02110-1301, USA.
+ *
+ * In addition, as a special exception, the copyright holders give
+ * permission to link the code of portions of this program with the OpenSSL
+ * library.
+ * You must obey the GNU General Public License in all respects for all of
+ * the code used other than OpenSSL. If you modify file(s) with this
+ * exception, you may extend this exception to your version of the file(s),
+ * but you are not obligated to do so. If you do not wish to do so, delete
+ * this exception statement from your version. If you delete this exception
+ * statement from all source files in the program, then also delete it here.
+ */
+Ext.ns('Ext.ux.form');
+
+/**
+ *
+ */
+Ext.ux.form.SpinnerGroup = Ext.extend(Ext.form.CheckboxGroup, {
+
+    // private
+    defaultType: 'spinnerfield',
+    anchor: '98%',
+
+    // private
+    groupCls: 'x-form-spinner-group',
+
+    colCfg: {},
+
+    // private
+    onRender : function(ct, position){
+        if(!this.el){
+            var panelCfg = {
+                cls: this.groupCls,
+                layout: 'column',
+                border: false,
+                renderTo: ct
+            };
+            var colCfg = Ext.apply({
+                defaultType: this.defaultType,
+                layout: 'form',
+                border: false,
+                labelWidth: 60,
+                defaults: {
+                    hideLabel: true,
+                    anchor: '60%'
+                }
+            }, this.colCfg);
+
+            if(this.items[0].items){
+
+                // The container has standard ColumnLayout configs, so pass them in directly
+
+                Ext.apply(panelCfg, {
+                    layoutConfig: {columns: this.items.length},
+                    defaults: this.defaults,
+                    items: this.items
+                })
+                for(var i=0, len=this.items.length; i<len; i++){
+                    Ext.applyIf(this.items[i], colCfg);
+                };
+
+            }else{
+
+                // The container has field item configs, so we have to generate the column
+                // panels first then move the items into the columns as needed.
+
+                var numCols, cols = [];
+
+                if(typeof this.columns == 'string'){ // 'auto' so create a col per item
+                    this.columns = this.items.length;
+                }
+                if(!Ext.isArray(this.columns)){
+                    var cs = [];
+                    for(var i=0; i<this.columns; i++){
+                        cs.push((100/this.columns)*.01); // distribute by even %
+                    }
+                    this.columns = cs;
+                }
+
+                numCols = this.columns.length;
+
+                // Generate the column configs with the correct width setting
+                for(var i=0; i<numCols; i++){
+                    var cc = Ext.apply({items:[]}, colCfg);
+                    cc[this.columns[i] <= 1 ? 'columnWidth' : 'width'] = this.columns[i];
+                    if(this.defaults){
+                        cc.defaults = Ext.apply(cc.defaults || {}, this.defaults)
+                    }
+                    cols.push(cc);
+                };
+
+                // Distribute the original items into the columns
+                if(this.vertical){
+                    var rows = Math.ceil(this.items.length / numCols), ri = 0;
+                    for(var i=0, len=this.items.length; i<len; i++){
+                        if(i>0 && i%rows==0){
+                            ri++;
+                        }
+                        if(this.items[i].fieldLabel){
+                            this.items[i].hideLabel = false;
+                        }
+                        cols[ri].items.push(this.items[i]);
+                    };
+                }else{
+                    for(var i=0, len=this.items.length; i<len; i++){
+                        var ci = i % numCols;
+                        if(this.items[i].fieldLabel){
+                            this.items[i].hideLabel = false;
+                        }
+                        cols[ci].items.push(this.items[i]);
+                    };
+                }
+
+                Ext.apply(panelCfg, {
+                    layoutConfig: {columns: numCols},
+                    items: cols
+                });
+            }
+
+            this.panel = new Ext.Panel(panelCfg);
+            this.el = this.panel.getEl();
+
+            if(this.forId && this.itemCls){
+                var l = this.el.up(this.itemCls).child('label', true);
+                if(l){
+                    l.setAttribute('htmlFor', this.forId);
+                }
+            }
+
+            var fields = this.panel.findBy(function(c){
+                return c.isFormField;
+            }, this);
+
+            this.items = new Ext.util.MixedCollection();
+            this.items.addAll(fields);
+
+            this.items.each(function(field) {
+                field.on('spin', this.onFieldChange, this);
+                field.on('change', this.onFieldChange, this);
+            }, this);
+
+            if (this.lazyValueSet) {
+                this.setValue(this.value);
+                delete this.value;
+                delete this.lazyValueSet;
+            }
+
+            if (this.lazyRawValueSet) {
+                this.setRawValue(this.rawValue);
+                delete this.rawValue;
+                delete this.lazyRawValueSet;
+            }
+        }
+
+        Ext.ux.form.SpinnerGroup.superclass.onRender.call(this, ct, position);
+    },
+
+    onFieldChange: function(spinner) {
+        this.fireEvent('change', this, this.getValue());
+    },
+
+    initValue : Ext.emptyFn,
+
+    getValue: function() {
+        var value = [this.items.getCount()];
+        this.items.each(function(item, i) {
+            value[i] = Number(item.getValue());
+        });
+        return value;
+    },
+
+    getRawValue: function() {
+        var value = [this.items.getCount()];
+        this.items.each(function(item, i) {
+            value[i] = Number(item.getRawValue());
+        });
+        return value;
+    },
+
+    setValue: function(value) {
+        if (!this.rendered) {
+            this.value = value;
+            this.lazyValueSet = true;
+        } else {
+            this.items.each(function(item, i) {
+                item.setValue(value[i]);
+            });
+        }
+    },
+
+    setRawValue: function(value) {
+        if (!this.rendered) {
+            this.rawValue = value;
+            this.lazyRawValueSet = true;
+        } else {
+            this.items.each(function(item, i) {
+                item.setRawValue(value[i]);
+            });
+        }
+    }
+});
+Ext.reg('spinnergroup', Ext.ux.form.SpinnerGroup);
+/*!
+ * Ext.ux.form.ToggleField.js
+ * 
+ * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, write to:
+ *     The Free Software Foundation, Inc.,
+ *     51 Franklin Street, Fifth Floor
+ *     Boston, MA  02110-1301, USA.
+ *
+ * In addition, as a special exception, the copyright holders give
+ * permission to link the code of portions of this program with the OpenSSL
+ * library.
+ * You must obey the GNU General Public License in all respects for all of
+ * the code used other than OpenSSL. If you modify file(s) with this
+ * exception, you may extend this exception to your version of the file(s),
+ * but you are not obligated to do so. If you do not wish to do so, delete
+ * this exception statement from your version. If you delete this exception
+ * statement from all source files in the program, then also delete it here.
+ */
+Ext.namespace("Ext.ux.form");
+
+/**
+  * Ext.ux.form.ToggleField class
+  *
+  * @author Damien Churchill
+  * @version v0.1
+  *
+  * @class Ext.ux.form.ToggleField
+  * @extends Ext.form.TriggerField
+  */
+Ext.ux.form.ToggleField = Ext.extend(Ext.form.Field, {
+
+    cls: 'x-toggle-field',
+
+    initComponent: function() {
+        Ext.ux.form.ToggleField.superclass.initComponent.call(this);
+
+        this.toggle = new Ext.form.Checkbox();
+        this.toggle.on('check', this.onToggleCheck, this);
+
+        this.input = new Ext.form.TextField({
+            disabled: true
+        });
+    },
+
+    onRender: function(ct, position) {
+        if (!this.el) {
+            this.panel = new Ext.Panel({
+                cls: this.groupCls,
+                layout: 'table',
+                layoutConfig: {
+                    columns: 2
+                },
+                border: false,
+                renderTo: ct
+            });
+            this.panel.ownerCt = this;
+            this.el = this.panel.getEl();
+
+            this.panel.add(this.toggle);
+            this.panel.add(this.input);
+            this.panel.doLayout();
+
+            this.toggle.getEl().parent().setStyle('padding-right', '10px');
+        }
+        Ext.ux.form.ToggleField.superclass.onRender.call(this, ct, position);
+    },
+
+    // private
+    onResize: function(w, h) {
+        this.panel.setSize(w, h);
+        this.panel.doLayout();
+
+        // we substract 10 for the padding :-)
+        var inputWidth = w - this.toggle.getSize().width - 25;
+        this.input.setSize(inputWidth, h);
+    },
+
+    onToggleCheck: function(toggle, checked) {
+        this.input.setDisabled(!checked);
+    }
+});
+Ext.reg('togglefield', Ext.ux.form.ToggleField);
+/*!
+ * Ext JS Library 3.4.0
+ * Copyright(c) 2006-2011 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
+ */
+Ext.ns('Ext.ux.grid');
+
+/**
+ * @class Ext.ux.grid.BufferView
+ * @extends Ext.grid.GridView
+ * A custom GridView which renders rows on an as-needed basis.
+ */
+Ext.ux.grid.BufferView = Ext.extend(Ext.grid.GridView, {
+    /**
+     * @cfg {Number} rowHeight
+     * The height of a row in the grid.
+     */
+    rowHeight: 19,
+
+    /**
+     * @cfg {Number} borderHeight
+     * The combined height of border-top and border-bottom of a row.
+     */
+    borderHeight: 2,
+
+    /**
+     * @cfg {Boolean/Number} scrollDelay
+     * The number of milliseconds before rendering rows out of the visible
+     * viewing area. Defaults to 100. Rows will render immediately with a config
+     * of false.
+     */
+    scrollDelay: 100,
+
+    /**
+     * @cfg {Number} cacheSize
+     * The number of rows to look forward and backwards from the currently viewable
+     * area.  The cache applies only to rows that have been rendered already.
+     */
+    cacheSize: 20,
+
+    /**
+     * @cfg {Number} cleanDelay
+     * The number of milliseconds to buffer cleaning of extra rows not in the
+     * cache.
+     */
+    cleanDelay: 500,
+
+    initTemplates : function(){
+        Ext.ux.grid.BufferView.superclass.initTemplates.call(this);
+        var ts = this.templates;
+        // empty div to act as a place holder for a row
+        ts.rowHolder = new Ext.Template(
+            '<div class="x-grid3-row {alt}" style="{tstyle}"></div>'
+        );
+        ts.rowHolder.disableFormats = true;
+        ts.rowHolder.compile();
+
+        ts.rowBody = new Ext.Template(
+            '<table class="x-grid3-row-table" border="0" cellspacing="0" cellpadding="0" style="{tstyle}">',
+            '<tbody><tr>{cells}</tr>',
+            (this.enableRowBody ? '<tr class="x-grid3-row-body-tr" style="{bodyStyle}"><td colspan="{cols}" class="x-grid3-body-cell" tabIndex="0" hidefocus="on"><div class="x-grid3-row-body">{body}</div></td></tr>' : ''),
+            '</tbody></table>'
+        );
+        ts.rowBody.disableFormats = true;
+        ts.rowBody.compile();
+    },
+
+    getStyleRowHeight : function(){
+        return Ext.isBorderBox ? (this.rowHeight + this.borderHeight) : this.rowHeight;
+    },
+
+    getCalculatedRowHeight : function(){
+        return this.rowHeight + this.borderHeight;
+    },
+
+    getVisibleRowCount : function(){
+        var rh = this.getCalculatedRowHeight(),
+            visibleHeight = this.scroller.dom.clientHeight;
+        return (visibleHeight < 1) ? 0 : Math.ceil(visibleHeight / rh);
+    },
+
+    getVisibleRows: function(){
+        var count = this.getVisibleRowCount(),
+            sc = this.scroller.dom.scrollTop,
+            start = (sc === 0 ? 0 : Math.floor(sc/this.getCalculatedRowHeight())-1);
+        return {
+            first: Math.max(start, 0),
+            last: Math.min(start + count + 2, this.ds.getCount()-1)
+        };
+    },
+
+    doRender : function(cs, rs, ds, startRow, colCount, stripe, onlyBody){
+        var ts = this.templates,
+        ct = ts.cell,
+        rt = ts.row,
+        rb = ts.rowBody,
+        last = colCount-1,
+            rh = this.getStyleRowHeight(),
+            vr = this.getVisibleRows(),
+            tstyle = 'width:'+this.getTotalWidth()+';height:'+rh+'px;',
+            // buffers
+            buf = [],
+        cb,
+        c,
+        p = {},
+        rp = {tstyle: tstyle},
+        r;
+        for (var j = 0, len = rs.length; j < len; j++) {
+            r = rs[j]; cb = [];
+            var rowIndex = (j+startRow),
+                visible = rowIndex >= vr.first && rowIndex <= vr.last;
+            if (visible) {
+                for (var i = 0; i < colCount; i++) {
+                    c = cs[i];
+                    p.id = c.id;
+                    p.css = i === 0 ? 'x-grid3-cell-first ' : (i == last ? 'x-grid3-cell-last ' : '');
+                    p.attr = p.cellAttr = "";
+                    p.value = c.renderer(r.data[c.name], p, r, rowIndex, i, ds);
+                    p.style = c.style;
+                    if (p.value === undefined || p.value === "") {
+                        p.value = "&#160;";
+                    }
+                    if (r.dirty && typeof r.modified[c.name] !== 'undefined') {
+                        p.css += ' x-grid3-dirty-cell';
+                    }
+                    cb[cb.length] = ct.apply(p);
+                }
+            }
+            var alt = [];
+            if(stripe && ((rowIndex+1) % 2 === 0)){
+                alt[0] = "x-grid3-row-alt";
+            }
+            if(r.dirty){
+                alt[1] = " x-grid3-dirty-row";
+            }
+            rp.cols = colCount;
+            if(this.getRowClass){
+                alt[2] = this.getRowClass(r, rowIndex, rp, ds);
+            }
+            rp.alt = alt.join(" ");
+            rp.cells = cb.join("");
+            buf[buf.length] =  !visible ? ts.rowHolder.apply(rp) : (onlyBody ? rb.apply(rp) : rt.apply(rp));
+        }
+        return buf.join("");
+    },
+
+    isRowRendered: function(index){
+        var row = this.getRow(index);
+        return row && row.childNodes.length > 0;
+    },
+
+    syncScroll: function(){
+        Ext.ux.grid.BufferView.superclass.syncScroll.apply(this, arguments);
+        this.update();
+    },
+
+    // a (optionally) buffered method to update contents of gridview
+    update: function(){
+        if (this.scrollDelay) {
+            if (!this.renderTask) {
+                this.renderTask = new Ext.util.DelayedTask(this.doUpdate, this);
+            }
+            this.renderTask.delay(this.scrollDelay);
+        }else{
+            this.doUpdate();
+        }
+    },
+
+    onRemove : function(ds, record, index, isUpdate){
+    Ext.ux.grid.BufferView.superclass.onRemove.apply(this, arguments);
+    if(isUpdate !== true){
+        this.update();
+    }
+    },
+
+    doUpdate: function(){
+        if (this.getVisibleRowCount() > 0) {
+            var g = this.grid,
+        cm = g.colModel,
+        ds = g.store,
+        cs = this.getColumnData(),
+            vr = this.getVisibleRows(),
+        row;
+            for (var i = vr.first; i <= vr.last; i++) {
+                // if row is NOT rendered and is visible, render it
+                if(!this.isRowRendered(i) && (row = this.getRow(i))){
+                    var html = this.doRender(cs, [ds.getAt(i)], ds, i, cm.getColumnCount(), g.stripeRows, true);
+                    row.innerHTML = html;
+                }
+            }
+            this.clean();
+        }
+    },
+
+    // a buffered method to clean rows
+    clean : function(){
+        if(!this.cleanTask){
+            this.cleanTask = new Ext.util.DelayedTask(this.doClean, this);
+        }
+        this.cleanTask.delay(this.cleanDelay);
+    },
+
+    doClean: function(){
+        if (this.getVisibleRowCount() > 0) {
+            var vr = this.getVisibleRows();
+            vr.first -= this.cacheSize;
+            vr.last += this.cacheSize;
+
+            var i = 0, rows = this.getRows();
+            // if first is less than 0, all rows have been rendered
+            // so lets clean the end...
+            if(vr.first <= 0){
+                i = vr.last + 1;
+            }
+            for(var len = this.ds.getCount(); i < len; i++){
+                // if current row is outside of first and last and
+                // has content, update the innerHTML to nothing
+                if ((i < vr.first || i > vr.last) && rows[i].innerHTML) {
+                    rows[i].innerHTML = '';
+                }
+            }
+        }
+    },
+
+    removeTask: function(name){
+    var task = this[name];
+    if(task && task.cancel){
+        task.cancel();
+        this[name] = null;
+    }
+    },
+
+    destroy : function(){
+    this.removeTask('cleanTask');
+    this.removeTask('renderTask');
+    Ext.ux.grid.BufferView.superclass.destroy.call(this);
+    },
+
+    layout: function(){
+        Ext.ux.grid.BufferView.superclass.layout.call(this);
+        this.update();
+    }
+});
+/*!
  * Ext.ux.layout.FormLayoutFix.js
  * 
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
@@ -54,6 +965,98 @@ Ext.override(Ext.layout.FormLayout, {
         }
     }
 });
+/*!
+ * Ext.ux.tree.MultiSelectionModelFix.js
+ * 
+ * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, write to:
+ *     The Free Software Foundation, Inc.,
+ *     51 Franklin Street, Fifth Floor
+ *     Boston, MA  02110-1301, USA.
+ *
+ * In addition, as a special exception, the copyright holders give
+ * permission to link the code of portions of this program with the OpenSSL
+ * library.
+ * You must obey the GNU General Public License in all respects for all of
+ * the code used other than OpenSSL. If you modify file(s) with this
+ * exception, you may extend this exception to your version of the file(s),
+ * but you are not obligated to do so. If you do not wish to do so, delete
+ * this exception statement from your version. If you delete this exception
+ * statement from all source files in the program, then also delete it here.
+ */
+
+/**
+ * This enhances the MSM to allow for shift selecting in tree grids etc.
+ * @author Damien Churchill <damoxc@gmail.com>
+ */
+Ext.override(Ext.tree.MultiSelectionModel, {
+    
+    onNodeClick: function (node, e) {
+        if (e.ctrlKey && this.isSelected(node)) {
+            this.unselect(node);
+        } else if (e.shiftKey && !this.isSelected(node)) {
+            var parentNode = node.parentNode;
+            // We can only shift select files in the same node
+            if (this.lastSelNode.parentNode.id != parentNode.id) return;
+
+            // Get the node indexes
+            var fi = parentNode.indexOf(node),
+                li = parentNode.indexOf(this.lastSelNode);
+
+            // Select the last clicked node and wipe old selections
+            this.select(this.lastSelNode, e, false, true);
+
+            // Swap the values if required
+            if (fi > li) {
+                fi = fi + li, li = fi - li, fi = fi - li;
+            }
+
+            // Select all the nodes
+            parentNode.eachChild(function(n) {
+                var i = parentNode.indexOf(n);
+                if (fi < i && i < li) {
+                    this.select(n, e, true, true);
+                }
+            }, this);
+
+            // Select the clicked node
+            this.select(node, e, true);
+        } else {
+            this.select(node, e, e.ctrlKey);
+        }
+    },
+
+    select: function(node, e, keepExisting, suppressEvent) {
+        if(keepExisting !== true){
+            this.clearSelections(true);
+        }         
+        if(this.isSelected(node)){
+            this.lastSelNode = node;
+            return node;
+        }         
+        this.selNodes.push(node);
+        this.selMap[node.id] = node;
+        this.lastSelNode = node;
+        node.ui.onSelectedChange(true);
+        if (suppressEvent !== true) {
+            this.fireEvent('selectionchange', this, this.selNodes);
+        }
+        return node;
+    }
+
+})
 /*!
  * Ext JS Library 3.4.0
  * Copyright(c) 2006-2011 Sencha Inc.
@@ -946,917 +1949,6 @@ Ext.ux.tree.TreeGridSorter = Ext.extend(Ext.tree.TreeSorter, {
         hds.item(col).addClass(sc[dir == 'desc' ? 1 : 0]);
     }
 });
-/*!
- * Ext JS Library 3.4.0
- * Copyright(c) 2006-2011 Sencha Inc.
- * licensing@sencha.com
- * http://www.sencha.com/license
- */
-Ext.ns('Ext.ux.grid');
-
-/**
- * @class Ext.ux.grid.BufferView
- * @extends Ext.grid.GridView
- * A custom GridView which renders rows on an as-needed basis.
- */
-Ext.ux.grid.BufferView = Ext.extend(Ext.grid.GridView, {
-    /**
-     * @cfg {Number} rowHeight
-     * The height of a row in the grid.
-     */
-    rowHeight: 19,
-
-    /**
-     * @cfg {Number} borderHeight
-     * The combined height of border-top and border-bottom of a row.
-     */
-    borderHeight: 2,
-
-    /**
-     * @cfg {Boolean/Number} scrollDelay
-     * The number of milliseconds before rendering rows out of the visible
-     * viewing area. Defaults to 100. Rows will render immediately with a config
-     * of false.
-     */
-    scrollDelay: 100,
-
-    /**
-     * @cfg {Number} cacheSize
-     * The number of rows to look forward and backwards from the currently viewable
-     * area.  The cache applies only to rows that have been rendered already.
-     */
-    cacheSize: 20,
-
-    /**
-     * @cfg {Number} cleanDelay
-     * The number of milliseconds to buffer cleaning of extra rows not in the
-     * cache.
-     */
-    cleanDelay: 500,
-
-    initTemplates : function(){
-        Ext.ux.grid.BufferView.superclass.initTemplates.call(this);
-        var ts = this.templates;
-        // empty div to act as a place holder for a row
-        ts.rowHolder = new Ext.Template(
-            '<div class="x-grid3-row {alt}" style="{tstyle}"></div>'
-        );
-        ts.rowHolder.disableFormats = true;
-        ts.rowHolder.compile();
-
-        ts.rowBody = new Ext.Template(
-            '<table class="x-grid3-row-table" border="0" cellspacing="0" cellpadding="0" style="{tstyle}">',
-            '<tbody><tr>{cells}</tr>',
-            (this.enableRowBody ? '<tr class="x-grid3-row-body-tr" style="{bodyStyle}"><td colspan="{cols}" class="x-grid3-body-cell" tabIndex="0" hidefocus="on"><div class="x-grid3-row-body">{body}</div></td></tr>' : ''),
-            '</tbody></table>'
-        );
-        ts.rowBody.disableFormats = true;
-        ts.rowBody.compile();
-    },
-
-    getStyleRowHeight : function(){
-        return Ext.isBorderBox ? (this.rowHeight + this.borderHeight) : this.rowHeight;
-    },
-
-    getCalculatedRowHeight : function(){
-        return this.rowHeight + this.borderHeight;
-    },
-
-    getVisibleRowCount : function(){
-        var rh = this.getCalculatedRowHeight(),
-            visibleHeight = this.scroller.dom.clientHeight;
-        return (visibleHeight < 1) ? 0 : Math.ceil(visibleHeight / rh);
-    },
-
-    getVisibleRows: function(){
-        var count = this.getVisibleRowCount(),
-            sc = this.scroller.dom.scrollTop,
-            start = (sc === 0 ? 0 : Math.floor(sc/this.getCalculatedRowHeight())-1);
-        return {
-            first: Math.max(start, 0),
-            last: Math.min(start + count + 2, this.ds.getCount()-1)
-        };
-    },
-
-    doRender : function(cs, rs, ds, startRow, colCount, stripe, onlyBody){
-        var ts = this.templates,
-        ct = ts.cell,
-        rt = ts.row,
-        rb = ts.rowBody,
-        last = colCount-1,
-            rh = this.getStyleRowHeight(),
-            vr = this.getVisibleRows(),
-            tstyle = 'width:'+this.getTotalWidth()+';height:'+rh+'px;',
-            // buffers
-            buf = [],
-        cb,
-        c,
-        p = {},
-        rp = {tstyle: tstyle},
-        r;
-        for (var j = 0, len = rs.length; j < len; j++) {
-            r = rs[j]; cb = [];
-            var rowIndex = (j+startRow),
-                visible = rowIndex >= vr.first && rowIndex <= vr.last;
-            if (visible) {
-                for (var i = 0; i < colCount; i++) {
-                    c = cs[i];
-                    p.id = c.id;
-                    p.css = i === 0 ? 'x-grid3-cell-first ' : (i == last ? 'x-grid3-cell-last ' : '');
-                    p.attr = p.cellAttr = "";
-                    p.value = c.renderer(r.data[c.name], p, r, rowIndex, i, ds);
-                    p.style = c.style;
-                    if (p.value === undefined || p.value === "") {
-                        p.value = "&#160;";
-                    }
-                    if (r.dirty && typeof r.modified[c.name] !== 'undefined') {
-                        p.css += ' x-grid3-dirty-cell';
-                    }
-                    cb[cb.length] = ct.apply(p);
-                }
-            }
-            var alt = [];
-            if(stripe && ((rowIndex+1) % 2 === 0)){
-                alt[0] = "x-grid3-row-alt";
-            }
-            if(r.dirty){
-                alt[1] = " x-grid3-dirty-row";
-            }
-            rp.cols = colCount;
-            if(this.getRowClass){
-                alt[2] = this.getRowClass(r, rowIndex, rp, ds);
-            }
-            rp.alt = alt.join(" ");
-            rp.cells = cb.join("");
-            buf[buf.length] =  !visible ? ts.rowHolder.apply(rp) : (onlyBody ? rb.apply(rp) : rt.apply(rp));
-        }
-        return buf.join("");
-    },
-
-    isRowRendered: function(index){
-        var row = this.getRow(index);
-        return row && row.childNodes.length > 0;
-    },
-
-    syncScroll: function(){
-        Ext.ux.grid.BufferView.superclass.syncScroll.apply(this, arguments);
-        this.update();
-    },
-
-    // a (optionally) buffered method to update contents of gridview
-    update: function(){
-        if (this.scrollDelay) {
-            if (!this.renderTask) {
-                this.renderTask = new Ext.util.DelayedTask(this.doUpdate, this);
-            }
-            this.renderTask.delay(this.scrollDelay);
-        }else{
-            this.doUpdate();
-        }
-    },
-
-    onRemove : function(ds, record, index, isUpdate){
-    Ext.ux.grid.BufferView.superclass.onRemove.apply(this, arguments);
-    if(isUpdate !== true){
-        this.update();
-    }
-    },
-
-    doUpdate: function(){
-        if (this.getVisibleRowCount() > 0) {
-            var g = this.grid,
-        cm = g.colModel,
-        ds = g.store,
-        cs = this.getColumnData(),
-            vr = this.getVisibleRows(),
-        row;
-            for (var i = vr.first; i <= vr.last; i++) {
-                // if row is NOT rendered and is visible, render it
-                if(!this.isRowRendered(i) && (row = this.getRow(i))){
-                    var html = this.doRender(cs, [ds.getAt(i)], ds, i, cm.getColumnCount(), g.stripeRows, true);
-                    row.innerHTML = html;
-                }
-            }
-            this.clean();
-        }
-    },
-
-    // a buffered method to clean rows
-    clean : function(){
-        if(!this.cleanTask){
-            this.cleanTask = new Ext.util.DelayedTask(this.doClean, this);
-        }
-        this.cleanTask.delay(this.cleanDelay);
-    },
-
-    doClean: function(){
-        if (this.getVisibleRowCount() > 0) {
-            var vr = this.getVisibleRows();
-            vr.first -= this.cacheSize;
-            vr.last += this.cacheSize;
-
-            var i = 0, rows = this.getRows();
-            // if first is less than 0, all rows have been rendered
-            // so lets clean the end...
-            if(vr.first <= 0){
-                i = vr.last + 1;
-            }
-            for(var len = this.ds.getCount(); i < len; i++){
-                // if current row is outside of first and last and
-                // has content, update the innerHTML to nothing
-                if ((i < vr.first || i > vr.last) && rows[i].innerHTML) {
-                    rows[i].innerHTML = '';
-                }
-            }
-        }
-    },
-
-    removeTask: function(name){
-    var task = this[name];
-    if(task && task.cancel){
-        task.cancel();
-        this[name] = null;
-    }
-    },
-
-    destroy : function(){
-    this.removeTask('cleanTask');
-    this.removeTask('renderTask');
-    Ext.ux.grid.BufferView.superclass.destroy.call(this);
-    },
-
-    layout: function(){
-        Ext.ux.grid.BufferView.superclass.layout.call(this);
-        this.update();
-    }
-});
-/*!
- * Ext JS Library 3.4.0
- * Copyright(c) 2006-2011 Sencha Inc.
- * licensing@sencha.com
- * http://www.sencha.com/license
- */
-Ext.ns('Ext.ux.form');
-
-/**
- * @class Ext.ux.form.FileUploadField
- * @extends Ext.form.TextField
- * Creates a file upload field.
- * @xtype fileuploadfield
- */
-Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField,  {
-    /**
-     * @cfg {String} buttonText The button text to display on the upload button (defaults to
-     * 'Browse...').  Note that if you supply a value for {@link #buttonCfg}, the buttonCfg.text
-     * value will be used instead if available.
-     */
-    buttonText: 'Browse...',
-    /**
-     * @cfg {Boolean} buttonOnly True to display the file upload field as a button with no visible
-     * text field (defaults to false).  If true, all inherited TextField members will still be available.
-     */
-    buttonOnly: false,
-    /**
-     * @cfg {Number} buttonOffset The number of pixels of space reserved between the button and the text field
-     * (defaults to 3).  Note that this only applies if {@link #buttonOnly} = false.
-     */
-    buttonOffset: 3,
-    /**
-     * @cfg {Object} buttonCfg A standard {@link Ext.Button} config object.
-     */
-
-    // private
-    readOnly: true,
-
-    /**
-     * @hide
-     * @method autoSize
-     */
-    autoSize: Ext.emptyFn,
-
-    // private
-    initComponent: function(){
-        Ext.ux.form.FileUploadField.superclass.initComponent.call(this);
-
-        this.addEvents(
-            /**
-             * @event fileselected
-             * Fires when the underlying file input field's value has changed from the user
-             * selecting a new file from the system file selection dialog.
-             * @param {Ext.ux.form.FileUploadField} this
-             * @param {String} value The file value returned by the underlying file input field
-             */
-            'fileselected'
-        );
-    },
-
-    // private
-    onRender : function(ct, position){
-        Ext.ux.form.FileUploadField.superclass.onRender.call(this, ct, position);
-
-        this.wrap = this.el.wrap({cls:'x-form-field-wrap x-form-file-wrap'});
-        this.el.addClass('x-form-file-text');
-        this.el.dom.removeAttribute('name');
-        this.createFileInput();
-
-        var btnCfg = Ext.applyIf(this.buttonCfg || {}, {
-            text: this.buttonText
-        });
-        this.button = new Ext.Button(Ext.apply(btnCfg, {
-            renderTo: this.wrap,
-            cls: 'x-form-file-btn' + (btnCfg.iconCls ? ' x-btn-icon' : '')
-        }));
-
-        if(this.buttonOnly){
-            this.el.hide();
-            this.wrap.setWidth(this.button.getEl().getWidth());
-        }
-
-        this.bindListeners();
-        this.resizeEl = this.positionEl = this.wrap;
-    },
-    
-    bindListeners: function(){
-        this.fileInput.on({
-            scope: this,
-            mouseenter: function() {
-                this.button.addClass(['x-btn-over','x-btn-focus'])
-            },
-            mouseleave: function(){
-                this.button.removeClass(['x-btn-over','x-btn-focus','x-btn-click'])
-            },
-            mousedown: function(){
-                this.button.addClass('x-btn-click')
-            },
-            mouseup: function(){
-                this.button.removeClass(['x-btn-over','x-btn-focus','x-btn-click'])
-            },
-            change: function(){
-                var v = this.fileInput.dom.value;
-                this.setValue(v);
-                this.fireEvent('fileselected', this, v);    
-            }
-        }); 
-    },
-    
-    createFileInput : function() {
-        this.fileInput = this.wrap.createChild({
-            id: this.getFileInputId(),
-            name: this.name||this.getId(),
-            cls: 'x-form-file',
-            tag: 'input',
-            type: 'file',
-            size: 1
-        });
-    },
-    
-    reset : function(){
-        if (this.rendered) {
-            this.fileInput.remove();
-            this.createFileInput();
-            this.bindListeners();
-        }
-        Ext.ux.form.FileUploadField.superclass.reset.call(this);
-    },
-
-    // private
-    getFileInputId: function(){
-        return this.id + '-file';
-    },
-
-    // private
-    onResize : function(w, h){
-        Ext.ux.form.FileUploadField.superclass.onResize.call(this, w, h);
-
-        this.wrap.setWidth(w);
-
-        if(!this.buttonOnly){
-            var w = this.wrap.getWidth() - this.button.getEl().getWidth() - this.buttonOffset;
-            this.el.setWidth(w);
-        }
-    },
-
-    // private
-    onDestroy: function(){
-        Ext.ux.form.FileUploadField.superclass.onDestroy.call(this);
-        Ext.destroy(this.fileInput, this.button, this.wrap);
-    },
-    
-    onDisable: function(){
-        Ext.ux.form.FileUploadField.superclass.onDisable.call(this);
-        this.doDisable(true);
-    },
-    
-    onEnable: function(){
-        Ext.ux.form.FileUploadField.superclass.onEnable.call(this);
-        this.doDisable(false);
-
-    },
-    
-    // private
-    doDisable: function(disabled){
-        this.fileInput.dom.disabled = disabled;
-        this.button.setDisabled(disabled);
-    },
-
-
-    // private
-    preFocus : Ext.emptyFn,
-
-    // private
-    alignErrorIcon : function(){
-        this.errorIcon.alignTo(this.wrap, 'tl-tr', [2, 0]);
-    }
-
-});
-
-Ext.reg('fileuploadfield', Ext.ux.form.FileUploadField);
-
-// backwards compat
-Ext.form.FileUploadField = Ext.ux.form.FileUploadField;
-/*!
- * Ext.ux.form.RadioGroup.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, write to:
- *     The Free Software Foundation, Inc.,
- *     51 Franklin Street, Fifth Floor
- *     Boston, MA  02110-1301, USA.
- *
- * In addition, as a special exception, the copyright holders give
- * permission to link the code of portions of this program with the OpenSSL
- * library.
- * You must obey the GNU General Public License in all respects for all of
- * the code used other than OpenSSL. If you modify file(s) with this
- * exception, you may extend this exception to your version of the file(s),
- * but you are not obligated to do so. If you do not wish to do so, delete
- * this exception statement from your version. If you delete this exception
- * statement from all source files in the program, then also delete it here.
- */
-
-// Allow radiogroups to be treated as a single form element.
-Ext.override(Ext.form.RadioGroup, {
-
-    afterRender: function() {
-        this.items.each(function(i) {
-            this.relayEvents(i, ['check']);
-        }, this);
-        if (this.lazyValue) {
-            this.setValue(this.value);
-            delete this.value;
-            delete this.lazyValue;
-        }
-        Ext.form.RadioGroup.superclass.afterRender.call(this)
-    },
-
-    getName: function() {
-        return this.items.first().getName();
-    },
-
-    getValue: function() {
-        return this.items.first().getGroupValue();
-    },
-
-    setValue: function(v) {
-        if (!this.items.each) {
-            this.value = v;
-            this.lazyValue = true;
-            return;
-        }
-        this.items.each(function(item) {
-            if (item.rendered) {
-                var checked = (item.el.getValue() == String(v));
-                item.el.dom.checked = checked;
-                item.el.dom.defaultChecked = checked;
-                item.wrap[checked ? 'addClass' : 'removeClass'](item.checkedCls);
-            }
-        });
-    }
-});
-/*!
- * Ext JS Library 3.4.0
- * Copyright(c) 2006-2011 Sencha Inc.
- * licensing@sencha.com
- * http://www.sencha.com/license
- */
-Ext.ns('Ext.ux.form');
-
-/**
- * @class Ext.ux.form.SpinnerField
- * @extends Ext.form.NumberField
- * Creates a field utilizing Ext.ux.Spinner
- * @xtype spinnerfield
- */
-Ext.ux.form.SpinnerField = Ext.extend(Ext.form.NumberField, {
-    actionMode: 'wrap',
-    deferHeight: true,
-    autoSize: Ext.emptyFn,
-    onBlur: Ext.emptyFn,
-    adjustSize: Ext.BoxComponent.prototype.adjustSize,
-
-    constructor: function(config) {
-            var spinnerConfig = Ext.copyTo({}, config, 'incrementValue,alternateIncrementValue,accelerate,defaultValue,triggerClass,splitterClass');
-
-            var spl = this.spinner = new Ext.ux.Spinner(spinnerConfig);
-
-            var plugins = config.plugins
-                    ? (Ext.isArray(config.plugins)
-                            ? config.plugins.push(spl)
-                            : [config.plugins, spl])
-                    : spl;
-
-            Ext.ux.form.SpinnerField.superclass.constructor.call(this, Ext.apply(config, {plugins: plugins}));
-    },
-
-    // private
-    getResizeEl: function(){
-        return this.wrap;
-    },
-
-    // private
-    getPositionEl: function(){
-        return this.wrap;
-    },
-
-    // private
-    alignErrorIcon: function(){
-        if (this.wrap) {
-            this.errorIcon.alignTo(this.wrap, 'tl-tr', [2, 0]);
-        }
-    },
-
-    validateBlur: function(){
-        return true;
-    }
-});
-
-Ext.reg('spinnerfield', Ext.ux.form.SpinnerField);
-
-//backwards compat
-Ext.form.SpinnerField = Ext.ux.form.SpinnerField;
-/*!
- * Ext.ux.form.SpinnerField.js
- * 
- * Copyright (c) Damien Churchill 2010 <damoxc@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, write to:
- *     The Free Software Foundation, Inc.,
- *     51 Franklin Street, Fifth Floor
- *     Boston, MA  02110-1301, USA.
- *
- * In addition, as a special exception, the copyright holders give
- * permission to link the code of portions of this program with the OpenSSL
- * library.
- * You must obey the GNU General Public License in all respects for all of
- * the code used other than OpenSSL. If you modify file(s) with this
- * exception, you may extend this exception to your version of the file(s),
- * but you are not obligated to do so. If you do not wish to do so, delete
- * this exception statement from your version. If you delete this exception
- * statement from all source files in the program, then also delete it here.
- */
-
-Ext.override(Ext.ux.form.SpinnerField, {
-    onBlur: Ext.form.Field.prototype.onBlur
-});
-/*!
- * Ext.ux.form.SpinnerGroup.js
- *
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, write to:
- *     The Free Software Foundation, Inc.,
- *     51 Franklin Street, Fifth Floor
- *     Boston, MA  02110-1301, USA.
- *
- * In addition, as a special exception, the copyright holders give
- * permission to link the code of portions of this program with the OpenSSL
- * library.
- * You must obey the GNU General Public License in all respects for all of
- * the code used other than OpenSSL. If you modify file(s) with this
- * exception, you may extend this exception to your version of the file(s),
- * but you are not obligated to do so. If you do not wish to do so, delete
- * this exception statement from your version. If you delete this exception
- * statement from all source files in the program, then also delete it here.
- */
-Ext.ns('Ext.ux.form');
-
-/**
- *
- */
-Ext.ux.form.SpinnerGroup = Ext.extend(Ext.form.CheckboxGroup, {
-
-    // private
-    defaultType: 'spinnerfield',
-    anchor: '98%',
-
-    // private
-    groupCls: 'x-form-spinner-group',
-
-    colCfg: {},
-
-    // private
-    onRender : function(ct, position){
-        if(!this.el){
-            var panelCfg = {
-                cls: this.groupCls,
-                layout: 'column',
-                border: false,
-                renderTo: ct
-            };
-            var colCfg = Ext.apply({
-                defaultType: this.defaultType,
-                layout: 'form',
-                border: false,
-                labelWidth: 60,
-                defaults: {
-                    hideLabel: true,
-                    anchor: '60%'
-                }
-            }, this.colCfg);
-
-            if(this.items[0].items){
-
-                // The container has standard ColumnLayout configs, so pass them in directly
-
-                Ext.apply(panelCfg, {
-                    layoutConfig: {columns: this.items.length},
-                    defaults: this.defaults,
-                    items: this.items
-                })
-                for(var i=0, len=this.items.length; i<len; i++){
-                    Ext.applyIf(this.items[i], colCfg);
-                };
-
-            }else{
-
-                // The container has field item configs, so we have to generate the column
-                // panels first then move the items into the columns as needed.
-
-                var numCols, cols = [];
-
-                if(typeof this.columns == 'string'){ // 'auto' so create a col per item
-                    this.columns = this.items.length;
-                }
-                if(!Ext.isArray(this.columns)){
-                    var cs = [];
-                    for(var i=0; i<this.columns; i++){
-                        cs.push((100/this.columns)*.01); // distribute by even %
-                    }
-                    this.columns = cs;
-                }
-
-                numCols = this.columns.length;
-
-                // Generate the column configs with the correct width setting
-                for(var i=0; i<numCols; i++){
-                    var cc = Ext.apply({items:[]}, colCfg);
-                    cc[this.columns[i] <= 1 ? 'columnWidth' : 'width'] = this.columns[i];
-                    if(this.defaults){
-                        cc.defaults = Ext.apply(cc.defaults || {}, this.defaults)
-                    }
-                    cols.push(cc);
-                };
-
-                // Distribute the original items into the columns
-                if(this.vertical){
-                    var rows = Math.ceil(this.items.length / numCols), ri = 0;
-                    for(var i=0, len=this.items.length; i<len; i++){
-                        if(i>0 && i%rows==0){
-                            ri++;
-                        }
-                        if(this.items[i].fieldLabel){
-                            this.items[i].hideLabel = false;
-                        }
-                        cols[ri].items.push(this.items[i]);
-                    };
-                }else{
-                    for(var i=0, len=this.items.length; i<len; i++){
-                        var ci = i % numCols;
-                        if(this.items[i].fieldLabel){
-                            this.items[i].hideLabel = false;
-                        }
-                        cols[ci].items.push(this.items[i]);
-                    };
-                }
-
-                Ext.apply(panelCfg, {
-                    layoutConfig: {columns: numCols},
-                    items: cols
-                });
-            }
-
-            this.panel = new Ext.Panel(panelCfg);
-            this.el = this.panel.getEl();
-
-            if(this.forId && this.itemCls){
-                var l = this.el.up(this.itemCls).child('label', true);
-                if(l){
-                    l.setAttribute('htmlFor', this.forId);
-                }
-            }
-
-            var fields = this.panel.findBy(function(c){
-                return c.isFormField;
-            }, this);
-
-            this.items = new Ext.util.MixedCollection();
-            this.items.addAll(fields);
-
-            this.items.each(function(field) {
-                field.on('spin', this.onFieldChange, this);
-                field.on('change', this.onFieldChange, this);
-            }, this);
-
-            if (this.lazyValueSet) {
-                this.setValue(this.value);
-                delete this.value;
-                delete this.lazyValueSet;
-            }
-
-            if (this.lazyRawValueSet) {
-                this.setRawValue(this.rawValue);
-                delete this.rawValue;
-                delete this.lazyRawValueSet;
-            }
-        }
-
-        Ext.ux.form.SpinnerGroup.superclass.onRender.call(this, ct, position);
-    },
-
-    onFieldChange: function(spinner) {
-        this.fireEvent('change', this, this.getValue());
-    },
-
-    initValue : Ext.emptyFn,
-
-    getValue: function() {
-        var value = [this.items.getCount()];
-        this.items.each(function(item, i) {
-            value[i] = Number(item.getValue());
-        });
-        return value;
-    },
-
-    getRawValue: function() {
-        var value = [this.items.getCount()];
-        this.items.each(function(item, i) {
-            value[i] = Number(item.getRawValue());
-        });
-        return value;
-    },
-
-    setValue: function(value) {
-        if (!this.rendered) {
-            this.value = value;
-            this.lazyValueSet = true;
-        } else {
-            this.items.each(function(item, i) {
-                item.setValue(value[i]);
-            });
-        }
-    },
-
-    setRawValue: function(value) {
-        if (!this.rendered) {
-            this.rawValue = value;
-            this.lazyRawValueSet = true;
-        } else {
-            this.items.each(function(item, i) {
-                item.setRawValue(value[i]);
-            });
-        }
-    }
-});
-Ext.reg('spinnergroup', Ext.ux.form.SpinnerGroup);
-/*!
- * Ext.ux.form.ToggleField.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, write to:
- *     The Free Software Foundation, Inc.,
- *     51 Franklin Street, Fifth Floor
- *     Boston, MA  02110-1301, USA.
- *
- * In addition, as a special exception, the copyright holders give
- * permission to link the code of portions of this program with the OpenSSL
- * library.
- * You must obey the GNU General Public License in all respects for all of
- * the code used other than OpenSSL. If you modify file(s) with this
- * exception, you may extend this exception to your version of the file(s),
- * but you are not obligated to do so. If you do not wish to do so, delete
- * this exception statement from your version. If you delete this exception
- * statement from all source files in the program, then also delete it here.
- */
-Ext.namespace("Ext.ux.form");
-
-/**
-  * Ext.ux.form.ToggleField class
-  *
-  * @author Damien Churchill
-  * @version v0.1
-  *
-  * @class Ext.ux.form.ToggleField
-  * @extends Ext.form.TriggerField
-  */
-Ext.ux.form.ToggleField = Ext.extend(Ext.form.Field, {
-
-    cls: 'x-toggle-field',
-
-    initComponent: function() {
-        Ext.ux.form.ToggleField.superclass.initComponent.call(this);
-
-        this.toggle = new Ext.form.Checkbox();
-        this.toggle.on('check', this.onToggleCheck, this);
-
-        this.input = new Ext.form.TextField({
-            disabled: true
-        });
-    },
-
-    onRender: function(ct, position) {
-        if (!this.el) {
-            this.panel = new Ext.Panel({
-                cls: this.groupCls,
-                layout: 'table',
-                layoutConfig: {
-                    columns: 2
-                },
-                border: false,
-                renderTo: ct
-            });
-            this.panel.ownerCt = this;
-            this.el = this.panel.getEl();
-
-            this.panel.add(this.toggle);
-            this.panel.add(this.input);
-            this.panel.doLayout();
-
-            this.toggle.getEl().parent().setStyle('padding-right', '10px');
-        }
-        Ext.ux.form.ToggleField.superclass.onRender.call(this, ct, position);
-    },
-
-    // private
-    onResize: function(w, h) {
-        this.panel.setSize(w, h);
-        this.panel.doLayout();
-
-        // we substract 10 for the padding :-)
-        var inputWidth = w - this.toggle.getSize().width - 25;
-        this.input.setSize(inputWidth, h);
-    },
-
-    onToggleCheck: function(toggle, checked) {
-        this.input.setDisabled(!checked);
-    }
-});
-Ext.reg('togglefield', Ext.ux.form.ToggleField);
 Ext.ux.JSLoader = function(options) {
     Ext.ux.JSLoader.scripts[++Ext.ux.JSLoader.index] = {
         url: options.url,
