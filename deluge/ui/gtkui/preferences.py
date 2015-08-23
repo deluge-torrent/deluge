@@ -258,7 +258,7 @@ class Preferences(component.Component):
         scrolled.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
         scrolled.show_all()
         # Add this page to the notebook
-        index = self.notebook.append_page(scrolled)
+        index = self.notebook.append_page(scrolled, None)
         self.liststore.append([index, name])
         return name
 
