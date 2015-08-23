@@ -40,12 +40,12 @@ VERSION_FILE = "RELEASE-VERSION"
 def call_git_describe(prefix="", suffix=""):
     cmd = "git describe --tags --match %s[0-9]*" % prefix
     try:
-        version = Popen(cmd.split(), stdout=PIPE).communicate()[0]
-        version = version.strip().replace(prefix, "")
+        output = Popen(cmd.split(), stdout=PIPE, stderr=PIPE).communicate()
+        version = output[0].strip().replace(prefix, "")
         if "-" in version:
             version = ".dev".join(version.replace(suffix, "").split("-")[:2])
         return version
-    except:
+    except OSError:
         return None
 
 
@@ -53,14 +53,14 @@ def get_version(prefix="", suffix=""):
     try:
         with open(VERSION_FILE, "r") as f:
             release_version = f.readline().strip()
-    except:
+    except IOError:
         release_version = None
 
     version = call_git_describe(prefix, suffix)
 
-    if version is None:
+    if not version:
         version = release_version
-    if version is None:
+    if not version:
         raise ValueError("Cannot find the version number!")
 
     if version != release_version:
