@@ -336,7 +336,7 @@ class FilterTreeView(component.Component):
             # Show the pop-up menu
             self.set_menu_sensitivity()
             self.menu.hide()
-            self.menu.popup(None, None, None, self.menu.show, event.button, event.time)
+            self.menu.popup(None, None, None, None, event.button, event.time)
             self.menu.show()
 
             if cat == "cat":
