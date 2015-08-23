@@ -145,7 +145,7 @@ class GtkUI(GtkPluginBase):
         self.main_builder.add_from_file(get_resource("blocklist_pref.ui"))
 
         self.whitelist_frame = self.main_builder.get_object("whitelist_frame")
-        self.progress_bar = Gtk.ProgressBar()
+        self.progress_bar = self.main_builder.get_object("progressbar")
         self.table_info = self.main_builder.get_object("table_info")
 
         # Hide the progress bar initially
