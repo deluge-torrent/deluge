@@ -16,7 +16,7 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">5</property>
-		<property name="orientation">vertical</property>
+        <property name="orientation">vertical</property>
         <child>
           <object class="GtkFrame" id="frame1">
             <property name="visible">True</property>
@@ -95,7 +95,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">5</property>
-					<property name="orientation">vertical</property>
+                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkTable" id="table1">
                         <property name="visible">True</property>
@@ -207,7 +207,7 @@
                       <object class="GtkBox" id="vbox3">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-						<property name="orientation">vertical</property>
+                        <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkButton" id="button_check_download">
                             <property name="visible">True</property>
@@ -355,7 +355,7 @@
                   <object class="GtkBox" id="vbox4">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-					<property name="orientation">vertical</property>
+                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkProgressBar" id="progressbar">
                         <property name="visible">True</property>
