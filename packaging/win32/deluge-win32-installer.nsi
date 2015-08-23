@@ -13,7 +13,7 @@ SetCompressor  /FINAL /SOLID lzma
 SetCompressorDictSize 64
 
 # Script version; displayed when running the installer
-!define DELUGE_INSTALLER_VERSION "0.6"
+!define DELUGE_INSTALLER_VERSION "0.7"
 
 # Deluge program information
 !define PROGRAM_NAME "Deluge"
@@ -25,7 +25,8 @@ SetCompressorDictSize 64
 !define PROGRAM_WEB_SITE "http://deluge-torrent.org"
 
 # Python files generated with bbfreeze
-!define DELUGE_PYTHON_BBFREEZE_OUTPUT_DIR "..\build-win32\deluge-bbfreeze-${PROGRAM_VERSION}"
+!define BUILD_DIR "..\build-win32"
+!define BBFREEZE_DIR "${BUILD_DIR}\deluge-bbfreeze-${PROGRAM_VERSION}"
 
 # --- Interface settings ---
 
@@ -33,7 +34,7 @@ SetCompressorDictSize 64
 !include MUI2.nsh
 
 # Installer
-!define MUI_ICON "deluge.ico"
+!define MUI_ICON "..\..\deluge\ui\data\pixmaps\deluge.ico"
 !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_RIGHT
 !define MUI_HEADERIMAGE_BITMAP "installer-top.bmp"
@@ -54,7 +55,7 @@ SetCompressorDictSize 64
 !insertmacro MUI_PAGE_WELCOME
 
 # License page
-!insertmacro MUI_PAGE_LICENSE "..\LICENSE"
+!insertmacro MUI_PAGE_LICENSE "..\..\LICENSE"
 
 # Components page
 !insertmacro MUI_PAGE_COMPONENTS
@@ -108,7 +109,7 @@ FunctionEnd
 BrandingText "Deluge Windows Installer v${DELUGE_INSTALLER_VERSION}"
 
 Name "${PROGRAM_NAME} ${PROGRAM_VERSION}"
-OutFile "..\build-win32\deluge-${PROGRAM_VERSION}-win32-setup.exe"
+OutFile "${BUILD_DIR}\deluge-${PROGRAM_VERSION}-win32-setup.exe"
 
 InstallDir "$PROGRAMFILES\Deluge"
 
@@ -120,10 +121,10 @@ Section "Deluge Bittorrent Client" Section1
   SectionIn RO
 
   SetOutPath $INSTDIR
-  File /r "${DELUGE_PYTHON_BBFREEZE_OUTPUT_DIR}\*.*"
+  File /r "${BBFREEZE_DIR}\*.*"
 
   SetOverwrite ifnewer
-  File "..\LICENSE"
+  File "..\..\LICENSE"
 SectionEnd
 
 Section -StartMenu_Desktop_Links
