@@ -6,7 +6,9 @@ import sys
 import bbfreeze.recipes
 import gtk
 import icon
+import win32api
 from bbfreeze import Freezer
+from VersionInfo import Version
 
 import deluge.common
 
@@ -60,6 +62,21 @@ for script in console_scripts:
 icon_path = os.path.join(os.path.dirname(__file__), "deluge.ico")
 for script in console_scripts + gui_scripts:
     icon.CopyIcons(dst + script + ".exe", icon_path)
+
+# Add version information to exe files.
+for script in console_scripts + gui_scripts:
+    script_exe = script + ".exe"
+    version = Version(build_version,
+                      file_description="Deluge Bittorrent Client",
+                      company_name="Deluge Team",
+                      legal_copyright="GPLv3",
+                      original_filename=script_exe,
+                      product_name="Deluge",
+                      product_version=build_version)
+
+    pyhandle = win32api.BeginUpdateResource(os.path.join(dst, script_exe), 0)
+    win32api.UpdateResource(pyhandle, 16, 1, version.resource_bytes())
+    win32api.EndUpdateResource(pyhandle, 0)
 
 # exclude files which are already included in GTK or Windows
 excludeDlls = ("MSIMG32.dll", "MSVCR90.dll", "MSVCP90.dll", "POWRPROF.dll", "DNSAPI.dll", "USP10.dll")
