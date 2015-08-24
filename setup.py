@@ -283,13 +283,13 @@ if not windows_check() and os.path.exists(desktop_data):
 
 entry_points = {
     "console_scripts": [
-        "deluge-console = deluge.ui.console:start"
+        "deluge-console = deluge.ui.console:start",
+        "deluge-web = deluge.ui.web:start",
+        "deluged = deluge.main:start_daemon"
     ],
     "gui_scripts": [
         "deluge = deluge.main:start_ui",
-        "deluge-gtk = deluge.ui.gtkui:start",
-        "deluge-web = deluge.ui.web:start",
-        "deluged = deluge.main:start_daemon"
+        "deluge-gtk = deluge.ui.gtkui:start"
     ]
 }
 
