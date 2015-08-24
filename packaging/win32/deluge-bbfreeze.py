@@ -6,23 +6,22 @@ import sys
 
 import bbfreeze
 import gtk
-import icon
-import win32api
 from win32verstamp import stamp
 
 import deluge.common
 
+
 class VersionInfo(object):
-    def __init__(self, version, internalName = None, originalFileName = None,
-            comments = None, company = None, description = None,
-            copyright = None, trademarks = None, product = None, dll = False,
-            debug = False, verbose = True):
+    def __init__(self, version, internalname=None, originalfilename=None,
+                 comments=None, company=None, description=None,
+                 copyright=None, trademarks=None, product=None, dll=False,
+                 debug=False, verbose=True):
         parts = version.split(".")
         while len(parts) < 4:
             parts.append("0")
         self.version = ".".join(parts)
-        self.internal_name = internalName
-        self.original_filename = originalFileName
+        self.internal_name = internalname
+        self.original_filename = originalfilename
         self.comments = comments
         self.company = company
         self.description = description
@@ -52,9 +51,10 @@ excludes = ("numpy", "OpenGL", "psyco", "win32ui")
 
 build_dir = "..\\build-win32\\deluge-bbfreeze-" + build_version + "\\"
 
-# Need to override bbfreeze function so that it includes all gtk libraries
-# in the installer so users don't require a separate GTK+ installation.
+
 def recipe_gtk_override(mf):
+    # Override bbfreeze function so that it includes all gtk libraries
+    # in the installer so users don't require a separate GTK+ installation.
     return True
 bbfreeze.recipes.recipe_gtk_and_friends = recipe_gtk_override
 
@@ -96,10 +96,10 @@ for script in script_list:
     script_exe = os.path.splitext(os.path.basename(script))[0] + ".exe"
     if not re.search('[a-zA-Z_-]', build_version):
         versionInfo = VersionInfo(build_version,
-                        description="Deluge Bittorrent Client",
-                        company="Deluge Team",
-                        product="Deluge",
-                        copyright="GPLv3")
+                                  description="Deluge Bittorrent Client",
+                                  company="Deluge Team",
+                                  product="Deluge",
+                                  copyright="GPLv3")
         stamp(os.path.join(build_dir, script_exe), versionInfo)
 
 # Exclude files which are already included in GTK or Windows.
