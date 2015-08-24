@@ -16,6 +16,7 @@ import sys
 from distutils import cmd
 from distutils.command.build import build as _build
 from distutils.command.clean import clean as _clean
+from distutils.command.install_data import install_data as _install_data
 
 from setuptools import find_packages, setup
 from setuptools.command.test import test as _test
@@ -180,6 +181,18 @@ class Build(_build):
             print "Warning libtorrent not found: %s" % e
 
 
+class InstallData(_install_data):
+    """Custom class to fix 'setup install' copying data files to incorrect location. (Bug #1389)"""
+
+    def finalize_options(self):
+        self.install_dir = None
+        self.set_undefined_options('install', ('install_data', 'install_dir'),
+                                   ('root', 'root'), ('force', 'force'),)
+
+    def run(self):
+        _install_data.run(self)
+
+
 class CleanPlugins(cmd.Command):
     description = "Cleans the plugin folders"
     user_options = [
@@ -248,6 +261,7 @@ cmdclass = {
     'build_trans': BuildTranslations,
     'build_plugins': BuildPlugins,
     'build_docs': BuildDoc,
+    'install_data': InstallData,
     'clean_plugins': CleanPlugins,
     'clean': Clean,
     'egg_info_plugins': EggInfoPlugins,
