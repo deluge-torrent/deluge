@@ -29,8 +29,13 @@ def module_exists(module_name):
     else:
         return True
 
-# slimit creates smallest file size
-if module_exists('slimit'):
+# Imports sorted by resulting file size.
+if module_exists('closure'):
+    def minify_closure(file_in, file_out):
+        import subprocess
+        subprocess.call(['closure', '--js', file_in, '--js_output_file', file_out,
+                        '-W', 'QUIET'])
+elif module_exists('slimit'):
     from slimit import minify
 elif module_exists('jsmin'):
     from jsmin import jsmin as minify
@@ -79,9 +84,12 @@ def concat_src_files(file_list, fileout_path):
 
 
 def minify_file(file_debug, file_minified):
-    with open(file_minified, 'w') as file_out:
-        with open(file_debug, 'r') as file_in:
-            file_out.write(minify(file_in.read()))
+    try:
+        minify_closure(file_debug, file_minified)
+    except NameError:
+        with open(file_minified, 'w') as file_out:
+            with open(file_debug, 'r') as file_in:
+                file_out.write(minify(file_in.read()))
 
 
 def minify_js_dir(source_dir):
