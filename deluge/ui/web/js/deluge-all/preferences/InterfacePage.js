@@ -95,17 +95,17 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
         this.oldPassword = fieldset.add({
             name: 'old_password',
             fieldLabel: _('Old Password:'),
-            labelSeparator: '',
+            labelSeparator: ''
         });
         this.newPassword = fieldset.add({
             name: 'new_password',
             fieldLabel: _('New Password:'),
-            labelSeparator: '',
+            labelSeparator: ''
         });
         this.confirmPassword = fieldset.add({
             name: 'confirm_password',
             fieldLabel: _('Confirm Password:'),
-            labelSeparator: '',
+            labelSeparator: ''
         });
 
         var panel = fieldset.add({

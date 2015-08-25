@@ -74,7 +74,7 @@ Deluge.preferences.ProxyI2PField = Ext.extend(Ext.form.FieldSet, {
     getValue: function() {
         return {
             'hostname': this.hostname.getValue(),
-            'port': Number(this.port.getValue()),
+            'port': Number(this.port.getValue())
         }
     },
 
@@ -93,5 +93,5 @@ Deluge.preferences.ProxyI2PField = Ext.extend(Ext.form.FieldSet, {
         oldValues[field.getName()] = oldValue;
 
         this.fireEvent('change', this, newValues, oldValues);
-    },
+    }
 });

@@ -142,7 +142,7 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
             'username': this.username.getValue(),
             'password': this.password.getValue(),
             'proxy_hostnames': this.proxy_host_resolve.getValue(),
-            'proxy_peer_connections': this.proxy_peer_conn.getValue(),
+            'proxy_peer_connections': this.proxy_peer_conn.getValue()
         }
     },
 

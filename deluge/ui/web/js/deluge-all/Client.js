@@ -49,20 +49,20 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
 
     _optionKeys: ['scope', 'success', 'failure'],
 
+    /**
+     * @event connected
+     * Fires when the client has retrieved the list of methods from the server.
+     * @param {Ext.ux.util.RpcClient} this
+     */
     constructor: function(config) {
+
         Ext.ux.util.RpcClient.superclass.constructor.call(this, config);
         this._url = config.url || null;
         this._id = 0;
 
         this.addEvents(
-            // raw events
-            /**
-             * @event connected
-             * Fires when the client has retrieved the list of methods from the server.
-             * @param {Ext.ux.util.RpcClient} this
-             */
+             // raw events
              'connected',
-
              'error'
         );
         this.reloadMethods();

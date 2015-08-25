@@ -81,7 +81,7 @@ Deluge.preferences.Proxy = Ext.extend(Ext.form.FormPanel, {
 
     getValue: function() {
         return {
-            'proxy': this.proxy.getValue(),
+            'proxy': this.proxy.getValue()
         }
     },
 

@@ -109,7 +109,7 @@ Deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
             name: 'sequential_download',
             labelSeparator: '',
             height: 22,
-            boxLabel: _('Sequential download'),
+            boxLabel: _('Sequential download')
         }));
         optMan.bind('add_paused', fieldset.add({
             name: 'add_paused',

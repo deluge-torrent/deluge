@@ -68,7 +68,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             fieldLabel: '',
             labelSeparator: '',
             width: 200,
-            vtype: 'IPAddress',
+            vtype: 'IPAddress'
         }));
 
         var fieldset = this.add({
