@@ -33,9 +33,10 @@
 
 __all__ = ("get_version")
 
+import os
 from subprocess import PIPE, Popen
 
-VERSION_FILE = "RELEASE-VERSION"
+VERSION_FILE = os.path.join(os.path.dirname(__file__), "RELEASE-VERSION")
 
 
 def call_git_describe(prefix="", suffix=""):

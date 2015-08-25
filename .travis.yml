@@ -40,6 +40,7 @@ before_script:
   - export PYTHONPATH=$PYTHONPATH:$PWD
   - python -c "import libtorrent as lt; print lt.version"
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
+  - echo '2.0.0.dev0' > RELEASE-VERSION
 
 script:
   - bash -c "echo $DISPLAY"
