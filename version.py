@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Authors: Douglas Creager <dcreager@dcreager.net>
 #          Calum Lind <calumlind@gmail.com>
@@ -41,7 +42,7 @@ def call_git_describe(prefix="", suffix=""):
     cmd = "git describe --tags --match %s[0-9]*" % prefix
     try:
         output = Popen(cmd.split(), stdout=PIPE, stderr=PIPE).communicate()
-        version = output[0].strip().replace(prefix, "")
+        version = output[0].decode("utf-8").strip().replace(prefix, "")
         if "-" in version:
             version = ".dev".join(version.replace(suffix, "").split("-")[:2])
         return version
@@ -70,4 +71,4 @@ def get_version(prefix="", suffix=""):
     return version
 
 if __name__ == "__main__":
-    print get_version(prefix="deluge-", suffix=".dev0")
+    print(get_version(prefix="deluge-", suffix=".dev0"))

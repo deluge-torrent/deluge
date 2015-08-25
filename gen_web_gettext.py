@@ -32,23 +32,20 @@ def create_gettext_js(js_dir):
                         locations.append((os.path.basename(filename), lineno + 1))
                         strings[string] = locations
 
-    keys = strings.keys()
-    keys.sort()
-
-    gettext_tpl = """GetText={maps:{},\
+    gettext_tpl = '''GetText={maps:{},\
     add:function(string,translation) {this.maps[string]=translation},\
     get:function(string) {if (this.maps[string]) {string=this.maps[string]} return string}}
     function _(string) {return GetText.get(string)}\
-    """
+    '''
 
     gettext_file = os.path.join(os.path.dirname(js_dir), 'gettext.js')
     with open(gettext_file, 'w') as fp:
         fp.write(gettext_tpl)
-        for key in keys:
+        for key in sorted(strings.keys()):
             if DEBUG:
-                fp.write('\n// %s\n' % ', '.join(map(lambda x: '%s:%s' % x, strings[key])))
-            fp.write("GetText.add('%(key)s','${escape(_(\"%(key)s\"))}')\n" % locals())
+                fp.write('\n// %s\n' % ', '.join(['%s:%s' % x for x in strings[key]]))
+            fp.write('''GetText.add('%(key)s','${escape(_("%(key)s"))}')\n''' % locals())
 
 if __name__ == '__main__':
     create_gettext_js(WEBUI_JS_DIR)
-    print "Created %s" % WEBUI_JS_DIR
+    print('Created %s' % WEBUI_JS_DIR)

@@ -58,7 +58,7 @@ class BuildTranslations(cmd.Command):
     description = 'Compile .po files into .mo files & create .desktop file'
 
     user_options = [
-        ('build-lib', None, "lib build folder"),
+        ('build-lib', None, 'lib build folder'),
         ('develop', 'D', 'Compile translations in develop mode (deluge/i18n)')
     ]
     boolean_options = ['develop']
@@ -118,10 +118,10 @@ class BuildTranslations(cmd.Command):
 
 
 class BuildPlugins(cmd.Command):
-    description = "Build plugins into .eggs"
+    description = 'Build plugins into .eggs'
 
     user_options = [
-        ('install-dir=', None, "develop install folder"),
+        ('install-dir=', None, 'develop install folder'),
         ('develop', 'D', 'Compile plugins in develop mode')
     ]
     boolean_options = ['develop']
@@ -135,21 +135,21 @@ class BuildPlugins(cmd.Command):
 
     def run(self):
         # Build the plugin eggs
-        plugin_path = "deluge/plugins/*"
+        plugin_path = 'deluge/plugins/*'
 
         for path in glob.glob(plugin_path):
-            if os.path.exists(os.path.join(path, "setup.py")):
+            if os.path.exists(os.path.join(path, 'setup.py')):
                 if self.develop and self.install_dir:
-                    os.system("cd " + path + "&& " + sys.executable +
-                              " setup.py develop --install-dir=%s" % self.install_dir)
+                    os.system('cd ' + path + '&& ' + sys.executable +
+                              ' setup.py develop --install-dir=%s' % self.install_dir)
                 elif self.develop:
-                    os.system("cd " + path + "&& " + sys.executable + " setup.py develop")
+                    os.system('cd ' + path + '&& ' + sys.executable + ' setup.py develop')
                 else:
-                    os.system("cd " + path + "&& " + sys.executable + " setup.py bdist_egg -d ..")
+                    os.system('cd ' + path + '&& ' + sys.executable + ' setup.py bdist_egg -d ..')
 
 
 class EggInfoPlugins(cmd.Command):
-    description = "create a distribution's .egg-info directory"
+    description = 'Create .egg-info directories for plugins'
 
     user_options = []
 
@@ -161,24 +161,24 @@ class EggInfoPlugins(cmd.Command):
 
     def run(self):
         # Build the plugin eggs
-        plugin_path = "deluge/plugins/*"
+        plugin_path = 'deluge/plugins/*'
 
         for path in glob.glob(plugin_path):
-            if os.path.exists(os.path.join(path, "setup.py")):
-                os.system("cd " + path + "&& " + sys.executable + " setup.py egg_info")
+            if os.path.exists(os.path.join(path, 'setup.py')):
+                os.system('cd ' + path + '&& ' + sys.executable + ' setup.py egg_info')
 
 
 class Build(_build):
     sub_commands = [('build_trans', None), ('build_plugins', None)] + _build.sub_commands
 
     def run(self):
-        # Run all sub-commands (at least those that need to be run)
+        # Run all sub-commands (at least those that need to be run).
         _build.run(self)
         try:
             from deluge._libtorrent import lt
-            print "Found libtorrent version: %s" % lt.version
+            print('Found libtorrent version: %s' % lt.version)
         except ImportError, e:
-            print "Warning libtorrent not found: %s" % e
+            print('Warning libtorrent not found: %s' % e)
 
 
 class InstallData(_install_data):
@@ -194,10 +194,8 @@ class InstallData(_install_data):
 
 
 class CleanPlugins(cmd.Command):
-    description = "Cleans the plugin folders"
-    user_options = [
-        ('all', 'a', "remove all build output, not just temporary by-products")
-    ]
+    description = 'Cleans the plugin folders'
+    user_options = [('all', 'a', 'Remove all build output, not just temporary by-products')]
     boolean_options = ['all']
 
     def initialize_options(self):
@@ -207,37 +205,37 @@ class CleanPlugins(cmd.Command):
         self.set_undefined_options('clean', ('all', 'all'))
 
     def run(self):
-        print("Cleaning the plugin's folders..")
+        print('Cleaning the plugin\'s folders...')
 
-        plugin_path = "deluge/plugins/*"
+        plugin_path = 'deluge/plugins/*'
 
         for path in glob.glob(plugin_path):
-            if os.path.exists(os.path.join(path, "setup.py")):
-                c = "cd " + path + " && " + sys.executable + " setup.py clean"
+            if os.path.exists(os.path.join(path, 'setup.py')):
+                c = 'cd ' + path + ' && ' + sys.executable + ' setup.py clean'
                 if self.all:
-                    c += " -a"
-                print("Calling '%s'" % c)
+                    c += ' -a'
+                print('Calling \'%s\'' % c)
                 os.system(c)
 
             # Delete the .eggs
-            if path[-4:] == ".egg":
-                print("Deleting %s" % path)
+            if path[-4:] == '.egg':
+                print('Deleting %s' % path)
                 os.remove(path)
 
-        egg_info_dir_path = "deluge/plugins/*/*.egg-info"
+        egg_info_dir_path = 'deluge/plugins/*/*.egg-info'
 
         for path in glob.glob(egg_info_dir_path):
             # Delete the .egg-info's directories
-            if path[-9:] == ".egg-info":
-                print("Deleting %s" % path)
+            if path[-9:] == '.egg-info':
+                print('Deleting %s' % path)
                 for fpath in os.listdir(path):
                     os.remove(os.path.join(path, fpath))
                 os.removedirs(path)
 
-        root_egg_info_dir_path = "deluge*.egg-info"
+        root_egg_info_dir_path = 'deluge*.egg-info'
 
         for path in glob.glob(root_egg_info_dir_path):
-            print("Deleting %s" % path)
+            print('Deleting %s' % path)
             for fpath in os.listdir(path):
                 os.remove(os.path.join(path, fpath))
             os.removedirs(path)
@@ -253,7 +251,7 @@ class Clean(_clean):
         _clean.run(self)
 
         if os.path.exists(desktop_data):
-            print("Deleting %s" % desktop_data)
+            print('Deleting %s' % desktop_data)
             os.remove(desktop_data)
 
 cmdclass = {
@@ -296,68 +294,68 @@ if not windows_check() and os.path.exists(desktop_data):
     _data_files.append(('share/applications', [desktop_data]))
 
 entry_points = {
-    "console_scripts": [
-        "deluge-console = deluge.ui.console:start",
-        "deluge-web = deluge.ui.web:start",
-        "deluged = deluge.main:start_daemon"
+    'console_scripts': [
+        'deluge-console = deluge.ui.console:start',
+        'deluge-web = deluge.ui.web:start',
+        'deluged = deluge.main:start_daemon'
     ],
-    "gui_scripts": [
-        "deluge = deluge.main:start_ui",
-        "deluge-gtk = deluge.ui.gtkui:start"
+    'gui_scripts': [
+        'deluge = deluge.main:start_ui',
+        'deluge-gtk = deluge.ui.gtkui:start'
     ]
 }
 
 if windows_check():
-    entry_points["console_scripts"].extend([
-        "deluge-debug = deluge.main:start_ui",
-        "deluge-web-debug = deluge.ui.web:start",
-        "deluged-debug = deluge.main:start_daemon"])
+    entry_points['console_scripts'].extend([
+        'deluge-debug = deluge.main:start_ui',
+        'deluge-web-debug = deluge.ui.web:start',
+        'deluged-debug = deluge.main:start_daemon'])
 
 # Main setup
 setup(
-    name="deluge",
+    name='deluge',
     version=get_version(prefix='deluge-', suffix='.dev0'),
-    fullname="Deluge Bittorrent Client",
-    description="Bittorrent Client",
-    author="Andrew Resch, Damien Churchill",
-    author_email="andrewresch@gmail.com, damoxc@gmail.com",
-    keywords="torrent bittorrent p2p fileshare filesharing",
-    long_description="""Deluge is a bittorrent client that utilizes a
+    fullname='Deluge Bittorrent Client',
+    description='Bittorrent Client',
+    author='Andrew Resch, Damien Churchill',
+    author_email='andrewresch@gmail.com, damoxc@gmail.com',
+    keywords='torrent bittorrent p2p fileshare filesharing',
+    long_description='''Deluge is a bittorrent client that utilizes a
         daemon/client model. There are various user interfaces available for
         Deluge such as the GTKui, the webui and a console ui. Deluge uses
-        libtorrent in it's backend to handle the bittorrent protocol.""",
-    url="http://deluge-torrent.org",
-    license="GPLv3",
+        libtorrent in it's backend to handle the bittorrent protocol.''',
+    url='http://deluge-torrent.org',
+    license='GPLv3',
     cmdclass=cmdclass,
     tests_require=['pytest'],
     data_files=_data_files,
-    package_data={"deluge": ["ui/gtkui/glade/*.ui",
-                             "ui/data/pixmaps/*.png",
-                             "ui/data/pixmaps/*.svg",
-                             "ui/data/pixmaps/*.ico",
-                             "ui/data/pixmaps/*.gif",
-                             "ui/data/pixmaps/flags/*.png",
-                             "plugins/*.egg",
-                             "i18n/*/LC_MESSAGES/*.mo",
-                             "ui/web/index.html",
-                             "ui/web/css/*.css",
-                             "ui/web/icons/*.png",
-                             "ui/web/images/*.gif",
-                             "ui/web/images/*.png",
-                             "ui/web/js/*.js",
-                             "ui/web/js/*/*.js",
-                             "ui/web/js/*/.order",
-                             "ui/web/js/*/*/*.js",
-                             "ui/web/js/*/*/.order",
-                             "ui/web/js/*/*/*/*.js",
-                             "ui/web/render/*.html",
-                             "ui/web/themes/css/*.css",
-                             "ui/web/themes/images/*/*.gif",
-                             "ui/web/themes/images/*/*.png",
-                             "ui/web/themes/images/*/*/*.gif",
-                             "ui/web/themes/images/*/*/*.png"
+    package_data={'deluge': ['ui/gtkui/glade/*.ui',
+                             'ui/data/pixmaps/*.png',
+                             'ui/data/pixmaps/*.svg',
+                             'ui/data/pixmaps/*.ico',
+                             'ui/data/pixmaps/*.gif',
+                             'ui/data/pixmaps/flags/*.png',
+                             'plugins/*.egg',
+                             'i18n/*/LC_MESSAGES/*.mo',
+                             'ui/web/index.html',
+                             'ui/web/css/*.css',
+                             'ui/web/icons/*.png',
+                             'ui/web/images/*.gif',
+                             'ui/web/images/*.png',
+                             'ui/web/js/*.js',
+                             'ui/web/js/*/*.js',
+                             'ui/web/js/*/.order',
+                             'ui/web/js/*/*/*.js',
+                             'ui/web/js/*/*/.order',
+                             'ui/web/js/*/*/*/*.js',
+                             'ui/web/render/*.html',
+                             'ui/web/themes/css/*.css',
+                             'ui/web/themes/images/*/*.gif',
+                             'ui/web/themes/images/*/*.png',
+                             'ui/web/themes/images/*/*/*.gif',
+                             'ui/web/themes/images/*/*/*.png'
                              ]},
-    packages=find_packages(exclude=["plugins", "docs", "tests"]),
-    namespace_packages=["deluge", "deluge.plugins"],
+    packages=find_packages(exclude=['plugins', 'docs', 'tests']),
+    namespace_packages=['deluge', 'deluge.plugins'],
     entry_points=entry_points
 )

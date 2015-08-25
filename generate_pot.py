@@ -58,7 +58,7 @@ for (dirpath, dirnames, filenames) in os.walk("deluge"):
                 call(["intltool-extract", "--quiet", "--type=gettext/glade", filepath])
                 to_translate.append(filepath + ".h")
 
-with open(INFILES_LIST, "wb") as f:
+with open(INFILES_LIST, "w") as f:
     for line in to_translate:
         f.write(line + "\n")
 
@@ -78,7 +78,7 @@ for (dirpath, dirnames, filenames) in os.walk(WEBUI_RENDER_DIR):
         if os.path.splitext(filename)[1] == ".html":
             js_to_translate.append(os.path.join(dirpath, filename))
 
-with open(INFILES_LIST, "wb") as f:
+with open(INFILES_LIST, "w") as f:
     for line in js_to_translate:
         f.write(line + "\n")
 
@@ -107,4 +107,4 @@ for filepath in to_translate:
 # Update web js gettext
 create_gettext_js(WEBUI_JS_DIR)
 
-print "Created %s and updated gettext.js" % POT_FILEPATH
+print("Created %s and updated gettext.js" % POT_FILEPATH)

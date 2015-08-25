@@ -92,12 +92,12 @@ def minify_js_dir(source_dir):
     source_files = source_files_list(source_dir)
 
     if not source_files:
-        print 'No js files found, skipping %s' % source_dir
+        print('No js files found, skipping %s' % source_dir)
         return
 
     concat_src_files(source_files, file_debug_js)
     minify_file(file_debug_js, file_minified_js)
-    print 'Minified %s' % source_dir
+    print('Minified %s' % source_dir)
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
