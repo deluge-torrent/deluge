@@ -73,7 +73,7 @@ for script in glob.glob(python_path + "Scripts\\deluge*-script.py*"):
     shutil.copy(script, new_script)
 
     script_splitext = os.path.splitext(os.path.basename(new_script))
-    if script_splitext[1] == "pyw" or script_splitext[0] in force_gui:
+    if script_splitext[1] == ".pyw" or script_splitext[0] in force_gui:
         gui_script = True
     else:
         gui_script = False
