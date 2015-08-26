@@ -1,3 +1,16 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2012-2015 Calum Lind <calumlind@gmail.com>
+# Copyright (C) 2010 Damien Churchill <damoxc@gmail.com>
+# Copyright (C) 2009-2010 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2009 Jesper Lund <mail@jesperlund.com>
+#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
+#
+
 import glob
 import os
 import re
@@ -32,24 +45,33 @@ class VersionInfo(object):
         self.debug = debug
         self.verbose = verbose
 
+DEBUG = False
+if len(sys.argv) == 2 and sys.argv[1].lower() == "debug":
+    DEBUG = True
+
 # Get build_version from installed deluge.
 build_version = deluge.common.get_version()
-print "Deluge Version: %s" % build_version
-
 python_path = os.path.dirname(sys.executable)
 if python_path.endswith("Scripts"):
     python_path = python_path[:-8]
 python_path += os.path.sep
-print "Python Path: %s" % python_path
-
 gtk_root = os.path.join(gtk.__path__[0], "..", "runtime") + os.path.sep
+build_dir = "..\\build-win32\\deluge-bbfreeze-" + build_version + "\\"
+
+if DEBUG:
+    print("Python Path: %s" % python_path)
+    print("Gtk Path: %s" % gtk_root)
+    print("bbfreeze Output Path: %s" % build_dir)
+
+print("Freezing Deluge %s..." % build_version)
+# Disable printing to console for bbfreezing.
+if not DEBUG:
+    sys.stdout = open(os.devnull, "w")
 
 # Include python modules not picked up automatically by bbfreeze.
 includes = ("libtorrent", "cairo", "pangocairo", "atk", "pango", "twisted.internet.utils",
             "gio", "gzip", "email.mime.multipart", "email.mime.text", "_cffi_backend")
 excludes = ("numpy", "OpenGL", "psyco", "win32ui")
-
-build_dir = "..\\build-win32\\deluge-bbfreeze-" + build_version + "\\"
 
 
 def recipe_gtk_override(mf):
@@ -72,14 +94,12 @@ for script in glob.glob(python_path + "Scripts\\deluge*-script.py*"):
     new_script = script.replace("-script", "")
     shutil.copy(script, new_script)
 
+    gui_script = False
     script_splitext = os.path.splitext(os.path.basename(new_script))
     if script_splitext[1] == ".pyw" or script_splitext[0] in force_gui:
         gui_script = True
-    else:
-        gui_script = False
     try:
         fzr.addScript(new_script, gui_only=gui_script)
-
         script_list.append(new_script)
     except:
         os.remove(script)
@@ -91,23 +111,17 @@ fzr()
 for script in script_list:
     os.remove(script)
 
-# Add version information to exe files.
-for script in script_list:
-    script_exe = os.path.splitext(os.path.basename(script))[0] + ".exe"
-    if not re.search('[a-zA-Z_-]', build_version):
-        versionInfo = VersionInfo(build_version,
-                                  description="Deluge Bittorrent Client",
-                                  company="Deluge Team",
-                                  product="Deluge",
-                                  copyright="GPLv3")
-        stamp(os.path.join(build_dir, script_exe), versionInfo)
-
 # Exclude files which are already included in GTK or Windows.
 excludeDlls = ("MSIMG32.dll", "MSVCR90.dll", "MSVCP90.dll", "POWRPROF.dll", "DNSAPI.dll", "USP10.dll")
 for dll in excludeDlls:
-    for filename in glob.glob(os.path.join(build_dir, dll)):
-        print "removing file:", filename
-        os.remove(filename)
+    try:
+        os.remove(os.path.join(build_dir, dll))
+    except OSError:
+        pass
+
+# Re-enable printing.
+if not DEBUG:
+    sys.stdout = sys.__stdout__
 
 # Copy gtk locale files.
 gtk_locale = os.path.join(gtk_root, 'share/locale')
@@ -143,7 +157,18 @@ for path_root, path in theme_include_list:
             pass
         shutil.copy(full_path, dst_dir)
 
+# Add version information to exe files.
+for script in script_list:
+    script_exe = os.path.splitext(os.path.basename(script))[0] + ".exe"
+    # Don't add to dev build versions.
+    if not re.search('[a-zA-Z_-]', build_version):
+        versionInfo = VersionInfo(build_version,
+                                  description="Deluge Bittorrent Client",
+                                  company="Deluge Team",
+                                  product="Deluge",
+                                  copyright="GPLv3")
+        stamp(os.path.join(build_dir, script_exe), versionInfo)
+
 # Copy version info to file for nsis script.
-file = open('VERSION.tmp', 'w')
-file.write("build_version = \"%s\"" % build_version)
-file.close()
+with open('VERSION.tmp', 'w') as ver_file:
+    ver_file.write("build_version = \"%s\"" % build_version)
