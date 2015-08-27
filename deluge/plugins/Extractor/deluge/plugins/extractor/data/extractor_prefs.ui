@@ -8,8 +8,8 @@
       <object class="GtkBox" id="extractor_prefs_box">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">5</property>
-		<property name="orientation">vertical</property>
         <child>
           <object class="GtkFrame" id="frame1">
             <property name="visible">True</property>
@@ -21,8 +21,8 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="border_width">5</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
-				<property name="orientation">vertical</property>
                 <child>
                   <object class="GtkBox" id="hbox1">
                     <property name="visible">True</property>
@@ -89,7 +89,7 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="tooltip_text" translatable="yes">This option will create a sub-folder using the torrent's name within the selected extract folder and put the extracted files there.</property>
-                    <property name="xalign">0.5</property>
+                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>

@@ -185,7 +185,7 @@ it will be added to the session.</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="xalign">0.5</property>
+                                    <property name="xalign">0</property>
                                     <property name="draw_indicator">True</property>
                                   </object>
                                   <packing>
@@ -244,7 +244,7 @@ it will be added to the session.</property>
                                         <property name="receives_default">False</property>
                                         <property name="tooltip_text" translatable="yes">Once the torrent is added to the session,
 the .torrent will be deleted.</property>
-                                        <property name="xalign">0.5</property>
+                                        <property name="xalign">0</property>
                                         <property name="draw_indicator">True</property>
                                         <signal name="toggled" handler="on_toggle_toggled" swapped="no"/>
                                       </object>
@@ -267,7 +267,7 @@ the .torrent will be deleted.</property>
                                             <property name="tooltip_text" translatable="yes">Once the torrent is added to the session,
 an extension will be appended to the .torrent
 and it will remain in the same directory.</property>
-                                            <property name="xalign">0.5</property>
+                                            <property name="xalign">0</property>
                                             <property name="draw_indicator">True</property>
                                             <property name="group">isnt_append_extension</property>
                                             <signal name="toggled" handler="on_toggle_toggled" swapped="no"/>
@@ -315,7 +315,7 @@ and it will remain in the same directory.</property>
                                             <property name="tooltip_text" translatable="yes">Once the torrent is added to the session,
 the .torrent will copied to the chosen directory
 and deleted from the watch folder.</property>
-                                            <property name="xalign">0.5</property>
+                                            <property name="xalign">0</property>
                                             <property name="draw_indicator">True</property>
                                             <property name="group">isnt_append_extension</property>
                                             <signal name="toggled" handler="on_toggle_toggled" swapped="no"/>
@@ -367,7 +367,7 @@ and deleted from the watch folder.</property>
                                             <property name="has_tooltip">True</property>
                                             <property name="tooltip_text" translatable="yes">Once the torrent is deleted from the session,
 also delete the .torrent file used to add it.</property>
-                                            <property name="xalign">0.5</property>
+                                            <property name="xalign">0</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
                                           <packing>
@@ -429,7 +429,7 @@ also delete the .torrent file used to add it.</property>
                                     <property name="receives_default">False</property>
                                     <property name="tooltip_text" translatable="yes">This folder will be where the torrent data is downloaded to.</property>
                                     <property name="use_underline">True</property>
-                                    <property name="xalign">0.5</property>
+                                    <property name="xalign">0</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_toggle_toggled" swapped="no"/>
                                   </object>
@@ -519,7 +519,7 @@ also delete the .torrent file used to add it.</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="xalign">0.5</property>
+                                    <property name="xalign">0</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_toggle_toggled" swapped="no"/>
                                   </object>
@@ -623,7 +623,7 @@ also delete the .torrent file used to add it.</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="xalign">0.5</property>
+                                    <property name="xalign">0</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_toggle_toggled" swapped="no"/>
                                   </object>
@@ -751,7 +751,7 @@ also delete the .torrent file used to add it.</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="xalign">0.5</property>
+                                    <property name="xalign">0</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_toggle_toggled" swapped="no"/>
                                   </object>
@@ -769,7 +769,7 @@ also delete the .torrent file used to add it.</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="xalign">0.5</property>
+                                    <property name="xalign">0</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_toggle_toggled" swapped="no"/>
                                   </object>
@@ -787,7 +787,7 @@ also delete the .torrent file used to add it.</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="xalign">0.5</property>
+                                    <property name="xalign">0</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_toggle_toggled" swapped="no"/>
                                   </object>
@@ -905,7 +905,7 @@ also delete the .torrent file used to add it.</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="xalign">0.5</property>
+                                    <property name="xalign">0</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_toggle_toggled" swapped="no"/>
                                   </object>
@@ -975,7 +975,7 @@ also delete the .torrent file used to add it.</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
                                         <property name="use_underline">True</property>
-                                        <property name="xalign">0.5</property>
+                                        <property name="xalign">0</property>
                                         <property name="draw_indicator">True</property>
                                         <signal name="toggled" handler="on_toggle_toggled" swapped="no"/>
                                       </object>
@@ -1001,7 +1001,7 @@ also delete the .torrent file used to add it.</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
                                         <property name="use_underline">True</property>
-                                        <property name="xalign">0.5</property>
+                                        <property name="xalign">0</property>
                                         <property name="draw_indicator">True</property>
                                       </object>
                                     </child>
@@ -1018,7 +1018,7 @@ also delete the .torrent file used to add it.</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="xalign">0.5</property>
+                                    <property name="xalign">0</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_toggle_toggled" swapped="no"/>
                                   </object>
@@ -1163,7 +1163,7 @@ also delete the .torrent file used to add it.</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="xalign">0.5</property>
+                                    <property name="xalign">0</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_toggle_toggled" swapped="no"/>
                                   </object>
@@ -1219,7 +1219,7 @@ also delete the .torrent file used to add it.</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="xalign">0.5</property>
+                                    <property name="xalign">0</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_toggle_toggled" swapped="no"/>
                                   </object>
@@ -1280,7 +1280,7 @@ also delete the .torrent file used to add it.</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="xalign">0.5</property>
+                                    <property name="xalign">0</property>
                                     <property name="draw_indicator">True</property>
                                   </object>
                                   <packing>
