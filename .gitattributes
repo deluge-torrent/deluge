@@ -1,13 +1,3 @@
-packaging export-ignore
-docs/build/ export-ignore
-docs/source/ export-ignore
-deluge/tests/ export-ignore
-deluge/scripts/ export-ignore
-setup.cfg export-ignore
-generate_pot.py export-ignore
-gen_web_gettext.py export-ignore
-deluge/ui/web/docs/ export-ignore
-
 .gitattributes export-ignore
 .gitmodules export-ignore
 .gitignore export-ignore

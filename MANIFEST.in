@@ -1,11 +1,12 @@
-include AUTHORS ChangeLog DEPENDS LICENSE  msgfmt.py RELEASE-VERSION version.py
+include AUTHORS ChangeLog DEPENDS LICENSE  msgfmt.py RELEASE-VERSION version.py README.rst
+
 graft docs/man
 
 include deluge/i18n/*.po
 recursive-exclude deluge/i18n LC_MESSAGES *.mo
 
 graft deluge/plugins
-recursive-exclude deluge/plugins create_dev_link.sh *.pyc
+recursive-exclude deluge/plugins create_dev_link.sh *.pyc *.egg
 
 prune deluge/tests
 graft deluge/ui/data
