@@ -247,10 +247,8 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         )
 
         self.main_builder.connect_signals({
-            'on_add_button_clicked': (self.on_add_button_clicked,
-                                      self.recipients_treeview),
-            'on_delete_button_clicked': (self.on_delete_button_clicked,
-                                         self.recipients_treeview),
+            'on_add_button_clicked': self.on_add_button_clicked,
+            'on_delete_button_clicked': self.on_delete_button_clicked,
             'on_enabled_toggled': self.on_enabled_toggled,
             'on_sound_enabled_toggled': self.on_sound_enabled_toggled,
             'on_sounds_edit_button_clicked': self.on_sounds_edit_button_clicked,
@@ -262,7 +260,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         parent = self.prefs.get_parent()
         if parent:
             parent.remove(self.prefs)
-        index = prefs.notebook.append_page(self.prefs)
+        index = prefs.notebook.append_page(self.prefs, None)
         prefs.liststore.append([index, _("Notifications")])
 
         component.get("PluginManager").register_hook("on_apply_prefs",
@@ -548,13 +546,15 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
             self.populate_sounds
         )
 
-    def on_add_button_clicked(self, widget, treeview):
+    def on_add_button_clicked(self, widget):
+        treeview = self.recipients_treeview
         model = treeview.get_model()
         model.set(model.append(),
                   RECIPIENT_FIELD, "USER@HOST",
                   RECIPIENT_EDIT, True)
 
-    def on_delete_button_clicked(self, widget, treeview):
+    def on_delete_button_clicked(self, widget):
+        treeview = self.recipients_treeview
         selection = treeview.get_selection()
         model, iter = selection.get_selected()
         if iter:
