@@ -318,7 +318,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkHPaned" id="hpaned1">
+          <object class="GtkPaned" id="hpaned1">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <child>
@@ -362,7 +362,7 @@
                           <object class="GtkBox" id="interface_vbox">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-							<property name="orientation">vertical</property>
+                            <property name="orientation">vertical</property>
                             <child>
                               <object class="GtkFrame" id="frame_app_mode">
                                 <property name="visible">True</property>
@@ -456,7 +456,7 @@
                                       <object class="GtkBox" id="vbox27">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-										<property name="orientation">vertical</property>
+                                        <property name="orientation">vertical</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_show_rate_in_title">
                                             <property name="label" translatable="yes">Show session speed in titlebar</property>
@@ -526,13 +526,11 @@ and daemon (does not apply in Standalone mode).</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="left_padding">25</property>
                                                 <child>
-                                                  <object class="GtkTable" id="table6">
+                                                  <object class="GtkGrid" id="table6">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="n_rows">4</property>
-                                                    <property name="n_columns">3</property>
-                                                    <property name="column_spacing">5</property>
                                                     <property name="row_spacing">1</property>
+                                                    <property name="column_spacing">5</property>
                                                     <child>
                                                       <object class="GtkLabel" id="label66">
                                                         <property name="visible">True</property>
@@ -541,7 +539,10 @@ and daemon (does not apply in Standalone mode).</property>
                                                         <property name="label" translatable="yes">Completed:</property>
                                                       </object>
                                                       <packing>
-                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="left_attach">0</property>
+                                                        <property name="top_attach">0</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -551,13 +552,13 @@ and daemon (does not apply in Standalone mode).</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
                                                         <property name="xalign">0</property>
-                                                        <property name="color">#000000000000</property>
                                                         <signal name="color-set" handler="on_completed_color_set" swapped="no"/>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
-                                                        <property name="x_options"/>
+                                                        <property name="top_attach">0</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -568,9 +569,10 @@ and daemon (does not apply in Standalone mode).</property>
                                                         <property name="label" translatable="yes">Downloading:</property>
                                                       </object>
                                                       <packing>
+                                                        <property name="left_attach">2</property>
                                                         <property name="top_attach">1</property>
-                                                        <property name="bottom_attach">2</property>
-                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -580,15 +582,13 @@ and daemon (does not apply in Standalone mode).</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
                                                         <property name="xalign">0</property>
-                                                        <property name="color">#000000000000</property>
                                                         <signal name="color-set" handler="on_downloading_color_set" swapped="no"/>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
                                                         <property name="top_attach">1</property>
-                                                        <property name="bottom_attach">2</property>
-                                                        <property name="x_options"/>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -599,9 +599,10 @@ and daemon (does not apply in Standalone mode).</property>
                                                         <property name="label" translatable="yes">Waiting:</property>
                                                       </object>
                                                       <packing>
+                                                        <property name="left_attach">3</property>
                                                         <property name="top_attach">2</property>
-                                                        <property name="bottom_attach">3</property>
-                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -611,15 +612,13 @@ and daemon (does not apply in Standalone mode).</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
                                                         <property name="xalign">0</property>
-                                                        <property name="color">#000000000000</property>
                                                         <signal name="color-set" handler="on_waiting_color_set" swapped="no"/>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
                                                         <property name="top_attach">2</property>
-                                                        <property name="bottom_attach">3</property>
-                                                        <property name="x_options"/>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -630,9 +629,10 @@ and daemon (does not apply in Standalone mode).</property>
                                                         <property name="label" translatable="yes">Missing:</property>
                                                       </object>
                                                       <packing>
+                                                        <property name="left_attach">3</property>
                                                         <property name="top_attach">3</property>
-                                                        <property name="bottom_attach">4</property>
-                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -642,15 +642,13 @@ and daemon (does not apply in Standalone mode).</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
                                                         <property name="xalign">0</property>
-                                                        <property name="color">#000000000000</property>
                                                         <signal name="color-set" handler="on_missing_color_set" swapped="no"/>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
                                                         <property name="top_attach">3</property>
-                                                        <property name="bottom_attach">4</property>
-                                                        <property name="x_options"/>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -668,8 +666,9 @@ and daemon (does not apply in Standalone mode).</property>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">2</property>
-                                                        <property name="right_attach">3</property>
-                                                        <property name="x_options"/>
+                                                        <property name="top_attach">0</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -687,10 +686,9 @@ and daemon (does not apply in Standalone mode).</property>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">2</property>
-                                                        <property name="right_attach">3</property>
                                                         <property name="top_attach">1</property>
-                                                        <property name="bottom_attach">2</property>
-                                                        <property name="x_options"/>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -708,10 +706,9 @@ and daemon (does not apply in Standalone mode).</property>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">2</property>
-                                                        <property name="right_attach">3</property>
                                                         <property name="top_attach">2</property>
-                                                        <property name="bottom_attach">3</property>
-                                                        <property name="x_options"/>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -729,10 +726,9 @@ and daemon (does not apply in Standalone mode).</property>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">2</property>
-                                                        <property name="right_attach">3</property>
                                                         <property name="top_attach">3</property>
-                                                        <property name="bottom_attach">4</property>
-                                                        <property name="x_options"/>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                   </object>
@@ -792,7 +788,7 @@ and daemon (does not apply in Standalone mode).</property>
                                       <object class="GtkBox" id="vbox17">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-										<property name="orientation">vertical</property>
+                                        <property name="orientation">vertical</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_use_tray">
                                             <property name="label" translatable="yes">Enable system tray icon</property>
@@ -1030,7 +1026,7 @@ and daemon (does not apply in Standalone mode).</property>
                                       <object class="GtkBox" id="vbox18">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-										<property name="orientation">vertical</property>
+                                        <property name="orientation">vertical</property>
                                         <child>
                                           <object class="GtkAlignment" id="alignment36">
                                             <property name="visible">True</property>
@@ -1091,7 +1087,7 @@ and daemon (does not apply in Standalone mode).</property>
                                       <object class="GtkBox" id="vbox1">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-										<property name="orientation">vertical</property>
+                                        <property name="orientation">vertical</property>
                                         <child>
                                           <object class="GtkCheckButton" id="checkbutton_language">
                                             <property name="label" translatable="yes">System Default</property>
@@ -1183,7 +1179,7 @@ and daemon (does not apply in Standalone mode).</property>
                           <object class="GtkBox" id="downloads_vbox">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-							<property name="orientation">vertical</property>
+                            <property name="orientation">vertical</property>
                             <child>
                               <object class="GtkFrame" id="frame5">
                                 <property name="visible">True</property>
@@ -1198,10 +1194,9 @@ and daemon (does not apply in Standalone mode).</property>
                                     <property name="bottom_padding">2</property>
                                     <property name="left_padding">12</property>
                                     <child>
-                                      <object class="GtkTable" id="table9">
+                                      <object class="GtkGrid" id="table9">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="n_rows">7</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_move_completed">
                                             <property name="label" translatable="yes">Move completed to:</property>
@@ -1214,9 +1209,10 @@ and daemon (does not apply in Standalone mode).</property>
                                             <signal name="toggled" handler="on_toggle" swapped="no"/>
                                           </object>
                                           <packing>
+                                            <property name="left_attach">0</property>
                                             <property name="top_attach">2</property>
-                                            <property name="bottom_attach">3</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -1231,9 +1227,10 @@ and daemon (does not apply in Standalone mode).</property>
                                             <signal name="toggled" handler="on_toggle" swapped="no"/>
                                           </object>
                                           <packing>
+                                            <property name="left_attach">0</property>
                                             <property name="top_attach">4</property>
-                                            <property name="bottom_attach">5</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -1248,9 +1245,10 @@ and daemon (does not apply in Standalone mode).</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
                                           <packing>
+                                            <property name="left_attach">0</property>
                                             <property name="top_attach">6</property>
-                                            <property name="bottom_attach">7</property>
-                                            <property name="x_padding">15</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -1261,7 +1259,10 @@ and daemon (does not apply in Standalone mode).</property>
                                             <property name="label" translatable="yes">Download to:</property>
                                           </object>
                                           <packing>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="left_attach">0</property>
+                                            <property name="top_attach">0</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -1274,15 +1275,14 @@ and daemon (does not apply in Standalone mode).</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="spacing">5</property>
-                                                <child>
-                                                  <placeholder/>
-                                                </child>
                                               </object>
                                             </child>
                                           </object>
                                           <packing>
+                                            <property name="left_attach">1</property>
                                             <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -1295,15 +1295,14 @@ and daemon (does not apply in Standalone mode).</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="spacing">5</property>
-                                                <child>
-                                                  <placeholder/>
-                                                </child>
                                               </object>
                                             </child>
                                           </object>
                                           <packing>
+                                            <property name="left_attach">2</property>
                                             <property name="top_attach">3</property>
-                                            <property name="bottom_attach">4</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -1316,15 +1315,14 @@ and daemon (does not apply in Standalone mode).</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="spacing">5</property>
-                                                <child>
-                                                  <placeholder/>
-                                                </child>
                                               </object>
                                             </child>
                                           </object>
                                           <packing>
+                                            <property name="left_attach">2</property>
                                             <property name="top_attach">5</property>
-                                            <property name="bottom_attach">6</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                       </object>
@@ -1366,7 +1364,7 @@ and daemon (does not apply in Standalone mode).</property>
                                       <object class="GtkBox" id="newvbox1">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-										<property name="orientation">vertical</property>
+                                        <property name="orientation">vertical</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_prioritize_first_last_pieces">
                                             <property name="label" translatable="yes">Prioritize first and last pieces of torrent</property>
@@ -1478,7 +1476,7 @@ used sparingly.</property>
                                       <object class="GtkBox" id="vbox5">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-										<property name="orientation">vertical</property>
+                                        <property name="orientation">vertical</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_show_dialog">
                                             <property name="label" translatable="yes">Always show</property>
@@ -1574,7 +1572,7 @@ used sparingly.</property>
                           <object class="GtkBox" id="vbox7">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-							<property name="orientation">vertical</property>
+                            <property name="orientation">vertical</property>
                             <child>
                               <object class="GtkFrame" id="frame11">
                                 <property name="visible">True</property>
@@ -1592,24 +1590,13 @@ used sparingly.</property>
                                       <object class="GtkBox" id="vbox21">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <property name="orientation">vertical</property>
                                         <property name="spacing">5</property>
-										<property name="orientation">vertical</property>
                                         <child>
-                                          <object class="GtkTable" id="table1">
+                                          <object class="GtkGrid" id="table1">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="n_rows">6</property>
-                                            <property name="n_columns">3</property>
                                             <property name="column_spacing">10</property>
-                                            <child>
-                                              <placeholder/>
-                                            </child>
-                                            <child>
-                                              <placeholder/>
-                                            </child>
-                                            <child>
-                                              <placeholder/>
-                                            </child>
                                             <child>
                                               <object class="GtkSpinButton" id="spin_max_connections_per_second">
                                                 <property name="visible">True</property>
@@ -1623,10 +1610,9 @@ used sparingly.</property>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
                                                 <property name="top_attach">5</property>
-                                                <property name="bottom_attach">6</property>
-                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -1642,10 +1628,9 @@ used sparingly.</property>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
                                                 <property name="top_attach">4</property>
-                                                <property name="bottom_attach">5</property>
-                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -1656,9 +1641,10 @@ used sparingly.</property>
                                                 <property name="label" translatable="yes">Connection Attempts per Second:</property>
                                               </object>
                                               <packing>
+                                                <property name="left_attach">3</property>
                                                 <property name="top_attach">5</property>
-                                                <property name="bottom_attach">6</property>
-                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -1669,9 +1655,10 @@ used sparingly.</property>
                                                 <property name="label" translatable="yes">Half-Open Connections:</property>
                                               </object>
                                               <packing>
+                                                <property name="left_attach">3</property>
                                                 <property name="top_attach">4</property>
-                                                <property name="bottom_attach">5</property>
-                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -1683,9 +1670,10 @@ used sparingly.</property>
                                                 <property name="label" translatable="yes">Upload Speed:</property>
                                               </object>
                                               <packing>
+                                                <property name="left_attach">3</property>
                                                 <property name="top_attach">3</property>
-                                                <property name="bottom_attach">4</property>
-                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -1697,7 +1685,10 @@ used sparingly.</property>
                                                 <property name="label" translatable="yes">Connections:</property>
                                               </object>
                                               <packing>
-                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="left_attach">3</property>
+                                                <property name="top_attach">0</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -1709,9 +1700,10 @@ used sparingly.</property>
                                                 <property name="label" translatable="yes">Upload Slots:</property>
                                               </object>
                                               <packing>
+                                                <property name="left_attach">4</property>
                                                 <property name="top_attach">1</property>
-                                                <property name="bottom_attach">2</property>
-                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -1732,8 +1724,9 @@ used sparingly.</property>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
-                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="top_attach">0</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -1745,9 +1738,10 @@ used sparingly.</property>
                                                 <property name="label" translatable="yes">Download Speed:</property>
                                               </object>
                                               <packing>
+                                                <property name="left_attach">5</property>
                                                 <property name="top_attach">2</property>
-                                                <property name="bottom_attach">3</property>
-                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -1766,10 +1760,9 @@ used sparingly.</property>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
                                                 <property name="top_attach">2</property>
-                                                <property name="bottom_attach">3</property>
-                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -1788,10 +1781,9 @@ used sparingly.</property>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
                                                 <property name="top_attach">3</property>
-                                                <property name="bottom_attach">4</property>
-                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -1810,10 +1802,9 @@ used sparingly.</property>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
                                                 <property name="top_attach">1</property>
-                                                <property name="bottom_attach">2</property>
-                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -1825,11 +1816,9 @@ used sparingly.</property>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">2</property>
-                                                <property name="right_attach">3</property>
                                                 <property name="top_attach">2</property>
-                                                <property name="bottom_attach">3</property>
-                                                <property name="x_options">GTK_FILL</property>
-                                                <property name="y_options"/>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -1841,15 +1830,10 @@ used sparingly.</property>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">2</property>
-                                                <property name="right_attach">3</property>
                                                 <property name="top_attach">3</property>
-                                                <property name="bottom_attach">4</property>
-                                                <property name="x_options">GTK_FILL</property>
-                                                <property name="y_options"/>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
-                                            </child>
-                                            <child>
-                                              <placeholder/>
                                             </child>
                                           </object>
                                           <packing>
@@ -1943,15 +1927,10 @@ used sparingly.</property>
                                     <property name="bottom_padding">2</property>
                                     <property name="left_padding">12</property>
                                     <child>
-                                      <object class="GtkTable" id="table4">
+                                      <object class="GtkGrid" id="table4">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="n_rows">4</property>
-                                        <property name="n_columns">3</property>
                                         <property name="column_spacing">10</property>
-                                        <child>
-                                          <placeholder/>
-                                        </child>
                                         <child>
                                           <object class="GtkSpinButton" id="spin_max_upload_slots_per_torrent">
                                             <property name="visible">True</property>
@@ -1969,10 +1948,9 @@ used sparingly.</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
                                             <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -1991,8 +1969,9 @@ used sparingly.</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="top_attach">0</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -2003,7 +1982,10 @@ used sparingly.</property>
                                             <property name="label" translatable="yes">Connections:</property>
                                           </object>
                                           <packing>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="left_attach">2</property>
+                                            <property name="top_attach">0</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -2014,9 +1996,10 @@ used sparingly.</property>
                                             <property name="label" translatable="yes">Upload Slots:</property>
                                           </object>
                                           <packing>
+                                            <property name="left_attach">3</property>
                                             <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -2027,9 +2010,10 @@ used sparingly.</property>
                                             <property name="label" translatable="yes">Download Speed:</property>
                                           </object>
                                           <packing>
+                                            <property name="left_attach">4</property>
                                             <property name="top_attach">2</property>
-                                            <property name="bottom_attach">3</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -2040,9 +2024,10 @@ used sparingly.</property>
                                             <property name="label" translatable="yes">Upload Speed:</property>
                                           </object>
                                           <packing>
+                                            <property name="left_attach">4</property>
                                             <property name="top_attach">3</property>
-                                            <property name="bottom_attach">4</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -2060,10 +2045,9 @@ used sparingly.</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
                                             <property name="top_attach">2</property>
-                                            <property name="bottom_attach">3</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -2081,10 +2065,9 @@ used sparingly.</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
                                             <property name="top_attach">3</property>
-                                            <property name="bottom_attach">4</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -2096,11 +2079,9 @@ used sparingly.</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
-                                            <property name="right_attach">3</property>
                                             <property name="top_attach">2</property>
-                                            <property name="bottom_attach">3</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"/>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -2112,15 +2093,10 @@ used sparingly.</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
-                                            <property name="right_attach">3</property>
                                             <property name="top_attach">3</property>
-                                            <property name="bottom_attach">4</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"/>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
-                                        </child>
-                                        <child>
-                                          <placeholder/>
                                         </child>
                                       </object>
                                     </child>
@@ -2178,7 +2154,7 @@ used sparingly.</property>
                           <object class="GtkBox" id="queue_prefs_box2">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-							<property name="orientation">vertical</property>
+                            <property name="orientation">vertical</property>
                             <child>
                               <object class="GtkFrame" id="frame10">
                                 <property name="visible">True</property>
@@ -2195,7 +2171,7 @@ used sparingly.</property>
                                       <object class="GtkBox" id="vbox6">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-										<property name="orientation">vertical</property>
+                                        <property name="orientation">vertical</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_queue_new_top">
                                             <property name="label" translatable="yes">Queue new torrents to top</property>
@@ -2250,14 +2226,12 @@ used sparingly.</property>
                                       <object class="GtkBox" id="vbox20">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <property name="orientation">vertical</property>
                                         <property name="spacing">5</property>
-										<property name="orientation">vertical</property>
                                         <child>
-                                          <object class="GtkTable" id="table3">
+                                          <object class="GtkGrid" id="table3">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="n_rows">3</property>
-                                            <property name="n_columns">2</property>
                                             <property name="column_spacing">10</property>
                                             <child>
                                               <object class="GtkSpinButton" id="spin_active">
@@ -2272,8 +2246,9 @@ used sparingly.</property>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
-                                                <property name="x_options"/>
+                                                <property name="top_attach">0</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -2289,10 +2264,9 @@ used sparingly.</property>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
                                                 <property name="top_attach">2</property>
-                                                <property name="bottom_attach">3</property>
-                                                <property name="x_options"/>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -2303,9 +2277,10 @@ used sparingly.</property>
                                                 <property name="label" translatable="yes">Total active seeding:</property>
                                               </object>
                                               <packing>
+                                                <property name="left_attach">2</property>
                                                 <property name="top_attach">2</property>
-                                                <property name="bottom_attach">3</property>
-                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -2316,7 +2291,10 @@ used sparingly.</property>
                                                 <property name="label" translatable="yes">Total active:</property>
                                               </object>
                                               <packing>
-                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="left_attach">2</property>
+                                                <property name="top_attach">0</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -2332,10 +2310,9 @@ used sparingly.</property>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
                                                 <property name="top_attach">1</property>
-                                                <property name="bottom_attach">2</property>
-                                                <property name="x_options"/>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -2346,9 +2323,10 @@ used sparingly.</property>
                                                 <property name="label" translatable="yes">Total active downloading:</property>
                                               </object>
                                               <packing>
+                                                <property name="left_attach">3</property>
                                                 <property name="top_attach">1</property>
-                                                <property name="bottom_attach">2</property>
-                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                           </object>
@@ -2428,14 +2406,12 @@ used sparingly.</property>
                                       <object class="GtkBox" id="vbox11">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <property name="orientation">vertical</property>
                                         <property name="spacing">2</property>
-										<property name="orientation">vertical</property>
                                         <child>
-                                          <object class="GtkTable" id="table2">
+                                          <object class="GtkGrid" id="table2">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="n_rows">3</property>
-                                            <property name="n_columns">2</property>
                                             <property name="column_spacing">10</property>
                                             <child>
                                               <object class="GtkLabel" id="label53">
@@ -2445,7 +2421,10 @@ used sparingly.</property>
                                                 <property name="label" translatable="yes">Share Ratio Limit:</property>
                                               </object>
                                               <packing>
-                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="left_attach">0</property>
+                                                <property name="top_attach">0</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -2456,9 +2435,10 @@ used sparingly.</property>
                                                 <property name="label" translatable="yes">Seed Time Ratio:</property>
                                               </object>
                                               <packing>
+                                                <property name="left_attach">1</property>
                                                 <property name="top_attach">1</property>
-                                                <property name="bottom_attach">2</property>
-                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -2469,9 +2449,10 @@ used sparingly.</property>
                                                 <property name="label" translatable="yes">Seed Time (m):</property>
                                               </object>
                                               <packing>
+                                                <property name="left_attach">2</property>
                                                 <property name="top_attach">2</property>
-                                                <property name="bottom_attach">3</property>
-                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -2487,8 +2468,9 @@ used sparingly.</property>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
-                                                <property name="x_options"/>
+                                                <property name="top_attach">0</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -2504,10 +2486,9 @@ used sparingly.</property>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
                                                 <property name="top_attach">1</property>
-                                                <property name="bottom_attach">2</property>
-                                                <property name="x_options"/>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -2522,10 +2503,9 @@ used sparingly.</property>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
                                                 <property name="top_attach">2</property>
-                                                <property name="bottom_attach">3</property>
-                                                <property name="x_options"/>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                           </object>
@@ -2666,7 +2646,7 @@ used sparingly.</property>
                           <object class="GtkBox" id="vbox2">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-							<property name="orientation">vertical</property>
+                            <property name="orientation">vertical</property>
                             <child>
                               <object class="GtkFrame" id="frame31">
                                 <property name="visible">True</property>
@@ -2729,7 +2709,7 @@ used sparingly.</property>
                                       <object class="GtkBox" id="vbox3">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-										<property name="orientation">vertical</property>
+                                        <property name="orientation">vertical</property>
                                         <child>
                                           <object class="GtkBox" id="hbox1">
                                             <property name="visible">True</property>
@@ -3080,11 +3060,9 @@ used sparingly.</property>
                                         <property name="can_focus">False</property>
                                         <property name="spacing">5</property>
                                         <child>
-                                          <object class="GtkTable" id="table7">
+                                          <object class="GtkGrid" id="table7">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="n_rows">2</property>
-                                            <property name="n_columns">2</property>
                                             <child>
                                               <object class="GtkComboBox" id="combo_encout">
                                                 <property name="visible">True</property>
@@ -3100,10 +3078,9 @@ used sparingly.</property>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
                                                 <property name="top_attach">1</property>
-                                                <property name="bottom_attach">2</property>
-                                                <property name="x_padding">5</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -3121,8 +3098,9 @@ used sparingly.</property>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
-                                                <property name="x_padding">5</property>
+                                                <property name="top_attach">0</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -3133,8 +3111,10 @@ used sparingly.</property>
                                                 <property name="label" translatable="yes">Outgoing:</property>
                                               </object>
                                               <packing>
+                                                <property name="left_attach">2</property>
                                                 <property name="top_attach">1</property>
-                                                <property name="bottom_attach">2</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -3144,6 +3124,12 @@ used sparingly.</property>
                                                 <property name="xalign">1</property>
                                                 <property name="label" translatable="yes">Incoming:</property>
                                               </object>
+                                              <packing>
+                                                <property name="left_attach">3</property>
+                                                <property name="top_attach">0</property>
+                                                <property name="width">1</property>
+                                                <property name="height">1</property>
+                                              </packing>
                                             </child>
                                           </object>
                                           <packing>
@@ -3239,13 +3225,11 @@ used sparingly.</property>
                                     <property name="bottom_padding">2</property>
                                     <property name="left_padding">10</property>
                                     <child>
-                                      <object class="GtkTable" id="table8">
+                                      <object class="GtkGrid" id="table8">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="n_rows">3</property>
-                                        <property name="n_columns">3</property>
-                                        <property name="column_spacing">6</property>
                                         <property name="row_spacing">1</property>
+                                        <property name="column_spacing">6</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_upnp">
                                             <property name="label" translatable="yes">UPnP</property>
@@ -3260,7 +3244,10 @@ used sparingly.</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
                                           <packing>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="left_attach">0</property>
+                                            <property name="top_attach">0</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3278,8 +3265,9 @@ used sparingly.</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="top_attach">0</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3297,7 +3285,9 @@ used sparingly.</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
-                                            <property name="right_attach">3</property>
+                                            <property name="top_attach">0</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3315,9 +3305,9 @@ used sparingly.</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
-                                            <property name="right_attach">3</property>
                                             <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3332,9 +3322,10 @@ used sparingly.</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
                                           <packing>
+                                            <property name="left_attach">3</property>
                                             <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3351,10 +3342,9 @@ used sparingly.</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
                                             <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3396,9 +3386,10 @@ Requires a Hex value.</property>
                                             </child>
                                           </object>
                                           <packing>
-                                            <property name="right_attach">3</property>
+                                            <property name="left_attach">4</property>
                                             <property name="top_attach">2</property>
-                                            <property name="bottom_attach">3</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                       </object>
@@ -3458,8 +3449,8 @@ Requires a Hex value.</property>
                           <object class="GtkBox" id="vbox26">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="orientation">vertical</property>
                             <property name="spacing">5</property>
-							<property name="orientation">vertical</property>
                             <child>
                               <object class="GtkFrame" id="frame_proxy">
                                 <property name="visible">True</property>
@@ -3474,11 +3465,9 @@ Requires a Hex value.</property>
                                     <property name="left_padding">12</property>
                                     <property name="right_padding">12</property>
                                     <child>
-                                      <object class="GtkTable" id="table11">
+                                      <object class="GtkGrid" id="table11">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="n_rows">7</property>
-                                        <property name="n_columns">2</property>
                                         <property name="column_spacing">5</property>
                                         <child>
                                           <object class="GtkLabel" id="label_proxy_pass">
@@ -3488,9 +3477,10 @@ Requires a Hex value.</property>
                                             <property name="label" translatable="yes">Password:</property>
                                           </object>
                                           <packing>
+                                            <property name="left_attach">0</property>
                                             <property name="top_attach">2</property>
-                                            <property name="bottom_attach">3</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3504,10 +3494,9 @@ Requires a Hex value.</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
                                             <property name="top_attach">2</property>
-                                            <property name="bottom_attach">3</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3518,9 +3507,10 @@ Requires a Hex value.</property>
                                             <property name="label" translatable="yes">Hostname:</property>
                                           </object>
                                           <packing>
+                                            <property name="left_attach">0</property>
                                             <property name="top_attach">3</property>
-                                            <property name="bottom_attach">4</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3533,9 +3523,9 @@ Requires a Hex value.</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
                                             <property name="top_attach">3</property>
-                                            <property name="bottom_attach">4</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3546,9 +3536,10 @@ Requires a Hex value.</property>
                                             <property name="label" translatable="yes">Port:</property>
                                           </object>
                                           <packing>
+                                            <property name="left_attach">0</property>
                                             <property name="top_attach">4</property>
-                                            <property name="bottom_attach">5</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3570,10 +3561,9 @@ Requires a Hex value.</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
                                             <property name="top_attach">4</property>
-                                            <property name="bottom_attach">5</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3586,10 +3576,9 @@ Requires a Hex value.</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
                                             <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3606,9 +3595,10 @@ Requires a Hex value.</property>
                                             </child>
                                           </object>
                                           <packing>
-                                            <property name="right_attach">2</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"/>
+                                            <property name="left_attach">2</property>
+                                            <property name="top_attach">0</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3619,9 +3609,10 @@ Requires a Hex value.</property>
                                             <property name="label" translatable="yes">Username:</property>
                                           </object>
                                           <packing>
+                                            <property name="left_attach">3</property>
                                             <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3638,10 +3629,10 @@ the proxy instead of using the local DNS service</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
                                           <packing>
-                                            <property name="right_attach">2</property>
+                                            <property name="left_attach">4</property>
                                             <property name="top_attach">5</property>
-                                            <property name="bottom_attach">6</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3657,10 +3648,10 @@ the proxy instead of using the local DNS service</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
                                           <packing>
-                                            <property name="right_attach">2</property>
+                                            <property name="left_attach">4</property>
                                             <property name="top_attach">6</property>
-                                            <property name="bottom_attach">7</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                       </object>
@@ -3699,13 +3690,11 @@ the proxy instead of using the local DNS service</property>
                                     <property name="left_padding">12</property>
                                     <property name="right_padding">12</property>
                                     <child>
-                                      <object class="GtkTable" id="table5">
+                                      <object class="GtkGrid" id="table5">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="n_rows">2</property>
-                                        <property name="n_columns">2</property>
-                                        <property name="column_spacing">5</property>
                                         <property name="row_spacing">2</property>
+                                        <property name="column_spacing">5</property>
                                         <child>
                                           <object class="GtkLabel" id="label_i2p_host">
                                             <property name="visible">True</property>
@@ -3714,7 +3703,10 @@ the proxy instead of using the local DNS service</property>
                                             <property name="label" translatable="yes">Hostname:</property>
                                           </object>
                                           <packing>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="left_attach">0</property>
+                                            <property name="top_attach">0</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3727,7 +3719,9 @@ the proxy instead of using the local DNS service</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
+                                            <property name="top_attach">0</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3738,9 +3732,10 @@ the proxy instead of using the local DNS service</property>
                                             <property name="label" translatable="yes">Port:</property>
                                           </object>
                                           <packing>
+                                            <property name="left_attach">2</property>
                                             <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3762,10 +3757,9 @@ the proxy instead of using the local DNS service</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
                                             <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                       </object>
@@ -3869,7 +3863,7 @@ the proxy instead of using the local DNS service</property>
                           <object class="GtkBox" id="vbox31">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-							<property name="orientation">vertical</property>
+                            <property name="orientation">vertical</property>
                             <child>
                               <object class="GtkFrame" id="frame32">
                                 <property name="visible">True</property>
@@ -3883,11 +3877,9 @@ the proxy instead of using the local DNS service</property>
                                     <property name="top_padding">5</property>
                                     <property name="left_padding">12</property>
                                     <child>
-                                      <object class="GtkTable" id="table14">
+                                      <object class="GtkGrid" id="table14">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="n_rows">2</property>
-                                        <property name="n_columns">2</property>
                                         <property name="column_spacing">5</property>
                                         <child>
                                           <object class="GtkLabel" id="label114">
@@ -3897,7 +3889,10 @@ the proxy instead of using the local DNS service</property>
                                             <property name="label" translatable="yes">Cache Size (16 KiB blocks):</property>
                                           </object>
                                           <packing>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="left_attach">0</property>
+                                            <property name="top_attach">0</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3910,9 +3905,10 @@ the proxy instead of using the local DNS service</property>
                                             <property name="label" translatable="yes">Cache Expiry (seconds):</property>
                                           </object>
                                           <packing>
+                                            <property name="left_attach">1</property>
                                             <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3930,8 +3926,9 @@ the proxy instead of using the local DNS service</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
-                                            <property name="x_options"/>
+                                            <property name="top_attach">0</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3948,10 +3945,9 @@ the proxy instead of using the local DNS service</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
                                             <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                            <property name="x_options"/>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                       </object>
@@ -3992,7 +3988,7 @@ the proxy instead of using the local DNS service</property>
                                       <object class="GtkBox" id="vbox32">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-										<property name="orientation">vertical</property>
+                                        <property name="orientation">vertical</property>
                                         <child>
                                           <object class="GtkFrame" id="frame34">
                                             <property name="visible">True</property>
@@ -4005,11 +4001,9 @@ the proxy instead of using the local DNS service</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="left_padding">12</property>
                                                 <child>
-                                                  <object class="GtkTable" id="table18">
+                                                  <object class="GtkGrid" id="table18">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="n_rows">3</property>
-                                                    <property name="n_columns">2</property>
                                                     <property name="column_spacing">5</property>
                                                     <child>
                                                       <object class="GtkLabel" id="label116">
@@ -4020,7 +4014,10 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="label" translatable="yes">Blocks Written:</property>
                                                       </object>
                                                       <packing>
-                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="left_attach">0</property>
+                                                        <property name="top_attach">0</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -4032,9 +4029,10 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="label" translatable="yes">Writes:</property>
                                                       </object>
                                                       <packing>
+                                                        <property name="left_attach">1</property>
                                                         <property name="top_attach">1</property>
-                                                        <property name="bottom_attach">2</property>
-                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -4046,9 +4044,10 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="label" translatable="yes">Write Cache Hit Ratio:</property>
                                                       </object>
                                                       <packing>
+                                                        <property name="left_attach">2</property>
                                                         <property name="top_attach">2</property>
-                                                        <property name="bottom_attach">3</property>
-                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -4059,8 +4058,9 @@ the proxy instead of using the local DNS service</property>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
-                                                        <property name="x_options"/>
+                                                        <property name="top_attach">0</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -4071,10 +4071,9 @@ the proxy instead of using the local DNS service</property>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
                                                         <property name="top_attach">1</property>
-                                                        <property name="bottom_attach">2</property>
-                                                        <property name="x_options"/>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -4085,10 +4084,9 @@ the proxy instead of using the local DNS service</property>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
                                                         <property name="top_attach">2</property>
-                                                        <property name="bottom_attach">3</property>
-                                                        <property name="x_options"/>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                   </object>
@@ -4124,11 +4122,9 @@ the proxy instead of using the local DNS service</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="left_padding">12</property>
                                                 <child>
-                                                  <object class="GtkTable" id="table19">
+                                                  <object class="GtkGrid" id="table19">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="n_rows">4</property>
-                                                    <property name="n_columns">2</property>
                                                     <property name="column_spacing">5</property>
                                                     <child>
                                                       <object class="GtkLabel" id="label118">
@@ -4139,7 +4135,10 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="label" translatable="yes">Blocks Read:</property>
                                                       </object>
                                                       <packing>
-                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="left_attach">0</property>
+                                                        <property name="top_attach">0</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -4151,9 +4150,10 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="label" translatable="yes">Blocks Read Hit:</property>
                                                       </object>
                                                       <packing>
+                                                        <property name="left_attach">1</property>
                                                         <property name="top_attach">1</property>
-                                                        <property name="bottom_attach">2</property>
-                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -4165,9 +4165,10 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="label" translatable="yes">Read Cache Hit Ratio:</property>
                                                       </object>
                                                       <packing>
+                                                        <property name="left_attach">2</property>
                                                         <property name="top_attach">3</property>
-                                                        <property name="bottom_attach">4</property>
-                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -4178,8 +4179,9 @@ the proxy instead of using the local DNS service</property>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
-                                                        <property name="x_options"/>
+                                                        <property name="top_attach">0</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -4190,10 +4192,9 @@ the proxy instead of using the local DNS service</property>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
                                                         <property name="top_attach">1</property>
-                                                        <property name="bottom_attach">2</property>
-                                                        <property name="x_options"/>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -4204,10 +4205,9 @@ the proxy instead of using the local DNS service</property>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
                                                         <property name="top_attach">3</property>
-                                                        <property name="bottom_attach">4</property>
-                                                        <property name="x_options"/>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -4220,9 +4220,10 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="label" translatable="yes">Reads:</property>
                                                       </object>
                                                       <packing>
+                                                        <property name="left_attach">2</property>
                                                         <property name="top_attach">2</property>
-                                                        <property name="bottom_attach">3</property>
-                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -4232,10 +4233,9 @@ the proxy instead of using the local DNS service</property>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
                                                         <property name="top_attach">2</property>
-                                                        <property name="bottom_attach">3</property>
-                                                        <property name="x_options"/>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                   </object>
@@ -4271,11 +4271,9 @@ the proxy instead of using the local DNS service</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="left_padding">12</property>
                                                 <child>
-                                                  <object class="GtkTable" id="table20">
+                                                  <object class="GtkGrid" id="table20">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="n_rows">2</property>
-                                                    <property name="n_columns">2</property>
                                                     <property name="column_spacing">5</property>
                                                     <child>
                                                       <object class="GtkLabel" id="label123">
@@ -4286,7 +4284,10 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="label" translatable="yes">Cache Size:</property>
                                                       </object>
                                                       <packing>
-                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="left_attach">0</property>
+                                                        <property name="top_attach">0</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -4297,9 +4298,10 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="label" translatable="yes">Read Cache Size:</property>
                                                       </object>
                                                       <packing>
+                                                        <property name="left_attach">1</property>
                                                         <property name="top_attach">1</property>
-                                                        <property name="bottom_attach">2</property>
-                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -4310,8 +4312,9 @@ the proxy instead of using the local DNS service</property>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
-                                                        <property name="x_options"/>
+                                                        <property name="top_attach">0</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -4322,10 +4325,9 @@ the proxy instead of using the local DNS service</property>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
                                                         <property name="top_attach">1</property>
-                                                        <property name="bottom_attach">2</property>
-                                                        <property name="x_options"/>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                   </object>
@@ -4433,7 +4435,7 @@ the proxy instead of using the local DNS service</property>
                           <object class="GtkBox" id="vbox16">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-							<property name="orientation">vertical</property>
+                            <property name="orientation">vertical</property>
                             <child>
                               <object class="GtkFrame" id="frame20">
                                 <property name="visible">True</property>
@@ -4450,13 +4452,13 @@ the proxy instead of using the local DNS service</property>
                                       <object class="GtkBox" id="vbox19">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-										<property name="orientation">vertical</property>
+                                        <property name="orientation">vertical</property>
                                         <child>
                                           <object class="GtkLabel" id="label44">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="xalign">0</property>
-                                            <property name="label" translatable="yes">Help us improve Deluge by sending us your Python version, PyGTK version, OS and processor types.  Absolutely no other information is sent.</property>
+                                            <property name="label" translatable="yes">Help us improve Deluge by sending us your Python version, GTK version, OS and processor types.  Absolutely no other information is sent.</property>
                                             <property name="wrap">True</property>
                                           </object>
                                           <packing>
@@ -4527,7 +4529,7 @@ the proxy instead of using the local DNS service</property>
                                       <object class="GtkBox" id="vbox29">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-										<property name="orientation">vertical</property>
+                                        <property name="orientation">vertical</property>
                                         <child>
                                           <object class="GtkAlignment" id="alignment50">
                                             <property name="visible">True</property>
@@ -4669,9 +4671,6 @@ the proxy instead of using the local DNS service</property>
                     <property name="position">7</property>
                   </packing>
                 </child>
-                <child type="tab">
-                  <placeholder/>
-                </child>
                 <child>
                   <object class="GtkScrolledWindow" id="DaemonScrolledWindow">
                     <property name="visible">True</property>
@@ -4686,7 +4685,7 @@ the proxy instead of using the local DNS service</property>
                           <object class="GtkBox" id="vbox13">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-							<property name="orientation">vertical</property>
+                            <property name="orientation">vertical</property>
                             <child>
                               <object class="GtkFrame" id="frame14">
                                 <property name="visible">True</property>
@@ -4703,7 +4702,7 @@ the proxy instead of using the local DNS service</property>
                                       <object class="GtkBox" id="vbox14">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-										<property name="orientation">vertical</property>
+                                        <property name="orientation">vertical</property>
                                         <child>
                                           <object class="GtkBox" id="hbox12">
                                             <property name="visible">True</property>
@@ -4884,10 +4883,10 @@ the proxy instead of using the local DNS service</property>
                                           <object class="GtkButtonBox" id="vbuttonbox1">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
+                                            <property name="orientation">vertical</property>
                                             <property name="spacing">5</property>
                                             <property name="homogeneous">True</property>
                                             <property name="layout_style">start</property>
-                                            <property name="orientation">vertical</property>
                                             <child>
                                               <object class="GtkButton" id="accounts_add">
                                                 <property name="label">gtk-add</property>
@@ -4979,9 +4978,6 @@ the proxy instead of using the local DNS service</property>
                     <property name="position">8</property>
                   </packing>
                 </child>
-                <child type="tab">
-                  <placeholder/>
-                </child>
                 <child>
                   <object class="GtkScrolledWindow" id="PluginsScrolledWindow">
                     <property name="visible">True</property>
@@ -4996,11 +4992,12 @@ the proxy instead of using the local DNS service</property>
                           <object class="GtkBox" id="vbox28">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-							<property name="orientation">vertical</property>
+                            <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkVPaned" id="vpaned1">
+                              <object class="GtkPaned" id="vpaned1">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="orientation">vertical</property>
                                 <child>
                                   <object class="GtkScrolledWindow" id="scrolledwindow12">
                                     <property name="visible">True</property>
@@ -5044,11 +5041,9 @@ the proxy instead of using the local DNS service</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="left_padding">12</property>
                                                 <child>
-                                                  <object class="GtkTable" id="table10">
+                                                  <object class="GtkGrid" id="table10">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="n_rows">5</property>
-                                                    <property name="n_columns">2</property>
                                                     <property name="column_spacing">5</property>
                                                     <child>
                                                       <object class="GtkLabel" id="label_plugin_details">
@@ -5058,10 +5053,9 @@ the proxy instead of using the local DNS service</property>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
                                                         <property name="top_attach">4</property>
-                                                        <property name="bottom_attach">5</property>
-                                                        <property name="y_options">GTK_FILL</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -5072,10 +5066,9 @@ the proxy instead of using the local DNS service</property>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
                                                         <property name="top_attach">1</property>
-                                                        <property name="bottom_attach">2</property>
-                                                        <property name="y_options">GTK_FILL</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -5086,8 +5079,9 @@ the proxy instead of using the local DNS service</property>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
-                                                        <property name="y_options"/>
+                                                        <property name="top_attach">0</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -5099,10 +5093,10 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="label" translatable="yes">Details:</property>
                                                       </object>
                                                       <packing>
+                                                        <property name="left_attach">2</property>
                                                         <property name="top_attach">4</property>
-                                                        <property name="bottom_attach">5</property>
-                                                        <property name="x_options">GTK_FILL</property>
-                                                        <property name="y_options">GTK_FILL</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -5113,10 +5107,10 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="label" translatable="yes">Version:</property>
                                                       </object>
                                                       <packing>
+                                                        <property name="left_attach">2</property>
                                                         <property name="top_attach">1</property>
-                                                        <property name="bottom_attach">2</property>
-                                                        <property name="x_options">GTK_FILL</property>
-                                                        <property name="y_options">GTK_FILL</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -5127,8 +5121,10 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="label" translatable="yes">Author:</property>
                                                       </object>
                                                       <packing>
-                                                        <property name="x_options">GTK_FILL</property>
-                                                        <property name="y_options">GTK_FILL</property>
+                                                        <property name="left_attach">3</property>
+                                                        <property name="top_attach">0</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -5139,10 +5135,10 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="label" translatable="yes">Homepage:</property>
                                                       </object>
                                                       <packing>
+                                                        <property name="left_attach">4</property>
                                                         <property name="top_attach">3</property>
-                                                        <property name="bottom_attach">4</property>
-                                                        <property name="x_options">GTK_FILL</property>
-                                                        <property name="y_options">GTK_FILL</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -5153,10 +5149,10 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="label" translatable="yes">Author Email:</property>
                                                       </object>
                                                       <packing>
+                                                        <property name="left_attach">4</property>
                                                         <property name="top_attach">2</property>
-                                                        <property name="bottom_attach">3</property>
-                                                        <property name="x_options">GTK_FILL</property>
-                                                        <property name="y_options">GTK_FILL</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -5167,10 +5163,9 @@ the proxy instead of using the local DNS service</property>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
                                                         <property name="top_attach">3</property>
-                                                        <property name="bottom_attach">4</property>
-                                                        <property name="y_options">GTK_FILL</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -5181,10 +5176,9 @@ the proxy instead of using the local DNS service</property>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
                                                         <property name="top_attach">2</property>
-                                                        <property name="bottom_attach">3</property>
-                                                        <property name="y_options">GTK_FILL</property>
+                                                        <property name="width">1</property>
+                                                        <property name="height">1</property>
                                                       </packing>
                                                     </child>
                                                   </object>
@@ -5307,15 +5301,6 @@ the proxy instead of using the local DNS service</property>
                   <packing>
                     <property name="position">9</property>
                   </packing>
-                </child>
-                <child type="tab">
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child type="tab">
-                  <placeholder/>
                 </child>
               </object>
               <packing>
