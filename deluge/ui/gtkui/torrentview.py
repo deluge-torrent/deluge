@@ -498,7 +498,7 @@ class TorrentView(ListView, component.Component):
                 # Update fields in the liststore
                 if to_update:
                     # FIXME: exceptions.ValueError: Expected a float for column 25 but got <type 'int'>
-                    # self.liststore.set(row.iter, *to_update)
+                    self.liststore.set(row.iter, *to_update)
                     pass
 
         if load_new_list:
