@@ -30,6 +30,8 @@ from deluge.ui.gtkui.dialogs import ErrorDialog
 from deluge.ui.gtkui.path_chooser import PathChooser
 from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
 
+from . import util
+
 pygtk.require('2.0')
 
 log = logging.getLogger(__name__)
@@ -119,6 +121,14 @@ class AddTorrentDialog(component.Component):
 
         self.listview_files.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
         self.listview_torrents.get_selection().connect("changed", self._on_torrent_changed)
+
+        # Setup popup in torrent list to copy torrent title to clipboard
+        self.torrentlist_popup_menu = gtk.Menu()
+        menuitem_copy_title = gtk.MenuItem("Copy title to clipboard")
+        menuitem_copy_title.connect("activate", self._on_button_copy_title_to_clipboard)
+        self.torrentlist_popup_menu.append(menuitem_copy_title)
+        self.listview_torrents.connect('button-press-event', self._on_mouse_button_press_event,
+                                       self.torrentlist_popup_menu)
 
         self.setup_move_completed_path_chooser()
         self.setup_download_location_path_chooser()
@@ -901,3 +911,31 @@ class AddTorrentDialog(component.Component):
             # Walk through the tree from 'itr' and add all the new file paths
             # to the 'mapped_files' option
             walk_tree(itr)
+
+    def _on_alocation_toggled(self, widget):
+        full_allocation_active = self.builder.get_object("radio_full").get_active()
+        self.builder.get_object("chk_prioritize").set_sensitive(full_allocation_active)
+        self.builder.get_object("chk_sequential_download").set_sensitive(full_allocation_active)
+
+    def _on_button_copy_title_to_clipboard(self, menuitem):
+        torrent_title = util.get_treeview_value_in_selected_row(self.listview_torrents,
+                                                                self.torrent_liststore,
+                                                                column_index=1)
+        if torrent_title is not None:
+            gtk.clipboard_get().set_text(torrent_title)
+
+    def _on_mouse_button_press_event(self, treeview, event, popupmenu):
+        """ Shows popup on selected row when right clicking """
+        it, cursor_path = util.popup_menu_helper(treeview, event, popupmenu)
+        if it is None:
+            return
+        link = treeview.get_model().get_value(it, 0)
+        if link is None:
+            return False
+        if cursor_path is not None:
+            path, col, cellx, celly = cursor_path
+            treeview.grab_focus()
+            popupmenu.popup(None, None, None, event.button, event.time, data=path)
+            popupmenu.show_all()
+        return True
+
