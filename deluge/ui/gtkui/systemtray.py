@@ -29,7 +29,7 @@ log = logging.getLogger(__name__)
 
 class SystemTray(component.Component):
     def __init__(self):
-        component.Component.__init__(self, "SystemTray", interval=4)
+        component.Component.__init__(self, "SystemTray")
         self.window = component.get("MainWindow")
         self.config = ConfigManager("gtkui.conf")
         # List of widgets that need to be hidden when not connected to a host
