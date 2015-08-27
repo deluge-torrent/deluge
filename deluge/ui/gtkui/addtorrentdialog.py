@@ -8,6 +8,7 @@
 #
 
 import base64
+import cgi
 import logging
 import os
 from urlparse import urljoin
@@ -68,7 +69,6 @@ class AddTorrentDialog(component.Component):
             "on_chk_move_completed_toggled": self._on_chk_move_completed_toggled
         })
 
-        self.torrent_liststore = gtk.ListStore(str, str, str)
         # download?, path, filesize, sequence number, inconsistent?
         self.files_treestore = gtk.TreeStore(
             bool, str, gobject.TYPE_UINT64, gobject.TYPE_INT64, bool, str)
@@ -112,7 +112,9 @@ class AddTorrentDialog(component.Component):
         column.set_cell_data_func(render, cell_data_size, 2)
         self.listview_files.append_column(column)
 
+        self.torrent_liststore = gtk.ListStore(str, str, str)
         self.listview_torrents.set_model(self.torrent_liststore)
+        self.listview_torrents.set_tooltip_column(2)
         self.listview_files.set_model(self.files_treestore)
 
         self.listview_files.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
@@ -223,24 +225,13 @@ class AddTorrentDialog(component.Component):
         new_row = None
 
         for uri in uris:
-            s = uri.split("&")[0][20:]
-            if len(s) == 32:
-                info_hash = base64.b32decode(s).encode("hex")
-            elif len(s) == 40:
-                info_hash = s
-            if info_hash in self.infos:
-                log.debug("Torrent already in list!")
+            magnet = deluge.common.get_magnet_info(uri)
+            if magnet["info_hash"] in self.infos:
+                log.info("Torrent already in Add Dialog list!")
                 continue
-            name = None
-            for i in uri.split("&"):
-                if i[:3] == "dn=":
-                    name = "%s (%s)" % (i.split("=")[1], uri)
-            if not name:
-                name = uri
-            new_row = self.torrent_liststore.append(
-                [info_hash, name, uri])
-            self.files[info_hash] = []
-            self.infos[info_hash] = None
+            new_row = self.torrent_liststore.append([magnet["info_hash"], magnet["name"], cgi.escape(uri)])
+            self.files[magnet["info_hash"]] = magnet["files_tree"]
+            self.infos[magnet["info_hash"]] = None
             self.listview_torrents.get_selection().select_iter(new_row)
             self.set_default_options()
             self.save_torrent_options(new_row)

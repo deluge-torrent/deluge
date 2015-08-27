@@ -51,6 +51,7 @@ class QueuedTorrents(component.Component):
 
         self.liststore = gtk.ListStore(str, str)
         self.treeview.set_model(self.liststore)
+        self.treeview.set_tooltip_column(1)
 
     def run(self):
         self.dialog.set_transient_for(component.get("MainWindow").window)
@@ -84,7 +85,11 @@ class QueuedTorrents(component.Component):
         # Update the liststore
         self.liststore.clear()
         for torrent in self.queue:
-            self.liststore.append([os.path.split(torrent)[1], torrent])
+            if deluge.common.is_magnet(torrent):
+                magnet = deluge.common.get_magnet_info(torrent)
+                row = self.liststore.append([magnet["name"], torrent])
+            else:
+                self.liststore.append([os.path.split(torrent)[1], torrent])
 
         # Update the status bar
         self.update_status_bar()
