@@ -365,7 +365,7 @@ class FilesTab(Tab):
         for key, value in split_files.iteritems():
             if key.endswith("/"):
                 chunk_iter = self.treestore.append(parent_iter,
-                                                   [key, 0, "", float(0), 0, -1, Gtk.STOCK_DIRECTORY])
+                                                   [key, 0, "", 0, 0, -1, Gtk.STOCK_DIRECTORY])
                 chunk_size = self.add_files(chunk_iter, value)
                 self.treestore.set(chunk_iter, 1, chunk_size)
                 ret += chunk_size
