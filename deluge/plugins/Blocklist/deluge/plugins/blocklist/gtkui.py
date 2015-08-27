@@ -160,10 +160,8 @@ class GtkUI(GtkPluginBase):
         self.main_builder.connect_signals({
             "on_button_check_download_clicked": self._on_button_check_download_clicked,
             "on_button_force_download_clicked": self._on_button_force_download_clicked,
-            'on_whitelist_add_clicked': (self.on_add_button_clicked,
-                                         self.whitelist_treeview),
-            'on_whitelist_remove_clicked': (self.on_delete_button_clicked,
-                                            self.whitelist_treeview),
+            "on_whitelist_add_clicked": self.on_add_button_clicked,
+            "on_whitelist_remove_clicked": self.on_delete_button_clicked,
         })
 
         # Set button icons
@@ -217,11 +215,13 @@ class GtkUI(GtkPluginBase):
         else:
             self.main_builder.get_object("whitelist_delete").set_property('sensitive', False)
 
-    def on_add_button_clicked(self, widget, treeview):
+    def on_add_button_clicked(self, widget):
+        treeview = self.whitelist_treeview
         model = treeview.get_model()
         model.set(model.append(), 0, "IP HERE", 1, True)
 
-    def on_delete_button_clicked(self, widget, treeview):
+    def on_delete_button_clicked(self, widget):
+        treeview = self.whitelist_treeview
         selection = treeview.get_selection()
         model, iter = selection.get_selected()
         if iter:
