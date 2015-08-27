@@ -86,6 +86,8 @@ class AddTorrentDialog(component.Component):
         self.listview_files = self.builder.get_object("listview_files")
 
         render = gtk.CellRendererText()
+        render.connect('edited', self._on_torrent_name_edit)
+        render.set_property('editable', True)
         column = gtk.TreeViewColumn(_("Torrent"), render, text=1)
         self.listview_torrents.append_column(column)
 
@@ -266,6 +268,10 @@ class AddTorrentDialog(component.Component):
         self.update_torrent_options(model.get_value(row, 0))
 
         self.previous_selected_torrent = row
+
+    def _on_torrent_name_edit(self, w, row, new_name):
+        # TODO: Update torrent name
+        pass
 
     def _on_switch_page(self, widget, page, page_num):
         # Save the torrent options when switching notebook pages
