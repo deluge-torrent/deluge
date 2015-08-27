@@ -69,6 +69,7 @@ class GtkUI(GtkPluginBase):
                 self.main_builder.get_object("button_force_download").set_sensitive(False)
                 self.main_builder.get_object("image_up_to_date").hide()
 
+                self.progress_bar.set_show_text(True)
                 self.status_item.set_text(
                     "Downloading %.2f%%" % (status["file_progress"] * 100))
                 self.progress_bar.set_text("Downloading %.2f%%" % (status["file_progress"] * 100))
@@ -81,6 +82,7 @@ class GtkUI(GtkPluginBase):
                 self.main_builder.get_object("button_force_download").set_sensitive(False)
                 self.main_builder.get_object("image_up_to_date").hide()
 
+                self.progress_bar.set_show_text(True)
                 self.status_item.set_text(
                     "Importing " + str(status["num_blocked"]))
                 self.progress_bar.set_text("Importing %s" % (status["num_blocked"]))

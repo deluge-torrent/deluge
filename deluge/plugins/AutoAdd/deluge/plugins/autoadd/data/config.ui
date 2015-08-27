@@ -23,7 +23,6 @@
                 <property name="can_focus">False</property>
                 <property name="border_width">3</property>
                 <property name="orientation">vertical</property>
-                <signal name="parent-set" handler="on_parent_set" swapped="no"/>
                 <child>
                   <object class="GtkFrame" id="frame1">
                     <property name="visible">True</property>
