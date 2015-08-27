@@ -298,7 +298,8 @@ class ValueList(object):
             if swap:
                 p1 = self.tree_store[path][0]
                 p2 = self.tree_store[new_path][0]
-                self.tree_store.swap(self.tree_store.get_iter(path), self.tree_store.get_iter(new_path))
+                self.tree_store.swap(self.tree_store.get_iter(path),
+                                     self.tree_store.get_iter(new_path))
                 self.emit("list-values-reordered", [p1, p2])
                 self.emit("list-values-changed", self.get_values())
             path = new_path
@@ -1052,7 +1053,6 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
         # Change the parent of the hbox from the glade Window to this hbox.
         self.combo_hbox.reparent(self)
         StoredValuesPopup.__init__(self, self.builder, self, max_visible_rows, self.combo_hbox)
-        self.tooltips = gtk.Tooltips()
 
         self.auto_completer = PathAutoCompleter(self.builder, self, max_visible_rows)
         self.auto_completer.set_use_popup(use_completer_popup)
@@ -1094,11 +1094,10 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
         self.text_entry.select_region(0, 0)
         self.text_entry.set_position(len(text) if cursor_end else 0)
         self.set_selected_value(text, select_first=True)
-        self.tooltips.set_tip(self.combo_hbox, text)
+        self.combo_hbox.set_tooltip_text(text)
         if default_text:
             self.default_text = text
-            self.tooltips.set_tip(self.button_default,
-                                  "Restore the default value in the text entry:\n%s" % self.default_text)
+            self.button_default.set_tooltip_text("Restore the default value in the text entry:\n%s" % self.default_text)
             self.button_default.set_sensitive(True)
         # Set text for the filechooser dialog button
         folder_name = ""
@@ -1440,7 +1439,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
 
         def set_accelerator(widget):
             self.setting_accelerator_key = True
-            self.tooltips.set_tip(set_key_button, "Press the accelerator keys for triggering auto-completion")
+            set_key_button.set_tooltip_text("Press the accelerator keys for triggering auto-completion")
             self._set_properties_widgets_sensitive(False)
             return True
 
@@ -1449,7 +1448,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
             self._set_properties_widgets_sensitive(True)
             set_key_button.set_active(False)
             # Restore default tooltip
-            self.tooltips.set_tip(set_key_button, default_set_accelerator_tooltip)
+            set_key_button.set_tooltip_text(default_set_accelerator_tooltip)
 
         def on_completion_config_dialog_key_release_event(widget, event):
             # We are listening for a new key
