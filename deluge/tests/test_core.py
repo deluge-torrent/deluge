@@ -69,7 +69,8 @@ class TopLevelResource(Resource):
 
 
 class CoreTestCase(BaseTestCase):
-    def setUp(self):  # NOQA
+
+    def set_up(self):
         common.set_tmp_config_dir()
         self.rpcserver = RPCServer(listen=False)
         self.core = Core()
@@ -94,7 +95,7 @@ class CoreTestCase(BaseTestCase):
             raise error
         return result
 
-    def tearDown(self):  # NOQA
+    def tear_down(self):
 
         def on_shutdown(result):
             del self.rpcserver

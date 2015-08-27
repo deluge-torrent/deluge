@@ -25,9 +25,9 @@ class BaseTestCase(unittest.TestCase):
         d = maybeDeferred(self.tear_down)
 
         def on_teared_down(result):
-            if len(component._ComponentRegistry.components) != 0:
-                warnings.warn("The component._ComponentRegistry.components is not empty after the test finished!: %s" %
-                              component._ComponentRegistry.components)
+            component._ComponentRegistry.components.clear()
+            component._ComponentRegistry.dependents.clear()
+
         return d.addCallback(on_teared_down)
 
     def set_up(self):
