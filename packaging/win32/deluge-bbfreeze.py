@@ -54,9 +54,8 @@ build_version = deluge.common.get_version()
 python_path = os.path.dirname(sys.executable)
 if python_path.endswith("Scripts"):
     python_path = python_path[:-8]
-python_path += os.path.sep
-gtk_root = os.path.join(gtk.__path__[0], "..", "runtime") + os.path.sep
-build_dir = "..\\build-win32\\deluge-bbfreeze-" + build_version + "\\"
+gtk_root = os.path.join(gtk.__path__[0], "..", "runtime")
+build_dir = os.path.join("build-win32", "deluge-bbfreeze-" + build_version)
 
 if DEBUG:
     print("Python Path: %s" % python_path)
@@ -89,7 +88,7 @@ fzr.setIcon(os.path.join(os.path.dirname(deluge.common.__file__), "ui", "data", 
 # Hide cmd console popup for these console entries force gui_script True.
 force_gui = ["deluge-web", "deluged", "deluge-console"]
 script_list = []
-for script in glob.glob(python_path + "Scripts\\deluge*-script.py*"):
+for script in glob.glob(os.path.join(python_path, "Scripts\\deluge*-script.py*")):
     # Copy the scripts to remove the '-script' suffix before adding to freezer.
     new_script = script.replace("-script", "")
     shutil.copy(script, new_script)

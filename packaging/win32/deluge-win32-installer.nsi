@@ -25,7 +25,7 @@ SetCompressorDictSize 64
 !define PROGRAM_WEB_SITE "http://deluge-torrent.org"
 
 # Python files generated with bbfreeze
-!define BUILD_DIR "..\build-win32"
+!define BUILD_DIR "build-win32"
 !define BBFREEZE_DIR "${BUILD_DIR}\deluge-bbfreeze-${PROGRAM_VERSION}"
 
 # --- Interface settings ---
