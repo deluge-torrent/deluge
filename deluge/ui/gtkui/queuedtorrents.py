@@ -87,7 +87,7 @@ class QueuedTorrents(component.Component):
         for torrent in self.queue:
             if deluge.common.is_magnet(torrent):
                 magnet = deluge.common.get_magnet_info(torrent)
-                row = self.liststore.append([magnet["name"], torrent])
+                self.liststore.append([magnet["name"], torrent])
             else:
                 self.liststore.append([os.path.split(torrent)[1], torrent])
 
