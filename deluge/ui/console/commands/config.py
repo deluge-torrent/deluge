@@ -13,8 +13,6 @@ import logging
 import tokenize
 from optparse import make_option
 
-from twisted.internet import defer
-
 import deluge.component as component
 import deluge.ui.console.colors as colors
 from deluge.ui.client import client
@@ -82,34 +80,33 @@ class Command(BaseCommand):
             return self._get_config(*args, **options)
 
     def _get_config(self, *args, **options):
-        config = component.get("CoreConfig")
-        keys = config.keys()
-        keys.sort()
-        s = ""
-        for key in keys:
-            if args and key not in args:
-                continue
-            color = "{!white,black,bold!}"
-            value = config[key]
-            if type(value) in colors.type_color:
-                color = colors.type_color[type(value)]
+        def _on_get_config(config):
+            keys = config.keys()
+            keys.sort()
+            s = ""
+            for key in keys:
+                if args and key not in args:
+                    continue
+                color = "{!white,black,bold!}"
+                value = config[key]
+                if type(value) in colors.type_color:
+                    color = colors.type_color[type(value)]
 
-            # We need to format dicts for printing
-            if isinstance(value, dict):
-                import pprint
-                value = pprint.pformat(value, 2, 80)
-                new_value = []
-                for line in value.splitlines():
-                    new_value.append("%s%s" % (color, line))
-                value = "\n".join(new_value)
+                # We need to format dicts for printing
+                if isinstance(value, dict):
+                    import pprint
+                    value = pprint.pformat(value, 2, 80)
+                    new_value = []
+                    for line in value.splitlines():
+                        new_value.append("%s%s" % (color, line))
+                    value = "\n".join(new_value)
 
-            s += "  %s: %s%s\n" % (key, color, value)
+                s += "  %s: %s%s\n" % (key, color, value)
+            self.console.write(s)
 
-        self.console.write(s)
-        return config
+        return client.core.get_config().addCallback(_on_get_config)
 
     def _set_config(self, *args, **options):
-        deferred = defer.Deferred()
         config = component.get("CoreConfig")
         key = options["set"][0]
         val = simple_eval(options["set"][1] + " " .join(args))
@@ -127,11 +124,9 @@ class Command(BaseCommand):
 
         def on_set_config(result):
             self.console.write("{!success!}Configuration value successfully updated.")
-            deferred.callback(True)
 
         self.console.write("Setting %s to %s.." % (key, val))
-        client.core.set_config({key: val}).addCallback(on_set_config)
-        return deferred
+        return client.core.set_config({key: val}).addCallback(on_set_config)
 
     def complete(self, text):
         return [k for k in component.get("CoreConfig").keys() if k.startswith(text)]
