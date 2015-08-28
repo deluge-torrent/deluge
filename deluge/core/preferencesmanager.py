@@ -337,11 +337,10 @@ class PreferencesManager(component.Component):
 
     def _on_set_utpex(self, key, value):
         log.debug("utpex value set to %s", value)
-        if value:
-            # Note: All libtorrent python bindings to set plugins/extensions need to be disabled
-            # due to  GIL issue. https://code.google.com/p/libtorrent/issues/detail?id=369
-            #self.session.add_extension(lt.create_ut_pex_plugin)
-            pass
+        # In libtorrent versions below 0.16.7.0 disable extension bindings due to GIL issue.
+        # https://code.google.com/p/libtorrent/issues/detail?id=369
+        if value and deluge.common.VersionSplit(lt.version) >= deluge.common.VersionSplit("0.16.7.0"):
+            self.session.add_extension("ut_pex")
 
     def _on_set_encryption(self, key, value):
         log.debug("encryption value %s set to %s..", key, value)
