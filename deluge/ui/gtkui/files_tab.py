@@ -371,7 +371,7 @@ class FilesTab(Tab):
                 ret += chunk_size
             else:
                 self.treestore.append(parent_iter, [key,
-                                      value[1]["size"], "", 0, 0, value[0], Gtk.STOCK_FILE])
+                                      value[1]["size"], "", float(0), 0, value[0], Gtk.STOCK_FILE])
                 ret += value[1]["size"]
         return ret
 
