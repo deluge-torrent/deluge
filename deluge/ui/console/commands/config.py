@@ -101,8 +101,8 @@ class Command(BaseCommand):
                         new_value.append("%s%s" % (color, line))
                     value = "\n".join(new_value)
 
-                s += "  %s: %s%s\n" % (key, color, value)
-            self.console.write(s)
+                s += "%s: %s%s\n" % (key, color, value)
+            self.console.write(s.strip())
 
         return client.core.get_config().addCallback(_on_get_config)
 
