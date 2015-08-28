@@ -286,7 +286,7 @@ def cell_data_date(column, cell, model, row, data):
         return
     func_last_value["cell_data_date"] = date
 
-    date_str = common.fdate(date) if date > 0.0 else ""
+    date_str = common.fdate(date) if date > 0 else ""
     cell.set_property('text', date_str)
 
 
