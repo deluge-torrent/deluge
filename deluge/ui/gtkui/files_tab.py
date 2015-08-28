@@ -93,7 +93,7 @@ class FilesTab(Tab):
 
         self.listview = builder.get_object("files_listview")
         # filename, size, progress string, progress value, priority, file index, icon id
-        self.treestore = Gtk.TreeStore(str, GObject.TYPE_UINT64, str, float, int, int, str)
+        self.treestore = Gtk.TreeStore(str, GObject.TYPE_UINT64, str, int, int, int, str)
         self.treestore.set_sort_column_id(0, Gtk.SortType.ASCENDING)
 
         # We need to store the row that's being edited to prevent updating it until
@@ -371,7 +371,7 @@ class FilesTab(Tab):
                 ret += chunk_size
             else:
                 self.treestore.append(parent_iter, [key,
-                                      value[1]["size"], "", float(0), 0, value[0], Gtk.STOCK_FILE])
+                                      value[1]["size"], "", 0, 0, value[0], Gtk.STOCK_FILE])
                 ret += value[1]["size"]
         return ret
 
