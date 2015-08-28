@@ -111,11 +111,9 @@ class AddTorrentDialog(component.Component):
         column.set_cell_data_func(render, cell_data_size, 2)
         self.listview_files.append_column(column)
 
-        self.torrent_liststore = gtk.ListStore(str, str, str)
-        self.listview_torrents.set_model(self.torrent_liststore)
-        self.listview_torrents.set_tooltip_column(2)
-        self.treeview_torrents.set_model(self.torrent_liststore)
-        self.listview_files.set_model(self.files_treestore)
+        self.torrent_liststore = Gtk.ListStore(str, str, str)
+        self.listview_files.set_model(self.torrent_liststore)
+        self.listview_files.set_tooltip_column(2)
 
         self.listview_files.get_selection().set_mode(Gtk.SelectionMode.MULTIPLE)
         self.treeview_torrents.get_selection().connect("changed", self._on_torrent_changed)
