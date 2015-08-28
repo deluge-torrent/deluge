@@ -80,7 +80,7 @@ def cell_data_statusicon(column, cell, model, row, data):
     except KeyError:
         pass
 
-
+# FIXME: ????
 # from array import array
 # from gi.repository import Gtk as gtk, GdkPixbuf
 #

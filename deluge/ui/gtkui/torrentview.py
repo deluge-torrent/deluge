@@ -462,8 +462,6 @@ class TorrentView(ListView, component.Component):
                     if status_field in status[torrent_id]:
                         fields_to_update.append((column_index[i], status_field))
 
-        # print "fields_to_update:", fields_to_update
-
         for row in self.liststore:
             torrent_id = row[self.columns["torrent_id"].column_indices[0]]
             # We expect the torrent_id to be in status and prev_status,
