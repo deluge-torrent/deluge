@@ -1460,7 +1460,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="xalign">0.5</property>
+                                    <property name="xalign">0</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_chk_toggled" swapped="no"/>
                                   </object>
@@ -1477,7 +1477,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="xalign">0.5</property>
+                                    <property name="xalign">0</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_chk_toggled" swapped="no"/>
                                   </object>
@@ -1494,7 +1494,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="xalign">0.5</property>
+                                    <property name="xalign">0</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_chk_toggled" swapped="no"/>
                                   </object>
@@ -1511,7 +1511,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="xalign">0.5</property>
+                                    <property name="xalign">0</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_chk_move_completed_toggled" swapped="no"/>
                                   </object>
@@ -1562,7 +1562,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="xalign">0.5</property>
+                                    <property name="xalign">0</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_chk_toggled" swapped="no"/>
                                   </object>
@@ -1579,7 +1579,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="xalign">0.5</property>
+                                    <property name="xalign">0</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_chk_stop_at_ratio_toggled" swapped="no"/>
                                   </object>
@@ -1627,7 +1627,7 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
-                                        <property name="xalign">0.5</property>
+                                        <property name="xalign">0</property>
                                         <property name="draw_indicator">True</property>
                                         <signal name="toggled" handler="on_chk_toggled" swapped="no"/>
                                       </object>
