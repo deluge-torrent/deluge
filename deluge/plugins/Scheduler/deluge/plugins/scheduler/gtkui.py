@@ -12,7 +12,6 @@
 #
 
 import logging
-import pygtkcompat
 
 from gi.repository import Gtk, Gdk
 
@@ -21,9 +20,6 @@ from deluge.plugins.pluginbase import GtkPluginBase
 from deluge.ui.client import client
 
 from .common import get_resource
-
-pygtkcompat.enable()
-pygtkcompat.enable_gtk(version='3.0')
 
 log = logging.getLogger(__name__)
 
@@ -83,7 +79,7 @@ class SchedulerSelectWidget(Gtk.DrawingArea):
 
     # coordinates --> which box
     def get_point(self, event):
-        alloc = Gtk.Window.get_allocation(self)
+        alloc = Gtk.Window.get_allocation(Gtk.Window())
         x, y, w, h = alloc.x, alloc.y, alloc.width, alloc.height
         width = w
         height = h
@@ -218,9 +214,9 @@ class GtkUI(GtkPluginBase):
         hbox = Gtk.HBox(False, 5)
         vbox_days = Gtk.VBox()
         for day in DAYS:
-            vbox_days.pack_start(Gtk.Label(day, True, True, 0))
-        hbox.pack_start(vbox_days, False, False)
-        hbox.pack_start(self.scheduler_select, True, True)
+            vbox_days.pack_start(Gtk.Label(day), True, True, 0)
+        hbox.pack_start(vbox_days, False, False, 0)
+        hbox.pack_start(self.scheduler_select, True, True, 0)
         frame = Gtk.Frame()
         label = Gtk.Label()
         label.set_markup("<b>Schedule</b>")
@@ -228,7 +224,7 @@ class GtkUI(GtkPluginBase):
         frame.set_shadow_type(Gtk.ShadowType.NONE)
         frame.add(hbox)
 
-        vbox.pack_start(frame, True, True)
+        vbox.pack_start(frame, True, True, 0)
         vbox.pack_start(hover, True, True, 0)
 
         table = Gtk.Table(3, 4)
@@ -288,7 +284,7 @@ class GtkUI(GtkPluginBase):
         frame.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse("#CDB400"))
         frame.set_border_width(2)
         frame.add(eventbox)
-        vbox.pack_start(frame, False, False)
+        vbox.pack_start(frame, False, False, 0)
 
         vbox.show_all()
         component.get("Preferences").add_page(_("Scheduler"), vbox)
