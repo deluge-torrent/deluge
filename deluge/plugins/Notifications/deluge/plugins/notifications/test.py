@@ -85,11 +85,13 @@ class TestEmailNotifications(component.Component):
         message = "%s Popup Message: %s" % (self.events[0].__class__.__name__, self.n)
         return title, message
 
-    def custom_blink_message_provider(self, *evt_args, **evt_kwargs):
+    @staticmethod
+    def custom_blink_message_provider(*evt_args, **evt_kwargs):
         log.debug("Running custom blink message provider: %s %s", evt_args, evt_kwargs)
         return True
 
-    def custom_sound_message_provider(self, *evt_args, **evt_kwargs):
+    @staticmethod
+    def custom_sound_message_provider(*evt_args, **evt_kwargs):
         log.debug("Running custom sound message provider: %s %s", evt_args, evt_kwargs)
         return ''
-        return '/usr/share/kde4/apps/korganizer/sounds/alert.wav'
+        # return '/usr/share/kde4/apps/korganizer/sounds/alert.wav'

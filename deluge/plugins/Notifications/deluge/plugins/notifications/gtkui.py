@@ -199,10 +199,12 @@ class GtkUiNotifications(CustomNotifications):
             log.info(msg)
             return defer.succeed(msg)
 
-    def _on_torrent_finished_event_blink(self, torrent_id):
+    @staticmethod
+    def _on_torrent_finished_event_blink(torrent_id):
         return True  # Yes, Blink
 
-    def _on_torrent_finished_event_sound(self, torrent_id):
+    @staticmethod
+    def _on_torrent_finished_event_sound(torrent_id):
         # Since there's no custom sound hardcoded, just return ''
         return ''
 
@@ -212,10 +214,12 @@ class GtkUiNotifications(CustomNotifications):
         d.addErrback(self._on_torrent_finished_event_torrent_status_failure)
         return d
 
-    def _on_torrent_finished_event_torrent_status_failure(self, failure):
+    @staticmethod
+    def _on_torrent_finished_event_torrent_status_failure(failure):
         log.debug("Failed to get torrent status to be able to show the popup")
 
-    def _on_torrent_finished_event_got_torrent_status(self, torrent_status):
+    @staticmethod
+    def _on_torrent_finished_event_got_torrent_status(torrent_status):
         log.debug("Handler for TorrentFinishedEvent GTKUI called. "
                   "Got Torrent Status")
         title = _("Finished Torrent")
@@ -505,7 +509,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         client.notifications.get_config().addCallback(self.cb_get_config)
 
     def cb_get_config(self, core_config):
-        "callback for on show_prefs"
+        """callback for on show_prefs"""
         self.glade.get_widget("smtp_host").set_text(core_config["smtp_host"])
         self.glade.get_widget("smtp_port").set_value(core_config["smtp_port"])
         self.glade.get_widget("smtp_user").set_text(core_config["smtp_user"])
@@ -548,19 +552,22 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
             self.populate_sounds
         )
 
-    def on_add_button_clicked(self, widget, treeview):
+    @staticmethod
+    def on_add_button_clicked(widget, treeview):
         model = treeview.get_model()
         model.set(model.append(),
                   RECIPIENT_FIELD, "USER@HOST",
                   RECIPIENT_EDIT, True)
 
-    def on_delete_button_clicked(self, widget, treeview):
+    @staticmethod
+    def on_delete_button_clicked(widget, treeview):
         selection = treeview.get_selection()
         model, iter = selection.get_selected()
         if iter:
             model.remove(iter)
 
-    def on_cell_edited(self, cell, path_string, new_text, model):
+    @staticmethod
+    def on_cell_edited(cell, path_string, new_text, model):
         iter = model.get_iter_from_string(path_string)
         model.set(iter, RECIPIENT_FIELD, new_text)
 

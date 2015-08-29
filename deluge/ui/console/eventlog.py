@@ -84,7 +84,7 @@ class EventLog(component.Component):
 
     def on_new_version_available_event(self, version):
         self.write("{!input!}New Deluge version available: {!info!}%s" %
-                   (version))
+                   version)
 
     def on_session_paused_event(self):
         self.write("{!input!}Session Paused")

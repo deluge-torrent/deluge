@@ -185,13 +185,6 @@ Date: %(date)s
         ) % torrent_status
         return subject, message
 
-        d = defer.maybeDeferred(self.handle_custom_email_notification,
-                                [subject, message],
-                                "TorrentFinishedEvent")
-        d.addCallback(self._on_notify_sucess, 'email')
-        d.addErrback(self._on_notify_failure, 'email')
-        return d
-
 
 class Core(CorePluginBase, CoreNotifications):
     def __init__(self, plugin_name):
@@ -210,14 +203,14 @@ class Core(CorePluginBase, CoreNotifications):
 
     @export
     def set_config(self, config):
-        "sets the config dictionary"
+        """sets the config dictionary"""
         for key in config.keys():
             self.config[key] = config[key]
         self.config.save()
 
     @export
     def get_config(self):
-        "returns the config dictionary"
+        """returns the config dictionary"""
         return self.config.config
 
     @export

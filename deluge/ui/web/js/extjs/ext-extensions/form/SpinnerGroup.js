@@ -73,7 +73,7 @@ Ext.ux.form.SpinnerGroup = Ext.extend(Ext.form.CheckboxGroup, {
                     layoutConfig: {columns: this.items.length},
                     defaults: this.defaults,
                     items: this.items
-                })
+                });
                 for(var i=0, len=this.items.length; i<len; i++){
                     Ext.applyIf(this.items[i], colCfg);
                 };

@@ -62,7 +62,7 @@ class PGReader:
         buf = self.fd.read(4)
         end = socket.inet_ntoa(buf)
 
-        return (start, end)
+        return start, end
 
     def close(self):
         self.fd.close()

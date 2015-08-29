@@ -31,7 +31,7 @@
 #   include RELEASE-VERSION
 #
 
-__all__ = ("get_version")
+__all__ = "get_version"
 
 import os
 from subprocess import PIPE, Popen

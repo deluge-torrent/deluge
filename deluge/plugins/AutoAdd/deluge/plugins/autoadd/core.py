@@ -146,7 +146,8 @@ class Core(CorePluginBase):
         self.config.save()
         component.get("EventManager").emit(AutoaddOptionsChangedEvent())
 
-    def load_torrent(self, filename, magnet):
+    @staticmethod
+    def load_torrent(filename, magnet):
         try:
             log.debug("Attempting to open %s for add.", filename)
             if magnet:
@@ -168,7 +169,8 @@ class Core(CorePluginBase):
 
         return base64.encodestring(filedump)
 
-    def split_magnets(self, filename):
+    @staticmethod
+    def split_magnets(filename):
         log.debug("Attempting to open %s for splitting magnets.", filename)
         try:
             _file = open(filename, "r")
@@ -388,7 +390,8 @@ class Core(CorePluginBase):
                   "his watchdirs: %s", session_user, watchdirs.keys())
         return watchdirs
 
-    def _make_unicode(self, options):
+    @staticmethod
+    def _make_unicode(options):
         opts = {}
         for key in options:
             if isinstance(options[key], str):
@@ -430,7 +433,8 @@ class Core(CorePluginBase):
         self.config.save()
         component.get("EventManager").emit(AutoaddOptionsChangedEvent())
 
-    def __migrate_config_1_to_2(self, config):
+    @staticmethod
+    def __migrate_config_1_to_2(config):
         for watchdir_id in config["watchdirs"].iterkeys():
             config["watchdirs"][watchdir_id]["owner"] = "localclient"
         return config

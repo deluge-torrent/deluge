@@ -121,7 +121,8 @@ class ExecutePreferences(object):
         event = events.get_model()[events.get_active()][1]
         client.execute.add_command(event, command)
 
-    def on_remove_button_clicked(self, widget, *args):
+    @staticmethod
+    def on_remove_button_clicked(widget, *args):
         command_id = widget.get_name().replace("remove_", "")
         client.execute.remove_command(command_id)
 

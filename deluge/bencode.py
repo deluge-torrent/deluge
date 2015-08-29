@@ -22,7 +22,7 @@ def decode_int(x, f):
             raise ValueError
     elif x[f] == '0' and newf != f + 1:
         raise ValueError
-    return (n, newf + 1)
+    return n, newf + 1
 
 
 def decode_string(x, f):
@@ -31,7 +31,7 @@ def decode_string(x, f):
     if x[f] == '0' and colon != f + 1:
         raise ValueError
     colon += 1
-    return (x[colon:colon + n], colon + n)
+    return x[colon:colon + n], colon + n
 
 
 def decode_list(x, f):
@@ -39,7 +39,7 @@ def decode_list(x, f):
     while x[f] != 'e':
         v, f = decode_func[x[f]](x, f)
         r.append(v)
-    return (r, f + 1)
+    return r, f + 1
 
 
 def decode_dict(x, f):
@@ -47,22 +47,21 @@ def decode_dict(x, f):
     while x[f] != 'e':
         k, f = decode_string(x, f)
         r[k], f = decode_func[x[f]](x, f)
-    return (r, f + 1)
+    return r, f + 1
 
-decode_func = {}
-decode_func['l'] = decode_list
-decode_func['d'] = decode_dict
-decode_func['i'] = decode_int
-decode_func['0'] = decode_string
-decode_func['1'] = decode_string
-decode_func['2'] = decode_string
-decode_func['3'] = decode_string
-decode_func['4'] = decode_string
-decode_func['5'] = decode_string
-decode_func['6'] = decode_string
-decode_func['7'] = decode_string
-decode_func['8'] = decode_string
-decode_func['9'] = decode_string
+decode_func = {'l': decode_list,
+               'd': decode_dict,
+               'i': decode_int,
+               '0': decode_string,
+               '1': decode_string,
+               '2': decode_string,
+               '3': decode_string,
+               '4': decode_string,
+               '5': decode_string,
+               '6': decode_string,
+               '7': decode_string,
+               '8': decode_string,
+               '9': decode_string}
 
 
 def bdecode(x):
@@ -121,14 +120,13 @@ def encode_dict(x, r):
         encode_func[type(v)](v, r)
     r.append('e')
 
-encode_func = {}
-encode_func[Bencached] = encode_bencached
-encode_func[IntType] = encode_int
-encode_func[LongType] = encode_int
-encode_func[StringType] = encode_string
-encode_func[ListType] = encode_list
-encode_func[TupleType] = encode_list
-encode_func[DictType] = encode_dict
+encode_func = {Bencached: encode_bencached,
+               IntType: encode_int,
+               LongType: encode_int,
+               StringType: encode_string,
+               ListType: encode_list,
+               TupleType: encode_list,
+               DictType: encode_dict}
 
 try:
     from types import BooleanType

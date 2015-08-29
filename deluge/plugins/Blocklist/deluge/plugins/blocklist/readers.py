@@ -42,7 +42,8 @@ class BaseReader(object):
                 log.error("Failed to parse IP: %s", ex)
         return self.file
 
-    def is_ignored(self, line):
+    @staticmethod
+    def is_ignored(line):
         """Ignore commented lines and blank lines"""
         line = line.strip()
         return line.startswith('#') or not line

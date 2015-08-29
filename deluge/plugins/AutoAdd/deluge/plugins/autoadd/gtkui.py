@@ -33,7 +33,7 @@ class IncompatibleOption(Exception):
     pass
 
 
-class OptionsDialog():
+class OptionsDialog:
     spin_ids = ["max_download_speed", "max_upload_speed", "stop_ratio"]
     spin_int_ids = ["max_upload_slots", "max_connections"]
     chk_ids = ["stop_at_ratio", "remove_at_ratio", "move_completed",
@@ -298,8 +298,7 @@ class OptionsDialog():
 
     def generate_opts(self):
         # generate options dict based on gtk objects
-        options = {}
-        options['enabled'] = self.glade.get_widget('enabled').get_active()
+        options = {'enabled': self.glade.get_widget('enabled').get_active()}
         if client.is_localhost():
             options['path'] = self.glade.get_widget('path_chooser').get_filename()
             options['download_location'] = self.glade.get_widget(
@@ -405,7 +404,8 @@ class GtkUI(GtkPluginBase):
             ])
         return store
 
-    def create_columns(self, treeview):
+    @staticmethod
+    def create_columns(treeview):
         renderer_toggle = gtk.CellRendererToggle()
         column = gtk.TreeViewColumn(
             _("Active"), renderer_toggle, activatable=1, active=1
