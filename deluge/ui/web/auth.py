@@ -9,7 +9,7 @@
 
 import hashlib
 import logging
-import random
+import os
 import time
 from datetime import datetime, timedelta
 from email.utils import formatdate
@@ -108,11 +108,8 @@ class Auth(JSONComponent):
         only for future use currently.
         :type login: string
         """
-        m = hashlib.md5()
-        m.update(login)
-        m.update(str(time.time()))
-        m.update(str(random.getrandbits(40)))
-        m.update(m.hexdigest())
+        m = hashlib.sha256()
+        m.update(os.urandom(32))
         session_id = m.hexdigest()
 
         config = component.get("DelugeWeb").config
@@ -248,7 +245,7 @@ class Auth(JSONComponent):
         :type new_password: string
         """
         log.debug("Changing password")
-        salt = hashlib.sha1(str(random.getrandbits(40))).hexdigest()
+        salt = hashlib.sha1(os.urandom(32)).hexdigest()
         s = hashlib.sha1(salt)
         s.update(utf8_encoded(new_password))
         config = component.get("DelugeWeb").config
