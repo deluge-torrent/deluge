@@ -388,9 +388,10 @@ class Preferences(component.Component):
             "spin_share_ratio_limit": ("value", "share_ratio_limit"),
             "spin_seed_time_ratio_limit": ("value", "seed_time_ratio_limit"),
             "spin_seed_time_limit": ("value", "seed_time_limit"),
-            "chk_seed_ratio": ("active", "stop_seed_at_ratio"),
+            "chk_share_ratio": ("active", "stop_seed_at_ratio"),
             "spin_share_ratio": ("value", "stop_seed_ratio"),
-            "chk_remove_ratio": ("active", "remove_seed_at_ratio"),
+            "radio_pause_ratio": ("active", "stop_seed_at_ratio"),
+            "radio_remove_ratio": ("active", "remove_seed_at_ratio"),
             "spin_cache_size": ("value", "cache_size"),
             "spin_cache_expiry": ("value", "cache_expiry"),
             "combo_proxy_type": ("active", lambda: self.core_config["proxy"]["type"]),
@@ -696,9 +697,9 @@ class Preferences(component.Component):
         new_core_config["auto_manage_prefer_seeds"] = \
             self.builder.get_object("chk_auto_manage_prefer_seeds").get_active()
         new_core_config["stop_seed_at_ratio"] = \
-            self.builder.get_object("chk_seed_ratio").get_active()
+            self.builder.get_object("chk_share_ratio").get_active()
         new_core_config["remove_seed_at_ratio"] = \
-            self.builder.get_object("chk_remove_ratio").get_active()
+            self.builder.get_object("radio_remove_ratio").get_active()
         new_core_config["stop_seed_ratio"] = \
             self.builder.get_object("spin_share_ratio").get_value()
         new_core_config["share_ratio_limit"] = \
@@ -858,8 +859,9 @@ class Preferences(component.Component):
             "chk_move_completed": {"move_completed_path_chooser": True},
             "chk_copy_torrent_file": {"torrentfiles_location_path_chooser": True,
                                       "chk_del_copy_torrent_file": True},
-            "chk_seed_ratio": {"spin_share_ratio": True,
-                               "chk_remove_ratio": True}
+            "chk_share_ratio": {"spin_share_ratio": True,
+                                "radio_pause_ratio": True,
+                                "radio_remove_ratio": True}
         }
 
         def update_dependent_widgets(name, value):
