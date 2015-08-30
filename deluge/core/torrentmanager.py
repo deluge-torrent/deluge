@@ -693,25 +693,28 @@ class TorrentManager(component.Component):
         filepath_tmp = filepath + ".tmp"
 
         try:
-            if os.path.isfile(filepath):
-                log.debug("Creating backup of %s at: %s", filename, filepath_bak)
-                shutil.copy2(filepath, filepath_bak)
-        except IOError as ex:
+            os.remove(filepath_bak)
+        except OSError:
+            pass
+        try:
+            log.debug("Creating backup of %s at: %s", filename, filepath_bak)
+            os.rename(filepath, filepath_bak)
+        except OSError as ex:
             log.error("Unable to backup %s to %s: %s", filepath, filepath_bak, ex)
         else:
             log.info("Saving the %s at: %s", filename, filepath)
             try:
-                with open(filepath_tmp, "wb") as _file:
+                with open(filepath_tmp, "wb", 0) as _file:
                     # Pickle the TorrentManagerState object
                     cPickle.dump(state, _file)
                     _file.flush()
                     os.fsync(_file.fileno())
-                shutil.move(filepath_tmp, filepath)
-            except (IOError, cPickle.PicklingError) as ex:
+                os.rename(filepath_tmp, filepath)
+            except (OSError, cPickle.PicklingError) as ex:
                 log.error("Unable to save %s: %s", filename, ex)
                 if os.path.isfile(filepath_bak):
                     log.info("Restoring backup of %s from: %s", filename, filepath_bak)
-                    shutil.move(filepath_bak, filepath)
+                    os.rename(filepath_bak, filepath)
         # We return True so that the timer thread will continue
         return True
 
@@ -799,25 +802,32 @@ class TorrentManager(component.Component):
         filepath_tmp = filepath + ".tmp"
 
         try:
-            if os.path.isfile(filepath):
-                log.debug("Creating backup of %s at: %s", filename, filepath_bak)
-                shutil.copy2(filepath, filepath_bak)
-        except IOError as ex:
+            os.remove(filepath_bak)
+        except OSError:
+            pass
+        try:
+            log.debug("Creating backup of %s at: %s", filename, filepath_bak)
+            os.rename(filepath, filepath_bak)
+        except OSError as ex:
             log.error("Unable to backup %s to %s: %s", filepath, filepath_bak, ex)
         else:
             log.info("Saving the %s at: %s", filename, filepath)
             try:
-                with open(filepath_tmp, "wb") as _file:
+                with open(filepath_tmp, "wb", 0) as _file:
                     _file.write(lt.bencode(self.resume_data))
                     _file.flush()
                     os.fsync(_file.fileno())
-                shutil.move(filepath_tmp, filepath)
-            except (IOError, EOFError) as ex:
+                os.rename(filepath_tmp, filepath)
+            except (OSError, EOFError) as ex:
                 log.error("Unable to save %s: %s", filename, ex)
                 if os.path.isfile(filepath_bak):
                     log.info("Restoring backup of %s from: %s", filename, filepath_bak)
-                    shutil.move(filepath_bak, filepath)
+                    os.rename(filepath_bak, filepath)
             else:
+                # Sync the rename operations for the directory
+                dirfd = os.open(os.path.dirname(filepath), os.O_DIRECTORY)
+                os.fsync(dirfd)
+                os.close(dirfd)
                 return True
 
     def get_queue_position(self, torrent_id):
