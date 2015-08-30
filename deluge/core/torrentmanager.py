@@ -391,7 +391,7 @@ class TorrentManager(component.Component):
                 if add_torrent_id in self.get_torrent_list():
                     log.info("Merging trackers for torrent (%s) already in session...", add_torrent_id)
                     # Don't merge trackers if either torrent has private flag set
-                    if self[add_torrent_id].get_status(["private"])["private"]:
+                    if torrent_info.priv() or self[add_torrent_id].get_status(["private"])["private"]:
                         log.info("Merging trackers abandoned: Torrent has private flag set.")
                         return
 
