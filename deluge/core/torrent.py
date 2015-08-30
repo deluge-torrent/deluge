@@ -233,15 +233,15 @@ class Torrent(object):
         # Load values from state if we have it
         if state:
             self.set_trackers(state.trackers)
-            self.filename = state.filename
             self.is_finished = state.is_finished
+            self.filename = state.filename
             last_sess_prepend = "[Error from Previous Session] "
             if state.error_statusmsg and not state.error_statusmsg.startswith(last_sess_prepend):
                 self.error_statusmsg = last_sess_prepend + state.error_statusmsg
             else:
                 self.error_statusmsg = state.error_statusmsg
         else:
-            self.trackers = [tracker for tracker in self.handle.trackers()]
+            self.set_trackers()
             self.is_finished = False
             # Use infohash as fallback.
             if not filename:
@@ -553,7 +553,7 @@ class Torrent(object):
 
     # End Options methods #
 
-    def set_trackers(self, trackers):
+    def set_trackers(self, trackers=None):
         """Sets the trackers for this torrent.
 
         Args:
