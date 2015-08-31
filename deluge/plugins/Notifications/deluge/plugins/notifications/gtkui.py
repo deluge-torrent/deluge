@@ -362,7 +362,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         self.subscriptions_model = Gtk.ListStore(str, str, bool, bool, bool, bool)
 
         renderer = Gtk.CellRendererText()
-        # FIXME
+        # FIXME RuntimeError: Data access methods are unsupported. Use normal Python attributes instead
         # renderer.set_data("event", SUB_EVENT)
         column = Gtk.TreeViewColumn("Event", renderer, text=SUB_EVENT)
         column.set_expand(True)
