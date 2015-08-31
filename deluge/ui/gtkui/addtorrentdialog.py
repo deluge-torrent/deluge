@@ -909,8 +909,8 @@ class AddTorrentDialog(component.Component):
 
                 # We need to re-expand the view because it might contracted
                 # if we change the root iter
-                # FIXME add back expand_row
-                self.listview_files.expand_all()
+                # FIXME exceptions.TypeError: argument path: Expected Gtk.TreePath, but got str
+                self.listview_files.expand_row(Gtk.TreePath(), False)
             else:
                 # This was a simple folder rename without any splits, so just
                 # change the path for itr
