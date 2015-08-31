@@ -339,11 +339,13 @@ class MainWindow(component.Component):
             bool: True if on active workspace (or wnck module not available), otherwise False.
 
         """
-        if not wnck:
-            return True
-        win = wnck.window_get(self.window.window.xid)
-        active_wksp = win.get_screen().get_active_workspace()
-        if active_wksp:
-            return win.is_on_workspace(active_wksp)
-        else:
-            return False
+        if wnck:
+            self.screen.force_update()
+            win = wnck.window_get(self.window.window.xid)
+            if win:
+                active_wksp = win.get_screen().get_active_workspace()
+                if active_wksp:
+                    return win.is_on_workspace(active_wksp)
+                else:
+                    return False
+        return True
