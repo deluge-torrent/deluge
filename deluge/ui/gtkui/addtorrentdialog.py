@@ -295,8 +295,8 @@ class AddTorrentDialog(component.Component):
                     file, file["path"], i, file["download"], split_files
                 )
             self.add_files(None, split_files)
-        # FIXME add back expand_row
-        self.listview_files.expand_all()
+        # FIXME exceptions.TypeError: argument path: Expected Gtk.TreePath, but got str
+        self.listview_files.expand_row(Gtk.TreePath(), False)
 
     def prepare_file(self, file, file_name, file_num, download, files_storage):
         first_slash_index = file_name.find(os.path.sep)
