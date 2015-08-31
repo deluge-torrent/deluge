@@ -269,7 +269,7 @@ def cell_data_date(column, cell, model, row, data, key):
         return
     func_last_value[key] = date
 
-    date_str = common.fdate(date) if date > 0.0 else ""
+    date_str = common.fdate(date) if date > 0 else ""
     cell.set_property('text', date_str)
 
 cell_data_date_added = partial(cell_data_date, key="cell_data_date_added")
@@ -284,5 +284,5 @@ def cell_data_date_or_never(column, cell, model, row, data):
         return
     func_last_value["cell_data_date_or_never"] = value
 
-    date_str = common.fdate(value) if value > 0.0 else _("Never")
+    date_str = common.fdate(value) if value > 0 else _("Never")
     cell.set_property('text', date_str)
