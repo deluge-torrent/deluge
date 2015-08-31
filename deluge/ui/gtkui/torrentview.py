@@ -267,9 +267,9 @@ class TorrentView(ListView, component.Component):
                              status_field=["ratio"], default=False)
         self.add_func_column(_("Avail"), funcs.cell_data_ratio_avail, [float],
                              status_field=["distributed_copies"], default=False)
-        self.add_func_column(_("Added"), funcs.cell_data_date, [float],
+        self.add_func_column(_("Added"), funcs.cell_data_date_added, [float],
                              status_field=["time_added"], default=False)
-        self.add_func_column(_("Completed"), funcs.cell_data_date, [float],
+        self.add_func_column(_("Completed"), funcs.cell_data_date_completed, [float],
                              status_field=["completed_time"], default=False)
         self.add_func_column(_("Complete Seen"), funcs.cell_data_date_or_never, [float],
                              status_field=["last_seen_complete"], default=False)

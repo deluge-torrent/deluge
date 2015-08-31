@@ -10,6 +10,7 @@
 from __future__ import print_function
 
 import warnings
+from functools import partial
 
 import gobject
 import gtk
@@ -47,7 +48,8 @@ func_last_value = {"cell_data_speed_down": None,
                    "cell_data_ratio_seeds_peers": None,
                    "cell_data_ratio_ratio": None,
                    "cell_data_ratio_avail": None,
-                   "cell_data_date": None,
+                   "cell_data_date_added": None,
+                   "cell_data_date_completed": None,
                    "cell_data_date_or_never": None,
                    "cell_data_speed_limit_down": None,
                    "cell_data_speed_limit_up": None,
@@ -259,16 +261,19 @@ def cell_data_ratio_avail(column, cell, model, row, data):
     cell_data_ratio(cell, model, row, data, "cell_data_ratio_avail")
 
 
-def cell_data_date(column, cell, model, row, data):
+def cell_data_date(column, cell, model, row, data, key):
     """Display value as date, eg 05/05/08"""
     date = model.get_value(row, data)
 
-    if func_last_value["cell_data_date"] == date:
+    if func_last_value[key] == date:
         return
-    func_last_value["cell_data_date"] = date
+    func_last_value[key] = date
 
     date_str = common.fdate(date) if date > 0.0 else ""
     cell.set_property('text', date_str)
+
+cell_data_date_added = partial(cell_data_date, key="cell_data_date_added")
+cell_data_date_completed = partial(cell_data_date, key="cell_data_date_completed")
 
 
 def cell_data_date_or_never(column, cell, model, row, data):
