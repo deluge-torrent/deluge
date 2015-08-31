@@ -229,6 +229,7 @@ def cell_data_speed_limit_up(column, cell, model, row, data):
 def cell_data_size(column, cell, model, row, data):
     """Display value in terms of size, eg. 2 MB"""
     size = model.get_value(row, data)
+    # FIXME TypeError: unsupported operand type(s) for /: 'str' and 'float'
     cell.set_property('text', common.fsize(size))
 
 
