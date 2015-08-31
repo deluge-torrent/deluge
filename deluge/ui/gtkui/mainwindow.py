@@ -86,10 +86,6 @@ class MainWindow(component.Component):
         self.main_builder.add_from_file(deluge.common.resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "main_window.new_release.ui"))
         )
-        # The move storage dialog
-        self.main_builder.add_from_file(deluge.common.resource_filename(
-            "deluge.ui.gtkui", os.path.join("glade", "main_window.move_storage.ui"))
-        )
         # The tabs
         self.main_builder.add_from_file(deluge.common.resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "main_window.tabs.ui"))
