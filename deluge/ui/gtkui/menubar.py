@@ -337,6 +337,9 @@ class MenuBar(component.Component):
                 del self.move_storage_dialog
                 del self.move_storage_dialog_hbox
 
+            if response_id == gtk.RESPONSE_CANCEL:
+                on_core_result(None)
+
             if response_id == gtk.RESPONSE_OK:
                 log.debug("Moving torrents to %s",
                           self.move_storage_path_chooser.get_text())
