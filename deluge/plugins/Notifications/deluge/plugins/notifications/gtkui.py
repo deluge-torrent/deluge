@@ -14,7 +14,6 @@
 
 import logging
 from os.path import basename
-from sets import Set
 
 from gi.repository import Gtk, GdkPixbuf
 from twisted.internet import defer
@@ -303,7 +302,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
 
         renderer = Gtk.CellRendererText()
         renderer.connect("edited", self.on_cell_edited, self.recipients_model)
-        Set(["recipient", RECIPIENT_FIELD])
+        renderer.recipient = RECIPIENT_FIELD
         column = Gtk.TreeViewColumn("Recipients", renderer,
                                     text=RECIPIENT_FIELD,
                                     editable=RECIPIENT_EDIT)
@@ -323,25 +322,24 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         self.sounds_model = Gtk.ListStore(str, str, str, str)
 
         renderer = Gtk.CellRendererText()
-        # FIXME RuntimeError: Data access methods are unsupported. Use normal Python attributes instead
-        Set(["event", SND_EVENT])
+        renderer.event = SND_EVENT
         column = Gtk.TreeViewColumn("Event", renderer, text=SND_EVENT)
         column.set_expand(True)
         self.sounds_treeview.append_column(column)
 
         renderer = Gtk.CellRendererText()
-        Set(["event_doc", SND_EVENT_DOC])
+        renderer.event_doc = SND_EVENT_DOC
         column = Gtk.TreeViewColumn("Doc", renderer, text=SND_EVENT_DOC)
         column.set_property('visible', False)
         self.sounds_treeview.append_column(column)
 
         renderer = Gtk.CellRendererText()
-        Set(["sound_name", SND_NAME])
+        renderer.sound_name = SND_NAME
         column = Gtk.TreeViewColumn("Name", renderer, text=SND_NAME)
         self.sounds_treeview.append_column(column)
 
         renderer = Gtk.CellRendererText()
-        Set(["sound_path", SND_PATH])
+        renderer.sound_path = SND_PATH
         column = Gtk.TreeViewColumn("Path", renderer, text=SND_PATH)
         column.set_property('visible', False)
         self.sounds_treeview.append_column(column)
@@ -359,13 +357,13 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         self.subscriptions_model = Gtk.ListStore(str, str, bool, bool, bool, bool)
 
         renderer = Gtk.CellRendererText()
-        Set(["event", SUB_EVENT])
+        renderer.event = SUB_EVENT
         column = Gtk.TreeViewColumn("Event", renderer, text=SUB_EVENT)
         column.set_expand(True)
         self.subscriptions_treeview.append_column(column)
 
         renderer = Gtk.CellRendererText()
-        Set(["event_doc", SUB_EVENT])
+        renderer.event_doc = SUB_EVENT
         column = Gtk.TreeViewColumn("Doc", renderer, text=SUB_EVENT_DOC)
         column.set_property('visible', False)
         self.subscriptions_treeview.append_column(column)

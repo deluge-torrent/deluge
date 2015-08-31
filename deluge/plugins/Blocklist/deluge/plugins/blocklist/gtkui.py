@@ -9,7 +9,6 @@
 
 import logging
 from datetime import datetime
-from sets import Set
 
 from gi.repository import Gtk
 
@@ -189,7 +188,7 @@ class GtkUI(GtkPluginBase):
         self.whitelist_model = Gtk.ListStore(str, bool)
         renderer = Gtk.CellRendererText()
         renderer.connect("edited", self.on_cell_edited, self.whitelist_model)
-        Set(["ip", "0"])
+        renderer.ip = 0
 
         column = Gtk.TreeViewColumn("IPs", renderer, text=0, editable=1)
         column.set_expand(True)
