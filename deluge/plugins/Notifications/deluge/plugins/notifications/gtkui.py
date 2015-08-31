@@ -302,7 +302,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
 
         renderer = Gtk.CellRendererText()
         renderer.connect("edited", self.on_cell_edited, self.recipients_model)
-        # FIXME
+        # FIXME RuntimeError: Data access methods are unsupported. Use normal Python attributes instead
         # renderer.set_data("recipient", RECIPIENT_FIELD)
         column = Gtk.TreeViewColumn("Recipients", renderer,
                                     text=RECIPIENT_FIELD,
@@ -323,27 +323,27 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         self.sounds_model = Gtk.ListStore(str, str, str, str)
 
         renderer = Gtk.CellRendererText()
-        # FIXME
+        # FIXME RuntimeError: Data access methods are unsupported. Use normal Python attributes instead
         # renderer.set_data("event", SND_EVENT)
         column = Gtk.TreeViewColumn("Event", renderer, text=SND_EVENT)
         column.set_expand(True)
         self.sounds_treeview.append_column(column)
 
         renderer = Gtk.CellRendererText()
-        # FIXME
+        # FIXME RuntimeError: Data access methods are unsupported. Use normal Python attributes instead
         # renderer.set_data("event_doc", SND_EVENT_DOC)
         column = Gtk.TreeViewColumn("Doc", renderer, text=SND_EVENT_DOC)
         column.set_property('visible', False)
         self.sounds_treeview.append_column(column)
 
         renderer = Gtk.CellRendererText()
-        # FIXME
+        # FIXME RuntimeError: Data access methods are unsupported. Use normal Python attributes instead
         # renderer.set_data("sound_name", SND_NAME)
         column = Gtk.TreeViewColumn("Name", renderer, text=SND_NAME)
         self.sounds_treeview.append_column(column)
 
         renderer = Gtk.CellRendererText()
-        # FIXME
+        # FIXME RuntimeError: Data access methods are unsupported. Use normal Python attributes instead
         # renderer.set_data("sound_path", SND_PATH)
         column = Gtk.TreeViewColumn("Path", renderer, text=SND_PATH)
         column.set_property('visible', False)
@@ -369,7 +369,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         self.subscriptions_treeview.append_column(column)
 
         renderer = Gtk.CellRendererText()
-        # FIXME
+        # FIXME RuntimeError: Data access methods are unsupported. Use normal Python attributes instead
         # renderer.set_data("event_doc", SUB_EVENT)
         column = Gtk.TreeViewColumn("Doc", renderer, text=SUB_EVENT_DOC)
         column.set_property('visible', False)
