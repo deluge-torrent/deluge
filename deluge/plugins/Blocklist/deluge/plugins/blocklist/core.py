@@ -179,7 +179,7 @@ class Core(CorePluginBase):
                         for ip in added:
                             try:
                                 ip = IP.parse(ip)
-                                self.blocklist.add_rule(
+                                self.core.session.get_ip_filter().add_rule(
                                     ip.address, ip.address, ALLOW_RANGE
                                 )
                                 saved.add(ip.address)
@@ -376,7 +376,7 @@ class Core(CorePluginBase):
         def on_read_ip_range(start, end):
             """Add ip range to blocklist"""
             # log.trace("Adding ip range %s - %s to ipfilter as blocked", start, end)
-            self.blocklist.add_rule(start.address, end.address, BLOCK_RANGE)
+            self.core.session.get_ip_filter().add_rule(start.address, end.address, BLOCK_RANGE)
             self.num_blocked += 1
 
         def on_finish_read(result):
@@ -386,7 +386,7 @@ class Core(CorePluginBase):
             log.info("Added %d ranges to ipfilter as blocked", self.num_blocked)
             for ip in self.config["whitelisted"]:
                 ip = IP.parse(ip)
-                self.blocklist.add_rule(ip.address, ip.address, ALLOW_RANGE)
+                self.core.session.get_ip_filter().add_rule(ip.address, ip.address, ALLOW_RANGE)
                 self.num_whited += 1
                 log.trace("Added %s to the ipfiler as white-listed", ip.address)
             log.info("Added %d ranges to ipfilter as white-listed", self.num_whited)
