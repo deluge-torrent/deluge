@@ -191,7 +191,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
             button.disable();
         } else {
             button.enable();
-            button.setText('Connect');
+            button.setText(_('Connect'));
         }
 
         // Update the Stop/Start Daemon button
