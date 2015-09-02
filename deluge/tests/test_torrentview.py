@@ -29,17 +29,27 @@ deluge.common.setup_translations()
 @pytest.mark.gtkui
 class TorrentviewTestCase(BaseTestCase):
 
-    default_column_index = ['filter', 'torrent_id', 'dirty', '#', u'Name', u'Size',
-                            u'Downloaded', u'Uploaded', u'Remaining', u'Progress',
-                            u'Seeds', u'Peers', u'Seeds:Peers', u'Down Speed',
+    default_column_index = ['filter', 'torrent_id', 'dirty', '#',
+                            u'Name',
+                            u'Size', u'Downloaded', u'Uploaded', u'Remaining',
+                            u'Progress',
+                            u'Seeds', u'Peers',
+                            u'Seeds:Peers', u'Down Speed',
                             u'Up Speed', u'Down Limit', u'Up Limit', u'ETA', u'Ratio',
                             u'Avail', u'Added', u'Completed', u'Complete Seen',
                             u'Tracker', u'Download Folder', u'Owner', u'Shared']
-    default_liststore_columns = [bool, str, bool, int, str, str, TYPE_UINT64,
-                                 TYPE_UINT64, TYPE_UINT64, TYPE_UINT64,
-                                 float, str, int, int, int, int, float, float, float,
-                                 float, float, int, float, float, float, float,
-                                 float, str, str, str, str, bool]
+    default_liststore_columns = [bool, str, bool, int,
+                                 str, str,  # Name
+                                 TYPE_UINT64, TYPE_UINT64, TYPE_UINT64, TYPE_UINT64,
+                                 float, str,  # Progress
+                                 int, int, int, int,  # Seeds, Peers
+                                 float, float, float, float, float,
+                                 int,  # ETA
+                                 float, float,
+                                 int, int, int,
+                                 str, str,  # Tracker
+                                 str, str,
+                                 bool]  # shared
 
     def set_up(self):
         if libs_available is False:

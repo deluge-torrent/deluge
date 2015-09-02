@@ -335,7 +335,6 @@ class TorrentManager(component.Component):
                 log.error("Unable to add magnet, invalid magnet info: %s", magnet)
                 return
 
-
         # Check for existing torrent in session.
         if torrent_id in self.get_torrent_list():
             log.warning("Unable to add torrent (%s), already in session", torrent_id)
