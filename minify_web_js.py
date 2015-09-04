@@ -46,35 +46,28 @@ else:
 
 
 def source_files_list(source_dir):
-
-    src_file_list = []
-
+    scripts = []
     for root, dirnames, filenames in os.walk(source_dir):
         dirnames.sort(reverse=True)
-        filenames_js = fnmatch.filter(filenames, '*.js')
-        filenames_js.sort()
+        files = fnmatch.filter(filenames, '*.js')
+        files.sort()
 
         order_file = os.path.join(root, '.order')
         if os.path.isfile(order_file):
             with open(order_file, 'r') as _file:
                 for line in _file:
-                    line = line.strip()
-                    if not line or line[0] == '#':
-                        continue
-                    order_pos, order_filename = line.split()
-                    filenames_js.pop(filenames_js.index(order_filename))
-                    if order_pos == '+':
-                        filenames_js.insert(0, order_filename)
+                    if line.startswith('+ '):
+                        order_filename = line.split()[1]
+                        files.pop(files.index(order_filename))
+                        files.insert(0, order_filename)
 
         # Ensure root directory files are bottom of list.
         if dirnames:
-            for filename in filenames_js:
-                src_file_list.append(os.path.join(root, filename))
+            scripts.extend([os.path.join(root, f) for f in files])
         else:
-            for filename in reversed(filenames_js):
-                src_file_list.insert(0, os.path.join(root, filename))
-
-    return src_file_list
+            for filename in reversed(files):
+                scripts.insert(0, os.path.join(root, filename))
+    return scripts
 
 
 def concat_src_files(file_list, fileout_path):

@@ -320,54 +320,50 @@ class ScriptResource(resource.Resource, component.Component):
         :keyword type: The type of scripts to get (normal, debug, dev)
         :param type: string
         """
-        scripts = []
         if type not in ("dev", "debug", "normal"):
             type = 'normal'
 
         _scripts = self.__scripts[type]["scripts"]
         _order = self.__scripts[type]["order"]
 
+        scripts = []
         for path in _order:
-            filepath = _scripts[path]
+            # Index for grouping the scripts when inserting.
+            script_idx = len(scripts)
+            # A folder resource is enclosed in a tuple.
+            if isinstance(_scripts[path], tuple):
+                filepath, recurse = _scripts[path]
+                for root, dirnames, filenames in os.walk(filepath):
+                    dirnames.sort(reverse=True)
+                    files = fnmatch.filter(filenames, "*.js")
+                    files.sort()
 
-            # this is a folder
-            if isinstance(filepath, tuple):
-                filepath, recurse = filepath
-                if recurse:
-                    for dirpath, dirnames, filenames in os.walk(filepath, False):
-                        files = fnmatch.filter(filenames, "*.js")
-                        files.sort()
+                    order_file = os.path.join(root, ".order")
+                    if os.path.isfile(order_file):
+                        with open(order_file, "r") as _file:
+                            for line in _file:
+                                if line.startswith("+ "):
+                                    order_filename = line.split()[1]
+                                    files.pop(files.index(order_filename))
+                                    files.insert(0, order_filename)
 
-                        order_file = os.path.join(dirpath, '.order')
-                        if os.path.isfile(order_file):
-                            for line in open(order_file, 'rb'):
-                                line = line.strip()
-                                if not line or line[0] == '#':
-                                    continue
-                                try:
-                                    pos, filename = line.split()
-                                    files.pop(files.index(filename))
-                                    if pos == '+':
-                                        files.insert(0, filename)
-                                    else:
-                                        files.append(filename)
-                                except:
-                                    pass
+                    # Ensure sub-directory scripts are top of list with root directory scripts bottom.
+                    if dirnames:
+                        scripts.extend(["js/" + os.path.basename(root) + "/" + f for f in files])
+                    else:
+                        dirpath = os.path.basename(os.path.dirname(root)) + "/" + os.path.basename(root)
+                        for filename in reversed(files):
+                            scripts.insert(script_idx, "js/" + dirpath + "/" + filename)
 
-                        dirpath = dirpath[len(filepath) + 1:]
-                        if dirpath:
-                            scripts.extend(['js/' + path + '/' + dirpath + '/' + f for f in files])
-                        else:
-                            scripts.extend(['js/' + path + '/' + f for f in files])
-                else:
-                    files = fnmatch.filter(os.listdir('.'), "*.js")
+                    if not recurse:
+                        break
             else:
                 scripts.append("js/" + path)
         return scripts
 
     def getChild(self, path, request):  # NOQA
         if hasattr(request, "lookup_path"):
-            request.lookup_path += '/' + path
+            request.lookup_path += "/" + path
         else:
             request.lookup_path = path
         return self
