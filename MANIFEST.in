@@ -14,11 +14,9 @@ graft deluge/ui/gtkui/glade
 
 include deluge/ui/web/index.html
 include deluge/ui/web/css/*.css
-exclude deluge/ui/web/css/*-debug.css
-include deluge/ui/web/js/extjs/*.js
-exclude deluge/ui/web/js/extjs/*-debug.js
 include deluge/ui/web/js/*.js
-exclude deluge/ui/web/js/*-debug.js
+graft deluge/ui/web/js/deluge-all
+graft deluge/ui/web/js/extjs
 graft deluge/ui/web/themes
 graft deluge/ui/web/render
 graft deluge/ui/web/icons

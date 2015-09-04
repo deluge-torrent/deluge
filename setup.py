@@ -313,10 +313,42 @@ if windows_check():
         'deluge-web-debug = deluge.ui.web:start',
         'deluged-debug = deluge.main:start_daemon'])
 
+_package_data = {}
+_package_data['deluge'] = [
+    'ui/data/pixmaps/*.png',
+    'ui/data/pixmaps/*.svg',
+    'ui/data/pixmaps/*.ico',
+    'ui/data/pixmaps/*.gif',
+    'ui/data/pixmaps/flags/*.png',
+    'plugins/*.egg',
+    'i18n/*/LC_MESSAGES/*.mo']
+_package_data['deluge.ui.web'] = [
+    'index.html',
+    'css/*.css',
+    'icons/*.png',
+    'images/*.gif',
+    'images/*.png',
+    'js/*.js',
+    'js/extjs/*.js',
+    'render/*.html',
+    'themes/css/*.css',
+    'themes/images/*/*.gif',
+    'themes/images/*/*.png',
+    'themes/images/*/*/*.gif',
+    'themes/images/*/*/*.png']
+_package_data['deluge.ui.gtkui'] = ['glade/*.ui']
+
+_version = get_version(prefix='deluge-', suffix='.dev0')
+
+if 'dev' in _version:
+    _exclude_package_data = {}
+else:
+    _exclude_package_data = {"deluge.ui.web": ["*-debug.js", '*-debug.css']}
+
 # Main setup
 setup(
     name='deluge',
-    version=get_version(prefix='deluge-', suffix='.dev0'),
+    version=_version,
     fullname='Deluge Bittorrent Client',
     description='Bittorrent Client',
     author='Andrew Resch, Damien Churchill',
@@ -331,32 +363,8 @@ setup(
     cmdclass=cmdclass,
     tests_require=['pytest'],
     data_files=_data_files,
-    package_data={'deluge': ['ui/gtkui/glade/*.ui',
-                             'ui/data/pixmaps/*.png',
-                             'ui/data/pixmaps/*.svg',
-                             'ui/data/pixmaps/*.ico',
-                             'ui/data/pixmaps/*.gif',
-                             'ui/data/pixmaps/flags/*.png',
-                             'plugins/*.egg',
-                             'i18n/*/LC_MESSAGES/*.mo',
-                             'ui/web/index.html',
-                             'ui/web/css/*.css',
-                             'ui/web/icons/*.png',
-                             'ui/web/images/*.gif',
-                             'ui/web/images/*.png',
-                             'ui/web/js/*.js',
-                             'ui/web/js/*/*.js',
-                             'ui/web/js/*/.order',
-                             'ui/web/js/*/*/*.js',
-                             'ui/web/js/*/*/.order',
-                             'ui/web/js/*/*/*/*.js',
-                             'ui/web/render/*.html',
-                             'ui/web/themes/css/*.css',
-                             'ui/web/themes/images/*/*.gif',
-                             'ui/web/themes/images/*/*.png',
-                             'ui/web/themes/images/*/*/*.gif',
-                             'ui/web/themes/images/*/*/*.png'
-                             ]},
+    package_data=_package_data,
+    exclude_package_data=_exclude_package_data,
     packages=find_packages(exclude=['plugins', 'docs', 'tests']),
     namespace_packages=['deluge', 'deluge.plugins'],
     entry_points=entry_points
