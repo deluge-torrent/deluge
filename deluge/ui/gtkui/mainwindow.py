@@ -126,7 +126,6 @@ class MainWindow(component.Component):
         self.config.register_set_function("show_rate_in_title", self._on_set_show_rate_in_title, apply_now=False)
 
         client.register_event_handler("NewVersionAvailableEvent", self.on_newversionavailable_event)
-        client.register_event_handler("TorrentFinishedEvent", self.on_torrentfinished_event)
 
     def connect_signals(self, mapping_or_class):
         self.gtk_builder_signals_holder.connect_signals(mapping_or_class)
@@ -323,10 +322,6 @@ class MainWindow(component.Component):
         if self.config["show_new_releases"]:
             from deluge.ui.gtkui.new_release_dialog import NewReleaseDialog
             reactor.callLater(5.0, NewReleaseDialog().show, new_version)
-
-    def on_torrentfinished_event(self, torrent_id):
-        from deluge.ui.gtkui.notification import Notification
-        Notification().notify(torrent_id)
 
     def is_on_active_workspace(self):
         """Determines if MainWindow is on the active workspace.

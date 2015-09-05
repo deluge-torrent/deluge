@@ -18,7 +18,7 @@ from hashlib import sha1 as sha
 
 import deluge.configmanager
 from deluge import bencode
-from deluge.common import path_join, utf8_encoded
+from deluge.common import utf8_encoded
 
 log = logging.getLogger(__name__)
 
@@ -304,7 +304,7 @@ class FileTree2(object):
         """
         def walk(directory, parent_path):
             for path in directory["contents"].keys():
-                full_path = path_join(parent_path, path)
+                full_path = os.path.join(parent_path, path).replace("\\", "/")
                 if directory["contents"][path]["type"] == "dir":
                     directory["contents"][path] = callback(full_path, directory["contents"][path]
                                                            ) or directory["contents"][path]

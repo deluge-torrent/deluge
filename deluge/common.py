@@ -640,61 +640,6 @@ def is_ip(ip):
         return False
 
 
-def path_join(*parts):
-    """
-    An implementation of os.path.join that always uses / for the separator
-    to ensure that the correct paths are produced when working with internal
-    paths on Windows.
-    """
-    path = ''
-    for part in parts:
-        if not part:
-            continue
-        elif part[0] == '/':
-            path = part
-        elif not path:
-            path = part
-        else:
-            path += '/' + part
-    return path
-
-XML_ESCAPES = (
-    ('&', '&amp;'),
-    ('<', '&lt;'),
-    ('>', '&gt;'),
-    ('"', '&quot;'),
-    ("'", '&apos;')
-)
-
-
-def xml_decode(string):
-    """
-    Unescape a string that was previously encoded for use within xml.
-
-    :param string: The string to escape
-    :type string: string
-    :returns: The unescaped version of the string.
-    :rtype: string
-    """
-    for char, escape in XML_ESCAPES:
-        string = string.replace(escape, char)
-    return string
-
-
-def xml_encode(string):
-    """
-    Escape a string for use within an xml element or attribute.
-
-    :param string: The string to escape
-    :type string: string
-    :returns: An escaped version of the string.
-    :rtype: string
-    """
-    for char, escape in XML_ESCAPES:
-        string = string.replace(char, escape)
-    return string
-
-
 def decode_string(s, encoding="utf8"):
     """
     Decodes a string and return unicode. If it cannot decode using
