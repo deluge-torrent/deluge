@@ -26,7 +26,7 @@ class StatusBarItem:
         self._widgets = []
         self._ebox = gtk.EventBox()
         self._hbox = gtk.HBox()
-        self._hbox.set_spacing(5)
+        self._hbox.set_spacing(3)
         self._image = gtk.Image()
         self._label = gtk.Label()
         self._hbox.add(self._image)
@@ -41,8 +41,7 @@ class StatusBarItem:
                 self.set_image_from_stock(stock)
 
         # Add text
-        if text is not None:
-            self.set_text(text)
+        self.set_text(text)
 
         if callback is not None:
             self.set_callback(callback)
@@ -59,7 +58,6 @@ class StatusBarItem:
         self._ebox.show()
         self._hbox.show()
         self._image.show()
-        self._label.show()
 
     def set_image_from_file(self, image):
         self._image.set_from_file(image)
@@ -68,12 +66,18 @@ class StatusBarItem:
         self._image.set_from_stock(stock, gtk.ICON_SIZE_MENU)
 
     def set_text(self, text):
-        if self._label.get_text() != text:
+        if not text:
+            self._label.hide()
+        elif self._label.get_text() != text:
             self._label.set_text(text)
+            self._label.show()
 
     def set_markup(self, text):
-        if self._label.get_label() != text:
+        if not text:
+            self._label.hide()
+        elif self._label.get_text() != text:
             self._label.set_markup(text)
+            self._label.show()
 
     def set_tooltip(self, tip):
         if self._ebox.get_tooltip_text() != tip:
@@ -119,9 +123,12 @@ class StatusBar(component.Component):
         # Add a HBox to the statusbar after removing the initial label widget
         self.hbox = gtk.HBox()
         self.hbox.set_spacing(10)
+        align = gtk.Alignment()
+        align.set_padding(2, 0, 3, 0)
+        align.add(self.hbox)
         frame = self.statusbar.get_children()[0]
         frame.remove(frame.get_children()[0])
-        frame.add(self.hbox)
+        frame.add(align)
         self.statusbar.show_all()
         # Create the not connected item
         self.not_connected_item = StatusBarItem(
