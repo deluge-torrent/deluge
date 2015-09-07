@@ -756,9 +756,10 @@ class TorrentManager(component.Component):
                     os.rename(filepath_bak, filepath)
             else:
                 # Sync the rename operations for the directory
-                dirfd = os.open(os.path.dirname(filepath), os.O_DIRECTORY)
-                os.fsync(dirfd)
-                os.close(dirfd)
+                if hasattr(os, 'O_DIRECTORY'):
+                    dirfd = os.open(os.path.dirname(filepath), os.O_DIRECTORY)
+                    os.fsync(dirfd)
+                    os.close(dirfd)
                 return True
 
     def get_queue_position(self, torrent_id):
