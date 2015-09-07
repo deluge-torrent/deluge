@@ -121,6 +121,7 @@ class EditTrackersDialog:
         self.old_trackers = list(status["trackers"])
         for tracker in self.old_trackers:
             self.add_tracker(tracker["tier"], tracker["url"])
+        self.treeview.set_cursor((0))
         self.dialog.show()
 
     def add_tracker(self, tier, url):
