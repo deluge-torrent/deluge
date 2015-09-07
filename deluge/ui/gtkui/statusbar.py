@@ -149,22 +149,22 @@ class StatusBar(component.Component):
         self.connections_item = self.add_item(
             stock=gtk.STOCK_NETWORK,
             callback=self._on_connection_item_clicked,
-            tooltip=_("Connections"))
+            tooltip=_("Connections"), pack_start=True)
 
         self.download_item = self.add_item(
             image=deluge.common.get_pixmap("downloading16.png"),
             callback=self._on_download_item_clicked,
-            tooltip=_("Download Speed"))
+            tooltip=_("Download Speed"), pack_start=True)
 
         self.upload_item = self.add_item(
             image=deluge.common.get_pixmap("seeding16.png"),
             callback=self._on_upload_item_clicked,
-            tooltip=_("Upload Speed"))
+            tooltip=_("Upload Speed"), pack_start=True)
 
         self.traffic_item = self.add_item(
             image=deluge.common.get_pixmap("traffic16.png"),
             callback=self._on_traffic_item_clicked,
-            tooltip=_("Protocol Traffic Download/Upload"))
+            tooltip=_("Protocol Traffic Download/Upload"), pack_start=True)
 
         self.dht_item = StatusBarItem(
             image=deluge.common.get_pixmap("dht16.png"), tooltip=_("DHT Nodes"))
@@ -172,12 +172,12 @@ class StatusBar(component.Component):
         self.diskspace_item = self.add_item(
             stock=gtk.STOCK_HARDDISK,
             callback=self._on_diskspace_item_clicked,
-            tooltip=_("Free Disk Space"))
+            tooltip=_("Free Disk Space"), pack_start=True)
 
         self.health_item = self.add_item(
             stock=gtk.STOCK_DIALOG_ERROR,
             text=_("No Incoming Connections!"),
-            callback=self._on_health_icon_clicked)
+            callback=self._on_health_icon_clicked, pack_start=True)
 
         self.health = False
 
@@ -217,11 +217,14 @@ class StatusBar(component.Component):
         self.hbox.pack_start(
             self.not_connected_item.get_eventbox(), expand=False, fill=False)
 
-    def add_item(self, image=None, stock=None, text=None, callback=None, tooltip=None):
+    def add_item(self, image=None, stock=None, text=None, callback=None, tooltip=None, pack_start=False):
         """Adds an item to the status bar"""
         # The return tuple.. we return whatever widgets we add
         item = StatusBarItem(image, stock, text, callback, tooltip)
-        self.hbox.pack_start(item.get_eventbox(), expand=False, fill=False)
+        if pack_start:
+            self.hbox.pack_start(item.get_eventbox(), expand=False, fill=False)
+        else:
+            self.hbox.pack_end(item.get_eventbox(), expand=False, fill=False)
         return item
 
     def remove_item(self, item):
