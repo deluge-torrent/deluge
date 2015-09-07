@@ -145,23 +145,26 @@ class GtkUI(GtkPluginBase):
 
         component.get("PluginManager").register_hook("on_apply_prefs", self.on_apply_prefs)
         component.get("PluginManager").register_hook("on_show_prefs", self.on_show_prefs)
-
-        self.status_item = component.get("StatusBar").add_item(
+        self.statusbar = component.get("StatusBar")
+        self.status_item = self.statusbar.add_item(
             image=get_resource("green.png"),
             text="",
             callback=self.on_status_item_clicked,
             tooltip="Scheduler")
 
-        def on_get_state(state):
-            self.status_item.set_image_from_file(get_resource(state.lower() + ".png"))
-
-        self.state_deferred = client.scheduler.get_state().addCallback(on_get_state)
+        def on_state_deferred(state):
+            self.state = state
+            self.on_scheduler_event(state)
+        client.scheduler.get_state().addCallback(on_state_deferred)
         client.register_event_handler("SchedulerEvent", self.on_scheduler_event)
 
     def disable(self):
         component.get("Preferences").remove_page(_("Scheduler"))
-        # Remove status item
-        component.get("StatusBar").remove_item(self.status_item)
+        # Reset statusbar dict.
+        self.statusbar.config_value_changed_dict["max_download_speed"] = self.statusbar._on_max_download_speed
+        self.statusbar.config_value_changed_dict["max_upload_speed"] = self.statusbar._on_max_upload_speed
+        # Remove statusbar item.
+        self.statusbar.remove_item(self.status_item)
         del self.status_item
 
         component.get("PluginManager").deregister_hook("on_apply_prefs", self.on_apply_prefs)
@@ -191,10 +194,30 @@ class GtkUI(GtkPluginBase):
         client.scheduler.get_config().addCallback(on_get_config)
 
     def on_scheduler_event(self, state):
-        def on_state_deferred(s):
-            self.status_item.set_image_from_file(get_resource(state.lower() + ".png"))
+        self.state = state
+        self.status_item.set_image_from_file(get_resource(self.state.lower() + ".png"))
+        if self.state == "Yellow":
+            # Prevent func calls in Statusbar if the config changes.
+            self.statusbar.config_value_changed_dict.pop("max_download_speed", None)
+            self.statusbar.config_value_changed_dict.pop("max_upload_speed", None)
+            try:
+                self.statusbar._on_max_download_speed(self.spin_download.get_value())
+                self.statusbar._on_max_upload_speed(self.spin_upload.get_value())
+            except AttributeError:
+                # Skip error due to Plugin being enabled before statusbar items created on startup.
+                pass
+        else:
+            self.statusbar.config_value_changed_dict["max_download_speed"] = self.statusbar._on_max_download_speed
+            self.statusbar.config_value_changed_dict["max_upload_speed"] = self.statusbar._on_max_upload_speed
 
-        self.state_deferred.addCallback(on_state_deferred)
+            def update_config_values(config):
+                try:
+                    self.statusbar._on_max_download_speed(config["max_download_speed"])
+                    self.statusbar._on_max_upload_speed(config["max_upload_speed"])
+                except AttributeError:
+                    # Skip error due to Plugin being enabled before statusbar items created on startup.
+                    pass
+            client.core.get_config_values(["max_download_speed", "max_upload_speed"]).addCallback(update_config_values)
 
     def on_status_item_clicked(self, widget, event):
         component.get("Preferences").show("Scheduler")

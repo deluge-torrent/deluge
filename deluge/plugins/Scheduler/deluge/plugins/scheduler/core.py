@@ -105,7 +105,7 @@ class Core(CorePluginBase):
         """
         core_config = deluge.configmanager.ConfigManager("core.conf")
         for setting in CONTROLLED_SETTINGS:
-            core_config.apply_set_functions(setting)
+            component.get("PreferencesManager").do_config_set_func(setting, core_config[setting])
         # Resume the session if necessary
         component.get("Core").session.resume()
 
