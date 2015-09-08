@@ -17,7 +17,6 @@ from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_f
 
 gi.require_version('Gtk', '3.0')
 
-# FIXME: ?
 signal_new('button-press-event', Gtk.TreeViewColumn, SIGNAL_RUN_LAST, TYPE_NONE, (Gdk.Event,))
 
 log = logging.getLogger(__name__)
@@ -98,12 +97,10 @@ class ListView:
             del widget.__realize
             button = widget.get_ancestor(Gtk.Button)
             if button is not None:
-                # FIXME: ?
                 button.connect('button-press-event', self.on_button_pressed)
 
         def on_button_pressed(self, widget, event):
-            # FIXME: ?
-            self.emit('button-press-event', event)
+            self.connect('button-press-event', self.on_button_pressed)
 
         def set_cell_data_func_attributes(self, cell_renderer, func, func_data=None):
             """Store the values to be set by set_cell_data_func"""

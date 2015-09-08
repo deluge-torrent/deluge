@@ -29,31 +29,31 @@ from .graph import Graph, size_formatter_scale
 log = logging.getLogger(__name__)
 
 
-# FIXME use gdk_rgba_parse?
+color = Gdk.RGBA()
 DEFAULT_CONF = {'version': 1,
                 'colors': {
                     'bandwidth_graph': {'upload_rate':
-                                        str(Gdk.RGBA(red=0.541176, green=0.886275, blue=0.203922, alpha=1.000000)),
+                                        color.parse("green"),
                                         'download_rate':
-                                        str(Gdk.RGBA(red=0.074510, green=0.411765, blue=0.862745, alpha=1.000000)),
+                                        color.parse("blue"),
                                         },
                     'connections_graph': {'dht_nodes':
-                                          str(Gdk.RGBA(red=0.988235, green=0.686275, blue=0.243137, alpha=1.000000)),
+                                          color.parse("orange"),
                                           'dht_cache_nodes':
-                                          str(Gdk.RGBA(red=0.074510, green=0.411765, blue=0.862745, alpha=1.000000)),
+                                          color.parse("blue"),
                                           'dht_torrents':
-                                          str(Gdk.RGBA(red=0.541176, green=0.886275, blue=0.203922, alpha=1.000000)),
+                                          color.parse("green"),
                                           'num_connections':
-                                          str(Gdk.RGBA(red=0.800000, green=0.000000, blue=0.000000, alpha=1.000000)),
+                                          color.parse("red"),
                                           },
                     'seeds_graph': {'num_peers':
-                                    str(Gdk.RGBA(red=0.074510, green=0.411765, blue=0.862745, alpha=1.000000)),
+                                    color.parse("blue"),
                                     },
                 }
                 }
 
 
-def neat_time(column, cell, model, iter):
+def neat_time(column, cell, model, iter, text):
     """Render seconds as seconds or minutes with label"""
     seconds = model.get_value(iter, 0)
     if seconds > 60:
@@ -75,8 +75,8 @@ def int_str(number):
 def gtk_to_graph_color(color):
     """Turns a Gdk.Color into a tuple with range 0-1 as used by the graph"""
     # max_val = float(65535)
-    # FIXME figure out how to use gdk_rgba_to_string instead
-    gtk_color = eval(color)
+    gtk_color = Gdk.RGBA()
+    gtk_color.to_string()
     red = gtk_color.red
     green = gtk_color.green
     blue = gtk_color.blue
@@ -118,7 +118,7 @@ class GraphsTab(Tab):
         self.intervals_combo = self.main_builder.get_object('combo_intervals')
         cell = Gtk.CellRendererText()
         self.intervals_combo.pack_start(cell, True)
-        self.intervals_combo.set_cell_data_func(cell, neat_time)
+        self.intervals_combo.set_cell_data_func(cell, neat_time, None)
         self.intervals_combo.connect("changed", self._on_selected_interval_changed)
         self.update_intervals()
 
