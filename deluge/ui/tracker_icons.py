@@ -7,11 +7,18 @@
 # See LICENSE for more details.
 #
 
+py3 = sys.version_info[0] >= 3
 import logging
 import os
-from HTMLParser import HTMLParseError, HTMLParser
+if py3:
+    from html.parser import HTMLParseError, HTMLParser
+else:
+    from HTMLparser import HTMLParseError, HTMLParser
 from tempfile import mkstemp
-from urlparse import urljoin, urlparse
+if py3:
+    from urllib.parse import urljoin, urlparse
+else:
+    from urlparse import urljoin, urlparse
 
 from twisted.internet import defer, threads
 from twisted.web.error import PageRedirect

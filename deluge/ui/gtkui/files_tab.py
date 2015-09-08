@@ -7,7 +7,11 @@
 # See LICENSE for more details.
 #
 
-import cPickle
+py3 = sys.version_info[0] >= 3
+if py3:
+    import pickle as cPickle
+else:
+    import cPickle
 import logging
 import os.path
 

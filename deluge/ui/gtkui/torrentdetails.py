@@ -117,7 +117,7 @@ class TorrentDetails(component.Component):
         # We need to rename the tab in the state for backwards compat
         self.state = [(tab_name.replace("Statistics", "Status"), visible) for tab_name, visible in state]
 
-        for tab in default_tabs.itervalues():
+        for tab in default_tabs.values():
             self.add_tab(tab(), generate_menu=False)
 
         # Generate the checklist menu
@@ -128,7 +128,7 @@ class TorrentDetails(component.Component):
         # Determine insert position based on weight
         # weights is a list of visible tab names in weight order
 
-        weights = [(tab.weight, name) for name, tab in self.tabs.iteritems() if tab.is_visible]
+        weights = [(tab.weight, name) for name, tab in self.tabs.items() if tab.is_visible]
 
         weights.sort()
         log.debug("weights: %s", weights)

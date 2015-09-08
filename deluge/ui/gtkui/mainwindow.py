@@ -25,6 +25,7 @@ from deluge.ui.gtkui.dialogs import PasswordDialog
 from deluge.ui.gtkui.ipcinterface import process_args
 
 gi.require_version('Gtk', '3.0')
+py3 = sys.version_info[0] >= 3
 
 
 try:
@@ -39,13 +40,22 @@ class _GtkBuilderSignalsHolder(object):
     def connect_signals(self, mapping_or_class):
 
         if isinstance(mapping_or_class, dict):
-            for name, handler in mapping_or_class.iteritems():
-                if hasattr(self, name):
-                    raise RuntimeError(
-                        "A handler for signal %r has already been registered: %s" %
-                        (name, getattr(self, name))
-                    )
-                setattr(self, name, handler)
+            if py3:
+                for name, handler in mapping_or_class.items():
+                    if hasattr(self, name):
+                        raise RuntimeError(
+                            "A handler for signal %r has already been registered: %s" %
+                            (name, getattr(self, name))
+                        )
+                    setattr(self, name, handler)
+            else:
+                for name, handler in mapping_or_class.iteritems():
+                    if hasattr(self, name):
+                        raise RuntimeError(
+                            "A handler for signal %r has already been registered: %s" %
+                            (name, getattr(self, name))
+                        )
+                    setattr(self, name, handler)
         else:
             for name in dir(mapping_or_class):
                 if not name.startswith('on_'):

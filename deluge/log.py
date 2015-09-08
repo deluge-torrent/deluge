@@ -79,6 +79,10 @@ class Logging(LoggingLoggerClass):
     def exception(self, msg, *args, **kwargs):
         yield LoggingLoggerClass.exception(self, msg, *args, **kwargs)
 
+py3 = sys.version_info[0] >= 3
+if py3:
+    def findCaller(self, msg):  # NOQA
+else:
     def findCaller(self):  # NOQA
         f = logging.currentframe().f_back
         rv = "(unknown file)", 0, "(unknown function)"

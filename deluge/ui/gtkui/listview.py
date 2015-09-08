@@ -21,6 +21,7 @@ gi.require_version('Gtk', '3.0')
 signal_new('button-press-event', Gtk.TreeViewColumn, SIGNAL_RUN_LAST, TYPE_NONE, (Gdk.Event,))
 
 log = logging.getLogger(__name__)
+py3 = sys.version_info[0] >= 3
 
 
 class ListViewColumnState:
@@ -122,8 +123,12 @@ class ListView:
 
         def set_col_attributes(self, renderer, add=True, **kw):
             if add is True:
-                for attr, value in kw.iteritems():
-                    self.add_attribute(renderer, attr, value)
+                if py3:
+                    for attr, value in kw.items():
+                        self.add_attribute(renderer, attr, value)
+                else:
+                    for attr, value in kw.iteritems():
+                        self.add_attribute(renderer, attr, value)
             else:
                 self.set_attributes(renderer, **kw)
 
@@ -542,17 +547,28 @@ class ListView:
         column_in_state = False
         if self.state is not None:
             for column_state in self.state:
-                if header.decode("utf-8") == column_state.name.decode("utf-8"):
-                    # We found a loaded state
-                    column_in_state = True
-                    if column_state.width > 0:
-                        column.set_sizing(Gtk.TreeViewColumnSizing.FIXED)
-                        column.set_fixed_width(column_state.width)
+                if py3:
+                    if header == column_state.name:
+                        # We found a loaded state
+                        column_in_state = True
+                        if column_state.width > 0:
+                            column.set_sizing(Gtk.TreeViewColumnSizing.FIXED)
+                            column.set_fixed_width(column_state.width)
 
-                    column.set_visible(column_state.visible)
-                    position = column_state.position
-                    break
+                        column.set_visible(column_state.visible)
+                        position = column_state.position
+                        break
+                else:
+                    if header.decode("utf-8") == column_state.name.decode("utf-8"):
+                        # We found a loaded state
+                        column_in_state = True
+                        if column_state.width > 0:
+                            column.set_sizing(Gtk.TreeViewColumnSizing.FIXED)
+                            column.set_fixed_width(column_state.width)
 
+                        column.set_visible(column_state.visible)
+                        position = column_state.position
+                        break
         # Set this column to not visible if its not in the state and
         # its not supposed to be shown by default
         if not column_in_state and not default and not hidden:
