@@ -40,11 +40,7 @@ version as this will be done internally.
 
 """
 
-py3 = sys.version_info[0] >= 3
-if py3:
-    import pickle
-else:
-    import cPickle as pickle
+import cPickle as pickle
 import json
 import logging
 import os
@@ -128,14 +124,9 @@ class Config(object):
         # is set.
         self._save_timer = None
 
-        if py3:
-            if defaults:
-                for key, value in defaults.items():
-                    self.set_item(key, value)
-        else:
-            if defaults:
-                for key, value in defaults.iteritems():
-                    self.set_item(key, value)
+        if defaults:
+            for key, value in defaults.iteritems():
+                self.set_item(key, value)
 
         # Load the config from file in the config_dir
         if config_dir:
@@ -176,12 +167,8 @@ what is currently in the config and it could not convert the value
         5
 
         """
-        if py3:
-            if isinstance(value, bytes):
-                value = utf8_encoded(value)
-        else:
-            if isinstance(value, basestring):
-                value = utf8_encoded(value
+        if isinstance(value, basestring):
+            value = utf8_encoded(value)
 
         if key not in self.__config:
             self.__config[key] = value
@@ -255,10 +242,7 @@ what is currently in the config and it could not convert the value
         """
         if isinstance(self.__config[key], str):
             try:
-                if py3:
-                    return self.__config[key]
-                else:
-                    return self.__config[key].decode("utf8")
+                return self.__config[key].decode("utf8")
             except UnicodeDecodeError:
                 return self.__config[key]
         else:

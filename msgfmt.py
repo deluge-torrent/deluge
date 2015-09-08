@@ -87,16 +87,6 @@ def generate():
         koffsets += [l1, o1 + keystart]
         voffsets += [l2, o2 + valuestart]
     offsets = koffsets + voffsets
-    py3 = sys.version_info[0] >= 3
-if py3:
-    output = struct.pack("Iiiiiii",
-                         '0x950412deL',       # Magic
-                         '0',                 # Version
-                         len(keys),         # # of entries
-                         '7 * 4',             # start of key index
-                         '7 * 4 + len(keys) * 8',   # start of value index
-                         '0, 0')              # size and offset of hash table
-else:
     output = struct.pack("Iiiiiii",
                          0x950412deL,       # Magic
                          0,                 # Version
@@ -126,7 +116,7 @@ def make(filename, outfile):
 
     try:
         lines = open(infile).readlines()
-    except IOError as msg:
+    except IOError, msg:
         print >> sys.stderr, msg
         sys.exit(1)
 
@@ -194,7 +184,7 @@ def make(filename, outfile):
 
     try:
         open(outfile, "wb").write(output)
-    except IOError as msg:
+    except IOError, msg:
         print >> sys.stderr, msg
 
 
@@ -202,7 +192,7 @@ def main():
     try:
         opts, args = getopt.getopt(sys.argv[1:], 'hVo:',
                                    ['help', 'version', 'output-file='])
-    except getopt.error as msg:
+    except getopt.error, msg:
         usage(1, msg)
 
     outfile = None

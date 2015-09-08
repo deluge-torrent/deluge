@@ -91,14 +91,10 @@ class ConnectionManager(component.Component):
             from deluge.common import create_localclient_account
             create_localclient_account()
 
-        py3 = sys.version_info[0] >= 3
         localclient_username, localclient_password = get_localhost_auth()
         default_config = {
             "hosts": [(
-                if py3:
-                    hashlib.sha1(str(time.time()).encode('utf-8')).hexdigest(),
-                else:
-                    hashlib.sha1(str(time.time())).hexdigest(),
+                hashlib.sha1(str(time.time())).hexdigest(),
                 DEFAULT_HOST,
                 DEFAULT_PORT,
                 localclient_username,

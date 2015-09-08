@@ -7,15 +7,11 @@
 # See LICENSE for more details.
 #
 
-py3 = sys.version_info[0] >= 3
 import base64
 import cgi
 import logging
 import os
-if py3:
-    from urllib.parse import urljoin
-else:
-    from urlparse import urljoin
+from urlparse import urljoin
 
 import gi
 import twisted.web.client

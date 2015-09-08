@@ -7,13 +7,9 @@
 # See LICENSE for more details.
 #
 
-py3 = sys.version_info[0] >= 3
 import logging
 import os.path
-if py3:
-    print ("using python3 builtin zip")
-except:
-    from itertools import izip
+from itertools import izip
 
 from gi.repository import GdkPixbuf, Gtk
 
@@ -270,10 +266,7 @@ class PeersTab(Tab):
                 if peer["ip"].count(":") == 1:
                     # This is an IPv4 address
                     ip_int = sum([int(byte) << shift
-                                 if py3:
-                                     for byte, shift in zip(peer["ip"].split(":")[0].split("."), (24, 16, 8, 0))])
-                                 else:
-                                     for byte, shift in izip(peer["ip"].split(":")[0].split("."), (24, 16, 8, 0))])
+                                 for byte, shift in izip(peer["ip"].split(":")[0].split("."), (24, 16, 8, 0))])
                     peer_ip = peer["ip"]
                 else:
                     # This is an IPv6 address

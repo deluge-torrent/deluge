@@ -9,7 +9,6 @@
 
 """Common functions for various parts of Deluge to use."""
 
-py3 = sys.version_info[0] >= 3
 import base64
 import gettext
 import locale
@@ -20,11 +19,7 @@ import subprocess
 import sys
 import time
 import urllib
-if py3:
-    import urllib.parse
-else:
-    import urlparse
-
+import urlparse
 
 import chardet
 import pkg_resources
@@ -723,12 +718,8 @@ def decode_string(s, encoding="utf8"):
     """
     if not s:
         return u''
-    if py3:
-        elif isinstance(s, str):
-            return s
-	else: 
-        elif isinstance(s, unicode):
-            return s
+    elif isinstance(s, unicode):
+        return s
 
     encodings = [lambda: ("utf8", 'strict'),
                  lambda: ("iso-8859-1", 'strict'),
@@ -862,10 +853,7 @@ def create_localclient_account(append=False):
     fd = open(auth_file, "a" if append else "w")
     fd.write(":".join([
         "localclient",
-        if py3:
-            sha(str(random.random()).encode('utf-8')).hexdigest(),
-        else:
-            sha(str(random.random())).hexdigest(),
+        sha(str(random.random())).hexdigest(),
         str(AUTH_LEVEL_ADMIN)
     ]) + '\n')
     fd.flush()
@@ -998,19 +986,12 @@ def setup_translations(setup_gettext=True, setup_pygtk=False):
             gettext.bindtextdomain(domain, translations_path)
             gettext.bind_textdomain_codeset(domain, 'UTF-8')
             gettext.textdomain(domain)
-            if py3:
-                gettext.install(domain, translations_path)
-            else:
-                gettext.install(domain, translations_path, unicode=True)
+            gettext.install(domain, translations_path, unicode=True)
         except Exception as ex:
             log.error("Unable to initialize gettext/locale!")
             log.exception(ex)
-            if py3:
-                import builtins
-                builtins.__dict__["_"] = lambda x: x
-            else:
-                import __builtin__
-                __builtin__.__dict__["_"] = lambda x: x            
+            import __builtin__
+            __builtin__.__dict__["_"] = lambda x: x
 
         translate_size_units()
 
@@ -1038,12 +1019,8 @@ def unicode_argv():
         if argc.value > 0:
             # Remove Python executable and commands if present
             start = argc.value - len(sys.argv)
-            if py3:
-                return [argv[i] for i in
-                        range(start, argc.value)]
-            else:
-                return [argv[i] for i in
-                        xrange(start, argc.value)]
+            return [argv[i] for i in
+                    xrange(start, argc.value)]
     else:
         # On other platforms, we have to find the likely encoding of the args and decode
         # First check if sys.stdout or stdin have encoding set

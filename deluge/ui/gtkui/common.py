@@ -8,12 +8,8 @@
 #
 """Common functions for various parts of gtkui to use."""
 
-py3 = sys.version_info[0] >= 3
 import contextlib
-if py3:
-    import pickle as cPickle
-else:
-    import cPickle
+import cPickle
 import logging
 import os
 import shutil
@@ -166,10 +162,7 @@ def associate_magnet_links(overwrite=False):
     """
 
     if deluge.common.windows_check():
-        if py3:
-            import winreg as _winreg
-        else:
-            import _winreg
+        import _winreg
 
         try:
             hkey = _winreg.OpenKey(_winreg.HKEY_CLASSES_ROOT, "Magnet")

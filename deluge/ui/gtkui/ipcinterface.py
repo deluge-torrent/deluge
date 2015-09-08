@@ -7,19 +7,14 @@
 # See LICENSE for more details.
 #
 
-py3 = sys.version_info[0] >= 3
 import base64
 import logging
 import os
 import sys
 from glob import glob
 from tempfile import mkstemp
-if py3:
-    from urllib.parse import urlparse
-    from urllib.request import url2pathname
-else:
-    from urlparse import urlparse
-    from urllib import url2pathname
+from urllib import url2pathname
+from urlparse import urlparse
 
 import twisted.internet.error
 from twisted.internet import reactor
