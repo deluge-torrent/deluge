@@ -26,10 +26,10 @@ import pkg_resources
 
 from deluge.error import InvalidPathError
 
-# This works on windows but is not needed and in pygi/GTK3
+# dbus is available on windows but is not needed and in pygi/GTK3
 # The dbus process doesnt close causeing many to open.
 # Only run on other platforms where its needed.
-if sys.platform == 'linux':
+if sys.platform == 'linux2':
     try:
         import dbus
         bus = dbus.SessionBus()
