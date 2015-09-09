@@ -12,6 +12,7 @@
 #
 
 import logging
+import pygtkcompat
 
 from gi.repository import Gtk, Gdk
 
@@ -21,6 +22,9 @@ from deluge.ui.client import client
 
 from .common import get_resource
 
+pygtkcompat.enable()
+pygtkcompat.enable_gtk(version='3.0')
+
 log = logging.getLogger(__name__)
 
 DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
@@ -29,8 +33,6 @@ DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 class SchedulerSelectWidget(Gtk.DrawingArea):
     def __init__(self, hover):
         Gtk.DrawingArea.__init__(self)
-        window = Gtk.Window()
-        window.add(self)
         self.set_events(Gdk.EventMask.BUTTON_PRESS_MASK | Gdk.EventMask.BUTTON_RELEASE_MASK |
                         Gdk.EventMask.POINTER_MOTION_MASK | Gdk.EventMask.LEAVE_NOTIFY_MASK)
 
@@ -60,11 +62,10 @@ class SchedulerSelectWidget(Gtk.DrawingArea):
 
     # redraw the whole thing
     def expose(self, widget, event):
-        self.context = widget.window.cairo_create()
+        # FIXME Use Gdk.cairo_rectangle/Gdk.cairo_create to replace pygtkcompat
+        self.context = self.window.cairo_create()
         alloc = Gtk.Window.get_allocation(widget)
-        x, y, w, h = alloc.x, alloc.y, alloc.width, alloc.height
-        width = w
-        height = h
+        x, y, width, height = alloc.x, alloc.y, alloc.width, alloc.height
         self.context.rectangle(0, 0, width, height)
         self.context.clip()
 
@@ -82,10 +83,8 @@ class SchedulerSelectWidget(Gtk.DrawingArea):
     # coordinates --> which box
     def get_point(self, event):
         alloc = Gtk.Window.get_allocation(Gtk.Window())
-        x, y, w, h = alloc.x, alloc.y, alloc.width, alloc.height
-        width = w
-        height = h
-        # size = self.window.get_size()
+        x, y, width, height = alloc.x, alloc.y, alloc.width, alloc.height
+        # FIXME the window size is different now so the below formula needs to be rethought
         x = int((event.x - width * 0.5 / 145.0) / (6 * width / 145.0))
         y = int((event.y - height * 0.5 / 43.0) / (6 * height / 43.0))
 
