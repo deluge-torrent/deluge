@@ -541,14 +541,14 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
             self.populate_sounds
         )
 
-    def on_add_button_clicked(self, widget, user_data):
+    def on_add_button_clicked(self, widget, treeview):
         treeview = self.recipients_treeview
         model = treeview.get_model()
         model.set(model.append(),
                   RECIPIENT_FIELD, "USER@HOST",
                   RECIPIENT_EDIT, True)
 
-    def on_delete_button_clicked(self, widget, user_data):
+    def on_delete_button_clicked(self, widget, treeview):
         treeview = self.recipients_treeview
         selection = treeview.get_selection()
         model, iter = selection.get_selected()
