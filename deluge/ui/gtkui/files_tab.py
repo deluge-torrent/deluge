@@ -433,7 +433,8 @@ class FilesTab(Tab):
             except ZeroDivisionError:
                 # Catch the unusal error found when moving folders around
                 value = 0
-            self.treestore[parent][3] = long(value)
+            # FIXME expected long
+            self.treestore[parent][3] = value
             self.treestore[parent][2] = "%.2f%%" % value
             return bytes
 
@@ -470,7 +471,8 @@ class FilesTab(Tab):
                 continue
             if row[2] != progress_string:
                 row[2] = progress_string
-            progress_value = long(status["file_progress"][index] * 100)
+            # FIXME expected long
+            progress_value = status["file_progress"][index] * 100
             if row[3] != progress_value:
                 row[3] = progress_value
             file_priority = status["file_priorities"][index]
