@@ -209,7 +209,7 @@ class ListView:
             self.last_sort_order = {}
 
             def record_position(model, path, iter, data):
-                self.last_sort_order[model[iter][self.unique_column_id]] = int(str(model.get_path(iter)))
+                self.last_sort_order[model[iter][self.unique_column_id]] = path[0]
             model.foreach(record_position, None)
 
     def on_model_row_inserted(self, model, path, iter):
