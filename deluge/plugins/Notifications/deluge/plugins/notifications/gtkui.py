@@ -247,8 +247,10 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         )
 
         self.main_builder.connect_signals({
-            'on_add_button_clicked': self.on_add_button_clicked,
-            'on_delete_button_clicked': self.on_delete_button_clicked,
+            'on_add_button_clicked': (self.on_add_button_clicked,
+                                      self.recipients_treeview),
+            'on_delete_button_clicked': (self.on_delete_button_clicked,
+                                         self.recipients_treeview),
             'on_enabled_toggled': self.on_enabled_toggled,
             'on_sound_enabled_toggled': self.on_sound_enabled_toggled,
             'on_sounds_edit_button_clicked': self.on_sounds_edit_button_clicked,
@@ -539,14 +541,14 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
             self.populate_sounds
         )
 
-    def on_add_button_clicked(self, widget):
+    def on_add_button_clicked(self, widget, user_data):
         treeview = self.recipients_treeview
         model = treeview.get_model()
         model.set(model.append(),
                   RECIPIENT_FIELD, "USER@HOST",
                   RECIPIENT_EDIT, True)
 
-    def on_delete_button_clicked(self, widget):
+    def on_delete_button_clicked(self, widget, user_data):
         treeview = self.recipients_treeview
         selection = treeview.get_selection()
         model, iter = selection.get_selected()
