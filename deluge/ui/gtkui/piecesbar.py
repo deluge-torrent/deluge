@@ -26,8 +26,6 @@ COLOR_STATES = {
 
 
 class PiecesBar(Gtk.DrawingArea):
-    # Draw in response to an expose-event
-    __gsignals__ = {"draw": "override"}
 
     def __init__(self):
         Gtk.DrawingArea.__init__(self)
@@ -52,8 +50,12 @@ class PiecesBar(Gtk.DrawingArea):
         self.__cr = None
 
         self.connect('size-allocate', self.do_size_allocate_event)
-        self.set_colormap(Gdk.colormap_get_system())
+        self.connect("draw", self.expose)
+        #self.set_colormap(Gdk.colormap_get_system())
         self.show()
+
+    def expose(self, widget, event):
+        return False
 
     def do_size_allocate_event(self, widget, size):
         self.__old_width = self.__width

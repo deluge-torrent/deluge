@@ -29,6 +29,8 @@ DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 class SchedulerSelectWidget(Gtk.DrawingArea):
     def __init__(self, hover):
         Gtk.DrawingArea.__init__(self)
+        window = Gtk.Window()
+        window.add(self)
         self.set_events(Gdk.EventMask.BUTTON_PRESS_MASK | Gdk.EventMask.BUTTON_RELEASE_MASK |
                         Gdk.EventMask.POINTER_MOTION_MASK | Gdk.EventMask.LEAVE_NOTIFY_MASK)
 
@@ -58,7 +60,7 @@ class SchedulerSelectWidget(Gtk.DrawingArea):
 
     # redraw the whole thing
     def expose(self, widget, event):
-        self.context = self.window.cairo_create()
+        self.context = widget.window.cairo_create()
         alloc = Gtk.Window.get_allocation(widget)
         x, y, w, h = alloc.x, alloc.y, alloc.width, alloc.height
         width = w
