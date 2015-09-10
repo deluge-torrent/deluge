@@ -34,7 +34,7 @@ SetCompressorDictSize 64
 ###
 
 # Script version; displayed when running the installer
-!define DELUGE_INSTALLER_VERSION "0.7"
+!define DELUGE_INSTALLER_VERSION "0.8"
 
 # Deluge program information
 !define PROGRAM_NAME "Deluge"
@@ -96,6 +96,15 @@ SetCompressorDictSize 64
 # Language files
 !insertmacro MUI_LANGUAGE "English"
 
+VIProductVersion "${DELUGE_INSTALLER_VERSION}.0.0"
+VIAddVersionKey ProductName "${PROGRAM_NAME}"
+VIAddVersionKey Comments "Deluge Bittorrent Client"
+VIAddVersionKey CompanyName "Deluge Team"
+VIAddVersionKey LegalCopyright "Deluge Team"
+VIAddVersionKey FileDescription "${PROGRAM_NAME} Application Installer"
+VIAddVersionKey FileVersion "${DELUGE_INSTALLER_VERSION}.0.0"
+VIAddVersionKey ProductVersion "${PROGRAM_VERSION}.0"
+VIAddVersionKey OriginalFilename "deluge-${PROGRAM_VERSION}-win32-setup.exe"
 
 # --- Functions ---
 
@@ -114,24 +123,17 @@ Function un.onUninstSuccess
 FunctionEnd
 
 Function un.onInit
-  MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Do you want to completely remove $(^Name) and all of its components?" /SD IDYES IDYES +2
+  MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Do you want to completely remove $(^Name)?" /SD IDYES IDYES +2
   Abort
 FunctionEnd
 
 # --- Installation sections ---
-
-# Compare versions
-!include "WordFunc.nsh"
-
 !define PROGRAM_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROGRAM_NAME}"
 !define PROGRAM_UNINST_ROOT_KEY "HKLM"
 
-# Branding text
 BrandingText "Deluge Windows Installer v${DELUGE_INSTALLER_VERSION}"
-
 Name "${PROGRAM_NAME} ${PROGRAM_VERSION}"
 OutFile "${BUILD_DIR}\deluge-${PROGRAM_VERSION}-win32-setup.exe"
-
 InstallDir "$PROGRAMFILES\Deluge"
 
 ShowInstDetails show
@@ -140,11 +142,10 @@ ShowUnInstDetails show
 # Install main application
 Section "Deluge Bittorrent Client" Section1
   SectionIn RO
-
-  SetOutPath $INSTDIR
-  File /r "${BBFREEZE_DIR}\*.*"
+  !include "install_files.nsh"
 
   SetOverwrite ifnewer
+  SetOutPath "$INSTDIR"
   File "..\LICENSE"
 SectionEnd
 
@@ -154,19 +155,19 @@ Section -StartMenu_Desktop_Links
   SetShellVarContext all
   CreateDirectory "$SMPROGRAMS\Deluge"
   CreateShortCut "$SMPROGRAMS\Deluge\Deluge.lnk" "$INSTDIR\deluge.exe"
-  CreateShortCut "$SMPROGRAMS\Deluge\Project homepage.lnk" "$INSTDIR\Homepage.url"
-  CreateShortCut "$SMPROGRAMS\Deluge\Uninstall Deluge.lnk" "$INSTDIR\Deluge-uninst.exe"
+  CreateShortCut "$SMPROGRAMS\Deluge\Website.lnk" "$INSTDIR\homepage.url"
+  CreateShortCut "$SMPROGRAMS\Deluge\Uninstall Deluge.lnk" "$INSTDIR\deluge-uninst.exe"
   CreateShortCut "$DESKTOP\Deluge.lnk" "$INSTDIR\deluge.exe"
 SectionEnd
 
 Section -Uninstaller
-  WriteUninstaller "$INSTDIR\Deluge-uninst.exe"
+  WriteUninstaller "$INSTDIR\deluge-uninst.exe"
   WriteRegStr ${PROGRAM_UNINST_ROOT_KEY} "${PROGRAM_UNINST_KEY}" "DisplayName" "$(^Name)"
-  WriteRegStr ${PROGRAM_UNINST_ROOT_KEY} "${PROGRAM_UNINST_KEY}" "UninstallString" "$INSTDIR\Deluge-uninst.exe"
+  WriteRegStr ${PROGRAM_UNINST_ROOT_KEY} "${PROGRAM_UNINST_KEY}" "UninstallString" "$INSTDIR\deluge-uninst.exe"
 SectionEnd
 
 # Create file association for .torrent
-Section "Create .torrent file association for Deluge" Section2
+Section "Associate .torrent files with Deluge" Section2
   # Set up file association for .torrent files
   DeleteRegKey HKCR ".torrent"
   WriteRegStr HKCR ".torrent" "" "Deluge"
@@ -180,20 +181,17 @@ Section "Create .torrent file association for Deluge" Section2
   WriteRegStr HKCR "Deluge\shell\open\command" "" '"$INSTDIR\deluge.exe" "%1"'
 SectionEnd
 
-
 # Create magnet uri association
-Section "Create magnet uri link association for Deluge" Section3
-    DeleteRegKey HKCR "magnet"
-    WriteRegStr HKCR "magnet" "" "URL:magnet protocol"
-    WriteRegStr HKCR "magnet" "URL Protocol" ""
-
-    WriteRegStr HKCR "magnet\shell\open\command" "" '"$INSTDIR\deluge.exe" "%1"'
+Section "Associate Magnet URI links with Deluge" Section3
+    DeleteRegKey HKCR "Magnet"
+    WriteRegStr HKCR "Magnet" "" "URL:Magnet Protocol"
+    WriteRegStr HKCR "Magnet" "URL Protocol" ""
+    WriteRegStr HKCR "Magnet\shell\open\command" "" '"$INSTDIR\deluge.exe" "%1"'
 SectionEnd
 
-
 LangString DESC_Section1 ${LANG_ENGLISH} "Install Deluge Bittorrent client."
-LangString DESC_Section2 ${LANG_ENGLISH} "Select this option unless you have another torrent client which you want to use for opening .torrent files."
-LangString DESC_Section3 ${LANG_ENGLISH} "Select this option to have Deluge handle magnet links."
+LangString DESC_Section2 ${LANG_ENGLISH} "Select this option to let Deluge handle the opening of .torrent files."
+LangString DESC_Section3 ${LANG_ENGLISH} "Select this option to let Deluge handle Magnet URI links from the web-browser."
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${Section1} $(DESC_Section1)
@@ -201,29 +199,27 @@ LangString DESC_Section3 ${LANG_ENGLISH} "Select this option to have Deluge hand
   !insertmacro MUI_DESCRIPTION_TEXT ${Section3} $(DESC_Section3)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
-
-# --- Uninstallation section(s) ---
-
+# --- Uninstallation section ---
 Section Uninstall
-  RmDir /r "$INSTDIR"
+  Delete "$INSTDIR\LICENSE"
+  Delete "$INSTDIR\homepage.url"
+  Delete "$INSTDIR\deluge-uninst.exe"
+  !include "uninstall_files.nsh"
 
   SetShellVarContext all
   Delete "$SMPROGRAMS\Deluge\Deluge.lnk"
   Delete "$SMPROGRAMS\Deluge\Uninstall Deluge.lnk"
-  Delete "$SMPROGRAMS\Deluge\Project homepage.lnk"
-  Delete "$DESKTOP\Deluge.lnk"
-
+  Delete "$SMPROGRAMS\Deluge\Deluge Website.lnk"
   RmDir "$SMPROGRAMS\Deluge"
+  Delete "$DESKTOP\Deluge.lnk"
 
   DeleteRegKey ${PROGRAM_UNINST_ROOT_KEY} "${PROGRAM_UNINST_KEY}"
 
   # Only delete the .torrent association if Deluge owns it
   ReadRegStr $1 HKCR ".torrent" ""
   StrCmp $1 "Deluge" 0 DELUGE_skip_delete
-
-  # Delete the key since it is owned by Deluge; afterwards there is no .torrent association
-  DeleteRegKey HKCR ".torrent"
-
+    # Delete the key since it is owned by Deluge; afterwards there is no .torrent association
+    DeleteRegKey HKCR ".torrent"
   DELUGE_skip_delete:
   # This key is only used by Deluge, so we should always delete it
   DeleteRegKey HKCR "Deluge"
