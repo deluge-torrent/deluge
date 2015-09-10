@@ -70,7 +70,7 @@ if not DEBUG:
 # Include python modules not picked up automatically by bbfreeze.
 includes = ("libtorrent", "cairo", "pangocairo", "atk", "pango", "twisted.internet.utils",
             "gio", "gzip", "email.mime.multipart", "email.mime.text", "_cffi_backend")
-excludes = ("numpy", "OpenGL", "psyco", "win32ui")
+excludes = ("numpy", "OpenGL", "psyco", "win32ui", "unittest")
 
 
 def recipe_gtk_override(mf):
@@ -111,7 +111,7 @@ for script in script_list:
     os.remove(script)
 
 # Exclude files which are already included in GTK or Windows.
-excludeDlls = ("MSIMG32.dll", "MSVCR90.dll", "MSVCP90.dll", "POWRPROF.dll", "DNSAPI.dll", "USP10.dll")
+excludeDlls = ("MSIMG32.dll", "MSVCR90.dll", "MSVCP90.dll", "MSVCR120.dll", "POWRPROF.dll", "DNSAPI.dll", "USP10.dll")
 for dll in excludeDlls:
     try:
         os.remove(os.path.join(build_dir, dll))
@@ -165,9 +165,35 @@ for script in script_list:
                                   description="Deluge Bittorrent Client",
                                   company="Deluge Team",
                                   product="Deluge",
-                                  copyright="GPLv3")
+                                  copyright="Deluge Team")
         stamp(os.path.join(build_dir, script_exe), versionInfo)
 
 # Copy version info to file for nsis script.
 with open('VERSION.tmp', 'w') as ver_file:
     ver_file.write("build_version = \"%s\"" % build_version)
+
+# Create the install and uninstall file list for NSIS.
+filedir_list = []
+for root, dirnames, filenames in os.walk(build_dir):
+    dirnames.sort()
+    filenames.sort()
+    filedir_list.append((root[len(build_dir):], filenames))
+
+with open('install_files.nsh', 'w') as f:
+    f.write('; Files to install\n')
+    for dirname, files in filedir_list:
+        if not dirname:
+            dirname = os.sep
+        f.write('\nSetOutPath "$INSTDIR%s"\n' % dirname)
+        for filename in files:
+            f.write('File "${BBFREEZE_DIR}%s"\n' % os.path.join(dirname, filename))
+
+with open('uninstall_files.nsh', 'w') as f:
+    f.write('; Files to uninstall\n')
+    for dirname, files in reversed(filedir_list):
+        f.write('\n')
+        if not dirname:
+            dirname = os.sep
+        for filename in files:
+            f.write('Delete "$INSTDIR%s"\n' % os.path.join(dirname, filename))
+        f.write('RMDir "$INSTDIR%s"\n' % dirname)
