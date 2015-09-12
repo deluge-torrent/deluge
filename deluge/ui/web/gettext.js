@@ -825,7 +825,7 @@ GetText.add('Username', '${escape(_("Username"))}')
 GetText.add('Version', '${escape(_("Version"))}')
 
 // ConnectionManager.js:285
-GetText.add('We recommend changing the default password. Would you like to change it now?', '${escape(_("We recommend changing the default password. Would you like to change it now?"))}')
+GetText.add('We recommend changing the default password.<br><br>Would you like to change it now?', '${escape(_("We recommend changing the default password.<br><br>Would you like to change it now?"))}')
 
 // ProxyPage.js:58
 GetText.add('Web Seed', '${escape(_("Web Seed"))}')

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Deluge 1.3.11\n"
 "Report-Msgid-Bugs-To: http://deluge-torrent.org\n"
-"POT-Creation-Date: 2015-08-25 16:29+0100\n"
+"POT-Creation-Date: 2015-09-12 11:55+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,20 +72,20 @@ msgstr ""
 msgid "GiB/s"
 msgstr ""
 
-#: deluge/core/filtermanager.py:94 deluge/core/torrentmanager.py:1013
+#: deluge/core/filtermanager.py:94 deluge/core/torrentmanager.py:1039
 #: deluge/ui/gtkui/torrentview.py:90 deluge/ui/gtkui/filtertreeview.py:78
 msgid "Error"
 msgstr ""
 
-#: deluge/core/torrentmanager.py:979
+#: deluge/core/torrentmanager.py:1005
 msgid "Announce OK"
 msgstr ""
 
-#: deluge/core/torrentmanager.py:995
+#: deluge/core/torrentmanager.py:1021
 msgid "Announce Sent"
 msgstr ""
 
-#: deluge/core/torrentmanager.py:1003
+#: deluge/core/torrentmanager.py:1029
 msgid "Warning"
 msgstr ""
 
@@ -629,31 +629,31 @@ msgid "Options"
 msgstr ""
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:172
-#: deluge/plugins/scheduler/scheduler/gtkui.py:296
+#: deluge/plugins/scheduler/scheduler/gtkui.py:319
 msgid "Scheduler"
 msgstr ""
 
-#: deluge/plugins/scheduler/scheduler/gtkui.py:238
+#: deluge/plugins/scheduler/scheduler/gtkui.py:261
 msgid "Download Limit:"
 msgstr ""
 
-#: deluge/plugins/scheduler/scheduler/gtkui.py:247
+#: deluge/plugins/scheduler/scheduler/gtkui.py:270
 msgid "Upload Limit:"
 msgstr ""
 
-#: deluge/plugins/scheduler/scheduler/gtkui.py:256
+#: deluge/plugins/scheduler/scheduler/gtkui.py:279
 msgid "Active Torrents:"
 msgstr ""
 
-#: deluge/plugins/scheduler/scheduler/gtkui.py:265
+#: deluge/plugins/scheduler/scheduler/gtkui.py:288
 msgid "Active Downloading:"
 msgstr ""
 
-#: deluge/plugins/scheduler/scheduler/gtkui.py:274
+#: deluge/plugins/scheduler/scheduler/gtkui.py:297
 msgid "Active Seeding:"
 msgstr ""
 
-#: deluge/plugins/scheduler/scheduler/gtkui.py:288
+#: deluge/plugins/scheduler/scheduler/gtkui.py:311
 msgid "<b>Slow Settings</b>"
 msgstr ""
 

@@ -7,54 +7,54 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-07-09 19:10+0100\n"
-"PO-Revision-Date: 2012-01-02 22:50+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2015-08-09 13:37+0100\n"
+"PO-Revision-Date: 2015-04-06 00:31+0000\n"
+"Last-Translator: Tran Anh Tuan <lusiads@gmail.com>\n"
 "Language-Team: Vietnamese <vi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-11-30 21:45+0000\n"
-"X-Generator: Launchpad (build 17267)\n"
+"X-Launchpad-Export-Date: 2015-09-12 10:28+0000\n"
+"X-Generator: Launchpad (build 17720)\n"
 
 #: deluge/pluginmanagerbase.py:173
 msgid "Not available"
-msgstr ""
+msgstr "Không sẵn dùng"
 
 #: deluge/common.py:260
 msgid "KiB"
-msgstr ""
+msgstr "KiB"
 
 #: deluge/common.py:261
 msgid "MiB"
-msgstr ""
+msgstr "MiB"
 
 #: deluge/common.py:262
 msgid "GiB"
-msgstr ""
+msgstr "GiB"
 
 #: deluge/common.py:310
 msgid "K"
-msgstr ""
+msgstr "K"
 
 #: deluge/common.py:313
 msgid "M"
-msgstr ""
+msgstr "M"
 
 #: deluge/common.py:315
 msgid "G"
-msgstr ""
+msgstr "G"
 
 #: deluge/common.py:353
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:857
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:872
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:337
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:408
-#: deluge/ui/console/statusbars.py:122 deluge/ui/console/statusbars.py:130
+#: deluge/ui/console/statusbars.py:96 deluge/ui/console/statusbars.py:104
 #: deluge/ui/gtkui/systemtray.py:222 deluge/ui/gtkui/systemtray.py:226
 #: deluge/ui/gtkui/systemtray.py:243 deluge/ui/gtkui/systemtray.py:250
-#: deluge/ui/gtkui/systemtray.py:401 deluge/ui/gtkui/menubar.py:423
-#: deluge/ui/gtkui/menubar.py:425 deluge/ui/gtkui/status_tab.py:41
+#: deluge/ui/gtkui/systemtray.py:401 deluge/ui/gtkui/menubar.py:422
+#: deluge/ui/gtkui/menubar.py:424 deluge/ui/gtkui/status_tab.py:41
 #: deluge/ui/gtkui/statusbar.py:338 deluge/ui/gtkui/statusbar.py:348
 #: deluge/ui/gtkui/statusbar.py:353 deluge/ui/gtkui/statusbar.py:365
 #: deluge/ui/gtkui/statusbar.py:367 deluge/ui/gtkui/statusbar.py:399
@@ -66,66 +66,70 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:114
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:141
 msgid "KiB/s"
-msgstr ""
+msgstr "KiB/s"
 
 #: deluge/common.py:356
 msgid "MiB/s"
-msgstr ""
+msgstr "MiB/s"
 
 #: deluge/common.py:358
 msgid "GiB/s"
-msgstr ""
+msgstr "GiB/s"
 
-#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:281
-#: deluge/ui/common.py:41 deluge/ui/common.py:45
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:282
+#: deluge/ui/common.py:43 deluge/ui/common.py:47
 #: deluge/ui/gtkui/statusbar.py:309 deluge/ui/gtkui/filtertreeview.py:131
 #: deluge/ui/web/js/deluge-all/Statusbar.js:313
-#: deluge/ui/web/js/deluge-all/ConnectionManager.js:308
-#: deluge/ui/web/js/deluge-all/ConnectionManager.js:364
-#: deluge/ui/web/js/deluge-all/AddConnectionWindow.js:103
+#: deluge/ui/web/js/deluge-all/ConnectionManager.js:317
+#: deluge/ui/web/js/deluge-all/ConnectionManager.js:373
+#: deluge/ui/web/js/deluge-all/AddConnectionWindow.js:107
+#: deluge/ui/web/js/deluge-all/UI.js:49 deluge/ui/web/js/deluge-all/UI.js:52
 #: deluge/ui/web/js/deluge-all/details/StatusTab.js:121
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:209
 msgid "Error"
-msgstr ""
+msgstr "Lỗi"
 
-#: deluge/ui/common.py:47 deluge/ui/web/js/deluge-all/details/StatusTab.js:123
+#: deluge/ui/common.py:49 deluge/ui/web/js/deluge-all/UI.js:54
+#: deluge/ui/web/js/deluge-all/details/StatusTab.js:123
 msgid "Announce OK"
-msgstr ""
+msgstr "Thông báo OK"
 
-#: deluge/ui/common.py:48 deluge/ui/web/js/deluge-all/details/StatusTab.js:124
+#: deluge/ui/common.py:50 deluge/ui/web/js/deluge-all/UI.js:55
+#: deluge/ui/web/js/deluge-all/details/StatusTab.js:124
 msgid "Announce Sent"
-msgstr ""
+msgstr "Đã gửi thông báo"
 
-#: deluge/ui/common.py:46 deluge/ui/web/js/deluge-all/details/StatusTab.js:122
+#: deluge/ui/common.py:48 deluge/ui/web/js/deluge-all/UI.js:53
+#: deluge/ui/web/js/deluge-all/details/StatusTab.js:122
 msgid "Warning"
-msgstr ""
+msgstr "Cảnh báo"
 
-#: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:146
-#: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:179
+#: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:123
+#: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:156
 #, python-format
 msgid "There was an error sending the notification email: %s"
-msgstr ""
+msgstr "Có lỗi khi gửi email thông báo: %s"
 
-#: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:165
+#: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:142
 #, python-format
 msgid "The server didn't reply properly to the helo greeting: %s"
-msgstr ""
+msgstr "Máy chủ  không đáp lại lời chào: %s"
 
-#: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:170
+#: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:147
 #, python-format
 msgid "The server didn't accept the username/password combination: %s"
-msgstr ""
+msgstr "Máy chủ không chấp nhận tên đăng nhập/mật khẩu: %s"
 
-#: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:194
+#: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:171
 msgid "Notification email sent."
-msgstr ""
+msgstr "Email thông báo đã được gửi."
 
-#: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:202
+#: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:178
 #, python-format
 msgid "Finished Torrent \"%(name)s\""
-msgstr ""
+msgstr "Đã hoàn thành Torrent \"%(name)s\""
 
-#: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:204
+#: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:180
 #, python-format
 msgid ""
 "This email is to inform you that Deluge has finished downloading "
@@ -136,165 +140,179 @@ msgid ""
 "Thank you,\n"
 "Deluge."
 msgstr ""
+"Email này là để thông báo cho bạn rằng Deluge đã hoàn tất tải xuống "
+"\"%(name)s\", bao gồm %(num_files)i tập tin.\n"
+"Để thôi nhận những thông báo này, hãy tắt chức năng thông báo trong Các tùy "
+"chọn của Deluge."
+
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:159
+msgid "Notification Blink shown"
+msgstr "Thông báo nhấp nháy được hiển thị"
+
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:164
+msgid "Popup notification is not enabled."
+msgstr "Thông báo bật lên không được kích hoạt."
+
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:166
+msgid "pynotify is not installed"
+msgstr "pynotify chưa được cài đặt"
+
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:173
+msgid "pynotify failed to show notification"
+msgstr "pynotify không thể hiển thị thông báo"
+
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:176
+msgid "Notification popup shown"
+msgstr "Hiển thị cửa sổ thông báo bật lên"
+
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:180
+msgid "Sound notification not enabled"
+msgstr "Thông báo âm thanh không được bật"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:182
-msgid "Notification Blink shown"
-msgstr ""
-
-#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:187
-msgid "Popup notification is not enabled."
-msgstr ""
-
-#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:189
-msgid "pynotify is not installed"
-msgstr ""
-
-#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:197
-msgid "pynotify failed to show notification"
-msgstr ""
-
-#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:200
-msgid "Notification popup shown"
-msgstr ""
-
-#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:204
-msgid "Sound notification not enabled"
-msgstr ""
-
-#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:206
 msgid "pygame is not installed"
-msgstr ""
+msgstr "pygame chưa được cài đặt"
 
-#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:218
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:194
 #, python-format
 msgid "Sound notification failed %s"
-msgstr ""
+msgstr "Thông báo âm thanh thất bại %s"
+
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:198
+msgid "Sound notification Success"
+msgstr "Thông báo âm thanh thành công"
+
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:221
+msgid "Finished Torrent"
+msgstr "Torrent đã hoàn thành"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:222
-msgid "Sound notification Success"
-msgstr ""
-
-#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:245
-msgid "Finished Torrent"
-msgstr ""
-
-#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:246
 #, python-format
 msgid ""
 "The torrent \"%(name)s\" including %(num_files)i file(s) has finished "
 "downloading."
-msgstr ""
+msgstr "Torrent \"%(name)s\" bao gồm %(num_files)i tập tin đã được tải xong."
 
-#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:291
-#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:324
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:266
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:297
 msgid "Notifications"
-msgstr ""
+msgstr "Thông báo"
 
-#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:650
+#: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:616
 msgid "Choose Sound File"
-msgstr ""
+msgstr "Chọn tập tin âm thanh"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:29
 msgid "<b><i><big>Notifications</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Thông báo</big></i></b>"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:81
 msgid "Tray icon blinks enabled"
-msgstr ""
+msgstr "Nhấp nháy biểu tượng khay hệ thống đã được kích hoạt"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:93
 msgid "Popups enabled"
-msgstr ""
+msgstr "Cửa sổ popup đã được kích hoạt"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:108
 msgid "Sound enabled"
-msgstr ""
+msgstr "Âm thanh đã đượ kích hoạt"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:144
 msgid "<b>UI Notifications</b>"
-msgstr ""
+msgstr "<b>Thông báo UI</b>"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:175
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:131
 #: deluge/ui/gtkui/glade/connection_manager.addhost.ui.h:2
 msgid "Hostname:"
-msgstr ""
+msgstr "Tên máy:"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:199
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:132
 #: deluge/ui/gtkui/glade/connection_manager.addhost.ui.h:3
+#: deluge/ui/web/js/deluge-all/AddConnectionWindow.js:73
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:84
+#: deluge/ui/web/js/deluge-all/preferences/ProxyI2PField.js:58
+#: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:151
 msgid "Port:"
-msgstr ""
+msgstr "Cổng:"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:231
 #: deluge/ui/gtkui/dialogs.py:197 deluge/ui/gtkui/dialogs.py:258
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:133
 #: deluge/ui/gtkui/glade/connection_manager.addhost.ui.h:5
+#: deluge/ui/web/js/deluge-all/AddConnectionWindow.js:85
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:96
 msgid "Username:"
-msgstr ""
+msgstr "Tài khoản:"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:255
 #: deluge/ui/gtkui/dialogs.py:205 deluge/ui/gtkui/dialogs.py:286
 #: deluge/ui/gtkui/dialogs.py:397
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:38
 #: deluge/ui/gtkui/glade/connection_manager.addhost.ui.h:4
+#: deluge/ui/web/js/deluge-all/AddConnectionWindow.js:91
+#: deluge/ui/web/js/deluge-all/LoginWindow.js:70
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:105
 msgid "Password:"
-msgstr ""
+msgstr "Mật khẩu :"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:360
 msgid "<b>Recipients</b>"
-msgstr ""
+msgstr "<b>Người nhận</b>"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:383
 msgid "Server requires TLS/SSL"
-msgstr ""
+msgstr "Máy chủ yêu cầu TLS/SSL"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:398
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:102
+#: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:108
+#: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:163
 msgid "From:"
 msgstr "Từ:"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:421
-#: deluge/ui/gtkui/preferences.py:124
+#: deluge/ui/gtkui/preferences.py:123
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:2
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:65
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:83
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:81
 msgid "Enabled"
-msgstr ""
+msgstr "Bật"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:443
 msgid "<b>Email Notifications</b>"
-msgstr ""
+msgstr "<b>Thông báo Email</b>"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:460
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:147
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:51
 #: deluge/ui/web/js/deluge-all/preferences/CachePage.js:52
 msgid "Settings"
-msgstr ""
+msgstr "Cài đặt"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:495
 msgid ""
 "This configuration does not mean that you'll actually receive notifications "
 "for all these events."
 msgstr ""
+"Cấu hình này không có nghĩa bạn sẽ nhận được các thông báo cho tất cả các sự "
+"kiện."
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:513
 msgid "Subscriptions"
-msgstr ""
+msgstr "Đăng ký"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:594
 msgid "Sound Customization"
-msgstr ""
+msgstr "Tùy chọn âm thanh"
 
-#: deluge/plugins/Extractor/deluge/plugins/extractor/gtkui.py:31
-#: deluge/plugins/Extractor/deluge/plugins/extractor/gtkui.py:37
+#: deluge/plugins/Extractor/deluge/plugins/extractor/gtkui.py:32
+#: deluge/plugins/Extractor/deluge/plugins/extractor/gtkui.py:38
 msgid "Extractor"
-msgstr ""
+msgstr "Giải nén"
 
 #: deluge/plugins/Extractor/deluge/plugins/extractor/data/extractor_prefs.glade:27
 msgid "Extract to:"
@@ -310,7 +328,7 @@ msgstr "Lựa chọn một thư mục"
 
 #: deluge/plugins/Extractor/deluge/plugins/extractor/data/extractor_prefs.glade:69
 msgid "Create torrent name sub-folder"
-msgstr ""
+msgstr "Tạo thư mục con có tên theo torrent"
 
 #: deluge/plugins/Extractor/deluge/plugins/extractor/data/extractor_prefs.glade:73
 msgid ""
@@ -326,16 +344,20 @@ msgstr ""
 msgid "<b>General</b>"
 msgstr "<b>Chung</b>"
 
-#: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:56
+#: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:30
 msgid "Torrent Complete"
 msgstr "Torrent đã tải xong"
 
-#: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:57
+#: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:31
 msgid "Torrent Added"
 msgstr "Torrent đã được thêm vào"
 
-#: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:83
-#: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:94
+#: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:32
+msgid "Torrent Removed"
+msgstr ""
+
+#: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:58
+#: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:68
 msgid "Execute"
 msgstr "Thực thi"
 
@@ -355,21 +377,21 @@ msgstr "<b>Thêm lệnh</b>"
 msgid "<b>Commands</b>"
 msgstr "<b>Lệnh</b>"
 
-#: deluge/plugins/Blocklist/deluge/plugins/blocklist/webui.py:18
-msgid "Emule IP list (GZip)"
-msgstr ""
-
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/webui.py:19
-msgid "SafePeer Text (Zipped)"
-msgstr ""
+msgid "Emule IP list (GZip)"
+msgstr "Emule IP list (GZip)"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/webui.py:20
-msgid "PeerGuardian Text (Uncompressed)"
-msgstr ""
+msgid "SafePeer Text (Zipped)"
+msgstr "SafePeer Text (Nén)"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/webui.py:21
+msgid "PeerGuardian Text (Uncompressed)"
+msgstr "PeerGuardian Text (Không nén)"
+
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/webui.py:22
 msgid "PeerGuardian P2B (GZip)"
-msgstr ""
+msgstr "PeerGuardian P2B (GZip)"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/peerguardian.py:39
 msgid "Invalid leader"
@@ -381,13 +403,13 @@ msgstr ""
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/peerguardian.py:48
 msgid "Invalid version"
-msgstr ""
+msgstr "Phiên bản không hợp lệ"
 
-#: deluge/plugins/Blocklist/deluge/plugins/blocklist/gtkui.py:51
-#: deluge/plugins/Blocklist/deluge/plugins/blocklist/gtkui.py:138
-#: deluge/plugins/Blocklist/deluge/plugins/blocklist/gtkui.py:177
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/gtkui.py:52
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/gtkui.py:139
+#: deluge/plugins/Blocklist/deluge/plugins/blocklist/gtkui.py:178
 msgid "Blocklist"
-msgstr ""
+msgstr "Danh sách chặn"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:32
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:436
@@ -397,15 +419,15 @@ msgstr "URL:"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:107
 msgid "Days"
-msgstr ""
+msgstr "Các ngày"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:138
 msgid "Check for new list every:"
-msgstr ""
+msgstr "Kiểm tra danh sách mới mỗi:"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:154
 msgid "Import blocklist on startup"
-msgstr ""
+msgstr "Nhập danh sách chặn lúc khởi động"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:176
 #: deluge/plugins/WebUi/deluge/plugins/webui/data/config.glade:94
@@ -414,63 +436,65 @@ msgstr "<b>Thiết lập</b>"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:216
 msgid "Download the blocklist file if necessary and import the file."
-msgstr ""
+msgstr "Tải và nhập danh sách chặn nếu cần thiết."
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:240
 msgid "Check Download and Import"
-msgstr ""
+msgstr "Kiểm tra Tải xuống và Nhập"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:262
 msgid "Download a new blocklist file and import it."
-msgstr ""
+msgstr "Tải xuống và nhập danh sách chặn mới."
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:286
 msgid "Force Download and Import"
-msgstr ""
+msgstr "Ép Tải xuống và Nhập"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:313
 msgid "Blocklist is up to date"
-msgstr ""
+msgstr "Danh sách chặn là mới nhất"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:333
 msgid "<b>Options</b>"
-msgstr ""
+msgstr "<b>Tùy chọn</b>"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:449
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:48
 msgid "Type:"
-msgstr ""
+msgstr "Loại:"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:462
 msgid "Date:"
-msgstr ""
+msgstr "Ngày:"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:475
 msgid "File Size:"
-msgstr ""
+msgstr "Kích cỡ tập tin:"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:496
 msgid "<b>Info</b>"
-msgstr ""
+msgstr "<b>Thông tin</b>"
 
-#: deluge/plugins/WebUi/deluge/plugins/webui/gtkui.py:56
-#: deluge/plugins/WebUi/deluge/plugins/webui/gtkui.py:63
+#: deluge/plugins/WebUi/deluge/plugins/webui/gtkui.py:32
+#: deluge/plugins/WebUi/deluge/plugins/webui/gtkui.py:39
 msgid "WebUi"
-msgstr ""
+msgstr "WebUi"
 
-#: deluge/plugins/WebUi/deluge/plugins/webui/gtkui.py:100
+#: deluge/plugins/WebUi/deluge/plugins/webui/gtkui.py:76
 msgid ""
 "The Deluge web interface is not installed, please install the\n"
 "interface and try again"
 msgstr ""
+"Giao diện web cho Deluge chưa được cài đặt, vui lòng cài đặt \n"
+"giao diện và thử lại"
 
 #: deluge/plugins/WebUi/deluge/plugins/webui/data/config.glade:27
 msgid "Enable web interface"
-msgstr "Sử dụng giao diện web"
+msgstr "Kích hoạt giao diện web"
 
 #: deluge/plugins/WebUi/deluge/plugins/webui/data/config.glade:41
 msgid "Enable SSL"
-msgstr "Sử dụng SSL"
+msgstr "Kích hoạt SSL"
 
 #: deluge/plugins/WebUi/deluge/plugins/webui/data/config.glade:60
 msgid "Listening port:"
@@ -478,141 +502,147 @@ msgstr "Cổng nhận:"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/core.py:124
 msgid "Watch folder does not exist."
-msgstr ""
+msgstr "Thư mục theo dõi không tồn tại."
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/core.py:129
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/core.py:404
 msgid "Path does not exist."
-msgstr ""
+msgstr "Đường dẫn không tồn tại."
 
-#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:386
-#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:390
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:387
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:391
 msgid "AutoAdd"
-msgstr ""
+msgstr "Tự động thêm"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/config.glade:41
 msgid "<b>Watch Folders:</b>"
-msgstr ""
+msgstr "<b>Thư mục theo dõi:</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
 msgid "AutoAdd Error"
-msgstr ""
+msgstr "Lỗi tự động thêm"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:7
 msgid "Watch Folder Properties"
-msgstr ""
+msgstr "Thuộc tính thư mục theo dõi"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:151
 msgid "Enable this watch folder"
-msgstr ""
+msgstr "Kích hoạt thư mục theo dõi này"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:173
 msgid "<b>Watch Folder</b>"
-msgstr ""
+msgstr "<b>Theo dõi thư mục</b>"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:211
 msgid "Delete .torrent after adding"
-msgstr ""
+msgstr "Xóa tập tin .torrent sau khi thêm"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:232
 msgid "Append extension after adding:"
-msgstr ""
+msgstr "Gắn thêm đuôi mở rộng sau khi thêm:"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:254
 msgid ".added"
-msgstr ""
+msgstr ".added"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:367
 msgid "<b>Torrent File Action</b>"
-msgstr ""
+msgstr "<b>Thao tác Tập tin Torrent</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:269
 msgid "Set download location"
-msgstr ""
+msgstr "Đặt vị trí tải xuống"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:319
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:393
 msgid "<b>Download Location</b>"
-msgstr "<b>Địa điểm tải xuống</b>"
+msgstr "<b>Vị trí tải xuống</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:346
 msgid "Set move completed location"
-msgstr ""
+msgstr "Đặt vị trí chuyển tới"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:569
 msgid "<b>Move Completed</b>"
-msgstr ""
+msgstr "<b>Đã Di chuyển</b>"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:599
 msgid "Label: "
-msgstr ""
+msgstr "Nhãn: "
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:632
 msgid "<b>Label</b>"
-msgstr ""
+msgstr "<b>Nhãn</b>"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:652
 msgid "Main"
-msgstr ""
+msgstr "Chính"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:726
+#: deluge/ui/web/js/deluge-all/details/OptionsTab.js:123
 msgid "Max Upload Speed:"
-msgstr ""
+msgstr "Tốc độ Tải lên Tối đa:"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:743
+#: deluge/ui/web/js/deluge-all/details/OptionsTab.js:150
 msgid "Max Connections:"
-msgstr ""
+msgstr "Số Kết nối Tối đa:"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:760
+#: deluge/ui/web/js/deluge-all/details/OptionsTab.js:173
 msgid "Max Upload Slots:"
-msgstr ""
+msgstr "Số Khe Tải lên Tối đa:"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:885
+#: deluge/ui/web/js/deluge-all/details/OptionsTab.js:97
 msgid "Max Download Speed:"
-msgstr ""
+msgstr "Tốc độ Tải xuống Tối đa:"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:912
 msgid "<b>Bandwidth</b>"
-msgstr ""
+msgstr "<b>Băng thông</b>"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:951
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:583
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:42
+#: deluge/ui/web/js/deluge-all/details/OptionsTab.js:225
 msgid "Stop seed at ratio:"
-msgstr ""
+msgstr "Dừng tải lên ở tỉ lệ:"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:976
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:599
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:43
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:253
 msgid "Remove at ratio"
-msgstr ""
+msgstr "Xóa ở tỉ lệ:"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:992
+#: deluge/ui/web/render/tab_status.html:18
 msgid "Auto Managed:"
-msgstr ""
+msgstr "Tự động quản lý"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:1131
 msgid "Add Paused:"
-msgstr ""
+msgstr "Tạm dừng khi thêm vào"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:1184
 msgid "Queue to:"
-msgstr ""
+msgstr "Sắp xếp vào:"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:1203
 #: deluge/ui/web/js/deluge-all/Menus.js:192
 msgid "Top"
-msgstr ""
+msgstr "Trên cùng"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:1218
 #: deluge/ui/web/js/deluge-all/Menus.js:210
 msgid "Bottom"
-msgstr ""
+msgstr "Dưới cùng"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:1278
 msgid "<b>Queue</b>"
-msgstr ""
+msgstr "<b>Hàng đợi</b>"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:1301
 #: deluge/ui/gtkui/glade/connection_manager.ui.h:6
@@ -620,85 +650,88 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/Menus.js:99
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:49
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:40
-#: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:92
+#: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:95
 msgid "Options"
-msgstr ""
+msgstr "Tùy chọn"
 
-#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:174
-#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:298
+#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:162
+#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:285
 msgid "Scheduler"
-msgstr ""
+msgstr "Thời gian biểu"
 
-#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:240
+#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:227
 msgid "Download Limit:"
 msgstr "Giới hạn tải xuống:"
 
-#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:249
+#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:236
 msgid "Upload Limit:"
 msgstr "Giới hạn tải lên:"
 
-#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:258
+#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:245
 msgid "Active Torrents:"
 msgstr "Torrent đang hoạt động:"
 
-#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:267
+#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:254
 msgid "Active Downloading:"
-msgstr ""
+msgstr "Đang tải xuống:"
 
-#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:276
+#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:263
 msgid "Active Seeding:"
-msgstr ""
+msgstr "Đang tải lên:"
 
-#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:290
+#: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:277
 msgid "<b>Slow Settings</b>"
 msgstr "<b>Thiết lập chậm</b>"
 
-#: deluge/plugins/Label/deluge/plugins/label/core.py:194
+#: deluge/plugins/Label/deluge/plugins/label/core.py:171
 msgid "Invalid label, valid characters:[a-z0-9_-]"
-msgstr ""
+msgstr "Nhãn không hợp lệ, các ký tự hợp lệ:[a-z0-9_-]"
 
-#: deluge/plugins/Label/deluge/plugins/label/core.py:195
+#: deluge/plugins/Label/deluge/plugins/label/core.py:172
 msgid "Empty Label"
-msgstr ""
+msgstr "Chưa gắn nhãn"
 
-#: deluge/plugins/Label/deluge/plugins/label/core.py:196
+#: deluge/plugins/Label/deluge/plugins/label/core.py:173
 msgid "Label already exists"
-msgstr ""
+msgstr "Nhãn đã tồn tại"
 
-#: deluge/plugins/Label/deluge/plugins/label/core.py:204
-#: deluge/plugins/Label/deluge/plugins/label/core.py:284
-#: deluge/plugins/Label/deluge/plugins/label/core.py:319
+#: deluge/plugins/Label/deluge/plugins/label/core.py:181
+#: deluge/plugins/Label/deluge/plugins/label/core.py:261
+#: deluge/plugins/Label/deluge/plugins/label/core.py:296
 msgid "Unknown Label"
-msgstr ""
+msgstr "Nhãn không biết"
 
-#: deluge/plugins/Label/deluge/plugins/label/core.py:320
+#: deluge/plugins/Label/deluge/plugins/label/core.py:297
 msgid "Unknown Torrent"
-msgstr ""
+msgstr "Torrent không biết"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:174
-#: deluge/plugins/Label/deluge/plugins/label/gtkui/sidebar_menu.py:193
+#: deluge/plugins/Label/deluge/plugins/label/gtkui/sidebar_menu.py:164
 msgid "Label Options"
-msgstr ""
+msgstr "Các tùy chọn Nhãn"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:252
 msgid "<b>Label Options</b>"
-msgstr ""
+msgstr "<b>Tùy chọn Nhãn</b>"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:368
-msgid "Upload Slots:\t"
+#: deluge/ui/gtkui/glade/main_window.tabs.ui.h:35
+#: deluge/ui/gtkui/glade/preferences_dialog.ui.h:73
+#: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:30
+msgid "Upload Slots:"
 msgstr ""
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:382
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:32
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:69
 msgid "Upload Speed:"
-msgstr ""
+msgstr "Tốc độ Tải lên:"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:396
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:33
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:75
 msgid "Download Speed:"
-msgstr ""
+msgstr "Tốc độ Tải xuống:"
 
 #: deluge/plugins/Stats/deluge/plugins/stats/data/config.glade:168
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:444
@@ -706,216 +739,219 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:71
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:28
 msgid "Connections:"
-msgstr ""
+msgstr "Kết nối:"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:512
 msgid "Apply per torrent max settings:"
-msgstr ""
+msgstr "Áp dụng hạn chế tối đa riêng:"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:529
 msgid "Maximum"
-msgstr ""
+msgstr "Tối đa"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:569
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:41
 #: deluge/ui/web/js/deluge-all/Menus.js:181
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:215
 msgid "Auto Managed"
-msgstr ""
+msgstr "Tự động quản lý"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:666
 msgid "Apply Queue settings:"
-msgstr ""
+msgstr "Áp dụng Cài đặt Hàng đợi riêng:"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:686
-#: deluge/ui/console/modes/preferences.py:110
-#: deluge/ui/gtkui/preferences.py:76 deluge/ui/web/js/deluge-all/Menus.js:186
+#: deluge/ui/console/modes/preferences.py:83 deluge/ui/gtkui/preferences.py:75
+#: deluge/ui/web/js/deluge-all/Menus.js:186
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:196
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:41
 msgid "Queue"
-msgstr ""
+msgstr "Hàng đợi"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:714
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:44
+#: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:76
 msgid "Move completed to:"
-msgstr ""
+msgstr "Chuyển đến sau khi hoàn thành:"
 
 #: deluge/plugins/label/label/data/label_options.glade:504
 msgid "Apply location settings:"
-msgstr ""
+msgstr "Áp dụng cài đặt vị trí riêng:"
 
-#: deluge/ui/web/js/deluge-all/preferences/OtherPage.js:104
+#: deluge/plugins/label/label/data/label_options.glade:520
 msgid "Location"
-msgstr ""
+msgstr "Vị trí"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:841
 msgid "<i>(1 line per tracker)</i>"
-msgstr ""
+msgstr "<i>(mỗi tracker 1 dòng)</i>"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:856
 msgid "Automatically apply label:"
-msgstr ""
+msgstr "Tự động áp dụng nhãn"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:877
 #: deluge/ui/gtkui/filtertreeview.py:129
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:9
-#: deluge/ui/web/js/deluge-all/AddTrackerWindow.js:66
+#: deluge/ui/web/js/deluge-all/FilterPanel.js:53
 msgid "Trackers"
-msgstr ""
+msgstr "Các tracker"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:8
 msgid "Add Label"
-msgstr ""
+msgstr "Thêm nhãn"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:94
 msgid "<b>Add Label</b>"
-msgstr ""
+msgstr "<b>Thêm Nhãn</b>"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:130
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:23
+#: deluge/ui/web/js/deluge-all/details/DetailsTab.js:47
 msgid "Name:"
 msgstr "Tên:"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
 msgstr ""
+"<i>Dùng thanh bên cạnh chương trình để thêm, chỉnh và bỏ các nhãn.</i>\n"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_pref.glade:32
 msgid "<b>Labels</b>"
-msgstr ""
+msgstr "<b>Nhãn</b>"
 
-#: deluge/plugins/Label/deluge/plugins/label/gtkui/__init__.py:77
-#: deluge/plugins/Label/deluge/plugins/label/gtkui/__init__.py:110
-#: deluge/plugins/Label/deluge/plugins/label/gtkui/submenu.py:56
-#: deluge/plugins/Label/deluge/plugins/label/gtkui/label_config.py:63
-#: deluge/plugins/Label/deluge/plugins/label/gtkui/label_config.py:70
+#: deluge/plugins/Label/deluge/plugins/label/gtkui/__init__.py:47
+#: deluge/plugins/Label/deluge/plugins/label/gtkui/__init__.py:80
+#: deluge/plugins/Label/deluge/plugins/label/gtkui/submenu.py:30
+#: deluge/plugins/Label/deluge/plugins/label/gtkui/label_config.py:34
+#: deluge/plugins/Label/deluge/plugins/label/gtkui/label_config.py:41
 msgid "Label"
-msgstr ""
+msgstr "Nhãn"
 
-#: deluge/plugins/Label/deluge/plugins/label/gtkui/sidebar_menu.py:71
+#: deluge/plugins/Label/deluge/plugins/label/gtkui/sidebar_menu.py:45
 msgid "Label _Options"
-msgstr ""
+msgstr "_Lựa chọn Nhãn"
 
-#: deluge/plugins/Label/deluge/plugins/label/gtkui/sidebar_menu.py:72
+#: deluge/plugins/Label/deluge/plugins/label/gtkui/sidebar_menu.py:46
 msgid "_Remove Label"
-msgstr ""
+msgstr "_Bỏ Nhãn"
 
-#: deluge/plugins/Label/deluge/plugins/label/gtkui/sidebar_menu.py:73
+#: deluge/plugins/Label/deluge/plugins/label/gtkui/sidebar_menu.py:47
 msgid "_Add Label"
-msgstr ""
+msgstr "_Thêm Nhãn"
 
-#: deluge/plugins/Label/deluge/plugins/label/gtkui/submenu.py:51
+#: deluge/plugins/Label/deluge/plugins/label/gtkui/submenu.py:24
 #: deluge/ui/gtkui/filtertreeview.py:196
 msgid "No Label"
-msgstr ""
+msgstr "Không gắn nhãn"
 
 #: deluge/ui/countries.py:9
 msgid "Afghanistan"
-msgstr ""
+msgstr "Afghanistan"
 
 #: deluge/ui/countries.py:10
 msgid "Aland Islands"
-msgstr ""
+msgstr "Quần Đảo A-lan"
 
 #: deluge/ui/countries.py:11
 msgid "Albania"
-msgstr ""
+msgstr "Albania"
 
 #: deluge/ui/countries.py:12
 msgid "Algeria"
-msgstr ""
+msgstr "Algeria"
 
 #: deluge/ui/countries.py:13
 msgid "American Samoa"
-msgstr ""
+msgstr "American Samoa"
 
 #: deluge/ui/countries.py:14
 msgid "Andorra"
-msgstr ""
+msgstr "Andorra"
 
 #: deluge/ui/countries.py:15
 msgid "Angola"
-msgstr ""
+msgstr "Angola"
 
 #: deluge/ui/countries.py:16
 msgid "Anguilla"
-msgstr ""
+msgstr "Anguilla"
 
 #: deluge/ui/countries.py:17
 msgid "Antarctica"
-msgstr ""
+msgstr "Nam Cực"
 
 #: deluge/ui/countries.py:18
 msgid "Antigua and Barbuda"
-msgstr ""
+msgstr "Antigua và Barbuda"
 
 #: deluge/ui/countries.py:19
 msgid "Argentina"
-msgstr ""
+msgstr "Argentina"
 
 #: deluge/ui/countries.py:20
 msgid "Armenia"
-msgstr ""
+msgstr "Armenia"
 
 #: deluge/ui/countries.py:21
 msgid "Aruba"
-msgstr ""
+msgstr "Aruba"
 
 #: deluge/ui/countries.py:22
 msgid "Australia"
-msgstr ""
+msgstr "Australia"
 
 #: deluge/ui/countries.py:23
 msgid "Austria"
-msgstr ""
+msgstr "Austria"
 
 #: deluge/ui/countries.py:24
 msgid "Azerbaijan"
-msgstr ""
+msgstr "Azerbaijan"
 
 #: deluge/ui/countries.py:25
 msgid "Bahamas"
-msgstr ""
+msgstr "Bahamas"
 
 #: deluge/ui/countries.py:26
 msgid "Bahrain"
-msgstr ""
+msgstr "Bahrain"
 
 #: deluge/ui/countries.py:27
 msgid "Bangladesh"
-msgstr ""
+msgstr "Bangladesh"
 
 #: deluge/ui/countries.py:28
 msgid "Barbados"
-msgstr ""
+msgstr "Barbados"
 
 #: deluge/ui/countries.py:29
 msgid "Belarus"
-msgstr ""
+msgstr "Belarus"
 
 #: deluge/ui/countries.py:30
 msgid "Belgium"
-msgstr ""
+msgstr "Belgium"
 
 #: deluge/ui/countries.py:31
 msgid "Belize"
-msgstr ""
+msgstr "Belize"
 
 #: deluge/ui/countries.py:32
 msgid "Benin"
-msgstr ""
+msgstr "Benin"
 
 #: deluge/ui/countries.py:33
 msgid "Bermuda"
-msgstr ""
+msgstr "Bermuda"
 
 #: deluge/ui/countries.py:34
 msgid "Bhutan"
-msgstr ""
+msgstr "Bhutan"
 
 #: deluge/ui/countries.py:35
 msgid "Bolivia"
-msgstr ""
+msgstr "Bolivia"
 
 #: deluge/ui/countries.py:36
 msgid "Bosnia and Herzegovina"
@@ -1793,59 +1829,55 @@ msgstr ""
 msgid "Zimbabwe"
 msgstr ""
 
-#: deluge/ui/client.py:629 deluge/ui/gtkui/connectionmanager.py:461
+#: deluge/ui/client.py:629 deluge/ui/gtkui/connectionmanager.py:459
 msgid ""
 "Deluge cannot find the 'deluged' executable, it is likely that you forgot to "
 "install the deluged package or it's not in your PATH."
 msgstr ""
+"Deluge không tìm thấy tập tin thực thi 'deluged', có thể bạn đã quên cài đặt "
+"gói deluged hoặc nó không nằm trong đường dẫn (PATH) của bạn."
 
-#: deluge/ui/web/server.py:622
+#: deluge/ui/web/server.py:623
 msgid "Starting server in PID"
-msgstr ""
+msgstr "Khởi động máy chủ trong PID"
 
-#: deluge/ui/web/json_api.py:760 deluge/ui/web/json_api.py:779
-#: deluge/ui/web/json_api.py:788 deluge/ui/web/json_api.py:791
-#: deluge/ui/web/json_api.py:796
-#: deluge/ui/web/js/deluge-all/ConnectionManager.js:180
-#: deluge/ui/web/js/deluge-all/ConnectionManager.js:188
+#: deluge/ui/web/js/deluge-all/ConnectionManager.js:76
 msgid "Offline"
-msgstr ""
+msgstr "Không kết nối"
 
-#: deluge/ui/web/json_api.py:784
+#: deluge/ui/web/js/deluge-all/ConnectionManager.js:73
 msgid "Online"
-msgstr ""
+msgstr "Trực tuyến"
 
-#: deluge/ui/web/json_api.py:802
-#: deluge/ui/web/js/deluge-all/ConnectionManager.js:177
-#: deluge/ui/web/js/deluge-all/ConnectionManager.js:225
+#: deluge/ui/web/js/deluge-all/ConnectionManager.js:79
 msgid "Connected"
-msgstr ""
+msgstr "Đã kết nối"
 
 #: deluge/ui/web/json_api.py:829
 msgid "Daemon doesn't exist"
-msgstr ""
+msgstr "Dịch vụ không tồn tại"
 
 #: deluge/ui/web/json_api.py:835
 msgid "Daemon not running"
-msgstr ""
+msgstr "Dịch vụ hiện không chạy"
 
-#: deluge/ui/console/statusbars.py:133
+#: deluge/ui/console/statusbars.py:107
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:125
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:224
 msgid "DHT"
-msgstr ""
+msgstr "DHT"
 
 #: deluge/ui/gtkui/notification.py:57
 msgid "Torrent complete"
-msgstr ""
+msgstr "Torrent hoàn thành"
 
 #: deluge/ui/gtkui/notification.py:59
 msgid "Including"
-msgstr ""
+msgstr "Bao gồm"
 
 #: deluge/ui/gtkui/notification.py:59
 msgid "files"
-msgstr ""
+msgstr "tệp"
 
 #: deluge/ui/gtkui/notification.py:109
 #, python-format
@@ -1858,36 +1890,40 @@ msgid ""
 "Thank you,\n"
 "Deluge"
 msgstr ""
+"Email này để thông báo cho bạn biết rằng Deluge đã hoàn thành tải xuống "
+"%(name)s , bao gồm %(num_files)i tập tin. Để thôi nhận những thông báo này, "
+"hãy tắt chức năng thông báo email ở trong mục Tùy chọn của Deluge."
 
-#: deluge/ui/common.py:36
+#: deluge/ui/common.py:38 deluge/ui/web/js/deluge-all/UI.js:44
 msgid "Downloading"
-msgstr ""
+msgstr "Đang tải xuống"
 
-#: deluge/ui/common.py:37 deluge/ui/gtkui/glade/preferences_dialog.ui.h:99
-#: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:120
+#: deluge/ui/common.py:39 deluge/ui/gtkui/glade/preferences_dialog.ui.h:99
+#: deluge/ui/web/js/deluge-all/UI.js:45
+#: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:123
 msgid "Seeding"
-msgstr ""
+msgstr "Đang chia sẻ"
 
-#: deluge/ui/common.py:38
+#: deluge/ui/common.py:40 deluge/ui/web/js/deluge-all/UI.js:46
 msgid "Paused"
-msgstr ""
+msgstr "Tạm dừng"
 
-#: deluge/ui/common.py:35 deluge/ui/common.py:39
+#: deluge/ui/common.py:37 deluge/ui/common.py:41
+#: deluge/ui/web/js/deluge-all/UI.js:43 deluge/ui/web/js/deluge-all/UI.js:47
 msgid "Checking"
-msgstr ""
+msgstr "Đang kiểm tra"
 
-#: deluge/ui/common.py:40
+#: deluge/ui/common.py:42 deluge/ui/web/js/deluge-all/UI.js:48
 msgid "Queued"
-msgstr ""
+msgstr "Đang đợi"
 
 #: deluge/ui/gtkui/torrentview.py:143 deluge/ui/gtkui/torrentview.py:229
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:116
-#: deluge/ui/web/js/deluge-all/details/DetailsTab.js:46
 msgid "Name"
-msgstr ""
+msgstr "Tên"
 
 #: deluge/ui/gtkui/torrentview.py:233
-#: deluge/ui/gtkui/createtorrentdialog.py:78 deluge/ui/gtkui/files_tab.py:124
+#: deluge/ui/gtkui/createtorrentdialog.py:78 deluge/ui/gtkui/files_tab.py:127
 #: deluge/ui/gtkui/addtorrentdialog.py:110
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:167
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:122
@@ -1899,29 +1935,29 @@ msgstr "Kích cỡ"
 #: deluge/ui/gtkui/torrentview.py:236
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:235
 msgid "Downloaded"
-msgstr ""
+msgstr "Đã tải xuống"
 
 #: deluge/ui/gtkui/torrentview.py:239
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:242
 msgid "Uploaded"
-msgstr ""
+msgstr "Đã tải lên"
 
 #: deluge/ui/gtkui/torrentview.py:244 deluge/ui/gtkui/peers_tab.py:103
-#: deluge/ui/gtkui/files_tab.py:137
+#: deluge/ui/gtkui/files_tab.py:140
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:128
 #: deluge/ui/web/js/deluge-all/details/FilesTab.js:52
 msgid "Progress"
-msgstr ""
+msgstr "Tiến độ"
 
 #: deluge/ui/gtkui/torrentview.py:260 deluge/ui/gtkui/torrentview.py:266
 msgid "Seeders"
-msgstr ""
+msgstr "Người chia sẻ"
 
 #: deluge/ui/gtkui/torrentview.py:251
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:141
 #: deluge/ui/web/js/deluge-all/details/PeersTab.js:63
 msgid "Peers"
-msgstr ""
+msgstr "Người cùng tải"
 
 #: deluge/ui/gtkui/torrentview.py:256 deluge/ui/gtkui/peers_tab.py:116
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:148
@@ -1936,69 +1972,67 @@ msgstr "Tốc độ tải lên"
 #: deluge/ui/gtkui/torrentview.py:260
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:256
 msgid "Down Limit"
-msgstr ""
+msgstr "Giới hạn Tải xuống"
 
 #: deluge/ui/gtkui/torrentview.py:262
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:263
 msgid "Up Limit"
-msgstr ""
+msgstr "Giới hạn tải lên"
 
 #: deluge/ui/gtkui/torrentview.py:264
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:160
 msgid "ETA"
-msgstr ""
+msgstr "Dự kiến Hoàn thành"
 
 #: deluge/ui/gtkui/torrentview.py:266
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:166
 msgid "Ratio"
-msgstr ""
+msgstr "Tỉ lệ"
 
 #: deluge/ui/gtkui/torrentview.py:268
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:173
 msgid "Avail"
-msgstr ""
+msgstr "Sẵn có"
 
 #: deluge/ui/gtkui/torrentview.py:270
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:180
 msgid "Added"
-msgstr ""
+msgstr "Đã thêm"
 
 #: deluge/ui/gtkui/torrentview.py:276
 #: deluge/ui/gtkui/createtorrentdialog.py:93
 #: deluge/ui/gtkui/edittrackersdialog.py:72
 #: deluge/ui/web/js/deluge-all/EditTrackersWindow.js:80
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:201
-#: deluge/ui/web/js/deluge-all/EditTrackerWindow.js:66
-#: deluge/ui/web/js/deluge-all/details/DetailsTab.js:53
 msgid "Tracker"
-msgstr ""
+msgstr "Tracker"
 
 #: deluge/ui/gtkui/torrentview.py:288
 msgid "Save Path"
-msgstr ""
+msgstr "Đường dẫn lưu"
 
 #: deluge/ui/gtkui/peers_tab.py:74
 msgid "Address"
-msgstr ""
+msgstr "Địa chỉ"
 
 #: deluge/ui/gtkui/peers_tab.py:90
 msgid "Client"
-msgstr ""
+msgstr "Máy khách"
 
 #: deluge/ui/gtkui/new_release_dialog.py:46
 msgid "<i>Client Version</i>"
-msgstr ""
+msgstr "<i>Phiên bản Máy khách</i>"
 
 #: deluge/ui/data/share/applications/deluge.desktop.in.h:1
 #: deluge/ui/gtkui/systemtray.py:86 deluge/ui/gtkui/systemtray.py:169
 #: deluge/ui/gtkui/systemtray.py:229 deluge/ui/gtkui/aboutdialog.py:28
 #: deluge/ui/web/js/deluge-all/Toolbar.js:45
 msgid "Deluge"
-msgstr ""
+msgstr "Deluge"
 
 #: deluge/ui/gtkui/systemtray.py:169
 msgid "Not Connected..."
-msgstr ""
+msgstr "Chưa được kết nối..."
 
 #: deluge/ui/gtkui/systemtray.py:220 deluge/ui/gtkui/systemtray.py:224
 #: deluge/ui/web/js/deluge-all/Statusbar.js:85
@@ -2009,7 +2043,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/Menus.js:157
 #: deluge/ui/web/js/deluge-all/Menus.js:176
 msgid "Unlimited"
-msgstr ""
+msgstr "Không giới hạn"
 
 #: deluge/ui/gtkui/systemtray.py:229
 #: deluge/ui/gtkui/glade/path_combo_chooser.ui.h:36
@@ -2030,423 +2064,435 @@ msgstr "Lên"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:143
 msgid "Set Maximum Download Speed"
-msgstr ""
+msgstr "Đặt Tốc độ Tải xuống Tối đa"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:191
 msgid "Set Maximum Upload Speed"
-msgstr ""
+msgstr "Đặt Tốc độ Tải lên Tối đa"
 
 #: deluge/ui/gtkui/common.py:73
 msgid "Activated"
-msgstr ""
+msgstr "Đã kích hoạt"
 
-#: deluge/ui/gtkui/common.py:95 deluge/ui/gtkui/menubar.py:72
+#: deluge/ui/gtkui/common.py:97 deluge/ui/gtkui/menubar.py:71
 msgid "Other..."
-msgstr ""
+msgstr "Khác..."
 
-#: deluge/ui/gtkui/createtorrentdialog.py:68 deluge/ui/gtkui/files_tab.py:103
+#: deluge/ui/gtkui/createtorrentdialog.py:68 deluge/ui/gtkui/files_tab.py:106
 #: deluge/ui/gtkui/addtorrentdialog.py:97
 #: deluge/ui/web/js/deluge-all/details/FilesTab.js:40
 #: deluge/ui/web/js/deluge-all/add/FilesTab.js:50
 msgid "Filename"
-msgstr ""
+msgstr "Tên tập tin"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:91
 #: deluge/ui/gtkui/edittrackersdialog.py:70
 #: deluge/ui/web/js/deluge-all/EditTrackersWindow.js:76
 msgid "Tier"
-msgstr ""
+msgstr "Bậc"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:131
 msgid "Choose a file"
-msgstr ""
+msgstr "Chọn tập tin"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:160
 msgid "Choose a folder"
-msgstr ""
+msgstr "Chọn thư mục"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:238
 #: deluge/ui/gtkui/glade/create_torrent_dialog.remote_save.ui.h:2
 msgid "Save .torrent file"
-msgstr ""
+msgstr "Lưu tập tin .torrent"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:249
 #: deluge/ui/gtkui/addtorrentdialog.py:548
 msgid "Torrent files"
-msgstr ""
+msgstr "Tập tin Torrent"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:253
 #: deluge/ui/gtkui/addtorrentdialog.py:552
 msgid "All files"
-msgstr ""
+msgstr "Mọi tập tin"
 
-#: deluge/ui/gtkui/files_tab.py:31 deluge/ui/web/js/deluge-all/Menus.js:257
-#: deluge/ui/web/js/deluge-all/Deluge.js:156
+#: deluge/ui/gtkui/files_tab.py:33 deluge/ui/web/js/deluge-all/Menus.js:257
+#: deluge/ui/web/js/deluge-all/Deluge.js:163
 msgid "Do Not Download"
-msgstr ""
+msgstr "Không tải về"
 
-#: deluge/ui/gtkui/files_tab.py:32 deluge/ui/web/js/deluge-all/Menus.js:262
-#: deluge/ui/web/js/deluge-all/Deluge.js:157
+#: deluge/ui/gtkui/files_tab.py:34 deluge/ui/web/js/deluge-all/Menus.js:262
+#: deluge/ui/web/js/deluge-all/Deluge.js:164
 msgid "Normal Priority"
-msgstr ""
+msgstr "Ưu tiên Bình thường"
 
-#: deluge/ui/gtkui/files_tab.py:33 deluge/ui/web/js/deluge-all/Menus.js:267
-#: deluge/ui/web/js/deluge-all/Deluge.js:158
+#: deluge/ui/gtkui/files_tab.py:35 deluge/ui/web/js/deluge-all/Menus.js:267
+#: deluge/ui/web/js/deluge-all/Deluge.js:165
 msgid "High Priority"
-msgstr ""
+msgstr "Ưu tiên Cao"
 
-#: deluge/ui/gtkui/files_tab.py:34 deluge/ui/web/js/deluge-all/Menus.js:272
-#: deluge/ui/web/js/deluge-all/Deluge.js:159
+#: deluge/ui/gtkui/files_tab.py:36 deluge/ui/web/js/deluge-all/Menus.js:272
+#: deluge/ui/web/js/deluge-all/Deluge.js:166
 msgid "Highest Priority"
-msgstr ""
+msgstr "Ưu tiên Cao nhất"
 
-#: deluge/ui/gtkui/files_tab.py:150
+#: deluge/ui/gtkui/files_tab.py:153
 #: deluge/ui/web/js/deluge-all/details/FilesTab.js:60
 msgid "Priority"
-msgstr ""
+msgstr "Ưu tiên"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:89 deluge/ui/gtkui/queuedtorrents.py:50
 msgid "Torrent"
-msgstr ""
+msgstr "Torrent"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:192
+#: deluge/ui/gtkui/addtorrentdialog.py:193
 msgid "Invalid File"
-msgstr ""
+msgstr "Tập tin không hợp lệ"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:198
+#: deluge/ui/gtkui/addtorrentdialog.py:231
 msgid "Duplicate Torrent"
-msgstr ""
+msgstr "Torrent Trùng lặp"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:199
+#: deluge/ui/gtkui/addtorrentdialog.py:231
 msgid "You cannot add the same torrent twice."
-msgstr ""
+msgstr "Bạn không thể thêm cùng một torrent hai lần."
 
-#: deluge/ui/gtkui/addtorrentdialog.py:532
+#: deluge/ui/gtkui/addtorrentdialog.py:537
 msgid "Unable to set file priority!"
-msgstr ""
+msgstr "Không thể đặt ưu tiên tập tin!"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:532
+#: deluge/ui/gtkui/addtorrentdialog.py:537
 msgid ""
 "File prioritization is unavailable when using Compact allocation.  Would you "
 "like to switch to Full allocation?"
 msgstr ""
+"Ưu tiên tập tin không khả dụng khi dùng Cấp phát dung lượng thu gọn. Bạn có "
+"muốn chuyển sang Cấp phát dung lượng đầy đủ."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:534
 msgid "Choose a .torrent file"
-msgstr ""
+msgstr "Chọn một tập tin .torrent"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:611
 msgid "Invalid URL"
-msgstr ""
+msgstr "URL không hợp lệ"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:612
 msgid "is not a valid URL."
-msgstr ""
+msgstr "là một URL không hợp lệ."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:618
 msgid "Downloading..."
-msgstr ""
+msgstr "Đang tải xuống..."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:660
 msgid "Download Failed"
-msgstr ""
+msgstr "Tải xuống không thành công"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:660
 msgid "Failed to download:"
-msgstr ""
+msgstr "Không thể tải xuống:"
 
 #: deluge/ui/gtkui/queuedtorrents.py:111
 msgid " Torrents Queued"
-msgstr ""
+msgstr " Torrent đã xếp hàng"
 
 #: deluge/ui/gtkui/queuedtorrents.py:113
 msgid " Torrent Queued"
-msgstr ""
+msgstr " Torrent đã xếp hàng"
 
-#: deluge/ui/gtkui/preferences.py:72
+#: deluge/ui/gtkui/preferences.py:71
 #: deluge/ui/web/js/deluge-all/preferences/PreferencesWindow.js:85
 msgid "Categories"
-msgstr ""
+msgstr "Loại"
 
-#: deluge/ui/console/modes/preferences.py:109
-#: deluge/ui/gtkui/preferences.py:76
+#: deluge/ui/console/modes/preferences.py:82 deluge/ui/gtkui/preferences.py:75
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:42
 msgid "Downloads"
 msgstr "Tải xuống"
 
-#: deluge/ui/console/modes/preferences.py:109
-#: deluge/ui/gtkui/preferences.py:76
+#: deluge/ui/console/modes/preferences.py:82 deluge/ui/gtkui/preferences.py:75
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:51
 msgid "Network"
 msgstr "Mạng"
 
 #: deluge/plugins/Stats/deluge/plugins/stats/data/tabs.glade:94
-#: deluge/ui/console/modes/preferences.py:109
-#: deluge/ui/gtkui/preferences.py:76
+#: deluge/ui/console/modes/preferences.py:82 deluge/ui/gtkui/preferences.py:75
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:31
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:88
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:94
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:42
 msgid "Bandwidth"
-msgstr ""
+msgstr "Băng thông"
 
-#: deluge/ui/console/modes/preferences.py:109
-#: deluge/ui/gtkui/preferences.py:76
+#: deluge/ui/console/modes/preferences.py:82 deluge/ui/gtkui/preferences.py:75
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:41
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:53
 msgid "Interface"
-msgstr ""
+msgstr "Giao diện"
 
-#: deluge/ui/console/modes/preferences.py:110
-#: deluge/ui/gtkui/preferences.py:77
+#: deluge/ui/console/modes/preferences.py:83 deluge/ui/gtkui/preferences.py:76
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:181
 #: deluge/ui/web/js/deluge-all/Statusbar.js:90
 #: deluge/ui/web/js/deluge-all/Statusbar.js:138
 #: deluge/ui/web/js/deluge-all/Statusbar.js:186
 #: deluge/ui/web/js/deluge-all/preferences/OtherPage.js:42
-#: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:84
+#: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:85
 msgid "Other"
-msgstr ""
+msgstr "Khác"
 
-#: deluge/ui/console/modes/preferences.py:110
-#: deluge/ui/gtkui/preferences.py:77 deluge/ui/gtkui/preferences.py:902
+#: deluge/ui/console/modes/preferences.py:83 deluge/ui/gtkui/preferences.py:76
+#: deluge/ui/gtkui/preferences.py:901
 #: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:41
 msgid "Daemon"
-msgstr ""
+msgstr "Dịch vụ"
 
-#: deluge/ui/console/modes/preferences.py:110
-#: deluge/ui/gtkui/preferences.py:77
+#: deluge/ui/console/modes/preferences.py:83 deluge/ui/gtkui/preferences.py:76
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:139
 #: deluge/ui/web/js/deluge-all/preferences/ProxyPage.js:42
 #: deluge/ui/web/js/deluge-all/preferences/ProxyPage.js:52
 msgid "Proxy"
-msgstr ""
+msgstr "Proxy"
 
-#: deluge/ui/console/modes/preferences.py:110
-#: deluge/ui/gtkui/preferences.py:77
+#: deluge/ui/console/modes/preferences.py:83 deluge/ui/gtkui/preferences.py:76
 #: deluge/ui/web/js/deluge-all/preferences/CachePage.js:41
 msgid "Cache"
-msgstr ""
+msgstr "Bộ nhớ đệm"
 
-#: deluge/ui/gtkui/preferences.py:77
+#: deluge/ui/gtkui/preferences.py:76
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:41
 msgid "Plugins"
 msgstr "Phần bổ sung"
 
-#: deluge/ui/gtkui/preferences.py:126
+#: deluge/ui/gtkui/preferences.py:125
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:92
 msgid "Plugin"
-msgstr ""
+msgstr "Phần bổ sung"
 
 #: deluge/ui/gtkui/preferences.py:769
 msgid "You must restart the deluge UI to change classic mode. Quit now?"
 msgstr ""
+"Bạn phải khởi động lại giao diện deluge UI để thay đổi chế độ cũ. Thoát bây "
+"giờ?"
 
-#: deluge/ui/gtkui/preferences.py:956
+#: deluge/ui/gtkui/preferences.py:955
 msgid "Select the Plugin"
-msgstr ""
+msgstr "Chọn phần bổ sung"
 
-#: deluge/ui/gtkui/preferences.py:968
+#: deluge/ui/gtkui/preferences.py:967
 msgid "Plugin Eggs"
 msgstr ""
 
 #: deluge/ui/gtkui/torrentdetails.py:93
 msgid "_All"
-msgstr ""
+msgstr "Tất _cả"
 
 #: deluge/ui/gtkui/torrentdetails.py:94
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:15
 msgid "_Status"
-msgstr ""
+msgstr "_Trạng thái"
 
 #: deluge/ui/gtkui/torrentdetails.py:95
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:28
 msgid "_Details"
-msgstr "_Chi tiết"
+msgstr "Ch_i tiết"
 
 #: deluge/ui/gtkui/torrentdetails.py:96
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:29
 msgid "_Files"
-msgstr ""
+msgstr "_Tập tin"
 
 #: deluge/ui/gtkui/torrentdetails.py:97
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:30
 msgid "_Peers"
-msgstr ""
+msgstr "N_gười tải"
 
 #: deluge/ui/gtkui/torrentdetails.py:98
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:44
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:34
 msgid "_Options"
-msgstr ""
+msgstr "Tùy _chọn"
 
-#: deluge/ui/gtkui/menubar.py:68
+#: deluge/ui/gtkui/menubar.py:67
 msgid "Set Unlimited"
-msgstr ""
+msgstr "Đặt không giới hạn"
 
-#: deluge/ui/gtkui/menubar.py:80
+#: deluge/ui/gtkui/menubar.py:79
 msgid "On"
-msgstr ""
+msgstr "Bật"
 
-#: deluge/ui/gtkui/menubar.py:83
+#: deluge/ui/gtkui/menubar.py:82
 msgid "Off"
-msgstr ""
+msgstr "Tắt"
 
-#: deluge/ui/gtkui/menubar.py:318
+#: deluge/ui/gtkui/menubar.py:320
 msgid "Choose a directory to move files to"
-msgstr ""
+msgstr "Chọn một thư mục để chuyển các tập tin tới"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:96
 msgid "Set Maximum Connections"
-msgstr ""
+msgstr "Đặt số kết nối tối đa"
 
-#: deluge/ui/gtkui/menubar.py:438
+#: deluge/ui/gtkui/menubar.py:440
 msgid "Set Maximum Upload Slots"
-msgstr ""
+msgstr "Đặt số khe tải lên tối đa"
 
-#: deluge/ui/gtkui/gtkui.py:332 deluge/ui/gtkui/gtkui.py:359
+#: deluge/ui/gtkui/gtkui.py:352 deluge/ui/gtkui/gtkui.py:379
 msgid "Turn off Classic Mode?"
-msgstr ""
+msgstr "Tắt Chế độ Cổ điển"
 
-#: deluge/ui/gtkui/gtkui.py:333
+#: deluge/ui/gtkui/gtkui.py:353
 msgid ""
 "It appears that a Deluge daemon process (deluged) is already running.\n"
 "\n"
 "You will either need to stop the daemon or turn off Classic Mode to continue."
 msgstr ""
+"Có vẻ như một tiến trình dịch vụ Deluge (deluged) đã đang chạy.\n"
+"\n"
+"Bạn cần phải dừng dịch vụ hoặc tắt Chế độ cổ điển để tiếp tục."
 
-#: deluge/ui/gtkui/gtkui.py:340
+#: deluge/ui/gtkui/gtkui.py:360
 msgid "Enable Thin Client Mode?"
-msgstr ""
+msgstr "Kích hoạt Chế độ Thin Client"
 
-#: deluge/ui/gtkui/gtkui.py:341
+#: deluge/ui/gtkui/gtkui.py:361
 msgid ""
 "Thin client mode is only available because libtorrent is not installed.\n"
 "\n"
 "To use Deluge standalone (Classic mode) please install libtorrent."
 msgstr ""
+"Hiện chỉ có chế độ thin client bởi vì libtorrent chưa được cài đặt.\n"
+"\n"
+"Để dùng Deluge độc lập (Chế độ cổ điển) vui lòng cài đặt libtorrent."
 
-#: deluge/ui/gtkui/gtkui.py:340
+#: deluge/ui/gtkui/gtkui.py:348
 msgid "Error Starting Core"
-msgstr ""
+msgstr "Lỗi khởi động lõi"
 
-#: deluge/ui/gtkui/gtkui.py:355
+#: deluge/ui/gtkui/gtkui.py:375
 msgid ""
 "There was an error starting the core component which is required to run "
 "Deluge in Classic Mode.\n"
 "\n"
 "Please see the details below for more information."
 msgstr ""
+"Có lỗi khi khởi động thành phần lõi cần thiết để chạy Deluge trong Chế độ Cổ "
+"điển.\n"
+"\n"
+"Vui lòng xem các chi tiết dưới đây để biết thêm thông tin."
 
-#: deluge/ui/gtkui/gtkui.py:360
+#: deluge/ui/gtkui/gtkui.py:380
 msgid ""
 "Since there was an error starting in Classic Mode would you like to continue "
 "by turning it off?"
 msgstr ""
+"Do đã có lỗi khi khởi động Chế độ Cổ điển, bạn có muốn tắt nó đi và tiếp tục "
+"không?"
 
-#: deluge/ui/gtkui/gtkui.py:383
+#: deluge/ui/gtkui/gtkui.py:391
 msgid "Error Starting Daemon"
-msgstr ""
+msgstr "Lỗi khởi động dịch vụ"
 
-#: deluge/ui/gtkui/gtkui.py:384
+#: deluge/ui/gtkui/gtkui.py:392
 msgid ""
 "There was an error starting the daemon process.  Try running it from a "
 "console to see if there is an error."
 msgstr ""
+"Đã có lỗi khi khởi động tiến trình dịch vụ. Hãy thử chạy từ dòng lệnh để xem "
+"thông tin về lỗi."
 
-#: deluge/ui/gtkui/connectionmanager.py:163
+#: deluge/ui/gtkui/connectionmanager.py:161
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:168
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:68
 #: deluge/ui/web/js/deluge-all/details/StatusTab.js:39
-#: deluge/ui/web/js/deluge-all/details/DetailsTab.js:52
 msgid "Status"
-msgstr ""
+msgstr "Tình trạng"
 
-#: deluge/ui/gtkui/connectionmanager.py:167
-#: deluge/ui/web/js/deluge-all/ConnectionManager.js:74
-#: deluge/ui/web/js/deluge-all/AddConnectionWindow.js:66
-#: deluge/ui/web/js/deluge-all/preferences/ProxyI2PField.js:49
+#: deluge/ui/gtkui/connectionmanager.py:165
+#: deluge/ui/web/js/deluge-all/ConnectionManager.js:84
 msgid "Host"
-msgstr ""
+msgstr "Máy chủ"
 
-#: deluge/ui/gtkui/connectionmanager.py:172
-#: deluge/ui/web/js/deluge-all/ConnectionManager.js:80
+#: deluge/ui/gtkui/connectionmanager.py:170
+#: deluge/ui/web/js/deluge-all/ConnectionManager.js:90
 msgid "Version"
-msgstr ""
+msgstr "Phiên bản"
 
-#: deluge/ui/gtkui/connectionmanager.py:426
+#: deluge/ui/gtkui/connectionmanager.py:424
 msgid "_Stop Daemon"
-msgstr ""
+msgstr "_Dừng dịch vụ"
 
-#: deluge/ui/gtkui/connectionmanager.py:434
+#: deluge/ui/gtkui/connectionmanager.py:432
 msgid "_Start Daemon"
-msgstr ""
+msgstr "_Khởi động dịch vụ"
 
-#: deluge/ui/gtkui/connectionmanager.py:460
-#: deluge/ui/gtkui/connectionmanager.py:472
+#: deluge/ui/gtkui/connectionmanager.py:458
+#: deluge/ui/gtkui/connectionmanager.py:470
 msgid "Unable to start daemon!"
-msgstr ""
+msgstr "Không thể khởi động dịch vụ!"
 
-#: deluge/ui/gtkui/connectionmanager.py:473
+#: deluge/ui/gtkui/connectionmanager.py:471
 msgid "Please examine the details for more information."
-msgstr ""
+msgstr "Vui lòng kiểm tra các chi tiết để biết thêm thông tin."
 
-#: deluge/ui/gtkui/connectionmanager.py:595
+#: deluge/ui/gtkui/connectionmanager.py:592
 msgid "Error Adding Host"
-msgstr ""
+msgstr "Lỗi thêm máy chủ"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:6
 msgid "Torrents"
-msgstr ""
+msgstr "Các Torrent"
 
 #: deluge/ui/gtkui/dialogs.py:170
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:183
+#: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:52
 msgid "Details:"
-msgstr ""
+msgstr "Chi tiết:"
 
 #: deluge/ui/gtkui/dialogs.py:390
 msgid "Password Protected"
-msgstr ""
+msgstr "Đã được bảo vệ bằng mật khẩu"
 
 #: deluge/ui/gtkui/mainwindow.py:191
 msgid "Enter your password to show Deluge..."
-msgstr ""
+msgstr "Nhập mật khẩu của bạn để hiển thị Deluge..."
 
 #: deluge/ui/gtkui/mainwindow.py:235
 msgid "Enter your password to Quit Deluge..."
-msgstr ""
+msgstr "Nhập mật khẩu của bạn để thoát Deluge..."
 
 #: deluge/ui/gtkui/mainwindow.py:315
 msgid "D:"
-msgstr ""
+msgstr "L:"
 
 #: deluge/ui/gtkui/mainwindow.py:315
 msgid "U:"
+msgstr "X:"
+
+#: deluge/ui/gtkui/aboutdialog.py:33
+#, python-format
+msgid "Copyright %(year_start)s-%(year_end)s Deluge Team"
 msgstr ""
 
-#: deluge/ui/gtkui/aboutdialog.py:32
-msgid "Copyright 2007-2014 Deluge Team"
-msgstr ""
-
-#: deluge/ui/gtkui/aboutdialog.py:34
+#: deluge/ui/gtkui/aboutdialog.py:35
 msgid ""
 "A peer-to-peer file sharing program\n"
 "utilizing the BitTorrent protocol."
 msgstr ""
+"Một chương trình chia sẻ tệp tin ngang hàng\n"
+"sử dụng giao thức BitTorrent."
 
-#: deluge/ui/gtkui/aboutdialog.py:35
+#: deluge/ui/gtkui/aboutdialog.py:36
 msgid "Client:"
-msgstr ""
+msgstr "Ứng dụng khách:"
 
-#: deluge/ui/gtkui/aboutdialog.py:38
+#: deluge/ui/gtkui/aboutdialog.py:39
 msgid "Current Developers:"
-msgstr ""
+msgstr "Nhà phát triển hiện nay:"
 
-#: deluge/ui/gtkui/aboutdialog.py:40
+#: deluge/ui/gtkui/aboutdialog.py:41
 msgid "Past Developers or Contributors:"
-msgstr ""
+msgstr "Nhà phát triển hoặc đóng góp trước đây"
 
-#: deluge/ui/gtkui/aboutdialog.py:225
+#: deluge/ui/gtkui/aboutdialog.py:226
 msgid ""
 "This program is free software; you can redistribute it and/or modify it "
 "under the terms of the GNU General Public License as published by the Free "
@@ -2472,134 +2518,161 @@ msgid ""
 "delete this exception statement from all source files in the program, then "
 "also delete it here."
 msgstr ""
+"Chương trình này là phần mềm tự do; bạn có thể phân phối lại nó và/hoặc sửa "
+"đổi nó theo các điều khoản của Giấy phép Công cộng GNU được phát hành bởi "
+"Hiệp hội Phần mềm Tự do; phiên bản 3 của giấy phép, hoặc bất cứ phiên bản "
+"nào sau này (do bạn lựa chọn). \n"
+"\n"
+"Phần mềm này được phân phối với hi vọng rằng nó sẽ mang lại lợi ích, tuy "
+"nhiên KHÔNG CÓ BẤT CỨ BẢO HÀNH NÀO. Xem Giấy phép Công cộng GNU để biết thêm "
+"chi tiết.\n"
+"\n"
+"Bạn nhận được một bản sao của Giấy phép Công cộng GNU cùng với chương trình "
+"này; nếu không, xem ở <http://www.gnu.org/licenses>. \n"
+"\n"
+"Ngoài ra, như một trường hợp ngoại lệ đặc biệt, những người giữ bản quyền "
+"cho phép liên kết phần mã của chương trình này với thư viện OpenSSL. Bạn "
+"phải tuân theo Giấy phép Công cộng GNU trong tất cả các khía cạnh đối với "
+"phần mã được sử dụng ngoài OpenSSL.\n"
+"\n"
+"Nếu bạn sửa đổi một hoặc nhiều tập tin với ngoại lệ này, bạn có thể kế thừa "
+"ngoại lệ này cho phiên bản của các tập tin của bạn, nhưng điều này là không "
+"bắt buộc. Nếu bạn không muốn làm theo, hãy xóa phần chú giải ngoại lệ này từ "
+"phiên bản của bạn. Nếu vậy, bạn xóa phần chủ giải ngoại lệ này từ tất cả các "
+"tập tin nguồn của chương trình,  sau đó xóa nó khỏi vị trí này."
 
-#: deluge/ui/gtkui/aboutdialog.py:260
+#: deluge/ui/gtkui/aboutdialog.py:259
 msgid "Server:"
-msgstr ""
+msgstr "Máy chủ:"
 
-#: deluge/ui/gtkui/aboutdialog.py:263
+#: deluge/ui/gtkui/aboutdialog.py:262
 msgid "libtorrent:"
-msgstr ""
+msgstr "libtorrent:"
 
 #: deluge/ui/gtkui/statusbar.py:128
 #: deluge/ui/web/js/deluge-all/Statusbar.js:39
 msgid "Not Connected"
-msgstr ""
+msgstr "Chưa kết nối"
 
 #: deluge/plugins/Stats/deluge/plugins/stats/data/tabs.glade:112
 #: deluge/ui/gtkui/statusbar.py:145
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:179
 #: deluge/ui/web/js/deluge-all/Statusbar.js:57
-#: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:68
+#: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:69
 msgid "Connections"
-msgstr ""
+msgstr "Kết nối"
 
 #: deluge/ui/gtkui/statusbar.py:150
 #: deluge/ui/web/js/deluge-all/Statusbar.js:104
 msgid "Download Speed"
-msgstr ""
+msgstr "Tốc độ tải xuống"
 
 #: deluge/ui/gtkui/statusbar.py:155
 #: deluge/ui/web/js/deluge-all/Statusbar.js:152
 msgid "Upload Speed"
-msgstr ""
+msgstr "Tốc độ tải lên"
 
 #: deluge/ui/gtkui/statusbar.py:160
 #: deluge/ui/web/js/deluge-all/Statusbar.js:200
 msgid "Protocol Traffic Download/Upload"
-msgstr ""
+msgstr "Lưu lượng tải lên/xuống của giao thức"
 
 #: deluge/ui/gtkui/statusbar.py:163
 #: deluge/ui/web/js/deluge-all/Statusbar.js:210
 msgid "DHT Nodes"
-msgstr ""
+msgstr "Nút DHT"
 
 #: deluge/ui/gtkui/statusbar.py:168
 msgid "Free Disk Space"
-msgstr ""
+msgstr "Dung lượng đĩa trống"
 
 #: deluge/ui/gtkui/statusbar.py:172
 msgid "No Incoming Connections!"
-msgstr ""
+msgstr "Không có kết nối đến!"
 
 #: deluge/ui/gtkui/filtertreeview.py:124
+#: deluge/ui/web/js/deluge-all/FilterPanel.js:51
 msgid "States"
-msgstr ""
+msgstr "Tình trạng"
 
 #: deluge/ui/gtkui/filtertreeview.py:157
+#: deluge/ui/web/js/deluge-all/FilterPanel.js:57
 msgid "Labels"
-msgstr ""
+msgstr "Nhãn"
 
-#: deluge/ui/common.py:32 deluge/ui/gtkui/filtertreeview.py:130
-#: deluge/ui/web/js/deluge-all/FilterPanel.js:124
+#: deluge/ui/common.py:34 deluge/ui/gtkui/filtertreeview.py:130
+#: deluge/ui/web/js/deluge-all/UI.js:40
 msgid "All"
-msgstr ""
+msgstr "Tất cả"
 
-#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:410
-#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:454
-#: deluge/ui/common.py:33
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:411
+#: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:455
+#: deluge/ui/common.py:35 deluge/ui/web/js/deluge-all/UI.js:41
 msgid "Active"
-msgstr ""
+msgstr "Đang hoạt động"
 
 #: deluge/ui/gtkui/filtertreeview.py:132 deluge/ui/gtkui/filtertreeview.py:136
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:7
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:56
 msgid "None"
-msgstr ""
+msgstr "Không có"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
 msgid "<big><b>Remove the selected torrent?</b></big>"
-msgstr ""
+msgstr "<big><b>Bỏ torrent đã chọn?</b></big>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
 msgid "If you remove the data, it will be lost permanently."
-msgstr ""
+msgstr "Nếu bạn bỏ dữ liệu, nó sẽ bị mất vĩnh viễn."
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
 msgid "Remove With _Data"
-msgstr ""
+msgstr "Bỏ cùng với _dữ liệu"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
 msgid "Remove _Torrent"
-msgstr ""
+msgstr "Bỏ _torrent"
 
 #: deluge/ui/gtkui/glade/edit_trackers.ui.h:1
 #: deluge/ui/web/js/deluge-all/EditTrackersWindow.js:40
 #: deluge/ui/web/js/deluge-all/Menus.js:224
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:332
 msgid "Edit Trackers"
-msgstr "Biên tập các Tracker"
+msgstr "Sửa các Tracker"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:47
 msgid "<big><b>Edit Trackers</b></big>"
-msgstr ""
+msgstr "<big><b>Sửa các Tracker</b></big>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.add.ui.h:1
 #: deluge/ui/web/js/deluge-all/AddTrackerWindow.js:40
 msgid "Add Tracker"
-msgstr ""
+msgstr "Thêm Tracker"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:260
 msgid "<b>Add Trackers</b>"
-msgstr ""
+msgstr "<b>Thêm Tracker</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.infohash.ui.h:4
 #: deluge/ui/gtkui/glade/edit_trackers.add.ui.h:3
+#: deluge/ui/web/js/deluge-all/AddTrackerWindow.js:66
 msgid "Trackers:"
-msgstr ""
+msgstr "Các Tracker:"
 
 #: deluge/ui/gtkui/glade/edit_trackers.edit.ui.h:1
 #: deluge/ui/web/js/deluge-all/EditTrackerWindow.js:40
 msgid "Edit Tracker"
-msgstr ""
+msgstr "Sửa Tracker"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:416
 msgid "<b>Edit Tracker</b>"
-msgstr ""
+msgstr "<b>Sửa Tracker</b>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.edit.ui.h:2
+#: deluge/ui/web/js/deluge-all/EditTrackerWindow.js:66
+#: deluge/ui/web/js/deluge-all/details/DetailsTab.js:54
 msgid "Tracker:"
-msgstr ""
+msgstr "Tracker:"
 
 #: deluge/ui/gtkui/glade/tray_menu.ui.h:1
 msgid "_Show Deluge"
@@ -2614,7 +2687,7 @@ msgstr "_Thêm torrent"
 msgid "_Pause All"
 msgstr "Tạm _dừng tất cả"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:66
+#: deluge/ui/gtkui/glade/tray_menu.glade:65
 msgid "_Resume All"
 msgstr "_Tiếp tục tất cả"
 
@@ -2630,70 +2703,72 @@ msgstr "Giới _hạn tốc độ tải lên"
 
 #: deluge/ui/gtkui/glade/tray_menu.ui.h:7
 msgid "Quit & Shutdown Daemon"
-msgstr ""
+msgstr "Thoát và tắt dịch vụ"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.ui.h:1
 msgid "_Select All"
-msgstr ""
+msgstr "Chọn tất _cả"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.ui.h:4
 #: deluge/ui/gtkui/glade/torrent_menu.ui.h:4
 msgid "Resume selected torrents."
-msgstr ""
+msgstr "Tiếp tục các torrent được chọn."
 
 #: deluge/ui/gtkui/glade/filtertree_menu.ui.h:3
 msgid "Resu_me All"
-msgstr ""
+msgstr "T_iếp tục tất cả"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:38
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:13
 #: deluge/ui/web/js/deluge-all/Toolbar.js:94
 #: deluge/ui/web/js/deluge-all/preferences/PreferencesWindow.js:47
 msgid "Preferences"
-msgstr "Tuỳ thích"
+msgstr "Tùy chọn"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:76
 msgid "<b><i><big>Downloads</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Tải xuống</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:188
 msgid "Auto add .torrents from:"
-msgstr ""
+msgstr "Tự động thêm .torrent từ:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:48
+#: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:69
 msgid "Download to:"
-msgstr ""
+msgstr "Tải xuống vào:"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:281
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:45
+#: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:85
 msgid "Copy of .torrent files to:"
-msgstr ""
+msgstr "Sao các tập tin .torrent vào:"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:334
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:46
 msgid "Delete copy of torrent file on remove"
-msgstr ""
+msgstr "Xóa bản sao của tập tin torrent khi bỏ"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:47
 msgid ""
 "Delete the copy of the torrent file created when the torrent is removed"
-msgstr ""
+msgstr "Xóa bản sao của tập tin torrent được tạo ra khi torrent bị bỏ"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:339
 msgid "<b>Folders</b>"
-msgstr ""
+msgstr "<b>Thư mục</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:372
 msgid "Use Full Allocation"
-msgstr "Sử dụng cấp phát toàn bộ"
+msgstr "Sử dụng cấp phát đầy đủ"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:377
 msgid ""
 "Full allocation preallocates all of the space that is needed for the torrent "
 "and prevents disk fragmentation"
 msgstr ""
-"Cấp pháp toàn bộ sẽ cấp phát trước toàn bộ dung lượng đĩa cần thiết cho "
-"torrentvà ngăn ngừa được sự phân mảnh tập tin"
+"Cấp pháp đầy đủ sẽ cấp phát trước toàn bộ dung lượng đĩa cần thiết cho "
+"torrent và ngăn ngừa sự phân mảnh tập tin"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:389
 msgid "Use Compact Allocation"
@@ -2709,125 +2784,131 @@ msgid "<b>Allocation</b>"
 msgstr "<b>Cấp phát</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:50
-#: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:103
+#: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:106
 msgid "Prioritize first and last pieces of torrent"
-msgstr ""
+msgstr "Ưu tiên các mảnh đầu và cuối của torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:51
 msgid "Prioritize first and last pieces of files in torrent"
-msgstr ""
+msgstr "Ưu tiên các mảnh đầu và cuối của các tập tin trong torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:59
-#: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:115
+#: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:118
 msgid "Add torrents in Paused state"
-msgstr ""
+msgstr "Thêm các torrent trong trạng thái tạm dừng"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:530
 msgid "<b><i><big>Network</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Mạng</big></i></b>"
 
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:86
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:141
 msgid "Use Random Ports"
-msgstr ""
+msgstr "Dùng cổng ngẫu nhiên"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:574
 msgid "Deluge will automatically choose a different port to use every time."
-msgstr "Deluge sẽ tự động chọn 1 cổng khác để sử dụng"
+msgstr "Deluge sẽ tự động chọn 1 cổng khác nhau để sử dụng."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:106
 msgid "Active Port:"
-msgstr "Cổng tích cực:"
+msgstr "Cổng hiện tại:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:103
+#: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:117
+#: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:172
 msgid "To:"
 msgstr "Tới:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:107
 msgid "Test Active Port"
-msgstr "Thử cổng tích cực"
+msgstr "Kiểm tra cổng hiện tại:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:732
 msgid "<b>Incoming Ports</b>"
-msgstr ""
+msgstr "<b>Cổng đến</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:849
 msgid "<b>Outgoing Ports</b>"
-msgstr ""
+msgstr "<b>Cổng đi</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:882
 msgid ""
 "Enter the IP address of the interface to listen for incoming bittorrent "
 "connections on.  Leave this empty if you want to use the default."
 msgstr ""
+"Nhập địa chỉ IP của giao tiếp để lắng nghe các kết nối bittorrent đến. Để "
+"trống nếu bạn muốn dùng mặc định."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:903
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "<b>Giao diện</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:938
 msgid ""
 "The TOS byte set in the IP header of every packet sent to peers (including "
 "web seeds).  Expects a Hex value."
 msgstr ""
+"Byte TOS được đặt trong phần IP header của các gói được gửi tới các máy tải "
+"(bao gồm cả các web seed). Nhận giá trị Hex."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:129
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:247
 msgid "Peer TOS Byte:"
-msgstr ""
+msgstr "Byte TOS máy tải:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:973
 msgid "<b>TOS</b>"
-msgstr ""
+msgstr "<b>TOS</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:115
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:198
 msgid "UPnP"
-msgstr ""
+msgstr "UPnP"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:116
 msgid "Universal Plug and Play"
-msgstr ""
+msgstr "Universal Plug and Play"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:117
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:204
 msgid "NAT-PMP"
-msgstr ""
+msgstr "NAT-PMP"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:118
 msgid "NAT Port Mapping Protocol"
-msgstr ""
+msgstr "Giao thức gắn cổng NAT"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:119
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:211
 msgid "Peer Exchange"
-msgstr ""
+msgstr "Trao đổi máy tải"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:123
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:218
 msgid "LSD"
-msgstr ""
+msgstr "LSD"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:124
 msgid "Local Service Discovery finds local peers on your network."
-msgstr ""
+msgstr "Local Service Discovery tìm các máy tải cục bộ trên mạng của bạn."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:126
 msgid "Distributed hash table may improve the amount of active connections."
-msgstr "Bảng băm phân tán (DHT) có thể cải thiện số lượng kết nối tích cực."
+msgstr "Bảng băm phân tán (DHT) có thể cải thiện số lượng kết nối."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1097
 msgid "<b>Network Extras</b>"
-msgstr ""
+msgstr "<b>Phụ thêm</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1135
 msgid "Inbound:"
-msgstr "Dữ liệu nhận"
+msgstr "Đến:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:113
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:93
 msgid "Level:"
-msgstr "Cấp:"
+msgstr "Mức độ:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1165
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1214
@@ -2836,6 +2917,9 @@ msgid ""
 "Enabled\n"
 "Disabled"
 msgstr ""
+"Bắt buộc\n"
+"Kích hoạt\n"
+"Vô hiệu"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1176
 msgid ""
@@ -2843,30 +2927,33 @@ msgid ""
 "Full Stream\n"
 "Either"
 msgstr ""
+"Chỉ lúc Handshake\n"
+"Toàn bộ\n"
+"Một trong hai"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1203
 msgid "Outbound:"
-msgstr "Dữ liệu truyền đi"
+msgstr "Đi:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1230
 msgid "Encrypt entire stream"
-msgstr ""
+msgstr "Mã hóa toàn bộ"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1255
 msgid "<b>Encryption</b>"
-msgstr "Mã hóa"
+msgstr "<b>Mã hóa</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1315
 msgid "<b><i><big>Bandwidth</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Băng thông</big></i></b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1391
+#: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:108
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "Số kết nối tối đa thực hiện mỗi giây:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1403
+#: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:100
 msgid "Maximum Half-Open Connections:"
-msgstr ""
+msgstr "Số kết nối Half-Open tối đa:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:68
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
@@ -2874,8 +2961,8 @@ msgstr ""
 "Tốc độ tải lên tối đa, áp dụng cho tất cả torrent. Đặt giá trị -1 là không "
 "giới hạn."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1416
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1701
+#: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:92
+#: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:177
 msgid "Maximum Upload Speed (KiB/s):"
 msgstr "Tốc độ tải lên lớn nhất (KiB/s):"
 
@@ -2883,8 +2970,8 @@ msgstr "Tốc độ tải lên lớn nhất (KiB/s):"
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
 msgstr "Số kết nối cho phép nhiều nhất. Đặt giá trị -1 là không giới hạn."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1429
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1664
+#: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:68
+#: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:153
 msgid "Maximum Connections:"
 msgstr "Kết nối nhiều nhất:"
 
@@ -2894,8 +2981,7 @@ msgstr ""
 "Số đường tải lên nhiều nhất, áp dụng cho tất cả torrent. Đặt giá trị -1 là "
 "không giới hạn."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1440
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1675
+#: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:161
 msgid "Maximum Upload Slots:"
 msgstr "Số đường tải lên lớn nhất:"
 
@@ -2905,58 +2991,60 @@ msgstr ""
 "Tốc độ tải xuống lớn nhất, áp dụng cho tất cả torrent. Đặt giá trị -1 là "
 "không giới hạn."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1472
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1688
+#: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:84
+#: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:169
 msgid "Maximum Download Speed (KiB/s):"
 msgstr "Tốc độ tải xuống lớn nhất (KiB/s):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:77
-#: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:122
+#: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:128
 msgid "Ignore limits on local network"
-msgstr ""
+msgstr "Bỏ qua các giới hạn đối với mạng cục bộ"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:78
-#: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:129
+#: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:135
 msgid "Rate limit IP overhead"
-msgstr ""
+msgstr "Áp dụng giới hạn lên lưu lượng của giao thức (IP overhead)"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:79
 msgid ""
 "If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
 "to avoid exceeding the limits with the total traffic"
 msgstr ""
+"Nếu được đánh dấu, phần lưu lượng của giao thức được bỏ khỏi giới hạn tốc "
+"độ, để tránh vượt các giới hạn với tổng lưu lượng"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1589
 msgid "<b>Global Bandwidth Usage</b>"
-msgstr ""
+msgstr "<b>Sử dụng băng thông chung</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:81
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
-msgstr ""
+msgstr "Số đường tải lên tối đa mỗi torrent. Đặt -1 để không giới hạn."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:82
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
-msgstr ""
+msgstr "Số kết nối tối đa mỗi torrent. Đặt -1 để không giới hạn."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1713
 msgid "The maximum download speed per torrent.  Set -1 for unlimited."
-msgstr ""
+msgstr "Tốc độ tải xuống tối đa mỗi torrent. Đặt -1 để không giới hạn."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:84
 msgid "The maximum upload speed per torrent.  Set -1 for unlimited."
-msgstr ""
+msgstr "Tốc độ tải lên tối đa mỗi torrent. Đặt -1 để không giới hạn."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1753
 msgid "<b>Per Torrent Bandwidth Usage</b>"
-msgstr ""
+msgstr "<b>Sử dụng băng thông mỗi torrent</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1812
 msgid "<i><b><big>Interface</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Giao diện</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1845
 msgid "Enable"
-msgstr ""
+msgstr "Bật"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1850
 msgid ""
@@ -2965,203 +3053,217 @@ msgid ""
 "advantage of running Deluge as a daemon. You need to restart Deluge for this "
 "setting to take effect."
 msgstr ""
+"Chế độ Cổ điển sẽ ẩn hầu hết các chức năng dịch vụ và khiến Deluge hoạt động "
+"như một ứng dụng độc lập. Dùng tính năng này nếu bạn không muốn chạy Deluge "
+"như một dịch vụ. Bạn cần khởi động lại Deluge để cài đặt này có hiệu lực."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1860
 msgid "<b>Classic Mode</b>"
-msgstr ""
+msgstr "<b>Chế độ Cổ điển</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:19
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:64
 msgid "Show session speed in titlebar"
-msgstr ""
+msgstr "Hiển tốc độ trên thanh tiêu đề"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:20
 msgid "Focus window when adding torrent"
-msgstr ""
+msgstr "Bật cửa sổ chương trình lên trên cùng khi thêm torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1923
 msgid "<b>Main Window</b>"
-msgstr ""
+msgstr "<b>Cửa sổ chính</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:63
 msgid "Always show"
-msgstr ""
+msgstr "Luôn hiện"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:64
 msgid "Bring the dialog to focus"
-msgstr ""
+msgstr "Đưa hộp thoại lên trên cùng"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1993
 msgid "<b>Add Torrents Dialog</b>"
-msgstr ""
+msgstr "<b>Hộp thoại thêm torrent</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:32
 msgid "Enable system tray icon"
-msgstr ""
+msgstr "Bật biểu tượng khay của hệ thống"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:35
 msgid "Minimize to tray on close"
-msgstr ""
+msgstr "Thu nhỏ xuống khay hệ thống khi đóng"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:36
 msgid "Start in tray"
-msgstr ""
+msgstr "Khởi động ở khay hệ thống"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2082
 msgid "Enable Application Indicator"
-msgstr ""
+msgstr "Bật Biểu thị ứng dụng"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:37
 msgid "Password protect system tray"
-msgstr ""
+msgstr "Bảo vệ với mật khẩu"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2170
 msgid "<b>System Tray</b>"
-msgstr ""
+msgstr "<b>Khay hệ thống</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2228
 msgid "<i><b><big>Other</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Khác</big></b></i>"
 
 #: deluge/ui/web/js/deluge-all/preferences/OtherPage.js:66
 msgid "Be alerted about new releases"
-msgstr ""
+msgstr "Nhận thông báo về các phiên bản mới"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2273
 msgid ""
 "Deluge will check our servers and will tell you if a newer version has been "
 "released"
 msgstr ""
+"Deluge sẽ kiểm tra và cho bạn biết nếu có phiên bản mới hơn đã được phát hành"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2292
 msgid "<b>Updates</b>"
-msgstr ""
+msgstr "<b>Cập nhật</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:169
 msgid ""
 "Help us improve Deluge by sending us your Python version, PyGTK version, OS "
 "and processor types.  Absolutely no other information is sent."
 msgstr ""
+"Giúp chúng tôi cải thiện Deluge bằng cách gửi cho chúng tôi thông tin về "
+"phiên bản Python, PyGTK, hệ điều hành và kiểu bộ xử lý của bạn. Tuyệt đối "
+"không thông tin nào khác được gửi."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:170
 #: deluge/ui/web/js/deluge-all/preferences/OtherPage.js:90
 msgid "Yes, please send anonymous statistics"
-msgstr ""
+msgstr "Được, hãy gửi các thống kê ẩn danh"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2367
 msgid "<b>System Information</b>"
-msgstr ""
+msgstr "<b>Thông tin hệ thống</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:172
 msgid "Location:"
-msgstr ""
+msgstr "Vị trí:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:173
 msgid ""
 "If Deluge cannot find the database file at this location it will fallback to "
 "using DNS to resolve the peer's country."
 msgstr ""
+"Nếu Deluge không thể tìm tập tin cơ sở dữ liệu ở vị trí này nó sẽ quay lại "
+"dùng DNS để lấy quốc gia của máy tải."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2446
 msgid "<b>GeoIP Database</b>"
-msgstr ""
+msgstr "<b>Cơ sở dữ liệu vị trí GeoIP</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:175
 msgid "Associate Magnet links with Deluge"
-msgstr ""
+msgstr "Gắn các liên kết Magnet với Deluge"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2559
 msgid "<i><b><big>Daemon</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Dịch vụ</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:176
+#: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:57
 msgid "Daemon port:"
-msgstr ""
+msgstr "Cổng dịch vụ:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2639
 msgid "<b>Port</b>"
-msgstr ""
+msgstr "<b>Cổng</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:178
-#: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:77
+#: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:78
 msgid "Allow Remote Connections"
-msgstr ""
+msgstr "Cho phép kết nối từ xa"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2682
 msgid "<b>Connections</b>"
-msgstr ""
+msgstr "<b>Kết nối</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:180
-#: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:93
+#: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:94
 msgid "Periodically check the website for new releases"
-msgstr ""
+msgstr "Định kỳ kiểm tra website tìm các phiên bản mới"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2725
 msgid "<b>Other</b>"
-msgstr ""
+msgstr "<b>Khác</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2784
 msgid "<i><b><big>Queue</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Hàng chờ</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:86
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:62
 msgid "Queue new torrents to top"
-msgstr ""
+msgstr "Xếp các torrent mới lên đầu"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:88
 msgid "Total active seeding:"
-msgstr ""
+msgstr "Tổng đang chia sẻ:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:89
 msgid "Total active:"
-msgstr ""
+msgstr "Tổng số hoạt động:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:90
 msgid "Total active downloading:"
-msgstr ""
+msgstr "Tổng đang tải xuống:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:91
-#: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:107
+#: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:110
 msgid "Do not count slow torrents"
-msgstr ""
+msgstr "Không tính torrent chậm"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2994
 msgid "<b>Active Torrents</b>"
-msgstr ""
+msgstr "Torrent đang hoạt động"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:94
+#: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:130
 msgid "Share Ratio Limit:"
-msgstr ""
+msgstr "Giới hạn tỉ lệ chia sẻ:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:95
 msgid "Seed Time Ratio:"
-msgstr ""
+msgstr "Tỉ lệ thời gian chia sẻ:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:96
+#: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:154
 msgid "Seed Time (m):"
-msgstr ""
+msgstr "Thời gian chia sẻ (phút)"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:97
-#: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:175
+#: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:181
 msgid "Stop seeding when share ratio reaches:"
-msgstr ""
+msgstr "Dừng chia sẻ khi đạt tỉ lệ chia sẻ:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:98
 msgid "Remove torrent when share ratio reached"
-msgstr ""
+msgstr "Bỏ torrent khi tỉ lệ chia sẻ đã đạt"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3192
 msgid "<b>Seeding</b>"
-msgstr "<b>Đang tải lên</b>"
+msgstr "<b>Đang chia sẻ</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3256
 msgid "<i><b><big>Proxy</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Proxy</big></b></i>"
 
+#: deluge/ui/web/js/deluge-all/AddConnectionWindow.js:66
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:75
+#: deluge/ui/web/js/deluge-all/preferences/ProxyI2PField.js:49
 msgid "Host:"
-msgstr ""
+msgstr "Máy:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3403
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3590
@@ -3175,18 +3277,24 @@ msgid ""
 "HTTP\n"
 "HTTP W/ Auth"
 msgstr ""
+"None\n"
+"Socksv4\n"
+"Socksv5\n"
+"Socksv5 W/ Auth\n"
+"HTTP\n"
+"HTTP W/ Auth"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3450
 msgid "<b>Peer</b>"
-msgstr ""
+msgstr "Người tải"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3637
 msgid "<b>Web Seed</b>"
-msgstr ""
+msgstr "<b>Web Seed</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3824
 msgid "<b>Tracker</b>"
-msgstr ""
+msgstr "<b>Tracker</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4015
 msgid "<b>DHT</b>"
@@ -3194,41 +3302,44 @@ msgstr "<b>DHT</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4071
 msgid "<b><i><big>Cache</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Bộ đệm</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:144
 msgid "Cache Size (16 KiB blocks):"
-msgstr ""
+msgstr "Kích thước bộ đệm (khối 16 KiB)"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:145
 msgid ""
 "The number of seconds from the last cached write to a piece in the write "
 "cache, to when it's forcefully flushed to disk. Default is 60 seconds."
 msgstr ""
+"Số giây tính từ lần ghi cuối cùng vào bộ đệm tới khi nó bị ép phải ghi ra "
+"đĩa. Mặc định là 60 giây."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:146
+#: deluge/ui/web/js/deluge-all/preferences/CachePage.js:70
 msgid "Cache Expiry (seconds):"
-msgstr ""
+msgstr "Thời hạn của bộ đệm (giây)"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:148
 msgid ""
 "The total number of 16 KiB blocks written to disk since this session was "
 "started."
-msgstr ""
+msgstr "Tổng số khối 16 KiB được viết vào đĩa từ khi bắt đầu phiên này."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:149
 msgid "Blocks Written:"
-msgstr ""
+msgstr "Các khối đã được ghi"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:150
 msgid ""
 "The total number of write operations performed since this session was "
 "started."
-msgstr ""
+msgstr "Tổng số thao tác ghi được thực hiện từ đầu phiên làm việc này."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:151
 msgid "Writes:"
-msgstr ""
+msgstr "Số lần ghi:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:152
 msgid ""
@@ -3236,128 +3347,137 @@ msgid ""
 "of saved write operations per total write operations, i.e. a kind of cache "
 "hit ratio for the write cache."
 msgstr ""
+"Tỉ lệ (số_khối_ghi - lần_ghi) / số_khối_ghi biểu thị số thao tác ghi trên "
+"tổng số thao tác ghi, VD một kiểu tỉ lệ trúng bộ đệm cho bộ đệm ghi."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:153
 msgid "Write Cache Hit Ratio:"
-msgstr ""
+msgstr "Tỉ lệ trúng bộ đệm ghi:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4300
 msgid "<b>Write</b>"
-msgstr ""
+msgstr "<b>Ghi</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:155
 msgid ""
 "The number of blocks that were requested from the bittorrent engine (from "
 "peers), that were served from disk or cache."
 msgstr ""
+"Số khối được yêu cầu từ  máy bittorrent (từ người tải), được đáp ứng từ đĩa "
+"hoặc bộ đệm."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:156
 msgid "Blocks Read:"
-msgstr ""
+msgstr "Số khối đọc:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:157
 msgid "The number of blocks that were served from cache."
-msgstr ""
+msgstr "Số khối được đáp ứng từ bộ đệm."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:158
 msgid "Blocks Read Hit:"
-msgstr ""
+msgstr "Trúng bộ đệm đọc:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:159
 msgid "The cache hit ratio for the read cache."
-msgstr ""
+msgstr "Tỉ lệ trúng bộ đệm đọc."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:160
 msgid "Read Cache Hit Ratio:"
-msgstr ""
+msgstr "Tỉ lệ trúng bộ đệm đọc:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:161
 msgid ""
 "The total number of read operations performed since this session was started."
-msgstr ""
+msgstr "Tổng số thao tác đọc từ khi phiên làm việc bắt đầu."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:162
 msgid "Reads:"
-msgstr ""
+msgstr "Số lần đọc:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4434
 msgid "<b>Read</b>"
-msgstr ""
+msgstr "<b>Đọc</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:164
 msgid ""
 "The number of 16 KiB blocks currently in the disk cache. This includes both "
 "read and write cache."
 msgstr ""
+"Số khối 16 KiB hiện có trong bộ đệm đĩa. Bao gồm cả bộ đệm đọc và ghi."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:165
 msgid "Cache Size:"
-msgstr ""
+msgstr "Kích thước bộ đệm:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:166
 msgid "Read Cache Size:"
-msgstr ""
+msgstr "Kích thước bộ đệm đọc:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4515
 msgid "<b>Size</b>"
-msgstr ""
+msgstr "<b>Kích thước</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4558
 msgid "<b>Status</b>"
-msgstr ""
+msgstr "<b>Trạng thái</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4619
 msgid "<i><b><big>Plugins</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Phần bổ sung</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:184
+#: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:49
 msgid "Version:"
-msgstr ""
+msgstr "Phiên bản:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:185
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:6
+#: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:48
 msgid "Author:"
-msgstr ""
+msgstr "Tác giả:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:186
+#: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:51
 msgid "Homepage:"
-msgstr ""
+msgstr "Trang chủ:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:187
+#: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:50
 msgid "Author Email:"
-msgstr ""
+msgstr "Email tác giả:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4872
 msgid "_Install Plugin"
-msgstr ""
+msgstr "_Cài đặt phần bổ sung"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4915
 msgid "_Rescan Plugins"
-msgstr ""
+msgstr "_Quét lại phần bổ sung"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4968
 msgid "_Find More Plugins"
-msgstr ""
+msgstr "_Tìm thêm phần bổ sung"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.ui.h:1
 msgid "Queued Torrents"
-msgstr ""
+msgstr "Torrent trong hàng đợi"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:47
 msgid "<big><b>Add Queued Torrents</b></big>"
-msgstr ""
+msgstr "<big><b>Thêm torrent vào hàng đợi</b></big>"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.ui.h:3
 msgid "Automatically add torrents on connect"
-msgstr ""
+msgstr "Tự động thêm torrent khi kết nối"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:1
 msgid "Create Torrent"
-msgstr ""
+msgstr "Tạo torrent"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:34
 msgid "<big><b>Create Torrent</b></big>"
-msgstr ""
+msgstr "<big><b>Tạo torrent</b></big>"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:1
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:2
@@ -3367,34 +3487,34 @@ msgstr "_Tập tin"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:3
 msgid "Fol_der"
-msgstr ""
+msgstr "Thư _mục"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:4
 msgid "_Remote Path"
-msgstr ""
+msgstr "Đường dẫn từ _xa"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:230
 msgid "<b>Files</b>"
-msgstr ""
+msgstr "<b>Tập tin</b>"
 
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:22
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:7
 msgid "Comments:"
-msgstr ""
+msgstr "Ghi chú:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:188
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:8
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:135
 msgid "Info"
-msgstr ""
+msgstr "Thông tin"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:10
 msgid "Webseeds"
-msgstr ""
+msgstr "Webseed"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:11
 msgid "Piece Size:"
-msgstr ""
+msgstr "Kích thước Mảnh:"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:554
 msgid ""
@@ -3409,78 +3529,89 @@ msgid ""
 "8 MiB\n"
 "16 MiB\n"
 msgstr ""
+"32 KiB\n"
+"64 KiB\n"
+"128 KiB\n"
+"256 KiB\n"
+"512 KiB\n"
+"1 MiB\n"
+"2 MiB\n"
+"4 MiB\n"
+"8 MiB\n"
+"16 MiB\n"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:12
 msgid "Set Private Flag"
-msgstr ""
+msgstr "Đặt cờ riêng"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:13
 msgid "Add this torrent to the session"
-msgstr ""
+msgstr "Thêm torrent này vào phiên làm việc"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.remote_path.ui.h:1
 msgid "Enter Remote Path"
-msgstr ""
+msgstr "Nhập đường dẫn từ xa"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:730
 msgid "<b>Remote Path</b>"
-msgstr ""
+msgstr "<b>Đường dẫn từ xa</b>"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.remote_save.ui.h:3
 #: deluge/ui/gtkui/glade/create_torrent_dialog.remote_path.ui.h:3
+#: deluge/ui/web/js/deluge-all/preferences/OtherPage.js:104
 msgid "Path:"
-msgstr ""
+msgstr "Đường dẫn:"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.progress.ui.h:1
 msgid "Creating Torrent"
-msgstr ""
+msgstr "Tạo torrent"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.remote_save.ui.h:1
 msgid "Save .torrent as"
-msgstr ""
+msgstr "Lưu .torrent thành"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:913
 msgid "<b>Save .torrent file</b>"
-msgstr ""
+msgstr "<b>Lưu tập tin .torrent</b>"
 
 #: deluge/ui/gtkui/glade/connection_manager.addhost.ui.h:1
 msgid "Add Host"
-msgstr ""
+msgstr "Thêm Host"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:39
 #: deluge/ui/gtkui/glade/connection_manager.ui.h:1
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:43
 #: deluge/ui/web/js/deluge-all/Toolbar.js:100
 msgid "Connection Manager"
-msgstr ""
+msgstr "Bộ Quản lý Kết nối"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:240
 msgid "<big><b>Connection Manager</b></big>"
-msgstr ""
+msgstr "<big><b>Bộ Quản lý Kết nối</b></big>"
 
 #: deluge/ui/gtkui/glade/connection_manager.ui.h:2
 msgid "_Start local daemon"
-msgstr ""
+msgstr "_Khởi động dịch vụ cục bộ"
 
 #: deluge/ui/gtkui/glade/connection_manager.ui.h:3
 msgid "Automatically connect to selected host on start-up"
-msgstr ""
+msgstr "Tự động kết nối tới các host được lựa chọn khi khởi động"
 
 #: deluge/ui/gtkui/glade/connection_manager.ui.h:4
 msgid "Automatically start localhost if needed"
-msgstr ""
+msgstr "Tự động khởi động localhost nếu cần"
 
 #: deluge/ui/gtkui/glade/connection_manager.ui.h:5
 msgid "Do not show this dialog on start-up"
-msgstr ""
+msgstr "Đừng hiển thị hộp thoại này khi khởi động"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:3
 msgid "_Create Torrent"
-msgstr ""
+msgstr "_Tạo torrent"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:4
 msgid "Quit & _Shutdown Daemon"
-msgstr ""
+msgstr "Thoát & tắt dịch _vụ"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:5
 msgid "_Edit"
@@ -3488,7 +3619,7 @@ msgstr "_Hiệu chỉnh"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:6
 msgid "_Connection Manager"
-msgstr ""
+msgstr "Bộ quản lý _kết nối"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:7
 msgid "_Torrent"
@@ -3504,15 +3635,15 @@ msgstr "Thanh _Công cụ"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:10
 msgid "_Sidebar"
-msgstr ""
+msgstr "Tha_nh bên"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:11
 msgid "Status_bar"
-msgstr ""
+msgstr "Thanh trạn_g thái"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:12
 msgid "T_abs"
-msgstr ""
+msgstr "T_hẻ"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:13
 msgid "_Columns"
@@ -3520,39 +3651,39 @@ msgstr "_Cột"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:15
 msgid "S_idebar"
-msgstr ""
+msgstr "Tha_nh bên"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:16
 msgid "Show _Zero Hits"
-msgstr ""
+msgstr "Hiển _Zero Hits"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:17
 msgid "Show _Trackers"
-msgstr ""
+msgstr "Hiển thị _tracker"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:18
 msgid "_Help"
-msgstr "_Trợ giúp"
+msgstr "Trợ _giúp"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:19
 msgid "_Homepage"
-msgstr ""
+msgstr "T_rang chủ"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:20
 msgid "_FAQ"
-msgstr ""
+msgstr "_FAQ"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:21
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "Các câu hỏi thường gặp"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:22
 msgid "_Community"
-msgstr ""
+msgstr "_Cộng đồng"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:23
 msgid "Add torrent"
-msgstr ""
+msgstr "Thêm torrent"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:24
 msgid "Add Torrent"
@@ -3560,7 +3691,7 @@ msgstr "Thêm Torrent"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:25
 msgid "Remove torrent"
-msgstr ""
+msgstr "Bỏ torrent"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:26
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.ui.h:1
@@ -3572,7 +3703,7 @@ msgstr "Loại bỏ Torrent"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:30
 msgid "Pause the selected torrents"
-msgstr ""
+msgstr "Tạm dừng các torrent được chọn"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:31
 #: deluge/ui/web/js/deluge-all/Menus.js:88
@@ -3582,7 +3713,7 @@ msgstr "Tạm dừng"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:32
 msgid "Resume the selected torrents"
-msgstr ""
+msgstr "Tiếp tục các torrent được chọn"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:33
 #: deluge/ui/web/js/deluge-all/Menus.js:94
@@ -3592,87 +3723,87 @@ msgstr "Tiếp tục"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:34
 msgid "Queue Torrent Up"
-msgstr ""
+msgstr "Sắp xếp torrent lên trên"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:35
 msgid "Queue Up"
-msgstr ""
+msgstr "Xếp lên"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:36
 msgid "Queue Torrent Down"
-msgstr ""
+msgstr "Sắp xếp torrent xuống dưới"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:37
 msgid "Queue Down"
-msgstr ""
+msgstr "Xếp xuống"
 
 #: deluge/ui/gtkui/glade/main_window.tabs.menu_file.ui.h:2
 msgid "_Expand All"
-msgstr ""
+msgstr "Dãn _ra tất cả"
 
 #: deluge/ui/gtkui/glade/main_window.tabs.menu_file.ui.h:3
 msgid "_Do Not Download"
-msgstr ""
+msgstr "Khô_ng tải"
 
 #: deluge/ui/gtkui/glade/main_window.tabs.menu_file.ui.h:4
 msgid "_Normal Priority"
-msgstr ""
+msgstr "Ưu tiên _bình thường"
 
 #: deluge/ui/gtkui/glade/main_window.tabs.menu_file.ui.h:5
 msgid "_High Priority"
-msgstr ""
+msgstr "Ưu tiên _cao"
 
 #: deluge/ui/gtkui/glade/main_window.tabs.menu_file.ui.h:6
 msgid "Hi_ghest Priority"
-msgstr ""
+msgstr "Ưu tiên cao nhấ_t"
 
 #: deluge/ui/gtkui/glade/main_window.glade:718
 msgid "<b>Auto Managed:</b>"
-msgstr ""
+msgstr "<b>Tự động quản lý:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:759
 msgid "<b>Seed Rank:</b>"
-msgstr ""
+msgstr "<b>Hạng chia sẻ:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:774
 msgid "<b>Seeding Time:</b>"
-msgstr ""
+msgstr "<b>Thời gian chia sẻ:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:800
 msgid "<b>Active Time:</b>"
-msgstr ""
+msgstr "<b>Thời gian hoạt động:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:857
 msgid "<b>Tracker Status:</b>"
-msgstr "<b>Trạng thái người theo dõi:</b>"
+msgstr "<b>Trạng thái tracker:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:887
 msgid "<b>Availability:</b>"
-msgstr ""
+msgstr "<b>Mức khả dụng:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:941
 msgid "<b>Peers:</b>"
-msgstr ""
+msgstr "<b>Người tải:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:967
 msgid "<b>Seeders:</b>"
-msgstr ""
+msgstr "<b>Người chia sẻ:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:985
 msgid "<b>Pieces:</b>"
-msgstr "<b>Số phân mảnh:</b>"
+msgstr "<b>Số mảnh:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1007
 msgid "<b>ETA:</b>"
-msgstr ""
+msgstr "<b>Hoàn thành trong:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1029
 msgid "<b>Up Speed:</b>"
-msgstr ""
+msgstr "<b>Tốc độ lên:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1051
 msgid "<b>Down Speed:</b>"
-msgstr ""
+msgstr "<b>Tốc độ xuống:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1070
 msgid "<b>Next Announce:</b>"
@@ -3692,11 +3823,11 @@ msgstr "<b>Đã tải xuống:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1188
 msgid "<b>Date Added:</b>"
-msgstr ""
+msgstr "<b>Ngày thêm:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1307
 msgid "<b>Comments:</b>"
-msgstr ""
+msgstr "<b>Bình luận:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1336
 msgid "<b># of files:</b>"
@@ -3704,11 +3835,11 @@ msgstr "<b>Số tập tin:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1368
 msgid "<b>Hash:</b>"
-msgstr ""
+msgstr "<b>Hash:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1398
 msgid "<b>Tracker:</b>"
-msgstr "<b>Người theo dõi:<b>"
+msgstr "<b>Tracker:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1418
 msgid "<b>Total Size:</b>"
@@ -3724,98 +3855,98 @@ msgstr "<b>Đường dẫn:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1510
 msgid "<b>Status:</b>"
-msgstr ""
+msgstr "<b>Trạng thái:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:40
 msgid "Move completed:"
-msgstr ""
+msgstr "Di chuyển đã hoàn thành:"
 
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:300
 msgid "Private"
-msgstr ""
+msgstr "Riêng"
 
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:38
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:308
 msgid "Prioritize First/Last"
-msgstr ""
+msgstr "Uu tiên Đầu/Cuối"
 
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:48
 #: deluge/ui/gtkui/glade/torrent_menu.ui.h:8
 msgid "_Edit Trackers"
-msgstr "_Biên tập các Tracker"
+msgstr "_Sửa Tracker"
 
 #: deluge/ui/gtkui/glade/main_window.move_storage.ui.h:1
 msgid "Remove Torrent?"
-msgstr ""
+msgstr "Loại bỏ torrent?"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2316
 msgid ""
 "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
-msgstr ""
+msgstr "<big><b>Bạn có chắc muốn loại bỏ torrent đã chọn?</b></big>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2368
 msgid "<i>The associated .torrent will be deleted!</i>"
-msgstr ""
+msgstr "<i>Tập tin .torrent sẽ bị xóa!</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2408
 msgid "<i>The downloaded data will be deleted!</i>"
-msgstr ""
+msgstr "<i>Dữ liệu đã tải xuống sẽ bị xóa!</i>"
 
 #: deluge/ui/gtkui/glade/main_window.move_storage.ui.h:2
 msgid "Remove Selected Torrent"
-msgstr ""
+msgstr "Bỏ torrent đã chọn"
 
 #: deluge/ui/gtkui/glade/main_window.new_release.ui.h:1
 msgid "New Release"
-msgstr ""
+msgstr "Phiên bản mới"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2508
 msgid "<b><big>New Release Available!</big></b>"
-msgstr ""
+msgstr "<b><big>Đã có phiên bản mới!</big></b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2560
 msgid "<i>Available Version:</i>"
-msgstr ""
+msgstr "<i>Phiên bản mới:</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2583
 msgid "<i>Current Version:</i>"
-msgstr ""
+msgstr "<i>Phiên bản hiện tại:</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2594
 msgid "<i>Server Version</i>"
-msgstr ""
+msgstr "<i>Phiên bản máy chủ</i>"
 
 #: deluge/ui/gtkui/glade/main_window.new_release.ui.h:7
 msgid "Do not show this dialog in the future"
-msgstr ""
+msgstr "Đừng hiển thị hộp thoại này trong tương lai"
 
 #: deluge/ui/gtkui/glade/main_window.new_release.ui.h:2
 msgid "_Goto Website"
-msgstr ""
+msgstr "Đến _website"
 
 #: deluge/ui/gtkui/glade/main_window.tabs.menu_peer.ui.h:1
 msgid "_Add Peer"
-msgstr ""
+msgstr "_Thêm máy tải"
 
 #: deluge/ui/gtkui/glade/main_window.tabs.menu_peer.ui.h:2
 msgid "Add a peer by its IP"
-msgstr ""
+msgstr "Thêm máy tải bằng _IP"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:11
 msgid "_Open Folder"
-msgstr ""
+msgstr "Mở t_hư mục"
 
 #: deluge/ui/gtkui/glade/torrent_menu.ui.h:2
 msgid "_Pause"
-msgstr ""
+msgstr "Tạm _dừng"
 
 #: deluge/ui/gtkui/glade/torrent_menu.ui.h:3
 msgid "Resu_me"
-msgstr ""
+msgstr "Tiế_p tục"
 
 #: deluge/ui/gtkui/glade/torrent_menu.ui.h:5
 msgid "Opt_ions"
-msgstr ""
+msgstr "_Tuỳ chọn"
 
 #: deluge/ui/gtkui/glade/torrent_menu.ui.h:6
 msgid "_Queue"
@@ -3831,60 +3962,60 @@ msgstr "_Loại bỏ Torrent"
 
 #: deluge/ui/gtkui/glade/torrent_menu.ui.h:10
 msgid "_Force Re-check"
-msgstr ""
+msgstr "Ép kiểm tra _lại"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:191
 msgid "Move _Storage"
-msgstr ""
+msgstr "Chuyển nơi lư_u trữ"
 
 #: deluge/ui/gtkui/glade/torrent_menu.options.ui.h:3
 msgid "_Connection Limit"
-msgstr ""
+msgstr "_Giới hạn kết nối"
 
 #: deluge/ui/gtkui/glade/torrent_menu.options.ui.h:4
 msgid "Upload _Slot Limit"
-msgstr ""
+msgstr "Giới hạn đường tải _lên"
 
 #: deluge/ui/gtkui/glade/torrent_menu.options.ui.h:6
 msgid "_Auto Managed"
-msgstr ""
+msgstr "Tự độn_g quản lý"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:9
 msgid "Move Storage"
-msgstr ""
+msgstr "Chuyển nơi lư_u trữ"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:44
 msgid "<b>Move Storage</b>"
-msgstr ""
+msgstr "<b>Chuyển nơi lưu trữ</b>"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.ui.h:3
 msgid "Destination:"
-msgstr ""
+msgstr "Đích:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:1
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:37
 msgid "Add Torrents"
-msgstr ""
+msgstr "Thêm torrent"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:3
 msgid "_URL"
-msgstr ""
+msgstr "_URL"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:4
 msgid "Info_hash"
-msgstr ""
+msgstr "Info_hash"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:5
 msgid "_Remove"
-msgstr ""
+msgstr "Loại _bỏ"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:271
 msgid "<b>Torrents</b>"
-msgstr "<b>Torrents</b>"
+msgstr "<b>Torrent</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:7
 msgid "Fi_les"
-msgstr ""
+msgstr "Tập t_in"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:469
 msgid "<b>Move Completed Location</b>"
@@ -3892,81 +4023,84 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:506
 msgid "Full"
-msgstr ""
+msgstr "Đầy đủ"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:522
 msgid "Compact"
-msgstr ""
+msgstr "Rút gọn"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:597
 msgid "Max Down Speed:"
-msgstr ""
+msgstr "Tốc độ xuống tối đa:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:609
 msgid "Max Up Speed:"
-msgstr ""
+msgstr "Tốc độ lên tối đa:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:10
 msgid "Add In _Paused State"
-msgstr ""
+msgstr "Thêm trong trạng thái _dừng"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:11
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:137
 msgid "Prioritize First/Last Pieces"
-msgstr ""
+msgstr "Ưu tiên các mảnh đầu/cuối"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:33
 msgid "Revert To Defaults"
-msgstr ""
+msgstr "Đặt lại theo mặc định"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:32
 msgid "Apply To All"
-msgstr ""
+msgstr "Áp dụng cho tất cả"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.url.ui.h:1
 msgid "Add URL"
-msgstr ""
+msgstr "Thêm URL"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1052
 msgid "<b>From URL</b>"
-msgstr ""
+msgstr "<b>Từ URL</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.infohash.ui.h:1
 msgid "Add Infohash"
-msgstr ""
+msgstr "Thêm Infohash"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1211
 msgid "<b>From Infohash</b>"
-msgstr ""
+msgstr "<b>Từ Infohash</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.infohash.ui.h:3
 msgid "Infohash:"
-msgstr ""
+msgstr "Infohash:"
 
 #: deluge/ui/gtkui/glade/other_dialog.ui.h:1
 msgid "label"
-msgstr ""
+msgstr "nhãn"
 
 #: deluge/ui/gtkui/glade/connect_peer_dialog.ui.h:1
 msgid "Add Peer"
-msgstr ""
+msgstr "Thêm máy tải"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:187
 msgid "<b>Add Peer</b>"
-msgstr ""
+msgstr "<b>Thêm máy tải</b>"
 
 #: deluge/ui/gtkui/glade/connect_peer_dialog.ui.h:2
 msgid "hostname:port"
-msgstr ""
+msgstr "hostname:port"
 
 #: deluge/ui/data/share/applications/deluge.desktop.in.h:2
 msgid "BitTorrent Client"
-msgstr ""
+msgstr "Trình khách BitTorrent"
 
 #: deluge/ui/data/share/applications/deluge.desktop.in.h:3
 msgid "Deluge BitTorrent Client"
-msgstr ""
+msgstr "Trình khách BitTorrent Deluge"
 
 #: deluge/ui/data/share/applications/deluge.desktop.in.h:4
 msgid "Download and share files over BitTorrent"
-msgstr ""
+msgstr "Tải và chia sẻ tập tin qua BitTorrent"
+
+#~ msgid "Upload Slots:\t"
+#~ msgstr "Số Khe Tải lên\t"
