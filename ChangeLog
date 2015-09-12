@@ -1,4 +1,4 @@
-=== Deluge 1.3.12 (In Development) ===
+=== Deluge 1.3.12 (13 September 2015) ===
 ==== GtkUI ====
 	* #2731: Fix potential AttributeError in is_on_active_workspace
 
