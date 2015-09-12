@@ -70,7 +70,7 @@ deluge.ui = {
 			layout: 'fit',
 			items: [
 				deluge.details
-			],
+			]
 		});
 
 		this.MainPanel = new Ext.Panel({
