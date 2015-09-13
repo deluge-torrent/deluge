@@ -270,7 +270,7 @@ cmdclass = {
 _data_files = []
 if not windows_check():
     _data_files = [
-        ('share/icons/hicolor/scalable/apps', ['deluge/ui/data/icons/hicolor/scalable/apps/deluge.svg']),
+        ('share/icons/hicolor/scalable/apps', ['deluge/ui/data/icons/scalable/apps/deluge.svg']),
         ('share/icons/hicolor/128x128/apps', ['deluge/ui/data/icons/hicolor/128x128/apps/deluge.png']),
         ('share/icons/hicolor/16x16/apps', ['deluge/ui/data/icons/hicolor/16x16/apps/deluge.png']),
         ('share/icons/hicolor/192x192/apps', ['deluge/ui/data/icons/hicolor/192x192/apps/deluge.png']),
