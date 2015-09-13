@@ -491,7 +491,7 @@ cmdclass = {
 _data_files = []
 if not windows_check():
     _data_files = [
-        ('share/icons/hicolor/scalable/apps', ['deluge/data/icons/hicolor/scalable/apps/deluge.svg']),
+        ('share/icons/hicolor/scalable/apps', ['deluge/data/icons/scalable/apps/deluge.svg']),
         ('share/icons/hicolor/128x128/apps', ['deluge/data/icons/hicolor/128x128/apps/deluge.png']),
         ('share/icons/hicolor/16x16/apps', ['deluge/data/icons/hicolor/16x16/apps/deluge.png']),
         ('share/icons/hicolor/192x192/apps', ['deluge/data/icons/hicolor/192x192/apps/deluge.png']),
@@ -504,7 +504,7 @@ if not windows_check():
         ('share/icons/hicolor/64x64/apps', ['deluge/data/icons/hicolor/64x64/apps/deluge.png']),
         ('share/icons/hicolor/72x72/apps', ['deluge/data/icons/hicolor/72x72/apps/deluge.png']),
         ('share/icons/hicolor/96x96/apps', ['deluge/data/icons/hicolor/96x96/apps/deluge.png']),
-        ('share/pixmaps', ['deluge/ui/data/pixmaps/deluge.png', 'deluge/data/pixmaps/deluge.xpm']),
+        ('share/pixmaps', ['deluge/data/pixmaps/deluge.png', 'deluge/data/pixmaps/deluge.xpm']),
         ('share/man/man1', [
             'docs/man/deluge.1',
             'docs/man/deluged.1',
