@@ -82,12 +82,17 @@ bbfreeze.recipes.recipe_gtk_and_friends = recipe_gtk_override
 
 fzr = bbfreeze.Freezer(build_dir, includes=includes, excludes=excludes)
 fzr.include_py = False
-fzr.setIcon(os.path.join(os.path.dirname(deluge.common.__file__), "ui", "data", "pixmaps", "deluge.ico"))
+fzr.setIcon(os.path.join(os.path.dirname(deluge.common.__file__), "data", "pixmaps", "deluge.ico"))
 
 # TODO: Can/should we grab the script list from setup.py entry_points somehow.
 
 # Hide cmd console popup for these console entries force gui_script True.
-force_gui = ["deluge-web", "deluged", "deluge-console"]
+force_gui = ["deluge-web", "deluged"]
+
+for force_script in force_gui:
+    script_path = os.path.join(python_path, "Scripts", force_script + "-script.py")
+    shutil.copy(script_path, script_path.replace("script", "debug-script"))
+
 script_list = []
 for script in glob.glob(os.path.join(python_path, "Scripts\\deluge*-script.py*")):
     # Copy the scripts to remove the '-script' suffix before adding to freezer.
