@@ -597,14 +597,14 @@ class ListView:
     def add_progress_column(self, header, col_types=[float, str], sortid=0,
                             hidden=False, position=None, status_field=None,
                             function=None, column_type="progress",
-                            tooltip=None, default=True):
+                            tooltip=None, sort_func=None, default=True):
         """Add a progress column to the listview."""
 
         render = gtk.CellRendererProgress()
         self.add_column(header, render, col_types, hidden, position,
                         status_field, sortid, function=function,
                         column_type=column_type, value=0, text=1,
-                        tooltip=tooltip, default=default)
+                        tooltip=tooltip, sort_func=sort_func, default=default)
 
         return True
 
