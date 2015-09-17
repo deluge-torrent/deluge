@@ -116,8 +116,11 @@ fzr()
 for script in script_list:
     os.remove(script)
 
-# Exclude files which are already included in GTK or Windows.
-excludeDlls = ("MSIMG32.dll", "MSVCR90.dll", "MSVCP90.dll", "MSVCR120.dll", "POWRPROF.dll", "DNSAPI.dll", "USP10.dll")
+# Exclude files which are already included in GTK or Windows. Also exclude unneeded pygame dlls.
+excludeDlls = ("MSIMG32.dll", "MSVCR90.dll", "MSVCP90.dll", "MSVCR120.dll",
+               "POWRPROF.dll", "DNSAPI.dll", "USP10.dll", "MPR.dll",
+               "jpeg.dll", "libfreetype-6.dll", "libpng12-0.dll", "libtiff.dll",
+               "SDL_image.dll", "SDL_ttf.dll")
 for dll in excludeDlls:
     try:
         os.remove(os.path.join(build_dir, dll))
