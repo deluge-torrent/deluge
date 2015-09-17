@@ -210,6 +210,17 @@ def seed_peer_column_sort(model, iter1, iter2, data):
         return queue_peer_seed_sort_function(v2, v4)
     return queue_peer_seed_sort_function(v1, v3)
 
+def progress_sort(model, iter1, iter2, sort_column_id):
+    progress1 = model[iter1][sort_column_id]
+    progress2 = model[iter2][sort_column_id]
+    # Progress value is equal, so sort on state
+    if progress1 == progress2:
+        state1 = model[iter1][sort_column_id + 1]
+        state2 = model[iter2][sort_column_id + 1]
+        return cmp(state1, state2)
+    return cmp(progress1, progress2)
+
+
 class TorrentView(listview.ListView, component.Component):
     """TorrentView handles the listing of torrents."""
     def __init__(self):
@@ -256,7 +267,8 @@ class TorrentView(listview.ListView, component.Component):
         self.add_progress_column(_("Progress"),
                                  status_field=["progress", "state"],
                                  col_types=[float, str],
-                                 function=cell_data_progress)
+                                 function=cell_data_progress,
+                                 sort_func=progress_sort)
         self.add_func_column(_("Seeders"), listview.cell_data_peer, [int, int],
                              status_field=["num_seeds", "total_seeds"],
                              sort_func=seed_peer_column_sort, default=False)

@@ -429,8 +429,6 @@ class ListView:
         if self.liststore is not None:
             self.liststore.foreach(copy_row, (new_list, self.columns))
         self.liststore = new_list
-        self.create_model_filter()
-        return
 
     def update_treeview_column(self, header, add=True):
         """Update TreeViewColumn based on ListView column mappings"""
@@ -503,6 +501,8 @@ class ListView:
             del self.liststore_columns[index]
         # Create a new liststore
         self.create_new_liststore()
+        # Create new model for the treeview
+        self.create_model_filter()
 
         # Re-create the menu
         self.create_checklist_menu()
@@ -547,7 +547,11 @@ class ListView:
         # Create a new list with the added column
         self.create_new_liststore()
 
-        if column_type == None:
+        # Happens only on columns added after the torrent list has been loaded
+        if self.model_filter:
+            self.create_model_filter()
+
+        if column_type is None:
             return
 
         self.update_treeview_column(header)
@@ -630,15 +634,14 @@ class ListView:
     def add_progress_column(self, header, col_types=[float, str], sortid=0,
                             hidden=False, position=None, status_field=None,
                             function=None, column_type="progress",
-                            default=True):
+                            sort_func=None, default=True):
         """Add a progress column to the listview."""
 
         render = gtk.CellRendererProgress()
         self.add_column(header, render, col_types, hidden, position,
                         status_field, sortid, function=function,
                         column_type=column_type, value=0, text=1,
-                        default=default)
-
+                        sort_func=sort_func, default=default)
         return True
 
     def add_texticon_column(self, header, col_types=[str, str], sortid=1,
