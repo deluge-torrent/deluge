@@ -150,6 +150,7 @@ class OptionsTab(Tab):
                 self.chk_move_completed.set_active(status["move_on_completed"])
             if status["move_on_completed_path"] != self.prev_status["move_on_completed_path"]:
                 if client.is_localhost():
+                    self.filechooser_move_completed.unselect_all()
                     self.filechooser_move_completed.set_current_folder(status["move_on_completed_path"])
                 else:
                     self.entry_move_completed.set_text(status["move_on_completed_path"])
