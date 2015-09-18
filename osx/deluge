@@ -11,7 +11,7 @@ fi
 tmp=`dirname "$full_path"`
 tmp=`dirname "$tmp"`
 bundle=`dirname "$tmp"`
-bundle_contents="$bundle"/Contents
+bundle_contents=${bundle%"/Contents"}"/Contents"
 bundle_macos="$bundle_contents"/MacOS
 bundle_res="$bundle_contents"/Resources
 bundle_lib="$bundle_res"/lib
@@ -24,16 +24,15 @@ export XDG_DATA_DIRS="$bundle_data"
 export GTK_DATA_PREFIX="$bundle_res"
 export GTK_EXE_PREFIX="$bundle_res"
 export GTK_PATH="$bundle_res"
-
 export GTK2_RC_FILES="$bundle_etc/gtk-2.0/gtkrc"
 export GTK_IM_MODULE_FILE="$bundle_etc/gtk-2.0/gtk.immodules"
-export GDK_PIXBUF_MODULE_FILE="$bundle_etc/gtk-2.0/gdk-pixbuf.loaders"
+export GDK_PIXBUF_MODULE_FILE="$bundle_lib/gdk-pixbuf-2.0/2.10.0/loaders.cache"
 export PANGO_RC_FILE="$bundle_etc/pango/pangorc"
 export PANGO_LIBDIR="$bundle_lib"
 export PANGO_SYSCONFDIR="$bundle_etc"
 
 #Set $PYTHON to point inside the bundle
-export PYTHON="$bundle_macos/Deluge-python"
+export PYTHON="$bundle_macos/python"
 export PYTHONHOME="$bundle_res"
 #Add the bundle's python modules
 PYTHONPATH="$bundle_lib:$PYTHONPATH"

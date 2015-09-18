@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+    <repository type="tarball" name="sourceforge"
+        href="http://downloads.sourceforge.net/sourceforge/"/>
+    <repository type="tarball" name="libtorrent"
+        href="https://github.com/arvidn/libtorrent/archive/"/>
+    <repository type="tarball" name="openssl"
+        href="http://www.openssl.org/source/"/>
+
+    <metamodule id="libtorrent">
+        <dependencies>
+            <dep package="openssl"/>
+            <dep package="boost"/>
+            <dep package="libtorrent"/>
+        </dependencies>
+    </metamodule>
+
+    <autotools id="libtorrent" autogen-sh="autotools.sh"
+        autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s --with-boost-libdir=%(libdir)s --with-openssl=%(prefix)s --with-libiconv-prefix=%(libdir)s %(autogenargs)s  "
+        autogenargs="--enable-python-binding ">
+        <branch repo="libtorrent" version="1.0.6" module="RC_1_0.zip"/>
+    </autotools>
+
+    <!-- openssl libdir is a relative path to prefix! -->
+    <autotools id="openssl" autogen-sh="Configure"
+        autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s --libdir=lib darwin64-x86_64-cc shared"
+        makeinstallargs="install_sw">
+        <!--%(autogenargs)s"
+        autogenargs="darwin-i386-cc shared">
+        <!--autogenargs="darwin64-x86_64-cc shared">
+        Look into problem with autogenargs introducing extra darwin64-x86_64-cc -->
+
+        <branch repo="openssl" version="1.0.2d" module="openssl-1.0.2d.tar.gz"/>
+    </autotools>
+
+    <autotools id="boost" autogen-sh="bootstrap.sh"
+        autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s --libdir=%(libdir)s --with-python=%(prefix)s/bin/python --with-icu=%(prefix)s --with-libraries=system,python"
+        supports-non-srcdir-builds="false"
+        makeargs="|| ./b2"
+        makeinstallargs="|| ./b2 install">
+        <branch repo="sourceforge" version="1.59.0" module="boost/boost_1_59_0.tar.bz2"/>
+    </autotools>
+</moduleset>

@@ -2,16 +2,10 @@
 <!DOCTYPE moduleset SYSTEM "moduleset.dtd">
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
-    <repository type="tarball" name="sourceforge"
-        href="http://downloads.sourceforge.net/sourceforge/"/>
     <repository type="git" name="git.gnome"
         href="git://git.gnome.org"/>
-    <repository type="svn" name="svn.libtorrent"
-        href="https://libtorrent.svn.sourceforge.net/svnroot/"/>
     <repository type="tarball" name="pypi"
         href="http://pypi.python.org/packages/source/"/>
-    <repository type="tarball" name="libtorrent"
-        href="http://libtorrent.googlecode.com/files/"/>
 
     <metamodule id="deluge">
         <dependencies>
@@ -20,51 +14,6 @@
             <dep package="deluge-python-deps"/>
         </dependencies>
     </metamodule>
-
-    <autotools id="libtorrent" autogen-sh="configure"
-        autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s --with-boost-libdir=%(libdir)s --with-openssl=%(prefix)s %(autogenargs)s"
-        autogenargs="--enable-python-binding">
-        <branch repo="libtorrent" version="0.16.8"
-            module="libtorrent-rasterbar-0.16.8.tar.gz"
-            hash="sha1:483689787cb64e7cf4abefda4058b912ec406709"/>
-        <dependencies>
-            <dep package="openssl"/>
-            <dep package="boost"/>
-        </dependencies>
-    </autotools>
-
-    <!-- This will use the latest 0.16 code but will require manually running ./configure in jhbuild process -->
-    <autotools id="libtorrent_RC16" autogen-sh="autotools.sh"
-        autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s --with-boost-libdir=%(libdir)s --with-openssl=%(prefix)s %(autogenargs)s"
-        autogenargs="--enable-python-binding">
-        <branch repo="svn.libtorrent" revision="RC_0_16" checkoutdir="libtorrent_RC_0_16"/>
-        <dependencies>
-            <dep package="openssl"/>
-            <dep package="boost"/>
-        </dependencies>
-    </autotools>
-
-    <repository type="tarball" name="openssl"
-        href="http://www.openssl.org/source/"/>
-    <autotools id="openssl" autogen-sh="Configure"
-        autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s --libdir=%(libdir)s -L%(libdir)s %(autogenargs)s"
-        autogenargs="darwin-i386-cc zlib no-krb5 shared">
-        <!--autogenargs="darwin64-x86_64-cc zlib no-krb5 shared">-->
-        <branch repo="openssl" version="1.0.1e"
-            module="openssl-1.0.1e.tar.gz"
-            hash="md5:66bf6f10f060d561929de96f9dfe5b8c"/>
-    </autotools>
-
-
-    <autotools id="boost" autogen-sh="bootstrap.sh"
-        autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s --libdir=%(libdir)s --with-python=%(prefix)s/bin/python --with-icu=%(prefix)s --with-libraries=system,python"
-        supports-non-srcdir-builds="false"
-        makeargs="|| ./b2 architecture=x86 address-model=32 link=shared threading=multi variant=release"
-        makeinstallargs="|| ./b2 install">
-        <branch repo="sourceforge" version="1.53"
-            module="boost/boost_1_53_0.tar.bz2"
-            hash="md5:a00d22605d5dbcfb4c9936a9b35bc4c2"/>
-    </autotools>
 
     <autotools id="gtk-mac-bundler" autogen-template="echo no configure">
         <branch repo="git.gnome" module="gtk-mac-bundler"/>
