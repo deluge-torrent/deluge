@@ -207,7 +207,7 @@ class GtkUiNotifications(CustomNotifications):
         return ''
 
     def _on_torrent_finished_event_popup(self, torrent_id):
-        d = client.core.get_torrent_status(torrent_id, ["name", "num_files"])
+        d = client.core.get_torrent_status(torrent_id, ["name", "file_progress"])
         d.addCallback(self._on_torrent_finished_event_got_torrent_status)
         d.addErrback(self._on_torrent_finished_event_torrent_status_failure)
         return d
@@ -219,6 +219,7 @@ class GtkUiNotifications(CustomNotifications):
         log.debug("Handler for TorrentFinishedEvent GTKUI called. "
                   "Got Torrent Status")
         title = _("Finished Torrent")
+        torrent_status["num_files"] = torrent_status["file_progress"].count(1.0)
         message = _("The torrent \"%(name)s\" including %(num_files)i file(s) "
                     "has finished downloading.") % torrent_status
         return title, message
