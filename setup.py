@@ -268,7 +268,7 @@ cmdclass = {
 
 # Data files to be installed to the system.
 _data_files = []
-if not windows_check():
+if not windows_check() or not osx_check():
     _data_files = [
         ('share/icons/hicolor/scalable/apps', ['deluge/ui/data/icons/scalable/apps/deluge.svg']),
         ('share/icons/hicolor/128x128/apps', ['deluge/ui/data/icons/hicolor/128x128/apps/deluge.png']),
