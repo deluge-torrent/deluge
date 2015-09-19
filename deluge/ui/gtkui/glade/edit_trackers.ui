@@ -11,6 +11,7 @@
     <property name="default_width">400</property>
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
+    <signal name="configure-event" handler="on_edit_trackers_dialog_configure_event" swapped="no"/>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>

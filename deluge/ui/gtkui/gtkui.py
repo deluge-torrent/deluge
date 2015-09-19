@@ -97,6 +97,8 @@ DEFAULT_PREFS = {
     "window_height": 480,
     "pref_dialog_width": None,
     "pref_dialog_height": None,
+    "edit_trackers_dialog_width": None,
+    "edit_trackers_dialog_height": None,
     "window_pane_position": 235,
     "tray_download_speed_list": [5.0, 10.0, 30.0, 80.0, 300.0],
     "tray_upload_speed_list": [5.0, 10.0, 30.0, 80.0, 300.0],
