@@ -14,8 +14,8 @@ import gtk
 from twisted.internet import defer
 
 import deluge.component as component
-from deluge.configmanager import ConfigManager
 from deluge.common import is_url, resource_filename
+from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 from deluge.ui.gtkui.common import get_deluge_icon
 
@@ -27,7 +27,7 @@ class EditTrackersDialog:
         self.torrent_id = torrent_id
         self.builder = gtk.Builder()
         self.gtkui_config = ConfigManager("gtkui.conf")
-        
+
         # Main dialog
         self.builder.add_from_file(resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "edit_trackers.ui")
@@ -53,7 +53,7 @@ class EditTrackersDialog:
 
         if parent is not None:
             self.dialog.set_transient_for(parent)
-        
+
         # Connect the signals
         self.builder.connect_signals({
             "on_button_up_clicked": self.on_button_up_clicked,
@@ -97,7 +97,7 @@ class EditTrackersDialog:
 
         self.deferred = defer.Deferred()
         return self.deferred
-    
+
     def __del__(self):
         del self.gtkui_config
 
@@ -110,7 +110,7 @@ class EditTrackersDialog:
     def on_edit_trackers_dialog_configure_event(self, widget, event):
         self.gtkui_config["edit_trackers_dialog_width"] = event.width
         self.gtkui_config["edit_trackers_dialog_height"] = event.height
-        
+
     def _on_delete_event(self, widget, event):
         self.deferred.callback(gtk.RESPONSE_DELETE_EVENT)
         self.dialog.destroy()
