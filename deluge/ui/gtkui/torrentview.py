@@ -277,9 +277,9 @@ class TorrentView(listview.ListView, component.Component):
                              sort_func=seed_peer_column_sort, default=False)
         self.add_func_column(_("Seeders") + "/" + _("Peers"), listview.cell_data_ratio, [float],
                              status_field=["seeds_peers_ratio"], default=False)
-        self.add_func_column(_("Down Speed"), listview.cell_data_speed, [float],
+        self.add_func_column(_("Down Speed"), listview.cell_data_speed, [int],
                              status_field=["download_payload_rate"])
-        self.add_func_column(_("Up Speed"), listview.cell_data_speed, [float],
+        self.add_func_column(_("Up Speed"), listview.cell_data_speed, [int],
                              status_field=["upload_payload_rate"])
         self.add_func_column(_("Down Limit"), listview.cell_data_speed_limit, [float],
                              status_field=["max_download_speed"], default=False)
@@ -291,7 +291,7 @@ class TorrentView(listview.ListView, component.Component):
                              status_field=["ratio"], default=False)
         self.add_func_column(_("Avail"), listview.cell_data_ratio, [float],
                              status_field=["distributed_copies"], default=False)
-        self.add_func_column(_("Added"), listview.cell_data_date, [float],
+        self.add_func_column(_("Added"), listview.cell_data_date, [int],
                              status_field=["time_added"], default=False)
         self.add_texticon_column(_("Tracker"),
                                  status_field=["tracker_host", "tracker_host"],
