@@ -77,20 +77,20 @@ class SchedulerSelectWidget(gtk.DrawingArea):
 
     #redraw the whole thing
     def expose(self, widget, event):
-        self.context = self.window.cairo_create()
-        self.context.rectangle(event.area.x, event.area.y, event.area.width, event.area.height)
-        self.context.clip()
+        context = self.window.cairo_create()
+        context.rectangle(event.area.x, event.area.y, event.area.width, event.area.height)
+        context.clip()
 
         width = self.window.get_size()[0]
         height = self.window.get_size()[1]
 
         for y in xrange(7):
             for x in xrange(24):
-                self.context.set_source_rgba(self.colors[self.button_state[x][y]][0], self.colors[self.button_state[x][y]][1], self.colors[self.button_state[x][y]][2], 0.7)
-                self.context.rectangle(width*(6*x/145.0+1/145.0), height*(6*y/43.0+1/43.0), 5*width/145.0, 5*height/43.0)
-                self.context.fill_preserve()
-                self.context.set_source_rgba(0.5, 0.5, 0.5, 0.5)
-                self.context.stroke()
+                context.set_source_rgba(self.colors[self.button_state[x][y]][0], self.colors[self.button_state[x][y]][1], self.colors[self.button_state[x][y]][2], 0.7)
+                context.rectangle(width*(6*x/145.0+1/145.0), height*(6*y/43.0+1/43.0), 5*width/145.0, 5*height/43.0)
+                context.fill_preserve()
+                context.set_source_rgba(0.5, 0.5, 0.5, 0.5)
+                context.stroke()
 
     #coordinates --> which box
     def get_point(self, event):
