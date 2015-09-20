@@ -25,10 +25,9 @@
   <binary>${prefix}/lib/libboost_python.dylib</binary>
   <binary>${prefix}/lib/libtorrent-rasterbar.8.dylib</binary>
   <binary>${prefix}/lib/libssl.1.0.0.dylib</binary>
+  <binary>${prefix}/lib/libz.1.2.8.dylib</binary>
 
-  <data dest="${bundle}/Contents/Resources/">
-    ${project}/../dist/deluge.app/Contents/Resources/
-  </data>
+  <data dest="${bundle}/Contents/Resources/">${project}/../dist/deluge.app/Contents/Resources/</data>
   <data>${prefix}/lib/pygtk/2.0/</data>
   <!-- gtk theme -->
   <binary>${prefix}/lib/${gtkdir}/${pkg:${gtk}:gtk_binary_version}/engines/libclearlooks.so</binary>
