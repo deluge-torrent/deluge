@@ -251,12 +251,16 @@ class AddTorrentDialog(component.Component):
 
         for uri in uris:
             s = uri.split("&")[0][20:]
+            info_hash = None
             if len(s) == 32:
                 info_hash = base64.b32decode(s).encode("hex")
             elif len(s) == 40:
                 info_hash = s
+            if info_hash is None:
+                log.error("Invalid info_hash in uri: %s", uri)
+                continue
             if info_hash in self.infos:
-                log.debug("Torrent already in list!")
+                log.debug("Torrent already in list: %s", uri)
                 continue
             name = None
             for i in uri.split("&"):
