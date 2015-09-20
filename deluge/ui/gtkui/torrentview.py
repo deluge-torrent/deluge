@@ -241,16 +241,13 @@ class TorrentView(ListView, component.Component):
                                  status_field=["state", "name"],
                                  function=funcs.cell_data_statusicon,
                                  default_sort=True)
-        self.add_func_column(_("Size"), funcs.cell_data_size,
-                             [gobject.TYPE_UINT64],
+        self.add_func_column(_("Size"), funcs.cell_data_size, [int],
                              status_field=["total_wanted"])
-        self.add_func_column(_("Downloaded"), funcs.cell_data_size,
-                             [gobject.TYPE_UINT64],
+        self.add_func_column(_("Downloaded"), funcs.cell_data_size, [int],
                              status_field=["all_time_download"], default=False)
-        self.add_func_column(_("Uploaded"), funcs.cell_data_size,
-                             [gobject.TYPE_UINT64],
+        self.add_func_column(_("Uploaded"), funcs.cell_data_size, [int],
                              status_field=["total_uploaded"], default=False)
-        self.add_func_column(_("Remaining"), funcs.cell_data_size, [gobject.TYPE_UINT64],
+        self.add_func_column(_("Remaining"), funcs.cell_data_size, [int],
                              status_field=["total_remaining"], default=False)
         self.add_progress_column(_("Progress"),
                                  status_field=["progress", "state"],
@@ -265,9 +262,9 @@ class TorrentView(ListView, component.Component):
                              sort_func=seed_peer_column_sort, default=False)
         self.add_func_column(_("Seeds:Peers"), funcs.cell_data_ratio_seeds_peers, [float],
                              status_field=["seeds_peers_ratio"], default=False)
-        self.add_func_column(_("Down Speed"), funcs.cell_data_speed_down, [float],
+        self.add_func_column(_("Down Speed"), funcs.cell_data_speed_down, [int],
                              status_field=["download_payload_rate"])
-        self.add_func_column(_("Up Speed"), funcs.cell_data_speed_up, [float],
+        self.add_func_column(_("Up Speed"), funcs.cell_data_speed_up, [int],
                              status_field=["upload_payload_rate"])
         self.add_func_column(_("Down Limit"), funcs.cell_data_speed_limit_down, [float],
                              status_field=["max_download_speed"], default=False)
