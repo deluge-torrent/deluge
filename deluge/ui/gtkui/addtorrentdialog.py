@@ -228,8 +228,11 @@ class AddTorrentDialog(component.Component):
 
         for uri in uris:
             magnet = deluge.common.get_magnet_info(uri)
+            if not magnet:
+                log.error("Invalid magnet: %s", uri)
+                continue
             if magnet["info_hash"] in self.infos:
-                log.info("Torrent already in Add Dialog list!")
+                log.info("Torrent already in Add Dialog list: %s", uri)
                 continue
             new_row = self.torrent_liststore.append([magnet["info_hash"], magnet["name"], cgi.escape(uri)])
             self.files[magnet["info_hash"]] = magnet["files_tree"]
