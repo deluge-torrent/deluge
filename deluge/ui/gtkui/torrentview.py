@@ -241,13 +241,16 @@ class TorrentView(ListView, component.Component):
                                  status_field=["state", "name"],
                                  function=funcs.cell_data_statusicon,
                                  default_sort=True)
-        self.add_func_column(_("Size"), funcs.cell_data_size, [int],
+        self.add_func_column(_("Size"), funcs.cell_data_size,
+                             [gobject.TYPE_UINT64],
                              status_field=["total_wanted"])
-        self.add_func_column(_("Downloaded"), funcs.cell_data_size, [int],
+        self.add_func_column(_("Downloaded"), funcs.cell_data_size,
+                             [gobject.TYPE_UINT64],
                              status_field=["all_time_download"], default=False)
-        self.add_func_column(_("Uploaded"), funcs.cell_data_size, [int],
+        self.add_func_column(_("Uploaded"), funcs.cell_data_size,
+                             [gobject.TYPE_UINT64],
                              status_field=["total_uploaded"], default=False)
-        self.add_func_column(_("Remaining"), funcs.cell_data_size, [int],
+        self.add_func_column(_("Remaining"), funcs.cell_data_size, [gobject.TYPE_UINT64],
                              status_field=["total_remaining"], default=False)
         self.add_progress_column(_("Progress"),
                                  status_field=["progress", "state"],

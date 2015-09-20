@@ -40,7 +40,7 @@ class TorrentviewTestCase(BaseTestCase):
                             u'Tracker', u'Download Folder', u'Owner', u'Shared']
     default_liststore_columns = [bool, str, bool, int,
                                  str, str,  # Name
-                                 int, int, int, int,
+                                 TYPE_UINT64, TYPE_UINT64, TYPE_UINT64, TYPE_UINT64,
                                  float, str,  # Progress
                                  int, int, int, int, float,  # Seeds, Peers
                                  int, int, float, float,
