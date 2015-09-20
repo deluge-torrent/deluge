@@ -11,7 +11,7 @@ fi
 tmp=`dirname "$full_path"`
 tmp=`dirname "$tmp"`
 bundle=`dirname "$tmp"`
-bundle_contents="$bundle"/Contents
+bundle_contents=${bundle%"/Contents"}"/Contents"
 bundle_macos="$bundle_contents"/MacOS
 bundle_res="$bundle_contents"/Resources
 bundle_lib="$bundle_res"/lib
