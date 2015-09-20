@@ -33,19 +33,18 @@ class TorrentviewTestCase(BaseTestCase):
                             u'Name',
                             u'Size', u'Downloaded', u'Uploaded', u'Remaining',
                             u'Progress',
-                            u'Seeds', u'Peers',
-                            u'Seeds:Peers', u'Down Speed',
-                            u'Up Speed', u'Down Limit', u'Up Limit', u'ETA', u'Ratio',
-                            u'Avail', u'Added', u'Completed', u'Complete Seen',
+                            u'Seeds', u'Peers', u'Seeds:Peers',
+                            u'Down Speed', u'Up Speed', u'Down Limit', u'Up Limit',
+                            u'ETA', u'Ratio', u'Avail',
+                            u'Added', u'Completed', u'Complete Seen',
                             u'Tracker', u'Download Folder', u'Owner', u'Shared']
     default_liststore_columns = [bool, str, bool, int,
                                  str, str,  # Name
-                                 TYPE_UINT64, TYPE_UINT64, TYPE_UINT64, TYPE_UINT64,
+                                 int, int, int, int,
                                  float, str,  # Progress
-                                 int, int, int, int,  # Seeds, Peers
-                                 float, float, float, float, float,
-                                 int,  # ETA
-                                 float, float,
+                                 int, int, int, int, float,  # Seeds, Peers
+                                 int, int, float, float,
+                                 int, float, float,  # ETA, Ratio, Avail
                                  int, int, int,
                                  str, str,  # Tracker
                                  str, str,
