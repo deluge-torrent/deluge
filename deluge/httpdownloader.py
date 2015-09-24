@@ -211,7 +211,23 @@ def download_file(url, filename, callback=None, headers=None, force_filename=Fal
     factory = HTTPDownloader(url, filename, callback, headers, force_filename, allow_compression)
     if scheme == "https":
         from twisted.internet import ssl
-        reactor.connectSSL(host, port, factory, ssl.ClientContextFactory())
+        # ClientTLSOptions in Twisted >= 14, see ticket #2765 for details on this addition.
+        try:
+            from twisted.internet._sslverify import ClientTLSOptions
+        except ImportError:
+            ctx_factory = ssl.ClientContextFactory()
+        else:
+            class TLSSNIContextFactory(ssl.ClientContextFactory):
+                """
+                A custom context factory to add a server name for TLS connections.
+                """
+                def getContext(self, hostname=None, port=None):
+                    ctx = ssl.ClientContextFactory.getContext(self)
+                    ClientTLSOptions(host, ctx)
+                    return ctx
+            ctx_factory = TLSSNIContextFactory()
+
+        reactor.connectSSL(host, port, factory, ctx_factory)
     else:
         reactor.connectTCP(host, port, factory)
 
