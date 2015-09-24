@@ -14,6 +14,7 @@ import time
 
 import gtk
 from twisted.internet import reactor
+from socket import gethostbyname
 
 import deluge.component as component
 from deluge.common import resource_filename
@@ -324,9 +325,11 @@ class ConnectionManager(component.Component):
             port = row[HOSTLIST_COL_PORT]
             user = row[HOSTLIST_COL_USER]
 
-            if (client.connected() and
-                    (host, port, "localclient" if not user and host in ("127.0.0.1", "localhost") else user)
-                    == client.connection_info()):
+            if client.connected() and (
+                gethostbyname(host),
+                port,
+                "localclient" if not user and host in ("127.0.0.1", "localhost") else user
+            ) == client.connection_info():
                 def on_info(info):
                     if not self.running:
                         return
