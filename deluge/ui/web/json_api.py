@@ -408,6 +408,8 @@ class WebApi(JSONComponent):
     def __init__(self):
         super(WebApi, self).__init__("Web", depend=["SessionProxy"])
         self.host_list = ConfigManager("hostlist.conf.1.2", DEFAULT_HOSTS)
+        if not os.path.isfile(self.host_list.config_file):
+            self.host_list.save()
         self.core_config = CoreConfig()
         self.event_queue = EventQueue()
         try:
