@@ -39,6 +39,7 @@ import urlparse
 import time
 import hashlib
 from twisted.internet import reactor
+from socket import gethostbyname
 
 import deluge.component as component
 import deluge.common
@@ -303,8 +304,11 @@ class ConnectionManager(component.Component):
             user = row[HOSTLIST_COL_USER]
             password = row[HOSTLIST_COL_PASS]
 
-            if client.connected() and \
-                (host, port, "localclient" if not user and host in ("127.0.0.1", "localhost") else user) == client.connection_info():
+            if client.connected() and (
+                gethostbyname(host),
+                port,
+                "localclient" if not user and host in ("127.0.0.1", "localhost") else user
+                    ) == client.connection_info():
                 def on_info(info):
                     if not self.running:
                         return
