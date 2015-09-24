@@ -36,7 +36,7 @@ def get_resource(filename):
 class CustomNotifications(object):
     config = None   # shut-up pylint
 
-    def __init__(self, plugin_name=None):
+    def __init__(self):
         self.custom_notifications = {
             "email": {},
             "popup": {},
@@ -110,10 +110,12 @@ class CustomNotifications(object):
             return False
         return True
 
-    def _on_notify_sucess(self, result, kind):
+    @staticmethod
+    def _on_notify_sucess(result, kind):
         log.debug("Notification success using %s: %s", kind, result)
         return result
 
-    def _on_notify_failure(self, failure, kind):
+    @staticmethod
+    def _on_notify_failure(failure, kind):
         log.debug("Notification failure using %s: %s", kind, failure)
         return failure

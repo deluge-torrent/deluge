@@ -278,13 +278,13 @@ def fsize(fsize_b):
 
     """
     # Bigger than 1 GiB
-    if (fsize_b >= 1073741824):
+    if fsize_b >= 1073741824:
         return "%.1f %s" % (fsize_b / 1073741824.0, gib_txt)
     # Bigger than 1 MiB
-    elif (fsize_b >= 1048576):
+    elif fsize_b >= 1048576:
         return "%.1f %s" % (fsize_b / 1048576.0, mib_txt)
     # Bigger than 1 KiB
-    elif (fsize_b >= 1024):
+    elif fsize_b >= 1024:
         return "%.1f %s" % (fsize_b / 1024.0, kib_txt)
     else:
         return "%d %s" % (fsize_b, byte_txt)
@@ -401,29 +401,29 @@ def ftime(seconds):
     if seconds == 0:
         return ""
     if seconds < 60:
-        return '%ds' % (seconds)
+        return '%ds' % seconds
     minutes = seconds / 60
     if minutes < 60:
-        seconds = seconds % 60
+        seconds %= 60
         return '%dm %ds' % (minutes, seconds)
     hours = minutes / 60
     if hours < 24:
-        minutes = minutes % 60
+        minutes %= 60
         return '%dh %dm' % (hours, minutes)
     days = hours / 24
     if days < 7:
-        hours = hours % 24
+        hours %= 24
         return '%dd %dh' % (days, hours)
     weeks = days / 7
     if weeks < 52:
-        days = days % 7
+        days %= 7
         return '%dw %dd' % (weeks, days)
     years = weeks / 52
-    weeks = weeks % 52
+    weeks %= 52
     return '%dy %dw' % (years, weeks)
 
 
-def fdate(seconds, date_only=False, precision_secs=False):
+def fdate(seconds, precision_secs=False):
     """
     Formats a date time string in the locale's date representation based on the systems timezone
 
@@ -744,7 +744,7 @@ class VersionSplit(object):
 
         """
         # PEP 386 versions with .devN precede release version
-        if (bool(self.dev) != bool(ver.dev)):
+        if bool(self.dev) != bool(ver.dev):
             if self.dev != 'dev':
                 self.dev = not self.dev
             if ver.dev != 'dev':
@@ -806,7 +806,7 @@ def get_translations_path():
 
 
 def set_env_variable(name, value):
-    '''
+    """
     :param name: environment variable name
     :param value: environment variable value
 
@@ -825,7 +825,7 @@ def set_env_variable(name, value):
 
     Basen on _putenv in TransUtils.py from sourceforge project gramps
     http://sourceforge.net/p/gramps/code/HEAD/tree/branches/maintenance/gramps32/src/TransUtils.py
-    '''
+    """
     # Update Python's copy of the environment variables
     os.environ[name] = value
 

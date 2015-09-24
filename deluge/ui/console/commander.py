@@ -31,7 +31,8 @@ class Commander:
         self.console = component.get("ConsoleUI")
         self.interactive = interactive
 
-    def write(self, line):
+    @staticmethod
+    def write(line):
         print(strip_colors(line))
 
     def do_command(self, cmd):

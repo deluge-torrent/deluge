@@ -556,7 +556,7 @@ Deluge.ux.preferences.SchedulerPage = Ext.extend(Ext.Panel, {
 
     onApply: function() {
         // build settings object
-        var config = {}
+        var config = {};
 
         config['button_state'] = this.schedule.getConfig();
         config['low_down'] = this.downloadLimit.getValue();

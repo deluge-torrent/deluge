@@ -199,7 +199,7 @@ Ext.ux.Spinner = Ext.extend(Ext.util.Observable, {
 
         this.field.mon(this.wrap, "mousewheel", this.handleMouseWheel, this);
 
-        this.dd.setXConstraint(0, 0, 10)
+        this.dd.setXConstraint(0, 0, 10);
         this.dd.setYConstraint(1500, 1500, 10);
         this.dd.endDrag = this.endDrag.createDelegate(this);
         this.dd.startDrag = this.startDrag.createDelegate(this);

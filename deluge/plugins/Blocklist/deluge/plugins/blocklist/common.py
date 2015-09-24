@@ -108,7 +108,7 @@ class IP(object):
         return cls(q1, q2, q3, q4)
 
     def quadrants(self):
-        return (self.q1, self.q2, self.q3, self.q4)
+        return self.q1, self.q2, self.q3, self.q4
 
 #    def next_ip(self):
 #        (q1, q2, q3, q4) = self.quadrants()

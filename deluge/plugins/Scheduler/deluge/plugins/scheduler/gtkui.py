@@ -172,13 +172,12 @@ class GtkUI(GtkPluginBase):
 
     def on_apply_prefs(self):
         log.debug("applying prefs for Scheduler")
-        config = {}
-        config["low_down"] = self.spin_download.get_value()
-        config["low_up"] = self.spin_upload.get_value()
-        config["low_active"] = self.spin_active.get_value_as_int()
-        config["low_active_down"] = self.spin_active_down.get_value_as_int()
-        config["low_active_up"] = self.spin_active_up.get_value_as_int()
-        config["button_state"] = self.scheduler_select.button_state
+        config = {"low_down": self.spin_download.get_value(),
+                  "low_up": self.spin_upload.get_value(),
+                  "low_active": self.spin_active.get_value_as_int(),
+                  "low_active_down": self.spin_active_down.get_value_as_int(),
+                  "low_active_up": self.spin_active_up.get_value_as_int(),
+                  "button_state": self.scheduler_select.button_state}
         client.scheduler.set_config(config)
 
     def on_show_prefs(self):
@@ -219,7 +218,8 @@ class GtkUI(GtkPluginBase):
                     pass
             client.core.get_config_values(["max_download_speed", "max_upload_speed"]).addCallback(update_config_values)
 
-    def on_status_item_clicked(self, widget, event):
+    @staticmethod
+    def on_status_item_clicked(widget, event):
         component.get("Preferences").show("Scheduler")
 
     # Configuration dialog

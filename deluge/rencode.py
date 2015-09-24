@@ -126,39 +126,39 @@ def decode_int(x, f):
             raise ValueError
     elif x[f] == '0' and newf != f + 1:
         raise ValueError
-    return (n, newf + 1)
+    return n, newf + 1
 
 
 def decode_intb(x, f):
     f += 1
-    return (struct.unpack('!b', x[f:f + 1])[0], f + 1)
+    return struct.unpack('!b', x[f:f + 1])[0], f + 1
 
 
 def decode_inth(x, f):
     f += 1
-    return (struct.unpack('!h', x[f:f + 2])[0], f + 2)
+    return struct.unpack('!h', x[f:f + 2])[0], f + 2
 
 
 def decode_intl(x, f):
     f += 1
-    return (struct.unpack('!l', x[f:f + 4])[0], f + 4)
+    return struct.unpack('!l', x[f:f + 4])[0], f + 4
 
 
 def decode_intq(x, f):
     f += 1
-    return (struct.unpack('!q', x[f:f + 8])[0], f + 8)
+    return struct.unpack('!q', x[f:f + 8])[0], f + 8
 
 
 def decode_float32(x, f):
     f += 1
     n = struct.unpack('!f', x[f:f + 4])[0]
-    return (n, f + 4)
+    return n, f + 4
 
 
 def decode_float64(x, f):
     f += 1
     n = struct.unpack('!d', x[f:f + 8])[0]
-    return (n, f + 8)
+    return n, f + 8
 
 
 def decode_string(x, f):
@@ -173,7 +173,7 @@ def decode_string(x, f):
     s = x[colon:colon + n]
     if _decode_utf8:
         s = s.decode('utf8')
-    return (s, colon + n)
+    return s, colon + n
 
 
 def decode_list(x, f):
@@ -181,7 +181,7 @@ def decode_list(x, f):
     while x[f] != CHR_TERM:
         v, f = decode_func[x[f]](x, f)
         r.append(v)
-    return (tuple(r), f + 1)
+    return tuple(r), f + 1
 
 
 def decode_dict(x, f):
@@ -189,43 +189,25 @@ def decode_dict(x, f):
     while x[f] != CHR_TERM:
         k, f = decode_func[x[f]](x, f)
         r[k], f = decode_func[x[f]](x, f)
-    return (r, f + 1)
+    return r, f + 1
 
 
 def decode_true(x, f):
-    return (True, f + 1)
+    return True, f + 1
 
 
 def decode_false(x, f):
-    return (False, f + 1)
+    return False, f + 1
 
 
 def decode_none(x, f):
-    return (None, f + 1)
+    return None, f + 1
 
-decode_func = {}
-decode_func['0'] = decode_string
-decode_func['1'] = decode_string
-decode_func['2'] = decode_string
-decode_func['3'] = decode_string
-decode_func['4'] = decode_string
-decode_func['5'] = decode_string
-decode_func['6'] = decode_string
-decode_func['7'] = decode_string
-decode_func['8'] = decode_string
-decode_func['9'] = decode_string
-decode_func[CHR_LIST] = decode_list
-decode_func[CHR_DICT] = decode_dict
-decode_func[CHR_INT] = decode_int
-decode_func[CHR_INT1] = decode_intb
-decode_func[CHR_INT2] = decode_inth
-decode_func[CHR_INT4] = decode_intl
-decode_func[CHR_INT8] = decode_intq
-decode_func[CHR_FLOAT32] = decode_float32
-decode_func[CHR_FLOAT64] = decode_float64
-decode_func[CHR_TRUE] = decode_true
-decode_func[CHR_FALSE] = decode_false
-decode_func[CHR_NONE] = decode_none
+decode_func = {'0': decode_string, '1': decode_string, '2': decode_string, '3': decode_string, '4': decode_string,
+               '5': decode_string, '6': decode_string, '7': decode_string, '8': decode_string, '9': decode_string,
+               CHR_LIST: decode_list, CHR_DICT: decode_dict, CHR_INT: decode_int, CHR_INT1: decode_intb,
+               CHR_INT2: decode_inth, CHR_INT4: decode_intl, CHR_INT8: decode_intq, CHR_FLOAT32: decode_float32,
+               CHR_FLOAT64: decode_float64, CHR_TRUE: decode_true, CHR_FALSE: decode_false, CHR_NONE: decode_none}
 
 
 def make_fixed_length_string_decoders():
@@ -234,7 +216,7 @@ def make_fixed_length_string_decoders():
             s = x[f + 1:f + 1 + slen]
             if _decode_utf8:
                 s = s.decode("utf8")
-            return (s, f + 1 + slen)
+            return s, f + 1 + slen
         return f
     for i in range(STR_FIXED_COUNT):
         decode_func[chr(STR_FIXED_START + i)] = make_decoder(i)
@@ -249,7 +231,7 @@ def make_fixed_length_list_decoders():
             for i in range(slen):
                 v, f = decode_func[x[f]](x, f)
                 r.append(v)
-            return (tuple(r), f)
+            return tuple(r), f
         return f
     for i in range(LIST_FIXED_COUNT):
         decode_func[chr(LIST_FIXED_START + i)] = make_decoder(i)
@@ -260,7 +242,7 @@ make_fixed_length_list_decoders()
 def make_fixed_length_int_decoders():
     def make_decoder(j):
         def f(x, f):
-            return (j, f + 1)
+            return j, f + 1
         return f
     for i in range(INT_POS_FIXED_COUNT):
         decode_func[chr(INT_POS_FIXED_START + i)] = make_decoder(i)
@@ -277,7 +259,7 @@ def make_fixed_length_dict_decoders():
             for j in range(slen):
                 k, f = decode_func[x[f]](x, f)
                 r[k], f = decode_func[x[f]](x, f)
-            return (r, f)
+            return r, f
         return f
     for i in range(DICT_FIXED_COUNT):
         decode_func[chr(DICT_FIXED_START + i)] = make_decoder(i)
@@ -369,15 +351,14 @@ def encode_dict(x, r):
             encode_func[type(v)](v, r)
         r.append(CHR_TERM)
 
-encode_func = {}
-encode_func[IntType] = encode_int
-encode_func[LongType] = encode_int
-encode_func[StringType] = encode_string
-encode_func[ListType] = encode_list
-encode_func[TupleType] = encode_list
-encode_func[DictType] = encode_dict
-encode_func[NoneType] = encode_none
-encode_func[UnicodeType] = encode_unicode
+encode_func = {IntType: encode_int,
+               LongType: encode_int,
+               StringType: encode_string,
+               ListType: encode_list,
+               TupleType: encode_list,
+               DictType: encode_dict,
+               NoneType: encode_none,
+               UnicodeType: encode_unicode}
 
 lock = Lock()
 

@@ -30,9 +30,9 @@ Ext.ux.JSLoader = function(options) {
             script.onError(script.options, response.status);
         }
     });
-}
+};
 Ext.ux.JSLoader.index = 0;
 Ext.ux.JSLoader.scripts = [];
 Ext.ux.JSLoader.stdError = function(options, e) {
     window.alert('Error loading script:\n\n' + options.url + '\n\nstatus: ' + e);
-}
+};

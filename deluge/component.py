@@ -137,7 +137,7 @@ class Component(object):
                 d.addErrback(on_stop_fail)
                 self._component_stopping_deferred = d
             else:
-                d = maybeDeferred(on_stop, None)
+                maybeDeferred(on_stop, None)
 
         if self._component_state == "Stopping":
             return self._component_stopping_deferred

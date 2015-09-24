@@ -120,11 +120,10 @@ class GtkUI(GtkPluginBase):
         client.blocklist.get_config().addCallback(_on_get_config)
 
     def _on_apply_prefs(self):
-        config = {}
-        config["url"] = self.glade.get_widget("entry_url").get_text()
-        config["check_after_days"] = self.glade.get_widget("spin_check_days").get_value_as_int()
-        config["load_on_start"] = self.glade.get_widget("chk_import_on_start").get_active()
-        config["whitelisted"] = [ip[0] for ip in self.whitelist_model if ip[0] != 'IP HERE']
+        config = {"url": self.glade.get_widget("entry_url").get_text(),
+                  "check_after_days": self.glade.get_widget("spin_check_days").get_value_as_int(),
+                  "load_on_start": self.glade.get_widget("chk_import_on_start").get_active(),
+                  "whitelisted": [ip[0] for ip in self.whitelist_model if ip[0] != 'IP HERE']}
         client.blocklist.set_config(config)
 
     def _on_button_check_download_clicked(self, widget):
@@ -135,7 +134,8 @@ class GtkUI(GtkPluginBase):
         self._on_apply_prefs()
         client.blocklist.check_import(force=True)
 
-    def _on_status_item_clicked(self, widget, event):
+    @staticmethod
+    def _on_status_item_clicked(widget, event):
         component.get("Preferences").show(_("Blocklist"))
 
     def load_preferences_page(self):
@@ -194,7 +194,8 @@ class GtkUI(GtkPluginBase):
         self.whitelist_treeview.append_column(column)
         self.whitelist_treeview.set_model(self.whitelist_model)
 
-    def on_cell_edited(self, cell, path_string, new_text, model):
+    @staticmethod
+    def on_cell_edited(cell, path_string, new_text, model):
         # iter = model.get_iter_from_string(path_string)
         # path = model.get_path(iter)[0]
         try:
@@ -215,11 +216,13 @@ class GtkUI(GtkPluginBase):
             self.glade.get_widget("whitelist_delete").set_property('sensitive',
                                                                    False)
 
-    def on_add_button_clicked(self, widget, treeview):
+    @staticmethod
+    def on_add_button_clicked(widget, treeview):
         model = treeview.get_model()
         model.set(model.append(), 0, "IP HERE", 1, True)
 
-    def on_delete_button_clicked(self, widget, treeview):
+    @staticmethod
+    def on_delete_button_clicked(widget, treeview):
         selection = treeview.get_selection()
         model, iter = selection.get_selected()
         if iter:
