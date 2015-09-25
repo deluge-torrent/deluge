@@ -11,10 +11,10 @@ import hashlib
 import logging
 import os
 import time
+from socket import gethostbyname
 
 import gtk
 from twisted.internet import reactor
-from socket import gethostbyname
 
 import deluge.component as component
 from deluge.common import resource_filename

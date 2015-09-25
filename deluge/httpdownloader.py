@@ -203,7 +203,7 @@ def download_file(url, filename, callback=None, headers=None, force_filename=Fal
                 """
                 A custom context factory to add a server name for TLS connections.
                 """
-                def getContext(self, hostname=None, port=None):
+                def getContext(self, hostname=None, port=None):  # NOQA
                     ctx = ssl.ClientContextFactory.getContext(self)
                     ClientTLSOptions(host, ctx)
                     return ctx
