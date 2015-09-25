@@ -26,7 +26,7 @@ env:
     - TOX_ENV=flake8-complexity
     - TOX_ENV=isort
     - TOX_ENV=docs
-    - TOX_ENV=todo
+#    - TOX_ENV=todo
     - TOX_ENV=trial              APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
     - TOX_ENV=pygtkui            APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
 #    - TOX_ENV=testcoverage       APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
