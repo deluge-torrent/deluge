@@ -133,10 +133,12 @@ class EditTrackersDialog:
             tracker = self.liststore.get_value(selected, 1)
             self.glade.get_widget("entry_edit_tracker").set_text(tracker)
             self.edit_tracker_entry.show()
-            self.glade.get_widget("edit_tracker_entry").grab_focus()
+            self.edit_tracker_entry.grab_focus()
+            self.dialog.set_sensitive(False)
 
     def on_button_edit_cancel_clicked(self, widget):
         log.debug("on_button_edit_cancel_clicked")
+        self.dialog.set_sensitive(True)
         self.edit_tracker_entry.hide()
 
     def on_button_edit_ok_clicked(self, widget):
@@ -144,6 +146,7 @@ class EditTrackersDialog:
         selected = self.get_selected()
         tracker = self.glade.get_widget("entry_edit_tracker").get_text()
         self.liststore.set_value(selected, 1, tracker)
+        self.dialog.set_sensitive(True)
         self.edit_tracker_entry.hide()
 
     def on_button_up_clicked(self, widget):
