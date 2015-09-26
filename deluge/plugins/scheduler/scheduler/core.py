@@ -129,7 +129,7 @@ class Core(CorePluginBase):
         for setting in CONTROLLED_SETTINGS:
             core_config.apply_set_functions(setting)
         # Resume the session if necessary
-        component.get("Core").session.resume()
+        component.get("Core").resume_all_torrents()
 
     def do_schedule(self, timer=True):
         """
@@ -153,10 +153,10 @@ class Core(CorePluginBase):
             settings.active_seeds = self.config["low_active_up"]
             session.set_settings(settings)
             # Resume the session if necessary
-            component.get("Core").session.resume()
+            component.get("Core").resume_all_torrents()
         elif state == "Red":
             # This is Red (Stop), so pause the libtorrent session
-            component.get("Core").session.pause()
+            component.get("Core").pause_all_torrents()
 
         if state != self.state:
             # The state has changed since last update so we need to emit an event

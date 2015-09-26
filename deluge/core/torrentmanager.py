@@ -674,9 +674,12 @@ class TorrentManager(component.Component):
         state = TorrentManagerState()
         # Create the state for each Torrent and append to the list
         for torrent in self.torrents.values():
-            paused = False
-            if torrent.state == "Paused":
+            if self.session.is_paused():
+                paused = torrent.handle.is_paused()
+            elif torrent.state == "Paused":
                 paused = True
+            else:
+                paused = False
 
             torrent_state = TorrentState(
                 torrent.torrent_id,

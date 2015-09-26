@@ -425,12 +425,12 @@ class Core(CorePluginBase):
 
     def pause_session(self):
         if not self.core.session.is_paused():
-            self.core.session.pause()
+            self.core.pause_all_torrents()
             self.need_to_resume_session = True
         else:
             self.need_to_resume_session = False
 
     def resume_session(self, result):
-        self.core.session.resume()
+        self.core.resume_all_torrents()
         self.need_to_resume_session = False
         return result
