@@ -169,7 +169,9 @@ class FilterManager(component.Component):
         for torrent_id in list(torrent_ids):
             status = status_func(torrent_id, filter_dict.keys()) #status={key:value}
             for field, values in filter_dict.iteritems():
-                if (not status[field] in values) and torrent_id in torrent_ids:
+                if field in status and status[field] in values:
+                    continue
+                elif torrent_id in torrent_ids:
                     torrent_ids.remove(torrent_id)
 
         return torrent_ids
