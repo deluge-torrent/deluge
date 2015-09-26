@@ -434,9 +434,9 @@ class Core(component.Component):
             # Torrent was probaly removed meanwhile
             return {}
 
-        # Get the leftover fields and ask the plugin manager to fill them
+        # Get any remaining keys from plugin manager or 'all' if no keys specified.
         leftover_fields = list(set(keys) - set(status.keys()))
-        if len(leftover_fields) > 0:
+        if len(leftover_fields) > 0 or len(keys) == 0:
             status.update(self.pluginmanager.get_status(torrent_id, leftover_fields))
         return status
 

@@ -92,6 +92,8 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
     def get_status(self, torrent_id, fields):
         """Return the value of status fields for the selected torrent_id."""
         status = {}
+        if len(fields) == 0:
+            fields = self.status_fields.keys()
         for field in fields:
             try:
                 status[field] = self.status_fields[field](torrent_id)
