@@ -107,7 +107,7 @@ class Core(CorePluginBase):
         for setting in CONTROLLED_SETTINGS:
             component.get("PreferencesManager").do_config_set_func(setting, core_config[setting])
         # Resume the session if necessary
-        component.get("Core").session.resume()
+        component.get("Core").resume_session()
 
     def do_schedule(self, timer=True):
         """
