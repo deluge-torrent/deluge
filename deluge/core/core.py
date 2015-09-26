@@ -476,7 +476,7 @@ class Core(component.Component):
             return {}
 
         # Ask the plugin manager to fill in the plugin keys
-        if len(plugin_keys) > 0:
+        if len(plugin_keys) > 0 or all_keys:
             status.update(self.pluginmanager.get_status(torrent_id, plugin_keys))
         return status
 
