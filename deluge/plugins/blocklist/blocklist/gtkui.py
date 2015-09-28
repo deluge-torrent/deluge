@@ -138,7 +138,7 @@ class GtkUI(GtkPluginBase):
 
     def _on_apply_prefs(self):
         config = {}
-        config["url"] = self.glade.get_widget("entry_url").get_text()
+        config["url"] = self.glade.get_widget("entry_url").get_text().strip()
         config["check_after_days"] = self.glade.get_widget("spin_check_days").get_value_as_int()
         config["load_on_start"] = self.glade.get_widget("chk_import_on_start").get_active()
         client.blocklist.set_config(config)

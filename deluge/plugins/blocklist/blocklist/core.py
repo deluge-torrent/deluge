@@ -135,6 +135,8 @@ class Core(CorePluginBase):
         :rtype: Deferred
         """
 
+        if not self.config["url"]:
+            return
 
         # Reset variables
         self.filename = None
