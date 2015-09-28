@@ -100,7 +100,13 @@ def cell_data_ratio(column, cell, model, row, data):
 
 def cell_data_date(column, cell, model, row, data):
     """Display value as date, eg 05/05/08"""
-    cell.set_property('text', deluge.common.fdate(model.get_value(row, data)))
+    date = model.get_value(row, data)
+    if date <= 0:
+        date_str = ""
+    else:
+        date_str = deluge.common.fdate(date)
+
+    cell.set_property('text', date_str)
 
 def cell_data_speed_limit(column, cell, model, row, data):
     """Display value as a speed, eg. 2 KiB/s"""
