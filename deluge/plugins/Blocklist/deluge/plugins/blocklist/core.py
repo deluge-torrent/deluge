@@ -123,6 +123,8 @@ class Core(CorePluginBase):
             Deferred: A Deferred which fires when the blocklist has been imported.
 
         """
+        if not self.config["url"]:
+            return
 
         # Reset variables
         self.filename = None
