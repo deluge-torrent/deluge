@@ -855,13 +855,16 @@ class Torrent(object):
                 log.error("Could not move storage for torrent %s since %s does not exist and could not create the directory.", self.torrent_id, dest_u)
                 return False
 
+        kwargs = {}
+        if deluge.common.VersionSplit(lt.version) >= deluge.common.VersionSplit("1.0.0.0"):
+            kwargs['flags'] = 1  # fail_if_exist
         dest_bytes = dest.encode('utf-8')
         try:
             # libtorrent needs unicode object if wstrings are enabled, utf8 bytestring otherwise
             try:
-                self.handle.move_storage(dest)
+                self.handle.move_storage(dest, **kwargs)
             except TypeError:
-                self.handle.move_storage(dest_bytes)
+                self.handle.move_storage(dest_bytes, **kwargs)
         except Exception, e:
             log.error("Error calling libtorrent move_storage: %s" % e)
             return False

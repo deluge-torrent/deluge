@@ -1064,6 +1064,7 @@ class TorrentManager(component.Component):
         except (RuntimeError, KeyError):
             return
 
+        log.error("Torrent %s, %s", torrent_id, decode_string(alert.message()))
         if torrent_id in self.waiting_on_finish_moving:
             self.waiting_on_finish_moving.remove(torrent_id)
             torrent.is_finished = True
