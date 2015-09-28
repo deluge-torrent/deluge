@@ -418,8 +418,8 @@ class Core(component.Component):
         """Resume all torrents in the session"""
         if self.session.is_paused():
             self.session.resume()
-            for torrent in self.torrentmanager.torrents.values():
-                torrent.update_state()
+            for torrent_id in self.torrentmanager.torrents:
+                self.torrentmanager[torrent_id].update_state()
             component.get("EventManager").emit(SessionResumedEvent())
 
     @export
