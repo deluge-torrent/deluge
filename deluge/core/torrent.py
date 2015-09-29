@@ -191,6 +191,7 @@ class Torrent(object):
         self.statusmsg = "OK"
 
         # The torrents state
+        self.state = None
         self.update_state()
 
         # The tracker status
@@ -376,13 +377,15 @@ class Torrent(object):
 
         # Set self.state to the ltstate right away just incase we don't hit some
         # of the logic below
+        old_state = self.state
         if ltstate in LTSTATE:
             self.state = LTSTATE[ltstate]
         else:
             self.state = str(ltstate)
+        is_paused = self.handle.is_paused()
+        session_paused = component.get("Core").session.is_paused()
 
-        log.debug("set_state_based_on_ltstate: %s", deluge.common.LT_TORRENT_STATE[ltstate])
-        log.debug("session.is_paused: %s", component.get("Core").session.is_paused())
+        log.debug("set_state_based_on_ltstate: %s with session.is_paused: %s", self.state, session_paused)
 
         # First we check for an error from libtorrent, and set the state to that
         # if any occurred.
@@ -390,27 +393,25 @@ class Torrent(object):
             # This is an error'd torrent
             self.state = "Error"
             self.set_status_message(self.handle.status().error)
-            if self.handle.is_paused():
+            if is_paused:
                 self.handle.auto_managed(False)
-            return
-
-        if ltstate == LTSTATE["Queued"] or ltstate == LTSTATE["Checking"]:
-            if self.handle.is_paused():
+        else:
+            if is_paused and self.handle.is_auto_managed() and not session_paused:
+                self.state = "Queued"
+            elif is_paused or session_paused:
                 self.state = "Paused"
-            else:
+            elif ltstate == LTSTATE["Queued"] or ltstate == LTSTATE["Checking"] or \
+                    ltstate == LTSTATE["Checking Resume Data"]:
                 self.state = "Checking"
-            return
-        elif ltstate == LTSTATE["Downloading"] or ltstate == LTSTATE["Downloading Metadata"]:
-            self.state = "Downloading"
-        elif ltstate == LTSTATE["Finished"] or ltstate == LTSTATE["Seeding"]:
-            self.state = "Seeding"
-        elif ltstate == LTSTATE["Allocating"]:
-            self.state = "Allocating"
+            elif ltstate == LTSTATE["Downloading"] or ltstate == LTSTATE["Downloading Metadata"]:
+                self.state = "Downloading"
+            elif ltstate == LTSTATE["Finished"] or ltstate == LTSTATE["Seeding"]:
+                self.state = "Seeding"
+            elif ltstate == LTSTATE["Allocating"]:
+                self.state = "Allocating"
 
-        if self.handle.is_paused() and self.handle.is_auto_managed() and not component.get("Core").session.is_paused():
-            self.state = "Queued"
-        elif component.get("Core").session.is_paused() or (self.handle.is_paused() and not self.handle.is_auto_managed()):
-            self.state = "Paused"
+        if self.state != old_state:
+            component.get("EventManager").emit(TorrentStateChangedEvent(self.torrent_id, self.state))
 
     def set_state(self, state):
         """Accepts state strings, ie, "Paused", "Seeding", etc."""
@@ -990,4 +991,3 @@ class Torrent(object):
         for key in self.prev_status.keys():
             if not self.rpcserver.is_session_valid(key):
                 del self.prev_status[key]
-

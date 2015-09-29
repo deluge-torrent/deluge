@@ -965,10 +965,7 @@ class TorrentManager(component.Component):
         except:
             return
         # Set the torrent state
-        old_state = torrent.state
         torrent.update_state()
-        if torrent.state != old_state:
-            component.get("EventManager").emit(TorrentStateChangedEvent(torrent_id, torrent.state))
 
         # Don't save resume data for each torrent after self.stop() was called.
         # We save resume data in bulk in self.stop() in this case.
@@ -1079,11 +1076,7 @@ class TorrentManager(component.Component):
             torrent_id = str(alert.handle.info_hash())
         except:
             return
-        old_state = torrent.state
         torrent.update_state()
-        if torrent.state != old_state:
-            # We need to emit a TorrentStateChangedEvent too
-            component.get("EventManager").emit(TorrentStateChangedEvent(torrent_id, torrent.state))
         component.get("EventManager").emit(TorrentResumedEvent(torrent_id))
 
     def on_alert_state_changed(self, alert):
@@ -1094,17 +1087,12 @@ class TorrentManager(component.Component):
         except:
             return
 
-        old_state = torrent.state
         torrent.update_state()
 
         # Torrent may need to download data after checking.
         if torrent.state in ('Checking', 'Checking Resume Data', 'Downloading'):
             torrent.is_finished = False
             self.queued_torrents.add(torrent_id)
-
-        # Only emit a state changed event if the state has actually changed
-        if torrent.state != old_state:
-            component.get("EventManager").emit(TorrentStateChangedEvent(torrent_id, torrent.state))
 
     def on_alert_save_resume_data(self, alert):
         log.debug("on_alert_save_resume_data")
