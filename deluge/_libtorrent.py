@@ -19,7 +19,7 @@ supports.
 
 """
 
-REQUIRED_VERSION = "0.16.7.0"
+REQUIRED_VERSION = "1.0.6.0"
 
 
 def check_version(lt):
