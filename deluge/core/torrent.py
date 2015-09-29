@@ -141,6 +141,9 @@ class Torrent(object):
         # Store the magnet uri used to add this torrent if available
         self.magnet = magnet
 
+        # Torrent state e.g. Paused, Downloading, etc.
+        self.state = None
+
         # Holds status info so that we don't need to keep getting it from lt
         self.status = self.handle.status()
 
@@ -191,7 +194,6 @@ class Torrent(object):
         self.statusmsg = "OK"
 
         # The torrents state
-        self.state = None
         self.update_state()
 
         # The tracker status
