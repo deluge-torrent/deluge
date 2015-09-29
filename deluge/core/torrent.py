@@ -323,7 +323,7 @@ class Torrent(object):
         # Set the first/last priorities if needed
         self.set_prioritize_first_last(self.options["prioritize_first_last_pieces"])
 
-    def set_trackers(self, trackers):
+    def set_trackers(self, trackers, reannounce=True):
         """Sets trackers"""
         if trackers == None:
             trackers = []
@@ -353,7 +353,7 @@ class Torrent(object):
         #    log.debug("tier: %s tracker: %s", t["tier"], t["url"])
         # Set the tracker list in the torrent object
         self.trackers = trackers
-        if len(trackers) > 0:
+        if len(trackers) > 0 and reannounce:
             # Force a reannounce if there is at least 1 tracker
             self.force_reannounce()
 
@@ -926,16 +926,22 @@ class Torrent(object):
 
     def force_recheck(self):
         """Forces a recheck of the torrents pieces"""
-        paused = self.handle.is_paused()
+        self.forcing_recheck = True
+        self.forcing_recheck_paused = self.handle.is_paused()
+        # Store trackers for paused torrents to prevent unwanted announce before pausing again.
+        if self.forcing_recheck_paused:
+            self.set_trackers(None, reannounce=False)
+            self.handle.replace_trackers([])
+
         try:
             self.handle.force_recheck()
             self.handle.resume()
         except Exception, e:
             log.debug("Unable to force recheck: %s", e)
-            return False
-        self.forcing_recheck = True
-        self.forcing_recheck_paused = paused
-        return True
+            self.forcing_recheck = False
+            self.set_trackers(torrent.trackers, reannounce=False)
+
+        return self.forcing_recheck
 
     def rename_files(self, filenames):
         """Renames files in the torrent. 'filenames' should be a list of

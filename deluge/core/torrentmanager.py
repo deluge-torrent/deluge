@@ -992,6 +992,7 @@ class TorrentManager(component.Component):
             torrent.forcing_recheck = False
             if torrent.forcing_recheck_paused:
                 torrent.handle.pause()
+                torrent.set_trackers(torrent.trackers, reannounce=False)
 
         # Set the torrent state
         torrent.update_state()
