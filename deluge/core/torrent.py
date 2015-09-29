@@ -940,7 +940,8 @@ class Torrent(object):
         except Exception, e:
             log.debug("Unable to force recheck: %s", e)
             self.forcing_recheck = False
-            self.set_trackers(torrent.trackers, reannounce=False)
+            if self.forcing_recheck_paused:
+                self.set_trackers(torrent.trackers, reannounce=False)
 
         return self.forcing_recheck
 
