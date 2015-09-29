@@ -839,10 +839,10 @@ class Torrent(object):
     def move_storage(self, dest):
         """Move a torrent's storage location"""
         try:
-           dest = unicode(dest, "utf-8")
+            dest = unicode(dest, "utf-8")
         except TypeError:
-           # String is already unicode
-           pass
+            # String is already unicode
+            pass
 
         if not os.path.exists(dest):
             try:
