@@ -25,6 +25,8 @@ def get(key):
         return core
     elif key is "RPCServer":
         return rpcserver
+    elif key is "EventManager":
+        return core.eventmanager
     else:
         return None
 

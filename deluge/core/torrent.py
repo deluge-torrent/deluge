@@ -598,35 +598,35 @@ class Torrent(object):
     def update_state(self):
         """Updates the state, based on libtorrent's torrent state"""
         status = self.handle.status()
-        session_is_paused = component.get("Core").session.is_paused()
-
+        session_paused = component.get("Core").session.is_paused()
+        old_state = self.state
         if status.error or self.error_statusmsg:
             self.state = "Error"
             # This will be reverted upon resuming.
             self.handle.auto_managed(False)
             if not status.paused:
                 self.handle.pause()
-
             if status.error:
                 self.set_error_statusmsg(decode_string(status.error))
                 log.debug("Error state from lt: %s", self.error_statusmsg)
             else:
-                # As this is not a libtorrent Error we should emit a state changed event
-                component.get("EventManager").emit(TorrentStateChangedEvent(self.torrent_id, "Error"))
                 log.debug("Error state forced by Deluge, error_statusmsg: %s", self.error_statusmsg)
             self.set_status_message(self.error_statusmsg)
         elif self.moving_storage:
             self.state = "Moving"
-        elif not session_is_paused and status.paused and status.auto_managed:
+        elif not session_paused and status.paused and status.auto_managed:
             self.state = "Queued"
-        elif session_is_paused or status.paused:
+        elif session_paused or status.paused:
             self.state = "Paused"
         else:
             self.state = LT_TORRENT_STATE_MAP.get(str(status.state), str(status.state))
 
+        if self.state != old_state:
+            component.get("EventManager").emit(TorrentStateChangedEvent(self.torrent_id, self.state))
+
         if log.isEnabledFor(logging.DEBUG):
-            log.debug("State from lt was: %s | Session is paused: %s", status.state, session_is_paused)
-            log.debug("Torrent state set to '%s' (%s)", self.state, self.torrent_id)
+            log.debug("State from lt was: %s | Session is paused: %s\nTorrent state set from '%s' to '%s' (%s)",
+                      status.state, session_paused, old_state, self.state, self.torrent_id)
 
     def set_status_message(self, message):
         """Sets the torrent status message.

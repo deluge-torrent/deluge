@@ -28,8 +28,7 @@ from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.core.torrent import Torrent, TorrentOptions, sanitize_filepath
 from deluge.error import InvalidTorrentError
 from deluge.event import (PreTorrentRemovedEvent, SessionStartedEvent, TorrentAddedEvent, TorrentFileCompletedEvent,
-                          TorrentFileRenamedEvent, TorrentFinishedEvent, TorrentRemovedEvent, TorrentResumedEvent,
-                          TorrentStateChangedEvent)
+                          TorrentFileRenamedEvent, TorrentFinishedEvent, TorrentRemovedEvent, TorrentResumedEvent)
 
 log = logging.getLogger(__name__)
 
@@ -888,12 +887,7 @@ class TorrentManager(component.Component):
             torrent = self.torrents[torrent_id]
         except (RuntimeError, KeyError):
             return
-        # Set the torrent state
-        old_state = torrent.state
         torrent.update_state()
-        if torrent.state != old_state:
-            component.get("EventManager").emit(TorrentStateChangedEvent(torrent_id, torrent.state))
-
         # Write the fastresume file if we are not waiting on a bulk write
         if torrent_id not in self.waiting_on_resume_data:
             self.save_resume_data((torrent_id,))
@@ -907,14 +901,12 @@ class TorrentManager(component.Component):
         except (RuntimeError, KeyError):
             return
 
-        # Check to see if we're forcing a recheck and set it back to paused
-        # if necessary
+        # Check to see if we're forcing a recheck and set it back to paused if necessary.
         if torrent.forcing_recheck:
             torrent.forcing_recheck = False
             if torrent.forcing_recheck_paused:
                 torrent.handle.pause()
 
-        # Set the torrent state
         torrent.update_state()
 
     def on_alert_tracker_reply(self, alert):
@@ -1016,11 +1008,7 @@ class TorrentManager(component.Component):
             torrent = self.torrents[torrent_id]
         except (RuntimeError, KeyError):
             return
-        old_state = torrent.state
         torrent.update_state()
-        if torrent.state != old_state:
-            # We need to emit a TorrentStateChangedEvent too
-            component.get("EventManager").emit(TorrentStateChangedEvent(torrent_id, torrent.state))
         component.get("EventManager").emit(TorrentResumedEvent(torrent_id))
 
     def on_alert_state_changed(self, alert):
@@ -1035,17 +1023,11 @@ class TorrentManager(component.Component):
         except (RuntimeError, KeyError):
             return
 
-        old_state = torrent.state
         torrent.update_state()
-
         # Torrent may need to download data after checking.
-        if torrent.state in ('Checking', 'Checking Resume Data', 'Downloading'):
+        if torrent.state in ('Checking', 'Downloading'):
             torrent.is_finished = False
             self.queued_torrents.add(torrent_id)
-
-        # Only emit a state changed event if the state has actually changed
-        if torrent.state != old_state:
-            component.get("EventManager").emit(TorrentStateChangedEvent(torrent_id, torrent.state))
 
     def on_alert_save_resume_data(self, alert):
         """Alert handler for libtorrent save_resume_data_alert"""
