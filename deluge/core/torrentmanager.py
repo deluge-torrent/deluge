@@ -502,8 +502,37 @@ class TorrentManager(component.Component):
         log.info("Torrent %s removed by user: %s", torrent_name, component.get("RPCServer").get_session_user())
         return True
 
-    def load_state(self):
-        """Load the state of the TorrentManager from the torrents.state file"""
+    def fixup_state(self, state):
+        """ Fixup an old state by adding missing TorrentState options and assigning default values.
+
+        Args:
+            state (TorrentManagerState): A torrentmanager state containing torrent details.
+
+        Returns:
+            TorrentManagerState: A fixedup TorrentManager state.
+
+        """
+        if state.torrents:
+            t_state_tmp = TorrentState()
+            if dir(state.torrents[0]) != dir(t_state_tmp):
+                try:
+                    for attr in (set(dir(t_state_tmp)) - set(dir(state.torrents[0]))):
+                        for t_state in state.torrents:
+                            if attr == "storage_mode" and getattr(t_state, "compact", None):
+                                setattr(t_state, attr, "compact")
+                            else:
+                                setattr(t_state, attr, getattr(t_state_tmp, attr, None))
+                except AttributeError as ex:
+                    log.error("Unable to update state file to a compatible version: %s", ex)
+        return state
+
+    def open_state(self):
+        """Open the torrents.state file containing a TorrentManager state with session torrents.
+
+        Returns:
+            TorrentManagerState: The TorrentManager state.
+
+        """
         torrents_state = os.path.join(self.state_dir, "torrents.state")
         for filepath in (torrents_state, torrents_state + ".bak"):
             log.info("Loading torrent state: %s", filepath)
@@ -519,20 +548,17 @@ class TorrentManager(component.Component):
 
         if state is None:
             state = TorrentManagerState()
+        return state
 
-        # Fixup an old state by adding missing TorrentState options and assigning default values
-        if len(state.torrents) > 0:
-            state_tmp = TorrentState()
-            if dir(state.torrents[0]) != dir(state_tmp):
-                try:
-                    for attr in (set(dir(state_tmp)) - set(dir(state.torrents[0]))):
-                        for t_state in state.torrents:
-                            if attr == "storage_mode" and getattr(t_state, "compact", None):
-                                setattr(t_state, attr, "compact")
-                            else:
-                                setattr(t_state, attr, getattr(state_tmp, attr, None))
-                except AttributeError as ex:
-                    log.error("Unable to update state file to a compatible version: %s", ex)
+    def load_state(self):
+        """Load all the torrents from TorrentManager state into session
+
+        Emits:
+            SessionStartedEvent: Emitted after all torrents are added to the session.
+
+        """
+        state = self.open_state()
+        state = self.fixup_state(state)
 
         # Reorder the state.torrents list to add torrents in the correct queue order.
         state.torrents.sort(key=operator.attrgetter("queue"), reverse=self.config["queue_new_to_top"])
