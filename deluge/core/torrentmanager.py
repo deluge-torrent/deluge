@@ -259,7 +259,7 @@ class TorrentManager(component.Component):
 
         current_user = component.get("RPCServer").get_session_user()
         for torrent_id in torrent_ids[:]:
-            torrent_status = self[torrent_id].get_status(["owner", "shared"])
+            torrent_status = self.torrents[torrent_id].get_status(["owner", "shared"])
             if torrent_status["owner"] != current_user and not torrent_status["shared"]:
                 torrent_ids.pop(torrent_ids.index(torrent_id))
         return torrent_ids
@@ -348,7 +348,7 @@ class TorrentManager(component.Component):
         options = _options
 
         # Check for renamed files and if so, rename them in the torrent_info before adding.
-        if options["mapped_files"]:
+        if options["mapped_files"] and torrent_info:
             for index, fname in options["mapped_files"].items():
                 fname = sanitize_filepath(decode_string(fname))
                 log.debug("renaming file index %s to %s", index, fname)
@@ -356,6 +356,7 @@ class TorrentManager(component.Component):
                     torrent_info.rename_file(index, fname)
                 except TypeError:
                     torrent_info.rename_file(index, utf8_encoded(fname))
+            add_torrent_params["ti"] = torrent_info
 
         if not options["owner"]:
             options["owner"] = component.get("RPCServer").get_session_user()
