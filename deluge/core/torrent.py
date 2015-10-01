@@ -591,6 +591,20 @@ class Torrent(object):
         """
         self.tracker_status = status
 
+    def merge_trackers(self, torrent_info):
+        """Merges new trackers in torrent_info into torrent"""
+        log.info("Adding any new trackers to torrent (%s) already in session...", self.torrent_id)
+        if not torrent_info:
+            return
+        # Don't merge trackers if either torrent has private flag set.
+        if torrent_info.priv() or self.get_status(["private"])["private"]:
+            log.info("Adding trackers aborted: Torrent has private flag set.")
+        else:
+            for tracker in torrent_info.trackers():
+                self.handle.add_tracker({"url": tracker.url, "tier": tracker.tier})
+            # Update torrent.trackers from libtorrent handle.
+            self.set_trackers()
+
     def update_state(self):
         """Updates the state, based on libtorrent's torrent state"""
         status = self.handle.status()

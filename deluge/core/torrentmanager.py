@@ -337,16 +337,8 @@ class TorrentManager(component.Component):
         # Check for existing torrent in session.
         if torrent_id in self.get_torrent_list():
             log.warning("Unable to add torrent (%s), already in session", torrent_id)
-            if torrent_info:
-                log.info("Adding any new trackers to torrent (%s) already in session...", torrent_id)
-                # Don't merge trackers if either torrent has private flag set.
-                if torrent_info.priv() or self[torrent_id].get_status(["private"])["private"]:
-                    log.info("Adding trackers aborted: Torrent has private flag set.")
-                else:
-                    for tracker in torrent_info.trackers():
-                        self[torrent_id].handle.add_tracker({"url": tracker.url, "tier": tracker.tier})
-                    # Update torrent.trackers from lt.
-                    self[torrent_id].set_trackers()
+            # Attempt merge trackers before returning.
+            self.torrents[torrent_id].merge_trackers(torrent_info)
             return
 
         # Load default options and update if needed.
