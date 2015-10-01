@@ -569,8 +569,13 @@ class TorrentManager(component.Component):
         log.info("Finished loading %d torrents.", len(state.torrents))
         component.get("EventManager").emit(SessionStartedEvent())
 
-    def save_state(self):
-        """Save the state of the TorrentManager to the torrents.state file"""
+    def create_state(self):
+        """Create a state of all the torrents in TorrentManager.
+
+        Returns:
+            TorrentManagerState: The TorrentManager state.
+
+        """
         state = TorrentManagerState()
         # Create the state for each Torrent and append to the list
         for torrent in self.torrents.values():
@@ -612,7 +617,16 @@ class TorrentManager(component.Component):
                 torrent.options["name"]
             )
             state.torrents.append(torrent_state)
+        return state
 
+    def save_state(self):
+        """Save the state of the TorrentManager to the torrents.state file.
+
+        Returns:
+            bool: Always returns True so that the timer thread will continue.
+
+        """
+        state = self.create_state()
         filename = "torrents.state"
         filepath = os.path.join(self.state_dir, filename)
         filepath_bak = filepath + ".bak"
@@ -641,7 +655,6 @@ class TorrentManager(component.Component):
                 if os.path.isfile(filepath_bak):
                     log.info("Restoring backup of %s from: %s", filename, filepath_bak)
                     os.rename(filepath_bak, filepath)
-        # We return True so that the timer thread will continue
         return True
 
     def save_resume_data(self, torrent_ids=None, flush_disk_cache=False):
