@@ -416,15 +416,16 @@ class TorrentManager(component.Component):
         # Add to queued torrents set.
         self.queued_torrents.add(torrent.torrent_id)
         if self.config["queue_new_to_top"]:
-            self.queue_top()
+            self.queue_top(torrent.torrent_id)
 
         # Resume the torrent if needed.
         if not options["add_paused"]:
             torrent.resume()
 
-        # Emit torrent_added signal
+        # Emit torrent_added signal.
         from_state = state is not None
         component.get("EventManager").emit(TorrentAddedEvent(torrent.torrent_id, from_state))
+
         if log.isEnabledFor(logging.DEBUG):
             log.debug("Torrent added: %s", str(handle.info_hash()))
         if log.isEnabledFor(logging.INFO):
@@ -434,12 +435,12 @@ class TorrentManager(component.Component):
                      name_and_owner["owner"],
                      from_state and "loaded" or "added")
 
-        # Write the .torrent file to the state directory
+        # Write the .torrent file to the state directory.
         if filedump:
             torrent.write_torrentfile(filename, filedump)
 
+        # Save the session state.
         if save_state:
-            # Save the session state
             self.save_state()
 
         return torrent.torrent_id
