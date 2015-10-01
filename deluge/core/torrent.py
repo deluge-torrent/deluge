@@ -243,11 +243,7 @@ class Torrent(object):
         else:
             self.set_trackers()
             self.is_finished = False
-            # Use infohash as fallback.
-            if not filename:
-                self.filename = self.torrent_id
-            else:
-                self.filename = filename
+            self.filename = filename
             self.error_statusmsg = None
 
         self.statusmsg = "OK"
@@ -1116,11 +1112,10 @@ class Torrent(object):
         flags = lt.save_resume_flags_t.flush_disk_cache if flush_disk_cache else 0
         self.handle.save_resume_data(flags)
 
-    def write_torrentfile(self, filename=None, filedump=None):
+    def write_torrentfile(self, filedump=None):
         """Writes the torrent file to the state dir and optional 'copy of' dir.
 
         Args:
-            filename (str, optional): The filename of the torrent file.
             filedump (str, optional): bencoded filedump of a torrent file.
 
         """
@@ -1144,19 +1139,23 @@ class Torrent(object):
 
         # If the user has requested a copy of the torrent be saved elsewhere we need to do that.
         if self.config["copy_torrent_file"]:
-            if filename is None:
-                filename = self.get_name() + ".torrent"
-            filepath = os.path.join(self.config["torrentfiles_location"], filename)
+            if not self.filename:
+                self.filename = self.get_name() + ".torrent"
+            filepath = os.path.join(self.config["torrentfiles_location"], self.filename)
             write_file(filepath, filedump)
 
-    def delete_torrentfile(self):
+    def delete_torrentfile(self, delete_copies=False):
         """Deletes the .torrent file in the state directory in config"""
-        path = os.path.join(get_config_dir(), "state", self.torrent_id + ".torrent")
-        log.debug("Deleting torrent file: %s", path)
-        try:
-            os.remove(path)
-        except OSError as ex:
-            log.warning("Unable to delete the torrent file: %s", ex)
+        torrent_files = [os.path.join(get_config_dir(), "state", self.torrent_id + ".torrent")]
+        if delete_copies:
+            torrent_files.append(os.path.join(self.config["torrentfiles_location"], self.filename))
+
+        for torrent_file in torrent_files:
+            log.debug("Deleting torrent file: %s", torrent_file)
+            try:
+                os.remove(torrent_file)
+            except OSError as ex:
+                log.warning("Unable to delete the torrent file: %s", ex)
 
     def force_reannounce(self):
         """Force a tracker reannounce"""

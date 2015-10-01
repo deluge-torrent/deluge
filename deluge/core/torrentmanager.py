@@ -437,7 +437,7 @@ class TorrentManager(component.Component):
 
         # Write the .torrent file to the state directory.
         if filedump:
-            torrent.write_torrentfile(filename, filedump)
+            torrent.write_torrentfile(filedump)
 
         # Save the session state.
         if save_state:
@@ -465,6 +465,8 @@ class TorrentManager(component.Component):
         except KeyError:
             raise InvalidTorrentError("torrent_id '%s' not in session." % torrent_id)
 
+        torrent_name = torrent.get_status(["name"])["name"]
+
         # Emit the signal to the clients
         component.get("EventManager").emit(PreTorrentRemovedEvent(torrent_id))
 
@@ -477,19 +479,9 @@ class TorrentManager(component.Component):
         # Remove fastresume data if it is exists
         self.resume_data.pop(torrent_id, None)
 
-        # Remove the .torrent file in the state
-        torrent.delete_torrentfile()
-
-        # Remove the torrent file from the user specified directory
-        torrent_name = torrent.get_status(["name"])["name"]
-        filename = torrent.filename
-        if self.config["copy_torrent_file"] and self.config["del_copy_torrent_file"] and filename:
-            users_torrent_file = os.path.join(self.config["torrentfiles_location"], filename)
-            log.info("Delete user's torrent file: %s", users_torrent_file)
-            try:
-                os.remove(users_torrent_file)
-            except OSError as ex:
-                log.warning("Unable to remove copy torrent file: %s", ex)
+        # Remove the .torrent file in the state and copy location, if user requested.
+        delete_copies = self.config["copy_torrent_file"] and self.config["del_copy_torrent_file"]
+        torrent.delete_torrentfile(delete_copies)
 
         # Remove from set if it wasn't finished
         if not torrent.is_finished:
