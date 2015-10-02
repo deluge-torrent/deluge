@@ -15,6 +15,7 @@ from twisted.internet import defer
 
 import deluge.component as component
 from deluge.common import is_url, resource_filename
+from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 from deluge.ui.gtkui.common import get_deluge_icon
 
@@ -25,6 +26,8 @@ class EditTrackersDialog:
     def __init__(self, torrent_id, parent=None):
         self.torrent_id = torrent_id
         self.builder = gtk.Builder()
+        self.gtkui_config = ConfigManager("gtkui.conf")
+
         # Main dialog
         self.builder.add_from_file(resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "edit_trackers.ui")
@@ -46,6 +49,8 @@ class EditTrackersDialog:
         self.edit_tracker_entry.set_transient_for(self.dialog)
         self.dialog.set_icon(get_deluge_icon())
 
+        self.load_edit_trackers_dialog_state()
+
         if parent is not None:
             self.dialog.set_transient_for(parent)
 
@@ -59,7 +64,8 @@ class EditTrackersDialog:
             "on_button_remove_clicked": self.on_button_remove_clicked,
             "on_button_down_clicked": self.on_button_down_clicked,
             "on_button_add_ok_clicked": self.on_button_add_ok_clicked,
-            "on_button_add_cancel_clicked": self.on_button_add_cancel_clicked
+            "on_button_add_cancel_clicked": self.on_button_add_cancel_clicked,
+            "on_edit_trackers_dialog_configure_event": self.on_edit_trackers_dialog_configure_event
         })
 
         # Create a liststore for tier, url
@@ -91,6 +97,19 @@ class EditTrackersDialog:
 
         self.deferred = defer.Deferred()
         return self.deferred
+
+    def __del__(self):
+        del self.gtkui_config
+
+    def load_edit_trackers_dialog_state(self):
+        w = self.gtkui_config["edit_trackers_dialog_width"]
+        h = self.gtkui_config["edit_trackers_dialog_height"]
+        if w is not None and h is not None:
+            self.dialog.resize(w, h)
+
+    def on_edit_trackers_dialog_configure_event(self, widget, event):
+        self.gtkui_config["edit_trackers_dialog_width"] = event.width
+        self.gtkui_config["edit_trackers_dialog_height"] = event.height
 
     def _on_delete_event(self, widget, event):
         self.deferred.callback(gtk.RESPONSE_DELETE_EVENT)
