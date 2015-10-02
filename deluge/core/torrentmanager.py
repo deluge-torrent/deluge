@@ -271,9 +271,7 @@ class TorrentManager(component.Component):
             filepath (str): The filepath to extract torrent info from.
 
         Returns:
-            lt.torrent_info : A libtorrent torrent_info dict.
-
-            Returns None if file or data are not valid
+            lt.torrent_info : A libtorrent torrent_info dict or None if invalid file or data.
         """
         # Get the torrent data from the torrent file
         if log.isEnabledFor(logging.DEBUG):
@@ -300,9 +298,10 @@ class TorrentManager(component.Component):
             resume_data (lt.entry, optional): libtorrent fast resume data.
 
         Returns:
-            str: The torrent_id of the added torrent.
+            str: If successful the torrent_id of the added torrent, None if adding the torrent failed.
 
-            Returns None if adding was unsuccessful.
+        Emits:
+            TorrentAddedEvent: Torrent with torrent_id added to session.
 
         """
         if torrent_info is None and filedump is None and magnet is None:
@@ -448,6 +447,10 @@ class TorrentManager(component.Component):
 
         Returns:
             bool: True if removed successfully, False if not.
+
+        Emits:
+            PreTorrentRemovedEvent: Torrent is about to be removed from session.
+            TorrentRemovedEvent: Torrent with torrent_id removed from session.
 
         Raises:
             InvalidTorrentError: If the torrent_id is not in the session.
@@ -686,8 +689,7 @@ class TorrentManager(component.Component):
                 issue with file timestamps, defaults to False. This is only needed when stopping the session.
 
         Returns:
-            t.i.d.DeferredList: A list of twisted Deferred callbacks that will
-            be invoked when save is complete.
+            t.i.d.DeferredList: A list of twisted Deferred callbacks to be invoked when save is complete.
 
         """
         if torrent_ids is None:
