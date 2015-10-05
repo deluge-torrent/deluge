@@ -202,6 +202,8 @@ class TorrentManager(component.Component):
             self.on_alert_file_error)
         self.alerts.register_handler("file_completed_alert",
             self.on_alert_file_completed)
+        self.alerts.register_handler("fastresume_rejected_alert",
+            self.on_alert_fastresume_rejected)
 
     def start(self):
         # Get the pluginmanager reference
@@ -490,6 +492,10 @@ class TorrentManager(component.Component):
             handle.queue_position_top()
 
         component.resume("AlertManager")
+
+        # Store the orignal resume_data, in case of errors.
+        if resume_data:
+            self.resume_data[torrent.torrent_id] = resume_data
 
         # Resume the torrent if needed
         if not options["add_paused"]:
@@ -1123,6 +1129,27 @@ class TorrentManager(component.Component):
 
         self.save_resume_data_file()
 
+    def on_alert_fastresume_rejected(self, alert):
+        """Alert handler for libtorrent fastresume_rejected_alert"""
+        alert_msg = decode_string(alert.message())
+        log.error("on_alert_fastresume_rejected: %s", alert_msg)
+        try:
+            torrent_id = str(alert.handle.info_hash())
+            torrent = self.torrents[torrent_id]
+        except (RuntimeError, KeyError):
+            return
+
+        if alert.error.value() == 134:
+            if not os.path.isdir(torrent.options["download_location"]):
+                error_msg = "Unable to locate Download Folder!"
+            else:
+                error_msg = "Missing or invalid torrent data!"
+        else:
+            error_msg = "Problem with resume data: %s" % alert_msg.split(":", 1)[1].strip()
+
+        torrent.set_status_message("Error: " + error_msg)
+        torrent.pause()
+        torrent.update_state()
 
     def on_alert_file_renamed(self, alert):
         log.debug("on_alert_file_renamed")
