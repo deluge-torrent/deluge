@@ -205,6 +205,10 @@ class TorrentManager(component.Component):
         self.alerts.register_handler("fastresume_rejected_alert",
             self.on_alert_fastresume_rejected)
 
+        # Define timers
+        self.save_state_timer = LoopingCall(self.save_state)
+        self.save_resume_data_timer = LoopingCall(self.save_resume_data)
+
     def start(self):
         # Get the pluginmanager reference
         self.plugins = component.get("CorePluginManager")
@@ -212,14 +216,12 @@ class TorrentManager(component.Component):
         # Run the old state upgrader before loading state
         deluge.core.oldstateupgrader.OldStateUpgrader()
 
-        # Try to load the state from file
+        # Try to load the state from file.
         self.load_state()
 
-        # Save the state every 5 minutes
-        self.save_state_timer = LoopingCall(self.save_state)
+        # Save the state and resume data every ~3 minutes.
         self.save_state_timer.start(200, False)
-        self.save_resume_data_timer = LoopingCall(self.save_resume_data)
-        self.save_resume_data_timer.start(190)
+        self.save_resume_data_timer.start(190, False)
 
     def stop(self):
         # Stop timers
@@ -682,6 +684,8 @@ class TorrentManager(component.Component):
         for torrent in self.torrents.values():
             if self.session.is_paused():
                 paused = torrent.handle.is_paused()
+            elif torrent.forced_error:
+                paused = torrent.forced_error.was_paused
             elif torrent.state == "Paused":
                 paused = True
             else:
@@ -1147,9 +1151,7 @@ class TorrentManager(component.Component):
         else:
             error_msg = "Problem with resume data: %s" % alert_msg.split(":", 1)[1].strip()
 
-        torrent.set_status_message("Error: " + error_msg)
-        torrent.pause()
-        torrent.update_state()
+        torrent.force_error_state(error_msg, restart_to_resume=True)
 
     def on_alert_file_renamed(self, alert):
         log.debug("on_alert_file_renamed")

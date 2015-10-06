@@ -98,6 +98,14 @@ class TorrentOptions(dict):
         self["file_priorities"] = []
         self["mapped_files"] = {}
 
+
+class TorrentError(object):
+    def __init__(self, error_message, was_paused=False, restart_to_resume=False):
+        self.error_message = error_message
+        self.was_paused = was_paused
+        self.restart_to_resume = restart_to_resume
+
+
 class Torrent(object):
     """Torrent holds information about torrents added to the libtorrent session.
     """
@@ -188,10 +196,13 @@ class Torrent(object):
         # Various torrent options
         self.handle.resolve_countries(True)
 
-        self.set_options(self.options)
+        # Details of torrent forced into error state (i.e. not by libtorrent).
+        self.forced_error = None
 
         # Status message holds error info about the torrent
         self.statusmsg = "OK"
+
+        self.set_options(self.options)
 
         # The torrents state
         self.update_state()
@@ -391,7 +402,11 @@ class Torrent(object):
 
         # First we check for an error from libtorrent, and set the state to that
         # if any occurred.
-        if len(self.handle.status().error) > 0:
+        if self.forced_error:
+            self.state = "Error"
+            log.debug("Torrent Error state message: %s", self.forced_error.error_message)
+            self.set_status_message("Error: " + self.forced_error.error_message)
+        elif len(self.handle.status().error) > 0:
             # This is an error'd torrent
             self.state = "Error"
             self.set_status_message(self.handle.status().error)
@@ -426,6 +441,37 @@ class Torrent(object):
 
     def set_status_message(self, message):
         self.statusmsg = message
+
+    def force_error_state(self, message, restart_to_resume=True):
+        """Forces the torrent into an error state.
+
+        For setting an error state not covered by libtorrent.
+
+        Args:
+            message (str): The error status message.
+            restart_to_resume (bool, optional): Prevent resuming clearing the error, only restarting
+                session can resume.
+        """
+        status = self.handle.status()
+        self.handle.auto_managed(False)
+        self.forced_error = TorrentError(message, status.paused, restart_to_resume)
+        if not status.paused:
+            self.handle.pause()
+        self.update_state()
+
+    def clear_forced_error_state(self, update_state=True):
+        if not self.forced_error:
+            return
+
+        if self.forced_error.restart_to_resume:
+            log.error("Restart deluge to clear this torrent error")
+
+        if not self.forced_error.was_paused and self.options["auto_managed"]:
+            self.handle.auto_managed(True)
+        self.forced_error = None
+        self.set_status_message("OK")
+        if update_state:
+            self.update_state()
 
     def get_eta(self):
         """Returns the ETA in seconds for this torrent"""
@@ -782,6 +828,8 @@ class Torrent(object):
 
     def pause(self):
         """Pause this torrent"""
+        if self.state == "Error":
+            return False
         # Turn off auto-management so the torrent will not be unpaused by lt queueing
         self.handle.auto_managed(False)
         if self.handle.is_paused():
@@ -806,6 +854,8 @@ class Torrent(object):
         if self.handle.is_paused() and self.handle.is_auto_managed():
             log.debug("Torrent is being auto-managed, cannot resume!")
             return
+        elif self.forced_error and self.forced_error.was_paused:
+            log.debug("Skip resuming Error state torrent that was originally paused.")
         else:
             # Reset the status message just in case of resuming an Error'd torrent
             self.set_status_message("OK")
@@ -828,6 +878,9 @@ class Torrent(object):
                 pass
 
             return True
+
+        if self.forced_error and not self.forced_error.restart_to_resume:
+            self.clear_forced_error_state()
 
     def connect_peer(self, ip, port):
         """adds manual peer"""
@@ -874,8 +927,12 @@ class Torrent(object):
     def save_resume_data(self):
         """Signals libtorrent to build resume data for this torrent, it gets
         returned in a libtorrent alert"""
-        self.handle.save_resume_data()
-        self.waiting_on_resume_data = True
+        # Don't generate fastresume data if torrent is in a Deluge Error state.
+        if self.forced_error:
+            log.debug("Skipped creating resume_data while in Error state")
+        else:
+            self.handle.save_resume_data()
+            self.waiting_on_resume_data = True
 
     def on_metadata_received(self):
         if self.options["prioritize_first_last_pieces"]:
@@ -933,7 +990,11 @@ class Torrent(object):
     def force_recheck(self):
         """Forces a recheck of the torrents pieces"""
         self.forcing_recheck = True
-        self.forcing_recheck_paused = self.handle.is_paused()
+        if self.forced_error:
+            self.forcing_recheck_paused = self.forced_error.was_paused
+            self.clear_forced_error_state(update_state=False)
+        else:
+            self.forcing_recheck_paused = self.handle.is_paused()
         # Store trackers for paused torrents to prevent unwanted announce before pausing again.
         if self.forcing_recheck_paused:
             self.set_trackers(None, reannounce=False)
