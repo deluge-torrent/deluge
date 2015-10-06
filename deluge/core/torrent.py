@@ -853,7 +853,6 @@ class Torrent(object):
 
         if self.handle.is_paused() and self.handle.is_auto_managed():
             log.debug("Torrent is being auto-managed, cannot resume!")
-            return
         elif self.forced_error and self.forced_error.was_paused:
             log.debug("Skip resuming Error state torrent that was originally paused.")
         else:
@@ -881,6 +880,8 @@ class Torrent(object):
 
         if self.forced_error and not self.forced_error.restart_to_resume:
             self.clear_forced_error_state()
+        elif self.state == "Error" and not self.forced_error:
+            self.handle.clear_error()
 
     def connect_peer(self, ip, port):
         """adds manual peer"""
