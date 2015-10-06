@@ -32,8 +32,35 @@
 
 Ext.namespace('Deluge.add');
 
-Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
+// This override allows file upload buttons to contain icons
+Ext.override(Ext.ux.form.FileUploadField, {
+    onRender : function(ct, position){
+        Ext.ux.form.FileUploadField.superclass.onRender.call(this, ct, position);
 
+        this.wrap = this.el.wrap({cls:'x-form-field-wrap x-form-file-wrap'});
+        this.el.addClass('x-form-file-text');
+        this.el.dom.removeAttribute('name');
+        this.createFileInput();
+
+        var btnCfg = Ext.applyIf(this.buttonCfg || {}, {
+            text: this.buttonText
+        });
+        this.button = new Ext.Button(Ext.apply(btnCfg, {
+            renderTo: this.wrap,
+            cls: 'x-form-file-btn' + (btnCfg.iconCls ? ' x-btn-text-icon' : '')
+        }));
+
+        if(this.buttonOnly){
+            this.el.hide();
+            this.wrap.setWidth(this.button.getEl().getWidth());
+        }
+
+        this.bindListeners();
+        this.resizeEl = this.positionEl = this.wrap;
+    }
+});
+
+Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
     title: _('Add Torrents'),
     layout: 'border',
     width: 470,
@@ -94,10 +121,25 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
             margins: '5 5 5 5',
             bbar: new Ext.Toolbar({
                 items: [{
-                    iconCls: 'x-deluge-add-file',
-                    text: _('File'),
-                    handler: this.onFile,
-                    scope: this
+                    id: 'fileUploadForm',
+                    xtype: 'form',
+                    layout: 'fit',
+                    baseCls: 'x-plain',
+                    fileUpload: true,
+                    items: [{
+                        buttonOnly: true,
+                        xtype: 'fileuploadfield',
+                        id: 'torrentFile',
+                        name: 'file',
+                        buttonCfg: {
+                            iconCls: 'x-deluge-add-file',
+                            text: _('File')
+                        },
+                        listeners: {
+                            scope: this,
+                            'fileselected': this.onFileSelected
+                        }
+                    }]
                 }, {
                     text: _('Url'),
                     iconCls: 'icon-add-url',
@@ -117,6 +159,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
             })
         });
 
+        this.fileUploadForm = Ext.getCmp('fileUploadForm').getForm();
         this.optionsPanel = this.add(new Deluge.add.OptionsPanel());
         this.on('hide', this.onHide, this);
         this.on('show', this.onShow, this);
@@ -125,6 +168,8 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
     clear: function() {
         this.list.getStore().removeAll();
         this.optionsPanel.clear();
+        // Reset upload form so handler fires when a canceled file is reselected
+        this.fileUploadForm.reset();
     },
 
     onAddClick: function() {
@@ -141,7 +186,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
         deluge.client.web.add_torrents(torrents, {
             success: function(result) {
             }
-        })
+        });
         this.clear();
         this.hide();
     },
@@ -188,13 +233,39 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
             this.url.on('add', this.onTorrentAdd, this);
         }
 
-        if (!this.file) {
-            this.file = new Deluge.add.FileWindow();
-            this.file.on('beforeadd', this.onTorrentBeforeAdd, this);
-            this.file.on('add', this.onTorrentAdd, this);
-        }
-
         this.optionsPanel.form.getDefaults();
+    },
+
+    onFileSelected: function() {
+        if (this.fileUploadForm.isValid()) {
+            this.torrentId = this.createTorrentId();
+            this.fileUploadForm.submit({
+                url: deluge.config.base + 'upload',
+                waitMsg: _('Uploading your torrent...'),
+                success: this.onUploadSuccess,
+                scope: this
+            });
+            var name = this.fileUploadForm.findField('torrentFile').value;
+            name = name.split('\\').slice(-1)[0];
+            this.onTorrentBeforeAdd(this.torrentId, name);
+        }
+    },
+
+    onUploadSuccess: function(fp, upload) {
+        if (upload.result.success) {
+            var filename = upload.result.files[0];
+            this.fileUploadForm.findField('torrentFile').setValue('');
+            deluge.client.web.get_torrent_info(filename, {
+                success: this.onGotInfo,
+                scope: this,
+                filename: filename
+            });
+        }
+    },
+
+    onGotInfo: function(info, obj, response, request) {
+        info.filename = request.options.filename;
+        this.onTorrentAdd(this.torrentId, info);
     },
 
     onTorrentBeforeAdd: function(torrentId, text) {
