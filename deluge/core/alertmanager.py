@@ -74,7 +74,8 @@ class AlertManager(component.Component):
 
     def stop(self):
         for dc in self.delayed_calls:
-            dc.cancel()
+            if dc.active():
+                dc.cancel()
         self.delayed_calls = []
 
     def register_handler(self, alert_type, handler):
