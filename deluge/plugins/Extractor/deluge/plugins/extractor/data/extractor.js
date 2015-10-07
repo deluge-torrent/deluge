@@ -62,7 +62,7 @@ Deluge.ux.preferences.ExtractorPage = Ext.extend(Ext.Panel, {
 
     onApply: function() {
         // build settings object
-        var config = {}
+        var config = {};
 
         config['extract_path'] = this.extract_path.getValue();
         config['use_name_folder'] = this.use_name_folder.getValue();

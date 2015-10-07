@@ -136,7 +136,7 @@ Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
                 'complete': _('Torrent Complete'),
                 'added': _('Torrent Added'),
                 'removed': _('Torrent Removed')
-            }
+            };
 
         this.list = new Ext.list.ListView({
             store: new Ext.data.SimpleStore({
