@@ -170,7 +170,7 @@ class PluginManagerBase:
         if not self.pkg_env[name]:
             log.warn("Failed to retrive info for plugin '%s'" % name)
             for k in info:
-                info[k] = _("Not available")
+                info[k] = "not available"
             return info
         for line in self.pkg_env[name][0].get_metadata("PKG-INFO").splitlines():
             if not line:
