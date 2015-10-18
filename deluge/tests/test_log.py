@@ -1,22 +1,32 @@
-import logging
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2015 Calum Lind <calumlind@gmail.com>
+# Copyright (C) 2010 Pedro Algarvio <ufs@ufsoft.org>
+#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
+#
 
-from twisted.internet import defer
-from twisted.trial import unittest
+import logging
+import warnings
 
 from deluge.log import setup_logger
 
+from .basetest import BaseTestCase
 
-class LogTestCase(unittest.TestCase):
-    def setUp(self):  # NOQA
+
+class LogTestCase(BaseTestCase):
+    def set_up(self):
         setup_logger(logging.DEBUG)
 
-    def tearDown(self):  # NOQA
+    def tear_down(self):
         setup_logger("none")
 
     def test_old_log_deprecation_warning(self):
-        import warnings
         from deluge.log import LOG
-        d = defer.Deferred()
-        d.addCallback(LOG.debug, "foo")
-        self.assertFailure(d, DeprecationWarning)
-        warnings.resetwarnings()
+        with warnings.catch_warnings(record=True) as w:
+            # Cause all warnings to always be triggered.
+            warnings.simplefilter("always")
+            LOG.debug("foo")
+            self.assertEqual(w[-1].category, DeprecationWarning)
