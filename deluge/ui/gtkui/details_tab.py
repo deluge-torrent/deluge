@@ -7,8 +7,8 @@
 # See LICENSE for more details.
 #
 
-import cgi
 import logging
+from xml.sax.saxutils import escape as xml_escape
 
 import deluge.component as component
 from deluge.common import fdate, fsize, is_url
@@ -93,9 +93,9 @@ class DetailsTab(Tab):
                 txt = widget[1](*args)
             else:
                 txt = status[widget[2][0]]
+            txt = xml_escape(txt)
 
             if widget[0].get_text() != txt:
-                txt = cgi.escape(txt)
                 if widget[2][0] == "comment" and is_url(txt):
                     widget[0].set_markup('<a href="%s">%s</a>' % (txt, txt))
                 else:
