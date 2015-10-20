@@ -188,7 +188,7 @@ class StatusBar(component.Component):
             self._on_dht(configs["dht"])
         # Get some config values
         client.core.get_config_values(["max_connections_global", "max_download_speed",
-                                      "max_upload_speed", "dht"]).addCallback(update_config_values)
+                                       "max_upload_speed", "dht"]).addCallback(update_config_values)
 
     def stop(self):
         # When stopped, we just show the not connected thingy

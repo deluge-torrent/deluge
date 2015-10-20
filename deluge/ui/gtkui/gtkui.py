@@ -59,8 +59,11 @@ log = logging.getLogger(__name__)
 try:
     from setproctitle import setproctitle, getproctitle
 except ImportError:
-    setproctitle = lambda t: None
-    getproctitle = lambda: None
+    def setproctitle(title):
+        return
+
+    def getproctitle():
+        return
 
 
 class Gtk(_UI):
@@ -364,93 +367,93 @@ class GtkUI(object):
             self.__start_non_classic()
 
     def __start_non_classic(self):
-            # Autoconnect to a host
-            if self.config["autoconnect"]:
+        # Autoconnect to a host
+        if self.config["autoconnect"]:
 
-                def update_connection_manager():
-                    if not self.connectionmanager.running:
-                        return
-                    self.connectionmanager.builder.get_object("button_refresh").emit("clicked")
+            def update_connection_manager():
+                if not self.connectionmanager.running:
+                    return
+                self.connectionmanager.builder.get_object("button_refresh").emit("clicked")
 
-                def close_connection_manager():
-                    if not self.connectionmanager.running:
-                        return
-                    self.connectionmanager.builder.get_object("button_close").emit("clicked")
+            def close_connection_manager():
+                if not self.connectionmanager.running:
+                    return
+                self.connectionmanager.builder.get_object("button_close").emit("clicked")
 
-                for host_config in self.connectionmanager.config["hosts"]:
-                    hostid, host, port, user, passwd = host_config
-                    if hostid == self.config["autoconnect_host_id"]:
-                        try_connect = True
-                        # Check to see if we need to start the localhost daemon
-                        if self.config["autostart_localhost"] and host in ("localhost", "127.0.0.1"):
-                            log.debug("Autostarting localhost:%s", host)
-                            try_connect = client.start_daemon(
-                                port, get_config_dir()
-                            )
-                            log.debug("Localhost started: %s", try_connect)
-                            if not try_connect:
-                                ErrorDialog(
-                                    _("Error Starting Daemon"),
-                                    _("There was an error starting the daemon "
-                                      "process.  Try running it from a console "
-                                      "to see if there is an error.")
-                                ).run()
+            for host_config in self.connectionmanager.config["hosts"]:
+                hostid, host, port, user, passwd = host_config
+                if hostid == self.config["autoconnect_host_id"]:
+                    try_connect = True
+                    # Check to see if we need to start the localhost daemon
+                    if self.config["autostart_localhost"] and host in ("localhost", "127.0.0.1"):
+                        log.debug("Autostarting localhost:%s", host)
+                        try_connect = client.start_daemon(
+                            port, get_config_dir()
+                        )
+                        log.debug("Localhost started: %s", try_connect)
+                        if not try_connect:
+                            ErrorDialog(
+                                _("Error Starting Daemon"),
+                                _("There was an error starting the daemon "
+                                  "process.  Try running it from a console "
+                                  "to see if there is an error.")
+                            ).run()
 
-                            # Daemon Started, let's update it's info
-                            reactor.callLater(0.5, update_connection_manager)
+                        # Daemon Started, let's update it's info
+                        reactor.callLater(0.5, update_connection_manager)
 
-                        def on_connect(connector):
-                            component.start()
-                            reactor.callLater(0.2, update_connection_manager)
-                            reactor.callLater(0.5, close_connection_manager)
+                    def on_connect(connector):
+                        component.start()
+                        reactor.callLater(0.2, update_connection_manager)
+                        reactor.callLater(0.5, close_connection_manager)
 
-                        def on_connect_fail(reason, try_counter,
-                                            host, port, user, passwd):
-                            if not try_counter:
-                                return
+                    def on_connect_fail(reason, try_counter,
+                                        host, port, user, passwd):
+                        if not try_counter:
+                            return
 
-                            if reason.check(AuthenticationRequired, BadLoginError):
-                                log.debug("PasswordRequired exception")
-                                dialog = AuthenticationDialog(reason.value.message, reason.value.username)
+                        if reason.check(AuthenticationRequired, BadLoginError):
+                            log.debug("PasswordRequired exception")
+                            dialog = AuthenticationDialog(reason.value.message, reason.value.username)
 
-                                def dialog_finished(response_id, host, port):
-                                    if response_id == gtk.RESPONSE_OK:
-                                        reactor.callLater(
-                                            0.5, do_connect, try_counter - 1,
-                                            host, port, dialog.get_username(),
-                                            dialog.get_password())
-                                dialog.run().addCallback(dialog_finished, host, port)
-                                return
+                            def dialog_finished(response_id, host, port):
+                                if response_id == gtk.RESPONSE_OK:
+                                    reactor.callLater(
+                                        0.5, do_connect, try_counter - 1,
+                                        host, port, dialog.get_username(),
+                                        dialog.get_password())
+                            dialog.run().addCallback(dialog_finished, host, port)
+                            return
 
-                            log.info("Connection to host failed..")
-                            log.info("Retrying connection.. Retries left: "
-                                     "%s", try_counter)
-                            reactor.callLater(0.5, update_connection_manager)
-                            reactor.callLater(0.5, do_connect, try_counter - 1,
-                                              host, port, user, passwd)
+                        log.info("Connection to host failed..")
+                        log.info("Retrying connection.. Retries left: "
+                                 "%s", try_counter)
+                        reactor.callLater(0.5, update_connection_manager)
+                        reactor.callLater(0.5, do_connect, try_counter - 1,
+                                          host, port, user, passwd)
 
-                        def do_connect(try_counter, host, port, user, passwd):
-                            log.debug("Trying to connect to %s@%s:%s",
-                                      user, host, port)
-                            d = client.connect(host, port, user, passwd)
-                            d.addCallback(on_connect)
-                            d.addErrback(on_connect_fail, try_counter,
-                                         host, port, user, passwd)
+                    def do_connect(try_counter, host, port, user, passwd):
+                        log.debug("Trying to connect to %s@%s:%s",
+                                  user, host, port)
+                        d = client.connect(host, port, user, passwd)
+                        d.addCallback(on_connect)
+                        d.addErrback(on_connect_fail, try_counter,
+                                     host, port, user, passwd)
 
-                        if try_connect:
-                            reactor.callLater(
-                                0.5, do_connect, 6, host, port, user, passwd
-                            )
-                        break
+                    if try_connect:
+                        reactor.callLater(
+                            0.5, do_connect, 6, host, port, user, passwd
+                        )
+                    break
 
-            if self.config["show_connection_manager_on_start"]:
-                # XXX: We need to call a simulate() here, but this could be a bug in twisted
-                try:
-                    reactor._simulate()
-                except AttributeError:
-                    # twisted < 12
-                    reactor.simulate()
-                self.connectionmanager.show()
+        if self.config["show_connection_manager_on_start"]:
+            # XXX: We need to call a simulate() here, but this could be a bug in twisted
+            try:
+                reactor._simulate()
+            except AttributeError:
+                # twisted < 12
+                reactor.simulate()
+            self.connectionmanager.show()
 
     def __on_disconnect(self):
         """

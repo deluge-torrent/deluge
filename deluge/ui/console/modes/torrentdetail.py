@@ -346,8 +346,8 @@ class TorrentDetail(BaseMode, component.Component):
                     xchar = "-"
 
                 r = format_utils.format_row(["%s%s %s" % (" " * depth, xchar, fl[0]),
-                                            fsize(fl[2]), fl[5],
-                                            format_utils.format_priority(fl[6])],
+                                             fsize(fl[2]), fl[5],
+                                             format_utils.format_priority(fl[6])],
                                             self.column_widths)
 
                 self.add_string(off, "%s%s" % (color_string, r), trim=False)
@@ -617,9 +617,11 @@ class TorrentDetail(BaseMode, component.Component):
 
     # show popup for priority selections
     def show_priority_popup(self, was_empty):
-        func = lambda idx, data, we=was_empty: self.do_priority(idx, data, we)
+        def popup_func(idx, data, we=was_empty):
+            return self.do_priority(idx, data, we)
+
         if self.marked:
-            self.popup = SelectablePopup(self, "Set File Priority", func)
+            self.popup = SelectablePopup(self, "Set File Priority", popup_func)
             self.popup.add_line("_Do Not Download", data=FILE_PRIORITY["Do Not Download"], foreground="red")
             self.popup.add_line("_Normal Priority", data=FILE_PRIORITY["Normal Priority"])
             self.popup.add_line("_High Priority", data=FILE_PRIORITY["High Priority"], foreground="yellow")

@@ -1035,11 +1035,11 @@ class Preferences(component.Component):
                 shows.extend(["chk_proxy_host_resolve"])
             hides.extend(["entry_proxy_pass", "entry_proxy_user", "label_proxy_pass", "label_proxy_user"])
             shows.extend(["entry_proxy_host", "spin_proxy_port", "label_proxy_host",
-                         "label_proxy_port", "chk_proxy_peer_conn"])
+                          "label_proxy_port", "chk_proxy_peer_conn"])
         # 3:"Socks5 Auth", 5:"HTTP Auth"
         elif proxy_type in (3, 5):
             shows.extend(["entry_proxy_pass", "entry_proxy_user", "entry_proxy_host", "spin_proxy_port",
-                         "label_proxy_pass", "label_proxy_user", "label_proxy_host", "label_proxy_port",
+                          "label_proxy_pass", "label_proxy_user", "label_proxy_host", "label_proxy_port",
                           "chk_proxy_host_resolve", "chk_proxy_peer_conn"])
 
         for hide_entry in hides:

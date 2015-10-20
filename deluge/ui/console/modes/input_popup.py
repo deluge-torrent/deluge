@@ -827,11 +827,11 @@ class InputPopup(Popup):
 
     def add_select_input(self, message, name, opts, vals, default_index=0):
         self.inputs.append(SelectInput(self, message, name, opts, vals, default_index,
-                           additional_formatting=self.additional_formatting))
+                                       additional_formatting=self.additional_formatting))
 
     def add_checked_input(self, message, name, checked=False):
         self.inputs.append(CheckedInput(self, message, name, checked,
-                           additional_formatting=self.additional_formatting))
+                                        additional_formatting=self.additional_formatting))
 
     # def add_checked_plus_input(self, message, name, child)
 

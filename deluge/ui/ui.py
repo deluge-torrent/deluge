@@ -21,7 +21,8 @@ import deluge.log
 try:
     from setproctitle import setproctitle
 except ImportError:
-    setproctitle = lambda t: None
+    def setproctitle(title):
+        return
 
 
 def version_callback(option, opt_str, value, parser):

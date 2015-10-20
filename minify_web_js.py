@@ -34,7 +34,7 @@ if module_exists('closure'):
     def minify_closure(file_in, file_out):
         import subprocess
         subprocess.call(['closure', '--js', file_in, '--js_output_file', file_out,
-                        '-W', 'QUIET'])
+                         '-W', 'QUIET'])
 elif module_exists('slimit'):
     from slimit import minify
 elif module_exists('jsmin'):

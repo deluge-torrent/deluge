@@ -8,6 +8,6 @@
 #
 
 UI_PATH = __path__[0]
-from deluge.ui.console.main import start
+from deluge.ui.console.main import start  # NOQA
 
 assert start  # silence pyflakes

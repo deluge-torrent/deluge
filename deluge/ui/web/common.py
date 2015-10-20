@@ -12,7 +12,9 @@ import zlib
 
 from deluge import common
 
-_ = lambda x: gettext.gettext(x).decode("utf-8")
+
+def _(text):
+    gettext.gettext(text).decode("utf-8")
 
 
 def escape(text):

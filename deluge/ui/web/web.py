@@ -36,9 +36,9 @@ class Web(_UI):
                          help="Set the base path that the ui is running on (proxying)",
                          action="store", default=None)
         if not (deluge.common.windows_check() or deluge.common.osx_check()):
-                group.add_option("-d", "--do-not-daemonize", dest="donotdaemonize",
-                                 help="Do not daemonize the web interface",
-                                 action="store_true", default=False)
+            group.add_option("-d", "--do-not-daemonize", dest="donotdaemonize",
+                             help="Do not daemonize the web interface",
+                             action="store_true", default=False)
         group.add_option("-P", "--pidfile", dest="pidfile", type="str",
                          help="Use pidfile to store process id",
                          action="store", default=None)

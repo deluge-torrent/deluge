@@ -12,6 +12,8 @@
 
 # Minor modifications made by Andrew Resch to replace the BTFailure errors with Exceptions
 
+from types import DictType, IntType, ListType, LongType, StringType, TupleType
+
 
 def decode_int(x, f):
     f += 1
@@ -74,8 +76,6 @@ def bdecode(x):
         raise Exception("invalid bencoded value (data after valid prefix)")
 
     return r
-
-from types import DictType, IntType, ListType, LongType, StringType, TupleType
 
 
 class Bencached(object):

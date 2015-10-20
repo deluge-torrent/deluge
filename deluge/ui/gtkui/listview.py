@@ -574,7 +574,6 @@ class ListView:
     def add_bool_column(self, header, col_type=bool, hidden=False,
                         position=None, status_field=None, sortid=0,
                         column_type="bool", tooltip=None, default=True):
-
         """Add a bool column to the listview"""
         render = gtk.CellRendererToggle()
         self.add_column(header, render, col_type, hidden, position,

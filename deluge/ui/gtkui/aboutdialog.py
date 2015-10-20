@@ -32,8 +32,8 @@ class AboutDialog:
         self.about.set_copyright(
             _("Copyright %(year_start)s-%(year_end)s Deluge Team") % {"year_start": 2007, "year_end": 2015})
         self.about.set_comments(
-            _("A peer-to-peer file sharing program\nutilizing the BitTorrent protocol.")
-            + "\n\n" + _("Client:") + " %s\n" % version)
+            _("A peer-to-peer file sharing program\nutilizing the BitTorrent protocol.") +
+            "\n\n" + _("Client:") + " %s\n" % version)
         self.about.set_version(version)
         self.about.set_authors([
             _("Current Developers:"), "Andrew Resch", "Damien Churchill",

@@ -121,8 +121,9 @@ class SchedulerSelectWidget(gtk.DrawingArea):
         if self.get_point(event) != self.hover_point:
             self.hover_point = self.get_point(event)
 
-            self.hover_label.set_text(self.hover_days[self.hover_point[1]] + " " + str(self.hover_point[0])
-                                      + ":00 - " + str(self.hover_point[0]) + ":59")
+            self.hover_label.set_text(self.hover_days[self.hover_point[1]] +
+                                      " " + str(self.hover_point[0]) +
+                                      ":00 - " + str(self.hover_point[0]) + ":59")
 
             if self.mouse_press:
                 points = [[self.hover_point[0], self.start_point[0]], [self.hover_point[1], self.start_point[1]]]

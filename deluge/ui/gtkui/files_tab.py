@@ -373,7 +373,7 @@ class FilesTab(Tab):
                 ret += chunk_size
             else:
                 self.treestore.append(parent_iter, [key,
-                                      value[1]["size"], "", 0, 0, value[0], gtk.STOCK_FILE])
+                                                    value[1]["size"], "", 0, 0, value[0], gtk.STOCK_FILE])
                 ret += value[1]["size"]
         return ret
 
@@ -493,9 +493,9 @@ class FilesTab(Tab):
 
             paths = self.listview.get_selection().get_selected_rows()[1]
             if cursor_path[0] not in paths:
-                    row = self.treestore.get_iter(cursor_path[0])
-                    self.listview.get_selection().unselect_all()
-                    self.listview.get_selection().select_iter(row)
+                row = self.treestore.get_iter(cursor_path[0])
+                self.listview.get_selection().unselect_all()
+                self.listview.get_selection().select_iter(row)
 
             for widget in self.file_menu_priority_items:
                 widget.set_sensitive(not (self.__compact or self.__is_seed))

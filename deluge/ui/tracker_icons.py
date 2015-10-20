@@ -417,7 +417,7 @@ class TrackerIcons(Component):
         elif f.check(NoIconsError, HTMLParseError):
             # No icons, try favicon.ico as an act of desperation
             d = self.download_icon([(urljoin(self.host_to_url(host), "favicon.ico"),
-                                   extension_to_mimetype("ico"))], host)
+                                     extension_to_mimetype("ico"))], host)
             d.addCallbacks(self.on_download_icon_complete, self.on_download_icon_fail,
                            callbackArgs=(host,), errbackArgs=(host,))
         else:

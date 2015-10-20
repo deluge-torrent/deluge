@@ -254,7 +254,9 @@ def torrent_action(idx, data, mode, ids):
                         options[key] = "multiple"
 
             def create_popup(status):
-                cb = lambda result, ids=ids: _do_set_torrent_options(ids, result)
+                def cb(result, ids=ids):
+                    return _do_set_torrent_options(ids, result)
+
                 option_popup = InputPopup(mode, "Set torrent options (Esc to cancel)", close_cb=cb, height_req=22)
 
                 for (field, field_type) in torrent_options:

@@ -310,7 +310,7 @@ class MainWindow(component.Component):
             self.window.set_title("%s%s %s%s - Deluge" % (_("D:"), download_rate, _("U:"), upload_rate))
         if self.config["show_rate_in_title"]:
             client.core.get_session_status(["payload_download_rate",
-                                           "payload_upload_rate"]).addCallback(_on_get_session_status)
+                                            "payload_upload_rate"]).addCallback(_on_get_session_status)
 
     def _on_set_show_rate_in_title(self, key, value):
         if value:

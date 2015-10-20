@@ -87,8 +87,7 @@ class Win32IcoFile(object):
         # end for (read headers)
 
         # order by size and color depth
-        self.entry.sort(lambda x, y: cmp(x['width'], y['width'])
-                        or cmp(x['color_depth'], y['color_depth']))
+        self.entry.sort(lambda x, y: cmp(x['width'], y['width']) or cmp(x['color_depth'], y['color_depth']))
         self.entry.reverse()
 
     def sizes(self):

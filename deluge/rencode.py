@@ -1,27 +1,3 @@
-
-"""
-rencode -- Web safe object pickling/unpickling.
-
-Public domain, Connelly Barnes 2006-2007.
-
-The rencode module is a modified version of bencode from the
-BitTorrent project.  For complex, heterogeneous data structures with
-many small elements, r-encodings take up significantly less space than
-b-encodings:
-
- >>> len(rencode.dumps({'a':0, 'b':[1,2], 'c':99}))
- 13
- >>> len(bencode.bencode({'a':0, 'b':[1,2], 'c':99}))
- 26
-
-The rencode format is not standardized, and may change with different
-rencode module versions, so you should check that you are using the
-same rencode version throughout your project.
-"""
-
-__version__ = '1.0.2'
-__all__ = ['dumps', 'loads']
-
 # Original bencode module by Petru Paler, et al.
 #
 # Modifications by Connelly Barnes:
@@ -62,9 +38,32 @@ __all__ = ['dumps', 'loads']
 # (The rencode module is licensed under the above license as well).
 #
 
+"""
+rencode -- Web safe object pickling/unpickling.
+
+Public domain, Connelly Barnes 2006-2007.
+
+The rencode module is a modified version of bencode from the
+BitTorrent project.  For complex, heterogeneous data structures with
+many small elements, r-encodings take up significantly less space than
+b-encodings:
+
+ >>> len(rencode.dumps({'a':0, 'b':[1,2], 'c':99}))
+ 13
+ >>> len(bencode.bencode({'a':0, 'b':[1,2], 'c':99}))
+ 26
+
+The rencode format is not standardized, and may change with different
+rencode module versions, so you should check that you are using the
+same rencode version throughout your project.
+"""
+
 import struct
 from threading import Lock
 from types import DictType, FloatType, IntType, ListType, LongType, NoneType, StringType, TupleType, UnicodeType
+
+__version__ = '1.0.2'
+__all__ = ['dumps', 'loads']
 
 # Default number of bits for serialized floats, either 32 or 64 (also a parameter for dumps()).
 DEFAULT_FLOAT_BITS = 32
@@ -414,8 +413,8 @@ def test():
     f2 = struct.unpack('!f', struct.pack('!f', 29.3))[0]
     f3 = struct.unpack('!f', struct.pack('!f', -0.6))[0]
     ld = (({'a': 15, 'bb': f1, 'ccc': f2, '': (f3, (), False, True, '')}, ('a', 10 ** 20),
-          tuple(range(-100000, 100000)), 'b' * 31, 'b' * 62, 'b' * 64, 2 ** 30, 2 ** 33, 2 ** 62, 2 ** 64,
-          2 ** 30, 2 ** 33, 2 ** 62, 2 ** 64, False, False, True, -1, 2, 0),)
+           tuple(range(-100000, 100000)), 'b' * 31, 'b' * 62, 'b' * 64, 2 ** 30, 2 ** 33, 2 ** 62, 2 ** 64,
+           2 ** 30, 2 ** 33, 2 ** 62, 2 ** 64, False, False, True, -1, 2, 0),)
     assert loads(dumps(ld)) == ld
     d = dict(zip(range(-100000, 100000), range(-100000, 100000)))
     d.update({'a': 20, 20: 40, 40: 41, f1: f2, f2: f3, f3: False, False: True, True: False})

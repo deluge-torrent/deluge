@@ -557,8 +557,11 @@ class AllTorrents(BaseMode, component.Component):
             if field in first_element:
                 is_string = isinstance(first_element[field], basestring)
 
-                sort_key = lambda s: sg(s)[field]
-                sort_key2 = lambda s: sg(s)[field].lower()
+                def sort_key(s):
+                    return sg(s)[field]
+
+                def sort_key2(s):
+                    return sg(s)[field].lower()
 
                 # If it's a string, sort case-insensitively but preserve A>a order
                 if is_string:
@@ -1120,10 +1123,8 @@ class AllTorrents(BaseMode, component.Component):
                 self.search_string += uchar
 
             still_matching = (
-                cname.lower().find(self.search_string.lower())
-                ==
-                cname.lower().find(old_search_string.lower())
-                and
+                cname.lower().find(self.search_string.lower()) ==
+                cname.lower().find(old_search_string.lower()) and
                 cname.lower().find(self.search_string.lower()) != -1
             )
 

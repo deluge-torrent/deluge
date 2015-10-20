@@ -200,7 +200,9 @@ class Command(BaseCommand):
             col_priority += fp
 
             rf = format_utils.remove_formatting
-            tlen = lambda s: strwidth(rf(s))
+
+            def tlen(s):
+                return strwidth(rf(s))
 
             if not isinstance(col_filename, unicode):
                 col_filename = unicode(col_filename, "utf-8")

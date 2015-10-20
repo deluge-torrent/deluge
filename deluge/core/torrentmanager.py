@@ -379,10 +379,10 @@ class TorrentManager(component.Component):
                          lt.add_torrent_params_flags_t.flag_update_subscribe |
                          lt.add_torrent_params_flags_t.flag_apply_ip_filter)
         # Set flags: enable duplicate_is_error & override_resume_data, disable auto_managed.
-        add_torrent_params["flags"] = ((default_flags
-                                       | lt.add_torrent_params_flags_t.flag_duplicate_is_error
-                                       | lt.add_torrent_params_flags_t.flag_override_resume_data)
-                                       ^ lt.add_torrent_params_flags_t.flag_auto_managed)
+        add_torrent_params["flags"] = ((default_flags |
+                                        lt.add_torrent_params_flags_t.flag_duplicate_is_error |
+                                        lt.add_torrent_params_flags_t.flag_override_resume_data) ^
+                                       lt.add_torrent_params_flags_t.flag_auto_managed)
         if options["seed_mode"]:
             add_torrent_params["flags"] |= lt.add_torrent_params_flags_t.flag_seed_mode
 

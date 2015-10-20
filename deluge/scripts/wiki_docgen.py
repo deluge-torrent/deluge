@@ -28,8 +28,8 @@ print("\n\n")
 
 if 0:  # aclient non-core
     methods = sorted([m for m in dir(aclient) if not m.startswith('_')
-                     if m not in ['add_torrent_file', 'has_callback', 'get_method', 'methodHelp',
-                                  'methodSignature', 'list_methods', 'add_torrent_file_binary']])
+                      if m not in ['add_torrent_file', 'has_callback', 'get_method', 'methodHelp',
+                                   'methodSignature', 'list_methods', 'add_torrent_file_binary']])
 
     for m in methods:
         func = getattr(aclient, m)
@@ -45,8 +45,8 @@ if 0:  # aclient non-core
         print("%s" % pydoc.getdoc(func))
 
 if 1:  # baseclient/core
-    methods = sorted([m for m in dir(Core) if m.startswith("export")]
-                     + ['export_add_torrent_file_binary'])  # HACK
+    methods = sorted([m for m in dir(Core) if m.startswith("export")] +
+                     ['export_add_torrent_file_binary'])  # HACK
 
     for m in methods:
 

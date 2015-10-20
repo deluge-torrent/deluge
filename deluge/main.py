@@ -203,7 +203,7 @@ def start_daemon():
     # Write pid file before chuid
     if options.pidfile:
         with open(options.pidfile, "wb") as _file:
-                _file.write("%s\n" % os.getpid())
+            _file.write("%s\n" % os.getpid())
 
     if not deluge.common.windows_check():
         if options.user:

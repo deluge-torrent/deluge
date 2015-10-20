@@ -177,7 +177,9 @@ class PreferencesManager(component.Component):
         if value:
             import random
             listen_ports = []
-            randrange = lambda: random.randrange(49152, 65525)
+
+            def randrange():
+                return random.randrange(49152, 65525)
             listen_ports.append(randrange())
             listen_ports.append(listen_ports[0] + 10)
         else:

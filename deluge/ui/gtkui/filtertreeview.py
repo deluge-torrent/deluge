@@ -126,7 +126,7 @@ class FilterTreeView(component.Component):
             self.update_row("state", state, 0, _(state))
 
         self.cat_nodes["tracker_host"] = self.treestore.append(None, ["cat", "tracker_host",
-                                                               _("Trackers"), 0, None, False])
+                                                                      _("Trackers"), 0, None, False])
         self.update_row("tracker_host", "All", 0, _("All"))
         self.update_row("tracker_host", "Error", 0, _("Error"))
         self.update_row("tracker_host", "", 0, _("None"))
