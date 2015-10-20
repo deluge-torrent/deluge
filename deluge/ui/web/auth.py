@@ -15,9 +15,10 @@ from datetime import datetime, timedelta
 from email.utils import formatdate
 from functools import reduce
 
+from twisted.internet.task import LoopingCall
+
 from deluge import component
 from deluge.common import utf8_encoded
-from twisted.internet.task import LoopingCall
 
 log = logging.getLogger(__name__)
 
