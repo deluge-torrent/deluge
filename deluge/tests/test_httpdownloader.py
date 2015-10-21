@@ -93,21 +93,17 @@ class DownloadFileTestCase(unittest.TestCase):
 
     def setUp(self):  # NOQA
         setup_logger("warning", fname("log_file"))
-        self.website = Site(TopLevelResource())
+        website = Site(TopLevelResource())
         self.listen_port = 51242
-        tries = 10
-        error = None
-        while tries > 0:
+        for dummy in range(10):
             try:
-                self.webserver = reactor.listenTCP(self.listen_port, self.website)
+                self.webserver = reactor.listenTCP(self.listen_port, website)
             except CannotListenError as ex:
                 error = ex
                 self.listen_port += 1
-                tries -= 1
             else:
-                error = None
                 break
-        if error:
+        else:
             raise error
 
     def tearDown(self):  # NOQA

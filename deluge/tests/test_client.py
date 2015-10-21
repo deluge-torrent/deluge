@@ -68,19 +68,15 @@ class ClientTestCase(BaseTestCase):
 
     def set_up(self):
         self.listen_port = 58846
-        tries = 10
-        error = None
-        while tries > 0:
+        for dummy in range(10):
             try:
                 self.core = common.start_core(listen_port=self.listen_port)
             except CannotListenError as ex:
                 error = ex
                 self.listen_port += 1
-                tries -= 1
             else:
-                error = None
                 break
-        if error:
+        else:
             raise error
 
     def tear_down(self):

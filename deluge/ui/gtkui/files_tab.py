@@ -307,7 +307,7 @@ class FilesTab(Tab):
         self.torrent_id = None
 
     def _on_row_activated(self, tree, path, view_column):
-        self._on_menuitem_open_file_activate()
+        self._on_menuitem_open_file_activate(None)
 
     def get_file_path(self, row, path=""):
         if not row:

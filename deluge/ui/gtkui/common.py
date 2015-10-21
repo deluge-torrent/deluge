@@ -166,7 +166,7 @@ def associate_magnet_links(overwrite=False):
 
         try:
             hkey = _winreg.OpenKey(_winreg.HKEY_CLASSES_ROOT, "Magnet")
-        except WindowsError:
+        except WindowsError:  # pylint: disable=E0602
             overwrite = True
         else:
             _winreg.CloseKey(hkey)
@@ -175,7 +175,7 @@ def associate_magnet_links(overwrite=False):
             deluge_exe = os.path.join(os.path.dirname(sys.executable), "deluge.exe")
             try:
                 magnet_key = _winreg.CreateKey(_winreg.HKEY_CLASSES_ROOT, "Magnet")
-            except WindowsError:
+            except WindowsError:  # pylint: disable=E0602
                 # Could not create for all users, falling back to current user
                 magnet_key = _winreg.CreateKey(_winreg.HKEY_CURRENT_USER, "Software\\Classes\\Magnet")
 

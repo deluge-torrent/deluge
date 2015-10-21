@@ -310,7 +310,7 @@ class CreateTorrentDialog:
                 self._on_create_torrent_progress(piece_count, num_pieces)
                 if piece_count == num_pieces:
                     from twisted.internet import reactor
-                    reactor.callLater(0.5, torrent_created)  # pylint: disable-msg=E1101
+                    reactor.callLater(0.5, torrent_created)  # pylint: disable=E1101
 
             client.register_event_handler("CreateTorrentProgressEvent", on_create_torrent_progress_event)
 

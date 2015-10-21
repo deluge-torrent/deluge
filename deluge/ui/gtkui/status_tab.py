@@ -71,11 +71,7 @@ class StatusTab(Tab):
         self._child_widget = builder.get_object("status_tab")
         self._tab_label = builder.get_object("status_tab_label")
         self.config = ConfigManager("gtkui.conf")
-        self.config.register_set_function(
-            "show_piecesbar",
-            self.on_show_pieces_bar_config_changed,
-            apply_now=True
-        )
+
         self.label_widgets = [
             (builder.get_object("summary_availability"), fratio, ("distributed_copies",)),
             (builder.get_object("summary_total_downloaded"), fpeer_sized, ("all_time_download",
@@ -96,6 +92,9 @@ class StatusTab(Tab):
         ]
 
         self.status_keys = [status for widget in self.label_widgets for status in widget[2]]
+
+        self.piecesbar = None
+        self.config.register_set_function("show_piecesbar", self.on_show_piecesbar_config_changed, apply_now=True)
 
     def update(self):
         # Get the first selected torrent
@@ -145,24 +144,24 @@ class StatusTab(Tab):
             if self.progressbar.get_fraction() != fraction:
                 self.progressbar.set_fraction(fraction)
 
-    def on_show_pieces_bar_config_changed(self, key, show):
-        self.show_pieces_bar(show)
-
-    def show_pieces_bar(self, show):
-        if hasattr(self, 'piecesbar'):
-            if show:
-                self.piecesbar.show()
-                self.progressbar.hide()
-            else:
-                self.piecesbar.hide()
-                self.progressbar.show()
+    def on_show_piecesbar_config_changed(self, key, show):
+        if show:
+            self.show_piecesbar()
         else:
-            if show:
-                self.piecesbar = PiecesBar()
-                self.builder.get_object("status_progress_vbox").pack_start(
-                    self.piecesbar, False, False, 0
-                )
-                self.progressbar.hide()
+            self.hide_piecesbar()
+
+    def show_piecesbar(self):
+        if self.piecesbar is None:
+            self.piecesbar = PiecesBar()
+            self.builder.get_object("status_progress_vbox").pack_start(self.piecesbar, False, False, 0)
+        self.piecesbar.show()
+        self.progressbar.hide()
+
+    def hide_piecesbar(self):
+        self.progressbar.show()
+        if self.piecesbar:
+            self.piecesbar.hide()
+            self.piecesbar = None
 
     def clear(self):
         for widget in self.label_widgets:

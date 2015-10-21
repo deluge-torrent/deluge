@@ -525,7 +525,7 @@ what is currently in the config and it could not convert the value
         return self.__config_file
 
     @prop
-    def config():
+    def config():  # pylint: disable=E0211
         """The config dictionary"""
         def fget(self):
             return self.__config

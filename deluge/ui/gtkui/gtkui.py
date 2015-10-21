@@ -57,7 +57,7 @@ gobject.set_prgname("deluge")
 log = logging.getLogger(__name__)
 
 try:
-    from setproctitle import setproctitle, getproctitle
+    from setproctitle import setproctitle, getproctitle  # pylint: disable=E0611
 except ImportError:
     def setproctitle(title):
         return
@@ -167,7 +167,13 @@ class GtkUI(object):
 
             def on_die(*args):
                 reactor.stop()
-            self.gnome_client.connect("die", on_die)
+
+            if deluge.common.osx_check() and gtk.gdk.WINDOWING == "quartz":
+                import gtkosx_application
+                self.osxapp = gtkosx_application.gtkosx_application_get()
+                self.osxapp.connect("NSApplicationWillTerminate", on_die)
+            else:
+                self.gnome_client.connect("die", on_die)
             log.debug("GNOME session 'die' handler registered!")
         except Exception as ex:
             log.warning("Unable to register a 'die' handler with the GNOME session manager: %s", ex)
@@ -183,14 +189,6 @@ class GtkUI(object):
                     reactor.stop()
                     return 1
             SetConsoleCtrlHandler(win_handler)
-
-        if deluge.common.osx_check() and gtk.gdk.WINDOWING == "quartz":
-            import gtkosx_application
-            self.osxapp = gtkosx_application.gtkosx_application_get()
-
-            def on_die(*args):
-                reactor.stop()
-            self.osxapp.connect("NSApplicationWillTerminate", on_die)
 
         # Set process name again to fix gtk issue
         setproctitle(getproctitle())

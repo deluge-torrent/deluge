@@ -78,22 +78,17 @@ class CoreTestCase(BaseTestCase):
         return component.start().addCallback(self.start_web_server)
 
     def start_web_server(self, result):
-        self.website = Site(TopLevelResource())
-        tries = 10
-        error = None
-        while tries > 0:
+        website = Site(TopLevelResource())
+        for dummy in range(10):
             try:
-                self.webserver = reactor.listenTCP(self.listen_port, self.website)
+                self.webserver = reactor.listenTCP(self.listen_port, website)
             except CannotListenError as ex:
                 error = ex
                 self.listen_port += 1
-                tries -= 1
             else:
-                error = None
-                break
-        if error:
+                return result
+        else:
             raise error
-        return result
 
     def tear_down(self):
 
