@@ -14,7 +14,7 @@ from deluge import common
 
 
 def _(text):
-    gettext.gettext(text).decode("utf-8")
+    return gettext.gettext(text).decode("utf-8")
 
 
 def escape(text):
