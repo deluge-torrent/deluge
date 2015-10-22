@@ -524,14 +524,14 @@ class PathChooserPopup(object):
 
         """
         # Entry is not yet visible
-        if not (self.path_entry.flags() & gtk.REALIZED):
+        if not self.path_entry.flags() & gtk.REALIZED:
             return
         self.set_window_position_and_size()
 
     def popdown(self):
         if not self.is_popped_up():
             return
-        if not (self.path_entry.flags() & gtk.REALIZED):
+        if not self.path_entry.flags() & gtk.REALIZED:
             return
         self.popup_window.grab_remove()
         self.popup_window.hide_all()
@@ -751,7 +751,7 @@ class StoredValuesPopup(StoredValuesList, PathChooserPopup):
         PathChooserPopup.popup(self)
         self.popup_window.grab_focus()
 
-        if not (self.treeview.flags() & gtk.HAS_FOCUS):
+        if not self.treeview.flags() & gtk.HAS_FOCUS:
             self.treeview.grab_focus()
         if not self.popup_grab_window():
             self.popup_window.hide()
@@ -874,7 +874,7 @@ class PathCompletionPopup(CompletionList, PathChooserPopup):
         PathChooserPopup.popup(self)
         self.popup_window.grab_focus()
 
-        if not (self.treeview.flags() & gtk.HAS_FOCUS):
+        if not self.treeview.flags() & gtk.HAS_FOCUS:
             self.treeview.grab_focus()
 
         if not self.popup_grab_window():
@@ -931,7 +931,7 @@ class PathAutoCompleter(object):
         self.accelerator_string = gtk.accelerator_name(keysyms.Tab, 0)
 
     def on_entry_text_insert_text(self, entry, new_text, new_text_length, position):
-        if (self.path_entry.flags() & gtk.REALIZED):
+        if self.path_entry.flags() & gtk.REALIZED:
             cur_text = self.path_entry.get_text()
             pos = entry.get_position()
             new_complete_text = cur_text[:pos] + new_text + cur_text[pos:]

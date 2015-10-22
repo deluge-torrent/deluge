@@ -387,17 +387,17 @@ class AllTorrents(BaseMode, component.Component):
     def __update_columns(self):
         self.column_widths = [self.config["%s_width" % c] for c in self.__cols_to_show]
         req = sum(filter(lambda x: x >= 0, self.column_widths))
-        if (req > self.cols):  # can't satisfy requests, just spread out evenly
+        if req > self.cols:  # can't satisfy requests, just spread out evenly
             cw = int(self.cols / len(self.__columns))
             for i in range(0, len(self.column_widths)):
                 self.column_widths[i] = cw
         else:
             rem = self.cols - req
             var_cols = len(filter(lambda x: x < 0, self.column_widths))
-            if (var_cols > 0):
+            if var_cols > 0:
                 vw = int(rem / var_cols)
                 for i in range(0, len(self.column_widths)):
-                    if (self.column_widths[i] < 0):
+                    if self.column_widths[i] < 0:
                         self.column_widths[i] = vw
 
         self.column_string = "{!header!}"
@@ -450,14 +450,14 @@ class AllTorrents(BaseMode, component.Component):
     def _scroll_up(self, by):
         prevoff = self.curoff
         self.cursel = max(self.cursel - by, 1)
-        if ((self.cursel - 1) < self.curoff):
+        if (self.cursel - 1) < self.curoff:
             self.curoff = max(self.cursel - 1, 1)
         return prevoff != self.curoff
 
     def _scroll_down(self, by):
         prevoff = self.curoff
         self.cursel = min(self.cursel + by, self.numtorrents)
-        if ((self.curoff + self.rows - 5) < self.cursel):
+        if (self.curoff + self.rows - 5) < self.cursel:
             self.curoff = self.cursel - self.rows + 5
         return prevoff != self.curoff
 
@@ -474,7 +474,7 @@ class AllTorrents(BaseMode, component.Component):
         return ret
 
     def _on_torrent_status(self, state):
-        if (self.popup):
+        if self.popup:
             self.popup.clear()
             name = state["name"]
             self.popup.set_title(name)
@@ -589,7 +589,7 @@ class AllTorrents(BaseMode, component.Component):
         return result
 
     def _format_queue(self, qnum):
-        if (qnum >= 0):
+        if qnum >= 0:
             return "%d" % (qnum + 1)
         else:
             return ""
@@ -963,7 +963,7 @@ class AllTorrents(BaseMode, component.Component):
                     pass
                 tidx += 1
                 currow += 1
-                if (currow > (self.rows - 2)):
+                if currow > (self.rows - 2):
                     break
         else:
             self.add_string(1, "Waiting for torrents from core...")
@@ -1037,9 +1037,9 @@ class AllTorrents(BaseMode, component.Component):
                     skip -= 1
                     continue
                 self.cursel = (i + 1)
-                if ((self.curoff + self.rows - 5) < self.cursel):
+                if (self.curoff + self.rows - 5) < self.cursel:
                     self.curoff = self.cursel - self.rows + 5
-                elif ((self.curoff + 1) > self.cursel):
+                elif (self.curoff + 1) > self.cursel:
                     self.curoff = max(1, self.cursel - 1)
                 self.search_state = SEARCH_SUCCESS
                 return

@@ -16,28 +16,28 @@ import deluge.common
 
 
 def format_speed(speed):
-    if (speed > 0):
+    if speed > 0:
         return deluge.common.fspeed(speed)
     else:
         return "-"
 
 
 def format_time(time):
-    if (time > 0):
+    if time > 0:
         return deluge.common.ftime(time)
     else:
         return "-"
 
 
 def format_date(time):
-    if (time > 0):
+    if time > 0:
         return deluge.common.fdate(time)
     else:
         return ""
 
 
 def format_date_never(time):
-    if (time > 0):
+    if time > 0:
         return deluge.common.fdate(time)
     else:
         return "Never"
@@ -112,7 +112,7 @@ def format_column(col, lim):
         col = ud_normalize("NFC", col)
         dbls = sum(east_asian_width(c) in "WF" for c in col)
     size = len(col) + dbls
-    if (size >= lim - 1):
+    if size >= lim - 1:
         return trim_string(col, lim, dbls > 0)
     else:
         return "%s%s" % (col, " " * (lim - size))

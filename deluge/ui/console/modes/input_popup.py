@@ -503,7 +503,7 @@ class FloatSpinInput(InputField):
             self.need_update = True
             # Move the cursor forward
             self.cursor += 1
-        elif (c > 47 and c < 58):
+        elif c > 47 and c < 58:
             if (not self.real_value) and self.valstr:
                 self.valstr = ""
                 self.cursor = 0
@@ -875,7 +875,7 @@ class InputPopup(Popup):
                     crow += 1
             crow += ipt.render(self.screen, crow, self.width, i == self.current_input)
 
-        if (self.content_height > (self.height - 2)):
+        if self.content_height > (self.height - 2):
             lts = self.content_height - (self.height - 3)
             perc_sc = float(self.lineoff) / lts
             sb_pos = int((self.height - 2) * perc_sc) + 1

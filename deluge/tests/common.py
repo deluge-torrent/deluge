@@ -49,10 +49,10 @@ deluge.main.start_daemon()
     core = Popen([sys.executable], cwd=cwd, stdin=fp, stdout=PIPE, stderr=PIPE)
     while True:
         line = core.stderr.readline()
-        if ("starting on %d" % listen_port) in line:
+        if "starting on %d" % listen_port in line:
             time.sleep(0.3)  # Slight pause just incase
             break
-        elif ("Couldn't listen on localhost:%d" % listen_port) in line:
+        elif "Couldn't listen on localhost:%d" % listen_port in line:
             raise CannotListenError("localhost", listen_port, "Could not start deluge test client: %s" % line)
         elif 'Traceback' in line:
             raise SystemExit(

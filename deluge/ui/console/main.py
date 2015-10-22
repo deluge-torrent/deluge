@@ -91,7 +91,7 @@ def start():
     Console().start()
 
 
-class DelugeHelpFormatter (optparse.IndentedHelpFormatter):
+class DelugeHelpFormatter(optparse.IndentedHelpFormatter):
     """
     Format help in a way suited to deluge Legacy mode - colors, format, indentation...
     """

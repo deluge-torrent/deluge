@@ -516,7 +516,7 @@ class TorrentManager(component.Component):
             t_state_tmp = TorrentState()
             if dir(state.torrents[0]) != dir(t_state_tmp):
                 try:
-                    for attr in (set(dir(t_state_tmp)) - set(dir(state.torrents[0]))):
+                    for attr in set(dir(t_state_tmp)) - set(dir(state.torrents[0])):
                         for t_state in state.torrents:
                             if attr == "storage_mode" and getattr(t_state, "compact", None):
                                 setattr(t_state, attr, "compact")

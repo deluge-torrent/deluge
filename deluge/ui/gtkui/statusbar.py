@@ -364,11 +364,9 @@ class StatusBar(component.Component):
         self.traffic_item.set_text(label_string)
 
     def update(self):
-        # Send status request
         self.send_status_request()
 
     def set_limit_value(self, widget, core_key):
-        """ """
         log.debug("_on_set_unlimit_other %s", core_key)
         other_dialog_info = {
             "max_download_speed": (_("Download Speed Limit"), _("Set the maximum download speed"),

@@ -278,13 +278,13 @@ def fsize(fsize_b):
 
     """
     # Bigger than 1 GiB
-    if (fsize_b >= 1073741824):
+    if fsize_b >= 1073741824:
         return "%.1f %s" % (fsize_b / 1073741824.0, gib_txt)
     # Bigger than 1 MiB
-    elif (fsize_b >= 1048576):
+    elif fsize_b >= 1048576:
         return "%.1f %s" % (fsize_b / 1048576.0, mib_txt)
     # Bigger than 1 KiB
-    elif (fsize_b >= 1024):
+    elif fsize_b >= 1024:
         return "%.1f %s" % (fsize_b / 1024.0, kib_txt)
     else:
         return "%d %s" % (fsize_b, byte_txt)
@@ -744,7 +744,7 @@ class VersionSplit(object):
 
         """
         # PEP 386 versions with .devN precede release version
-        if (bool(self.dev) != bool(ver.dev)):
+        if bool(self.dev) != bool(ver.dev):
             if self.dev != 'dev':
                 self.dev = not self.dev
             if ver.dev != 'dev':

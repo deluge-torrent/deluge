@@ -16,7 +16,7 @@ log = logging.getLogger(__name__)
 
 
 def format_queue(qnum):
-    if (qnum >= 0):
+    if qnum >= 0:
         return "%d" % (qnum + 1)
     else:
         return ""

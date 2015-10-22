@@ -212,7 +212,7 @@ class Win32IcoFile(object):
 # end Win32IcoFile
 
 
-class Win32IconImageFile (PIL.ImageFile.ImageFile):
+class Win32IconImageFile(PIL.ImageFile.ImageFile):
     """
     PIL read-only image support for Microsoft .ico files.
 

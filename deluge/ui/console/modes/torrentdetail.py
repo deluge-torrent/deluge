@@ -225,7 +225,7 @@ class TorrentDetail(BaseMode, component.Component):
     def __update_columns(self):
         self.column_widths = [-1, 15, 15, 20]
         req = sum(filter(lambda x: x >= 0, self.column_widths))
-        if (req > self.cols):  # can't satisfy requests, just spread out evenly
+        if req > self.cols:  # can't satisfy requests, just spread out evenly
             cw = int(self.cols / len(self.column_names))
             for i in range(0, len(self.column_widths)):
                 self.column_widths[i] = cw
@@ -234,7 +234,7 @@ class TorrentDetail(BaseMode, component.Component):
             var_cols = len(filter(lambda x: x < 0, self.column_widths))
             vw = int(rem / var_cols)
             for i in range(0, len(self.column_widths)):
-                if (self.column_widths[i] < 0):
+                if self.column_widths[i] < 0:
                     self.column_widths[i] = vw
 
         self.column_string = "{!green,black,bold!}%s" % ("".join(["%s%s" % (self.column_names[i], " " * (
@@ -287,7 +287,7 @@ class TorrentDetail(BaseMode, component.Component):
             # from sys import stderr
             # print >> stderr, fl[6]
             # kick out if we're going to draw too low on the screen
-            if (off >= self.rows - 1):
+            if off >= self.rows - 1:
                 self.more_to_draw = True
                 return -1, -1
 

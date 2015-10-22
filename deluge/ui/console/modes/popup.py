@@ -77,7 +77,7 @@ class Popup:
     def _refresh_lines(self):
         crow = 1
         for line in self._lines[self.lineoff:]:
-            if (crow >= self.height - 1):
+            if crow >= self.height - 1:
                 break
             self.parent.add_string(crow, line, self.screen, 1, False, True)
             crow += 1
@@ -137,7 +137,7 @@ class Popup:
         self.parent.add_string(0, "{!white,black,bold!}%s" % self.title, self.screen, toff, False, True)
 
         self._refresh_lines()
-        if (len(self._lines) > (self.height - 2)):
+        if len(self._lines) > (self.height - 2):
             lts = len(self._lines) - (self.height - 3)
             perc_sc = float(self.lineoff) / lts
             sb_pos = int((self.height - 2) * perc_sc) + 1
@@ -232,9 +232,9 @@ class SelectablePopup(Popup):
     def _refresh_lines(self):
         crow = 1
         for row, line in enumerate(self._lines):
-            if (crow >= self.height - 1):
+            if crow >= self.height - 1:
                 break
-            if (row < self.lineoff):
+            if row < self.lineoff:
                 continue
             fg = self._line_foregrounds[row]
             udx = self._udxs.get(crow)
@@ -284,7 +284,7 @@ class SelectablePopup(Popup):
 
     def _move_cursor_down(self, amount):
         idx = self._selectable_lines.index(self._selected)
-        if (idx < len(self._selectable_lines) - amount):
+        if idx < len(self._selectable_lines) - amount:
             self._selected = self._selectable_lines[idx + amount]
         else:
             self._selected = self._selectable_lines[-1]

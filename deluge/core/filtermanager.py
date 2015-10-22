@@ -257,13 +257,12 @@ class FilterManager(component.Component):
         return torrent_ids
 
     def _hide_state_items(self, state_items):
-        "for hide(show)-zero hits"
+        """For hide(show)-zero hits"""
         for (value, count) in state_items.items():
             if value != "All" and count == 0:
                 del state_items[value]
 
     def _sort_state_items(self, x, y):
-        ""
         if x[0] in STATE_SORT:
             ix = STATE_SORT.index(x[0])
         else:
