@@ -57,7 +57,7 @@ gobject.set_prgname("deluge")
 log = logging.getLogger(__name__)
 
 try:
-    from setproctitle import setproctitle, getproctitle  # pylint: disable=E0611
+    from setproctitle import setproctitle, getproctitle
 except ImportError:
     def setproctitle(title):
         return

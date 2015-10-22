@@ -50,7 +50,7 @@ class Command(BaseCommand):
             self.console.write("{!green!}Plugin list successfully reloaded")
             return
 
-        if options["list"]:
+        elif options["list"]:
             def on_available_plugins(result):
                 self.console.write("{!info!}Available Plugins:")
                 for p in result:
@@ -58,7 +58,7 @@ class Command(BaseCommand):
 
             return client.core.get_available_plugins().addCallback(on_available_plugins)
 
-        if options["show"]:
+        elif options["show"]:
             def on_enabled_plugins(result):
                 self.console.write("{!info!}Enabled Plugins:")
                 for p in result:
@@ -66,7 +66,7 @@ class Command(BaseCommand):
 
             return client.core.get_enabled_plugins().addCallback(on_enabled_plugins)
 
-        if options["enable"]:
+        elif options["enable"]:
             def on_available_plugins(result):
                 plugins = {}
                 for p in result:
@@ -79,7 +79,7 @@ class Command(BaseCommand):
 
             return client.core.get_available_plugins().addCallback(on_available_plugins)
 
-        if options["disable"]:
+        elif options["disable"]:
             def on_enabled_plugins(result):
                 plugins = {}
                 for p in result:
@@ -92,7 +92,7 @@ class Command(BaseCommand):
 
             return client.core.get_enabled_plugins().addCallback(on_enabled_plugins)
 
-        if options["plugin_file"]:
+        elif options["plugin_file"]:
 
             filepath = options["plugin_file"]
 

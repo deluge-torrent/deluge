@@ -438,7 +438,7 @@ class StoredValuesList(ValueList):
                 return True
             # Add current value to saved list
             elif is_ascii_value(keyval, 's'):
-                super(PathChooserComboBox, self).add_current_value_to_saved_list()
+                super(PathChooserComboBox, self).add_current_value_to_saved_list()  # pylint: disable=bad-super-call
                 return True
             # Edit selected value
             elif is_ascii_value(keyval, 'e'):
