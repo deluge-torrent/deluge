@@ -368,12 +368,12 @@ class Torrent(object):
             # If we are turning off this option, call set_file_priorities to
             # reset all the piece priorities
             self.set_file_priorities(self.options["file_priorities"])
-            return
+            return None, None
         if not self.has_metadata:
-            return
+            return None, None
         if self.get_status(["storage_mode"])["storage_mode"] == "compact":
             log.debug("Setting first/last priority with compact allocation does not work!")
-            return
+            return None, None
         # A list of priorities for each piece in the torrent
         priorities = self.handle.piece_priorities()
         prioritized_pieces = []

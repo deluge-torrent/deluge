@@ -118,9 +118,8 @@ class Command(BaseCommand):
                 filedump = base64.encodestring(open(filepath, "rb").read())
                 try:
                     client.core.upload_plugin(filename, filedump)
-
                     client.core.rescan_plugins()
-                except:
+                except Exception:
                     self.console.write("{!error!}An error occurred, plugin was not installed")
 
             self.console.write("{!green!}Plugin was successfully installed: %s" % filename)

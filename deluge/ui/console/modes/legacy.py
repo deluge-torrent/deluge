@@ -142,14 +142,14 @@ class Legacy(BaseMode, component.Component):
             try:
                 lines1 = open(self.history_file[0], "r").read().splitlines()
                 self._hf_lines[0] = len(lines1)
-            except:
+            except IOError:
                 lines1 = []
                 self._hf_lines[0] = 0
 
             try:
                 lines2 = open(self.history_file[1], "r").read().splitlines()
                 self._hf_lines[1] = len(lines2)
-            except:
+            except IOError:
                 lines2 = []
                 self._hf_lines[1] = 0
 
@@ -170,13 +170,13 @@ class Legacy(BaseMode, component.Component):
                     # self.lines[i] = line
                 line = format_utils.remove_formatting(line)
                 if line.startswith(">>> "):
-                    input = line[4:]
+                    console_input = line[4:]
                     if self.console_config["ignore_duplicate_lines"]:
                         if len(self.input_history) > 0:
-                            if self.input_history[-1] != input:
-                                self.input_history.append(input)
+                            if self.input_history[-1] != console_input:
+                                self.input_history.append(console_input)
                         else:
-                            self.input_history.append(input)
+                            self.input_history.append(console_input)
 
             self.input_history_index = len(self.input_history)
 
@@ -776,10 +776,10 @@ class Legacy(BaseMode, component.Component):
             cursor = len(line)
             return (line, cursor)
 
-    def tab_complete_path(self, line, type="file", ext="", sort="name", dirs_first=1):
+    def tab_complete_path(self, line, path_type="file", ext="", sort="name", dirs_first=1):
         self.console = component.get("ConsoleUI")
 
-        line = line.replace("\ ", " ")
+        line = line.replace("\\ ", " ")
         line = os.path.abspath(os.path.expanduser(line))
         ret = []
         if os.path.exists(line):
@@ -832,12 +832,12 @@ class Legacy(BaseMode, component.Component):
                 self.console.write("{!error!}Permission denied: {!info!}%s" % line)
 
         if sort == "date":
-            ret = sorted(ret, key=lambda p: os.stat(p).st_mtime, reverse=True)
+            ret = sorted(ret, key=os.path.getmtime, reverse=True)
 
         if dirs_first == 1:
-            ret = sorted(ret, key=lambda p: os.path.isdir(p), reverse=True)
+            ret = sorted(ret, key=os.path.isdir, reverse=True)
         elif dirs_first == -1:
-            ret = sorted(ret, key=lambda p: os.path.isdir(p), reverse=False)
+            ret = sorted(ret, key=os.path.isdir, reverse=False)
 
         # Highlight directory names
         for i, filename in enumerate(ret):

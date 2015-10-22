@@ -168,9 +168,9 @@ class Command(BaseCommand):
             cols = 80
 
         prevpath = []
-        for i, file in enumerate(status["files"]):
-            filename = file["path"].split(dirsep)[-1]
-            filepath = file["path"].split(dirsep)[:-1]
+        for i, _file in enumerate(status["files"]):
+            filename = _file["path"].split(dirsep)[-1]
+            filepath = _file["path"].split(dirsep)[:-1]
 
             for depth, subdir in enumerate(filepath):
                 indent = " " * depth * spaces_per_level
@@ -199,10 +199,8 @@ class Command(BaseCommand):
                 col_priority += "{!input!}"
             col_priority += fp
 
-            rf = format_utils.remove_formatting
-
-            def tlen(s):
-                return strwidth(rf(s))
+            def tlen(string):
+                return strwidth(format_utils.remove_formatting(string))
 
             if not isinstance(col_filename, unicode):
                 col_filename = unicode(col_filename, "utf-8")

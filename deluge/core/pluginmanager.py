@@ -86,5 +86,5 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, component.Compon
         log.debug("Deregistering status field %s with PluginManager", field)
         try:
             del self.status_fields[field]
-        except:
+        except Exception:
             log.warning("Unable to deregister status field %s", field)

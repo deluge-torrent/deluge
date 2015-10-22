@@ -119,10 +119,10 @@ class EditTrackersDialog:
         if response == 1:
             self.trackers = []
 
-            def each(model, path, iter, data):
+            def each(model, path, _iter, data):
                 tracker = {}
-                tracker["tier"] = model.get_value(iter, 0)
-                tracker["url"] = model.get_value(iter, 1)
+                tracker["tier"] = model.get_value(_iter, 0)
+                tracker["url"] = model.get_value(_iter, 1)
                 self.trackers.append(tracker)
             self.liststore.foreach(each, None)
             if self.old_trackers != self.trackers:

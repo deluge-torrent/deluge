@@ -9,13 +9,13 @@ class DecoratorsTestCase(unittest.TestCase):
             return not func(*args, **kwargs)
 
         @proxy(negate)
-        def something(bool):
-            return bool
+        def something(_bool):
+            return _bool
 
         @proxy(negate)
         @proxy(negate)
-        def double_nothing(bool):
-            return bool
+        def double_nothing(_bool):
+            return _bool
 
         self.assertTrue(something(False))
         self.assertFalse(something(True))

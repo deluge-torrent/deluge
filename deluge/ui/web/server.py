@@ -261,7 +261,7 @@ class ScriptResource(resource.Resource, component.Component):
             }
         }
 
-    def add_script(self, path, filepath, type=None):
+    def add_script(self, path, filepath, script_type=None):
         """
         Adds a script or scripts to the script resource.
 
@@ -269,16 +269,16 @@ class ScriptResource(resource.Resource, component.Component):
         :type path: string
         :param filepath: The physical location of the script
         :type filepath: string
-        :keyword type: The type of script to add (normal, debug, dev)
-        :param type: string
+        :keyword script_type: The type of script to add (normal, debug, dev)
+        :param script_type: string
         """
-        if type not in ("dev", "debug", "normal"):
-            type = "normal"
+        if script_type not in ("dev", "debug", "normal"):
+            script_type = "normal"
 
-        self.__scripts[type]["scripts"][path] = filepath
-        self.__scripts[type]["order"].append(path)
+        self.__scripts[script_type]["scripts"][path] = filepath
+        self.__scripts[script_type]["order"].append(path)
 
-    def add_script_folder(self, path, filepath, type=None, recurse=True):
+    def add_script_folder(self, path, filepath, script_type=None, recurse=True):
         """
         Adds a folder of scripts to the script resource.
 
@@ -286,45 +286,45 @@ class ScriptResource(resource.Resource, component.Component):
         :type path: string
         :param filepath: The physical location of the script
         :type filepath: string
-        :keyword type: The type of script to add (normal, debug, dev)
-        :param type: string
+        :keyword script_type: The type of script to add (normal, debug, dev)
+        :param script_type: string
         :keyword recurse: Whether or not to recurse into other folders
         :param recurse: bool
         """
-        if type not in ("dev", "debug", "normal"):
-            type = "normal"
+        if script_type not in ("dev", "debug", "normal"):
+            script_type = "normal"
 
-        self.__scripts[type]["scripts"][path] = (filepath, recurse)
-        self.__scripts[type]["order"].append(path)
+        self.__scripts[script_type]["scripts"][path] = (filepath, recurse)
+        self.__scripts[script_type]["order"].append(path)
 
-    def remove_script(self, path, type=None):
+    def remove_script(self, path, script_type=None):
         """
         Removes a script or folder of scripts from the script resource.
 
         :param path: The path of the folder
         :type path: string
-        :keyword type: The type of script to add (normal, debug, dev)
-        :param type: string
+        :keyword script_type: The type of script to add (normal, debug, dev)
+        :param script_type: string
         """
-        if type not in ("dev", "debug", "normal"):
-            type = "normal"
+        if script_type not in ("dev", "debug", "normal"):
+            script_type = "normal"
 
-        del self.__scripts[type]["scripts"][path]
-        self.__scripts[type]["order"].remove(path)
+        del self.__scripts[script_type]["scripts"][path]
+        self.__scripts[script_type]["order"].remove(path)
 
-    def get_scripts(self, type=None):
+    def get_scripts(self, script_type=None):
         """
         Returns a list of the scripts that can be used for producing
         script tags.
 
-        :keyword type: The type of scripts to get (normal, debug, dev)
-        :param type: string
+        :keyword script_type: The type of scripts to get (normal, debug, dev)
+        :param script_type: string
         """
-        if type not in ("dev", "debug", "normal"):
-            type = 'normal'
+        if script_type not in ("dev", "debug", "normal"):
+            script_type = 'normal'
 
-        _scripts = self.__scripts[type]["scripts"]
-        _order = self.__scripts[type]["order"]
+        _scripts = self.__scripts[script_type]["scripts"]
+        _order = self.__scripts[script_type]["order"]
 
         scripts = []
         for path in _order:
@@ -371,8 +371,8 @@ class ScriptResource(resource.Resource, component.Component):
     def render(self, request):
         log.debug("Requested path: '%s'", request.lookup_path)
 
-        for type in ("dev", "debug", "normal"):
-            scripts = self.__scripts[type]["scripts"]
+        for script_type in ("dev", "debug", "normal"):
+            scripts = self.__scripts[script_type]["scripts"]
             for pattern in scripts:
                 if not request.lookup_path.startswith(pattern):
                     continue
@@ -536,16 +536,19 @@ class TopLevel(resource.Resource):
 
 class ServerContextFactory:
 
+    def __init__(self):
+        pass
+
     def getContext(self):  # NOQA
         """Creates an SSL context."""
         ctx = SSL.Context(SSL.SSLv23_METHOD)
         ctx.set_options(SSL.OP_NO_SSLv2 | SSL.OP_NO_SSLv3)
-        deluge_web = component.get("DelugeWeb")
+        delugeweb = component.get("DelugeWeb")
         log.debug("Enabling SSL using:")
-        log.debug("Pkey: %s", deluge_web.pkey)
-        log.debug("Cert: %s", deluge_web.cert)
-        ctx.use_privatekey_file(configmanager.get_config_dir(deluge_web.pkey))
-        ctx.use_certificate_chain_file(configmanager.get_config_dir(deluge_web.cert))
+        log.debug("Pkey: %s", delugeweb.pkey)
+        log.debug("Cert: %s", delugeweb.cert)
+        ctx.use_privatekey_file(configmanager.get_config_dir(delugeweb.pkey))
+        ctx.use_certificate_chain_file(configmanager.get_config_dir(delugeweb.cert))
         return ctx
 
 

@@ -31,9 +31,9 @@ def escape(text):
 
 def compress(contents, request):
     request.setHeader("content-encoding", "gzip")
-    compress = zlib.compressobj(6, zlib.DEFLATED, zlib.MAX_WBITS + 16, zlib.DEF_MEM_LEVEL, 0)
-    contents = compress.compress(contents)
-    contents += compress.flush()
+    compress_zlib = zlib.compressobj(6, zlib.DEFLATED, zlib.MAX_WBITS + 16, zlib.DEF_MEM_LEVEL, 0)
+    contents = compress_zlib.compress(contents)
+    contents += compress_zlib.flush()
     return contents
 
 try:

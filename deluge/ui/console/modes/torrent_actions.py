@@ -104,12 +104,12 @@ def torrent_action(idx, data, mode, ids):
                             mode.marked = range(1, selected_num + 1)
                         elif qact == ACTION.QUEUE_UP:
                             mode.cursel = max(1, mode.cursel - 1)
-                            mode.marked = map(lambda v: v - 1, mode.marked)
-                            mode.marked = filter(lambda v: v > 0, mode.marked)
+                            mode.marked = [marked - 1 for marked in mode.marked]
+                            mode.marked = [marked for marked in mode.marked if marked > 0]
                         elif qact == ACTION.QUEUE_DOWN:
                             mode.cursel = min(queue_length, mode.cursel + 1)
-                            mode.marked = map(lambda v: v + 1, mode.marked)
-                            mode.marked = filter(lambda v: v <= queue_length, mode.marked)
+                            mode.marked = [marked + 1 for marked in mode.marked]
+                            mode.marked = [marked for marked in mode.marked if marked <= queue_length]
                         elif qact == ACTION.QUEUE_BOTTOM:
                             if mode.marked:
                                 mode.cursel = queue_length - selected_num + 1 + sorted(mode.marked).index(mode.cursel)
@@ -168,7 +168,7 @@ def torrent_action(idx, data, mode, ids):
                 callbacks.append(d.addCallback(got_status))
 
             def finish_up(status):
-                status = map(lambda x: x[1], status)
+                status = [t_status[1] for t_status in status]
 
                 if len(ids) == 1:
                     rem_msg = "{!info!}Removing the following torrent:{!input!}"
@@ -290,7 +290,7 @@ def torrent_action(idx, data, mode, ids):
 
             callbacks = []
 
-            field_list = map(lambda t: t[0], torrent_options)
+            field_list = [torrent_option[0] for torrent_option in torrent_options]
 
             for tid in torrents:
                 deferred = component.get("SessionProxy").get_torrent_status(tid, field_list)

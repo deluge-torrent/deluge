@@ -99,12 +99,12 @@ class DelugeHelpFormatter(optparse.IndentedHelpFormatter):
     replace_dict = {
         "<torrent-id>": "{!green!}%s{!input!}",
         "<state>": "{!yellow!}%s{!input!}",
-        "\.\.\.": "{!yellow!}%s{!input!}",
-        "\s\*\s": "{!blue!}%s{!input!}",
-        "(?<![\-a-z])(-[a-zA-Z0-9])": "{!red!}%s{!input!}",
+        "\\.\\.\\.": "{!yellow!}%s{!input!}",
+        "\\s\\*\\s": "{!blue!}%s{!input!}",
+        "(?<![\\-a-z])(-[a-zA-Z0-9])": "{!red!}%s{!input!}",
         # "(\-[a-zA-Z0-9])": "{!red!}%s{!input!}",
-        "--[_\-a-zA-Z0-9]+": "{!green!}%s{!input!}",
-        "(\[|\])": "{!info!}%s{!input!}",
+        "--[_\\-a-zA-Z0-9]+": "{!green!}%s{!input!}",
+        "(\\[|\\])": "{!info!}%s{!input!}",
 
         "<tab>": "{!white!}%s{!input!}",
         "[_A-Z]{3,}": "{!cyan!}%s{!input!}",
@@ -181,13 +181,13 @@ class OptionParser(optparse.OptionParser):
         """
         raise Exception(msg)
 
-    def print_usage(self, file=None):
+    def print_usage(self, _file=None):
         console = component.get("ConsoleUI")
         if self.usage:
             for line in self.get_usage().splitlines():
                 console.write(line)
 
-    def print_help(self, file=None):
+    def print_help(self, _file=None):
         console = component.get("ConsoleUI")
         console.set_batch_write(True)
         for line in self.format_help().splitlines():
@@ -239,14 +239,17 @@ class BaseCommand(object):
         result = shlex.split(text)
         for i, s in enumerate(result):
             result[i] = s.replace(r"\ ", " ")
-        result = filter(lambda s: s != "", result)
+        result = [s for s in result if s != ""]
         return result
 
     def create_parser(self):
         return OptionParser(prog=self.name, usage=self.usage, epilog=self.epilog, option_list=self.option_list)
 
 
-def load_commands(command_dir, exclude=[]):
+def load_commands(command_dir, exclude=None):
+    if not exclude:
+        exclude = []
+
     def get_command(name):
         return getattr(__import__("deluge.ui.console.commands.%s" % name, {}, {}, ["Command"]), "Command")()
 
@@ -277,7 +280,7 @@ class ConsoleUI(component.Component):
         try:
             locale.setlocale(locale.LC_ALL, "")
             self.encoding = locale.getpreferredencoding()
-        except:
+        except Exception:
             self.encoding = sys.getdefaultencoding()
 
         log.debug("Using encoding: %s", self.encoding)
@@ -404,9 +407,9 @@ Please use commands from the command line, eg:\n
         if self.interactive and isinstance(self.screen, deluge.ui.console.modes.legacy.Legacy):
             return self.screen.tab_complete_torrent(line)
 
-    def tab_complete_path(self, line, type="file", ext="", sort="name", dirs_first=True):
+    def tab_complete_path(self, line, path_type="file", ext="", sort="name", dirs_first=True):
         if self.interactive and isinstance(self.screen, deluge.ui.console.modes.legacy.Legacy):
-            return self.screen.tab_complete_path(line, type=type, ext=ext, sort=sort, dirs_first=dirs_first)
+            return self.screen.tab_complete_path(line, path_type=path_type, ext=ext, sort=sort, dirs_first=dirs_first)
 
     def set_mode(self, mode):
         reactor.removeReader(self.screen)

@@ -42,10 +42,12 @@ class HTTPDownloader(client.HTTPDownloader):
         """
         self.part_callback = part_callback
         self.current_length = 0
+        self.total_length = 0
         self.decoder = None
         self.value = filename
         self.force_filename = force_filename
         self.allow_compression = allow_compression
+        self.code = None
         agent = "Deluge/%s (http://deluge-torrent.org)" % get_version()
         client.HTTPDownloader.__init__(self, url, filename, headers=headers, agent=agent)
 
@@ -125,14 +127,14 @@ def sanitise_filename(filename):
 
     if os.path.basename(filename) != filename:
         # Dodgy server, log it
-        log.warning("Potentially malicious server: trying to write to file '%s'" % filename)
+        log.warning("Potentially malicious server: trying to write to file '%s'", filename)
         # Only use the basename
         filename = os.path.basename(filename)
 
     filename = filename.strip()
     if filename.startswith(".") or ";" in filename or "|" in filename:
         # Dodgy server, log it
-        log.warning("Potentially malicious server: trying to write to file '%s'" % filename)
+        log.warning("Potentially malicious server: trying to write to file '%s'", filename)
 
     return filename
 
@@ -178,7 +180,7 @@ def download_file(url, filename, callback=None, headers=None, force_filename=Fal
     # In Twisted 13.1.0 _parse() function replaced by _URI class.
     # In Twisted 15.0.0 _URI class renamed to URI.
     if hasattr(client, "_parse"):
-        scheme, host, port, path = client._parse(url)
+        scheme, host, port, dummy_path = client._parse(url)
     else:
         try:
             from twisted.web.client import _URI as URI
@@ -203,7 +205,7 @@ def download_file(url, filename, callback=None, headers=None, force_filename=Fal
                 """
                 A custom context factory to add a server name for TLS connections.
                 """
-                def getContext(self, hostname=None, port=None):  # NOQA
+                def getContext(self):  # NOQA
                     ctx = ssl.ClientContextFactory.getContext(self)
                     ClientTLSOptions(host, ctx)
                     return ctx

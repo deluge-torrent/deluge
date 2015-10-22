@@ -11,6 +11,7 @@ from twisted.web.resource import Resource
 from twisted.web.server import Site
 from twisted.web.static import File
 
+import deluge.common
 import deluge.component as component
 import deluge.core.torrent
 from deluge.core.core import Core
@@ -86,9 +87,11 @@ class CoreTestCase(BaseTestCase):
                 error = ex
                 self.listen_port += 1
             else:
-                return result
+                break
         else:
             raise error
+
+        return result
 
     def tear_down(self):
 
@@ -155,7 +158,6 @@ class CoreTestCase(BaseTestCase):
 
     def test_add_magnet(self):
         info_hash = "60d5d82328b4547511fdeac9bf4d0112daa0ce00"
-        import deluge.common
         uri = deluge.common.create_magnet_uri(info_hash)
         options = {}
 

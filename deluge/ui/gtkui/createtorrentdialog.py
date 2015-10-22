@@ -25,6 +25,10 @@ log = logging.getLogger(__name__)
 
 
 class CreateTorrentDialog:
+
+    def __init__(self):
+        pass
+
     def show(self):
         self.builder = gtk.Builder()
 

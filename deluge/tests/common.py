@@ -8,13 +8,13 @@ from twisted.internet.error import CannotListenError
 
 import deluge.common
 import deluge.configmanager
+import deluge.core.preferencesmanager
 import deluge.log
 
 deluge.log.setup_logger("none")
 
 
 def disable_new_release_check():
-    import deluge.core.preferencesmanager
     deluge.core.preferencesmanager.DEFAULT_PREFS["new_release_check"] = False
 
 

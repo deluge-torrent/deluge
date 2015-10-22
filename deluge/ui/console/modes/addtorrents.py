@@ -11,7 +11,7 @@ import base64
 import logging
 import os
 
-import deluge.common as common
+import deluge.common
 import deluge.component as component
 from deluge.ui.client import client
 from deluge.ui.console.modes import format_utils
@@ -134,7 +134,7 @@ class AddTorrents(BaseMode, component.Component):
             full_path = os.path.join(path, dirname)
             try:
                 size = len(os.listdir(full_path))
-            except:
+            except OSError:
                 size = -1
             time = os.stat(full_path).st_mtime
 
@@ -185,7 +185,7 @@ class AddTorrents(BaseMode, component.Component):
         self.formatted_rows = []
 
         for row in self.raw_rows:
-            filename = row[0]
+            filename = deluge.common.decode_string(row[0])
             size = row[1]
             time = row[2]
 
@@ -195,21 +195,12 @@ class AddTorrents(BaseMode, component.Component):
                 else:
                     size_str = " unknown"
 
-                try:
-                    filename = filename.decode("utf8")
-                except:
-                    pass
-
-                cols = [filename, size_str, common.fdate(time)]
+                cols = [filename, size_str, deluge.common.fdate(time)]
                 widths = [self.cols - 35, 12, 23]
                 self.formatted_rows.append(format_utils.format_row(cols, widths))
             else:
                 # Size of .torrent file itself couldn't matter less so we'll leave it out
-                try:
-                    filename = filename.decode("utf8")
-                except:
-                    pass
-                cols = [filename, common.fdate(time)]
+                cols = [filename, deluge.common.fdate(time)]
                 widths = [self.cols - 23, 23]
                 self.formatted_rows.append(format_utils.format_row(cols, widths))
 
@@ -262,8 +253,8 @@ class AddTorrents(BaseMode, component.Component):
             string += " " * (self.cols - len(rf(string)) - len(rf(hstr))) + hstr
 
             self.add_string(self.rows - 1, string)
-        except:
-            pass
+        except Exception as ex:
+            log.debug("Exception caught: %s", ex)
 
         off = 1
 
@@ -400,7 +391,7 @@ class AddTorrents(BaseMode, component.Component):
             ress = {"succ": 0, "fail": 0, "total": len(self.marked), "fmsg": []}
 
             def fail_cb(msg, t_file, ress):
-                log.debug("failed to add torrent: %s: %s" % (t_file, msg))
+                log.debug("failed to add torrent: %s: %s", t_file, msg)
                 ress["fail"] += 1
                 ress["fmsg"].append("{!input!} * %s: {!error!}%s" % (t_file, msg))
                 if (ress["succ"] + ress["fail"]) >= ress["total"]:
@@ -408,7 +399,7 @@ class AddTorrents(BaseMode, component.Component):
 
             def success_cb(tid, t_file, ress):
                 if tid:
-                    log.debug("added torrent: %s (%s)" % (t_file, tid))
+                    log.debug("added torrent: %s (%s)", t_file, tid)
                     ress["succ"] += 1
                     if (ress["succ"] + ress["fail"]) >= ress["total"]:
                         self.alltorrentmode._report_add_status(ress["succ"], ress["fail"], ress["fmsg"])

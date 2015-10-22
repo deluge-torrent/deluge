@@ -194,7 +194,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
             """
             Sends an error response with the contents of the exception that was raised.
             """
-            exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
+            exceptionType, exceptionValue, dummy_exceptionTraceback = sys.exc_info()
             formated_tb = traceback.format_exc()
             try:
                 self.sendData((
@@ -205,17 +205,17 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                     exceptionValue._kwargs,
                     formated_tb
                 ))
-            except AttributeError as err:
+            except AttributeError:
                 # This is not a deluge exception (object has no attribute '_args), let's wrap it
                 log.error("An exception occurred while sending RPC_ERROR to "
                           "client. Wrapping it and resending. Error to "
                           "send(causing exception goes next):\n%s", formated_tb)
                 try:
                     raise WrappedException(str(exceptionValue), exceptionType.__name__, formated_tb)
-                except:
+                except Exception:
                     send_error()
-            except Exception as err:
-                log.error("An exception occurred while sending RPC_ERROR to client: %s", err)
+            except Exception as ex:
+                log.error("An exception occurred while sending RPC_ERROR to client: %s", ex)
 
         if method == "daemon.info":
             # This is a special case and used in the initial connection process
@@ -241,8 +241,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                 self.sendData((RPC_RESPONSE, request_id, (ret)))
                 if not ret:
                     self.transport.loseConnection()
-            finally:
-                return
+            return
         elif method == "daemon.set_event_interest" and self.valid_session():
             log.debug("RPC dispatch daemon.set_event_interest")
             # This special case is to allow clients to set which events they are
@@ -256,8 +255,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                 send_error()
             else:
                 self.sendData((RPC_RESPONSE, request_id, (True)))
-            finally:
-                return
+            return
 
         if method in self.factory.methods and self.valid_session():
             log.debug("RPC dispatch %s", method)
@@ -454,7 +452,7 @@ class RPCServer(component.Component):
         :returns: the auth level
         :rtype: int
         """
-        self.factory.methods[rpc]._rpcserver_auth_level
+        return self.factory.methods[rpc]._rpcserver_auth_level
 
     def is_session_valid(self, session_id):
         """

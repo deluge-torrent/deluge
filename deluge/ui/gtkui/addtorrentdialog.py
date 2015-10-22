@@ -283,22 +283,22 @@ class AddTorrentDialog(component.Component):
     def prepare_file_store(self, files):
         with listview_replace_treestore(self.listview_files):
             split_files = {}
-            for i, file in enumerate(files):
+            for i, _file in enumerate(files):
                 self.prepare_file(
-                    file, file["path"], i, file["download"], split_files
+                    _file, _file["path"], i, _file["download"], split_files
                 )
             self.add_files(None, split_files)
         self.listview_files.expand_row("0", False)
 
-    def prepare_file(self, file, file_name, file_num, download, files_storage):
+    def prepare_file(self, _file, file_name, file_num, download, files_storage):
         first_slash_index = file_name.find(os.path.sep)
         if first_slash_index == -1:
-            files_storage[file_name] = (file_num, file, download)
+            files_storage[file_name] = (file_num, _file, download)
         else:
             file_name_chunk = file_name[:first_slash_index + 1]
             if file_name_chunk not in files_storage:
                 files_storage[file_name_chunk] = {}
-            self.prepare_file(file, file_name[first_slash_index + 1:],
+            self.prepare_file(_file, file_name[first_slash_index + 1:],
                               file_num, download, files_storage[file_name_chunk])
 
     def add_files(self, parent_iter, split_files):
@@ -436,13 +436,13 @@ class AddTorrentDialog(component.Component):
             for i, file_dict in enumerate(self.files[torrent_id]):
                 file_dict["download"] = files_priorities[i]
 
-    def build_priorities(self, iter, priorities):
-        while iter is not None:
-            if self.files_treestore.iter_has_child(iter):
-                self.build_priorities(self.files_treestore.iter_children(iter), priorities)
-            elif not self.files_treestore.get_value(iter, 1).endswith(os.path.sep):
-                priorities[self.files_treestore.get_value(iter, 3)] = self.files_treestore.get_value(iter, 0)
-            iter = self.files_treestore.iter_next(iter)
+    def build_priorities(self, _iter, priorities):
+        while _iter is not None:
+            if self.files_treestore.iter_has_child(_iter):
+                self.build_priorities(self.files_treestore.iter_children(_iter), priorities)
+            elif not self.files_treestore.get_value(_iter, 1).endswith(os.path.sep):
+                priorities[self.files_treestore.get_value(_iter, 3)] = self.files_treestore.get_value(_iter, 0)
+            _iter = self.files_treestore.iter_next(_iter)
         return priorities
 
     def set_default_options(self):
@@ -496,35 +496,35 @@ class AddTorrentDialog(component.Component):
             self.toggle_iter(row)
         self.update_treeview_toggles(self.files_treestore.get_iter_first())
 
-    def toggle_iter(self, iter, toggle_to=None):
+    def toggle_iter(self, _iter, toggle_to=None):
         if toggle_to is None:
-            toggle_to = not self.files_treestore.get_value(iter, 0)
-        self.files_treestore.set_value(iter, 0, toggle_to)
-        if self.files_treestore.iter_has_child(iter):
-            child = self.files_treestore.iter_children(iter)
+            toggle_to = not self.files_treestore.get_value(_iter, 0)
+        self.files_treestore.set_value(_iter, 0, toggle_to)
+        if self.files_treestore.iter_has_child(_iter):
+            child = self.files_treestore.iter_children(_iter)
             while child is not None:
                 self.toggle_iter(child, toggle_to)
                 child = self.files_treestore.iter_next(child)
 
-    def update_treeview_toggles(self, iter):
+    def update_treeview_toggles(self, _iter):
         toggle_inconsistent = -1
         this_level_toggle = None
-        while iter is not None:
-            if self.files_treestore.iter_has_child(iter):
-                toggle = self.update_treeview_toggles(self.files_treestore.iter_children(iter))
+        while _iter is not None:
+            if self.files_treestore.iter_has_child(_iter):
+                toggle = self.update_treeview_toggles(self.files_treestore.iter_children(_iter))
                 if toggle == toggle_inconsistent:
-                    self.files_treestore.set_value(iter, 4, True)
+                    self.files_treestore.set_value(_iter, 4, True)
                 else:
-                    self.files_treestore.set_value(iter, 0, toggle)
+                    self.files_treestore.set_value(_iter, 0, toggle)
                     # set inconsistent to false
-                    self.files_treestore.set_value(iter, 4, False)
+                    self.files_treestore.set_value(_iter, 4, False)
             else:
-                toggle = self.files_treestore.get_value(iter, 0)
+                toggle = self.files_treestore.get_value(_iter, 0)
             if this_level_toggle is None:
                 this_level_toggle = toggle
             elif this_level_toggle != toggle:
                 this_level_toggle = toggle_inconsistent
-            iter = self.files_treestore.iter_next(iter)
+            _iter = self.files_treestore.iter_next(_iter)
         return this_level_toggle
 
     def _on_button_file_clicked(self, widget):

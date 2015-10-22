@@ -103,10 +103,12 @@ class Core(component.Component):
             else:
                 log.error("Invalid listen interface (must be IP Address): %s", listen_interface)
 
-    def start(self):
-        """Starts the core"""
         # New release check information
         self.__new_release = None
+
+    def start(self):
+        """Starts the core"""
+        pass
 
     def stop(self):
         log.debug("Core stopping...")
@@ -726,8 +728,8 @@ class Core(component.Component):
 
     def _create_torrent_thread(self, path, tracker, piece_length, comment, target,
                                webseeds, private, created_by, trackers, add_to_session):
-        import deluge.metafile
-        deluge.metafile.make_meta_file(
+        from deluge import metafile
+        metafile.make_meta_file(
             path,
             tracker,
             piece_length,

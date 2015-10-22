@@ -29,6 +29,7 @@ class PluginBase(component.Component):
 
 
 class CorePluginBase(PluginBase):
+
     def __init__(self, plugin_name):
         super(CorePluginBase, self).__init__("CorePlugin." + plugin_name)
         # Register RPC methods
@@ -38,11 +39,24 @@ class CorePluginBase(PluginBase):
     def __del__(self):
         component.get("RPCServer").deregister_object(self)
 
+    def enable(self):
+        super(CorePluginBase, self).enable()
+
+    def disable(self):
+        super(CorePluginBase, self).disable()
+
 
 class GtkPluginBase(PluginBase):
+
     def __init__(self, plugin_name):
         super(GtkPluginBase, self).__init__("GtkPlugin." + plugin_name)
         log.debug("GtkPlugin initialized..")
+
+    def enable(self):
+        super(GtkPluginBase, self).enable()
+
+    def disable(self):
+        super(GtkPluginBase, self).disable()
 
 
 class WebPluginBase(PluginBase):

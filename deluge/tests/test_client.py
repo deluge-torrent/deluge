@@ -2,6 +2,7 @@ from twisted.internet import defer
 from twisted.internet.error import CannotListenError
 
 import deluge.component as component
+import deluge.ui.common
 from deluge import error
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.ui.client import Client, DaemonSSLProxy, client
@@ -72,12 +73,12 @@ class ClientTestCase(BaseTestCase):
             try:
                 self.core = common.start_core(listen_port=self.listen_port)
             except CannotListenError as ex:
-                error = ex
+                exception_error = ex
                 self.listen_port += 1
             else:
                 break
         else:
-            raise error
+            raise exception_error
 
     def tear_down(self):
         self.core.terminate()
@@ -97,8 +98,7 @@ class ClientTestCase(BaseTestCase):
         return d
 
     def test_connect_localclient(self):
-        from deluge.ui import common
-        username, password = common.get_localhost_auth()
+        username, password = deluge.ui.common.get_localhost_auth()
         d = client.connect(
             "localhost", self.listen_port, username=username, password=password
         )
@@ -112,8 +112,7 @@ class ClientTestCase(BaseTestCase):
         return d
 
     def test_connect_bad_password(self):
-        from deluge.ui import common
-        username, password = common.get_localhost_auth()
+        username, password = deluge.ui.common.get_localhost_auth()
         d = client.connect(
             "localhost", self.listen_port, username=username, password=password + "1"
         )
@@ -129,8 +128,7 @@ class ClientTestCase(BaseTestCase):
         return d
 
     def test_connect_without_password(self):
-        from deluge.ui import common
-        username, password = common.get_localhost_auth()
+        username, password = deluge.ui.common.get_localhost_auth()
         d = client.connect(
             "localhost", self.listen_port, username=username
         )
@@ -147,8 +145,7 @@ class ClientTestCase(BaseTestCase):
         return d
 
     def test_connect_without_sending_client_version_fails(self):
-        from deluge.ui import common
-        username, password = common.get_localhost_auth()
+        username, password = deluge.ui.common.get_localhost_auth()
         no_version_sending_client = NoVersionSendingClient()
         d = no_version_sending_client.connect(
             "localhost", self.listen_port, username=username, password=password

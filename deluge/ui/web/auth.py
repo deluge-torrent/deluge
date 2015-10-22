@@ -13,7 +13,6 @@ import random
 import time
 from datetime import datetime, timedelta
 from email.utils import formatdate
-from functools import reduce
 
 from twisted.internet.task import LoopingCall
 
@@ -43,7 +42,10 @@ from deluge.ui.web.json_api import export, JSONComponent  # NOQA, isort:skip
 
 
 def make_checksum(session_id):
-    return reduce(lambda x, y: x + y, map(ord, session_id))
+    checksum = 0
+    for value in [ord(char) for char in session_id]:
+        checksum += value
+    return checksum
 
 
 def get_session_id(session_id):

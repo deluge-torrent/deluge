@@ -38,7 +38,6 @@ STATE_TRANSLATION = {
     "Downloading": _("Downloading"),
     "Seeding": _("Seeding"),
     "Paused": _("Paused"),
-    "Checking": _("Checking"),
     "Queued": _("Queued"),
     "Error": _("Error"),
 }

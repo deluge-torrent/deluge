@@ -315,9 +315,9 @@ class PeersTab(Tab):
         if not widget.get_tooltip_context(x, y, keyboard_tip):
             return False
         else:
-            model, path, iter = widget.get_tooltip_context(x, y, keyboard_tip)
+            model, path, _iter = widget.get_tooltip_context(x, y, keyboard_tip)
 
-            country_code = model.get(iter, 5)[0]
+            country_code = model.get(_iter, 5)[0]
             if country_code != "  " and country_code in COUNTRIES:
                 tooltip.set_text(COUNTRIES[country_code])
                 # widget here is self.listview

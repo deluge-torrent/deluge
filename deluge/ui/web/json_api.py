@@ -60,7 +60,7 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
     """
     global AUTH_LEVEL_DEFAULT, AuthError
     if AUTH_LEVEL_DEFAULT is None:
-        from deluge.ui.web.auth import AUTH_LEVEL_DEFAULT
+        from deluge.ui.web.auth import AUTH_LEVEL_DEFAULT, AuthError  # pylint: disable=redefined-outer-name
 
     def wrap(func, *args, **kwargs):
         func._json_export = True
@@ -847,7 +847,7 @@ class WebApi(JSONComponent):
             d = c.connect(host, port, user, password)
             d.addCallback(on_connect, c)
             d.addErrback(on_connect_failed)
-        except:
+        except Exception:
             main_deferred.callback((False, "An error occurred"))
         return main_deferred
 
@@ -874,7 +874,7 @@ class WebApi(JSONComponent):
 
         try:
             port = int(port)
-        except:
+        except ValueError:
             return (False, "Port is invalid")
 
         # Host isn't in the list, so lets add it

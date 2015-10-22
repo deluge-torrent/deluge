@@ -138,7 +138,7 @@ class TorrentDetails(component.Component):
         for w, name in weights:
             if w >= weight:
                 position = self.tabs[name].position
-                log.debug("Found pos %d" % position)
+                log.debug("Found pos %d", position)
                 break
         return position
 
@@ -166,12 +166,12 @@ class TorrentDetails(component.Component):
             tab.is_visible = True
             # add the tab at position guided by the weight
             insert_pos = self.tab_insert_position(weight)
-            log.debug("Trying to insert tab at %d" % insert_pos)
+            log.debug("Trying to insert tab at %d", insert_pos)
             pos = self.notebook.insert_page(
                 tab.get_child_widget(),
                 tab.get_tab_label(),
                 insert_pos)
-            log.debug("Tab inserted at %d" % pos)
+            log.debug("Tab inserted at %d", pos)
             tab.position = pos
             if not self.notebook.get_property("visible"):
                 # If the notebook isn't visible, show it
@@ -386,10 +386,10 @@ class TorrentDetails(component.Component):
         # Leave tabs we dont know anything about it the state as they
         # might come from a plugin
         for i, (name, visible) in enumerate(self.state):
-            log.debug("Testing name: %s" % name)
+            log.debug("Testing name: %s", name)
             if name in self.tabs:
                 self.state[i] = (name, self.tabs[name].is_visible)
-                log.debug("Set to %s %d" % self.state[i])
+                log.debug("Set to %s", self.state[i])
         state = self.state
 
         save_pickled_state_file("tabs.state", state)

@@ -30,7 +30,7 @@ try:
     import dbus
     bus = dbus.SessionBus()
     dbus_fileman = bus.get_object("org.freedesktop.FileManager1", "/org/freedesktop/FileManager1")
-except:
+except Exception:
     dbus_fileman = None
 
 
@@ -527,7 +527,7 @@ def get_magnet_info(uri):
     return False
 
 
-def create_magnet_uri(infohash, name=None, trackers=[]):
+def create_magnet_uri(infohash, name=None, trackers=None):
     """
     Creates a magnet uri
 
@@ -570,9 +570,9 @@ def get_path_size(path):
         return os.path.getsize(path)
 
     dir_size = 0
-    for (p, dirs, files) in os.walk(path):
-        for file in files:
-            filename = os.path.join(p, file)
+    for (p, dummy_dirs, files) in os.walk(path):
+        for _file in files:
+            filename = os.path.join(p, _file)
             dir_size += os.path.getsize(filename)
     return dir_size
 
@@ -840,9 +840,9 @@ def set_env_variable(name, value):
             if result == 0:
                 raise Warning
         except Exception:
-            log.warning('Failed to set Env Var \'%s\' (\'kernel32.SetEnvironmentVariableW\')' % name)
+            log.warning('Failed to set Env Var \'%s\' (\'kernel32.SetEnvironmentVariableW\')', name)
         else:
-            log.debug('Set Env Var \'%s\' to \'%s\' (\'kernel32.SetEnvironmentVariableW\')' % (name, value))
+            log.debug('Set Env Var \'%s\' to \'%s\' (\'kernel32.SetEnvironmentVariableW\')', name, value)
 
         # Update the copy maintained by msvcrt (used by gtk+ runtime)
         try:
@@ -850,9 +850,9 @@ def set_env_variable(name, value):
             if result != 0:
                 raise Warning
         except Exception:
-            log.warning('Failed to set Env Var \'%s\' (\'msvcrt._putenv\')' % name)
+            log.warning('Failed to set Env Var \'%s\' (\'msvcrt._putenv\')', name)
         else:
-            log.debug('Set Env Var \'%s\' to \'%s\' (\'msvcrt._putenv\')' % (name, value))
+            log.debug('Set Env Var \'%s\' to \'%s\' (\'msvcrt._putenv\')', name, value)
 
         # Update the copy maintained by whatever c runtime is used by Python
         try:
@@ -862,9 +862,9 @@ def set_env_variable(name, value):
             if result != 0:
                 raise Warning
         except Exception:
-            log.warning('Failed to set Env Var \'%s\' (\'%s._putenv\')' % (name, msvcrtname))
+            log.warning('Failed to set Env Var \'%s\' (\'%s._putenv\')', name, msvcrtname)
         else:
-            log.debug('Set Env Var \'%s\' to \'%s\' (\'%s._putenv\')' % (name, value, msvcrtname))
+            log.debug('Set Env Var \'%s\' to \'%s\' (\'%s._putenv\')', name, value, msvcrtname)
 
 
 def set_language(lang):

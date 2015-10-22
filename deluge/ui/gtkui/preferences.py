@@ -77,8 +77,8 @@ class Preferences(component.Component):
             self.liststore.append([i, category])
             i += 1
 
-        def set_separator(model, iter, data=None):
-            if "_separator_" == model.get_value(iter, 1):
+        def set_separator(model, _iter, data=None):
+            if "_separator_" == model.get_value(_iter, 1):
                 return True
         self.treeview.set_row_separator_func(set_separator)
 
@@ -207,13 +207,14 @@ class Preferences(component.Component):
         translations_path = deluge.common.get_translations_path()
         for root, dirs, files in os.walk(translations_path):
             # Get the dirs
+            lang_dirs = dirs
             break
         self.language_combo = self.builder.get_object("combobox_language")
         self.language_checkbox = self.builder.get_object("checkbutton_language")
         lang_model = self.language_combo.get_model()
 
         index = -1
-        for i, lang_code in enumerate(sorted(dirs)):
+        for i, lang_code in enumerate(sorted(lang_dirs)):
             name = "%s (Language name missing)" % lang_code
             if lang_code in languages.LANGUAGES:
                 name = languages.LANGUAGES[lang_code]
@@ -267,12 +268,12 @@ class Preferences(component.Component):
         self.page_num_to_remove = None
         self.iter_to_remove = None
 
-        def check_row(model, path, iter, user_data):
-            row_name = model.get_value(iter, 1)
+        def check_row(model, path, _iter, user_data):
+            row_name = model.get_value(_iter, 1)
             if row_name == user_data:
                 # This is the row we need to remove
-                self.page_num_to_remove = model.get_value(iter, 0)
-                self.iter_to_remove = iter
+                self.page_num_to_remove = model.get_value(_iter, 0)
+                self.iter_to_remove = _iter
                 return
 
         self.liststore.foreach(check_row, name)
@@ -834,7 +835,7 @@ class Preferences(component.Component):
         """Handles widget sensitivity based on radio/check button values."""
         try:
             value = widget.get_active()
-        except:
+        except Exception:
             return
 
         path_choosers = {"download_location_path_chooser": self.download_location_path_chooser,
@@ -981,7 +982,6 @@ class Preferences(component.Component):
 
         import base64
         import shutil
-        import os.path
         filename = os.path.split(filepath)[1]
         shutil.copyfile(
             filepath,
@@ -1080,15 +1080,15 @@ class Preferences(component.Component):
         self.accounts_liststore.clear()
 
         for account in known_accounts:
-            iter = self.accounts_liststore.append()
+            accounts_iter = self.accounts_liststore.append()
             self.accounts_liststore.set_value(
-                iter, ACCOUNTS_USERNAME, account['username']
+                accounts_iter, ACCOUNTS_USERNAME, account['username']
             )
             self.accounts_liststore.set_value(
-                iter, ACCOUNTS_LEVEL, account['authlevel']
+                accounts_iter, ACCOUNTS_LEVEL, account['authlevel']
             )
             self.accounts_liststore.set_value(
-                iter, ACCOUNTS_PASSWORD, account['password']
+                accounts_iter, ACCOUNTS_PASSWORD, account['password']
             )
 
     def _on_accounts_selection_changed(self, treeselection):
@@ -1116,15 +1116,15 @@ class Preferences(component.Component):
             authlevel = dialog.get_authlevel()
 
             def add_ok(rv):
-                iter = self.accounts_liststore.append()
+                accounts_iter = self.accounts_liststore.append()
                 self.accounts_liststore.set_value(
-                    iter, ACCOUNTS_USERNAME, username
+                    accounts_iter, ACCOUNTS_USERNAME, username
                 )
                 self.accounts_liststore.set_value(
-                    iter, ACCOUNTS_LEVEL, authlevel
+                    accounts_iter, ACCOUNTS_LEVEL, authlevel
                 )
                 self.accounts_liststore.set_value(
-                    iter, ACCOUNTS_PASSWORD, password
+                    accounts_iter, ACCOUNTS_PASSWORD, password
                 )
 
             def add_fail(failure):

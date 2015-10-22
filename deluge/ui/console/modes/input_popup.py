@@ -201,7 +201,7 @@ class IntSpinInput(InputField):
                 self.valstr = self.default_str
                 try:
                     int(self.value)
-                except:
+                except ValueError:
                     self.real_value = False
             else:
                 self.value = int(self.valstr)
@@ -214,11 +214,11 @@ class IntSpinInput(InputField):
             self.real_value = True
             try:
                 self.value = int(self.valstr)
-            except:
+            except ValueError:
                 self.value = self.default_value
                 try:
                     int(self.value)
-                except:
+                except ValueError:
                     self.real_value = False
         if not self.valstr:
             self.parent.add_string(row, "%s {!input!}[  ]" % self.message, screen, col, False, True)
@@ -381,7 +381,7 @@ class FloatSpinInput(InputField):
                 self.valstr = self.default_str
                 try:
                     float(self.value)
-                except:
+                except ValueError:
                     self.real_value = False
             else:
                 self.set_value(self.valstr)
@@ -394,11 +394,11 @@ class FloatSpinInput(InputField):
             self.real_value = True
             try:
                 self.value = round(float(self.valstr), self.precision)
-            except:
+            except ValueError:
                 self.value = self.default_value
                 try:
                     float(self.value)
-                except:
+                except ValueError:
                     self.real_value = False
 
         if not self.valstr:

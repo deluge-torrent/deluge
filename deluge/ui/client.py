@@ -159,7 +159,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                     # The rest just get's logged in debug level, just to log
                     # what's happening
                     log.debug(msg)
-            except:
+            except Exception:
                 import traceback
                 log.error("Failed to handle RPC_ERROR (Old daemon?): %s\nLocal error: %s",
                           request[2], traceback.format_exc())
@@ -426,8 +426,8 @@ class DaemonClassicProxy(DaemonProxy):
     def __init__(self, event_handlers=None):
         if event_handlers is None:
             event_handlers = {}
-        import deluge.core.daemon
-        self.__daemon = deluge.core.daemon.Daemon(classic=True)
+        from deluge.core import daemon
+        self.__daemon = daemon.Daemon(classic=True)
         log.debug("daemon created!")
         self.connected = True
         self.host = "localhost"

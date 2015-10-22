@@ -234,11 +234,11 @@ class FilterManager(component.Component):
         init_state["Active"] = len(self.filter_state_active(self.torrents.get_torrent_list()))
         return init_state
 
-    def register_filter(self, id, filter_func, filter_value=None):
-        self.registered_filters[id] = filter_func
+    def register_filter(self, filter_id, filter_func, filter_value=None):
+        self.registered_filters[filter_id] = filter_func
 
-    def deregister_filter(self, id):
-        del self.registered_filters[id]
+    def deregister_filter(self, filter_id):
+        del self.registered_filters[filter_id]
 
     def register_tree_field(self, field, init_func=lambda: {}):
         self.tree_fields[field] = init_func

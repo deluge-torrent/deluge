@@ -83,7 +83,7 @@ def init_colors():
     try:
         curses.init_pair(counter, curses.COLOR_WHITE, curses.COLOR_BLACK)
         color_pairs[("white", "black")] = counter
-    except:
+    except Exception:
         pass
 
 

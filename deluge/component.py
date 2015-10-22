@@ -248,7 +248,7 @@ class ComponentRegistry(object):
         else:
             return succeed(None)
 
-    def start(self, names=[]):
+    def start(self, names=None):
         """
         Starts Components that are currently in a Stopped state and their
         dependencies.  If *names* is specified, will only start those
@@ -284,7 +284,7 @@ class ComponentRegistry(object):
 
         return DeferredList(deferreds)
 
-    def stop(self, names=[]):
+    def stop(self, names=None):
         """
         Stops Components that are currently not in a Stopped state.  If
         *names* is specified, then it will only stop those Components,
@@ -322,7 +322,7 @@ class ComponentRegistry(object):
 
         return DeferredList(deferreds)
 
-    def pause(self, names=[]):
+    def pause(self, names=None):
         """
         Pauses Components that are currently in a Started state.  If
         *names* is specified, then it will only pause those Components,
@@ -348,7 +348,7 @@ class ComponentRegistry(object):
 
         return DeferredList(deferreds)
 
-    def resume(self, names=[]):
+    def resume(self, names=None):
         """
         Resumes Components that are currently in a Paused state.  If
         *names* is specified, then it will only resume those Components,
@@ -386,7 +386,7 @@ class ComponentRegistry(object):
 
         """
         def on_stopped(result):
-            return DeferredList(map(lambda c: c._component_shutdown(), self.components.values()))
+            return DeferredList([comp._component_shutdown() for comp in self.components.values()])
 
         return self.stop(self.components.keys()).addCallback(on_stopped)
 

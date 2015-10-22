@@ -87,7 +87,6 @@ COUNTRIES = {
     'GM': _('Gambia'),
     'GE': _('Georgia'),
     'DE': _('Germany'),
-    'GB': _('United Kingdom'),
     'GH': _('Ghana'),
     'GI': _('Gibraltar'),
     'GR': _('Greece'),

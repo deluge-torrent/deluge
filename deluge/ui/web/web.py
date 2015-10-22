@@ -12,7 +12,8 @@ from __future__ import print_function
 import os
 from optparse import OptionGroup
 
-import deluge.common
+from deluge.common import osx_check, windows_check
+from deluge.configmanager import get_config_dir
 from deluge.ui.ui import _UI, UI
 
 
@@ -35,14 +36,14 @@ class Web(_UI):
         group.add_option("-b", "--base", dest="base",
                          help="Set the base path that the ui is running on (proxying)",
                          action="store", default=None)
-        if not (deluge.common.windows_check() or deluge.common.osx_check()):
+        if not (windows_check() or osx_check()):
             group.add_option("-d", "--do-not-daemonize", dest="donotdaemonize",
                              help="Do not daemonize the web interface",
                              action="store_true", default=False)
         group.add_option("-P", "--pidfile", dest="pidfile", type="str",
                          help="Use pidfile to store process id",
                          action="store", default=None)
-        if not deluge.common.windows_check():
+        if not windows_check():
             group.add_option("-U", "--user", dest="user", type="str",
                              help="User to switch to. Only use it when starting as root",
                              action="store", default=None)
@@ -60,8 +61,8 @@ class Web(_UI):
                          action="store_true", default=False)
         try:
             import OpenSSL
-            OpenSSL.__version__
-        except:
+            assert OpenSSL.__version__
+        except ImportError:
             pass
         else:
             group.add_option("--no-ssl", dest="ssl", action="store_false",
@@ -94,8 +95,7 @@ class Web(_UI):
 
             # chdir() to esnure that our process doesn't keep any directory in
             # use that may prevent a filesystem unmount.
-            import deluge.configmanager
-            os.chdir(deluge.configmanager.get_config_dir())
+            os.chdir(get_config_dir())
 
         if self.options.pidfile:
             open(self.options.pidfile, "wb").write("%d\n" % os.getpid())
@@ -133,7 +133,7 @@ class Web(_UI):
         if self.options.profile:
             import cProfile
             profiler = cProfile.Profile()
-            profile_output = deluge.configmanager.get_config_dir("delugeweb.profile")
+            profile_output = get_config_dir("delugeweb.profile")
 
             # Twisted catches signals to terminate
             def save_profile_stats():

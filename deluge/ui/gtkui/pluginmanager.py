@@ -43,7 +43,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, component.Compon
         """Deregisters a hook function"""
         try:
             self.hooks[hook].remove(function)
-        except:
+        except KeyError:
             log.warning("Unable to deregister hook %s", hook)
 
     def start(self):

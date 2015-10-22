@@ -203,14 +203,14 @@ class ListView:
         if self.unique_column_id:
             self.last_sort_order = {}
 
-            def record_position(model, path, iter, data):
-                self.last_sort_order[model[iter][self.unique_column_id]] = path[0]
+            def record_position(model, path, _iter, data):
+                self.last_sort_order[model[_iter][self.unique_column_id]] = path[0]
             model.foreach(record_position, None)
 
-    def on_model_row_inserted(self, model, path, iter):
+    def on_model_row_inserted(self, model, path, _iter):
         if self.unique_column_id:
             self.last_sort_order.setdefault(
-                model[iter][self.unique_column_id], len(model) - 1)
+                model[_iter][self.unique_column_id], len(model) - 1)
 
     def stabilize_sort_func(self, sort_func):
         def stabilized(model, iter1, iter2, data):
@@ -593,12 +593,14 @@ class ListView:
 
         return True
 
-    def add_progress_column(self, header, col_types=[float, str], sortid=0,
+    def add_progress_column(self, header, col_types=None, sortid=0,
                             hidden=False, position=None, status_field=None,
                             function=None, column_type="progress",
                             tooltip=None, sort_func=None, default=True):
         """Add a progress column to the listview."""
 
+        if col_types is None:
+            col_types = [float, str]
         render = gtk.CellRendererProgress()
         self.add_column(header, render, col_types, hidden, position,
                         status_field, sortid, function=function,
@@ -607,11 +609,13 @@ class ListView:
 
         return True
 
-    def add_texticon_column(self, header, col_types=[str, str], sortid=1,
+    def add_texticon_column(self, header, col_types=None, sortid=1,
                             hidden=False, position=None, status_field=None,
                             column_type="texticon", function=None,
                             tooltip=None, default=True, default_sort=False):
         """Adds a texticon column to the listview."""
+        if col_types is None:
+            col_types = [str, str]
         render1 = gtk.CellRendererPixbuf()
         render2 = gtk.CellRendererText()
 
@@ -622,9 +626,9 @@ class ListView:
 
         return True
 
-    def on_keypress_search_by_name(self, model, column, key, iter):
+    def on_keypress_search_by_name(self, model, column, key, _iter):
         torrent_name_col = self.columns["Name"].column_indices[1]
-        return not model[iter][torrent_name_col].lower().startswith(key.lower())
+        return not model[_iter][torrent_name_col].lower().startswith(key.lower())
 
     def restore_columns_order_from_state(self):
         if self.state is None:
@@ -656,8 +660,7 @@ class ListView:
                 continue
             column = find_column(col_state.name)
             if not column:
-                log.debug("Could not find column matching \"%s\" on state." %
-                          col_state.name)
+                log.debug("Could not find column matching \"%s\" on state.", col_state.name)
                 # The cases where I've found that the column could not be found
                 # is when not using the english locale, ie, the default one, or
                 # when changing locales between runs.

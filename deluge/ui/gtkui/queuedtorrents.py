@@ -152,8 +152,8 @@ class QueuedTorrents(component.Component):
 
     def on_button_add_clicked(self, widget):
         # Add all the torrents in the liststore
-        def add_torrent(model, path, iter, data):
-            torrent_path = model.get_value(iter, 1).decode('utf-8')
+        def add_torrent(model, path, _iter, data):
+            torrent_path = model.get_value(_iter, 1).decode('utf-8')
             process_args([torrent_path])
 
         self.liststore.foreach(add_torrent, None)

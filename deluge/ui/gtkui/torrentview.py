@@ -598,7 +598,7 @@ class TorrentView(ListView, component.Component):
         """Returns data stored in self.status, it may not be complete"""
         try:
             return self.status[torrent_id]
-        except:
+        except KeyError:
             return {}
 
     def get_visible_torrents(self):

@@ -45,8 +45,8 @@ class EventView(BaseMode):
             string += " " * (self.cols - len(rf(string)) - len(rf(hstr))) + hstr
 
             self.add_string(self.rows - 1, string)
-        except:
-            pass
+        except Exception as ex:
+            log.debug("Exception caught: %s", ex)
 
         if events:
             for i, event in enumerate(events):

@@ -388,7 +388,7 @@ class TrackerIcons(Component):
         icon = TrackerIcon(icon_name)
         return icon
 
-    def on_download_icon_fail(self, f, host, icons=[]):
+    def on_download_icon_fail(self, f, host, icons=None):
         """
         Recovers from a download error
 
@@ -402,6 +402,8 @@ class TrackerIcons(Component):
                   else the original failure
         :rtype: Deferred or Failure
         """
+        if not icons:
+            icons = []
         error_msg = f.getErrorMessage()
         log.debug("Error downloading icon from %s: %s", host, error_msg)
         d = f
@@ -495,21 +497,21 @@ class FaviconParser(HTMLParser):
     def handle_starttag(self, tag, attrs):
         if tag == "link" and ("rel", "icon") in attrs or ("rel", "shortcut icon") in attrs:
             href = None
-            type = None
+            icon_type = None
             for attr, value in attrs:
                 if attr == "href":
                     href = value
                 elif attr == "type":
-                    type = value
+                    icon_type = value
             if href:
                 try:
                     mimetype = extension_to_mimetype(href.rpartition(".")[2])
                 except KeyError:
                     pass
                 else:
-                    type = mimetype
-                if type:
-                    self.icons.append((href, type))
+                    icon_type = mimetype
+                if icon_type:
+                    self.icons.append((href, icon_type))
 
     def handle_endtag(self, tag):
         if tag == "head":

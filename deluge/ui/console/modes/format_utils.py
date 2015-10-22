@@ -121,7 +121,7 @@ def format_column(col, lim):
 def format_row(row, column_widths):
     return "".join([format_column(row[i], column_widths[i]) for i in range(0, len(row))])
 
-_strip_re = re.compile("\{!.*?!\}")
+_strip_re = re.compile("\\{!.*?!\\}")
 
 
 def remove_formatting(string):

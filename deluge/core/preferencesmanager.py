@@ -121,11 +121,11 @@ class PreferencesManager(component.Component):
             log.warning("New proxy config is: %s", self.config["proxy"])
             del self.config["proxies"]
 
-    def start(self):
         self.core = component.get("Core")
         self.session = component.get("Core").session
         self.new_release_timer = None
 
+    def start(self):
         # Set the initial preferences on start-up
         for key in DEFAULT_PREFS:
             self.do_config_set_func(key, self.config[key])
@@ -270,13 +270,13 @@ class PreferencesManager(component.Component):
         pe_settings.allowed_enc_level = lt.enc_level(pe_enc_level[self.config["enc_level"]])
         pe_settings.prefer_rc4 = True
         self.session.set_pe_settings(pe_settings)
-        set = self.session.get_pe_settings()
+        pe_sess_settings = self.session.get_pe_settings()
         log.debug("encryption settings:\n\t\t\tout_policy: %s\n\t\t\
         in_policy: %s\n\t\t\tlevel: %s\n\t\t\tprefer_rc4: %s",
-                  set.out_enc_policy,
-                  set.in_enc_policy,
-                  set.allowed_enc_level,
-                  set.prefer_rc4)
+                  pe_sess_settings.out_enc_policy,
+                  pe_sess_settings.in_enc_policy,
+                  pe_sess_settings.allowed_enc_level,
+                  pe_sess_settings.prefer_rc4)
 
     def _on_set_max_connections_global(self, key, value):
         log.debug("max_connections_global set to %s..", value)
@@ -346,8 +346,9 @@ class PreferencesManager(component.Component):
         self.session_set_setting("dont_count_slow_torrents", value)
 
     def _on_set_send_info(self, key, value):
-        log.debug("Sending anonymous stats..")
         """sends anonymous stats home"""
+        log.debug("Sending anonymous stats..")
+
         class SendInfoThread(threading.Thread):
             def __init__(self, config):
                 self.config = config
@@ -358,7 +359,6 @@ class PreferencesManager(component.Component):
                 now = time.time()
                 # check if we've done this within the last week or never
                 if (now - self.config["info_sent"]) >= (60 * 60 * 24 * 7):
-                    import deluge.common
                     from urllib import quote_plus
                     from urllib2 import urlopen
                     import platform

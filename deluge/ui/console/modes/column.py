@@ -61,13 +61,13 @@ def get_column_value(name, state):
     if col[1]:
         try:
             args = [state[key] for key in col[0]]
-        except:
+        except KeyError:
             return "Please Wait"
         return col[1](*args)
     else:
         try:
             return state[col[0][0]]
-        except:
+        except KeyError:
             return "Please Wait"
 
 

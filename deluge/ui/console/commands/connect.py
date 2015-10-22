@@ -38,7 +38,7 @@ class Command(BaseCommand):
             def on_connect_fail(result):
                 try:
                     msg = result.value.exception_msg
-                except:
+                except AttributeError:
                     msg = result.value.args[0]
                 self.console.write("{!error!}Failed to connect to %s:%s with reason: %s" % (host, port, msg))
                 return result

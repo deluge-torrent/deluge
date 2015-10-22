@@ -26,7 +26,7 @@ try:
     from fcntl import ioctl
     import termios
     import struct
-except:
+except ImportError:
     pass
 
 
@@ -155,7 +155,7 @@ class BaseMode(CursesStdIO):
                 # This is the last string so lets append some " " to it
                 s += " " * (self.cols - (col + len(s)) - 1)
             if trim:
-                y, x = screen.getmaxyx()
+                dummy, x = screen.getmaxyx()
                 if (col + len(s)) > x:
                     s = "%s..." % s[0:x - 4 - col]
             screen.addstr(row, col, s, color)

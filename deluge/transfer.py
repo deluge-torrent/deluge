@@ -8,7 +8,7 @@
 #
 
 try:
-    import rencode
+    import rencode  # pylint: disable=relative-import
 except ImportError:
     import deluge.rencode as rencode
 

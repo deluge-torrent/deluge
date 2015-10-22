@@ -222,13 +222,13 @@ class ValueList(object):
                     return True
         return False
 
-    def handle_list_scroll(self, next=None, path=None, set_entry=False, swap=False, scroll_window=False):
+    def handle_list_scroll(self, _next=None, path=None, set_entry=False, swap=False, scroll_window=False):
         """
         Handles changes to the row selection.
 
-        :param next: the direction to change selection. True means down and False means up.
+        :param _next: the direction to change selection. True means down and False means up.
             None means no change.
-        :type  next: boolean/None
+        :type  _next: boolean/None
         :param path: the current path. If None, the currently selected path is used.
         :type  path: tuple
         :param set_entry: if the new value should be set in the text entry.
@@ -252,7 +252,7 @@ class ValueList(object):
             # Set adjustment increment to 3 times the row height
             adjustment.set_step_increment(self.row_height * 3)
 
-            if next:
+            if _next:
                 # If number of values is less than max rows, no scroll
                 if self.get_values_count() < self.max_visible_rows:
                     return
@@ -280,14 +280,14 @@ class ValueList(object):
                     path = cursor[0]
                 else:
                     # Since cursor is none, we won't advance the index
-                    next = None
+                    _next = None
 
-        # If next is None, we won't change the selection
-        if next is not None:
+        # If _next is None, we won't change the selection
+        if _next is not None:
             # We move the selection either one up or down.
             # If we reach end of list, we wrap
             index = path[0] if path else 0
-            index = index + 1 if next else index - 1
+            index = index + 1 if _next else index - 1
             if index >= len(self.tree_store):
                 index = 0
             elif index < 0:
@@ -422,10 +422,10 @@ class StoredValuesList(ValueList):
         elif key_is_up_or_down(keyval):
             # Swap the row value
             if event.state & gtk.gdk.CONTROL_MASK:
-                self.handle_list_scroll(next=key_is_down(keyval),
+                self.handle_list_scroll(_next=key_is_down(keyval),
                                         swap=True)
             else:
-                self.handle_list_scroll(next=key_is_down(keyval))
+                self.handle_list_scroll(_next=key_is_down(keyval))
         elif key_is_pgup_or_pgdown(event.keyval):
             # The cursor has been changed by the default key-press-event handler
             # so set the path of the cursor selected
@@ -484,7 +484,7 @@ class CompletionList(ValueList):
         keyval = event.keyval
         ctrl = event.state & gtk.gdk.CONTROL_MASK
         if key_is_up_or_down(keyval):
-            self.handle_list_scroll(next=key_is_down(keyval))
+            self.handle_list_scroll(_next=key_is_down(keyval))
             return True
         elif ctrl:
             # Set show/hide hidden files
@@ -501,7 +501,7 @@ class CompletionList(ValueList):
 
         path = self.treeview.get_path_at_pos(int(x), int(y))
         if path:
-            self.handle_list_scroll(path=path[0], next=None)
+            self.handle_list_scroll(path=path[0], _next=None)
 
 
 class PathChooserPopup(object):
@@ -667,7 +667,7 @@ class PathChooserPopup(object):
     def set_max_popup_rows(self, rows):
         try:
             int(rows)
-        except:
+        except Exception:
             self.max_visible_rows = 20
             return
         self.max_visible_rows = rows
@@ -780,7 +780,7 @@ class StoredValuesPopup(StoredValuesList, PathChooserPopup):
         """
         swap = event.state & gtk.gdk.CONTROL_MASK
         scroll_window = event.state & gtk.gdk.SHIFT_MASK
-        self.handle_list_scroll(next=event.direction == gdk.SCROLL_DOWN,
+        self.handle_list_scroll(_next=event.direction == gdk.SCROLL_DOWN,
                                 set_entry=widget != self.treeview, swap=swap, scroll_window=scroll_window)
         return True
 
@@ -829,10 +829,10 @@ class StoredValuesPopup(StoredValuesList, PathChooserPopup):
         return True
 
     def on_button_up_clicked(self, widget):
-        self.handle_list_scroll(next=False, swap=True)
+        self.handle_list_scroll(_next=False, swap=True)
 
     def on_button_down_clicked(self, widget):
-        self.handle_list_scroll(next=True, swap=True)
+        self.handle_list_scroll(_next=True, swap=True)
 
     def on_button_default_clicked(self, widget):
         if self.default_text:
@@ -904,11 +904,11 @@ class PathCompletionPopup(CompletionList, PathChooserPopup):
 
         """
         x, y, state = event.window.get_pointer()
-        self.handle_list_scroll(next=event.direction == gdk.SCROLL_DOWN,
+        self.handle_list_scroll(_next=event.direction == gdk.SCROLL_DOWN,
                                 set_entry=widget != self.treeview, scroll_window=True)
         path = self.treeview.get_path_at_pos(int(x), int(y))
         if path:
-            self.handle_list_scroll(path=path[0], next=None)
+            self.handle_list_scroll(path=path[0], _next=None)
         return True
 
 
@@ -970,7 +970,7 @@ class PathAutoCompleter(object):
             if values_count == 1:
                 self.do_completion()
             else:
-                self.completion_popup.handle_list_scroll(next=True)
+                self.completion_popup.handle_list_scroll(_next=True)
             return True
         self.path_entry.text_entry.emit("key-press-event", event)
 
@@ -1305,7 +1305,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
 
         # Select new row with arrow up/down is pressed
         if key_is_up_or_down(keyval):
-            self.handle_list_scroll(next=key_is_down(keyval),
+            self.handle_list_scroll(_next=key_is_down(keyval),
                                     set_entry=True)
             return True
         elif self.auto_completer.is_auto_completion_accelerator(keyval, state):
@@ -1515,7 +1515,7 @@ if __name__ == "__main__":
     box1.add(entry1)
     box1.add(entry2)
 
-    paths = [
+    test_paths = [
         "/home/bro/Downloads",
         "/media/Movies-HD",
         "/media/torrent/in",
@@ -1528,7 +1528,7 @@ if __name__ == "__main__":
         "/media/Series/19"
     ]
 
-    entry1.add_values(paths)
+    entry1.add_values(test_paths)
     entry1.set_text("/home/bro/", default_text=True)
     entry2.set_text("/home/bro/programmer/deluge/deluge-yarss-plugin/build/lib/yarss2/include/bs4/tests/",
                     cursor_end=False)

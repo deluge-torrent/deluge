@@ -224,14 +224,14 @@ class TorrentDetail(BaseMode, component.Component):
 
     def __update_columns(self):
         self.column_widths = [-1, 15, 15, 20]
-        req = sum(filter(lambda x: x >= 0, self.column_widths))
+        req = sum([col_width for col_width in self.column_widths if col_width >= 0])
         if req > self.cols:  # can't satisfy requests, just spread out evenly
             cw = int(self.cols / len(self.column_names))
             for i in range(0, len(self.column_widths)):
                 self.column_widths[i] = cw
         else:
             rem = self.cols - req
-            var_cols = len(filter(lambda x: x < 0, self.column_widths))
+            var_cols = len([col_width for col_width in self.column_widths if col_width < 0])
             vw = int(rem / var_cols)
             for i in range(0, len(self.column_widths)):
                 if self.column_widths[i] < 0:
@@ -267,9 +267,7 @@ class TorrentDetail(BaseMode, component.Component):
             for i in old_folder.strip("/").split("/"):
                 if not fl:
                     fe = fl = self.file_list
-
-                s = filter(lambda x: x[0].strip("/") == i, fl)[0]
-
+                s = [files for files in fl if files[0].strip("/") == i][0]
                 fe = s
                 fl = s[3]
             fe[0] = new_folder.strip("/").rpartition("/")[-1]
@@ -519,8 +517,8 @@ class TorrentDetail(BaseMode, component.Component):
             string += " " * (self.cols - len(rf(string)) - len(rf(hstr))) + hstr
 
             self.add_string(self.rows - 1, string)
-        except:
-            pass
+        except Exception as ex:
+            log.debug("Exception caught: %s", ex)
 
         off = 1
         if self.torrent_state:

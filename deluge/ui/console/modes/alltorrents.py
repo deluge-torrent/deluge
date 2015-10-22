@@ -102,18 +102,18 @@ files in the torrent and the ability to set file priorities.
   input something
 """
 
-
-class FILTER:
-    ALL = 0
-    ACTIVE = 1
-    DOWNLOADING = 2
-    SEEDING = 3
-    PAUSED = 4
-    CHECKING = 5
-    ERROR = 6
-    QUEUED = 7
-    ALLOCATING = 8
-    MOVING = 9
+STATE_FILTER = {
+    "all": 0,
+    "active": 1,
+    "downloading": 2,
+    "seeding": 3,
+    "paused": 4,
+    "checking": 5,
+    "error": 6,
+    "queued": 7,
+    "allocating": 8,
+    "moving": 9
+}
 
 DEFAULT_PREFS = {
     "show_queue": True,
@@ -386,14 +386,14 @@ class AllTorrents(BaseMode, component.Component):
 
     def __update_columns(self):
         self.column_widths = [self.config["%s_width" % c] for c in self.__cols_to_show]
-        req = sum(filter(lambda x: x >= 0, self.column_widths))
-        if req > self.cols:  # can't satisfy requests, just spread out evenly
+        requested_width = sum([width for width in self.column_widths if width >= 0])
+        if requested_width > self.cols:  # can't satisfy requests, just spread out evenly
             cw = int(self.cols / len(self.__columns))
             for i in range(0, len(self.column_widths)):
                 self.column_widths[i] = cw
         else:
-            rem = self.cols - req
-            var_cols = len(filter(lambda x: x < 0, self.column_widths))
+            rem = self.cols - requested_width
+            var_cols = len([width for width in self.column_widths if width < 0])
             if var_cols > 0:
                 vw = int(rem / var_cols)
                 for i in range(0, len(self.column_widths)):
@@ -404,7 +404,7 @@ class AllTorrents(BaseMode, component.Component):
 
         try:
             primary_sort_col_name = prefs_to_names[self.config["sort_primary"]]
-        except:
+        except KeyError:
             primary_sort_col_name = ""
 
         for i, column in enumerate(self.__columns):
@@ -652,34 +652,34 @@ class AllTorrents(BaseMode, component.Component):
         component.stop(["AllTorrents"]).addCallback(dolegacy)
 
     def _torrent_filter(self, idx, data):
-        if data == FILTER.ALL:
+        if data == STATE_FILTER["all"]:
             self.__status_dict = {}
             self._curr_filter = None
-        elif data == FILTER.ACTIVE:
+        elif data == STATE_FILTER["active"]:
             self.__status_dict = {"state": "Active"}
             self._curr_filter = "Active"
-        elif data == FILTER.DOWNLOADING:
+        elif data == STATE_FILTER["downloading"]:
             self.__status_dict = {"state": "Downloading"}
             self._curr_filter = "Downloading"
-        elif data == FILTER.SEEDING:
+        elif data == STATE_FILTER["seeding"]:
             self.__status_dict = {"state": "Seeding"}
             self._curr_filter = "Seeding"
-        elif data == FILTER.PAUSED:
+        elif data == STATE_FILTER["paused"]:
             self.__status_dict = {"state": "Paused"}
             self._curr_filter = "Paused"
-        elif data == FILTER.CHECKING:
+        elif data == STATE_FILTER["checking"]:
             self.__status_dict = {"state": "Checking"}
             self._curr_filter = "Checking"
-        elif data == FILTER.ERROR:
+        elif data == STATE_FILTER["error"]:
             self.__status_dict = {"state": "Error"}
             self._curr_filter = "Error"
-        elif data == FILTER.QUEUED:
+        elif data == STATE_FILTER["queued"]:
             self.__status_dict = {"state": "Queued"}
             self._curr_filter = "Queued"
-        elif data == FILTER.ALLOCATING:
+        elif data == STATE_FILTER["allocating"]:
             self.__status_dict = {"state": "Allocating"}
             self._curr_filter = "Allocating"
-        elif data == FILTER.MOVING:
+        elif data == STATE_FILTER["moving"]:
             self.__status_dict = {"state": "Moving"}
             self._curr_filter = "Moving"
 
@@ -688,16 +688,16 @@ class AllTorrents(BaseMode, component.Component):
 
     def _show_torrent_filter_popup(self):
         self.popup = SelectablePopup(self, "Filter Torrents", self._torrent_filter)
-        self.popup.add_line("_All", data=FILTER.ALL)
-        self.popup.add_line("Ac_tive", data=FILTER.ACTIVE)
-        self.popup.add_line("_Downloading", data=FILTER.DOWNLOADING, foreground="green")
-        self.popup.add_line("_Seeding", data=FILTER.SEEDING, foreground="cyan")
-        self.popup.add_line("_Paused", data=FILTER.PAUSED)
-        self.popup.add_line("_Error", data=FILTER.ERROR, foreground="red")
-        self.popup.add_line("_Checking", data=FILTER.CHECKING, foreground="blue")
-        self.popup.add_line("Q_ueued", data=FILTER.QUEUED, foreground="yellow")
-        self.popup.add_line("A_llocating", data=FILTER.ALLOCATING, foreground="yellow")
-        self.popup.add_line("_Moving", data=FILTER.MOVING, foreground="green")
+        self.popup.add_line("_All", data=STATE_FILTER["all"])
+        self.popup.add_line("Ac_tive", data=STATE_FILTER["active"])
+        self.popup.add_line("_Downloading", data=STATE_FILTER["downloading"], foreground="green")
+        self.popup.add_line("_Seeding", data=STATE_FILTER["seeding"], foreground="cyan")
+        self.popup.add_line("_Paused", data=STATE_FILTER["paused"])
+        self.popup.add_line("_Error", data=STATE_FILTER["error"], foreground="red")
+        self.popup.add_line("_Checking", data=STATE_FILTER["checking"], foreground="blue")
+        self.popup.add_line("Q_ueued", data=STATE_FILTER["queued"], foreground="yellow")
+        self.popup.add_line("A_llocating", data=STATE_FILTER["allocating"], foreground="yellow")
+        self.popup.add_line("_Moving", data=STATE_FILTER["moving"], foreground="green")
 
     def _report_add_status(self, succ_cnt, fail_cnt, fail_msgs):
         if fail_cnt == 0:
@@ -712,13 +712,13 @@ class AllTorrents(BaseMode, component.Component):
 
         def do_add_from_url(result):
             def fail_cb(msg, url):
-                log.debug("failed to add torrent: %s: %s" % (url, msg))
+                log.debug("failed to add torrent: %s: %s", url, msg)
                 error_msg = "{!input!} * %s: {!error!}%s" % (url, msg)
                 self._report_add_status(0, 1, [error_msg])
 
             def success_cb(tid, url):
                 if tid:
-                    log.debug("added torrent: %s (%s)" % (url, tid))
+                    log.debug("added torrent: %s (%s)", url, tid)
                     self._report_add_status(1, 0, [])
                 else:
                     fail_cb("Already in session (probably)", url)
@@ -859,7 +859,7 @@ class AllTorrents(BaseMode, component.Component):
                 string += " " * (self.cols - len(rf(string)) - len(rf(hstr))) + hstr
 
                 self.add_string(self.rows - 1, string)
-            except:
+            except Exception:
                 pass
 
         # add all the torrents
@@ -958,8 +958,8 @@ class AllTorrents(BaseMode, component.Component):
 
                 try:
                     self.add_string(currow, "%s%s" % (colorstr, row[0]), trim=False)
-                except:
-                    # Yeah, this should be fixed in some better way
+                except Exception:
+                    # XXX: Yeah, this should be fixed in some better way
                     pass
                 tidx += 1
                 currow += 1
@@ -1260,7 +1260,7 @@ class AllTorrents(BaseMode, component.Component):
                     i = len(self.__cols_to_show)
                     try:
                         i = self.__cols_to_show.index(self.config["sort_primary"]) - 1
-                    except:
+                    except KeyError:
                         pass
 
                     i = max(0, i)
@@ -1276,7 +1276,7 @@ class AllTorrents(BaseMode, component.Component):
                     i = 0
                     try:
                         i = self.__cols_to_show.index(self.config["sort_primary"]) + 1
-                    except:
+                    except KeyError:
                         pass
 
                     i = min(len(self.__cols_to_show) - 1, i)

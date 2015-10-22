@@ -12,6 +12,7 @@
 
 import inspect
 import logging
+import logging.handlers
 import os
 
 from twisted.internet import defer
@@ -94,7 +95,6 @@ class Logging(LoggingLoggerClass):
         return rv
 
 levels = {
-    "none": logging.NOTSET,
     "info": logging.INFO,
     "warn": logging.WARNING,
     "warning": logging.WARNING,
@@ -114,7 +114,6 @@ def setup_logger(level="error", filename=None, filemode="w"):
     :param level: str, the level to log
     :param filename: str, the file to log to
     """
-    import logging
 
     if logging.getLoggerClass() is not Logging:
         logging.setLoggerClass(Logging)
@@ -126,7 +125,6 @@ def setup_logger(level="error", filename=None, filemode="w"):
     root_logger = logging.getLogger()
 
     if filename and filemode == "a":
-        import logging.handlers
         handler = logging.handlers.RotatingFileHandler(
             filename, filemode,
             maxBytes=50 * 1024 * 1024,  # 50 Mb
@@ -135,7 +133,6 @@ def setup_logger(level="error", filename=None, filemode="w"):
             delay=0
         )
     elif filename and filemode == "w":
-        import logging.handlers
         handler = getattr(
             logging.handlers, "WatchedFileHandler", logging.FileHandler)(
             filename, filemode, "utf-8", delay=0

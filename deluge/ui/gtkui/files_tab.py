@@ -346,15 +346,15 @@ class FilesTab(Tab):
     def prepare_file_store(self, files):
         split_files = {}
         i = 0
-        for file in files:
-            self.prepare_file(file, file["path"], i, split_files)
+        for _file in files:
+            self.prepare_file(_file, _file["path"], i, split_files)
             i += 1
         self.add_files(None, split_files)
 
-    def prepare_file(self, file, file_name, file_num, files_storage):
+    def prepare_file(self, _file, file_name, file_num, files_storage):
         first_slash_index = file_name.find("/")
         if first_slash_index == -1:
-            files_storage[file_name] = (file_num, file)
+            files_storage[file_name] = (file_num, _file)
         else:
             file_name_chunk = file_name[:first_slash_index + 1]
             if file_name_chunk not in files_storage:
@@ -419,24 +419,24 @@ class FilesTab(Tab):
             return
 
         def get_completed_bytes(row):
-            bytes = 0
+            completed_bytes = 0
             parent = self.treestore.iter_parent(row)
             while row:
                 if self.treestore.iter_children(row):
-                    bytes += get_completed_bytes(self.treestore.iter_children(row))
+                    completed_bytes += get_completed_bytes(self.treestore.iter_children(row))
                 else:
-                    bytes += self.treestore[row][1] * (float(self.treestore[row][3]) / 100.0)
+                    completed_bytes += self.treestore[row][1] * (float(self.treestore[row][3]) / 100.0)
 
                 row = self.treestore.iter_next(row)
 
             try:
-                value = (float(bytes) / float(self.treestore[parent][1])) * 100
+                value = (float(completed_bytes) / float(self.treestore[parent][1])) * 100
             except ZeroDivisionError:
                 # Catch the unusal error found when moving folders around
                 value = 0
             self.treestore[parent][3] = value
             self.treestore[parent][2] = "%.2f%%" % value
-            return bytes
+            return completed_bytes
 
         get_completed_bytes(self.treestore.iter_children(root))
 
@@ -536,12 +536,12 @@ class FilesTab(Tab):
         """Sets the file priorities in the core. It will change the selected with the 'priority'"""
         file_priorities = []
 
-        def set_file_priority(model, path, iter, data):
-            index = model.get_value(iter, 5)
+        def set_file_priority(model, path, _iter, data):
+            index = model.get_value(_iter, 5)
             if index in selected and index != -1:
                 file_priorities.append((index, priority))
             elif index != -1:
-                file_priorities.append((index, model.get_value(iter, 4)))
+                file_priorities.append((index, model.get_value(_iter, 4)))
 
         self.treestore.foreach(set_file_priority, None)
         file_priorities.sort()
@@ -768,13 +768,13 @@ class FilesTab(Tab):
             old_split = old_folder.split("/")
             try:
                 old_split.remove("")
-            except:
+            except ValueError:
                 pass
 
             new_split = new_folder.split("/")
             try:
                 new_split.remove("")
-            except:
+            except ValueError:
                 pass
 
             old_folder_iter = self.get_iter_at_path(old_folder)

@@ -34,6 +34,10 @@ log = logging.getLogger(__name__)
 
 
 class IPCProtocolServer(Protocol):
+
+    def __init__(self):
+        pass
+
     def dataReceived(self, data):  # NOQA
         config = ConfigManager("gtkui.conf")
         data = rencode.loads(data, decode_utf8=True)
@@ -43,6 +47,10 @@ class IPCProtocolServer(Protocol):
 
 
 class IPCProtocolClient(Protocol):
+
+    def __init__(self):
+        pass
+
     def connectionMade(self):  # NOQA
         self.transport.write(rencode.dumps(self.factory.args))
         self.transport.loseConnection()

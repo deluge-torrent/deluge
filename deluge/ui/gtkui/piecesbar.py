@@ -207,10 +207,10 @@ class PiecesBar(gtk.DrawingArea):
                 if self.__state:
                     text += _(self.__state) + " "
                 if self.__fraction == 1.0:
-                    format = "%d%%"
+                    fraction_format = "%d%%"
                 else:
-                    format = "%.2f%%"
-                text += format % (self.__fraction * 100)
+                    fraction_format = "%.2f%%"
+                text += fraction_format % (self.__fraction * 100)
             log.trace("PiecesBar text %r", text)
             pl.set_text(text)
             plsize = pl.get_size()

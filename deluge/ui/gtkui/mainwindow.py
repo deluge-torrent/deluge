@@ -146,7 +146,7 @@ class MainWindow(component.Component):
             component.resume("TorrentView")
             component.resume("StatusBar")
             component.resume("TorrentDetails")
-        except:
+        except Exception:
             pass
         self.window.show()
 
@@ -170,13 +170,13 @@ class MainWindow(component.Component):
                 else:
                     self.config["window_x_pos"] = self.window_x_pos
                     self.config["window_y_pos"] = self.window_y_pos
-            except:
+            except Exception:
                 pass
             try:
                 component.resume("TorrentView")
                 component.resume("StatusBar")
                 component.resume("TorrentDetails")
-            except:
+            except Exception:
                 pass
 
             self.window.present()
@@ -272,7 +272,7 @@ class MainWindow(component.Component):
                 try:
                     component.resume("TorrentView")
                     component.resume("StatusBar")
-                except:
+                except Exception:
                     pass
                 self.is_minimized = False
         return False

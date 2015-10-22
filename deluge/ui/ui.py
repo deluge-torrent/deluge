@@ -117,7 +117,6 @@ class _UI(object):
 
 class UI:
     def __init__(self, options, args, ui_args):
-        import logging
         log = logging.getLogger(__name__)
         log.debug("UI init..")
 
@@ -153,7 +152,6 @@ class UI:
                 from deluge.ui.console.main import ConsoleUI
                 ConsoleUI(ui_args)
         except ImportError as ex:
-            import sys
             import traceback
             error_type, error_value, tb = sys.exc_info()
             stack = traceback.extract_tb(tb)

@@ -63,13 +63,15 @@ confidence=
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
 #
-# Arranged by category (convention, error, information, refactor, warning).
-# One category per line using symbolic names instead of ids.
+# Arranged by category: Convention, Error, Information, Refactor, Warning.
+# Category per line (wrapped categories are indented) using symbolic names instead of ids.
 disable=missing-docstring, invalid-name, old-style-class, bad-continuation,
- no-member, not-callable, no-name-in-module,
- locally-disabled,
- R,
- W
+    no-member, not-callable, no-name-in-module,
+    locally-disabled,
+    R,
+    unused-argument, broad-except, fixme, protected-access, import-error, unidiomatic-typecheck,
+        unused-variable, global-statement, attribute-defined-outside-init, arguments-differ,
+        no-init, non-parent-init-called, super-init-not-called, signature-differs
 
 [REPORTS]
 

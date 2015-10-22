@@ -168,7 +168,7 @@ class PluginManagerBase:
         cont_lines = []
         # Missing plugin info
         if not self.pkg_env[name]:
-            log.warn("Failed to retrive info for plugin '%s'" % name)
+            log.warn("Failed to retrive info for plugin '%s'", name)
             for k in info:
                 info[k] = "not available"
             return info

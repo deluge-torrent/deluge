@@ -198,7 +198,7 @@ what is currently in the config and it could not convert the value
         global callLater
         if callLater is None:
             # Must import here and not at the top or it will throw ReactorAlreadyInstalledError
-            from twisted.internet.reactor import callLater
+            from twisted.internet.reactor import callLater  # pylint: disable=redefined-outer-name
         # Run the set_function for this key if any
         try:
             for func in self.__set_functions[key]:
@@ -210,7 +210,7 @@ what is currently in the config and it could not convert the value
                 for func in self.__change_callbacks:
                     func(key, value)
             callLater(0, do_change_callbacks, key, value)
-        except:
+        except Exception:
             pass
 
         # We set the save_timer for 5 seconds if not already set
@@ -295,7 +295,7 @@ what is currently in the config and it could not convert the value
         global callLater
         if callLater is None:
             # Must import here and not at the top or it will throw ReactorAlreadyInstalledError
-            from twisted.internet.reactor import callLater
+            from twisted.internet.reactor import callLater  # pylint: disable=redefined-outer-name
 
         # We set the save_timer for 5 seconds if not already set
         if not self._save_timer or not self._save_timer.active():

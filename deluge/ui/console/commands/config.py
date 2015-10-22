@@ -21,16 +21,16 @@ from deluge.ui.console.main import BaseCommand
 log = logging.getLogger(__name__)
 
 
-def atom(next, token):
+def atom(_next, token):
     """taken with slight modifications from http://effbot.org/zone/simple-iterator-parser.htm"""
     if token[1] == "(":
         out = []
-        token = next()
+        token = _next()
         while token[1] != ")":
-            out.append(atom(next, token))
-            token = next()
+            out.append(atom(_next, token))
+            token = _next()
             if token[1] == ",":
-                token = next()
+                token = _next()
         return tuple(out)
     elif token[0] is tokenize.NUMBER or token[1] == "-":
         try:
@@ -118,7 +118,7 @@ class Command(BaseCommand):
         if type(config[key]) != type(val):
             try:
                 val = type(config[key])(val)
-            except:
+            except TypeError:
                 self.config.write("{!error!}Configuration value provided has incorrect type.")
                 return
 
