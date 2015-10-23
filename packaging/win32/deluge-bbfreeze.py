@@ -11,6 +11,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import print_function
+
 import glob
 import os
 import re
@@ -27,7 +29,7 @@ import deluge.common
 class VersionInfo(object):
     def __init__(self, version, internalname=None, originalfilename=None,
                  comments=None, company=None, description=None,
-                 copyright=None, trademarks=None, product=None, dll=False,
+                 _copyright=None, trademarks=None, product=None, dll=False,
                  debug=False, verbose=True):
         parts = version.split(".")
         while len(parts) < 4:
@@ -38,7 +40,7 @@ class VersionInfo(object):
         self.comments = comments
         self.company = company
         self.description = description
-        self.copyright = copyright
+        self.copyright = _copyright
         self.trademarks = trademarks
         self.product = product
         self.dll = dll
@@ -105,7 +107,7 @@ for script in glob.glob(os.path.join(python_path, "Scripts\\deluge*-script.py*")
     try:
         fzr.addScript(new_script, gui_only=gui_script)
         script_list.append(new_script)
-    except:
+    except Exception:
         os.remove(script)
 
 # Start the freezing process.
@@ -120,9 +122,9 @@ excludeDlls = ("MSIMG32.dll", "MSVCR90.dll", "MSVCP90.dll", "MSVCR120.dll",
                "POWRPROF.dll", "DNSAPI.dll", "USP10.dll", "MPR.dll",
                "jpeg.dll", "libfreetype-6.dll", "libpng12-0.dll", "libtiff.dll",
                "SDL_image.dll", "SDL_ttf.dll")
-for dll in excludeDlls:
+for exclude_dll in excludeDlls:
     try:
-        os.remove(os.path.join(build_dir, dll))
+        os.remove(os.path.join(build_dir, exclude_dll))
     except OSError:
         pass
 
@@ -135,11 +137,11 @@ gtk_locale = os.path.join(gtk_root, 'share/locale')
 locale_include_list = ['gtk20.mo', 'locale.alias']
 
 
-def ignored_files(adir, filenames):
+def ignored_files(adir, ignore_filenames):
     return [
-        filename for filename in filenames
-        if not os.path.isdir(os.path.join(adir, filename))
-        and filename not in locale_include_list
+        ignore_file for ignore_file in ignore_filenames
+        if not os.path.isdir(os.path.join(adir, ignore_file)) and
+        ignore_file not in locale_include_list
     ]
 shutil.copytree(gtk_locale, os.path.join(build_dir, 'share/locale'), ignore=ignored_files)
 
@@ -160,7 +162,7 @@ for path_root, path in theme_include_list:
         dst_dir = os.path.join(build_dir, os.path.dirname(path))
         try:
             os.makedirs(dst_dir)
-        except:
+        except OSError:
             pass
         shutil.copy(full_path, dst_dir)
 
@@ -173,7 +175,7 @@ for script in script_list:
                                   description="Deluge Bittorrent Client",
                                   company="Deluge Team",
                                   product="Deluge",
-                                  copyright="Deluge Team")
+                                  _copyright="Deluge Team")
         stamp(os.path.join(build_dir, script_exe), versionInfo)
 
 # Copy version info to file for nsis script.

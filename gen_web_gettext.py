@@ -10,6 +10,8 @@
 
 """Script to parse javascript files for translation strings and generate gettext.js"""
 
+from __future__ import print_function
+
 import os
 import re
 

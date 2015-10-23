@@ -9,6 +9,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import print_function
+
 import glob
 import os
 import platform
@@ -91,7 +93,7 @@ class BuildTranslations(cmd.Command):
             os.system('C_ALL=C ' + '%s ' * 5 % (intltool_merge, intltool_merge_opts,
                                                 po_dir, desktop_in, desktop_data))
 
-        print('Compiling po files from %s...' % po_dir),
+        print('Compiling po files from %s...' % po_dir)
         for path, names, filenames in os.walk(po_dir):
             for f in filenames:
                 upto_date = False

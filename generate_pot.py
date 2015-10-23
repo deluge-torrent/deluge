@@ -11,6 +11,8 @@
 
 """Parses Python and Javascript code for translation strings to create the 'deluge.pot' template for translators"""
 
+from __future__ import print_function
+
 import os
 import re
 from datetime import datetime
@@ -30,7 +32,7 @@ WEBUI_RENDER_DIR = "deluge/ui/web/render"
 INFILES_LIST = "infiles.list"
 POT_FILEPATH = os.path.join("deluge", "i18n", "deluge.pot")
 
-RE_EXC_PLUGIN_BUILD = re.compile("deluge\/plugins\/.*\/build")
+RE_EXC_PLUGIN_BUILD = re.compile("deluge\\/plugins\\/.*\\/build")
 
 xgettext_cmd = [
     "xgettext",

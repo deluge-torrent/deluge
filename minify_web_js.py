@@ -15,6 +15,8 @@ Usage: python minify_web_js.py deluge/ui/web/js/deluge-all
 
 """
 
+from __future__ import print_function
+
 import fileinput
 import fnmatch
 import os
@@ -106,5 +108,5 @@ if __name__ == '__main__':
     else:
         JS_SOURCE_DIRS = [os.path.abspath(sys.argv[1])]
 
-    for source_dir in JS_SOURCE_DIRS:
-        minify_js_dir(source_dir)
+    for js_source_dir in JS_SOURCE_DIRS:
+        minify_js_dir(js_source_dir)

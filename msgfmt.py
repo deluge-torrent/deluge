@@ -27,6 +27,7 @@ Options:
 """
 
 import array
+import ast
 import getopt
 import os
 import struct
@@ -51,7 +52,6 @@ def add(msgid, transtr, fuzzy):
     """
     Add a non-fuzzy translation to the dictionary.
     """
-    global MESSAGES
     if not fuzzy and transtr and not transtr.startswith('\0'):
         MESSAGES[msgid] = transtr
 
@@ -60,7 +60,6 @@ def generate():
     """
     Return the generated output.
     """
-    global MESSAGES
     keys = MESSAGES.keys()
     # the keys are sorted in the .mo file
     keys.sort()
@@ -165,8 +164,7 @@ def make(filename, outfile):
         l = l.strip()
         if not l:
             continue
-        # XXX: Does this always follow Python escape semantics?
-        l = eval(l)
+        l = ast.literal_eval(l)
         if section == section_id:
             msgid += l
         elif section == section_str:
