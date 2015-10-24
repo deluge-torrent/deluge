@@ -20,7 +20,7 @@ from twisted.python.log import PythonLoggingObserver
 
 from deluge import common
 
-__all__ = ["setup_logger", "set_logger_level", "get_plugin_logger", "LOG"]
+__all__ = ("setup_logger", "set_logger_level", "get_plugin_logger", "LOG")
 
 LoggingLoggerClass = logging.getLoggerClass()
 

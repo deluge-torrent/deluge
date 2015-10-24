@@ -6,7 +6,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-# pylint: disable=super-on-old-class
 
 import gtk
 from twisted.internet import defer

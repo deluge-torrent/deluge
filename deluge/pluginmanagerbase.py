@@ -44,7 +44,7 @@ git repository to have an idea of what needs to be changed.
 """
 
 
-class PluginManagerBase:
+class PluginManagerBase(object):
     """PluginManagerBase is a base class for PluginManagers to inherit"""
 
     def __init__(self, config_file, entry_name):

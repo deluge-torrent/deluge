@@ -12,8 +12,8 @@
 # Authour: Garett Harnish
 
 import logging
+import sys
 from optparse import OptionParser
-from sys import exit, stderr
 
 
 def is_float_digit(string):
@@ -23,7 +23,7 @@ def is_float_digit(string):
         try:
             float(string)
             return True
-        except:
+        except ValueError:
             return False
 
 # set up command-line options
@@ -57,38 +57,38 @@ if options.max_active_limit:
     if options.max_active_limit.isdigit() and int(options.max_active_limit) >= 0:
         settings['max_active_limit'] = int(options.max_active_limit)
     else:
-        stderr.write("ERROR: Invalid max_active_limit parameter!\n")
-        exit(-1)
+        sys.stderr.write("ERROR: Invalid max_active_limit parameter!\n")
+        sys.exit(-1)
 
 if options.max_active_downloading:
     if options.max_active_downloading.isdigit() and int(options.max_active_downloading) >= 0:
         settings['max_active_downloading'] = int(options.max_active_downloading)
     else:
-        stderr.write("ERROR: Invalid max_active_downloading parameter!\n")
-        exit(-1)
+        sys.stderr.write("ERROR: Invalid max_active_downloading parameter!\n")
+        sys.exit(-1)
 
 if options.max_active_seeding:
     if options.max_active_seeding.isdigit() and int(options.max_active_seeding) >= 0:
         settings['max_active_seeding'] = int(options.max_active_seeding)
     else:
-        stderr.write("ERROR: Invalid max_active_seeding parameter!\n")
-        exit(-1)
+        sys.stderr.write("ERROR: Invalid max_active_seeding parameter!\n")
+        sys.exit(-1)
 
 if options.max_download_speed:
     if is_float_digit(options.max_download_speed) and (
             float(options.max_download_speed) >= 0.0 or float(options.max_download_speed) == -1.0):
         settings['max_download_speed'] = float(options.max_download_speed)
     else:
-        stderr.write("ERROR: Invalid max_download_speed parameter!\n")
-        exit(-1)
+        sys.stderr.write("ERROR: Invalid max_download_speed parameter!\n")
+        sys.exit(-1)
 
 if options.max_upload_speed:
     if is_float_digit(options.max_upload_speed) and (
             float(options.max_upload_speed) >= 0.0 or float(options.max_upload_speed) == -1.0):
         settings['max_upload_speed'] = float(options.max_upload_speed)
     else:
-        stderr.write("ERROR: Invalid max_upload_speed parameter!\n")
-        exit(-1)
+        sys.stderr.write("ERROR: Invalid max_upload_speed parameter!\n")
+        sys.exit(-1)
 
 # If there is something to do ...
 if settings:

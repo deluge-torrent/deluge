@@ -60,7 +60,7 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
     """
     global AUTH_LEVEL_DEFAULT, AuthError
     if AUTH_LEVEL_DEFAULT is None:
-        from deluge.ui.web.auth import AUTH_LEVEL_DEFAULT, AuthError  # pylint: disable=redefined-outer-name
+        from deluge.ui.web.auth import AUTH_LEVEL_DEFAULT, AuthError  # NOQA pylint: disable=redefined-outer-name
 
     def wrap(func, *args, **kwargs):
         func._json_export = True

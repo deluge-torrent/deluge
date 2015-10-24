@@ -71,7 +71,7 @@ def create_plugin():
         return
 
     def write_file(path, filename, template, include_gpl=True):
-        args = {
+        plugin_args = {
             "author_name": options.author_name,
             "author_email": options.author_email,
             "name": name,
@@ -87,8 +87,8 @@ def create_plugin():
         filename = os.path.join(path, filename)
         f = open(filename, "w")
         if filename.endswith(".py") and include_gpl:
-            f.write(GPL % args)
-        f.write(template % args)
+            f.write(GPL % plugin_args)
+        f.write(template % plugin_args)
         f.close()
 
     print("creating folders..")

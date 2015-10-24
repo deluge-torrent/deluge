@@ -53,13 +53,13 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, component.Compon
 
     def enable_plugin(self, name):
         if name not in self.plugins:
-            super(PluginManager, self).enable_plugin(name)
+            deluge.pluginmanagerbase.PluginManagerBase.enable_plugin(self, name)
             if name in self.plugins:
                 component.get("EventManager").emit(PluginEnabledEvent(name))
 
     def disable_plugin(self, name):
         if name in self.plugins:
-            super(PluginManager, self).disable_plugin(name)
+            deluge.pluginmanagerbase.PluginManagerBase.disable_plugin(self, name)
             if name not in self.plugins:
                 component.get("EventManager").emit(PluginDisabledEvent(name))
 

@@ -63,7 +63,7 @@ from threading import Lock
 from types import DictType, FloatType, IntType, ListType, LongType, NoneType, StringType, TupleType, UnicodeType
 
 __version__ = '1.0.2'
-__all__ = ['dumps', 'loads']
+__all__ = ('dumps', 'loads')
 
 # Default number of bits for serialized floats, either 32 or 64 (also a parameter for dumps()).
 DEFAULT_FLOAT_BITS = 32
