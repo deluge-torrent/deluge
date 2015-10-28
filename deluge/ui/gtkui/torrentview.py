@@ -157,7 +157,7 @@ def cell_data_progress(column, cell, model, row, data):
         cell.set_property("value", value)
 
     textstr = _t(state_str)
-    if state_str != "Seeding" and value < 100:
+    if state_str not in ("Error", "Seeding") and value < 100:
         textstr = "%s %.2f%%" % (textstr, value)
     if cell.get_property("text") != textstr:
         cell.set_property("text", textstr)
