@@ -138,7 +138,7 @@ def cell_data_progress(column, cell, model, row, data):
 
     # Marked for translate states text are in filtertreeview
     textstr = _(state_str)
-    if state_str != "Seeding" and value < 100:
+    if state_str not in ("Error", "Seeding") and value < 100:
         textstr = "%s %.2f%%" % (textstr, value)
 
     if func_last_value["cell_data_progress"][1] != textstr:
