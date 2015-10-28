@@ -289,7 +289,7 @@ Please use commands from the command line, eg:\n
         if self.interactive:
             self.screen.add_line(line, not self.batch_write)
         else:
-            print colors.strip_colors(line.encode("utf-8"))
+            print colors.strip_colors(deluge.common.utf8_encoded(line))
 
     def do_command(self, cmd):
         """
