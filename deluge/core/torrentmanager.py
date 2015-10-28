@@ -653,7 +653,7 @@ class TorrentManager(component.Component):
         # Try to use an old state
         try:
             state_tmp = TorrentState()
-            if dir(state.torrents[0]) != dir(state_tmp):
+            if state.torrents and dir(state.torrents[0]) != dir(state_tmp):
                 for attr in (set(dir(state_tmp)) - set(dir(state.torrents[0]))):
                     for s in state.torrents:
                         setattr(s, attr, getattr(state_tmp, attr, None))
@@ -772,7 +772,8 @@ class TorrentManager(component.Component):
                 resume_data = lt.bdecode(fastresume_file.read())
                 fastresume_file.close()
             except (EOFError, IOError, Exception), e:
-                log.warning("Unable to load fastresume file: %s", e)
+                if self.torrents:
+                    log.warning("Unable to load fastresume file: %s", e)
                 resume_data = None
             else:
                 log.info("Successfully loaded fastresume file: %s", _filepath)
