@@ -28,11 +28,7 @@ class GtkUI(GtkPluginBase):
         log.debug("Blocklist GtkUI enable..")
         self.plugin = component.get("PluginManager")
 
-        try:
-            self.load_preferences_page()
-        except Exception as err:
-            log.exception(err)
-            raise
+        self.load_preferences_page()
 
         self.status_item = component.get("StatusBar").add_item(
             image=common.get_resource("blocklist16.png"),
@@ -200,10 +196,10 @@ class GtkUI(GtkPluginBase):
         try:
             ip = common.IP.parse(new_text)
             model.set(model.get_iter_from_string(path_string), 0, ip.address)
-        except common.BadIP as e:
+        except common.BadIP as ex:
             model.remove(model.get_iter_from_string(path_string))
             from deluge.ui.gtkui import dialogs
-            d = dialogs.ErrorDialog(_("Bad IP address"), e.message)
+            d = dialogs.ErrorDialog(_("Bad IP address"), ex.message)
             d.run()
 
     def on_whitelist_treeview_selection_changed(self, selection):

@@ -70,8 +70,8 @@ def add_torrent(t_file, options, success_cb, fail_cb, ress):
 
             try:
                 TorrentInfo(f)
-            except Exception as e:
-                fail_cb(e.message, f, ress)
+            except Exception as ex:
+                fail_cb(ex.message, f, ress)
                 continue
 
             filename = os.path.split(f)[-1]

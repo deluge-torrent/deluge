@@ -363,8 +363,8 @@ class Core(component.Component):
             for torrent_id in torrent_ids:
                 try:
                     self.torrentmanager.remove(torrent_id, remove_data=remove_data, save_state=False)
-                except InvalidTorrentError, ite:
-                    errors.append((torrent_id, ite))
+                except InvalidTorrentError as ex:
+                    errors.append((torrent_id, ex))
             # Save the session state
             self.torrentmanager.save_state()
             return errors
