@@ -426,7 +426,7 @@ Please use commands from the command line, eg:\n
                 component.get("LegacyUI").add_line(s, False)
                 self.events.append(s)
         else:
-            print(colors.strip_colors(s.encode(self.encoding)))
+            print(colors.strip_colors(deluge.common.utf8_encoded(s)))
 
     def write_event(self, s):
         if self.interactive:
@@ -437,4 +437,4 @@ Please use commands from the command line, eg:\n
                 component.get("LegacyUI").add_line(s, False)
                 self.events.append(s)
         else:
-            print(colors.strip_colors(s.encode(self.encoding)))
+            print(colors.strip_colors(deluge.common.utf8_encoded(s)))
