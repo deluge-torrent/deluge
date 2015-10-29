@@ -742,7 +742,8 @@ class TorrentManager(component.Component):
                 with open(_filepath, "rb") as _file:
                     resume_data = lt.bdecode(_file.read())
             except (IOError, EOFError, RuntimeError) as ex:
-                log.warning("Unable to load %s: %s", _filepath, ex)
+                if self.torrents:
+                    log.warning("Unable to load %s: %s", _filepath, ex)
                 resume_data = None
             else:
                 log.info("Successfully loaded %s: %s", filename, _filepath)
@@ -756,6 +757,9 @@ class TorrentManager(component.Component):
 
     def save_resume_data_file(self):
         """Saves the resume data file with the contents of self.resume_data"""
+        if not self.resume_data:
+            return True
+
         filename = "torrents.fastresume"
         filepath = os.path.join(self.state_dir, filename)
         filepath_bak = filepath + ".bak"
