@@ -670,18 +670,19 @@ class Torrent(object):
             self.handle.pause()
         self.update_state()
 
-    def clear_forced_error_state(self):
+    def clear_forced_error_state(self, update_state=True):
         if not self.forced_error:
             return
 
         if self.forced_error.restart_to_resume:
             log.error("Restart deluge to clear this torrent error")
 
-        if not self.force_error.was_paused and self.options["auto_managed"]:
+        if not self.forced_error.was_paused and self.options["auto_managed"]:
             self.handle.auto_managed(True)
-        self.force_error = None
-        self.set_status_message()
-        self.update_state()
+        self.forced_error = None
+        self.set_status_message("OK")
+        if update_state:
+            self.update_state()
 
     def get_eta(self):
         """Get the ETA for this torrent.
