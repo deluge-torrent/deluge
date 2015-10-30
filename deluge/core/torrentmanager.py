@@ -649,34 +649,43 @@ class TorrentManager(component.Component):
     def save_state(self):
         """Save the state of the TorrentManager to the torrents.state file."""
         state = self.create_state()
+        if not state.torrents:
+            log.debug("Skipping saving state with no torrents loaded")
+            return
+
         filename = "torrents.state"
         filepath = os.path.join(self.state_dir, filename)
         filepath_bak = filepath + ".bak"
         filepath_tmp = filepath + ".tmp"
 
         try:
-            os.remove(filepath_bak)
-        except OSError:
-            pass
+            log.debug("Creating the temporary file: %s", filepath_tmp)
+            with open(filepath_tmp, "wb", 0) as _file:
+                cPickle.dump(state, _file)
+                _file.flush()
+                os.fsync(_file.fileno())
+        except (OSError, cPickle.PicklingError) as ex:
+            log.error("Unable to save %s: %s", filename, ex)
+            return
+
         try:
             log.debug("Creating backup of %s at: %s", filename, filepath_bak)
-            os.rename(filepath, filepath_bak)
+            if os.path.isfile(filepath_bak):
+                os.remove(filepath_bak)
+            if os.path.isfile(filepath):
+                os.rename(filepath, filepath_bak)
         except OSError as ex:
             log.error("Unable to backup %s to %s: %s", filepath, filepath_bak, ex)
-        else:
-            log.info("Saving the %s at: %s", filename, filepath)
-            try:
-                with open(filepath_tmp, "wb", 0) as _file:
-                    # Pickle the TorrentManagerState object
-                    cPickle.dump(state, _file)
-                    _file.flush()
-                    os.fsync(_file.fileno())
-                os.rename(filepath_tmp, filepath)
-            except (OSError, cPickle.PicklingError) as ex:
-                log.error("Unable to save %s: %s", filename, ex)
-                if os.path.isfile(filepath_bak):
-                    log.info("Restoring backup of %s from: %s", filename, filepath_bak)
-                    os.rename(filepath_bak, filepath)
+            return
+
+        try:
+            log.debug("Saving %s to: %s", filename, filepath)
+            os.rename(filepath_tmp, filepath)
+        except OSError, ex:
+            log.error("Failed to set new state file %s: %s", filepath, ex)
+            if os.path.isfile(filepath_bak):
+                log.info("Restoring backup of state from: %s", filepath_bak)
+                os.rename(filepath_bak, filepath)
 
     def save_resume_data(self, torrent_ids=None, flush_disk_cache=False):
         """Saves torrents resume data.
@@ -765,34 +774,40 @@ class TorrentManager(component.Component):
         filepath_tmp = filepath + ".tmp"
 
         try:
-            os.remove(filepath_bak)
-        except OSError:
-            pass
+            log.debug("Creating the temporary file: %s", filepath_tmp)
+            with open(filepath_tmp, "wb", 0) as _file:
+                _file.write(lt.bencode(self.resume_data))
+                _file.flush()
+                os.fsync(_file.fileno())
+        except (OSError, EOFError) as ex:
+            log.error("Unable to save %s: %s", filename, ex)
+            return False
+
         try:
             log.debug("Creating backup of %s at: %s", filename, filepath_bak)
-            os.rename(filepath, filepath_bak)
+            if os.path.isfile(filepath_bak):
+                os.remove(filepath_bak)
+            if os.path.isfile(filepath):
+                os.rename(filepath, filepath_bak)
         except OSError as ex:
             log.error("Unable to backup %s to %s: %s", filepath, filepath_bak, ex)
+            return False
+
+        try:
+            log.debug("Saving %s to: %s", filename, filepath)
+            os.rename(filepath_tmp, filepath)
+        except OSError, ex:
+            log.error("Failed to set new file %s: %s", filepath, ex)
+            if os.path.isfile(filepath_bak):
+                log.info("Restoring backup from: %s", filepath_bak)
+                os.rename(filepath_bak, filepath)
         else:
-            log.info("Saving the %s at: %s", filename, filepath)
-            try:
-                with open(filepath_tmp, "wb", 0) as _file:
-                    _file.write(lt.bencode(self.resume_data))
-                    _file.flush()
-                    os.fsync(_file.fileno())
-                os.rename(filepath_tmp, filepath)
-            except (OSError, EOFError) as ex:
-                log.error("Unable to save %s: %s", filename, ex)
-                if os.path.isfile(filepath_bak):
-                    log.info("Restoring backup of %s from: %s", filename, filepath_bak)
-                    os.rename(filepath_bak, filepath)
-            else:
-                # Sync the rename operations for the directory
-                if hasattr(os, 'O_DIRECTORY'):
-                    dirfd = os.open(os.path.dirname(filepath), os.O_DIRECTORY)
-                    os.fsync(dirfd)
-                    os.close(dirfd)
-                return True
+            # Sync the rename operations for the directory
+            if hasattr(os, 'O_DIRECTORY'):
+                dirfd = os.open(os.path.dirname(filepath), os.O_DIRECTORY)
+                os.fsync(dirfd)
+                os.close(dirfd)
+            return True
 
     def get_queue_position(self, torrent_id):
         """Get queue position of torrent"""
