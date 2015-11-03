@@ -647,12 +647,7 @@ class TorrentManager(component.Component):
         return state
 
     def save_state(self):
-        """Save the state of the TorrentManager to the torrents.state file.
-
-        Returns:
-            bool: Always returns True so that the timer thread will continue.
-
-        """
+        """Save the state of the TorrentManager to the torrents.state file."""
         state = self.create_state()
         filename = "torrents.state"
         filepath = os.path.join(self.state_dir, filename)
@@ -682,7 +677,6 @@ class TorrentManager(component.Component):
                 if os.path.isfile(filepath_bak):
                     log.info("Restoring backup of %s from: %s", filename, filepath_bak)
                     os.rename(filepath_bak, filepath)
-        return True
 
     def save_resume_data(self, torrent_ids=None, flush_disk_cache=False):
         """Saves torrents resume data.
