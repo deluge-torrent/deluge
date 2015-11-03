@@ -168,9 +168,9 @@ class Command(BaseCommand):
             cols = 80
 
         prevpath = []
-        for i, _file in enumerate(status["files"]):
-            filename = _file["path"].split(dirsep)[-1]
-            filepath = _file["path"].split(dirsep)[:-1]
+        for index, torrent_file in enumerate(status["files"]):
+            filename = torrent_file["path"].split(dirsep)[-1]
+            filepath = torrent_file["path"].split(dirsep)[:-1]
 
             for depth, subdir in enumerate(filepath):
                 indent = " " * depth * spaces_per_level
@@ -184,20 +184,20 @@ class Command(BaseCommand):
             indent = " " * depth * spaces_per_level
 
             col_filename = indent + filename
-            col_size = " ({!cyan!}%s{!input!})" % common.fsize(file["size"])
-            col_progress = " {!input!}%.2f%%" % (status["file_progress"][i] * 100)
+            col_size = " ({!cyan!}%s{!input!})" % common.fsize(torrent_file["size"])
+            col_progress = " {!input!}%.2f%%" % (status["file_progress"][index] * 100)
 
             col_priority = " {!info!}Priority: "
 
-            fp = common.FILE_PRIORITY[status["file_priorities"][i]].replace("Priority", "")
-            if status["file_progress"][i] != 1.0:
-                if fp == "Do Not Download":
+            file_priority = common.FILE_PRIORITY[status["file_priorities"][index]].replace("Priority", "")
+            if status["file_progress"][index] != 1.0:
+                if file_priority == "Do Not Download":
                     col_priority += "{!error!}"
                 else:
                     col_priority += "{!success!}"
             else:
                 col_priority += "{!input!}"
-            col_priority += fp
+            col_priority += file_priority
 
             def tlen(string):
                 return strwidth(format_utils.remove_formatting(string))

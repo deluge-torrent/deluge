@@ -343,39 +343,37 @@ class FilesTab(Tab):
             show_file(filepath, timestamp=timestamp)
 
     # The following 3 methods create the folder/file view in the treeview
-    def prepare_file_store(self, files):
+    def prepare_file_store(self, torrent_files):
         split_files = {}
-        i = 0
-        for _file in files:
-            self.prepare_file(_file, _file["path"], i, split_files)
-            i += 1
+        for index, torrent_file in enumerate(torrent_files):
+            self.prepare_file(torrent_file, torrent_file["path"], index, split_files)
         self.add_files(None, split_files)
 
-    def prepare_file(self, _file, file_name, file_num, files_storage):
+    def prepare_file(self, torrent_file, file_name, file_num, files_storage):
         first_slash_index = file_name.find("/")
         if first_slash_index == -1:
-            files_storage[file_name] = (file_num, _file)
+            files_storage[file_name] = (file_num, torrent_file)
         else:
             file_name_chunk = file_name[:first_slash_index + 1]
             if file_name_chunk not in files_storage:
                 files_storage[file_name_chunk] = {}
-            self.prepare_file(file, file_name[first_slash_index + 1:],
+            self.prepare_file(torrent_file, file_name[first_slash_index + 1:],
                               file_num, files_storage[file_name_chunk])
 
     def add_files(self, parent_iter, split_files):
-        ret = 0
+        chunk_size_total = 0
         for key, value in split_files.iteritems():
             if key.endswith("/"):
                 chunk_iter = self.treestore.append(parent_iter,
                                                    [key, 0, "", 0, 0, -1, gtk.STOCK_DIRECTORY])
                 chunk_size = self.add_files(chunk_iter, value)
                 self.treestore.set(chunk_iter, 1, chunk_size)
-                ret += chunk_size
+                chunk_size_total += chunk_size
             else:
-                self.treestore.append(parent_iter, [key,
-                                                    value[1]["size"], "", 0, 0, value[0], gtk.STOCK_FILE])
-                ret += value[1]["size"]
-        return ret
+                self.treestore.append(parent_iter,
+                                      [key, value[1]["size"], "", 0, 0, value[0], gtk.STOCK_FILE])
+                chunk_size_total += value[1]["size"]
+        return chunk_size_total
 
     def update_files(self):
         with listview_replace_treestore(self.listview):
