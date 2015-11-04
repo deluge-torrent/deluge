@@ -9,7 +9,6 @@
 
 import logging
 from collections import deque
-from sys import maxint
 
 import deluge.component as component
 from deluge.common import FILE_PRIORITY, fdate, fsize, ftime
@@ -81,7 +80,6 @@ class TorrentDetail(BaseMode, component.Component):
         self.file_list = None
         self.current_file = None
         self.current_file_idx = 0
-        self.file_limit = maxint
         self.file_off = 0
         self.more_to_draw = False
         self.full_names = None
@@ -146,43 +144,45 @@ class TorrentDetail(BaseMode, component.Component):
         self.torrent_state = state
         self.refresh()
 
-    # split file list into directory tree. this function assumes all files in a
-    # particular directory are returned together.  it won't work otherwise.
-    # returned list is a list of lists of the form:
-    # [file/dir_name,index,size,children,expanded,progress,priority]
-    # for directories index values count down from maxint (for marking usage),
-    # for files the index is the value returned in the
-    # state object for use with other libtorrent calls (i.e. setting prio)
-    #
-    # Also returns a dictionary that maps index values to the file leaves
-    # for fast updating of progress and priorities
-    def build_file_list(self, file_tuples, prog, prio):
-        ret = []
-        retdict = {}
-        diridx = maxint
-        for f in file_tuples:
-            cur = ret
-            ps = f["path"].split("/")
-            fin = ps[-1]
-            for p in ps:
-                if not cur or p != cur[-1][0]:
-                    cl = []
-                    if p == fin:
-                        ent = [p, f["index"], f["size"], cl, False,
-                               format_utils.format_progress(prog[f["index"]] * 100),
-                               prio[f["index"]]]
-                        retdict[f["index"]] = ent
+    def build_file_list(self, torrent_files, progress, priority):
+        """ Split file list from torrent state into a directory tree.
+
+        Returns:
+
+            Tuple:
+                A list of lists in the form:
+                    [file/dir_name, index, size, children, expanded, progress, priority]
+
+                Dictionary:
+                    Map of file index for fast updating of progress and priorities.
+        """
+
+        file_list = []
+        file_dict = {}
+        # directory index starts from total file count.
+        dir_idx = len(torrent_files)
+        for torrent_file in torrent_files:
+            cur = file_list
+            paths = torrent_file["path"].split("/")
+            for path in paths:
+                if not cur or path != cur[-1][0]:
+                    child_list = []
+                    if path == paths[-1]:
+                        file_progress = format_utils.format_progress(progress[torrent_file["index"]] * 100)
+                        entry = [path, torrent_file["index"], torrent_file["size"], child_list,
+                                 False, file_progress, priority[torrent_file["index"]]]
+                        file_dict[torrent_file["index"]] = entry
                     else:
-                        ent = [p, diridx, -1, cl, False, 0, -1]
-                        retdict[diridx] = ent
-                        diridx -= 1
-                    cur.append(ent)
-                    cur = cl
+                        entry = [path, dir_idx, -1, child_list, False, 0, -1]
+                        file_dict[dir_idx] = entry
+                        dir_idx += 1
+                    cur.append(entry)
+                    cur = child_list
                 else:
                     cur = cur[-1][3]
-        self.__build_sizes(ret)
-        self.__fill_progress(ret, prog)
-        return (ret, retdict)
+        self.__build_sizes(file_list)
+        self.__fill_progress(file_list, progress)
+        return file_list, file_dict
 
     # fill in the sizes of the directory entries based on their children
     def __build_sizes(self, fs):
@@ -288,8 +288,6 @@ class TorrentDetail(BaseMode, component.Component):
             if off >= self.rows - 1:
                 self.more_to_draw = True
                 return -1, -1
-
-            self.file_limit = idx
 
             # default color values
             fg = "white"
