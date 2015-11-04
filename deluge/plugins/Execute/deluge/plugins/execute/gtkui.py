@@ -131,7 +131,7 @@ class ExecutePreferences(object):
         for child in children:
             command_id, event = child.get_name().split("_")
             for widget in child.get_children():
-                if type(widget) == gtk.Entry:
+                if isinstance(widget, gtk.Entry):
                     command = widget.get_text()
             client.execute.save_command(command_id, event, command)
 

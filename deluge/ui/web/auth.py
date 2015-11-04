@@ -126,7 +126,7 @@ class Auth(JSONComponent):
         log.debug("Creating session for %s", login)
         config = component.get("DelugeWeb").config
 
-        if type(config["sessions"]) is list:
+        if isinstance(config["sessions"], list):
             config.config["sessions"] = {}
 
         config["sessions"][session_id] = {

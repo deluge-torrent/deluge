@@ -424,7 +424,7 @@ class Preferences(component.Component):
         # Update the widgets accordingly
         for key in core_widgets.keys():
             modifier = core_widgets[key][0]
-            if type(key) is str:
+            if isinstance(key, str):
                 widget = self.builder.get_object(key)
             else:
                 widget = key
@@ -434,9 +434,9 @@ class Preferences(component.Component):
             if self.is_connected:
                 value = core_widgets[key][1]
                 from types import FunctionType
-                if type(value) is FunctionType:
+                if isinstance(value, FunctionType):
                     value = value()
-                elif type(value) is str:
+                elif isinstance(value, str):
                     value = self.core_config[value]
             elif modifier:
                 value = {"active": False, "not_active": False, "value": 0, "text": "", "path_chooser": ""}[modifier]
@@ -456,7 +456,7 @@ class Preferences(component.Component):
 
         if self.is_connected:
             for key in core_widgets.keys():
-                if type(key) is str:
+                if isinstance(key, str):
                     widget = self.builder.get_object(key)
                 else:
                     widget = key
@@ -803,7 +803,7 @@ class Preferences(component.Component):
             widget = self.builder.get_object(widget_name)
             key = widget_name[len("label_cache_"):]
             value = self.cache_status[key]
-            if type(value) == float:
+            if isinstance(value, float):
                 value = "%.2f" % value
             else:
                 value = str(value)

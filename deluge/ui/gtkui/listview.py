@@ -465,7 +465,7 @@ class ListView:
         """Adds a column to the ListView"""
         # Add the column types to liststore_columns
         column_indices = []
-        if type(col_types) is list:
+        if isinstance(col_types, list):
             for col_type in col_types:
                 self.liststore_columns.append(col_type)
                 column_indices.append(len(self.liststore_columns) - 1)

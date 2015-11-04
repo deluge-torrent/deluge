@@ -75,7 +75,7 @@ class Core(CorePluginBase):
 
         self.reader = create_reader(self.config["list_type"], self.config["list_compression"])
 
-        if type(self.config["last_update"]) is not float:
+        if not isinstance(self.config["last_update"], float):
             self.config.config["last_update"] = 0.0
 
         update_now = False

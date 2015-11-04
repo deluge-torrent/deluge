@@ -67,7 +67,7 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
         func._json_auth_level = auth_level
         return func
 
-    if type(auth_level) is FunctionType:
+    if isinstance(auth_level, FunctionType):
         func = auth_level
         auth_level = AUTH_LEVEL_DEFAULT
         return wrap(func)

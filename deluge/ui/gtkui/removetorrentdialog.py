@@ -31,7 +31,7 @@ class RemoveTorrentDialog(object):
 
     """
     def __init__(self, torrent_ids, delete_files=False):
-        if type(torrent_ids) != list and type(torrent_ids) != tuple:
+        if not isinstance(torrent_ids, list) and not isinstance(torrent_ids, tuple):
             raise TypeError("requires a list of torrent_ids")
 
         if not torrent_ids:

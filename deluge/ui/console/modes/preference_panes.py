@@ -60,7 +60,7 @@ class InfoField(NoInput):
 
     def set_value(self, v):
         self.value = v
-        if type(v) == float:
+        if isinstance(v, float):
             self.txt = "%s %.2f" % (self.label, self.value)
         else:
             self.txt = "%s %s" % (self.label, self.value)

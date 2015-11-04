@@ -178,7 +178,7 @@ class CoreTestCase(BaseTestCase):
         def test_true(val):
             self.assertTrue(val[0][0] == "torrentidthatdoesntexist")
 
-            self.assertTrue(type(val[0][1]) == InvalidTorrentError)
+            self.assertTrue(isinstance(val[0][1], InvalidTorrentError))
         d.addCallback(test_true)
         return d
 
@@ -208,9 +208,9 @@ class CoreTestCase(BaseTestCase):
         def test_ret(val):
             self.assertTrue(len(val) == 2)
             self.assertTrue(val[0][0] == "invalidid1")
-            self.assertTrue(type(val[0][1]) == InvalidTorrentError)
+            self.assertTrue(isinstance(val[0][1], InvalidTorrentError))
             self.assertTrue(val[1][0] == "invalidid2")
-            self.assertTrue(type(val[1][1]) == InvalidTorrentError)
+            self.assertTrue(isinstance(val[1][1], InvalidTorrentError))
         d.addCallback(test_ret)
         return d
 
@@ -227,7 +227,7 @@ class CoreTestCase(BaseTestCase):
 
     def test_get_free_space(self):
         space = self.core.get_free_space(".")
-        self.assertTrue(type(space) in (int, long))
+        self.assertTrue(isinstance(space, (int, long)))
         self.assertTrue(space >= 0)
         self.assertEquals(self.core.get_free_space("/someinvalidpath"), -1)
 

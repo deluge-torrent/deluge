@@ -81,16 +81,17 @@ class Command(BaseCommand):
 
     def _get_config(self, *args, **options):
         def _on_get_config(config):
-            keys = config.keys()
-            keys.sort()
+            keys = sorted(config.keys())
             s = ""
             for key in keys:
                 if args and key not in args:
                     continue
                 color = "{!white,black,bold!}"
                 value = config[key]
-                if type(value) in colors.type_color:
+                try:
                     color = colors.type_color[type(value)]
+                except KeyError:
+                    pass
 
                 # We need to format dicts for printing
                 if isinstance(value, dict):
@@ -115,7 +116,7 @@ class Command(BaseCommand):
             self.console.write("{!error!}The key '%s' is invalid!" % key)
             return
 
-        if type(config[key]) != type(val):
+        if not isinstance(config[key], type(val)):
             try:
                 val = type(config[key])(val)
             except TypeError:

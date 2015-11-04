@@ -92,7 +92,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
         :param request: a tuple that should be either a RPCResponse, RCPError or RPCSignal
 
         """
-        if type(request) is not tuple:
+        if not isinstance(request, tuple):
             log.debug("Received invalid message: type is not tuple")
             return
         if len(request) < 3:

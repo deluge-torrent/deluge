@@ -681,7 +681,7 @@ class TorrentManager(component.Component):
         try:
             log.debug("Saving %s to: %s", filename, filepath)
             os.rename(filepath_tmp, filepath)
-        except OSError, ex:
+        except OSError as ex:
             log.error("Failed to set new state file %s: %s", filepath, ex)
             if os.path.isfile(filepath_bak):
                 log.info("Restoring backup of state from: %s", filepath_bak)
@@ -796,7 +796,7 @@ class TorrentManager(component.Component):
         try:
             log.debug("Saving %s to: %s", filename, filepath)
             os.rename(filepath_tmp, filepath)
-        except OSError, ex:
+        except OSError as ex:
             log.error("Failed to set new file %s: %s", filepath, ex)
             if os.path.isfile(filepath_bak):
                 log.info("Restoring backup from: %s", filepath_bak)

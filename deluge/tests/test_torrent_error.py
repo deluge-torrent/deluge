@@ -113,21 +113,21 @@ class TorrentTestCase(unittest.TestCase):
         return deferLater(reactor, 0.1, self.assert_state, torrent, orig_state)
 
     def test_torrent_error_resume_data_unaltered(self):
-        resume_data = {'active_time': 13399L, 'num_incomplete': 16777215L, 'announce_to_lsd': 1L, 'seed_mode': 0L,
-                       'pieces': '\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01', 'paused': 0L,
-                       'seeding_time': 13399L, 'last_scrape': 13399L,
-                       'info-hash': '-\xc5\xd0\xe7\x1af\xfeid\x9ad\r9\xcb\x00\xa2YpIs', 'max_uploads': 16777215L,
-                       'max_connections': 16777215L, 'num_downloaders': 16777215L, 'total_downloaded': 0L,
-                       'file-format': 'libtorrent resume file', 'peers6': '', 'added_time': 1411826665L,
-                       'banned_peers6': '', 'file_priority': [1L], 'last_seen_complete': 0L, 'total_uploaded': 0L,
+        resume_data = {'active_time': 13399, 'num_incomplete': 16777215, 'announce_to_lsd': 1, 'seed_mode': 0,
+                       'pieces': '\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01', 'paused': 0,
+                       'seeding_time': 13399, 'last_scrape': 13399,
+                       'info-hash': '-\xc5\xd0\xe7\x1af\xfeid\x9ad\r9\xcb\x00\xa2YpIs', 'max_uploads': 16777215,
+                       'max_connections': 16777215, 'num_downloaders': 16777215, 'total_downloaded': 0,
+                       'file-format': 'libtorrent resume file', 'peers6': '', 'added_time': 1411826665,
+                       'banned_peers6': '', 'file_priority': [1], 'last_seen_complete': 0, 'total_uploaded': 0,
                        'piece_priority': '\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01',
-                       'file-version': 1L, 'announce_to_dht': 1L, 'auto_managed': 1L, 'upload_rate_limit': 0L,
-                       'completed_time': 1411826665L, 'allocation': 'sparse', 'blocks per piece': 2L,
-                       'download_rate_limit': 0L, 'libtorrent-version': '0.16.17.0', 'banned_peers': '',
-                       'num_seeds': 16777215L, 'sequential_download': 0L, 'announce_to_trackers': 1L,
-                       'peers': '\n\x00\x02\x0f=\xc6SC\x17]\xd8}\x7f\x00\x00\x01=\xc6', 'finished_time': 13399L,
-                       'last_upload': 13399L, 'trackers': [[]], 'super_seeding': 0L,
-                       'file sizes': [[512000L, 1411826586L]], 'last_download': 13399L}
+                       'file-version': 1, 'announce_to_dht': 1, 'auto_managed': 1, 'upload_rate_limit': 0,
+                       'completed_time': 1411826665, 'allocation': 'sparse', 'blocks per piece': 2,
+                       'download_rate_limit': 0, 'libtorrent-version': '0.16.17.0', 'banned_peers': '',
+                       'num_seeds': 16777215, 'sequential_download': 0, 'announce_to_trackers': 1,
+                       'peers': '\n\x00\x02\x0f=\xc6SC\x17]\xd8}\x7f\x00\x00\x01=\xc6', 'finished_time': 13399,
+                       'last_upload': 13399, 'trackers': [[]], 'super_seeding': 0,
+                       'file sizes': [[512000, 1411826586]], 'last_download': 13399}
         torrent_state = TorrentState(
             torrent_id='2dc5d0e71a66fe69649a640d39cb00a259704973',
             filename='test_torrent.file.torrent',

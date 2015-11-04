@@ -158,8 +158,7 @@ def makeinfo(path, piece_length, progress, name=None, content_type=None, private
     path = os.path.abspath(path)
     piece_count = 0
     if os.path.isdir(path):
-        subs = subfiles(path)
-        subs.sort()
+        subs = sorted(subfiles(path))
         pieces = []
         sh = sha()
         done = 0

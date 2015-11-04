@@ -128,9 +128,8 @@ class TorrentDetails(component.Component):
         # Determine insert position based on weight
         # weights is a list of visible tab names in weight order
 
-        weights = [(tab.weight, name) for name, tab in self.tabs.iteritems() if tab.is_visible]
+        weights = sorted([(tab.weight, name) for name, tab in self.tabs.iteritems() if tab.is_visible])
 
-        weights.sort()
         log.debug("weights: %s", weights)
         log.debug("weight of tab: %s", weight)
 

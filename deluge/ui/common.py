@@ -127,7 +127,7 @@ class TorrentInfo(object):
                 file_tree.walk(walk)
             else:
                 def walk(path, item):
-                    if type(item) is dict:
+                    if isinstance(item, dict):
                         return item
                     return [paths[path]["index"], paths[path]["length"], True]
 
@@ -363,7 +363,7 @@ class FileTree(object):
         :rtype: dictionary
         """
         def to_tuple(path, item):
-            if type(item) is dict:
+            if isinstance(item, dict):
                 return item
             return tuple(item)
         self.walk(to_tuple)
@@ -382,7 +382,7 @@ class FileTree(object):
         def walk(directory, parent_path):
             for path in directory.keys():
                 full_path = os.path.join(parent_path, path)
-                if type(directory[path]) is dict:
+                if isinstance(directory[path], dict):
                     directory[path] = callback(full_path, directory[path]) or directory[path]
                     walk(directory[path], full_path)
                 else:
@@ -395,7 +395,7 @@ class FileTree(object):
         def write(path, item):
             depth = path.count("/")
             path = os.path.basename(path)
-            path = type(item) is dict and path + "/" or path
+            path = isinstance(item, dict) and path + "/" or path
             lines.append("  " * depth + path)
         self.walk(write)
         return "\n".join(lines)

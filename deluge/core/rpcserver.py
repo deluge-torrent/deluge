@@ -54,7 +54,7 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
 
         return func
 
-    if type(auth_level) is FunctionType:
+    if isinstance(auth_level, FunctionType):
         func = auth_level
         auth_level = AUTH_LEVEL_DEFAULT
         return wrap(func)
@@ -116,7 +116,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
         :type data: tuple
 
         """
-        if type(request) is not tuple:
+        if not isinstance(request, tuple):
             log.debug("Received invalid message: type is not tuple")
             return
 

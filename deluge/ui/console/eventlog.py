@@ -94,11 +94,12 @@ class EventLog(component.Component):
 
     def on_config_value_changed_event(self, key, value):
         color = "{!white,black,bold!}"
-        if type(value) in colors.type_color:
+        try:
             color = colors.type_color[type(value)]
+        except KeyError:
+            pass
 
-        self.write("ConfigValueChanged: {!input!}%s: %s%s" %
-                   (key, color, value))
+        self.write("ConfigValueChanged: {!input!}%s: %s%s" % (key, color, value))
 
     def write(self, s):
         current_time = time.localtime()

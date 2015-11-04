@@ -335,8 +335,7 @@ class ScriptResource(resource.Resource, component.Component):
                 filepath, recurse = _scripts[path]
                 for root, dirnames, filenames in os.walk(filepath):
                     dirnames.sort(reverse=True)
-                    files = fnmatch.filter(filenames, "*.js")
-                    files.sort()
+                    files = sorted(fnmatch.filter(filenames, "*.js"))
 
                     order_file = os.path.join(root, ".order")
                     if os.path.isfile(order_file):

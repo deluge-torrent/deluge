@@ -69,8 +69,8 @@ disable=missing-docstring, invalid-name, old-style-class, bad-continuation,
     no-member, not-callable, no-name-in-module, super-on-old-class,
     locally-disabled,
     R,
-    unused-argument, fixme, protected-access, import-error, unidiomatic-typecheck,
-        unused-variable, global-statement, attribute-defined-outside-init, arguments-differ,
+    unused-argument, fixme, protected-access, import-error, unused-variable,
+        global-statement, attribute-defined-outside-init, arguments-differ,
         no-init, non-parent-init-called, super-init-not-called, signature-differs,
         broad-except, pointless-except
 

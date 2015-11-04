@@ -119,7 +119,7 @@ class ValueList(object):
         :type  scroll_to_row: boolean
 
         """
-        if not (type(paths) is list or type(paths) is tuple):
+        if not (isinstance(paths, list) or isinstance(paths, tuple)):
             return
         sel = None
         if preserve_selection:
@@ -1142,7 +1142,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
         return self.auto_completer.auto_complete_enabled
 
     def set_auto_complete_enabled(self, enable):
-        if not type(enable) is bool:
+        if not isinstance(enable, bool):
             return
         self.auto_completer.auto_complete_enabled = enable
 
@@ -1150,7 +1150,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
         return self.show_folder_name_on_button
 
     def set_show_folder_name_on_button(self, show):
-        if not type(show) is bool:
+        if not isinstance(show, bool):
             return
         self.show_folder_name_on_button = show
         self._set_path_entry_filechooser_widths()
@@ -1165,7 +1165,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
         By setting filechooser disabled, in will not be possible
         to change the settings in the properties.
         """
-        if not type(enable) is bool:
+        if not isinstance(enable, bool):
             return
         self.filechooser_enabled = enable
         if not enable:
@@ -1178,7 +1178,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
         """
         Set file chooser button entry visible
         """
-        if not type(visible) is bool:
+        if not isinstance(visible, bool):
             return
         if update:
             self.filechooser_visible = visible
@@ -1198,7 +1198,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
         """
         Set the path entry visible
         """
-        if not type(visible) is bool:
+        if not isinstance(visible, bool):
             return
         self.path_entry_visible = visible
         if visible:
@@ -1214,7 +1214,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
         """
         Enable/disable showing hidden files on path completion
         """
-        if not type(show) is bool:
+        if not isinstance(show, bool):
             return
         self.auto_completer.completion_popup.show_hidden_files = show
         if do_completion:
@@ -1226,7 +1226,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
         """
         Enable/disable the config properties
         """
-        if not type(enable) is bool:
+        if not isinstance(enable, bool):
             return
         self.properties_enabled = enable
         if self.properties_enabled:
