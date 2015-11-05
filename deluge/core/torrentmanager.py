@@ -1055,7 +1055,7 @@ class TorrentManager(component.Component):
         except (RuntimeError, KeyError):
             return
 
-        torrent.set_tracker_status("Error: " + error_message)
+        torrent.set_tracker_status("%s: %s" % (_("Error"), error_message))
 
     def on_alert_storage_moved(self, alert):
         log.debug("on_alert_storage_moved")
