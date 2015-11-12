@@ -36,9 +36,10 @@ from deluge.error import AuthenticationRequired, BadLoginError, DaemonRunningErr
 from deluge.ui.client import client
 from deluge.ui.gtkui.addtorrentdialog import AddTorrentDialog
 from deluge.ui.gtkui.common import associate_magnet_links
+from deluge.ui.gtkui.connectionmanager import ConnectionManager
 from deluge.ui.gtkui.dialogs import AuthenticationDialog, ErrorDialog, YesNoDialog
 from deluge.ui.gtkui.filtertreeview import FilterTreeView
-from deluge.ui.gtkui.ipcinterface import IPCInterface
+from deluge.ui.gtkui.ipcinterface import IPCInterface, process_args
 from deluge.ui.gtkui.mainwindow import MainWindow
 from deluge.ui.gtkui.menubar import MenuBar
 from deluge.ui.gtkui.pluginmanager import PluginManager
@@ -228,7 +229,6 @@ class GtkUI(object):
                 # Will be raised at app launch (python opening main script)
                 if filename.endswith('Deluge-bin'):
                     return True
-                from deluge.ui.gtkui.ipcinterface import process_args
                 process_args([filename])
             self.osxapp.connect("NSApplicationOpenFile", nsapp_open_file)
             from deluge.ui.gtkui.menubar_osx import menubar_osx
@@ -238,8 +238,6 @@ class GtkUI(object):
         # Initalize the plugins
         self.plugins = PluginManager()
 
-        # Late import because of setting up translations
-        from deluge.ui.gtkui.connectionmanager import ConnectionManager
         # Show the connection manager
         self.connectionmanager = ConnectionManager()
 
