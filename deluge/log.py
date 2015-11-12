@@ -27,7 +27,7 @@ LoggingLoggerClass = logging.getLoggerClass()
 if "dev" in common.get_version():
     DEFAULT_LOGGING_FORMAT = "%%(asctime)s.%%(msecs)03.0f [%%(levelname)-8s][%%(name)-%ds:%%(lineno)-4d] %%(message)s"
 else:
-    DEFAULT_LOGGING_FORMAT = "%%(asctime)s [%%(levelname)-8s][%%(name)-%ds] %%(message)s"
+    DEFAULT_LOGGING_FORMAT = "%%(asctime)s [%%(levelname)-8s][%%(name)-%ds:%%(lineno)-4d] %%(message)s"
 MAX_LOGGER_NAME_LENGTH = 10
 
 
