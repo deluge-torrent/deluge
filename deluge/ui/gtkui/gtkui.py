@@ -8,16 +8,19 @@
 #
 # We skip isorting this file as it want to move the gtk2reactor.install() below the imports
 # isort:skip_file
+from __future__ import division
 
 import logging
 import os
 import sys
+import time
 import warnings
 
 import gobject
 import gtk
 from twisted.internet import gtk2reactor
 from twisted.internet.error import ReactorAlreadyInstalledError
+from twisted.internet.task import LoopingCall
 
 try:
     # Install twisted reactor, before any other modules import reactor.
@@ -144,8 +147,6 @@ DEFAULT_PREFS = {
 
 class GtkUI(object):
     def __init__(self, args):
-        self.daemon_bps = (0, 0, 0)
-
         # Setup gtkbuilder/glade translation
         deluge.common.setup_translations(setup_gettext=False, setup_pygtk=True)
 
@@ -242,9 +243,10 @@ class GtkUI(object):
         # Show the connection manager
         self.connectionmanager = ConnectionManager()
 
-        from twisted.internet.task import LoopingCall
-        rpc_stats = LoopingCall(self.print_rpc_stats)
-        rpc_stats.start(10)
+        # Setup RPC stats logging
+        # daemon_bps: time, bytes_sent, bytes_recv
+        self.daemon_bps = (0, 0, 0)
+        self.rpc_stats = LoopingCall(self.print_rpc_stats)
 
         reactor.callWhenRunning(self._on_reactor_start)
 
@@ -270,23 +272,20 @@ class GtkUI(object):
         self.config.save()
 
     def print_rpc_stats(self):
-        import time
-        try:
-            recv = client.get_bytes_recv()
-            sent = client.get_bytes_sent()
-        except AttributeError:
+        if not client.connected():
             return
 
-        log.debug("sent: %s recv: %s", deluge.common.fsize(sent), deluge.common.fsize(recv))
         t = time.time()
+        recv = client.get_bytes_recv()
+        sent = client.get_bytes_sent()
         delta_time = t - self.daemon_bps[0]
         delta_sent = sent - self.daemon_bps[1]
         delta_recv = recv - self.daemon_bps[2]
-
-        sent_rate = deluge.common.fspeed(float(delta_sent) / float(delta_time))
-        recv_rate = deluge.common.fspeed(float(delta_recv) / float(delta_time))
-        log.debug("sent rate: %s recv rate: %s", sent_rate, recv_rate)
         self.daemon_bps = (t, sent, recv)
+        sent_rate = deluge.common.fspeed(delta_sent / delta_time)
+        recv_rate = deluge.common.fspeed(delta_recv / delta_time)
+        log.debug("RPC: Sent %s (%s) Recv %s (%s)",
+                  deluge.common.fsize(sent), sent_rate, deluge.common.fsize(recv), recv_rate)
 
     def _on_reactor_start(self):
         log.debug("_on_reactor_start")
@@ -346,6 +345,7 @@ class GtkUI(object):
                     d.addCallback(on_dialog_response)
                 ed.addCallback(on_ed_response)
         else:
+            self.rpc_stats.start(10)
             self.__start_non_classic()
 
     def __start_non_classic(self):
@@ -442,4 +442,5 @@ class GtkUI(object):
         Called when disconnected from the daemon.  We basically just stop all
         the components here.
         """
+        self.daemon_bps = (0, 0, 0)
         component.stop()
