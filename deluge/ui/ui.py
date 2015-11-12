@@ -11,6 +11,7 @@ from __future__ import print_function
 
 import logging
 import os
+import platform
 import sys
 from optparse import OptionGroup, OptionParser
 
@@ -32,6 +33,11 @@ def version_callback(option, opt_str, value, parser):
         print("libtorrent: %s" % lt.version)
     except ImportError:
         pass
+    print("Python: %s" % platform.python_version())
+    for version in (platform.linux_distribution(), platform.win32_ver(), platform.mac_ver(), ("n/a",)):
+        if filter(None, version):  # pylint: disable=bad-builtin
+            print("OS: %s %s" % (platform.system(), " ".join(version)))
+            break
     raise SystemExit
 
 DEFAULT_PREFS = {
