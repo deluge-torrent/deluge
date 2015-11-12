@@ -145,48 +145,34 @@ DEFAULT_PREFS = {
 class GtkUI(object):
     def __init__(self, args):
         self.daemon_bps = (0, 0, 0)
-        # Setup btkbuilder/glade translation
+
+        # Setup gtkbuilder/glade translation
         deluge.common.setup_translations(setup_gettext=False, setup_pygtk=True)
 
         # Setup signals
-        try:
-            import gnome.ui
-            import gnome
-
-            # Suppress: Warning: Attempt to add property GnomeProgram::*** after class was initialised
-            original_filters = warnings.filters[:]
-            warnings.simplefilter("ignore")
-            try:
-                self.gnome_prog = gnome.init("Deluge", deluge.common.get_version())
-            finally:
-                warnings.filters = original_filters
-
-            self.gnome_client = gnome.ui.master_client()
-
-            def on_die(*args):
-                reactor.stop()
-
-            if deluge.common.osx_check() and gtk.gdk.WINDOWING == "quartz":
-                import gtkosx_application
-                self.osxapp = gtkosx_application.gtkosx_application_get()
-                self.osxapp.connect("NSApplicationWillTerminate", on_die)
-            else:
-                self.gnome_client.connect("die", on_die)
-            log.debug("GNOME session 'die' handler registered!")
-        except Exception as ex:
-            log.warning("Unable to register a 'die' handler with the GNOME session manager: %s", ex)
+        def on_die(*args):
+            log.debug("OS signal 'die' caught with args: %s", args)
+            reactor.stop()
 
         if deluge.common.windows_check():
             from win32api import SetConsoleCtrlHandler
-            from win32con import CTRL_CLOSE_EVENT
-            from win32con import CTRL_SHUTDOWN_EVENT
-
-            def win_handler(ctrl_type):
-                log.debug("ctrl_type: %s", ctrl_type)
-                if ctrl_type in (CTRL_CLOSE_EVENT, CTRL_SHUTDOWN_EVENT):
-                    reactor.stop()
-                    return 1
-            SetConsoleCtrlHandler(win_handler)
+            SetConsoleCtrlHandler(on_die, True)
+            log.debug("Win32 'die' handler registered!")
+        elif deluge.common.osx_check():
+            if gtk.gdk.WINDOWING == "quartz":
+                import gtkosx_application
+                self.osxapp = gtkosx_application.gtkosx_application_get()
+                self.osxapp.connect("NSApplicationWillTerminate", on_die)
+                log.debug("OSX quartz 'die' handler registered!")
+        else:
+            import gnome.ui
+            # Suppress warning: 'Attempt to add property GnomeProgram::* after class was initialised'
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+                self.gnome_prog = gnome.init("Deluge", deluge.common.get_version())
+            self.gnome_client = gnome.ui.master_client()
+            self.gnome_client.connect("die", on_die)
+            log.debug("GNOME session 'die' handler registered!")
 
         # Set process name again to fix gtk issue
         setproctitle(getproctitle())
