@@ -12,7 +12,7 @@ before_install:
 install:
   - bash -c "echo $APTPACKAGES"
   - sudo apt-get install $APTPACKAGES
-  - pip install "tox>=1.8"
+  - pip install "tox==2.1.1"
 
 env:
   global:
