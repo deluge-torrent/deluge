@@ -159,22 +159,13 @@ class GtkUI(object):
         if deluge.common.windows_check():
             from win32api import SetConsoleCtrlHandler
             SetConsoleCtrlHandler(on_die, True)
-            log.debug("Win32 'die' handler registered!")
+            log.debug("Win32 'die' handler registered")
         elif deluge.common.osx_check():
             if gtk.gdk.WINDOWING == "quartz":
                 import gtkosx_application
                 self.osxapp = gtkosx_application.gtkosx_application_get()
                 self.osxapp.connect("NSApplicationWillTerminate", on_die)
-                log.debug("OSX quartz 'die' handler registered!")
-        else:
-            import gnome.ui
-            # Suppress warning: 'Attempt to add property GnomeProgram::* after class was initialised'
-            with warnings.catch_warnings():
-                warnings.simplefilter("ignore")
-                self.gnome_prog = gnome.init("Deluge", deluge.common.get_version())
-            self.gnome_client = gnome.ui.master_client()
-            self.gnome_client.connect("die", on_die)
-            log.debug("GNOME session 'die' handler registered!")
+                log.debug("OSX quartz 'die' handler registered")
 
         # Set process name again to fix gtk issue
         setproctitle(getproctitle())
@@ -427,12 +418,6 @@ class GtkUI(object):
                     break
 
         if self.config["show_connection_manager_on_start"]:
-            # XXX: We need to call a simulate() here, but this could be a bug in twisted
-            try:
-                reactor._simulate()
-            except AttributeError:
-                # twisted < 12
-                reactor.simulate()
             self.connectionmanager.show()
 
     def __on_disconnect(self):
