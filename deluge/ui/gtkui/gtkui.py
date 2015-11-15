@@ -237,6 +237,8 @@ class GtkUI(object):
         self.daemon_bps = (0, 0, 0)
         self.rpc_stats = LoopingCall(self.print_rpc_stats)
 
+        # Twisted catches signals to terminate, so have it call a pre_shutdown method.
+        reactor.addSystemEventTrigger("before", "shutdown", self.pre_shutdown)
         reactor.callWhenRunning(self._on_reactor_start)
 
         # Initialize gdk threading
@@ -259,6 +261,10 @@ class GtkUI(object):
 
         # Make sure the config is saved.
         self.config.save()
+
+    def pre_shutdown(self, *args, **kwargs):
+        """Modal dialogs can prevent the application exiting so destroy mainwindow"""
+        self.mainwindow.window.destroy()
 
     def print_rpc_stats(self):
         if not client.connected():
