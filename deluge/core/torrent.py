@@ -311,7 +311,17 @@ class Torrent(object):
 
         Args:
             max_connections (int): Maximum number of connections
+
+        Note:
+            The minimum value for handle.max_connections is 2 (or -1 for unlimited connections).
+            This is enforced by libtorrent and values 0 or 1 raise an assert with lt debug builds.
         """
+
+        if max_connections == 0:
+            max_connections = -1
+        elif max_connections == 1:
+            max_connections = 2
+
         self.options["max_connections"] = int(max_connections)
         self.handle.set_max_connections(max_connections)
 
