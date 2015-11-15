@@ -349,7 +349,8 @@ class TorrentView(ListView, component.Component):
     def stop(self):
         """Stops the torrentview"""
         # We need to clear the liststore
-        self.treeview.get_selection().unselect_all()
+        if self.treeview.get_selection():
+            self.treeview.get_selection().unselect_all()
         self.liststore.clear()
         self.prev_status = {}
         self.filter = None
