@@ -322,7 +322,7 @@ class Torrent(object):
         elif max_connections == 1:
             max_connections = 2
 
-        self.options["max_connections"] = int(max_connections)
+        self.options["max_connections"] = max_connections
         self.handle.set_max_connections(max_connections)
 
     def set_max_upload_slots(self, max_slots):
@@ -331,7 +331,7 @@ class Torrent(object):
         Args:
             max_slots (int): Maximum upload slots
         """
-        self.options["max_upload_slots"] = int(max_slots)
+        self.options["max_upload_slots"] = max_slots
         self.handle.set_max_uploads(max_slots)
 
     def set_max_upload_speed(self, m_up_speed):
@@ -1104,7 +1104,7 @@ class Torrent(object):
             bool: True is successful, otherwise False
         """
         try:
-            self.handle.connect_peer((peer_ip, int(peer_port)), 0)
+            self.handle.connect_peer((peer_ip, peer_port), 0)
         except RuntimeError as ex:
             log.debug("Unable to connect to peer: %s", ex)
             return False
