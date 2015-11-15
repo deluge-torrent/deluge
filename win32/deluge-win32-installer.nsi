@@ -122,8 +122,7 @@ Function finishpageaction
     CreateShortCut "$DESKTOP\Deluge.lnk" "$INSTDIR\deluge.exe"
 FunctionEnd
 
-#Test if Visual Studio Redistributables 2008 SP1 installed
-#Returns -1 if there is no VC redistributables intstalled
+# Test if Visual Studio Redistributables 2008 SP1 installed and returns -1 if none installed
 Function CheckVCRedist2008
     Push $R0
     ClearErrors
@@ -133,7 +132,7 @@ Function CheckVCRedist2008
 
     Push $R1
     ClearErrors
-    ReadRegDword $R1 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{9A25302D-30C0-39D9-BD6F-21E6EC160475}" "Version"
+    ReadRegDword $R1 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{9BE518E6-ECC6-35A9-88E4-87755C07200F}" "Version"
     IfErrors 0 VSRedistInstalled
         StrCpy $R1 "-1"
 
@@ -152,13 +151,13 @@ Function VCRedistMessage
     Call CheckVCRedist2008
     Pop $R0
     StrCmp $R0 "-1" 0 end
-    MessageBox MB_YESNO|MB_ICONEXCLAMATION "The following package is required to run \
-    Deluge but it does not appear to be installed:$\r$\n$\r$\n\
+    MessageBox MB_YESNO|MB_ICONEXCLAMATION "Deluge requires an MSVC package to run \
+    but the recommended package does not appear to be installed:$\r$\n$\r$\n\
     Microsoft Visual C++ 2008 SP1 Redistributable Package (x86)$\r$\n$\r$\n\
     Would you like to download it now?" /SD IDNO IDYES clickyes
     Goto end
     clickyes:
-        ExecShell open "https://www.microsoft.com/en-us/download/details.aspx?id=5582"
+        ExecShell open "https://www.microsoft.com/en-us/download/details.aspx?id=26368"
     end:
 FunctionEnd
 
