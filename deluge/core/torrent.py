@@ -249,6 +249,10 @@ class Torrent(object):
 
 
     def set_max_connections(self, max_connections):
+        if max_connections == 0:
+            max_connections = -1
+        elif max_connections == 1:
+            max_connections = 2
         self.options["max_connections"] = int(max_connections)
         self.handle.set_max_connections(max_connections)
 
