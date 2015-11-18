@@ -1,14 +1,11 @@
 import base64
-import os
 import sys
 import time
 import warnings
 
-from mock import MagicMock
 import pytest
+from mock import MagicMock
 from twisted.internet.defer import Deferred, inlineCallbacks
-from twisted.internet import defer
-from twisted.trial import unittest
 
 import deluge.core.torrentmanager
 from deluge import component
@@ -53,17 +50,17 @@ class TorrentmanagerTestCase(BaseTestCase):
 
     def test_on_alert_state_update(self):
         def stop():
-            self.torrentManager.set_timers(False)
+            self.core.torrentmanager.set_timers(False)
         from twisted.python.monkey import MonkeyPatcher
-        patcher = MonkeyPatcher((self.torrentManager, 'stop', stop))
+        patcher = MonkeyPatcher((self.core.torrentmanager, 'stop', stop))
         patcher.patch()
-        add_tm_torrents(self.torrentManager, count=1, get_status={'storage_mode': None})
+        add_tm_torrents(self.core.torrentmanager, count=1, get_status={'storage_mode': None})
         alert = MagicMock()
         alert.message = MagicMock(return_value='Mock alert message')
         t_status = MagicMock()
         t_status.info_hash = '0'
         alert.status = [t_status for s in [1]]
-        self.torrentManager.on_alert_state_update(alert)
+        self.core.torrentmanager.on_alert_state_update(alert)
 
 
 # This is called by torrent.py when calling component.get("...")

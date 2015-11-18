@@ -10,6 +10,7 @@
 import curses
 import logging
 
+from deluge import component as component
 from deluge.component import Component
 from deluge.decorators import overrides
 from deluge.ui.client import client
@@ -50,14 +51,15 @@ class FilterSidebar(Sidebar, Component):
     @overrides(Component)
     def update(self):
         if not self.hidden() and client.connected():
-            d = client.core.get_filter_tree(True, []).addCallback(self._cb_update_filter_tree)
+            d = component.get('SessionProxy').get_filter_tree(True, hide_cat=None)\
+                                             .addCallback(self.cb_update_filter_tree)
 
             def on_filter_tree_updated(changed):
                 if changed:
                     self.refresh()
             d.addCallback(on_filter_tree_updated)
 
-    def _cb_update_filter_tree(self, filter_items):
+    def cb_update_filter_tree(self, filter_items):
         """Callback function on client.core.get_filter_tree"""
         states = filter_items['state']
         largest_count = 0
@@ -75,6 +77,7 @@ class FilterSidebar(Sidebar, Component):
             field = self.get_input(state[0])
             if field:
                 txt = ('%%-%ds%%%ds' % (filter_state_width, filter_count_width) % (state[0], state[1]))
+                log.warn('txt: %s', txt)
                 if field.set_message(txt):
                     changed = True
         return changed
