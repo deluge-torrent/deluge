@@ -191,8 +191,8 @@ class OptionsTab(Tab):
         if self.chk_sequential_download.get_active() != \
             self.prev_status["sequential_download"] and \
                 not self.prev_status["storage_mode"] == "compact":
-            client.core.set_torrent_sequential_download(
-                self.prev_torrent_id, self.chk_prioritize_first_last.get_active()
+            client.core.set_torrent_options(
+                [self.prev_torrent_id], {"sequential_download": self.chk_sequential_download.get_active()}
             )
         if self.chk_auto_managed.get_active() != self.prev_status["is_auto_managed"]:
             client.core.set_torrent_auto_managed(
