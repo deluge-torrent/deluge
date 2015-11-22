@@ -2,6 +2,7 @@ import base64
 import os
 import warnings
 
+from twisted.internet import defer
 from twisted.trial import unittest
 
 from deluge import component
@@ -32,9 +33,10 @@ class TorrentmanagerTestCase(unittest.TestCase):
             del self.torrentManager
         return component.shutdown().addCallback(on_shutdown)
 
+    @defer.inlineCallbacks
     def test_remove_torrent(self):
         filename = os.path.join(os.path.dirname(__file__), "test.torrent")
-        torrent_id = self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), {})
+        torrent_id = yield self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), {})
         self.assertTrue(self.torrentManager.remove(torrent_id, False))
 
     def test_remove_torrent_false(self):

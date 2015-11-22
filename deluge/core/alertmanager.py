@@ -50,11 +50,10 @@ class AlertManager(component.Component):
         # handlers is a dictionary of lists {"alert_type": [handler1,h2,..]}
         self.handlers = {}
         self.delayed_calls = []
-        self.wait_on_handler = False
 
     def update(self):
         self.delayed_calls = [dc for dc in self.delayed_calls if dc.active()]
-        self.handle_alerts(wait=self.wait_on_handler)
+        self.handle_alerts()
 
     def stop(self):
         for delayed_call in self.delayed_calls:
@@ -92,12 +91,9 @@ class AlertManager(component.Component):
                 # Handler is in this alert type list
                 value.remove(handler)
 
-    def handle_alerts(self, wait=False):
-        """Pops all libtorrent alerts in the session queue and handles them appropriately.
-
-        Args:
-            wait (bool): If True the handler functions will be run straight away and
-                waited to return before processing the next alert.
+    def handle_alerts(self):
+        """
+        Pops all libtorrent alerts in the session queue and handles them appropriately.
         """
         alerts = self.session.pop_alerts()
         if not alerts:
@@ -118,10 +114,7 @@ class AlertManager(component.Component):
             # Call any handlers for this alert type
             if alert_type in self.handlers:
                 for handler in self.handlers[alert_type]:
-                    if not wait:
-                        self.delayed_calls.append(reactor.callLater(0, handler, alert))
-                    else:
-                        handler(alert)
+                    self.delayed_calls.append(reactor.callLater(0, handler, alert))
 
     def set_alert_queue_size(self, queue_size):
         """Sets the maximum size of the libtorrent alert queue"""

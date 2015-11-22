@@ -16,7 +16,7 @@ import shutil
 import tempfile
 import threading
 
-from twisted.internet import reactor, task
+from twisted.internet import defer, reactor, task
 from twisted.web.client import getPage
 
 import deluge.common
@@ -33,7 +33,7 @@ from deluge.core.pluginmanager import PluginManager
 from deluge.core.preferencesmanager import PreferencesManager
 from deluge.core.rpcserver import export
 from deluge.core.torrentmanager import TorrentManager
-from deluge.error import DelugeError, InvalidPathError, InvalidTorrentError
+from deluge.error import AddTorrentError, DelugeError, InvalidPathError, InvalidTorrentError
 from deluge.event import NewVersionAvailableEvent, SessionPausedEvent, SessionResumedEvent, TorrentQueueChangedEvent
 from deluge.httpdownloader import download_file
 
@@ -211,13 +211,14 @@ class Core(component.Component):
             log.error("There was an error decoding the filedump string: %s", ex)
 
         try:
-            torrent_id = self.torrentmanager.add(
+            d = self.torrentmanager.add(
                 filedump=filedump, options=options, filename=filename, save_state=save_state
             )
         except RuntimeError as ex:
             log.error("There was an error adding the torrent file %s: %s", filename, ex)
-            torrent_id = None
-        return torrent_id
+            raise
+        else:
+            return d
 
     # Exported Methods
     @export
@@ -246,14 +247,18 @@ class Core(component.Component):
             Deferred
 
         """
+        @defer.inlineCallbacks
         def add_torrents():
-            torrent_ids = []
-            count = len(torrent_files)
+            errors = []
+            last_index = len(torrent_files) - 1
             for idx, torrent in enumerate(torrent_files):
-                torrent_id = self._add_torrent_file(torrent[0], torrent[1],
-                                                    torrent[2], save_state=idx == (count - 1))
-                torrent_ids.append(torrent_id)
-            return torrent_ids
+                try:
+                    yield self._add_torrent_file(torrent[0], torrent[1],
+                                                 torrent[2], save_state=idx == last_index)
+                except AddTorrentError as ex:
+                    log.warn("Error when adding torrent: '%s'", ex)
+                    errors.append(ex)
+            defer.returnValue(errors)
         return task.deferLater(reactor, 0, add_torrents)
 
     @export

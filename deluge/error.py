@@ -32,6 +32,10 @@ class InvalidTorrentError(DelugeError):
     pass
 
 
+class AddTorrentError(DelugeError):
+    pass
+
+
 class InvalidPathError(DelugeError):
     pass
 

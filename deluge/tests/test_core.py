@@ -3,7 +3,7 @@ import os
 from hashlib import sha1 as sha
 
 import pytest
-from twisted.internet import reactor
+from twisted.internet import defer, reactor
 from twisted.internet.error import CannotListenError
 from twisted.python.failure import Failure
 from twisted.web.http import FORBIDDEN
@@ -16,7 +16,7 @@ import deluge.component as component
 import deluge.core.torrent
 from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer
-from deluge.error import InvalidTorrentError
+from deluge.error import AddTorrentError, InvalidTorrentError
 from deluge.ui.web.common import compress
 
 from . import common
@@ -102,25 +102,55 @@ class CoreTestCase(BaseTestCase):
 
         return component.shutdown().addCallback(on_shutdown)
 
+    @defer.inlineCallbacks
+    def test_add_torrent_files(self):
+        options = {}
+        filenames = ["test.torrent", "test_torrent.file.torrent"]
+        files_to_add = []
+        for f in filenames:
+            filename = os.path.join(os.path.dirname(__file__), f)
+            filedump = base64.encodestring(open(filename).read())
+            files_to_add.append((filename, filedump, options))
+        errors = yield self.core.add_torrent_files(files_to_add)
+        self.assertEquals(len(errors), 0)
+
+    @defer.inlineCallbacks
+    def test_add_torrent_files_error_duplicate(self):
+        options = {}
+        filenames = ["test.torrent", "test.torrent"]
+        files_to_add = []
+        for f in filenames:
+            filename = os.path.join(os.path.dirname(__file__), f)
+            filedump = base64.encodestring(open(filename).read())
+            files_to_add.append((filename, filedump, options))
+        errors = yield self.core.add_torrent_files(files_to_add)
+        self.assertEquals(len(errors), 1)
+        self.assertTrue(str(errors[0]).startswith("Torrent already in session"))
+
+    @defer.inlineCallbacks
     def test_add_torrent_file(self):
         options = {}
         filename = os.path.join(os.path.dirname(__file__), "test.torrent")
-        torrent_id = self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
+        torrent_id = yield self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
 
         # Get the info hash from the test.torrent
         from deluge.bencode import bdecode, bencode
         info_hash = sha(bencode(bdecode(open(filename).read())["info"])).hexdigest()
-
         self.assertEquals(torrent_id, info_hash)
 
+    def test_add_torrent_file_invalid_filedump(self):
+        options = {}
+        filename = os.path.join(os.path.dirname(__file__), "test.torrent")
+        self.assertRaises(AddTorrentError, self.core.add_torrent_file, filename, False, options)
+
+    @defer.inlineCallbacks
     def test_add_torrent_url(self):
         url = "http://localhost:%d/ubuntu-9.04-desktop-i386.iso.torrent" % self.listen_port
         options = {}
         info_hash = "60d5d82328b4547511fdeac9bf4d0112daa0ce00"
 
-        d = self.core.add_torrent_url(url, options)
-        d.addCallback(self.assertEquals, info_hash)
-        return d
+        torrent_id = yield self.core.add_torrent_url(url, options)
+        self.assertEquals(torrent_id, info_hash)
 
     def test_add_torrent_url_with_cookie(self):
         url = "http://localhost:%d/cookie" % self.listen_port
@@ -143,7 +173,6 @@ class CoreTestCase(BaseTestCase):
 
         d = self.core.add_torrent_url(url, options)
         d.addCallback(self.assertEquals, info_hash)
-
         return d
 
     def test_add_torrent_url_with_partial_download(self):
@@ -153,21 +182,21 @@ class CoreTestCase(BaseTestCase):
 
         d = self.core.add_torrent_url(url, options)
         d.addCallback(self.assertEquals, info_hash)
-
         return d
 
-    def test_add_magnet(self):
+    @defer.inlineCallbacks
+    def test_add_torrent_magnet(self):
         info_hash = "60d5d82328b4547511fdeac9bf4d0112daa0ce00"
         uri = deluge.common.create_magnet_uri(info_hash)
         options = {}
-
-        torrent_id = self.core.add_torrent_magnet(uri, options)
+        torrent_id = yield self.core.add_torrent_magnet(uri, options)
         self.assertEquals(torrent_id, info_hash)
 
+    @defer.inlineCallbacks
     def test_remove_torrent(self):
         options = {}
         filename = os.path.join(os.path.dirname(__file__), "test.torrent")
-        torrent_id = self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
+        torrent_id = yield self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
         removed = self.core.remove_torrent(torrent_id, True)
         self.assertTrue(removed)
         self.assertEquals(len(self.core.get_session_state()), 0)
@@ -182,12 +211,13 @@ class CoreTestCase(BaseTestCase):
         d.addCallback(test_true)
         return d
 
+    @defer.inlineCallbacks
     def test_remove_torrents(self):
         options = {}
         filename = os.path.join(os.path.dirname(__file__), "test.torrent")
-        torrent_id = self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
+        torrent_id = yield self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
         filename2 = os.path.join(os.path.dirname(__file__), "unicode_filenames.torrent")
-        torrent_id2 = self.core.add_torrent_file(filename2, base64.encodestring(open(filename2).read()), options)
+        torrent_id2 = yield self.core.add_torrent_file(filename2, base64.encodestring(open(filename2).read()), options)
         d = self.core.remove_torrents([torrent_id, torrent_id2], True)
 
         def test_ret(val):
@@ -197,12 +227,13 @@ class CoreTestCase(BaseTestCase):
         def test_session_state(val):
             self.assertEquals(len(self.core.get_session_state()), 0)
         d.addCallback(test_session_state)
-        return d
+        yield d
 
+    @defer.inlineCallbacks
     def test_remove_torrents_invalid(self):
         options = {}
         filename = os.path.join(os.path.dirname(__file__), "test.torrent")
-        torrent_id = self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
+        torrent_id = yield self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
         d = self.core.remove_torrents(["invalidid1", "invalidid2", torrent_id], False)
 
         def test_ret(val):
@@ -212,7 +243,7 @@ class CoreTestCase(BaseTestCase):
             self.assertTrue(val[1][0] == "invalidid2")
             self.assertTrue(isinstance(val[1][1], InvalidTorrentError))
         d.addCallback(test_ret)
-        return d
+        yield d
 
     def test_get_session_status(self):
         status = self.core.get_session_status(["upload_rate", "download_rate"])

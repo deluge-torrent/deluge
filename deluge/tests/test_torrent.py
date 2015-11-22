@@ -5,7 +5,7 @@ import os
 import sys
 import time
 
-from twisted.internet import reactor
+from twisted.internet import defer, reactor
 from twisted.internet.task import deferLater
 from twisted.trial import unittest
 
@@ -144,10 +144,11 @@ class TorrentTestCase(unittest.TestCase):
 
         # self.print_priority_list(priorities)
 
+    @defer.inlineCallbacks
     def test_torrent_error_data_missing(self):
         options = {"seed_mode": True}
         filename = os.path.join(os.path.dirname(__file__), "test_torrent.file.torrent")
-        torrent_id = core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
+        torrent_id = yield core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
         torrent = core.torrentmanager.torrents[torrent_id]
 
         self.assert_state(torrent, "Seeding")
@@ -157,10 +158,11 @@ class TorrentTestCase(unittest.TestCase):
         time.sleep(0.2)  # Delay to wait for alert from lt
         self.assert_state(torrent, "Error")
 
+    @defer.inlineCallbacks
     def test_torrent_error_resume_original_state(self):
         options = {"seed_mode": True, "add_paused": True}
         filename = os.path.join(os.path.dirname(__file__), "test_torrent.file.torrent")
-        torrent_id = core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
+        torrent_id = yield core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
         torrent = core.torrentmanager.torrents[torrent_id]
 
         orig_state = "Paused"
@@ -173,8 +175,10 @@ class TorrentTestCase(unittest.TestCase):
 
         # Clear error and verify returned to original state
         torrent.force_recheck()
-        return deferLater(reactor, 0.1, self.assert_state, torrent, orig_state)
+        yield deferLater(reactor, 0.1, self.assert_state, torrent, orig_state)
+        return
 
+    @defer.inlineCallbacks
     def test_torrent_error_resume_data_unaltered(self):
         resume_data = {'active_time': 13399, 'num_incomplete': 16777215, 'announce_to_lsd': 1, 'seed_mode': 0,
                        'pieces': '\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01', 'paused': 0,
@@ -202,8 +206,8 @@ class TorrentTestCase(unittest.TestCase):
 
         filename = os.path.join(os.path.dirname(__file__), "test_torrent.file.torrent")
         filedump = open(filename).read()
-        torrent_id = core.torrentmanager.add(state=torrent_state, filedump=filedump,
-                                             resume_data=lt.bencode(resume_data))
+        torrent_id = yield core.torrentmanager.add(state=torrent_state, filedump=filedump,
+                                                   resume_data=lt.bencode(resume_data))
         torrent = core.torrentmanager.torrents[torrent_id]
 
         def assert_resume_data():
@@ -211,4 +215,5 @@ class TorrentTestCase(unittest.TestCase):
             tm_resume_data = lt.bdecode(core.torrentmanager.resume_data[torrent.torrent_id])
             self.assertEquals(tm_resume_data, resume_data)
 
-        return deferLater(reactor, 0.5, assert_resume_data)
+        yield deferLater(reactor, 0.5, assert_resume_data)
+        return
