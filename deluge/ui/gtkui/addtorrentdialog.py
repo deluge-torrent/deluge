@@ -738,8 +738,13 @@ class AddTorrentDialog(component.Component):
                                         options))
             row = self.torrent_liststore.iter_next(row)
 
-        def on_torrents_added(torrent_ids):
-            log.info("Added %d torrents", len(torrent_ids))
+        def on_torrents_added(errors):
+            if errors:
+                log.info("Failed to add %d out of %d torrents.", len(errors), len(torrents_to_add))
+                for e in errors:
+                    log.info("Torrent add failed: %s", e)
+            else:
+                log.info("Successfully added %d torrents.", len(torrents_to_add))
         client.core.add_torrent_files(torrents_to_add).addCallback(on_torrents_added)
 
     def _on_button_apply_clicked(self, widget):

@@ -10,6 +10,7 @@
 """TorrentManager handles Torrent objects"""
 
 import cPickle
+import datetime
 import logging
 import operator
 import os
@@ -26,7 +27,7 @@ from deluge.common import decode_string, get_magnet_info, utf8_encoded
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.core.torrent import Torrent, TorrentOptions, sanitize_filepath
-from deluge.error import InvalidTorrentError
+from deluge.error import AddTorrentError, InvalidTorrentError
 from deluge.event import (PreTorrentRemovedEvent, SessionStartedEvent, TorrentAddedEvent, TorrentFileCompletedEvent,
                           TorrentFileRenamedEvent, TorrentFinishedEvent, TorrentRemovedEvent, TorrentResumedEvent)
 
@@ -105,6 +106,7 @@ class TorrentManager(component.Component):
         self.torrents = {}
         self.queued_torrents = set()
         self.is_saving_state = False
+        self.torrents_loading = {}
 
         # This is a map of torrent_ids to Deferreds used to track needed resume data.
         # The Deferreds will be completed when resume data has been saved.
@@ -152,6 +154,7 @@ class TorrentManager(component.Component):
         self.alerts.register_handler("external_ip_alert", self.on_alert_external_ip)
         self.alerts.register_handler("performance_alert", self.on_alert_performance)
         self.alerts.register_handler("fastresume_rejected_alert", self.on_alert_fastresume_rejected)
+        self.alerts.register_handler("add_torrent_alert", self.on_add_torrent_alert)
 
         # Define timers
         self.save_state_timer = LoopingCall(self.save_state)
@@ -163,7 +166,6 @@ class TorrentManager(component.Component):
         if os.path.isfile(self.temp_file):
             def archive_file(filename):
                 """Archives the file in 'archive' sub-directory with timestamp appended"""
-                import datetime
                 filepath = os.path.join(self.state_dir, filename)
                 filepath_bak = filepath + ".bak"
                 archive_dir = os.path.join(get_config_dir(), "archive")
@@ -302,16 +304,14 @@ class TorrentManager(component.Component):
             TorrentAddedEvent: Torrent with torrent_id added to session.
 
         """
-        if torrent_info is None and filedump is None and magnet is None:
-            log.error("You must specify a valid torrent_info, torrent state or magnet.")
-            return
+        if not torrent_info and not filedump and not magnet:
+            raise AddTorrentError("You must specify a valid torrent_info, torrent state or magnet.")
 
         if filedump:
             try:
                 torrent_info = lt.torrent_info(lt.bdecode(filedump))
             except RuntimeError as ex:
-                log.error("Unable to add torrent, decoding filedump failed: %s", ex)
-                return
+                raise AddTorrentError("Unable to add torrent, decoding filedump failed: %s" % ex)
 
         add_torrent_params = {}
         if torrent_info:
@@ -329,15 +329,15 @@ class TorrentManager(component.Component):
                 add_torrent_params["name"] = magnet_info["name"]
                 torrent_id = magnet_info["info_hash"]
             else:
-                log.error("Unable to add magnet, invalid magnet info: %s", magnet)
-                return
+                raise AddTorrentError("Unable to add magnet, invalid magnet info: %s" % magnet)
 
         # Check for existing torrent in session.
         if torrent_id in self.get_torrent_list():
-            log.warning("Unable to add torrent (%s), already in session", torrent_id)
             # Attempt merge trackers before returning.
             self.torrents[torrent_id].merge_trackers(torrent_info)
-            return
+            raise AddTorrentError("Torrent already in session (%s)." % torrent_id)
+        elif torrent_id in self.torrents_loading:
+            raise AddTorrentError("Torrent already being added (%s)." % torrent_id)
 
         # Load default options and update if needed.
         _options = TorrentOptions()
@@ -385,24 +385,31 @@ class TorrentManager(component.Component):
         if options["seed_mode"]:
             add_torrent_params["flags"] |= lt.add_torrent_params_flags_t.flag_seed_mode
 
-        # We need to pause the AlertManager momentarily to prevent alerts
-        # for this torrent being generated before a Torrent object is created.
-        component.pause("AlertManager")
-
+        d = Deferred()
         try:
-            handle = self.session.add_torrent(add_torrent_params)
-            if not handle.is_valid():
-                raise InvalidTorrentError("Torrent handle is invalid!")
-        except (RuntimeError, InvalidTorrentError) as ex:
-            log.error("Unable to add torrent to session: %s", ex)
-            component.resume("AlertManager")
+            self.torrents_loading[torrent_id] = (d, options, state, filename, magnet, resume_data, filedump, save_state)
+            self.session.async_add_torrent(add_torrent_params)
+        except RuntimeError as ex:
+            raise AddTorrentError("Unable to add torrent to session: %s" % ex)
+        return d
+
+    def on_add_torrent_alert(self, alert):
+        """Alert handler for libtorrent add_torrent_alert"""
+        if not alert.handle.is_valid():
+            log.warn("Torrent handle is invalid!")
             return
 
-        # Create a Torrent object and add to the dictionary.
-        torrent = Torrent(handle, options, state, filename, magnet)
-        self.torrents[torrent.torrent_id] = torrent
+        try:
+            torrent_id = str(alert.handle.info_hash())
+        except RuntimeError as ex:
+            log.warn("Failed to get torrent id from handle: %s", ex)
+            return
 
-        component.resume("AlertManager")
+        d, options, state, filename, magnet, resume_data, filedump, save_state = self.torrents_loading.pop(torrent_id)
+
+        # Create a Torrent object and add to the dictionary.
+        torrent = Torrent(alert.handle, options, state, filename, magnet)
+        self.torrents[torrent.torrent_id] = torrent
 
         # Store the orignal resume_data, in case of errors.
         if resume_data:
@@ -422,7 +429,7 @@ class TorrentManager(component.Component):
         component.get("EventManager").emit(TorrentAddedEvent(torrent.torrent_id, from_state))
 
         if log.isEnabledFor(logging.DEBUG):
-            log.debug("Torrent added: %s", str(handle.info_hash()))
+            log.debug("Torrent added: %s", str(alert.handle.info_hash()))
         if log.isEnabledFor(logging.INFO):
             name_and_owner = torrent.get_status(["name", "owner"])
             log.info("Torrent %s from user \"%s\" %s",
@@ -438,7 +445,7 @@ class TorrentManager(component.Component):
         if save_state:
             self.save_state()
 
-        return torrent.torrent_id
+        d.callback(torrent.torrent_id)
 
     def remove(self, torrent_id, remove_data=False, save_state=True):
         """Remove a torrent from the session.
@@ -556,6 +563,7 @@ class TorrentManager(component.Component):
             SessionStartedEvent: Emitted after all torrents are added to the session.
 
         """
+        start = datetime.datetime.now()
         state = self.open_state()
         state = self.fixup_state(state)
 
@@ -563,10 +571,7 @@ class TorrentManager(component.Component):
         state.torrents.sort(key=operator.attrgetter("queue"), reverse=self.config["queue_new_to_top"])
         resume_data = self.load_resume_data_file()
 
-        # Tell alertmanager to wait for the handlers while adding torrents.
-        # This speeds up startup loading the torrents by quite a lot for some reason (~40%)
-        self.alerts.wait_on_handler = True
-
+        deferreds = []
         for t_state in state.torrents:
             # Populate the options dict from state
             options = TorrentOptions()
@@ -587,12 +592,16 @@ class TorrentManager(component.Component):
             if torrent_info:
                 magnet = None
 
-            self.add(torrent_info=torrent_info, state=t_state, options=options, save_state=False,
-                     magnet=magnet, resume_data=resume_data.get(t_state.torrent_id))
+            d = self.add(torrent_info=torrent_info, state=t_state, options=options, save_state=False,
+                         magnet=magnet, resume_data=resume_data.get(t_state.torrent_id))
+            deferreds.append(d)
 
-        self.alerts.wait_on_handler = False
-        log.info("Finished loading %d torrents.", len(state.torrents))
-        component.get("EventManager").emit(SessionStartedEvent())
+        deferred_list = DeferredList(deferreds, consumeErrors=False)
+
+        def on_complete(result):
+            log.info("Finished loading %d torrents in %s", len(state.torrents), str(datetime.datetime.now() - start))
+            component.get("EventManager").emit(SessionStartedEvent())
+        deferred_list.addCallback(on_complete)
 
     def create_state(self):
         """Create a state of all the torrents in TorrentManager.
