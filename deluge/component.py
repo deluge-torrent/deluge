@@ -396,7 +396,11 @@ class ComponentRegistry(object):
 
         """
         for component in self.components.items():
-            component.update()
+            try:
+                component.update()
+            except BaseException as ex:
+                log.exception(ex)
+
 
 _ComponentRegistry = ComponentRegistry()
 
