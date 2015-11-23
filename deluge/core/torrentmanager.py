@@ -16,7 +16,7 @@ import os
 import shutil
 import time
 
-from twisted.internet import reactor
+from twisted.internet import defer, reactor, threads
 from twisted.internet.defer import Deferred, DeferredList
 from twisted.internet.task import LoopingCall
 
@@ -104,6 +104,7 @@ class TorrentManager(component.Component):
         # Create the torrents dict { torrent_id: Torrent }
         self.torrents = {}
         self.queued_torrents = set()
+        self.is_saving_state = False
 
         # This is a map of torrent_ids to Deferreds used to track needed resume data.
         # The Deferreds will be completed when resume data has been saved.
@@ -194,6 +195,7 @@ class TorrentManager(component.Component):
         self.save_resume_data_timer.start(190, False)
         self.prev_status_cleanup_loop.start(10)
 
+    @defer.inlineCallbacks
     def stop(self):
         # Stop timers
         if self.save_state_timer.running:
@@ -206,18 +208,15 @@ class TorrentManager(component.Component):
             self.prev_status_cleanup_loop.stop()
 
         # Save state on shutdown
-        self.save_state()
-
+        log.info("Saving state...")
+        yield self.save_state()
         self.session.pause()
 
-        def remove_temp_file(result):
-            """Remove the temp_file to signify successfully saved state"""
-            if result and os.path.isfile(self.temp_file):
-                os.remove(self.temp_file)
-
-        d = self.save_resume_data(flush_disk_cache=True)
-        d.addCallback(remove_temp_file)
-        return d
+        log.info("Saving resume data...")
+        result = yield self.save_resume_data(flush_disk_cache=True)
+        # Remove the temp_file to signify successfully saved state
+        if result and os.path.isfile(self.temp_file):
+            os.remove(self.temp_file)
 
     def update(self):
         for torrent_id, torrent in self.torrents.items():
@@ -647,6 +646,25 @@ class TorrentManager(component.Component):
         return state
 
     def save_state(self):
+        """
+        Run the save state task in a separate thread to avoid blocking main thread.
+
+        If a save task is already running, this call is ignored.
+
+        """
+        if self.is_saving_state:
+            return defer.succeed(None)
+        self.is_saving_state = True
+        d = threads.deferToThread(self._save_state)
+
+        def on_state_saved(arg):
+            self.is_saving_state = False
+            if self.save_state_timer.running:
+                self.save_state_timer.reset()
+        d.addBoth(on_state_saved)
+        return d
+
+    def _save_state(self):
         """Save the state of the TorrentManager to the torrents.state file."""
         state = self.create_state()
         if not state.torrents:

@@ -2,7 +2,7 @@
  * libtorrent (rasterbar) >= 0.16.7
  * python >= 2.6
  * setuptools
- * twisted >= 8.1
+ * twisted >= 11.1
  * pyopenssl
  * pyxdg
  * chardet
