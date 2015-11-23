@@ -264,6 +264,7 @@ class Torrent(object):
         self.update_status(self.handle.status())
         self._create_status_funcs()
         self.set_options(self.options)
+        self.update_state()
 
         if log.isEnabledFor(logging.DEBUG):
             log.debug("Torrent object created.")
