@@ -99,7 +99,10 @@ class _UI(object):
         return self.__args
 
     def start(self):
-        (self.__options, self.__args) = self.__parser.parse_args()
+        if deluge.common.windows_check():
+            (self.__options, self.__args) = self.__parser.parse_args(deluge.common.win32_unicode_argv()[1:])
+        else:
+            (self.__options, self.__args) = self.__parser.parse_args()
 
         if self.__options.quiet:
             self.__options.loglevel = "none"

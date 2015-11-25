@@ -86,7 +86,10 @@ def start_ui():
         help="Sets the log level to 'none', this is the same as `-L none`", action="store_true", default=False)
 
     # Get the options and args from the OptionParser
-    (options, args) = parser.parse_args()
+    if deluge.common.windows_check():
+        (options, args) = parser.parse_args(deluge.common.win32_unicode_argv()[1:])
+    else:
+        (options, args) = parser.parse_args()
 
     # Setup the logger
     if options.quiet:

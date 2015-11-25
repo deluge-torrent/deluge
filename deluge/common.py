@@ -718,3 +718,27 @@ class VersionSplit(object):
         v1 = [self.version, self.suffix or 'z', self.dev]
         v2 = [ver.version, ver.suffix or 'z', ver.dev]
         return cmp(v1, v2)
+
+def win32_unicode_argv():
+    """ Gets sys.argv as list of unicode objects on any platform."""
+    if windows_check():
+        # Versions 2.x of Python don't support Unicode in sys.argv on Windows, with the
+        # underlying Windows API instead replacing multi-byte characters with '?'.
+        from ctypes import POINTER, byref, cdll, c_int, windll
+        from ctypes.wintypes import LPCWSTR, LPWSTR
+
+        get_cmd_linew = cdll.kernel32.GetCommandLineW
+        get_cmd_linew.argtypes = []
+        get_cmd_linew.restype = LPCWSTR
+
+        cmdline_to_argvw = windll.shell32.CommandLineToArgvW
+        cmdline_to_argvw.argtypes = [LPCWSTR, POINTER(c_int)]
+        cmdline_to_argvw.restype = POINTER(LPWSTR)
+
+        cmd = get_cmd_linew()
+        argc = c_int(0)
+        argv = cmdline_to_argvw(cmd, byref(argc))
+        if argc.value > 0:
+            # Remove Python executable and commands if present
+            start = argc.value - len(sys.argv)
+            return [argv[i] for i in xrange(start, argc.value)]
