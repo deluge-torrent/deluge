@@ -199,7 +199,7 @@ def process_args(args):
             log.debug("Attempting to add file (%s) from external source...", arg)
             if urlparse(arg).scheme == "file":
                 arg = url2pathname(urlparse(arg).path)
-            path = os.path.abspath(arg)
+            path = os.path.abspath(deluge.common.decode_string(arg))
 
             if not os.path.exists(path):
                 log.error("No such file: %s", path)
