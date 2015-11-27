@@ -601,7 +601,10 @@ class Torrent(object):
 
         Args:
             status (str): The tracker status.
+
         """
+
+        self.tracker_host = None
         self.tracker_status = status
 
     def merge_trackers(self, torrent_info):
