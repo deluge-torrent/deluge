@@ -384,6 +384,7 @@ class Torrent(object):
 
     def set_tracker_status(self, status):
         """Sets the tracker status"""
+        self.tracker_host = None
         self.tracker_status = self.get_tracker_host() + ": " + status
 
     def update_state(self):
