@@ -11,13 +11,10 @@ import base64
 import cgi
 import logging
 import os
-from urlparse import urljoin
 
 import gobject
 import gtk
 import pygtk
-import twisted.web.client
-import twisted.web.error
 
 import deluge.common
 import deluge.component as component
@@ -641,25 +638,16 @@ class AddTorrentDialog(component.Component):
                 pb.set_text("%s" % deluge.common.fsize(current_length))
 
         def on_download_success(result):
-            log.debug("Download success!")
             self.add_from_files([result])
             dialog.destroy()
 
         def on_download_fail(result):
-            if result.check(twisted.web.error.PageRedirect):
-                new_url = urljoin(url, result.getErrorMessage().split(" to ")[1])
-                result = download_file(new_url, tmp_file, on_part)
-                result.addCallbacks(on_download_success, on_download_fail)
-            elif result.check(twisted.web.client.PartialDownloadError):
-                result = download_file(url, tmp_file, on_part, allow_compression=False)
-                result.addCallbacks(on_download_success, on_download_fail)
-            else:
-                log.debug("Download failed: %s", result)
-                dialog.destroy()
-                ErrorDialog(
-                    _("Download Failed"), "%s %s" % (_("Failed to download:"), url),
-                    details=result.getErrorMessage(), parent=self.dialog
-                ).run()
+            log.debug("Download failed: %s", result)
+            dialog.destroy()
+            ErrorDialog(
+                _("Download Failed"), "%s %s" % (_("Failed to download:"), url),
+                details=result.getErrorMessage(), parent=self.dialog
+            ).run()
             return result
 
         d = download_file(url, tmp_file, on_part)

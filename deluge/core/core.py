@@ -15,11 +15,9 @@ import os
 import shutil
 import tempfile
 import threading
-from urlparse import urljoin
 
-import twisted.web.client
-import twisted.web.error
 from twisted.internet import reactor, task
+from twisted.web.client import getPage
 
 import deluge.common
 import deluge.component as component
@@ -282,25 +280,9 @@ class Core(component.Component):
             return self.add_torrent_file(filename, base64.encodestring(data), options)
 
         def on_download_fail(failure):
-            if failure.check(twisted.web.error.PageRedirect):
-                new_url = urljoin(url, failure.getErrorMessage().split(" to ")[1])
-                result = download_file(
-                    new_url, tempfile.mkstemp()[1], headers=headers,
-                    force_filename=True
-                )
-                result.addCallbacks(on_download_success, on_download_fail)
-            elif failure.check(twisted.web.client.PartialDownloadError):
-                result = download_file(
-                    url, tempfile.mkstemp()[1], headers=headers,
-                    force_filename=True, allow_compression=False
-                )
-                result.addCallbacks(on_download_success, on_download_fail)
-            else:
-                # Log the error and pass the failure onto the client
-                log.error("Error occurred downloading torrent from %s", url)
-                log.error("Reason: %s", failure.getErrorMessage())
-                result = failure
-            return result
+            # Log the error and pass the failure onto the client
+            log.error("Failed to add torrent from url %s", url)
+            return failure
 
         d = download_file(
             url, tempfile.mkstemp()[1], headers=headers, force_filename=True
@@ -890,8 +872,6 @@ class Core(component.Component):
         :rtype: bool
 
         """
-        from twisted.web.client import getPage
-
         d = getPage("http://deluge-torrent.org/test_port.php?port=%s" %
                     self.get_listen_port(), timeout=30)
 
