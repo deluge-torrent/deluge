@@ -263,6 +263,8 @@ class GtkUI(object):
 
     def pre_shutdown(self, *args, **kwargs):
         """Modal dialogs can prevent the application exiting so destroy mainwindow"""
+        # Ensure columns state is saved
+        self.torrentview.save_state()
         self.mainwindow.window.destroy()
 
     def print_rpc_stats(self):

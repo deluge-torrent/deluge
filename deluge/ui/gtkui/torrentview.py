@@ -358,19 +358,20 @@ class TorrentView(ListView, component.Component):
 
     def shutdown(self):
         """Called when GtkUi is exiting"""
-        if self.window.visible():
-            self.save_state()
+        self.save_state()
 
     def save_state(self):
         """
         Saves the state of the torrent view.
         """
-        ListView.save_state(self, "torrentview.state")
+        if self.window.visible():
+            ListView.save_state(self, "torrentview.state")
 
     def remove_column(self, header):
         """Removes the column with the name 'header' from the torrentview"""
         self.save_state()
-        ListView.remove_column(self, header)
+        if self.window.visible():
+            ListView.remove_column(self, header)
 
     def set_filter(self, filter_dict):
         """
