@@ -30,25 +30,21 @@ class GtkUI(GtkPluginBase):
 
     def enable(self):
         self.plugin = component.get("PluginManager")
+        self.torrentmenu = component.get("MenuBar").torrentmenu
         self.label_menu = None
         self.labelcfg = None
         self.sidebar_menu = None
         self.load_interface()
 
     def disable(self):
-        try:
-            torrentmenu = component.get("MenuBar").torrentmenu
-            torrentmenu.remove(self.label_menu)  # ok
+        if self.label_menu in self.torrentmenu.get_children():
+            self.torrentmenu.remove(self.label_menu)
 
-            self.labelcfg.unload()  # ok
-            self.sidebar_menu.unload()
-            del self.sidebar_menu
+        self.labelcfg.unload()
+        self.sidebar_menu.unload()
+        del self.sidebar_menu
 
-            component.get("TorrentView").remove_column(_("Label"))
-            log.debug(1.1)
-
-        except Exception as ex:
-            log.debug(ex)
+        component.get("TorrentView").remove_column(_("Label"))
 
     def load_interface(self):
         # sidebar
@@ -59,9 +55,8 @@ class GtkUI(GtkPluginBase):
 
         # menu:
         log.debug("add items to torrentview-popup menu.")
-        torrentmenu = component.get("MenuBar").torrentmenu
         self.label_menu = submenu.LabelMenu()
-        torrentmenu.append(self.label_menu)
+        self.torrentmenu.append(self.label_menu)
         self.label_menu.show_all()
 
         # columns:
