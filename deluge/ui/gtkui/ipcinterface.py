@@ -21,7 +21,7 @@ from twisted.internet import reactor
 from twisted.internet.protocol import ClientFactory, Factory, Protocol
 
 import deluge.component as component
-from deluge.common import is_magnet, is_url, windows_check
+from deluge.common import decode_string, is_magnet, is_url, windows_check
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.ui.client import client
 
@@ -199,7 +199,7 @@ def process_args(args):
             log.debug("Attempting to add file (%s) from external source...", arg)
             if urlparse(arg).scheme == "file":
                 arg = url2pathname(urlparse(arg).path)
-            path = os.path.abspath(deluge.common.decode_string(arg))
+            path = os.path.abspath(decode_string(arg))
 
             if not os.path.exists(path):
                 log.error("No such file: %s", path)
