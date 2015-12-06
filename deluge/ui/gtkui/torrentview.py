@@ -370,8 +370,7 @@ class TorrentView(ListView, component.Component):
     def remove_column(self, header):
         """Removes the column with the name 'header' from the torrentview"""
         self.save_state()
-        if self.window.visible():
-            ListView.remove_column(self, header)
+        ListView.remove_column(self, header)
 
     def set_filter(self, filter_dict):
         """
