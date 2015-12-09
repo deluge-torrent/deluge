@@ -909,9 +909,10 @@ class Torrent(object):
             try:
                 # Try to make the destination path if it doesn't exist
                 os.makedirs(dest)
-            except IOError, e:
-                log.exception(e)
-                log.error("Could not move storage for torrent %s since %s does not exist and could not create the directory.", self.torrent_id, dest_u)
+            except OSError, e:
+                log.error("Could not move storage for torrent %s since %s does "
+                          "not exist and could not create the directory: %s",
+                          self.torrent_id, dest, ex)
                 return False
 
         kwargs = {}
