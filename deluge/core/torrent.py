@@ -1134,7 +1134,7 @@ class Torrent(object):
         if not os.path.exists(dest):
             try:
                 os.makedirs(dest)
-            except IOError as ex:
+            except OSError as ex:
                 log.error("Could not move storage for torrent %s since %s does "
                           "not exist and could not create the directory: %s",
                           self.torrent_id, dest, ex)
