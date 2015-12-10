@@ -197,7 +197,7 @@ def start_daemon():
         log.addHandler(file_handler)
 
     # If the donot daemonize is set, then we just skip the forking
-    if not (deluge.common.windows_check() or deluge.common.osx_check() or options.donot):
+    if not (deluge.common.windows_check() or options.donot):
         if os.fork():
             # We've forked and this is now the parent process, so die!
             os._exit(0)
