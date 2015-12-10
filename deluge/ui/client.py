@@ -576,8 +576,6 @@ class Client(object):
         try:
             if deluge.common.windows_check():
                 subprocess.Popen(["deluged", "--port=%s" % port, "--config=%s" % config])
-            elif deluge.common.osx_check():
-                subprocess.call(["nohup", "deluged", "--port=%s" % port, "--config=%s" % config])
             else:
                 subprocess.call(["deluged", "--port=%s" % port, "--config=%s" % config])
         except OSError, e:
