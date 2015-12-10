@@ -493,10 +493,10 @@ def generate_ssl_keys():
     """
     This method generates a new SSL key/cert.
     """
-    digest = "md5"
+    digest = "sha256"
     # Generate key pair
     pkey = crypto.PKey()
-    pkey.generate_key(crypto.TYPE_RSA, 1024)
+    pkey.generate_key(crypto.TYPE_RSA, 2048)
 
     # Generate cert request
     req = crypto.X509Req()
@@ -509,7 +509,7 @@ def generate_ssl_keys():
     cert = crypto.X509()
     cert.set_serial_number(0)
     cert.gmtime_adj_notBefore(0)
-    cert.gmtime_adj_notAfter(60*60*24*365*5) # Five Years
+    cert.gmtime_adj_notAfter(60 * 60 * 24 * 365 * 3)  # Three Years
     cert.set_issuer(req.get_subject())
     cert.set_subject(req.get_subject())
     cert.set_pubkey(req.get_pubkey())
