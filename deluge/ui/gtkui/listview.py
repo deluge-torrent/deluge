@@ -652,7 +652,7 @@ class ListView:
 
     def add_texticon_column(self, header, col_types=[str, str], sortid=1,
                             hidden=False, position=None, status_field=None,
-                            column_type="texticon", function=None,
+                            column_type="texticon", function=None, sort_func=None,
                             default=True):
         """Adds a texticon column to the listview."""
         render1 = gtk.CellRendererPixbuf()
@@ -660,8 +660,8 @@ class ListView:
 
         self.add_column(header, (render1, render2), col_types, hidden, position,
                         status_field, sortid, column_type=column_type,
-                        function=function, pixbuf=0, text=1, default=default)
-
+                        function=function, sort_func=sort_func, pixbuf=0,
+                        text=1, default=default)
         return True
 
     def on_keypress_search_by_name(self, model, columnn, key, iter):

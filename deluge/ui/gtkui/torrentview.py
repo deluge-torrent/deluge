@@ -42,6 +42,7 @@ import gtk, gtk.glade
 import gettext
 import gobject
 import warnings
+from locale import strcoll
 from urlparse import urlparse
 
 import deluge.common
@@ -169,6 +170,16 @@ def cell_data_queue(column, cell, model, row, data):
     else:
         cell.set_property("text", str(value + 1))
 
+def str_nocase_sort(model, iter1, iter2, data):
+    """
+    Sort string column data with locale.strcoll which (allegedly)
+    uses ISO 14651.
+
+    """
+    v1 = model[iter1][data].lower()
+    v2 = model[iter2][data].lower()
+    return strcoll(v1, v2)
+
 def queue_peer_seed_sort_function(v1, v2):
     if v1 == v2:
         return 0
@@ -254,7 +265,8 @@ class TorrentView(listview.ListView, component.Component):
                              sort_func=queue_column_sort)
         self.add_texticon_column(_("Name"),
                                  status_field=["state", "name"],
-                                 function=cell_data_statusicon)
+                                 function=cell_data_statusicon,
+                                 sort_func=str_nocase_sort)
         self.add_func_column(_("Size"), listview.cell_data_size,
                              [gobject.TYPE_UINT64],
                              status_field=["total_wanted"])
