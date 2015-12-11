@@ -223,8 +223,6 @@ class Torrent(object):
         self.forcing_recheck = False
         self.forcing_recheck_paused = False
 
-        log.debug("Torrent object created.")
-
     ## Options methods ##
     def set_options(self, options):
         OPTIONS_FUNCS = {
@@ -391,34 +389,30 @@ class Torrent(object):
         """Updates the state based on what libtorrent's state for the torrent is"""
         # Set the initial state based on the lt state
         LTSTATE = deluge.common.LT_TORRENT_STATE
-        ltstate = int(self.handle.status().state)
+        status = self.handle.status()
+        ltstate = status.state
 
-        # Set self.state to the ltstate right away just incase we don't hit some
-        # of the logic below
+        # Set self.state to the ltstate right away just incase we don't hit some of the logic below
         old_state = self.state
-        if ltstate in LTSTATE:
-            self.state = LTSTATE[ltstate]
-        else:
-            self.state = str(ltstate)
-        is_paused = self.handle.is_paused()
-        session_paused = component.get("Core").session.is_paused()
+        self.state = LTSTATE.get(int(ltstate), str(ltstate))
 
-        log.debug("set_state_based_on_ltstate: %s with session.is_paused: %s", self.state, session_paused)
+        is_paused = self.handle.is_paused()
+        is_auto_managed = self.handle.is_auto_managed()
+        session_paused = component.get("Core").session.is_paused()
 
         # First we check for an error from libtorrent, and set the state to that
         # if any occurred.
         if self.forced_error:
             self.state = "Error"
-            log.debug("Torrent Error state message: %s", self.forced_error.error_message)
             self.set_status_message("Error: " + self.forced_error.error_message)
-        elif len(self.handle.status().error) > 0:
+        elif status.error:
             # This is an error'd torrent
             self.state = "Error"
-            self.set_status_message(self.handle.status().error)
+            self.set_status_message(status.error)
             if is_paused:
                 self.handle.auto_managed(False)
         else:
-            if is_paused and self.handle.is_auto_managed() and not session_paused:
+            if is_paused and is_auto_managed and not session_paused:
                 self.state = "Queued"
             elif is_paused or session_paused:
                 self.state = "Paused"
@@ -433,6 +427,10 @@ class Torrent(object):
                 self.state = "Allocating"
 
         if self.state != old_state:
+            log.debug("Using torrent state from lt: %s, auto_managed: %s, paused: %s, session_paused: %s",
+                      ltstate, is_auto_managed, is_paused, session_paused)
+            log.debug("Torrent %s set from %s to %s: '%s'",
+                      self.torrent_id, old_state, self.state, self.statusmsg)
             component.get("EventManager").emit(TorrentStateChangedEvent(self.torrent_id, self.state))
 
     def set_state(self, state):
