@@ -14,9 +14,10 @@ import mimetypes
 import os
 import tempfile
 
+from OpenSSL.crypto import FILETYPE_PEM
 from twisted.application import internet, service
 from twisted.internet import defer, error, reactor
-from twisted.internet.ssl import SSL
+from twisted.internet.ssl import SSL, Certificate, CertificateOptions, KeyPair
 from twisted.web import http, resource, server, static
 
 from deluge import common, component, configmanager
@@ -527,24 +528,6 @@ class TopLevel(resource.Resource):
                                debug=debug, base=request.base, js_config=js_config)
 
 
-class ServerContextFactory:
-
-    def __init__(self):
-        pass
-
-    def getContext(self):  # NOQA
-        """Creates an SSL context."""
-        ctx = SSL.Context(SSL.SSLv23_METHOD)
-        ctx.set_options(SSL.OP_NO_SSLv2 | SSL.OP_NO_SSLv3)
-        delugeweb = component.get("DelugeWeb")
-        log.debug("Enabling SSL using:")
-        log.debug("Pkey: %s", delugeweb.pkey)
-        log.debug("Cert: %s", delugeweb.cert)
-        ctx.use_privatekey_file(configmanager.get_config_dir(delugeweb.pkey))
-        ctx.use_certificate_chain_file(configmanager.get_config_dir(delugeweb.cert))
-        return ctx
-
-
 class DelugeWeb(component.Component):
 
     def __init__(self):
@@ -599,12 +582,21 @@ class DelugeWeb(component.Component):
 
     def start_normal(self):
         self.socket = reactor.listenTCP(self.port, self.site, interface=self.interface)
-        log.info("serving on %s:%s view at http://%s:%s", self.interface, self.port, self.interface, self.port)
+        log.info("Serving at http://%s:%s", self.interface, self.port)
 
     def start_ssl(self):
         check_ssl_keys()
-        self.socket = reactor.listenSSL(self.port, self.site, ServerContextFactory(), interface=self.interface)
-        log.info("serving on %s:%s view at https://%s:%s", self.interface, self.port, self.interface, self.port)
+        log.debug("Enabling SSL with PKey: %s, Cert: %s", self.pkey, self.cert)
+
+        with open(configmanager.get_config_dir(self.cert)) as cert:
+            certificate = Certificate.loadPEM(cert.read()).original
+        with open(configmanager.get_config_dir(self.pkey)) as pkey:
+            private_key = KeyPair.load(pkey.read(), FILETYPE_PEM).original
+        options = CertificateOptions(privateKey=private_key, certificate=certificate, method=SSL.SSLv23_METHOD)
+        options.getContext().set_options(SSL.OP_NO_SSLv2 | SSL.OP_NO_SSLv3)
+
+        self.socket = reactor.listenSSL(self.port, self.site, options, interface=self.interface)
+        log.info("Serving at https://%s:%s", self.interface, self.port)
 
     def stop(self):
         log.info("Shutting down webserver")
