@@ -38,6 +38,7 @@ rsync -rpl $JHBUILD_PREFIX/lib/python2.7/site-packages/deluge-*.egg "${LIBDIR}/p
 msg "Clean unnecessary files"
 find $APPDIR -name "*.la" -exec rm -f {} \;  # Should not be packaged
 find $APPDIR -name "*.pyo" -exec rm -f {} \; # Just duplicates
+find $LIBDIR/python/deluge-*.egg -name "*.py" -exec rm -f {} \; # Remove source files, leaving compiled only.
 rm -fr $LIBDIR/pygtk/2.0/*demo*
 
 echo "*** Packaging done:`du -hs $APPDIR | cut -f 1`"
