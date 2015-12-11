@@ -71,7 +71,7 @@ class HTTPDownloader(client.HTTPDownloader):
             if "content-disposition" in headers and not self.force_filename:
                 new_file_name = str(headers["content-disposition"][0]).split(";")[1].split("=")[1]
                 new_file_name = sanitise_filename(new_file_name)
-                new_file_name = os.path.join(os.path.split(self.fileName)[0], new_file_name)
+                new_file_name = os.path.join(os.path.split(self.value)[0], new_file_name)
 
                 count = 1
                 fileroot = os.path.splitext(new_file_name)[0]
