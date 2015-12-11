@@ -14,6 +14,7 @@ import logging
 import gobject
 import gtk
 import pygtk
+from locale import strcoll
 from twisted.internet import reactor
 
 import deluge.component as component
@@ -25,6 +26,16 @@ from deluge.ui.gtkui.removetorrentdialog import RemoveTorrentDialog
 pygtk.require('2.0')
 
 log = logging.getLogger(__name__)
+
+
+def str_nocase_sort(model, iter1, iter2, data):
+    """
+    Sort string column data with locale.strcoll which (allegedly) uses ISO 14651.
+
+    """
+    v1 = model[iter1][data].lower()
+    v2 = model[iter2][data].lower()
+    return strcoll(v1, v2)
 
 
 def queue_peer_seed_sort_function(v1, v2):

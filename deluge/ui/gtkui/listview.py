@@ -611,7 +611,7 @@ class ListView:
 
     def add_texticon_column(self, header, col_types=None, sortid=1,
                             hidden=False, position=None, status_field=None,
-                            column_type="texticon", function=None,
+                            column_type="texticon", function=None, sort_func=None,
                             tooltip=None, default=True, default_sort=False):
         """Adds a texticon column to the listview."""
         if col_types is None:
@@ -622,7 +622,7 @@ class ListView:
         self.add_column(header, (render1, render2), col_types, hidden, position,
                         status_field, sortid, column_type=column_type,
                         function=function, pixbuf=0, text=1, tooltip=tooltip,
-                        default=default, default_sort=default_sort)
+                        sort_func=sort_func, default=default, default_sort=default_sort)
 
         return True
 
