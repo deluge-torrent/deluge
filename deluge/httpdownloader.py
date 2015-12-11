@@ -10,6 +10,7 @@
 import logging
 import os.path
 import zlib
+from urlparse import urljoin
 
 from twisted.internet import reactor
 from twisted.python.failure import Failure
@@ -139,32 +140,28 @@ def sanitise_filename(filename):
     return filename
 
 
-def download_file(url, filename, callback=None, headers=None, force_filename=False, allow_compression=True):
+def _download_file(url, filename, callback=None, headers=None, force_filename=False, allow_compression=True):
     """
-    Downloads a file from a specific URL and returns a Deferred.  You can also
-    specify a callback function to be called as parts are received.
+    Downloads a file from a specific URL and returns a Deferred. A callback
+    function can be specified to be called as parts are received.
 
-    :param url: the url to download from
-    :type url: string
-    :param filename: the filename to save the file as
-    :type filename: string
-    :param callback: a function to be called when a part of data is received,
-         it's signature should be: func(data, current_length, total_length)
-    :type callback: function
-    :param headers: any optional headers to send
-    :type headers: dictionary
-    :param force_filename: force us to use the filename specified rather than
-                           one the server may suggest
-    :type force_filename: boolean
-    :param allow_compression: allows gzip & deflate decoding
-    :type allow_compression: boolean
+    Args:
+        url (str): The url to download from
+        filename (str): The filename to save the file as
+        callback (func): A function to be called when a part of data is received,
+            it's signature should be: func(data, current_length, total_length)
+        headers (dict): Any optional headers to send
+        force_filename (bool): force us to use the filename specified rather than
+            one the server may suggest
+        allow_compression (bool): Allows gzip & deflate decoding
 
-    :returns: the filename of the downloaded file
-    :rtype: Deferred
+    Returns:
+        Deferred: the filename of the downloaded file
 
-    :raises t.w.e.PageRedirect: when server responds with a temporary redirect
-         or permanently moved.
-    :raises t.w.e.Error: for all other HTTP response errors (besides OK)
+    Raises:
+        t.w.e.PageRedirect
+        t.w.e.Error: for all other HTTP response errors
+
     """
     url = str(url)
     filename = str(filename)
@@ -216,3 +213,52 @@ def download_file(url, filename, callback=None, headers=None, force_filename=Fal
         reactor.connectTCP(host, port, factory)
 
     return factory.deferred
+
+
+def download_file(url, filename, callback=None, headers=None, force_filename=False,
+                  allow_compression=True, handle_redirects=True):
+    """
+    Downloads a file from a specific URL and returns a Deferred. A callback
+    function can be specified to be called as parts are received.
+
+    Args:
+        url (str): The url to download from
+        filename (str): The filename to save the file as
+        callback (func): A function to be called when a part of data is received,
+            it's signature should be: func(data, current_length, total_length)
+        headers (dict): Any optional headers to send
+        force_filename (bool): force us to use the filename specified rather than
+            one the server may suggest
+        allow_compression (bool): Allows gzip & deflate decoding
+        handle_redirects (bool): If HTTP redirects should be handled automatically
+
+    Returns:
+        Deferred: the filename of the downloaded file
+
+    Raises:
+        t.w.e.PageRedirect: Unless handle_redirects=True
+        t.w.e.Error: for all other HTTP response errors
+
+    """
+    def on_download_success(result):
+        log.debug("Download success!")
+        return result
+
+    def on_download_fail(failure):
+        if failure.check(PageRedirect) and handle_redirects:
+            new_url = urljoin(url, failure.getErrorMessage().split(" to ")[1])
+            result = _download_file(new_url, filename, callback=callback, headers=headers,
+                                    force_filename=force_filename,
+                                    allow_compression=allow_compression)
+            result.addCallbacks(on_download_success, on_download_fail)
+        else:
+            # Log the error and pass the failure to the caller
+            log.error("Error occurred downloading torrent from '%s': %s",
+                      url, failure.getErrorMessage())
+            result = failure
+        return result
+
+    d = _download_file(url, filename, callback=callback, headers=headers,
+                       force_filename=force_filename, allow_compression=allow_compression)
+    d.addCallbacks(on_download_success, on_download_fail)
+    return d
