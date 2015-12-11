@@ -1,3 +1,52 @@
+=== Deluge 1.3.13 (In Progress) ===
+
+==== Core ====
+	* Increase RSA key size from 1024 to 2048 and use SHA256 digest.
+	* Fixed empty error message from certain trackers.
+	* Fixed torrent ending up displaying the wrong state.
+	* #1032: Force a torrent into Error state if the resume data is rejected.
+	* Workaround unwanted tracker announce when force rechecking paused torrent.
+	* #2703: Stop moving torrent files if target files exist to prevent unintended clobbering of data.
+	* #1330: Fixed the pausing and resuming of the Deluge session so torrents return to previous state.
+	* #2765: Add support for TLS SNI in httpdownloader.
+
+==== GtkUI ====
+	* Fixed installing plugin from a non-ascii directory.
+	* Error'd torrents no longer display a progress percentage.
+	* #2753: Fixed the 'Added' column showing the wrong date.
+	* #2435: Prevent the user from changing tracker selection when editing trackers.
+	* Fixed showing the wrong connected status with hostname in the Connection Manager.
+	* #2754: Fixed the progress column to sort by progress and state correctly.
+	* #2696: Fixed incorrect Move Completed folder shown in Options tab.
+
+==== WebUI ====
+	* #2782: Fixed HTTPS negotiating incorrect cipher.
+	* #2485: Fixed the broken Options context menu.
+	* #2705: Fixed the hostlist config file not being created.
+
+==== Console ====
+	* Fixed adding non-ascii torrent in non-interactive mode
+
+==== OSX ====
+	* Fixed starting deluged from connection manager.
+	* Fixed empty scrolling status (systray) menu.
+
+==== Win32 ====
+	* #2093: Fixed opening non-ascii torrent files.
+
+==== Win32 Packaging ====
+	* #2777: Updated MSVC SP1 check to latest release CLID.
+
+==== Blocklist Plugin ====
+	* #2729: Fixed plugin lockup with empty url.
+
+==== Scheduler Plugin ====
+	* Fixed corrupt plugin prefences page on OSX.
+	* Fixed error accidentally introduced in 1.3.12.
+
+==== Notification Plugin ====
+	* #2402: Fixed the popup to show the actual count of files finished.
+
 === Deluge 1.3.12 (13 September 2015) ===
 ==== GtkUI ====
 	* #2731: Fix potential AttributeError in is_on_active_workspace
