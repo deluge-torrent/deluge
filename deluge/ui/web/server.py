@@ -62,12 +62,6 @@ UI_CONFIG_KEYS = (
     "show_session_speed", "base", "first_login"
 )
 
-OLD_CONFIG_KEYS = (
-    "port", "enabled_plugins", "base", "sidebar_show_zero",
-    "sidebar_show_trackers", "show_keyword_search", "show_sidebar",
-    "https"
-)
-
 
 def rpath(*paths):
     """Convert a relative path into an absolute path relative to the location
@@ -556,32 +550,6 @@ class DelugeWeb(component.Component):
     def __init__(self):
         super(DelugeWeb, self).__init__("DelugeWeb")
         self.config = configmanager.ConfigManager("web.conf", CONFIG_DEFAULTS)
-
-        # Check to see if a configuration from the web interface prior to 1.2
-        # exists and convert it over.
-        if os.path.exists(configmanager.get_config_dir("webui06.conf")):
-            old_config = configmanager.ConfigManager("webui06.conf")
-            if old_config.config:
-                # we have an old config file here to handle so we should move
-                # all the values across to the new config file, and then remove
-                # it.
-                for key in OLD_CONFIG_KEYS:
-                    if key in old_config:
-                        self.config[key] = old_config[key]
-
-                # We need to base64 encode the passwords since json can't handle
-                # them otherwise.
-                from base64 import encodestring
-                self.config["old_pwd_md5"] = encodestring(old_config["pwd_md5"])
-                self.config["old_pwd_salt"] = encodestring(old_config["pwd_salt"])
-
-                # Save our config and if it saved successfully then rename the
-                # old configuration file.
-                if self.config.save():
-                    config_dir = os.path.dirname(old_config.config_file)
-                    backup_path = os.path.join(config_dir, 'web.conf.old')
-                    os.rename(old_config.config_file, backup_path)
-                    del old_config
 
         self.socket = None
         self.top_level = TopLevel()
