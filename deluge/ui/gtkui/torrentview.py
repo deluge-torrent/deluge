@@ -10,11 +10,11 @@
 """The torrent view component that lists all torrents in the session."""
 
 import logging
+from locale import strcoll
 
 import gobject
 import gtk
 import pygtk
-from locale import strcoll
 from twisted.internet import reactor
 
 import deluge.component as component
