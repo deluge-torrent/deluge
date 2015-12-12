@@ -21,7 +21,7 @@ from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_f
 log = logging.getLogger(__name__)
 
 
-class Tab:
+class Tab(object):
     def __init__(self):
         self.is_visible = True
         self.position = -1
@@ -44,6 +44,19 @@ class Tab:
             parent.remove(self._tab_label)
 
         return self._tab_label
+
+    def get_status_for_widget(self, widget, status):
+        if widget[1] is None:
+            txt = status[widget[2][0]]
+        else:
+            try:
+                args = [status[key] for key in widget[2]]
+            except KeyError as ex:
+                log.debug("Unable to get status value: %s", ex)
+                txt = ""
+            else:
+                txt = widget[1](*args)
+        return txt
 
 
 class TorrentDetails(component.Component):

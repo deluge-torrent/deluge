@@ -84,17 +84,7 @@ class DetailsTab(Tab):
 
         # Update all the label widgets
         for widget in self.label_widgets:
-            if widget[1] is not None:
-                try:
-                    args = [status[key] for key in widget[2]]
-                except KeyError as ex:
-                    log.debug("Unable to get status value: %s", ex)
-                    continue
-                txt = widget[1](*args)
-            else:
-                txt = status[widget[2][0]]
-            txt = xml_escape(txt)
-
+            txt = xml_escape(self.get_status_for_widget(widget, status))
             if widget[0].get_text() != txt:
                 if widget[2][0] == "comment" and is_url(txt):
                     widget[0].set_markup('<a href="%s">%s</a>' % (txt, txt))

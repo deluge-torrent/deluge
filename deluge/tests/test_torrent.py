@@ -18,7 +18,6 @@ from deluge.core.rpcserver import RPCServer
 from deluge.core.torrent import Torrent
 from deluge.core.torrentmanager import TorrentState
 
-
 config_setup = False
 core = None
 rpcserver = None

@@ -71,16 +71,7 @@ class TrackersTab(Tab):
 
         # Update all the label widgets
         for widget in self.label_widgets:
-            if widget[1] is None:
-                txt = status[widget[2][0]]
-            else:
-                try:
-                    args = [status[key] for key in widget[2]]
-                except KeyError as ex:
-                    log.debug("Unable to get status value: %s", ex)
-                    continue
-                txt = widget[1](*args)
-
+            txt = self.get_status_for_widget(widget, status)
             if widget[0].get_text() != txt:
                 widget[0].set_text(txt)
 
