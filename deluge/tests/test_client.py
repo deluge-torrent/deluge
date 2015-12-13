@@ -144,6 +144,22 @@ class ClientTestCase(BaseTestCase):
         d.addErrback(on_failure)
         return d
 
+    @defer.inlineCallbacks
+    def test_invalid_rpc_method_call(self):
+        yield client.connect(
+            "localhost", self.listen_port, username="", password=""
+        )
+        d = client.core.invalid_method()
+
+        def on_failure(failure):
+            self.assertEqual(
+                failure.trap(error.WrappedException),
+                error.WrappedException
+            )
+            self.addCleanup(client.disconnect)
+        d.addErrback(on_failure)
+        yield d
+
     def test_connect_without_sending_client_version_fails(self):
         username, password = deluge.ui.common.get_localhost_auth()
         no_version_sending_client = NoVersionSendingClient()
