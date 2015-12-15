@@ -18,7 +18,7 @@ import time
 from types import FunctionType
 from urllib import unquote_plus
 
-from twisted.internet import reactor
+from twisted.internet import defer, reactor
 from twisted.internet.defer import Deferred, DeferredList
 from twisted.web import http, resource, server
 
@@ -91,20 +91,18 @@ class JSON(resource.Resource, component.Component):
         self._local_methods = {}
         if client.is_classicmode():
             self.get_remote_methods()
-        else:
-            client.disconnect_callback = self._on_client_disconnect
-
-    def on_get_methods(self, methods):
-        """
-        Handles receiving the method names.
-        """
-        self._remote_methods = methods
 
     def get_remote_methods(self, result=None):
         """
         Updates remote methods from the daemon.
+
+        Returns:
+            t.i.d.Deferred: A deferred returning the available remote methods
         """
-        return client.daemon.get_method_list().addCallback(self.on_get_methods)
+        def on_get_methods(methods):
+            self._remote_methods = methods
+            return methods
+        return client.daemon.get_method_list().addCallback(on_get_methods)
 
     def connect(self, host="localhost", port=58846, username="", password=""):
         """
@@ -127,8 +125,11 @@ class JSON(resource.Resource, component.Component):
     def disable(self):
         if not client.is_classicmode():
             client.disconnect()
+            client.set_disconnect_callback(None)
 
     def enable(self):
+        if not client.is_classicmode():
+            client.set_disconnect_callback(self._on_client_disconnect)
         client.register_event_handler("PluginEnabledEvent", self.get_remote_methods)
         client.register_event_handler("PluginDisabledEvent", self.get_remote_methods)
         if component.get("DelugeWeb").config["default_daemon"]:
@@ -203,8 +204,7 @@ class JSON(resource.Resource, component.Component):
         except Exception as ex:
             log.error("Error calling method `%s`", method)
             log.exception(ex)
-
-            error = {"message": ex.message, "code": 3}
+            error = {"message": "%s: %s" % (ex.__class__.__name__, str(ex)), "code": 3}
 
         return request_id, result, error
 
@@ -219,8 +219,9 @@ class JSON(resource.Resource, component.Component):
         """
         Handles any failures that occurred while making an rpc call.
         """
-        request.setResponseCode(http.INTERNAL_SERVER_ERROR)
-        return ""
+        log.exception(reason)
+        response["error"] = {"message": "%s: %s" % (reason.__class__.__name__, str(reason)), "code": 4}
+        return self._send_response(request, response)
 
     def _on_json_request(self, request):
         """
@@ -241,13 +242,17 @@ class JSON(resource.Resource, component.Component):
 
     def _on_json_request_failed(self, reason, request):
         """
-        Errback handler to return a HTTP code of 500.
+        Returns the error in json response.
         """
         log.exception(reason)
-        request.setResponseCode(http.INTERNAL_SERVER_ERROR)
-        return ""
+        response = {"result": None, "id": None,
+                    "error": {"code": 5,
+                              "message": "%s: %s" % (reason.__class__.__name__, str(reason))}}
+        return self._send_response(request, response)
 
     def _send_response(self, request, response):
+        if request._disconnected:
+            return ""
         response = json.dumps(response)
         request.setHeader("content-type", "application/x-json")
         request.write(compress(response, request))
@@ -260,7 +265,8 @@ class JSON(resource.Resource, component.Component):
 
         if request.method != "POST":
             request.setResponseCode(http.NOT_ALLOWED)
-            return ""
+            request.finish()
+            return server.NOT_DONE_YET
 
         try:
             request.content.seek(0)
@@ -453,6 +459,8 @@ class WebApi(JSONComponent):
         host = self.get_host(host_id)
         if host:
             self._json.connect(*host[1:]).addCallback(on_connected)
+        else:
+            return defer.fail(Exception("Bad host id"))
         return d
 
     @export
