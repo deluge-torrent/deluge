@@ -83,10 +83,11 @@ class Daemon(object):
             read_only_config_keys (list of str, optional): A list of config keys that will not be
                 altered by core.set_config() RPC method.
         """
+        self.classic = classic
+        self.port = port
+        self.pid_file = get_config_dir("deluged.pid")
         log.info("Deluge daemon %s", get_version())
-
-        pid_file = get_config_dir("deluged.pid")
-        check_running_daemon(pid_file)
+        check_running_daemon(self.pid_file)
 
         # Twisted catches signals to terminate, so just have it call the shutdown method.
         reactor.addSystemEventTrigger("before", "shutdown", self._shutdown)
@@ -121,6 +122,7 @@ class Daemon(object):
 
         log.debug("Listening to UI on: %s:%s and bittorrent on: %s", interface, port, listen_interface)
 
+    def start(self):
         # Register the daemon and the core RPCs
         self.rpcserver.register_object(self.core)
         self.rpcserver.register_object(self)
@@ -128,22 +130,21 @@ class Daemon(object):
         # Make sure we start the PreferencesManager first
         component.start("PreferencesManager")
 
-        if not classic:
+        if not self.classic:
             log.info("Deluge daemon starting...")
-
             # Create pid file to track if deluged is running, also includes the port number.
             pid = os.getpid()
-            log.debug("Storing pid %s & port %s in: %s", pid, port, pid_file)
-            with open(pid_file, "wb") as _file:
-                _file.write("%s;%s\n" % (pid, port))
+            log.debug("Storing pid %s & port %s in: %s", pid, self.port, self.pid_file)
+            with open(self.pid_file, "wb") as _file:
+                _file.write("%s;%s\n" % (pid, self.port))
 
             component.start()
 
             try:
                 reactor.run()
             finally:
-                log.debug("Remove pid file: %s", pid_file)
-                os.remove(pid_file)
+                log.debug("Remove pid file: %s", self.pid_file)
+                os.remove(self.pid_file)
                 log.info("Deluge daemon shutdown successfully")
 
     @export()

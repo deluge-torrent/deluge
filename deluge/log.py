@@ -14,6 +14,7 @@ import inspect
 import logging
 import logging.handlers
 import os
+import sys
 
 from twisted.internet import defer
 from twisted.python.log import PythonLoggingObserver
@@ -138,7 +139,7 @@ def setup_logger(level="error", filename=None, filemode="w"):
             filename, filemode, "utf-8", delay=0
         )
     else:
-        handler = logging.StreamHandler()
+        handler = logging.StreamHandler(stream=sys.stdout)
 
     handler.setLevel(level)
 

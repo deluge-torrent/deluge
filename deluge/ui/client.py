@@ -208,8 +208,10 @@ class DelugeRPCClientFactory(ClientFactory):
         self.daemon.port = None
         self.daemon.username = None
         self.daemon.connected = False
-        if self.daemon.disconnect_deferred:
+
+        if self.daemon.disconnect_deferred and not self.daemon.disconnect_deferred.called:
             self.daemon.disconnect_deferred.callback(reason.value)
+            self.daemon.disconnect_deferred = None
 
         if self.daemon.disconnect_callback:
             self.daemon.disconnect_callback()
@@ -428,6 +430,7 @@ class DaemonClassicProxy(DaemonProxy):
             event_handlers = {}
         from deluge.core import daemon
         self.__daemon = daemon.Daemon(classic=True)
+        self.__daemon.start()
         log.debug("daemon created!")
         self.connected = True
         self.host = "localhost"

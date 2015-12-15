@@ -119,8 +119,17 @@ def start_ui():
     UI(options, args, options.args)
 
 
-def start_daemon():
-    """Entry point for daemon script"""
+def start_daemon(skip_start=False):
+    """
+    Entry point for daemon script
+
+    Args:
+        skip_start (bool): If starting daemon should be skipped.
+
+    Returns:
+        deluge.core.daemon.Daemon: A new daemon object
+
+    """
     deluge.common.setup_translations()
 
     if 'dev' not in deluge.common.get_version():
@@ -228,12 +237,15 @@ def start_daemon():
             os.setuid(options.group)
 
     def run_daemon(options):
-        from deluge.core.daemon import Daemon
         try:
-            Daemon(listen_interface=options.listen_interface,
-                   interface=options.ui_interface,
-                   port=options.port,
-                   read_only_config_keys=options.read_only_config_keys.split(","))
+            from deluge.core.daemon import Daemon
+            daemon = Daemon(listen_interface=options.listen_interface,
+                            interface=options.ui_interface,
+                            port=options.port,
+                            read_only_config_keys=options.read_only_config_keys.split(","))
+            if not skip_start:
+                daemon.start()
+            return daemon
         except Exception as ex:
             log.exception(ex)
             sys.exit(1)
@@ -256,4 +268,4 @@ def start_daemon():
         print("Running with profiler...")
         profiler.runcall(run_daemon, options)
     else:
-        run_daemon(options)
+        return run_daemon(options)
