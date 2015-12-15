@@ -1,6 +1,14 @@
-import time
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2016 bendikro <bro.devel+deluge@gmail.com>
+#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
+#
 
 from twisted.internet.defer import maybeDeferred, succeed
+from twisted.internet.task import Clock
 
 import deluge.component as component
 import deluge.ui.sessionproxy
@@ -9,6 +17,7 @@ from .basetest import BaseTestCase
 
 
 class Core(object):
+
     def __init__(self):
         self.reset()
 
@@ -87,19 +96,22 @@ class Client(object):
 
 client = Client()
 
-deluge.ui.sessionproxy.client = client
-
 
 class SessionProxyTestCase(BaseTestCase):
 
     def set_up(self):
+        self.clock = Clock()
+        self.patch(deluge.ui.sessionproxy, "time", self.clock.seconds)
+        self.patch(deluge.ui.sessionproxy, "client", client)
         self.sp = deluge.ui.sessionproxy.SessionProxy()
         client.core.reset()
         d = self.sp.start()
 
         def do_get_torrents_status(torrent_ids):
             inital_keys = ['key1']
-            self.sp.get_torrents_status({'id': torrent_ids}, inital_keys)
+            # Advance clock to expire the cache times
+            self.clock.advance(2)
+            return self.sp.get_torrents_status({'id': torrent_ids}, inital_keys)
         d.addCallback(do_get_torrents_status)
         return d
 
@@ -122,13 +134,13 @@ class SessionProxyTestCase(BaseTestCase):
 
     def test_get_torrent_status_change_without_cache(self):
         client.core.torrents["a"]["key1"] = 2
-        time.sleep(self.sp.cache_time + 0.1)
+        self.clock.advance(self.sp.cache_time + 0.1)
         d = self.sp.get_torrent_status("a", [])
         d.addCallback(self.assertEquals, client.core.torrents["a"])
         return d
 
     def test_get_torrent_status_key_not_updated(self):
-        time.sleep(self.sp.cache_time + 0.1)
+        self.clock.advance(self.sp.cache_time + 0.1)
         self.sp.get_torrent_status("a", ["key1"])
         client.core.torrents["a"]["key2"] = 99
         d = self.sp.get_torrent_status("a", ["key2"])
@@ -136,7 +148,7 @@ class SessionProxyTestCase(BaseTestCase):
         return d
 
     def test_get_torrents_status_key_not_updated(self):
-        time.sleep(self.sp.cache_time + 0.1)
+        self.clock.advance(self.sp.cache_time + 0.1)
         self.sp.get_torrents_status({"id": ["a"]}, ["key1"])
         client.core.torrents["a"]["key2"] = 99
         d = self.sp.get_torrents_status({"id": ["a"]}, ["key2"])

@@ -158,11 +158,6 @@ class MenuBar(component.Component):
             "menuitem_addtorrent"
         ]
 
-        client.register_event_handler("TorrentStateChangedEvent", self.on_torrentstatechanged_event)
-        client.register_event_handler("TorrentResumedEvent", self.on_torrentresumed_event)
-        client.register_event_handler("SessionPausedEvent", self.on_sessionpaused_event)
-        client.register_event_handler("SessionResumedEvent", self.on_sessionresumed_event)
-
     def start(self):
         for widget in self.change_sensitivity:
             self.main_builder.get_object(widget).set_sensitive(True)
@@ -193,8 +188,18 @@ class MenuBar(component.Component):
             client.core.get_known_accounts().addCallback(
                 self._on_known_accounts).addErrback(self._on_known_accounts_fail)
 
+        client.register_event_handler("TorrentStateChangedEvent", self.on_torrentstatechanged_event)
+        client.register_event_handler("TorrentResumedEvent", self.on_torrentresumed_event)
+        client.register_event_handler("SessionPausedEvent", self.on_sessionpaused_event)
+        client.register_event_handler("SessionResumedEvent", self.on_sessionresumed_event)
+
     def stop(self):
         log.debug("MenuBar stopping")
+
+        client.deregister_event_handler("TorrentStateChangedEvent", self.on_torrentstatechanged_event)
+        client.deregister_event_handler("TorrentResumedEvent", self.on_torrentresumed_event)
+        client.deregister_event_handler("SessionPausedEvent", self.on_sessionpaused_event)
+        client.deregister_event_handler("SessionResumedEvent", self.on_sessionresumed_event)
 
         for widget in self.change_sensitivity:
             self.main_builder.get_object(widget).set_sensitive(False)

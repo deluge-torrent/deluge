@@ -94,7 +94,7 @@ class ClientTestCase(BaseTestCase):
             self.addCleanup(client.disconnect)
             return result
 
-        d.addCallback(on_connect)
+        d.addCallbacks(on_connect, self.fail)
         return d
 
     def test_connect_localclient(self):
@@ -108,7 +108,7 @@ class ClientTestCase(BaseTestCase):
             self.addCleanup(client.disconnect)
             return result
 
-        d.addCallback(on_connect)
+        d.addCallbacks(on_connect, self.fail)
         return d
 
     def test_connect_bad_password(self):
@@ -124,7 +124,7 @@ class ClientTestCase(BaseTestCase):
             )
             self.addCleanup(client.disconnect)
 
-        d.addErrback(on_failure)
+        d.addCallbacks(self.fail, on_failure)
         return d
 
     def test_connect_without_password(self):
@@ -141,7 +141,7 @@ class ClientTestCase(BaseTestCase):
             self.assertEqual(failure.value.username, username)
             self.addCleanup(client.disconnect)
 
-        d.addErrback(on_failure)
+        d.addCallbacks(self.fail, on_failure)
         return d
 
     @defer.inlineCallbacks
@@ -152,12 +152,9 @@ class ClientTestCase(BaseTestCase):
         d = client.core.invalid_method()
 
         def on_failure(failure):
-            self.assertEqual(
-                failure.trap(error.WrappedException),
-                error.WrappedException
-            )
+            self.assertEqual(failure.trap(error.WrappedException), error.WrappedException)
             self.addCleanup(client.disconnect)
-        d.addErrback(on_failure)
+        d.addCallbacks(self.fail, on_failure)
         yield d
 
     def test_connect_without_sending_client_version_fails(self):
@@ -174,5 +171,5 @@ class ClientTestCase(BaseTestCase):
             )
             self.addCleanup(no_version_sending_client.disconnect)
 
-        d.addErrback(on_failure)
+        d.addCallbacks(self.fail, on_failure)
         return d

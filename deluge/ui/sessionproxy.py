@@ -6,10 +6,8 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-
 import logging
-import time
+from time import time
 
 from twisted.internet.defer import maybeDeferred, succeed
 
@@ -51,7 +49,7 @@ class SessionProxy(component.Component):
             for torrent_id in torrent_ids:
                 # Let's at least store the torrent ids with empty statuses
                 # so that upcoming queries or status updates don't throw errors.
-                self.torrents.setdefault(torrent_id, [time.time(), {}])
+                self.torrents.setdefault(torrent_id, [time(), {}])
                 self.cache_times.setdefault(torrent_id, {})
             return torrent_ids
         return client.core.get_session_state().addCallback(on_get_session_state)
@@ -128,9 +126,8 @@ class SessionProxy(component.Component):
                 keys = self.torrents[torrent_id][1].keys()
 
             for key in keys:
-                if time.time() - self.cache_times[torrent_id].get(key, 0.0) > self.cache_time:
+                if time() - self.cache_times[torrent_id].get(key, 0.0) > self.cache_time:
                     keys_to_get.append(key)
-
             if not keys_to_get:
                 return succeed(
                     self.create_status_dict([torrent_id], keys)[torrent_id]
@@ -139,7 +136,7 @@ class SessionProxy(component.Component):
                 d = client.core.get_torrent_status(torrent_id, keys_to_get, True)
 
                 def on_status(result, torrent_id):
-                    t = time.time()
+                    t = time()
                     self.torrents[torrent_id][0] = t
                     self.torrents[torrent_id][1].update(result)
                     for key in keys_to_get:
@@ -151,7 +148,7 @@ class SessionProxy(component.Component):
 
             def on_status(result):
                 if result:
-                    t = time.time()
+                    t = time()
                     self.torrents[torrent_id] = (t, result)
                     self.cache_times[torrent_id] = {}
                     for key in result:
@@ -180,7 +177,7 @@ class SessionProxy(component.Component):
         # Helper functions and callbacks ---------------------------------------
         def on_status(result, torrent_ids, keys):
             # Update the internal torrent status dict with the update values
-            t = time.time()
+            t = time()
             for key, value in result.iteritems():
                 try:
                     self.torrents[key][0] = t
@@ -199,7 +196,7 @@ class SessionProxy(component.Component):
 
         def find_torrents_to_fetch(torrent_ids):
             to_fetch = []
-            t = time.time()
+            t = time()
             for torrent_id in torrent_ids:
                 torrent = self.torrents[torrent_id]
                 if t - torrent[0] > self.cache_time:
@@ -243,15 +240,15 @@ class SessionProxy(component.Component):
     def on_torrent_state_changed(self, torrent_id, state):
         if torrent_id in self.torrents:
             self.torrents[torrent_id][1].setdefault("state", state)
-            self.cache_times.setdefault(torrent_id, {}).update(state=time.time())
+            self.cache_times.setdefault(torrent_id, {}).update(state=time())
 
     def on_torrent_added(self, torrent_id, from_state):
-        self.torrents[torrent_id] = [time.time() - self.cache_time - 1, {}]
+        self.torrents[torrent_id] = [time() - self.cache_time - 1, {}]
         self.cache_times[torrent_id] = {}
 
         def on_status(status):
             self.torrents[torrent_id][1].update(status)
-            t = time.time()
+            t = time()
             for key in status:
                 self.cache_times[torrent_id][key] = t
         client.core.get_torrent_status(torrent_id, []).addCallback(on_status)
