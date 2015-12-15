@@ -16,7 +16,7 @@ import tempfile
 
 from OpenSSL.crypto import FILETYPE_PEM
 from twisted.application import internet, service
-from twisted.internet import defer, error, reactor
+from twisted.internet import defer, reactor
 from twisted.internet.ssl import SSL, Certificate, CertificateOptions, KeyPair
 from twisted.web import http, resource, server, static
 
@@ -533,7 +533,6 @@ class DelugeWeb(component.Component):
     def __init__(self):
         super(DelugeWeb, self).__init__("DelugeWeb")
         self.config = configmanager.ConfigManager("web.conf", CONFIG_DEFAULTS)
-
         self.socket = None
         self.top_level = TopLevel()
         self.site = server.Site(self.top_level)
@@ -544,7 +543,7 @@ class DelugeWeb(component.Component):
         self.cert = self.config["cert"]
         self.base = self.config["base"]
         self.web_api = WebApi()
-        self.auth = Auth()
+        self.auth = Auth(self.config)
 
         # Initalize the plugins
         self.plugins = PluginManager()
@@ -568,17 +567,15 @@ class DelugeWeb(component.Component):
                     return 1
             SetConsoleCtrlHandler(win_handler)
 
-    def start(self, start_reactor=True):
+    def start(self):
         log.info("%s %s.", _("Starting server in PID"), os.getpid())
         if self.https:
             self.start_ssl()
         else:
             self.start_normal()
 
-        component.get("JSON").enable()
-
-        if start_reactor:
-            reactor.run()
+        component.get("Web").enable()
+        reactor.run()
 
     def start_normal(self):
         self.socket = reactor.listenTCP(self.port, self.site, interface=self.interface)
@@ -600,7 +597,7 @@ class DelugeWeb(component.Component):
 
     def stop(self):
         log.info("Shutting down webserver")
-        component.get("JSON").disable()
+        component.get("Web").disable()
 
         self.plugins.disable_plugins()
         log.debug("Saving configuration file")
@@ -616,10 +613,8 @@ class DelugeWeb(component.Component):
 
     def shutdown(self, *args):
         self.stop()
-        try:
-            reactor.stop()
-        except error.ReactorNotRunning:
-            log.debug("Reactor not running")
+        reactor.stop()
+
 
 if __name__ == "__builtin__":
     deluge_web = DelugeWeb()

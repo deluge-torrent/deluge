@@ -86,10 +86,10 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
         else:
             self.quit_d.errback(status)
 
-    def check_callbacks(self, data, type="stdout"):
+    def check_callbacks(self, data, cb_type="stdout"):
         ret = False
         for c in self.callbacks:
-            if type not in c["types"] or c["deferred"].called:
+            if cb_type not in c["types"] or c["deferred"].called:
                 continue
             for trigger in c["triggers"]:
                 if trigger["expr"] in data:
@@ -118,7 +118,7 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
         """Process output from stderr"""
         self.log_output += data
         self.stderr_out += data
-        self.check_callbacks(data, type="stderr")
+        self.check_callbacks(data, cb_type="stderr")
         if not self.print_stderr:
             return
         data = "\n%s" % data.strip()

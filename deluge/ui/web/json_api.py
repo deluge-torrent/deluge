@@ -16,14 +16,12 @@ import shutil
 import tempfile
 import time
 from types import FunctionType
-from urllib import unquote_plus
 
 from twisted.internet import defer, reactor
 from twisted.internet.defer import Deferred, DeferredList
 from twisted.web import http, resource, server
 
-from deluge import component, httpdownloader
-from deluge.common import is_magnet
+from deluge import common, component, httpdownloader
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.ui import common as uicommon
 from deluge.ui.client import Client, client
@@ -104,47 +102,6 @@ class JSON(resource.Resource, component.Component):
             return methods
         return client.daemon.get_method_list().addCallback(on_get_methods)
 
-    def connect(self, host="localhost", port=58846, username="", password=""):
-        """
-        Connects the client to a daemon
-        """
-        d = client.connect(host, port, username, password)
-
-        def on_client_connected(connection_id):
-            """
-            Handles the client successfully connecting to the daemon and
-            invokes retrieving the method names.
-            """
-            d = self.get_remote_methods()
-            component.get("Web.PluginManager").start()
-            component.get("Web").start()
-            return d
-
-        return d.addCallback(on_client_connected)
-
-    def disable(self):
-        if not client.is_classicmode():
-            client.disconnect()
-            client.set_disconnect_callback(None)
-
-    def enable(self):
-        if not client.is_classicmode():
-            client.set_disconnect_callback(self._on_client_disconnect)
-        client.register_event_handler("PluginEnabledEvent", self.get_remote_methods)
-        client.register_event_handler("PluginDisabledEvent", self.get_remote_methods)
-        if component.get("DelugeWeb").config["default_daemon"]:
-            # Sort out getting the default daemon here
-            default = component.get("DelugeWeb").config["default_daemon"]
-            host = component.get("Web").get_host(default)
-            if host:
-                self.connect(*host[1:])
-            else:
-                self.connect()
-
-    def _on_client_disconnect(self, *args):
-        component.get("Web.PluginManager").stop()
-        component.get("Web").stop()
-
     def _exec_local(self, method, params, request):
         """
         Handles executing all local methods.
@@ -180,9 +137,8 @@ class JSON(resource.Resource, component.Component):
         """
         try:
             request.json = json.loads(request.json)
-        except ValueError:
+        except (ValueError, TypeError):
             raise JSONException("JSON not decodable")
-
         if "method" not in request.json or "id" not in request.json or \
            "params" not in request.json:
             raise JSONException("Invalid JSON request")
@@ -257,12 +213,12 @@ class JSON(resource.Resource, component.Component):
         request.setHeader("content-type", "application/x-json")
         request.write(compress(response, request))
         request.finish()
+        return server.NOT_DONE_YET
 
     def render(self, request):
         """
         Handles all the POST requests made to the /json controller.
         """
-
         if request.method != "POST":
             request.setResponseCode(http.NOT_ALLOWED)
             request.finish()
@@ -421,7 +377,30 @@ class WebApi(JSONComponent):
         except KeyError:
             self.sessionproxy = SessionProxy()
 
-    def get_host(self, host_id):
+    def disable(self):
+        if not client.is_classicmode():
+            client.disconnect()
+            client.set_disconnect_callback(None)
+
+    def enable(self):
+        if not client.is_classicmode():
+            client.set_disconnect_callback(self._on_client_disconnect)
+        client.register_event_handler("PluginEnabledEvent", self._json.get_remote_methods)
+        client.register_event_handler("PluginDisabledEvent", self._json.get_remote_methods)
+        if component.get("DelugeWeb").config["default_daemon"]:
+            # Sort out getting the default daemon here
+            default = component.get("DelugeWeb").config["default_daemon"]
+            host = component.get("Web")._get_host(default)
+            if host:
+                self._connect_daemon(*host[1:])
+            else:
+                self._connect_daemon()
+
+    def _on_client_disconnect(self, *args):
+        component.get("Web.PluginManager").stop()
+        self.stop()
+
+    def _get_host(self, host_id):
         """
         Return the information about a host
 
@@ -442,6 +421,24 @@ class WebApi(JSONComponent):
         self.core_config.stop()
         self.sessionproxy.stop()
 
+    def _connect_daemon(self, host="localhost", port=58846, username="", password=""):
+        """
+        Connects the client to a daemon
+        """
+        d = client.connect(host, port, username, password)
+
+        def on_client_connected(connection_id):
+            """
+            Handles the client successfully connecting to the daemon and
+            invokes retrieving the method names.
+            """
+            d = self._json.get_remote_methods()
+            component.get("Web.PluginManager").start()
+            self.start()
+            return d
+
+        return d.addCallback(on_client_connected)
+
     @export
     def connect(self, host_id):
         """
@@ -452,16 +449,10 @@ class WebApi(JSONComponent):
         :returns: the methods the daemon supports
         :rtype: list
         """
-        d = Deferred()
-
-        def on_connected(methods):
-            d.callback(methods)
-        host = self.get_host(host_id)
+        host = self._get_host(host_id)
         if host:
-            self._json.connect(*host[1:]).addCallback(on_connected)
-        else:
-            return defer.fail(Exception("Bad host id"))
-        return d
+            return self._connect_daemon(*host[1:])
+        return defer.fail(Exception("Bad host id"))
 
     @export
     def connected(self):
@@ -478,8 +469,12 @@ class WebApi(JSONComponent):
         """
         Disconnect the web interface from the connected daemon.
         """
-        client.disconnect()
-        return True
+        d = client.disconnect()
+
+        def on_disconnect(reason):
+            return str(reason)
+        d.addCallback(on_disconnect)
+        return d
 
     @export
     def update_ui(self, keys, filter_dict):
@@ -677,47 +672,7 @@ class WebApi(JSONComponent):
 
     @export
     def get_magnet_info(self, uri):
-        """
-        Return information about a magnet link.
-
-        :param uri: the magnet link
-        :type uri: string
-
-        :returns: information about the magnet link:
-
-        ::
-
-            {
-                "name": the torrent name,
-                "info_hash": the torrents info_hash,
-                "files_tree": empty value for magnet links
-            }
-
-        :rtype: dictionary
-        """
-        magnet_scheme = 'magnet:?'
-        xt_param = 'xt=urn:btih:'
-        dn_param = 'dn='
-        if uri.startswith(magnet_scheme):
-            name = None
-            info_hash = None
-            for param in uri[len(magnet_scheme):].split('&'):
-                if param.startswith(xt_param):
-                    xt_hash = param[len(xt_param):]
-                    if len(xt_hash) == 32:
-                        info_hash = base64.b32decode(xt_hash).encode("hex")
-                    elif len(xt_hash) == 40:
-                        info_hash = xt_hash
-                    else:
-                        break
-                elif param.startswith(dn_param):
-                    name = unquote_plus(param[len(dn_param):])
-
-            if info_hash:
-                if not name:
-                    name = info_hash
-                return {"name": name, "info_hash": info_hash, "files_tree": ''}
-        return False
+        return common.get_magnet_info(uri)
 
     @export
     def add_torrents(self, torrents):
@@ -737,7 +692,7 @@ class WebApi(JSONComponent):
 
         """
         for torrent in torrents:
-            if is_magnet(torrent["path"]):
+            if common.is_magnet(torrent["path"]):
                 log.info("Adding torrent from magnet uri `%s` with options `%r`",
                          torrent["path"], torrent["options"])
                 client.core.add_torrent_magnet(torrent["path"], torrent["options"])
@@ -769,7 +724,7 @@ class WebApi(JSONComponent):
             return host_id, host, port, status, info
 
         try:
-            host_id, host, port, user, password = self.get_host(host_id)
+            host_id, host, port, user, password = self._get_host(host_id)
         except TypeError:
             host = None
             port = None
@@ -808,8 +763,8 @@ class WebApi(JSONComponent):
     @export
     def start_daemon(self, port):
         """
-    Starts a local daemon.
-    """
+        Starts a local daemon.
+        """
         client.start_daemon(port, get_config_dir())
 
     @export
@@ -821,7 +776,7 @@ class WebApi(JSONComponent):
         :type host_id: string
         """
         main_deferred = Deferred()
-        host = self.get_host(host_id)
+        host = self._get_host(host_id)
         if not host:
             main_deferred.callback((False, _("Daemon doesn't exist")))
             return main_deferred
@@ -864,7 +819,7 @@ class WebApi(JSONComponent):
         # Check to see if there is already an entry for this host and return
         # if thats the case
         for entry in self.host_list["hosts"]:
-            if (entry[0], entry[1], entry[2]) == (host, port, username):
+            if (entry[1], entry[2], entry[3]) == (host, port, username):
                 return (False, "Host already in the list")
 
         try:
@@ -877,7 +832,7 @@ class WebApi(JSONComponent):
         self.host_list["hosts"].append([connection_id, host, port, username,
                                         password])
         self.host_list.save()
-        return (True,)
+        return True, connection_id
 
     @export
     def remove_host(self, connection_id):
@@ -887,7 +842,7 @@ class WebApi(JSONComponent):
         :param host_id: the hash id of the host
         :type host_id: string
         """
-        host = self.get_host(connection_id)
+        host = self._get_host(connection_id)
         if host is None:
             return False
 
@@ -919,6 +874,9 @@ class WebApi(JSONComponent):
         """
         web_config = component.get("DelugeWeb").config
         for key in config.keys():
+            if key in ["sessions", "pwd_salt", "pwd_sha1"]:
+                log.warn("Ignored attempt to overwrite web config key '%s'" % key)
+                continue
             if isinstance(config[key], basestring):
                 config[key] = config[key].encode("utf8")
             web_config[key] = config[key]

@@ -16,7 +16,6 @@ from email.utils import formatdate
 
 from twisted.internet.task import LoopingCall
 
-from deluge import component
 from deluge.common import utf8_encoded
 
 log = logging.getLogger(__name__)
@@ -79,9 +78,10 @@ class Auth(JSONComponent):
     The component that implements authentification into the JSON interface.
     """
 
-    def __init__(self):
+    def __init__(self, config):
         super(Auth, self).__init__("Auth")
         self.worker = LoopingCall(self._clean_sessions)
+        self.config = config
 
     def start(self):
         self.worker.start(5)
@@ -90,19 +90,18 @@ class Auth(JSONComponent):
         self.worker.stop()
 
     def _clean_sessions(self):
-        config = component.get("DelugeWeb").config
-        session_ids = config["sessions"].keys()
+        session_ids = self.config["sessions"].keys()
 
         now = time.gmtime()
         for session_id in session_ids:
-            session = config["sessions"][session_id]
+            session = self.config["sessions"][session_id]
 
             if "expires" not in session:
-                del config["sessions"][session_id]
+                del self.config["sessions"][session_id]
                 continue
 
             if time.gmtime(session["expires"]) < now:
-                del config["sessions"][session_id]
+                del self.config["sessions"][session_id]
                 continue
 
     def _create_session(self, request, login='admin'):
@@ -117,21 +116,18 @@ class Auth(JSONComponent):
         m.update(os.urandom(32))
         session_id = m.hexdigest()
 
-        config = component.get("DelugeWeb").config
-
-        expires, expires_str = make_expires(config["session_timeout"])
+        expires, expires_str = make_expires(self.config["session_timeout"])
         checksum = str(make_checksum(session_id))
 
         request.addCookie('_session_id', session_id + checksum,
                           path=request.base + "json", expires=expires_str)
 
         log.debug("Creating session for %s", login)
-        config = component.get("DelugeWeb").config
 
-        if isinstance(config["sessions"], list):
-            config.config["sessions"] = {}
+        if isinstance(self.config["sessions"], list):
+            self.config["sessions"] = {}
 
-        config["sessions"][session_id] = {
+        self.config["sessions"][session_id] = {
             "login": login,
             "level": AUTH_LEVEL_ADMIN,
             "expires": expires
@@ -139,7 +135,7 @@ class Auth(JSONComponent):
         return True
 
     def check_password(self, password):
-        config = component.get("DelugeWeb").config
+        config = self.config
         if "pwd_md5" in config.config:
             # We are using the 1.2-dev auth method
             log.debug("Received a password via the 1.2-dev auth method")
@@ -206,16 +202,15 @@ class Auth(JSONComponent):
         :raises: Exception
         """
 
-        config = component.get("DelugeWeb").config
         session_id = get_session_id(request.getCookie("_session_id"))
 
-        if session_id not in config["sessions"]:
+        if session_id not in self.config["sessions"]:
             auth_level = AUTH_LEVEL_NONE
             session_id = None
         else:
-            session = config["sessions"][session_id]
+            session = self.config["sessions"][session_id]
             auth_level = session["level"]
-            expires, expires_str = make_expires(config["session_timeout"])
+            expires, expires_str = make_expires(self.config["session_timeout"])
             session["expires"] = expires
 
             _session_id = request.getCookie("_session_id")
@@ -253,9 +248,8 @@ class Auth(JSONComponent):
         salt = hashlib.sha1(os.urandom(32)).hexdigest()
         s = hashlib.sha1(salt)
         s.update(utf8_encoded(new_password))
-        config = component.get("DelugeWeb").config
-        config["pwd_salt"] = salt
-        config["pwd_sha1"] = s.hexdigest()
+        self.config["pwd_salt"] = salt
+        self.config["pwd_sha1"] = s.hexdigest()
         return True
 
     @export
@@ -290,8 +284,7 @@ class Auth(JSONComponent):
         :param session_id: the id for the session to remove
         :type session_id: string
         """
-        config = component.get("DelugeWeb").config
-        del config["sessions"][__request__.session_id]
+        del self.config["sessions"][__request__.session_id]
         return True
 
     @export(AUTH_LEVEL_NONE)
