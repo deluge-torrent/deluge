@@ -82,7 +82,12 @@ class Auth(JSONComponent):
     def __init__(self):
         super(Auth, self).__init__("Auth")
         self.worker = LoopingCall(self._clean_sessions)
+
+    def start(self):
         self.worker.start(5)
+
+    def stop(self):
+        self.worker.stop()
 
     def _clean_sessions(self):
         config = component.get("DelugeWeb").config
