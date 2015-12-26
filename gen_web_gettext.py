@@ -37,8 +37,8 @@ def create_gettext_js(js_dir):
     gettext_tpl = '''GetText={maps:{},\
     add:function(string,translation) {this.maps[string]=translation},\
     get:function(string) {if (this.maps[string]) {string=this.maps[string]} return string}}
-    function _(string) {return GetText.get(string)}\
-    '''
+    function _(string) {return GetText.get(string)}
+'''
 
     gettext_file = os.path.join(os.path.dirname(js_dir), 'gettext.js')
     with open(gettext_file, 'w') as fp:
@@ -47,7 +47,8 @@ def create_gettext_js(js_dir):
             if DEBUG:
                 fp.write('\n// %s\n' % ', '.join(['%s:%s' % x for x in strings[key]]))
             fp.write('''GetText.add('%(key)s','${escape(_("%(key)s"))}')\n''' % locals())
+    return gettext_file
 
 if __name__ == '__main__':
-    create_gettext_js(WEBUI_JS_DIR)
-    print('Created gettext.js for %s' % WEBUI_JS_DIR)
+    filename = create_gettext_js(WEBUI_JS_DIR)
+    print("Created '%s'" % filename)
