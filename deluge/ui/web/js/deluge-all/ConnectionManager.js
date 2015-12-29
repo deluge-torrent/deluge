@@ -35,10 +35,11 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
         this.list = new Ext.list.ListView({
             store: new Ext.data.ArrayStore({
                 fields: [
-                    {name: 'status', mapping: 3},
+                    {name: 'status', mapping: 4},
                     {name: 'host', mapping: 1},
                     {name: 'port', mapping: 2},
-                    {name: 'version', mapping: 4}
+                    {name: 'user', mapping: 3},
+                    {name: 'version', mapping: 5}
                 ],
                 id: 0
             }),
@@ -62,7 +63,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
                 header: _('Host'),
                 width: .51,
                 sortable: true,
-                tpl: '{host}:{port}',
+                tpl: '{user}@{host}:{port}',
                 dataIndex: 'host'
             }, {
                 header: _('Version'),

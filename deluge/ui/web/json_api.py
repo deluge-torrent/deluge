@@ -306,6 +306,7 @@ HOSTLIST_PASS = 4
 HOSTS_ID = HOSTLIST_ID
 HOSTS_NAME = HOSTLIST_NAME
 HOSTS_PORT = HOSTLIST_PORT
+HOSTS_USER = HOSTLIST_USER
 HOSTS_STATUS = 3
 HOSTS_INFO = 4
 
@@ -746,7 +747,7 @@ class WebApi(JSONComponent):
         Return the hosts in the hostlist.
         """
         log.debug("get_hosts called")
-        return [(tuple(host[HOSTS_ID:HOSTS_PORT + 1]) + ("Offline",)) for host in self.host_list["hosts"]]
+        return [(tuple(host[HOSTS_ID:HOSTS_USER + 1]) + ("Offline",)) for host in self.host_list["hosts"]]
 
     @export
     def get_host_status(self, host_id):
@@ -756,7 +757,6 @@ class WebApi(JSONComponent):
         :param host_id: the hash id of the host
         :type host_id: string
         """
-
         def response(status, info=None):
             return host_id, host, port, status, info
 
