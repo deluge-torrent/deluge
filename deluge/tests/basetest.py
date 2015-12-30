@@ -16,7 +16,7 @@ class BaseTestCase(unittest.TestCase):
     def setUp(self):  # NOQA
 
         if len(component._ComponentRegistry.components) != 0:
-            warnings.warn("The component._ComponentRegistry.components is not empty on test setup."
+            warnings.warn("The component._ComponentRegistry.components is not empty on test setup.\n"
                           "This is probably caused by another test that didn't clean up after finishing!: %s" %
                           component._ComponentRegistry.components)
         d = maybeDeferred(self.set_up)

@@ -43,6 +43,9 @@ class WrappedException(DelugeError):
         self.type = exception_type
         self.traceback = traceback
 
+    def __str__(self):
+        return "%s\n%s" % (self.message, self.traceback)
+
 
 class _ClientSideRecreateError(DelugeError):
     pass

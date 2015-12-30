@@ -215,9 +215,9 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                 ))
             except AttributeError:
                 # This is not a deluge exception (object has no attribute '_args), let's wrap it
-                log.error("An exception occurred while sending RPC_ERROR to "
-                          "client. Wrapping it and resending. Error to "
-                          "send(causing exception goes next):\n%s", formated_tb)
+                log.warning("An exception occurred while sending RPC_ERROR to "
+                            "client. Wrapping it and resending. Error to "
+                            "send(causing exception goes next):\n%s", formated_tb)
                 try:
                     raise WrappedException(str(exceptionValue), exceptionType.__name__, formated_tb)
                 except WrappedException:
