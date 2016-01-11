@@ -8,6 +8,7 @@
 #
 # We skip isorting this file as it want to move the gtk2reactor.install() below the imports
 # isort:skip_file
+
 from __future__ import division
 
 import logging
@@ -24,7 +25,7 @@ from twisted.internet.task import LoopingCall
 try:
     # Install twisted reactor, before any other modules import reactor.
     reactor = gtk2reactor.install()
-except ReactorAlreadyInstalledError:
+except ReactorAlreadyInstalledError as ex:
     # Running unit tests so trial already installed a rector
     pass
 
@@ -196,7 +197,7 @@ class GtkUI(object):
         # Start the IPC Interface before anything else.. Just in case we are
         # already running.
         self.queuedtorrents = QueuedTorrents()
-        self.ipcinterface = IPCInterface(args)
+        self.ipcinterface = IPCInterface(args.torrents)
 
         # Initialize gdk threading
         gtk.gdk.threads_init()

@@ -10,7 +10,6 @@
 
 import base64
 import os
-from optparse import make_option
 from urllib import url2pathname
 from urlparse import urlparse
 
@@ -23,20 +22,19 @@ from deluge.ui.console.main import BaseCommand
 
 
 class Command(BaseCommand):
-    """Add a torrent"""
-    option_list = BaseCommand.option_list + (
-        make_option('-p', '--path', dest='path', help='download folder for torrent'),
-    )
+    """Add torrents"""
 
-    usage = "Usage: add [-p <download-folder>] <torrent-file> [<torrent-file> ...]\n"\
-            "             <torrent-file> arguments can be file paths, URLs or magnet uris"
+    def add_arguments(self, parser):
+        parser.add_argument("-p", "--path", dest="path", help="download folder for torrent")
+        parser.add_argument("torrents", metavar="<torrent>", nargs="+",
+                            help="One or more torrent files, URLs or magnet URIs")
 
-    def handle(self, *args, **options):
+    def handle(self, options):
         self.console = component.get("ConsoleUI")
 
         t_options = {}
-        if options["path"]:
-            t_options["download_location"] = os.path.expanduser(options["path"])
+        if options.path:
+            t_options["download_location"] = os.path.expanduser(options.path)
 
         def on_success(result):
             if not result:
@@ -49,22 +47,22 @@ class Command(BaseCommand):
 
         # Keep a list of deferreds to make a DeferredList
         deferreds = []
-        for arg in args:
-            if not arg.strip():
+        for torrent in options.torrents:
+            if not torrent.strip():
                 continue
-            if deluge.common.is_url(arg):
-                self.console.write("{!info!}Attempting to add torrent from url: %s" % arg)
-                deferreds.append(client.core.add_torrent_url(arg, t_options).addCallback(on_success).addErrback(
+            if deluge.common.is_url(torrent):
+                self.console.write("{!info!}Attempting to add torrent from url: %s" % torrent)
+                deferreds.append(client.core.add_torrent_url(torrent, t_options).addCallback(on_success).addErrback(
                     on_fail))
-            elif deluge.common.is_magnet(arg):
-                self.console.write("{!info!}Attempting to add torrent from magnet uri: %s" % arg)
-                deferreds.append(client.core.add_torrent_magnet(arg, t_options).addCallback(on_success).addErrback(
+            elif deluge.common.is_magnet(torrent):
+                self.console.write("{!info!}Attempting to add torrent from magnet uri: %s" % torrent)
+                deferreds.append(client.core.add_torrent_magnet(torrent, t_options).addCallback(on_success).addErrback(
                     on_fail))
             else:
                 # Just a file
-                if urlparse(arg).scheme == "file":
-                    arg = url2pathname(urlparse(arg).path)
-                path = os.path.abspath(os.path.expanduser(arg))
+                if urlparse(torrent).scheme == "file":
+                    torrent = url2pathname(urlparse(torrent).path)
+                path = os.path.abspath(os.path.expanduser(torrent))
                 if not os.path.exists(path):
                     self.console.write("{!error!}%s doesn't exist!" % path)
                     continue

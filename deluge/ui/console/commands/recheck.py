@@ -14,20 +14,20 @@ from deluge.ui.console.main import BaseCommand
 
 class Command(BaseCommand):
     """Forces a recheck of the torrent data"""
-    usage = "Usage: recheck [ * | <torrent-id> [<torrent-id> ...] ]"
+    usage = "recheck [ * | <torrent-id> [<torrent-id> ...] ]"
 
-    def handle(self, *args, **options):
+    def add_arguments(self, parser):
+        parser.add_argument("torrent_ids", metavar="<torrent-id>", nargs="+", help="One or more torrent ids")
+
+    def handle(self, options):
         self.console = component.get("ConsoleUI")
 
-        if len(args) == 0:
-            self.console.write(self.usage)
-            return
-        if len(args) > 0 and args[0].lower() == "*":
+        if options.torrent_ids[0] == "*":
             client.core.force_recheck(self.console.match_torrent(""))
             return
 
         torrent_ids = []
-        for arg in args:
+        for arg in options.torrent_ids:
             torrent_ids.extend(self.console.match_torrent(arg))
 
         if torrent_ids:

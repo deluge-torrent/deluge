@@ -8,27 +8,32 @@
 # See LICENSE for more details.
 #
 
+import logging
+
 from twisted.internet import defer
 
 import deluge.component as component
 from deluge.ui.console.main import BaseCommand
 
+log = logging.getLogger(__name__)
+
 
 class Command(BaseCommand):
     """displays help on other commands"""
 
-    usage = "Usage: help [command]"
+    def add_arguments(self, parser):
+        parser.add_argument("commands", metavar="<command>", nargs="*", help="One or more commands")
 
-    def handle(self, *args, **options):
+    def handle(self, options):
         self.console = component.get("ConsoleUI")
         self._commands = self.console._commands
         deferred = defer.succeed(True)
-        if args:
-            for arg in args:
+        if options.commands:
+            for arg in options.commands:
                 try:
                     cmd = self._commands[arg]
                 except KeyError:
-                    self.console.write("{!error!}Unknown command %r" % args[0])
+                    self.console.write("{!error!}Unknown command %s" % arg)
                     continue
                 try:
                     parser = cmd.create_parser()
@@ -38,8 +43,15 @@ class Command(BaseCommand):
                 self.console.write(" ")
         else:
             self.console.set_batch_write(True)
+            cmds_doc = ""
             for cmd in sorted(self._commands):
-                self.console.write("{!info!}" + cmd + "{!input!} - " + self._commands[cmd].__doc__ or '')
+                if cmd in self._commands[cmd].aliases:
+                    continue
+                parser = self._commands[cmd].create_parser()
+                cmd_doc = "{!info!}" + "%-9s" % self._commands[cmd].name_with_alias + "{!input!} - "\
+                          + self._commands[cmd].__doc__ + "\n     " + parser.format_usage() or ''
+                cmds_doc += parser.formatter.format_colors(cmd_doc)
+            self.console.write(cmds_doc)
             self.console.write(" ")
             self.console.write("For help on a specific command, use '<command> --help'")
             self.console.set_batch_write(False)

@@ -379,14 +379,14 @@ class DaemonSSLProxy(DaemonProxy):
 
     def authenticate(self, username, password):
         log.debug("%s.authenticate: %s", self.__class__.__name__, username)
-        self.login_deferred = defer.Deferred()
+        login_deferred = defer.Deferred()
         d = self.call("daemon.login", username, password,
                       client_version=deluge.common.get_version())
-        d.addCallback(self.__on_login, username)
-        d.addErrback(self.__on_login_fail)
-        return self.login_deferred
+        d.addCallbacks(self.__on_login, self.__on_login_fail, callbackArgs=[username, login_deferred],
+                       errbackArgs=[login_deferred])
+        return login_deferred
 
-    def __on_login(self, result, username):
+    def __on_login(self, result, username, login_deferred):
         log.debug("__on_login called: %s %s", username, result)
         self.username = username
         self.authentication_level = result
@@ -399,11 +399,10 @@ class DaemonSSLProxy(DaemonProxy):
                 self.__on_auth_levels_mappings
             )
 
-        self.login_deferred.callback(result)
+        login_deferred.callback(result)
 
-    def __on_login_fail(self, result):
-        log.debug("_on_login_fail(): %s", result.value)
-        self.login_deferred.errback(result)
+    def __on_login_fail(self, result, login_deferred):
+        login_deferred.errback(result)
 
     def __on_auth_levels_mappings(self, result):
         auth_levels_mapping, auth_levels_mapping_reverse = result
@@ -549,7 +548,12 @@ class Client(object):
 
         d = self._daemon_proxy.connect(host, port)
 
+        def on_connected(daemon_version):
+            log.debug("on_connected. Daemon version: %s", daemon_version)
+            return daemon_version
+
         def on_connect_fail(reason):
+            log.debug("on_connect_fail: %s", reason)
             self.disconnect()
             return reason
 
@@ -560,11 +564,6 @@ class Client(object):
         def on_authenticate_fail(reason):
             log.debug("Failed to authenticate: %s", reason.value)
             return reason
-
-        def on_connected(daemon_version):
-            log.debug("Client.connect.on_connected. Daemon version: %s",
-                      daemon_version)
-            return daemon_version
 
         def authenticate(daemon_version, username, password):
             if not username and host in ("127.0.0.1", "localhost"):

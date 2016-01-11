@@ -14,21 +14,22 @@ from deluge.ui.console.main import BaseCommand
 
 
 class Command(BaseCommand):
-    """Pause a torrent"""
-    usage = "Usage: pause [ * | <torrent-id> [<torrent-id> ...] ]"
+    """Pause torrents"""
+    usage = "pause [ * | <torrent-id> [<torrent-id> ...] ]"
 
-    def handle(self, *args, **options):
+    def add_arguments(self, parser):
+        parser.add_argument("torrent_ids", metavar="<torrent-id>", nargs="+",
+                            help="One or more torrent ids. '*' pauses all torrents")
+
+    def handle(self, options):
         self.console = component.get("ConsoleUI")
 
-        if len(args) == 0:
-            self.console.write(self.usage)
-            return
-        if len(args) > 0 and args[0].lower() == '*':
+        if options.torrent_ids[0] == "*":
             client.core.pause_session()
             return
 
         torrent_ids = []
-        for arg in args:
+        for arg in options.torrent_ids:
             torrent_ids.extend(self.console.match_torrent(arg))
 
         if torrent_ids:

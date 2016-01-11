@@ -24,6 +24,7 @@ import deluge.component as component
 import deluge.configmanager
 import deluge.ui.console.colors as colors
 from deluge.ui.client import client
+from deluge.ui.console.commander import Commander
 from deluge.ui.console.modes import format_utils
 from deluge.ui.console.modes.basemode import BaseMode
 
@@ -94,10 +95,14 @@ def commonprefix(m):
     return s2
 
 
-class Legacy(BaseMode, component.Component):
+class Legacy(BaseMode, Commander, component.Component):
     def __init__(self, stdscr, encoding=None):
 
         component.Component.__init__(self, "LegacyUI", 1, depend=["SessionProxy"])
+
+        # Get a handle to the main console
+        self.console = component.get("ConsoleUI")
+        Commander.__init__(self, self.console._commands, interactive=True)
 
         self.batch_write = False
 
@@ -121,9 +126,6 @@ class Legacy(BaseMode, component.Component):
 
         # Keep track of double- and multi-tabs
         self.tab_count = 0
-
-        # Get a handle to the main console
-        self.console = component.get("ConsoleUI")
 
         self.console_config = component.get("AllTorrents").config
 
@@ -585,64 +587,6 @@ class Legacy(BaseMode, component.Component):
                 pass
 
             col += strwidth(s)
-
-    def do_command(self, cmd):
-        """
-        Processes a command.
-
-        :param cmd: str, the command string
-
-        """
-        if not cmd:
-            return
-        cmd, _, line = cmd.partition(" ")
-        try:
-            parser = self.console._commands[cmd].create_parser()
-        except KeyError:
-            self.write("{!error!}Unknown command: %s" % cmd)
-            return
-
-        try:
-            args = self.console._commands[cmd].split(line)
-        except ValueError as ex:
-            self.write("{!error!}Error parsing command: %s" % ex)
-            return
-
-        # Do a little hack here to print 'command --help' properly
-        parser._print_help = parser.print_help
-
-        def print_help(f=None):
-            parser._print_help(f)
-        parser.print_help = print_help
-
-        # Only these commands can be run when not connected to a daemon
-        not_connected_cmds = ["help", "connect", "quit"]
-        aliases = []
-        for c in not_connected_cmds:
-            aliases.extend(self.console._commands[c].aliases)
-        not_connected_cmds.extend(aliases)
-
-        if not client.connected() and cmd not in not_connected_cmds:
-            self.write("{!error!}Not connected to a daemon, please use the connect command first.")
-            return
-
-        try:
-            options, args = parser.parse_args(args)
-        except TypeError as ex:
-            self.write("{!error!}Error parsing options: %s" % ex)
-            return
-
-        if not getattr(options, "_exit", False):
-            try:
-                ret = self.console._commands[cmd].handle(*args, **options.__dict__)
-            except Exception as ex:
-                self.write("{!error!} %s" % ex)
-                log.exception(ex)
-                import traceback
-                self.write("%s" % traceback.format_exc())
-                return defer.succeed(True)
-            else:
-                return ret
 
     def set_batch_write(self, batch):
         """

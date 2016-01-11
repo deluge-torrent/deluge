@@ -8,8 +8,6 @@
 # See LICENSE for more details.
 #
 
-from optparse import make_option
-
 from twisted.internet import defer
 
 import deluge.component as component
@@ -35,20 +33,25 @@ torrent_options = {
 class Command(BaseCommand):
     """Show and manage per-torrent options"""
 
-    option_list = BaseCommand.option_list + (
-        make_option("-s", "--set", action="store", nargs=2, dest="set", help="set value for key"),
-    )
-    usage = "Usage: manage <torrent-id> [<key1> [<key2> ...]]\n"\
-            "       manage <torrent-id> --set <key> <value>"
+    usage = "manage <torrent-id> [--set <key> <value>] [<key> [<key>...] ]"
 
-    def handle(self, *args, **options):
+    def add_arguments(self, parser):
+        parser.add_argument("torrent", metavar="<torrent>",
+                            help="an expression matched against torrent ids and torrent names")
+        set_group = parser.add_argument_group("setting a value")
+        set_group.add_argument("-s", "--set", action="store", metavar="<key>", help="set value for this key")
+        set_group.add_argument("values", metavar="<value>", nargs="+", help="Value to set")
+        get_group = parser.add_argument_group("getting values")
+        get_group.add_argument("keys", metavar="<keys>", nargs="*", help="one or more keys separated by space")
+
+    def handle(self, options):
         self.console = component.get("ConsoleUI")
-        if options['set']:
-            return self._set_option(*args, **options)
+        if options.set:
+            return self._set_option(options)
         else:
-            return self._get_option(*args, **options)
+            return self._get_option(options)
 
-    def _get_option(self, *args, **options):
+    def _get_option(self, options):
 
         def on_torrents_status(status):
             for torrentid, data in status.items():
@@ -63,11 +66,10 @@ class Command(BaseCommand):
         def on_torrents_status_fail(reason):
             self.console.write('{!error!}Failed to get torrent data.')
 
-        torrent_ids = []
-        torrent_ids.extend(self.console.match_torrent(args[0]))
+        torrent_ids = self.console.match_torrent(options.torrent)
 
         request_options = []
-        for opt in args[1:]:
+        for opt in options.values:
             if opt not in torrent_options:
                 self.console.write('{!error!}Unknown torrent option: %s' % opt)
                 return
@@ -77,16 +79,14 @@ class Command(BaseCommand):
         request_options.append('name')
 
         d = client.core.get_torrents_status({"id": torrent_ids}, request_options)
-        d.addCallback(on_torrents_status)
-        d.addErrback(on_torrents_status_fail)
+        d.addCallbacks(on_torrents_status, on_torrents_status_fail)
         return d
 
-    def _set_option(self, *args, **options):
+    def _set_option(self, options):
         deferred = defer.Deferred()
-        torrent_ids = []
-        torrent_ids.extend(self.console.match_torrent(args[0]))
-        key = options["set"][0]
-        val = options["set"][1] + " " .join(args[1:])
+        key = options.set
+        val = " " .join(options.values)
+        torrent_ids = self.console.match_torrent(options.torrent)
 
         if key not in torrent_options:
             self.console.write("{!error!}The key '%s' is invalid!" % key)

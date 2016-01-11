@@ -14,22 +14,23 @@ from deluge.ui.console.main import BaseCommand
 
 
 class Command(BaseCommand):
-    """Resume a torrent"""
-    usage = "Usage: resume [ * | <torrent-id> [<torrent-id> ...] ]"
+    """Resume torrents"""
+    usage = "resume [ * | <torrent-id> [<torrent-id> ...] ]"
 
-    def handle(self, *args, **options):
+    def add_arguments(self, parser):
+        parser.add_argument("torrent_ids", metavar="<torrent-id>", nargs="+",
+                            help="One or more torrent ids. '*' resumes all torrents")
+
+    def handle(self, options):
         self.console = component.get("ConsoleUI")
 
-        if len(args) == 0:
-            self.console.write(self.usage)
-            return
-        if len(args) > 0 and args[0] == "*":
+        if options.torrent_ids[0] == "*":
             client.core.resume_session()
             return
 
         torrent_ids = []
-        for arg in args:
-            torrent_ids.extend(self.console.match_torrent(arg))
+        for t_id in options.torrent_ids:
+            torrent_ids.extend(self.console.match_torrent(t_id))
 
         if torrent_ids:
             return client.core.resume_torrent(torrent_ids)

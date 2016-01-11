@@ -11,7 +11,6 @@
 import cStringIO
 import logging
 import tokenize
-from optparse import make_option
 
 import deluge.component as component
 import deluge.ui.console.colors as colors
@@ -66,25 +65,28 @@ def simple_eval(source):
 class Command(BaseCommand):
     """Show and set configuration values"""
 
-    option_list = BaseCommand.option_list + (
-        make_option("-s", "--set", action="store", nargs=2, dest="set", help="set value for key"),
-    )
-    usage = """Usage: config [key1 [key2 ...]]"
-       config --set key value"""
+    usage = "config [--set <key> <value>] [<key> [<key>...] ]"
 
-    def handle(self, *args, **options):
+    def add_arguments(self, parser):
+        set_group = parser.add_argument_group("setting a value")
+        set_group.add_argument("-s", "--set", action="store", metavar="<key>", help="set value for this key")
+        set_group.add_argument("values", metavar="<value>", nargs="+", help="Value to set")
+        get_group = parser.add_argument_group("getting values")
+        get_group.add_argument("keys", metavar="<keys>", nargs="*", help="one or more keys separated by space")
+
+    def handle(self, options):
         self.console = component.get("ConsoleUI")
-        if options["set"]:
-            return self._set_config(*args, **options)
+        if options.set:
+            return self._set_config(options)
         else:
-            return self._get_config(*args, **options)
+            return self._get_config(options)
 
-    def _get_config(self, *args, **options):
+    def _get_config(self, options):
         def _on_get_config(config):
             keys = sorted(config.keys())
             s = ""
             for key in keys:
-                if args and key not in args:
+                if key not in options.values:
                     continue
                 color = "{!white,black,bold!}"
                 value = config[key]
@@ -107,10 +109,16 @@ class Command(BaseCommand):
 
         return client.core.get_config().addCallback(_on_get_config)
 
-    def _set_config(self, *args, **options):
+    def _set_config(self, options):
         config = component.get("CoreConfig")
-        key = options["set"][0]
-        val = simple_eval(options["set"][1] + " " .join(args))
+        key = options.set
+        val = " ".join(options.values)
+
+        try:
+            val = simple_eval(val)
+        except SyntaxError as ex:
+            self.console.write("{!error!}%s" % ex)
+            return
 
         if key not in config.keys():
             self.console.write("{!error!}The key '%s' is invalid!" % key)
@@ -126,7 +134,7 @@ class Command(BaseCommand):
         def on_set_config(result):
             self.console.write("{!success!}Configuration value successfully updated.")
 
-        self.console.write("Setting %s to %s.." % (key, val))
+        self.console.write("Setting '%s' to '%s'" % (key, val))
         return client.core.set_config({key: val}).addCallback(on_set_config)
 
     def complete(self, text):

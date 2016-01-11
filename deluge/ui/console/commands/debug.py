@@ -17,12 +17,14 @@ from deluge.ui.console.main import BaseCommand
 
 class Command(BaseCommand):
     """Enable and disable debugging"""
-    usage = "Usage: debug [on|off]"
 
-    def handle(self, state="", **options):
-        if state == "on":
+    def add_arguments(self, parser):
+        parser.add_argument("state", metavar="<on|off>", choices=["on", "off"], help="The new state")
+
+    def handle(self, options):
+        if options.state == "on":
             deluge.log.set_logger_level("debug")
-        elif state == "off":
+        elif options.state == "off":
             deluge.log.set_logger_level("error")
         else:
             component.get("ConsoleUI").write("{!error!}%s" % self.usage)

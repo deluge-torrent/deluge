@@ -15,9 +15,8 @@ from deluge.ui.console.main import BaseCommand
 
 class Command(BaseCommand):
     "Shutdown the deluge server"
-    usage = "Usage: halt"
 
-    def handle(self, *args, **options):
+    def handle(self, options):
         self.console = component.get("ConsoleUI")
 
         def on_shutdown(result):

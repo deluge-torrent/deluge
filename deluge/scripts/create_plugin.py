@@ -10,42 +10,31 @@ from __future__ import print_function
 
 import os
 import sys
+from argparse import ArgumentParser
 from datetime import datetime
-from optparse import OptionParser
 
 import deluge.common
 
-parser = OptionParser()
-parser.add_option("-n", "--name", dest="name", help="plugin name")
-parser.add_option("-m", "--module-name", dest="module", help="plugin name")
-parser.add_option("-p", "--basepath", dest="path", help="base path")
-parser.add_option("-a", "--author-name", dest="author_name", help="author name,for the GPL header")
-parser.add_option("-e", "--author-email", dest="author_email", help="author email,for the GPL header")
-parser.add_option("-u", "--url", dest="url", help="Homepage URL")
-parser.add_option("-c", "--config", dest="configdir", help="location of deluge configuration")
+parser = ArgumentParser()
+parser.add_argument("-n", "--name", metavar="<plugin name>", required=True, help="Plugin name")
+parser.add_argument("-m", "--module-name", metavar="<module name>", help="Module name")
+parser.add_argument("-p", "--basepath", metavar="<path>", required=True, help="Base path")
+parser.add_argument("-a", "--author-name", metavar="<author name>", required=True,
+                    help="Author name,for the GPL header")
+parser.add_argument("-e", "--author-email", metavar="<author email>", required=True,
+                    help="Author email,for the GPL header")
+parser.add_argument("-u", "--url", metavar="<URL>", help="Homepage URL")
+parser.add_argument("-c", "--config", metavar="<Config dir>", dest="configdir", help="Location of deluge configuration")
 
-
-(options, args) = parser.parse_args()
+options = parser.parse_args()
 
 
 def create_plugin():
-    if not options.name:
-        print("--name is mandatory , use -h for more info")
-        return
-    if not options.path:
-        print("--basepath is mandatory , use -h for more info")
-        return
-    if not options.author_email:
-        print("--author-email is mandatory , use -h for more info")
-        return
-    if not options.author_email:
-        print("--author-name is mandatory , use -h for more info")
-        return
 
     if not options.url:
         options.url = ""
 
-    if not os.path.exists(options.path):
+    if not os.path.exists(options.basepath):
         print("basepath does not exist")
         return
 
@@ -57,9 +46,9 @@ def create_plugin():
     real_name = options.name
     name = real_name.replace(" ", "_")
     safe_name = name.lower()
-    if options.module:
-        safe_name = options.module.lower()
-    plugin_base = os.path.realpath(os.path.join(options.path, name))
+    if options.module_name:
+        safe_name = options.module_name.lower()
+    plugin_base = os.path.realpath(os.path.join(options.basepath, name))
     deluge_namespace = os.path.join(plugin_base, "deluge")
     plugins_namespace = os.path.join(deluge_namespace, "plugins")
     src = os.path.join(plugins_namespace, safe_name)
@@ -121,15 +110,15 @@ def create_plugin():
 CORE = """
 import logging
 from deluge.plugins.pluginbase import CorePluginBase
-import deluge.component as component
 import deluge.configmanager
 from deluge.core.rpcserver import export
 
 DEFAULT_PREFS = {
-    "test":"NiNiNi"
+    "test": "NiNiNi"
 }
 
 log = logging.getLogger(__name__)
+
 
 class Core(CorePluginBase):
     def enable(self):
@@ -157,22 +146,25 @@ class Core(CorePluginBase):
 INIT = """
 from deluge.plugins.init import PluginInitBase
 
+
 class CorePlugin(PluginInitBase):
     def __init__(self, plugin_name):
-        from core import Core as _plugin_cls
-        self._plugin_cls = _plugin_cls
+        from core import Core as PluginClass
+        self._plugin_cls = PluginClass
         super(CorePlugin, self).__init__(plugin_name)
+
 
 class GtkUIPlugin(PluginInitBase):
     def __init__(self, plugin_name):
-        from gtkui import GtkUI as _plugin_cls
-        self._plugin_cls = _plugin_cls
+        from gtkui import GtkUI as PluginClass
+        self._plugin_cls = PluginClass
         super(GtkUIPlugin, self).__init__(plugin_name)
+
 
 class WebUIPlugin(PluginInitBase):
     def __init__(self, plugin_name):
-        from webui import WebUI as _plugin_cls
-        self._plugin_cls = _plugin_cls
+        from webui import WebUI as PluginClass
+        self._plugin_cls = PluginClass
         super(WebUIPlugin, self).__init__(plugin_name)
 """
 
@@ -201,8 +193,8 @@ setup(
     long_description=__long_description__ if __long_description__ else __description__,
 
     packages=find_packages(),
-    namespace_packages = ["deluge", "deluge.plugins"],
-    package_data = __pkg_data__,
+    namespace_packages=["deluge", "deluge.plugins"],
+    package_data=__pkg_data__,
 
     entry_points=\"\"\"
     [deluge.plugin.core]
@@ -218,7 +210,8 @@ setup(
 COMMON = """
 
 def get_resource(filename):
-    import pkg_resources, os
+    import pkg_resources
+    import os
     return pkg_resources.resource_filename("deluge.plugins.%(safe_name)s",
                                            os.path.join("data", filename))
 """
@@ -230,11 +223,11 @@ import logging
 from deluge.ui.client import client
 from deluge.plugins.pluginbase import GtkPluginBase
 import deluge.component as component
-import deluge.common
 
 from common import get_resource
 
 log = logging.getLogger(__name__)
+
 
 class GtkUI(GtkPluginBase):
     def enable(self):
@@ -252,7 +245,7 @@ class GtkUI(GtkPluginBase):
     def on_apply_prefs(self):
         log.debug("applying prefs for %(name)s")
         config = {
-            "test":self.glade.get_widget("txt_test").get_text()
+            "test": self.glade.get_widget("txt_test").get_text()
         }
         client.%(safe_name)s.set_config(config)
 
@@ -296,12 +289,12 @@ GLADE = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 WEBUI = """
 import logging
 from deluge.ui.client import client
-from deluge import component
 from deluge.plugins.pluginbase import WebPluginBase
 
 from common import get_resource
 
 log = logging.getLogger(__name__)
+
 
 class WebUI(WebPluginBase):
 

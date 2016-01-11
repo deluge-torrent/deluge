@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+import re
+
 from deluge.ui.console.modes import format_utils
 
 try:
@@ -228,3 +230,39 @@ def parse_color_string(s, encoding="UTF-8"):
         # There was no color scheme so we add it with a 0 for white on black
         ret = [(0, s)]
     return ret
+
+
+class ConsoleColorFormatter(object):
+    """
+    Format help in a way suited to deluge Legacy mode - colors, format, indentation...
+    """
+
+    replace_dict = {
+        "<torrent-id>": "{!green!}%s{!input!}",
+        "<torrent>": "{!green!}%s{!input!}",
+        "<command>": "{!green!}%s{!input!}",
+
+        "<state>": "{!yellow!}%s{!input!}",
+        "\\.\\.\\.": "{!yellow!}%s{!input!}",
+        "\\s\\*\\s": "{!blue!}%s{!input!}",
+        "(?<![\\-a-z])(-[a-zA-Z0-9])": "{!red!}%s{!input!}",
+        # "(\-[a-zA-Z0-9])": "{!red!}%s{!input!}",
+        "--[_\\-a-zA-Z0-9]+": "{!green!}%s{!input!}",
+        "(\\[|\\])": "{!info!}%s{!input!}",
+
+        "<tab>": "{!white!}%s{!input!}",
+        "[_A-Z]{3,}": "{!cyan!}%s{!input!}",
+        "<key>": "{!cyan!}%s{!input!}",
+        "<value>": "{!cyan!}%s{!input!}",
+        "usage:": "{!info!}%s{!input!}",
+        "<download-folder>": "{!yellow!}%s{!input!}",
+        "<torrent-file>": "{!green!}%s{!input!}"
+
+    }
+
+    def format_colors(self, string):
+        def r(repl):
+            return lambda s: repl % s.group()
+        for key, replacement in self.replace_dict.items():
+            string = re.sub(key, r(replacement), string)
+        return string

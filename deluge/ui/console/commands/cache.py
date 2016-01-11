@@ -14,9 +14,8 @@ from deluge.ui.console.main import BaseCommand
 
 class Command(BaseCommand):
     """Show information about the disk cache"""
-    usage = "Usage: cache"
 
-    def handle(self, *args, **options):
+    def handle(self, options):
         self.console = component.get("ConsoleUI")
 
         def on_cache_status(status):

@@ -15,15 +15,17 @@ from deluge.ui.console.main import BaseCommand
 
 class Command(BaseCommand):
     """Update tracker for torrent(s)"""
-    usage = "Usage: update_tracker [ * | <torrent-id> [<torrent-id> ...] ]"
+    usage = "update_tracker [ * | <torrent-id> [<torrent-id> ...] ]"
     aliases = ['reannounce']
 
-    def handle(self, *args, **options):
+    def add_arguments(self, parser):
+        parser.add_argument('torrent_ids', metavar="<torrent-id>", nargs='+',
+                            help='One or more torrent ids. "*" updates all torrents')
+
+    def handle(self, options):
         self.console = component.get("ConsoleUI")
-        if len(args) == 0:
-            self.console.write(self.usage)
-            return
-        if len(args) > 0 and args[0].lower() == '*':
+        args = options.torrent_ids
+        if options.torrent_ids[0] == "*":
             args = [""]
 
         torrent_ids = []

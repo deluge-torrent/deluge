@@ -8,8 +8,6 @@
 # See LICENSE for more details.
 #
 
-from optparse import make_option
-
 import deluge.component as component
 from deluge.ui.client import client
 from deluge.ui.console.main import BaseCommand
@@ -17,21 +15,16 @@ from deluge.ui.console.main import BaseCommand
 
 class Command(BaseCommand):
     """Remove a torrent"""
-    usage = "Usage: rm <torrent-id>"
     aliases = ["del"]
 
-    option_list = BaseCommand.option_list + (
-        make_option("--remove_data", action="store_true", default=False,
-                    help="remove the torrent's data"),
-    )
+    def add_arguments(self, parser):
+        parser.add_argument("--remove_data", action="store_true", default=False, help="remove the torrent's data")
+        parser.add_argument("torrent_ids", metavar="<torrent-id>", nargs="+", help="One or more torrent ids")
 
-    def handle(self, *args, **options):
+    def handle(self, options):
         self.console = component.get("ConsoleUI")
-        if len(args) == 0:
-            self.console.write(self.usage)
-
         torrent_ids = []
-        for arg in args:
+        for arg in options.torrent_ids:
             torrent_ids.extend(self.console.match_torrent(arg))
 
         def on_removed_finished(errors):
@@ -40,7 +33,7 @@ class Command(BaseCommand):
                 for t_id, e_msg in errors:
                     self.console.write("Error removing torrent %s : %s" % (t_id, e_msg))
 
-        d = client.core.remove_torrents(torrent_ids, options["remove_data"])
+        d = client.core.remove_torrents(torrent_ids, options.remove_data)
         d.addCallback(on_removed_finished)
 
     def complete(self, line):

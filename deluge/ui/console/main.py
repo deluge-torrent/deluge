@@ -10,10 +10,9 @@
 
 from __future__ import print_function
 
+import argparse
 import locale
 import logging
-import optparse
-import re
 import shlex
 import sys
 
@@ -21,8 +20,10 @@ from twisted.internet import defer, reactor
 
 import deluge.common
 import deluge.component as component
+from deluge.error import DelugeError
 from deluge.ui.client import client
 from deluge.ui.console import colors
+from deluge.ui.console.colors import ConsoleColorFormatter
 from deluge.ui.console.eventlog import EventLog
 from deluge.ui.console.statusbars import StatusBars
 from deluge.ui.coreconfig import CoreConfig
@@ -31,84 +32,32 @@ from deluge.ui.sessionproxy import SessionProxy
 log = logging.getLogger(__name__)
 
 
-class DelugeHelpFormatter(optparse.IndentedHelpFormatter):
-    """
-    Format help in a way suited to deluge Legacy mode - colors, format, indentation...
-    """
+class ConsoleCommandParser(argparse.ArgumentParser):
 
-    replace_dict = {
-        "<torrent-id>": "{!green!}%s{!input!}",
-        "<state>": "{!yellow!}%s{!input!}",
-        "\\.\\.\\.": "{!yellow!}%s{!input!}",
-        "\\s\\*\\s": "{!blue!}%s{!input!}",
-        "(?<![\\-a-z])(-[a-zA-Z0-9])": "{!red!}%s{!input!}",
-        # "(\-[a-zA-Z0-9])": "{!red!}%s{!input!}",
-        "--[_\\-a-zA-Z0-9]+": "{!green!}%s{!input!}",
-        "(\\[|\\])": "{!info!}%s{!input!}",
+    def format_help(self):
+        """
+        Differs from ArgumentParser.format_help by adding the raw epilog
+        as formatted in the string. Default bahavior mangles the formatting.
 
-        "<tab>": "{!white!}%s{!input!}",
-        "[_A-Z]{3,}": "{!cyan!}%s{!input!}",
-
-        "<download-folder>": "{!yellow!}%s{!input!}",
-        "<torrent-file>": "{!green!}%s{!input!}"
-
-    }
-
-    def __init__(self,
-                 indent_increment=2,
-                 max_help_position=24,
-                 width=None,
-                 short_first=1):
-        optparse.IndentedHelpFormatter.__init__(
-            self, indent_increment, max_help_position, width, short_first)
-
-    def _format_colors(self, string):
-        def r(repl):
-            return lambda s: repl % s.group()
-
-        for key, replacement in self.replace_dict.items():
-            string = re.sub(key, r(replacement), string)
-
-        return string
-
-    def format_usage(self, usage):
-
-        return _("{!info!}Usage{!input!}: %s\n") % self._format_colors(usage)
-
-    def format_option(self, option):
-        result = []
-        opts = self.option_strings[option]
-        opt_width = self.help_position - self.current_indent - 2
-        if len(opts) > opt_width:
-            opts = "%*s%s\n" % (self.current_indent, "", opts)
-            opts = self._format_colors(opts)
-            indent_first = self.help_position
-        else:  # start help on same line as opts
-            opts = "%*s%-*s  " % (self.current_indent, "", opt_width, opts)
-            opts = self._format_colors(opts)
-            indent_first = 0
-        result.append(opts)
-        if option.help:
-            help_text = self.expand_default(option)
-            help_text = self._format_colors(help_text)
-            help_lines = optparse.textwrap.wrap(help_text, self.help_width)
-            result.append("%*s%s\n" % (indent_first, "", help_lines[0]))
-            result.extend(["%*s%s\n" % (self.help_position, "", line)
-                           for line in help_lines[1:]])
-        elif opts[-1] != "\n":
-            result.append("\n")
-        return "".join(result)
+        """
+        # Handle epilog manually to keep the text formatting
+        epilog = self.epilog
+        self.epilog = ""
+        help_str = super(ConsoleCommandParser, self).format_help()
+        if epilog is not None:
+            help_str += epilog
+        self.epilog = epilog
+        return help_str
 
 
-class OptionParser(optparse.OptionParser):
-    """subclass from optparse.OptionParser so exit() won't exit."""
+class OptionParser(ConsoleCommandParser):
+
     def __init__(self, **kwargs):
-        optparse.OptionParser.__init__(self, **kwargs)
-
-        self.formatter = DelugeHelpFormatter()
+        super(OptionParser, self).__init__(**kwargs)
+        self.formatter = ConsoleColorFormatter()
 
     def exit(self, status=0, msg=None):
-        self.values._exit = True
+        self._exit = True
         if msg:
             print(msg)
 
@@ -124,7 +73,7 @@ class OptionParser(optparse.OptionParser):
     def print_usage(self, _file=None):
         console = component.get("ConsoleUI")
         if self.usage:
-            for line in self.get_usage().splitlines():
+            for line in self.format_usage().splitlines():
                 console.write(line)
 
     def print_help(self, _file=None):
@@ -134,43 +83,36 @@ class OptionParser(optparse.OptionParser):
             console.write(line)
         console.set_batch_write(False)
 
-    def format_option_help(self, formatter=None):
-        if formatter is None:
-            formatter = self.formatter
-        formatter.store_option_strings(self)
-        result = []
-        result.append(formatter.format_heading(_("{!info!}Options{!input!}")))
-        formatter.indent()
-        if self.option_list:
-            result.append(optparse.OptionContainer.format_option_help(self, formatter))
-            result.append("\\n")
-        for group in self.option_groups:
-            result.append(group.format_help(formatter))
-            result.append("\\n")
-        formatter.dedent()
-        # Drop the last "\\n", or the header if no options or option groups:
-        return "".join(result[:-1])
+    def format_help(self):
+        """Return help formatted with colors."""
+        help_str = super(OptionParser, self).format_help()
+        return self.formatter.format_colors(help_str)
 
 
 class BaseCommand(object):
 
-    usage = "usage"
+    usage = None
     interactive_only = False
-    option_list = tuple()
     aliases = []
+    _name = "base"
+    epilog = ""
 
     def complete(self, text, *args):
         return []
 
-    def handle(self, *args, **options):
+    def handle(self, options):
         pass
 
     @property
     def name(self):
-        return "base"
+        return self._name
 
     @property
-    def epilog(self):
+    def name_with_alias(self):
+        return "/".join([self._name] + self.aliases)
+
+    @property
+    def description(self):
         return self.__doc__
 
     def split(self, text):
@@ -183,16 +125,32 @@ class BaseCommand(object):
         return result
 
     def create_parser(self):
-        return OptionParser(prog=self.name, usage=self.usage, epilog=self.epilog, option_list=self.option_list)
+        opts = {"prog": self.name_with_alias, "description": self.__doc__, "epilog": self.epilog}
+        if self.usage:
+            opts["usage"] = self.usage
+        parser = OptionParser(**opts)
+        parser.add_argument(self.name, metavar="")
+        self.add_arguments(parser)
+        return parser
+
+    def add_subparser(self, subparsers):
+        opts = {"prog": self.name_with_alias, "help": self.__doc__, "description": self.__doc__}
+        if self.usage:
+            opts["usage"] = self.usage
+        parser = subparsers.add_parser(self.name, **opts)
+        self.add_arguments(parser)
+
+    def add_arguments(self, parser):
+        pass
 
 
 class ConsoleUI(component.Component):
-    def __init__(self, args=None, cmds=None, daemon=None):
-        component.Component.__init__(self, "ConsoleUI", 2)
 
+    def __init__(self, options=None, cmds=None):
+        component.Component.__init__(self, "ConsoleUI", 2)
         # keep track of events for the log view
         self.events = []
-
+        self.statusbars = None
         try:
             locale.setlocale(locale.LC_ALL, "")
             self.encoding = locale.getpreferredencoding()
@@ -209,19 +167,14 @@ class ConsoleUI(component.Component):
         # Set the interactive flag to indicate where we should print the output
         self.interactive = True
         self._commands = cmds
-        if args:
-            args = " ".join(args)
+
+        if options.remaining:
             self.interactive = False
             if not cmds:
                 print("Sorry, couldn't find any commands")
                 return
             else:
-                from deluge.ui.console.commander import Commander
-                cmdr = Commander(cmds)
-                if daemon:
-                    cmdr.exec_args(args, *daemon)
-                else:
-                    cmdr.exec_args(args, None, None, None, None)
+                self.exec_args(options)
 
         self.coreconfig = CoreConfig()
         if self.interactive and not deluge.common.windows_check():
@@ -239,6 +192,60 @@ Please use commands from the command line, eg:\n
             """)
         else:
             reactor.run()
+
+    def exec_args(self, options):
+        args = options.remaining
+        commands = []
+        if args:
+            cmd = " ".join([arg for arg in args])
+            # Multiple commands split by ";"
+            commands += [arg.strip() for arg in cmd.split(";")]
+
+        from deluge.ui.console.commander import Commander
+        commander = Commander(self._commands)
+
+        def on_connect(result):
+            def on_started(result):
+                def on_started(result):
+                    def do_command(result, cmd):
+                        return commander.do_command(cmd)
+                    d = defer.succeed(None)
+                    for command in commands:
+                        if command in ("quit", "exit"):
+                            break
+                        d.addCallback(do_command, command)
+                    d.addCallback(do_command, "quit")
+
+                # We need to wait for the rpcs in start() to finish before processing
+                # any of the commands.
+                self.started_deferred.addCallback(on_started)
+            component.start().addCallback(on_started)
+
+        def on_connect_fail(reason):
+            if reason.check(DelugeError):
+                rm = reason.getErrorMessage()
+            else:
+                rm = reason.value.message
+            print("Could not connect to daemon: %s:%s\n %s" % (options.daemon_addr, options.daemon_port, rm))
+            commander.do_command("quit")
+
+        d = None
+        if not self.interactive:
+            if commands[0] is not None:
+                if commands[0].startswith("connect"):
+                    d = commander.do_command(commands.pop(0))
+                    if d is None:
+                        # Error parsing command
+                        sys.exit(0)
+                elif "help" in commands:
+                    commander.do_command("help")
+                    sys.exit(0)
+        if not d:
+            log.info("connect: host=%s, port=%s, username=%s, password=%s",
+                     options.daemon_addr, options.daemon_port, options.daemon_user, options.daemon_pass)
+            d = client.connect(options.daemon_addr, options.daemon_port, options.daemon_user, options.daemon_pass)
+        d.addCallback(on_connect)
+        d.addErrback(on_connect_fail)
 
     def run(self, stdscr):
         """
@@ -332,6 +339,7 @@ Please use commands from the command line, eg:\n
         self.screen = mode
         self.statusbars.screen = self.screen
         reactor.addReader(self.screen)
+        self.stdscr.clear()
         mode.refresh()
 
     def on_client_disconnect(self):

@@ -15,7 +15,6 @@
 """Main starting point for Deluge.  Contains the main() entry point."""
 from __future__ import print_function
 
-import optparse
 import os
 import sys
 from logging import FileHandler, getLogger
@@ -38,25 +37,27 @@ def start_ui():
 
     # Setup the argument parser
     parser = CommonOptionParser()
-    group = optparse.OptionGroup(parser, _("Default Options"))
+    group = parser.add_argument_group(_("Default Options"))
 
     ui_entrypoints = dict([(entrypoint.name, entrypoint.load())
                            for entrypoint in pkg_resources.iter_entry_points('deluge.ui')])
 
     cmd_help = ['The UI that you wish to launch.  The UI choices are:']
+    max_len = 0
+    for k, v in ui_entrypoints.iteritems():
+        cmdline = getattr(v, 'cmdline', "")
+        max_len = max(max_len, len(cmdline))
+
     cmd_help.extend(["%s -- %s" % (k, getattr(v, 'cmdline', "")) for k, v in ui_entrypoints.iteritems()])
 
-    parser.add_option("-u", "--ui", dest="ui",
-                      choices=ui_entrypoints.keys(), help="\n\t ".join(cmd_help), action="store")
-    group.add_option("-a", "--args", dest="args",
-                     help="Arguments to pass to UI, -a '--option args'", action="store", type="str")
-    group.add_option("-s", "--set-default-ui", dest="default_ui",
-                     help="Sets the default UI to be run when no UI is specified", action="store", type="str")
+    parser.add_argument("-u", "--ui", action="store",
+                        choices=ui_entrypoints.keys(), help="\n* ".join(cmd_help))
+    group.add_argument("-a", "--args", action="store",
+                       help='Arguments to pass to the UI. Multiple args must be quoted, e.g. -a "--option args"')
+    group.add_argument("-s", "--set-default-ui", dest="default_ui", choices=ui_entrypoints.keys(),
+                       help="Sets the default UI to be run when no UI is specified", action="store")
 
-    parser.add_option_group(group)
-
-    # Get the options and args from the OptionParser
-    (options, args) = parser.parse_args(deluge.common.unicode_argv()[1:])
+    options = parser.parse_args(deluge.common.unicode_argv()[1:])
 
     config = deluge.configmanager.ConfigManager("ui.conf", DEFAULT_PREFS)
     log = getLogger(__name__)
@@ -69,7 +70,6 @@ def start_ui():
 
     log.info("Deluge ui %s", deluge.common.get_version())
     log.debug("options: %s", options)
-    log.debug("args: %s", args)
 
     selected_ui = options.ui if options.ui else config["default_ui"]
 
@@ -81,15 +81,13 @@ def start_ui():
     if options.args:
         import shlex
         client_args.extend(shlex.split(options.args))
-    client_args.extend(args)
 
     try:
-        ui = ui_entrypoints[selected_ui](skip_common=True)
+        ui = ui_entrypoints[selected_ui](parser=parser)
     except KeyError as ex:
         log.error("Unable to find the requested UI: '%s'. Please select a different UI with the '-u' option"
                   " or alternatively use the '-s' option to select a different default UI.", selected_ui)
     except ImportError as ex:
-        import sys
         import traceback
         error_type, error_value, tb = sys.exc_info()
         stack = traceback.extract_tb(tb)
@@ -104,6 +102,31 @@ def start_ui():
         sys.exit(1)
     else:
         ui.start(client_args)
+
+
+def add_daemon_options(parser):
+    group = parser.add_argument_group('Daemon Options')
+    group.add_argument("-p", "--port", metavar="<port>", action="store", type=int,
+                       help="The port the daemon will listen on")
+    group.add_argument("-i", "--interface", metavar="<iface>", dest="listen_interface",
+                       help="Interface daemon will listen for bittorrent connections on, "
+                       "this should be an IP address", action="store")
+    group.add_argument("-u", "--ui-interface", metavar="<iface>", action="store",
+                       help="Interface daemon will listen for UI connections on, "
+                       "this should be an IP address")
+    if not deluge.common.windows_check():
+        group.add_argument("-d", "--do-not-daemonize", dest="donot",
+                           help="Do not daemonize", action="store_true", default=False)
+    group.add_argument("-P", "--pidfile", metavar="<pidfile>",
+                       help="Use pidfile to store process id", action="store")
+    if not deluge.common.windows_check():
+        group.add_argument("-U", "--user", metavar="<user>", action="store",
+                           help="User to switch to. Only use it when starting as root")
+        group.add_argument("-g", "--group", metavar="<group>", action="store",
+                           help="Group to switch to. Only use it when starting as root")
+    group.add_argument("--read-only-config-keys",
+                       help="List of comma-separated config keys that will not be modified by set_config RPC.",
+                       action="store", type=str, default="")
 
 
 def start_daemon(skip_start=False):
@@ -124,38 +147,10 @@ def start_daemon(skip_start=False):
         warnings.filterwarnings('ignore', category=DeprecationWarning, module='twisted')
 
     # Setup the argument parser
-    parser = CommonOptionParser(usage="%prog [options] [actions]")
+    parser = CommonOptionParser()
+    add_daemon_options(parser)
 
-    group = optparse.OptionGroup(parser, _("Daemon Options"))
-    group.add_option("-p", "--port", dest="port",
-                     help="Port daemon will listen on", action="store", type="int")
-    group.add_option("-i", "--interface", dest="listen_interface",
-                     help="Interface daemon will listen for bittorrent connections on, "
-                     "this should be an IP address", metavar="IFACE",
-                     action="store", type="str")
-    group.add_option("-u", "--ui-interface", dest="ui_interface",
-                     help="Interface daemon will listen for UI connections on, this should be "
-                     "an IP address", metavar="IFACE", action="store", type="str")
-    if not (deluge.common.windows_check() or deluge.common.osx_check()):
-        group.add_option("-d", "--do-not-daemonize", dest="donot",
-                         help="Do not daemonize", action="store_true", default=False)
-    group.add_option("-P", "--pidfile", dest="pidfile",
-                     help="Use pidfile to store process id", action="store", type="str")
-    if not deluge.common.windows_check():
-        group.add_option("-U", "--user", dest="user",
-                         help="User to switch to. Only use it when starting as root", action="store", type="str")
-        group.add_option("-g", "--group", dest="group",
-                         help="Group to switch to. Only use it when starting as root", action="store", type="str")
-    group.add_option("--read-only-config-keys",
-                     help="List of comma-separated config keys that will not be modified by set_config RPC.",
-                     action="store", type="str", default="")
-    group.add_option("--profile", dest="profile", action="store_true", default=False,
-                     help="Profiles the daemon")
-
-    parser.add_option_group(group)
-
-    # Get the options and args from the OptionParser
-    (options, args) = parser.parse_args()
+    options = parser.parse_args()
 
     # Check for any daemons running with this same config
     from deluge.core.daemon import check_running_daemon

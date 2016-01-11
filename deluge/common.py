@@ -162,6 +162,28 @@ def osx_check():
     return platform.system() == "Darwin"
 
 
+def linux_check():
+    """
+    Checks if the current platform is Linux
+
+    :returns: True or False
+    :rtype: bool
+
+    """
+    return platform.system() == "Linux"
+
+
+def get_os_version():
+    if windows_check():
+        return platform.win32_ver()
+    elif osx_check():
+        return platform.mac_ver()
+    elif linux_check():
+        return platform.linux_distribution()
+    else:
+        return (platform.release(), )
+
+
 def get_pixmap(fname):
     """
     Provides easy access to files in the deluge/ui/data/pixmaps folder within the Deluge egg

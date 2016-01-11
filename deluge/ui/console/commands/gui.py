@@ -7,22 +7,26 @@
 # See LICENSE for more details.
 #
 
+import logging
+
 import deluge.component as component
 from deluge.ui.console.main import BaseCommand
 from deluge.ui.console.modes.alltorrents import AllTorrents
 
+log = logging.getLogger(__name__)
+
 
 class Command(BaseCommand):
-    """Exit this mode and go into the more 'gui' like mode"""
-    usage = "Usage: gui"
+    """Enable interactive mode"""
     interactive_only = True
 
-    def handle(self, *args, **options):
+    def handle(self, options):
         console = component.get("ConsoleUI")
         try:
             at = component.get("AllTorrents")
         except KeyError:
             at = AllTorrents(console.stdscr, console.encoding)
+
         console.set_mode(at)
         at._go_top = True
         at.resume()

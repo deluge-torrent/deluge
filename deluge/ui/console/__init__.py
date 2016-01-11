@@ -7,7 +7,7 @@
 # See LICENSE for more details.
 #
 
-UI_PATH = __path__[0]
+UI_PATH = __path__[0]  # NOQA Ignore 'E402 module level import not at top of file'
 
 from deluge.ui.console.console import Console
 

@@ -7,43 +7,43 @@
 # See LICENSE for more details.
 #
 
+import logging
 import os.path
 
 import deluge.component as component
 from deluge.ui.client import client
 from deluge.ui.console.main import BaseCommand
 
+log = logging.getLogger(__name__)
+
 
 class Command(BaseCommand):
     """Move torrents' storage location"""
-    usage = "Usage: move <torrent-id> [<torrent-id> ...] <path>"
 
-    def handle(self, *args, **options):
+    def add_arguments(self, parser):
+        parser.add_argument("torrent_ids", metavar="<torrent-id>", nargs="+", help="One or more torrent ids")
+        parser.add_argument("path", metavar="<path>", help="The path to move the torrents to")
+
+    def handle(self, options):
         self.console = component.get("ConsoleUI")
 
-        if len(args) < 2:
-            self.console.write(self.usage)
-            return
-
-        path = args[-1]
-
-        if os.path.exists(path) and not os.path.isdir(path):
-            self.console.write("{!error!}Cannot Move Download Folder: %s exists and is not a directory" % path)
+        if os.path.exists(options.path) and not os.path.isdir(options.path):
+            self.console.write("{!error!}Cannot Move Download Folder: %s exists and is not a directory" % options.path)
             return
 
         ids = []
-        for i in args[:-1]:
-            ids.extend(self.console.match_torrent(i))
-
         names = []
-        for i in ids:
-            names.append(self.console.get_torrent_name(i))
-        namestr = ", ".join(names)
+        for t_id in options.torrent_ids:
+            tid = self.console.match_torrent(t_id)
+            ids.extend(tid)
+            names.append(self.console.get_torrent_name(tid))
 
         def on_move(res):
-            self.console.write("Moved \"%s\" to %s" % (namestr, path))
+            msg = "Moved \"%s\" to %s" % (", ".join(names), options.path)
+            self.console.write(msg)
+            log.info(msg)
 
-        d = client.core.move_storage(ids, path)
+        d = client.core.move_storage(ids, options.path)
         d.addCallback(on_move)
         return d
 
@@ -81,5 +81,4 @@ class Command(BaseCommand):
                         if os.path.isdir(p):
                             p += "/"
                         ret.append(p)
-
         return ret

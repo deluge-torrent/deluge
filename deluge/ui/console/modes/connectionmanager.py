@@ -38,6 +38,7 @@ DEFAULT_CONFIG = {
 
 
 class ConnectionManager(BaseMode):
+
     def __init__(self, stdscr, encoding=None):
         self.popup = None
         self.statuses = {}
@@ -87,6 +88,7 @@ class ConnectionManager(BaseMode):
             port = host[2]
             user = host[3]
             password = host[4]
+            log.debug("connect: hadr=%s, port=%s, user=%s, password=%s", hadr, port, user, password)
             d = c.connect(hadr, port, user, password)
             d.addCallback(on_connect, c, host[0])
             d.addErrback(on_connect_failed, host[0])

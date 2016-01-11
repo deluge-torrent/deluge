@@ -15,11 +15,11 @@ from deluge.ui.console.main import BaseCommand
 
 
 class Command(BaseCommand):
-    """Exit from the client."""
+    """Exit the client."""
     aliases = ["exit"]
     interactive_only = True
 
-    def handle(self, *args, **options):
+    def handle(self, options):
         if client.connected():
             def on_disconnect(result):
                 reactor.stop()

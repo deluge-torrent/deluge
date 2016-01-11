@@ -8,22 +8,19 @@
 #
 
 import logging
-import optparse
 
 import deluge.common
 import deluge.configmanager
 import deluge.log
-from deluge.commonoptions import CommonOptionParser
+from deluge.ui.baseargparser import BaseArgParser
+
+log = logging.getLogger(__name__)
 
 try:
     from setproctitle import setproctitle
 except ImportError:
     def setproctitle(title):
         return
-
-DEFAULT_PREFS = {
-    "default_ui": "gtk"
-}
 
 if 'dev' not in deluge.common.get_version():
     import warnings
@@ -32,15 +29,16 @@ if 'dev' not in deluge.common.get_version():
 
 class UI(object):
 
-    def __init__(self, name="gtk", skip_common=False):
+    def __init__(self, name="gtk", parser=None):
         self.__name = name
+        self.__parser = parser if parser else BaseArgParser()
+        deluge.common.setup_translations(setup_pygtk=(name == "gtk"))
 
-        if name == "gtk":
-            deluge.common.setup_translations(setup_pygtk=True)
-        else:
-            deluge.common.setup_translations()
-
-        self.__parser = optparse.OptionParser() if skip_common else CommonOptionParser()
+    def parse_args(self, args=None):
+        options = self.parser.parse_args(args)
+        if not hasattr(options, "remaining"):
+            options.remaining = []
+        return options
 
     @property
     def name(self):
@@ -54,22 +52,15 @@ class UI(object):
     def options(self):
         return self.__options
 
-    @property
-    def args(self):
-        return self.__args
+    def start(self, extra_args=None):
+        args = deluge.common.unicode_argv()[1:]
+        if extra_args:
+            args.extend(extra_args)
 
-    def start(self, args=None):
-        if args is None:
-            # Make sure all arguments are unicode
-            args = deluge.common.unicode_argv()[1:]
-
-        self.__options, self.__args = self.__parser.parse_args(args)
-
-        log = logging.getLogger(__name__)
+        self.__options = self.parse_args(args)
 
         setproctitle("deluge-%s" % self.__name)
 
         log.info("Deluge ui %s", deluge.common.get_version())
         log.debug("options: %s", self.__options)
-        log.debug("args: %s", self.__args)
         log.info("Starting %s ui..", self.__name)

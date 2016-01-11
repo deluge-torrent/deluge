@@ -8,7 +8,6 @@
 # See LICENSE for more details.
 #
 
-from optparse import make_option
 from os.path import sep as dirsep
 
 import deluge.common as common
@@ -90,44 +89,51 @@ class Command(BaseCommand):
 
     sort_help = "sort items.  Possible keys: " + ", ".join(STATUS_KEYS)
 
-    option_list = BaseCommand.option_list + (
-        make_option("-v", "--verbose", action="store_true", default=False, dest="verbose",
-                    help="Show more information per torrent."),
-        make_option("-d", "--detailed", action="store_true", default=False, dest="detailed",
-                    help="Show more detailed information including files and peers."),
-        make_option("-s", "--state", action="store", dest="state",
-                    help="Show torrents with state STATE: %s." % (", ".join(STATES))),
-        make_option("--sort", action="store", type="string", default="", dest="sort", help=sort_help),
-        make_option("--sort-reverse", action="store", type="string", default="", dest="sort_rev",
-                    help="Same as --sort but items are in reverse order.")
-    )
+    epilog = """
+  You can give the first few characters of a torrent-id to identify the torrent.
 
-    usage = """Usage: info [-v | -d | -s <state>] [<torrent-id> [<torrent-id> ...]]
-       You can give the first few characters of a torrent-id to identify the torrent.
-       info * will list all torrents.
+  Tab Completion (info *pattern*<tab>):\n
+      | First press of <tab> will output up to 15 matches;
+      | hitting <tab> a second time, will print 15 more matches;
+      | and a third press will print all remaining matches.
+      | (To modify behaviour of third <tab>, set `third_tab_lists_all` to False)
+"""
 
-       Tab Completion (info *pattern*<tab>):
-           | First press of <tab> will output up to 15 matches;
-           | hitting <tab> a second time, will print 15 more matches;
-           | and a third press will print all remaining matches.
-           | (To modify behaviour of third <tab>, set `third_tab_lists_all` to False)"""
+    def add_arguments(self, parser):
+        parser.add_argument("-v", "--verbose", action="store_true", default=False, dest="verbose",
+                            help="Show more information per torrent.")
+        parser.add_argument("-d", "--detailed", action="store_true", default=False, dest="detailed",
+                            help="Show more detailed information including files and peers.")
+        parser.add_argument("-s", "--state", action="store", dest="state",
+                            help="Show torrents with state STATE: %s." % (", ".join(STATES)))
+        parser.add_argument("--sort", action="store", type=str, default="", dest="sort", help=self.sort_help)
+        parser.add_argument("--sort-reverse", action="store", type=str, default="", dest="sort_rev",
+                            help="Same as --sort but items are in reverse order.")
+        parser.add_argument("torrent_ids", metavar="<torrent-id>", nargs="*",
+                            help="One or more torrent ids. If none is given, list all")
 
-    def handle(self, *args, **options):
+    def add_subparser(self, subparsers):
+        parser = subparsers.add_parser(self.name, prog=self.name, help=self.__doc__,
+                                       description=self.__doc__, epilog=self.epilog)
+        self.add_arguments(parser)
+
+    def handle(self, options):
         self.console = component.get("ConsoleUI")
         # Compile a list of torrent_ids to request the status of
         torrent_ids = []
-        for arg in args:
-            torrent_ids.extend(self.console.match_torrent(arg))
 
-        if not args:
+        if options.torrent_ids:
+            for t_id in options.torrent_ids:
+                torrent_ids.extend(self.console.match_torrent(t_id))
+        else:
             torrent_ids.extend(self.console.match_torrent(""))
 
         def on_torrents_status(status):
             # Print out the information for each torrent
-            sort_key = options["sort"]
+            sort_key = options.sort
             sort_reverse = False
             if not sort_key:
-                sort_key = options["sort_rev"]
+                sort_key = options.sort_rev
                 sort_reverse = True
             if not sort_key:
                 sort_key = "name"
@@ -138,19 +144,19 @@ class Command(BaseCommand):
                 sort_key = "name"
                 sort_reverse = False
             for key, value in sorted(status.items(), key=lambda x: x[1].get(sort_key), reverse=sort_reverse):
-                self.show_info(key, status[key], options["verbose"], options["detailed"])
+                self.show_info(key, status[key], options.verbose, options.detailed)
 
         def on_torrents_status_fail(reason):
             self.console.write("{!error!}Error getting torrent info: %s" % reason)
 
         status_dict = {"id": torrent_ids}
 
-        if options["state"]:
-            options["state"] = options["state"].capitalize()
-            if options["state"] in STATES:
-                status_dict["state"] = options["state"]
+        if options.state:
+            options.state = options.state.capitalize()
+            if options.state in STATES:
+                status_dict.state = options.state
             else:
-                self.console.write("Invalid state: %s" % options["state"])
+                self.console.write("Invalid state: %s" % options.state)
                 self.console.write("Possible values are: %s." % (", ".join(STATES)))
                 return
 
