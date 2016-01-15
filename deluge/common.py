@@ -726,7 +726,6 @@ class VersionSplit(object):
 
     """
     def __init__(self, ver):
-        import re
         version_re = re.compile(r'''
         ^
         (?P<version>\d+\.\d+)          # minimum 'N.N'
@@ -993,3 +992,40 @@ def unicode_argv():
         encoding = encoding or "utf-8"
 
         return [arg.decode(encoding) for arg in sys.argv]
+
+
+def run_profiled(func, *args, **kwargs):
+    """
+    Profile a function with cProfile
+
+    Args:
+        func (func): The function to profile
+        *args (tuple): The arguments to pass to the function
+        do_profile (bool, optional): If profiling should be performed. Defaults to True.
+        output_file (str, optional): Filename to save profile results. If None, print to stdout.
+                                     Defaults to None.
+    """
+    if kwargs.get("do_profile", True) is not False:
+        import cProfile
+        profiler = cProfile.Profile()
+
+        def on_shutdown():
+            output_file = kwargs.get("output_file", None)
+            if output_file:
+                profiler.dump_stats(output_file)
+                log.info("Profile stats saved to %s", output_file)
+                print "Profile stats saved to %s" % output_file
+            else:
+                import pstats
+                import StringIO
+                strio = StringIO.StringIO()
+                ps = pstats.Stats(profiler, stream=strio).sort_stats('cumulative')
+                ps.print_stats()
+                print strio.getvalue()
+
+        try:
+            return profiler.runcall(func, *args)
+        finally:
+            on_shutdown()
+    else:
+        return func(*args)

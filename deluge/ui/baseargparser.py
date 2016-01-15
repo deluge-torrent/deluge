@@ -106,6 +106,9 @@ class BaseArgParser(argparse.ArgumentParser):
                                 help="Sets the log level to 'none', this is the same as `-L none`")
         self.group.add_argument("-r", "--rotate-logs", action="store_true", default=False,
                                 help="Rotate logfiles.")
+        self.group.add_argument("--profile", metavar="<results file>", action="store", nargs="?", default=False,
+                                help="Profile %(prog)s with cProfile. Prints results to stdout"
+                                "unless a filename is specififed.")
         self.group.add_argument("-h", "--help", action=HelpAction, help='Show this help message and exit')
 
     def parse_args(self, *args):

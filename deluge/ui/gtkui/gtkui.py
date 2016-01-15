@@ -146,9 +146,17 @@ class Gtk(UI):
                            " to a currently running Deluge GTK instance")
 
     def start(self, args=None):
-        from gtkui import GtkUI
         super(Gtk, self).start(args)
-        GtkUI(self.options)
+
+        def run(options):
+            try:
+                GtkUI(options)
+            except Exception as ex:
+                log.exception(ex)
+                raise
+
+        deluge.common.run_profiled(run, self.options, output_file=self.options.profile,
+                                   do_profile=self.options.profile)
 
 
 class GtkUI(object):

@@ -184,7 +184,7 @@ class ConsoleUI(component.Component):
             curses.wrapper(self.run)
         elif self.interactive and deluge.common.windows_check():
             print("""\nDeluge-console does not run in interactive mode on Windows. \n
-Please use commands from the command line, eg:\n
+Please use commands from the command line, e.g.:\n
     deluge-console.exe help
     deluge-console.exe info
     deluge-console.exe "add --help"

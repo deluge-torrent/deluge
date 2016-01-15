@@ -214,19 +214,5 @@ def start_daemon(skip_start=False):
             if options.pidfile:
                 os.remove(options.pidfile)
 
-    if options.profile:
-        import cProfile
-        profiler = cProfile.Profile()
-        profile_output = deluge.configmanager.get_config_dir("deluged.profile")
-
-        # Twisted catches signals to terminate
-        def save_profile_stats():
-            profiler.dump_stats(profile_output)
-            print("Profile stats saved to %s" % profile_output)
-
-        from twisted.internet import reactor
-        reactor.addSystemEventTrigger("before", "shutdown", save_profile_stats)
-        print("Running with profiler...")
-        profiler.runcall(run_daemon, options)
-    else:
-        return run_daemon(options)
+    return deluge.common.run_profiled(run_daemon, options, output_file=options.profile,
+                                      do_profile=options.profile)

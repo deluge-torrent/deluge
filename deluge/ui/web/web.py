@@ -9,17 +9,14 @@
 
 from __future__ import print_function
 
+import logging
 import os
 
-from deluge.common import osx_check, windows_check
+from deluge.common import osx_check, run_profiled, windows_check
 from deluge.configmanager import get_config_dir
 from deluge.ui.ui import UI
 
-
-#
-# Note: Cannot import twisted.internet.reactor because Web is imported from
-# from web/__init__.py loaded by the script entry points defined in setup.py
-#
+log = logging.getLogger(__name__)
 
 
 class WebUI(object):
@@ -56,8 +53,6 @@ class Web(UI):
                            help="Binds the webserver to a specific IP address")
         group.add_argument("-p", "--port", metavar="<port>", type=int, action="store", default=None,
                            help="Sets the port to be used for the webserver")
-        group.add_argument("--profile", action="store_true", default=False,
-                           help="Profile the web server code")
         try:
             import OpenSSL
             assert OpenSSL.__version__
@@ -123,26 +118,14 @@ class Web(UI):
 
         self.server.https = self.options.ssl
 
-        def run_server():
-            self.server.install_signal_handlers()
-            self.server.start()
-
-        if self.options.profile:
-            import cProfile
-            profiler = cProfile.Profile()
-            profile_output = get_config_dir("delugeweb.profile")
-
-            # Twisted catches signals to terminate
-            def save_profile_stats():
-                profiler.dump_stats(profile_output)
-                print("Profile stats saved to %s" % profile_output)
-
-            from twisted.internet import reactor  # import here because (see top)
-            reactor.addSystemEventTrigger("before", "shutdown", save_profile_stats)
-            print("Running with profiler...")
-            profiler.runcall(run_server)
-        else:
-            run_server()
+        def run():
+            try:
+                self.server.install_signal_handlers()
+                self.server.start()
+            except Exception as ex:
+                log.exception(ex)
+                raise
+        run_profiled(run, output_file=self.options.profile, do_profile=self.options.profile)
 
 
 def start():

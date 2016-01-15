@@ -8,12 +8,15 @@
 # See LICENSE for more details.
 #
 
+import logging
 import os
 
+import deluge.common
 from deluge.ui.baseargparser import DelugeTextHelpFormatter
 from deluge.ui.console import UI_PATH
 from deluge.ui.ui import UI
 
+log = logging.getLogger(__name__)
 
 #
 # Note: Cannot import from console.main here because it imports the twisted reactor.
@@ -76,4 +79,13 @@ class Console(UI):
     def start(self, args=None):
         super(Console, self).start(args)
         from deluge.ui.console.main import ConsoleUI  # import here because (see top)
-        ConsoleUI(self.options, self.console_cmds)
+
+        def run(options):
+            try:
+                ConsoleUI(self.options, self.console_cmds)
+            except Exception as ex:
+                log.exception(ex)
+                raise
+
+        deluge.common.run_profiled(run, self.options, output_file=self.options.profile,
+                                   do_profile=self.options.profile)
