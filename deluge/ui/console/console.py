@@ -24,6 +24,7 @@ log = logging.getLogger(__name__)
 # defined in setup.py
 #
 
+
 def load_commands(command_dir):
 
     def get_command(name):

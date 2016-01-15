@@ -14,21 +14,21 @@ import platform
 import sys
 import textwrap
 
-import deluge.common
 import deluge.configmanager
 import deluge.log
+from deluge import common
 from deluge.log import setup_logger
 
 
 def get_version():
-    version_str = "%s\n" % (deluge.common.get_version())
+    version_str = "%s\n" % (common.get_version())
     try:
         from deluge._libtorrent import lt
         version_str += "libtorrent: %s\n" % lt.version
     except ImportError:
         pass
     version_str += "Python: %s\n" % platform.python_version()
-    version_str += "OS: %s %s\n" % (platform.system(), " ".join(deluge.common.get_os_version()))
+    version_str += "OS: %s %s\n" % (platform.system(), " ".join(common.get_os_version()))
     return version_str
 
 
@@ -93,6 +93,7 @@ class BaseArgParser(argparse.ArgumentParser):
             kwargs["formatter_class"] = lambda prog: DelugeTextHelpFormatter(prog, max_help_position=33, width=90)
         super(BaseArgParser, self).__init__(*args, add_help=False, **kwargs)
 
+        self.common_setup = False
         self.group = self.add_argument_group('Common Options')
         self.group.add_argument('--version', action='version', version='%(prog)s ' + get_version(),
                                 help="Show program's version number and exit")
@@ -104,37 +105,43 @@ class BaseArgParser(argparse.ArgumentParser):
                                 help="Set the log level: %s" % ", ".join(deluge.log.levels))
         self.group.add_argument("-q", "--quiet", action="store_true", default=False,
                                 help="Sets the log level to 'none', this is the same as `-L none`")
-        self.group.add_argument("-r", "--rotate-logs", action="store_true", default=False,
-                                help="Rotate logfiles.")
+        self.group.add_argument("--log-rotate", action="store", nargs="?", const="50M",
+                                help="Enable logfile rotation (optional max file size, default: %(const)s)."
+                                "Log file rotate count is 5")
         self.group.add_argument("--profile", metavar="<results file>", action="store", nargs="?", default=False,
                                 help="Profile %(prog)s with cProfile. Prints results to stdout"
-                                "unless a filename is specififed.")
+                                "unless a filename is specififed")
         self.group.add_argument("-h", "--help", action=HelpAction, help='Show this help message and exit')
 
     def parse_args(self, *args):
         options, remaining = super(BaseArgParser, self).parse_known_args(*args)
         options.remaining = remaining
 
-        # Setup the logger
-        if options.quiet:
-            options.loglevel = "none"
-        if options.loglevel:
-            options.loglevel = options.loglevel.lower()
+        if not self.common_setup:
+            self.common_setup = True
+            # Setup the logger
+            if options.quiet:
+                options.loglevel = "none"
+            if options.loglevel:
+                options.loglevel = options.loglevel.lower()
 
-        logfile_mode = 'w'
-        if options.rotate_logs:
-            logfile_mode = 'a'
+            logfile_mode = 'w'
+            logrotate = options.log_rotate
+            if options.log_rotate:
+                logfile_mode = 'a'
+                logrotate = common.parse_human_size(options.log_rotate)
 
-        # Setup the logger
-        setup_logger(level=options.loglevel, filename=options.logfile, filemode=logfile_mode)
+            # Setup the logger
+            setup_logger(level=options.loglevel, filename=options.logfile, filemode=logfile_mode,
+                         logrotate=logrotate)
 
-        if options.config:
-            if not deluge.configmanager.set_config_dir(options.config):
-                log = logging.getLogger(__name__)
-                log.error("There was an error setting the config dir! Exiting..")
-                sys.exit(1)
-        else:
-            if not os.path.exists(deluge.common.get_default_config_dir()):
-                os.makedirs(deluge.common.get_default_config_dir())
+            if options.config:
+                if not deluge.configmanager.set_config_dir(options.config):
+                    log = logging.getLogger(__name__)
+                    log.error("There was an error setting the config dir! Exiting..")
+                    sys.exit(1)
+            else:
+                if not os.path.exists(common.get_default_config_dir()):
+                    os.makedirs(common.get_default_config_dir())
 
         return options

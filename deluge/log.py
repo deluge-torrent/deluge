@@ -107,15 +107,19 @@ levels = {
 }
 
 
-def setup_logger(level="error", filename=None, filemode="w"):
+def setup_logger(level="error", filename=None, filemode="w", logrotate=None):
     """
     Sets up the basic logger and if `:param:filename` is set, then it will log
     to that file instead of stdout.
 
-    :param level: str, the level to log
-    :param filename: str, the file to log to
+    Args:
+        level (str): The log level to use (Default: "error")
+        filename (str, optional): The log filename. Default is None meaning log
+                                  to terminal
+        filemode (str): The filemode to use when opening the log file
+        logrotate (int, optional): The size of the logfile in bytes when enabling
+                                   log rotation (Default is None meaning disabled)
     """
-
     if logging.getLoggerClass() is not Logging:
         logging.setLoggerClass(Logging)
         logging.addLevelName(5, "TRACE")
@@ -125,19 +129,16 @@ def setup_logger(level="error", filename=None, filemode="w"):
 
     root_logger = logging.getLogger()
 
-    if filename and filemode == "a":
+    if filename and logrotate:
         handler = logging.handlers.RotatingFileHandler(
-            filename, filemode,
-            maxBytes=50 * 1024 * 1024,  # 50 Mb
-            backupCount=3,
-            encoding="utf-8",
-            delay=0
+            filename, maxBytes=logrotate,
+            backupCount=5, encoding="utf-8"
         )
     elif filename and filemode == "w":
         handler = getattr(
             logging.handlers, "WatchedFileHandler", logging.FileHandler)(
-            filename, filemode, "utf-8", delay=0
-        )
+                filename, mode=filemode, encoding="utf-8"
+            )
     else:
         handler = logging.StreamHandler(stream=sys.stdout)
 

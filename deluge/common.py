@@ -13,8 +13,10 @@ import base64
 import gettext
 import locale
 import logging
+import numbers
 import os
 import platform
+import re
 import subprocess
 import sys
 import time
@@ -463,6 +465,82 @@ def fdate(seconds, date_only=False, precision_secs=False):
         return time.strftime("%x %X", time.localtime(seconds))
     else:
         return time.strftime("%x %H:%M", time.localtime(seconds))
+
+
+def tokenize(text):
+    """
+    Tokenize a text into numbers and strings.
+
+    Args:
+        text (str): The text to tokenize (a string).
+
+    Returns:
+        list: A list of strings and/or numbers.
+
+    This function is used to implement robust tokenization of user input
+    It automatically coerces integer and floating point numbers, ignores
+    whitespace and knows how to separate numbers from strings even without
+    whitespace.
+    """
+    tokenized_input = []
+    for token in re.split(r'(\d+(?:\.\d+)?)', text):
+        token = token.strip()
+        if re.match(r'\d+\.\d+', token):
+            tokenized_input.append(float(token))
+        elif token.isdigit():
+            tokenized_input.append(int(token))
+        elif token:
+            tokenized_input.append(token)
+    return tokenized_input
+
+
+size_units = (dict(prefix='b', divider=1, singular='byte', plural='bytes'),
+              dict(prefix='KiB', divider=1024**1),
+              dict(prefix='MiB', divider=1024**2),
+              dict(prefix='GiB', divider=1024**3),
+              dict(prefix='TiB', divider=1024**4),
+              dict(prefix='PiB', divider=1024**5),
+              dict(prefix='KB', divider=1000**1),
+              dict(prefix='MB', divider=1000**2),
+              dict(prefix='GB', divider=1000**3),
+              dict(prefix='TB', divider=1000**4),
+              dict(prefix='PB', divider=1000**5),
+              dict(prefix='m', divider=1000**2))
+
+
+class InvalidSize(Exception):
+    pass
+
+
+def parse_human_size(size):
+    """
+    Parse a human readable data size and return the number of bytes.
+
+    Args:
+        size (str): The human readable file size to parse (a string).
+
+    Returns:
+        int: The corresponding size in bytes.
+
+    Raises:
+        InvalidSize: when the input can't be parsed.
+
+    """
+    tokens = tokenize(size)
+    if tokens and isinstance(tokens[0], numbers.Number):
+        # If the input contains only a number, it's assumed to be the number of bytes.
+        if len(tokens) == 1:
+            return int(tokens[0])
+        # Otherwise we expect to find two tokens: A number and a unit.
+        if len(tokens) == 2 and isinstance(tokens[1], basestring):
+            normalized_unit = tokens[1].lower()
+            # Try to match the first letter of the unit.
+            for unit in size_units:
+                if normalized_unit.startswith(unit['prefix'].lower()):
+                    return int(tokens[0] * unit['divider'])
+    # We failed to parse the size specification.
+    msg = "Failed to parse size! (input %r was tokenized as %r)"
+    raise InvalidSize(msg % (size, tokens))
 
 
 def is_url(url):

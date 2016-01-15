@@ -74,3 +74,21 @@ class CommonTestCase(unittest.TestCase):
         self.failUnless(VersionSplit("1.4.0") > VersionSplit("1.4.0.dev123"))
         self.failUnless(VersionSplit("1.4.0.dev1") < VersionSplit("1.4.0"))
         self.failUnless(VersionSplit("1.4.0a1") < VersionSplit("1.4.0"))
+
+    def test_parse_human_size(self):
+        from deluge.common import parse_human_size
+        sizes = [("1", 1),
+                 ("10 bytes", 10),
+                 ("2048 bytes", 2048),
+                 ("1MiB", 2**(10 * 2)),
+                 ("1 MiB", 2**(10 * 2)),
+                 ("1 GiB", 2**(10 * 3)),
+                 ("1 GiB", 2**(10 * 3)),
+                 ("1M", 10**6),
+                 ("1MB", 10**6),
+                 ("1 GB", 10**9),
+                 ("1 TB", 10**12)]
+
+        for human_size, byte_size in sizes:
+            parsed = parse_human_size(human_size)
+            self.assertEquals(parsed, byte_size, "Mismatch when converting '%s'" % human_size)
