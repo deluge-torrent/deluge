@@ -11,6 +11,7 @@ from __future__ import print_function
 
 import logging
 import os
+import sys
 
 import deluge.common
 from deluge.ui.baseargparser import BaseArgParser, DelugeTextHelpFormatter
@@ -49,12 +50,22 @@ def load_commands(command_dir):
         return {}
 
 
+class LogStream(object):
+    out = sys.stdout
+
+    def write(self, data):
+        self.out.write(data)
+
+    def flush(self):
+        self.out.flush()
+
+
 class Console(UI):
 
     cmd_description = """Console or command-line user interface"""
 
     def __init__(self, *args, **kwargs):
-        super(Console, self).__init__("console", *args, **kwargs)
+        super(Console, self).__init__("console", *args, log_stream=LogStream(), **kwargs)
 
         group = self.parser.add_argument_group(_("Console Options"), "These daemon connect options will be "
                                                "used for commands, or if console ui autoconnect is enabled.")
@@ -94,7 +105,7 @@ class Console(UI):
 
         def run(options):
             try:
-                c = ConsoleUI(self.options, self.console_cmds)
+                c = ConsoleUI(self.options, self.console_cmds, self.parser.log_stream)
                 return c.start_ui()
             except Exception as ex:
                 log.exception(ex)

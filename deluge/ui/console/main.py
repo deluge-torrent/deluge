@@ -217,9 +217,11 @@ class BaseCommand(object):
 
 class ConsoleUI(component.Component):
 
-    def __init__(self, options=None, cmds=None):
+    def __init__(self, options, cmds, log_stream):
         component.Component.__init__(self, "ConsoleUI", 2)
         self.options = options
+        self.log_stream = log_stream
+
         # keep track of events for the log view
         self.events = []
         self.statusbars = None
@@ -274,6 +276,20 @@ Please use commands from the command line, e.g.:\n
     deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
 """)
             else:
+                class ConsoleLog(object):
+                    def write(self, data):
+                        pass
+
+                    def flush(self):
+                        pass
+
+                self.log_stream.out = ConsoleLog()
+
+                # Set Esc key delay to 0 to avoid a very annoying delay
+                # due to curses waiting in case of other key are pressed
+                # after ESC is pressed
+                os.environ.setdefault('ESCDELAY', '0')
+
                 # We use the curses.wrapper function to prevent the console from getting
                 # messed up if an uncaught exception is experienced.
                 import curses.wrapper

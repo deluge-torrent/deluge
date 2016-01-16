@@ -154,8 +154,14 @@ class BaseArgParser(argparse.ArgumentParser):
     def __init__(self, *args, **kwargs):
         if "formatter_class" not in kwargs:
             kwargs["formatter_class"] = lambda prog: DelugeTextHelpFormatter(prog, max_help_position=33, width=90)
+
         kwargs["add_help"] = kwargs.get("add_help", False)
         common_help = kwargs.pop("common_help", True)
+        self.log_stream = sys.stdout
+        if "log_stream" in kwargs:
+            self.log_stream = kwargs["log_stream"]
+            del kwargs["log_stream"]
+
         super(BaseArgParser, self).__init__(*args, **kwargs)
 
         self.common_setup = False
@@ -229,6 +235,7 @@ class BaseArgParser(argparse.ArgumentParser):
         """
         if not self.common_setup:
             self.common_setup = True
+
             # Setup the logger
             if options.quiet:
                 options.loglevel = "none"
@@ -243,7 +250,7 @@ class BaseArgParser(argparse.ArgumentParser):
 
             # Setup the logger
             deluge.log.setup_logger(level=options.loglevel, filename=options.logfile, filemode=logfile_mode,
-                                    logrotate=logrotate)
+                                    logrotate=logrotate, output_stream=self.log_stream)
 
             if options.config:
                 if not set_config_dir(options.config):
