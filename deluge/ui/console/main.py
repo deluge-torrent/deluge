@@ -13,6 +13,7 @@ from __future__ import print_function
 import argparse
 import locale
 import logging
+import os
 import shlex
 import sys
 

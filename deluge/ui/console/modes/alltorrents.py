@@ -51,7 +51,6 @@ You can scroll a popup window that doesn't fit its content (like \
 this one) using the up/down arrows, PgUp/PgDown and Home/End keys.
 
 All popup windows can be closed/canceled by hitting the Esc key \
-(you might need to wait a second for an Esc to register) \
 or the 'q' key (does not work for dialogs like the add torrent dialog)
 
 The actions you can perform and the keys to perform them are as follows:
