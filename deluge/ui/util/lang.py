@@ -22,11 +22,12 @@ log.addHandler(logging.NullHandler())  # Silence: No handlers could be found for
 def set_dummy_trans(warn_msg=None):
     import __builtin__
 
-    def _func(txt):
+    def _func(*txt):
         if warn_msg:
-            log.warn("'%s' has been marked for translation, but translation is unavailable.", txt)
-        return txt
+            log.warn("'%s' has been marked for translation, but translation is unavailable.", txt[0])
+        return txt[0]
     __builtin__.__dict__["_"] = _func
+    __builtin__.__dict__["_n"] = _func
 
 
 def get_translations_path():
@@ -111,6 +112,8 @@ def setup_translations(setup_gettext=True, setup_pygtk=False):
             gettext.bind_textdomain_codeset(domain, 'UTF-8')
             gettext.textdomain(domain)
             gettext.install(domain, translations_path, unicode=True)
+            import __builtin__
+            __builtin__.__dict__["_n"] = gettext.ngettext
         except Exception as ex:
             log.error("Unable to initialize gettext/locale!")
             log.exception(ex)

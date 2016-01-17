@@ -10,6 +10,7 @@
 # All configuration values have a default value; values that are commented out
 # serve to show the default value.
 
+import __builtin__
 import os
 import sys
 from datetime import date
@@ -20,6 +21,10 @@ try:
     from ...version import get_version
 except ImportError:
     get_version = None
+
+# Must add these for autodoc to import packages successully
+__builtin__.__dict__["_"] = lambda x: x
+__builtin__.__dict__["_n"] = lambda s, p, n: s if n == 1 else p
 
 # If your extensions are in another directory, add it here. If the directory
 # is relative to the documentation root, use os.path.abspath to make it
