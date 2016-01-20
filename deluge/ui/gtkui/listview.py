@@ -427,9 +427,10 @@ class ListView:
         # Store a copy of this columns state in case it's re-added
         state = self.create_column_state(self.columns[header].column)
         self.removed_columns_state.append(state)
-
-        # Start by removing this column from the treeview
-        self.treeview.remove_column(self.columns[header].column)
+        # Only remove column if column is associated with the treeview. This avoids
+        # warning on shutdown when GTKUI is closed before plugins try to remove columns
+        if self.columns[header].column.get_tree_view() is not None:
+            self.treeview.remove_column(self.columns[header].column)
         # Get the column indices
         column_indices = self.columns[header].column_indices
         # Delete the column
