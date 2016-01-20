@@ -322,9 +322,10 @@ class TorrentManager(component.Component):
             add_torrent_params["name"] = name
             torrent_id = str(torrent_info.info_hash())
         elif magnet:
+            magnet = utf8_encoded(magnet)
             magnet_info = get_magnet_info(magnet)
             if magnet_info:
-                add_torrent_params["url"] = utf8_encoded(magnet)
+                add_torrent_params["url"] = magnet
                 add_torrent_params["name"] = magnet_info["name"]
                 torrent_id = magnet_info["info_hash"]
             else:
