@@ -978,6 +978,8 @@ class Torrent(object):
         """Creates the functions for getting torrent status"""
         self.status_funcs = {
             "active_time": lambda: self.status.active_time,
+            "seeding_time": lambda: self.status.seeding_time,
+            "finished_time": lambda: self.status.finished_time,
             "all_time_download": lambda: self.status.all_time_download,
             "storage_mode": lambda: self.status.storage_mode.name.split("_")[2],  # sparse, allocate or compact
             "distributed_copies": lambda: max(0.0, self.status.distributed_copies),
@@ -1007,7 +1009,6 @@ class Torrent(object):
             "remove_at_ratio": lambda: self.options["remove_at_ratio"],
             "save_path": lambda: self.options["download_location"],  # Deprecated, use download_location
             "download_location": lambda: self.options["download_location"],
-            "seeding_time": lambda: self.status.seeding_time,
             "seeds_peers_ratio": lambda: -1.0 if self.status.num_incomplete == 0 else
             self.status.num_complete / self.status.num_incomplete,  # Use -1.0 to signify infinity
             "seed_rank": lambda: self.status.seed_rank,
