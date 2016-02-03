@@ -133,9 +133,15 @@ class Daemon(object):
         else:
             listen_interface = ""
 
+        if options and options.read_only_config_keys:
+            read_only_config_keys = options.read_only_config_keys.split(",")
+        else:
+            read_only_config_keys = []
+
         from deluge.core.core import Core
         # Start the core as a thread and join it until it's done
-        self.core = Core(listen_interface=listen_interface)
+        self.core = Core(listen_interface=listen_interface,
+                         read_only_config_keys=read_only_config_keys)
 
         port = self.core.config["daemon_port"]
         if options and options.port:

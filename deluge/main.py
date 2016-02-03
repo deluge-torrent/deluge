@@ -169,6 +169,9 @@ this should be an IP address", metavar="IFACE",
         help="Sets the log level to 'none', this is the same as `-L none`", action="store_true", default=False)
     parser.add_option("--profile", dest="profile", action="store_true", default=False,
         help="Profiles the daemon")
+    parser.add_option("--read-only-config-keys", dest="read_only_config_keys",
+        help="List of comma-separated config keys that will not be modified by set_config RPC.",
+        action="store", type="str")
 
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()
