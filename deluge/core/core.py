@@ -41,9 +41,14 @@ log = logging.getLogger(__name__)
 
 
 class Core(component.Component):
-    def __init__(self, listen_interface=None):
+    def __init__(self, listen_interface=None, read_only_config_keys=None):
         log.debug("Core init...")
         component.Component.__init__(self, "Core")
+
+        # These keys will be dropped from the set_config() RPC and are
+        # configurable from the command-line.
+        self.read_only_config_keys = read_only_config_keys
+        log.debug("read_only_config_keys: %s", read_only_config_keys)
 
         # Create the client fingerprint
         client_id = "DE"
@@ -524,6 +529,8 @@ class Core(component.Component):
         """Set the config with values from dictionary"""
         # Load all the values into the configuration
         for key in config.keys():
+            if self.read_only_config_keys and key in self.read_only_config_keys:
+                continue
             if isinstance(config[key], basestring):
                 config[key] = config[key].encode("utf8")
             self.config[key] = config[key]

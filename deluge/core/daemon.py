@@ -71,7 +71,8 @@ def check_running_daemon(pid_file):
 class Daemon(object):
     """The Deluge Daemon class"""
 
-    def __init__(self, listen_interface=None, interface=None, port=None, classic=False):
+    def __init__(self, listen_interface=None, interface=None, port=None, classic=False,
+                 read_only_config_keys=None):
         """
         Args:
             listen_interface (str, optional): The IP address to listen to bittorrent connections on.
@@ -79,7 +80,8 @@ class Daemon(object):
             port (int, optional): The port the daemon will listen for UI connections on.
             classic (bool, optional): If True the client is in Classic (Standalone) mode otherwise, if
                 False, start the daemon as separate process.
-
+            read_only_config_keys (list of str, optional): A list of config keys that will not be
+                altered by core.set_config() RPC method.
         """
         log.info("Deluge daemon %s", get_version())
 
@@ -100,7 +102,8 @@ class Daemon(object):
             SetConsoleCtrlHandler(win_handler)
 
         # Start the core as a thread and join it until it's done
-        self.core = Core(listen_interface=listen_interface)
+        self.core = Core(listen_interface=listen_interface,
+                         read_only_config_keys=read_only_config_keys)
 
         if port is None:
             port = self.core.config["daemon_port"]

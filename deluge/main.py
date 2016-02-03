@@ -153,6 +153,10 @@ def start_daemon():
                       help="Sets the log level to 'none', this is the same as `-L none`")
     parser.add_option("-r", "--rotate-logs", help="Rotate logfiles.", action="store_true", default=False)
     parser.add_option("--profile", dest="profile", action="store_true", default=False, help="Profiles the daemon")
+    parser.add_option("--read-only-config-keys", dest="read_only_config_keys",
+                      help="List of comma-separated config keys that will not be modified by \
+                      set_config RPC.",
+                      action="store", type="str", default="")
 
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()
@@ -228,7 +232,8 @@ def start_daemon():
         try:
             Daemon(listen_interface=options.listen_interface,
                    interface=options.ui_interface,
-                   port=options.port)
+                   port=options.port,
+                   read_only_config_keys=options.read_only_config_keys.split(","))
         except Exception as ex:
             log.exception(ex)
             sys.exit(1)

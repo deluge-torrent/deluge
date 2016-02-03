@@ -263,3 +263,14 @@ class CoreTestCase(BaseTestCase):
         self.core.set_config({"abc": "def", "foo": 10, "foobar": "barfoo"})
         self.assertEquals(self.core.get_config_values(["foo", "abc"]), {"foo": 10, "abc": "def"})
         self.assertEquals(self.core.get_config_value("foobar"), "barfoo")
+
+    def test_read_only_config_keys(self):
+        key = 'max_upload_speed'
+        self.core.read_only_config_keys = [key]
+
+        old_value = self.core.get_config_value(key)
+        self.core.set_config({key: old_value + 10})
+        new_value = self.core.get_config_value(key)
+        self.assertEquals(old_value, new_value)
+
+        self.core.read_only_config_keys = None
