@@ -783,7 +783,10 @@ class Core(component.Component):
         if torrent_id not in self.torrentmanager.torrents:
             raise InvalidTorrentError("torrent_id is not in session")
 
-        self.torrentmanager[torrent_id].rename_files(filenames)
+        def rename():
+            self.torrentmanager[torrent_id].rename_files(filenames)
+
+        return task.deferLater(reactor, 0, rename)
 
     @export
     def rename_folder(self, torrent_id, folder, new_folder):
@@ -805,7 +808,7 @@ class Core(component.Component):
         if torrent_id not in self.torrentmanager.torrents:
             raise InvalidTorrentError("torrent_id is not in session")
 
-        self.torrentmanager[torrent_id].rename_folder(folder, new_folder)
+        return self.torrentmanager[torrent_id].rename_folder(folder, new_folder)
 
     @export
     def queue_top(self, torrent_ids):
