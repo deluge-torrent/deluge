@@ -46,16 +46,15 @@ class Tab(object):
         return self._tab_label
 
     def get_status_for_widget(self, widget, status):
-        if widget[1] is None:
-            txt = status[widget[2][0]]
-        else:
-            try:
-                args = [status[key] for key in widget[2]]
-            except KeyError as ex:
-                log.debug("Unable to get status value: %s", ex)
-                txt = ""
+        try:
+            if widget[1] is None:
+                txt = status[widget[2][0]]
             else:
+                args = [status[key] for key in widget[2]]
                 txt = widget[1](*args)
+        except KeyError as ex:
+            log.warn("Unable to get status value: %s", ex)
+            txt = ""
         return txt
 
 
