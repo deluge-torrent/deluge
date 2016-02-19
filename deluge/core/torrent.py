@@ -633,6 +633,7 @@ class Torrent(object):
         status = self.handle.status()
         session_paused = component.get("Core").session.is_paused()
         old_state = self.state
+        self.set_status_message()
 
         if self.forced_error:
             self.state = "Error"
