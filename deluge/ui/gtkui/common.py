@@ -120,12 +120,11 @@ def reparent_iter(treestore, itr, parent, move_siblings=False):
             to_remove = i
             if treestore.iter_children(i):
                 move_children(treestore.iter_children(i), n_cols)
-            if i != src:
-                i = treestore.iter_next(i)
+            if not move_siblings and i == src:
+                i = None
             else:
-                # This is the source iter, we don't want other iters in it's level
-                if not move_siblings:
-                    i = None
+                i = treestore.iter_next(i)
+
             treestore.remove(to_remove)
 
     move_children(itr, parent)
