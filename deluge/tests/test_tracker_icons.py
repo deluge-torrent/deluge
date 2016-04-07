@@ -43,7 +43,6 @@ class TrackerIconsTestCase(BaseTestCase):
         return d
 
     def test_get_google_ico_with_redirect(self):
-        raise SkipTest("Test broken by code changes, see ticket #2789")
         # google.com redirects to www.google.com
         icon = TrackerIcon(os.path.join(dirname, "google.ico"))
         d = self.icons.fetch("google.com")
