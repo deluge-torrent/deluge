@@ -235,7 +235,7 @@ class TrackerIcons(Component):
         if not url:
             url = self.host_to_url(host)
         log.debug("Downloading %s %s", host, url)
-        return download_file(url, mkstemp()[1], force_filename=True)
+        return download_file(url, mkstemp()[1], force_filename=True, handle_redirects=False)
 
     def on_download_page_complete(self, page):
         """
