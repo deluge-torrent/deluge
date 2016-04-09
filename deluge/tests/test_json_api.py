@@ -94,7 +94,6 @@ class JSONTestCase(JSONBase):
         self.assertEquals(json.render(request), server.NOT_DONE_YET)
         self.assertTrue(request.write_was_called)
 
-    @defer.inlineCallbacks
     def test_handle_request_invalid_method(self):
         json = JSON()
         request = MagicMock()
@@ -102,10 +101,7 @@ class JSONTestCase(JSONBase):
         request.json = json_lib.dumps(json_data)
         request_id, result, error = json._handle_request(request)
         self.assertEquals(error, {'message': 'Unknown method', 'code': 2})
-        yield
-        return
 
-    @defer.inlineCallbacks
     def test_handle_request_invalid_json_request(self):
         json = JSON()
         request = MagicMock()
@@ -115,7 +111,6 @@ class JSONTestCase(JSONBase):
         self.assertRaises(JSONException, json._handle_request, request)
         request.json = json_lib.dumps({"method": "some.method", "id": 0})
         self.assertRaises(JSONException, json._handle_request, request)
-        yield
 
 
 class JSONCustomUserTestCase(JSONBase):
@@ -141,7 +136,6 @@ class JSONCustomUserTestCase(JSONBase):
         request.json = json_lib.dumps(json_data)
         request_id, result, error = json._handle_request(request)
         self.assertEquals(error, {'message': 'Not authenticated', 'code': 1})
-        return
 
 
 class RPCRaiseDelugeErrorJSONTestCase(JSONBase):
@@ -189,8 +183,7 @@ class RPCRaiseDelugeErrorJSONTestCase(JSONBase):
         def on_error(error):
             self.assertEquals(error.type, DelugeError)
         result.addErrback(on_error)
-        yield
-        return
+        yield result
 
 
 class JSONRequestFailedTestCase(JSONBase):
