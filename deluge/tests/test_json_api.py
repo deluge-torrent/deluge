@@ -260,7 +260,7 @@ class JSONRequestFailedTestCase(JSONBase):
             self.assertEquals(response["id"], 0)
             self.assertEquals(response["error"]["message"],
                               "Failure: [Failure instance: Traceback (failure with no frames):"
-                              " <class 'deluge.error.DelugeError'>: DelugeERROR\n]"),
+                              " <class 'deluge.error.DelugeError'>: DelugeERROR\n]")
             self.assertEquals(response["error"]["code"], 4)
 
         request.write = write

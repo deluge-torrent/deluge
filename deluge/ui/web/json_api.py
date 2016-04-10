@@ -875,7 +875,7 @@ class WebApi(JSONComponent):
         web_config = component.get("DelugeWeb").config
         for key in config.keys():
             if key in ["sessions", "pwd_salt", "pwd_sha1"]:
-                log.warn("Ignored attempt to overwrite web config key '%s'" % key)
+                log.warn("Ignored attempt to overwrite web config key '%s'", key)
                 continue
             if isinstance(config[key], basestring):
                 config[key] = config[key].encode("utf8")
