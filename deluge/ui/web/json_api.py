@@ -691,18 +691,22 @@ class WebApi(JSONComponent):
             }])
 
         """
+        deferreds = []
+
         for torrent in torrents:
             if common.is_magnet(torrent["path"]):
                 log.info("Adding torrent from magnet uri `%s` with options `%r`",
                          torrent["path"], torrent["options"])
-                client.core.add_torrent_magnet(torrent["path"], torrent["options"])
+                d = client.core.add_torrent_magnet(torrent["path"], torrent["options"])
+                deferreds.append(d)
             else:
                 filename = os.path.basename(torrent["path"])
                 fdump = base64.encodestring(open(torrent["path"], "rb").read())
                 log.info("Adding torrent from file `%s` with options `%r`",
                          filename, torrent["options"])
-                client.core.add_torrent_file(filename, fdump, torrent["options"])
-        return True
+                d = client.core.add_torrent_file(filename, fdump, torrent["options"])
+                deferreds.append(d)
+        return DeferredList(deferreds, consumeErrors=False)
 
     @export
     def get_hosts(self):

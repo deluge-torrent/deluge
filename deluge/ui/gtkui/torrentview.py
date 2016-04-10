@@ -323,13 +323,6 @@ class TorrentView(ListView, component.Component):
         self.treeview.connect("key-press-event", self.on_key_press_event)
         self.treeview.connect("columns-changed", self.on_columns_changed_event)
 
-        client.register_event_handler("TorrentStateChangedEvent", self.on_torrentstatechanged_event)
-        client.register_event_handler("TorrentAddedEvent", self.on_torrentadded_event)
-        client.register_event_handler("TorrentRemovedEvent", self.on_torrentremoved_event)
-        client.register_event_handler("SessionPausedEvent", self.on_sessionpaused_event)
-        client.register_event_handler("SessionResumedEvent", self.on_sessionresumed_event)
-        client.register_event_handler("TorrentQueueChangedEvent", self.on_torrentqueuechanged_event)
-
         self.search_box = SearchBox(self)
         self.permanent_status_keys = ["owner"]
         self.columns_to_update = []
@@ -348,6 +341,13 @@ class TorrentView(ListView, component.Component):
         component.get("SessionProxy").get_torrents_status(
             {}, status_fields).addCallback(self._on_session_state)
 
+        client.register_event_handler("TorrentStateChangedEvent", self.on_torrentstatechanged_event)
+        client.register_event_handler("TorrentAddedEvent", self.on_torrentadded_event)
+        client.register_event_handler("TorrentRemovedEvent", self.on_torrentremoved_event)
+        client.register_event_handler("SessionPausedEvent", self.on_sessionpaused_event)
+        client.register_event_handler("SessionResumedEvent", self.on_sessionresumed_event)
+        client.register_event_handler("TorrentQueueChangedEvent", self.on_torrentqueuechanged_event)
+
     def _on_session_state(self, state):
         self.add_rows(state)
         self.got_state = True
@@ -360,6 +360,13 @@ class TorrentView(ListView, component.Component):
     def stop(self):
         """Stops the torrentview"""
         # We need to clear the liststore
+        client.deregister_event_handler("TorrentStateChangedEvent", self.on_torrentstatechanged_event)
+        client.deregister_event_handler("TorrentAddedEvent", self.on_torrentadded_event)
+        client.deregister_event_handler("TorrentRemovedEvent", self.on_torrentremoved_event)
+        client.deregister_event_handler("SessionPausedEvent", self.on_sessionpaused_event)
+        client.deregister_event_handler("SessionResumedEvent", self.on_sessionresumed_event)
+        client.deregister_event_handler("TorrentQueueChangedEvent", self.on_torrentqueuechanged_event)
+
         if self.treeview.get_selection():
             self.treeview.get_selection().unselect_all()
         self.liststore.clear()
