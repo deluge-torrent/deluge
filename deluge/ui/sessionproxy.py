@@ -106,7 +106,7 @@ class SessionProxy(component.Component):
                 continue
         return sd
 
-    def get_torrent_status(self, torrent_id, keys):
+    def get_torrent_status(self, torrent_id, keys, diff=False):
         """
         Get a status dict for one torrent.
 
@@ -133,7 +133,7 @@ class SessionProxy(component.Component):
                     self.create_status_dict([torrent_id], keys)[torrent_id]
                 )
             else:
-                d = client.core.get_torrent_status(torrent_id, keys_to_get, True)
+                d = client.core.get_torrent_status(torrent_id, keys_to_get, diff)
 
                 def on_status(result, torrent_id):
                     t = time()
@@ -144,7 +144,7 @@ class SessionProxy(component.Component):
                     return self.create_status_dict([torrent_id], keys)[torrent_id]
                 return d.addCallback(on_status, torrent_id)
         else:
-            d = client.core.get_torrent_status(torrent_id, keys, True)
+            d = client.core.get_torrent_status(torrent_id, keys, diff)
 
             def on_status(result):
                 if result:
@@ -157,7 +157,7 @@ class SessionProxy(component.Component):
                 return result
             return d.addCallback(on_status)
 
-    def get_torrents_status(self, filter_dict, keys):
+    def get_torrents_status(self, filter_dict, keys, diff=False):
         """
         Get a dict of torrent statuses.
 
@@ -210,13 +210,12 @@ class SessionProxy(component.Component):
 
             return to_fetch
         # -----------------------------------------------------------------------
-
         if not filter_dict:
             # This means we want all the torrents status
             # We get a list of any torrent_ids with expired status dicts
             to_fetch = find_torrents_to_fetch(self.torrents.keys())
             if to_fetch:
-                d = client.core.get_torrents_status({"id": to_fetch}, keys, True)
+                d = client.core.get_torrents_status({"id": to_fetch}, keys, diff)
                 return d.addCallback(on_status, self.torrents.keys(), keys)
 
             # Don't need to fetch anything
@@ -226,7 +225,7 @@ class SessionProxy(component.Component):
             # At this point we should have a filter with just "id" in it
             to_fetch = find_torrents_to_fetch(filter_dict["id"])
             if to_fetch:
-                d = client.core.get_torrents_status({"id": to_fetch}, keys, True)
+                d = client.core.get_torrents_status({"id": to_fetch}, keys, diff)
                 return d.addCallback(on_status, filter_dict["id"], keys)
             else:
                 # Don't need to fetch anything, so just return data from the cache
@@ -234,7 +233,7 @@ class SessionProxy(component.Component):
         else:
             # This is a keyworded filter so lets just pass it onto the core
             # XXX: Add more caching here.
-            d = client.core.get_torrents_status(filter_dict, keys, True)
+            d = client.core.get_torrents_status(filter_dict, keys, diff)
             return d.addCallback(on_status, None, keys)
 
     def on_torrent_state_changed(self, torrent_id, state):

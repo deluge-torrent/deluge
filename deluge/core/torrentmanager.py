@@ -393,7 +393,9 @@ class TorrentManager(component.Component):
             handle = self.session.add_torrent(add_torrent_params)
             if not handle.is_valid():
                 raise InvalidTorrentError("Torrent handle is invalid!")
-        except (RuntimeError, InvalidTorrentError) as ex:
+        except (RuntimeError, TypeError, InvalidTorrentError) as ex:
+            # TypeError, e.g.: "No registered converter was able to produce a C++ rvalue
+            #                   of type std::string from this Python object of type dict"
             log.error("Unable to add torrent to session: %s", ex)
             component.resume("AlertManager")
             return
