@@ -11,7 +11,7 @@ import hashlib
 import logging
 import os
 import time
-from socket import gethostbyname
+from socket import gaierror, gethostbyname
 
 import gtk
 from twisted.internet import reactor
@@ -322,9 +322,13 @@ class ConnectionManager(component.Component):
             host = row[HOSTLIST_COL_HOST]
             port = row[HOSTLIST_COL_PORT]
             user = row[HOSTLIST_COL_USER]
+            try:
+                ip = gethostbyname(host)
+            except gaierror as ex:
+                ip = ex.message
 
             if client.connected() and (
-                gethostbyname(host),
+                ip,
                 port,
                 "localclient" if not user and host in ("127.0.0.1", "localhost") else user
             ) == client.connection_info():
