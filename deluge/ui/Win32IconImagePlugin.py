@@ -147,7 +147,7 @@ class Win32IcoFile(object):
             log.debug("o:%s, w:%s, h:%s, bpp:%s", o, im.size[0], im.size[1], bpp)
             and_mask_offset = o + (im.size[0] * im.size[1] * (bpp / 8.0))
 
-            if 32 == bpp:
+            if bpp == 32:
                 # 32-bit color depth icon image allows semitransparent areas
                 # PIL's DIB format ignores transparency bits, recover them
                 # The DIB is packed in BGRX byte order where X is the alpha channel

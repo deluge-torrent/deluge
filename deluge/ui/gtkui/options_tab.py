@@ -184,13 +184,13 @@ class OptionsTab(Tab):
             )
         if self.chk_prioritize_first_last.get_active() != \
             self.prev_status["prioritize_first_last"] and \
-                not self.prev_status["storage_mode"] == "compact":
+                self.prev_status["storage_mode"] != "compact":
             client.core.set_torrent_prioritize_first_last(
                 self.prev_torrent_id, self.chk_prioritize_first_last.get_active()
             )
         if self.chk_sequential_download.get_active() != \
             self.prev_status["sequential_download"] and \
-                not self.prev_status["storage_mode"] == "compact":
+                self.prev_status["storage_mode"] != "compact":
             client.core.set_torrent_options(
                 [self.prev_torrent_id], {"sequential_download": self.chk_sequential_download.get_active()}
             )

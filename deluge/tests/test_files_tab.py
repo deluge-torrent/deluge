@@ -11,14 +11,12 @@ from .basetest import BaseTestCase
 libs_available = True
 # Allow running other tests without GTKUI dependencies available
 try:
-    from gobject import TYPE_UINT64
     from deluge.ui.gtkui.mainwindow import MainWindow
     from deluge.ui.gtkui.gtkui import DEFAULT_PREFS
     from deluge.ui.gtkui.files_tab import FilesTab
 
 except ImportError as err:
     libs_available = False
-    TYPE_UINT64 = "Whatever"
     import traceback
     traceback.print_exc()
 

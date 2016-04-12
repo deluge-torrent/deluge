@@ -193,7 +193,7 @@ class EditTrackersDialog:
         num_rows = self.liststore.iter_n_children(None)
         if selected is not None and num_rows > 1:
             tier = self.liststore.get_value(selected, 0)
-            if not tier > 0:
+            if tier <= 0:
                 return
             new_tier = tier - 1
             # Now change the tier for this tracker

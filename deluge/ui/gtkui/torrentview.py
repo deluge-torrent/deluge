@@ -673,7 +673,7 @@ class TorrentView(ListView, component.Component):
     def on_torrentstatechanged_event(self, torrent_id, state):
         # Update the torrents state
         for row in self.liststore:
-            if not torrent_id == row[self.columns["torrent_id"].column_indices[0]]:
+            if torrent_id != row[self.columns["torrent_id"].column_indices[0]]:
                 continue
 
             for name in self.columns_to_update:

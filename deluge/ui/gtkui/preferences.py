@@ -78,7 +78,7 @@ class Preferences(component.Component):
             i += 1
 
         def set_separator(model, _iter, data=None):
-            if "_separator_" == model.get_value(_iter, 1):
+            if model.get_value(_iter, 1) == "_separator_":
                 return True
         self.treeview.set_row_separator_func(set_separator)
 

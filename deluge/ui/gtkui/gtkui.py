@@ -186,7 +186,7 @@ class GtkUI(object):
         self.started_in_classic = self.config["classic_mode"]
 
         # Set language
-        if not self.config["language"] is None:
+        if self.config["language"] is not None:
             deluge.common.set_language(self.config["language"])
 
         # Start the IPC Interface before anything else.. Just in case we are

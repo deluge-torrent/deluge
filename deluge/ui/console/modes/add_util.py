@@ -42,8 +42,8 @@ def add_torrent(t_file, options, success_cb, fail_cb, ress):
         t_options["download_location"] = os.path.expanduser(options["path"])
     t_options["add_paused"] = options["add_paused"]
 
-    is_url = (not options["path_type"] == 1) and (deluge.common.is_url(t_file) or options["path_type"] == 2)
-    is_magnet = not(is_url) and (not options["path_type"] == 1) and deluge.common.is_magnet(t_file)
+    is_url = (options["path_type"] != 1) and (deluge.common.is_url(t_file) or options["path_type"] == 2)
+    is_magnet = not(is_url) and (options["path_type"] != 1) and deluge.common.is_magnet(t_file)
 
     if is_url or is_magnet:
         files = [t_file]
