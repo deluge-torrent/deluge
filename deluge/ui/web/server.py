@@ -544,7 +544,7 @@ class DelugeWeb(component.Component):
         self.base = self.config["base"]
         self.web_api = WebApi()
         self.auth = Auth(self.config)
-
+        self.standalone = True
         # Initalize the plugins
         self.plugins = PluginManager()
 
@@ -567,15 +567,31 @@ class DelugeWeb(component.Component):
                     return 1
             SetConsoleCtrlHandler(win_handler)
 
-    def start(self):
+    def start(self, standalone=True):
+        """
+        Start the DelugeWeb server
+
+        When running WebUI plugin, the server must not try to start
+        the twisted reactor.
+
+        Args:
+            standalone (bool): Whether the server runs as a standalone process
+                               If standalone, start twisted reactor.
+
+        Returns:
+            Deferred
+        """
         log.info("%s %s.", _("Starting server in PID"), os.getpid())
+        self.standalone = standalone
         if self.https:
             self.start_ssl()
         else:
             self.start_normal()
 
         component.get("Web").enable()
-        reactor.run()
+
+        if self.standalone:
+            reactor.run()
 
     def start_normal(self):
         self.socket = reactor.listenTCP(self.port, self.site, interface=self.interface)
@@ -613,7 +629,8 @@ class DelugeWeb(component.Component):
 
     def shutdown(self, *args):
         self.stop()
-        reactor.stop()
+        if self.standalone:
+            reactor.stop()
 
 
 if __name__ == "__builtin__":

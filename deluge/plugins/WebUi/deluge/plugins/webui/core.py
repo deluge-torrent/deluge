@@ -71,7 +71,7 @@ class Core(CorePluginBase):
 
         self.server.port = self.config["port"]
         self.server.https = self.config["ssl"]
-        self.server.start(False)
+        self.server.start(standalone=False)
         return True
 
     @export
