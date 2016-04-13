@@ -588,7 +588,7 @@ class Client(object):
         if self.is_classicmode():
             self._daemon_proxy.disconnect()
             self.stop_classic_mode()
-            return
+            return defer.succeed(True)
 
         if self._daemon_proxy:
             return self._daemon_proxy.disconnect()

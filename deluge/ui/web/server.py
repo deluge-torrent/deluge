@@ -577,12 +577,13 @@ class DelugeWeb(component.Component):
         Args:
             standalone (bool): Whether the server runs as a standalone process
                                If standalone, start twisted reactor.
-
-        Returns:
-            Deferred
         """
-        log.info("%s %s.", _("Starting server in PID"), os.getpid())
+        if self.socket:
+            log.warn("DelugeWeb is already running and cannot be started")
+            return
+
         self.standalone = standalone
+        log.info("Starting webui server at PID %s", os.getpid())
         if self.https:
             self.start_ssl()
         else:
@@ -629,7 +630,7 @@ class DelugeWeb(component.Component):
 
     def shutdown(self, *args):
         self.stop()
-        if self.standalone:
+        if self.standalone and reactor.running:
             reactor.stop()
 
 

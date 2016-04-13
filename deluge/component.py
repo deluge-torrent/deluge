@@ -10,8 +10,9 @@
 import logging
 from collections import defaultdict
 
+from twisted.internet import reactor
 from twisted.internet.defer import DeferredList, fail, maybeDeferred, succeed
-from twisted.internet.task import LoopingCall
+from twisted.internet.task import LoopingCall, deferLater
 
 log = logging.getLogger(__name__)
 
@@ -96,14 +97,13 @@ class Component(object):
             self._component_state = "Stopped"
             self._component_starting_deferred = None
             log.error(result)
-            return result
+            return fail(result)
 
         if self._component_state == "Stopped":
             if hasattr(self, "start"):
                 self._component_state = "Starting"
-                d = maybeDeferred(self.start)
-                d.addCallback(on_start)
-                d.addErrback(on_start_fail)
+                d = deferLater(reactor, 1, self.start)
+                d.addCallbacks(on_start, on_start_fail)
                 self._component_starting_deferred = d
             else:
                 d = maybeDeferred(on_start, None)
@@ -240,13 +240,13 @@ class ComponentRegistry(object):
         :type obj: object
 
         """
-
         if obj in self.components.values():
             log.debug("Deregistering Component: %s", obj._component_name)
             d = self.stop([obj._component_name])
 
             def on_stop(result, name):
-                del self.components[name]
+                # Component may have been removed, so pop to ensure it doesn't fail
+                self.components.pop(name, None)
             return d.addCallback(on_stop, obj._component_name)
         else:
             return succeed(None)

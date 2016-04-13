@@ -929,15 +929,22 @@ class Preferences(component.Component):
         client.force_call()
 
     def on_plugin_toggled(self, renderer, path):
-        log.debug("on_plugin_toggled")
         row = self.plugin_liststore.get_iter_from_string(path)
         name = self.plugin_liststore.get_value(row, 0)
         value = self.plugin_liststore.get_value(row, 1)
+        log.debug("on_plugin_toggled - %s: %s", name, value)
         self.plugin_liststore.set_value(row, 1, not value)
         if not value:
-            client.core.enable_plugin(name)
+            d = client.core.enable_plugin(name)
         else:
-            client.core.disable_plugin(name)
+            d = client.core.disable_plugin(name)
+
+        def on_plugin_action(arg):
+            if not value and arg is False:
+                log.warn("Failed to enable plugin '%s'",  name)
+                self.plugin_liststore.set_value(row, 1, False)
+
+        d.addBoth(on_plugin_action)
 
     def on_plugin_selection_changed(self, treeselection):
         log.debug("on_plugin_selection_changed")

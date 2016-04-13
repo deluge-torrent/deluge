@@ -13,6 +13,10 @@
 
 import logging
 
+from twisted.internet import defer
+from twisted.internet.error import CannotListenError
+
+import deluge.component as component
 from deluge import configmanager
 from deluge.core.rpcserver import export
 from deluge.plugins.pluginbase import CorePluginBase
@@ -27,28 +31,21 @@ DEFAULT_PREFS = {
 
 
 class Core(CorePluginBase):
+    server = None
 
     def enable(self):
         self.config = configmanager.ConfigManager("web_plugin.conf", DEFAULT_PREFS)
-        self.server = None
         if self.config['enabled']:
-            self.start()
+            self.start_server()
 
     def disable(self):
-        if self.server:
-            self.server.stop()
+        self.stop_server()
 
     def update(self):
         pass
 
-    def restart(self):
-        if self.server:
-            self.server.stop().addCallback(self.on_stop)
-        else:
-            self.start()
-
-    def on_stop(self, *args):
-        self.start()
+    def _on_stop(self, *args):
+        return self.start_server()
 
     @export
     def got_deluge_web(self):
@@ -59,25 +56,34 @@ class Core(CorePluginBase):
         except ImportError:
             return False
 
-    @export
-    def start(self):
+    def start_server(self):
         if not self.server:
             try:
                 from deluge.ui.web import server
             except ImportError:
                 return False
 
-            self.server = server.DelugeWeb()
+            try:
+                self.server = component.get("DelugeWeb")
+            except KeyError:
+                self.server = server.DelugeWeb()
 
         self.server.port = self.config["port"]
         self.server.https = self.config["ssl"]
-        self.server.start(standalone=False)
+        try:
+            self.server.start(standalone=False)
+        except CannotListenError as ex:
+            log.warn("Failed to start WebUI server: %s", ex)
+            raise
         return True
 
-    @export
-    def stop(self):
+    def stop_server(self):
         if self.server:
-            self.server.stop()
+            return self.server.stop()
+        return defer.succeed(True)
+
+    def restart_server(self):
+        return self.stop_server().addCallback(self._on_stop)
 
     @export
     def set_config(self, config):
@@ -97,11 +103,11 @@ class Core(CorePluginBase):
         self.config.save()
 
         if action == 'start':
-            return self.start()
+            return self.start_server()
         elif action == 'stop':
-            return self.stop()
+            return self.stop_server()
         elif action == 'restart':
-            return self.restart()
+            return self.restart_server()
 
     @export
     def get_config(self):

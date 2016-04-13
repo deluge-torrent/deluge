@@ -22,15 +22,7 @@ class PluginInitBase(object):
         self.plugin = self._plugin_cls(plugin_name)
 
     def enable(self):
-        try:
-            self.plugin.enable()
-        except Exception as ex:
-            log.error("Unable to enable plugin \"%s\"!", self.plugin._component_name)
-            log.exception(ex)
+        return self.plugin.enable()
 
     def disable(self):
-        try:
-            self.plugin.disable()
-        except Exception as ex:
-            log.error("Unable to disable plugin \"%s\"!", self.plugin._component_name)
-            log.exception(ex)
+        return self.plugin.disable()

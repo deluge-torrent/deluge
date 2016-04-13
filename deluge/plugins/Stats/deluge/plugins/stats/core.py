@@ -100,7 +100,7 @@ class Core(CorePluginBase):
         try:
             self.update_timer.stop()
             self.save_timer.stop()
-        except:
+        except AssertionError:
             pass
 
     def add_stats(self, *stats):

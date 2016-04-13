@@ -392,13 +392,14 @@ class WebApi(JSONComponent):
             default = component.get("DelugeWeb").config["default_daemon"]
             host = component.get("Web")._get_host(default)
             if host:
-                self._connect_daemon(*host[1:])
+                return self._connect_daemon(*host[1:])
             else:
-                self._connect_daemon()
+                return self._connect_daemon()
+        return defer.succeed(True)
 
     def _on_client_disconnect(self, *args):
         component.get("Web.PluginManager").stop()
-        self.stop()
+        return self.stop()
 
     def _get_host(self, host_id):
         """
@@ -415,11 +416,12 @@ class WebApi(JSONComponent):
 
     def start(self):
         self.core_config.start()
-        self.sessionproxy.start()
+        return self.sessionproxy.start()
 
     def stop(self):
         self.core_config.stop()
         self.sessionproxy.stop()
+        return defer.succeed(True)
 
     def _connect_daemon(self, host="localhost", port=58846, username="", password=""):
         """

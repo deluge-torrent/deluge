@@ -1,30 +1,31 @@
-from twisted.trial import unittest
+# -*- coding: utf-8 -*-
+#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
+#
 
 import deluge.component as component
 from deluge.core.core import Core
 
+from .basetest import BaseTestCase
 
-class AlertManagerTestCase(unittest.TestCase):
-    def setUp(self):  # NOQA
+
+class AlertManagerTestCase(BaseTestCase):
+
+    def set_up(self):
         self.core = Core()
-
         self.am = component.get("AlertManager")
-        component.start(["AlertManager"])
+        return component.start(["AlertManager"])
 
-    def tearDown(self):  # NOQA
-        def on_shutdown(result):
-            component._ComponentRegistry.components = {}
-            del self.am
-            del self.core
-
-        return component.shutdown().addCallback(on_shutdown)
+    def tear_down(self):
+        return component.shutdown()
 
     def test_register_handler(self):
         def handler(alert):
             return
 
         self.am.register_handler("dummy_alert", handler)
-
         self.assertEquals(self.am.handlers["dummy_alert"], [handler])
 
     def test_deregister_handler(self):
