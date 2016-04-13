@@ -14,6 +14,8 @@ import logging
 import os.path
 
 import pkg_resources
+from twisted.internet import defer
+from twisted.python.failure import Failure
 
 import deluge.common
 import deluge.component as component
@@ -111,28 +113,47 @@ class PluginManagerBase(object):
             self.available_plugins.append(self.pkg_env[name][0].project_name)
 
     def enable_plugin(self, plugin_name):
-        """Enables a plugin"""
+        """Enable a plugin
+
+        Args:
+            plugin_name (str): The plugin name
+
+        Returns:
+            Deferred: A deferred with callback value True or False indicating
+                      whether the plugin is enabled or not.
+        """
         if plugin_name not in self.available_plugins:
             log.warning("Cannot enable non-existant plugin %s", plugin_name)
-            return
+            return defer.succeed(False)
 
         if plugin_name in self.plugins:
             log.warning("Cannot enable already enabled plugin %s", plugin_name)
-            return
+            return defer.succeed(True)
 
         plugin_name = plugin_name.replace(" ", "-")
         egg = self.pkg_env[plugin_name][0]
         egg.activate()
+        return_d = defer.succeed(True)
+
         for name in egg.get_entry_map(self.entry_name):
             entry_point = egg.get_entry_info(self.entry_name, name)
             try:
                 cls = entry_point.load()
                 instance = cls(plugin_name.replace("-", "_"))
+            except component.ComponentAlreadyRegistered as ex:
+                log.error(ex)
+                return defer.succeed(False)
             except Exception as ex:
                 log.error("Unable to instantiate plugin %r from %r!", name, egg.location)
                 log.exception(ex)
                 continue
-            instance.enable()
+            try:
+                return_d = defer.maybeDeferred(instance.enable)
+            except Exception as ex:
+                log.error("Unable to enable plugin '%s'!", name)
+                log.exception(ex)
+                return_d = defer.fail(False)
+
             if not instance.__module__.startswith("deluge.plugins."):
                 import warnings
                 warnings.warn_explicit(
@@ -141,25 +162,71 @@ class PluginManagerBase(object):
                     instance.__module__, 0
                 )
             if self._component_state == "Started":
-                component.start([instance.plugin._component_name])
-            plugin_name = plugin_name.replace("-", " ")
-            self.plugins[plugin_name] = instance
-            if plugin_name not in self.config["enabled_plugins"]:
-                log.debug("Adding %s to enabled_plugins list in config", plugin_name)
-                self.config["enabled_plugins"].append(plugin_name)
-            log.info("Plugin %s enabled..", plugin_name)
+                def on_enabled(result, instance):
+                    return component.start([instance.plugin._component_name])
+                return_d.addCallback(on_enabled, instance)
+
+            def on_started(result, instance):
+                plugin_name_space = plugin_name.replace("-", " ")
+                self.plugins[plugin_name_space] = instance
+                if plugin_name_space not in self.config["enabled_plugins"]:
+                    log.debug("Adding %s to enabled_plugins list in config", plugin_name_space)
+                    self.config["enabled_plugins"].append(plugin_name_space)
+                log.info("Plugin %s enabled..", plugin_name_space)
+                return True
+
+            def on_started_error(result, instance):
+                log.warn("Failed to start plugin '%s': %s", plugin_name, result.getTraceback())
+                component.deregister(instance.plugin)
+                return False
+
+            return_d.addCallbacks(on_started, on_started_error, callbackArgs=[instance], errbackArgs=[instance])
+            return return_d
+
+        return defer.succeed(False)
 
     def disable_plugin(self, name):
-        """Disables a plugin"""
-        try:
-            self.plugins[name].disable()
-            component.deregister(self.plugins[name].plugin)
-            del self.plugins[name]
-            self.config["enabled_plugins"].remove(name)
-        except KeyError:
-            log.warning("Plugin %s is not enabled..", name)
+        """
+        Disable a plugin
 
-        log.info("Plugin %s disabled..", name)
+        Args:
+            plugin_name (str): The plugin name
+
+        Returns:
+            Deferred: A deferred with callback value True or False indicating
+                      whether the plugin is disabled or not.
+        """
+        if name not in self.plugins:
+            log.warning("Plugin '%s' is not enabled..", name)
+            return defer.succeed(True)
+
+        try:
+            d = defer.maybeDeferred(self.plugins[name].disable)
+        except Exception as ex:
+            log.error("Error when disabling plugin '%s'", self.plugin._component_name)
+            log.exception(ex)
+            d = defer.succeed(False)
+
+        def on_disabled(result):
+            ret = True
+            if isinstance(result, Failure):
+                log.error("Error when disabling plugin '%s'", name)
+                log.exception(result.getTraceback())
+                ret = False
+            try:
+                component.deregister(self.plugins[name].plugin)
+                del self.plugins[name]
+                self.config["enabled_plugins"].remove(name)
+            except Exception as ex:
+                log.error("Unable to disable plugin '%s'!", name)
+                log.exception(ex)
+                ret = False
+            else:
+                log.info("Plugin %s disabled..", name)
+            return ret
+
+        d.addBoth(on_disabled)
+        return d
 
     def get_plugin_info(self, name):
         """Returns a dictionary of plugin info from the metadata"""

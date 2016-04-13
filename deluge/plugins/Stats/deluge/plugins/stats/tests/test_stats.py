@@ -1,10 +1,17 @@
-import pytest
-import twisted.internet.defer as defer
+# -*- coding: utf-8 -*-
+#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
+#
+
+from twisted.internet import defer
 from twisted.trial import unittest
 
 import deluge.component as component
 from deluge.common import fsize
 from deluge.tests import common as tests_common
+from deluge.tests.basetest import BaseTestCase
 from deluge.ui.client import client
 
 
@@ -17,35 +24,41 @@ def print_totals(totals):
     print("down:", fsize(totals["total_download"] - totals["total_payload_download"]))
 
 
-class StatsTestCase(unittest.TestCase):
+class StatsTestCase(BaseTestCase):
 
-    def setUp(self):  # NOQA
+    def set_up(self):
         defer.setDebugging(True)
         tests_common.set_tmp_config_dir()
         client.start_classic_mode()
         client.core.enable_plugin("Stats")
+        return component.start()
 
-    def tearDown(self):  # NOQA
+    def tear_down(self):
         client.stop_classic_mode()
+        return component.shutdown()
 
-        def on_shutdown(result):
-            component._ComponentRegistry.components = {}
-        return component.shutdown().addCallback(on_shutdown)
-
-    @pytest.mark.todo
+    @defer.inlineCallbacks
     def test_client_totals(self):
-        StatsTestCase.test_client_totals.im_func.todo = "To be fixed"
+        plugins = yield client.core.get_available_plugins()
+        if "Stats" not in plugins:
+            raise unittest.SkipTest("WebUi plugin not available for testing")
 
-        def callback(args):
-            print_totals(args)
-        d = client.stats.get_totals()
-        d.addCallback(callback)
+        totals = yield client.stats.get_totals()
+        self.assertEquals(totals['total_upload'], 0)
+        self.assertEquals(totals['total_payload_upload'], 0)
+        self.assertEquals(totals['total_payload_download'], 0)
+        self.assertEquals(totals['total_download'], 0)
+        # print_totals(totals)
 
-    @pytest.mark.todo
+    @defer.inlineCallbacks
     def test_session_totals(self):
-        StatsTestCase.test_session_totals.im_func.todo = "To be fixed"
+        plugins = yield client.core.get_available_plugins()
+        if "Stats" not in plugins:
+            raise unittest.SkipTest("WebUi plugin not available for testing")
 
-        def callback(args):
-            print_totals(args)
-        d = client.stats.get_session_totals()
-        d.addCallback(callback)
+        totals = yield client.stats.get_session_totals()
+        self.assertEquals(totals['total_upload'], 0)
+        self.assertEquals(totals['total_payload_upload'], 0)
+        self.assertEquals(totals['total_payload_download'], 0)
+        self.assertEquals(totals['total_download'], 0)
+        # print_totals(totals)

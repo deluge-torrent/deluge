@@ -579,13 +579,11 @@ class Core(component.Component):
 
     @export
     def enable_plugin(self, plugin):
-        self.pluginmanager.enable_plugin(plugin)
-        return None
+        return self.pluginmanager.enable_plugin(plugin)
 
     @export
     def disable_plugin(self, plugin):
-        self.pluginmanager.disable_plugin(plugin)
-        return None
+        return self.pluginmanager.disable_plugin(plugin)
 
     @export
     def force_recheck(self, torrent_ids):
