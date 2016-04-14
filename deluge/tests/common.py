@@ -131,12 +131,12 @@ def start_core(listen_port=58846, logfile=None, timeout=10, timeout_msg=None,
     config_directory = set_tmp_config_dir()
     daemon_script = """
 import sys
-import deluge.main
+import deluge.core.daemon_entry
 
 sys.argv.extend(['-d', '-c', '%s', '-L', 'info', '-p', '%d'])
 
 try:
-    daemon = deluge.main.start_daemon(skip_start=True)
+    daemon = deluge.core.daemon_entry.start_daemon(skip_start=True)
     %s
     daemon.start()
 except:

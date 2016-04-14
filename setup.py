@@ -305,10 +305,10 @@ entry_points = {
     'console_scripts': [
         'deluge-console = deluge.ui.console:start',
         'deluge-web = deluge.ui.web:start',
-        'deluged = deluge.main:start_daemon'
+        'deluged = deluge.core.daemon_entry:start_daemon'
     ],
     'gui_scripts': [
-        'deluge = deluge.main:start_ui',
+        'deluge = deluge.ui.ui_entry:start_ui',
         'deluge-gtk = deluge.ui.gtkui:start'
     ],
     'deluge.ui': [
@@ -320,9 +320,9 @@ entry_points = {
 
 if windows_check():
     entry_points['console_scripts'].extend([
-        'deluge-debug = deluge.main:start_ui',
+        'deluge-debug = deluge.ui.ui_entry:start_ui',
         'deluge-web-debug = deluge.ui.web:start',
-        'deluged-debug = deluge.main:start_daemon'])
+        'deluged-debug = deluge.core.daemon_entry:start_daemon'])
 
 _package_data = {}
 _package_data['deluge'] = [
