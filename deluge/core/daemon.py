@@ -154,7 +154,8 @@ class Daemon(object):
 
     def _shutdown(self, *args, **kwargs):
         log.info("Deluge daemon shutting down, waiting for components to shutdown...")
-        return component.shutdown()
+        if not self.classic:
+            return component.shutdown()
 
     @export()
     def get_method_list(self):

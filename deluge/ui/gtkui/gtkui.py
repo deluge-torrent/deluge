@@ -13,12 +13,13 @@ from __future__ import division
 
 import logging
 import os
+import signal
 import sys
 import time
 
 import gobject
 import gtk
-from twisted.internet import gtk2reactor
+from twisted.internet import defer, gtk2reactor
 from twisted.internet.error import ReactorAlreadyInstalledError
 from twisted.internet.task import LoopingCall
 
@@ -251,35 +252,47 @@ class GtkUI(object):
         self.rpc_stats = LoopingCall(self.print_rpc_stats)
 
         # Twisted catches signals to terminate, so have it call a pre_shutdown method.
-        reactor.addSystemEventTrigger("before", "shutdown", self.pre_shutdown)
+        reactor.addSystemEventTrigger("before", "gtkui_close", self.close)
+
         reactor.callWhenRunning(self._on_reactor_start)
+        self.closing = False
+
+        def gtkui_sigint_handler(num, frame):
+            log.debug("SIGINT signal caught - firing event: 'gtkui_close'")
+            reactor.callLater(0, reactor.fireSystemEvent, 'gtkui_close')
+
+        signal.signal(signal.SIGINT, gtkui_sigint_handler)
 
         # Initialize gdk threading
         gtk.gdk.threads_enter()
         reactor.run()
-        self.shutdown()
+        # Reactor is not running. Any async callbacks (Deferreds) can no longer
+        # be processed from this point on.
         gtk.gdk.threads_leave()
 
     def shutdown(self, *args, **kwargs):
-        log.debug("gtkui shutting down..")
-
-        component.stop()
-
-        # Process any pending gtk events since the mainloop has been quit
-        while gtk.events_pending():
-            gtk.main_iteration(0)
-
+        log.debug("GTKUI shutting down...")
         # Shutdown all components
-        component.shutdown()
+        if self.started_in_classic:
+            return component.shutdown()
 
+    @defer.inlineCallbacks
+    def close(self):
+        if self.closing:
+            return
+        self.closing = True
         # Make sure the config is saved.
         self.config.save()
-
-    def pre_shutdown(self, *args, **kwargs):
-        """Modal dialogs can prevent the application exiting so destroy mainwindow"""
         # Ensure columns state is saved
         self.torrentview.save_state()
+        # Shut down components
+        yield self.shutdown()
+
+        # Modal dialogs can prevent the application exiting so destroy mainwindow
+        # Must do this here to avoid hang when closing with SIGINT (CTRL-C)
         self.mainwindow.window.destroy()
+
+        reactor.stop()
 
     def print_rpc_stats(self):
         if not client.connected():
