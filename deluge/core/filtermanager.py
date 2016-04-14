@@ -7,7 +7,6 @@
 # See LICENSE for more details.
 #
 
-import copy
 import logging
 
 import deluge.component as component
@@ -109,8 +108,6 @@ class FilterManager(component.Component):
         self.register_filter("keyword", filter_keywords)
         self.register_filter("name", filter_by_name)
         self.tree_fields = {}
-        self.prev_filter_tree_keys = None
-        self.filter_tree_items = None
 
         self.register_tree_field("state", self._init_state_tree)
 
@@ -195,11 +192,7 @@ class FilterManager(component.Component):
                 tree_keys.remove(cat)
 
         torrent_keys, plugin_keys = self.torrents.separate_keys(tree_keys, torrent_ids)
-        # Keys are the same, so use previous items
-        if self.prev_filter_tree_keys != tree_keys:
-            self.filter_tree_items = dict((field, self.tree_fields[field]()) for field in tree_keys)
-            self.prev_filter_tree_keys = tree_keys
-        items = copy.deepcopy(self.filter_tree_items)
+        items = dict((field, self.tree_fields[field]()) for field in tree_keys)
 
         for torrent_id in list(torrent_ids):
             status = self.core.create_torrent_status(torrent_id, torrent_keys, plugin_keys)  # status={key:value}
