@@ -215,7 +215,7 @@ class MainWindow(component.Component):
         def quit_gtkui():
             def stop_gtk_reactor(result=None):
                 try:
-                    reactor.stop()
+                    reactor.callLater(0, reactor.fireSystemEvent, 'gtkui_close')
                 except ReactorNotRunning:
                     log.debug("Attempted to stop the reactor but it is not running...")
 
