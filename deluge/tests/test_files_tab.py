@@ -84,7 +84,7 @@ class FilesTabTestCase(BaseTestCase):
         ret = self.verify_treestore(self.filestab.treestore, [["1/", [["test_10.txt"]]], ["2/", [["test_100.txt"]]]])
         if not ret:
             self.print_treestore("Treestore not expected:", self.filestab.treestore)
-            self.assertFalse(True)
+        self.assertTrue(ret)
 
     def test_files_tab2(self):
         self.filestab.files_list[self.t_id] = ({u'index': 0, u'path': u'1/1/test_10.txt', u'offset': 0, u'size': 13},
@@ -95,7 +95,7 @@ class FilesTabTestCase(BaseTestCase):
         ret = self.verify_treestore(self.filestab.treestore, [["1/", [["1/", [["test_100.txt"], ["test_10.txt"]]]]]])
         if not ret:
             self.print_treestore("Treestore not expected:", self.filestab.treestore)
-            self.assertFalse(True)
+        self.assertTrue(ret)
 
     def test_files_tab3(self):
         self.filestab.files_list[self.t_id] = ({u'index': 0, u'path': u'1/test_10.txt', u'offset': 0, u'size': 13},
@@ -106,7 +106,7 @@ class FilesTabTestCase(BaseTestCase):
         ret = self.verify_treestore(self.filestab.treestore, [["1/", [["test_100.txt"], ["test_10.txt"]]]])
         if not ret:
             self.print_treestore("Treestore not expected:", self.filestab.treestore)
-            self.assertFalse(True)
+        self.assertTrue(ret)
 
     def test_files_tab4(self):
         self.filestab.files_list[self.t_id] = ({u'index': 0, u'path': u'1/test_10.txt', u'offset': 0, u'size': 13},
@@ -118,7 +118,7 @@ class FilesTabTestCase(BaseTestCase):
                                                                       ["test_10.txt"]]]])
         if not ret:
             self.print_treestore("Treestore not expected:", self.filestab.treestore)
-            self.assertFalse(True)
+        self.assertTrue(ret)
 
     def test_files_tab5(self):
         self.filestab.files_list[self.t_id] = ({u'index': 0, u'path': u'1/test_10.txt', u'offset': 0, u'size': 13},
@@ -129,4 +129,4 @@ class FilesTabTestCase(BaseTestCase):
         ret = self.verify_treestore(self.filestab.treestore, [["1/", [["test_100.txt"], ["test_10.txt"]]]])
         if not ret:
             self.print_treestore("Treestore not expected:", self.filestab.treestore)
-            self.assertFalse(True)
+        self.assertTrue(ret)
