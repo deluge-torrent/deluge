@@ -383,18 +383,21 @@ class WebApi(JSONComponent):
             client.set_disconnect_callback(None)
 
     def enable(self):
-        if not client.is_classicmode():
-            client.set_disconnect_callback(self._on_client_disconnect)
         client.register_event_handler("PluginEnabledEvent", self._json.get_remote_methods)
         client.register_event_handler("PluginDisabledEvent", self._json.get_remote_methods)
-        if component.get("DelugeWeb").config["default_daemon"]:
-            # Sort out getting the default daemon here
-            default = component.get("DelugeWeb").config["default_daemon"]
-            host = component.get("Web")._get_host(default)
-            if host:
-                return self._connect_daemon(*host[1:])
-            else:
-                return self._connect_daemon()
+
+        if not client.is_classicmode():
+            client.set_disconnect_callback(self._on_client_disconnect)
+
+            if component.get("DelugeWeb").config["default_daemon"]:
+                # Sort out getting the default daemon here
+                default = component.get("DelugeWeb").config["default_daemon"]
+                host = component.get("Web")._get_host(default)
+                if host:
+                    return self._connect_daemon(*host[1:])
+                else:
+                    return self._connect_daemon()
+
         return defer.succeed(True)
 
     def _on_client_disconnect(self, *args):
