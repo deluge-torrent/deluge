@@ -12,7 +12,7 @@ from __future__ import print_function
 import logging
 import os
 
-from deluge.common import osx_check, run_profiled, windows_check
+from deluge.common import run_profiled, windows_check
 from deluge.configmanager import get_config_dir
 from deluge.ui.ui import UI
 
@@ -39,7 +39,7 @@ class Web(UI):
 
         group.add_argument("-b", "--base", metavar="<path>", action="store", default=None,
                            help="Set the base path that the ui is running on (proxying)")
-        if not (windows_check() or osx_check()):
+        if not windows_check():
             group.add_argument("-d", "--do-not-daemonize", dest="donotdaemonize", action="store_true", default=False,
                                help="Do not daemonize the web interface")
         group.add_argument("-P", "--pidfile", metavar="<pidfile>", action="store", default=None,
@@ -71,23 +71,15 @@ class Web(UI):
     def start(self, args=None):
         super(Web, self).start(args)
 
-        # Steps taken from http://www.faqs.org/faqs/unix-faq/programmer/faq/
-        # Section 1.7
-        if self.options.donotdaemonize is not True:
-            # fork() so the parent can exit, returns control to the command line
-            # or shell invoking the program.
+        # If donotdaemonize is set, skip process forking.
+        if not (windows_check() or self.options.donotdaemonize):
             if os.fork():
                 os._exit(0)
-
-            # setsid() to become a process group and session group leader.
             os.setsid()
-
-            # fork() again so the parent, (the session group leader), can exit.
+            # Do second fork
             if os.fork():
                 os._exit(0)
-
-            # chdir() to esnure that our process doesn't keep any directory in
-            # use that may prevent a filesystem unmount.
+            # Ensure process doesn't keep any directory in use that may prevent a filesystem unmount.
             os.chdir(get_config_dir())
 
         if self.options.pidfile:
