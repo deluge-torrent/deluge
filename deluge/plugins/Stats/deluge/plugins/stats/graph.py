@@ -182,8 +182,8 @@ class Graph:
         """Given a value x create an array of tick points to got with the graph
         The number of ticks returned can be constrained by limit, minimum of 3
         """
-    # Limit is the number of ticks which is 1 + the number of steps as we
-    # count the 0 tick in limit
+        # Limit is the number of ticks which is 1 + the number of steps as we
+        # count the 0 tick in limit
         if limit is not None:
             if limit < 3:
                 limit = 2
@@ -194,9 +194,9 @@ class Graph:
             scale = self.left_axis['formatter_scale'](x)
             x = x / float(scale)
 
-    # Find the largest power of 10 less than x
-        log = math.log10(x)
-        intbit = math.floor(log)
+        # Find the largest power of 10 less than x
+        comm_log = math.log10(x)
+        intbit = math.floor(comm_log)
 
         interval = math.pow(10, intbit)
         steps = int(math.ceil(x / interval))

@@ -9,12 +9,13 @@ sclient.set_core_uri()
 
 
 def test_sync():
-    if 1:
-        upload = sclient.graph_get_upload()
-        download = sclient.graph_get_download()
-        print(upload)
-        print(download)
-    else:
+
+    upload = sclient.graph_get_upload()
+    download = sclient.graph_get_download()
+    print(upload)
+    print(download)
+
+    """
         upload = [66804, 66915, 66974, 67447, 67540, 67318, 67320, 67249, 66659, 66489, 67027, 66914, 66802, 67303,
                   67654, 67643, 67763, 67528, 67523, 67431, 67214, 66939, 67316, 67020, 66881, 67103, 67377, 67141,
                   67366, 67492, 67375, 67203, 67056, 67010, 67029, 66741, 66695, 66868, 66805, 66264, 66249, 66317,
@@ -37,6 +38,7 @@ def test_sync():
                     15268, 14793, 15305, 16354, 16720, 17502, 17857, 16622, 18447, 19929, 31138, 36965, 36158, 32795,
                     30445, 21997, 18100, 22491, 27227, 29317, 32436, 35700, 39140, 36258, 33697, 24751, 20354, 8211,
                     3836, 1560, 834, 2034, 1744, 1637, 1637, 1637, 0, 0]
+    """
 
     from .graph import NetworkGraph
     n = NetworkGraph()
@@ -81,8 +83,8 @@ def test_write():
         def __init__(self):
             self.data = []
 
-        def write(self, str):
-            self.data.append(str)
+        def write(self, string):
+            self.data.append(string)
 
     g = graph.Graph()
     g.add_stat('download_rate', color=graph.green)

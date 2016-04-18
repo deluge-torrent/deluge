@@ -46,9 +46,9 @@ DEFAULT_CONF = {'version': 1,
                 }
 
 
-def neat_time(column, cell, model, iter):
+def neat_time(column, cell, model, data):
     """Render seconds as seconds or minutes with label"""
-    seconds = model.get_value(iter, 0)
+    seconds = model.get_value(data, 0)
     if seconds > 60:
         text = "%d %s" % (seconds / 60, _("minutes"))
     elif seconds == 60:
@@ -62,7 +62,7 @@ def neat_time(column, cell, model, iter):
 
 
 def int_str(number):
-    return (str(int(number)))
+    return str(int(number))
 
 
 def gtk_to_graph_color(color):
@@ -186,15 +186,15 @@ class GraphsTab(Tab):
         self.intervals_combo.set_model(liststore)
         try:
             current = intervals.index(self.selected_interval)
-        except:
+        except Exception:
             current = 0
         # should select the value saved in config
         self.intervals_combo.set_active(current)
 
     def _on_selected_interval_changed(self, combobox):
         model = combobox.get_model()
-        iter = combobox.get_active_iter()
-        self.selected_interval = model.get_value(iter, 0)
+        tree_iter = combobox.get_active_iter()
+        self.selected_interval = model.get_value(tree_iter, 0)
         self.update()
         return True
 
@@ -241,7 +241,7 @@ class GtkUI(GtkPluginBase):
                 try:
                     color_btn = self.glade.get_widget("%s_%s_color" % (graph, value))
                     gtkconf[graph][value] = str(color_btn.get_color())
-                except:
+                except Exception:
                     gtkconf[graph][value] = DEFAULT_CONF['colors'][graph][value]
         self.config['colors'] = gtkconf
         self.graphs_tab.set_colors(self.config['colors'])
@@ -255,8 +255,8 @@ class GtkUI(GtkPluginBase):
                 try:
                     color_btn = self.glade.get_widget("%s_%s_color" % (graph, value))
                     color_btn.set_color(gtk.gdk.Color(color))
-                except:
-                    log.debug("Unable to set %s %s %s" % (graph, value, color))
+                except Exception:
+                    log.debug("Unable to set %s %s %s", graph, value, color)
         client.stats.get_config().addCallback(self.cb_get_config)
 
     def cb_get_config(self, config):

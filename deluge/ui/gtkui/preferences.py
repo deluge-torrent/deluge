@@ -941,7 +941,7 @@ class Preferences(component.Component):
 
         def on_plugin_action(arg):
             if not value and arg is False:
-                log.warn("Failed to enable plugin '%s'",  name)
+                log.warn("Failed to enable plugin '%s'", name)
                 self.plugin_liststore.set_value(row, 1, False)
 
         d.addBoth(on_plugin_action)
