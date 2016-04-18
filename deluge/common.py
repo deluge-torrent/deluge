@@ -623,7 +623,7 @@ def get_magnet_info(uri):
         if info_hash:
             if not name:
                 name = info_hash
-            return {"name": name, "info_hash": info_hash, "files_tree": ''}
+            return {"name": name, "info_hash": info_hash.lower(), "files_tree": ''}
     return False
 
 
