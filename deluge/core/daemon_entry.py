@@ -119,9 +119,11 @@ def start_daemon(skip_start=False):
                             interface=options.ui_interface,
                             port=options.port,
                             read_only_config_keys=options.read_only_config_keys.split(","))
-            if not skip_start:
+            if skip_start:
+                return daemon
+            else:
                 daemon.start()
-            return daemon
+
         except Exception as ex:
             log.exception(ex)
             sys.exit(1)
