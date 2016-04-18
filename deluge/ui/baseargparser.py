@@ -103,11 +103,11 @@ class BaseArgParser(argparse.ArgumentParser):
                                 help="Output to designated logfile instead of stdout")
         self.group.add_argument("-L", "--loglevel", action="store", choices=deluge.log.levels, metavar='<level>',
                                 help="Set the log level: %s" % ", ".join(deluge.log.levels))
+        self.group.add_argument("--logrotate", action="store", nargs="?", const="2M", metavar='<max size>',
+                                help="Enable logfile rotation, takes an optional maximum logfile size, "
+                                "default: %(const)s (Logfile rotatation count is 5)")
         self.group.add_argument("-q", "--quiet", action="store_true", default=False,
                                 help="Sets the log level to 'none', this is the same as `-L none`")
-        self.group.add_argument("--log-rotate", action="store", nargs="?", const="50M",
-                                help="Enable logfile rotation (optional max file size, default: %(const)s)."
-                                "Log file rotate count is 5")
         self.group.add_argument("--profile", metavar="<results file>", action="store", nargs="?", default=False,
                                 help="Profile %(prog)s with cProfile. Prints results to stdout"
                                 "unless a filename is specififed")
@@ -126,10 +126,10 @@ class BaseArgParser(argparse.ArgumentParser):
                 options.loglevel = options.loglevel.lower()
 
             logfile_mode = 'w'
-            logrotate = options.log_rotate
-            if options.log_rotate:
+            logrotate = options.logrotate
+            if options.logrotate:
                 logfile_mode = 'a'
-                logrotate = common.parse_human_size(options.log_rotate)
+                logrotate = common.parse_human_size(options.logrotate)
 
             # Setup the logger
             setup_logger(level=options.loglevel, filename=options.logfile, filemode=logfile_mode,
