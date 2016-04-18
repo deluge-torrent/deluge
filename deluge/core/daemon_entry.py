@@ -57,10 +57,6 @@ def start_daemon(skip_start=False):
     """
     deluge.common.setup_translations()
 
-    if 'dev' not in deluge.common.get_version():
-        import warnings
-        warnings.filterwarnings('ignore', category=DeprecationWarning, module='twisted')
-
     # Setup the argument parser
     parser = BaseArgParser()
     add_daemon_options(parser)
