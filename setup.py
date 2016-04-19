@@ -225,7 +225,12 @@ class CleanPlugins(cmd.Command):
 
             # Delete the .eggs
             if path[-4:] == '.egg':
-                print('Deleting %s' % path)
+                print("Deleting egg file '%s'" % path)
+                os.remove(path)
+
+            # Delete the .egg-link
+            if path[-9:] == '.egg-link':
+                print("Deleting egg link '%s'" % path)
                 os.remove(path)
 
         egg_info_dir_path = 'deluge/plugins/*/*.egg-info'

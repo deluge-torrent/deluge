@@ -131,8 +131,9 @@ class GraphsTab(Tab):
 
         def _update_complete(result):
             self.graph_widget.queue_draw()
+            return result
         d1.addCallback(_update_complete)
-        return True
+        return d1
 
     def clear(self):
         pass
@@ -213,6 +214,7 @@ class GraphsTab(Tab):
 
 
 class GtkUI(GtkPluginBase):
+
     def enable(self):
         log.debug("Stats plugin enable called")
         self.config = deluge.configmanager.ConfigManager("stats.gtkui.conf", DEFAULT_CONF)

@@ -6,11 +6,12 @@
 #
 from __future__ import print_function
 
+import pytest
 from twisted.internet import defer
 from twisted.trial import unittest
 
 import deluge.component as component
-from deluge.common import fsize
+from deluge.common import fsize, fspeed
 from deluge.tests import common as tests_common
 from deluge.tests.basetest import BaseTestCase
 from deluge.ui.client import client
@@ -63,3 +64,52 @@ class StatsTestCase(BaseTestCase):
         self.assertEquals(totals['total_payload_download'], 0)
         self.assertEquals(totals['total_download'], 0)
         # print_totals(totals)
+
+    @pytest.mark.gtkui
+    @defer.inlineCallbacks
+    def test_write(self):
+        """
+        writing to a file-like object; need this for webui.
+
+        Not strictly a unit test, but tests if calls do not fail...
+        """
+        from deluge.ui.gtkui.gtkui import DEFAULT_PREFS
+        from deluge.ui.gtkui.preferences import Preferences
+        from deluge.ui.gtkui.mainwindow import MainWindow
+        from deluge.configmanager import ConfigManager
+        from deluge.ui.gtkui.pluginmanager import PluginManager
+        from deluge.ui.gtkui.torrentdetails import TorrentDetails
+        from deluge.ui.gtkui.torrentview import TorrentView
+        from deluge.plugins.Stats.deluge.plugins.stats import graph, gtkui
+
+        ConfigManager("gtkui.conf", defaults=DEFAULT_PREFS)
+
+        self.plugins = PluginManager()
+        MainWindow()
+        TorrentView()
+        TorrentDetails()
+        Preferences()
+
+        class FakeFile:
+            def __init__(self):
+                self.data = []
+
+            def write(self, data):
+                self.data.append(data)
+
+        stats_gtkui = gtkui.GtkUI("test_stats")
+        stats_gtkui.enable()
+        yield stats_gtkui.graphs_tab.update()
+
+        g = stats_gtkui.graphs_tab.graph
+        g.add_stat('download_rate', color=graph.green)
+        g.add_stat('upload_rate', color=graph.blue)
+        g.set_left_axis(formatter=fspeed, min=10240)
+
+        surface = g.draw(900, 150)
+        file_like = FakeFile()
+        surface.write_to_png(file_like)
+        data = "".join(file_like.data)
+        f = open("file_like.png", "wb")
+        f.write(data)
+        f.close()
