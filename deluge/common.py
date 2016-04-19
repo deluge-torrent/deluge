@@ -618,7 +618,7 @@ def get_magnet_info(uri):
                         log.debug("Invalid base32 magnet hash: %s, %s", xt_hash, ex)
                         break
                 elif len(xt_hash) == 40:
-                    info_hash = xt_hash
+                    info_hash = xt_hash.lower()
                 else:
                     break
             elif param.startswith(dn_param):
@@ -627,7 +627,7 @@ def get_magnet_info(uri):
         if info_hash:
             if not name:
                 name = info_hash
-            return {"name": name, "info_hash": info_hash.lower(), "files_tree": ''}
+            return {"name": name, "info_hash": info_hash, "files_tree": ''}
     return False
 
 
