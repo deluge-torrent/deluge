@@ -346,10 +346,13 @@ class Core(component.Component):
 
         Args:
             torrent_ids (list): The torrent IDs to remove.
-            remove_data (bool, optional): If True, also remove the downloaded data.
+            remove_data (bool): If True, also remove the downloaded data.
 
         Returns:
-            list: a list containing all the errors, empty list if no errors occured
+            list of tuples: A list tuples containing all the errors, empty list if no errors occured
+               tuple format:
+                  0: str: torrent-id
+                  1: str: Error message
 
         """
         log.info("Removing %d torrents from core.", len(torrent_ids))
@@ -360,9 +363,11 @@ class Core(component.Component):
                 try:
                     self.torrentmanager.remove(torrent_id, remove_data=remove_data, save_state=False)
                 except InvalidTorrentError as ex:
-                    errors.append((torrent_id, ex))
+                    errors.append((torrent_id, str(ex)))
             # Save the session state
             self.torrentmanager.save_state()
+            if errors:
+                log.warn("Failed to remove %d of %d torrents.", len(errors), len(torrent_ids))
             return errors
         return task.deferLater(reactor, 0, do_remove_torrents)
 

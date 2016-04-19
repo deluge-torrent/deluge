@@ -202,14 +202,7 @@ class CoreTestCase(BaseTestCase):
         self.assertEquals(len(self.core.get_session_state()), 0)
 
     def test_remove_torrent_invalid(self):
-        d = self.core.remove_torrents(["torrentidthatdoesntexist"], True)
-
-        def test_true(val):
-            self.assertTrue(val[0][0] == "torrentidthatdoesntexist")
-
-            self.assertTrue(isinstance(val[0][1], InvalidTorrentError))
-        d.addCallback(test_true)
-        return d
+        self.assertRaises(InvalidTorrentError, self.core.remove_torrent, "torrentidthatdoesntexist", True)
 
     @defer.inlineCallbacks
     def test_remove_torrents(self):
@@ -234,16 +227,10 @@ class CoreTestCase(BaseTestCase):
         options = {}
         filename = os.path.join(os.path.dirname(__file__), "test.torrent")
         torrent_id = yield self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
-        d = self.core.remove_torrents(["invalidid1", "invalidid2", torrent_id], False)
-
-        def test_ret(val):
-            self.assertTrue(len(val) == 2)
-            self.assertTrue(val[0][0] == "invalidid1")
-            self.assertTrue(isinstance(val[0][1], InvalidTorrentError))
-            self.assertTrue(val[1][0] == "invalidid2")
-            self.assertTrue(isinstance(val[1][1], InvalidTorrentError))
-        d.addCallback(test_ret)
-        yield d
+        val = yield self.core.remove_torrents(["invalidid1", "invalidid2", torrent_id], False)
+        self.assertEqual(len(val), 2)
+        self.assertEqual(val[0], ('invalidid1', "torrent_id 'invalidid1' not in session."))
+        self.assertEqual(val[1], ('invalidid2', "torrent_id 'invalidid2' not in session."))
 
     def test_get_session_status(self):
         status = self.core.get_session_status(["upload_rate", "download_rate"])
