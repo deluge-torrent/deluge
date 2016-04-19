@@ -349,10 +349,10 @@ class Core(component.Component):
             remove_data (bool): If True, also remove the downloaded data.
 
         Returns:
-            list of tuples: A list tuples containing all the errors, empty list if no errors occured
-               tuple format:
-                  0: str: torrent-id
-                  1: str: Error message
+            list: An empty list if no errors occurred otherwise the list contains
+                tuples of strings, a torrent ID and an error message. For example:
+
+                [("<torrent_id>", "Error removing torrent")]
 
         """
         log.info("Removing %d torrents from core.", len(torrent_ids))
