@@ -135,10 +135,10 @@ def setup_logger(level="error", filename=None, filemode="w", logrotate=None):
             backupCount=5, encoding="utf-8"
         )
     elif filename and filemode == "w":
-        handler = getattr(
-            logging.handlers, "WatchedFileHandler", logging.FileHandler)(
-                filename, mode=filemode, encoding="utf-8"
-            )
+        handler_cls = logging.FileHandler
+        if not common.windows_check():
+            handler_cls = getattr(logging.handlers, "WatchedFileHandler", logging.FileHandler)
+        handler = handler_cls(filename, mode=filemode, encoding="utf-8")
     else:
         handler = logging.StreamHandler(stream=sys.stdout)
 
