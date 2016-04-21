@@ -84,7 +84,6 @@ class Daemon(object):
                 altered by core.set_config() RPC method.
         """
         self.classic = classic
-        self.port = port
         self.pid_file = get_config_dir("deluged.pid")
         log.info("Deluge daemon %s", get_version())
         check_running_daemon(self.pid_file)
@@ -108,6 +107,7 @@ class Daemon(object):
 
         if port is None:
             port = self.core.config["daemon_port"]
+        self.port = port
 
         if interface and not is_ip(interface):
             log.error("Invalid UI interface (must be IP Address): %s", interface)
