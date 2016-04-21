@@ -102,7 +102,7 @@ class Component(object):
         if self._component_state == "Stopped":
             if hasattr(self, "start"):
                 self._component_state = "Starting"
-                d = deferLater(reactor, 1, self.start)
+                d = deferLater(reactor, 0, self.start)
                 d.addCallbacks(on_start, on_start_fail)
                 self._component_starting_deferred = d
             else:
