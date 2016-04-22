@@ -530,18 +530,33 @@ class TopLevel(resource.Resource):
 
 class DelugeWeb(component.Component):
 
-    def __init__(self):
+    def __init__(self, options=None):
         super(DelugeWeb, self).__init__("DelugeWeb")
         self.config = configmanager.ConfigManager("web.conf", CONFIG_DEFAULTS)
         self.socket = None
         self.top_level = TopLevel()
-        self.site = server.Site(self.top_level)
+
         self.interface = self.config["interface"]
         self.port = self.config["port"]
         self.https = self.config["https"]
         self.pkey = self.config["pkey"]
         self.cert = self.config["cert"]
         self.base = self.config["base"]
+
+        if options:
+            self.interface = options.interface if options.interface else self.interface
+            self.port = options.port if options.port else self.port
+            self.base = options.base if options.base else self.base
+            if options.ssl:
+                self.https = True
+            elif options.no_ssl:
+                self.https = False
+
+        if self.base != "/":
+            # Strip away slashes and serve on the base path as well as root path
+            self.top_level.putChild(self.base.strip('/'), self.top_level)
+
+        self.site = server.Site(self.top_level)
         self.web_api = WebApi()
         self.auth = Auth(self.config)
         self.standalone = True
@@ -596,7 +611,7 @@ class DelugeWeb(component.Component):
 
     def start_normal(self):
         self.socket = reactor.listenTCP(self.port, self.site, interface=self.interface)
-        log.info("Serving at http://%s:%s", self.interface, self.port)
+        log.info("Serving at http://%s:%s%s", self.interface, self.port, self.base)
 
     def start_ssl(self):
         check_ssl_keys()
@@ -610,7 +625,7 @@ class DelugeWeb(component.Component):
         options.getContext().set_options(SSL.OP_NO_SSLv2 | SSL.OP_NO_SSLv3)
 
         self.socket = reactor.listenSSL(self.port, self.site, options, interface=self.interface)
-        log.info("Serving at https://%s:%s", self.interface, self.port)
+        log.info("Serving at https://%s:%s%s", self.interface, self.port, self.base)
 
     def stop(self):
         log.info("Shutting down webserver")
