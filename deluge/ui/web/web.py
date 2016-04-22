@@ -59,10 +59,8 @@ class Web(UI):
         except ImportError:
             pass
         else:
-            group.add_argument("--no-ssl", dest="ssl", action="store_false",
-                               help="Forces the webserver to disable ssl", default=False)
-            group.add_argument("--ssl", dest="ssl", action="store_true",
-                               help="Forces the webserver to use ssl", default=False)
+            group.add_argument("--ssl", action="store_true", help="Forces the webserver to use ssl")
+            group.add_argument("--no-ssl", action="store_true", help="Forces the webserver to disable ssl")
 
     @property
     def server(self):
@@ -97,18 +95,7 @@ class Web(UI):
             os.setuid(self.options.user)
 
         from deluge.ui.web import server
-        self.__server = server.DelugeWeb()
-
-        if self.options.base:
-            self.server.base = self.options.base
-
-        if self.options.interface:
-            self.server.interface = self.options.interface
-
-        if self.options.port:
-            self.server.port = self.options.port
-
-        self.server.https = self.options.ssl
+        self.__server = server.DelugeWeb(options=self.options)
 
         def run():
             try:
