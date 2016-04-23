@@ -144,27 +144,27 @@ deluge.menus.torrent = new Ext.menu.Menu({
                 menu: new Ext.menu.Menu({
                     items: [{
                         torrentAction: ['max_connections', 50],
-                        text: _('50'),
+                        text: '50',
                         handler: deluge.menus.onTorrentActionSetOpt,
                         scope: deluge.menus
                     }, {
                         torrentAction: ['max_connections', 100],
-                        text: _('100'),
+                        text: '100',
                         handler: deluge.menus.onTorrentActionSetOpt,
                         scope: deluge.menus
                     }, {
                         torrentAction: ['max_connections', 200],
-                        text: _('200'),
+                        text: '200',
                         handler: deluge.menus.onTorrentActionSetOpt,
                         scope: deluge.menus
                     }, {
                         torrentAction: ['max_connections', 300],
-                        text: _('300'),
+                        text: '300',
                         handler: deluge.menus.onTorrentActionSetOpt,
                         scope: deluge.menus
                     }, {
                         torrentAction: ['max_connections', 500],
-                        text: _('500'),
+                        text: '500',
                         handler: deluge.menus.onTorrentActionSetOpt,
                         scope: deluge.menus
                     },{
@@ -181,27 +181,27 @@ deluge.menus.torrent = new Ext.menu.Menu({
                 menu: new Ext.menu.Menu({
                     items: [{
                         torrentAction: ['max_upload_slots', 0],
-                        text: _('0'),
+                        text: '0',
                         handler: deluge.menus.onTorrentActionSetOpt,
                         scope: deluge.menus
                     }, {
                         torrentAction: ['max_upload_slots', 1],
-                        text: _('1'),
+                        text: '1',
                         handler: deluge.menus.onTorrentActionSetOpt,
                         scope: deluge.menus
                     }, {
                         torrentAction: ['max_upload_slots', 2],
-                        text: _('2'),
+                        text: '2',
                         handler: deluge.menus.onTorrentActionSetOpt,
                         scope: deluge.menus
                     }, {
                         torrentAction: ['max_upload_slots', 3],
-                        text: _('3'),
+                        text: '3',
                         handler: deluge.menus.onTorrentActionSetOpt,
                         scope: deluge.menus
                     }, {
                         torrentAction: ['max_upload_slots', 5],
-                        text: _('5'),
+                        text: '5',
                         handler: deluge.menus.onTorrentActionSetOpt,
                         scope: deluge.menus
                     },{
