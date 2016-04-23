@@ -19,8 +19,8 @@ def _(text):
 
 def escape(text):
     """
-    Used by the gettext.js template to escape translated strings
-    so they don't break the script.
+    Used by gettext.js template to escape any translated language strings that
+    might contain newlines or quotes as they would break the script.
     """
     text = text.replace("'", "\\'")
     text = text.replace('\r\n', '\\n')
