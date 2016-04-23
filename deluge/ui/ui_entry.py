@@ -33,25 +33,25 @@ def start_ui():
 
     # Setup the argument parser
     parser = BaseArgParser()
-    group = parser.add_argument_group(_("Default Options"))
+    group = parser.add_argument_group(_("UI Options"))
 
     ui_entrypoints = dict([(entrypoint.name, entrypoint.load())
-                           for entrypoint in pkg_resources.iter_entry_points('deluge.ui')])
+                           for entrypoint in pkg_resources.iter_entry_points("deluge.ui")])
 
-    cmd_help = ['The UI that you wish to launch.  The UI choices are:']
+    cmd_help = [_("The UI that you wish to launch. The UI choices are:")]
     max_len = 0
     for k, v in ui_entrypoints.iteritems():
-        cmdline = getattr(v, 'cmdline', "")
+        cmdline = getattr(v, "cmdline", "")
         max_len = max(max_len, len(cmdline))
 
-    cmd_help.extend(["%s -- %s" % (k, getattr(v, 'cmdline', "")) for k, v in ui_entrypoints.iteritems()])
+    cmd_help.extend(["%s -- %s" % (k, getattr(v, "cmdline", "")) for k, v in ui_entrypoints.iteritems()])
 
-    parser.add_argument("-u", "--ui", action="store",
-                        choices=ui_entrypoints.keys(), help="\n* ".join(cmd_help))
+    group.add_argument("-u", "--ui", action="store",
+                       choices=ui_entrypoints.keys(), help="\n* ".join(cmd_help))
     group.add_argument("-a", "--args", action="store",
-                       help='Arguments to pass to the UI. Multiple args must be quoted, e.g. -a "--option args"')
+                       help=_('Arguments to pass to the UI. Multiple args must be quoted, e.g. -a "--option args"'))
     group.add_argument("-s", "--set-default-ui", dest="default_ui", choices=ui_entrypoints.keys(),
-                       help="Sets the default UI to be run when no UI is specified", action="store")
+                       help=_("Sets the default UI to be run when no UI is specified"), action="store")
 
     options = parser.parse_args(deluge.common.unicode_argv()[1:])
 

@@ -71,8 +71,8 @@ class DelugeTextHelpFormatter(argparse.RawDescriptionHelpFormatter):
                 default = action.dest.upper()
                 args_string = self._format_args(action, default)
                 opt = ", ".join(action.option_strings)
-                parts.append('%s %s' % (opt, args_string))
-            return ', '.join(parts)
+                parts.append("%s %s" % (opt, args_string))
+            return ", ".join(parts)
 
 
 class HelpAction(argparse._HelpAction):
@@ -94,24 +94,24 @@ class BaseArgParser(argparse.ArgumentParser):
         super(BaseArgParser, self).__init__(*args, add_help=False, **kwargs)
 
         self.common_setup = False
-        self.group = self.add_argument_group('Common Options')
-        self.group.add_argument('--version', action='version', version='%(prog)s ' + get_version(),
-                                help="Show program's version number and exit")
-        self.group.add_argument("-c", "--config", action="store", metavar='<config>',
-                                help="Set the config directory path")
-        self.group.add_argument("-l", "--logfile", action="store", metavar='<logfile>',
-                                help="Output to designated logfile instead of stdout")
-        self.group.add_argument("-L", "--loglevel", action="store", choices=deluge.log.levels, metavar='<level>',
-                                help="Set the log level: %s" % ", ".join(deluge.log.levels))
-        self.group.add_argument("--logrotate", action="store", nargs="?", const="2M", metavar='<max size>',
-                                help="Enable logfile rotation, takes an optional maximum logfile size, "
-                                "default: %(const)s (Logfile rotatation count is 5)")
+        self.group = self.add_argument_group(_("Common Options"))
+        self.group.add_argument("--version", action="version", version="%(prog)s " + get_version(),
+                                help=_("Show program's version info and exit"))
+        self.group.add_argument("-c", "--config", action="store", metavar="<config>",
+                                help=_("Set the config directory path"))
+        self.group.add_argument("-l", "--logfile", action="store", metavar="<logfile>",
+                                help=_("Output to specified logfile instead of stdout"))
+        self.group.add_argument("-L", "--loglevel", action="store", choices=deluge.log.levels, metavar="<level>",
+                                help=_("Set the log level: %s" % ", ".join(deluge.log.levels)))
+        self.group.add_argument("--logrotate", action="store", nargs="?", const="2M", metavar="<max size>",
+                                help=_("Enable logfile rotation, with optional maximum logfile size, \
+default: %(const)s (Logfile rotation count is 5)"))
         self.group.add_argument("-q", "--quiet", action="store_true", default=False,
-                                help="Sets the log level to 'none', this is the same as `-L none`")
+                                help=_("Quieten logging output, equal to `--loglevel none`"))
         self.group.add_argument("--profile", metavar="<results file>", action="store", nargs="?", default=False,
-                                help="Profile %(prog)s with cProfile. Prints results to stdout"
-                                "unless a filename is specififed")
-        self.group.add_argument("-h", "--help", action=HelpAction, help='Show this help message and exit')
+                                help=_("Profile %(prog)s with cProfile. Prints results to stdout \
+unless a filename is specified"))
+        self.group.add_argument("-h", "--help", action=HelpAction, help=_("Show this help message and exit"))
 
     def parse_args(self, *args):
         options, remaining = super(BaseArgParser, self).parse_known_args(*args)
@@ -125,10 +125,10 @@ class BaseArgParser(argparse.ArgumentParser):
             if options.loglevel:
                 options.loglevel = options.loglevel.lower()
 
-            logfile_mode = 'w'
+            logfile_mode = "w"
             logrotate = options.logrotate
             if options.logrotate:
-                logfile_mode = 'a'
+                logfile_mode = "a"
                 logrotate = common.parse_human_size(options.logrotate)
 
             # Setup the logger

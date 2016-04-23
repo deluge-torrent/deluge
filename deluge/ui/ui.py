@@ -31,8 +31,8 @@ class UI(object):
 
     def __init__(self, name="gtk", parser=None):
         self.__name = name
-        self.__parser = parser if parser else BaseArgParser()
         deluge.common.setup_translations(setup_pygtk=(name == "gtk"))
+        self.__parser = parser if parser else BaseArgParser()
 
     def parse_args(self, args=None):
         options = self.parser.parse_args(args)
