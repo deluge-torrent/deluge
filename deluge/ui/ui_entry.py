@@ -47,7 +47,7 @@ def start_ui():
     cmd_help.extend(["%s -- %s" % (k, getattr(v, "cmdline", "")) for k, v in ui_entrypoints.iteritems()])
 
     group.add_argument("-u", "--ui", action="store",
-                       choices=ui_entrypoints.keys(), help="\n* ".join(cmd_help))
+                       choices=ui_entrypoints.keys(), help="\n  * ".join(cmd_help))
     group.add_argument("-a", "--args", action="store",
                        help=_('Arguments to pass to the UI. Multiple args must be quoted, e.g. -a "--option args"'))
     group.add_argument("-s", "--set-default-ui", dest="default_ui", choices=ui_entrypoints.keys(),

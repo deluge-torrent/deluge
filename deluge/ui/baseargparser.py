@@ -44,7 +44,7 @@ class DelugeTextHelpFormatter(argparse.RawDescriptionHelpFormatter):
         """
         wrapped_lines = []
         for l in text.splitlines():
-            wrapped_lines.extend(textwrap.wrap(l, width))
+            wrapped_lines.extend(textwrap.wrap(l, width, subsequent_indent="  "))
         return wrapped_lines
 
     def _format_action_invocation(self, action):
