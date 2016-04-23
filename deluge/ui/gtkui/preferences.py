@@ -23,6 +23,7 @@ from deluge.ui.client import client
 from deluge.ui.gtkui.common import associate_magnet_links, get_deluge_icon
 from deluge.ui.gtkui.dialogs import AccountDialog, ErrorDialog, InformationDialog, YesNoDialog
 from deluge.ui.gtkui.path_chooser import PathChooser
+from deluge.ui.util import lang
 
 pygtk.require('2.0')
 
@@ -203,21 +204,13 @@ class Preferences(component.Component):
         self.copy_torrents_to_hbox.show_all()
 
     def load_languages(self):
-        from deluge.ui import languages  # Import here so that gettext has been setup first
-        translations_path = deluge.common.get_translations_path()
-        for root, dirs, files in os.walk(translations_path):
-            # Get the dirs
-            lang_dirs = dirs
-            break
         self.language_combo = self.builder.get_object("combobox_language")
         self.language_checkbox = self.builder.get_object("checkbutton_language")
         lang_model = self.language_combo.get_model()
-
+        langs = lang.get_languages()
         index = -1
-        for i, lang_code in enumerate(sorted(lang_dirs)):
-            name = "%s (Language name missing)" % lang_code
-            if lang_code in languages.LANGUAGES:
-                name = languages.LANGUAGES[lang_code]
+        for i, l in enumerate(langs):
+            lang_code, name = l
             lang_model.append([lang_code, name])
             if self.gtkui_config["language"] == lang_code:
                 index = i
@@ -225,8 +218,10 @@ class Preferences(component.Component):
         if self.gtkui_config["language"] is None:
             self.language_checkbox.set_active(True)
             self.language_combo.set_visible(False)
-        elif index != -1:
-            self.language_combo.set_active(index)
+        else:
+            self.language_combo.set_visible(True)
+            if index != -1:
+                self.language_combo.set_active(index)
 
     def __del__(self):
         del self.gtkui_config

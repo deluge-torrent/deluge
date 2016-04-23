@@ -17,6 +17,7 @@ import deluge.common
 import deluge.configmanager
 import deluge.error
 from deluge.ui.baseargparser import BaseArgParser
+from deluge.ui.util import lang
 
 
 def add_daemon_options(parser):
@@ -55,7 +56,7 @@ def start_daemon(skip_start=False):
         deluge.core.daemon.Daemon: A new daemon object
 
     """
-    deluge.common.setup_translations()
+    lang.set_dummy_trans()
 
     # Setup the argument parser
     parser = BaseArgParser()

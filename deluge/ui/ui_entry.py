@@ -13,14 +13,15 @@
 
 """Main starting point for Deluge"""
 
+import logging
 import sys
-from logging import getLogger
 
 import pkg_resources
 
 import deluge.common
 import deluge.configmanager
 from deluge.ui.baseargparser import BaseArgParser
+from deluge.ui.util import lang
 
 DEFAULT_PREFS = {
     "default_ui": "gtk"
@@ -29,7 +30,7 @@ DEFAULT_PREFS = {
 
 def start_ui():
     """Entry point for ui script"""
-    deluge.common.setup_translations()
+    lang.setup_translations()
 
     # Setup the argument parser
     parser = BaseArgParser()
@@ -56,7 +57,7 @@ def start_ui():
     options = parser.parse_args(deluge.common.unicode_argv()[1:])
 
     config = deluge.configmanager.ConfigManager("ui.conf", DEFAULT_PREFS)
-    log = getLogger(__name__)
+    log = logging.getLogger(__name__)
 
     if options.default_ui:
         config["default_ui"] = options.default_ui

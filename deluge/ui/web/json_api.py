@@ -27,6 +27,7 @@ from deluge.ui import common as uicommon
 from deluge.ui.client import Client, client
 from deluge.ui.coreconfig import CoreConfig
 from deluge.ui.sessionproxy import SessionProxy
+from deluge.ui.util import lang
 from deluge.ui.web.common import _, compress
 
 log = logging.getLogger(__name__)
@@ -957,3 +958,21 @@ class WebApi(JSONComponent):
         Retrieve the pending events for the session.
         """
         return self.event_queue.get_events(__request__.session_id)
+
+
+class WebUtils(JSONComponent):
+    """
+
+    """
+    def __init__(self):
+        super(WebUtils, self).__init__("WebUtils")
+
+    @export
+    def get_languages(self):
+        """
+        Get the available translated languages
+
+        Returns:
+             list: of tuples [(lang-id, language-name), ...]
+        """
+        return lang.get_languages()

@@ -1,5 +1,6 @@
 GetText={maps:{},    add:function(string,translation) {this.maps[string]=translation},    get:function(string) {if (this.maps[string]) {string=this.maps[string]} return string}}
-    function _(string) {return GetText.get(string)}    GetText.add('10 KiB/s','${escape(_("10 KiB/s"))}')
+    function _(string) {return GetText.get(string)}
+GetText.add('10 KiB/s','${escape(_("10 KiB/s"))}')
 GetText.add('30 KiB/s','${escape(_("30 KiB/s"))}')
 GetText.add('300 KiB/s','${escape(_("300 KiB/s"))}')
 GetText.add('5 KiB/s','${escape(_("5 KiB/s"))}')
@@ -130,6 +131,7 @@ GetText.add('Invalid Password','${escape(_("Invalid Password"))}')
 GetText.add('KiB/s','${escape(_("KiB/s"))}')
 GetText.add('LSD','${escape(_("LSD"))}')
 GetText.add('Labels','${escape(_("Labels"))}')
+GetText.add('Language:','${escape(_("Language:"))}')
 GetText.add('Level:','${escape(_("Level:"))}')
 GetText.add('Loading','${escape(_("Loading"))}')
 GetText.add('Login','${escape(_("Login"))}')

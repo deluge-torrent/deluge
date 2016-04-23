@@ -6,11 +6,11 @@ from twisted.internet import defer, protocol, reactor
 from twisted.internet.defer import Deferred
 from twisted.internet.error import CannotListenError
 
-import deluge.common
 import deluge.configmanager
 import deluge.core.preferencesmanager
 import deluge.log
 from deluge.error import DelugeError
+from deluge.ui.util import lang
 
 deluge.log.setup_logger("none")
 
@@ -44,7 +44,7 @@ def rpath(*args):
     return os.path.join(os.path.dirname(__file__), *args)
 
 # Initialize gettext
-deluge.common.setup_translations()
+lang.setup_translations()
 
 
 class ProcessOutputHandler(protocol.ProcessProtocol):

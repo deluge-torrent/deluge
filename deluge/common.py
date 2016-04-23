@@ -10,7 +10,6 @@
 """Common functions for various parts of Deluge to use."""
 
 import base64
-import gettext
 import locale
 import logging
 import numbers
@@ -903,11 +902,6 @@ def create_localclient_account(append=False):
     fd.close()
 
 
-def get_translations_path():
-    """Get the absolute path to the directory containing translation files"""
-    return resource_filename("deluge", "i18n")
-
-
 def set_env_variable(name, value):
     '''
     :param name: environment variable name
@@ -968,75 +962,6 @@ def set_env_variable(name, value):
             log.warning('Failed to set Env Var \'%s\' (\'%s._putenv\')', name, msvcrtname)
         else:
             log.debug('Set Env Var \'%s\' to \'%s\' (\'%s._putenv\')', name, value, msvcrtname)
-
-
-def set_language(lang):
-    """
-    Set the language to use.
-
-    gettext and GtkBuilder will load the translations from the specified
-    language.
-
-    :param lang: the language, e.g. "en", "de" or "en_GB"
-    :type lang: str
-    """
-    lang = str(lang)
-    # Necessary to set these environment variables for GtkBuilder
-    set_env_variable('LANGUAGE', lang)  # Windows/Linux
-    set_env_variable('LANG', lang)  # For OSX
-
-    translations_path = get_translations_path()
-    try:
-        ro = gettext.translation("deluge", localedir=translations_path, languages=[lang])
-        ro.install()
-    except IOError as ex:
-        log.warn("IOError when loading translations: %s", ex)
-
-
-# Initialize gettext
-def setup_translations(setup_gettext=True, setup_pygtk=False):
-    translations_path = get_translations_path()
-    domain = "deluge"
-    log.info("Setting up translations from %s", translations_path)
-
-    if setup_pygtk:
-        try:
-            log.info("Setting up GTK translations from %s", translations_path)
-
-            if windows_check():
-                import ctypes
-                libintl = ctypes.cdll.intl
-                libintl.bindtextdomain(domain, translations_path.encode(sys.getfilesystemencoding()))
-                libintl.textdomain(domain)
-                libintl.bind_textdomain_codeset(domain, "UTF-8")
-                libintl.gettext.restype = ctypes.c_char_p
-
-            # Use glade for plugins that still uses it
-            import gtk
-            import gtk.glade
-            gtk.glade.bindtextdomain(domain, translations_path)
-            gtk.glade.textdomain(domain)
-        except Exception as ex:
-            log.error("Unable to initialize glade translation!")
-            log.exception(ex)
-    if setup_gettext:
-        try:
-            if hasattr(locale, "bindtextdomain"):
-                locale.bindtextdomain(domain, translations_path)
-            if hasattr(locale, "textdomain"):
-                locale.textdomain(domain)
-
-            gettext.bindtextdomain(domain, translations_path)
-            gettext.bind_textdomain_codeset(domain, 'UTF-8')
-            gettext.textdomain(domain)
-            gettext.install(domain, translations_path, unicode=True)
-        except Exception as ex:
-            log.error("Unable to initialize gettext/locale!")
-            log.exception(ex)
-            import __builtin__
-            __builtin__.__dict__["_"] = lambda x: x
-
-        translate_size_units()
 
 
 def unicode_argv():

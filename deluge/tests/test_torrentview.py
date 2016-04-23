@@ -1,9 +1,9 @@
 import pytest
 from twisted.trial import unittest
 
-import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager
+from deluge.ui.util import lang
 
 from . import common
 from .basetest import BaseTestCase
@@ -23,7 +23,7 @@ except ImportError as err:
     import traceback
     traceback.print_exc()
 
-deluge.common.setup_translations()
+lang.setup_translations()
 
 
 @pytest.mark.gtkui

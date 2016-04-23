@@ -23,9 +23,10 @@ from twisted.web import http, resource, server, static
 from deluge import common, component, configmanager
 from deluge.core.rpcserver import check_ssl_keys
 from deluge.ui.tracker_icons import TrackerIcons
+from deluge.ui.util import lang
 from deluge.ui.web.auth import Auth
 from deluge.ui.web.common import Template, compress
-from deluge.ui.web.json_api import JSON, WebApi
+from deluge.ui.web.json_api import JSON, WebApi, WebUtils
 from deluge.ui.web.pluginmanager import PluginManager
 
 log = logging.getLogger(__name__)
@@ -48,6 +49,7 @@ CONFIG_DEFAULTS = {
     "show_sidebar": True,
     "theme": "gray",
     "first_login": True,
+    "language": "",
 
     # Server Settings
     "base": "/",
@@ -533,6 +535,8 @@ class DelugeWeb(component.Component):
     def __init__(self, options=None):
         super(DelugeWeb, self).__init__("DelugeWeb")
         self.config = configmanager.ConfigManager("web.conf", CONFIG_DEFAULTS)
+        self.config.run_converter((0, 1), 2, self._migrate_config_1_to_2)
+        self.config.register_set_function("language", self._on_language_changed)
         self.socket = None
         self.top_level = TopLevel()
 
@@ -556,12 +560,20 @@ class DelugeWeb(component.Component):
             # Strip away slashes and serve on the base path as well as root path
             self.top_level.putChild(self.base.strip('/'), self.top_level)
 
+        lang.setup_translations(setup_gettext=True, setup_pygtk=False)
+
         self.site = server.Site(self.top_level)
         self.web_api = WebApi()
+        self.web_utils = WebUtils()
+
         self.auth = Auth(self.config)
         self.standalone = True
         # Initalize the plugins
         self.plugins = PluginManager()
+
+    def _on_language_changed(self, key, value):
+        log.debug("Setting UI language '%s'", value)
+        lang.set_language(value)
 
     def install_signal_handlers(self):
         # Since twisted assigns itself all the signals may as well make
@@ -647,6 +659,10 @@ class DelugeWeb(component.Component):
         self.stop()
         if self.standalone and reactor.running:
             reactor.stop()
+
+    def _migrate_config_1_to_2(self, config):
+        config["language"] = CONFIG_DEFAULTS["language"]
+        return config
 
 
 if __name__ == "__builtin__":
