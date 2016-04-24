@@ -106,6 +106,7 @@ class TorrentManager(component.Component):
         self.torrents = {}
         self.queued_torrents = set()
         self.is_saving_state = False
+        self.save_resume_data_file_lock = defer.DeferredLock()
         self.torrents_loading = {}
 
         # This is a map of torrent_ids to Deferreds used to track needed resume data.
@@ -759,7 +760,7 @@ class TorrentManager(component.Component):
             # Use flush_disk_cache as a marker for shutdown so fastresume is
             # saved even if torrents are waiting.
             if not self.waiting_on_resume_data or flush_disk_cache:
-                return self.save_resume_data_file()
+                return self.save_resume_data_file(queue_task=flush_disk_cache)
 
         return DeferredList(deferreds).addBoth(on_all_resume_data_finished)
 
@@ -794,7 +795,35 @@ class TorrentManager(component.Component):
         else:
             return resume_data
 
-    def save_resume_data_file(self):
+    def save_resume_data_file(self, queue_task=False):
+        """
+        Save resume data to file in a separate thread to avoid blocking main thread.
+
+        Args:
+            queue_task (bool): If True and a save task is already running then
+                               queue this save task to run next. Default is to
+                               not queue save tasks.
+
+        Returns:
+            Deferred: Fires with arg, True if save task was successful, False if
+                      not and None if task was not performed.
+
+        """
+        if not queue_task and self.save_resume_data_file_lock.locked:
+            return defer.succeed(None)
+
+        def on_lock_aquired():
+            d = threads.deferToThread(self._save_resume_data_file)
+
+            def on_resume_data_file_saved(arg):
+                if self.save_resume_data_timer.running:
+                    self.save_resume_data_timer.reset()
+                return arg
+            d.addBoth(on_resume_data_file_saved)
+            return d
+        return self.save_resume_data_file_lock.run(on_lock_aquired)
+
+    def _save_resume_data_file(self):
         """Saves the resume data file with the contents of self.resume_data"""
         if not self.resume_data:
             return True
