@@ -34,8 +34,8 @@ class ComponentException(Exception):
 
 
 class Component(object):
-    """
-    Component objects are singletons managed by the :class:`ComponentRegistry`.
+    """Component objects are singletons managed by the :class:`ComponentRegistry`.
+
     When a new Component object is instantiated, it will be automatically
     registered with the :class:`ComponentRegistry`.
 
@@ -80,6 +80,14 @@ class Component(object):
 
     """
     def __init__(self, name, interval=1, depend=None):
+        """Initialize component.
+
+        Args:
+            name (str): Name of component.
+            interval (int, optional): The interval in seconds to call the update function.
+            depend (list, optional): The names of components this component depends on.
+
+        """
         self._component_name = name
         self._component_interval = interval
         self._component_depend = depend
@@ -212,10 +220,9 @@ class Component(object):
 
 
 class ComponentRegistry(object):
-    """
-    The ComponentRegistry holds a list of currently registered
-    :class:`Component` objects.  It is used to manage the Components by
-    starting, stopping, pausing and shutting them down.
+    """The ComponentRegistry holds a list of currently registered :class:`Component` objects.
+
+    It is used to manage the Components by starting, stopping, pausing and shutting them down.
     """
     def __init__(self):
         self.components = {}
@@ -223,20 +230,21 @@ class ComponentRegistry(object):
         self.dependents = defaultdict(list)
 
     def register(self, obj):
-        """
-        Registers a component object with the registry.  This is done
-        automatically when a Component object is instantiated.
+        """Register a component object with the registry.
 
-        :param obj: the Component object
-        :type obj: object
+        Note:
+            This is done automatically when a Component object is instantiated.
 
-        :raises ComponentAlreadyRegistered: if a component with the same name is already registered.
+        Args:
+            obj (Component): A component object to register.
+
+        Raises:
+            ComponentAlreadyRegistered: If a component with the same name is already registered.
 
         """
         name = obj._component_name
         if name in self.components:
-            raise ComponentAlreadyRegistered(
-                "Component already registered with name %s" % name)
+            raise ComponentAlreadyRegistered("Component already registered with name %s" % name)
 
         self.components[obj._component_name] = obj
         if obj._component_depend:
@@ -244,12 +252,14 @@ class ComponentRegistry(object):
                 self.dependents[depend].append(name)
 
     def deregister(self, obj):
-        """
-        Deregisters a component from the registry.  A stop will be
+        """Deregister a component from the registry.  A stop will be
         issued to the component prior to deregistering it.
 
-        :param obj: the Component object
-        :type obj: object
+        Args:
+            obj (Component): a component object to deregister
+
+        Returns:
+            Deferred: a deferred object that will fire once the Component has been sucessfully deregistered
 
         """
         if obj in self.components.values():
@@ -264,17 +274,16 @@ class ComponentRegistry(object):
             return succeed(None)
 
     def start(self, names=None):
-        """
-        Starts Components that are currently in a Stopped state and their
-        dependencies.  If *names* is specified, will only start those
-        Components and their dependencies and if not it will start all
-        registered components.
+        """Start Components, and their dependencies, that are currently in a Stopped state.
 
-        :param names: a list of Components to start
-        :type names: list
+        Note:
+            If no names are specified then all registered components will be started.
 
-        :returns: a Deferred object that will fire once all Components have been sucessfully started
-        :rtype: twisted.internet.defer.Deferred
+        Args:
+            names (list): A list of Components to start and their dependencies.
+
+        Returns:
+            Deferred: Fired once all Components have been successfully started.
 
         """
         # Start all the components if names is empty
@@ -300,16 +309,16 @@ class ComponentRegistry(object):
         return DeferredList(deferreds)
 
     def stop(self, names=None):
-        """
-        Stops Components that are currently not in a Stopped state.  If
-        *names* is specified, then it will only stop those Components,
-        and if not it will stop all the registered Components.
+        """Stop Components that are currently not in a Stopped state.
 
-        :param names: a list of Components to start
-        :type names: list
+        Note:
+            If no names are specified then all registered components will be stopped.
 
-        :returns: a Deferred object that will fire once all Components have been sucessfully stopped
-        :rtype: twisted.internet.defer.Deferred
+        Args:
+            names (list): A list of Components to stop.
+
+        Returns:
+            Deferred: Fired once all Components have been successfully stopped.
 
         """
         if not names:
@@ -338,16 +347,16 @@ class ComponentRegistry(object):
         return DeferredList(deferreds)
 
     def pause(self, names=None):
-        """
-        Pauses Components that are currently in a Started state.  If
-        *names* is specified, then it will only pause those Components,
-        and if not it will pause all the registered Components.
+        """Pause Components that are currently in a Started state.
 
-        :param names: a list of Components to pause
-        :type names: list
+        Note:
+            If no names are specified then all registered components will be paused.
 
-        :returns: a Deferred object that will fire once all Components have been sucessfully paused
-        :rtype: twisted.internet.defer.Deferred
+        Args:
+            names (list): A list of Components to pause.
+
+        Returns:
+            Deferred: Fired once all Components have been successfully paused.
 
         """
         if not names:
@@ -364,16 +373,16 @@ class ComponentRegistry(object):
         return DeferredList(deferreds)
 
     def resume(self, names=None):
-        """
-        Resumes Components that are currently in a Paused state.  If
-        *names* is specified, then it will only resume those Components,
-        and if not it will resume all the registered Components.
+        """Resume Components that are currently in a Paused state.
 
-        :param names: a list of Components to resume
-        :type names: list
+        Note:
+            If no names are specified then all registered components will be resumed.
 
-        :returns: a Deferred object that will fire once all Components have been successfully resumed
-        :rtype: twisted.internet.defer.Deferred
+        Args:
+            names (list): A list of Components to to resume.
+
+        Returns:
+            Deferred: Fired once all Components have been successfully resumed.
 
         """
         if not names:
@@ -390,14 +399,13 @@ class ComponentRegistry(object):
         return DeferredList(deferreds)
 
     def shutdown(self):
-        """
-        Shutdowns all Components regardless of state.  This will call
-        :meth:`stop` on call the components prior to shutting down.  This should
-        be called when the program is exiting to ensure all Components have a
-        chance to properly shutdown.
+        """Shutdown all Components regardless of state.
 
-        :returns: a Deferred object that will fire once all Components have been successfully shut down
-        :rtype: twisted.internet.defer.Deferred
+        This will call stop() on all the components prior to shutting down. This should be called
+        when the program is exiting to ensure all Components have a chance to properly shutdown.
+
+        Returns:
+            Deferred: Fired once all Components have been successfully shut down.
 
         """
         def on_stopped(result):
@@ -406,10 +414,7 @@ class ComponentRegistry(object):
         return self.stop(self.components.keys()).addCallback(on_stopped)
 
     def update(self):
-        """
-        Updates all Components that are in a Started state.
-
-        """
+        """Update all Components that are in a Started state."""
         for component in self.components.items():
             try:
                 component.update()
@@ -429,16 +434,16 @@ shutdown = _ComponentRegistry.shutdown
 
 
 def get(name):
-    """
-    Return a reference to a component.
+    """Return a reference to a component.
 
-    :param name: the Component name to get
-    :type name: string
+    Args:
+        name (str): The Component name to get.
 
-    :returns: the Component object
-    :rtype: object
+    Returns:
+        Component: The Component object.
 
-    :raises KeyError: if the Component does not exist
+    Raises:
+        KeyError: If the Component does not exist.
 
     """
     return _ComponentRegistry.components[name]
