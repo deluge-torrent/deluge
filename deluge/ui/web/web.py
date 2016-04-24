@@ -9,6 +9,7 @@
 
 from __future__ import print_function
 
+import argparse
 import logging
 import os
 
@@ -42,6 +43,7 @@ class Web(UI):
         if not windows_check():
             group.add_argument("-d", "--do-not-daemonize", dest="donotdaemonize", action="store_true", default=False,
                                help="Do not daemonize the web interface")
+            group.add_argument("-f", "--fork", dest="donotdaemonize", help=argparse.SUPPRESS, action="store_false")
         group.add_argument("-P", "--pidfile", metavar="<pidfile>", action="store", default=None,
                            help="Use pidfile to store process id")
         if not windows_check():
