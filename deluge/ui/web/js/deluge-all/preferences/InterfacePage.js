@@ -32,34 +32,31 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             style: 'margin-bottom: 0px; padding-bottom: 5px; padding-top: 5px',
             autoHeight: true,
             labelWidth: 1,
-            defaultType: 'checkbox'
+            defaultType: 'checkbox',
+            defaults: {
+                height: 17,
+                fieldLabel: '',
+                labelSeparator: ''
+            }
         });
         om.bind('show_session_speed', fieldset.add({
             name: 'show_session_speed',
-            height: 17,
-            fieldLabel: '',
-            labelSeparator: '',
             boxLabel: _('Show session speed in titlebar')
         }));
         om.bind('sidebar_show_zero', fieldset.add({
             name: 'sidebar_show_zero',
-            height: 17,
-            fieldLabel: '',
-            labelSeparator: '',
             boxLabel: _('Show filters with zero torrents')
         }));
         om.bind('sidebar_multiple_filters', fieldset.add({
             name: 'sidebar_multiple_filters',
-            height: 17,
-            fieldLabel: '',
-            labelSeparator: '',
             boxLabel: _('Allow the use of multiple filters at once')
         }));
+
         var languagePanel = this.add({
             xtype: 'fieldset',
             border: false,
             title: _('Language'),
-            style: 'margin-bottom: 0px; padding-bottom: 5px; padding-top: 8px',
+            style: 'margin-bottom: 0px; padding-bottom: 5px; padding-top: 5px',
             autoHeight: true,
             labelWidth: 1,
             defaultType: 'checkbox'
@@ -82,46 +79,43 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
-            title: _('Password'),
-            style: 'margin-bottom: 0px; padding-bottom: 0px; padding-top: 5px',
+            title: _('WebUI Password'),
+            style: 'margin-bottom: 0px; padding-bottom: 5px; padding-top: 5px',
             autoHeight: true,
-            labelWidth: 110,
+            labelWidth: 100,
             defaultType: 'textfield',
             defaults: {
-                width: 180,
-                inputType: 'password'
+                width: 100,
+                inputType: 'password',
+                labelStyle: 'padding-left: 5px',
+                height: 20,
+                labelSeparator: ''
             }
         });
 
         this.oldPassword = fieldset.add({
             name: 'old_password',
-            fieldLabel: _('Old Password:'),
-            height: 20,
-            labelSeparator: ''
+            fieldLabel: _('Old:'),
         });
         this.newPassword = fieldset.add({
             name: 'new_password',
-            fieldLabel: _('New Password:'),
-            height: 20,
-            labelSeparator: ''
+            fieldLabel: _('New:'),
         });
         this.confirmPassword = fieldset.add({
             name: 'confirm_password',
-            fieldLabel: _('Confirm Password:'),
-            height: 20,
-            labelSeparator: ''
+            fieldLabel: _('Confirm:'),
         });
 
         var panel = fieldset.add({
             xtype: 'panel',
             autoHeight: true,
             border: false,
-            width: 320,
-            bodyStyle: 'padding-left: 230px'
+            width: 310,
+            bodyStyle: 'padding-left: 110px'
         })
         panel.add({
             xtype: 'button',
-            text: _('Change'),
+            text: _('Change Password'),
             listeners: {
                 'click': {
                     fn: this.onPasswordChange,
@@ -134,18 +128,20 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             xtype: 'fieldset',
             border: false,
             title: _('Server'),
-            style: 'margin-top: 0px; padding-top: 0px; margin-bottom: 0px; padding-bottom: 0px',
+            style: 'padding-top: 3px; margin-bottom: 0px; padding-bottom: 5px',
             autoHeight: true,
-            labelWidth: 110,
+            labelWidth: 100,
             defaultType: 'spinnerfield',
             defaults: {
+                labelSeparator: '',
+                labelStyle: 'padding-left: 5px',
+                height: 20,
                 width: 80
             }
         });
         om.bind('session_timeout', fieldset.add({
             name: 'session_timeout',
             fieldLabel: _('Session Timeout:'),
-            labelSeparator: '',
             decimalPrecision: 0,
             minValue: -1,
             maxValue: 99999
@@ -153,18 +149,17 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
         om.bind('port', fieldset.add({
             name: 'port',
             fieldLabel: _('Port:'),
-            labelSeparator: '',
             decimalPrecision: 0,
-            minValue: -1,
-            maxValue: 99999
+            minValue: 1,
+            maxValue: 65535
         }));
         this.httpsField = om.bind('https', fieldset.add({
             xtype: 'checkbox',
             name: 'https',
             hideLabel: true,
-            width: 280,
-            height: 17,
-            boxLabel: _('Use SSL (paths relative to Deluge config folder)')
+            width: 300,
+            style: 'margin-left: 5px',
+            boxLabel: _('Enable SSL (paths relative to Deluge config folder)')
         }));
         this.httpsField.on('check', this.onSSLCheck, this);
         this.pkeyField = om.bind('pkey', fieldset.add({
@@ -173,7 +168,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             name: 'pkey',
             width: 180,
             fieldLabel: _('Private Key:'),
-            labelSeparator: ''
+
         }));
         this.certField = om.bind('cert', fieldset.add({
             xtype: 'textfield',
@@ -181,7 +176,6 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             name: 'cert',
             width: 180,
             fieldLabel: _('Certificate:'),
-            labelSeparator: ''
         }));
     },
 
