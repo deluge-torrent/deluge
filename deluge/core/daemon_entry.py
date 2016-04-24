@@ -56,7 +56,7 @@ def start_daemon(skip_start=False):
         deluge.core.daemon.Daemon: A new daemon object
 
     """
-    lang.set_dummy_trans()
+    lang.set_dummy_trans(warn_msg=True)
 
     # Setup the argument parser
     parser = BaseArgParser()
