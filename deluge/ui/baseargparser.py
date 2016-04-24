@@ -104,13 +104,13 @@ class BaseArgParser(argparse.ArgumentParser):
         self.group.add_argument("-L", "--loglevel", action="store", choices=deluge.log.levels, metavar="<level>",
                                 help=_("Set the log level: %s" % ", ".join(deluge.log.levels)))
         self.group.add_argument("--logrotate", action="store", nargs="?", const="2M", metavar="<max size>",
-                                help=_("Enable logfile rotation, with optional maximum logfile size, \
-default: %(const)s (Logfile rotation count is 5)"))
+                                help=_("Enable logfile rotation, with optional maximum logfile size, "
+                                       "default: %(const)s (Logfile rotation count is 5)"))
         self.group.add_argument("-q", "--quiet", action="store_true", default=False,
                                 help=_("Quieten logging output, equal to `--loglevel none`"))
         self.group.add_argument("--profile", metavar="<results file>", action="store", nargs="?", default=False,
-                                help=_("Profile %(prog)s with cProfile. Prints results to stdout \
-unless a filename is specified"))
+                                help=_("Profile %(prog)s with cProfile. Prints results to stdout "
+                                       "unless a filename is specified"))
         self.group.add_argument("-h", "--help", action=HelpAction, help=_("Show this help message and exit"))
 
     def parse_args(self, *args):

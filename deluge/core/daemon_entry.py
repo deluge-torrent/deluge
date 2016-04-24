@@ -21,28 +21,25 @@ from deluge.ui.util import lang
 
 
 def add_daemon_options(parser):
-    group = parser.add_argument_group('Daemon Options')
+    group = parser.add_argument_group(_("Daemon Options"))
     group.add_argument("-p", "--port", metavar="<port>", action="store", type=int,
-                       help="The port the daemon will listen on")
-    group.add_argument("-i", "--interface", metavar="<iface>", dest="listen_interface",
-                       help="Interface daemon will listen for bittorrent connections on, "
-                       "this should be an IP address", action="store")
+                       help=_("The port the daemon will listen on"))
+    group.add_argument("-i", "--interface", metavar="<iface>", dest="listen_interface", action="store",
+                       help=_("Interface daemon will listen for bittorrent connections on, must be an IP address"))
     group.add_argument("-u", "--ui-interface", metavar="<iface>", action="store",
-                       help="Interface daemon will listen for UI connections on, "
-                       "this should be an IP address")
+                       help=_("Interface daemon will listen for UI connections on, must be an IP address"))
     if not deluge.common.windows_check():
-        group.add_argument("-d", "--do-not-daemonize", dest="donot",
-                           help="Do not daemonize", action="store_true", default=False)
-    group.add_argument("-P", "--pidfile", metavar="<pidfile>",
-                       help="Use pidfile to store process id", action="store")
+        group.add_argument("-d", "--do-not-daemonize", dest="donot", action="store_true",
+                           help=_("Do not fork or daemonize the daemon process"))
+    group.add_argument("-P", "--pidfile", metavar="<pidfile>", action="store",
+                       help=_("Use a pidfile to store process id"))
     if not deluge.common.windows_check():
         group.add_argument("-U", "--user", metavar="<user>", action="store",
-                           help="User to switch to. Only use it when starting as root")
+                           help=_("User to switch to. Only use it when starting as root"))
         group.add_argument("-g", "--group", metavar="<group>", action="store",
-                           help="Group to switch to. Only use it when starting as root")
-    group.add_argument("--read-only-config-keys",
-                       help="List of comma-separated config keys that will not be modified by set_config RPC.",
-                       action="store", type=str, default="")
+                           help=_("Group to switch to. Only use it when starting as root"))
+    group.add_argument("--read-only-config-keys", action="store", type=str, default="",
+                       help=_("List of comma-separated config keys that will not be modified by set_config RPC."))
 
 
 def start_daemon(skip_start=False):

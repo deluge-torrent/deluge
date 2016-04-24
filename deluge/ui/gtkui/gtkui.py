@@ -142,10 +142,10 @@ class Gtk(UI):
     def __init__(self, *args, **kwargs):
         super(Gtk, self).__init__("gtk", *args, **kwargs)
 
-        group = self.parser.add_argument_group(_('GTK Options'))
+        group = self.parser.add_argument_group(_("GTK Options"))
         group.add_argument("torrents", metavar="<torrent>", nargs="*", default=None,
-                           help="Add one or more torrent files, torrent URLs or magnet URIs"
-                           " to a currently running Deluge GTK instance")
+                           help=_("Add one or more torrent files, torrent URLs or magnet URIs"
+                                  " to a currently running Deluge GTK instance"))
 
     def start(self, args=None):
         super(Gtk, self).start(args)
