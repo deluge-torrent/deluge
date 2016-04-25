@@ -178,6 +178,10 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
         }
     },
 
+    onOk: function() {
+        this.onApply();
+    },
+
     onGotConfig: function(config) {
         this.optionsManager.set(config);
     },
