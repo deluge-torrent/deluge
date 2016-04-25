@@ -106,29 +106,11 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             fieldLabel: _('Confirm:'),
         });
 
-        var panel = fieldset.add({
-            xtype: 'panel',
-            autoHeight: true,
-            border: false,
-            width: 310,
-            bodyStyle: 'padding-left: 110px'
-        })
-        panel.add({
-            xtype: 'button',
-            text: _('Change Password'),
-            listeners: {
-                'click': {
-                    fn: this.onPasswordChange,
-                    scope: this
-                }
-            }
-        });
-
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
             title: _('Server'),
-            style: 'padding-top: 3px; margin-bottom: 0px; padding-bottom: 5px',
+            style: 'padding-top: 5px; margin-bottom: 0px; padding-bottom: 5px',
             autoHeight: true,
             labelWidth: 100,
             defaultType: 'spinnerfield',
@@ -190,6 +172,9 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             for (var key in deluge.config) {
                 deluge.config[key] = this.optionsManager.get(key);
             }
+        }
+        if (this.oldPassword.getValue() || this.newPassword.getValue()) {
+            this.onPasswordChange();
         }
     },
 
