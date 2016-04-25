@@ -172,6 +172,21 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             for (var key in deluge.config) {
                 deluge.config[key] = this.optionsManager.get(key);
             }
+            if ('language' in changed) {
+                Ext.Msg.show({
+                    title: _('WebUI Language Changed'),
+                    msg: _('Do you want to refresh the page now to use the new language?'),
+                    buttons: {
+                        yes: _('Refresh'),
+                        no: _('Close'),
+                    },
+                    multiline : false,
+                    fn: function(btnText) {
+                        if(btnText === 'yes') location.reload();
+                    },
+                    icon: Ext.MessageBox.QUESTION
+                });
+            }
         }
         if (this.oldPassword.getValue() || this.newPassword.getValue()) {
             this.onPasswordChange();
