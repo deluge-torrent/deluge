@@ -6,8 +6,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-# We skip isorting this file as it want to move the gtk2reactor.install() below the imports
-# isort:skip_file
 
 from __future__ import division
 
@@ -30,6 +28,7 @@ except ReactorAlreadyInstalledError as ex:
     # Running unit tests so trial already installed a rector
     from twisted.internet import reactor
 
+# isort:imports-firstparty
 import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager, get_config_dir
