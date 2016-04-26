@@ -95,8 +95,10 @@ class BaseArgParser(argparse.ArgumentParser):
 
         self.common_setup = False
         self.group = self.add_argument_group(_("Common Options"))
-        self.group.add_argument("--version", action="version", version="%(prog)s " + get_version(),
+        self.group.add_argument("-V", "--version", action="version", version="%(prog)s " + get_version(),
                                 help=_("Show program's version info and exit"))
+        self.group.add_argument("-v", action="version", version="%(prog)s " + get_version(),
+                                help=argparse.SUPPRESS)  # Deprecated arg
         self.group.add_argument("-c", "--config", action="store", metavar="<config>",
                                 help=_("Set the config directory path"))
         self.group.add_argument("-l", "--logfile", action="store", metavar="<logfile>",
