@@ -28,11 +28,10 @@ class WebUI(object):
 
 class Web(UI):
 
-    help = """Starts the Deluge web interface"""
-    cmdline = """A web-based interface (http://localhost:8112)"""
+    cmd_description = """A web-based interface (http://localhost:8112)"""
 
     def __init__(self, *args, **kwargs):
-        super(Web, self).__init__("web", *args, **kwargs)
+        super(Web, self).__init__("web", *args, description="Starts the Deluge web interface", **kwargs)
         self.__server = None
 
         group = self.parser.add_argument_group(_("Web Server Options"))

@@ -136,11 +136,10 @@ DEFAULT_PREFS = {
 
 class Gtk(UI):
 
-    help = """Starts the Deluge GTK+ interface"""
-    cmdline = """A GTK-based graphical user interface"""
+    cmd_description = """A GTK-based graphical user interface"""
 
     def __init__(self, *args, **kwargs):
-        super(Gtk, self).__init__("gtk", *args, **kwargs)
+        super(Gtk, self).__init__("gtk", *args, description="Starts the Deluge GTK+ interface", **kwargs)
 
         group = self.parser.add_argument_group(_("GTK Options"))
         group.add_argument("torrents", metavar="<torrent>", nargs="*", default=None,
