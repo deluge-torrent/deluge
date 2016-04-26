@@ -40,12 +40,7 @@ def start_ui():
                            for entrypoint in pkg_resources.iter_entry_points("deluge.ui")])
 
     cmd_help = [_("The UI that you wish to launch. The UI choices are:")]
-    max_len = 0
-    for k, v in ui_entrypoints.iteritems():
-        cmdline = getattr(v, "cmdline", "")
-        max_len = max(max_len, len(cmdline))
-
-    cmd_help.extend(["%s -- %s" % (k, getattr(v, "cmdline", "")) for k, v in ui_entrypoints.iteritems()])
+    cmd_help.extend(["%s -- %s" % (k, getattr(v, "cmd_description", "")) for k, v in ui_entrypoints.iteritems()])
 
     group.add_argument("-u", "--ui", action="store",
                        choices=ui_entrypoints.keys(), help="\n  * ".join(cmd_help))

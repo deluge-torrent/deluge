@@ -50,11 +50,10 @@ def load_commands(command_dir):
 
 class Console(UI):
 
-    help = """Starts the Deluge console interface"""
-    cmdline = """A console or command-line interface"""
+    cmd_description = """A console or command-line interface"""
 
     def __init__(self, *args, **kwargs):
-        super(Console, self).__init__("console", *args, **kwargs)
+        super(Console, self).__init__("console", *args, description="Test", **kwargs)
 
         group = self.parser.add_argument_group(_("Console Options"), "These daemon connect options will be "
                                                "used for commands, or if console ui autoconnect is enabled.")
@@ -67,6 +66,7 @@ class Console(UI):
         # we add a subparser for each command which will trigger the help/usage when given
         from deluge.ui.console.main import ConsoleCommandParser  # import here because (see top)
         self.console_parser = ConsoleCommandParser(parents=[self.parser], add_help=False,
+                                                   description="Starts the Deluge console interface",
                                                    formatter_class=lambda prog:
                                                    DelugeTextHelpFormatter(prog, max_help_position=33, width=90))
         self.parser.subparser = self.console_parser
