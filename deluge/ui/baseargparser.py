@@ -95,25 +95,26 @@ class BaseArgParser(argparse.ArgumentParser):
 
         self.common_setup = False
         self.group = self.add_argument_group(_("Common Options"))
+        self.group.add_argument("-h", "--help", action=HelpAction,
+                                help=_("Print this help message"))
         self.group.add_argument("-V", "--version", action="version", version="%(prog)s " + get_version(),
-                                help=_("Show program's version info and exit"))
+                                help=_("Print version information"))
         self.group.add_argument("-v", action="version", version="%(prog)s " + get_version(),
                                 help=argparse.SUPPRESS)  # Deprecated arg
-        self.group.add_argument("-c", "--config", action="store", metavar="<config>",
+        self.group.add_argument("-c", "--config", metavar="<config>",
                                 help=_("Set the config directory path"))
-        self.group.add_argument("-l", "--logfile", action="store", metavar="<logfile>",
+        self.group.add_argument("-l", "--logfile", metavar="<logfile>",
                                 help=_("Output to specified logfile instead of stdout"))
-        self.group.add_argument("-L", "--loglevel", action="store", choices=deluge.log.levels, metavar="<level>",
-                                help=_("Set the log level: %s" % ", ".join(deluge.log.levels)))
-        self.group.add_argument("--logrotate", action="store", nargs="?", const="2M", metavar="<max size>",
+        self.group.add_argument("-L", "--loglevel", choices=deluge.log.levels, metavar="<level>",
+                                help=_("Set the log level (none, error, warning, info, debug)"))
+        self.group.add_argument("--logrotate", nargs="?", const="2M", metavar="<max-size>",
                                 help=_("Enable logfile rotation, with optional maximum logfile size, "
                                        "default: %(const)s (Logfile rotation count is 5)"))
-        self.group.add_argument("-q", "--quiet", action="store_true", default=False,
-                                help=_("Quieten logging output, equal to `--loglevel none`"))
-        self.group.add_argument("--profile", metavar="<results file>", action="store", nargs="?", default=False,
-                                help=_("Profile %(prog)s with cProfile. Prints results to stdout "
+        self.group.add_argument("-q", "--quiet", action="store_true",
+                                help=_("Quieten logging output (Same as `--loglevel none`)"))
+        self.group.add_argument("--profile", metavar="<profile-file>", nargs="?", default=False,
+                                help=_("Profile %(prog)s with cProfile. Outputs to stdout "
                                        "unless a filename is specified"))
-        self.group.add_argument("-h", "--help", action=HelpAction, help=_("Show this help message and exit"))
 
     def parse_args(self, *args):
         options, remaining = super(BaseArgParser, self).parse_known_args(*args)

@@ -36,33 +36,32 @@ class Web(UI):
         super(Web, self).__init__("web", *args, **kwargs)
         self.__server = None
 
-        group = self.parser.add_argument_group(_("Web Options"))
-
-        group.add_argument("-b", "--base", metavar="<path>", action="store", default=None,
-                           help=_("Set the base path that the ui is running on (proxying)"))
+        group = self.parser.add_argument_group(_("Web Server Options"))
+        group.add_argument("-i", "--interface", metavar="<ip_address>", action="store",
+                           help=_("IP address for web server to listen on"))
+        group.add_argument("-p", "--port", metavar="<port>", type=int, action="store",
+                           help=_("Port for web server to listen on"))
+        group.add_argument("-P", "--pidfile", metavar="<pidfile>", action="store",
+                           help=_("Pidfile to store the process id"))
         if not windows_check():
-            group.add_argument("-d", "--do-not-daemonize", dest="donotdaemonize", action="store_true", default=False,
-                               help=_("Do not daemonize the web interface"))
-            group.add_argument("-f", "--fork", dest="donotdaemonize", action="store_false", help=argparse.SUPPRESS)
-        group.add_argument("-P", "--pidfile", metavar="<pidfile>", action="store", default=None,
-                           help=_("Use pidfile to store process id"))
-        if not windows_check():
-            group.add_argument("-U", "--user", metavar="<user>", action="store", default=None,
-                               help=_("User to switch to. Only use it when starting as root"))
-            group.add_argument("-g", "--group", metavar="<group>", action="store", default=None,
-                               help=_("Group to switch to. Only use it when starting as root"))
-        group.add_argument("-i", "--interface", metavar="<interface>", action="store", default=None,
-                           help=_("Binds the webserver to a specific IP address"))
-        group.add_argument("-p", "--port", metavar="<port>", type=int, action="store", default=None,
-                           help=_("Sets the port to be used for the webserver"))
+            group.add_argument("-d", "--do-not-daemonize", dest="donotdaemonize", action="store_true",
+                               help=_("Do not daemonize (fork) this process"))
+            group.add_argument("-f", "--fork", dest="donotdaemonize", action="store_false",
+                               help=argparse.SUPPRESS)  # Deprecated arg
+            group.add_argument("-U", "--user", metavar="<user>", action="store",
+                               help=_("Change to this user on startup (Requires root)"))
+            group.add_argument("-g", "--group", metavar="<group>", action="store",
+                               help=_("Change to this group on startup (Requires root)"))
+        group.add_argument("-b", "--base", metavar="<path>", action="store",
+                           help=_("Set the base path that the ui is running on"))
         try:
             import OpenSSL
             assert OpenSSL.__version__
         except ImportError:
             pass
         else:
-            group.add_argument("--ssl", action="store_true", help=_("Forces the webserver to use ssl"))
-            group.add_argument("--no-ssl", action="store_true", help=_("Forces the webserver to disable ssl"))
+            group.add_argument("--ssl", action="store_true", help=_("Force the web server to use SSL"))
+            group.add_argument("--no-ssl", action="store_true", help=_("Force the web server to disable SSL"))
 
     @property
     def server(self):
