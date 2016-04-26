@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import division
+
 import logging
 
 import gobject
@@ -305,8 +307,8 @@ class StatusBar(component.Component):
     def _on_get_session_status(self, status):
         self.download_rate = fspeed(status["payload_download_rate"], precision=0, shortform=True)
         self.upload_rate = fspeed(status["payload_upload_rate"], precision=0, shortform=True)
-        self.download_protocol_rate = (status["download_rate"] - status["payload_download_rate"]) / 1024
-        self.upload_protocol_rate = (status["upload_rate"] - status["payload_upload_rate"]) / 1024
+        self.download_protocol_rate = (status["download_rate"] - status["payload_download_rate"]) // 1024
+        self.upload_protocol_rate = (status["upload_rate"] - status["payload_upload_rate"]) // 1024
         self.num_connections = status["num_peers"]
         self.update_download_label()
         self.update_upload_label()

@@ -44,6 +44,8 @@ Example icon to test with `down.ico`_
 .. _down.ico: http://www.axialis.com/tutorials/iw/down.ico
 """
 
+from __future__ import division
+
 import logging
 import struct
 
@@ -132,7 +134,7 @@ class Win32IcoFile(object):
             log.debug("Loaded image: %s %s %s %s", im.format, im.mode, im.size, im.info)
 
             # change tile dimension to only encompass XOR image
-            im.size = im.size[0], im.size[1] / 2
+            im.size = im.size[0], im.size[1] // 2
             d, e, o, a = im.tile[0]
             im.tile[0] = d, (0, 0) + im.size, o, a
 
@@ -145,7 +147,7 @@ class Win32IcoFile(object):
                     break
             # end for
             log.debug("o:%s, w:%s, h:%s, bpp:%s", o, im.size[0], im.size[1], bpp)
-            and_mask_offset = o + (im.size[0] * im.size[1] * (bpp / 8.0))
+            and_mask_offset = o + (im.size[0] * im.size[1] * (bpp / 8))
 
             if bpp == 32:
                 # 32-bit color depth icon image allows semitransparent areas
@@ -178,7 +180,7 @@ class Win32IcoFile(object):
                     # bitmap row data is aligned to word boundaries
                     w += 32 - (im.size[0] % 32)
                 # the total mask data is padded row size * height / bits per char
-                total_bytes = int((w * im.size[1]) / 8)
+                total_bytes = (w * im.size[1]) // 8
                 log.debug("tot=%d, off=%d, w=%d, size=%d", len(data), and_mask_offset, w, total_bytes)
 
                 self.buf.seek(and_mask_offset)
@@ -190,7 +192,7 @@ class Win32IcoFile(object):
                     im.size,        # (w, h)
                     mask_data,       # source chars
                     'raw',          # raw decoder
-                    ('1;I', int(w / 8), -1)  # 1bpp inverted, padded, reversed
+                    ('1;I', w // 8, -1)  # 1bpp inverted, padded, reversed
                 )
 
                 # now we have two images, im is XOR image and mask is AND image

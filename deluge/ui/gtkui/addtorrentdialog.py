@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import division
+
 import base64
 import logging
 import os
@@ -620,7 +622,7 @@ class AddTorrentDialog(component.Component):
 
         def on_part(data, current_length, total_length):
             if total_length:
-                percent = float(current_length) / float(total_length)
+                percent = current_length / total_length
                 pb.set_fraction(percent)
                 pb.set_text("%.2f%% (%s / %s)" % (
                     percent * 100,

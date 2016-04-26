@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import division
+
 import logging
 from collections import deque
 
@@ -390,14 +392,14 @@ class AllTorrents(BaseMode, component.Component):
         self.column_widths = [self.config["%s_width" % c] for c in self.__cols_to_show]
         requested_width = sum([width for width in self.column_widths if width >= 0])
         if requested_width > self.cols:  # can't satisfy requests, just spread out evenly
-            cw = int(self.cols / len(self.__columns))
+            cw = self.cols // len(self.__columns)
             for i in range(0, len(self.column_widths)):
                 self.column_widths[i] = cw
         else:
             rem = self.cols - requested_width
             var_cols = len([width for width in self.column_widths if width < 0])
             if var_cols > 0:
-                vw = int(rem / var_cols)
+                vw = rem // var_cols
                 for i in range(0, len(self.column_widths)):
                     if self.column_widths[i] < 0:
                         self.column_widths[i] = vw
@@ -1173,14 +1175,14 @@ class AllTorrents(BaseMode, component.Component):
             if not self._scroll_up(1):
                 effected_lines = [self.cursel - 1, self.cursel]
         elif c == curses.KEY_PPAGE:
-            self._scroll_up(int(self.rows / 2))
+            self._scroll_up(self.rows // 2)
         elif c == curses.KEY_DOWN:
             if self.cursel >= self.numtorrents:
                 return
             if not self._scroll_down(1):
                 effected_lines = [self.cursel - 2, self.cursel - 1]
         elif c == curses.KEY_NPAGE:
-            self._scroll_down(int(self.rows / 2))
+            self._scroll_down(self.rows // 2)
         elif c == curses.KEY_HOME:
             self._scroll_up(self.cursel)
         elif c == curses.KEY_END:

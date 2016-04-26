@@ -8,6 +8,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import division
+
 from os.path import sep as dirsep
 
 import deluge.common as common
@@ -363,7 +365,7 @@ class Command(BaseCommand):
                 s += " {!cyan!}%s" % torrent_id
             else:
                 # Shorten the ID
-                a = int(space_left * 2 / 3.0)
+                a = space_left * 2 // 3
                 b = space_left - a
                 if a < 8:
                     b = b - (8 - a)

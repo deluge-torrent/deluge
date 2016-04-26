@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import division
+
 import logging
 from collections import deque
 
@@ -205,7 +207,7 @@ class TorrentDetail(BaseMode, component.Component):
         for f in fs:
             if f[3]:  # dir, has some children
                 bd = self.__fill_progress(f[3], progs)
-                f[5] = format_utils.format_progress((bd / f[2]) * 100)
+                f[5] = format_utils.format_progress(bd / f[2] * 100)
             else:  # file, update own prog and add to total
                 bd = f[2] * progs[f[1]]
                 f[5] = format_utils.format_progress(progs[f[1]] * 100)
@@ -226,13 +228,13 @@ class TorrentDetail(BaseMode, component.Component):
         self.column_widths = [-1, 15, 15, 20]
         req = sum([col_width for col_width in self.column_widths if col_width >= 0])
         if req > self.cols:  # can't satisfy requests, just spread out evenly
-            cw = int(self.cols / len(self.column_names))
+            cw = self.cols // len(self.column_names)
             for i in range(0, len(self.column_widths)):
                 self.column_widths[i] = cw
         else:
             rem = self.cols - req
             var_cols = len([col_width for col_width in self.column_widths if col_width < 0])
-            vw = int(rem / var_cols)
+            vw = rem // var_cols
             for i in range(0, len(self.column_widths)):
                 if self.column_widths[i] < 0:
                     self.column_widths[i] = vw
@@ -404,7 +406,7 @@ class TorrentDetail(BaseMode, component.Component):
         if self.popup:
             self.popup.handle_resize()
 
-        self._listing_start = self.rows / 2
+        self._listing_start = self.rows // 2
         self.refresh()
 
     def render_header(self, off):

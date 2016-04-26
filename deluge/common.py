@@ -8,7 +8,7 @@
 #
 
 """Common functions for various parts of Deluge to use."""
-from __future__ import print_function
+from __future__ import division, print_function
 
 import base64
 import functools
@@ -321,16 +321,16 @@ def fsize(fsize_b, precision=1, shortform=False):
 
     # Bigger than 1 TiB
     if fsize_b >= 1099511627776:
-        return "%.*f %s" % (precision, fsize_b / 1099511627776.0, tib_txt_short if shortform else tib_txt)
+        return "%.*f %s" % (precision, fsize_b / 1099511627776, tib_txt_short if shortform else tib_txt)
     # Bigger than 1 GiB
     elif fsize_b >= 1073741824:
-        return "%.*f %s" % (precision, fsize_b / 1073741824.0, gib_txt_short if shortform else gib_txt)
+        return "%.*f %s" % (precision, fsize_b / 1073741824, gib_txt_short if shortform else gib_txt)
     # Bigger than 1 MiB
     elif fsize_b >= 1048576:
-        return "%.*f %s" % (precision, fsize_b / 1048576.0, mib_txt_short if shortform else mib_txt)
+        return "%.*f %s" % (precision, fsize_b / 1048576, mib_txt_short if shortform else mib_txt)
     # Bigger than 1 KiB
     elif fsize_b >= 1024:
-        return "%.*f %s" % (precision, fsize_b / 1024.0, kib_txt_short if shortform else kib_txt)
+        return "%.*f %s" % (precision, fsize_b / 1024, kib_txt_short if shortform else kib_txt)
     else:
         return "%d %s" % (fsize_b, byte_txt)
 
@@ -376,16 +376,16 @@ def fspeed(bps, precision=1, shortform=False):
 
     """
 
-    fspeed_kb = bps / 1024.0
+    fspeed_kb = bps / 1024
     if fspeed_kb < 1024:
         return "%.*f %s" % (precision, fspeed_kb, _("K/s") if shortform else _("KiB/s"))
-    fspeed_mb = fspeed_kb / 1024.0
+    fspeed_mb = fspeed_kb / 1024
     if fspeed_mb < 1024:
         return "%.*f %s" % (precision, fspeed_mb, _("M/s") if shortform else _("MiB/s"))
-    fspeed_gb = fspeed_mb / 1024.0
+    fspeed_gb = fspeed_mb / 1024
     if fspeed_gb < 1024:
         return "%.*f %s" % (precision, fspeed_gb, _("G/s") if shortform else _("GiB/s"))
-    fspeed_tb = fspeed_gb / 1024.0
+    fspeed_tb = fspeed_gb / 1024
     return "%.*f %s" % (precision, fspeed_tb, _("T/s") if shortform else _("TiB/s"))
 
 
@@ -433,23 +433,23 @@ def ftime(seconds):
         return ""
     if seconds < 60:
         return '%ds' % (seconds)
-    minutes = seconds / 60
+    minutes = seconds // 60
     if minutes < 60:
         seconds = seconds % 60
         return '%dm %ds' % (minutes, seconds)
-    hours = minutes / 60
+    hours = minutes // 60
     if hours < 24:
         minutes = minutes % 60
         return '%dh %dm' % (hours, minutes)
-    days = hours / 24
+    days = hours // 24
     if days < 7:
         hours = hours % 24
         return '%dd %dh' % (days, hours)
-    weeks = days / 7
+    weeks = days // 7
     if weeks < 52:
         days = days % 7
         return '%dw %dd' % (weeks, days)
-    years = weeks / 52
+    years = weeks // 52
     weeks = weeks % 52
     return '%dy %dw' % (years, weeks)
 

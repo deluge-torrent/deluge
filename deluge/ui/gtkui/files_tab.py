@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import division
+
 import cPickle
 import logging
 import os.path
@@ -423,12 +425,12 @@ class FilesTab(Tab):
                 if self.treestore.iter_children(row):
                     completed_bytes += get_completed_bytes(self.treestore.iter_children(row))
                 else:
-                    completed_bytes += self.treestore[row][1] * (float(self.treestore[row][3]) / 100.0)
+                    completed_bytes += self.treestore[row][1] * self.treestore[row][3] / 100
 
                 row = self.treestore.iter_next(row)
 
             try:
-                value = (float(completed_bytes) / float(self.treestore[parent][1])) * 100
+                value = completed_bytes / self.treestore[parent][1] * 100
             except ZeroDivisionError:
                 # Catch the unusal error found when moving folders around
                 value = 0

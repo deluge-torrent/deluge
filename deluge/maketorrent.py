@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import division
+
 import os
 import sys
 from hashlib import sha1 as sha
@@ -102,11 +104,11 @@ class TorrentMetadata(object):
         else:
             # We need to calculate a piece size
             piece_size = 16384
-            while (datasize / piece_size) > 1024 and piece_size < (8192 * 1024):
+            while (datasize // piece_size) > 1024 and piece_size < (8192 * 1024):
                 piece_size *= 2
 
         # Calculate the number of pieces we will require for the data
-        num_pieces = datasize / piece_size
+        num_pieces = datasize // piece_size
         if datasize % piece_size:
             num_pieces += 1
 

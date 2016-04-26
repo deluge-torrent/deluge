@@ -11,6 +11,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import division
+
 import logging
 
 import gtk
@@ -38,9 +40,9 @@ class SchedulerSelectWidget(gtk.DrawingArea):
         self.connect("motion_notify_event", self.mouse_hover)
         self.connect("leave_notify_event", self.mouse_leave)
 
-        self.colors = [[115.0 / 255, 210.0 / 255, 22.0 / 255],
-                       [237.0 / 255, 212.0 / 255, 0.0 / 255],
-                       [204.0 / 255, 0.0 / 255, 0.0 / 255]]
+        self.colors = [[115 / 255, 210 / 255, 22 / 255],
+                       [237 / 255, 212 / 255, 0 / 255],
+                       [204 / 255, 0 / 255, 0 / 255]]
         self.button_state = [[0] * 7 for dummy in xrange(24)]
 
         self.start_point = [0, 0]
@@ -70,8 +72,8 @@ class SchedulerSelectWidget(gtk.DrawingArea):
                 context.set_source_rgba(self.colors[self.button_state[x][y]][0],
                                         self.colors[self.button_state[x][y]][1],
                                         self.colors[self.button_state[x][y]][2], 0.7)
-                context.rectangle(width * (6 * x / 145.0 + 1 / 145.0), height * (6 * y / 43.0 + 1 / 43.0),
-                                  5 * width / 145.0, 5 * height / 43.0)
+                context.rectangle(width * (6 * x / 145 + 1 / 145), height * (6 * y / 43 + 1 / 43),
+                                  5 * width / 145, 5 * height / 43)
                 context.fill_preserve()
                 context.set_source_rgba(0.5, 0.5, 0.5, 0.5)
                 context.stroke()
@@ -79,8 +81,8 @@ class SchedulerSelectWidget(gtk.DrawingArea):
     # coordinates --> which box
     def get_point(self, event):
         size = self.window.get_size()
-        x = int((event.x - size[0] * 0.5 / 145.0) / (6 * size[0] / 145.0))
-        y = int((event.y - size[1] * 0.5 / 43.0) / (6 * size[1] / 43.0))
+        x = int((event.x - size[0] * 0.5 / 145) / (6 * size[0] / 145))
+        y = int((event.y - size[1] * 0.5 / 43) / (6 * size[1] / 43))
 
         if x > 23:
             x = 23

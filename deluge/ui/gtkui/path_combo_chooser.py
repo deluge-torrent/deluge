@@ -8,7 +8,7 @@
 # See LICENSE for more details.
 #
 
-from __future__ import print_function
+from __future__ import division, print_function
 
 import os
 
@@ -596,7 +596,7 @@ class PathChooserPopup(object):
         # Adjust height according to number of list items
         if len(self.tree_store) > 0 and self.max_visible_rows > 0:
             # The height for one row in the list
-            self.row_height = self.treeview.size_request()[1] / len(self.tree_store)
+            self.row_height = self.treeview.size_request()[1] // len(self.tree_store)
             # Set height to number of rows
             height = len(self.tree_store) * self.row_height + height_extra
             # Adjust the height according to the max number of rows

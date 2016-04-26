@@ -7,14 +7,17 @@
 # See LICENSE for more details.
 #
 
+from __future__ import division
+
+import logging
+
+from deluge.ui.console.modes import format_utils
+
 try:
     import curses
 except ImportError:
     pass
 
-import logging
-
-from deluge.ui.console.modes import format_utils
 
 log = logging.getLogger(__name__)
 
@@ -97,7 +100,7 @@ class Popup(object):
 
         # Height
         if hr == 0:
-            hr = int(self.parent.rows / 2)
+            hr = self.parent.rows // 2
         elif hr == -1:
             hr = self.parent.rows - 2
         elif hr > self.parent.rows - 2:
@@ -105,7 +108,7 @@ class Popup(object):
 
         # Width
         if wr == 0:
-            wr = int(self.parent.cols / 2)
+            wr = self.parent.cols // 2
         elif wr == -1:
             wr = self.parent.cols
         elif wr >= self.parent.cols:
@@ -114,14 +117,14 @@ class Popup(object):
         if self.align in [ALIGN.TOP_CENTER, ALIGN.TOP_LEFT, ALIGN.TOP_RIGHT]:
             by = 1
         elif self.align in [ALIGN.MIDDLE_CENTER, ALIGN.MIDDLE_LEFT, ALIGN.MIDDLE_RIGHT]:
-            by = (self.parent.rows / 2) - (hr / 2)
+            by = (self.parent.rows // 2) - (hr // 2)
         elif self.align in [ALIGN.BOTTOM_CENTER, ALIGN.BOTTOM_LEFT, ALIGN.BOTTOM_RIGHT]:
             by = self.parent.rows - hr - 1
 
         if self.align in [ALIGN.TOP_LEFT, ALIGN.MIDDLE_LEFT, ALIGN.BOTTOM_LEFT]:
             bx = 0
         elif self.align in [ALIGN.TOP_CENTER, ALIGN.MIDDLE_CENTER, ALIGN.BOTTOM_CENTER]:
-            bx = (self.parent.cols / 2) - (wr / 2)
+            bx = (self.parent.cols // 2) - (wr // 2)
         elif self.align in [ALIGN.TOP_RIGHT, ALIGN.MIDDLE_RIGHT, ALIGN.BOTTOM_RIGHT]:
             bx = self.parent.cols - wr - 1
 
@@ -139,7 +142,7 @@ class Popup(object):
         self._refresh_lines()
         if len(self._lines) > (self.height - 2):
             lts = len(self._lines) - (self.height - 3)
-            perc_sc = float(self.lineoff) / lts
+            perc_sc = self.lineoff / lts
             sb_pos = int((self.height - 2) * perc_sc) + 1
             if (sb_pos == 1) and (self.lineoff != 0):
                 sb_pos += 1

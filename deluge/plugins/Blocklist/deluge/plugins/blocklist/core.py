@@ -8,6 +8,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import division
+
 import logging
 import os
 import shutil
@@ -288,7 +290,7 @@ class Core(CorePluginBase):
         """
         def on_retrieve_data(data, current_length, total_length):
             if total_length:
-                fp = float(current_length) / total_length
+                fp = current_length / total_length
                 if fp > 1.0:
                     fp = 1.0
             else:

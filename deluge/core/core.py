@@ -8,6 +8,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import division
+
 import base64
 import glob
 import logging
@@ -413,13 +415,12 @@ class Core(component.Component):
 
         # Add in a couple ratios
         try:
-            cache["write_hit_ratio"] = float((cache["blocks_written"] -
-                                              cache["writes"])) / float(cache["blocks_written"])
+            cache["write_hit_ratio"] = (cache["blocks_written"] - cache["writes"]) / cache["blocks_written"]
         except ZeroDivisionError:
             cache["write_hit_ratio"] = 0.0
 
         try:
-            cache["read_hit_ratio"] = float(cache["blocks_read_hit"]) / float(cache["blocks_read"])
+            cache["read_hit_ratio"] = cache["blocks_read_hit"] / cache["blocks_read"]
         except ZeroDivisionError:
             cache["read_hit_ratio"] = 0.0
 

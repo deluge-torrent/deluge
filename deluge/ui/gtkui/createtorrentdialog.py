@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import division
+
 import base64
 import logging
 import os.path
@@ -124,7 +126,7 @@ class CreateTorrentDialog(object):
         model = self.builder.get_object("combo_piece_size").get_model()
         for index, value in enumerate(model):
             psize = self.parse_piece_size_text(value[0])
-            pieces = size / psize
+            pieces = size // psize
             if pieces < 2048 or (index + 1) == len(model):
                 self.builder.get_object("combo_piece_size").set_active(index)
                 break
@@ -376,7 +378,7 @@ class CreateTorrentDialog(object):
                                          {"download_location": os.path.split(path)[0]})
 
     def _on_create_torrent_progress(self, value, num_pieces):
-        percent = float(value) / float(num_pieces)
+        percent = value / num_pieces
 
         def update_pbar_with_gobject(percent):
             pbar = self.builder.get_object("progressbar")

@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import division
+
 import logging
 from math import pi
 
@@ -104,9 +106,9 @@ class PiecesBar(gtk.DrawingArea):
 
     def __create_roundcorners_subpath(self, ctx, x, y, width, height):
         aspect = 1.0
-        corner_radius = height / 10.0
+        corner_radius = height / 10
         radius = corner_radius / aspect
-        degrees = pi / 180.0
+        degrees = pi / 180
         ctx.new_sub_path()
         ctx.arc(x + width - radius, y + radius, radius, -90 * degrees, 0 * degrees)
         ctx.arc(x + width - radius, y + height - radius, radius, 0 * degrees, 90 * degrees)
@@ -125,14 +127,14 @@ class PiecesBar(gtk.DrawingArea):
             ctx = cairo.Context(self.__pieces_overlay)
             start_pos = 0
             num_pieces = self.__num_pieces and self.__num_pieces or len(self.__pieces)
-            piece_width = self.__width * 1.0 / num_pieces
+            piece_width = self.__width * 1 / num_pieces
 
             for state in self.__pieces:
                 color = self.gtkui_config["pieces_color_%s" % COLOR_STATES[state]]
                 ctx.set_source_rgb(
-                    color[0] / 65535.0,
-                    color[1] / 65535.0,
-                    color[2] / 65535.0,
+                    color[0] / 65535,
+                    color[1] / 65535,
+                    color[2] / 65535,
                 )
                 ctx.rectangle(start_pos, 0, piece_width, self.__height)
                 ctx.fill()
@@ -149,15 +151,15 @@ class PiecesBar(gtk.DrawingArea):
                 cairo.FORMAT_ARGB32, self.__width, self.__height
             )
             ctx = cairo.Context(self.__pieces_overlay)
-            piece_width = self.__width * 1.0 / self.__num_pieces
+            piece_width = self.__width * 1 / self.__num_pieces
             start = 0
             for _ in range(self.__num_pieces):
                 # Like this to keep same aspect ratio
                 color = self.gtkui_config["pieces_color_%s" % COLOR_STATES[3]]
                 ctx.set_source_rgb(
-                    color[0] / 65535.0,
-                    color[1] / 65535.0,
-                    color[2] / 65535.0,
+                    color[0] / 65535,
+                    color[1] / 65535,
+                    color[2] / 65535,
                 )
                 ctx.rectangle(start, 0, piece_width, self.__height)
                 ctx.fill()
@@ -214,11 +216,11 @@ class PiecesBar(gtk.DrawingArea):
             log.trace("PiecesBar text %r", text)
             pl.set_text(text)
             plsize = pl.get_size()
-            text_width = plsize[0] / pango.SCALE
-            text_height = plsize[1] / pango.SCALE
+            text_width = plsize[0] // pango.SCALE
+            text_height = plsize[1] // pango.SCALE
             area_width_without_text = self.__width - text_width
             area_height_without_text = self.__height - text_height
-            ctx.move_to(area_width_without_text / 2, area_height_without_text / 2)
+            ctx.move_to(area_width_without_text // 2, area_height_without_text // 2)
             ctx.set_source_rgb(1.0, 1.0, 1.0)
             pg.update_layout(pl)
             pg.show_layout(pl)

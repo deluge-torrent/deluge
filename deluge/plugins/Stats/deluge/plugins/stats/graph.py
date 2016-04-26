@@ -14,6 +14,9 @@
 """
 port of old plugin by markybob.
 """
+
+from __future__ import division
+
 import logging
 import math
 import time
@@ -40,7 +43,7 @@ def size_formatter_scale(value):
     scale = 1.0
     for i in range(0, 3):
         scale = scale * 1024.0
-        if value / scale < 1024:
+        if value // scale < 1024:
             return scale
 
 
@@ -118,22 +121,22 @@ class Graph(object):
         (left, top, right, bottom) = bounds
         duration = self.length * self.interval
         start = self.last_update - duration
-        ratio = (right - left) / float(duration)
+        ratio = (right - left) / duration
 
         if duration < 1800 * 10:
             # try rounding to nearest 1min, 5mins, 10mins, 30mins
             for step in [60, 300, 600, 1800]:
-                if duration / step < 10:
+                if duration // step < 10:
                     x_step = step
                     break
         else:
             # If there wasnt anything useful find a nice fitting hourly divisor
-            x_step = ((duration / 5) / 3600) * 3600
+            x_step = ((duration // 5) // 3600) * 3600
 
         # this doesnt allow for dst and timezones...
-        seconds_to_step = math.ceil(start / float(x_step)) * x_step - start
+        seconds_to_step = math.ceil(start / x_step) * x_step - start
 
-        for i in xrange(0, duration / x_step + 1):
+        for i in xrange(0, duration // x_step + 1):
             text = time.strftime('%H:%M', time.localtime(start + seconds_to_step + i * x_step))
             # + 0.5 to allign x to nearest pixel
             x = int(ratio * (seconds_to_step + i * x_step) + left) + 0.5
@@ -144,10 +147,10 @@ class Graph(object):
 
     def draw_graph(self):
         font_extents = self.ctx.font_extents()
-        x_axis_space = font_extents[2] + 2 + self.line_size / 2.0
+        x_axis_space = font_extents[2] + 2 + self.line_size / 2
         plot_height = self.height - x_axis_space
         # lets say we need 2n-1*font height pixels to plot the y ticks
-        tick_limit = (plot_height / font_extents[3])  # / 2.0
+        tick_limit = plot_height / font_extents[3]
 
         max_value = 0
         for stat in self.stat_info:
@@ -171,7 +174,7 @@ class Graph(object):
             return math.ceil(te[4] - te[0])
         y_tick_width = max((space_required(text) for text in y_tick_text))
 
-        top = font_extents[2] / 2.0
+        top = font_extents[2] / 2
         # bounds(left, top, right, bottom)
         bounds = (y_tick_width + 4, top + 2, self.width, self.height - x_axis_space)
 
@@ -192,7 +195,7 @@ class Graph(object):
         scale = 1
         if 'formatter_scale' in self.left_axis:
             scale = self.left_axis['formatter_scale'](x)
-            x = x / float(scale)
+            x = x / scale
 
         # Find the largest power of 10 less than x
         comm_log = math.log10(x)
@@ -212,7 +215,7 @@ class Graph(object):
             steps = steps * 2
 
         if limit is not None and steps > limit:
-            multi = steps / float(limit)
+            multi = steps / limit
             if multi > 2:
                 interval = interval * 5
             else:
@@ -261,7 +264,7 @@ class Graph(object):
         self.ctx.line_to(right, int(bottom - values[0] * ratio))
 
         x = right
-        step = (right - left) / float(self.length - 1)
+        step = (right - left) / (self.length - 1)
         for i, value in enumerate(values):
             if i == self.length - 1:
                 x = left
@@ -290,7 +293,7 @@ class Graph(object):
         height = fe[2]
         x_bearing = te[0]
         width = te[2]
-        self.ctx.move_to(int(x - width / 2.0 + x_bearing), int(y + height))
+        self.ctx.move_to(int(x - width / 2 + x_bearing), int(y + height))
         self.ctx.set_source_rgba(*self.black)
         self.ctx.show_text(text)
 
@@ -302,7 +305,7 @@ class Graph(object):
         ascent = fe[0]
         x_bearing = te[0]
         width = te[4]
-        self.ctx.move_to(int(x - width - x_bearing - 2), int(y + (ascent - descent) / 2.0))
+        self.ctx.move_to(int(x - width - x_bearing - 2), int(y + (ascent - descent) / 2))
         self.ctx.set_source_rgba(*self.black)
         self.ctx.show_text(text)
 

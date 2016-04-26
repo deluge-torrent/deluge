@@ -12,6 +12,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import division
+
 import logging
 
 import gtk
@@ -52,7 +54,7 @@ def neat_time(column, cell, model, data):
     """Render seconds as seconds or minutes with label"""
     seconds = model.get_value(data, 0)
     if seconds > 60:
-        text = "%d %s" % (seconds / 60, _("minutes"))
+        text = "%d %s" % (seconds // 60, _("minutes"))
     elif seconds == 60:
         text = _("1 minute")
     elif seconds == 1:
@@ -69,11 +71,10 @@ def int_str(number):
 
 def gtk_to_graph_color(color):
     """Turns a gtk.gdk.Color into a tuple with range 0-1 as used by the graph"""
-    max_val = float(65535)
     gtk_color = gtk.gdk.Color(color)
-    red = gtk_color.red / max_val
-    green = gtk_color.green / max_val
-    blue = gtk_color.blue / max_val
+    red = gtk_color.red / 65535
+    green = gtk_color.green / 65535
+    blue = gtk_color.blue / 65535
     return (red, green, blue)
 
 

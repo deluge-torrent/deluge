@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import division
+
 import base64
 import hashlib
 import json
@@ -590,8 +592,8 @@ class WebApi(JSONComponent):
                         dirinfo["priority"] = 9
 
                 progresses = dirinfo.setdefault("progresses", [])
-                progresses.append(torrent_file["size"] * (torrent_file["progress"] / 100.0))
-                dirinfo["progress"] = float(sum(progresses)) / dirinfo["size"] * 100
+                progresses.append(torrent_file["size"] * torrent_file["progress"] / 100)
+                dirinfo["progress"] = sum(progresses) / dirinfo["size"] * 100
                 dirinfo["path"] = dirname
                 dirname = os.path.dirname(dirname)
 

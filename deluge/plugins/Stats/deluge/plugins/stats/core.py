@@ -11,6 +11,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import division
+
 import logging
 import time
 
@@ -46,7 +48,7 @@ def get_key(config, key):
 
 def mean(items):
     try:
-        return sum(items) / len(items)
+        return sum(items) // len(items)
     except Exception:
         return 0
 

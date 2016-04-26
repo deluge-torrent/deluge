@@ -11,6 +11,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import division
+
 import logging
 import os.path
 import sys
@@ -169,7 +171,7 @@ def makeinfo(path, piece_length, progress, name=None, content_type=None, private
             totalsize += os.path.getsize(f)
         if totalsize >= piece_length:
             import math
-            num_pieces = math.ceil(float(totalsize) / float(piece_length))
+            num_pieces = math.ceil(totalsize / piece_length)
         else:
             num_pieces = 1
 
@@ -216,7 +218,7 @@ def makeinfo(path, piece_length, progress, name=None, content_type=None, private
     else:
         size = os.path.getsize(path)
         if size >= piece_length:
-            num_pieces = size / piece_length
+            num_pieces = size // piece_length
         else:
             num_pieces = 1
 

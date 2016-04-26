@@ -9,10 +9,7 @@
 # See LICENSE for more details.
 #
 
-try:
-    import curses
-except ImportError:
-    pass
+from __future__ import division
 
 import logging
 import os
@@ -20,6 +17,12 @@ import os.path
 
 from deluge.ui.console import colors
 from deluge.ui.console.modes.popup import ALIGN, Popup
+
+try:
+    import curses
+except ImportError:
+    pass
+
 
 log = logging.getLogger(__name__)
 
@@ -877,7 +880,7 @@ class InputPopup(Popup):
 
         if self.content_height > (self.height - 2):
             lts = self.content_height - (self.height - 3)
-            perc_sc = float(self.lineoff) / lts
+            perc_sc = self.lineoff / lts
             sb_pos = int((self.height - 2) * perc_sc) + 1
             if (sb_pos == 1) and (self.lineoff != 0):
                 sb_pos += 1
