@@ -84,16 +84,17 @@ class Web(UI):
         if self.options.pidfile:
             open(self.options.pidfile, "wb").write("%d\n" % os.getpid())
 
-        if self.options.group:
-            if not self.options.group.isdigit():
-                import grp
-                self.options.group = grp.getgrnam(self.options.group)[2]
-            os.setuid(self.options.group)
-        if self.options.user:
-            if not self.options.user.isdigit():
-                import pwd
-                self.options.user = pwd.getpwnam(self.options.user)[2]
-            os.setuid(self.options.user)
+        if not windows_check():
+            if self.options.group:
+                if not self.options.group.isdigit():
+                    import grp
+                    self.options.group = grp.getgrnam(self.options.group)[2]
+                os.setuid(self.options.group)
+            if self.options.user:
+                if not self.options.user.isdigit():
+                    import pwd
+                    self.options.user = pwd.getpwnam(self.options.user)[2]
+                os.setuid(self.options.user)
 
         from deluge.ui.web import server
         self.__server = server.DelugeWeb(options=self.options)
