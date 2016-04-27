@@ -105,8 +105,8 @@ class BaseArgParser(argparse.ArgumentParser):
                                 help=_("Set the config directory path"))
         self.group.add_argument("-l", "--logfile", metavar="<logfile>",
                                 help=_("Output to specified logfile instead of stdout"))
-        self.group.add_argument("-L", "--loglevel", choices=deluge.log.levels, metavar="<level>",
-                                help=_("Set the log level (none, error, warning, info, debug)"))
+        self.group.add_argument("-L", "--loglevel", choices=[l for k in deluge.log.levels for l in (k, k.upper())],
+                                help=_("Set the log level (none, error, warning, info, debug)"), metavar="<level>")
         self.group.add_argument("--logrotate", nargs="?", const="2M", metavar="<max-size>",
                                 help=_("Enable logfile rotation, with optional maximum logfile size, "
                                        "default: %(const)s (Logfile rotation count is 5)"))
