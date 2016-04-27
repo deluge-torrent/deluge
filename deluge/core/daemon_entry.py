@@ -13,9 +13,9 @@ import os
 import sys
 from logging import FileHandler, getLogger
 
-import deluge.common
-import deluge.configmanager
-import deluge.error
+from deluge.common import run_profiled, windows_check
+from deluge.configmanager import get_config_dir
+from deluge.error import DaemonRunningError
 from deluge.ui.baseargparser import BaseArgParser
 from deluge.ui.util import lang
 
@@ -30,7 +30,7 @@ def add_daemon_options(parser):
                        help=_("IP address to listen for BitTorrent connections"))
     group.add_argument("-P", "--pidfile", metavar="<pid-file>", action="store",
                        help=_("Pidfile to store the process id"))
-    if not deluge.common.windows_check():
+    if not windows_check():
         group.add_argument("-d", "--do-not-daemonize", dest="donot", action="store_true",
                            help=_("Do not daemonize (fork) this process"))
         group.add_argument("-U", "--user", metavar="<user>", action="store",
@@ -62,10 +62,10 @@ def start_daemon(skip_start=False):
 
     # Check for any daemons running with this same config
     from deluge.core.daemon import check_running_daemon
-    pid_file = deluge.configmanager.get_config_dir("deluged.pid")
+    pid_file = get_config_dir("deluged.pid")
     try:
         check_running_daemon(pid_file)
-    except deluge.error.DaemonRunningError:
+    except DaemonRunningError:
         print("You cannot run multiple daemons with the same config directory set.")
         print("If you believe this is an error, you can force a start by deleting: %s" % pid_file)
         sys.exit(1)
@@ -74,26 +74,27 @@ def start_daemon(skip_start=False):
 
     # If no logfile specified add logging to default location (as well as stdout)
     if not options.logfile:
-        options.logfile = deluge.configmanager.get_config_dir("deluged.log")
+        options.logfile = get_config_dir("deluged.log")
         file_handler = FileHandler(options.logfile)
         log.addHandler(file_handler)
 
     # If the donot daemonize is set, then we just skip the forking
-    if not (deluge.common.windows_check() or options.donot):
+    if not (windows_check() or options.donot):
         if os.fork():
-            # We've forked and this is now the parent process, so die!
             os._exit(0)
         os.setsid()
         # Do second fork
         if os.fork():
             os._exit(0)
+        # Ensure process doesn't keep any directory in use that may prevent a filesystem unmount.
+        os.chdir(get_config_dir())
 
     # Write pid file before chuid
     if options.pidfile:
         with open(options.pidfile, "wb") as _file:
-            _file.write("%s\n" % os.getpid())
+            _file.write("%d\n" % os.getpid())
 
-    if not deluge.common.windows_check():
+    if not windows_check():
         if options.user:
             if not options.user.isdigit():
                 import pwd
@@ -124,5 +125,4 @@ def start_daemon(skip_start=False):
             if options.pidfile:
                 os.remove(options.pidfile)
 
-    return deluge.common.run_profiled(run_daemon, options, output_file=options.profile,
-                                      do_profile=options.profile)
+    return run_profiled(run_daemon, options, output_file=options.profile, do_profile=options.profile)

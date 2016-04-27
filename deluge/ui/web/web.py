@@ -81,20 +81,22 @@ class Web(UI):
             # Ensure process doesn't keep any directory in use that may prevent a filesystem unmount.
             os.chdir(get_config_dir())
 
+        # Write pid file before chuid
         if self.options.pidfile:
-            open(self.options.pidfile, "wb").write("%d\n" % os.getpid())
+            with open(self.options.pidfile, "wb") as _file:
+                _file.write("%d\n" % os.getpid())
 
         if not windows_check():
-            if self.options.group:
-                if not self.options.group.isdigit():
-                    import grp
-                    self.options.group = grp.getgrnam(self.options.group)[2]
-                os.setuid(self.options.group)
             if self.options.user:
                 if not self.options.user.isdigit():
                     import pwd
                     self.options.user = pwd.getpwnam(self.options.user)[2]
                 os.setuid(self.options.user)
+            if self.options.group:
+                if not self.options.group.isdigit():
+                    import grp
+                    self.options.group = grp.getgrnam(self.options.group)[2]
+                os.setuid(self.options.group)
 
         from deluge.ui.web import server
         self.__server = server.DelugeWeb(options=self.options)
