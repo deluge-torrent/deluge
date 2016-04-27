@@ -179,6 +179,8 @@ this should be an IP address", metavar="IFACE",
     # Setup the logger
     if options.quiet:
         options.loglevel = "none"
+    if options.loglevel:
+        options.loglevel = options.loglevel.lower()
     if options.logfile:
         # Try to create the logfile's directory if it doesn't exist
         try:
