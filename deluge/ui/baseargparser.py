@@ -14,9 +14,9 @@ import platform
 import sys
 import textwrap
 
-import deluge.configmanager
 import deluge.log
 from deluge import common
+from deluge.configmanager import get_config_dir, set_config_dir
 from deluge.log import setup_logger
 
 
@@ -139,7 +139,7 @@ class BaseArgParser(argparse.ArgumentParser):
                          logrotate=logrotate)
 
             if options.config:
-                if not deluge.configmanager.set_config_dir(options.config):
+                if not set_config_dir(options.config):
                     log = logging.getLogger(__name__)
                     log.error("There was an error setting the config dir! Exiting..")
                     sys.exit(1)
@@ -147,4 +147,50 @@ class BaseArgParser(argparse.ArgumentParser):
                 if not os.path.exists(common.get_default_config_dir()):
                     os.makedirs(common.get_default_config_dir())
 
+        if self.process_group:
+            # If donotdaemonize is set, skip process forking.
+            if not (common.windows_check() or options.donotdaemonize):
+                if os.fork():
+                    os._exit(0)
+                os.setsid()
+                # Do second fork
+                if os.fork():
+                    os._exit(0)
+                # Ensure process doesn't keep any directory in use that may prevent a filesystem unmount.
+                os.chdir(get_config_dir())
+
+            # Write pid file before chuid
+            if options.pidfile:
+                with open(options.pidfile, "wb") as _file:
+                    _file.write("%d\n" % os.getpid())
+
+            if not common.windows_check():
+                if options.user:
+                    if not options.user.isdigit():
+                        import pwd
+                        options.user = pwd.getpwnam(options.user)[2]
+                    os.setuid(options.user)
+                if options.group:
+                    if not options.group.isdigit():
+                        import grp
+                        options.group = grp.getgrnam(options.group)[2]
+                    os.setuid(options.group)
+
         return options
+
+    def add_process_arg_group(self):
+        """Adds a grouping of common process args to control a daemon to the parser"""
+
+        self.process_group = True
+        self.group = self.add_argument_group(_("Process Control Options"))
+        self.group.add_argument("-P", "--pidfile", metavar="<pidfile>", action="store",
+                                help=_("Pidfile to store the process id"))
+        if not common.windows_check():
+            self.group.add_argument("-d", "--do-not-daemonize", dest="donotdaemonize", action="store_true",
+                                    help=_("Do not daemonize (fork) this process"))
+            self.group.add_argument("-f", "--fork", dest="donotdaemonize", action="store_false",
+                                    help=argparse.SUPPRESS)  # Deprecated arg
+            self.group.add_argument("-U", "--user", metavar="<user>", action="store",
+                                    help=_("Change to this user on startup (Requires root)"))
+            self.group.add_argument("-g", "--group", metavar="<group>", action="store",
+                                    help=_("Change to this group on startup (Requires root)"))

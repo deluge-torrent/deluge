@@ -13,7 +13,7 @@ import os
 import sys
 from logging import FileHandler, getLogger
 
-from deluge.common import run_profiled, windows_check
+from deluge.common import run_profiled
 from deluge.configmanager import get_config_dir
 from deluge.error import DaemonRunningError
 from deluge.ui.baseargparser import BaseArgParser
@@ -28,17 +28,9 @@ def add_daemon_options(parser):
                        help=_("Port to listen for UI connections on"))
     group.add_argument("-i", "--interface", metavar="<ip-addr>", dest="listen_interface", action="store",
                        help=_("IP address to listen for BitTorrent connections"))
-    group.add_argument("-P", "--pidfile", metavar="<pid-file>", action="store",
-                       help=_("Pidfile to store the process id"))
-    if not windows_check():
-        group.add_argument("-d", "--do-not-daemonize", dest="donot", action="store_true",
-                           help=_("Do not daemonize (fork) this process"))
-        group.add_argument("-U", "--user", metavar="<user>", action="store",
-                           help=_("Change to this user on startup (Requires root)"))
-        group.add_argument("-g", "--group", metavar="<group>", action="store",
-                           help=_("Change to this group on startup (Requires root)"))
     group.add_argument("--read-only-config-keys", metavar="<comma-separated-keys>", action="store",
                        help=_("Config keys to be unmodified by `set_config` RPC"), type=str, default="")
+    parser.add_process_arg_group()
 
 
 def start_daemon(skip_start=False):
@@ -77,34 +69,6 @@ def start_daemon(skip_start=False):
         options.logfile = get_config_dir("deluged.log")
         file_handler = FileHandler(options.logfile)
         log.addHandler(file_handler)
-
-    # If the donot daemonize is set, then we just skip the forking
-    if not (windows_check() or options.donot):
-        if os.fork():
-            os._exit(0)
-        os.setsid()
-        # Do second fork
-        if os.fork():
-            os._exit(0)
-        # Ensure process doesn't keep any directory in use that may prevent a filesystem unmount.
-        os.chdir(get_config_dir())
-
-    # Write pid file before chuid
-    if options.pidfile:
-        with open(options.pidfile, "wb") as _file:
-            _file.write("%d\n" % os.getpid())
-
-    if not windows_check():
-        if options.user:
-            if not options.user.isdigit():
-                import pwd
-                options.user = pwd.getpwnam(options.user)[2]
-            os.setuid(options.user)
-        if options.group:
-            if not options.group.isdigit():
-                import grp
-                options.group = grp.getgrnam(options.group)[2]
-            os.setuid(options.group)
 
     def run_daemon(options):
         try:
