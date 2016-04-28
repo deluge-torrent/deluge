@@ -11,6 +11,8 @@ from __future__ import print_function
 
 import logging
 
+from twisted.internet.error import CannotListenError
+
 from deluge.common import run_profiled
 from deluge.ui.ui import UI
 
@@ -64,6 +66,8 @@ class Web(UI):
             try:
                 self.server.install_signal_handlers()
                 self.server.start()
+            except CannotListenError as ex:
+                log.error("%s \nCheck that deluge-web or webui plugin are not already running.", ex)
             except Exception as ex:
                 log.exception(ex)
                 raise
