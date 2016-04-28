@@ -94,6 +94,7 @@ class BaseArgParser(argparse.ArgumentParser):
         super(BaseArgParser, self).__init__(*args, add_help=False, **kwargs)
 
         self.common_setup = False
+        self.process_arg_group = False
         self.group = self.add_argument_group(_("Common Options"))
         self.group.add_argument("-h", "--help", action=HelpAction,
                                 help=_("Print this help message"))
@@ -147,7 +148,7 @@ class BaseArgParser(argparse.ArgumentParser):
                 if not os.path.exists(common.get_default_config_dir()):
                     os.makedirs(common.get_default_config_dir())
 
-        if self.process_group:
+        if self.process_arg_group:
             # If donotdaemonize is set, skip process forking.
             if not (common.windows_check() or options.donotdaemonize):
                 if os.fork():
@@ -181,7 +182,7 @@ class BaseArgParser(argparse.ArgumentParser):
     def add_process_arg_group(self):
         """Adds a grouping of common process args to control a daemon to the parser"""
 
-        self.process_group = True
+        self.process_arg_group = True
         self.group = self.add_argument_group(_("Process Control Options"))
         self.group.add_argument("-P", "--pidfile", metavar="<pidfile>", action="store",
                                 help=_("Pidfile to store the process id"))
