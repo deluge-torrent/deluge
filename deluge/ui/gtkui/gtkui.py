@@ -28,7 +28,7 @@ try:
     reactor = gtk2reactor.install()
 except ReactorAlreadyInstalledError as ex:
     # Running unit tests so trial already installed a rector
-    pass
+    from twisted.internet import reactor
 
 import deluge.common
 import deluge.component as component
@@ -151,7 +151,8 @@ class Gtk(UI):
 
         def run(options):
             try:
-                GtkUI(options)
+                gtkui = GtkUI(options)
+                gtkui.start()
             except Exception as ex:
                 log.exception(ex)
                 raise
@@ -250,18 +251,19 @@ class GtkUI(object):
         # daemon_bps: time, bytes_sent, bytes_recv
         self.daemon_bps = (0, 0, 0)
         self.rpc_stats = LoopingCall(self.print_rpc_stats)
+        self.closing = False
 
         # Twisted catches signals to terminate, so have it call a pre_shutdown method.
         reactor.addSystemEventTrigger("before", "gtkui_close", self.close)
-
-        reactor.callWhenRunning(self._on_reactor_start)
-        self.closing = False
 
         def gtkui_sigint_handler(num, frame):
             log.debug("SIGINT signal caught - firing event: 'gtkui_close'")
             reactor.callLater(0, reactor.fireSystemEvent, 'gtkui_close')
 
         signal.signal(signal.SIGINT, gtkui_sigint_handler)
+
+    def start(self):
+        reactor.callWhenRunning(self._on_reactor_start)
 
         # Initialize gdk threading
         gtk.gdk.threads_enter()

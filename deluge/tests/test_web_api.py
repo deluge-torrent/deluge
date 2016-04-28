@@ -64,7 +64,7 @@ class WebAPITestCase(BaseTestCase, DaemonBase):
         config_defaults["port"] = self.webserver_listen_port
         self.config = configmanager.ConfigManager("web.conf", config_defaults)
 
-        self.deluge_web = DelugeWeb()
+        self.deluge_web = DelugeWeb(daemon=False)
 
         host = list(self.deluge_web.web_api.host_list["hosts"][0])
         host[2] = self.listen_port

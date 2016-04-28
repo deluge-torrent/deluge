@@ -532,8 +532,17 @@ class TopLevel(resource.Resource):
 
 class DelugeWeb(component.Component):
 
-    def __init__(self, options=None):
-        super(DelugeWeb, self).__init__("DelugeWeb")
+    def __init__(self, options=None, daemon=True):
+        """
+        Setup the DelugeWeb server.
+
+        Args:
+            options (argparse.Namespace): The web server options.
+            daemon (bool): If True run web server as a seperate daemon process (starts a twisted
+                reactor). If False shares the process and twisted reactor from WebUI plugin or tests.
+
+        """
+        component.Component.__init__(self, "DelugeWeb", depend=["Web"])
         self.config = configmanager.ConfigManager("web.conf", CONFIG_DEFAULTS)
         self.config.run_converter((0, 1), 2, self._migrate_config_1_to_2)
         self.config.register_set_function("language", self._on_language_changed)
@@ -567,7 +576,7 @@ class DelugeWeb(component.Component):
         self.web_utils = WebUtils()
 
         self.auth = Auth(self.config)
-        self.standalone = True
+        self.daemon = daemon
         # Initalize the plugins
         self.plugins = PluginManager()
 
@@ -594,22 +603,14 @@ class DelugeWeb(component.Component):
                     return 1
             SetConsoleCtrlHandler(win_handler)
 
-    def start(self, standalone=True):
+    def start(self):
         """
         Start the DelugeWeb server
-
-        When running WebUI plugin, the server must not try to start
-        the twisted reactor.
-
-        Args:
-            standalone (bool): Whether the server runs as a standalone process
-                               If standalone, start twisted reactor.
         """
         if self.socket:
             log.warn("DelugeWeb is already running and cannot be started")
             return
 
-        self.standalone = standalone
         log.info("Starting webui server at PID %s", os.getpid())
         if self.https:
             self.start_ssl()
@@ -618,7 +619,7 @@ class DelugeWeb(component.Component):
 
         component.get("Web").enable()
 
-        if self.standalone:
+        if self.daemon:
             reactor.run()
 
     def start_normal(self):
@@ -641,7 +642,10 @@ class DelugeWeb(component.Component):
 
     def stop(self):
         log.info("Shutting down webserver")
-        component.get("Web").disable()
+        try:
+            component.get("Web").disable()
+        except KeyError:
+            pass
 
         self.plugins.disable_plugins()
         log.debug("Saving configuration file")
@@ -657,7 +661,7 @@ class DelugeWeb(component.Component):
 
     def shutdown(self, *args):
         self.stop()
-        if self.standalone and reactor.running:
+        if self.daemon and reactor.running:
             reactor.stop()
 
     def _migrate_config_1_to_2(self, config):

@@ -74,6 +74,7 @@ class IPCClientFactory(ClientFactory):
 class IPCInterface(component.Component):
     def __init__(self, args):
         component.Component.__init__(self, "IPCInterface")
+        self.listener = None
         ipc_dir = get_config_dir("ipc")
         if not os.path.exists(ipc_dir):
             os.makedirs(ipc_dir)
@@ -91,7 +92,7 @@ class IPCInterface(component.Component):
                 self.factory.protocol = IPCProtocolServer
                 import random
                 port = random.randrange(20000, 65535)
-                reactor.listenTCP(port, self.factory)
+                self.listener = reactor.listenTCP(port, self.factory)
                 # Store the port number in the socket file
                 open(socket, "w").write(str(port))
                 # We need to process any args when starting this process
@@ -132,7 +133,7 @@ class IPCInterface(component.Component):
             try:
                 self.factory = Factory()
                 self.factory.protocol = IPCProtocolServer
-                reactor.listenUNIX(socket, self.factory, wantPID=True)
+                self.listener = reactor.listenUNIX(socket, self.factory, wantPID=True)
             except twisted.internet.error.CannotListenError as ex:
                 log.info("Deluge is already running! Sending arguments to running instance...")
                 self.factory = IPCClientFactory()
@@ -160,6 +161,8 @@ class IPCInterface(component.Component):
         if windows_check():
             import win32api
             win32api.CloseHandle(self.mutex)
+        if self.listener:
+            return self.listener.stopListening()
 
 
 def process_args(args):

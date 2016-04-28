@@ -66,12 +66,12 @@ class Core(CorePluginBase):
             try:
                 self.server = component.get("DelugeWeb")
             except KeyError:
-                self.server = server.DelugeWeb()
+                self.server = server.DelugeWeb(daemon=False)
 
         self.server.port = self.config["port"]
         self.server.https = self.config["ssl"]
         try:
-            self.server.start(standalone=False)
+            self.server.start()
         except CannotListenError as ex:
             log.warn("Failed to start WebUI server: %s", ex)
             raise

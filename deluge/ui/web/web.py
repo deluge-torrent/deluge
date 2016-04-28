@@ -60,7 +60,7 @@ class Web(UI):
                 self.server.install_signal_handlers()
                 self.server.start()
             except CannotListenError as ex:
-                log.error("%s \nCheck that deluge-web or webui plugin are not already running.", ex)
+                log.error("%s \nCheck that deluge-web or webui plugin is not already running.", ex)
             except Exception as ex:
                 log.exception(ex)
                 raise
