@@ -962,7 +962,7 @@ class WebApi(JSONComponent):
 
 class WebUtils(JSONComponent):
     """
-
+    Utility functions for the webui that do not fit in the WebApi.
     """
     def __init__(self):
         super(WebUtils, self).__init__("WebUtils")
