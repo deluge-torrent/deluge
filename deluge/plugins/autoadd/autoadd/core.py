@@ -259,12 +259,13 @@ class Core(CorePluginBase):
                 # Skip directories
                 continue
             else:
-                ext = os.path.splitext(filename)[1]
+                ext = os.path.splitext(filename)[1].lower()
                 if ext == ".torrent":
                     magnet = False
                 elif ext == ".magnet":
                     magnet = True
                 else:
+                    log.debug("File checked for auto-loading is invalid: %s", filename)
                     continue
                 try:
                     filedump = self.load_torrent(filepath, magnet)
