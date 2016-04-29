@@ -721,42 +721,82 @@ def free_space(path):
 
 
 def is_ip(ip):
+    """A test to see if 'ip' is a valid IPv4 or IPv6 address.
+
+    Args:
+        ip (str): The IP to test.
+
+    Returns:
+        bool: Whether IP is valid is not.
+
+    Examples:
+        >>> is_ip("192.0.2.0")
+        True
+        >>> is_ip("2001:db8::")
+        True
+
     """
-    A simple test to see if 'ip' is valid
 
-    :param ip: the ip to check
-    :type ip: string
-    :returns: True or False
-    :rtype: bool
+    return is_ipv4(ip) or is_ipv6(ip)
 
-    :Example:
 
-    >>> is_ip('127.0.0.1')
-    True
+def is_ipv4(ip):
+    """A test to see if 'ip' is a valid IPv4 address.
+
+    Args:
+        ip (str): The IP to test.
+
+    Returns:
+        bool: Whether IP is valid is not.
+
+    Examples:
+        >>> is_ipv4("192.0.2.0")
+        True
 
     """
+
     import socket
-    # first we test ipv4
     try:
         if windows_check():
-            if socket.inet_aton(ip):
-                return True
+            return socket.inet_aton(ip)
         else:
-            if socket.inet_pton(socket.AF_INET, ip):
-                return True
-    except socket.error:
-        if not socket.has_ipv6:
-            return False
-    # now test ipv6
-    try:
-        if windows_check():
-            log.warning('ipv6 check unavailable on windows')
-            return True
-        else:
-            if socket.inet_pton(socket.AF_INET6, ip):
-                return True
+            return socket.inet_pton(socket.AF_INET, ip)
     except socket.error:
         return False
+
+
+def is_ipv6(ip):
+    """A test to see if 'ip' is a valid IPv6 address.
+
+    Args:
+        ip (str): The IP to test.
+
+    Returns:
+        bool: Whether IP is valid is not.
+
+    Examples:
+        >>> is_ipv6("2001:db8::")
+        True
+
+    """
+
+    try:
+        import ipaddress
+    except ImportError:
+        import socket
+        try:
+            return socket.inet_pton(socket.AF_INET6, ip)
+        except (socket.error, AttributeError):
+            if windows_check():
+                log.warning('Unable to verify IPv6 Address on Windows.')
+                return True
+    else:
+        try:
+            return ipaddress.IPv6Address(ip)
+        except ipaddress.AddressValueError:
+            pass
+
+    return False
 
 
 def decode_string(s, encoding='utf8'):

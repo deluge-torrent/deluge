@@ -21,6 +21,7 @@ from twisted.internet.ssl import SSL, Certificate, CertificateOptions, KeyPair
 from twisted.web import http, resource, server, static
 
 from deluge import common, component, configmanager
+from deluge.common import is_ipv6
 from deluge.core.rpcserver import check_ssl_keys
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.util import lang
@@ -568,7 +569,7 @@ class DelugeWeb(component.Component):
         self.base = self.config['base']
 
         if options:
-            self.interface = options.interface if options.interface else self.interface
+            self.interface = options.interface if options.interface is not None else self.interface
             self.port = options.port if options.port else self.port
             self.base = options.base if options.base else self.base
             if options.ssl:
@@ -635,7 +636,9 @@ class DelugeWeb(component.Component):
 
     def start_normal(self):
         self.socket = reactor.listenTCP(self.port, self.site, interface=self.interface)
-        log.info('Serving at http://%s:%s%s', self.interface, self.port, self.base)
+        ip = self.socket.getHost().host
+        ip = '[%s]' % ip if is_ipv6(ip) else ip
+        log.info('Serving at http://%s:%s%s', ip, self.port, self.base)
 
     def start_ssl(self):
         check_ssl_keys()
@@ -649,7 +652,9 @@ class DelugeWeb(component.Component):
         options.getContext().set_options(SSL.OP_NO_SSLv2 | SSL.OP_NO_SSLv3)
 
         self.socket = reactor.listenSSL(self.port, self.site, options, interface=self.interface)
-        log.info('Serving at https://%s:%s%s', self.interface, self.port, self.base)
+        ip = self.socket.getHost().host
+        ip = '[%s]' % ip if is_ipv6(ip) else ip
+        log.info('Serving at https://%s:%s%s', ip, self.port, self.base)
 
     def stop(self):
         log.info('Shutting down webserver')

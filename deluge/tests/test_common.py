@@ -68,8 +68,18 @@ class CommonTestCase(unittest.TestCase):
         self.failUnless(get_path_size('non-existant.file') == -1)
 
     def test_is_ip(self):
-        self.failUnless(is_ip('127.0.0.1'))
-        self.failIf(is_ip('127..0.0'))
+        self.failUnless(is_ip('192.0.2.0'))
+        self.failIf(is_ip('192..0.0'))
+        self.failUnless(is_ip('2001:db8::'))
+        self.failIf(is_ip('2001:db8:'))
+
+    def test_is_ipv4(self):
+        self.failUnless(is_ip('192.0.2.0'))
+        self.failIf(is_ip('192..0.0'))
+
+    def test_is_ipv6(self):
+        self.failUnless(is_ip('2001:db8::'))
+        self.failIf(is_ip('2001:db8:'))
 
     def test_version_split(self):
         self.failUnless(VersionSplit('1.2.2') == VersionSplit('1.2.2'))
