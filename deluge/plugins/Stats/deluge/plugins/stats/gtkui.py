@@ -30,20 +30,22 @@ from .graph import Graph, size_formatter_scale
 
 log = logging.getLogger(__name__)
 
-DEFAULT_CONF = {'version': 1,
-                'colors': {
-                    'bandwidth_graph': {'upload_rate': str(gtk.gdk.Color("blue")),
-                                        'download_rate': str(gtk.gdk.Color("green")),
-                                        },
-                    'connections_graph': {'dht_nodes': str(gtk.gdk.Color("orange")),
-                                          'dht_cache_nodes': str(gtk.gdk.Color("blue")),
-                                          'dht_torrents': str(gtk.gdk.Color("green")),
-                                          'num_connections': str(gtk.gdk.Color("darkred")),
-                                          },
-                    'seeds_graph': {'num_peers': str(gtk.gdk.Color("blue")),
-                                    },
-                }
-                }
+DEFAULT_CONF = {
+    'version': 1,
+    'colors': {
+        'bandwidth_graph': {
+            'upload_rate': str(gtk.gdk.Color("blue")),
+            'download_rate': str(gtk.gdk.Color("green")),
+        },
+        'connections_graph': {
+            'dht_nodes': str(gtk.gdk.Color("orange")),
+            'dht_cache_nodes': str(gtk.gdk.Color("blue")),
+            'dht_torrents': str(gtk.gdk.Color("green")),
+            'num_connections': str(gtk.gdk.Color("darkred")),
+        },
+        'seeds_graph': {
+            'num_peers': str(gtk.gdk.Color("blue")),
+        }}}
 
 
 def neat_time(column, cell, model, data):

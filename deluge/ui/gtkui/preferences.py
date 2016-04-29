@@ -833,10 +833,11 @@ class Preferences(component.Component):
         except Exception:
             return
 
-        path_choosers = {"download_location_path_chooser": self.download_location_path_chooser,
-                         "move_completed_path_chooser": self.move_completed_path_chooser,
-                         "torrentfiles_location_path_chooser": self.copy_torrent_files_path_chooser
-                         }
+        path_choosers = {
+            "download_location_path_chooser": self.download_location_path_chooser,
+            "move_completed_path_chooser": self.move_completed_path_chooser,
+            "torrentfiles_location_path_chooser": self.copy_torrent_files_path_chooser
+        }
 
         dependents = {
             "chk_show_dialog": {"chk_focus_dialog": True},

@@ -766,9 +766,9 @@ class WebApi(JSONComponent):
             return client.daemon.info().addCallback(on_info)
         else:
             c = Client()
-            return c.connect(host, port, user, password
-                             ).addCallback(on_connect, c, host_id
-                                           ).addErrback(on_connect_failed, host_id)
+            d = c.connect(host, port, user, password)
+            d.addCallback(on_connect, c, host_id).addErrback(on_connect_failed, host_id)
+            return d
 
     @export
     def start_daemon(self, port):

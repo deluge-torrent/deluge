@@ -791,9 +791,7 @@ class StoredValuesPopup(StoredValuesList, PathChooserPopup):
         """
         keyval = event.keyval
         state = event.state & gtk.accelerator_get_default_mod_mask()
-        if (keyval == keysyms.Escape or
-            (key_is_up(keyval) and
-             state == gdk.MOD1_MASK)):
+        if keyval == keysyms.Escape or (key_is_up(keyval) and state == gdk.MOD1_MASK):
             self.popdown()
             return True
         return False

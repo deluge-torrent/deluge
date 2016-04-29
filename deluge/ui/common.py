@@ -305,12 +305,14 @@ class FileTree2(object):
             for path in directory["contents"].keys():
                 full_path = os.path.join(parent_path, path).replace("\\", "/")
                 if directory["contents"][path]["type"] == "dir":
-                    directory["contents"][path] = callback(full_path, directory["contents"][path]
-                                                           ) or directory["contents"][path]
+                    directory["contents"][path] = callback(
+                        full_path, directory["contents"][path]
+                        ) or directory["contents"][path]
                     walk(directory["contents"][path], full_path)
                 else:
-                    directory["contents"][path] = callback(full_path, directory["contents"][path]
-                                                           ) or directory["contents"][path]
+                    directory["contents"][path] = callback(
+                        full_path, directory["contents"][path]
+                        ) or directory["contents"][path]
         walk(self.tree, "")
 
     def __str__(self):

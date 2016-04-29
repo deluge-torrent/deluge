@@ -66,8 +66,7 @@ class TorrentState:  # pylint: disable=old-style-class
                  shared=False,
                  super_seeding=False,
                  priority=0,
-                 name=None
-                 ):
+                 name=None):
         # Build the class atrribute list from args
         for key, value in locals().items():
             if key == "self":

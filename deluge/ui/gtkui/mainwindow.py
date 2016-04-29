@@ -80,24 +80,19 @@ class MainWindow(component.Component):
 
         # Get the gtk builder file for the main window
         self.main_builder.add_from_file(deluge.common.resource_filename(
-            "deluge.ui.gtkui", os.path.join("glade", "main_window.ui"))
-        )
+            "deluge.ui.gtkui", os.path.join("glade", "main_window.ui")))
         # The new release dialog
         self.main_builder.add_from_file(deluge.common.resource_filename(
-            "deluge.ui.gtkui", os.path.join("glade", "main_window.new_release.ui"))
-        )
+            "deluge.ui.gtkui", os.path.join("glade", "main_window.new_release.ui")))
         # The tabs
         self.main_builder.add_from_file(deluge.common.resource_filename(
-            "deluge.ui.gtkui", os.path.join("glade", "main_window.tabs.ui"))
-        )
+            "deluge.ui.gtkui", os.path.join("glade", "main_window.tabs.ui")))
         # The tabs file menu
         self.main_builder.add_from_file(deluge.common.resource_filename(
-            "deluge.ui.gtkui", os.path.join("glade", "main_window.tabs.menu_file.ui"))
-        )
+            "deluge.ui.gtkui", os.path.join("glade", "main_window.tabs.menu_file.ui")))
         # The tabs peer menu
         self.main_builder.add_from_file(deluge.common.resource_filename(
-            "deluge.ui.gtkui", os.path.join("glade", "main_window.tabs.menu_peer.ui"))
-        )
+            "deluge.ui.gtkui", os.path.join("glade", "main_window.tabs.menu_peer.ui")))
 
         self.window = self.main_builder.get_object("main_window")
 

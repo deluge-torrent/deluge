@@ -42,22 +42,23 @@ ICON_STATE = {
 # Cache the key used to calculate the current value set for the specific cell
 # renderer. This is much cheaper than fetch the current value and test if
 # it's equal.
-func_last_value = {"cell_data_speed_down": None,
-                   "cell_data_speed_up": None,
-                   "cell_data_time": None,
-                   "cell_data_ratio_seeds_peers": None,
-                   "cell_data_ratio_ratio": None,
-                   "cell_data_ratio_avail": None,
-                   "cell_data_date_added": None,
-                   "cell_data_date_completed": None,
-                   "cell_data_date_or_never": None,
-                   "cell_data_speed_limit_down": None,
-                   "cell_data_speed_limit_up": None,
-                   "cell_data_trackericon": None,
-                   "cell_data_statusicon": None,
-                   "cell_data_queue": None,
-                   "cell_data_progress": [None, None],
-                   }
+func_last_value = {
+    "cell_data_speed_down": None,
+    "cell_data_speed_up": None,
+    "cell_data_time": None,
+    "cell_data_ratio_seeds_peers": None,
+    "cell_data_ratio_ratio": None,
+    "cell_data_ratio_avail": None,
+    "cell_data_date_added": None,
+    "cell_data_date_completed": None,
+    "cell_data_date_or_never": None,
+    "cell_data_speed_limit_down": None,
+    "cell_data_speed_limit_up": None,
+    "cell_data_trackericon": None,
+    "cell_data_statusicon": None,
+    "cell_data_queue": None,
+    "cell_data_progress": [None, None],
+}
 
 
 def cell_data_statusicon(column, cell, model, row, data):

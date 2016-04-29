@@ -1009,8 +1009,8 @@ class Torrent(object):
             "save_path": lambda: self.options["download_location"],  # Deprecated, use download_location
             "download_location": lambda: self.options["download_location"],
             "seeding_time": lambda: self.status.seeding_time,
-            "seeds_peers_ratio": lambda: -1.0 if self.status.num_incomplete == 0 else
-            self.status.num_complete / self.status.num_incomplete,  # Use -1.0 to signify infinity
+            "seeds_peers_ratio": lambda: -1.0 if self.status.num_incomplete == 0 else (  # Use -1.0 to signify infinity
+                self.status.num_complete / self.status.num_incomplete),
             "seed_rank": lambda: self.status.seed_rank,
             "state": lambda: self.state,
             "stop_at_ratio": lambda: self.options["stop_at_ratio"],
@@ -1087,7 +1087,7 @@ class Torrent(object):
         elif self.forced_error and self.forced_error.was_paused:
             log.debug("Resume skipped for error'd torrent as it was originally paused.")
         elif (self.status.is_finished and self.options["stop_at_ratio"] and
-                self.get_ratio() >= self.options["stop_ratio"]):
+              self.get_ratio() >= self.options["stop_ratio"]):
             log.debug("Resume skipped for torrent as it has reached 'stop_seed_ratio'.")
         else:
             # Check if torrent was originally being auto-managed.

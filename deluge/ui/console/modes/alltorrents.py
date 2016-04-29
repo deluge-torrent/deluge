@@ -186,13 +186,14 @@ DEFAULT_PREFS = {
     "addtorrents_last_path": "~"
 }
 
-column_pref_names = ["queue", "name", "size", "state", "progress", "seeds",
-                     "peers", "downspeed", "upspeed", "eta", "ratio", "avail",
-                     "added", "tracker", "savepath", "downloaded", "uploaded",
-                     "remaining", "owner", "downloading_time", "seeding_time",
-                     "completed", "seeds_peers_ratio", "complete_seen",
-                     "down_limit", "up_limit", "shared",
-                     ]
+column_pref_names = [
+    "queue", "name", "size", "state", "progress", "seeds",
+    "peers", "downspeed", "upspeed", "eta", "ratio", "avail",
+    "added", "tracker", "savepath", "downloaded", "uploaded",
+    "remaining", "owner", "downloading_time", "seeding_time",
+    "completed", "seeds_peers_ratio", "complete_seen",
+    "down_limit", "up_limit", "shared",
+]
 
 prefs_to_names = {
     "queue": "#",
@@ -330,13 +331,14 @@ class AllTorrents(BaseMode, component.Component):
             ("Seed Rank", str, ("seed_rank",)),
         ]
 
-        self.__status_keys = ["name", "state", "download_payload_rate", "upload_payload_rate",
-                              "progress", "eta", "download_location", "all_time_download", "total_uploaded",
-                              "ratio", "num_seeds", "total_seeds", "num_peers", "total_peers",
-                              "active_time", "seeding_time", "last_seen_complete", "time_added",
-                              "completed_time", "distributed_copies", "num_pieces", "piece_length",
-                              "seed_rank"
-                              ]
+        self.__status_keys = [
+            "name", "state", "download_payload_rate", "upload_payload_rate",
+            "progress", "eta", "download_location", "all_time_download", "total_uploaded",
+            "ratio", "num_seeds", "total_seeds", "num_peers", "total_peers",
+            "active_time", "seeding_time", "last_seen_complete", "time_added",
+            "completed_time", "distributed_copies", "num_pieces", "piece_length",
+            "seed_rank"
+        ]
 
         self.legacy_mode = Legacy(self.stdscr, self.encoding)
 
@@ -347,15 +349,15 @@ class AllTorrents(BaseMode, component.Component):
 
     # component start/update
     def start(self):
-        component.get("SessionProxy").get_torrents_status(self.__status_dict, self.__status_fields
-                                                          ).addCallback(self.set_state, False)
+        component.get("SessionProxy").get_torrents_status(
+            self.__status_dict, self.__status_fields).addCallback(self.set_state, False)
 
     def update(self):
-        component.get("SessionProxy").get_torrents_status(self.__status_dict, self.__status_fields
-                                                          ).addCallback(self.set_state, True)
+        component.get("SessionProxy").get_torrents_status(
+            self.__status_dict, self.__status_fields).addCallback(self.set_state, True)
         if self.__torrent_info_id:
-            component.get("SessionProxy").get_torrent_status(self.__torrent_info_id, self.__status_keys
-                                                             ).addCallback(self._on_torrent_status)
+            component.get("SessionProxy").get_torrent_status(
+                self.__torrent_info_id, self.__status_keys).addCallback(self._on_torrent_status)
 
     def update_config(self):
         self.config = ConfigManager("console.conf", DEFAULT_PREFS)

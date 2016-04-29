@@ -47,8 +47,7 @@ class EventLog(component.Component):
 
         def on_torrent_status(status):
             self.write("{!green!}Torrent Added: {!info!}%s ({!cyan!}%s{!info!})" % (
-                status["name"], torrent_id)
-            )
+                status["name"], torrent_id))
             # Write out what state the added torrent took
             self.on_torrent_state_changed_event(torrent_id, status["state"])
 

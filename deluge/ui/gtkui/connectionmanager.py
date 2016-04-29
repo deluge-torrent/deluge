@@ -324,9 +324,9 @@ class ConnectionManager(component.Component):
             user = row[HOSTLIST_COL_USER]
 
             if client.connected() and (
-                gethostbyname(host),
-                port,
-                "localclient" if not user and host in ("127.0.0.1", "localhost") else user
+                    gethostbyname(host),
+                    port,
+                    "localclient" if not user and host in ("127.0.0.1", "localhost") else user
             ) == client.connection_info():
                 def on_info(info, row):
                     if not self.running:

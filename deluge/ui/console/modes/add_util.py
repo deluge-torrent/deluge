@@ -77,5 +77,5 @@ def add_torrent(t_file, options, success_cb, fail_cb, ress):
             filename = os.path.split(f)[-1]
             filedump = base64.encodestring(open(f).read())
 
-            client.core.add_torrent_file(filename, filedump, t_options
-                                         ).addCallback(success_cb, f, ress).addErrback(fail_cb, f, ress)
+            client.core.add_torrent_file(
+                filename, filedump, t_options).addCallback(success_cb, f, ress).addErrback(fail_cb, f, ress)

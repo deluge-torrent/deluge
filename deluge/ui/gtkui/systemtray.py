@@ -64,8 +64,7 @@ class SystemTray(component.Component):
         """Enables the system tray icon."""
         self.builder = gtk.Builder()
         self.builder.add_from_file(deluge.common.resource_filename(
-            "deluge.ui.gtkui", os.path.join("glade", "tray_menu.ui"))
-        )
+            "deluge.ui.gtkui", os.path.join("glade", "tray_menu.ui")))
 
         self.builder.connect_signals({
             "on_menuitem_show_deluge_activate": self.on_menuitem_show_deluge_activate,

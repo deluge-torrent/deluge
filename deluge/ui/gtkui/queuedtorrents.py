@@ -31,8 +31,7 @@ class QueuedTorrents(component.Component):
         self.config = ConfigManager("gtkui.conf")
         self.builder = gtk.Builder()
         self.builder.add_from_file(deluge.common.resource_filename(
-            "deluge.ui.gtkui", os.path.join("glade", "queuedtorrents.ui"))
-        )
+            "deluge.ui.gtkui", os.path.join("glade", "queuedtorrents.ui")))
         self.builder.get_object("chk_autoadd").set_active(self.config["autoadd_queued"])
         self.dialog = self.builder.get_object("queued_torrents_dialog")
         self.dialog.set_icon(get_logo(32))
