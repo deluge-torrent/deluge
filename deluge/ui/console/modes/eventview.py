@@ -10,9 +10,9 @@
 import logging
 
 import deluge.component as component
-from deluge.ui.client import client
-from deluge.ui.console.modes import format_utils
+from deluge.decorators import overrides
 from deluge.ui.console.modes.basemode import BaseMode
+from deluge.ui.console.utils import curses_util as util
 
 try:
     import curses
@@ -23,30 +23,28 @@ log = logging.getLogger(__name__)
 
 
 class EventView(BaseMode):
+
     def __init__(self, parent_mode, stdscr, encoding=None):
+        BaseMode.__init__(self, stdscr, encoding)
         self.parent_mode = parent_mode
         self.offset = 0
-        BaseMode.__init__(self, stdscr, encoding)
 
+    def back_to_overview(self):
+        component.get("ConsoleUI").set_mode(self.parent_mode.mode_name)
+
+    @overrides(component.Component)
+    def update(self):
+        self.refresh()
+
+    @overrides(BaseMode)
     def refresh(self):
-        "This method just shows each line of the event log"
+        """
+        This method just shows each line of the event log
+        """
         events = component.get("ConsoleUI").events
 
         self.stdscr.erase()
-
-        self.add_string(0, self.statusbars.topbar)
-        hstr = "%sPress [h] for help" % (" " * (self.cols - len(self.statusbars.bottombar) - 10))
-        # This will quite likely fail when switching modes
-        try:
-            rf = format_utils.remove_formatting
-            string = self.statusbars.bottombar
-            hstr = "Press {!magenta,blue,bold!}[h]{!status!} for help"
-
-            string += " " * (self.cols - len(rf(string)) - len(rf(hstr))) + hstr
-
-            self.add_string(self.rows - 1, string)
-        except Exception as ex:
-            log.debug("Exception caught: %s", ex)
+        self.draw_statusbars()
 
         if events:
             for i, event in enumerate(events):
@@ -65,44 +63,22 @@ class EventView(BaseMode):
         else:
             self.add_string(1, "{!white,black,bold!}No events to show yet")
 
-        if component.get("ConsoleUI").screen != self:
+        if not component.get("ConsoleUI").is_active_mode(self):
             return
 
         self.stdscr.noutrefresh()
         curses.doupdate()
 
-    def on_resize(self, *args):
-        BaseMode.on_resize_norefresh(self, *args)
-
-        # Always refresh Legacy(it will also refresh AllTorrents), otherwise it will bug deluge out
-        legacy = component.get("LegacyUI")
-        legacy.on_resize(*args)
-        self.stdscr.erase()
+    @overrides(BaseMode)
+    def on_resize(self, rows, cols):
+        BaseMode.on_resize(self, rows, cols)
         self.refresh()
 
-    def back_to_overview(self):
-        self.stdscr.erase()
-        component.get("ConsoleUI").set_mode(self.parent_mode)
-        self.parent_mode.resume()
-
+    @overrides(BaseMode)
     def read_input(self):
         c = self.stdscr.getch()
 
-        if c > 31 and c < 256:
-            if chr(c) == "Q":
-                from twisted.internet import reactor
-                if client.connected():
-                    def on_disconnect(result):
-                        reactor.stop()
-                    client.disconnect().addCallback(on_disconnect)
-                else:
-                    reactor.stop()
-                return
-            elif chr(c) == "q":
-                self.back_to_overview()
-                return
-
-        if c == 27:
+        if c in [ord('q'), util.KEY_ESC]:
             self.back_to_overview()
             return
 

@@ -11,13 +11,14 @@
 import logging
 import sys
 
-from twisted.internet import reactor
-
 import deluge.component as component
-import deluge.ui.console.colors as colors
+import deluge.ui.console.utils.colors as colors
+from deluge.ui.console.utils import curses_util as util
+from deluge.ui.console.utils.format_utils import remove_formatting
 
 try:
     import curses
+    import curses.panel
 except ImportError:
     pass
 
@@ -33,9 +34,53 @@ except ImportError:
 log = logging.getLogger(__name__)
 
 
+class InputKeyHandler(object):
+
+    def __init__(self):
+        self._input_result = None
+
+    def set_input_result(self, result):
+        self._input_result = result
+
+    def get_input_result(self):
+        result = self._input_result
+        self._input_result = None
+        return result
+
+    def handle_read(self, c):
+        """Handle a character read from curses screen
+
+        Returns:
+            int: One of the constants defined in util.curses_util.ReadState.
+            ReadState.IGNORED: The key was not handled. Further processing should continue.
+            ReadState.READ: The key was read and processed. Do no further processing
+            ReadState.CHANGED: The key was read and processed. Internal state was changed
+            leaving data to be read by the caller.
+
+        """
+        return util.ReadState.IGNORED
+
+
+class TermResizeHandler(object):
+
+    def __init__(self):
+        try:
+            signal.signal(signal.SIGWINCH, self.on_terminal_size)
+        except ValueError as ex:
+            log.debug("Unable to catch SIGWINCH signal: %s", ex)
+
+    def on_terminal_size(self, *args):
+        # Get the new rows and cols value
+        rows, cols = struct.unpack("hhhh", ioctl(0, termios.TIOCGWINSZ, "\000" * 8))[0:2]
+        curses.resizeterm(rows, cols)
+        return rows, cols
+
+
 class CursesStdIO(object):
-    """fake fd to be registered as a reader with the twisted reactor.
-       Curses classes needing input should extend this"""
+    """
+    fake fd to be registered as a reader with the twisted reactor.
+       Curses classes needing input should extend this
+    """
 
     def fileno(self):
         """ We want to select on FD 0 """
@@ -49,8 +94,9 @@ class CursesStdIO(object):
         return "CursesClient"
 
 
-class BaseMode(CursesStdIO):
-    def __init__(self, stdscr, encoding=None, do_refresh=True):
+class BaseMode(CursesStdIO, component.Component):
+
+    def __init__(self, stdscr, encoding=None, do_refresh=True, mode_name=None, depend=None):
         """
         A mode that provides a curses screen designed to run as a reader in a twisted reactor.
         This mode doesn't do much, just shows status bars and "Base Mode" on the screen
@@ -71,111 +117,67 @@ class BaseMode(CursesStdIO):
         self.topbar - top statusbar
         self.bottombar - bottom statusbar
         """
-        log.debug("BaseMode init!")
+        self.mode_name = mode_name if mode_name else self.__class__.__name__
+        component.Component.__init__(self, self.mode_name, 1, depend=depend)
         self.stdscr = stdscr
         # Make the input calls non-blocking
         self.stdscr.nodelay(1)
 
+        self.paused = False
         # Strings for the 2 status bars
         self.statusbars = component.get("StatusBars")
+        self.help_hstr = "{!status!} Press {!magenta,blue,bold!}[h]{!status!} for help"
 
         # Keep track of the screen size
         self.rows, self.cols = self.stdscr.getmaxyx()
-        try:
-            signal.signal(signal.SIGWINCH, self.on_resize)
-        except Exception:
-            log.debug("Unable to catch SIGWINCH signal!")
 
         if not encoding:
             self.encoding = sys.getdefaultencoding()
         else:
             self.encoding = encoding
 
-        colors.init_colors()
-
         # Do a refresh right away to draw the screen
         if do_refresh:
             self.refresh()
 
-    def on_resize_norefresh(self, *args):
-        log.debug("on_resize_from_signal")
-        # Get the new rows and cols value
-        self.rows, self.cols = struct.unpack("hhhh", ioctl(0, termios.TIOCGWINSZ, "\000" * 8))[0:2]
-        curses.resizeterm(self.rows, self.cols)
-
-    def on_resize(self, *args):
-        self.on_resize_norefresh(args)
-        self.refresh()
+    def on_resize(self, rows, cols):
+        self.rows, self.cols = rows, cols
 
     def connectionLost(self, reason):  # NOQA
         self.close()
 
-    def add_string(self, row, string, scr=None, col=0, pad=True, trim=True):
-        """
-        Adds a string to the desired `:param:row`.
-
-        :param row: int, the row number to write the string
-        :param string: string, the string of text to add
-        :param scr: curses.window, optional window to add string to instead of self.stdscr
-        :param col: int, optional starting column offset
-        :param pad: bool, optional bool if the string should be padded out to the width of the screen
-        :param trim: bool, optional bool if the string should be trimmed if it is too wide for the screen
-
-        The text can be formatted with color using the following format:
-
-        "{!fg, bg, attributes, ...!}"
-
-        See: http://docs.python.org/library/curses.html#constants for attributes.
-
-        Alternatively, it can use some built-in scheme for coloring.
-        See colors.py for built-in schemes.
-
-        "{!scheme!}"
-
-        Examples:
-
-        "{!blue, black, bold!}My Text is {!white, black!}cool"
-        "{!info!}I am some info text!"
-        "{!error!}Uh oh!"
-
-
-        """
+    def add_string(self, row, string, scr=None, **kwargs):
         if scr:
             screen = scr
         else:
             screen = self.stdscr
-        try:
-            parsed = colors.parse_color_string(string, self.encoding)
-        except colors.BadColorString as ex:
-            log.error("Cannot add bad color string %s: %s", string, ex)
-            return
 
-        for index, (color, s) in enumerate(parsed):
-            if index + 1 == len(parsed) and pad:
-                # This is the last string so lets append some " " to it
-                s += " " * (self.cols - (col + len(s)) - 1)
-            if trim:
-                dummy, x = screen.getmaxyx()
-                if (col + len(s)) > x:
-                    s = "%s..." % s[0:x - 4 - col]
-            screen.addstr(row, col, s, color)
-            col += len(s)
+        return add_string(row, string, screen, self.encoding, **kwargs)
 
-    def draw_statusbars(self):
-        self.add_string(0, self.statusbars.topbar)
-        self.add_string(self.rows - 1, self.statusbars.bottombar)
-
-    # This mode doesn't report errors
-    def report_message(self):
-        pass
+    def draw_statusbars(self, top_row=0, bottom_row=-1, topbar=None, bottombar=None,
+                        bottombar_help=True, scr=None):
+        self.add_string(top_row, topbar if topbar else self.statusbars.topbar, scr=scr)
+        bottombar = bottombar if bottombar else self.statusbars.bottombar
+        if bottombar_help:
+            if bottombar_help is True:
+                bottombar_help = self.help_hstr
+            bottombar += " " * (self.cols - len(remove_formatting(bottombar)) -
+                                len(remove_formatting(bottombar_help))) + bottombar_help
+        self.add_string(self.rows + bottom_row, bottombar, scr=scr)
 
     # This mode doesn't do anything with popups
     def set_popup(self, popup):
         pass
 
-    # This mode doesn't support marking
-    def clear_marks(self):
-        pass
+    def pause(self):
+        self.paused = True
+
+    def mode_paused(self):
+        return self.paused
+
+    def resume(self):
+        self.paused = False
+        self.refresh()
 
     def refresh(self):
         """
@@ -199,9 +201,8 @@ class BaseMode(CursesStdIO):
         # We wrap this function to catch exceptions and shutdown the mainloop
         try:
             self.read_input()
-        except Exception as ex:
+        except Exception as ex:  # pylint: disable=broad-except
             log.exception(ex)
-            reactor.stop()
 
     def read_input(self):
         # Read the character
@@ -216,3 +217,121 @@ class BaseMode(CursesStdIO):
         self.stdscr.keypad(0)
         curses.echo()
         curses.endwin()
+
+
+def add_string(row, string, screen, encoding, col=0, pad=True, pad_char=" ", trim="...", leaveok=0):
+    """
+    Adds a string to the desired `:param:row`.
+
+    Args:
+        row(int): the row number to write the string
+        row(int): the row number to write the string
+        string(str): the string of text to add
+        scr(curses.window): optional window to add string to instead of self.stdscr
+        col(int): optional starting column offset
+        pad(bool): optional bool if the string should be padded out to the width of the screen
+        trim(bool): optional bool if the string should be trimmed if it is too wide for the screen
+
+    The text can be formatted with color using the following format:
+
+    "{!fg, bg, attributes, ...!}"
+
+    See: http://docs.python.org/library/curses.html#constants for attributes.
+
+    Alternatively, it can use some built-in scheme for coloring.
+    See colors.py for built-in schemes.
+
+    "{!scheme!}"
+
+    Examples:
+
+    "{!blue, black, bold!}My Text is {!white, black!}cool"
+    "{!info!}I am some info text!"
+    "{!error!}Uh oh!"
+
+    Returns:
+        int: the next row
+
+    """
+    try:
+        parsed = colors.parse_color_string(string, encoding)
+    except colors.BadColorString as ex:
+        log.error("Cannot add bad color string %s: %s", string, ex)
+        return
+
+    if leaveok:
+        screen.leaveok(leaveok)
+
+    max_y, max_x = screen.getmaxyx()
+    for index, (color, s) in enumerate(parsed):
+        if index + 1 == len(parsed) and pad:
+            # This is the last string so lets append some " " to it
+            s += pad_char * (max_x - (col + len(s)))
+
+        # Sometimes the parsed string gives empty elements which may not be printed on max_x
+        if col == max_x:
+            break
+
+        if (col + len(s)) > max_x:
+            if trim:
+                s = "%s%s" % (s[0:max_x - len(trim) - col], trim)
+            else:
+                s = s[0:max_x - col]
+
+        if col + len(s) >= max_x and row == max_y - 1:
+            # Bug in curses when writing to the lower right corner: https://bugs.python.org/issue8243
+            # Use insstr instead which avoids scrolling which is the root cause apparently
+            screen.insstr(row, col, s, color)
+        else:
+            try:
+                screen.addstr(row, col, s, color)
+            except curses.error as ex:
+                import traceback
+                log.warn("FAILED on call screen.addstr(%s, %s, '%s', %s) - max_y: %s, max_x: %s, "
+                         "curses.LINES: %s, curses.COLS: %s, Error: '%s', trace:\n%s",
+                         row, col, s, color, max_y, max_x, curses.LINES, curses.COLS, ex,
+                         "".join(traceback.format_stack(limit=5)))
+
+        col += len(s)
+
+    if leaveok:
+        screen.leaveok(0)
+
+    return row + 1
+
+
+def mkpanel(color, rows, cols, tly, tlx):
+    win = curses.newwin(rows, cols, tly, tlx)
+    pan = curses.panel.new_panel(win)
+    if curses.has_colors():
+        win.bkgdset(ord(' '), curses.color_pair(color))
+    else:
+        win.bkgdset(ord(' '), curses.A_BOLD)
+    return pan
+
+
+def mkwin(color, rows, cols, tly, tlx):
+    win = curses.newwin(rows, cols, tly, tlx)
+    if curses.has_colors():
+        win.bkgdset(ord(' '), curses.color_pair(color))
+    else:
+        win.bkgdset(ord(' '), curses.A_BOLD)
+    return win
+
+
+def mkpad(color, rows, cols):
+    win = curses.newpad(rows, cols)
+    if curses.has_colors():
+        win.bkgdset(ord(' '), curses.color_pair(color))
+    else:
+        win.bkgdset(ord(' '), curses.A_BOLD)
+    return win
+
+
+def move_cursor(screen, row, col):
+    try:
+        screen.move(row, col)
+    except curses.error as ex:
+        import traceback
+        log.warn("Error on screen.move(%s, %s): (curses.LINES: %s, curses.COLS: %s) Error: '%s'\nStack: %s",
+                 row, col, curses.LINES, curses.COLS, ex, "".join(traceback.format_stack()))

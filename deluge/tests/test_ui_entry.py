@@ -21,7 +21,7 @@ from twisted.internet import defer
 import deluge
 import deluge.component as component
 import deluge.ui.console
-import deluge.ui.console.commands.quit
+import deluge.ui.console.cmdline.commands.quit
 import deluge.ui.console.main
 import deluge.ui.web.server
 from deluge.ui import ui_entry
@@ -332,7 +332,7 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
 
     def set_up(self):
         # Avoid calling reactor.shutdown after commands are executed by main.exec_args()
-        self.patch(deluge.ui.console.commands.quit, "reactor", common.ReactorOverride())
+        self.patch(deluge.ui.console.cmdline.commands.quit, "reactor", common.ReactorOverride())
         return UIWithDaemonBaseTestCase.set_up(self)
 
     @defer.inlineCallbacks

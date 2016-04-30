@@ -13,11 +13,13 @@ import os
 
 import deluge.common
 import deluge.component as component
+from deluge.decorators import overrides
 from deluge.ui.client import client
-from deluge.ui.console.modes import format_utils
 from deluge.ui.console.modes.basemode import BaseMode
-from deluge.ui.console.modes.input_popup import InputPopup
-from deluge.ui.console.modes.popup import MessagePopup
+from deluge.ui.console.modes.torrentlist.add_torrents_popup import report_add_status
+from deluge.ui.console.utils import curses_util as util
+from deluge.ui.console.utils import format_utils
+from deluge.ui.console.widgets.popup import InputPopup, MessagePopup
 
 try:
     import curses
@@ -55,21 +57,18 @@ if a file is highlighted
 """
 
 
-class AddTorrents(BaseMode, component.Component):
-    def __init__(self, alltorrentmode, stdscr, console_config, encoding=None):
+class AddTorrents(BaseMode):
 
+    def __init__(self, parent_mode, stdscr, console_config, encoding=None):
         self.console_config = console_config
-
-        self.alltorrentmode = alltorrentmode
-
+        self.parent_mode = parent_mode
         self.popup = None
-
         self.view_offset = 0
         self.cursel = 0
         self.marked = set()
         self.last_mark = -1
 
-        path = os.path.expanduser(self.console_config["addtorrents_last_path"])
+        path = os.path.expanduser(self.console_config["addtorrents"]["last_path"])
 
         self.path_stack = ["/"] + path.strip("/").split("/")
         self.path_stack_pos = len(self.path_stack)
@@ -81,26 +80,22 @@ class AddTorrents(BaseMode, component.Component):
         self.raw_rows_dirs = []
         self.formatted_rows = []
 
-        self.sort_column = self.console_config["addtorrents_sort_column"]
-        self.reverse_sort = self.console_config["addtorrents_reverse_sort"]
+        self.sort_column = self.console_config["addtorrents"]["sort_column"]
+        self.reverse_sort = self.console_config["addtorrents"]["reverse_sort"]
 
         BaseMode.__init__(self, stdscr, encoding)
 
         self._listing_space = self.rows - 5
-
         self.__refresh_listing()
 
-        component.Component.__init__(self, "AddTorrents", 1, depend=["SessionProxy"])
-
-        component.start(["AddTorrents"])
-
-        curses.curs_set(0)
+        util.safe_curs_set(util.Curser.INVISIBLE)
         self.stdscr.notimeout(0)
 
-    # component start/update
+    @overrides(component.Component)
     def start(self):
         pass
 
+    @overrides(component.Component)
     def update(self):
         pass
 
@@ -119,12 +114,12 @@ class AddTorrents(BaseMode, component.Component):
 
         for f in listing:
             if os.path.isdir(os.path.join(path, f)):
-                if self.console_config["addtorrents_show_hidden_folders"]:
+                if self.console_config["addtorrents"]["show_hidden_folders"]:
                     self.listing_dirs.append(f)
                 elif f[0] != ".":
                     self.listing_dirs.append(f)
             elif os.path.isfile(os.path.join(path, f)):
-                if self.console_config["addtorrents_show_misc_files"]:
+                if self.console_config["addtorrents"]["show_misc_files"]:
                     self.listing_files.append(f)
                 elif f.endswith(".torrent"):
                     self.listing_files.append(f)
@@ -167,8 +162,8 @@ class AddTorrents(BaseMode, component.Component):
         self.__sort_rows()
 
     def __sort_rows(self):
-        self.console_config["addtorrents_sort_column"] = self.sort_column
-        self.console_config["addtorrents_reverse_sort"] = self.reverse_sort
+        self.console_config["addtorrents"]["sort_column"] = self.sort_column
+        self.console_config["addtorrents"]["reverse_sort"] = self.reverse_sort
         self.console_config.save()
 
         self.raw_rows_dirs.sort(key=lambda r: r[0].lower())
@@ -178,7 +173,6 @@ class AddTorrents(BaseMode, component.Component):
         elif self.sort_column == "date":
             self.raw_rows_files.sort(key=lambda r: r[2], reverse=self.reverse_sort)
         self.raw_rows = self.raw_rows_dirs + self.raw_rows_files
-
         self.__refresh_rows()
 
     def __refresh_rows(self):
@@ -224,37 +218,21 @@ class AddTorrents(BaseMode, component.Component):
         self.popup = pu
         self.refresh()
 
-    def on_resize(self, *args):
-        BaseMode.on_resize_norefresh(self, *args)
-
-        # Always refresh Legacy(it will also refresh AllTorrents), otherwise it will bug deluge out
-        legacy = component.get("LegacyUI")
-        legacy.on_resize(*args)
-
+    @overrides(BaseMode)
+    def on_resize(self, rows, cols):
+        BaseMode.on_resize(self, rows, cols)
         if self.popup:
             self.popup.handle_resize()
-
         self._listing_space = self.rows - 5
-
         self.refresh()
 
     def refresh(self, lines=None):
+        if self.mode_paused():
+            return
 
         # Update the status bars
         self.stdscr.erase()
-        self.add_string(0, self.statusbars.topbar)
-
-        # This will quite likely fail when switching modes
-        try:
-            rf = format_utils.remove_formatting
-            string = self.statusbars.bottombar
-            hstr = "Press {!magenta,blue,bold!}[h]{!status!} for help"
-
-            string += " " * (self.cols - len(rf(string)) - len(rf(hstr))) + hstr
-
-            self.add_string(self.rows - 1, string)
-        except Exception as ex:
-            log.debug("Exception caught: %s", ex)
+        self.draw_statusbars()
 
         off = 1
 
@@ -331,7 +309,7 @@ class AddTorrents(BaseMode, component.Component):
             if off > self.rows - 2:
                 break
 
-        if component.get("ConsoleUI").screen != self:
+        if not component.get("ConsoleUI").is_active_mode(self):
             return
 
         self.stdscr.noutrefresh()
@@ -342,12 +320,8 @@ class AddTorrents(BaseMode, component.Component):
         curses.doupdate()
 
     def back_to_overview(self):
-        component.stop(["AddTorrents"])
-        component.deregister(self)
-        self.stdscr.erase()
-        component.get("ConsoleUI").set_mode(self.alltorrentmode)
-        self.alltorrentmode._go_top = False
-        self.alltorrentmode.resume()
+        self.parent_mode.go_top = False
+        component.get("ConsoleUI").set_mode(self.parent_mode.mode_name)
 
     def _perform_action(self):
         if self.cursel < len(self.listing_dirs):
@@ -387,7 +361,7 @@ class AddTorrents(BaseMode, component.Component):
 
     def _show_add_dialog(self):
 
-        def _do_add(result):
+        def _do_add(result, **kwargs):
             ress = {"succ": 0, "fail": 0, "total": len(self.marked), "fmsg": []}
 
             def fail_cb(msg, t_file, ress):
@@ -395,14 +369,14 @@ class AddTorrents(BaseMode, component.Component):
                 ress["fail"] += 1
                 ress["fmsg"].append("{!input!} * %s: {!error!}%s" % (t_file, msg))
                 if (ress["succ"] + ress["fail"]) >= ress["total"]:
-                    self.alltorrentmode._report_add_status(ress["succ"], ress["fail"], ress["fmsg"])
+                    report_add_status(component.get("TorrentList"), ress["succ"], ress["fail"], ress["fmsg"])
 
             def success_cb(tid, t_file, ress):
                 if tid:
                     log.debug("added torrent: %s (%s)", t_file, tid)
                     ress["succ"] += 1
                     if (ress["succ"] + ress["fail"]) >= ress["total"]:
-                        self.alltorrentmode._report_add_status(ress["succ"], ress["fail"], ress["fmsg"])
+                        report_add_status(component.get("TorrentList"), ress["succ"], ress["fail"], ress["fmsg"])
                 else:
                     fail_cb("Already in session (probably)", t_file, ress)
 
@@ -413,21 +387,20 @@ class AddTorrents(BaseMode, component.Component):
                 with open(path) as _file:
                     filedump = base64.encodestring(_file.read())
                 t_options = {}
-                if result["location"]:
-                    t_options["download_location"] = result["location"]
-                t_options["add_paused"] = result["add_paused"]
+                if result["location"]["value"]:
+                    t_options["download_location"] = result["location"]["value"]
+                t_options["add_paused"] = result["add_paused"]["value"]
 
                 d = client.core.add_torrent_file(filename, filedump, t_options)
                 d.addCallback(success_cb, filename, ress)
                 d.addErrback(fail_cb, filename, ress)
 
-            self.console_config["addtorrents_last_path"] = os.path.join(*self.path_stack[:self.path_stack_pos])
+            self.console_config["addtorrents"]["last_path"] = os.path.join(*self.path_stack[:self.path_stack_pos])
             self.console_config.save()
 
             self.back_to_overview()
 
         config = component.get("ConsoleUI").coreconfig
-        dl = config["download_location"]
         if config["add_paused"]:
             ap = 0
         else:
@@ -445,8 +418,8 @@ class AddTorrents(BaseMode, component.Component):
         self.popup.add_text(msg)
         self.popup.add_spaces(1)
 
-        self.popup.add_text_input("Download Folder:", "location", dl)
-        self.popup.add_select_input("Add Paused:", "add_paused", ["Yes", "No"], [True, False], ap)
+        self.popup.add_text_input("location", "Download Folder:", config["download_location"], complete=True)
+        self.popup.add_select_input("add_paused", "Add Paused:", ["Yes", "No"], [True, False], ap)
 
     def _go_up(self):
         # Go up in directory hierarchy
@@ -469,7 +442,7 @@ class AddTorrents(BaseMode, component.Component):
             self.refresh()
             return
 
-        if c > 31 and c < 256:
+        if util.is_printable_char(c):
             if chr(c) == "Q":
                 from twisted.internet import reactor
                 if client.connected():
@@ -487,14 +460,12 @@ class AddTorrents(BaseMode, component.Component):
         if c == curses.KEY_UP:
             self.scroll_list_up(1)
         elif c == curses.KEY_PPAGE:
-            # self.scroll_list_up(self._listing_space-2)
             self.scroll_list_up(self.rows // 2)
         elif c == curses.KEY_HOME:
             self.scroll_list_up(len(self.formatted_rows))
         elif c == curses.KEY_DOWN:
             self.scroll_list_down(1)
         elif c == curses.KEY_NPAGE:
-            # self.scroll_list_down(self._listing_space-2)
             self.scroll_list_down(self.rows // 2)
         elif c == curses.KEY_END:
             self.scroll_list_down(len(self.formatted_rows))
@@ -503,14 +474,12 @@ class AddTorrents(BaseMode, component.Component):
                 self._enter_dir()
         elif c == curses.KEY_LEFT:
             self._go_up()
-        # Enter Key
-        elif c == curses.KEY_ENTER or c == 10:
+        elif c in [curses.KEY_ENTER, util.KEY_ENTER2]:
             self._perform_action()
-        # Escape
-        elif c == 27:
+        elif c == util.KEY_ESC:
             self.back_to_overview()
         else:
-            if c > 31 and c < 256:
+            if util.is_printable_char(c):
                 if chr(c) == "h":
                     self.popup = MessagePopup(self, "Help", HELP_STR, width_req=0.75)
                 elif chr(c) == ">":

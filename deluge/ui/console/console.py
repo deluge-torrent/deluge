@@ -30,7 +30,7 @@ log = logging.getLogger(__name__)
 def load_commands(command_dir):
 
     def get_command(name):
-        return getattr(__import__('deluge.ui.console.commands.%s' % name, {}, {}, ['Command']), 'Command')()
+        return getattr(__import__('deluge.ui.console.cmdline.commands.%s' % name, {}, {}, ['Command']), 'Command')()
 
     try:
         commands = []
@@ -40,10 +40,10 @@ def load_commands(command_dir):
             if not (filename.endswith('.py') or filename.endswith('.pyc')):
                 continue
             cmd = get_command(filename.split('.')[len(filename.split('.')) - 2])
-            cmd._name = filename.split('.')[len(filename.split('.')) - 2]
-            names = [cmd._name]
-            names.extend(cmd.aliases)
-            for a in names:
+            aliases = [filename.split('.')[len(filename.split('.')) - 2]]
+            cmd._name = aliases[0]
+            aliases.extend(cmd.aliases)
+            for a in aliases:
                 commands.append((a, cmd))
         return dict(commands)
     except OSError:
@@ -67,8 +67,9 @@ class Console(UI):
     def __init__(self, *args, **kwargs):
         super(Console, self).__init__("console", *args, log_stream=LogStream(), **kwargs)
 
-        group = self.parser.add_argument_group(_("Console Options"), "These daemon connect options will be "
-                                               "used for commands, or if console ui autoconnect is enabled.")
+        group = self.parser.add_argument_group(_("Console Options"),
+                                               _("These daemon connect options will be "
+                                                 "used for commands, or if console ui autoconnect is enabled."))
         group.add_argument("-d", "--daemon", dest="daemon_addr", required=False, default="127.0.0.1")
         group.add_argument("-p", "--port", dest="daemon_port", type=int, required=False, default="58846")
         group.add_argument("-U", "--username", dest="daemon_user", required=False)
@@ -76,17 +77,17 @@ class Console(UI):
 
         # To properly print help message for the console commands ( e.g. deluge-console info -h),
         # we add a subparser for each command which will trigger the help/usage when given
-        from deluge.ui.console.main import ConsoleCommandParser  # import here because (see top)
+        from deluge.ui.console.parser import ConsoleCommandParser  # import here because (see top)
         self.console_parser = ConsoleCommandParser(parents=[self.parser], add_help=False, prog=self.parser.prog,
                                                    description="Starts the Deluge console interface",
                                                    formatter_class=lambda prog:
                                                    DelugeTextHelpFormatter(prog, max_help_position=33, width=90))
         self.parser.subparser = self.console_parser
         self.console_parser.base_parser = self.parser
-        subparsers = self.console_parser.add_subparsers(title="Console commands", help="Description", dest="command",
-                                                        description="The following console commands are available:",
-                                                        metavar="command")
-        self.console_cmds = load_commands(os.path.join(UI_PATH, "commands"))
+        subparsers = self.console_parser.add_subparsers(title=_("Console commands"), help=_("Description"),
+                                                        description=_("The following console commands are available:"),
+                                                        metavar=_("Command"), dest="command")
+        self.console_cmds = load_commands(os.path.join(UI_PATH, "cmdline", "commands"))
         for c in sorted(self.console_cmds):
             self.console_cmds[c].add_subparser(subparsers)
 

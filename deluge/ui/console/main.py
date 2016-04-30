@@ -10,226 +10,83 @@
 
 from __future__ import print_function
 
-import argparse
 import locale
 import logging
 import os
-import shlex
 import sys
+import time
 
 from twisted.internet import defer, reactor
 
 import deluge.common
 import deluge.component as component
+from deluge.configmanager import ConfigManager
+from deluge.decorators import overrides
 from deluge.error import DelugeError
 from deluge.ui.client import client
-from deluge.ui.console import colors
-from deluge.ui.console.colors import ConsoleColorFormatter
-from deluge.ui.console.commander import Commander
-from deluge.ui.console.eventlog import EventLog
-from deluge.ui.console.statusbars import StatusBars
+from deluge.ui.console.modes.addtorrents import AddTorrents
+from deluge.ui.console.modes.basemode import TermResizeHandler
+from deluge.ui.console.modes.cmdline import CmdLine
+from deluge.ui.console.modes.eventview import EventView
+from deluge.ui.console.modes.preferences import Preferences
+from deluge.ui.console.modes.torrentdetail import TorrentDetail
+from deluge.ui.console.modes.torrentlist.torrentlist import TorrentList
+from deluge.ui.console.utils import colors
+from deluge.ui.console.widgets import StatusBars
 from deluge.ui.coreconfig import CoreConfig
 from deluge.ui.sessionproxy import SessionProxy
 
 log = logging.getLogger(__name__)
 
-
-class ConsoleBaseParser(argparse.ArgumentParser):
-
-    def format_help(self):
-        """
-        Differs from ArgumentParser.format_help by adding the raw epilog
-        as formatted in the string. Default bahavior mangles the formatting.
-
-        """
-        # Handle epilog manually to keep the text formatting
-        epilog = self.epilog
-        self.epilog = ""
-        help_str = super(ConsoleBaseParser, self).format_help()
-        if epilog is not None:
-            help_str += epilog
-        self.epilog = epilog
-        return help_str
-
-
-class ConsoleCommandParser(ConsoleBaseParser):
-
-    def _split_args(self, args):
-        command_options = []
-        for a in args:
-            if not a:
-                continue
-            if ";" in a:
-                cmd_lines = [arg.strip() for arg in a.split(";")]
-            elif " " in a:
-                cmd_lines = [a]
-            else:
-                continue
-
-            for cmd_line in cmd_lines:
-                cmds = shlex.split(cmd_line)
-                cmd_options = super(ConsoleCommandParser, self).parse_args(args=cmds)
-                cmd_options.command = cmds[0]
-                command_options.append(cmd_options)
-
-        return command_options
-
-    def parse_args(self, args=None):
-        """Parse known UI args and handle common and process group options.
-
-            Notes:
-                If started by deluge entry script this has already been done.
-
-            Args:
-                args (list, optional): The arguments to parse.
-
-            Returns:
-                argparse.Namespace: The parsed arguments.
-        """
-        from deluge.ui.ui_entry import AMBIGUOUS_CMD_ARGS
-        self.base_parser.parse_known_ui_args(args, withhold=AMBIGUOUS_CMD_ARGS)
-
-        multi_command = self._split_args(args)
-        # If multiple commands were passed to console
-        if multi_command:
-            # With multiple commands, normal parsing will fail, so only parse
-            # known arguments using the base parser, and then set
-            # options.parsed_cmds to the already parsed commands
-            options, remaining = self.base_parser.parse_known_args(args=args)
-            options.parsed_cmds = multi_command
-        else:
-            subcommand = False
-            if hasattr(self.base_parser, "subcommand"):
-                subcommand = getattr(self.base_parser, "subcommand")
-            if not subcommand:
-                # We must use parse_known_args to handle case when no subcommand
-                # is provided, because argparse does not support parsing without
-                # a subcommand
-                options, remaining = self.base_parser.parse_known_args(args=args)
-                # If any options remain it means they do not exist. Reparse with
-                # parse_args to trigger help message
-                if remaining:
-                    options = self.base_parser.parse_args(args=args)
-                options.parsed_cmds = []
-            else:
-                options = super(ConsoleCommandParser, self).parse_args(args=args)
-                options.parsed_cmds = [options]
-
-        if not hasattr(options, "remaining"):
-            options.remaining = []
-
-        return options
+DEFAULT_CONSOLE_PREFS = {
+    "ring_bell": False,
+    "first_run": True,
+    "language": "",
+    "torrentview": {
+        "sort_primary": "queue",
+        "sort_secondary": "name",
+        "show_sidebar": True,
+        "sidebar_width": 25,
+        "separate_complete": True,
+        "move_selection": True,
+        "columns": {}
+    },
+    "addtorrents": {
+        "show_misc_files": False,  # TODO: Showing/hiding this
+        "show_hidden_folders": False,  # TODO: Showing/hiding this
+        "sort_column": "date",
+        "reverse_sort": True,
+        "last_path": "~",
+    },
+    "cmdline": {
+        "ignore_duplicate_lines": False,
+        "third_tab_lists_all": False,
+        "torrents_per_tab_press": 15,
+        "save_command_history": True,
+    }
+}
 
 
-class OptionParser(ConsoleBaseParser):
-
-    def __init__(self, **kwargs):
-        super(OptionParser, self).__init__(**kwargs)
-        self.formatter = ConsoleColorFormatter()
-
-    def exit(self, status=0, msg=None):
-        self._exit = True
-        if msg:
-            print(msg)
-
-    def error(self, msg):
-        """error(msg : string)
-
-           Print a usage message incorporating 'msg' to stderr and exit.
-           If you override this in a subclass, it should not return -- it
-           should either exit or raise an exception.
-        """
-        raise Exception(msg)
-
-    def print_usage(self, _file=None):
-        console = component.get("ConsoleUI")
-        if self.usage:
-            for line in self.format_usage().splitlines():
-                console.write(line)
-
-    def print_help(self, _file=None):
-        console = component.get("ConsoleUI")
-        console.set_batch_write(True)
-        for line in self.format_help().splitlines():
-            console.write(line)
-        console.set_batch_write(False)
-
-    def format_help(self):
-        """Return help formatted with colors."""
-        help_str = super(OptionParser, self).format_help()
-        return self.formatter.format_colors(help_str)
-
-
-class BaseCommand(object):
-
-    usage = None
-    interactive_only = False
-    aliases = []
-    _name = "base"
-    epilog = ""
-
-    def complete(self, text, *args):
-        return []
-
-    def handle(self, options):
-        pass
-
-    @property
-    def name(self):
-        return self._name
-
-    @property
-    def name_with_alias(self):
-        return "/".join([self._name] + self.aliases)
-
-    @property
-    def description(self):
-        return self.__doc__
-
-    def split(self, text):
-        if deluge.common.windows_check():
-            text = text.replace("\\", "\\\\")
-        result = shlex.split(text)
-        for i, s in enumerate(result):
-            result[i] = s.replace(r"\ ", " ")
-        result = [s for s in result if s != ""]
-        return result
-
-    def create_parser(self):
-        opts = {"prog": self.name_with_alias, "description": self.__doc__, "epilog": self.epilog}
-        if self.usage:
-            opts["usage"] = self.usage
-        parser = OptionParser(**opts)
-        parser.add_argument(self.name, metavar="")
-        parser.base_parser = parser
-        self.add_arguments(parser)
-        return parser
-
-    def add_subparser(self, subparsers):
-        opts = {"prog": self.name_with_alias, "help": self.__doc__, "description": self.__doc__}
-        if self.usage:
-            opts["usage"] = self.usage
-        parser = subparsers.add_parser(self.name, **opts)
-        self.add_arguments(parser)
-
-    def add_arguments(self, parser):
-        pass
-
-
-class ConsoleUI(component.Component):
+class ConsoleUI(component.Component, TermResizeHandler):
 
     def __init__(self, options, cmds, log_stream):
-        component.Component.__init__(self, "ConsoleUI", 2)
+        component.Component.__init__(self, "ConsoleUI")
+        TermResizeHandler.__init__(self)
         self.options = options
         self.log_stream = log_stream
 
         # keep track of events for the log view
         self.events = []
+        self.torrents = []
         self.statusbars = None
+        self.modes = {}
+        self.active_mode = None
+        self.initialized = False
+
         try:
             locale.setlocale(locale.LC_ALL, "")
             self.encoding = locale.getpreferredencoding()
-        except Exception:
+        except locale.Error:
             self.encoding = sys.getdefaultencoding()
 
         log.debug("Using encoding: %s", self.encoding)
@@ -284,6 +141,8 @@ Please use commands from the command line, e.g.:\n
                     def flush(self):
                         pass
 
+                # We don't ever want log output to terminal when running in
+                # interactive mode, so insert a dummy here
                 self.log_stream.out = ConsoleLog()
 
                 # Set Esc key delay to 0 to avoid a very annoying delay
@@ -297,6 +156,8 @@ Please use commands from the command line, e.g.:\n
                 curses.wrapper(self.run)
 
     def exec_args(self, options):
+        """Execute console commands from command line."""
+        from deluge.ui.console.cmdline.command import Commander
         commander = Commander(self._commands)
 
         def on_connect(result):
@@ -319,7 +180,7 @@ Please use commands from the command line, e.g.:\n
                 # any of the commands.
                 self.started_deferred.addCallback(on_started)
                 return self.started_deferred
-            d = component.start()
+            d = self.start_console()
             d.addCallback(on_components_started)
             return d
 
@@ -343,47 +204,161 @@ Please use commands from the command line, e.g.:\n
         return d
 
     def run(self, stdscr):
-        """
-        This method is called by the curses.wrapper to start the mainloop and
-        screen.
+        """This method is called by the curses.wrapper to start the mainloop and screen.
 
-        :param stdscr: curses screen passed in from curses.wrapper
+        Args:
+            stdscr (_curses.curses window): curses screen passed in from curses.wrapper.
 
         """
         # We want to do an interactive session, so start up the curses screen and
         # pass it the function that handles commands
         colors.init_colors()
+        self.stdscr = stdscr
+        self.config = ConfigManager("console.conf", defaults=DEFAULT_CONSOLE_PREFS, file_version=2)
+        self.config.run_converter((0, 1), 2, self._migrate_config_1_to_2)
+
         self.statusbars = StatusBars()
         from deluge.ui.console.modes.connectionmanager import ConnectionManager
-        self.stdscr = stdscr
-        self.screen = ConnectionManager(stdscr, self.encoding)
+        self.register_mode(ConnectionManager(stdscr, self.encoding), set_mode=True)
+
+        torrentlist = self.register_mode(TorrentList(self.stdscr, self.encoding))
+        self.register_mode(CmdLine(self.stdscr, self.encoding))
+        self.register_mode(EventView(torrentlist, self.stdscr, self.encoding))
+        self.register_mode(TorrentDetail(torrentlist, self.stdscr, self.config, self.encoding))
+        self.register_mode(Preferences(torrentlist, self.stdscr, self.config, self.encoding))
+        self.register_mode(AddTorrents(torrentlist, self.stdscr, self.config, self.encoding))
+
         self.eventlog = EventLog()
 
-        self.screen.topbar = "{!status!}Deluge " + deluge.common.get_version() + " Console"
-        self.screen.bottombar = "{!status!}"
-        self.screen.refresh()
-
-        # The Screen object is designed to run as a twisted reader so that it
-        # can use twisted's select poll for non-blocking user input.
-        reactor.addReader(self.screen)
-
+        self.active_mode.topbar = "{!status!}Deluge " + deluge.common.get_version() + " Console"
+        self.active_mode.bottombar = "{!status!}"
+        self.active_mode.refresh()
         # Start the twisted mainloop
         reactor.run()
 
-    def start(self):
+    @overrides(TermResizeHandler)
+    def on_terminal_size(self, *args):
+        rows, cols = super(ConsoleUI, self).on_terminal_size(args)
+        for mode in self.modes:
+            self.modes[mode].on_resize(rows, cols)
+
+    def register_mode(self, mode, set_mode=False):
+        self.modes[mode.mode_name] = mode
+        if set_mode:
+            self.set_mode(mode.mode_name)
+        return mode
+
+    def set_mode(self, mode_name, refresh=False):
+        log.debug("Setting console mode '%s'", mode_name)
+        mode = self.modes.get(mode_name, None)
+        if mode is None:
+            log.error("Non-existent mode requested: '%s'", mode_name)
+            return
+        self.stdscr.erase()
+
+        if self.active_mode:
+            self.active_mode.pause()
+            d = component.pause([self.active_mode.mode_name])
+
+            def on_mode_paused(result, mode, *args):
+                from deluge.ui.console.widgets.popup import PopupsHandler
+                if isinstance(mode, PopupsHandler):
+                    if mode.popup is not None:
+                        # If popups are not removed, they are still referenced in the memory
+                        # which can cause issues as the popup's screen will not be destroyed.
+                        # This can lead to the popup border being visible for short periods
+                        # while the current modes' screen is repainted.
+                        log.error("Mode '%s' still has popups available after being paused."
+                                  " Ensure all popups are removed on pause!", mode.popup.title)
+            d.addCallback(on_mode_paused, self.active_mode)
+            reactor.removeReader(self.active_mode)
+
+        self.active_mode = mode
+        self.statusbars.screen = self.active_mode
+
+        # The Screen object is designed to run as a twisted reader so that it
+        # can use twisted's select poll for non-blocking user input.
+        reactor.addReader(self.active_mode)
+        self.stdscr.clear()
+
+        if self.active_mode._component_state == "Stopped":
+            component.start([self.active_mode.mode_name])
+        else:
+            component.resume([self.active_mode.mode_name])
+
+        mode.resume()
+        if refresh:
+            mode.refresh()
+        return mode
+
+    def switch_mode(self, func, error_smg):
+        def on_stop(arg):
+            if arg and True in arg[0]:
+                func()
+            else:
+                self.messages.append(("Error", error_smg))
+        component.stop(["TorrentList"]).addCallback(on_stop)
+
+    def is_active_mode(self, mode):
+        return mode == self.active_mode
+
+    def start_components(self):
+        def on_started(result):
+            component.pause(["TorrentList", "EventView", "AddTorrents", "TorrentDetail", "Preferences"])
+
+        if self.interactive:
+            d = component.start().addCallback(on_started)
+        else:
+            d = component.start(["SessionProxy", "ConsoleUI", "CoreConfig"])
+        return d
+
+    def start_console(self):
         # Maintain a list of (torrent_id, name) for use in tab completion
-        self.torrents = []
-        if not self.interactive:
-            self.started_deferred = defer.Deferred()
+        self.started_deferred = defer.Deferred()
 
-            def on_session_state(result):
-                def on_torrents_status(torrents):
-                    for torrent_id, status in torrents.items():
-                        self.torrents.append((torrent_id, status["name"]))
-                    self.started_deferred.callback(True)
+        if not self.initialized:
+            self.initialized = True
+            d = self.start_components()
+        else:
+            def on_stopped(result):
+                return component.start(["SessionProxy"])
+            d = component.stop(["SessionProxy"]).addCallback(on_stopped)
+        return d
 
-                client.core.get_torrents_status({"id": result}, ["name"]).addCallback(on_torrents_status)
-            client.core.get_session_state().addCallback(on_session_state)
+    def start(self):
+        def on_session_state(result):
+            self.torrents = []
+            self.events = []
+
+            def on_torrents_status(torrents):
+                for torrent_id, status in torrents.items():
+                    self.torrents.append((torrent_id, status["name"]))
+                self.started_deferred.callback(True)
+
+            client.core.get_torrents_status({"id": result}, ["name"]).addCallback(on_torrents_status)
+
+        d = client.core.get_session_state().addCallback(on_session_state)
+
+        # Register event handlers to keep the torrent list up-to-date
+        client.register_event_handler("TorrentAddedEvent", self.on_torrent_added_event)
+        client.register_event_handler("TorrentRemovedEvent", self.on_torrent_removed_event)
+        return d
+
+    def on_torrent_added_event(self, event, from_state=False):
+        def on_torrent_status(status):
+            self.torrents.append((event, status["name"]))
+        client.core.get_torrent_status(event, ["name"]).addCallback(on_torrent_status)
+
+    def on_torrent_removed_event(self, event):
+        for index, (tid, name) in enumerate(self.torrents):
+            if event == tid:
+                del self.torrents[index]
+
+    def match_torrents(self, strings):
+        torrent_ids = []
+        for s in strings:
+            torrent_ids.extend(self.match_torrent(s))
+        return list(set(torrent_ids))
 
     def match_torrent(self, string):
         """
@@ -396,67 +371,235 @@ Please use commands from the command line, e.g.:\n
             no matches are found.
 
         """
-        if self.interactive and isinstance(self.screen, deluge.ui.console.modes.legacy.Legacy):
-            return self.screen.match_torrent(string)
+        if not isinstance(string, unicode):
+            string = unicode(string, self.encoding)
+
+        if string == "*" or string == "":
+            return [tid for tid, name in self.torrents]
+
+        match_func = "__eq__"
+        if string.startswith("*"):
+            string = string[1:]
+            match_func = "endswith"
+        if string.endswith("*"):
+            match_func = "__contains__" if match_func == "endswith" else "startswith"
+            string = string[:-1]
+
         matches = []
-
-        string = string.decode(self.encoding)
         for tid, name in self.torrents:
-            if tid.startswith(string) or name.startswith(string):
+            if not isinstance(name, unicode):
+                name = unicode(name, self.encoding)
+            if getattr(tid, match_func, None)(string) or getattr(name, match_func, None)(string):
                 matches.append(tid)
-
         return matches
 
     def get_torrent_name(self, torrent_id):
-        if self.interactive and hasattr(self.screen, "get_torrent_name"):
-            return self.screen.get_torrent_name(torrent_id)
-
         for tid, name in self.torrents:
             if torrent_id == tid:
                 return name
-
         return None
 
     def set_batch_write(self, batch):
-        if self.interactive and isinstance(self.screen, deluge.ui.console.modes.legacy.Legacy):
-            return self.screen.set_batch_write(batch)
+        if self.interactive and isinstance(self.active_mode, deluge.ui.console.modes.cmdline.CmdLine):
+            return self.active_mode.set_batch_write(batch)
 
     def tab_complete_torrent(self, line):
-        if self.interactive and isinstance(self.screen, deluge.ui.console.modes.legacy.Legacy):
-            return self.screen.tab_complete_torrent(line)
+        if self.interactive and isinstance(self.active_mode, deluge.ui.console.modes.cmdline.CmdLine):
+            return self.active_mode.tab_complete_torrent(line)
 
     def tab_complete_path(self, line, path_type="file", ext="", sort="name", dirs_first=True):
-        if self.interactive and isinstance(self.screen, deluge.ui.console.modes.legacy.Legacy):
-            return self.screen.tab_complete_path(line, path_type=path_type, ext=ext, sort=sort, dirs_first=dirs_first)
-
-    def set_mode(self, mode):
-        reactor.removeReader(self.screen)
-        self.screen = mode
-        self.statusbars.screen = self.screen
-        reactor.addReader(self.screen)
-        self.stdscr.clear()
-        mode.refresh()
+        if self.interactive and isinstance(self.active_mode, deluge.ui.console.modes.cmdline.CmdLine):
+            return self.active_mode.tab_complete_path(line, path_type=path_type, ext=ext,
+                                                      sort=sort, dirs_first=dirs_first)
 
     def on_client_disconnect(self):
         component.stop()
 
     def write(self, s):
         if self.interactive:
-            if isinstance(self.screen, deluge.ui.console.modes.legacy.Legacy):
-                self.screen.write(s)
+            if isinstance(self.active_mode, deluge.ui.console.modes.cmdline.CmdLine):
+                self.active_mode.write(s)
             else:
-                component.get("LegacyUI").add_line(s, False)
+                component.get("CmdLine").add_line(s, False)
                 self.events.append(s)
         else:
             print(colors.strip_colors(deluge.common.utf8_encoded(s)))
 
     def write_event(self, s):
         if self.interactive:
-            if isinstance(self.screen, deluge.ui.console.modes.legacy.Legacy):
+            if isinstance(self.active_mode, deluge.ui.console.modes.cmdline.CmdLine):
                 self.events.append(s)
-                self.screen.write(s)
+                self.active_mode.write(s)
             else:
-                component.get("LegacyUI").add_line(s, False)
+                component.get("CmdLine").add_line(s, False)
                 self.events.append(s)
         else:
             print(colors.strip_colors(deluge.common.utf8_encoded(s)))
+
+    def _migrate_config_1_to_2(self, config):
+        """Create better structure by moving most settings out of dict root
+        and into sub categories. Some keys are also renamed to be consistent
+        with other UIs.
+        """
+        def move_key(source, dest, source_key, dest_key=None):
+            if dest_key is None:
+                dest_key = source_key
+            dest[dest_key] = source[source_key]
+            del source[source_key]
+
+        # These are moved to 'torrentview' sub dict
+        for k in ["sort_primary", "sort_secondary", "move_selection", "separate_complete"]:
+            move_key(config, config["torrentview"], k)
+
+        # These are moved to 'addtorrents' sub dict
+        for k in ["show_misc_files", "show_hidden_folders", "sort_column", "reverse_sort", "last_path"]:
+            move_key(config, config["addtorrents"], "addtorrents_%s" % k, dest_key=k)
+
+        # These are moved to 'cmdline' sub dict
+        for k in ["ignore_duplicate_lines", "torrents_per_tab_press", "third_tab_lists_all"]:
+            move_key(config, config["cmdline"], k)
+
+        move_key(config, config["cmdline"], "save_legacy_history", dest_key="save_command_history")
+
+        # Add key for localization
+        config["language"] = DEFAULT_CONSOLE_PREFS["language"]
+
+        # Migrate column settings
+        columns = ["queue", "size", "state", "progress", "seeds", "peers", "downspeed", "upspeed",
+                   "eta", "ratio", "avail", "added", "tracker", "savepath", "downloaded", "uploaded",
+                   "remaining", "owner", "downloading_time", "seeding_time", "completed", "seeds_peers_ratio",
+                   "complete_seen", "down_limit", "up_limit", "shared", "name"]
+        column_name_mapping = {
+            "downspeed": "download_speed",
+            "upspeed": "upload_speed",
+            "added": "time_added",
+            "savepath": "download_location",
+            "completed": "completed_time",
+            "complete_seen": "last_seen_complete",
+            "down_limit": "max_download_speed",
+            "up_limit": "max_upload_speed",
+            "downloading_time": "active_time"
+        }
+
+        from deluge.ui.console.modes.torrentlist.torrentview import default_columns
+        # These are moved to 'torrentview.columns' sub dict
+        for k in columns:
+            column_name = column_name_mapping.get(k, k)
+            config["torrentview"]["columns"][column_name] = {}
+            if k == "name":
+                config["torrentview"]["columns"][column_name]["visible"] = True
+            else:
+                move_key(config, config["torrentview"]["columns"][column_name], "show_%s" % k, dest_key="visible")
+            move_key(config, config["torrentview"]["columns"][column_name], "%s_width" % k, dest_key="width")
+            config["torrentview"]["columns"][column_name]["order"] = default_columns[column_name]["order"]
+
+        return config
+
+
+class EventLog(component.Component):
+    """
+    Prints out certain events as they are received from the core.
+    """
+    def __init__(self):
+        component.Component.__init__(self, "EventLog")
+        self.console = component.get("ConsoleUI")
+        self.prefix = "{!event!}* [%H:%M:%S] "
+        self.date_change_format = "On {!yellow!}%a, %d %b %Y{!input!} %Z:"
+
+        client.register_event_handler("TorrentAddedEvent", self.on_torrent_added_event)
+        client.register_event_handler("PreTorrentRemovedEvent", self.on_torrent_removed_event)
+        client.register_event_handler("TorrentStateChangedEvent", self.on_torrent_state_changed_event)
+        client.register_event_handler("TorrentFinishedEvent", self.on_torrent_finished_event)
+        client.register_event_handler("NewVersionAvailableEvent", self.on_new_version_available_event)
+        client.register_event_handler("SessionPausedEvent", self.on_session_paused_event)
+        client.register_event_handler("SessionResumedEvent", self.on_session_resumed_event)
+        client.register_event_handler("ConfigValueChangedEvent", self.on_config_value_changed_event)
+        client.register_event_handler("PluginEnabledEvent", self.on_plugin_enabled_event)
+        client.register_event_handler("PluginDisabledEvent", self.on_plugin_disabled_event)
+
+        self.previous_time = time.localtime(0)
+
+    def on_torrent_added_event(self, torrent_id, from_state):
+        if from_state:
+            return
+
+        def on_torrent_status(status):
+            self.write("{!green!}Torrent Added: {!info!}%s ({!cyan!}%s{!info!})" %
+                       (status["name"], torrent_id))
+            # Write out what state the added torrent took
+            self.on_torrent_state_changed_event(torrent_id, status["state"])
+
+        client.core.get_torrent_status(torrent_id, ["name", "state"]).addCallback(on_torrent_status)
+
+    def on_torrent_removed_event(self, torrent_id):
+        self.write("{!red!}Torrent Removed: {!info!}%s ({!cyan!}%s{!info!})" %
+                   (self.console.get_torrent_name(torrent_id), torrent_id))
+
+    def on_torrent_state_changed_event(self, torrent_id, state):
+        # It's probably a new torrent, ignore it
+        if not state:
+            return
+        # Modify the state string color
+        if state in colors.state_color:
+            state = colors.state_color[state] + state
+
+        t_name = self.console.get_torrent_name(torrent_id)
+
+        # Again, it's most likely a new torrent
+        if not t_name:
+            return
+
+        self.write("%s: {!info!}%s ({!cyan!}%s{!info!})" %
+                   (state, t_name, torrent_id))
+
+    def on_torrent_finished_event(self, torrent_id):
+        if not deluge.common.windows_check() and component.get("TorrentList").config["ring_bell"]:
+            import curses.beep
+            curses.beep()
+        self.write("{!info!}Torrent Finished: %s ({!cyan!}%s{!info!})" %
+                   (self.console.get_torrent_name(torrent_id), torrent_id))
+
+    def on_new_version_available_event(self, version):
+        self.write("{!input!}New Deluge version available: {!info!}%s" %
+                   (version))
+
+    def on_session_paused_event(self):
+        self.write("{!input!}Session Paused")
+
+    def on_session_resumed_event(self):
+        self.write("{!green!}Session Resumed")
+
+    def on_config_value_changed_event(self, key, value):
+        color = "{!white,black,bold!}"
+        try:
+            color = colors.type_color[type(value)]
+        except KeyError:
+            pass
+
+        self.write("ConfigValueChanged: {!input!}%s: %s%s" % (key, color, value))
+
+    def write(self, s):
+        current_time = time.localtime()
+
+        date_different = False
+        for field in ["tm_mday", "tm_mon", "tm_year"]:
+            c = getattr(current_time, field)
+            p = getattr(self.previous_time, field)
+            if c != p:
+                date_different = True
+
+        if date_different:
+            string = time.strftime(self.date_change_format)
+            self.console.write_event(" ")
+            self.console.write_event(string)
+
+        p = time.strftime(self.prefix)
+
+        self.console.write_event(p + s)
+        self.previous_time = current_time
+
+    def on_plugin_enabled_event(self, name):
+        self.write("PluginEnabled: {!info!}%s" % name)
+
+    def on_plugin_disabled_event(self, name):
+        self.write("PluginDisabled: {!info!}%s" % name)
