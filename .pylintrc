@@ -69,7 +69,7 @@ disable=missing-docstring, invalid-name, old-style-class, bad-continuation, wron
     R,
     unused-argument, fixme, protected-access, import-error, unused-variable,
         global-statement, attribute-defined-outside-init, arguments-differ,
-        no-init, non-parent-init-called, super-init-not-called, signature-differs,
+        no-init, non-parent-init-called, super-init-not-called,
         broad-except, pointless-except
 
 [REPORTS]

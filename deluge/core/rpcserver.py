@@ -18,7 +18,7 @@ from types import FunctionType
 
 from OpenSSL import SSL, crypto
 from twisted.internet import defer, reactor
-from twisted.internet.protocol import Factory
+from twisted.internet.protocol import Factory, connectionDone
 
 import deluge.component as component
 import deluge.configmanager
@@ -159,7 +159,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
         # Set the initial auth level of this session to AUTH_LEVEL_NONE
         self.factory.authorized_sessions[self.transport.sessionno] = AUTH_LEVEL_NONE
 
-    def connectionLost(self, reason):  # NOQA
+    def connectionLost(self, reason=connectionDone):  # NOQA
         """
         This method is called when the client is disconnected.
 

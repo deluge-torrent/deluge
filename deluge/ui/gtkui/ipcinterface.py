@@ -18,7 +18,7 @@ from urlparse import urlparse
 
 import twisted.internet.error
 from twisted.internet import reactor
-from twisted.internet.protocol import ClientFactory, Factory, Protocol
+from twisted.internet.protocol import ClientFactory, Factory, Protocol, connectionDone
 
 import deluge.component as component
 from deluge.common import decode_string, is_magnet, is_url, windows_check
@@ -55,7 +55,7 @@ class IPCProtocolClient(Protocol):
         self.transport.write(rencode.dumps(self.factory.args))
         self.transport.loseConnection()
 
-    def connectionLost(self, reason):  # NOQA
+    def connectionLost(self, reason=connectionDone):  # NOQA
         reactor.stop()
         self.factory.stop = True
 
