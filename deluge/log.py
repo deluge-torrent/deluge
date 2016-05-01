@@ -153,9 +153,27 @@ def setup_logger(level="error", filename=None, filemode="w", logrotate=None):
     root_logger.addHandler(handler)
     root_logger.setLevel(level)
 
-    twisted_logging = PythonLoggingObserver("twisted")
+    twisted_logging = TwistedLoggingObserver()
     twisted_logging.start()
     logging.getLogger("twisted").setLevel(level)
+
+
+class TwistedLoggingObserver(PythonLoggingObserver):
+
+    def __init__(self):
+        PythonLoggingObserver.__init__(self, loggerName='twisted')
+
+    def emit(self, event_dict):
+        log = logging.getLogger(__name__)
+        try:
+            fmt = "%(log_namespace)s "
+            if event_dict.get("log_format", None):
+                fmt += event_dict["log_format"]
+            if event_dict["isError"] and "failure" in event_dict:
+                fmt += "\n%(failure)s "
+            getattr(LoggingLoggerClass, event_dict["log_level"].name)(log, fmt % (event_dict))
+        except (KeyError, AttributeError) as ex:
+            log.error("ERROR when logging twisted error: '%s'", ex)
 
 
 def tweak_logging_levels():
