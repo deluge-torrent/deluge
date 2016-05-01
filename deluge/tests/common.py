@@ -38,6 +38,7 @@ def add_watchdog(deferred, timeout=0.05, message=None):
 
     deferred.addBoth(callback)
     watchdog = reactor.callLater(timeout, defer.timeout, deferred)
+    return watchdog
 
 
 def rpath(*args):
@@ -58,6 +59,7 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
         self.print_stderr = print_stderr
         self.quit_d = None
         self.killed = False
+        self.watchdogs = []
 
     def connectionMade(self):  # NOQA
         self.transport.write(self.script)
@@ -73,9 +75,15 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
         if self.killed:
             return
         self.killed = True
+        self._kill_watchdogs()
         self.quit_d = Deferred()
         self.transport.signalProcess('INT')
         return self.quit_d
+
+    def _kill_watchdogs(self):
+        for w in self.watchdogs:
+            if not w.cancelled:
+                w.cancel()
 
     def processEnded(self, status):  # NOQA
         self.transport.loseConnection()
@@ -197,7 +205,8 @@ def start_process(script, callbacks, logfile=None, print_stderr=True):
     # Add timeouts to deferreds
     for c in callbacks:
         if "timeout" in c:
-            add_watchdog(c["deferred"], timeout=c["timeout"], message=c.get("timeout_msg", None))
+            w = add_watchdog(c["deferred"], timeout=c["timeout"], message=c.get("timeout_msg", None))
+            process_protocol.watchdogs.append(w)
 
     reactor.spawnProcess(process_protocol, sys.executable, args=[sys.executable], path=cwd)
     return process_protocol
