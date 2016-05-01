@@ -82,7 +82,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
         self.factory.daemon.host = peer.host
         self.factory.daemon.port = peer.port
         self.factory.daemon.connected = True
-        log.info("Connected to daemon at %s:%s..", peer.host, peer.port)
+        log.debug("Connected to daemon at %s:%s..", peer.host, peer.port)
         self.factory.daemon.connect_deferred.callback((peer.host, peer.port))
 
     def message_received(self, request):
@@ -193,17 +193,17 @@ class DelugeRPCClientFactory(ClientFactory):
         self.event_handlers = event_handlers
 
     def startedConnecting(self, connector):  # NOQA
-        log.info("Connecting to daemon at \"%s:%s\"...",
-                 connector.host, connector.port)
+        log.debug("Connecting to daemon at \"%s:%s\"...",
+                  connector.host, connector.port)
 
     def clientConnectionFailed(self, connector, reason):  # NOQA
-        log.warning("Connection to daemon at \"%s:%s\" failed: %s",
-                    connector.host, connector.port, reason.value)
+        log.debug("Connection to daemon at \"%s:%s\" failed: %s",
+                  connector.host, connector.port, reason.value)
         self.daemon.connect_deferred.errback(reason)
 
     def clientConnectionLost(self, connector, reason):  # NOQA
-        log.info("Connection lost to daemon at \"%s:%s\" reason: %s",
-                 connector.host, connector.port, reason.value)
+        log.debug("Connection lost to daemon at \"%s:%s\" reason: %s",
+                  connector.host, connector.port, reason.value)
         self.daemon.host = None
         self.daemon.port = None
         self.daemon.username = None
@@ -226,6 +226,7 @@ class DaemonSSLProxy(DaemonProxy):
         if event_handlers is None:
             event_handlers = {}
         self.__factory = DelugeRPCClientFactory(self, event_handlers)
+        self.__factory.noisy = False
         self.__request_counter = 0
         self.__deferred = {}
 
