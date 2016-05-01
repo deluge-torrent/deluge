@@ -8,6 +8,7 @@
 #
 
 import logging
+import traceback
 from collections import defaultdict
 
 from twisted.internet import reactor
@@ -19,6 +20,17 @@ log = logging.getLogger(__name__)
 
 class ComponentAlreadyRegistered(Exception):
     pass
+
+
+class ComponentException(Exception):
+
+    def __init__(self, message, tb):
+        super(ComponentException, self).__init__(message)
+        self.tb = tb
+
+    def __str__(self):
+        s = super(ComponentException, self).__str__()
+        return "%s\n%s" % (s, "".join(self.tb))
 
 
 class Component(object):
@@ -112,8 +124,8 @@ class Component(object):
         elif self._component_state == "Started":
             d = succeed(True)
         else:
-            d = fail("Cannot start a component not in a Stopped state!")
-
+            d = fail(ComponentException("Trying to start a component ('%s') not in stopped state. Current state: '%s'" %
+                                        (self._component_name, self._component_state), traceback.format_stack(limit=4)))
         return d
 
     def _component_stop(self):
@@ -157,8 +169,8 @@ class Component(object):
         elif self._component_state == "Paused":
             d = succeed(None)
         else:
-            d = fail("Cannot pause a component in a non-Started state!")
-
+            d = fail(ComponentException("Trying to pause a component ('%s') not in started state. Current state: '%s'" %
+                                        (self._component_name, self._component_state), traceback.format_stack(limit=4)))
         return d
 
     def _component_resume(self):
@@ -169,8 +181,8 @@ class Component(object):
             d = maybeDeferred(self._component_start_timer)
             d.addCallback(on_resume)
         else:
-            d = fail("Component cannot be resumed from a non-Paused state!")
-
+            d = fail(ComponentException("Trying to resume a component ('%s') not in paused state. Current state: '%s'" %
+                                        (self._component_name, self._component_state), traceback.format_stack(limit=4)))
         return d
 
     def _component_shutdown(self):
