@@ -64,13 +64,13 @@ confidence=
 # Category per line (wrapped categories are indented) using symbolic names instead of ids.
 disable=missing-docstring, invalid-name, old-style-class, bad-continuation, wrong-import-position,
         wrong-import-order,
-    no-member, not-callable, no-name-in-module, super-on-old-class,
+    no-member, not-callable, no-name-in-module,
     locally-disabled,
     R,
     unused-argument, fixme, protected-access, import-error, unused-variable,
         global-statement, attribute-defined-outside-init, arguments-differ,
-        no-init, non-parent-init-called, super-init-not-called,
-        broad-except, pointless-except
+        no-init, super-init-not-called,
+        broad-except
 
 [REPORTS]
 

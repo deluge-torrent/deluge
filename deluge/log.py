@@ -34,7 +34,7 @@ MAX_LOGGER_NAME_LENGTH = 10
 
 class Logging(LoggingLoggerClass):
     def __init__(self, logger_name):
-        LoggingLoggerClass.__init__(self, logger_name)
+        super(Logging, self).__init__(logger_name)
 
         # This makes module name padding increase to the biggest module name
         # so that logs keep readability.

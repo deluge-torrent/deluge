@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+# pylint: disable=super-on-old-class
+
 import gtk
 from twisted.internet import defer
 
