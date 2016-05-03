@@ -194,21 +194,38 @@ def parse_color_string(s, encoding="UTF-8"):
 
         # Check for a builtin type first
         if attrs[0] in schemes:
+            pair = (schemes[attrs[0]][0], schemes[attrs[0]][1])
+            if pair not in color_pairs:
+                log.debug("Color pair doesn't exist: %s, attrs: %s", pair, attrs)
+                pair = ("white", "black")
             # Get the color pair number
-            color_pair = curses.color_pair(color_pairs[(schemes[attrs[0]][0], schemes[attrs[0]][1])])
-            color_pair = apply_attrs(color_pair, schemes[attrs[0]])
-
+            color_pair = curses.color_pair(color_pairs[pair])
+            color_pair = apply_attrs(color_pair, schemes[attrs[0]][2:])
+            last_color_attr = color_pair
         else:
             # This is a custom color scheme
             fg = attrs[0]
+            bg = "black"  # Default to 'black' if no bg is chosen
             if len(attrs) > 1:
                 bg = attrs[1]
-            else:
-                # Default to 'black' if no bg is chosen
-                bg = "black"
-
             try:
-                color_pair = curses.color_pair(color_pairs[(fg, bg)])
+                pair = (fg, bg)
+                if pair not in color_pairs:
+                    # Color pair missing, this could be because the
+                    # terminal settings allows no colors. If background is white, we
+                    # assume this means selection, and use "white", "black" + reverse
+                    # To have white background and black foreground
+                    log.debug("Pair doesn't exist: %s", pair)
+                    if pair[1] == "white":
+                        if "ignore" == attrs[2]:
+                            attrs[2] = "reverse"
+                        else:
+                            attrs.append("reverse")
+                    pair = ("white", "black")
+
+                color_pair = curses.color_pair(color_pairs[pair])
+                last_color_attr = color_pair
+                attrs = attrs[2:]  # Remove colors
             except KeyError:
                 raise BadColorString("Bad color value in tag: %s,%s" % (fg, bg))
 
