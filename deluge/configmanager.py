@@ -17,7 +17,7 @@ from deluge.config import Config
 log = logging.getLogger(__name__)
 
 
-class _ConfigManager:
+class _ConfigManager(object):
     def __init__(self):
         log.debug("ConfigManager started..")
         self.config_files = {}

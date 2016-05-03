@@ -34,8 +34,11 @@ from deluge.event import (PreTorrentRemovedEvent, SessionStartedEvent, TorrentAd
 log = logging.getLogger(__name__)
 
 
-class TorrentState:
-    """Create a torrent state"""
+class TorrentState:  # pylint: disable=old-style-class
+    """
+    Create a torrent state
+    This must be old style class to avoid breaking torrent.state file
+    """
     def __init__(self,
                  torrent_id=None,
                  filename=None,
@@ -72,8 +75,10 @@ class TorrentState:
             setattr(self, key, value)
 
 
-class TorrentManagerState:
-    """TorrentManagerState holds a list of TorrentState objects"""
+class TorrentManagerState:  # pylint: disable=old-style-class
+    """TorrentManagerState holds a list of TorrentState objects
+    This must be old style class to avoid breaking torrent.state file
+    """
     def __init__(self):
         self.torrents = []
 

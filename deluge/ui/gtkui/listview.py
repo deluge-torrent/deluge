@@ -23,7 +23,7 @@ signal_new('button-press-event', gtk.TreeViewColumn, SIGNAL_RUN_LAST, TYPE_NONE,
 log = logging.getLogger(__name__)
 
 
-class ListViewColumnState:
+class ListViewColumnState(object):
     """Used for saving/loading column state"""
     def __init__(self, name, position, width, visible, sort, sort_order):
         self.name = name
@@ -34,13 +34,13 @@ class ListViewColumnState:
         self.sort_order = sort_order
 
 
-class ListView:
+class ListView(object):
     """ListView is used to make custom GtkTreeViews.  It supports the adding
     and removing of columns, creating a menu for a column toggle list and
     support for 'status_field's which are used while updating the columns data.
     """
 
-    class ListViewColumn:
+    class ListViewColumn(object):
         """Holds information regarding a column in the ListView"""
         def __init__(self, name, column_indices):
             # Name is how a column is identified and is also the header

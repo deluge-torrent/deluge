@@ -90,7 +90,7 @@ class StatsTestCase(BaseTestCase):
         TorrentDetails()
         Preferences()
 
-        class FakeFile:
+        class FakeFile(object):
             def __init__(self):
                 self.data = []
 

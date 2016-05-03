@@ -22,7 +22,7 @@ from deluge.ui.gtkui.common import get_deluge_icon
 log = logging.getLogger(__name__)
 
 
-class EditTrackersDialog:
+class EditTrackersDialog(object):
     def __init__(self, torrent_id, parent=None):
         self.torrent_id = torrent_id
         self.builder = gtk.Builder()

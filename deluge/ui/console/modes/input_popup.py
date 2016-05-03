@@ -24,7 +24,7 @@ from deluge.ui.console.modes.popup import ALIGN, Popup
 log = logging.getLogger(__name__)
 
 
-class InputField:
+class InputField(object):
     depend = None
     # render the input.  return number of rows taken up
 
