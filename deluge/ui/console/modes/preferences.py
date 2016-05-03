@@ -70,7 +70,7 @@ Special keys for various input types are as follows:
 HELP_LINES = HELP_STR.split("\n")
 
 
-class ZONE:
+class ZONE(object):
     CATEGORIES = 0
     PREFRENCES = 1
     ACTIONS = 2

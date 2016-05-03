@@ -13,7 +13,7 @@ from deluge.core.core import Core
 from deluge.core.daemon import Daemon
 
 
-class RpcApi:
+class RpcApi(object):
     pass
 
 

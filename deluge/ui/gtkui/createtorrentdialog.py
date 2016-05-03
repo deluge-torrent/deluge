@@ -24,7 +24,7 @@ from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
 log = logging.getLogger(__name__)
 
 
-class CreateTorrentDialog:
+class CreateTorrentDialog(object):
 
     def __init__(self):
         pass

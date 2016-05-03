@@ -50,7 +50,7 @@ torrent_options_to_names = {
 }
 
 
-class ACTION:
+class ACTION(object):
     PAUSE = 0
     RESUME = 1
     REANNOUNCE = 2

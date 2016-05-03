@@ -56,7 +56,7 @@ def change_opacity(color, opactiy):
     return tuple(color)
 
 
-class Graph:
+class Graph(object):
     def __init__(self):
         self.width = 100
         self.height = 100

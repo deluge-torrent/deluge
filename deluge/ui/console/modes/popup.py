@@ -19,7 +19,7 @@ from deluge.ui.console.modes import format_utils
 log = logging.getLogger(__name__)
 
 
-class ALIGN:
+class ALIGN(object):
     TOP_LEFT = 1
     TOP_CENTER = 2
     TOP_RIGHT = 3
@@ -32,7 +32,7 @@ class ALIGN:
     DEFAULT = MIDDLE_CENTER
 
 
-class Popup:
+class Popup(object):
     def __init__(self, parent_mode, title, width_req=0, height_req=0, align=ALIGN.DEFAULT,
                  close_cb=None, init_lines=None):
         """

@@ -17,7 +17,7 @@ from deluge.ui.gtkui.common import get_deluge_icon
 pygtk.require('2.0')
 
 
-class AboutDialog:
+class AboutDialog(object):
     def __init__(self):
         def url_hook(dialog, url):
             open_url_in_browser(url)

@@ -21,7 +21,7 @@ from deluge.ui.gtkui import common, dialogs
 log = logging.getLogger(__name__)
 
 
-class StatusBarItem:
+class StatusBarItem(object):
     def __init__(self, image=None, stock=None, text=None, callback=None, tooltip=None):
         self._widgets = []
         self._ebox = gtk.EventBox()

@@ -13,7 +13,8 @@ from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 
 
-class NewReleaseDialog:
+class NewReleaseDialog(object):
+
     def __init__(self):
         pass
 

@@ -22,7 +22,7 @@ except ImportError:
 log = logging.getLogger(__name__)
 
 
-class NoInput:
+class NoInput(object):
     def depend_skip(self):
         return False
 
@@ -66,7 +66,7 @@ class InfoField(NoInput):
             self.txt = "%s %s" % (self.label, self.value)
 
 
-class BasePane:
+class BasePane(object):
     def __init__(self, offset, parent, width):
         self.offset = offset + 1
         self.parent = parent
