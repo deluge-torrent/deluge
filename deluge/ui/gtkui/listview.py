@@ -23,8 +23,12 @@ signal_new('button-press-event', gtk.TreeViewColumn, SIGNAL_RUN_LAST, TYPE_NONE,
 log = logging.getLogger(__name__)
 
 
-class ListViewColumnState(object):
-    """Used for saving/loading column state"""
+class ListViewColumnState:  # pylint: disable=old-style-class
+    """
+    Class used for saving/loading column state.
+
+    Note: This must be old style class to avoid breaking existing user state file.
+    """
     def __init__(self, name, position, width, visible, sort, sort_order):
         self.name = name
         self.position = position
