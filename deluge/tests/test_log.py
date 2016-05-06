@@ -30,3 +30,19 @@ class LogTestCase(BaseTestCase):
             warnings.simplefilter("always")
             LOG.debug("foo")
             self.assertEqual(w[-1].category, DeprecationWarning)
+
+    # def test_twisted_error_log(self):
+    #    from twisted.internet import defer
+    #    import deluge.component as component
+    #    from deluge.core.eventmanager import EventManager
+    #    EventManager()
+    #
+    #    d = component.start()
+    #
+    #    @defer.inlineCallbacks
+    #    def call(*args):
+    #        yield component.pause(["EventManager"])
+    #        yield component.start(["EventManager"])
+    #
+    #    d.addCallback(call)
+    #    return d

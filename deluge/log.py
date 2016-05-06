@@ -155,25 +155,27 @@ def setup_logger(level="error", filename=None, filemode="w", logrotate=None):
 
     twisted_logging = TwistedLoggingObserver()
     twisted_logging.start()
-    logging.getLogger("twisted").setLevel(level)
 
 
 class TwistedLoggingObserver(PythonLoggingObserver):
+    """
+    Custom logging class to fix missing exception tracebacks in log output with new
+    twisted.logger module in twisted version >= 15.2.
+
+    Related twisted bug ticket: https://twistedmatrix.com/trac/ticket/7927
+
+    """
 
     def __init__(self):
         PythonLoggingObserver.__init__(self, loggerName='twisted')
 
     def emit(self, event_dict):
         log = logging.getLogger(__name__)
-        try:
-            fmt = "%(log_namespace)s "
-            if event_dict.get("log_format", None):
-                fmt += event_dict["log_format"]
-            if event_dict["isError"] and "failure" in event_dict:
-                fmt += "\n%(failure)s "
+        if "log_failure" in event_dict:
+            fmt = "%(log_namespace)s \n%(log_failure)s"
             getattr(LoggingLoggerClass, event_dict["log_level"].name)(log, fmt % (event_dict))
-        except (KeyError, AttributeError) as ex:
-            log.error("ERROR when logging twisted error: '%s'", ex)
+        else:
+            PythonLoggingObserver.emit(self, event_dict)
 
 
 def tweak_logging_levels():
