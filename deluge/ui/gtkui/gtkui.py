@@ -452,7 +452,7 @@ class GtkUI(object):
                     break
 
         if self.config["show_connection_manager_on_start"]:
-            if deluge.common.windows_check:
+            if deluge.common.windows_check():
                 # Call to simulate() required to workaround showing daemon status (see #2813)
                 reactor.simulate()
             self.connectionmanager.show()
