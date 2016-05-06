@@ -719,27 +719,11 @@ def is_ip(ip):
     True
 
     """
-    import socket
-    # first we test ipv4
+    import ipaddress
     try:
-        if windows_check():
-            if socket.inet_aton(ip):
-                return True
-        else:
-            if socket.inet_pton(socket.AF_INET, ip):
-                return True
-    except socket.error:
-        if not socket.has_ipv6:
-            return False
-    # now test ipv6
-    try:
-        if windows_check():
-            log.warning("ipv6 check unavailable on windows")
+        if ipaddress.ip_address(unicode(ip)):
             return True
-        else:
-            if socket.inet_pton(socket.AF_INET6, ip):
-                return True
-    except socket.error:
+    except ValueError:
         return False
 
 
