@@ -452,6 +452,8 @@ class GtkUI(object):
                     break
 
         if self.config["show_connection_manager_on_start"]:
+            # XXX: We need to call a simulate() here, but this could be a bug in twisted
+            reactor._simulate()
             self.connectionmanager.show()
 
     def __on_disconnect(self):
