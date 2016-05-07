@@ -50,5 +50,5 @@ def create_gettext_js(js_dir):
     return gettext_file
 
 if __name__ == '__main__':
-    filename = create_gettext_js(WEBUI_JS_DIR)
-    print("Created '%s'" % filename)
+    gettext_fname = create_gettext_js(WEBUI_JS_DIR)
+    print("Created '%s'" % gettext_fname)
