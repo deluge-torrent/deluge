@@ -63,7 +63,7 @@ confidence=
 # Arranged by category: Convention, Error, Information, Refactor, Warning.
 # Category per line (wrapped categories are indented) using symbolic names instead of ids.
 disable=missing-docstring, invalid-name, wrong-import-position, wrong-import-order,
-    no-member, not-callable, no-name-in-module,
+    no-member, no-name-in-module,
     locally-disabled,
     R,
     unused-argument, fixme, protected-access, import-error, unused-variable,
