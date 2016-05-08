@@ -28,7 +28,7 @@ def set_tmp_config_dir():
 def add_watchdog(deferred, timeout=0.05, message=None):
 
     def callback(value):
-        if not watchdog.called:
+        if not watchdog.called and not watchdog.cancelled:
             watchdog.cancel()
         if not deferred.called:
             if message:
