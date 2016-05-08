@@ -234,7 +234,7 @@ indent-string='    '
 indent-after-paren=4
 
 # Expected format of line ending, e.g. empty (any line ending), LF or CRLF.
-expected-line-ending-format=
+expected-line-ending-format=LF
 
 
 [MISCELLANEOUS]
