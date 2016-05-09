@@ -732,7 +732,11 @@ class WebApi(JSONComponent):
                 if param.startswith(xt_param):
                     xt_hash = param[len(xt_param):]
                     if len(xt_hash) == 32:
-                        info_hash = base64.b32decode(xt_hash).encode("hex")
+                        try:
+                            info_hash = base64.b32decode(xt_hash.upper()).encode("hex")
+                        except TypeError, ex:
+                            log.debug("Invalid base32 magnet hash: %s, %s", xt_hash, ex)
+                            break
                     elif len(xt_hash) == 40:
                         info_hash = xt_hash
                     else:

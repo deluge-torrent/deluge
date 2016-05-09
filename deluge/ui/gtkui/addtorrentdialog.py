@@ -253,7 +253,11 @@ class AddTorrentDialog(component.Component):
             s = uri.split("&")[0][20:]
             info_hash = None
             if len(s) == 32:
-                info_hash = base64.b32decode(s).encode("hex")
+                try:
+                    info_hash = base64.b32decode(s.upper()).encode("hex")
+                except TypeError, ex:
+                    log.debug("Invalid base32 magnet hash: %s, %s", s, ex)
+                    continue
             elif len(s) == 40:
                 info_hash = s
             if info_hash is None:
