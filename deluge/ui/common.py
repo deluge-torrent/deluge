@@ -410,10 +410,11 @@ def get_localhost_auth():
     auth_file = deluge.configmanager.get_config_dir("auth")
     if os.path.exists(auth_file):
         for line in open(auth_file):
-            if line.startswith("#"):
-                # This is a comment line
-                continue
             line = line.strip()
+            if line.startswith("#") or not line:
+                # This is a comment or blank line
+                continue
+
             try:
                 lsplit = line.split(":")
             except Exception, e:
