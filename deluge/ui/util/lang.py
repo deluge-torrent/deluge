@@ -44,11 +44,13 @@ def get_languages():
         break
 
     lang = []
-    for i, lang_code in enumerate(sorted(lang_dirs)):
+    for i, lang_code in enumerate(lang_dirs):
         name = "%s (Language name missing)" % lang_code
         if lang_code in languages.LANGUAGES:
             name = languages.LANGUAGES[lang_code]
         lang.append([lang_code, name])
+
+    lang = sorted(lang, key=lambda l: l[1])
     return lang
 
 
