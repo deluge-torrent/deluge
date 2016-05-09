@@ -35,6 +35,9 @@ class CoreConfig(component.Component):
     def stop(self):
         self.config = {}
 
+    def __contains__(self, key):
+        return key in self.config
+
     def __getitem__(self, key):
         return self.config[key]
 
