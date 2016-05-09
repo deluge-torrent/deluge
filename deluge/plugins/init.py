@@ -19,7 +19,7 @@ class PluginInitBase(object):
     _plugin_cls = None
 
     def __init__(self, plugin_name):
-        self.plugin = self._plugin_cls(plugin_name)
+        self.plugin = self._plugin_cls(plugin_name)  # pylint: disable=not-callable
 
     def enable(self):
         return self.plugin.enable()

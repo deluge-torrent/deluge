@@ -217,10 +217,10 @@ class GtkUI(GtkPluginBase):
 
     def on_delete_button_clicked(self, widget, treeview):
         selection = treeview.get_selection()
-        model, iter = selection.get_selected()
-        if iter:
+        model, selected_iter = selection.get_selected()
+        if selected_iter:
             # path = model.get_path(iter)[0]
-            model.remove(iter)
+            model.remove(selected_iter)
 
     def populate_whitelist(self, whitelist):
         self.whitelist_model.clear()

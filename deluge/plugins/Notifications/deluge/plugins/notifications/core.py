@@ -94,6 +94,11 @@ class CoreNotifications(CustomNotifications):
         log.debug("Email prepared")
         to_addrs = self.config['smtp_recipients']
         to_addrs_str = ', '.join(self.config['smtp_recipients'])
+        headers_dict = {
+            'smtp_from': self.config['smtp_from'],
+            'subject': subject,
+            'smtp_recipients': to_addrs_str,
+            'date': formatdate()}
         headers = """\
 From: %(smtp_from)s
 To: %(smtp_recipients)s
@@ -101,27 +106,15 @@ Subject: %(subject)s
 Date: %(date)s
 
 
-""" % {'smtp_from': self.config['smtp_from'],
-            'subject': subject,
-            'smtp_recipients': to_addrs_str,
-            'date': formatdate()
-       }
+""" % headers_dict
 
         message = '\r\n'.join((headers + message).splitlines())
 
         try:
-            try:
-                # Python 2.6
-                server = smtplib.SMTP(self.config["smtp_host"],
-                                      self.config["smtp_port"],
-                                      timeout=60)
-            except:
-                # Python 2.5
-                server = smtplib.SMTP(self.config["smtp_host"],
-                                      self.config["smtp_port"])
+            # Python 2.6
+            server = smtplib.SMTP(self.config["smtp_host"], self.config["smtp_port"], timeout=60)
         except Exception as ex:
-            err_msg = _("There was an error sending the notification email:"
-                        " %s") % ex
+            err_msg = _("There was an error sending the notification email: %s") % ex
             log.error(err_msg)
             return ex
 
@@ -185,12 +178,12 @@ Date: %(date)s
         ) % torrent_status
         return subject, message
 
-        d = defer.maybeDeferred(self.handle_custom_email_notification,
-                                [subject, message],
-                                "TorrentFinishedEvent")
-        d.addCallback(self._on_notify_sucess, 'email')
-        d.addErrback(self._on_notify_failure, 'email')
-        return d
+        # d = defer.maybeDeferred(self.handle_custom_email_notification,
+        #                        [subject, message],
+        #                        "TorrentFinishedEvent")
+        # d.addCallback(self._on_notify_sucess, 'email')
+        # d.addErrback(self._on_notify_failure, 'email')
+        # return d
 
 
 class Core(CorePluginBase, CoreNotifications):

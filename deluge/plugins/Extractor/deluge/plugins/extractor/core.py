@@ -40,7 +40,7 @@ if windows_check():
     import _winreg
     try:
         hkey = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, "Software\\7-Zip")
-    except WindowsError:
+    except WindowsError:  # pylint: disable=undefined-variable
         pass
     else:
         win_7z_path = os.path.join(_winreg.QueryValueEx(hkey, "Path")[0], "7z.exe")
@@ -82,11 +82,11 @@ else:
         ".7z": ["7zr", "x"],
     }
     # Test command exists and if not, remove.
-    for cmd in required_cmds:
-        if not which(cmd):
+    for command in required_cmds:
+        if not which(command):
             for k, v in EXTRACT_COMMANDS.items():
-                if cmd in v[0]:
-                    log.warning("%s not found, disabling support for %s", cmd, k)
+                if command in v[0]:
+                    log.warning("%s not found, disabling support for %s", command, k)
                     del EXTRACT_COMMANDS[k]
 
 if not EXTRACT_COMMANDS:
@@ -120,7 +120,7 @@ class Core(CorePluginBase):
             if file_ext_sec and file_ext_sec + file_ext in EXTRACT_COMMANDS:
                 file_ext = file_ext_sec + file_ext
             elif file_ext not in EXTRACT_COMMANDS or file_ext_sec == '.tar':
-                log.warning("Can't extract file with unknown file type: %s" % f["path"])
+                log.warning("Can't extract file with unknown file type: %s", f["path"])
                 continue
             cmd = EXTRACT_COMMANDS[file_ext]
 

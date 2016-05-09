@@ -53,16 +53,16 @@ class LabelSidebarMenu(object):
         # hooks:
         self.menu.connect("show", self.on_show, None)
 
-    def _add_item(self, id, label, stock):
+    def _add_item(self, item_id, label, stock):
         """I hate glade.
         id is automatically-added as self.item_<id>
         """
-        func = getattr(self, "on_%s" % id)
+        func = getattr(self, "on_%s" % item_id)
         item = gtk.ImageMenuItem(stock)
         item.get_children()[0].set_label(label)
         item.connect("activate", func)
         self.menu.prepend(item)
-        setattr(self, "item_%s" % id, item)
+        setattr(self, "item_%s" % item_id, item)
         self.items.append(item)
         return item
 
@@ -174,10 +174,10 @@ class OptionsDialog(object):
     def load_options(self, options):
         log.debug(options.keys())
 
-        for id in self.spin_ids + self.spin_int_ids:
-            self.glade.get_widget(id).set_value(options[id])
-        for id in self.chk_ids:
-            self.glade.get_widget(id).set_active(bool(options[id]))
+        for spin_id in self.spin_ids + self.spin_int_ids:
+            self.glade.get_widget(spin_id).set_value(options[spin_id])
+        for chk_id in self.chk_ids:
+            self.glade.get_widget(chk_id).set_active(bool(options[chk_id]))
 
         if client.is_localhost():
             self.glade.get_widget("move_completed_path").set_filename(options["move_completed_path"])
@@ -196,12 +196,12 @@ class OptionsDialog(object):
         "save options.."
         options = {}
 
-        for id in self.spin_ids:
-            options[id] = self.glade.get_widget(id).get_value()
-        for id in self.spin_int_ids:
-            options[id] = self.glade.get_widget(id).get_value_as_int()
-        for id in self.chk_ids:
-            options[id] = self.glade.get_widget(id).get_active()
+        for spin_id in self.spin_ids:
+            options[spin_id] = self.glade.get_widget(spin_id).get_value()
+        for spin_int_id in self.spin_int_ids:
+            options[spin_int_id] = self.glade.get_widget(spin_int_id).get_value_as_int()
+        for chk_id in self.chk_ids:
+            options[chk_id] = self.glade.get_widget(chk_id).get_active()
 
         if client.is_localhost():
             options["move_completed_path"] = self.glade.get_widget("move_completed_path").get_filename()

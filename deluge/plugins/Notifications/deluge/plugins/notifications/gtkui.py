@@ -143,7 +143,7 @@ class GtkUiNotifications(CustomNotifications):
         if result:
             return defer.maybeDeferred(self.__blink)
         return defer.succeed("Won't blink. The returned value from the custom "
-                             "handler was: %s", result)
+                             "handler was: %s" % result)
 
     def handle_custom_sound_notification(self, result, eventtype):
         if isinstance(result, basestring):
@@ -152,14 +152,13 @@ class GtkUiNotifications(CustomNotifications):
                     self.__play_sound, self.config['custom_sounds'][eventtype])
             return defer.maybeDeferred(self.__play_sound, result)
         return defer.succeed("Won't play sound. The returned value from the "
-                             "custom handler was: %s", result)
+                             "custom handler was: %s" % result)
 
     def __blink(self):
         self.systray.blink(True)
         return defer.succeed(_("Notification Blink shown"))
 
     def __popup(self, title='', message=''):
-        import gtk
         if not self.config['popup_enabled']:
             return defer.succeed(_("Popup notification is not enabled."))
         if not POPUP_AVAILABLE:
@@ -407,8 +406,9 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         self.subscriptions_treeview.append_column(column)
         self.subscriptions_treeview.set_model(self.subscriptions_model)
 
-    def popuplate_what_needs_handled_events(self, handled_events,
-                                            email_subscriptions=[]):
+    def popuplate_what_needs_handled_events(self, handled_events, email_subscriptions=None):
+        if email_subscriptions is None:
+            email_subscriptions = []
         self.populate_subscriptions(handled_events, email_subscriptions)
         self.populate_sounds(handled_events)
 
@@ -429,7 +429,9 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
                     SND_PATH, snd_path
                 )
 
-    def populate_subscriptions(self, handled_events, email_subscriptions=[]):
+    def populate_subscriptions(self, handled_events, email_subscriptions=None):
+        if email_subscriptions is None:
+            email_subscriptions = []
         subscriptions_dict = self.config['subscriptions']
         self.subscriptions_model.clear()
 #        self.handled_events = handled_events
@@ -557,13 +559,13 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
 
     def on_delete_button_clicked(self, widget, treeview):
         selection = treeview.get_selection()
-        model, iter = selection.get_selected()
-        if iter:
-            model.remove(iter)
+        model, selected_iter = selection.get_selected()
+        if selected_iter:
+            model.remove(selected_iter)
 
     def on_cell_edited(self, cell, path_string, new_text, model):
-        iter = model.get_iter_from_string(path_string)
-        model.set(iter, RECIPIENT_FIELD, new_text)
+        str_iter = model.get_iter_from_string(path_string)
+        model.set(str_iter, RECIPIENT_FIELD, new_text)
 
     def on_recipients_treeview_selection_changed(self, selection):
         model, selected_connection_iter = selection.get_selected()
@@ -584,10 +586,10 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
                                                                 False)
 
     def on_sounds_treeview_selection_changed(self, selection):
-        model, iter = selection.get_selected()
-        if iter:
+        model, selected_iter = selection.get_selected()
+        if selected_iter:
             self.glade.get_widget("sounds_edit_button").set_property("sensitive", True)
-            path = model.get(iter, SND_PATH)[0]
+            path = model.get(selected_iter, SND_PATH)[0]
             log.debug("Sound selection changed: %s", path)
             if path != self.config['sound_path']:
                 self.glade.get_widget("sounds_revert_button").set_property("sensitive", True)
@@ -600,19 +602,19 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
     def on_sounds_revert_button_clicked(self, widget):
         log.debug("on_sounds_revert_button_clicked")
         selection = self.sounds_treeview.get_selection()
-        model, iter = selection.get_selected()
-        if iter:
+        model, selected_iter = selection.get_selected()
+        if selected_iter:
             log.debug("on_sounds_revert_button_clicked: got iter")
-            model.set(iter,
+            model.set(selected_iter,
                       SND_PATH, self.config['sound_path'],
                       SND_NAME, basename(self.config['sound_path']))
 
     def on_sounds_edit_button_clicked(self, widget):
         log.debug("on_sounds_edit_button_clicked")
         selection = self.sounds_treeview.get_selection()
-        model, iter = selection.get_selected()
-        if iter:
-            path = model.get(iter, SND_PATH)[0]
+        model, selected_iter = selection.get_selected()
+        if selected_iter:
+            path = model.get(selected_iter, SND_PATH)[0]
             dialog = gtk.FileChooserDialog(
                 title=_("Choose Sound File"),
                 buttons=(gtk.STOCK_CANCEL,
@@ -627,7 +629,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
                     new_filename = dialog.get_filename()
                     dialog.destroy()
                     log.debug(new_filename)
-                    model.set(iter,
+                    model.set(selected_iter,
                               SND_PATH, new_filename,
                               SND_NAME, basename(new_filename))
             d = defer.maybeDeferred(dialog.run)

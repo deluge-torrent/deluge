@@ -212,7 +212,8 @@ class Core(CorePluginBase):
                         check_period = timedelta(days=self.config["check_after_days"])
                     if not self.config["last_update"] or last_update + check_period < datetime.now():
                         update_now = True
-                    self.update_timer.running and self.update_timer.stop()
+                    if self.update_timer.running:
+                        self.update_timer.stop()
                     if self.config["check_after_days"] > 0:
                         self.update_timer.start(
                             self.config["check_after_days"] * 24 * 60 * 60, update_now

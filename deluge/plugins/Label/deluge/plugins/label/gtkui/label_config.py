@@ -51,11 +51,10 @@ class LabelConfig(object):
         client.label.get_config().addCallback(self.cb_global_options)
 
     def cb_global_options(self, options):
-        log.debug("options=%s" % options)
-        """
-        for id in self.chk_ids:
-            self.glade.get_widget(id).set_active(bool(options[id]))
-        """
+        log.debug("options=%s", options)
+
+        # for id in self.chk_ids:
+        #    self.glade.get_widget(id).set_active(bool(options[id]))
 
     def on_apply_prefs(self):
         options = {}

@@ -170,34 +170,35 @@ class Core(CorePluginBase):
 
     def split_magnets(self, filename):
         log.debug("Attempting to open %s for splitting magnets.", filename)
+        magnets = []
         try:
-            _file = open(filename, "r")
+            with open(filename, "r") as _file:
+                for line in _file:
+                    line = line.strip()
+                    if line:
+                        magnets.append(line)
         except IOError as ex:
             log.warning("Unable to open %s: %s", filename, ex)
-            raise ex
-        else:
-            magnets = list(filter(len, _file.readlines()))
-            _file.close()
-            if len(magnets) < 2:
-                return
-            n = 0
-            path = filename.rsplit(os.sep, 1)[0]
-            for magnet in magnets:
-                for part in magnet.split("&"):
-                    if part.startswith("dn="):
-                        mname = os.sep.join([path, part[3:] + ".magnet"])
-                        break
-                else:
-                    mname = ".".join([filename, str(n), "magnet"])
-                    n += 1
-                try:
-                    _mfile = open(mname, "w")
-                except IOError as ex:
-                    log.warning("Unable to open %s: %s", mname, ex)
-                else:
+
+        if len(magnets) < 2:
+            return []
+
+        n = 0
+        path = filename.rsplit(os.sep, 1)[0]
+        for magnet in magnets:
+            for part in magnet.split("&"):
+                if part.startswith("dn="):
+                    mname = os.sep.join([path, part[3:] + ".magnet"])
+                    break
+            else:
+                mname = ".".join([filename, str(n), "magnet"])
+                n += 1
+            try:
+                with open(mname, "w") as _mfile:
                     _mfile.write(magnet)
-                    _mfile.close()
-            return magnets
+            except IOError as ex:
+                log.warning("Unable to open %s: %s", mname, ex)
+        return magnets
 
     def update_watchdir(self, watchdir_id):
         """Check the watch folder for new torrents to add."""
@@ -238,8 +239,7 @@ class Core(CorePluginBase):
             if os.path.isdir(filepath):
                 # Skip directories
                 continue
-            elif os.path.splitext(filename)[1] == ".magnet" and \
-                    self.split_magnets(filepath):
+            elif os.path.splitext(filename)[1] == ".magnet" and self.split_magnets(filepath):
                 os.remove(filepath)
 
         for filename in os.listdir(watchdir["abspath"]):
@@ -397,8 +397,10 @@ class Core(CorePluginBase):
         return opts
 
     @export
-    def add(self, options={}):
+    def add(self, options=None):
         """Add a watch folder."""
+        if options is None:
+            options = {}
         options = self._make_unicode(options)
         abswatchdir = os.path.abspath(options["path"])
         check_input(os.path.isdir(abswatchdir), _("Path does not exist."))

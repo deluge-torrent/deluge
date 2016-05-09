@@ -10,7 +10,6 @@
 import gzip
 import logging
 import socket
-from exceptions import Exception
 from struct import unpack
 
 log = logging.getLogger(__name__)
@@ -22,7 +21,7 @@ class PGException(Exception):
 
 # Incrementally reads PeerGuardian blocklists v1 and v2.
 # See http://wiki.phoenixlabs.org/wiki/P2B_Format
-class PGReader:
+class PGReader(object):
 
     def __init__(self, filename):
         log.debug("PGReader loading: %s", filename)

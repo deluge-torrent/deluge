@@ -41,16 +41,16 @@ def detect_compression(filename):
 
 
 def detect_format(filename, compression=""):
-    format = ""
+    file_format = ""
     for reader in READERS:
         if create_reader(reader, compression)(filename).is_valid():
-            format = reader
+            file_format = reader
             break
-    return format
+    return file_format
 
 
-def create_reader(format, compression=""):
-    reader = READERS.get(format)
+def create_reader(file_format, compression=""):
+    reader = READERS.get(file_format)
     if reader and compression:
         decompressor = DECOMPRESSERS.get(compression)
         if decompressor:

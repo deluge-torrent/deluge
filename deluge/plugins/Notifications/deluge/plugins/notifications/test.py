@@ -92,4 +92,3 @@ class TestEmailNotifications(component.Component):
     def custom_sound_message_provider(self, *evt_args, **evt_kwargs):
         log.debug("Running custom sound message provider: %s %s", evt_args, evt_kwargs)
         return ''
-        return '/usr/share/kde4/apps/korganizer/sounds/alert.wav'

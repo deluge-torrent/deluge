@@ -26,7 +26,7 @@ from deluge.plugins.pluginbase import CorePluginBase
 
 log = logging.getLogger(__name__)
 
-RE_VALID = re.compile("[a-z0-9_\-\.]*\Z")
+RE_VALID = re.compile(r"[a-z0-9_\-\.]*\Z")
 
 KNOWN_STATES = ['Downloading', 'Seeding', 'Paused', 'Checking', 'Queued', 'Error']
 STATE = "state"
@@ -134,7 +134,7 @@ class Core(CorePluginBase):
         """remove invalid data from config-file"""
         for torrent_id, label_id in list(self.torrent_labels.iteritems()):
             if (label_id not in self.labels) or (torrent_id not in self.torrents):
-                log.debug("label: rm %s:%s" % (torrent_id, label_id))
+                log.debug("label: rm %s:%s", torrent_id, label_id)
                 del self.torrent_labels[torrent_id]
 
     def clean_initial_config(self):

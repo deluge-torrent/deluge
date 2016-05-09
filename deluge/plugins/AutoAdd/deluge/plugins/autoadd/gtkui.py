@@ -33,7 +33,7 @@ class IncompatibleOption(Exception):
     pass
 
 
-class OptionsDialog():
+class OptionsDialog(object):
     spin_ids = ["max_download_speed", "max_upload_speed", "stop_ratio"]
     spin_int_ids = ["max_upload_slots", "max_connections"]
     chk_ids = ["stop_at_ratio", "remove_at_ratio", "move_completed",
@@ -44,7 +44,9 @@ class OptionsDialog():
         self.labels = gtk.ListStore(str)
         self.core_config = {}
 
-    def show(self, options={}, watchdir_id=None):
+    def show(self, options=None, watchdir_id=None):
+        if options is None:
+            options = {}
         self.glade = gtk.glade.XML(get_resource("autoadd_options.glade"))
         self.glade.signal_autoconnect({
             "on_opts_add": self.on_add,
@@ -104,12 +106,12 @@ class OptionsDialog():
         label_widget.set_text_column(0)
         self.glade.get_widget('label_toggle').set_active(options.get('label_toggle', False))
 
-        for id in self.spin_ids + self.spin_int_ids:
-            self.glade.get_widget(id).set_value(options.get(id, 0))
-            self.glade.get_widget(id + "_toggle").set_active(options.get(id + "_toggle", False))
-        for id in self.chk_ids:
-            self.glade.get_widget(id).set_active(bool(options.get(id, True)))
-            self.glade.get_widget(id + "_toggle").set_active(options.get(id + "_toggle", False))
+        for spin_id in self.spin_ids + self.spin_int_ids:
+            self.glade.get_widget(spin_id).set_value(options.get(spin_id, 0))
+            self.glade.get_widget(spin_id + "_toggle").set_active(options.get(spin_id + "_toggle", False))
+        for chk_id in self.chk_ids:
+            self.glade.get_widget(chk_id).set_active(bool(options.get(chk_id, True)))
+            self.glade.get_widget(chk_id + "_toggle").set_active(options.get(chk_id + "_toggle", False))
         if not options.get('add_paused', True):
             self.glade.get_widget('isnt_add_paused').set_active(True)
         if not options.get('queue_to_top', True):
@@ -174,18 +176,18 @@ class OptionsDialog():
             log.debug("Got Accounts")
             selected_iter = None
             for account in accounts:
-                iter = self.accounts.append()
+                acc_iter = self.accounts.append()
                 self.accounts.set_value(
-                    iter, 0, account['username']
+                    acc_iter, 0, account['username']
                 )
                 if account['username'] == owner:
-                    selected_iter = iter
+                    selected_iter = acc_iter
             self.glade.get_widget('OwnerCombobox').set_active_iter(selected_iter)
 
         def on_accounts_failure(failure):
             log.debug("Failed to get accounts!!! %s", failure)
-            iter = self.accounts.append()
-            self.accounts.set_value(iter, 0, client.get_auth_user())
+            acc_iter = self.accounts.append()
+            self.accounts.set_value(acc_iter, 0, client.get_auth_user())
             self.glade.get_widget('OwnerCombobox').set_active(0)
             self.glade.get_widget('OwnerCombobox').set_sensitive(False)
 
@@ -214,8 +216,8 @@ class OptionsDialog():
                 on_accounts, options.get('owner', client.get_auth_user())
             ).addErrback(on_accounts_failure)
         else:
-            iter = self.accounts.append()
-            self.accounts.set_value(iter, 0, client.get_auth_user())
+            acc_iter = self.accounts.append()
+            self.accounts.set_value(acc_iter, 0, client.get_auth_user())
             self.glade.get_widget('OwnerCombobox').set_active(0)
             self.glade.get_widget('OwnerCombobox').set_sensitive(False)
 
@@ -225,7 +227,8 @@ class OptionsDialog():
                        'max_upload_speed', 'max_connections',
                        'max_upload_slots', 'add_paused', 'auto_managed',
                        'stop_at_ratio', 'queue_to_top', 'copy_torrent']
-        [self.on_toggle_toggled(self.glade.get_widget(x + "_toggle")) for x in maintoggles]
+        for maintoggle in maintoggles:
+            self.on_toggle_toggled(self.glade.get_widget(maintoggle + "_toggle"))
 
     def on_toggle_toggled(self, tb):
         toggle = str(tb.name).replace("_toggle", "")
@@ -327,15 +330,15 @@ class OptionsDialog():
                     'delete_copy_torrent_toggle', 'seed_mode']:
             options[key] = self.glade.get_widget(key).get_active()
 
-        for id in self.spin_ids:
-            options[id] = self.glade.get_widget(id).get_value()
-            options[id + "_toggle"] = self.glade.get_widget(id + "_toggle").get_active()
-        for id in self.spin_int_ids:
-            options[id] = self.glade.get_widget(id).get_value_as_int()
-            options[id + "_toggle"] = self.glade.get_widget(id + "_toggle").get_active()
-        for id in self.chk_ids:
-            options[id] = self.glade.get_widget(id).get_active()
-            options[id + "_toggle"] = self.glade.get_widget(id + "_toggle").get_active()
+        for spin_id in self.spin_ids:
+            options[spin_id] = self.glade.get_widget(spin_id).get_value()
+            options[spin_id + "_toggle"] = self.glade.get_widget(spin_id + "_toggle").get_active()
+        for spin_int_id in self.spin_int_ids:
+            options[spin_int_id] = self.glade.get_widget(spin_int_id).get_value_as_int()
+            options[spin_int_id + "_toggle"] = self.glade.get_widget(spin_int_id + "_toggle").get_active()
+        for chk_id in self.chk_ids:
+            options[chk_id] = self.glade.get_widget(chk_id).get_active()
+            options[chk_id + "_toggle"] = self.glade.get_widget(chk_id + "_toggle").get_active()
 
         if options['copy_torrent_toggle'] and options['path'] == options['copy_torrent']:
             raise IncompatibleOption(_("\"Watch Folder\" directory and \"Copy of .torrent"

@@ -34,7 +34,6 @@ def get_resource(filename):
 
 
 class CustomNotifications(object):
-    config = None   # shut-up pylint
 
     def __init__(self, plugin_name=None):
         self.custom_notifications = {
@@ -100,7 +99,7 @@ class CustomNotifications(object):
 
     def _handled_eventtype(self, eventtype, handler):
         if eventtype not in known_events:
-            log.error("The event \"%s\" is not known" % eventtype)
+            log.error("The event \"%s\" is not known", eventtype)
             return False
         if known_events[eventtype].__module__.startswith('deluge.event'):
             if handler.__self__ is self:

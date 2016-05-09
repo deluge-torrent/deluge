@@ -85,10 +85,8 @@ class Core(CorePluginBase):
         component.get("EventManager").register_event_handler("ConfigValueChangedEvent", self.on_config_value_changed)
 
     def disable(self):
-        try:
+        if self.timer.active():
             self.timer.cancel()
-        except:
-            pass
         component.get("EventManager").deregister_event_handler("ConfigValueChangedEvent", self.on_config_value_changed)
         self.__apply_set_functions()
 

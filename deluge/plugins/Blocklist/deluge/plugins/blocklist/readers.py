@@ -21,9 +21,9 @@ class ReaderParseError(Exception):
 
 class BaseReader(object):
     """Base reader for blocklist files"""
-    def __init__(self, file):
+    def __init__(self, _file):
         """Creates a new BaseReader given a file"""
-        self.file = file
+        self.file = _file
 
     def open(self):
         """Opens the associated file for reading"""
@@ -55,13 +55,12 @@ class BaseReader(object):
             if not self.is_ignored(line):
                 try:
                     (start, end) = self.parse(line)
-                    if not re.match("^(\d{1,3}\.){4}$", start + ".") or \
-                       not re.match("^(\d{1,3}\.){4}$", end + "."):
+                    if not re.match(r"^(\d{1,3}\.){4}$", start + ".") or \
+                       not re.match(r"^(\d{1,3}\.){4}$", end + "."):
                         valid = False
-                except:
+                except Exception:
                     valid = False
-                finally:
-                    break
+                break
         blocklist.close()
         return valid
 

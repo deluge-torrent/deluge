@@ -34,7 +34,6 @@ class LabelMenu(gtk.MenuItem):
         self.items = []
 
         # attach..
-        component.get("MenuBar").torrentmenu
         self.sub_menu.connect("show", self.on_show, None)
 
     def get_torrent_ids(self):
@@ -57,6 +56,6 @@ class LabelMenu(gtk.MenuItem):
         self.show_all()
 
     def on_select_label(self, widget=None, label_id=None):
-        log.debug("select label:%s,%s" % (label_id, self.get_torrent_ids()))
+        log.debug("select label:%s,%s", label_id, self.get_torrent_ids())
         for torrent_id in self.get_torrent_ids():
             client.label.set_torrent(torrent_id, label_id)
