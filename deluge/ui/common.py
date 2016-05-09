@@ -14,6 +14,7 @@ The ui common module contains methods and classes that are deemed useful for all
 
 import logging
 import os
+import time
 from hashlib import sha1 as sha
 
 import deluge.configmanager
@@ -30,6 +31,7 @@ log = logging.getLogger(__name__)
 # No need to import these, just simply use the `_()` function around a status variable.
 def _(message):
     return message
+
 STATE_TRANSLATION = {
     "All": _("All"),
     "Active": _("Active"),
@@ -49,6 +51,12 @@ TRACKER_STATUS_TRANSLATION = {
     "Announce Sent": _("Announce Sent")
 }
 del _
+
+DEFAULT_HOST = "127.0.0.1"
+DEFAULT_PORT = 58846
+DEFAULT_HOSTS = {
+    "hosts": [(sha(str(time.time())).hexdigest(), DEFAULT_HOST, DEFAULT_PORT, "", "")]
+}
 
 
 class TorrentInfo(object):

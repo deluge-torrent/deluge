@@ -253,13 +253,7 @@ class JSON(resource.Resource, component.Component):
                 log.debug("Registering method: %s", name + "." + d)
                 self._local_methods[name + "." + d] = getattr(obj, d)
 
-DEFAULT_HOST = "127.0.0.1"
-DEFAULT_PORT = 58846
 
-DEFAULT_HOSTS = {
-    "hosts": [(hashlib.sha1(str(time.time())).hexdigest(),
-               DEFAULT_HOST, DEFAULT_PORT, "", "")]
-}
 HOSTLIST_ID = 0
 HOSTLIST_NAME = 1
 HOSTLIST_PORT = 2
@@ -368,7 +362,7 @@ class WebApi(JSONComponent):
 
     def __init__(self):
         super(WebApi, self).__init__("Web", depend=["SessionProxy"])
-        self.host_list = ConfigManager("hostlist.conf.1.2", DEFAULT_HOSTS)
+        self.host_list = ConfigManager("hostlist.conf.1.2", uicommon.DEFAULT_HOSTS)
         if not os.path.isfile(self.host_list.config_file):
             self.host_list.save()
         self.core_config = CoreConfig()

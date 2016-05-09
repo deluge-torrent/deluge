@@ -16,6 +16,7 @@ from collections import deque
 
 import deluge.component as component
 from deluge.configmanager import ConfigManager
+from deluge.ui import common as uicommon
 from deluge.ui.client import Client, client
 from deluge.ui.console.modes.alltorrents import AllTorrents
 from deluge.ui.console.modes.basemode import BaseMode
@@ -29,13 +30,6 @@ except ImportError:
 
 log = logging.getLogger(__name__)
 
-DEFAULT_HOST = "127.0.0.1"
-DEFAULT_PORT = 58846
-
-DEFAULT_CONFIG = {
-    "hosts": [(hashlib.sha1(str(time.time())).hexdigest(), DEFAULT_HOST, DEFAULT_PORT, "", "")]
-}
-
 
 class ConnectionManager(BaseMode):
 
@@ -43,7 +37,7 @@ class ConnectionManager(BaseMode):
         self.popup = None
         self.statuses = {}
         self.messages = deque()
-        self.config = ConfigManager("hostlist.conf.1.2", DEFAULT_CONFIG)
+        self.config = ConfigManager("hostlist.conf.1.2", uicommon.DEFAULT_HOSTS)
         BaseMode.__init__(self, stdscr, encoding)
         self.__update_statuses()
         self.__update_popup()
