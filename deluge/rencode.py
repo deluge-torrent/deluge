@@ -37,6 +37,7 @@
 #
 # (The rencode module is licensed under the above license as well).
 #
+# pylint: disable=redefined-builtin
 
 """
 rencode -- Web safe object pickling/unpickling.
