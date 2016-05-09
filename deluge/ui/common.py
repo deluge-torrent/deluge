@@ -415,11 +415,12 @@ def get_localhost_auth():
 
     with open(auth_file) as auth:
         for line in auth:
-            if line.startswith("#"):
-                # This is a comment line
+            line = line.strip()
+            if line.startswith("#") or not line:
+                # This is a comment or blank line
                 continue
 
-            lsplit = line.strip().split(":")
+            lsplit = line.split(":")
 
             if len(lsplit) == 2:
                 username, password = lsplit
