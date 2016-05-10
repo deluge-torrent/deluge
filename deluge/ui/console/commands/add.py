@@ -59,7 +59,7 @@ class Command(BaseCommand):
 
         t_options = {}
         if options["path"]:
-            t_options["download_location"] = os.path.expanduser(options["path"])
+            t_options["download_location"] = os.path.abspath(os.path.expanduser(options["path"]))
 
         def on_success(result):
             self.console.write("{!success!}Torrent added!")
