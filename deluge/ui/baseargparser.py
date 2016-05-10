@@ -20,6 +20,69 @@ from deluge.configmanager import get_config_dir, set_config_dir
 from deluge.log import setup_logger
 
 
+def find_subcommand(self, args=None):
+    """Find if a subcommand has been supplied.
+
+    Args:
+        args (list, optional): The argument list handed to parse_args().
+
+    Returns:
+        int: Index of the subcommand or '-1' if none found.
+
+    """
+    subcommand_found = -1
+    test_args = args if args else sys.argv[1:]
+
+    for x in self._subparsers._actions:
+        if not isinstance(x, argparse._SubParsersAction):
+            continue
+        for sp_name in x._name_parser_map.keys():
+            if sp_name in test_args:
+                subcommand_found = test_args.index(sp_name) + 1
+
+    return subcommand_found
+
+
+def set_default_subparser(self, name, abort_opts=None):
+    """Sets the default argparse subparser.
+
+    Args:
+        name (str): The name of the default subparser.
+        abort_opts (list): The arguments to test for in case no subcommand is found.
+                           If any of the values are found, the default subparser will
+                           not be inserted into sys.argv.
+
+    Returns:
+        list: The arguments found in sys.argv if no subcommand found, else None
+
+    """
+    found_abort_opts = []
+    abort_opts = [] if abort_opts is None else abort_opts
+    test_args = sys.argv[1:]
+    subparser_found = self.find_subcommand(args=test_args)
+
+    for i, arg in enumerate(test_args):
+        if subparser_found == i:
+            break
+        if arg in abort_opts:
+            found_abort_opts.append(arg)
+
+    if subparser_found == -1:
+        if found_abort_opts:
+            # Found one or more of arguments in abort_opts
+            return found_abort_opts
+
+        # insert default in first position, this implies no
+        # global options without a sub_parsers specified
+        sys.argv.insert(1, name)
+
+    return None
+
+
+argparse.ArgumentParser.find_subcommand = find_subcommand
+argparse.ArgumentParser.set_default_subparser = set_default_subparser
+
+
 def get_version():
     version_str = "%s\n" % (common.get_version())
     try:
@@ -33,8 +96,7 @@ def get_version():
 
 
 class DelugeTextHelpFormatter(argparse.RawDescriptionHelpFormatter):
-    """Help message formatter which retains formatting of all help text.
-    """
+    """Help message formatter which retains formatting of all help text."""
 
     def _split_lines(self, text, width):
         """
@@ -80,9 +142,9 @@ class HelpAction(argparse._HelpAction):
     def __call__(self, parser, namespace, values, option_string=None):
         if hasattr(parser, "subparser"):
             subparser = getattr(parser, "subparser")
-            # If -h on a subparser is given, the subparser will exit after help message
-            subparser.parse_args()
-        parser.print_help()
+            subparser.print_help()
+        else:
+            parser.print_help()
         parser.exit()
 
 
@@ -91,13 +153,16 @@ class BaseArgParser(argparse.ArgumentParser):
     def __init__(self, *args, **kwargs):
         if "formatter_class" not in kwargs:
             kwargs["formatter_class"] = lambda prog: DelugeTextHelpFormatter(prog, max_help_position=33, width=90)
-        super(BaseArgParser, self).__init__(*args, add_help=False, **kwargs)
+        kwargs["add_help"] = kwargs.get("add_help", False)
+        common_help = kwargs.pop("common_help", True)
+        super(BaseArgParser, self).__init__(*args, **kwargs)
 
         self.common_setup = False
         self.process_arg_group = False
         self.group = self.add_argument_group(_("Common Options"))
-        self.group.add_argument("-h", "--help", action=HelpAction,
-                                help=_("Print this help message"))
+        if common_help:
+            self.group.add_argument("-h", "--help", action=HelpAction,
+                                    help=_("Print this help message"))
         self.group.add_argument("-V", "--version", action="version", version="%(prog)s " + get_version(),
                                 help=_("Print version information"))
         self.group.add_argument("-v", action="version", version="%(prog)s " + get_version(),
@@ -117,9 +182,22 @@ class BaseArgParser(argparse.ArgumentParser):
                                 help=_("Profile %(prog)s with cProfile. Outputs to stdout "
                                        "unless a filename is specified"))
 
-    def parse_args(self, *args):
-        options, remaining = super(BaseArgParser, self).parse_known_args(*args)
+    def parse_args(self, args=None):
+        """Parse UI arguments and handle common and process group options.
+
+        Unknown arguments return an error and resulting usage text.
+        """
+        options = super(BaseArgParser, self).parse_args(args=args)
+        return self._parse_args(options)
+
+    def parse_known_ui_args(self, args=None):
+        """Parse UI arguments and handle common and process group options without error.
+        """
+        options, remaining = super(BaseArgParser, self).parse_known_args(args=args)
         options.remaining = remaining
+        return self._parse_args(options)
+
+    def _parse_args(self, options):
 
         if not self.common_setup:
             self.common_setup = True

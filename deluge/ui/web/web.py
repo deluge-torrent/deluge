@@ -42,8 +42,8 @@ class Web(UI):
     def server(self):
         return self.__server
 
-    def start(self, args=None):
-        super(Web, self).start(args)
+    def start(self):
+        super(Web, self).start()
 
         from deluge.ui.web import server
         self.__server = server.DelugeWeb(options=self.options)

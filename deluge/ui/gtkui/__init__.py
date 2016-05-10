@@ -27,8 +27,8 @@ class Gtk(UI):
                            help=_("Add one or more torrent files, torrent URLs or magnet URIs"
                                   " to a currently running Deluge GTK instance"))
 
-    def start(self, args=None):
-        super(Gtk, self).start(args)
+    def start(self):
+        super(Gtk, self).start()
         from deluge.ui.gtkui.gtkui import GtkUI
         import deluge.common
 

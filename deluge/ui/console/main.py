@@ -24,6 +24,7 @@ from deluge.error import DelugeError
 from deluge.ui.client import client
 from deluge.ui.console import colors
 from deluge.ui.console.colors import ConsoleColorFormatter
+from deluge.ui.console.commander import Commander
 from deluge.ui.console.eventlog import EventLog
 from deluge.ui.console.statusbars import StatusBars
 from deluge.ui.coreconfig import CoreConfig
@@ -48,6 +49,58 @@ class ConsoleCommandParser(argparse.ArgumentParser):
             help_str += epilog
         self.epilog = epilog
         return help_str
+
+    def _split_args(self, args):
+        command_options = []
+        for a in args:
+            if not a:
+                continue
+            if ";" in a:
+                cmd_lines = [arg.strip() for arg in a.split(";")]
+            elif " " in a:
+                cmd_lines = [a]
+            else:
+                continue
+
+            for cmd_line in cmd_lines:
+                cmds = shlex.split(cmd_line)
+                cmd_options = super(ConsoleCommandParser, self).parse_args(args=cmds)
+                cmd_options.command = cmds[0]
+                command_options.append(cmd_options)
+
+        return command_options
+
+    def parse_args(self, args=None):
+        multi_command = self._split_args(args)
+        # If multiple commands were passed to console
+        if multi_command:
+            # With multiple commands, normal parsing will fail, so only parse
+            # known arguments using the base parser, and then set
+            # options.parsed_cmds to the already parsed commands
+            options, remaining = self.base_parser.parse_known_args(args=args)
+            options.parsed_cmds = multi_command
+        else:
+            subcommand = False
+            if hasattr(self.base_parser, "subcommand"):
+                subcommand = getattr(self.base_parser, "subcommand")
+            if not subcommand:
+                # We must use parse_known_args to handle case when no subcommand
+                # is provided, because argparse does not support parsing without
+                # a subcommand
+                options, remaining = self.base_parser.parse_known_args(args=args)
+                # If any options remain it means they do not exist. Reparse with
+                # parse_args to trigger help message
+                if remaining:
+                    options = self.base_parser.parse_args(args=args)
+                options.parsed_cmds = []
+            else:
+                options = super(ConsoleCommandParser, self).parse_args(args=args)
+                options.parsed_cmds = [options]
+
+        if not hasattr(options, "remaining"):
+            options.remaining = []
+
+        return options
 
 
 class OptionParser(ConsoleCommandParser):
@@ -130,6 +183,7 @@ class BaseCommand(object):
             opts["usage"] = self.usage
         parser = OptionParser(**opts)
         parser.add_argument(self.name, metavar="")
+        parser.base_parser = parser
         self.add_arguments(parser)
         return parser
 
@@ -167,8 +221,7 @@ class ConsoleUI(component.Component):
         # Set the interactive flag to indicate where we should print the output
         self.interactive = True
         self._commands = cmds
-
-        if options.remaining:
+        if options.parsed_cmds:
             self.interactive = False
             if not cmds:
                 print("Sorry, couldn't find any commands")
@@ -194,14 +247,6 @@ Please use commands from the command line, e.g.:\n
             reactor.run()
 
     def exec_args(self, options):
-        args = options.remaining
-        commands = []
-        if args:
-            cmd = " ".join([arg for arg in args])
-            # Multiple commands split by ";"
-            commands += [arg.strip() for arg in cmd.split(";")]
-
-        from deluge.ui.console.commander import Commander
         commander = Commander(self._commands)
 
         def on_connect(result):
@@ -209,11 +254,14 @@ Please use commands from the command line, e.g.:\n
                 def on_started(result):
                     def do_command(result, cmd):
                         return commander.do_command(cmd)
+
+                    def exec_command(result, cmd):
+                        return commander.exec_command(cmd)
                     d = defer.succeed(None)
-                    for command in commands:
-                        if command in ("quit", "exit"):
+                    for command in options.parsed_cmds:
+                        if command.command in ("quit", "exit"):
                             break
-                        d.addCallback(do_command, command)
+                        d.addCallback(exec_command, command)
                     d.addCallback(do_command, "quit")
 
                 # We need to wait for the rpcs in start() to finish before processing
@@ -230,17 +278,9 @@ Please use commands from the command line, e.g.:\n
             commander.do_command("quit")
 
         d = None
-        if not self.interactive:
-            if commands[0] is not None:
-                if commands[0].startswith("connect"):
-                    d = commander.do_command(commands.pop(0))
-                    if d is None:
-                        # Error parsing command
-                        sys.exit(0)
-                elif "help" in commands:
-                    commander.do_command("help")
-                    sys.exit(0)
-        if not d:
+        if not self.interactive and options.parsed_cmds[0].command == "connect":
+            d = commander.do_command(options.parsed_cmds.pop(0))
+        else:
             log.info("connect: host=%s, port=%s, username=%s, password=%s",
                      options.daemon_addr, options.daemon_port, options.daemon_user, options.daemon_pass)
             d = client.connect(options.daemon_addr, options.daemon_port, options.daemon_user, options.daemon_pass)

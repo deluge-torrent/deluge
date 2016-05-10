@@ -92,7 +92,7 @@ class Command(BaseCommand):
     epilog = """
   You can give the first few characters of a torrent-id to identify the torrent.
 
-  Tab Completion (info *pattern*<tab>):\n
+  Tab Completion in interactive mode (info *pattern*<tab>):\n
       | First press of <tab> will output up to 15 matches;
       | hitting <tab> a second time, will print 15 more matches;
       | and a third press will print all remaining matches.

@@ -53,7 +53,7 @@ class Console(UI):
     cmd_description = """Console or command-line user interface"""
 
     def __init__(self, *args, **kwargs):
-        super(Console, self).__init__("console", *args, description="Test", **kwargs)
+        super(Console, self).__init__(*args, **kwargs)
 
         group = self.parser.add_argument_group(_("Console Options"), "These daemon connect options will be "
                                                "used for commands, or if console ui autoconnect is enabled.")
@@ -65,20 +65,25 @@ class Console(UI):
         # To properly print help message for the console commands ( e.g. deluge-console info -h),
         # we add a subparser for each command which will trigger the help/usage when given
         from deluge.ui.console.main import ConsoleCommandParser  # import here because (see top)
-        self.console_parser = ConsoleCommandParser(parents=[self.parser], add_help=False,
+        self.console_parser = ConsoleCommandParser(parents=[self.parser], add_help=False, prog=self.parser.prog,
                                                    description="Starts the Deluge console interface",
                                                    formatter_class=lambda prog:
                                                    DelugeTextHelpFormatter(prog, max_help_position=33, width=90))
         self.parser.subparser = self.console_parser
-        subparsers = self.console_parser.add_subparsers(title="Console commands", help="Description", dest="commands",
+        self.console_parser.base_parser = self.parser
+        subparsers = self.console_parser.add_subparsers(title="Console commands", help="Description", dest="command",
                                                         description="The following console commands are available:",
                                                         metavar="command")
         self.console_cmds = load_commands(os.path.join(UI_PATH, "commands"))
         for c in sorted(self.console_cmds):
             self.console_cmds[c].add_subparser(subparsers)
 
-    def start(self, args=None):
-        super(Console, self).start(args)
+    def start(self):
+        i = self.console_parser.find_subcommand(args=self.ui_args)
+        self.console_parser.subcommand = False
+        self.parser.subcommand = False if i == -1 else True
+
+        super(Console, self).start(self.console_parser)
         from deluge.ui.console.main import ConsoleUI  # import here because (see top)
 
         def run(options):

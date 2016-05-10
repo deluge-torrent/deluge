@@ -32,10 +32,28 @@ class Commander(object):
         print(strip_colors(line))
 
     def do_command(self, cmd_line):
-        """
-        Processes a command.
+        """Run a console command
 
-        :param cmd: str, the command string
+        Args:
+            cmd_line (str): Console command
+
+        Returns:
+            Deferred: A deferred that fires when command has been executed
+
+        """
+        options = self.parse_command(cmd_line)
+        if options:
+            return self.exec_command(options)
+        return defer.succeed(None)
+
+    def parse_command(self, cmd_line):
+        """Parse a console command and process with argparse
+
+        Args:
+            cmd_line (str): Console command
+
+        Returns:
+            argparse.Namespace: The parsed command
 
         """
         if not cmd_line:
@@ -76,6 +94,7 @@ class Commander(object):
 
         try:
             options = parser.parse_args(args=args)
+            options.command = cmd
         except TypeError as ex:
             self.write("{!error!}Error parsing options: %s" % ex)
             import traceback
@@ -86,14 +105,28 @@ class Commander(object):
             parser.print_help()
             return
 
-        if not getattr(parser, "_exit", False):
-            try:
-                ret = self._commands[cmd].handle(options)
-            except Exception as ex:
-                self.write("{!error!} %s" % ex)
-                log.exception(ex)
-                import traceback
-                self.write("%s" % traceback.format_exc())
-                return defer.succeed(True)
-            else:
-                return ret
+        if getattr(parser, "_exit", False):
+            return
+        return options
+
+    def exec_command(self, options, *args):
+        """
+        Execute a console command.
+
+        Args:
+            options (argparse.Namespace): The command to execute
+
+        Returns:
+            Deferred: A deferred that fires when command has been executed
+
+        """
+        try:
+            ret = self._commands[options.command].handle(options)
+        except Exception as ex:
+            self.write("{!error!} %s" % ex)
+            log.exception(ex)
+            import traceback
+            self.write("%s" % traceback.format_exc())
+            return defer.succeed(True)
+        else:
+            return ret

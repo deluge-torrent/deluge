@@ -25,16 +25,20 @@ except ImportError:
 
 
 class UI(object):
+    """
+    Base class for UI implementations.
 
-    cmd_description = """Insert command description"""
+    """
+    cmd_description = """Override with command description"""
 
-    def __init__(self, name="gtk", parser=None, **kwargs):
+    def __init__(self, name="gtk", **kwargs):
         self.__name = name
+        self.ui_args = kwargs.pop("ui_args", None)
         lang.setup_translations(setup_pygtk=(name == "gtk"))
-        self.__parser = parser if parser else BaseArgParser(**kwargs)
+        self.__parser = BaseArgParser(**kwargs)
 
-    def parse_args(self, args=None):
-        options = self.parser.parse_args(args)
+    def parse_args(self, parser, args=None):
+        options = parser.parse_args(args)
         if not hasattr(options, "remaining"):
             options.remaining = []
         return options
@@ -51,12 +55,11 @@ class UI(object):
     def options(self):
         return self.__options
 
-    def start(self, extra_args=None):
+    def start(self, parser=None):
         args = deluge.common.unicode_argv()[1:]
-        if extra_args:
-            args.extend(extra_args)
-
-        self.__options = self.parse_args(args)
+        if parser is None:
+            parser = self.parser
+        self.__options = self.parse_args(parser, args)
 
         setproctitle("deluge-%s" % self.__name)
 
