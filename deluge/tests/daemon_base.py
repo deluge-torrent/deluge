@@ -1,3 +1,7 @@
+import os.path
+
+import pytest
+
 from twisted.internet import defer
 from twisted.internet.error import CannotListenError
 
@@ -28,6 +32,15 @@ class DaemonBase(object):
                    port_range=10, extra_callbacks=None):
         if logfile == "":
             logfile = "daemon_%s.log" % self.id()
+
+        # We are running py.test
+        if hasattr(pytest, "config"):
+            # Put log file in the py.test --basetemp argument
+            basetemp = pytest.config.option.basetemp
+            if basetemp:
+                if not os.path.exists(basetemp):
+                    os.makedirs(basetemp)
+                logfile = os.path.join(basetemp, logfile)
 
         for dummy in range(port_range):
             try:
