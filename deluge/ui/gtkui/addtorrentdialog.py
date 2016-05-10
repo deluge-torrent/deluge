@@ -8,9 +8,9 @@
 #
 
 import base64
-import cgi
 import logging
 import os
+from xml.sax.saxutils import escape as xml_escape
 
 import gobject
 import gtk
@@ -198,7 +198,7 @@ class AddTorrentDialog(component.Component):
                 already_added += 1
                 continue
 
-            new_row = self.torrent_liststore.append([info.info_hash, info.name, filename])
+            new_row = self.torrent_liststore.append([info.info_hash, info.name, xml_escape(filename)])
             self.files[info.info_hash] = info.files
             self.infos[info.info_hash] = info.filedata
             self.listview_torrents.get_selection().select_iter(new_row)
@@ -231,7 +231,7 @@ class AddTorrentDialog(component.Component):
             if magnet["info_hash"] in self.infos:
                 log.info("Torrent already in Add Dialog list: %s", uri)
                 continue
-            new_row = self.torrent_liststore.append([magnet["info_hash"], magnet["name"], cgi.escape(uri)])
+            new_row = self.torrent_liststore.append([magnet["info_hash"], magnet["name"], xml_escape(uri)])
             self.files[magnet["info_hash"]] = magnet["files_tree"]
             self.infos[magnet["info_hash"]] = None
             self.listview_torrents.get_selection().select_iter(new_row)
