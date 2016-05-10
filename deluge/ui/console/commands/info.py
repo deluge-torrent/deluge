@@ -70,7 +70,8 @@ STATUS_KEYS = ["state",
         "is_seed",
         "is_finished",
         "active_time",
-        "seeding_time"
+        "seeding_time",
+        "time_added"
         ]
 
 # Add filter specific state to torrent states
