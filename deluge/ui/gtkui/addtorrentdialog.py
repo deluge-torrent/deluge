@@ -210,7 +210,7 @@ class AddTorrentDialog(component.Component):
         if not row and new_row:
             self.listview_torrents.get_selection().select_iter(new_row)
 
-        self.builder.get_object("label_torrent_count").set_text("Torrents (%d)" % len(self.torrent_liststore))
+        self.dialog.set_title("Add Torrents (%d)" % len(self.torrent_liststore))
 
         if already_added:
             log.debug("Tried to add %d duplicate torrents!", already_added)
