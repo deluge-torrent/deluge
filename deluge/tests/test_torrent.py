@@ -2,12 +2,10 @@ from __future__ import print_function
 
 import base64
 import os
-import sys
 import time
 
 from twisted.internet import defer, reactor
 from twisted.internet.task import deferLater
-from twisted.trial import unittest
 
 import deluge.component as component
 import deluge.core.torrent
@@ -18,55 +16,27 @@ from deluge.core.rpcserver import RPCServer
 from deluge.core.torrent import Torrent
 from deluge.core.torrentmanager import TorrentState
 
-config_setup = False
-core = None
-rpcserver = None
-eventmanager = None
+from .basetest import BaseTestCase
 
 
-# This is called by torrent.py when calling component.get("...")
-def get(key):
-    if key is "Core":
-        return core
-    elif key is "RPCServer":
-        return rpcserver
-    elif key is "EventManager":
-        return core.eventmanager
-    elif key is "TorrentManager":
-        return core.torrentmanager
-    else:
-        return None
-
-
-class TorrentTestCase(unittest.TestCase):
+class TorrentTestCase(BaseTestCase):
 
     def setup_config(self):
-        global config_setup
-        config_setup = True
         config_dir = common.set_tmp_config_dir()
         core_config = deluge.config.Config("core.conf", defaults=deluge.core.preferencesmanager.DEFAULT_PREFS,
                                            config_dir=config_dir)
         core_config.save()
 
-    def setUp(self):  # NOQA
-        # Save component and set back on teardown
-        self.original_component = deluge.core.torrent.component
-        deluge.core.torrent.component = sys.modules[__name__]
+    def set_up(self):
         self.setup_config()
-        global rpcserver
-        global core
-        rpcserver = RPCServer(listen=False)
-        core = Core()
+        RPCServer(listen=False)
+        self.core = Core()
         self.session = lt.session()
         self.torrent = None
         return component.start()
 
-    def tearDown(self):  # NOQA
-        deluge.core.torrent.component = self.original_component
-
-        def on_shutdown(result):
-            component._ComponentRegistry.components = {}
-        return component.shutdown().addCallback(on_shutdown)
+    def tear_down(self):
+        return component.shutdown()
 
     def print_priority_list(self, priorities):
         tmp = ''
@@ -148,8 +118,8 @@ class TorrentTestCase(unittest.TestCase):
     def test_torrent_error_data_missing(self):
         options = {"seed_mode": True}
         filename = os.path.join(os.path.dirname(__file__), "test_torrent.file.torrent")
-        torrent_id = yield core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
-        torrent = core.torrentmanager.torrents[torrent_id]
+        torrent_id = yield self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
+        torrent = self.core.torrentmanager.torrents[torrent_id]
 
         self.assert_state(torrent, "Seeding")
 
@@ -162,8 +132,8 @@ class TorrentTestCase(unittest.TestCase):
     def test_torrent_error_resume_original_state(self):
         options = {"seed_mode": True, "add_paused": True}
         filename = os.path.join(os.path.dirname(__file__), "test_torrent.file.torrent")
-        torrent_id = yield core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
-        torrent = core.torrentmanager.torrents[torrent_id]
+        torrent_id = yield self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
+        torrent = self.core.torrentmanager.torrents[torrent_id]
 
         orig_state = "Paused"
         self.assert_state(torrent, orig_state)
@@ -206,13 +176,13 @@ class TorrentTestCase(unittest.TestCase):
 
         filename = os.path.join(os.path.dirname(__file__), "test_torrent.file.torrent")
         filedump = open(filename).read()
-        torrent_id = yield core.torrentmanager.add(state=torrent_state, filedump=filedump,
-                                                   resume_data=lt.bencode(resume_data))
-        torrent = core.torrentmanager.torrents[torrent_id]
+        torrent_id = yield self.core.torrentmanager.add(state=torrent_state, filedump=filedump,
+                                                        resume_data=lt.bencode(resume_data))
+        torrent = self.core.torrentmanager.torrents[torrent_id]
 
         def assert_resume_data():
             self.assert_state(torrent, "Error")
-            tm_resume_data = lt.bdecode(core.torrentmanager.resume_data[torrent.torrent_id])
+            tm_resume_data = lt.bdecode(self.core.torrentmanager.resume_data[torrent.torrent_id])
             self.assertEquals(tm_resume_data, resume_data)
 
         yield deferLater(reactor, 0.5, assert_resume_data)

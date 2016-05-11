@@ -215,8 +215,6 @@ class JSONRequestFailedTestCase(JSONBase):
             self.assertTrue("in test_raise_error" in self.core.stderr_out)
 
         extra_callback["deferred"].addCallback(on_test_raise)
-        self.d_test_raise_error_log = extra_callback["deferred"]
-
         d.addCallback(self.start_core, custom_script=custom_script, print_stderr=False,
                       timeout=5, extra_callbacks=[extra_callback])
         d.addCallbacks(self.connect_client, self.terminate_core)
