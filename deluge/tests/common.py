@@ -1,10 +1,12 @@
 import os
 import sys
 import tempfile
+import traceback
 
 from twisted.internet import defer, protocol, reactor
 from twisted.internet.defer import Deferred
 from twisted.internet.error import CannotListenError
+from twisted.trial import unittest
 
 import deluge.configmanager
 import deluge.core.preferencesmanager
@@ -23,6 +25,18 @@ def set_tmp_config_dir():
     config_directory = tempfile.mkdtemp()
     deluge.configmanager.set_config_dir(config_directory)
     return config_directory
+
+
+def todo_test(caller):
+    # If we are using the delugereporter we can set todo mark on the test
+    # Without the delugereporter the todo would print a stack trace, so in
+    # that case we rely only on skipTest
+    if os.environ.get("DELUGE_REPORTER", None):
+        getattr(caller, caller._testMethodName).im_func.todo = "To be fixed"
+
+    filename = os.path.basename(traceback.extract_stack(None, 2)[0][0])
+    funcname = traceback.extract_stack(None, 2)[0][2]
+    raise unittest.SkipTest("TODO: %s:%s" % (filename, funcname))
 
 
 def add_watchdog(deferred, timeout=0.05, message=None):

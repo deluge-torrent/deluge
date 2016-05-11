@@ -2,6 +2,7 @@ import base64
 import os
 import warnings
 
+import pytest
 from twisted.internet import defer
 
 from deluge import component
@@ -33,9 +34,10 @@ class TorrentmanagerTestCase(BaseTestCase):
         torrent_id = yield self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), {})
         self.assertTrue(self.core.torrentmanager.remove(torrent_id, False))
 
+    @pytest.mark.todo
     def test_remove_torrent_false(self):
         """Test when remove_torrent returns False"""
-        raise unittest.SkipTest("")
+        common.todo_test(self)
 
     def test_remove_invalid_torrent(self):
         self.assertRaises(InvalidTorrentError, self.core.torrentmanager.remove, "torrentidthatdoesntexist")

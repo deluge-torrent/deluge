@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+import os
 
 from twisted.plugin import IPlugin
 from twisted.trial.itrial import IReporter
@@ -28,6 +29,7 @@ deluge = _Reporter("Deluge reporter that suppresses Stacktrace from TODO tests",
 class DelugeReporter(TreeReporter):
 
     def __init__(self, *args, **kwargs):
+        os.environ["DELUGE_REPORTER"] = "true"
         TreeReporter.__init__(self, *args, **kwargs)
 
     def addExpectedFailure(self, *args):  # NOQA
