@@ -1,7 +1,6 @@
 import os.path
 
 import pytest
-
 from twisted.internet import defer
 from twisted.internet.error import CannotListenError
 
