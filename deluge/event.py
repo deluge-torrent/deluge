@@ -285,3 +285,15 @@ class ClientDisconnectedEvent(DelugeEvent):
     """
     def __init__(self, session_id):
         self._args = [session_id]
+
+
+class ExternalIPEvent(DelugeEvent):
+    """
+    Emitted when the external ip address is received from libtorrent.
+    """
+    def __init__(self, external_ip):
+        """
+        Args:
+            external_ip (str): The IP address.
+        """
+        self._args = [external_ip]

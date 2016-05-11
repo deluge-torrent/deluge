@@ -181,6 +181,11 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
                 deluge.preferences.selectPage('Network');
             }
         }, '-', {
+            id: 'statusbar-externalip',
+            text: ' ',
+            cls: 'x-btn-text',
+            tooltip: _('External IP Address')
+        }, '-', {
             id: 'statusbar-dht',
             text: ' ',
             cls: 'x-btn-text-icon',
@@ -289,5 +294,7 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 
         this.items.get('statusbar-dht').setText(stats.dht_nodes);
         this.items.get('statusbar-freespace').setText(stats.free_space >= 0 ? fsize(stats.free_space): _('Error'));
+        this.items.get('statusbar-externalip').setText(
+            String.format(_('<b>IP</b> {0}'), stats.external_ip ? stats.external_ip: _("n/a")));
     }
 });

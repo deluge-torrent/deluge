@@ -23,6 +23,7 @@ class StatusBars(component.Component):
         self.download = ""
         self.upload = ""
         self.dht = 0
+        self.external_ip = ""
 
         # Default values
         self.topbar = "{!status!}Deluge %s Console - " % deluge.common.get_version()
@@ -41,12 +42,16 @@ class StatusBars(component.Component):
 
             self.update_statusbars()
 
+        def on_get_external_ip(external_ip):
+            self.external_ip = external_ip
+
         keys = ["num_peers", "payload_upload_rate", "payload_download_rate"]
 
         if self.config["dht"]:
             keys.append("dht_nodes")
 
         client.core.get_session_status(keys).addCallback(on_get_session_status)
+        client.core.get_external_ip().addCallback(on_get_external_ip)
 
     def update_statusbars(self):
         # Update the topbar string
@@ -105,3 +110,6 @@ class StatusBars(component.Component):
 
         if self.config["dht"]:
             self.bottombar += " " + _("DHT") + ": {!white,blue!}%s{!status!}" % self.dht
+
+        self.bottombar += " " + _("IP {!white,blue!}%s{!status!}") % (
+            self.external_ip if self.external_ip else _("n/a"))

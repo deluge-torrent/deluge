@@ -179,6 +179,9 @@ class StatusBar(component.Component):
             text=_("No Incoming Connections!"),
             callback=self._on_health_icon_clicked, pack_start=True)
 
+        self.external_ip_item = self.add_item(
+            tooltip=_("External IP Address"), pack_start=True)
+
         self.health = False
 
         def update_config_values(configs):
@@ -201,6 +204,7 @@ class StatusBar(component.Component):
             self.remove_item(self.health_item)
             self.remove_item(self.traffic_item)
             self.remove_item(self.diskspace_item)
+            self.remove_item(self.external_ip_item)
         except Exception as ex:
             log.debug("Unable to remove StatusBar item: %s", ex)
         self.show_not_connected()
@@ -270,6 +274,7 @@ class StatusBar(component.Component):
 
         client.core.get_session_status(keys).addCallback(self._on_get_session_status)
         client.core.get_free_space().addCallback(self._on_get_free_space)
+        client.core.get_external_ip().addCallback(self._on_get_external_ip)
 
     def on_configvaluechanged_event(self, key, value):
         """
@@ -325,6 +330,10 @@ class StatusBar(component.Component):
     def _on_max_upload_speed(self, max_upload_speed):
         self.max_upload_speed = max_upload_speed
         self.update_upload_label()
+
+    def _on_get_external_ip(self, external_ip):
+        ip = external_ip if external_ip else _("n/a")
+        self.external_ip_item.set_markup(_("<b>IP</b> %s") % ip)
 
     def update_connections_label(self):
         # Set the max connections label

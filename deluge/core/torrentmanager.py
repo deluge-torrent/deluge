@@ -28,8 +28,9 @@ from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.core.torrent import Torrent, TorrentOptions, sanitize_filepath
 from deluge.error import AddTorrentError, InvalidTorrentError
-from deluge.event import (PreTorrentRemovedEvent, SessionStartedEvent, TorrentAddedEvent, TorrentFileCompletedEvent,
-                          TorrentFileRenamedEvent, TorrentFinishedEvent, TorrentRemovedEvent, TorrentResumedEvent)
+from deluge.event import (ExternalIPEvent, PreTorrentRemovedEvent, SessionStartedEvent, TorrentAddedEvent,
+                          TorrentFileCompletedEvent, TorrentFileRenamedEvent, TorrentFinishedEvent, TorrentRemovedEvent,
+                          TorrentResumedEvent)
 
 log = logging.getLogger(__name__)
 
@@ -1256,8 +1257,14 @@ class TorrentManager(component.Component):
         self.handle_torrents_status_callback(self.torrents_status_requests.pop())
 
     def on_alert_external_ip(self, alert):
-        """Alert handler for libtorrent external_ip_alert"""
-        log.info("on_alert_external_ip: %s", decode_string(alert.message()))
+        """Alert handler for libtorrent external_ip_alert
+
+        Note:
+            alert.message format is: "external IP received: 0.0.0.0"
+        """
+        external_ip = decode_string(alert.message()).split(':')[1].strip()
+        log.info("on_alert_external_ip: %s", external_ip)
+        component.get("EventManager").emit(ExternalIPEvent(external_ip))
 
     def on_alert_performance(self, alert):
         """Alert handler for libtorrent performance_alert"""

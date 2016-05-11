@@ -92,6 +92,10 @@ class Core(component.Component):
         # New release check information
         self.new_release = None
 
+        # External IP Address from libtorrent
+        self.external_ip = None
+        self.eventmanager.register_event_handler("ExternalIPEvent", self._on_external_ip_event)
+
         # Get the core config
         self.config = ConfigManager("core.conf")
         self.config.save()
@@ -919,6 +923,16 @@ class Core(component.Component):
             return deluge.common.free_space(path)
         except InvalidPathError:
             return -1
+
+    def _on_external_ip_event(self, external_ip):
+        self.external_ip = external_ip
+
+    @export
+    def get_external_ip(self):
+        """
+        Returns the external ip address recieved from libtorrent.
+        """
+        return self.external_ip
 
     @export
     def get_libtorrent_version(self):

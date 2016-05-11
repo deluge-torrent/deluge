@@ -525,6 +525,9 @@ class WebApi(JSONComponent):
         def got_free_space(free_space):
             ui_info["stats"]["free_space"] = free_space
 
+        def got_external_ip(external_ip):
+            ui_info["stats"]["external_ip"] = external_ip
+
         def got_torrents(torrents):
             ui_info["torrents"] = torrents
 
@@ -551,7 +554,10 @@ class WebApi(JSONComponent):
         d4 = client.core.get_free_space(self.core_config.get("download_location"))
         d4.addCallback(got_free_space)
 
-        dl = DeferredList([d1, d2, d3, d4], consumeErrors=True)
+        d5 = client.core.get_external_ip()
+        d5.addCallback(got_external_ip)
+
+        dl = DeferredList([d1, d2, d3, d4, d5], consumeErrors=True)
         dl.addCallback(on_complete)
         return d
 
