@@ -83,7 +83,7 @@ Deluge.AddConnectionWindow = Ext.extend(Ext.Window, {
                 if (!result[0]) {
                     Ext.MessageBox.show({
                         title: _('Error'),
-                        msg: 'Unable to add host: ' + result[1],
+                        msg: String.format(_('Unable to add host: {0}'), result[1]),
                         buttons: Ext.MessageBox.OK,
                         modal: false,
                         icon: Ext.MessageBox.ERROR,

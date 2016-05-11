@@ -161,14 +161,14 @@ deluge.ui = {
     onUpdateError: function(error) {
         if (this.errorCount == 2) {
             Ext.MessageBox.show({
-                title: 'Lost Connection',
-                msg: 'The connection to the webserver has been lost!',
+                title: _('Lost Connection'),
+                msg: _('The connection to the webserver has been lost!'),
                 buttons: Ext.MessageBox.OK,
                 icon: Ext.MessageBox.ERROR
             });
             deluge.events.fire('disconnect');
             deluge.statusbar.setStatus({
-                text: 'Lost connection to webserver'}
+                text: _('Lost connection to webserver')}
             );
             this.checking = setInterval(this.checkConnection, 2000);
         }

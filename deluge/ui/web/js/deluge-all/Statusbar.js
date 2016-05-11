@@ -83,27 +83,27 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
             menu: new Deluge.StatusbarMenu({
                 items: [{
                     value: '5',
-                    text: '5 KiB/s',
+                    text: _('5 KiB/s'),
                     group: 'max_download_speed',
                     checked: false
                 },{
                     value: '10',
-                    text: '10 KiB/s',
+                    text: _('10 KiB/s'),
                     group: 'max_download_speed',
                     checked: false
                 },{
                     value: '30',
-                    text: '30 KiB/s',
+                    text: _('30 KiB/s'),
                     group: 'max_download_speed',
                     checked: false
                 },{
                     value: '80',
-                    text: '80 KiB/s',
+                    text: _('80 KiB/s'),
                     group: 'max_download_speed',
                     checked: false
                 },{
                     value: '300',
-                    text: '300 KiB/s',
+                    text: _('300 KiB/s'),
                     group: 'max_download_speed',
                     checked: false
                 },{
@@ -131,27 +131,27 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
             menu: new Deluge.StatusbarMenu({
                 items: [{
                     value: '5',
-                    text: '5 KiB/s',
+                    text: _('5 KiB/s'),
                     group: 'max_upload_speed',
                     checked: false
                 },{
                     value: '10',
-                    text: '10 KiB/s',
+                    text: _('10 KiB/s'),
                     group: 'max_upload_speed',
                     checked: false
                 },{
                     value: '30',
-                    text: '30 KiB/s',
+                    text: _('30 KiB/s'),
                     group: 'max_upload_speed',
                     checked: false
                 },{
                     value: '80',
-                    text: '80 KiB/s',
+                    text: _('80 KiB/s'),
                     group: 'max_upload_speed',
                     checked: false
                 },{
                     value: '300',
-                    text: '300 KiB/s',
+                    text: _('300 KiB/s'),
                     group: 'max_upload_speed',
                     checked: false
                 },{

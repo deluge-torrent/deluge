@@ -56,7 +56,7 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 
     initComponent: function() {
         Deluge.details.FilesTab.superclass.initComponent.call(this);
-        this.setRootNode(new Ext.tree.TreeNode({text: 'Files'}));
+        this.setRootNode(new Ext.tree.TreeNode({text: _('Files')}));
     },
 
     clear: function() {

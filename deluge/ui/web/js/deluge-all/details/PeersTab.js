@@ -53,31 +53,31 @@
                     renderer: flagRenderer,
                     dataIndex: 'country'
                 }, {
-                    header: 'Address',
+                    header: _('Address'),
                     width: 125,
                     sortable: true,
                     renderer: peerAddressRenderer,
                     dataIndex: 'ip'
                 }, {
-                    header: 'Client',
+                    header: _('Client'),
                     width: 125,
                     sortable: true,
                     renderer: fplain,
                     dataIndex: 'client'
                 }, {
-                    header: 'Progress',
+                    header: _('Progress'),
                     width: 150,
                     sortable: true,
                     renderer: peerProgressRenderer,
                     dataIndex: 'progress'
                 }, {
-                    header: 'Down Speed',
+                    header: _('Down Speed'),
                     width: 100,
                     sortable: true,
                     renderer: fspeed,
                     dataIndex: 'down_speed'
                 }, {
-                    header: 'Up Speed',
+                    header: _('Up Speed'),
                     width: 100,
                     sortable: true,
                     renderer: fspeed,

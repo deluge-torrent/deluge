@@ -44,7 +44,7 @@ Deluge.preferences.InstallPluginWindow = Ext.extend(Ext.Window, {
                 fieldLabel: _('Plugin Egg'),
                 name: 'file',
                 buttonCfg: {
-                    text: _('Browse') + '...'
+                    text: _('Browse...')
                 }
             }]
         });
