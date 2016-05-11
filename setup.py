@@ -60,6 +60,15 @@ class PyTest(_test):
         sys.exit(errcode)
 
 
+class BuildDocs(BuildDoc):
+    description = 'Build the documentation'
+
+    def run(self):
+        print("Generating module documentation...")
+        os.system('sphinx-apidoc --force -o docs/source/modules/ deluge deluge/plugins')
+        BuildDoc.run(self)
+
+
 class BuildWebUI(cmd.Command):
     description = 'Minify WebUI files'
 
@@ -310,7 +319,7 @@ cmdclass = {
     'build_webui': BuildWebUI,
     'build_trans': BuildTranslations,
     'build_plugins': BuildPlugins,
-    'build_docs': BuildDoc,
+    'build_docs': BuildDocs,
     'install_data': InstallData,
     'clean_plugins': CleanPlugins,
     'clean': Clean,

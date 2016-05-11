@@ -1,6 +1,7 @@
 *~
 build
 dist
+docs/source/modules
 *egg-info
 *.egg
 *.log
