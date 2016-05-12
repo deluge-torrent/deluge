@@ -50,7 +50,7 @@ def load_commands(command_dir):
 
 class Console(UI):
 
-    cmd_description = """A console or command-line interface"""
+    cmd_description = """Console or command-line user interface"""
 
     def __init__(self, *args, **kwargs):
         super(Console, self).__init__("console", *args, description="Test", **kwargs)

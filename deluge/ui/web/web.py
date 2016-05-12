@@ -19,19 +19,12 @@ from deluge.ui.ui import UI
 log = logging.getLogger(__name__)
 
 
-class WebUI(object):
-    def __init__(self, args):
-        from deluge.ui.web import server
-        deluge_web = server.DelugeWeb()
-        deluge_web.start()
-
-
 class Web(UI):
 
-    cmd_description = """A web-based interface (http://localhost:8112)"""
+    cmd_description = """Web-based user interface (http://localhost:8112)"""
 
     def __init__(self, *args, **kwargs):
-        super(Web, self).__init__("web", *args, description="Starts the Deluge web interface", **kwargs)
+        super(Web, self).__init__("web", *args, description="Starts the Deluge Web interface", **kwargs)
         self.__server = None
 
         group = self.parser.add_argument_group(_("Web Server Options"))
@@ -65,8 +58,3 @@ class Web(UI):
                 log.exception(ex)
                 raise
         run_profiled(run, output_file=self.options.profile, do_profile=self.options.profile)
-
-
-def start():
-    web = Web()
-    web.start()

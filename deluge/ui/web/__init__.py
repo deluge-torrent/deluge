@@ -2,4 +2,5 @@ from deluge.ui.web.web import Web
 
 
 def start():
-    Web().start()
+    web = Web()
+    web.start()

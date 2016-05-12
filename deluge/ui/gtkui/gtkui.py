@@ -53,7 +53,6 @@ from deluge.ui.gtkui.torrentdetails import TorrentDetails
 from deluge.ui.gtkui.torrentview import TorrentView
 from deluge.ui.sessionproxy import SessionProxy
 from deluge.ui.tracker_icons import TrackerIcons
-from deluge.ui.ui import UI
 from deluge.ui.util import lang
 
 
@@ -131,33 +130,6 @@ DEFAULT_PREFS = {
     "focus_main_window_on_add": True,
     "language": None,
 }
-
-
-class Gtk(UI):
-
-    cmd_description = """A GTK-based graphical user interface"""
-
-    def __init__(self, *args, **kwargs):
-        super(Gtk, self).__init__("gtk", *args, description="Starts the Deluge GTK+ interface", **kwargs)
-
-        group = self.parser.add_argument_group(_("GTK Options"))
-        group.add_argument("torrents", metavar="<torrent>", nargs="*", default=None,
-                           help=_("Add one or more torrent files, torrent URLs or magnet URIs"
-                                  " to a currently running Deluge GTK instance"))
-
-    def start(self, args=None):
-        super(Gtk, self).start(args)
-
-        def run(options):
-            try:
-                gtkui = GtkUI(options)
-                gtkui.start()
-            except Exception as ex:
-                log.exception(ex)
-                raise
-
-        deluge.common.run_profiled(run, self.options, output_file=self.options.profile,
-                                   do_profile=self.options.profile)
 
 
 class GtkUI(object):
