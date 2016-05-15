@@ -139,13 +139,13 @@ class WebAPITestCase(BaseTestCase, DaemonBase):
         self.assertEquals(status, tuple(status))
 
     def test_get_host(self):
-        self.assertEquals(self.deluge_web.web_api._get_host("invalid_id"), None)
+        self.assertFalse(self.deluge_web.web_api._get_host("invalid_id"))
         conn = self.deluge_web.web_api.host_list["hosts"][0]
         self.assertEquals(self.deluge_web.web_api._get_host(conn[0]), conn)
 
     def test_add_host(self):
         conn = [None, '', 0, '', '']
-        self.assertEquals(self.deluge_web.web_api._get_host(conn[0]), None)
+        self.assertFalse(self.deluge_web.web_api._get_host(conn[0]))
         # Add valid host
         ret = self.deluge_web.web_api.add_host(conn[1], conn[2], conn[3], conn[4])
         self.assertEquals(ret[0], True)
@@ -167,7 +167,7 @@ class WebAPITestCase(BaseTestCase, DaemonBase):
         self.assertEquals(self.deluge_web.web_api._get_host(conn[0]), conn)
         # Remove valid host
         self.assertTrue(self.deluge_web.web_api.remove_host(conn[0]))
-        self.assertEquals(self.deluge_web.web_api._get_host(conn[0]), None)
+        self.assertFalse(self.deluge_web.web_api._get_host(conn[0]))
         # Remove non-existing host
         self.assertFalse(self.deluge_web.web_api.remove_host(conn[0]))
 

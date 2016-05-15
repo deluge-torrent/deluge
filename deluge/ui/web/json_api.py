@@ -396,15 +396,11 @@ class WebApi(JSONComponent):
             component.get("Web.PluginManager").start()
         else:
             client.set_disconnect_callback(self._on_client_disconnect)
-
             if component.get("DelugeWeb").config["default_daemon"]:
                 # Sort out getting the default daemon here
-                default = component.get("DelugeWeb").config["default_daemon"]
-                host = component.get("Web")._get_host(default)
-                if host:
-                    return self._connect_daemon(*host[1:])
-                else:
-                    return self._connect_daemon()
+                default_host_id = component.get("DelugeWeb").config["default_daemon"]
+                host_info = component.get("Web")._get_host(default_host_id)
+                return self._connect_daemon(*host_info[1:])
 
         return defer.succeed(True)
 
@@ -413,17 +409,21 @@ class WebApi(JSONComponent):
         return self.stop()
 
     def _get_host(self, host_id):
-        """
-        Return the information about a host
+        """Information about a host from supplied host id.
 
-        :param host_id: the id of the host
-        :type host_id: string
-        :returns: the host information
-        :rtype: list
+        Args:
+            host_id (str): The id of the host.
+
+        Returns:
+            list: The host information, empty list if not found.
+
         """
-        for host in self.host_list["hosts"]:
-            if host[0] == host_id:
-                return host
+        host_info = []
+        for host_entry in self.host_list["hosts"]:
+            if host_entry[0] == host_id:
+                host_info = host_entry
+                break
+        return host_info
 
     def start(self):
         self.core_config.start()
@@ -866,7 +866,7 @@ class WebApi(JSONComponent):
         :type host_id: string
         """
         host = self._get_host(connection_id)
-        if host is None:
+        if not host:
             return False
 
         self.host_list["hosts"].remove(host)
