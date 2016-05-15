@@ -109,6 +109,8 @@ class PluginManager(PluginManagerBase, component.Component):
         Stop the plugin manager
         """
         self.disable_plugins()
+        client.deregister_event_handler("PluginEnabledEvent", self._on_plugin_enabled_event)
+        client.deregister_event_handler("PluginDisabledEvent", self._on_plugin_disabled_event)
 
     def update(self):
         pass

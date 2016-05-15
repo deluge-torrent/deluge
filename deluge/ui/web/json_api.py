@@ -379,6 +379,9 @@ class WebApi(JSONComponent):
             self.sessionproxy = SessionProxy()
 
     def disable(self):
+        client.deregister_event_handler("PluginEnabledEvent", self._json.get_remote_methods)
+        client.deregister_event_handler("PluginDisabledEvent", self._json.get_remote_methods)
+
         if client.is_classicmode():
             component.get("Web.PluginManager").stop()
         else:
