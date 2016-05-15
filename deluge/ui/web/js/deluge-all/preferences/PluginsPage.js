@@ -146,8 +146,21 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
     },
 
     updatePlugins: function() {
-        deluge.client.web.get_plugins({
-            success: this.onGotPlugins,
+        var onGotAvailablePlugins = function(plugins) {
+            this.availablePlugins = plugins;
+            deluge.client.core.get_enabled_plugins({
+                success: onGotEnabledPlugins,
+                scope: this
+            });
+        }
+
+        var onGotEnabledPlugins = function(plugins) {
+            this.enabledPlugins = plugins;
+            this.onGotPlugins()
+        }
+
+        deluge.client.core.get_available_plugins({
+            success: onGotAvailablePlugins,
             scope: this
         });
     },
@@ -182,9 +195,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
         window.open('http://dev.deluge-torrent.org/wiki/Plugins');
     },
 
-    onGotPlugins: function(plugins) {
-        this.enabledPlugins = plugins.enabled_plugins;
-        this.availablePlugins = plugins.available_plugins;
+    onGotPlugins: function() {
         this.setInfo();
         this.updatePluginsGrid();
     },

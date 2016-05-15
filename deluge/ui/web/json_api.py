@@ -899,6 +899,16 @@ class WebApi(JSONComponent):
 
     @export
     def get_plugins(self):
+        """All available and enabled plugins within WebUI.
+
+        Note:
+            This does not represent all plugins from deluge.client.core.
+
+        Returns:
+            dict: A dict containing 'available_plugins' and 'enabled_plugins' lists.
+
+        """
+
         return {
             "enabled_plugins": component.get("Web.PluginManager").plugins.keys(),
             "available_plugins": component.get("Web.PluginManager").available_plugins
