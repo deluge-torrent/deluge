@@ -51,7 +51,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
             store: new Ext.data.ArrayStore({
                 fields: [
                     {name: 'enabled', mapping: 0},
-                    {name: 'plugin', mapping: 1}
+                    {name: 'plugin', mapping: 1, sortType: 'asUCString'},
                 ]
             }),
             columns: [{
@@ -147,7 +147,10 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 
     updatePlugins: function() {
         var onGotAvailablePlugins = function(plugins) {
-            this.availablePlugins = plugins;
+            this.availablePlugins = plugins.sort(function (a, b) {
+                return a.toLowerCase().localeCompare(b.toLowerCase());
+            });
+
             deluge.client.core.get_enabled_plugins({
                 success: onGotEnabledPlugins,
                 scope: this
