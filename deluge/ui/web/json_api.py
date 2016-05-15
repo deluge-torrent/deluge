@@ -379,7 +379,9 @@ class WebApi(JSONComponent):
             self.sessionproxy = SessionProxy()
 
     def disable(self):
-        if not client.is_classicmode():
+        if client.is_classicmode():
+            component.get("Web.PluginManager").stop()
+        else:
             client.disconnect()
             client.set_disconnect_callback(None)
 
@@ -387,7 +389,9 @@ class WebApi(JSONComponent):
         client.register_event_handler("PluginEnabledEvent", self._json.get_remote_methods)
         client.register_event_handler("PluginDisabledEvent", self._json.get_remote_methods)
 
-        if not client.is_classicmode():
+        if client.is_classicmode():
+            component.get("Web.PluginManager").start()
+        else:
             client.set_disconnect_callback(self._on_client_disconnect)
 
             if component.get("DelugeWeb").config["default_daemon"]:
