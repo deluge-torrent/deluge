@@ -313,7 +313,6 @@
                 autoExpandMin: 150,
                 deferredRender:false,
                 autoScroll:true,
-                margins: '5 5 0 0',
                 stateful: true,
                 view: new Ext.ux.grid.BufferView({
                     rowHeight: 26,

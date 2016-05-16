@@ -67,8 +67,6 @@ deluge.ui = {
             height: 215,
             minSize: 100,
             collapsible: true,
-            margins: '0 5 5 5',
-            cmargins: '0 5 5 5',
             layout: 'fit',
             items: [
                 deluge.details

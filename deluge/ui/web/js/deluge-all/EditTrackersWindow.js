@@ -71,7 +71,6 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
         });
 
         this.panel = this.add({
-            margins: '0 0 0 0',
             items: [this.list],
             autoScroll: true,
             bbar: new Ext.Toolbar({
