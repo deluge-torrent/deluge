@@ -12,8 +12,8 @@ import logging
 import gobject
 import gtk
 
-import deluge.common
 import deluge.component as component
+from deluge.common import fsize, fspeed, get_pixmap
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 from deluge.ui.gtkui import common, dialogs
@@ -22,7 +22,7 @@ log = logging.getLogger(__name__)
 
 
 class StatusBarItem(object):
-    def __init__(self, image=None, stock=None, text=None, callback=None, tooltip=None):
+    def __init__(self, image=None, stock=None, text=None, markup=False, callback=None, tooltip=None):
         self._widgets = []
         self._ebox = gtk.EventBox()
         self._hbox = gtk.HBox()
@@ -41,7 +41,10 @@ class StatusBarItem(object):
                 self.set_image_from_stock(stock)
 
         # Add text
-        self.set_text(text)
+        if markup:
+            self.set_markup(text)
+        else:
+            self.set_text(text)
 
         if callback is not None:
             self.set_callback(callback)
@@ -149,25 +152,25 @@ class StatusBar(component.Component):
         self.connections_item = self.add_item(
             stock=gtk.STOCK_NETWORK,
             callback=self._on_connection_item_clicked,
-            tooltip=_("Connections"), pack_start=True)
+            tooltip=_("Connections (Limit)"), pack_start=True)
 
         self.download_item = self.add_item(
-            image=deluge.common.get_pixmap("downloading16.png"),
+            image=get_pixmap("downloading16.png"),
             callback=self._on_download_item_clicked,
-            tooltip=_("Download Speed"), pack_start=True)
+            tooltip=_("Download Speed (Limit)"), pack_start=True)
 
         self.upload_item = self.add_item(
-            image=deluge.common.get_pixmap("seeding16.png"),
+            image=get_pixmap("seeding16.png"),
             callback=self._on_upload_item_clicked,
-            tooltip=_("Upload Speed"), pack_start=True)
+            tooltip=_("Upload Speed (Limit)"), pack_start=True)
 
         self.traffic_item = self.add_item(
-            image=deluge.common.get_pixmap("traffic16.png"),
+            image=get_pixmap("traffic16.png"),
             callback=self._on_traffic_item_clicked,
-            tooltip=_("Protocol Traffic Download/Upload"), pack_start=True)
+            tooltip=_("Protocol Traffic (Down:Up)"), pack_start=True)
 
         self.dht_item = StatusBarItem(
-            image=deluge.common.get_pixmap("dht16.png"), tooltip=_("DHT Nodes"))
+            image=get_pixmap("dht16.png"), tooltip=_("DHT Nodes"))
 
         self.diskspace_item = self.add_item(
             stock=gtk.STOCK_HARDDISK,
@@ -176,8 +179,10 @@ class StatusBar(component.Component):
 
         self.health_item = self.add_item(
             stock=gtk.STOCK_DIALOG_ERROR,
-            text=_("No Incoming Connections!"),
-            callback=self._on_health_icon_clicked, pack_start=True)
+            text=_("<b><small>Port Issue</small></b>"),
+            markup=True,
+            tooltip=_("No incoming connections, check port forwarding"),
+            callback=self._on_health_icon_clicked)
 
         self.external_ip_item = self.add_item(
             tooltip=_("External IP Address"), pack_start=True)
@@ -221,10 +226,10 @@ class StatusBar(component.Component):
         self.hbox.pack_start(
             self.not_connected_item.get_eventbox(), expand=False, fill=False)
 
-    def add_item(self, image=None, stock=None, text=None, callback=None, tooltip=None, pack_start=False):
+    def add_item(self, image=None, stock=None, text=None, markup=False, callback=None, tooltip=None, pack_start=False):
         """Adds an item to the status bar"""
         # The return tuple.. we return whatever widgets we add
-        item = StatusBarItem(image, stock, text, callback, tooltip)
+        item = StatusBarItem(image, stock, text, markup, callback, tooltip)
         if pack_start:
             self.hbox.pack_start(item.get_eventbox(), expand=False, fill=False)
         else:
@@ -298,8 +303,8 @@ class StatusBar(component.Component):
             self.remove_item(self.dht_item)
 
     def _on_get_session_status(self, status):
-        self.download_rate = deluge.common.fspeed(status["payload_download_rate"])
-        self.upload_rate = deluge.common.fspeed(status["payload_upload_rate"])
+        self.download_rate = fspeed(status["payload_download_rate"], precision=0, shortform=True)
+        self.upload_rate = fspeed(status["payload_upload_rate"], precision=0, shortform=True)
         self.download_protocol_rate = (status["download_rate"] - status["payload_download_rate"]) / 1024
         self.upload_protocol_rate = (status["upload_rate"] - status["payload_upload_rate"]) / 1024
         self.num_connections = status["num_peers"]
@@ -319,7 +324,7 @@ class StatusBar(component.Component):
 
     def _on_get_free_space(self, space):
         if space >= 0:
-            self.diskspace_item.set_text(deluge.common.fsize(space))
+            self.diskspace_item.set_markup("<small>%s</small>" % fsize(space, shortform=True))
         else:
             self.diskspace_item.set_markup("<span foreground=\"red\">" + _("Error") + "</span>")
 
@@ -333,44 +338,44 @@ class StatusBar(component.Component):
 
     def _on_get_external_ip(self, external_ip):
         ip = external_ip if external_ip else _("n/a")
-        self.external_ip_item.set_markup(_("<b>IP</b> %s") % ip)
+        self.external_ip_item.set_markup(_("<b>IP</b> <small>%s</small>") % ip)
 
     def update_connections_label(self):
         # Set the max connections label
         if self.max_connections_global < 0:
             label_string = "%s" % self.num_connections
         else:
-            label_string = "%s (%s)" % (self.num_connections, self.max_connections_global)
+            label_string = "%s <small>(%s)</small>" % (self.num_connections, self.max_connections_global)
 
-        self.connections_item.set_text(label_string)
+        self.connections_item.set_markup(label_string)
 
     def update_dht_label(self):
         # Set the max connections label
-        self.dht_item.set_text("%s" % (self.dht_nodes))
+        self.dht_item.set_markup("<small>%s</small>" % (self.dht_nodes))
 
     def update_download_label(self):
         # Set the download speed label
         if self.max_download_speed <= 0:
             label_string = self.download_rate
         else:
-            label_string = "%s (%s %s)" % (
-                self.download_rate, self.max_download_speed, _("KiB/s"))
+            label_string = "%s <small>(%i %s)</small>" % (
+                self.download_rate, self.max_download_speed, _("K/s"))
 
-        self.download_item.set_text(label_string)
+        self.download_item.set_markup(label_string)
 
     def update_upload_label(self):
         # Set the upload speed label
         if self.max_upload_speed <= 0:
             label_string = self.upload_rate
         else:
-            label_string = "%s (%s %s)" % (
-                self.upload_rate, self.max_upload_speed, _("KiB/s"))
+            label_string = "%s <small>(%i %s)</small>" % (
+                self.upload_rate, self.max_upload_speed, _("K/s"))
 
-        self.upload_item.set_text(label_string)
+        self.upload_item.set_markup(label_string)
 
     def update_traffic_label(self):
-        label_string = "%i/%i %s" % (self.download_protocol_rate, self.upload_protocol_rate, _("KiB/s"))
-        self.traffic_item.set_text(label_string)
+        label_string = "<small>%i:%i %s</small>" % (self.download_protocol_rate, self.upload_protocol_rate, _("K/s"))
+        self.traffic_item.set_markup(label_string)
 
     def update(self):
         self.send_status_request()
@@ -379,9 +384,9 @@ class StatusBar(component.Component):
         log.debug("_on_set_unlimit_other %s", core_key)
         other_dialog_info = {
             "max_download_speed": (_("Download Speed Limit"), _("Set the maximum download speed"),
-                                   _("KiB/s"), "downloading.svg", self.max_download_speed),
+                                   _("K/s"), "downloading.svg", self.max_download_speed),
             "max_upload_speed": (_("Upload Speed Limit"), _("Set the maximum upload speed"),
-                                 _("KiB/s"), "seeding.svg", self.max_upload_speed),
+                                 _("K/s"), "seeding.svg", self.max_upload_speed),
             "max_connections_global": (_("Incoming Connections"), _("Set the maximum incoming connections"),
                                        "", gtk.STOCK_NETWORK, self.max_connections_global)
         }
@@ -413,7 +418,7 @@ class StatusBar(component.Component):
             self.config["tray_download_speed_list"],
             self._on_set_download_speed,
             self.max_download_speed,
-            _("KiB/s"), show_notset=True, show_other=True)
+            _("K/s"), show_notset=True, show_other=True)
         menu.show_all()
         menu.popup(None, None, None, event.button, event.time)
 
@@ -426,7 +431,7 @@ class StatusBar(component.Component):
             self.config["tray_upload_speed_list"],
             self._on_set_upload_speed,
             self.max_upload_speed,
-            _("KiB/s"), show_notset=True, show_other=True)
+            _("K/s"), show_notset=True, show_other=True)
         menu.show_all()
         menu.popup(None, None, None, event.button, event.time)
 

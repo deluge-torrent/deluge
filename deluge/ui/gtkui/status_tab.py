@@ -18,8 +18,8 @@ from deluge.ui.gtkui.torrentdetails import Tab
 log = logging.getLogger(__name__)
 
 
-def fpeer_sized(first, second):
-    return "%s (%s)" % (fsize(first), fsize(second))
+def ftotal_sized(first, second):
+    return "%s (%s)" % (fsize(first, shortform=True), fsize(second, shortform=True))
 
 
 def fratio(value):
@@ -31,16 +31,18 @@ def fratio(value):
 
 
 def fpcnt(value, state):
-    if state:
-        state = _(state) + " "
-    return "%s%.2f%%" % (state, value)
+    textstr = _(state)
+    if state not in ("Error", "Seeding") and value < 100:
+        textstr = ('%s %.2f' % (textstr, value)).rstrip('0').rstrip('.') + '%'
+    return textstr
 
 
 def fspeed_max(value, max_value=-1):
+    value = fspeed(value, shortform=True)
     if max_value > -1:
-        return "%s (%s %s)" % (fspeed(value), max_value, _("KiB/s"))
+        return "%s (%s %s)" % (value, max_value, _("K/s"))
     else:
-        return fspeed(value)
+        return value
 
 
 def fdate_or_never(value):
@@ -55,6 +57,14 @@ def ftime_or_dash(value):
     """Display value as time, eg 2h 30m or dash"""
     if value > 0.0:
         return ftime(value)
+    else:
+        return "-"
+
+
+def fseed_rank_or_dash(seed_rank, seeding_time):
+    """Display value if seeding otherwise dash"""
+    if seeding_time > 0.0:
+        return str(seed_rank)
     else:
         return "-"
 
@@ -74,9 +84,9 @@ class StatusTab(Tab):
 
         self.label_widgets = [
             (builder.get_object("summary_availability"), fratio, ("distributed_copies",)),
-            (builder.get_object("summary_total_downloaded"), fpeer_sized, ("all_time_download",
-                                                                           "total_payload_download")),
-            (builder.get_object("summary_total_uploaded"), fpeer_sized, ("total_uploaded", "total_payload_upload")),
+            (builder.get_object("summary_total_downloaded"), ftotal_sized, ("all_time_download",
+                                                                            "total_payload_download")),
+            (builder.get_object("summary_total_uploaded"), ftotal_sized, ("total_uploaded", "total_payload_upload")),
             (builder.get_object("summary_download_speed"), fspeed_max, ("download_payload_rate", "max_download_speed")),
             (builder.get_object("summary_upload_speed"), fspeed_max, ("upload_payload_rate", "max_upload_speed")),
             (builder.get_object("summary_seeds"), fpeer, ("num_seeds", "total_seeds")),
@@ -85,7 +95,7 @@ class StatusTab(Tab):
             (builder.get_object("summary_share_ratio"), fratio, ("ratio",)),
             (builder.get_object("summary_active_time"), ftime_or_dash, ("active_time",)),
             (builder.get_object("summary_seed_time"), ftime_or_dash, ("seeding_time",)),
-            (builder.get_object("summary_seed_rank"), str, ("seed_rank",)),
+            (builder.get_object("summary_seed_rank"), fseed_rank_or_dash, ("seed_rank", "seeding_time")),
             (builder.get_object("progressbar"), fpcnt, ("progress", "state")),
             (builder.get_object("summary_last_seen_complete"), fdate_or_never, ("last_seen_complete",)),
             (builder.get_object("summary_torrent_status"), str, ("message",)),

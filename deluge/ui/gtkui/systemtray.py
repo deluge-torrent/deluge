@@ -14,6 +14,7 @@ import gtk
 
 import deluge.common
 import deluge.component as component
+from deluge.common import fspeed
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 from deluge.ui.gtkui import dialogs
@@ -192,8 +193,8 @@ class SystemTray(component.Component):
             self.build_tray_bwsetsubmenu()
 
     def _on_get_session_status(self, status):
-        self.download_rate = deluge.common.fsize(status["payload_download_rate"])
-        self.upload_rate = deluge.common.fsize(status["payload_upload_rate"])
+        self.download_rate = fspeed(status["payload_download_rate"], shortform=True)
+        self.upload_rate = fspeed(status["payload_upload_rate"], shortform=True)
 
     def update(self):
         if not self.config["enable_system_tray"]:
@@ -214,11 +215,11 @@ class SystemTray(component.Component):
         if max_download_speed == -1:
             max_download_speed = _("Unlimited")
         else:
-            max_download_speed = "%s %s" % (max_download_speed, _("KiB/s"))
+            max_download_speed = "%s %s" % (max_download_speed, _("K/s"))
         if max_upload_speed == -1:
             max_upload_speed = _("Unlimited")
         else:
-            max_upload_speed = "%s %s" % (max_upload_speed, _("KiB/s"))
+            max_upload_speed = "%s %s" % (max_upload_speed, _("K/s"))
 
         msg = '%s\n%s: %s (%s)\n%s: %s (%s)' % (
             _("Deluge"), _("Down"), self.download_rate,
@@ -235,14 +236,14 @@ class SystemTray(component.Component):
         submenu_bwdownset = build_menu_radio_list(
             self.config["tray_download_speed_list"], self.on_tray_setbwdown,
             self.max_download_speed,
-            _("KiB/s"), show_notset=True, show_other=True
+            _("K/s"), show_notset=True, show_other=True
         )
 
         # Create the Upload speed list sub-menu
         submenu_bwupset = build_menu_radio_list(
             self.config["tray_upload_speed_list"], self.on_tray_setbwup,
             self.max_upload_speed,
-            _("KiB/s"), show_notset=True, show_other=True
+            _("K/s"), show_notset=True, show_other=True
         )
         # Add the sub-menus to the tray menu
         self.builder.get_object("menuitem_download_limit").set_submenu(
@@ -393,7 +394,7 @@ class SystemTray(component.Component):
         if widget.get_name() == "unlimited":
             set_value(-1)
         elif widget.get_name() == "other":
-            dialog = dialogs.OtherDialog(header, text, _("KiB/s"), image, default)
+            dialog = dialogs.OtherDialog(header, text, _("K/s"), image, default)
             dialog.run().addCallback(set_value)
         else:
             set_value(widget.get_children()[0].get_text().split(" ")[0])

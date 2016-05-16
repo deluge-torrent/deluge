@@ -300,9 +300,9 @@ class MainWindow(component.Component):
     def update(self):
         # Update the window title
         def _on_get_session_status(status):
-            download_rate = deluge.common.fsize_short(status["payload_download_rate"])
-            upload_rate = deluge.common.fsize_short(status["payload_upload_rate"])
-            self.window.set_title("%s%s %s%s - Deluge" % (_("D:"), download_rate, _("U:"), upload_rate))
+            download_rate = deluge.common.fspeed(status["payload_download_rate"], precision=0, shortform=True)
+            upload_rate = deluge.common.fspeed(status["payload_upload_rate"], precision=0, shortform=True)
+            self.window.set_title(_("D: %s U: %s - Deluge" % (download_rate, upload_rate)))
         if self.config["show_rate_in_title"]:
             client.core.get_session_status(["payload_download_rate",
                                             "payload_upload_rate"]).addCallback(_on_get_session_status)
@@ -311,7 +311,7 @@ class MainWindow(component.Component):
         if value:
             self.update()
         else:
-            self.window.set_title("Deluge")
+            self.window.set_title(_("Deluge"))
 
     def on_newversionavailable_event(self, new_version):
         if self.config["show_new_releases"]:

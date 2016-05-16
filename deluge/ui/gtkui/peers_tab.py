@@ -25,9 +25,9 @@ log = logging.getLogger(__name__)
 
 
 def cell_data_progress(column, cell, model, row, data):
-    value = model.get_value(row, data)
-    cell.set_property("value", value * 100)
-    cell.set_property("text", "%.2f%%" % (value * 100))
+    value = model.get_value(row, data) * 100
+    cell.set_property("value", value)
+    cell.set_property("text", "%i%%" % value)
 
 
 class PeersTab(Tab):

@@ -17,8 +17,8 @@ from deluge.ui.gtkui.torrentdetails import Tab
 log = logging.getLogger(__name__)
 
 
-def fpeer_size_second(first, second):
-    return "%s (%s)" % (first, fsize(second))
+def fpieces_num_size(num_pieces, piece_size):
+    return "%s (%s)" % (num_pieces, fsize(piece_size, precision=0))
 
 
 def fdate_or_dash(value):
@@ -57,7 +57,7 @@ class DetailsTab(Tab):
             (builder.get_object("summary_comments"), str, ("comment",)),
             (builder.get_object("summary_owner"), str, ("owner",)),
             (builder.get_object("summary_shared"), str_yes_no, ("shared",)),
-            (builder.get_object("summary_pieces"), fpeer_size_second, ("num_pieces", "piece_length")),
+            (builder.get_object("summary_pieces"), fpieces_num_size, ("num_pieces", "piece_length")),
         ]
 
         self.status_keys = [status for widget in self.label_widgets for status in widget[2]]

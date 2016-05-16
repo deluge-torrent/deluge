@@ -520,7 +520,7 @@ class ListView(object):
         column.set_clickable(True)
         column.set_resizable(True)
         column.set_expand(False)
-        column.set_min_width(10)
+        column.set_min_width(20)
         column.set_reorderable(True)
         column.set_visible(not hidden)
         column.connect('button-press-event',

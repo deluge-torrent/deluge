@@ -433,7 +433,7 @@ class FilesTab(Tab):
                 # Catch the unusal error found when moving folders around
                 value = 0
             self.treestore[parent][3] = value
-            self.treestore[parent][2] = "%.2f%%" % value
+            self.treestore[parent][2] = "%i%%" % value
             return completed_bytes
 
         get_completed_bytes(self.treestore.iter_children(root))
@@ -464,7 +464,7 @@ class FilesTab(Tab):
                 continue
 
             try:
-                progress_string = "%.2f%%" % (status["file_progress"][index] * 100)
+                progress_string = "%i%%" % (status["file_progress"][index] * 100)
             except IndexError:
                 continue
             if row[2] != progress_string:
