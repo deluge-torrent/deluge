@@ -65,8 +65,9 @@ button::-moz-focus-inner {
 .x-deluge-find-more, .x-btn .x-deluge-find-more  {background-image: url('../icons/find_more.png'); }
 
 
+
 /* Torrent Details */
-#torrentDetails dl, dl.singleline {
+#torrentDetails dl, #torrentDetails dl.singleline {
     float: left;
     min-height: 120px;
 }
@@ -81,6 +82,10 @@ button::-moz-focus-inner {
     margin-left: 100px;
     width: 140px;
     height: 19px;
+}
+
+dl.singleline {
+    float: left;
 }
 
 dl.singleline dt {

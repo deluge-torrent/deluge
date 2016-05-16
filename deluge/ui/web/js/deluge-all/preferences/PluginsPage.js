@@ -18,7 +18,6 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
     layout: 'border',
     title: _('Plugins'),
     border: false,
-    height: 400,
     cls: 'x-deluge-plugins',
 
     pluginTemplate: new Ext.Template(
@@ -27,7 +26,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
             '<dt>' + _('Version:') + '</dt><dd>{version}</dd>' +
             '<dt>' + _('Author Email:') + '</dt><dd>{email}</dd>' +
             '<dt>' + _('Homepage:') + '</dt><dd>{homepage}</dd>' +
-            '<dt>' + _('Details:') + '</dt><dd>{details}</dd>' +
+            '<dt>' + _('Details:') + '</dt><dd style="white-space:normal">{details}</dd>' +
         '</dl>'
     ),
 
@@ -82,7 +81,6 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
         this.panel = this.add({
             region: 'center',
             autoScroll: true,
-            margins: '5 5 5 5',
             items: [this.list],
             bbar: new Ext.Toolbar({
                 items: [{
@@ -102,25 +100,14 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
         });
 
         var pp = this.pluginInfo = this.add({
-            xtype:     'panel',
-            border:     true,
-            height:     160,
-            region:    'south',
-            margins:   '0 5 5 5'
-        });
-        var fieldset = pp.add({
-            xtype:     'fieldset',
-            title:   _('Info'),
-            border:     false,
-            autoHeight: true,
-            labelWidth: 1,
-            style:     'margin-top: 5px;'
-        });
-        this.pluginInfo = fieldset.add({
             xtype: 'panel',
             border: false,
+            height: 100,
+            region: 'south',
+            padding: '5',
+            autoScroll: true,
             bodyCfg: {
-                style: 'margin-left: 10px'
+                style: 'white-space: nowrap'
             }
         });
 
