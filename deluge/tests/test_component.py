@@ -1,4 +1,4 @@
-from twisted.internet import threads
+from twisted.internet import defer, threads
 
 import deluge.component as component
 
@@ -6,6 +6,7 @@ from .basetest import BaseTestCase
 
 
 class ComponentTester(component.Component):
+
     def __init__(self, name, depend=None):
         component.Component.__init__(self, name, depend=depend)
         self.start_count = 0
@@ -19,6 +20,7 @@ class ComponentTester(component.Component):
 
 
 class ComponentTesterDelayStart(ComponentTester):
+
     def start(self):
         def do_sleep():
             import time
@@ -31,6 +33,7 @@ class ComponentTesterDelayStart(ComponentTester):
 
 
 class ComponentTesterUpdate(component.Component):
+
     def __init__(self, name):
         component.Component.__init__(self, name)
         self.counter = 0
@@ -45,6 +48,7 @@ class ComponentTesterUpdate(component.Component):
 
 
 class ComponentTesterShutdown(component.Component):
+
     def __init__(self, name):
         component.Component.__init__(self, name)
         self.shutdowned = False
@@ -58,6 +62,7 @@ class ComponentTesterShutdown(component.Component):
 
 
 class ComponentTestClass(BaseTestCase):
+
     def tear_down(self):
         return component.shutdown()
 
@@ -188,6 +193,33 @@ class ComponentTestClass(BaseTestCase):
 
         d.addCallback(on_start, c1, cnt)
         return d
+
+    @defer.inlineCallbacks
+    def test_component_start_error(self):
+        ComponentTesterUpdate("test_pause_c1")
+        yield component.start(["test_pause_c1"])
+        yield component.pause(["test_pause_c1"])
+        test_comp = component.get("test_pause_c1")
+        result = self.failureResultOf(test_comp._component_start())
+        self.assertEqual(result.check(component.ComponentException), component.ComponentException)
+
+    @defer.inlineCallbacks
+    def test_start_paused_error(self):
+        ComponentTesterUpdate("test_pause_c1")
+        yield component.start(["test_pause_c1"])
+        yield component.pause(["test_pause_c1"])
+
+        # Deferreds that fail in component have to error handler which results in
+        # twisted doing a log.err call which causes the test to fail.
+        # Prevent failure by ignoring the exception
+        self._observer._ignoreErrors(component.ComponentException)
+
+        result = yield component.start()
+        self.failUnlessEqual([(result[0][0], result[0][1].value)],
+                             [(defer.FAILURE,
+                               component.ComponentException("Trying to start a component ('%s') not in "
+                                                            "stopped state. Current state: '%s'" %
+                                                            ("test_pause_c1", "Paused"), ""))])
 
     def test_shutdown(self):
         def on_shutdown(result, c1):

@@ -26,11 +26,21 @@ class ComponentException(Exception):
 
     def __init__(self, message, tb):
         super(ComponentException, self).__init__(message)
+        self.message = message
         self.tb = tb
 
     def __str__(self):
         s = super(ComponentException, self).__str__()
         return "%s\n%s" % (s, "".join(self.tb))
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return self.message == other.message
+        else:
+            return False
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
 
 class Component(object):
