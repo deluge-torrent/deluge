@@ -172,6 +172,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
         if (el.getAttribute('rel') != 'chkbox') return;
 
         var r = dv.getStore().getAt(index);
+        if (r.get('plugin') == "WebUi") return;
         r.set('enabled', !r.get('enabled'));
         r.commit();
         if (r.get('enabled')) {
