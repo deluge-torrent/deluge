@@ -26,6 +26,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
     layout: 'border',
     width: 485,
     height: 500,
+    border: false,
 
     buttonAlign: 'right',
     closeAction: 'hide',
@@ -63,8 +64,8 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
             title: _('Categories'),
             items: [this.list],
             width: 120,
-            margins: '5 0 5 5',
-            cmargins: '5 0 5 5'
+            margins: '0 5 0 0',
+            cmargins: '0 5 0 0'
         });
 
         this.configPanel = this.add({
@@ -77,8 +78,6 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
             },
             autoScroll: true,
             width: 300,
-            margins: '5 5 5 5',
-            cmargins: '5 5 5 5'
         });
 
         this.addButton(_('Close'), this.onClose, this);
