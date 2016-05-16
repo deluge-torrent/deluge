@@ -15,7 +15,8 @@ body {
 
 .ext-el-mask-msg {
     border-color:#223;
-    background: #3f4757 url(../images/access/box/tb-blue.gif);
+    background-color:#3f4757;
+    background-image:url(../images/access/box/tb-blue.gif);
 }
 .ext-el-mask-msg div {
     background-color: #232d38;
@@ -25,7 +26,8 @@ body {
 }
 
 .x-mask-loading div {
-    background: #232d38 url(../images/access/grid/loading.gif);
+    background-color:#232d38;
+    background-image:url(../images/access/grid/loading.gif);
 }
 
 .x-item-disabled {
@@ -88,12 +90,14 @@ body {
 }
 
 ul.x-tab-strip-top{
-    background: #343843 url(../images/access/tabs/tab-strip-bg.gif);
+    background-color:#343843;
+    background-image: url(../images/access/tabs/tab-strip-bg.gif);
     border-bottom-color:#343d4e;
 }
 
 ul.x-tab-strip-bottom{
-    background: #343843 url(../images/access/tabs/tab-strip-btm-bg.gif);
+    background-color:#343843;
+    background-image: url(../images/access/tabs/tab-strip-btm-bg.gif);
     border-top-color:#343843;
 }
 
@@ -193,8 +197,10 @@ ul.x-tab-strip-bottom{
 
 .x-form-text, textarea.x-form-field{
     color: #ffffff;
-    background: #33373d url(../images/access/form/text-bg.gif);
-    border: 2px #737b8c;
+    background-color:#33373d;
+    background-image:url(../images/access/form/text-bg.gif);
+    border-color:#737b8c;
+    border-width:2px;
 }
 
 .ext-webkit .x-form-text, .ext-webkit textarea.x-form-field{
@@ -225,7 +231,8 @@ ul.x-tab-strip-bottom{
 
 .x-form-field-wrap .x-form-trigger{
     background-image:url(../images/access/form/trigger.gif);
-    border-bottom: 2px #737b8c;
+    border-bottom-color:#737b8c;
+    border-bottom-width:2px;
     height:24px;
     width:20px;
 }
@@ -292,7 +299,8 @@ ul.x-tab-strip-bottom{
 
 .x-form-invalid, textarea.x-form-invalid,
 .ext-webkit .x-form-invalid, .ext-webkit textarea.x-form-invalid{
-    background: #15171a url(../images/access/grid/invalid_line.gif);
+    background-color:#15171a;
+    background-image:url(../images/access/grid/invalid_line.gif);
     border-color:#c30;
 }
 
@@ -304,7 +312,8 @@ ul.x-tab-strip-bottom{
 */
 
 .x-form-inner-invalid, textarea.x-form-inner-invalid{
-    background: #fff url(../images/access/grid/invalid_line.gif);
+    background-color:#fff;
+    background-image:url(../images/access/grid/invalid_line.gif);
 }
 
 .x-form-grow-sizer {
@@ -338,9 +347,10 @@ ul.x-tab-strip-bottom{
 }
 
 .x-form-invalid-icon {
+    background-image:url(../images/access/form/exclamation.gif);
     height:25px;
     width:19px;
-    background: url(../images/access/form/exclamation.gif) center right;
+    background-position:center right;
 }
 
 .x-fieldset {
@@ -483,7 +493,8 @@ ul.x-tab-strip-bottom{
 }
 .x-toolbar{
     border-color:#18181a;
-    background: #393d4e url(../images/access/toolbar/bg.gif);
+    background-color:#393d4e;
+    background-image:url(../images/access/toolbar/bg.gif);
 }
 
 .x-toolbar td,.x-toolbar span,.x-toolbar input,.x-toolbar div,.x-toolbar select,.x-toolbar label{
@@ -650,7 +661,8 @@ ul.x-tab-strip-bottom{
 }
 
 .x-grid-row-loading {
-    background: #fff url(../images/default/shared/loading-balls.gif);
+    background-color: #fff;
+    background-image:url(../images/default/shared/loading-balls.gif);
 }
 
 .x-grid3-row {
@@ -676,7 +688,8 @@ ul.x-tab-strip-bottom{
 }
 
 .x-grid3-header{
-    background: #3b3f50 url(../images/access/grid/grid3-hrow.gif);
+    background-color:#3b3f50;
+    background-image:url(../images/access/grid/grid3-hrow.gif);
 }
 
 .x-grid3-header-pop {
@@ -694,7 +707,8 @@ td.x-grid3-hd-over, td.sort-desc, td.sort-asc, td.x-grid3-hd-menu-open {
 }
 
 td.x-grid3-hd-over .x-grid3-hd-inner, td.sort-desc .x-grid3-hd-inner, td.sort-asc .x-grid3-hd-inner, td.x-grid3-hd-menu-open .x-grid3-hd-inner {
-    background: #4e628a url(../images/access/grid/grid3-hrow-over.gif);
+    background-color:#4e628a;
+    background-image:url(../images/access/grid/grid3-hrow-over.gif);
 }
 
 .x-grid3-cell-inner, .x-grid3-hd-inner {
@@ -728,7 +742,8 @@ td.x-grid3-hd-over .x-grid3-hd-inner, td.sort-desc .x-grid3-hd-inner, td.sort-as
 }
 
 .x-dd-drag-proxy .x-grid3-hd-inner{
-    background: #ebf3fd url(../images/access/grid/grid3-hrow-over.gif);
+    background-color:#ebf3fd;
+    background-image:url(../images/access/grid/grid3-hrow-over.gif);
     border-color:#aaccf6;
 }
 
@@ -764,7 +779,8 @@ td.x-grid3-hd-over .x-grid3-hd-inner, td.sort-desc .x-grid3-hd-inner, td.sort-as
 }
 
 .x-grid3-locked td.x-grid3-row-marker, .x-grid3-locked .x-grid3-row-selected td.x-grid3-row-marker{
-    background: #ebeadb url(../images/default/grid/grid-hrow.gif) !important;
+    background-color:#ebeadb !important;
+    background-image:url(../images/default/grid/grid-hrow.gif) !important;
     color:#fff;
     border-top-color:#fff;
     border-right-color:#6fa0df !important;
@@ -816,7 +832,8 @@ td.x-grid3-hd-over .x-grid3-hd-inner, td.sort-desc .x-grid3-hd-inner, td.sort-as
 }
 
 .x-grid3-hd-btn {
-    background: #c2c9d0 url(../images/access/grid/grid3-hd-btn.gif);
+    background-color:#c2c9d0;
+    background-image:url(../images/access/grid/grid3-hd-btn.gif);
 }
 
 .x-grid3-body .x-grid3-td-expander {
@@ -870,7 +887,8 @@ td.x-grid3-hd-over .x-grid3-hd-inner, td.sort-desc .x-grid3-hd-inner, td.sort-as
 }
 
 .x-grid-group-hd div.x-grid-group-title {
-    background: url(../images/access/grid/group-collapse.gif) 3px 6px;
+    background-image:url(../images/access/grid/group-collapse.gif);
+    background-position:3px 6px;
     color:#ffd;
     font:bold 14px tahoma, arial, helvetica, sans-serif;
 }
@@ -1117,7 +1135,8 @@ td.x-grid3-hd-over .x-grid3-hd-inner, td.sort-desc .x-grid3-hd-inner, td.sort-as
 }
 
 .x-date-inner th {
-    background: #363d4a url(../images/access/toolbar/bg.gif);
+    background-color:#363d4a;
+    background-image:url(../images/access/toolbar/bg.gif);
     border-bottom-color:#535b5c;
     font:normal 13px arial, helvetica,tahoma,sans-serif;
     color:#fff;
@@ -1138,7 +1157,8 @@ td.x-grid3-hd-over .x-grid3-hd-inner, td.sort-desc .x-grid3-hd-inner, td.sort-as
 }
 
 .x-date-inner .x-date-selected a{
-    background: #e5872c none;
+    background-color:#e5872c;
+    background-image:none;
     border-color:#864900;
     padding:1px 6px 1px 2px; /* Structure to account for larger, bolder fonts in Access theme. */
 }
@@ -1157,7 +1177,8 @@ td.x-grid3-hd-over .x-grid3-hd-inner, td.sort-desc .x-grid3-hd-inner, td.sort-as
 
 .x-date-bottom {
     border-top-color:#737b8c;
-    background: #464d5a url(../images/access/shared/glass-bg.gif);
+    background-color:#464d5a;
+    background-image:url(../images/access/shared/glass-bg.gif);
 }
 
 .x-date-inner a:hover, .x-date-inner .x-date-disabled a:hover{
@@ -1195,7 +1216,8 @@ td.x-grid3-hd-over .x-grid3-hd-inner, td.sort-desc .x-grid3-hd-inner, td.sort-as
 }
 
 .x-date-mp-btns {
-    background: #dfecfb url(../images/access/shared/glass-bg.gif);
+    background-color: #dfecfb;
+    background-image: url(../images/access/shared/glass-bg.gif);
 }
 
 .x-date-mp-btns td {
@@ -1212,7 +1234,8 @@ td.x-date-mp-month a:hover,td.x-date-mp-year a:hover {
 }
 
 td.x-date-mp-sel a {
-    background: #e5872c none;
+    background-color: #e5872c;
+    background-image: none;
     border-color:#864900;
 }
 
@@ -1263,7 +1286,8 @@ td.x-date-mp-sep {
 }
 .x-menu {
     border-color:#222;
-    background: #414551 url(../images/access/menu/menu.gif);
+    background-color:#414551;
+    background-image:url(../images/access/menu/menu.gif);
 }
 
 .x-menu-nosep {
@@ -1288,7 +1312,8 @@ a.x-menu-item {
 }
 
 .x-menu-item-active {
-    background: #f09134 none;
+    background-color: #f09134;
+    background-image: none;
     border-color:#b36427;
 }
 
@@ -1349,7 +1374,8 @@ a.x-menu-item {
 }
 
 .x-box-mc {
-    background: #eee url(../images/default/box/tb.gif);
+    background-color: #eee;
+    background-image: url(../images/default/box/tb.gif);
     font-family: "Myriad Pro","Myriad Web","Tahoma","Helvetica","Arial",sans-serif;
     color: #393939;
     font-size: 15px;
@@ -1688,11 +1714,13 @@ body.x-body-masked .x-window-plain .x-window-mc {
 }
 
 .x-progress-inner {
-    background: #232d38 none;
+    background-color:#232d38;
+    background-image:none;
 }
 
 .x-progress-bar {
-    background: #f39a00 url(../images/access/progress/progress-bg.gif);
+    background-color:#f39a00;
+    background-image:url(../images/access/progress/progress-bg.gif);
     border-top-color:#a66900;
     border-bottom-color:#a66900;
     border-right-color:#ffb941;
@@ -1711,7 +1739,9 @@ body.x-body-masked .x-window-plain .x-window-mc {
     line-height: 19px;
 }
 .x-list-header{
-    background: #393d4e url(../images/access/toolbar/bg.gif) 0 top;
+    background-color:#393d4e;
+    background-image:url(../images/access/toolbar/bg.gif);
+    background-position:0 top;
 }
 
 .x-list-header-inner div em {
