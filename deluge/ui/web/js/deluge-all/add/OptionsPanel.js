@@ -15,7 +15,7 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 
     // layout options
     region: 'south',
-    margins: '5 5 5 5',
+    border: false,
     activeTab: 0,
     height: 265,
 

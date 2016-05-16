@@ -15,12 +15,11 @@ Ext.ns('Deluge.add');
  */
 Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 
-    title:  _('Options'),
+    title: _('Options'),
     height: 170,
-
-    border:     false,
-    bodyStyle:  'padding: 5px',
-    disabled:   true,
+    border: false,
+    bodyStyle: 'padding: 5px',
+    disabled: true,
     labelWidth: 1,
 
     initComponent: function() {
@@ -36,7 +35,7 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             defaultType: 'textfield',
             labelWidth: 1,
             fieldLabel: '',
-            style: 'padding-bottom: 5px; margin-bottom: 0px;'
+            style: 'padding: 5px 0; margin-bottom: 0;'
         });
         this.optionsManager.bind('download_location', fieldset.add({
             fieldLabel: '',
@@ -52,7 +51,7 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             defaultType: 'togglefield',
             labelWidth: 1,
             fieldLabel: '',
-            style: 'padding-bottom: 5px; margin-bottom: 0px;'
+            style: 'padding: 5px 0; margin-bottom: 0;'
         });
         var field = fieldset.add({
             fieldLabel: '',
@@ -72,10 +71,11 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             title: _('Bandwidth'),
             border: false,
             autoHeight: true,
-            bodyStyle: 'margin-left: 7px',
+            bodyStyle: 'padding: 2px 5px',
             labelWidth: 105,
             width: 200,
-            defaultType: 'spinnerfield'
+            defaultType: 'spinnerfield',
+            style: 'padding-right: 10px;'
         });
         this.optionsManager.bind('max_download_speed', fieldset.add({
             fieldLabel: _('Max Down Speed'),

@@ -96,7 +96,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
         this.add({
             region: 'center',
             items: [this.list],
-            margins: '5 5 5 5',
+            border: false,
             bbar: new Ext.Toolbar({
                 items: [{
                     id: 'fileUploadForm',
