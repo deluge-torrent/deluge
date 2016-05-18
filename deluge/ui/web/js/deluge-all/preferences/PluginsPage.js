@@ -50,7 +50,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
             store: new Ext.data.ArrayStore({
                 fields: [
                     {name: 'enabled', mapping: 0},
-                    {name: 'plugin', mapping: 1, sortType: 'asUCString'},
+                    {name: 'plugin', mapping: 1, sortType: 'asUCString'}
                 ]
             }),
             columns: [{

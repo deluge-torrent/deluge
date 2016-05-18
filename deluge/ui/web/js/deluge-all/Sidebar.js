@@ -35,7 +35,7 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
             split: true,
             width: 200,
             minSize: 100,
-            collapsible: true,
+            collapsible: true
         }, config);
         Deluge.Sidebar.superclass.constructor.call(this, config);
     },

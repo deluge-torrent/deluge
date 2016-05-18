@@ -41,7 +41,7 @@ deluge.menus = {
                 deluge.moveStorage.show(ids);
                 break;
         }
-    },
+    }
 }
 
 deluge.menus.torrent = new Ext.menu.Menu({

@@ -77,7 +77,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
                 deferredRender: true
             },
             autoScroll: true,
-            width: 300,
+            width: 300
         });
 
         this.addButton(_('Close'), this.onClose, this);

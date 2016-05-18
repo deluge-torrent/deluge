@@ -358,7 +358,7 @@ Ext.ux.form.SpinnerGroup = Ext.extend(Ext.form.CheckboxGroup, {
                     layoutConfig: {columns: this.items.length},
                     defaults: this.defaults,
                     items: this.items
-                })
+                });
                 for(var i=0, len=this.items.length; i<len; i++){
                     Ext.applyIf(this.items[i], colCfg);
                 };
@@ -924,7 +924,7 @@ Ext.override(Ext.tree.MultiSelectionModel, {
         return node;
     }
 
-})
+});
 /*!
  * Ext JS Library 3.4.0
  * Copyright(c) 2006-2011 Sencha Inc.
@@ -1827,12 +1827,12 @@ Ext.ux.JSLoader = function(options) {
             script.onError(script.options, response.status);
         }
     });
-}
+};
 Ext.ux.JSLoader.index = 0;
 Ext.ux.JSLoader.scripts = [];
 Ext.ux.JSLoader.stdError = function(options, e) {
     window.alert('Error loading script:\n\n' + options.url + '\n\nstatus: ' + e);
-}
+};
 /*!
  * Ext JS Library 3.4.0
  * Copyright(c) 2006-2011 Sencha Inc.
@@ -2034,7 +2034,7 @@ Ext.ux.Spinner = Ext.extend(Ext.util.Observable, {
 
         this.field.mon(this.wrap, "mousewheel", this.handleMouseWheel, this);
 
-        this.dd.setXConstraint(0, 0, 10)
+        this.dd.setXConstraint(0, 0, 10);
         this.dd.setYConstraint(1500, 1500, 10);
         this.dd.endDrag = this.endDrag.createDelegate(this);
         this.dd.startDrag = this.startDrag.createDelegate(this);

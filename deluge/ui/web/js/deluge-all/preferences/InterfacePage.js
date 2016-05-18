@@ -95,15 +95,15 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 
         this.oldPassword = fieldset.add({
             name: 'old_password',
-            fieldLabel: _('Old:'),
+            fieldLabel: _('Old:')
         });
         this.newPassword = fieldset.add({
             name: 'new_password',
-            fieldLabel: _('New:'),
+            fieldLabel: _('New:')
         });
         this.confirmPassword = fieldset.add({
             name: 'confirm_password',
-            fieldLabel: _('Confirm:'),
+            fieldLabel: _('Confirm:')
         });
 
         fieldset = this.add({
@@ -149,15 +149,14 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             disabled: true,
             name: 'pkey',
             width: 180,
-            fieldLabel: _('Private Key:'),
-
+            fieldLabel: _('Private Key:')
         }));
         this.certField = om.bind('cert', fieldset.add({
             xtype: 'textfield',
             disabled: true,
             name: 'cert',
             width: 180,
-            fieldLabel: _('Certificate:'),
+            fieldLabel: _('Certificate:')
         }));
     },
 
@@ -178,7 +177,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
                     msg: _('Do you want to refresh the page now to use the new language?'),
                     buttons: {
                         yes: _('Refresh'),
-                        no: _('Close'),
+                        no: _('Close')
                     },
                     multiline : false,
                     fn: function(btnText) {
@@ -263,7 +262,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
         });
         deluge.client.webutils.get_languages({
             success: this.onGotLanguages,
-            scope: this,
+            scope: this
         });
     },
 
