@@ -243,20 +243,21 @@ class ScriptResource(resource.Resource, component.Component):
     def __init__(self):
         resource.Resource.__init__(self)
         component.Component.__init__(self, "Scripts")
-        self.__scripts = {
-            "normal": {
-                "scripts": {},
-                "order": []
-            },
-            "debug": {
-                "scripts": {},
-                "order": []
-            },
-            "dev": {
-                "scripts": {},
-                "order": []
-            }
-        }
+        self.__scripts = {}
+        for script_type in ["normal", "debug", "dev"]:
+            self.__scripts[script_type] = {"scripts": {}, "order": [], "files_exist": True}
+
+    def has_script_type_files(self, script_type):
+        """Returns whether all the script files exist for this script type.
+
+        Args:
+            script_type (str): The script type to check (normal, debug, dev).
+
+        Returns:
+            bool: True if the files for this script type exist, otherwise False.
+
+        """
+        return self.__scripts[script_type]["files_exist"]
 
     def add_script(self, path, filepath, script_type=None):
         """
@@ -274,6 +275,8 @@ class ScriptResource(resource.Resource, component.Component):
 
         self.__scripts[script_type]["scripts"][path] = filepath
         self.__scripts[script_type]["order"].append(path)
+        if not os.path.isfile(filepath):
+            self.__scripts[script_type]["files_exist"] = False
 
     def add_script_folder(self, path, filepath, script_type=None, recurse=True):
         """
@@ -293,6 +296,8 @@ class ScriptResource(resource.Resource, component.Component):
 
         self.__scripts[script_type]["scripts"][path] = (filepath, recurse)
         self.__scripts[script_type]["order"].append(path)
+        if not os.path.isdir(filepath):
+            self.__scripts[script_type]["files_exist"] = False
 
     def remove_script(self, path, script_type=None):
         """
@@ -428,8 +433,8 @@ class TopLevel(resource.Resource):
         js.add_script("ext-extensions.js", rpath("js", "extjs", "ext-extensions.js"))
         js.add_script("deluge-all.js", rpath("js", "deluge-all.js"))
 
+        self.js = js
         self.putChild("js", js)
-
         self.putChild("json", JSON())
         self.putChild("upload", Upload())
         self.putChild("render", Render())
@@ -493,30 +498,30 @@ class TopLevel(resource.Resource):
         return resource.Resource.getChildWithDefault(self, path, request)
 
     def render(self, request):
-        debug = False
-        if 'debug' in request.args:
-            debug_arg = request.args.get('debug')[-1]
-            if debug_arg in ('true', 'yes', '1'):
-                debug = True
-            else:
-                debug = False
+        uri_true = ("true", "yes", "1")
+        debug_arg = request.args.get("debug", [""])[-1] in uri_true
+        dev_arg = request.args.get("dev", [""])[-1] in uri_true
+        dev_ver = "dev" in common.get_version()
 
-        dev = 'dev' in common.get_version()
-        if 'dev' in request.args:
-            dev_arg = request.args.get('dev')[-1]
-            if dev_arg in ('true', 'yes' '1'):
-                dev = True
-            else:
-                dev = False
+        script_type = "normal"
+        if debug_arg:
+            script_type = "debug"
+        # Override debug if dev arg or version.
+        if dev_arg or dev_ver:
+            script_type = "dev"
 
-        if dev:
-            mode = 'dev'
-        elif debug:
-            mode = 'debug'
-        else:
-            mode = None
+        if not self.js.has_script_type_files(script_type):
+            if not dev_ver:
+                log.warning("Failed to enable WebUI '%s' mode, script files are missing!", script_type)
+            # Fallback to checking other types in order and selecting first with files available.
+            for alt_script_type in [x for x in ["normal", "debug", "dev"] if x != script_type]:
+                if self.js.has_script_type_files(alt_script_type):
+                    script_type = alt_script_type
+                    if not dev_ver:
+                        log.warning("WebUI falling back to '%s' mode.", script_type)
+                    break
 
-        scripts = component.get("Scripts").get_scripts(mode)
+        scripts = component.get("Scripts").get_scripts(script_type)
         scripts.insert(0, "gettext.js")
 
         template = Template(filename=rpath("index.html"))
@@ -526,8 +531,9 @@ class TopLevel(resource.Resource):
         web_config["base"] = request.base
         config = dict([(key, web_config[key]) for key in UI_CONFIG_KEYS])
         js_config = json.dumps(config)
+        # Insert the values into 'index.html' and return.
         return template.render(scripts=scripts, stylesheets=self.stylesheets,
-                               debug=debug, base=request.base, js_config=js_config)
+                               debug=debug_arg, base=request.base, js_config=js_config)
 
 
 class DelugeWeb(component.Component):
