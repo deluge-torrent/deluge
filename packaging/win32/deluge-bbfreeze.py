@@ -81,6 +81,10 @@ def recipe_gtk_override(mf):
     return True
 bbfreeze.recipes.recipe_gtk_and_friends = recipe_gtk_override
 
+# Workaround for "ImportError: The 'packaging' package is required" with setuptools > 18.8.
+# (https://github.com/pypa/setuptools/issues/517)
+bbfreeze.recipes.recipe_pkg_resources = bbfreeze.recipes.include_whole_package("pkg_resources")
+
 fzr = bbfreeze.Freezer(build_dir, includes=includes, excludes=excludes)
 fzr.include_py = False
 fzr.setIcon(os.path.join(os.path.dirname(deluge.common.__file__), "ui", "data", "pixmaps", "deluge.ico"))
