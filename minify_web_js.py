@@ -35,8 +35,12 @@ def module_exists(module_name):
 if module_exists('closure'):
     def minify_closure(file_in, file_out):
         import subprocess
-        subprocess.call(['closure', '--js', file_in, '--js_output_file', file_out,
-                         '-W', 'QUIET'])
+        try:
+            subprocess.check_call(['closure', '-W', 'QUIET',
+                                   '--js', file_in, '--js_output_file', file_out])
+            return True
+        except subprocess.CalledProcessError:
+            return False
 elif module_exists('slimit'):
     from slimit import minify
 elif module_exists('jsmin'):
@@ -80,11 +84,12 @@ def concat_src_files(file_list, fileout_path):
 
 def minify_file(file_debug, file_minified):
     try:
-        minify_closure(file_debug, file_minified)
+        return minify_closure(file_debug, file_minified)
     except NameError:
         with open(file_minified, 'w') as file_out:
             with open(file_debug, 'r') as file_in:
                 file_out.write(minify(file_in.read()))
+                return True
 
 
 def minify_js_dir(source_dir):
@@ -99,8 +104,10 @@ def minify_js_dir(source_dir):
         return
 
     concat_src_files(source_files, file_debug_js)
-    minify_file(file_debug_js, file_minified_js)
-    print('Minified %s' % source_dir)
+    if minify_file(file_debug_js, file_minified_js):
+        print('Minified %s' % source_dir)
+    else:
+        print('Error minifying %s' % source_dir)
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
