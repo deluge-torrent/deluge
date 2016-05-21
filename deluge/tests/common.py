@@ -64,7 +64,16 @@ lang.setup_translations()
 
 class ProcessOutputHandler(protocol.ProcessProtocol):
 
-    def __init__(self, callbacks, script, logfile=None, print_stderr=True):
+    def __init__(self, script, callbacks, logfile=None, print_stderr=True):
+        """Executes a script and handle the process' output to stdout and stderr.
+
+        Args:
+            script (str): The script to execute.
+            callbacks (list): Callbacks to trigger if the expected output if found.
+            logfile (str, optional): Filename to wrote the process' output.
+            print_stderr (bool): Print the process' stderr output to stdout.
+
+        """
         self.callbacks = callbacks
         self.script = script
         self.log_output = ""
@@ -86,6 +95,12 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
             f.write(self.log_output)
 
     def kill(self):
+        """Kill the running process.
+
+        Returns:
+            Deferred: A deferred that is triggered when the process has quit.
+
+        """
         if self.killed:
             return
         self.killed = True
@@ -95,8 +110,9 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
         return self.quit_d
 
     def _kill_watchdogs(self):
+        """"Cancel all watchdogs"""
         for w in self.watchdogs:
-            if not w.cancelled:
+            if not w.called and not w.cancelled:
                 w.cancel()
 
     def processEnded(self, status):  # NOQA
@@ -150,6 +166,26 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
 
 def start_core(listen_port=58846, logfile=None, timeout=10, timeout_msg=None,
                custom_script="", print_stderr=True, extra_callbacks=None):
+    """Start the deluge core as a daemon.
+
+    Args:
+        listen_port (int, optional): The port the daemon listens for client connections.
+        logfile (str, optional): Logfile name to write the output from the process.
+        timeout (int): If none of the callbacks have been triggered before the imeout, the process is killed.
+        timeout_msg (str): The message to print when the timeout expires.
+        custom_script (str): Extra python code to insert into the daemon process script.
+        print_stderr (bool): If the output from the process' stderr should be printed to stdout.
+        extra_callbacks (list): list of dictionaries specifying extra callbacks.
+
+    Returns:
+        tuple: with two values:
+           0: The deferred which is fires when the main core callback is triggered either
+              after the default output triggers are matched (daemon was successfully started,
+              or failed to start), or when the timeout expires.
+
+           1: The ProcessOutputHandler for the deluged process.
+
+    """
     config_directory = set_tmp_config_dir()
     daemon_script = """
 import sys
@@ -193,28 +229,27 @@ def start_process(script, callbacks, logfile=None, print_stderr=True):
     Starts an external python process which executes the given script.
 
     Args:
-        script (str): The content of the script to execute
-        callbacks (list): list of dictionaries specifying callbacks
-
-        logfile (str): Optional logfile to write the output from the process
-        print_stderr (bool): If the output from the process' stderr should be printed to stdout
+        script (str): The content of the script to execute.
+        callbacks (list): list of dictionaries specifying callbacks.
+        logfile (str, optional): Logfile name to write the output from the process.
+        print_stderr (bool): If the output from the process' stderr should be printed to stdout.
 
     Returns:
-        ProcessOutputHandler: The handler for the process's output
+        ProcessOutputHandler: The handler for the process's output.
 
     Each entry in the callbacks list is a dictionary with the following keys:
-      * "deferred": The deferred to be called when matched
+      * "deferred": The deferred to be called when matched.
       * "types": The output this callback should be matched against.
                  Possible values: ["stdout", "stderr"]
-      * "timeout" (optional): A timeout in seconds for the deferred
+      * "timeout" (optional): A timeout in seconds for the deferred.
       * "triggers": A list of dictionaries, each specifying specifying a trigger:
-        * "expr": A string to match against the log output
-        * "value": A function to produce the result to be passed to the callback
+        * "expr": A string to match against the log output.
+        * "value": A function to produce the result to be passed to the callback.
         * "type" (optional): A string that specifies wether to trigger a regular callback or errback.
 
     """
     cwd = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-    process_protocol = ProcessOutputHandler(callbacks, script, logfile, print_stderr)
+    process_protocol = ProcessOutputHandler(script, callbacks, logfile, print_stderr)
 
     # Add timeouts to deferreds
     for c in callbacks:

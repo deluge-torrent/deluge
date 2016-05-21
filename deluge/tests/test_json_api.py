@@ -212,6 +212,7 @@ class JSONRequestFailedTestCase(JSONBase):
                                         "value": lambda reader, data, data_all: "Test"}]}
 
         def on_test_raise(*args):
+            self.assertTrue("Unhandled error in Deferred:" in self.core.stderr_out)
             self.assertTrue("in test_raise_error" in self.core.stderr_out)
 
         extra_callback["deferred"].addCallback(on_test_raise)
