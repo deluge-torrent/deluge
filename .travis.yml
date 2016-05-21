@@ -3,6 +3,8 @@ language: python
 python:
     - "2.7"
 
+cache: pip
+
 before_install:
   - lsb_release -a
   - sudo add-apt-repository ppa:deluge-team/ppa -y
@@ -16,7 +18,7 @@ install:
 
 env:
   global:
-    - PIP_DOWNLOAD_CACHE=$HOME/.pip-cache/
+    - PIP_DOWNLOAD_CACHE=$HOME/.cache/pip
     - APTPACKAGES="python-libtorrent"
     - APTPACKAGES_GTKUI="python-gobject python-glade2"
     - DISPLAY=:99.0
