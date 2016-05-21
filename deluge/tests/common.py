@@ -175,15 +175,14 @@ def start_core(listen_port=58846, logfile=None, timeout=10, timeout_msg=None,
         timeout_msg (str): The message to print when the timeout expires.
         custom_script (str): Extra python code to insert into the daemon process script.
         print_stderr (bool): If the output from the process' stderr should be printed to stdout.
-        extra_callbacks (list): list of dictionaries specifying extra callbacks.
+        extra_callbacks (list): A list of dictionaries specifying extra callbacks.
 
     Returns:
-        tuple: with two values:
-           0: The deferred which is fires when the main core callback is triggered either
-              after the default output triggers are matched (daemon was successfully started,
-              or failed to start), or when the timeout expires.
+        tuple(Deferred, ProcessOutputHandler):
 
-           1: The ProcessOutputHandler for the deluged process.
+        The Deferred is fired when the core callback is triggered either after the default
+        output triggers are matched (daemon successfully started, or failed to start),
+        or upon timeout expiry. The ProcessOutputHandler is the handler for the deluged process.
 
     """
     config_directory = set_tmp_config_dir()
