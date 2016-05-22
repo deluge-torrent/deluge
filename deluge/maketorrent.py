@@ -16,31 +16,29 @@ from deluge.common import get_path_size
 
 
 class InvalidPath(Exception):
-    """
-    Raised when an invalid path is supplied
-    """
+    """Raised when an invalid path is supplied."""
     pass
 
 
 class InvalidPieceSize(Exception):
-    """
-    Raised when an invalid piece size is set.  Piece sizes must be multiples of
-    16KiB.
+    """Raised when an invalid piece size is set.
+
+    Note:
+        Piece sizes must be multiples of 16KiB.
     """
     pass
 
 
 class TorrentMetadata(object):
-    """
-    This class is used to create .torrent files.
+    """This class is used to create .torrent files.
 
-    ** Usage **
+    Examples:
 
-    >>> t = TorrentMetadata()
-    >>> t.data_path = "/tmp/torrent"
-    >>> t.comment = "My Test Torrent"
-    >>> t.trackers = [["http://tracker.openbittorent.com"]]
-    >>> t.save("/tmp/test.torrent")
+        >>> t = TorrentMetadata()
+        >>> t.data_path = "/tmp/torrent"
+        >>> t.comment = "My Test Torrent"
+        >>> t.trackers = [["http://tracker.openbittorent.com"]]
+        >>> t.save("/tmp/test.torrent")
 
     """
     def __init__(self):
@@ -53,16 +51,15 @@ class TorrentMetadata(object):
         self.__pad_files = False
 
     def save(self, torrent_path, progress=None):
-        """
-        Creates and saves the torrent file to `path`.
+        """Creates and saves the torrent file to `path`.
 
-        :param torrent_path: where to save the torrent file
-        :type torrent_path: string
+        Args:
+            torrent_path (str): Location to save the torrent file.
+            progress(func, optional): The function to be called when a piece is hashed. The
+                provided function should be in the format `func(num_completed, num_pieces)`.
 
-        :param progress: a function to be called when a piece is hashed
-        :type progress: function(num_completed, num_pieces)
-
-        :raises InvalidPath: if the data_path has not been set
+        Raises:
+            InvalidPath: If the data_path has not been set.
 
         """
         if not self.data_path:
@@ -202,19 +199,28 @@ class TorrentMetadata(object):
         open(torrent_path, "wb").write(bencode(torrent))
 
     def get_data_path(self):
-        """
-        The path to the files that the torrent will contain.  It can be either
-        a file or a folder.  This property needs to be set before the torrent
-        file can be created and saved.
+        """Get the path to the files that the torrent will contain.
+
+        Note:
+            It can be either a file or a folder.
+
+        Returns:
+            str: The torrent data path, either a file or a folder.
+
         """
         return self.__data_path
 
     def set_data_path(self, path):
-        """
-        :param path: the path to the data
-        :type path: string
+        """Set the path to the files (data) that the torrent will contain.
 
-        :raises InvalidPath: if the path is not found
+        Note:
+            This property needs to be set before the torrent file can be created and saved.
+
+        Args:
+            path (str): The path to the torrent data and can be either a file or a folder.
+
+        Raises:
+            InvalidPath: If the path is not found.
 
         """
         if os.path.exists(path) and (os.path.isdir(path) or os.path.isfile(path)):
@@ -223,21 +229,26 @@ class TorrentMetadata(object):
             raise InvalidPath("No such file or directory: %s" % path)
 
     def get_piece_size(self):
-        """
-        The size of pieces in bytes.  The size must be a multiple of 16KiB.
-        If you don't set a piece size, one will be automatically selected to
-        produce a torrent with less than 1024 pieces or the smallest possible
-        with a 8192KiB piece size.
+        """The size of the pieces.
 
+        Returns:
+            int: The piece size in multiples of 16 KiBs.
         """
         return self.__piece_size
 
     def set_piece_size(self, size):
-        """
-        :param size: the desired piece size in KiBs
-        :type size: int
+        """Set piece size.
 
-        :raises InvalidPieceSize: if the piece size is not a multiple of 16 KiB
+        Note:
+            If no piece size is set, one will be automatically selected to
+            produce a torrent with less than 1024 pieces or the smallest possible
+            with a 8192KiB piece size.
+
+        Args:
+            size (int): The desired piece size in multiples of 16 KiBs.
+
+        Raises:
+            InvalidPieceSize: If the piece size is not a valid multiple of 16 KiB.
 
         """
         if size % 16 and size:
@@ -245,82 +256,115 @@ class TorrentMetadata(object):
         self.__piece_size = size
 
     def get_comment(self):
-        """
-        Comment is some extra info to be stored in the torrent.  This is
-        typically an informational string.
+        """Get the torrent comment.
+
+        Returns:
+            str: An informational string about the torrent.
+
         """
         return self.__comment
 
     def set_comment(self, comment):
-        """
-        :param comment: an informational string
-        :type comment: string
+        """Set the comment for the torrent.
+
+        Args:
+            comment (str): An informational string about the torrent.
+
         """
         self.__comment = comment
 
     def get_private(self):
-        """
-        Private torrents only announce to the tracker and will not use DHT or
-        Peer Exchange.
+        """Get the private flag of the torrent.
 
-        See: http://bittorrent.org/beps/bep_0027.html
+        Returns:
+            bool: True if private flag has been set, else False.
 
         """
         return self.__private
 
     def set_private(self, private):
-        """
-        :param private: True if the torrent is to be private
-        :type private: bool
+        """Set the torrent private flag.
+
+        Note:
+            Private torrents only announce to trackers and will not use DHT or
+            Peer Exchange. See http://bittorrent.org/beps/bep_0027.html
+
+        Args:
+            private (bool): True if the torrent is to be private.
+
         """
         self.__private = private
 
     def get_trackers(self):
-        """
-        The announce trackers is a list of lists.
+        """Get the announce trackers.
 
-        See: http://bittorrent.org/beps/bep_0012.html
+        Note:
+            See http://bittorrent.org/beps/bep_0012.html
+
+        Returns:
+            list of lists: A list containing a list of trackers.
 
         """
         return self.__trackers
 
     def set_trackers(self, trackers):
-        """
-        :param trackers: a list of lists of trackers, each list is a tier
-        :type trackers: list of list of strings
+        """Set the announce trackers.
+
+        Args:
+            private (list of lists): A list containing lists of trackers as strings, each list is a tier.
+
         """
         self.__trackers = trackers
 
     def get_webseeds(self):
-        """
-        The web seeds can either be:
-        Hoffman-style: http://bittorrent.org/beps/bep_0017.html
-        or,
-        GetRight-style: http://bittorrent.org/beps/bep_0019.html
+        """Get the webseeds.
 
-        If the url ends in '.php' then it will be considered Hoffman-style, if
-        not it will be considered GetRight-style.
+        Note:
+            The web seeds can either be:
+                Hoffman-style: http://bittorrent.org/beps/bep_0017.html
+                GetRight-style: http://bittorrent.org/beps/bep_0019.html
+
+            If the url ends in '.php' then it will be considered Hoffman-style, if
+            not it will be considered GetRight-style.
+
+        Returns:
+            list: The webseeds.
+
         """
         return self.__webseeds
 
     def set_webseeds(self, webseeds):
-        """
-        :param webseeds: the webseeds which can be either Hoffman or GetRight style
-        :type webseeds: list of urls
+        """Set webseeds.
+
+        Note:
+            The web seeds can either be:
+                Hoffman-style: http://bittorrent.org/beps/bep_0017.html
+                GetRight-style: http://bittorrent.org/beps/bep_0019.html
+
+            If the url ends in '.php' then it will be considered Hoffman-style, if
+            not it will be considered GetRight-style.
+
+        Args:
+            private (list): The webseeds URLs which can be either Hoffman or GetRight style.
+
         """
         self.__webseeds = webseeds
 
     def get_pad_files(self):
-        """
-        If this is True, padding files will be added to align files on piece
-        boundaries.
+        """Get status of padding files for the torrent.
+
+        Returns:
+            bool: True if padding files have been enabled to align files on piece boundaries.
+
         """
         return self.__pad_files
 
     def set_pad_files(self, pad):
-        """
-        :param pad: set True to align files on piece boundaries
-        :type pad: bool
+        """Enable padding files for the torrent.
+
+        Args:
+            private (bool): True adds padding files to align files on piece boundaries.
+
         """
         self.__pad_files = pad
 
