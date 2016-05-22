@@ -33,7 +33,7 @@ from deluge.ui.sessionproxy import SessionProxy
 log = logging.getLogger(__name__)
 
 
-class ConsoleCommandParser(argparse.ArgumentParser):
+class ConsoleBaseParser(argparse.ArgumentParser):
 
     def format_help(self):
         """
@@ -44,11 +44,14 @@ class ConsoleCommandParser(argparse.ArgumentParser):
         # Handle epilog manually to keep the text formatting
         epilog = self.epilog
         self.epilog = ""
-        help_str = super(ConsoleCommandParser, self).format_help()
+        help_str = super(ConsoleBaseParser, self).format_help()
         if epilog is not None:
             help_str += epilog
         self.epilog = epilog
         return help_str
+
+
+class ConsoleCommandParser(ConsoleBaseParser):
 
     def _split_args(self, args):
         command_options = []
@@ -71,6 +74,20 @@ class ConsoleCommandParser(argparse.ArgumentParser):
         return command_options
 
     def parse_args(self, args=None):
+        """Parse known UI args and handle common and process group options.
+
+            Notes:
+                If started by deluge entry script this has already been done.
+
+            Args:
+                args (list, optional): The arguments to parse.
+
+            Returns:
+                argparse.Namespace: The parsed arguments.
+        """
+        from deluge.ui.ui_entry import AMBIGUOUS_CMD_ARGS
+        self.base_parser.parse_known_ui_args(args, withhold=AMBIGUOUS_CMD_ARGS)
+
         multi_command = self._split_args(args)
         # If multiple commands were passed to console
         if multi_command:
@@ -103,7 +120,7 @@ class ConsoleCommandParser(argparse.ArgumentParser):
         return options
 
 
-class OptionParser(ConsoleCommandParser):
+class OptionParser(ConsoleBaseParser):
 
     def __init__(self, **kwargs):
         super(OptionParser, self).__init__(**kwargs)

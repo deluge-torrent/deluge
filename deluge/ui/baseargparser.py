@@ -19,25 +19,27 @@ from deluge import common
 from deluge.configmanager import get_config_dir, set_config_dir
 
 
-def find_subcommand(self, args=None):
+def find_subcommand(self, args=None, sys_argv=True):
     """Find if a subcommand has been supplied.
 
     Args:
-        args (list, optional): The argument list handed to parse_args().
+        args (list, optional): The argument list to search through.
+        sys_argv (bool): Use sys.argv[1:] if args is None.
 
     Returns:
         int: Index of the subcommand or '-1' if none found.
 
     """
     subcommand_found = -1
-    test_args = args if args is not None else sys.argv[1:]
+    if args is None:
+        args = sys.argv[1:] if sys_argv is None else []
 
     for x in self._subparsers._actions:
         if not isinstance(x, argparse._SubParsersAction):
             continue
         for sp_name in x._name_parser_map.keys():
-            if sp_name in test_args:
-                subcommand_found = test_args.index(sp_name) + 1
+            if sp_name in args:
+                subcommand_found = args.index(sp_name)
 
     return subcommand_found
 
@@ -184,20 +186,47 @@ class BaseArgParser(argparse.ArgumentParser):
     def parse_args(self, args=None):
         """Parse UI arguments and handle common and process group options.
 
-        Unknown arguments return an error and resulting usage text.
+        Notes:
+            Unknown arguments results in usage text printed and system exit.
+
+        Args:
+            args (list, optional): The arguments to parse.
+
+        Returns:
+            argparse.Namespace: The parsed arguments.
+
         """
         options = super(BaseArgParser, self).parse_args(args=args)
-        return self._parse_args(options)
+        return self._handle_ui_options(options)
 
-    def parse_known_ui_args(self, args=None):
+    def parse_known_ui_args(self, args, withhold=None):
         """Parse UI arguments and handle common and process group options without error.
+
+        Args:
+            args (list): The arguments to parse.
+            withhold (list): Values to ignore in the args list.
+
+        Returns:
+            argparse.Namespace: The parsed arguments.
+
         """
+        if withhold:
+            args = [a for a in args if a not in withhold]
         options, remaining = super(BaseArgParser, self).parse_known_args(args=args)
         options.remaining = remaining
-        return self._parse_args(options)
+        # Hanlde common and process group options
+        return self._handle_ui_options(options)
 
-    def _parse_args(self, options):
+    def _handle_ui_options(self, options):
+        """Handle UI common and process group options.
 
+        Args:
+            options (argparse.Namespace): The parsed options.
+
+        Returns:
+            argparse.Namespace: The parsed options.
+
+        """
         if not self.common_setup:
             self.common_setup = True
             # Setup the logger
@@ -226,6 +255,7 @@ class BaseArgParser(argparse.ArgumentParser):
                     os.makedirs(common.get_default_config_dir())
 
         if self.process_arg_group:
+            self.process_arg_group = False
             # If donotdaemonize is set, skip process forking.
             if not (common.windows_check() or options.donotdaemonize):
                 if os.fork():

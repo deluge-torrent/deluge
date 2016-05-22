@@ -29,6 +29,8 @@ DEFAULT_PREFS = {
     "default_ui": "gtk"
 }
 
+AMBIGUOUS_CMD_ARGS = ("-h", "--help", "-v", "-V", "--version")
+
 
 def start_ui():
     """Entry point for ui script"""
@@ -49,10 +51,8 @@ def start_ui():
     # Setup parser with Common Options and add UI Options group.
     parser = add_ui_options_group(BaseArgParser())
 
-    ambiguous_args = ["-h", "--help", "-v", "-V", "--version"]
-    # Parse arguments without help/version as this is handled later.
-    args = [a for a in sys.argv if a not in ambiguous_args]
-    options = parser.parse_known_ui_args(args)
+    # Parse and handle common/process group options
+    options = parser.parse_known_ui_args(sys.argv, withhold=AMBIGUOUS_CMD_ARGS)
 
     config = deluge.configmanager.ConfigManager("ui.conf", DEFAULT_PREFS)
     log = logging.getLogger(__name__)
@@ -86,7 +86,7 @@ def start_ui():
         subactions[-1].dest = "%s %s" % (prefix, ui)
 
     # Insert a default UI subcommand unless one of the ambiguous_args are specified
-    parser.set_default_subparser(default_ui, abort_opts=ambiguous_args)
+    parser.set_default_subparser(default_ui, abort_opts=AMBIGUOUS_CMD_ARGS)
 
     # Only parse known arguments to leave the UIs to show a help message if parsing fails.
     options, remaining = parser.parse_known_args()

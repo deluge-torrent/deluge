@@ -7,12 +7,13 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
+from __future__ import print_function
 
 import logging
 import os
 
 import deluge.common
-from deluge.ui.baseargparser import DelugeTextHelpFormatter
+from deluge.ui.baseargparser import BaseArgParser, DelugeTextHelpFormatter
 from deluge.ui.console import UI_PATH
 from deluge.ui.ui import UI
 
@@ -79,6 +80,11 @@ class Console(UI):
             self.console_cmds[c].add_subparser(subparsers)
 
     def start(self):
+        if self.ui_args is None:
+            # Started directly by deluge-console script so must find the UI args manually
+            options, remaining = BaseArgParser(common_help=False).parse_known_args()
+            self.ui_args = remaining
+
         i = self.console_parser.find_subcommand(args=self.ui_args)
         self.console_parser.subcommand = False
         self.parser.subcommand = False if i == -1 else True
