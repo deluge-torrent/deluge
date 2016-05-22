@@ -17,7 +17,6 @@ import textwrap
 import deluge.log
 from deluge import common
 from deluge.configmanager import get_config_dir, set_config_dir
-from deluge.log import setup_logger
 
 
 def find_subcommand(self, args=None):
@@ -31,7 +30,7 @@ def find_subcommand(self, args=None):
 
     """
     subcommand_found = -1
-    test_args = args if args else sys.argv[1:]
+    test_args = args if args is not None else sys.argv[1:]
 
     for x in self._subparsers._actions:
         if not isinstance(x, argparse._SubParsersAction):
@@ -214,8 +213,8 @@ class BaseArgParser(argparse.ArgumentParser):
                 logrotate = common.parse_human_size(options.logrotate)
 
             # Setup the logger
-            setup_logger(level=options.loglevel, filename=options.logfile, filemode=logfile_mode,
-                         logrotate=logrotate)
+            deluge.log.setup_logger(level=options.loglevel, filename=options.logfile, filemode=logfile_mode,
+                                    logrotate=logrotate)
 
             if options.config:
                 if not set_config_dir(options.config):

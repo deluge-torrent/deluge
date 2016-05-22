@@ -9,6 +9,7 @@ import sys
 import mock
 import pytest
 
+import deluge
 import deluge.component as component
 import deluge.ui.console
 import deluge.ui.web.server
@@ -69,6 +70,25 @@ class DelugeEntryTestCase(BaseTestCase):
         with mock.patch("deluge.ui.console.main.ConsoleUI"):
             # Just test that no exception is raised
             ui_entry.start_ui()
+
+    def test_start_with_log_level(self):
+        _level = []
+
+        def setup_logger(level="error", filename=None, filemode="w", logrotate=None):
+            _level.append(level)
+
+        self.patch(deluge.log, "setup_logger", setup_logger)
+        self.patch(sys, "argv", ["./deluge", "-L", "info"])
+
+        config = deluge.configmanager.ConfigManager("ui.conf", ui_entry.DEFAULT_PREFS)
+        config.config["default_ui"] = "console"
+        config.save()
+
+        with mock.patch("deluge.ui.console.main.ConsoleUI"):
+            # Just test that no exception is raised
+            ui_entry.start_ui()
+
+        self.assertEqual(_level[0], "info")
 
 
 @pytest.mark.gtkui
