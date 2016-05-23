@@ -18,7 +18,7 @@ Deluge.RemoveWindow = Ext.extend(Ext.Window, {
     layout: 'fit',
     width:  350,
     height: 100,
-
+    constrainHeader: true,
     buttonAlign: 'right',
     closeAction: 'hide',
     closable:    true,

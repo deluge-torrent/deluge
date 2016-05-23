@@ -21,7 +21,7 @@ Deluge.AddConnectionWindow = Ext.extend(Ext.Window, {
     layout: 'fit',
     width:  300,
     height: 195,
-
+    constrainHeader: true,
     bodyStyle: 'padding: 10px 5px;',
     closeAction: 'hide',
 

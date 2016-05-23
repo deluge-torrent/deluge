@@ -19,7 +19,7 @@ Deluge.preferences.InstallPluginWindow = Ext.extend(Ext.Window, {
     layout: 'fit',
     height: 115,
     width: 350,
-
+    constrainHeader: true,
     bodyStyle: 'padding: 10px 5px;',
     buttonAlign: 'center',
     closeAction: 'hide',

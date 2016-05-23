@@ -22,6 +22,7 @@ Deluge.MoveStorage = Ext.extend(Ext.Window, {
             closable: true,
             iconCls: 'x-deluge-move-storage',
             plain: true,
+            constrainHeader: true,
             resizable: false
         }, config);
         Deluge.MoveStorage.superclass.constructor.call(this, config);

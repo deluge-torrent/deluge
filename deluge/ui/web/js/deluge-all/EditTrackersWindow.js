@@ -22,6 +22,7 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
     plain: true,
     closable: true,
     resizable: true,
+    constrainHeader: true,
 
     bodyStyle: 'padding: 5px',
     buttonAlign: 'right',

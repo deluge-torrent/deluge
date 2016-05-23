@@ -18,6 +18,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
     closeAction: 'hide',
     closable: true,
     plain: true,
+    constrainHeader: true,
     title: _('Connection Manager'),
     iconCls: 'x-deluge-connect-window-icon',
 

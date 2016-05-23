@@ -27,7 +27,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
     width: 485,
     height: 500,
     border: false,
-
+    constrainHeader: true,
     buttonAlign: 'right',
     closeAction: 'hide',
     closable: true,

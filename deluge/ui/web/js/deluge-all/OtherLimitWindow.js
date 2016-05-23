@@ -18,7 +18,7 @@ Deluge.OtherLimitWindow = Ext.extend(Ext.Window, {
     layout: 'fit',
     width: 210,
     height: 100,
-
+    constrainHeader: true,
     closeAction: 'hide',
 
     initComponent: function() {
