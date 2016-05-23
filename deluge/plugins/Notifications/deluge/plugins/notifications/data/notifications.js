@@ -18,6 +18,7 @@ Ext.ns('Deluge.ux.preferences');
 Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
 
     title: _('Notifications'),
+    header: false,
     layout: 'fit',
     border: false,
 

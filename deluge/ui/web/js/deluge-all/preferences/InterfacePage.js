@@ -17,6 +17,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 
     border: false,
     title: _('Interface'),
+    header: false,
     layout: 'form',
 
     initComponent: function() {

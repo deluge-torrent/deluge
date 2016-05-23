@@ -17,6 +17,7 @@ Deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
 
     border: false,
     title: _('Daemon'),
+    header: false,
     layout: 'form',
 
     initComponent: function() {

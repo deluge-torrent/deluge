@@ -18,6 +18,7 @@ Deluge.preferences.Proxy = Ext.extend(Ext.form.FormPanel, {
         config = Ext.apply({
             border: false,
             title: _('Proxy'),
+            header: false,
             layout: 'form',
             autoScroll: true
         }, config);

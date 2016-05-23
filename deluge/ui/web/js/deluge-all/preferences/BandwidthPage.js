@@ -18,6 +18,7 @@ Deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
         config = Ext.apply({
             border: false,
             title: _('Bandwidth'),
+            header: false,
             layout: 'form',
             labelWidth: 10
         }, config);

@@ -18,6 +18,7 @@ Ext.ns('Deluge.ux.preferences');
 Deluge.ux.preferences.ExtractorPage = Ext.extend(Ext.Panel, {
 
     title: _('Extractor'),
+    header: false,
     layout: 'fit',
     border: false,
 

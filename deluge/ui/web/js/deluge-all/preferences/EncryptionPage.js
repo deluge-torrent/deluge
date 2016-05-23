@@ -17,6 +17,7 @@ Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
 
     border: false,
     title: _('Encryption'),
+    header: false,
 
     initComponent: function() {
         Deluge.preferences.Encryption.superclass.initComponent.call(this);
@@ -27,6 +28,7 @@ Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
             xtype: 'fieldset',
             border: false,
             title: _('Settings'),
+            header: false,
             autoHeight: true,
             defaultType: 'combo',
             width: 300

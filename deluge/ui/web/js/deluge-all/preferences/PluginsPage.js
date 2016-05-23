@@ -17,6 +17,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 
     layout: 'border',
     title: _('Plugins'),
+    header: false,
     border: false,
     cls: 'x-deluge-plugins',
 

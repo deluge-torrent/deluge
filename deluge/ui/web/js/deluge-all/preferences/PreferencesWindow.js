@@ -61,7 +61,6 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
         });
         this.add({
             region: 'west',
-            title: _('Categories'),
             items: [this.list],
             width: 120,
             margins: '0 5 0 0',

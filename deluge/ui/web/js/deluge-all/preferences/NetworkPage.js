@@ -27,6 +27,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
     border: false,
     layout: 'form',
     title:  _('Network'),
+    header: false,
 
     initComponent: function() {
         Deluge.preferences.Network.superclass.initComponent.call(this);

@@ -18,6 +18,7 @@ Ext.ns('Deluge.ux.preferences');
 Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
 
     title: _('Blocklist'),
+    header: false,
     layout: 'fit',
     border: false,
     autoScroll: true,

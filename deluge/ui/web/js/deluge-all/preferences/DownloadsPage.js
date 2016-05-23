@@ -18,6 +18,7 @@ Deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
         config = Ext.apply({
             border: false,
             title: _('Downloads'),
+            header: false,
             layout: 'form',
             autoHeight: true,
             width: 320

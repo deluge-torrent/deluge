@@ -18,6 +18,7 @@ Deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
         config = Ext.apply({
             border: false,
             title: _('Other'),
+            header: false,
             layout: 'form'
         }, config);
         Deluge.preferences.Other.superclass.constructor.call(this, config);

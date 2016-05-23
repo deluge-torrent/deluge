@@ -17,7 +17,9 @@ Deluge.preferences.Cache = Ext.extend(Ext.form.FormPanel, {
 
     border: false,
     title: _('Cache'),
+    header: false,
     layout: 'form',
+
 
     initComponent: function() {
         Deluge.preferences.Cache.superclass.initComponent.call(this);

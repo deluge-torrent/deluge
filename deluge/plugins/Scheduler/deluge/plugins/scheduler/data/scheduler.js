@@ -480,6 +480,7 @@ Deluge.ux.preferences.SchedulerPage = Ext.extend(Ext.Panel, {
 
     border: false,
     title: _('Scheduler'),
+    header: false,
     layout: 'fit',
 
     initComponent: function() {

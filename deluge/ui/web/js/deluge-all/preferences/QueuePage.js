@@ -17,6 +17,7 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 
     border: false,
     title: _('Queue'),
+    header: false,
     layout: 'form',
 
     initComponent: function() {

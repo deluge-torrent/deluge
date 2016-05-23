@@ -127,6 +127,7 @@ Ext.ns('Deluge.ux.preferences');
 Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
 
     title: _('Execute'),
+    header: false,
     layout: 'fit',
     border: false,
 
