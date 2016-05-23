@@ -415,29 +415,29 @@ class DaemonPane(BasePane):
 class QueuePane(BasePane):
     def __init__(self, offset, parent, width):
         BasePane.__init__(self, offset, parent, width)
-        self.add_header("General")
-        self.add_checked_input("queue_new_to_top", "Queue new torrents to top", parent.core_config["queue_new_to_top"])
+        self.add_header("New Torrents")
+        self.add_checked_input("queue_new_to_top", "Queue to top", parent.core_config["queue_new_to_top"])
         self.add_header("Active Torrents", True)
-        self.add_int_spin_input("max_active_limit", "Total active:", parent.core_config["max_active_limit"], -1, 9999)
-        self.add_int_spin_input("max_active_downloading", "Total active downloading:",
+        self.add_int_spin_input("max_active_limit", "Total:", parent.core_config["max_active_limit"], -1, 9999)
+        self.add_int_spin_input("max_active_downloading", "Downloading:",
                                 parent.core_config["max_active_downloading"], -1, 9999)
-        self.add_int_spin_input("max_active_seeding", "Total active seeding:",
+        self.add_int_spin_input("max_active_seeding", "Seeding:",
                                 parent.core_config["max_active_seeding"], -1, 9999)
-        self.add_checked_input("dont_count_slow_torrents", "Do not count slow torrents",
+        self.add_checked_input("dont_count_slow_torrents", "Ignore slow torrents",
                                parent.core_config["dont_count_slow_torrents"])
-        self.add_checked_input("auto_manage_prefer_seeds", "Prefer Seeding over Downloading",
+        self.add_checked_input("auto_manage_prefer_seeds", "Prefer seeding torrents",
                                parent.core_config["auto_manage_prefer_seeds"])
-        self.add_header("Seeding", True)
-        self.add_float_spin_input("share_ratio_limit", "Share Ratio Limit:",
+        self.add_header("Seeding Rotation", True)
+        self.add_float_spin_input("share_ratio_limit", "Share Ratio:",
                                   parent.core_config["share_ratio_limit"], 1.0, 2, -1.0, 100.0)
-        self.add_float_spin_input("seed_time_ratio_limit", "Share Time Ratio:",
+        self.add_float_spin_input("seed_time_ratio_limit", "Time Ratio:",
                                   parent.core_config["seed_time_ratio_limit"], 1.0, 2, -1.0, 100.0)
-        self.add_int_spin_input("seed_time_limit", "Seed time (m):", parent.core_config["seed_time_limit"], -1, 10000)
+        self.add_int_spin_input("seed_time_limit", "Time (m):", parent.core_config["seed_time_limit"], -1, 10000)
         seedratio = FloatSpinInput(self.parent, "", "stop_seed_ratio", self.move,
                                    parent.core_config["stop_seed_ratio"], 0.1, 2, 0.5, 100.0)
-        self.add_checkedplus_input("stop_seed_at_ratio", "Stop seeding when share ratio reaches:", seedratio,
+        self.add_checkedplus_input("stop_seed_at_ratio", "Share Ratio Reached:", seedratio,
                                    parent.core_config["stop_seed_at_ratio"])
-        self.add_checked_input("remove_seed_at_ratio", "Remove torrent when share ratio reached",
+        self.add_checked_input("remove_seed_at_ratio", "Remove torrent (Unchecked pauses torrent)",
                                parent.core_config["remove_seed_at_ratio"])
 
 
