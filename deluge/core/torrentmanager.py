@@ -36,9 +36,11 @@ log = logging.getLogger(__name__)
 
 
 class TorrentState:  # pylint: disable=old-style-class
-    """
-    Create a torrent state
-    This must be old style class to avoid breaking torrent.state file
+    """Create a torrent state.
+
+    Note:
+        This must be old style class to avoid breaking torrent.state file.
+
     """
     def __init__(self,
                  torrent_id=None,
@@ -76,8 +78,11 @@ class TorrentState:  # pylint: disable=old-style-class
 
 
 class TorrentManagerState:  # pylint: disable=old-style-class
-    """TorrentManagerState holds a list of TorrentState objects
-    This must be old style class to avoid breaking torrent.state file
+    """TorrentManagerState holds a list of TorrentState objects.
+
+    Note:
+        This must be old style class to avoid breaking torrent.state file.
+
     """
     def __init__(self):
         self.torrents = []
@@ -250,6 +255,7 @@ class TorrentManager(component.Component):
 
         Returns:
             Torrent: A torrent object.
+
         """
         return self.torrents[torrent_id]
 
@@ -258,6 +264,7 @@ class TorrentManager(component.Component):
 
         Returns:
             list: A list of torrent_ids.
+
         """
         torrent_ids = self.torrents.keys()
         if component.get("RPCServer").get_session_auth_level() == AUTH_LEVEL_ADMIN:
@@ -277,7 +284,8 @@ class TorrentManager(component.Component):
             filepath (str): The filepath to extract torrent info from.
 
         Returns:
-            lt.torrent_info : A libtorrent torrent_info dict or None if invalid file or data.
+            lt.torrent_info: A libtorrent torrent_info dict or None if invalid file or data.
+
         """
         # Get the torrent data from the torrent file
         if log.isEnabledFor(logging.DEBUG):
@@ -515,7 +523,7 @@ class TorrentManager(component.Component):
         return True
 
     def fixup_state(self, state):
-        """ Fixup an old state by adding missing TorrentState options and assigning default values.
+        """Fixup an old state by adding missing TorrentState options and assigning default values.
 
         Args:
             state (TorrentManagerState): A torrentmanager state containing torrent details.
@@ -563,7 +571,7 @@ class TorrentManager(component.Component):
         return state
 
     def load_state(self):
-        """Load all the torrents from TorrentManager state into session
+        """Load all the torrents from TorrentManager state into session.
 
         Emits:
             SessionStartedEvent: Emitted after all torrents are added to the session.
@@ -665,10 +673,10 @@ class TorrentManager(component.Component):
         return state
 
     def save_state(self):
-        """
-        Run the save state task in a separate thread to avoid blocking main thread.
+        """Run the save state task in a separate thread to avoid blocking main thread.
 
-        If a save task is already running, this call is ignored.
+        Note:
+            If a save task is already running, this call is ignored.
 
         """
         if self.is_saving_state:
@@ -754,12 +762,12 @@ class TorrentManager(component.Component):
             self.torrents[torrent_id].save_resume_data(flush_disk_cache)
 
         def on_all_resume_data_finished(dummy_result):
-            """Saves resume data file when no more torrents waiting for resume data
+            """Saves resume data file when no more torrents waiting for resume data.
 
             Returns:
                 bool: True if fastresume file is saved.
 
-                Used by remove_temp_file callback in stop.
+                This return value determines removal of `self.temp_file` in `self.stop()`.
 
             """
             # Use flush_disk_cache as a marker for shutdown so fastresume is
@@ -770,10 +778,10 @@ class TorrentManager(component.Component):
         return DeferredList(deferreds).addBoth(on_all_resume_data_finished)
 
     def load_resume_data_file(self):
-        """Load the resume data from file for all torrents
+        """Load the resume data from file for all torrents.
 
         Returns:
-            dict: A dict of torrents and their resume_data
+            dict: A dict of torrents and their resume_data.
 
         """
         filename = "torrents.fastresume"
@@ -801,17 +809,15 @@ class TorrentManager(component.Component):
             return resume_data
 
     def save_resume_data_file(self, queue_task=False):
-        """
-        Save resume data to file in a separate thread to avoid blocking main thread.
+        """Save resume data to file in a separate thread to avoid blocking main thread.
 
         Args:
-            queue_task (bool): If True and a save task is already running then
-                               queue this save task to run next. Default is to
-                               not queue save tasks.
+            queue_task (bool): If True and a save task is already running then queue
+                this save task to run next. Default is to not queue save tasks.
 
         Returns:
             Deferred: Fires with arg, True if save task was successful, False if
-                      not and None if task was not performed.
+                not and None if task was not performed.
 
         """
         if not queue_task and self.save_resume_data_file_lock.locked:
@@ -1120,8 +1126,11 @@ class TorrentManager(component.Component):
         component.get("EventManager").emit(TorrentResumedEvent(torrent_id))
 
     def on_alert_state_changed(self, alert):
-        """Alert handler for libtorrent state_changed_alert
-        Emits a TorrentStateChangedEvent if state has changed
+        """Alert handler for libtorrent state_changed_alert.
+
+        Emits:
+            TorrentStateChangedEvent: The state has changed.
+
         """
         if log.isEnabledFor(logging.DEBUG):
             log.debug("on_alert_state_changed")
@@ -1183,8 +1192,11 @@ class TorrentManager(component.Component):
         torrent.force_error_state(error_msg, restart_to_resume=True)
 
     def on_alert_file_renamed(self, alert):
-        """Alert handler for libtorrent file_renamed_alert
-        Emits a TorrentFileCompletedEvent for renamed files
+        """Alert handler for libtorrent file_renamed_alert.
+
+        Emits:
+            TorrentFileRenamedEvent: Files in the torrent have been renamed.
+
         """
         log.debug("on_alert_file_renamed")
         log.debug("index: %s name: %s", alert.index, decode_string(alert.name))
@@ -1225,7 +1237,8 @@ class TorrentManager(component.Component):
     def on_alert_file_completed(self, alert):
         """Alert handler for libtorrent file_completed_alert
 
-        Emits a TorrentFileCompletedEvent when an individual file completes downloading
+        Emits:
+            TorrentFileCompletedEvent: When an individual file completes downloading.
 
         """
         log.debug("file_completed_alert: %s", decode_string(alert.message()))
@@ -1312,7 +1325,7 @@ class TorrentManager(component.Component):
         d.callback((status_dict, plugin_keys))
 
     def torrents_status_update(self, torrent_ids, keys, diff=False):
-        """Returns status dict for the supplied torrent_ids async
+        """Returns status dict for the supplied torrent_ids async.
 
         Note:
             If torrent states was updated recently post_torrent_updates is not called and
@@ -1321,8 +1334,8 @@ class TorrentManager(component.Component):
         Args:
             torrent_ids (list of str): The torrent IDs to get the status of.
             keys (list of str): The keys to get the status on.
-            diff (bool, optional): If True, will return a diff of the changes since the last call to get_status
-                based on the session_id, defaults to False
+            diff (bool, optional): If True, will return a diff of the changes since the
+                last call to get_status based on the session_id, defaults to False.
 
         Returns:
             dict: A status dictionary for the requested torrents.

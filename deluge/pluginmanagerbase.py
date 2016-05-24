@@ -113,14 +113,15 @@ class PluginManagerBase(object):
             self.available_plugins.append(self.pkg_env[name][0].project_name)
 
     def enable_plugin(self, plugin_name):
-        """Enable a plugin
+        """Enable a plugin.
 
         Args:
-            plugin_name (str): The plugin name
+            plugin_name (str): The plugin name.
 
         Returns:
             Deferred: A deferred with callback value True or False indicating
-                      whether the plugin is enabled or not.
+                whether the plugin is enabled or not.
+
         """
         if plugin_name not in self.available_plugins:
             log.warning("Cannot enable non-existant plugin %s", plugin_name)
@@ -186,15 +187,15 @@ class PluginManagerBase(object):
         return defer.succeed(False)
 
     def disable_plugin(self, name):
-        """
-        Disable a plugin
+        """Disable a plugin.
 
         Args:
-            plugin_name (str): The plugin name
+            plugin_name (str): The plugin name.
 
         Returns:
             Deferred: A deferred with callback value True or False indicating
-                      whether the plugin is disabled or not.
+                whether the plugin is disabled or not.
+
         """
         if name not in self.plugins:
             log.warning("Plugin '%s' is not enabled..", name)
