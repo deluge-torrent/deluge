@@ -31,10 +31,10 @@ class UI(object):
     """
     cmd_description = """Override with command description"""
 
-    def __init__(self, name="gtk", **kwargs):
+    def __init__(self, name, **kwargs):
         self.__name = name
         self.ui_args = kwargs.pop("ui_args", None)
-        lang.setup_translations(setup_pygtk=(name == "gtk"))
+        lang.setup_translations()
         self.__parser = BaseArgParser(**kwargs)
 
     def parse_args(self, parser, args=None):

@@ -54,7 +54,7 @@ class Console(UI):
     cmd_description = """Console or command-line user interface"""
 
     def __init__(self, *args, **kwargs):
-        super(Console, self).__init__(*args, **kwargs)
+        super(Console, self).__init__("console", *args, **kwargs)
 
         group = self.parser.add_argument_group(_("Console Options"), "These daemon connect options will be "
                                                "used for commands, or if console ui autoconnect is enabled.")
