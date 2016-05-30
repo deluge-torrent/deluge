@@ -145,6 +145,11 @@ class Core(CorePluginBase):
             elif file_ext not in EXTRACT_COMMANDS or file_ext_sec == '.tar':
                 log.debug("EXTRACTOR: Can't extract file with unknown file type: %s", f["path"])
                 continue
+            elif file_ext == ".rar" and "part" in file_ext_sec:
+                part_num = file_ext_sec.split("part")[1]
+                if part_num.isdigit() and int(part_num) != 1:
+                    log.debug("Skipping remaining multi-part rar files: %s", f["path"])
+                    continue
 
             cmd = EXTRACT_COMMANDS[file_ext]
             fpath = os.path.join(tid_status["save_path"], os.path.normpath(f["path"]))
