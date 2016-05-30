@@ -16,7 +16,7 @@ from setuptools import find_packages, setup
 __plugin_name__ = "Extractor"
 __author__ = "Andrew Resch"
 __author_email__ = "andrewresch@gmail.com"
-__version__ = "0.5"
+__version__ = "0.6"
 __url__ = "http://deluge-torrent.org"
 __license__ = "GPLv3"
 __description__ = "Extract files upon torrent completion"
