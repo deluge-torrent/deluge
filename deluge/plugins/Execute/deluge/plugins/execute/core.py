@@ -40,6 +40,7 @@ EVENT_MAP = {
 
 ScriptArgs = namedtuple("ScriptArgs", ["torrent_id", "torrent_name", "download_location", "label"])
 
+
 class ExecuteCommandAddedEvent(DelugeEvent):
     """
     Emitted when a new command is added.
