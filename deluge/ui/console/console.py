@@ -94,10 +94,12 @@ class Console(UI):
 
         def run(options):
             try:
-                ConsoleUI(self.options, self.console_cmds)
+                c = ConsoleUI(self.options, self.console_cmds)
+                d = c.start_ui()
+                return d
             except Exception as ex:
                 log.exception(ex)
                 raise
 
-        deluge.common.run_profiled(run, self.options, output_file=self.options.profile,
-                                   do_profile=self.options.profile)
+        return deluge.common.run_profiled(run, self.options, output_file=self.options.profile,
+                                          do_profile=self.options.profile)

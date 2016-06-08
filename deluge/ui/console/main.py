@@ -219,6 +219,7 @@ class ConsoleUI(component.Component):
 
     def __init__(self, options=None, cmds=None):
         component.Component.__init__(self, "ConsoleUI", 2)
+        self.options = options
         # keep track of events for the log view
         self.events = []
         self.statusbars = None
@@ -238,15 +239,18 @@ class ConsoleUI(component.Component):
         # Set the interactive flag to indicate where we should print the output
         self.interactive = True
         self._commands = cmds
-        if options.parsed_cmds:
+        self.coreconfig = CoreConfig()
+
+    def start_ui(self):
+        ret = None
+        if self.options.parsed_cmds:
             self.interactive = False
-            if not cmds:
+            if not self._commands:
                 print("Sorry, couldn't find any commands")
                 return
             else:
-                self.exec_args(options)
+                ret = self.exec_args(self.options)
 
-        self.coreconfig = CoreConfig()
         if self.interactive and not deluge.common.windows_check():
             # We use the curses.wrapper function to prevent the console from getting
             # messed up if an uncaught exception is experienced.
@@ -262,6 +266,8 @@ Please use commands from the command line, e.g.:\n
             """)
         else:
             reactor.run()
+
+        return ret
 
     def exec_args(self, options):
         commander = Commander(self._commands)
@@ -280,11 +286,15 @@ Please use commands from the command line, e.g.:\n
                             break
                         d.addCallback(exec_command, command)
                     d.addCallback(do_command, "quit")
+                    return d
 
                 # We need to wait for the rpcs in start() to finish before processing
                 # any of the commands.
                 self.started_deferred.addCallback(on_started)
-            component.start().addCallback(on_started)
+                return self.started_deferred
+            d = component.start()
+            d.addCallback(on_started)
+            return d
 
         def on_connect_fail(reason):
             if reason.check(DelugeError):
@@ -303,6 +313,7 @@ Please use commands from the command line, e.g.:\n
             d = client.connect(options.daemon_addr, options.daemon_port, options.daemon_user, options.daemon_pass)
         d.addCallback(on_connect)
         d.addErrback(on_connect_fail)
+        return d
 
     def run(self, stdscr):
         """

@@ -107,7 +107,7 @@ levels = {
 }
 
 
-def setup_logger(level="error", filename=None, filemode="w", logrotate=None):
+def setup_logger(level="error", filename=None, filemode="w", logrotate=None, twisted_observer=True):
     """
     Sets up the basic logger and if `:param:filename` is set, then it will log
     to that file instead of stdout.
@@ -153,8 +153,9 @@ def setup_logger(level="error", filename=None, filemode="w", logrotate=None):
     root_logger.addHandler(handler)
     root_logger.setLevel(level)
 
-    twisted_logging = TwistedLoggingObserver()
-    twisted_logging.start()
+    if twisted_observer:
+        twisted_logging = TwistedLoggingObserver()
+        twisted_logging.start()
 
 
 class TwistedLoggingObserver(PythonLoggingObserver):
