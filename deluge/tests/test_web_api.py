@@ -31,27 +31,11 @@ from .daemon_base import DaemonBase
 common.disable_new_release_check()
 
 
-class ReactorOverride(object):
-
-    def __getattr__(self, attr):
-        if attr == "run":
-            return self._run
-        if attr == "stop":
-            return self._stop
-        return getattr(reactor, attr)
-
-    def _run(self):
-        pass
-
-    def _stop(self):
-        pass
-
-
 class WebAPITestCase(BaseTestCase, DaemonBase):
 
     def set_up(self):
         self.host_id = None
-        deluge.ui.web.server.reactor = ReactorOverride()
+        deluge.ui.web.server.reactor = common.ReactorOverride()
         d = self.common_set_up()
         d.addCallback(self.start_core)
         d.addCallback(self.start_webapi)
