@@ -1,5 +1,4 @@
 import base64
-import os
 import warnings
 
 import pytest
@@ -30,7 +29,7 @@ class TorrentmanagerTestCase(BaseTestCase):
 
     @defer.inlineCallbacks
     def test_remove_torrent(self):
-        filename = os.path.join(os.path.dirname(__file__), "test.torrent")
+        filename = common.rpath("test.torrent")
         torrent_id = yield self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), {})
         self.assertTrue(self.core.torrentmanager.remove(torrent_id, False))
 

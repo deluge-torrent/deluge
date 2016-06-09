@@ -52,7 +52,7 @@ class TorrentTestCase(BaseTestCase):
         self.assertEquals(torrent.state, state)
 
     def get_torrent_atp(self, filename):
-        filename = os.path.join(os.path.dirname(__file__), filename)
+        filename = common.rpath(filename)
         e = lt.bdecode(open(filename, 'rb').read())
         info = lt.torrent_info(e)
         atp = {"ti": info}
@@ -117,7 +117,7 @@ class TorrentTestCase(BaseTestCase):
     @defer.inlineCallbacks
     def test_torrent_error_data_missing(self):
         options = {"seed_mode": True}
-        filename = os.path.join(os.path.dirname(__file__), "test_torrent.file.torrent")
+        filename = common.rpath("test_torrent.file.torrent")
         torrent_id = yield self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
         torrent = self.core.torrentmanager.torrents[torrent_id]
 
@@ -131,7 +131,7 @@ class TorrentTestCase(BaseTestCase):
     @defer.inlineCallbacks
     def test_torrent_error_resume_original_state(self):
         options = {"seed_mode": True, "add_paused": True}
-        filename = os.path.join(os.path.dirname(__file__), "test_torrent.file.torrent")
+        filename = common.rpath("test_torrent.file.torrent")
         torrent_id = yield self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
         torrent = self.core.torrentmanager.torrents[torrent_id]
 
@@ -174,7 +174,7 @@ class TorrentTestCase(BaseTestCase):
             is_finished=True,
         )
 
-        filename = os.path.join(os.path.dirname(__file__), "test_torrent.file.torrent")
+        filename = common.rpath("test_torrent.file.torrent")
         filedump = open(filename).read()
         torrent_id = yield self.core.torrentmanager.add(state=torrent_state, filedump=filedump,
                                                         resume_data=lt.bencode(resume_data))
