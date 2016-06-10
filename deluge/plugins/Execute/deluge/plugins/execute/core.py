@@ -11,6 +11,7 @@ import hashlib
 import logging
 import os
 import time
+from collections import namedtuple
 
 from twisted.internet.utils import getProcessOutputAndValue
 
@@ -37,6 +38,8 @@ EVENT_MAP = {
     "removed": "TorrentRemovedEvent"
 }
 
+ScriptArgs = namedtuple("ScriptArgs", ["torrent_id", "torrent_name", "download_location", "label"])
+
 
 class ExecuteCommandAddedEvent(DelugeEvent):
     """
@@ -57,6 +60,7 @@ class ExecuteCommandRemovedEvent(DelugeEvent):
 class Core(CorePluginBase):
     def enable(self):
         self.config = ConfigManager("execute.conf", DEFAULT_CONFIG)
+        self.plugin = component.get("CorePluginManager")
         event_manager = component.get("EventManager")
         self.registered_events = {}
         self.preremoved_cache = {}
@@ -79,27 +83,28 @@ class Core(CorePluginBase):
 
         log.debug("Execute core plugin enabled!")
 
+    def create_script_args(self, torrent_id):
+        # getProcessOutputAndValue requires args to be str
+        torrent = component.get("TorrentManager").torrents[torrent_id]
+        torrent_info = torrent.get_status(["name", "download_location"])
+        plugin_info = self.plugin.get_status(torrent_id, ["label"])
+        return ScriptArgs(utf8_encoded(torrent_id),
+                          utf8_encoded(torrent_info["name"]),
+                          utf8_encoded(torrent_info["download_location"]),
+                          utf8_encoded(plugin_info.get("label", "")))
+
     def on_preremoved(self, torrent_id):
         # Get and store the torrent info before it is removed
-        torrent = component.get("TorrentManager").torrents[torrent_id]
-        info = torrent.get_status(["name", "download_location"])
-        self.preremoved_cache[torrent_id] = [utf8_encoded(torrent_id), utf8_encoded(info["name"]),
-                                             utf8_encoded(info["download_location"])]
+        self.preremoved_cache[torrent_id] = self.create_script_args(torrent_id)
 
     def execute_commands(self, torrent_id, event, *arg):
         if event == "added" and arg[0]:
             # No futher action as from_state (arg[0]) is True
             return
         elif event == "removed":
-            torrent_id, torrent_name, download_location = self.preremoved_cache.pop(torrent_id)
+            script_args = self.preremoved_cache.pop(torrent_id)
         else:
-            torrent = component.get("TorrentManager").torrents[torrent_id]
-            info = torrent.get_status(["name", "download_location"])
-            # Grab the torrent name and download location
-            # getProcessOutputAndValue requires args to be str
-            torrent_id = utf8_encoded(torrent_id)
-            torrent_name = utf8_encoded(info["name"])
-            download_location = utf8_encoded(info["download_location"])
+            script_args = self.create_script_args(torrent_id)
 
         log.debug("Running commands for %s", event)
 
@@ -119,7 +124,7 @@ class Core(CorePluginBase):
                 command = os.path.expanduser(command)
                 if os.path.isfile(command) and os.access(command, os.X_OK):
                     log.debug("Running %s", command)
-                    d = getProcessOutputAndValue(command, (torrent_id, torrent_name, download_location), env=os.environ)
+                    d = getProcessOutputAndValue(command, script_args, env=os.environ)
                     d.addCallback(log_error, command)
                 else:
                     log.error("Execute script not found or not executable")
