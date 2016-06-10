@@ -37,9 +37,10 @@
 #
 #
 
+import errno
 import os
 
-from twisted.internet.utils import getProcessValue
+from twisted.internet.utils import getProcessOutputAndValue
 
 from deluge.log import LOG as log
 from deluge.plugins.pluginbase import CorePluginBase
@@ -142,40 +143,33 @@ class Core(CorePluginBase):
             if file_ext_sec and file_ext_sec + file_ext in EXTRACT_COMMANDS:
                 file_ext = file_ext_sec + file_ext
             elif file_ext not in EXTRACT_COMMANDS or file_ext_sec == '.tar':
-                log.warning("EXTRACTOR: Can't extract file with unknown file type: %s" % f["path"])
+                log.debug("EXTRACTOR: Can't extract file with unknown file type: %s", f["path"])
                 continue
+
             cmd = EXTRACT_COMMANDS[file_ext]
-
-            # Now that we have the cmd, lets run it to extract the files
             fpath = os.path.join(tid_status["save_path"], os.path.normpath(f["path"]))
-
-            # Get the destination path
             dest = os.path.normpath(self.config["extract_path"])
             if self.config["use_name_folder"]:
-                name = tid_status["name"]
-                dest = os.path.join(dest, name)
+                dest = os.path.join(dest, tid_status["name"])
 
-            # Create the destination folder if it doesn't exist
-            if not os.path.exists(dest):
-                try:
-                    os.makedirs(dest)
-                except Exception, e:
-                    log.error("EXTRACTOR: Error creating destination folder: %s", e)
-                    return
+            try:
+                os.makedirs(dest)
+            except OSError, ex:
+                if not (ex.errno == errno.EEXIST and os.path.isdir(dest)):
+                    log.error("EXTRACTOR: Error creating destination folder: %s", ex)
+                    break
 
-            def on_extract_success(result, torrent_id, fpath):
-                # XXX: Emit an event
-                log.info("EXTRACTOR: Extract successful: %s (%s)", fpath, torrent_id)
+            def on_extract(result, torrent_id, fpath):
+                # Check command exit code.
+                if not result[2]:
+                    log.info("EXTRACTOR: Extract successful: %s (%s)", fpath, torrent_id)
+                else:
+                    log.error("EXTRACTOR: Extract failed: %s (%s) %s", fpath, torrent_id, result[1])
 
-            def on_extract_failed(result, torrent_id, fpath):
-                # XXX: Emit an event
-                log.error("EXTRACTOR: Extract failed: %s (%s)", fpath, torrent_id)
-
-            # Run the command and add some callbacks
-            log.debug("EXTRACTOR: Extracting %s with %s %s to %s", fpath, cmd[0], cmd[1], dest)
-            d = getProcessValue(cmd[0], cmd[1].split() + [str(fpath)], {}, str(dest))
-            d.addCallback(on_extract_success, torrent_id, fpath)
-            d.addErrback(on_extract_failed, torrent_id, fpath)
+            # Run the command and add callback.
+            log.debug("EXTRACTOR: Extracting %s from %s with %s %s to %s", fpath, torrent_id, cmd[0], cmd[1], dest)
+            d = getProcessOutputAndValue(cmd[0], cmd[1].split() + [str(fpath)], os.environ, str(dest))
+            d.addCallback(on_extract, torrent_id, fpath)
 
     @export
     def set_config(self, config):
