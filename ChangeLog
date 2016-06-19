@@ -9,6 +9,14 @@
 	* #2703: Stop moving torrent files if target files exist to prevent unintended clobbering of data.
 	* #1330: Fixed the pausing and resuming of the Deluge session so torrents return to previous state.
 	* #2765: Add support for TLS SNI in httpdownloader.
+	* #2790: Ensure base32 magnet hash is uppercase to fix lowercase magnets uris.
+
+==== Daemon ====
+	* New command-line option to restict selected config key to read-only.
+	* Allow use of uppercase log level to match UIs.
+
+==== UI ====
+	* #2832: Fixed error with blank lines in auth file.
 
 ==== GtkUI ====
 	* Fixed installing plugin from a non-ascii directory.
@@ -18,6 +26,8 @@
 	* Fixed showing the wrong connected status with hostname in the Connection Manager.
 	* #2754: Fixed the progress column to sort by progress and state correctly.
 	* #2696: Fixed incorrect Move Completed folder shown in Options tab.
+	* #2783: Sorting for name column is now case insensitive.
+	* #2795: Reduce height of Add Torrent Dialog to help with smaller screeen resoltuions.
 
 ==== WebUI ====
 	* #2782: Fixed HTTPS negotiating incorrect cipher.
@@ -25,11 +35,14 @@
 	* #2705: Fixed the hostlist config file not being created.
 
 ==== Console ====
-	* Fixed adding non-ascii torrent in non-interactive mode
+	* Fixed adding non-ascii torrent in non-interactive mode.
+	* #2796: Add time_added to info sort keys.
+	* #2815: Fixed 'add' cmd path inconsistency on Windows.
 
 ==== OSX ====
 	* Fixed starting deluged from connection manager.
 	* Fixed empty scrolling status (systray) menu.
+	* Source .py files no longer included in Deluge.app.
 
 ==== Win32 ====
 	* #2093: Fixed opening non-ascii torrent files.
@@ -46,6 +59,13 @@
 
 ==== Notification Plugin ====
 	* #2402: Fixed the popup to show the actual count of files finished.
+
+==== AutoAdd Plugin ====
+	* Fixed watch dir not accepting uppercase file extension.
+
+==== Extractor ====
+	* Ignore the remaining rar part files to prevent spawning useless processes.
+	* #2785: Fixed only an empty folder when extracting rar files.
 
 === Deluge 1.3.12 (13 September 2015) ===
 ==== GtkUI ====
