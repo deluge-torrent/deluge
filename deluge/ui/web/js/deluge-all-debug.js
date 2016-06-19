@@ -1,1071 +1,4 @@
 /*!
- * Deluge.add.Window.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, write to:
- *     The Free Software Foundation, Inc.,
- *     51 Franklin Street, Fifth Floor
- *     Boston, MA  02110-1301, USA.
- *
- * In addition, as a special exception, the copyright holders give
- * permission to link the code of portions of this program with the OpenSSL
- * library.
- * You must obey the GNU General Public License in all respects for all of
- * the code used other than OpenSSL. If you modify file(s) with this
- * exception, you may extend this exception to your version of the file(s),
- * but you are not obligated to do so. If you do not wish to do so, delete
- * this exception statement from your version. If you delete this exception
- * statement from all source files in the program, then also delete it here.
- */
-Ext.ns('Deluge.add');
-
-/**
- * @class Deluge.add.Window
- * @extends Ext.Window
- * Base class for an add Window
- */
-Deluge.add.Window = Ext.extend(Ext.Window, {
-    initComponent: function() {
-        Deluge.add.Window.superclass.initComponent.call(this);
-        this.addEvents(
-            'beforeadd',
-            'add',
-            'addfailed'
-        );
-    },
-
-	/**
-	 * Create an id for the torrent before we have any info about it.
-	 */
-    createTorrentId: function() {
-        return new Date().getTime();
-    }
-});
-/*!
- * Deluge.add.AddWindow.js
- *
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, write to:
- *     The Free Software Foundation, Inc.,
- *     51 Franklin Street, Fifth Floor
- *     Boston, MA  02110-1301, USA.
- *
- * In addition, as a special exception, the copyright holders give
- * permission to link the code of portions of this program with the OpenSSL
- * library.
- * You must obey the GNU General Public License in all respects for all of
- * the code used other than OpenSSL. If you modify file(s) with this
- * exception, you may extend this exception to your version of the file(s),
- * but you are not obligated to do so. If you do not wish to do so, delete
- * this exception statement from your version. If you delete this exception
- * statement from all source files in the program, then also delete it here.
- */
-
-Ext.namespace('Deluge.add');
-
-Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
-
-	title: _('Add Torrents'),
-	layout: 'border',
-	width: 470,
-	height: 450,
-	bodyStyle: 'padding: 10px 5px;',
-	buttonAlign: 'right',
-	closeAction: 'hide',
-	closable: true,
-	plain: true,
-	iconCls: 'x-deluge-add-window-icon',
-
-	initComponent: function() {
-		Deluge.add.AddWindow.superclass.initComponent.call(this);
-
-		this.addButton(_('Cancel'), this.onCancelClick, this);
-		this.addButton(_('Add'), this.onAddClick, this);
-
-		function torrentRenderer(value, p, r) {
-			if (r.data['info_hash']) {
-				return String.format('<div class="x-deluge-add-torrent-name">{0}</div>', value);
-			} else {
-				return String.format('<div class="x-deluge-add-torrent-name-loading">{0}</div>', value);
-			}
-		}
-
-		this.list = new Ext.list.ListView({
-			store: new Ext.data.SimpleStore({
-				fields: [
-					{name: 'info_hash', mapping: 1},
-					{name: 'text', mapping: 2}
-				],
-				id: 0
-			}),
-			columns: [{
-				id: 'torrent',
-				width: 150,
-				sortable: true,
-				renderer: torrentRenderer,
-				dataIndex: 'text'
-			}],
-			stripeRows: true,
-			singleSelect: true,
-			listeners: {
-				'selectionchange': {
-					fn: this.onSelect,
-					scope: this
-				}
-			},
-			hideHeaders: true,
-			autoExpandColumn: 'torrent',
-			height: '100%',
-			autoScroll: true
-		});
-
-		this.add({
-			region: 'center',
-			items: [this.list],
-			margins: '5 5 5 5',
-			bbar: new Ext.Toolbar({
-				items: [{
-					iconCls: 'x-deluge-add-file',
-					text: _('File'),
-					handler: this.onFile,
-					scope: this
-				}, {
-					text: _('Url'),
-					iconCls: 'icon-add-url',
-					handler: this.onUrl,
-					scope: this
-				}, {
-					text: _('Infohash'),
-					iconCls: 'icon-add-magnet',
-					hidden: true,
-					disabled: true
-				}, '->', {
-					text: _('Remove'),
-					iconCls: 'icon-remove',
-					handler: this.onRemove,
-					scope: this
-				}]
-			})
-		});
-
-		this.optionsPanel = this.add(new Deluge.add.OptionsPanel());
-		this.on('hide', this.onHide, this);
-		this.on('show', this.onShow, this);
-	},
-
-	clear: function() {
-		this.list.getStore().removeAll();
-		this.optionsPanel.clear();
-	},
-
-	onAddClick: function() {
-		var torrents = [];
-		if (!this.list) return;
-		this.list.getStore().each(function(r) {
-			var id = r.get('info_hash');
-			torrents.push({
-				path: this.optionsPanel.getFilename(id),
-				options: this.optionsPanel.getOptions(id)
-			});
-		}, this);
-
-		deluge.client.web.add_torrents(torrents, {
-			success: function(result) {
-			}
-		})
-		this.clear();
-		this.hide();
-	},
-
-	onCancelClick: function() {
-		this.clear();
-		this.hide();
-	},
-
-	onFile: function() {
-		if (!this.file) this.file = new Deluge.add.FileWindow();
-		this.file.show();
-	},
-
-	onHide: function() {
-		this.optionsPanel.setActiveTab(0);
-		this.optionsPanel.files.setDisabled(true);
-		this.optionsPanel.form.setDisabled(true);
-	},
-
-	onRemove: function() {
-		if (!this.list.getSelectionCount()) return;
-		var torrent = this.list.getSelectedRecords()[0];
-		this.list.getStore().remove(torrent);
-		this.optionsPanel.clear();
-
-		if (this.torrents && this.torrents[torrent.id]) delete this.torrents[torrent.id];
-	},
-
-	onSelect: function(list, selections) {
-		if (selections.length) {
-			var record = this.list.getRecord(selections[0]);
-			this.optionsPanel.setTorrent(record.get('info_hash'));
-		} else {
-			this.optionsPanel.files.setDisabled(true);
-			this.optionsPanel.form.setDisabled(true);
-		}
-	},
-
-	onShow: function() {
-		if (!this.url) {
-			this.url = new Deluge.add.UrlWindow();
-			this.url.on('beforeadd', this.onTorrentBeforeAdd, this);
-			this.url.on('add', this.onTorrentAdd, this);
-			this.url.on('addfailed', this.onTorrentAddFailed, this);
-		}
-
-		if (!this.file) {
-			this.file = new Deluge.add.FileWindow();
-			this.file.on('beforeadd', this.onTorrentBeforeAdd, this);
-			this.file.on('add', this.onTorrentAdd, this);
-			this.file.on('addfailed', this.onTorrentAddFailed, this);
-		}
-
-		this.optionsPanel.form.getDefaults();
-	},
-
-	onTorrentBeforeAdd: function(torrentId, text) {
-		var store = this.list.getStore();
-		store.loadData([[torrentId, null, text]], true);
-	},
-
-	onTorrentAdd: function(torrentId, info) {
-		var r = this.list.getStore().getById(torrentId);
-		if (!info) {
-			Ext.MessageBox.show({
-				title: _('Error'),
-				msg: _('Not a valid torrent'),
-				buttons: Ext.MessageBox.OK,
-				modal: false,
-				icon: Ext.MessageBox.ERROR,
-				iconCls: 'x-deluge-icon-error'
-			});
-			this.list.getStore().remove(r);
-		} else {
-			r.set('info_hash', info['info_hash']);
-			r.set('text', info['name']);
-			this.list.getStore().commitChanges();
-			this.optionsPanel.addTorrent(info);
-			this.list.select(r);
-		}
-	},
-
-	onTorrentAddFailed: function(torrentId) {
-		var store = this.list.getStore();
-		var torrentRecord = store.getById(torrentId);
-		if (torrentRecord) {
-			store.remove(torrentRecord);
-		}
-	},
-
-	onUrl: function(button, event) {
-		this.url.show();
-	}
-});
-/*!
- * Deluge.add.File.js
- *
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, write to:
- *     The Free Software Foundation, Inc.,
- *     51 Franklin Street, Fifth Floor
- *     Boston, MA  02110-1301, USA.
- *
- * In addition, as a special exception, the copyright holders give
- * permission to link the code of portions of this program with the OpenSSL
- * library.
- * You must obey the GNU General Public License in all respects for all of
- * the code used other than OpenSSL. If you modify file(s) with this
- * exception, you may extend this exception to your version of the file(s),
- * but you are not obligated to do so. If you do not wish to do so, delete
- * this exception statement from your version. If you delete this exception
- * statement from all source files in the program, then also delete it here.
- */
-Ext.ns('Deluge.add');
-
-/**
- * @class Deluge.add.FileWindow
- * @extends Deluge.add.Window
- */
-Deluge.add.FileWindow = Ext.extend(Deluge.add.Window, {
-
-	title: _('Add from File'),
-	layout: 'fit',
-	width: 350,
-	height: 115,
-	modal: true,
-	plain: true,
-	buttonAlign: 'center',
-	closeAction: 'hide',
-	bodyStyle: 'padding: 10px 5px;',
-	iconCls: 'x-deluge-add-file',
-
-	initComponent: function() {
-		Deluge.add.FileWindow.superclass.initComponent.call(this);
-		this.addButton(_('Add'), this.onAddClick, this);
-
-		this.form = this.add({
-			xtype: 'form',
-			baseCls: 'x-plain',
-			labelWidth: 35,
-			autoHeight: true,
-			fileUpload: true,
-			items: [{
-				xtype: 'fileuploadfield',
-				id: 'torrentFile',
-				width: 280,
-				height: 24,
-				emptyText: _('Select a torrent'),
-				fieldLabel: _('File'),
-				name: 'file',
-				buttonCfg: {
-					text: _('Browse') + '...'
-				}
-			}]
-		});
-	},
-
-	// private
-	onAddClick: function(field, e) {
-		if (this.form.getForm().isValid()) {
-			this.torrentId = this.createTorrentId();
-			this.form.getForm().submit({
-				url: deluge.config.base + 'upload',
-				waitMsg: _('Uploading your torrent...'),
-				failure: this.onUploadFailure,
-				success: this.onUploadSuccess,
-				scope: this
-			});
-			var name = this.form.getForm().findField('torrentFile').value;
-			name = name.split('\\').slice(-1)[0];
-			this.fireEvent('beforeadd', this.torrentId, name);
-		}
-	},
-
-	// private
-	onGotInfo: function(info, obj, response, request) {
-		info['filename'] = request.options.filename;
-		this.fireEvent('add', this.torrentId, info);
-	},
-
-	// private
-	onUploadFailure: function(form, action) {
-		this.hide();
-		Ext.MessageBox.show({
-			title: _('Error'),
-			msg: _('Failed to upload torrent'),
-			buttons: Ext.MessageBox.OK,
-			modal: false,
-			icon: Ext.MessageBox.ERROR,
-			iconCls: 'x-deluge-icon-error'
-		});
-		this.fireEvent('addfailed', this.torrentId);
-	},
-
-	// private
-	onUploadSuccess: function(fp, upload) {
-		this.hide();
-		if (upload.result.success) {
-			var filename = upload.result.files[0];
-			this.form.getForm().findField('torrentFile').setValue('');
-			deluge.client.web.get_torrent_info(filename, {
-				success: this.onGotInfo,
-				scope: this,
-				filename: filename
-			});
-		}
-	}
-});
-/*!
- * Deluge.add.FilesTab.js
- *
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, write to:
- *     The Free Software Foundation, Inc.,
- *     51 Franklin Street, Fifth Floor
- *     Boston, MA  02110-1301, USA.
- *
- * In addition, as a special exception, the copyright holders give
- * permission to link the code of portions of this program with the OpenSSL
- * library.
- * You must obey the GNU General Public License in all respects for all of
- * the code used other than OpenSSL. If you modify file(s) with this
- * exception, you may extend this exception to your version of the file(s),
- * but you are not obligated to do so. If you do not wish to do so, delete
- * this exception statement from your version. If you delete this exception
- * statement from all source files in the program, then also delete it here.
- */
-Ext.ns('Deluge.add');
-
-/**
- * @class Deluge.add.FilesTab
- * @extends Ext.ux.tree.TreeGrid
- */
-Deluge.add.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
-
-	layout: 'fit',
-	title:  _('Files'),
-
-	autoScroll:  false,
-	animate:     false,
-	border:      false,
-	disabled:    true,
-	rootVisible: false,
-
-	columns: [{
-		header: _('Filename'),
-		width: 295,
-		dataIndex: 'filename'
-	},{
-		header: _('Size'),
-		width: 60,
-		dataIndex: 'size',
-		tpl: new Ext.XTemplate('{size:this.fsize}', {
-			fsize: function(v) {
-				return fsize(v);
-			}
-		})
-	},{
-		header: _('Download'),
-		width: 65,
-		dataIndex: 'download',
-		tpl: new Ext.XTemplate('{download:this.format}', {
-			format: function(v) {
-				return '<div rel="chkbox" class="x-grid3-check-col'+(v?'-on':'')+'"> </div>';
-			}
-		})
-	}],
-
-	initComponent: function() {
-		Deluge.add.FilesTab.superclass.initComponent.call(this);
-		this.on('click', this.onNodeClick, this);
-	},
-
-	clearFiles: function() {
-		var root = this.getRootNode();
-		if (!root.hasChildNodes()) return;
-		root.cascade(function(node) {
-			if (!node.parentNode || !node.getOwnerTree()) return;
-			node.remove();
-		});
-	},
-
-	setDownload: function(node, value, suppress) {
-		node.attributes.download = value;
-		node.ui.updateColumns();
-
-		if (node.isLeaf()) {
-			if (!suppress) {
-				return this.fireEvent('fileschecked', [node], value, !value);
-			}
-		} else {
-			var nodes = [node];
-			node.cascade(function(n) {
-				n.attributes.download = value;
-				n.ui.updateColumns();
-				nodes.push(n);
-			}, this);
-			if (!suppress) {
-				return this.fireEvent('fileschecked', nodes, value, !value);
-			}
-		}
-	},
-
-	onNodeClick: function(node, e) {
-		var el = new Ext.Element(e.target);
-		if (el.getAttribute('rel') == 'chkbox') {
-			this.setDownload(node, !node.attributes.download);
-		}
-	}
-});
-/*!
- * Deluge.add.Infohash.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, write to:
- *     The Free Software Foundation, Inc.,
- *     51 Franklin Street, Fifth Floor
- *     Boston, MA  02110-1301, USA.
- *
- * In addition, as a special exception, the copyright holders give
- * permission to link the code of portions of this program with the OpenSSL
- * library.
- * You must obey the GNU General Public License in all respects for all of
- * the code used other than OpenSSL. If you modify file(s) with this
- * exception, you may extend this exception to your version of the file(s),
- * but you are not obligated to do so. If you do not wish to do so, delete
- * this exception statement from your version. If you delete this exception
- * statement from all source files in the program, then also delete it here.
- */
-Ext.namespace('Ext.deluge.add');
-/*!
- * Deluge.add.OptionsPanel.js
- *
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, write to:
- *     The Free Software Foundation, Inc.,
- *     51 Franklin Street, Fifth Floor
- *     Boston, MA  02110-1301, USA.
- *
- * In addition, as a special exception, the copyright holders give
- * permission to link the code of portions of this program with the OpenSSL
- * library.
- * You must obey the GNU General Public License in all respects for all of
- * the code used other than OpenSSL. If you modify file(s) with this
- * exception, you may extend this exception to your version of the file(s),
- * but you are not obligated to do so. If you do not wish to do so, delete
- * this exception statement from your version. If you delete this exception
- * statement from all source files in the program, then also delete it here.
- */
-Ext.ns('Deluge.add');
-
-Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
-
-	torrents: {},
-
-	// layout options
-	region: 'south',
-	margins: '5 5 5 5',
-	activeTab: 0,
-	height: 265,
-
-	initComponent: function() {
-		Deluge.add.OptionsPanel.superclass.initComponent.call(this);
-		this.files = this.add(new Deluge.add.FilesTab());
-		this.form = this.add(new Deluge.add.OptionsTab());
-
-		this.files.on('fileschecked', this.onFilesChecked, this);
-	},
-
-	addTorrent: function(torrent) {
-		this.torrents[torrent['info_hash']] = torrent;
-		var fileIndexes = {};
-		this.walkFileTree(torrent['files_tree'], function(filename, type, entry, parent) {
-			if (type != 'file') return;
-			fileIndexes[entry.index] = entry.download;
-		}, this);
-
-		var priorities = [];
-		Ext.each(Ext.keys(fileIndexes), function(index) {
-			priorities[index] = fileIndexes[index];
-		});
-
-		var oldId = this.form.optionsManager.changeId(torrent['info_hash'], true);
-		this.form.optionsManager.setDefault('file_priorities', priorities);
-		this.form.optionsManager.changeId(oldId, true);
-	},
-
-	clear: function() {
-		this.files.clearFiles();
-		this.form.optionsManager.resetAll();
-	},
-
-	getFilename: function(torrentId) {
-		return this.torrents[torrentId]['filename'];
-	},
-
-	getOptions: function(torrentId) {
-		var oldId = this.form.optionsManager.changeId(torrentId, true);
-		var options = this.form.optionsManager.get();
-		this.form.optionsManager.changeId(oldId, true);
-		Ext.each(options['file_priorities'], function(priority, index) {
-			options['file_priorities'][index] = (priority) ? 1 : 0;
-		});
-		return options;
-	},
-
-	setTorrent: function(torrentId) {
-		if (!torrentId) return;
-
-		this.torrentId = torrentId;
-		this.form.optionsManager.changeId(torrentId);
-
-		this.files.clearFiles();
-		var root = this.files.getRootNode();
-		var priorities = this.form.optionsManager.get('file_priorities');
-
-		this.form.setDisabled(false);
-
-		if (this.torrents[torrentId]['files_tree']) {
-			this.walkFileTree(this.torrents[torrentId]['files_tree'], function(filename, type, entry, parentNode) {
-				var node = new Ext.tree.TreeNode({
-					download:  (entry.index) ? priorities[entry.index] : true,
-					filename:  filename,
-					fileindex: entry.index,
-					leaf:      type != 'dir',
-					size:      entry.length
-				});
-				parentNode.appendChild(node);
-				if (type == 'dir') return node;
-			}, this, root);
-			root.firstChild.expand();
-			this.files.setDisabled(false);
-			this.files.show();
-		} else {
-			// Files tab is empty so show options tab
-			this.form.show();
-			this.files.setDisabled(true);
-		}
-
-	},
-
-	walkFileTree: function(files, callback, scope, parentNode) {
-		for (var filename in files.contents) {
-			var entry = files.contents[filename];
-			var type = entry.type;
-
-			if (scope) {
-				var ret = callback.apply(scope, [filename, type, entry, parentNode]);
-			} else {
-				var ret = callback(filename, type, entry, parentNode);
-			}
-
-			if (type == 'dir') this.walkFileTree(entry, callback, scope, ret);
-		}
-	},
-
-	onFilesChecked: function(nodes, newValue, oldValue) {
-		if (this.form.optionsManager.get('compact_allocation')) {
-			Ext.Msg.show({
-				title: _('Unable to set file priority!'),
-				msg:   _('File prioritization is unavailable when using Compact allocation. Would you like to switch to Full allocation?'),
-				buttons: Ext.Msg.YESNO,
-				fn: function(result) {
-					if (result == 'yes') {
-						this.form.optionsManager.update('compact_allocation', false);
-						Ext.each(nodes, function(node) {
-							if (node.attributes.fileindex < 0) return;
-							var priorities = this.form.optionsManager.get('file_priorities');
-							priorities[node.attributes.fileindex] = newValue;
-							this.form.optionsManager.update('file_priorities', priorities);
-						}, this);
-					} else {
-						this.files.setDownload(nodes[0], oldValue, true);
-					}
-				},
-				scope: this,
-				icon: Ext.MessageBox.QUESTION
-			});
-		} else {
-			Ext.each(nodes, function(node) {
-				if (node.attributes.fileindex < 0) return;
-				var priorities = this.form.optionsManager.get('file_priorities');
-				priorities[node.attributes.fileindex] = newValue;
-				this.form.optionsManager.update('file_priorities', priorities);
-			}, this);
-		}
-	}
-});
-/*!
- * Deluge.add.OptionsPanel.js
- *
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, write to:
- *     The Free Software Foundation, Inc.,
- *     51 Franklin Street, Fifth Floor
- *     Boston, MA  02110-1301, USA.
- *
- * In addition, as a special exception, the copyright holders give
- * permission to link the code of portions of this program with the OpenSSL
- * library.
- * You must obey the GNU General Public License in all respects for all of
- * the code used other than OpenSSL. If you modify file(s) with this
- * exception, you may extend this exception to your version of the file(s),
- * but you are not obligated to do so. If you do not wish to do so, delete
- * this exception statement from your version. If you delete this exception
- * statement from all source files in the program, then also delete it here.
- */
-Ext.ns('Deluge.add');
-
-/**
- * @class Deluge.add.OptionsTab
- * @extends Ext.form.FormPanel
- */
-Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
-
-	title:  _('Options'),
-	height: 170,
-
-	border:     false,
-	bodyStyle:  'padding: 5px',
-	disabled:   true,
-	labelWidth: 1,
-
-	initComponent: function() {
-		Deluge.add.OptionsTab.superclass.initComponent.call(this);
-
-		this.optionsManager = new Deluge.MultiOptionsManager();
-
-		var fieldset = this.add({
-			xtype: 'fieldset',
-			title: _('Download Location'),
-			border: false,
-			autoHeight: true,
-			defaultType: 'textfield',
-			labelWidth: 1,
-			fieldLabel: '',
-			style: 'padding-bottom: 5px; margin-bottom: 0px;'
-		});
-        this.optionsManager.bind('download_location', fieldset.add({
-            fieldLabel: '',
-            name: 'download_location',
-            width: 400,
-            labelSeparator: ''
-        }));
-
-        var fieldset = this.add({
-            xtype: 'fieldset',
-            title: _('Move Completed Location'),
-            border: false,
-            autoHeight: true,
-            defaultType: 'togglefield',
-            labelWidth: 1,
-            fieldLabel: '',
-            style: 'padding-bottom: 5px; margin-bottom: 0px;'
-        });
-        var field = fieldset.add({
-            fieldLabel: '',
-            name: 'move_completed_path',
-            width: 425
-        });
-        this.optionsManager.bind('move_completed', field.toggle)
-        this.optionsManager.bind('move_completed_path', field.input)
-
-		var panel = this.add({
-			border: false,
-			layout: 'column',
-			defaultType: 'fieldset'
-		});
-		fieldset = panel.add({
-			title: _('Allocation'),
-			border: false,
-			autoHeight: true,
-			defaultType: 'radio'
-		});
-
-		this.optionsManager.bind('compact_allocation', fieldset.add({
-			xtype: 'radiogroup',
-			columns: 1,
-			vertical: true,
-			labelSeparator: '',
-			width: 80,
-			items: [{
-				name: 'compact_allocation',
-				value: false,
-				inputValue: false,
-				boxLabel: _('Full'),
-				fieldLabel: '',
-				labelSeparator: ''
-			}, {
-				name: 'compact_allocation',
-				value: true,
-				inputValue: true,
-				boxLabel: _('Compact'),
-				fieldLabel: '',
-				labelSeparator: ''
-			}]
-		}));
-
-		fieldset = panel.add({
-			title: _('Bandwidth'),
-			border: false,
-			autoHeight: true,
-			bodyStyle: 'margin-left: 7px',
-			labelWidth: 105,
-			width: 200,
-			defaultType: 'spinnerfield'
-		});
-		this.optionsManager.bind('max_download_speed', fieldset.add({
-			fieldLabel: _('Max Down Speed'),
-			name: 'max_download_speed',
-			width: 60
-		}));
-		this.optionsManager.bind('max_upload_speed', fieldset.add({
-			fieldLabel: _('Max Up Speed'),
-			name: 'max_upload_speed',
-			width: 60
-		}));
-		this.optionsManager.bind('max_connections', fieldset.add({
-			fieldLabel: _('Max Connections'),
-			name: 'max_connections',
-			width: 60
-		}));
-		this.optionsManager.bind('max_upload_slots', fieldset.add({
-			fieldLabel: _('Max Upload Slots'),
-			name: 'max_upload_slots',
-			width: 60
-		}));
-
-		fieldset = panel.add({
-			title: _('General'),
-			border: false,
-			autoHeight: true,
-			defaultType: 'checkbox'
-		});
-		this.optionsManager.bind('add_paused', fieldset.add({
-			name: 'add_paused',
-			boxLabel: _('Add In Paused State'),
-			fieldLabel: '',
-			labelSeparator: ''
-		}));
-		this.optionsManager.bind('prioritize_first_last_pieces', fieldset.add({
-			name: 'prioritize_first_last_pieces',
-			boxLabel: _('Prioritize First/Last Pieces'),
-			fieldLabel: '',
-			labelSeparator: ''
-		}));
-	},
-
-	getDefaults: function() {
-		var keys = ['add_paused','compact_allocation','download_location',
-		'max_connections_per_torrent','max_download_speed_per_torrent',
-        'move_completed', 'move_completed_path',
-		'max_upload_slots_per_torrent','max_upload_speed_per_torrent',
-		'prioritize_first_last_pieces'];
-
-		deluge.client.core.get_config_values(keys, {
-			success: function(config) {
-				var options = {
-					'file_priorities': [],
-					'add_paused': config.add_paused,
-					'compact_allocation': config.compact_allocation,
-					'download_location': config.download_location,
-                    'move_completed': config.move_completed,
-                    'move_completed_path': config.move_completed_path,
-					'max_connections': config.max_connections_per_torrent,
-					'max_download_speed': config.max_download_speed_per_torrent,
-					'max_upload_slots': config.max_upload_slots_per_torrent,
-					'max_upload_speed': config.max_upload_speed_per_torrent,
-					'prioritize_first_last_pieces': config.prioritize_first_last_pieces
-				}
-				this.optionsManager.options = options;
-				this.optionsManager.resetAll();
-			},
-			scope: this
-		});
-	}
-});
-/*!
- * Deluge.add.UrlWindow.js
- *
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, write to:
- *     The Free Software Foundation, Inc.,
- *     51 Franklin Street, Fifth Floor
- *     Boston, MA  02110-1301, USA.
- *
- * In addition, as a special exception, the copyright holders give
- * permission to link the code of portions of this program with the OpenSSL
- * library.
- * You must obey the GNU General Public License in all respects for all of
- * the code used other than OpenSSL. If you modify file(s) with this
- * exception, you may extend this exception to your version of the file(s),
- * but you are not obligated to do so. If you do not wish to do so, delete
- * this exception statement from your version. If you delete this exception
- * statement from all source files in the program, then also delete it here.
- */
-
-Ext.namespace('Deluge.add');
-Deluge.add.UrlWindow = Ext.extend(Deluge.add.Window, {
-
-    title: _('Add from Url'),
-    modal: true,
-    plain: true,
-    layout: 'fit',
-    width: 350,
-    height: 155,
-
-    buttonAlign: 'center',
-    closeAction: 'hide',
-    bodyStyle: 'padding: 10px 5px;',
-    iconCls: 'x-deluge-add-url-window-icon',
-
-    initComponent: function() {
-        Deluge.add.UrlWindow.superclass.initComponent.call(this);
-        this.addButton(_('Add'), this.onAddClick, this);
-
-        var form = this.add({
-            xtype: 'form',
-            defaultType: 'textfield',
-            baseCls: 'x-plain',
-            labelWidth: 55
-        });
-
-        this.urlField = form.add({
-            fieldLabel: _('Url'),
-            id: 'url',
-            name: 'url',
-            width: '97%'
-        });
-        this.urlField.on('specialkey', this.onAdd, this);
-
-        this.cookieField = form.add({
-            fieldLabel: _('Cookies'),
-            id: 'cookies',
-            name: 'cookies',
-            width: '97%'
-        });
-        this.cookieField.on('specialkey', this.onAdd, this);
-    },
-
-    onAddClick: function(field, e) {
-        if ((field.id == 'url' || field.id == 'cookies') && e.getKey() != e.ENTER) return;
-
-        var field = this.urlField;
-        var url = field.getValue();
-        var cookies = this.cookieField.getValue();
-        var torrentId = this.createTorrentId();
-
-        if (url.indexOf('magnet:?') == 0 && url.indexOf('xt=urn:btih') > -1) {
-            deluge.client.web.get_magnet_info(url, {
-                success: this.onGotInfo,
-                scope: this,
-                filename: url,
-                torrentId: torrentId
-            });
-        } else {
-            deluge.client.web.download_torrent_from_url(url, cookies, {
-                success: this.onDownload,
-                failure: this.onDownloadFailed,
-                scope: this,
-                torrentId: torrentId
-            });
-        }
-
-        this.hide();
-        this.urlField.setValue('');
-        this.fireEvent('beforeadd', torrentId, url);
-    },
-
-    onDownload: function(filename, obj, resp, req) {
-        deluge.client.web.get_torrent_info(filename, {
-            success: this.onGotInfo,
-            scope: this,
-            filename: filename,
-            torrentId: req.options.torrentId
-        });
-    },
-
-    onDownloadFailed: function(obj, resp, req) {
-        Ext.MessageBox.show({
-            title: _('Error'),
-            msg: _('Failed to download torrent'),
-            buttons: Ext.MessageBox.OK,
-            modal: false,
-            icon: Ext.MessageBox.ERROR,
-            iconCls: 'x-deluge-icon-error'
-        });
-        this.fireEvent('addfailed', req.options.torrentId);
-    },
-
-    onGotInfo: function(info, obj, response, request) {
-        info['filename'] = request.options.filename;
-        this.fireEvent('add', request.options.torrentId, info);
-    }
-});
-/*!
  * Deluge.data.SortTypes.js
  *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
@@ -2470,6 +1403,1073 @@ Deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 		var text = status.state + ' ' + status.progress.toFixed(2) + '%';
 		this.progressBar.updateProgress(status.progress / 100.0, text);
 	}
+});
+/*!
+ * Deluge.add.Window.js
+ * 
+ * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, write to:
+ *     The Free Software Foundation, Inc.,
+ *     51 Franklin Street, Fifth Floor
+ *     Boston, MA  02110-1301, USA.
+ *
+ * In addition, as a special exception, the copyright holders give
+ * permission to link the code of portions of this program with the OpenSSL
+ * library.
+ * You must obey the GNU General Public License in all respects for all of
+ * the code used other than OpenSSL. If you modify file(s) with this
+ * exception, you may extend this exception to your version of the file(s),
+ * but you are not obligated to do so. If you do not wish to do so, delete
+ * this exception statement from your version. If you delete this exception
+ * statement from all source files in the program, then also delete it here.
+ */
+Ext.ns('Deluge.add');
+
+/**
+ * @class Deluge.add.Window
+ * @extends Ext.Window
+ * Base class for an add Window
+ */
+Deluge.add.Window = Ext.extend(Ext.Window, {
+    initComponent: function() {
+        Deluge.add.Window.superclass.initComponent.call(this);
+        this.addEvents(
+            'beforeadd',
+            'add',
+            'addfailed'
+        );
+    },
+
+	/**
+	 * Create an id for the torrent before we have any info about it.
+	 */
+    createTorrentId: function() {
+        return new Date().getTime();
+    }
+});
+/*!
+ * Deluge.add.AddWindow.js
+ *
+ * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, write to:
+ *     The Free Software Foundation, Inc.,
+ *     51 Franklin Street, Fifth Floor
+ *     Boston, MA  02110-1301, USA.
+ *
+ * In addition, as a special exception, the copyright holders give
+ * permission to link the code of portions of this program with the OpenSSL
+ * library.
+ * You must obey the GNU General Public License in all respects for all of
+ * the code used other than OpenSSL. If you modify file(s) with this
+ * exception, you may extend this exception to your version of the file(s),
+ * but you are not obligated to do so. If you do not wish to do so, delete
+ * this exception statement from your version. If you delete this exception
+ * statement from all source files in the program, then also delete it here.
+ */
+
+Ext.namespace('Deluge.add');
+
+Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
+
+	title: _('Add Torrents'),
+	layout: 'border',
+	width: 470,
+	height: 450,
+	bodyStyle: 'padding: 10px 5px;',
+	buttonAlign: 'right',
+	closeAction: 'hide',
+	closable: true,
+	plain: true,
+	iconCls: 'x-deluge-add-window-icon',
+
+	initComponent: function() {
+		Deluge.add.AddWindow.superclass.initComponent.call(this);
+
+		this.addButton(_('Cancel'), this.onCancelClick, this);
+		this.addButton(_('Add'), this.onAddClick, this);
+
+		function torrentRenderer(value, p, r) {
+			if (r.data['info_hash']) {
+				return String.format('<div class="x-deluge-add-torrent-name">{0}</div>', value);
+			} else {
+				return String.format('<div class="x-deluge-add-torrent-name-loading">{0}</div>', value);
+			}
+		}
+
+		this.list = new Ext.list.ListView({
+			store: new Ext.data.SimpleStore({
+				fields: [
+					{name: 'info_hash', mapping: 1},
+					{name: 'text', mapping: 2}
+				],
+				id: 0
+			}),
+			columns: [{
+				id: 'torrent',
+				width: 150,
+				sortable: true,
+				renderer: torrentRenderer,
+				dataIndex: 'text'
+			}],
+			stripeRows: true,
+			singleSelect: true,
+			listeners: {
+				'selectionchange': {
+					fn: this.onSelect,
+					scope: this
+				}
+			},
+			hideHeaders: true,
+			autoExpandColumn: 'torrent',
+			height: '100%',
+			autoScroll: true
+		});
+
+		this.add({
+			region: 'center',
+			items: [this.list],
+			margins: '5 5 5 5',
+			bbar: new Ext.Toolbar({
+				items: [{
+					iconCls: 'x-deluge-add-file',
+					text: _('File'),
+					handler: this.onFile,
+					scope: this
+				}, {
+					text: _('Url'),
+					iconCls: 'icon-add-url',
+					handler: this.onUrl,
+					scope: this
+				}, {
+					text: _('Infohash'),
+					iconCls: 'icon-add-magnet',
+					hidden: true,
+					disabled: true
+				}, '->', {
+					text: _('Remove'),
+					iconCls: 'icon-remove',
+					handler: this.onRemove,
+					scope: this
+				}]
+			})
+		});
+
+		this.optionsPanel = this.add(new Deluge.add.OptionsPanel());
+		this.on('hide', this.onHide, this);
+		this.on('show', this.onShow, this);
+	},
+
+	clear: function() {
+		this.list.getStore().removeAll();
+		this.optionsPanel.clear();
+	},
+
+	onAddClick: function() {
+		var torrents = [];
+		if (!this.list) return;
+		this.list.getStore().each(function(r) {
+			var id = r.get('info_hash');
+			torrents.push({
+				path: this.optionsPanel.getFilename(id),
+				options: this.optionsPanel.getOptions(id)
+			});
+		}, this);
+
+		deluge.client.web.add_torrents(torrents, {
+			success: function(result) {
+			}
+		})
+		this.clear();
+		this.hide();
+	},
+
+	onCancelClick: function() {
+		this.clear();
+		this.hide();
+	},
+
+	onFile: function() {
+		if (!this.file) this.file = new Deluge.add.FileWindow();
+		this.file.show();
+	},
+
+	onHide: function() {
+		this.optionsPanel.setActiveTab(0);
+		this.optionsPanel.files.setDisabled(true);
+		this.optionsPanel.form.setDisabled(true);
+	},
+
+	onRemove: function() {
+		if (!this.list.getSelectionCount()) return;
+		var torrent = this.list.getSelectedRecords()[0];
+		this.list.getStore().remove(torrent);
+		this.optionsPanel.clear();
+
+		if (this.torrents && this.torrents[torrent.id]) delete this.torrents[torrent.id];
+	},
+
+	onSelect: function(list, selections) {
+		if (selections.length) {
+			var record = this.list.getRecord(selections[0]);
+			this.optionsPanel.setTorrent(record.get('info_hash'));
+		} else {
+			this.optionsPanel.files.setDisabled(true);
+			this.optionsPanel.form.setDisabled(true);
+		}
+	},
+
+	onShow: function() {
+		if (!this.url) {
+			this.url = new Deluge.add.UrlWindow();
+			this.url.on('beforeadd', this.onTorrentBeforeAdd, this);
+			this.url.on('add', this.onTorrentAdd, this);
+			this.url.on('addfailed', this.onTorrentAddFailed, this);
+		}
+
+		if (!this.file) {
+			this.file = new Deluge.add.FileWindow();
+			this.file.on('beforeadd', this.onTorrentBeforeAdd, this);
+			this.file.on('add', this.onTorrentAdd, this);
+			this.file.on('addfailed', this.onTorrentAddFailed, this);
+		}
+
+		this.optionsPanel.form.getDefaults();
+	},
+
+	onTorrentBeforeAdd: function(torrentId, text) {
+		var store = this.list.getStore();
+		store.loadData([[torrentId, null, text]], true);
+	},
+
+	onTorrentAdd: function(torrentId, info) {
+		var r = this.list.getStore().getById(torrentId);
+		if (!info) {
+			Ext.MessageBox.show({
+				title: _('Error'),
+				msg: _('Not a valid torrent'),
+				buttons: Ext.MessageBox.OK,
+				modal: false,
+				icon: Ext.MessageBox.ERROR,
+				iconCls: 'x-deluge-icon-error'
+			});
+			this.list.getStore().remove(r);
+		} else {
+			r.set('info_hash', info['info_hash']);
+			r.set('text', info['name']);
+			this.list.getStore().commitChanges();
+			this.optionsPanel.addTorrent(info);
+			this.list.select(r);
+		}
+	},
+
+	onTorrentAddFailed: function(torrentId) {
+		var store = this.list.getStore();
+		var torrentRecord = store.getById(torrentId);
+		if (torrentRecord) {
+			store.remove(torrentRecord);
+		}
+	},
+
+	onUrl: function(button, event) {
+		this.url.show();
+	}
+});
+/*!
+ * Deluge.add.File.js
+ *
+ * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, write to:
+ *     The Free Software Foundation, Inc.,
+ *     51 Franklin Street, Fifth Floor
+ *     Boston, MA  02110-1301, USA.
+ *
+ * In addition, as a special exception, the copyright holders give
+ * permission to link the code of portions of this program with the OpenSSL
+ * library.
+ * You must obey the GNU General Public License in all respects for all of
+ * the code used other than OpenSSL. If you modify file(s) with this
+ * exception, you may extend this exception to your version of the file(s),
+ * but you are not obligated to do so. If you do not wish to do so, delete
+ * this exception statement from your version. If you delete this exception
+ * statement from all source files in the program, then also delete it here.
+ */
+Ext.ns('Deluge.add');
+
+/**
+ * @class Deluge.add.FileWindow
+ * @extends Deluge.add.Window
+ */
+Deluge.add.FileWindow = Ext.extend(Deluge.add.Window, {
+
+	title: _('Add from File'),
+	layout: 'fit',
+	width: 350,
+	height: 115,
+	modal: true,
+	plain: true,
+	buttonAlign: 'center',
+	closeAction: 'hide',
+	bodyStyle: 'padding: 10px 5px;',
+	iconCls: 'x-deluge-add-file',
+
+	initComponent: function() {
+		Deluge.add.FileWindow.superclass.initComponent.call(this);
+		this.addButton(_('Add'), this.onAddClick, this);
+
+		this.form = this.add({
+			xtype: 'form',
+			baseCls: 'x-plain',
+			labelWidth: 35,
+			autoHeight: true,
+			fileUpload: true,
+			items: [{
+				xtype: 'fileuploadfield',
+				id: 'torrentFile',
+				width: 280,
+				height: 24,
+				emptyText: _('Select a torrent'),
+				fieldLabel: _('File'),
+				name: 'file',
+				buttonCfg: {
+					text: _('Browse') + '...'
+				}
+			}]
+		});
+	},
+
+	// private
+	onAddClick: function(field, e) {
+		if (this.form.getForm().isValid()) {
+			this.torrentId = this.createTorrentId();
+			this.form.getForm().submit({
+				url: deluge.config.base + 'upload',
+				waitMsg: _('Uploading your torrent...'),
+				failure: this.onUploadFailure,
+				success: this.onUploadSuccess,
+				scope: this
+			});
+			var name = this.form.getForm().findField('torrentFile').value;
+			name = name.split('\\').slice(-1)[0];
+			this.fireEvent('beforeadd', this.torrentId, name);
+		}
+	},
+
+	// private
+	onGotInfo: function(info, obj, response, request) {
+		info['filename'] = request.options.filename;
+		this.fireEvent('add', this.torrentId, info);
+	},
+
+	// private
+	onUploadFailure: function(form, action) {
+		this.hide();
+		Ext.MessageBox.show({
+			title: _('Error'),
+			msg: _('Failed to upload torrent'),
+			buttons: Ext.MessageBox.OK,
+			modal: false,
+			icon: Ext.MessageBox.ERROR,
+			iconCls: 'x-deluge-icon-error'
+		});
+		this.fireEvent('addfailed', this.torrentId);
+	},
+
+	// private
+	onUploadSuccess: function(fp, upload) {
+		this.hide();
+		if (upload.result.success) {
+			var filename = upload.result.files[0];
+			this.form.getForm().findField('torrentFile').setValue('');
+			deluge.client.web.get_torrent_info(filename, {
+				success: this.onGotInfo,
+				scope: this,
+				filename: filename
+			});
+		}
+	}
+});
+/*!
+ * Deluge.add.FilesTab.js
+ *
+ * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, write to:
+ *     The Free Software Foundation, Inc.,
+ *     51 Franklin Street, Fifth Floor
+ *     Boston, MA  02110-1301, USA.
+ *
+ * In addition, as a special exception, the copyright holders give
+ * permission to link the code of portions of this program with the OpenSSL
+ * library.
+ * You must obey the GNU General Public License in all respects for all of
+ * the code used other than OpenSSL. If you modify file(s) with this
+ * exception, you may extend this exception to your version of the file(s),
+ * but you are not obligated to do so. If you do not wish to do so, delete
+ * this exception statement from your version. If you delete this exception
+ * statement from all source files in the program, then also delete it here.
+ */
+Ext.ns('Deluge.add');
+
+/**
+ * @class Deluge.add.FilesTab
+ * @extends Ext.ux.tree.TreeGrid
+ */
+Deluge.add.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
+
+	layout: 'fit',
+	title:  _('Files'),
+
+	autoScroll:  false,
+	animate:     false,
+	border:      false,
+	disabled:    true,
+	rootVisible: false,
+
+	columns: [{
+		header: _('Filename'),
+		width: 295,
+		dataIndex: 'filename'
+	},{
+		header: _('Size'),
+		width: 60,
+		dataIndex: 'size',
+		tpl: new Ext.XTemplate('{size:this.fsize}', {
+			fsize: function(v) {
+				return fsize(v);
+			}
+		})
+	},{
+		header: _('Download'),
+		width: 65,
+		dataIndex: 'download',
+		tpl: new Ext.XTemplate('{download:this.format}', {
+			format: function(v) {
+				return '<div rel="chkbox" class="x-grid3-check-col'+(v?'-on':'')+'"> </div>';
+			}
+		})
+	}],
+
+	initComponent: function() {
+		Deluge.add.FilesTab.superclass.initComponent.call(this);
+		this.on('click', this.onNodeClick, this);
+	},
+
+	clearFiles: function() {
+		var root = this.getRootNode();
+		if (!root.hasChildNodes()) return;
+		root.cascade(function(node) {
+			if (!node.parentNode || !node.getOwnerTree()) return;
+			node.remove();
+		});
+	},
+
+	setDownload: function(node, value, suppress) {
+		node.attributes.download = value;
+		node.ui.updateColumns();
+
+		if (node.isLeaf()) {
+			if (!suppress) {
+				return this.fireEvent('fileschecked', [node], value, !value);
+			}
+		} else {
+			var nodes = [node];
+			node.cascade(function(n) {
+				n.attributes.download = value;
+				n.ui.updateColumns();
+				nodes.push(n);
+			}, this);
+			if (!suppress) {
+				return this.fireEvent('fileschecked', nodes, value, !value);
+			}
+		}
+	},
+
+	onNodeClick: function(node, e) {
+		var el = new Ext.Element(e.target);
+		if (el.getAttribute('rel') == 'chkbox') {
+			this.setDownload(node, !node.attributes.download);
+		}
+	}
+});
+/*!
+ * Deluge.add.Infohash.js
+ * 
+ * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, write to:
+ *     The Free Software Foundation, Inc.,
+ *     51 Franklin Street, Fifth Floor
+ *     Boston, MA  02110-1301, USA.
+ *
+ * In addition, as a special exception, the copyright holders give
+ * permission to link the code of portions of this program with the OpenSSL
+ * library.
+ * You must obey the GNU General Public License in all respects for all of
+ * the code used other than OpenSSL. If you modify file(s) with this
+ * exception, you may extend this exception to your version of the file(s),
+ * but you are not obligated to do so. If you do not wish to do so, delete
+ * this exception statement from your version. If you delete this exception
+ * statement from all source files in the program, then also delete it here.
+ */
+Ext.namespace('Ext.deluge.add');
+/*!
+ * Deluge.add.OptionsPanel.js
+ *
+ * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, write to:
+ *     The Free Software Foundation, Inc.,
+ *     51 Franklin Street, Fifth Floor
+ *     Boston, MA  02110-1301, USA.
+ *
+ * In addition, as a special exception, the copyright holders give
+ * permission to link the code of portions of this program with the OpenSSL
+ * library.
+ * You must obey the GNU General Public License in all respects for all of
+ * the code used other than OpenSSL. If you modify file(s) with this
+ * exception, you may extend this exception to your version of the file(s),
+ * but you are not obligated to do so. If you do not wish to do so, delete
+ * this exception statement from your version. If you delete this exception
+ * statement from all source files in the program, then also delete it here.
+ */
+Ext.ns('Deluge.add');
+
+Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
+
+	torrents: {},
+
+	// layout options
+	region: 'south',
+	margins: '5 5 5 5',
+	activeTab: 0,
+	height: 265,
+
+	initComponent: function() {
+		Deluge.add.OptionsPanel.superclass.initComponent.call(this);
+		this.files = this.add(new Deluge.add.FilesTab());
+		this.form = this.add(new Deluge.add.OptionsTab());
+
+		this.files.on('fileschecked', this.onFilesChecked, this);
+	},
+
+	addTorrent: function(torrent) {
+		this.torrents[torrent['info_hash']] = torrent;
+		var fileIndexes = {};
+		this.walkFileTree(torrent['files_tree'], function(filename, type, entry, parent) {
+			if (type != 'file') return;
+			fileIndexes[entry.index] = entry.download;
+		}, this);
+
+		var priorities = [];
+		Ext.each(Ext.keys(fileIndexes), function(index) {
+			priorities[index] = fileIndexes[index];
+		});
+
+		var oldId = this.form.optionsManager.changeId(torrent['info_hash'], true);
+		this.form.optionsManager.setDefault('file_priorities', priorities);
+		this.form.optionsManager.changeId(oldId, true);
+	},
+
+	clear: function() {
+		this.files.clearFiles();
+		this.form.optionsManager.resetAll();
+	},
+
+	getFilename: function(torrentId) {
+		return this.torrents[torrentId]['filename'];
+	},
+
+	getOptions: function(torrentId) {
+		var oldId = this.form.optionsManager.changeId(torrentId, true);
+		var options = this.form.optionsManager.get();
+		this.form.optionsManager.changeId(oldId, true);
+		Ext.each(options['file_priorities'], function(priority, index) {
+			options['file_priorities'][index] = (priority) ? 1 : 0;
+		});
+		return options;
+	},
+
+	setTorrent: function(torrentId) {
+		if (!torrentId) return;
+
+		this.torrentId = torrentId;
+		this.form.optionsManager.changeId(torrentId);
+
+		this.files.clearFiles();
+		var root = this.files.getRootNode();
+		var priorities = this.form.optionsManager.get('file_priorities');
+
+		this.form.setDisabled(false);
+
+		if (this.torrents[torrentId]['files_tree']) {
+			this.walkFileTree(this.torrents[torrentId]['files_tree'], function(filename, type, entry, parentNode) {
+				var node = new Ext.tree.TreeNode({
+					download:  (entry.index) ? priorities[entry.index] : true,
+					filename:  filename,
+					fileindex: entry.index,
+					leaf:      type != 'dir',
+					size:      entry.length
+				});
+				parentNode.appendChild(node);
+				if (type == 'dir') return node;
+			}, this, root);
+			root.firstChild.expand();
+			this.files.setDisabled(false);
+			this.files.show();
+		} else {
+			// Files tab is empty so show options tab
+			this.form.show();
+			this.files.setDisabled(true);
+		}
+
+	},
+
+	walkFileTree: function(files, callback, scope, parentNode) {
+		for (var filename in files.contents) {
+			var entry = files.contents[filename];
+			var type = entry.type;
+
+			if (scope) {
+				var ret = callback.apply(scope, [filename, type, entry, parentNode]);
+			} else {
+				var ret = callback(filename, type, entry, parentNode);
+			}
+
+			if (type == 'dir') this.walkFileTree(entry, callback, scope, ret);
+		}
+	},
+
+	onFilesChecked: function(nodes, newValue, oldValue) {
+		if (this.form.optionsManager.get('compact_allocation')) {
+			Ext.Msg.show({
+				title: _('Unable to set file priority!'),
+				msg:   _('File prioritization is unavailable when using Compact allocation. Would you like to switch to Full allocation?'),
+				buttons: Ext.Msg.YESNO,
+				fn: function(result) {
+					if (result == 'yes') {
+						this.form.optionsManager.update('compact_allocation', false);
+						Ext.each(nodes, function(node) {
+							if (node.attributes.fileindex < 0) return;
+							var priorities = this.form.optionsManager.get('file_priorities');
+							priorities[node.attributes.fileindex] = newValue;
+							this.form.optionsManager.update('file_priorities', priorities);
+						}, this);
+					} else {
+						this.files.setDownload(nodes[0], oldValue, true);
+					}
+				},
+				scope: this,
+				icon: Ext.MessageBox.QUESTION
+			});
+		} else {
+			Ext.each(nodes, function(node) {
+				if (node.attributes.fileindex < 0) return;
+				var priorities = this.form.optionsManager.get('file_priorities');
+				priorities[node.attributes.fileindex] = newValue;
+				this.form.optionsManager.update('file_priorities', priorities);
+			}, this);
+		}
+	}
+});
+/*!
+ * Deluge.add.OptionsPanel.js
+ *
+ * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, write to:
+ *     The Free Software Foundation, Inc.,
+ *     51 Franklin Street, Fifth Floor
+ *     Boston, MA  02110-1301, USA.
+ *
+ * In addition, as a special exception, the copyright holders give
+ * permission to link the code of portions of this program with the OpenSSL
+ * library.
+ * You must obey the GNU General Public License in all respects for all of
+ * the code used other than OpenSSL. If you modify file(s) with this
+ * exception, you may extend this exception to your version of the file(s),
+ * but you are not obligated to do so. If you do not wish to do so, delete
+ * this exception statement from your version. If you delete this exception
+ * statement from all source files in the program, then also delete it here.
+ */
+Ext.ns('Deluge.add');
+
+/**
+ * @class Deluge.add.OptionsTab
+ * @extends Ext.form.FormPanel
+ */
+Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
+
+	title:  _('Options'),
+	height: 170,
+
+	border:     false,
+	bodyStyle:  'padding: 5px',
+	disabled:   true,
+	labelWidth: 1,
+
+	initComponent: function() {
+		Deluge.add.OptionsTab.superclass.initComponent.call(this);
+
+		this.optionsManager = new Deluge.MultiOptionsManager();
+
+		var fieldset = this.add({
+			xtype: 'fieldset',
+			title: _('Download Location'),
+			border: false,
+			autoHeight: true,
+			defaultType: 'textfield',
+			labelWidth: 1,
+			fieldLabel: '',
+			style: 'padding-bottom: 5px; margin-bottom: 0px;'
+		});
+        this.optionsManager.bind('download_location', fieldset.add({
+            fieldLabel: '',
+            name: 'download_location',
+            width: 400,
+            labelSeparator: ''
+        }));
+
+        var fieldset = this.add({
+            xtype: 'fieldset',
+            title: _('Move Completed Location'),
+            border: false,
+            autoHeight: true,
+            defaultType: 'togglefield',
+            labelWidth: 1,
+            fieldLabel: '',
+            style: 'padding-bottom: 5px; margin-bottom: 0px;'
+        });
+        var field = fieldset.add({
+            fieldLabel: '',
+            name: 'move_completed_path',
+            width: 425
+        });
+        this.optionsManager.bind('move_completed', field.toggle)
+        this.optionsManager.bind('move_completed_path', field.input)
+
+		var panel = this.add({
+			border: false,
+			layout: 'column',
+			defaultType: 'fieldset'
+		});
+		fieldset = panel.add({
+			title: _('Allocation'),
+			border: false,
+			autoHeight: true,
+			defaultType: 'radio'
+		});
+
+		this.optionsManager.bind('compact_allocation', fieldset.add({
+			xtype: 'radiogroup',
+			columns: 1,
+			vertical: true,
+			labelSeparator: '',
+			width: 80,
+			items: [{
+				name: 'compact_allocation',
+				value: false,
+				inputValue: false,
+				boxLabel: _('Full'),
+				fieldLabel: '',
+				labelSeparator: ''
+			}, {
+				name: 'compact_allocation',
+				value: true,
+				inputValue: true,
+				boxLabel: _('Compact'),
+				fieldLabel: '',
+				labelSeparator: ''
+			}]
+		}));
+
+		fieldset = panel.add({
+			title: _('Bandwidth'),
+			border: false,
+			autoHeight: true,
+			bodyStyle: 'margin-left: 7px',
+			labelWidth: 105,
+			width: 200,
+			defaultType: 'spinnerfield'
+		});
+		this.optionsManager.bind('max_download_speed', fieldset.add({
+			fieldLabel: _('Max Down Speed'),
+			name: 'max_download_speed',
+			width: 60
+		}));
+		this.optionsManager.bind('max_upload_speed', fieldset.add({
+			fieldLabel: _('Max Up Speed'),
+			name: 'max_upload_speed',
+			width: 60
+		}));
+		this.optionsManager.bind('max_connections', fieldset.add({
+			fieldLabel: _('Max Connections'),
+			name: 'max_connections',
+			width: 60
+		}));
+		this.optionsManager.bind('max_upload_slots', fieldset.add({
+			fieldLabel: _('Max Upload Slots'),
+			name: 'max_upload_slots',
+			width: 60
+		}));
+
+		fieldset = panel.add({
+			title: _('General'),
+			border: false,
+			autoHeight: true,
+			defaultType: 'checkbox'
+		});
+		this.optionsManager.bind('add_paused', fieldset.add({
+			name: 'add_paused',
+			boxLabel: _('Add In Paused State'),
+			fieldLabel: '',
+			labelSeparator: ''
+		}));
+		this.optionsManager.bind('prioritize_first_last_pieces', fieldset.add({
+			name: 'prioritize_first_last_pieces',
+			boxLabel: _('Prioritize First/Last Pieces'),
+			fieldLabel: '',
+			labelSeparator: ''
+		}));
+	},
+
+	getDefaults: function() {
+		var keys = ['add_paused','compact_allocation','download_location',
+		'max_connections_per_torrent','max_download_speed_per_torrent',
+        'move_completed', 'move_completed_path',
+		'max_upload_slots_per_torrent','max_upload_speed_per_torrent',
+		'prioritize_first_last_pieces'];
+
+		deluge.client.core.get_config_values(keys, {
+			success: function(config) {
+				var options = {
+					'file_priorities': [],
+					'add_paused': config.add_paused,
+					'compact_allocation': config.compact_allocation,
+					'download_location': config.download_location,
+                    'move_completed': config.move_completed,
+                    'move_completed_path': config.move_completed_path,
+					'max_connections': config.max_connections_per_torrent,
+					'max_download_speed': config.max_download_speed_per_torrent,
+					'max_upload_slots': config.max_upload_slots_per_torrent,
+					'max_upload_speed': config.max_upload_speed_per_torrent,
+					'prioritize_first_last_pieces': config.prioritize_first_last_pieces
+				}
+				this.optionsManager.options = options;
+				this.optionsManager.resetAll();
+			},
+			scope: this
+		});
+	}
+});
+/*!
+ * Deluge.add.UrlWindow.js
+ *
+ * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, write to:
+ *     The Free Software Foundation, Inc.,
+ *     51 Franklin Street, Fifth Floor
+ *     Boston, MA  02110-1301, USA.
+ *
+ * In addition, as a special exception, the copyright holders give
+ * permission to link the code of portions of this program with the OpenSSL
+ * library.
+ * You must obey the GNU General Public License in all respects for all of
+ * the code used other than OpenSSL. If you modify file(s) with this
+ * exception, you may extend this exception to your version of the file(s),
+ * but you are not obligated to do so. If you do not wish to do so, delete
+ * this exception statement from your version. If you delete this exception
+ * statement from all source files in the program, then also delete it here.
+ */
+
+Ext.namespace('Deluge.add');
+Deluge.add.UrlWindow = Ext.extend(Deluge.add.Window, {
+
+    title: _('Add from Url'),
+    modal: true,
+    plain: true,
+    layout: 'fit',
+    width: 350,
+    height: 155,
+
+    buttonAlign: 'center',
+    closeAction: 'hide',
+    bodyStyle: 'padding: 10px 5px;',
+    iconCls: 'x-deluge-add-url-window-icon',
+
+    initComponent: function() {
+        Deluge.add.UrlWindow.superclass.initComponent.call(this);
+        this.addButton(_('Add'), this.onAddClick, this);
+
+        var form = this.add({
+            xtype: 'form',
+            defaultType: 'textfield',
+            baseCls: 'x-plain',
+            labelWidth: 55
+        });
+
+        this.urlField = form.add({
+            fieldLabel: _('Url'),
+            id: 'url',
+            name: 'url',
+            width: '97%'
+        });
+        this.urlField.on('specialkey', this.onAdd, this);
+
+        this.cookieField = form.add({
+            fieldLabel: _('Cookies'),
+            id: 'cookies',
+            name: 'cookies',
+            width: '97%'
+        });
+        this.cookieField.on('specialkey', this.onAdd, this);
+    },
+
+    onAddClick: function(field, e) {
+        if ((field.id == 'url' || field.id == 'cookies') && e.getKey() != e.ENTER) return;
+
+        var field = this.urlField;
+        var url = field.getValue();
+        var cookies = this.cookieField.getValue();
+        var torrentId = this.createTorrentId();
+
+        if (url.indexOf('magnet:?') == 0 && url.indexOf('xt=urn:btih') > -1) {
+            deluge.client.web.get_magnet_info(url, {
+                success: this.onGotInfo,
+                scope: this,
+                filename: url,
+                torrentId: torrentId
+            });
+        } else {
+            deluge.client.web.download_torrent_from_url(url, cookies, {
+                success: this.onDownload,
+                failure: this.onDownloadFailed,
+                scope: this,
+                torrentId: torrentId
+            });
+        }
+
+        this.hide();
+        this.urlField.setValue('');
+        this.fireEvent('beforeadd', torrentId, url);
+    },
+
+    onDownload: function(filename, obj, resp, req) {
+        deluge.client.web.get_torrent_info(filename, {
+            success: this.onGotInfo,
+            scope: this,
+            filename: filename,
+            torrentId: req.options.torrentId
+        });
+    },
+
+    onDownloadFailed: function(obj, resp, req) {
+        Ext.MessageBox.show({
+            title: _('Error'),
+            msg: _('Failed to download torrent'),
+            buttons: Ext.MessageBox.OK,
+            modal: false,
+            icon: Ext.MessageBox.ERROR,
+            iconCls: 'x-deluge-icon-error'
+        });
+        this.fireEvent('addfailed', req.options.torrentId);
+    },
+
+    onGotInfo: function(info, obj, response, request) {
+        info['filename'] = request.options.filename;
+        this.fireEvent('add', request.options.torrentId, info);
+    }
 });
 /*!
  * Deluge.preferences.BandwidthPage.js
@@ -7316,69 +7316,54 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
  */
 
 deluge.menus = {
-	onTorrentAction: function(item, e) {
+	onTorrentActionSetOpt: function(item, e) {
 		var ids = deluge.torrents.getSelectedIds();
 		var action = item.initialConfig.torrentAction;
+		var opts = {};
+		opts[action[0]] = action[1];
+		deluge.client.core.set_torrent_options(ids, opts);
+	},
 
+	onTorrentActionMethod: function(item, e) {
+		var ids = deluge.torrents.getSelectedIds();
+		var action = item.initialConfig.torrentAction;
+		deluge.client.core[action](ids, {
+			success: function() {
+				deluge.ui.update();
+			}
+		});
+	},
+
+	onTorrentActionShow: function(item, e) {
+		var ids = deluge.torrents.getSelectedIds();
+		var action = item.initialConfig.torrentAction;
 		switch (action) {
-			case 'pause':
-			case 'resume':
-				deluge.client.core[action + '_torrent'](ids, {
-					success: function() {
-						deluge.ui.update();
-					}
-				});
-				break;
-			case 'top':
-			case 'up':
-			case 'down':
-			case 'bottom':
-				deluge.client.core['queue_' + action](ids, {
-					success: function() {
-						deluge.ui.update();
-					}
-				});
-				break;
 			case 'edit_trackers':
 				deluge.editTrackers.show();
 				break;
-			case 'update':
-				deluge.client.core.force_reannounce(ids, {
-					success: function() {
-						deluge.ui.update();
-					}
-				});
-				break;
 			case 'remove':
 				deluge.removeWindow.show(ids);
-				break;
-			case 'recheck':
-				deluge.client.core.force_recheck(ids, {
-					success: function() {
-						deluge.ui.update();
-					}
-				});
 				break;
 			case 'move':
 				deluge.moveStorage.show(ids);
 				break;
 		}
-	}
+	},
 }
 
 deluge.menus.torrent = new Ext.menu.Menu({
 	id: 'torrentMenu',
 	items: [{
-		torrentAction: 'pause',
+		torrentAction: 'pause_torrent',
 		text: _('Pause'),
 		iconCls: 'icon-pause',
-		handler: deluge.menus.onTorrentAction,
+		handler: deluge.menus.onTorrentActionMethod,
 		scope: deluge.menus
 	}, {
-		torrentAction: 'resume',
+		torrentAction: 'resume_torrent',
 		text: _('Resume'),
 		iconCls: 'icon-resume',
-		handler: deluge.menus.onTorrentAction,
+		handler: deluge.menus.onTorrentActionMethod,
 		scope: deluge.menus
 	}, '-', {
 		text: _('Options'),
@@ -7391,17 +7376,35 @@ deluge.menus.torrent = new Ext.menu.Menu({
 				hideOnClick: false,
 				menu: new Ext.menu.Menu({
 					items: [{
-						text: _('5 KiB/s')
+						torrentAction: ['max_download_speed', 5],
+						text: _('5 KiB/s'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					}, {
-						text: _('10 KiB/s')
+						torrentAction: ['max_download_speed', 10],
+						text: _('10 KiB/s'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					}, {
-						text: _('30 KiB/s')
+						torrentAction: ['max_download_speed', 30],
+						text: _('30 KiB/s'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					}, {
-						text: _('80 KiB/s')
+						torrentAction: ['max_download_speed', 80],
+						text: _('80 KiB/s'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					}, {
-						text: _('300 KiB/s')
+						torrentAction: ['max_download_speed', 300],
+						text: _('300 KiB/s'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					},{
-						text: _('Unlimited')
+						torrentAction: ['max_download_speed', -1],
+						text: _('Unlimited'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					}]
 				})
 			}, {
@@ -7410,17 +7413,35 @@ deluge.menus.torrent = new Ext.menu.Menu({
 				hideOnClick: false,
 				menu: new Ext.menu.Menu({
 					items: [{
-						text: _('5 KiB/s')
+						torrentAction: ['max_upload_speed', 5],
+						text: _('5 KiB/s'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					}, {
-						text: _('10 KiB/s')
+						torrentAction: ['max_upload_speed', 10],
+						text: _('10 KiB/s'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					}, {
-						text: _('30 KiB/s')
+						torrentAction: ['max_upload_speed', 30],
+						text: _('30 KiB/s'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					}, {
-						text: _('80 KiB/s')
+						torrentAction: ['max_upload_speed', 80],
+						text: _('80 KiB/s'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					}, {
-						text: _('300 KiB/s')
+						torrentAction: ['max_upload_speed', 300],
+						text: _('300 KiB/s'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					},{
-						text: _('Unlimited')
+						torrentAction: ['max_upload_speed', -1],
+						text: _('Unlimited'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					}]
 				})
 			}, {
@@ -7429,17 +7450,35 @@ deluge.menus.torrent = new Ext.menu.Menu({
 				hideOnClick: false,
 				menu: new Ext.menu.Menu({
 					items: [{
-						text: _('50')
+						torrentAction: ['max_connections', 50],
+						text: _('50'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					}, {
-						text: _('100')
+						torrentAction: ['max_connections', 100],
+						text: _('100'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					}, {
-						text: _('200')
+						torrentAction: ['max_connections', 200],
+						text: _('200'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					}, {
-						text: _('300')
+						torrentAction: ['max_connections', 300],
+						text: _('300'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					}, {
-						text: _('500')
+						torrentAction: ['max_connections', 500],
+						text: _('500'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					},{
-						text: _('Unlimited')
+						torrentAction: ['max_connections', -1],
+						text: _('Unlimited'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					}]
 				})
 			}, {
@@ -7448,23 +7487,54 @@ deluge.menus.torrent = new Ext.menu.Menu({
 				hideOnClick: false,
 				menu: new Ext.menu.Menu({
 					items: [{
-						text: _('0')
+						torrentAction: ['max_upload_slots', 0],
+						text: _('0'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					}, {
-						text: _('1')
+						torrentAction: ['max_upload_slots', 1],
+						text: _('1'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					}, {
-						text: _('2')
+						torrentAction: ['max_upload_slots', 2],
+						text: _('2'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					}, {
-						text: _('3')
+						torrentAction: ['max_upload_slots', 3],
+						text: _('3'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					}, {
-						text: _('5')
+						torrentAction: ['max_upload_slots', 5],
+						text: _('5'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					},{
-						text: _('Unlimited')
+						torrentAction: ['max_upload_slots', -1],
+						text: _('Unlimited'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
 					}]
 				})
 			}, {
 				id: 'auto_managed',
 				text: _('Auto Managed'),
-				checked: false
+				hideOnClick: false,
+				menu: new Ext.menu.Menu({
+					items: [{
+						torrentAction: ['auto_managed', true],
+						text: _('On'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
+					}, {
+						torrentAction: ['auto_managed', false],
+						text: _('Off'),
+						handler: deluge.menus.onTorrentActionSetOpt,
+						scope: deluge.menus
+					}]
+				})
 			}]
 		})
 	}, '-', {
@@ -7473,60 +7543,60 @@ deluge.menus.torrent = new Ext.menu.Menu({
 		hideOnClick: false,
 		menu: new Ext.menu.Menu({
 			items: [{
-				torrentAction: 'top',
+				torrentAction: 'queue_top',
 				text: _('Top'),
 				iconCls: 'icon-top',
-				handler: deluge.menus.onTorrentAction,
+				handler: deluge.menus.onTorrentActionMethod,
 				scope: deluge.menus
 			},{
-				torrentAction: 'up',
+				torrentAction: 'queue_up',
 				text: _('Up'),
 				iconCls: 'icon-up',
-				handler: deluge.menus.onTorrentAction,
+				handler: deluge.menus.onTorrentActionMethod,
 				scope: deluge.menus
 			},{
-				torrentAction: 'down',
+				torrentAction: 'queue_down',
 				text: _('Down'),
 				iconCls: 'icon-down',
-				handler: deluge.menus.onTorrentAction,
+				handler: deluge.menus.onTorrentActionMethod,
 				scope: deluge.menus
 			},{
-				torrentAction: 'bottom',
+				torrentAction: 'queue_bottom',
 				text: _('Bottom'),
 				iconCls: 'icon-bottom',
-				handler: deluge.menus.onTorrentAction,
+				handler: deluge.menus.onTorrentActionMethod,
 				scope: deluge.menus
 			}]
 		})
 	}, '-', {
-		torrentAction: 'update',
+		torrentAction: 'force_reannounce',
 		text: _('Update Tracker'),
 		iconCls: 'icon-update-tracker',
-		handler: deluge.menus.onTorrentAction,
+		handler: deluge.menus.onTorrentActionMethod,
 		scope: deluge.menus
 	}, {
 		torrentAction: 'edit_trackers',
 		text: _('Edit Trackers'),
 		iconCls: 'icon-edit-trackers',
-		handler: deluge.menus.onTorrentAction,
+		handler: deluge.menus.onTorrentActionShow,
 		scope: deluge.menus
 	}, '-', {
 		torrentAction: 'remove',
 		text: _('Remove Torrent'),
 		iconCls: 'icon-remove',
-		handler: deluge.menus.onTorrentAction,
+		handler: deluge.menus.onTorrentActionShow,
 		scope: deluge.menus
 	}, '-', {
-		torrentAction: 'recheck',
+		torrentAction: 'force_recheck',
 		text: _('Force Recheck'),
 		iconCls: 'icon-recheck',
-		handler: deluge.menus.onTorrentAction,
+		handler: deluge.menus.onTorrentActionMethod,
 		scope: deluge.menus
 	}, {
 		torrentAction: 'move',
 		text: _('Move Storage'),
 		iconCls: 'icon-move',
-		handler: deluge.menus.onTorrentAction,
+		handler: deluge.menus.onTorrentActionShow,
 		scope: deluge.menus
 	}]
 });
