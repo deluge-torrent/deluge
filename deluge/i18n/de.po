@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-09 13:37+0100\n"
-"PO-Revision-Date: 2013-10-13 23:49+0000\n"
-"Last-Translator: Tobias Bannert <Unknown>\n"
+"PO-Revision-Date: 2015-10-11 14:38+0000\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-09-12 10:28+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2016-06-19 11:21+0000\n"
+"X-Generator: Launchpad (build 18097)\n"
 
 #: deluge/pluginmanagerbase.py:173
 msgid "Not available"
-msgstr ""
+msgstr "Nicht verfügbar"
 
 #: deluge/common.py:260
 msgid "KiB"
@@ -196,11 +196,13 @@ msgid ""
 "The torrent \"%(name)s\" including %(num_files)i file(s) has finished "
 "downloading."
 msgstr ""
+"Der Torrent \"%(name)s\" mit %(num_files)i Datei(en) hat das Herunterladen "
+"abgeschlossen."
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:266
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:297
 msgid "Notifications"
-msgstr ""
+msgstr "Benach­rich­ti­gungen"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:616
 msgid "Choose Sound File"
@@ -316,7 +318,7 @@ msgstr "Klang Personalisierung"
 #: deluge/plugins/Extractor/deluge/plugins/extractor/gtkui.py:32
 #: deluge/plugins/Extractor/deluge/plugins/extractor/gtkui.py:38
 msgid "Extractor"
-msgstr ""
+msgstr "Entpacker"
 
 #: deluge/plugins/Extractor/deluge/plugins/extractor/data/extractor_prefs.glade:27
 msgid "Extract to:"
@@ -359,7 +361,7 @@ msgstr "Torrent hinzugefügt"
 
 #: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:32
 msgid "Torrent Removed"
-msgstr ""
+msgstr "Torrent entfernt"
 
 #: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:58
 #: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:68
@@ -483,7 +485,7 @@ msgstr "<b>Information</b>"
 #: deluge/plugins/WebUi/deluge/plugins/webui/gtkui.py:32
 #: deluge/plugins/WebUi/deluge/plugins/webui/gtkui.py:39
 msgid "WebUi"
-msgstr ""
+msgstr "WebOberfläche"
 
 #: deluge/plugins/WebUi/deluge/plugins/webui/gtkui.py:76
 msgid ""
@@ -517,7 +519,7 @@ msgstr "Pfad existiert nicht."
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:387
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:391
 msgid "AutoAdd"
-msgstr ""
+msgstr "AutoHinzufügen"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/config.glade:41
 msgid "<b>Watch Folders:</b>"
@@ -662,7 +664,7 @@ msgstr "Optionen"
 #: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:162
 #: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:285
 msgid "Scheduler"
-msgstr ""
+msgstr "Planer"
 
 #: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:227
 msgid "Download Limit:"
@@ -2283,6 +2285,8 @@ msgstr "Erweiterung"
 #: deluge/ui/gtkui/preferences.py:769
 msgid "You must restart the deluge UI to change classic mode. Quit now?"
 msgstr ""
+"Sie müssen die Deluge-Benutzeroberfläche neu starten, um den klassischen "
+"Modus zu ändern. Jetzt beenden?"
 
 #: deluge/ui/gtkui/preferences.py:955
 msgid "Select the Plugin"
@@ -2294,7 +2298,7 @@ msgstr "Modul-Pakete"
 
 #: deluge/ui/gtkui/torrentdetails.py:93
 msgid "_All"
-msgstr ""
+msgstr "_Alle"
 
 #: deluge/ui/gtkui/torrentdetails.py:94
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:15
@@ -2363,7 +2367,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/gtkui.py:360
 msgid "Enable Thin Client Mode?"
-msgstr ""
+msgstr "Thin-Client-Modus aktivieren?"
 
 #: deluge/ui/gtkui/gtkui.py:361
 msgid ""
@@ -2459,15 +2463,15 @@ msgstr "Details:"
 
 #: deluge/ui/gtkui/dialogs.py:390
 msgid "Password Protected"
-msgstr ""
+msgstr "Passwortgeschützt"
 
 #: deluge/ui/gtkui/mainwindow.py:191
 msgid "Enter your password to show Deluge..."
-msgstr ""
+msgstr "Geben Sie Ihr Passwort ein, um Deluge anzuzeigen..."
 
 #: deluge/ui/gtkui/mainwindow.py:235
 msgid "Enter your password to Quit Deluge..."
-msgstr ""
+msgstr "Geben Sie Ihr Passwort ein, um Deluge zu beenden..."
 
 #: deluge/ui/gtkui/mainwindow.py:315
 msgid "D:"
@@ -2480,7 +2484,7 @@ msgstr "U:"
 #: deluge/ui/gtkui/aboutdialog.py:33
 #, python-format
 msgid "Copyright %(year_start)s-%(year_end)s Deluge Team"
-msgstr ""
+msgstr "Copyright %(year_start)s-%(year_end)s Deluge Team"
 
 #: deluge/ui/gtkui/aboutdialog.py:35
 msgid ""
@@ -3024,10 +3028,14 @@ msgstr "Maximale Anzahl an Verbindungen pro Torrent. -1 für unbegrenzt."
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1713
 msgid "The maximum download speed per torrent.  Set -1 for unlimited."
 msgstr ""
+"Die maximale Herunterladegeschwindigkeit pro Torrent. -1 für unbegrenzt "
+"festlegen."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:84
 msgid "The maximum upload speed per torrent.  Set -1 for unlimited."
 msgstr ""
+"Die maximale Hochladegeschwindigkeit pro Torrent. -1 für unbegrenzt "
+"festlegen."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1753
 msgid "<b>Per Torrent Bandwidth Usage</b>"
@@ -3064,7 +3072,7 @@ msgstr "Zeige die Geschwindigkeit in der Fensterleiste"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:20
 msgid "Focus window when adding torrent"
-msgstr ""
+msgstr "Fenster beim Hinzufügen eines Torrent fokussieren"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1923
 msgid "<b>Main Window</b>"

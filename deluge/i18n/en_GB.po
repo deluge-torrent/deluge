@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-09 13:37+0100\n"
-"PO-Revision-Date: 2014-07-23 13:44+0000\n"
+"PO-Revision-Date: 2015-10-22 11:06+0000\n"
 "Last-Translator: Andi Chandler <Unknown>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-09-12 10:28+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2016-06-19 11:20+0000\n"
+"X-Generator: Launchpad (build 18097)\n"
 
 #: deluge/pluginmanagerbase.py:173
 msgid "Not available"
@@ -359,7 +359,7 @@ msgstr "Torrent Added"
 
 #: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:32
 msgid "Torrent Removed"
-msgstr ""
+msgstr "Torrent Removed"
 
 #: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:58
 #: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:68
@@ -724,7 +724,7 @@ msgstr "<b>Label Options</b>"
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:73
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:30
 msgid "Upload Slots:"
-msgstr ""
+msgstr "Upload Slots:"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:382
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:32
@@ -2476,7 +2476,7 @@ msgstr "U:"
 #: deluge/ui/gtkui/aboutdialog.py:33
 #, python-format
 msgid "Copyright %(year_start)s-%(year_end)s Deluge Team"
-msgstr ""
+msgstr "Copyright %(year_start)s-%(year_end)s Deluge Team"
 
 #: deluge/ui/gtkui/aboutdialog.py:35
 msgid ""

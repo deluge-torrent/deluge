@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-09 13:37+0100\n"
-"PO-Revision-Date: 2015-09-08 23:31+0000\n"
-"Last-Translator: Şâkir Aşçı <Unknown>\n"
+"PO-Revision-Date: 2016-06-04 20:25+0000\n"
+"Last-Translator: Reddet <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-09-12 10:28+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2016-06-19 11:20+0000\n"
+"X-Generator: Launchpad (build 18097)\n"
 
 #: deluge/pluginmanagerbase.py:173
 msgid "Not available"
@@ -127,7 +127,7 @@ msgstr "Bildirim e-postası gönderildi."
 #: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:178
 #, python-format
 msgid "Finished Torrent \"%(name)s\""
-msgstr "\"%(name)s\" adlı torrent tamamlandı"
+msgstr "\"%(name)s\" Adlı Torrent Tamamlandı"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:180
 #, python-format
@@ -2451,7 +2451,7 @@ msgstr "Bağlantı Noktası Ekleme Hatası"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:6
 msgid "Torrents"
-msgstr "Torentler"
+msgstr "Torrentler"
 
 #: deluge/ui/gtkui/dialogs.py:170
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:183
@@ -2726,7 +2726,7 @@ msgstr "_Hepsini Seç"
 #: deluge/ui/gtkui/glade/filtertree_menu.ui.h:4
 #: deluge/ui/gtkui/glade/torrent_menu.ui.h:4
 msgid "Resume selected torrents."
-msgstr "Seçili torentleri sürdür."
+msgstr "Seçili torrentleri sürdür"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.ui.h:3
 msgid "Resu_me All"
@@ -2801,11 +2801,11 @@ msgstr "<b>Alan Tahsisi</b>"
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:50
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:106
 msgid "Prioritize first and last pieces of torrent"
-msgstr "Torentin ilk ve son parçalarına öncelik ver"
+msgstr "Torrentin ilk ve son parçalarına öncelik ver"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:51
 msgid "Prioritize first and last pieces of files in torrent"
-msgstr "Torentteki dosyaların ilk ve son parçalarına öncelik ver"
+msgstr "Torrentteki dosyaların ilk ve son parçalarına öncelik ver"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:59
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:118
@@ -2972,7 +2972,7 @@ msgstr "Azami Yarım-Açık Bağlantı:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:68
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
-msgstr "Tüm torentler için azami gönderim hızı. Sınırsız için -1 yazınız."
+msgstr "Tüm torrentler için azami gönderim hızı. Sınırsız için -1 yazınız."
 
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:92
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:177
@@ -2991,7 +2991,7 @@ msgstr "Azami Bağlantı:"
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:72
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
 msgstr ""
-"Bütün torentler için azami gönderim yuvası. Sınırsız için -1 yazınız."
+"Bütün torrentler için azami gönderim yuvası. Sınırsız için -1 yazınız."
 
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:161
 msgid "Maximum Upload Slots:"
@@ -2999,7 +2999,7 @@ msgstr "Azami Gönderme Yuvası:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:74
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
-msgstr "Bütün torentler için azami indirme hızı. Sınırsız için -1 yazınız."
+msgstr "Bütün torrentler için azami indirme hızı. Sınırsız için -1 yazınız."
 
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:84
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:169
@@ -3051,7 +3051,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1753
 msgid "<b>Per Torrent Bandwidth Usage</b>"
-msgstr "<b>Bir torrentin Bantgenişliği Kullanımı</b>"
+msgstr "<b>Her Torrentin Bantgenişliği Kullanımı</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1812
 msgid "<i><b><big>Interface</big></b></i>"
@@ -3099,7 +3099,7 @@ msgstr "İletişimi odaklanmış getir"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1993
 msgid "<b>Add Torrents Dialog</b>"
-msgstr "<b>Torent İletişimi Ekle</b>"
+msgstr "<b>Torrent İletişimi Ekle</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:32
 msgid "Enable system tray icon"
@@ -3237,7 +3237,7 @@ msgstr "toplam aktif indirme:"
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:91
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:110
 msgid "Do not count slow torrents"
-msgstr "Yavaş torentleri sayma"
+msgstr "Yavaş torrentleri sayma"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2994
 msgid "<b>Active Torrents</b>"
@@ -3264,7 +3264,7 @@ msgstr "Paylaşım oranına ulaşınca gönderimi durdur:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:98
 msgid "Remove torrent when share ratio reached"
-msgstr "Paylaşım oranına ulaşınca torenti sil"
+msgstr "Paylaşım oranına ulaşınca torrenti sil"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3192
 msgid "<b>Seeding</b>"
@@ -3479,15 +3479,15 @@ msgstr "Daha Fazla Eklenti Bul"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.ui.h:1
 msgid "Queued Torrents"
-msgstr "Kuyruktaki Torentler"
+msgstr "Kuyruktaki Torrentler"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:47
 msgid "<big><b>Add Queued Torrents</b></big>"
-msgstr "<big><b>Kuyruktaki Torentleri Ekle</b></big>"
+msgstr "<big><b>Kuyruktaki Torrentleri Ekle</b></big>"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.ui.h:3
 msgid "Automatically add torrents on connect"
-msgstr "Bağlanıldığında torentleri otomatik ekle"
+msgstr "Bağlanıldığında torrentleri otomatik ekle"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:1
 msgid "Create Torrent"
@@ -3641,7 +3641,7 @@ msgstr "_Bağlantı Yöneticisi"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:7
 msgid "_Torrent"
-msgstr "_Torent"
+msgstr "_Torrent"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:8
 msgid "_View"
@@ -3717,11 +3717,11 @@ msgstr "Torenti kaldır"
 #: deluge/ui/web/js/deluge-all/RemoveWindow.js:39
 #: deluge/ui/web/js/deluge-all/RemoveWindow.js:57
 msgid "Remove Torrent"
-msgstr "Torrent Kaldır"
+msgstr "Torrenti Kaldır"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:30
 msgid "Pause the selected torrents"
-msgstr "Seçili torentleri duraklat"
+msgstr "Seçili torrentleri duraklat"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:31
 #: deluge/ui/web/js/deluge-all/Menus.js:88
@@ -3731,7 +3731,7 @@ msgstr "Duraklat"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:32
 msgid "Resume the selected torrents"
-msgstr "Seçili torentleri sürdür"
+msgstr "Seçili torrentleri sürdür"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:33
 #: deluge/ui/web/js/deluge-all/Menus.js:94
@@ -3895,12 +3895,13 @@ msgstr "_İzleyicileri Düzenle"
 
 #: deluge/ui/gtkui/glade/main_window.move_storage.ui.h:1
 msgid "Remove Torrent?"
-msgstr "Torenti Sil?"
+msgstr "Torrenti Sil?"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2316
 msgid ""
 "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
-msgstr "<big><b>Seçilmiş torenti silmek istediğinize emin misiniz?</b></big>"
+msgstr ""
+"<big><b>Seçilmiş torrenti silmek istediğinize emin misiniz?</b></big>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2368
 msgid "<i>The associated .torrent will be deleted!</i>"
@@ -4013,7 +4014,7 @@ msgstr "Hedef:"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:1
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:37
 msgid "Add Torrents"
-msgstr "Torentleri Ekle"
+msgstr "Torrentleri Ekle"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:3
 msgid "_URL"
@@ -4029,7 +4030,7 @@ msgstr "_Kaldır"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:271
 msgid "<b>Torrents</b>"
-msgstr "<b>Torentler</b>"
+msgstr "<b>Torrentler</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:7
 msgid "Fi_les"
