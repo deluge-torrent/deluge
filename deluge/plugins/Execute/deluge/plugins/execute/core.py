@@ -15,7 +15,7 @@ import time
 from twisted.internet.utils import getProcessOutputAndValue
 
 import deluge.component as component
-from deluge.common import utf8_encoded
+from deluge.common import utf8_encoded, windows_check
 from deluge.configmanager import ConfigManager
 from deluge.core.rpcserver import export
 from deluge.event import DelugeEvent
@@ -117,9 +117,15 @@ class Core(CorePluginBase):
             if command[EXECUTE_EVENT] == event:
                 command = os.path.expandvars(command[EXECUTE_COMMAND])
                 command = os.path.expanduser(command)
+
+                cmd_args = [torrent_id, torrent_name, download_location]
+                if windows_check:
+                    # Escape ampersand on windows (see #2784)
+                    cmd_args = [cmd_arg.replace("&", "^^^&") for cmd_arg in cmd_args]
+
                 if os.path.isfile(command) and os.access(command, os.X_OK):
-                    log.debug("Running %s", command)
-                    d = getProcessOutputAndValue(command, (torrent_id, torrent_name, download_location), env=os.environ)
+                    log.debug("Running %s with args: %s", command, cmd_args)
+                    d = getProcessOutputAndValue(command, cmd_args, env=os.environ)
                     d.addCallback(log_error, command)
                 else:
                     log.error("Execute script not found or not executable")
