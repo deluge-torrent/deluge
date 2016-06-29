@@ -44,7 +44,7 @@ import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.core.rpcserver import export
 from deluge.event import DelugeEvent
-from deluge.common import utf8_encoded
+from deluge.common import utf8_encoded, windows_check
 
 
 DEFAULT_CONFIG = {
@@ -140,9 +140,15 @@ class Core(CorePluginBase):
             if command[EXECUTE_EVENT] == event:
                 command = os.path.expandvars(command[EXECUTE_COMMAND])
                 command = os.path.expanduser(command)
+
+                cmd_args = [torrent_id, torrent_name, save_path]
+                if windows_check:
+                    # Escape ampersand on windows (see #2784)
+                    cmd_args = [arg.replace("&", "^^^&") for arg in cmd_args]
+
                 if os.path.isfile(command) and os.access(command, os.X_OK):
-                    log.debug("[execute] Running %s", command)
-                    d = getProcessOutputAndValue(command, (torrent_id, torrent_name, save_path), env=os.environ)
+                    log.debug("[execute] Running %s with args: %s", command, cmd_args)
+                    d = getProcessOutputAndValue(command, cmd_args, env=os.environ)
                     d.addCallback(log_error, command)
                 else:
                     log.error("[execute] Execute script not found or not executable")
