@@ -23,7 +23,7 @@ from twisted.internet.task import LoopingCall
 
 import deluge.component as component
 from deluge._libtorrent import lt
-from deluge.common import decode_string, get_magnet_info, utf8_encoded
+from deluge.common import decode_string, get_magnet_info, utf8_encoded, VersionSplit
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.core.torrent import Torrent, TorrentOptions, sanitize_filepath
@@ -33,6 +33,8 @@ from deluge.event import (ExternalIPEvent, PreTorrentRemovedEvent, SessionStarte
                           TorrentResumedEvent)
 
 log = logging.getLogger(__name__)
+
+lt_1_1_compat = VersionSplit(lt.version) >= VersionSplit("1.1.0.0")
 
 
 class TorrentState:  # pylint: disable=old-style-class
@@ -1349,5 +1351,8 @@ class TorrentManager(component.Component):
         else:
             # Ask libtorrent for status update
             self.torrents_status_requests.insert(0, (d, torrent_ids, keys, diff))
-            self.session.post_torrent_updates()
+            if lt_1_1_compat:
+                self.session.post_torrent_updates(0)
+            else:
+                self.session.post_torrent_updates()
         return d
