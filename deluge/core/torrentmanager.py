@@ -1352,7 +1352,9 @@ class TorrentManager(component.Component):
             # Ask libtorrent for status update
             self.torrents_status_requests.insert(0, (d, torrent_ids, keys, diff))
             if lt_1_1_compat:
-                self.session.post_torrent_updates(0)
+                # libtorrent 1.1 takes a combination of status_flags_t`s here
+                # like torrent_handle::status()
+                self.session.post_torrent_updates(0xffffffff)
             else:
                 self.session.post_torrent_updates()
         return d
