@@ -215,8 +215,12 @@ class PreferencesManager(component.Component):
 
     def _on_set_peer_tos(self, key, value):
         log.debug("setting peer_tos to: %s", value)
+        if lt_1_1_compat:
+            value = int(value, 16)
+        else:
+            value = chr(int(value, 16))
         try:
-            self.session_set_setting("peer_tos", int(value, 16))
+            self.session_set_setting("peer_tos", value)
         except ValueError as ex:
             log.debug("Invalid tos byte: %s", ex)
             return
