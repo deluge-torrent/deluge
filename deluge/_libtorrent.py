@@ -47,7 +47,7 @@ supports.
 
 REQUIRED_VERSION = "0.14.9.0"
 # The first major version (and all subsequent ones) to be unsupported.
-UNSUPPORTED_VERSION = "0.1.1.0"
+UNSUPPORTED_VERSION = "1.1.0.0"
 
 
 def check_version(lt):
