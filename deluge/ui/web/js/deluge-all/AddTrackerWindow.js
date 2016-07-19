@@ -1,6 +1,6 @@
 /*!
  * Deluge.AddTrackerWindow.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -31,12 +31,21 @@
  */
 Ext.ns('Deluge');
 
+// Custom VType validator for tracker urls
+var trackerUrlTest = /(((^https?)|(^udp)):\/\/([\-\w]+\.)+\w{2,3}(\/[%\-\w]+(\.\w{2,})?)*(([\w\-\.\?\\\/+@&#;`~=%!]*)(\.\w{2,})?)*\/?)/i;
+Ext.apply(Ext.form.VTypes, {
+	 trackerUrl: function(val, field) {
+		 return trackerUrlTest.test(val);
+	 },
+	 trackerUrlText: 'Not a valid tracker url'
+});
+
 /**
  * @class Deluge.AddTrackerWindow
  * @extends Ext.Window
  */
 Deluge.AddTrackerWindow = Ext.extend(Ext.Window, {
-	
+
 	title: _('Add Tracker'),
 	layout: 'fit',
 	width: 375,
@@ -52,11 +61,11 @@ Deluge.AddTrackerWindow = Ext.extend(Ext.Window, {
 
 	initComponent: function() {
 		Deluge.AddTrackerWindow.superclass.initComponent.call(this);
-	
+
 		this.addButton(_('Cancel'), this.onCancelClick, this);
 		this.addButton(_('Add'), this.onAddClick, this);
 		this.addEvents('add');
-	
+
 		this.form = this.add({
 			xtype: 'form',
 			defaultType: 'textarea',
@@ -73,10 +82,10 @@ Deluge.AddTrackerWindow = Ext.extend(Ext.Window, {
 	onAddClick: function() {
 		var trackers = this.form.getForm().findField('trackers').getValue();
 		trackers = trackers.split('\n');
-	
+
 		var cleaned = [];
 		Ext.each(trackers, function(tracker) {
-			if (Ext.form.VTypes.url(tracker)) {
+			if (Ext.form.VTypes.trackerUrl(tracker)) {
 				cleaned.push(tracker);
 			}
 		}, this);
