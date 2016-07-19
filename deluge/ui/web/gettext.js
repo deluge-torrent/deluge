@@ -80,7 +80,7 @@ GetText.add('80 KiB/s', '${escape(_("80 KiB/s"))}')
 // QueuePage.js:69
 GetText.add('Active Torrents', '${escape(_("Active Torrents"))}')
 
-// EditTrackersWindow.js:112, ConnectionManager.js:110, AddConnectionWindow.js:56, Toolbar.js:58, AddTrackerWindow.js:57, UrlWindow.js:50, FileWindow.js:53, AddWindow.js:52
+// EditTrackersWindow.js:112, ConnectionManager.js:110, AddConnectionWindow.js:56, Toolbar.js:58, AddTrackerWindow.js:66, UrlWindow.js:50, FileWindow.js:53, AddWindow.js:52
 GetText.add('Add', '${escape(_("Add"))}')
 
 // AddConnectionWindow.js:40
@@ -92,7 +92,7 @@ GetText.add('Add In Paused State', '${escape(_("Add In Paused State"))}')
 // AddWindow.js:37
 GetText.add('Add Torrents', '${escape(_("Add Torrents"))}')
 
-// AddTrackerWindow.js:40
+// AddTrackerWindow.js:49
 GetText.add('Add Tracker', '${escape(_("Add Tracker"))}')
 
 // FileWindow.js:40
@@ -155,7 +155,7 @@ GetText.add('Cache Expiry (seconds)', '${escape(_("Cache Expiry (seconds)"))}')
 // CachePage.js:63
 GetText.add('Cache Size (16 KiB Blocks)', '${escape(_("Cache Size (16 KiB Blocks)"))}')
 
-// EditTrackersWindow.js:56, OtherLimitWindow.js:72, RemoveWindow.js:55, MoveStorage.js:55, EditTrackerWindow.js:56, AddTrackerWindow.js:56, AddWindow.js:51
+// EditTrackersWindow.js:56, OtherLimitWindow.js:72, RemoveWindow.js:55, MoveStorage.js:55, EditTrackerWindow.js:56, AddTrackerWindow.js:65, AddWindow.js:51
 GetText.add('Cancel', '${escape(_("Cancel"))}')
 
 // PreferencesWindow.js:85
@@ -761,7 +761,7 @@ GetText.add('Tracker', '${escape(_("Tracker"))}')
 // Sidebar.js:35
 GetText.add('Tracker Host', '${escape(_("Tracker Host"))}')
 
-// AddTrackerWindow.js:66
+// AddTrackerWindow.js:75
 GetText.add('Trackers', '${escape(_("Trackers"))}')
 
 // ProxyField.js:48
