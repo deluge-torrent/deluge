@@ -150,13 +150,21 @@ class JSON(resource.Resource, component.Component):
         return d.addCallback(on_client_connected)
 
     def disable(self):
-        if not client.is_classicmode():
+        client.deregister_event_handler("PluginEnabledEvent", self.get_remote_methods)
+        client.deregister_event_handler("PluginDisabledEvent", self.get_remote_methods)
+
+        if client.is_classicmode():
+            component.get("Web.PluginManager").stop()
+        else:
             client.disconnect()
 
     def enable(self):
         client.register_event_handler("PluginEnabledEvent", self.get_remote_methods)
         client.register_event_handler("PluginDisabledEvent", self.get_remote_methods)
-        if component.get("DelugeWeb").config["default_daemon"]:
+
+        if client.is_classicmode():
+            component.get("Web.PluginManager").start()
+        elif component.get("DelugeWeb").config["default_daemon"]:
             # Sort out getting the default daemon here
             default = component.get("DelugeWeb").config["default_daemon"]
             host = component.get("Web").get_host(default)
