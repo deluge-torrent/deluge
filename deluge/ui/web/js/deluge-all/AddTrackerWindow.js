@@ -9,6 +9,15 @@
  */
 Ext.ns('Deluge');
 
+// Custom VType validator for tracker urls
+var trackerUrlTest = /(((^https?)|(^udp)):\/\/([\-\w]+\.)+\w{2,3}(\/[%\-\w]+(\.\w{2,})?)*(([\w\-\.\?\\\/+@&#;`~=%!]*)(\.\w{2,})?)*\/?)/i;
+Ext.apply(Ext.form.VTypes, {
+     trackerUrl: function(val, field) {
+         return trackerUrlTest.test(val);
+     },
+     trackerUrlText: 'Not a valid tracker url'
+});
+
 /**
  * @class Deluge.AddTrackerWindow
  * @extends Ext.Window
@@ -55,7 +64,7 @@ Deluge.AddTrackerWindow = Ext.extend(Ext.Window, {
 
         var cleaned = [];
         Ext.each(trackers, function(tracker) {
-            if (Ext.form.VTypes.url(tracker)) {
+            if (Ext.form.VTypes.trackerUrl(tracker)) {
                 cleaned.push(tracker);
             }
         }, this);
