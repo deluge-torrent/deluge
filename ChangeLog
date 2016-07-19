@@ -1,5 +1,4 @@
 === Deluge 1.3.13 (In Progress) ===
-
 ==== Core ====
 	* Increase RSA key size from 1024 to 2048 and use SHA256 digest.
 	* Fixed empty error message from certain trackers.
@@ -28,26 +27,26 @@
 	* #2696: Fixed incorrect Move Completed folder shown in Options tab.
 	* #2783: Sorting for name column is now case insensitive.
 	* #2795: Reduce height of Add Torrent Dialog to help with smaller screeen resoltuions.
+	* OSX: Fixed empty scrolling status (systray) menu.
+	* OSX: Fixed starting deluged from connection manager.
+	* #2093: Windows OS: Fixed opening non-ascii torrent files.
+	* #2855: Fixed adding UDP trackers to trackers dialog.
 
 ==== WebUI ====
 	* #2782: Fixed HTTPS negotiating incorrect cipher.
 	* #2485: Fixed the broken Options context menu.
 	* #2705: Fixed the hostlist config file not being created.
+	* #2293: Fixed plugin's js code not loading when using the WebUI plugin.
 
 ==== Console ====
 	* Fixed adding non-ascii torrent in non-interactive mode.
 	* #2796: Add time_added to info sort keys.
 	* #2815: Fixed 'add' cmd path inconsistency on Windows.
 
-==== OSX ====
-	* Fixed starting deluged from connection manager.
-	* Fixed empty scrolling status (systray) menu.
+==== OSX Packaging ====
 	* Source .py files no longer included in Deluge.app.
 
-==== Win32 ====
-	* #2093: Fixed opening non-ascii torrent files.
-
-==== Win32 Packaging ====
+==== Windows OS Packaging ====
 	* #2777: Updated MSVC SP1 check to latest release CLID.
 
 ==== Blocklist Plugin ====
@@ -59,13 +58,17 @@
 
 ==== Notification Plugin ====
 	* #2402: Fixed the popup to show the actual count of files finished.
+	* #2857: Fixed issue with SMTP port entry not updating in GTKUI.
 
 ==== AutoAdd Plugin ====
 	* Fixed watch dir not accepting uppercase file extension.
 
-==== Extractor ====
+==== Extractor Plugin ====
 	* Ignore the remaining rar part files to prevent spawning useless processes.
 	* #2785: Fixed only an empty folder when extracting rar files.
+
+==== Execute Plugin ====
+	* #2784: Windows OS: Escape ampersand in torrent args.
 
 === Deluge 1.3.12 (13 September 2015) ===
 ==== GtkUI ====
