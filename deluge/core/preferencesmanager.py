@@ -22,6 +22,8 @@ from deluge.event import ConfigValueChangedEvent
 
 log = logging.getLogger(__name__)
 
+lt_1_1_compat = deluge.common.VersionSplit(lt.version) >= deluge.common.VersionSplit("1.1.0.0")
+
 DEFAULT_PREFS = {
     "send_info": False,
     "info_sent": 0.0,
@@ -213,8 +215,12 @@ class PreferencesManager(component.Component):
 
     def _on_set_peer_tos(self, key, value):
         log.debug("setting peer_tos to: %s", value)
+        if lt_1_1_compat:
+            value = int(value, 16)
+        else:
+            value = chr(int(value, 16))
         try:
-            self.session_set_setting("peer_tos", chr(int(value, 16)))
+            self.session_set_setting("peer_tos", value)
         except ValueError as ex:
             log.debug("Invalid tos byte: %s", ex)
             return
@@ -328,10 +334,16 @@ class PreferencesManager(component.Component):
 
     def _on_set_share_ratio_limit(self, key, value):
         log.debug("%s set to %s..", key, value)
+        if lt_1_1_compat:
+            # libtorrent 1.1 wants an integer with 100 equalling 1.0
+            value = int(value * 100)
         self.session_set_setting("share_ratio_limit", value)
 
     def _on_set_seed_time_ratio_limit(self, key, value):
         log.debug("%s set to %s..", key, value)
+        if lt_1_1_compat:
+            # libtorrent 1.1 wants an integer with 100 equalling 1.0
+            value = int(value * 100)
         self.session_set_setting("seed_time_ratio_limit", value)
 
     def _on_set_seed_time_limit(self, key, value):
