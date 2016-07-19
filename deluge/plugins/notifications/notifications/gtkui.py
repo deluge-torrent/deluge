@@ -254,7 +254,6 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
             "notifications-gtk.conf", DEFAULT_PREFS
         )
         self.glade = gtk.glade.XML(get_resource("config.glade"))
-        self.glade.get_widget("smtp_port").set_value(25)
         self.prefs = self.glade.get_widget("prefs_box")
         self.prefs.show_all()
 
