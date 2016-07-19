@@ -1,12 +1,11 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <glade-interface>
-  <!-- interface-requires gtk+ 2.6 -->
+  <!-- interface-requires gtk+ 2.16 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <widget class="GtkWindow" id="window">
     <child>
       <widget class="GtkVBox" id="prefs_box">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkViewport" id="viewport1">
             <property name="visible">True</property>
@@ -14,11 +13,9 @@
             <child>
               <widget class="GtkVBox" id="vbox4">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <child>
                   <widget class="GtkVBox" id="vbox3">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <widget class="GtkLabel" id="label22">
                         <property name="visible">True</property>
@@ -62,7 +59,6 @@
                         <child>
                           <widget class="GtkVBox" id="vbox2">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <child>
                               <widget class="GtkFrame" id="frame2">
                                 <property name="visible">True</property>
@@ -75,7 +71,6 @@
                                     <child>
                                       <widget class="GtkVBox" id="vbox1">
                                         <property name="visible">True</property>
-                                        <property name="orientation">vertical</property>
                                         <child>
                                           <widget class="GtkCheckButton" id="blink_enabled">
                                             <property name="label" translatable="yes">Tray icon blinks enabled</property>
@@ -184,7 +179,6 @@
                                           <widget class="GtkEntry" id="smtp_host">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="invisible_char">&#x25CF;</property>
                                           </widget>
                                           <packing>
                                             <property name="left_attach">1</property>
@@ -210,12 +204,10 @@
                                           <widget class="GtkSpinButton" id="smtp_port">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="max_length">65535</property>
-                                            <property name="invisible_char">&#x25CF;</property>
+                                            <property name="max_length">5</property>
                                             <property name="width_chars">5</property>
-                                            <property name="adjustment">25 1 65535 0 10 0</property>
+                                            <property name="adjustment">25 1 65535 1 10 0</property>
                                             <property name="climb_rate">1</property>
-                                            <property name="snap_to_ticks">True</property>
                                             <property name="numeric">True</property>
                                           </widget>
                                           <packing>
@@ -240,7 +232,6 @@
                                           <widget class="GtkEntry" id="smtp_user">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="invisible_char">&#x25CF;</property>
                                           </widget>
                                           <packing>
                                             <property name="left_attach">1</property>
@@ -264,7 +255,6 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="visibility">False</property>
-                                            <property name="invisible_char">&#x25CF;</property>
                                           </widget>
                                           <packing>
                                             <property name="left_attach">1</property>
@@ -309,7 +299,6 @@
                                                     <child>
                                                       <widget class="GtkVButtonBox" id="vbuttonbox1">
                                                         <property name="visible">True</property>
-                                                        <property name="orientation">vertical</property>
                                                         <property name="spacing">5</property>
                                                         <property name="layout_style">start</property>
                                                         <child>
@@ -407,7 +396,6 @@
                                           <widget class="GtkEntry" id="smtp_from">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="invisible_char">&#x25CF;</property>
                                           </widget>
                                           <packing>
                                             <property name="left_attach">1</property>
@@ -467,7 +455,6 @@
                         <child>
                           <widget class="GtkVBox" id="vbox5">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <child>
                               <placeholder/>
                             </child>
@@ -521,7 +508,6 @@
                         <child>
                           <widget class="GtkVBox" id="sounds_page">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <child>
                               <widget class="GtkScrolledWindow" id="scrolledwindow3">
                                 <property name="visible">True</property>
