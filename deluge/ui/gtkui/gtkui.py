@@ -268,8 +268,8 @@ class GtkUI(object):
 
         if deluge.common.osx_check() and gtk.gdk.WINDOWING == "quartz":
             def nsapp_open_file(osxapp, filename):
-                # Will be raised at app launch (python opening main script)
-                if filename.endswith('Deluge-bin'):
+                # Ignore command name which is raised at app launch (python opening main script).
+                if filename == sys.argv[0]:
                     return True
                 from deluge.ui.gtkui.ipcinterface import process_args
                 process_args([filename])
