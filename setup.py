@@ -535,7 +535,7 @@ if windows_check():
 # Main setup
 setup(
     name = "deluge",
-    version = "1.3.12",
+    version = "1.3.13",
     fullname = "Deluge Bittorrent Client",
     description = "Bittorrent Client",
     author = "Andrew Resch, Damien Churchill",
