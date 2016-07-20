@@ -242,13 +242,24 @@ class ConsoleUI(component.Component):
         self.coreconfig = CoreConfig()
 
     def start_ui(self):
+        """Start the console UI.
+
+        Note: When running console UI reactor.run() will be called which
+              effectively blocks this function making the return value
+              insignificant. However, when running unit tests, the reacor is
+              replaced by a mock object, leaving the return deferred object
+              necessary for the tests to run properly.
+
+        Returns: Deferred that fires when all commands are executed.
+        """
+        deferred = None
         if self.options.parsed_cmds:
             self.interactive = False
             if not self._commands:
                 print("Sorry, couldn't find any commands")
                 return
             else:
-                self.exec_args(self.options)
+                deferred = self.exec_args(self.options)
 
         if self.interactive and not deluge.common.windows_check():
             # We use the curses.wrapper function to prevent the console from getting
@@ -265,6 +276,7 @@ Please use commands from the command line, e.g.:\n
             """)
         else:
             reactor.run()
+        return deferred
 
     def exec_args(self, options):
         commander = Commander(self._commands)
