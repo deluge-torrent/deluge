@@ -119,6 +119,7 @@ def setup_logger(level="error", filename=None, filemode="w", logrotate=None, twi
         filemode (str): The filemode to use when opening the log file
         logrotate (int, optional): The size of the logfile in bytes when enabling
                                    log rotation (Default is None meaning disabled)
+        twisted_observer (bool): Whether to setup the custom twisted logging observer.
     """
     if logging.getLoggerClass() is not Logging:
         logging.setLoggerClass(Logging)

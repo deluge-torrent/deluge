@@ -95,8 +95,7 @@ class Console(UI):
         def run(options):
             try:
                 c = ConsoleUI(self.options, self.console_cmds)
-                d = c.start_ui()
-                return d
+                c.start_ui()
             except Exception as ex:
                 log.exception(ex)
                 raise

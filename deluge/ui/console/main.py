@@ -242,14 +242,13 @@ class ConsoleUI(component.Component):
         self.coreconfig = CoreConfig()
 
     def start_ui(self):
-        ret = None
         if self.options.parsed_cmds:
             self.interactive = False
             if not self._commands:
                 print("Sorry, couldn't find any commands")
                 return
             else:
-                ret = self.exec_args(self.options)
+                self.exec_args(self.options)
 
         if self.interactive and not deluge.common.windows_check():
             # We use the curses.wrapper function to prevent the console from getting
@@ -267,13 +266,11 @@ Please use commands from the command line, e.g.:\n
         else:
             reactor.run()
 
-        return ret
-
     def exec_args(self, options):
         commander = Commander(self._commands)
 
         def on_connect(result):
-            def on_started(result):
+            def on_components_started(result):
                 def on_started(result):
                     def do_command(result, cmd):
                         return commander.do_command(cmd)
@@ -293,7 +290,7 @@ Please use commands from the command line, e.g.:\n
                 self.started_deferred.addCallback(on_started)
                 return self.started_deferred
             d = component.start()
-            d.addCallback(on_started)
+            d.addCallback(on_components_started)
             return d
 
         def on_connect_fail(reason):
