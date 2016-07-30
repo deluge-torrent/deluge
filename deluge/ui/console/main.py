@@ -250,33 +250,33 @@ class ConsoleUI(component.Component):
               replaced by a mock object, leaving the return deferred object
               necessary for the tests to run properly.
 
-        Returns: Deferred that fires when all commands are executed.
+        Returns: If valid commands are provived, a deferred that fires when
+                 all commands are executed. Else None is returned.
         """
-        deferred = None
         if self.options.parsed_cmds:
             self.interactive = False
             if not self._commands:
-                print("Sorry, couldn't find any commands")
+                print("No valid console commands found")
                 return
-            else:
-                deferred = self.exec_args(self.options)
 
-        if self.interactive and not deluge.common.windows_check():
-            # We use the curses.wrapper function to prevent the console from getting
-            # messed up if an uncaught exception is experienced.
-            import curses.wrapper
-            curses.wrapper(self.run)
-        elif self.interactive and deluge.common.windows_check():
-            print("""\nDeluge-console does not run in interactive mode on Windows. \n
+            deferred = self.exec_args(self.options)
+            reactor.run()
+            return deferred
+        else:
+            # Interactive
+            if deluge.common.windows_check():
+                print("""\nDeluge-console does not run in interactive mode on Windows. \n
 Please use commands from the command line, e.g.:\n
     deluge-console.exe help
     deluge-console.exe info
     deluge-console.exe "add --help"
     deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
-            """)
-        else:
-            reactor.run()
-        return deferred
+""")
+            else:
+                # We use the curses.wrapper function to prevent the console from getting
+                # messed up if an uncaught exception is experienced.
+                import curses.wrapper
+                curses.wrapper(self.run)
 
     def exec_args(self, options):
         commander = Commander(self._commands)
