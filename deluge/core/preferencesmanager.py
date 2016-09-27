@@ -443,7 +443,7 @@ class PreferencesManager(component.Component):
         else:
             log.warning("Unable to find GeoIP database file!")
 
-        if geoip_db:
+        if geoip_db and hasattr(self.session, "load_country_db"):
             try:
                 self.session.load_country_db(str(geoip_db))
             except RuntimeError as ex:
