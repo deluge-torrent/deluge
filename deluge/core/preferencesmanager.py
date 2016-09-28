@@ -449,6 +449,8 @@ class PreferencesManager(component.Component):
             except RuntimeError as ex:
                 log.error("Unable to load geoip database!")
                 log.exception(ex)
+            except AttributeError:
+                log.warning("GeoIP Unavailable")
 
     def _on_set_cache_size(self, key, value):
         log.debug("%s: %s", key, value)
