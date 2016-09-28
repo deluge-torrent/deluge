@@ -498,9 +498,11 @@ class PreferencesManager(component.Component):
         if geoip_db:
             try:
                 self.session.load_country_db(str(geoip_db))
-            except Exception, e:
+            except RuntimeError, e:
                 log.error("Unable to load geoip database!")
                 log.exception(e)
+            except AttributeError:
+                log.warning("GeoIP Unavailable")
 
     def _on_cache_size(self, key, value):
         log.debug("%s: %s", key, value)
