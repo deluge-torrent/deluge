@@ -73,12 +73,12 @@ class PiecesBar(gtk.DrawingArea):
         # Restrict Cairo to the exposed area; avoid extra work
         self.__roundcorners_clipping()
 
-        if not self.__pieces and self.__num_pieces is not None:
+        if self.__pieces:
+            self.__draw_pieces()
+        elif self.__num_pieces:
             # Special case. Completed torrents do not send any pieces in their
             # status.
             self.__draw_pieces_completed()
-        elif self.__pieces:
-            self.__draw_pieces()
 
         self.__draw_progress_overlay()
         self.__write_text()
