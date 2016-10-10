@@ -740,7 +740,7 @@ class TorrentManager(component.Component):
             os.fsync(state_file.fileno())
             state_file.close()
             os.rename(filepath_tmp, filepath)
-        except IOError:
+        except IOError, ex:
             log.error("Unable to save %s: %s", filepath, ex)
             if os.path.isfile(filepath_bak):
                 log.info("Restoring backup of state from: %s", filepath_bak)
