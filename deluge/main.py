@@ -39,6 +39,8 @@
 
 """Main starting point for Deluge.  Contains the main() entry point."""
 
+from __future__ import with_statement
+
 import os
 import sys
 from optparse import OptionParser
@@ -207,7 +209,8 @@ this should be an IP address", metavar="IFACE",
     # Writes out a pidfile if necessary
     def write_pidfile():
         if options.pidfile:
-            open(options.pidfile, "wb").write("%s\n" % os.getpid())
+            with open(options.pidfile, "wb") as _file:
+                _file.write("%s\n" % os.getpid())
 
     # If the donot daemonize is set, then we just skip the forking
     if not options.donot:

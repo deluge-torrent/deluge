@@ -32,6 +32,8 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
+from __future__ import with_statement
+
 import os
 import gettext
 import locale
@@ -52,7 +54,8 @@ class Daemon(object):
         if os.path.isfile(deluge.configmanager.get_config_dir("deluged.pid")):
             # Get the PID and the port of the supposedly running daemon
             try:
-                (pid, port) = open(deluge.configmanager.get_config_dir("deluged.pid")).read().strip().split(";")
+                with open(deluge.configmanager.get_config_dir("deluged.pid")) as _file:
+                    (pid, port) = _file.read().strip().split(";")
                 pid = int(pid)
                 port = int(port)
             except ValueError:
@@ -169,8 +172,8 @@ class Daemon(object):
         if not classic:
             # Write out a pid file all the time, we use this to see if a deluged is running
             # We also include the running port number to do an additional test
-            open(deluge.configmanager.get_config_dir("deluged.pid"), "wb").write(
-                "%s;%s\n" % (os.getpid(), port))
+            with open(deluge.configmanager.get_config_dir("deluged.pid"), "wb") as _file:
+                _file.write("%s;%s\n" % (os.getpid(), port))
 
             component.start()
             try:

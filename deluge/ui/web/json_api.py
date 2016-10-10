@@ -33,6 +33,8 @@
 #
 #
 
+from __future__ import with_statement
+
 import os
 import time
 import base64
@@ -782,7 +784,8 @@ class WebApi(JSONComponent):
                 client.core.add_torrent_magnet(torrent["path"], torrent["options"])
             else:
                 filename = os.path.basename(torrent["path"])
-                fdump = base64.encodestring(open(torrent["path"], "rb").read())
+                with open(torrent["path"], "rb") as _file:
+                    fdump = base64.encodestring(_file.read())
                 log.info("Adding torrent from file `%s` with options `%r`",
                          filename, torrent["options"])
                 client.core.add_torrent_file(filename, fdump, torrent["options"])
@@ -991,7 +994,8 @@ class WebApi(JSONComponent):
             client.core.rescan_plugins()
             return True
 
-        plugin_data = base64.encodestring(open(path, "rb").read())
+        with open(path, "rb") as _file:
+            plugin_data = base64.encodestring(_file.read())
 
         def on_upload_complete(*args):
             client.core.rescan_plugins()

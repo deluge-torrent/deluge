@@ -33,6 +33,9 @@
 #    statement from all source files in the program, then also delete it here.
 #
 #
+
+from __future__ import with_statement
+
 from twisted.internet import defer
 
 from deluge.ui.console.main import BaseCommand
@@ -86,7 +89,8 @@ class Command(BaseCommand):
                     continue
                 self.console.write("{!info!}Attempting to add torrent: %s" % arg)
                 filename = os.path.split(arg)[-1]
-                filedump = base64.encodestring(open(arg, "rb").read())
+                with open(arg, "rb") as _file:
+                    filedump = base64.encodestring(_file.read())
                 deferreds.append(client.core.add_torrent_file(filename, filedump, t_options).addCallback(on_success).addErrback(on_fail))
 
         return defer.DeferredList(deferreds)

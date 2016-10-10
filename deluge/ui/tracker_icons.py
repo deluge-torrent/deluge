@@ -33,6 +33,8 @@
 #
 #
 
+from __future__ import with_statement
+
 import os
 from HTMLParser import HTMLParser, HTMLParseError
 from urlparse import urljoin, urlparse
@@ -226,7 +228,9 @@ class TrackerIcons(Component):
         if not url:
             url = self.host_to_url(host)
         log.debug("Downloading %s %s", host, url)
-        return download_file(url, mkstemp()[1], force_filename=True)
+        fd, filename = mkstemp(prefix='deluge_ticon.')
+        os.close(fd)
+        return download_file(url, filename, force_filename=True)
 
     def on_download_page_complete(self, page):
         """
@@ -355,7 +359,8 @@ class TrackerIcons(Component):
 
         if PIL_INSTALLED:
             try:
-                Image.open(icon_name)
+                with Image.open(icon_name):
+                    pass
             except IOError, e:
                 raise InvalidIconError(e)
         else:
@@ -429,14 +434,14 @@ class TrackerIcons(Component):
         """
         if icon:
             filename = icon.get_filename()
-            img = Image.open(filename)
-            if img.size > (16, 16):
-                new_filename = filename.rpartition('.')[0]+".png"
-                img = img.resize((16, 16), Image.ANTIALIAS)
-                img.save(new_filename)
-                if new_filename != filename:
-                    os.remove(filename)
-                    icon = TrackerIcon(new_filename)
+            with Image.open(filename) as img:
+                if img.size > (16, 16):
+                    new_filename = filename.rpartition('.')[0]+".png"
+                    img = img.resize((16, 16), Image.ANTIALIAS)
+                    img.save(new_filename)
+                    if new_filename != filename:
+                        os.remove(filename)
+                        icon = TrackerIcon(new_filename)
         return icon
 
     def store_icon(self, icon, host):

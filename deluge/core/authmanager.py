@@ -33,6 +33,8 @@
 #
 #
 
+from __future__ import with_statement
+
 import os
 import random
 import stat
@@ -118,7 +120,8 @@ class AuthManager(component.Component):
             f = [localclient]
         else:
             # Load the auth file into a dictionary: {username: password, ...}
-            f = open(auth_file, "r").readlines()
+            with open(auth_file, "r") as _file:
+                f = _file.readlines()
 
         for line in f:
             line = line.strip()
@@ -143,4 +146,5 @@ class AuthManager(component.Component):
             self.__auth[username.strip()] = (password.strip(), level)
 
         if "localclient" not in self.__auth:
-            open(auth_file, "a").write(self.__create_localclient_account())
+            with open(auth_file, "a") as _file:
+                _file.write(self.__create_localclient_account())

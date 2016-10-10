@@ -33,6 +33,8 @@
 #
 #
 
+from __future__ import with_statement
+
 from deluge._libtorrent import lt
 
 import os
@@ -186,8 +188,8 @@ class Core(component.Component):
     def __load_session_state(self):
         """Loads the libtorrent session state"""
         try:
-            self.session.load_state(lt.bdecode(
-                open(deluge.configmanager.get_config_dir("session.state"), "rb").read()))
+            with open(deluge.configmanager.get_config_dir("session.state"), "rb") as _file:
+                self.session.load_state(lt.bdecode(_file.read()))
         except Exception, e:
             log.warning("Failed to load lt state: %s", e)
 
@@ -661,7 +663,8 @@ class Core(component.Component):
         if add_to_session:
             options = {}
             options["download_location"] = os.path.split(path)[0]
-            self.add_torrent_file(os.path.split(target)[1], open(target, "rb").read(), options)
+            with open(target, "rb") as _file:
+                self.add_torrent_file(os.path.split(target)[1], _file.read(), options)
 
     @export
     def upload_plugin(self, filename, filedump):

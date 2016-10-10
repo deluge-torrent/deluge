@@ -33,6 +33,8 @@
 #
 #
 
+from __future__ import with_statement
+
 import sys
 import os
 from hashlib import sha1 as sha
@@ -218,11 +220,13 @@ class TorrentMetadata(object):
                     progress(len(pieces), num_pieces)
 
                 r = fd.read(piece_size)
+            fd.close()
 
             torrent["info"]["pieces"] = "".join(pieces)
 
         # Write out the torrent file
-        open(torrent_path, "wb").write(bencode(torrent))
+        with open(torrent_path, "wb") as _file:
+            _file.write(bencode(torrent))
 
     def get_data_path(self):
         """

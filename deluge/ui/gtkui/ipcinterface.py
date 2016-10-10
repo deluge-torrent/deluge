@@ -33,6 +33,7 @@
 #
 #
 
+from __future__ import with_statement
 
 import sys
 import os
@@ -106,12 +107,14 @@ class IPCInterface(component.Component):
                 port = random.randrange(20000, 65535)
                 reactor.listenTCP(port, self.factory)
                 # Store the port number in the socket file
-                open(socket, "w").write(str(port))
+                with open(socket, "w") as _file:
+                    _file.write(str(port))
                 # We need to process any args when starting this process
                 process_args(args)
             else:
                 # Send to existing deluge process
-                port = int(open(socket, "r").readline())
+                with open(socket) as _file:
+                    port = int(_file.readline())
                 self.factory = ClientFactory()
                 self.factory.args = args
                 self.factory.protocol = IPCProtocolClient
@@ -221,4 +224,6 @@ def process_args(args):
                 component.get("AddTorrentDialog").add_from_files([path])
                 component.get("AddTorrentDialog").show(config["focus_add_dialog"])
             else:
-                client.core.add_torrent_file(os.path.split(path)[-1], base64.encodestring(open(path, "rb").read()), None)
+                with open(path, "rb") as _file:
+                    filedump = base64.encodestring(_file.read())
+                client.core.add_torrent_file(os.path.split(path)[-1], filedump, None)

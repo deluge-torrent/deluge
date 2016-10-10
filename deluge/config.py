@@ -67,6 +67,8 @@ version as this will be done internally.
 
 """
 
+from __future__ import with_statement
+
 import cPickle as pickle
 import shutil
 import os
@@ -356,7 +358,8 @@ what is currently in the config and it could not convert the value
             filename = self.__config_file
 
         try:
-            data = open(filename, "rb").read()
+            with open(filename, "rb") as _file:
+                data = _file.read()
         except IOError, e:
             log.warning("Unable to open config file %s: %s", filename, e)
             return
@@ -404,7 +407,8 @@ what is currently in the config and it could not convert the value
         # Check to see if the current config differs from the one on disk
         # We will only write a new config file if there is a difference
         try:
-            data = open(filename, "rb").read()
+            with open(filename, "rb") as _file:
+                data = _file.read()
             objects = find_json_objects(data)
             start, end = objects[0]
             version = json.loads(data[start:end])

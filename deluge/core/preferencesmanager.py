@@ -33,6 +33,7 @@
 #
 #
 
+from __future__ import with_statement
 
 import os.path
 import threading
@@ -298,7 +299,8 @@ class PreferencesManager(component.Component):
         if value:
             state = None
             try:
-                state = lt.bdecode(open(state_file, "rb").read())
+                with open(state_file, "rb") as _file:
+                    state = lt.bdecode(_file.read())
             except Exception, e:
                 log.warning("Unable to read DHT state file: %s", e)
 

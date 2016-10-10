@@ -36,6 +36,8 @@
 
 """Common functions for various parts of Deluge to use."""
 
+from __future__ import with_statement
+
 import os
 import time
 import subprocess
@@ -177,10 +179,11 @@ def get_default_download_dir():
     if not windows_check():
         from xdg.BaseDirectory import xdg_config_home
         try:
-            for line in open(os.path.join(xdg_config_home, 'user-dirs.dirs'), 'r'):
-                if not line.startswith('#') and line.startswith('XDG_DOWNLOAD_DIR'):
-                    download_dir = os.path.expandvars(line.partition("=")[2].rstrip().strip('"'))
-                    break
+            with open(os.path.join(xdg_config_home, 'user-dirs.dirs'), 'r') as _file:
+                for line in _file:
+                    if not line.startswith('#') and line.startswith('XDG_DOWNLOAD_DIR'):
+                        download_dir = os.path.expandvars(line.partition("=")[2].rstrip().strip('"'))
+                        break
         except IOError:
             pass
 

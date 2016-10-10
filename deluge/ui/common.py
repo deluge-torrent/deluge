@@ -38,6 +38,8 @@ The ui common module contains methods and classes that are deemed useful for
 all the interfaces.
 """
 
+from __future__ import with_statement
+
 import os
 import sys
 import urlparse
@@ -66,7 +68,8 @@ class TorrentInfo(object):
         # Get the torrent data from the torrent file
         try:
             log.debug("Attempting to open %s.", filename)
-            self.__m_filedata = open(filename, "rb").read()
+            with open(filename, "rb") as _file:
+                self.__m_filedata = _file.read()
             self.__m_metadata = bencode.bdecode(self.__m_filedata)
         except Exception, e:
             log.warning("Unable to open %s: %s", filename, e)
@@ -409,26 +412,27 @@ def get_localhost_auth():
     """
     auth_file = deluge.configmanager.get_config_dir("auth")
     if os.path.exists(auth_file):
-        for line in open(auth_file):
-            line = line.strip()
-            if line.startswith("#") or not line:
-                # This is a comment or blank line
-                continue
+        with open(auth_file) as _file:
+            for line in _file:
+                line = line.strip()
+                if line.startswith("#") or not line:
+                    # This is a comment or blank line
+                    continue
 
-            try:
-                lsplit = line.split(":")
-            except Exception, e:
-                log.error("Your auth file is malformed: %s", e)
-                continue
+                try:
+                    lsplit = line.split(":")
+                except Exception, e:
+                    log.error("Your auth file is malformed: %s", e)
+                    continue
 
-            if len(lsplit) == 2:
-                username, password = lsplit
-            elif len(lsplit) == 3:
-                username, password, level = lsplit
-            else:
-                log.error("Your auth file is malformed: Incorrect number of fields!")
-                continue
+                if len(lsplit) == 2:
+                    username, password = lsplit
+                elif len(lsplit) == 3:
+                    username, password, level = lsplit
+                else:
+                    log.error("Your auth file is malformed: Incorrect number of fields!")
+                    continue
 
-            if username == "localclient":
-                return (username, password)
+                if username == "localclient":
+                    return (username, password)
     return ("", "")

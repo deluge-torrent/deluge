@@ -33,6 +33,7 @@
 #
 #
 
+from __future__ import with_statement
 
 import pygtk
 pygtk.require('2.0')
@@ -958,7 +959,8 @@ class Preferences(component.Component):
 
         if not client.is_localhost():
             # We need to send this plugin to the daemon
-            filedump = base64.encodestring(open(filepath, "rb").read())
+            with open(filepath, "rb") as _file:
+                filedump = base64.encodestring(_file.read())
             client.core.upload_plugin(filename, filedump)
 
         client.core.rescan_plugins()

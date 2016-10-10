@@ -34,6 +34,8 @@
 
 """Internal Torrent class"""
 
+from __future__ import with_statement
+
 import os
 import time
 from urllib import unquote
@@ -957,7 +959,8 @@ class Torrent(object):
             md = lt.bdecode(self.torrent_info.metadata())
             torrent_file = {}
             torrent_file["info"] = md
-            open(path, "wb").write(lt.bencode(torrent_file))
+            with open(path, "wb") as _file:
+                _file.write(lt.bencode(torrent_file))
         except Exception, e:
             log.warning("Unable to save torrent file: %s", e)
 
