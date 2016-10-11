@@ -32,6 +32,10 @@ def setup_test_logger(level="info", prefix="deluge"):
     deluge.log.setup_logger(level, filename="%s.log" % prefix, twisted_observer=False)
 
 
+def get_test_data_file(filename):
+    return os.path.join(os.path.join(os.path.dirname(__file__), "data"), filename)
+
+
 def todo_test(caller):
     # If we are using the delugereporter we can set todo mark on the test
     # Without the delugereporter the todo would print a stack trace, so in

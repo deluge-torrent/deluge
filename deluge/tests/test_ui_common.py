@@ -32,3 +32,14 @@ class UICommonTestCase(unittest.TestCase):
         self.assertTrue("Ascii title.mkv" in files)
         self.assertTrue("\xe0\xa6\xb8\xe0\xa7\x81\xe0\xa6\x95\xe0\xa7\x81\xe0\xa6"
                         "\xae\xe0\xa6\xbe\xe0\xa6\xb0 \xe0\xa6\xb0\xe0\xa6\xbe\xe0\xa7\x9f.mkv" in files)
+
+    def test_torrent_info_json_dump(self):
+        # This torrent file contains an uncommon field 'filehash' which must be hex
+        # encoded to allow dumping the torrent info to json. Otherwise it will fail with:
+        # UnicodeDecodeError: 'utf8' codec can't decode byte 0xe5 in position 0: invalid continuation byte
+        filename = common.get_test_data_file("filehash_field.torrent")
+        ti = TorrentInfo(filename, 2)
+        files = ti.files_tree["contents"]["torrent_filehash"]["contents"]
+
+        self.assertTrue("還在一個人無聊嗎~還不趕緊上來聊天美.txt" in files)
+        json_lib.dumps(ti.as_dict("name", "info_hash", "files_tree"))
