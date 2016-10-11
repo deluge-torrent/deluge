@@ -210,7 +210,7 @@ class JSON(resource.Resource, component.Component):
     def _send_response(self, request, response):
         if request._disconnected:
             return ""
-        response = json.dumps(response)
+        response = json.dumps(response, ensure_ascii=False)
         request.setHeader("content-type", "application/x-json")
         request.write(compress(response, request))
         request.finish()
