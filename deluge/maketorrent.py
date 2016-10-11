@@ -155,20 +155,19 @@ class TorrentMetadata(object):
                     buf = ""
                     fs[-1]["attr"] = "p"
                 else:
-                    fd = open(os.path.join(self.data_path, *path), "rb")
-                    r = fd.read(piece_size - len(buf))
-                    while r:
-                        buf += r
-                        if len(buf) == piece_size:
-                            pieces.append(sha(buf).digest())
-                            # Run the progress function if necessary
-                            if progress:
-                                progress(len(pieces), num_pieces)
-                            buf = ""
-                        else:
-                            break
-                        r = fd.read(piece_size - len(buf))
-                    fd.close()
+                    with open(os.path.join(self.data_path, *path), "rb") as _file:
+                        r = _file.read(piece_size - len(buf))
+                        while r:
+                            buf += r
+                            if len(buf) == piece_size:
+                                pieces.append(sha(buf).digest())
+                                # Run the progress function if necessary
+                                if progress:
+                                    progress(len(pieces), num_pieces)
+                                buf = ""
+                            else:
+                                break
+                            r = _file.read(piece_size - len(buf))
 
             if buf:
                 pieces.append(sha(buf).digest())
@@ -184,19 +183,20 @@ class TorrentMetadata(object):
             torrent["info"]["length"] = get_path_size(self.data_path)
             pieces = []
 
-            fd = open(self.data_path, "rb")
-            r = fd.read(piece_size)
-            while r:
-                pieces.append(sha(r).digest())
-                if progress:
-                    progress(len(pieces), num_pieces)
+            with open(self.data_path, "rb") as _file:
+                r = _file.read(piece_size)
+                while r:
+                    pieces.append(sha(r).digest())
+                    if progress:
+                        progress(len(pieces), num_pieces)
 
-                r = fd.read(piece_size)
+                    r = _file.read(piece_size)
 
             torrent["info"]["pieces"] = "".join(pieces)
 
         # Write out the torrent file
-        open(torrent_path, "wb").write(bencode(torrent))
+        with open(torrent_path, "wb") as _file:
+            _file.write(bencode(torrent))
 
     def get_data_path(self):
         """Get the path to the files that the torrent will contain.

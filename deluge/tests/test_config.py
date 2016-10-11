@@ -83,32 +83,32 @@ class ConfigTestCase(unittest.TestCase):
 
         # Test loading an old config from 1.1.x
         import pickle
-        pickle.dump(DEFAULTS, open(os.path.join(self.config_dir, "test.conf"), "wb"))
+        with open(os.path.join(self.config_dir, "test.conf"), "wb") as _file:
+            pickle.dump(DEFAULTS, _file)
 
         check_config()
 
         # Test opening a previous 1.2 config file of just a json object
         import json
-        json.dump(DEFAULTS, open(os.path.join(self.config_dir, "test.conf"), "wb"), indent=2)
+        with open(os.path.join(self.config_dir, "test.conf"), "wb") as _file:
+            json.dump(DEFAULTS, _file, indent=2)
 
         check_config()
 
         # Test opening a previous 1.2 config file of having the format versions
         # as ints
-        f = open(os.path.join(self.config_dir, "test.conf"), "wb")
-        f.write(str(1) + "\n")
-        f.write(str(1) + "\n")
-        json.dump(DEFAULTS, f, indent=2)
-        f.close()
+        with open(os.path.join(self.config_dir, "test.conf"), "wb") as _file:
+            _file.write(str(1) + "\n")
+            _file.write(str(1) + "\n")
+            json.dump(DEFAULTS, _file, indent=2)
 
         check_config()
 
         # Test the 1.2 config format
-        v = {"format": 1, "file": 1}
-        f = open(os.path.join(self.config_dir, "test.conf"), "wb")
-        json.dump(v, f, indent=2)
-        json.dump(DEFAULTS, f, indent=2)
-        f.close()
+        version = {"format": 1, "file": 1}
+        with open(os.path.join(self.config_dir, "test.conf"), "wb") as _file:
+            json.dump(version, _file, indent=2)
+            json.dump(DEFAULTS, _file, indent=2)
 
         check_config()
 

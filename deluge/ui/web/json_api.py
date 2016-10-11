@@ -714,7 +714,8 @@ class WebApi(JSONComponent):
                 deferreds.append(d)
             else:
                 filename = os.path.basename(torrent["path"])
-                fdump = base64.encodestring(open(torrent["path"], "rb").read())
+                with open(torrent["path"], "rb") as _file:
+                    fdump = base64.encodestring(_file.read())
                 log.info("Adding torrent from file `%s` with options `%r`",
                          filename, torrent["options"])
                 d = client.core.add_torrent_file(filename, fdump, torrent["options"])
@@ -933,8 +934,8 @@ class WebApi(JSONComponent):
         if client.is_localhost():
             client.core.rescan_plugins()
             return True
-
-        plugin_data = base64.encodestring(open(path, "rb").read())
+        with open(path, "rb") as _file:
+            plugin_data = base64.encodestring(_file.read())
 
         def on_upload_complete(*args):
             client.core.rescan_plugins()

@@ -284,9 +284,8 @@ class Core(component.Component):
 
         def on_download_success(filename):
             # We got the file, so add it to the session
-            f = open(filename, "rb")
-            data = f.read()
-            f.close()
+            with open(filename, "rb") as _file:
+                data = _file.read()
             try:
                 os.remove(filename)
             except OSError as ex:
@@ -298,9 +297,9 @@ class Core(component.Component):
             log.error("Failed to add torrent from url %s", url)
             return failure
 
-        d = download_file(
-            url, tempfile.mkstemp()[1], headers=headers, force_filename=True
-        )
+        tmp_fd, tmp_file = tempfile.mkstemp(prefix='deluge_url.', suffix='.torrent')
+        os.close(tmp_fd)
+        d = download_file(url, tmp_file, headers=headers, force_filename=True)
         d.addCallbacks(on_download_success, on_download_fail)
         return d
 
@@ -744,7 +743,8 @@ class Core(component.Component):
         if add_to_session:
             options = {}
             options["download_location"] = os.path.split(path)[0]
-            self.add_torrent_file(os.path.split(target)[1], open(target, "rb").read(), options)
+            with open(target, "rb") as _file:
+                self.add_torrent_file(os.path.split(target)[1], _file.read(), options)
 
     @export
     def upload_plugin(self, filename, filedump):
@@ -760,9 +760,8 @@ class Core(component.Component):
             log.exception(ex)
             return
 
-        f = open(os.path.join(get_config_dir(), "plugins", filename), "wb")
-        f.write(filedump)
-        f.close()
+        with open(os.path.join(get_config_dir(), "plugins", filename), "wb") as _file:
+            _file.write(filedump)
         component.get("CorePluginManager").scan_for_plugins()
 
     @export

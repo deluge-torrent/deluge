@@ -150,14 +150,14 @@ class Core(CorePluginBase):
         try:
             log.debug("Attempting to open %s for add.", filename)
             if magnet:
-                _file = open(filename, "r")
+                with open(filename, "r") as _file:
+                    filedump = _file.read()
             else:
-                _file = open(filename, "rb")
+                with open(filename, "rb") as _file:
+                    filedump = _file.read()
 
-            filedump = _file.read()
             if not filedump:
                 raise RuntimeError("Torrent is 0 bytes!")
-            _file.close()
         except IOError as ex:
             log.warning("Unable to open %s: %s", filename, ex)
             raise ex

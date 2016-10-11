@@ -114,7 +114,8 @@ def make(filename, outfile):
         outfile = os.path.splitext(infile)[0] + '.mo'
 
     try:
-        lines = open(infile).readlines()
+        with open(infile) as _file:
+            lines = _file.readlines()
     except IOError, msg:
         print >> sys.stderr, msg
         sys.exit(1)
@@ -181,7 +182,8 @@ def make(filename, outfile):
     output = generate()
 
     try:
-        open(outfile, "wb").write(output)
+        with open(outfile, "wb") as _file:
+            _file.write(output)
     except IOError, msg:
         print >> sys.stderr, msg
 

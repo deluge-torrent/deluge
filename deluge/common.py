@@ -874,10 +874,9 @@ def create_auth_file():
     auth_file = deluge.configmanager.get_config_dir("auth")
     # Check for auth file and create if necessary
     if not os.path.exists(auth_file):
-        fd = open(auth_file, "w")
-        fd.flush()
-        os.fsync(fd.fileno())
-        fd.close()
+        with open(auth_file, "w") as _file:
+            _file.flush()
+            os.fsync(_file.fileno())
         # Change the permissions on the file so only this user can read/write it
         os.chmod(auth_file, stat.S_IREAD | stat.S_IWRITE)
 
@@ -891,15 +890,14 @@ def create_localclient_account(append=False):
     if not os.path.exists(auth_file):
         create_auth_file()
 
-    fd = open(auth_file, "a" if append else "w")
-    fd.write(":".join([
-        "localclient",
-        sha(str(random.random())).hexdigest(),
-        str(AUTH_LEVEL_ADMIN)
-    ]) + '\n')
-    fd.flush()
-    os.fsync(fd.fileno())
-    fd.close()
+    with open(auth_file, "a" if append else "w") as _file:
+        _file.write(":".join([
+            "localclient",
+            sha(str(random.random())).hexdigest(),
+            str(AUTH_LEVEL_ADMIN)
+        ]) + '\n')
+        _file.flush()
+        os.fsync(_file.fileno())
 
 
 def set_env_variable(name, value):

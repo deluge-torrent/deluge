@@ -85,9 +85,8 @@ class TrackerIcon(object):
         :rtype: string
         """
         if not self.data:
-            f = open(self.filename, "rb")
-            self.data = f.read()
-            f.close()
+            with open(self.filename, "rb") as _file:
+                self.data = _file.read()
         return self.data
 
     def get_filename(self, full=True):
@@ -235,7 +234,9 @@ class TrackerIcons(Component):
         if not url:
             url = self.host_to_url(host)
         log.debug("Downloading %s %s", host, url)
-        return download_file(url, mkstemp()[1], force_filename=True, handle_redirects=False)
+        tmp_fd, tmp_file = mkstemp(prefix='deluge_ticon.')
+        os.close(tmp_fd)
+        return download_file(url, tmp_file, force_filename=True, handle_redirects=False)
 
     def on_download_page_complete(self, page):
         """
@@ -284,14 +285,13 @@ class TrackerIcons(Component):
         :returns: a Deferred which callbacks a list of available favicons (url, type)
         :rtype: Deferred
         """
-        f = open(page, "r")
-        parser = FaviconParser()
-        for line in f:
-            parser.feed(line)
-            if parser.left_head:
-                break
-        parser.close()
-        f.close()
+        with open(page, "r") as _file:
+            parser = FaviconParser()
+            for line in _file:
+                parser.feed(line)
+                if parser.left_head:
+                    break
+            parser.close()
         try:
             os.remove(page)
         except OSError as ex:
@@ -364,7 +364,8 @@ class TrackerIcons(Component):
 
         if PIL_INSTALLED:
             try:
-                Image.open(icon_name)
+                with Image.open(icon_name):
+                    pass
             except IOError as ex:
                 raise InvalidIconError(ex)
         else:
@@ -441,14 +442,14 @@ class TrackerIcons(Component):
         """
         if icon:
             filename = icon.get_filename()
-            img = Image.open(filename)
-            if img.size > (16, 16):
-                new_filename = filename.rpartition(".")[0] + ".png"
-                img = img.resize((16, 16), Image.ANTIALIAS)
-                img.save(new_filename)
-                if new_filename != filename:
-                    os.remove(filename)
-                    icon = TrackerIcon(new_filename)
+            with Image.open(filename) as img:
+                if img.size > (16, 16):
+                    new_filename = filename.rpartition(".")[0] + ".png"
+                    img = img.resize((16, 16), Image.ANTIALIAS)
+                    img.save(new_filename)
+                    if new_filename != filename:
+                        os.remove(filename)
+                        icon = TrackerIcon(new_filename)
         return icon
 
     def store_icon(self, icon, host):

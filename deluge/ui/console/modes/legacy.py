@@ -142,14 +142,16 @@ class Legacy(BaseMode, Commander, component.Component):
 
         if self.console_config["save_legacy_history"]:
             try:
-                lines1 = open(self.history_file[0], "r").read().splitlines()
+                with open(self.history_file[0], "r") as _file:
+                    lines1 = _file.read().splitlines()
                 self._hf_lines[0] = len(lines1)
             except IOError:
                 lines1 = []
                 self._hf_lines[0] = 0
 
             try:
-                lines2 = open(self.history_file[1], "r").read().splitlines()
+                with open(self.history_file[1], "r") as _file:
+                    lines2 = _file.read().splitlines()
                 self._hf_lines[1] = len(lines2)
             except IOError:
                 lines2 = []
@@ -476,13 +478,11 @@ class Legacy(BaseMode, Commander, component.Component):
                 active_file = 0
 
             # Write the line
-            f = open(self.history_file[active_file], "a")
-
-            if isinstance(text, unicode):
-                text = text.encode(self.encoding)
-            f.write(text)
-
-            f.write(os.linesep)
+            with open(self.history_file[active_file], "a") as _file:
+                if isinstance(text, unicode):
+                    text = text.encode(self.encoding)
+                _file.write(text)
+                _file.write(os.linesep)
 
             # And increment line counter
             self._hf_lines[active_file] += 1
@@ -491,8 +491,8 @@ class Legacy(BaseMode, Commander, component.Component):
             # therefore swapping the currently active file
             if self._hf_lines[active_file] == MAX_HISTFILE_SIZE:
                 self._hf_lines[1 - active_file] = 0
-                f = open(self.history_file[1 - active_file], "w")
-                f.truncate(0)
+                with open(self.history_file[1 - active_file], "w") as _file:
+                    _file.truncate(0)
 
         def get_line_chunks(line):
             """

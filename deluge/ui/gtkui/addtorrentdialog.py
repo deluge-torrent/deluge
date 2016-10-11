@@ -623,7 +623,7 @@ class AddTorrentDialog(component.Component):
 
         # Create a tmp file path
         import tempfile
-        (tmp_handle, tmp_file) = tempfile.mkstemp()
+        tmp_fd, tmp_file = tempfile.mkstemp(prefix='deluge_url.', suffix='.torrent')
 
         def on_part(data, current_length, total_length):
             if total_length:
@@ -651,6 +651,7 @@ class AddTorrentDialog(component.Component):
             return result
 
         d = download_file(url, tmp_file, on_part)
+        os.close(tmp_fd)
         d.addCallbacks(on_download_success, on_download_fail)
 
     def _on_button_hash_clicked(self, widget):

@@ -31,7 +31,9 @@ class TorrentmanagerTestCase(BaseTestCase):
     @defer.inlineCallbacks
     def test_remove_torrent(self):
         filename = os.path.join(os.path.dirname(__file__), "test.torrent")
-        torrent_id = yield self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), {})
+        with open(filename) as _file:
+            filedump = base64.encodestring(_file.read())
+        torrent_id = yield self.core.add_torrent_file(filename, filedump, {})
         self.assertTrue(self.core.torrentmanager.remove(torrent_id, False))
 
     @pytest.mark.todo

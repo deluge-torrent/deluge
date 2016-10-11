@@ -34,9 +34,8 @@ class UnknownFormatError(Exception):
 
 
 def detect_compression(filename):
-    f = open(filename, "rb")
-    magic_number = f.read(2)
-    f.close()
+    with open(filename, "rb") as _file:
+        magic_number = _file.read(2)
     return COMPRESSION_TYPES.get(magic_number, "")
 
 

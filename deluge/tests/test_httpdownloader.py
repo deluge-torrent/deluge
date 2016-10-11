@@ -137,23 +137,19 @@ class DownloadFileTestCase(unittest.TestCase):
         return self.webserver.stopListening()
 
     def assertContains(self, filename, contents):  # NOQA
-        f = open(filename)
-        try:
-            self.assertEqual(f.read(), contents)
-        except Exception as ex:
-            self.fail(ex)
-        finally:
-            f.close()
+        with open(filename) as _file:
+            try:
+                self.assertEqual(_file.read(), contents)
+            except Exception as ex:
+                self.fail(ex)
         return filename
 
     def failIfContains(self, filename, contents):  # NOQA
-        f = open(filename)
-        try:
-            self.failIfEqual(f.read(), contents)
-        except Exception as ex:
-            self.fail(ex)
-        finally:
-            f.close()
+        with open(filename) as _file:
+            try:
+                self.failIfEqual(_file.read(), contents)
+            except Exception as ex:
+                self.fail(ex)
         return filename
 
     def test_download(self):

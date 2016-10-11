@@ -27,7 +27,8 @@ class PGReader(object):
         log.debug("PGReader loading: %s", filename)
 
         try:
-            self.fd = gzip.open(filename, "rb")
+            with gzip.open(filename, "rb") as _file:
+                self.fd = _file
         except IOError:
             log.debug("Blocklist: PGReader: Incorrect file type or list is corrupt")
 

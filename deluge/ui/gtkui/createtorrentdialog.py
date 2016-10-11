@@ -370,10 +370,10 @@ class CreateTorrentDialog(object):
             trackers=trackers)
 
         if add_to_session:
-            client.core.add_torrent_file(
-                os.path.split(target)[-1],
-                base64.encodestring(open(target, "rb").read()),
-                {"download_location": os.path.split(path)[0]})
+            with open(target, "rb") as _file:
+                filedump = base64.encodestring(_file.read())
+            client.core.add_torrent_file(os.path.split(target)[-1], filedump,
+                                         {"download_location": os.path.split(path)[0]})
 
     def _on_create_torrent_progress(self, value, num_pieces):
         percent = float(value) / float(num_pieces)

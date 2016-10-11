@@ -71,7 +71,8 @@ class TorrentInfo(object):
         # Get the torrent data from the torrent file
         try:
             log.debug("Attempting to open %s.", filename)
-            self.__m_filedata = open(filename, "rb").read()
+            with open(filename, "rb") as _file:
+                self.__m_filedata = _file.read()
             self.__m_metadata = bencode.bdecode(self.__m_filedata)
         except Exception as ex:
             log.warning("Unable to open %s: %s", filename, ex)

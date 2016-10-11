@@ -183,9 +183,10 @@ class Flag(resource.Resource):
             request.setHeader("cache-control",
                               "public, must-revalidate, max-age=86400")
             request.setHeader("content-type", "image/png")
-            data = open(filename, "rb")
+            with open(filename, "rb") as _file:
+                data = _file.read()
             request.setResponseCode(http.OK)
-            return data.read()
+            return data
         else:
             request.setResponseCode(http.NOT_FOUND)
             return ""
@@ -232,7 +233,9 @@ class LookupResource(resource.Resource, component.Component):
                 log.debug("Serving path: '%s'", path)
                 mime_type = mimetypes.guess_type(path)
                 request.setHeader("content-type", mime_type[0])
-                return compress(open(path, "rb").read(), request)
+                with open(path, "rb") as _file:
+                    data = _file.read()
+                return compress(data, request)
 
         request.setResponseCode(http.NOT_FOUND)
         return "<h1>404 - Not Found</h1>"
@@ -390,7 +393,9 @@ class ScriptResource(resource.Resource, component.Component):
                 log.debug("Serving path: '%s'", path)
                 mime_type = mimetypes.guess_type(path)
                 request.setHeader("content-type", mime_type[0])
-                return compress(open(path, "rb").read(), request)
+                with open(path, "rb") as _file:
+                    data = _file.read()
+                return compress(data, request)
 
         request.setResponseCode(http.NOT_FOUND)
         return "<h1>404 - Not Found</h1>"

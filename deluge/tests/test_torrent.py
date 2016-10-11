@@ -53,8 +53,8 @@ class TorrentTestCase(BaseTestCase):
 
     def get_torrent_atp(self, filename):
         filename = os.path.join(os.path.dirname(__file__), filename)
-        e = lt.bdecode(open(filename, 'rb').read())
-        info = lt.torrent_info(e)
+        with open(filename, 'rb') as _file:
+            info = lt.torrent_info(lt.bdecode(_file.read()))
         atp = {"ti": info}
         atp["save_path"] = os.getcwd()
         atp["storage_mode"] = lt.storage_mode_t.storage_mode_sparse
@@ -118,7 +118,9 @@ class TorrentTestCase(BaseTestCase):
     def test_torrent_error_data_missing(self):
         options = {"seed_mode": True}
         filename = os.path.join(os.path.dirname(__file__), "test_torrent.file.torrent")
-        torrent_id = yield self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
+        with open(filename) as _file:
+            filedump = base64.encodestring(_file.read())
+        torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
         torrent = self.core.torrentmanager.torrents[torrent_id]
 
         self.assert_state(torrent, "Seeding")
@@ -132,7 +134,9 @@ class TorrentTestCase(BaseTestCase):
     def test_torrent_error_resume_original_state(self):
         options = {"seed_mode": True, "add_paused": True}
         filename = os.path.join(os.path.dirname(__file__), "test_torrent.file.torrent")
-        torrent_id = yield self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
+        with open(filename) as _file:
+            filedump = base64.encodestring(_file.read())
+        torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
         torrent = self.core.torrentmanager.torrents[torrent_id]
 
         orig_state = "Paused"
@@ -175,7 +179,8 @@ class TorrentTestCase(BaseTestCase):
         )
 
         filename = os.path.join(os.path.dirname(__file__), "test_torrent.file.torrent")
-        filedump = open(filename).read()
+        with open(filename) as _file:
+            filedump = _file.read()
         torrent_id = yield self.core.torrentmanager.add(state=torrent_state, filedump=filedump,
                                                         resume_data=lt.bencode(resume_data))
         torrent = self.core.torrentmanager.torrents[torrent_id]

@@ -391,7 +391,8 @@ what is currently in the config and it could not convert the value
             filename = self.__config_file
 
         try:
-            data = open(filename, "rb").read()
+            with open(filename, "rb") as _file:
+                data = _file.read()
         except IOError as ex:
             log.warning("Unable to open config file %s: %s", filename, ex)
             return
@@ -439,7 +440,8 @@ what is currently in the config and it could not convert the value
         # Check to see if the current config differs from the one on disk
         # We will only write a new config file if there is a difference
         try:
-            data = open(filename, "rb").read()
+            with open(filename, "rb") as _file:
+                data = _file.read()
             objects = find_json_objects(data)
             start, end = objects[0]
             version = json.loads(data[start:end])
@@ -456,12 +458,11 @@ what is currently in the config and it could not convert the value
         # Save the new config and make sure it's written to disk
         try:
             log.debug("Saving new config file %s", filename + ".new")
-            f = open(filename + ".new", "wb")
-            json.dump(self.__version, f, indent=2)
-            json.dump(self.__config, f, indent=2)
-            f.flush()
-            os.fsync(f.fileno())
-            f.close()
+            with open(filename + ".new", "wb") as _file:
+                json.dump(self.__version, _file, indent=2)
+                json.dump(self.__config, _file, indent=2)
+                _file.flush()
+                os.fsync(_file.fileno())
         except IOError as ex:
             log.error("Error writing new config file: %s", ex)
             return False

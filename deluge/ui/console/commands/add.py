@@ -71,7 +71,8 @@ class Command(BaseCommand):
                     continue
                 self.console.write("{!info!}Attempting to add torrent: %s" % path)
                 filename = os.path.split(path)[-1]
-                filedump = base64.encodestring(open(path, "rb").read())
+                with open(path, "rb") as _file:
+                    filedump = base64.encodestring(_file.read())
                 deferreds.append(client.core.add_torrent_file(filename, filedump, t_options).addCallback(
                     on_success).addErrback(on_fail))
 

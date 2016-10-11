@@ -579,12 +579,10 @@ def generate_ssl_keys():
 
     # Write out files
     ssl_dir = deluge.configmanager.get_config_dir("ssl")
-    open(os.path.join(ssl_dir, "daemon.pkey"), "w").write(
-        crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
-    )
-    open(os.path.join(ssl_dir, "daemon.cert"), "w").write(
-        crypto.dump_certificate(crypto.FILETYPE_PEM, cert)
-    )
+    with open(os.path.join(ssl_dir, "daemon.pkey"), "w") as _file:
+        _file.write(crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey))
+    with open(os.path.join(ssl_dir, "daemon.cert"), "w") as _file:
+        _file.write(crypto.dump_certificate(crypto.FILETYPE_PEM, cert))
     # Make the files only readable by this user
     for f in ("daemon.pkey", "daemon.cert"):
         os.chmod(os.path.join(ssl_dir, f), stat.S_IREAD | stat.S_IWRITE)

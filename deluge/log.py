@@ -203,15 +203,16 @@ def tweak_logging_levels():
     log = logging.getLogger(__name__)
     log.warn("logging.conf found! tweaking logging levels from %s",
              logging_config_file)
-    for line in open(logging_config_file, "r").readlines():
-        if line.strip().startswith("#"):
-            continue
-        name, level = line.strip().split(":")
-        if level not in levels:
-            continue
+    with open(logging_config_file, "r") as _file:
+        for line in _file:
+            if line.strip().startswith("#"):
+                continue
+            name, level = line.strip().split(":")
+            if level not in levels:
+                continue
 
-        log.warn("Setting logger \"%s\" to logging level \"%s\"", name, level)
-        set_logger_level(level, name)
+            log.warn("Setting logger \"%s\" to logging level \"%s\"", name, level)
+            set_logger_level(level, name)
 
 
 def set_logger_level(level, logger_name=None):

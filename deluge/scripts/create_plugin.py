@@ -74,11 +74,10 @@ def create_plugin():
         }
 
         filename = os.path.join(path, filename)
-        f = open(filename, "w")
-        if filename.endswith(".py") and include_gpl:
-            f.write(GPL % plugin_args)
-        f.write(template % plugin_args)
-        f.close()
+        with open(filename, "w") as _file:
+            if filename.endswith(".py") and include_gpl:
+                _file.write(GPL % plugin_args)
+            _file.write(template % plugin_args)
 
     print("creating folders..")
     os.mkdir(plugin_base)
