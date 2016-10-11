@@ -74,7 +74,7 @@ class TorrentInfo(object):
             with open(filename, "rb") as _file:
                 self.__m_filedata = _file.read()
             self.__m_metadata = bencode.bdecode(self.__m_filedata)
-        except Exception as ex:
+        except bencode.BTFailure as ex:
             log.warning("Unable to open %s: %s", filename, ex)
             raise ex
 

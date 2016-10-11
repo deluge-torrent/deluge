@@ -15,6 +15,10 @@
 from types import DictType, IntType, ListType, LongType, StringType, TupleType
 
 
+class BTFailure(Exception):
+    pass
+
+
 def decode_int(x, f):
     f += 1
     newf = x.index('e', f)
@@ -71,9 +75,7 @@ def bdecode(x):
     try:
         r, l = decode_func[x[0]](x, 0)
     except (IndexError, KeyError, ValueError):
-        raise Exception("not a valid bencoded string")
-    if l != len(x):
-        raise Exception("invalid bencoded value (data after valid prefix)")
+        raise BTFailure("not a valid bencoded string")
 
     return r
 
