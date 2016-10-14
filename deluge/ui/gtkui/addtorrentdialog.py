@@ -663,10 +663,16 @@ class AddTorrentDialog(component.Component):
         dialog.set_default_response(gtk.RESPONSE_OK)
         dialog.set_transient_for(self.dialog)
         entry.grab_focus()
+
+        text = (gtk.clipboard_get(selection='PRIMARY').wait_for_text() or
+                gtk.clipboard_get().wait_for_text()).strip()
+        if deluge.common.is_infohash(text):
+            entry.set_text(text)
+
         dialog.show_all()
         response = dialog.run()
         infohash = entry.get_text().strip()
-        if response == gtk.RESPONSE_OK and len(infohash) == 40:
+        if response == gtk.RESPONSE_OK and deluge.common.is_infohash(infohash):
             trackers = []
             b = textview.get_buffer()
             lines = b.get_text(b.get_start_iter(), b.get_end_iter()).strip().split("\n")

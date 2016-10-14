@@ -2,8 +2,8 @@ import os
 
 from twisted.trial import unittest
 
-from deluge.common import (VersionSplit, fdate, fpcnt, fpeer, fsize, fspeed, ftime, get_path_size, is_ip, is_magnet,
-                           is_url)
+from deluge.common import (VersionSplit, fdate, fpcnt, fpeer, fsize, fspeed, ftime, get_path_size, is_infohash, is_ip,
+                           is_magnet, is_url)
 from deluge.ui.util import lang
 
 
@@ -47,6 +47,9 @@ class CommonTestCase(unittest.TestCase):
 
     def test_is_magnet(self):
         self.failUnless(is_magnet("magnet:?xt=urn:btih:SU5225URMTUEQLDXQWRB2EQWN6KLTYKN"))
+
+    def test_is_infohash(self):
+        self.failUnless(is_infohash("2dc5d0e71a66fe69649a640d39cb00a259704973"))
 
     def test_get_path_size(self):
         self.failUnless(get_path_size(os.devnull) == 0)

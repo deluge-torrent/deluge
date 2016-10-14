@@ -560,6 +560,20 @@ def is_url(url):
     return url.partition('://')[0] in ("http", "https", "ftp", "udp")
 
 
+def is_infohash(infohash):
+    """
+    A check to determine if a string is a valid infohash.
+
+    Args:
+        infohash (str): The string to check.
+
+    Returns:
+        bool: True if valid infohash, False otherwise.
+
+    """
+    return len(infohash) == 40 and infohash.isalnum()
+
+
 def is_magnet(uri):
     """
     A check to determine if a uri is a valid bittorrent magnet uri
@@ -616,7 +630,7 @@ def get_magnet_info(uri):
                     except TypeError as ex:
                         log.debug("Invalid base32 magnet hash: %s, %s", xt_hash, ex)
                         break
-                elif len(xt_hash) == 40:
+                elif is_infohash(xt_hash):
                     info_hash = xt_hash.lower()
                 else:
                     break
