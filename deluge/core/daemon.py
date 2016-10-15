@@ -11,11 +11,12 @@
 
 import logging
 import os
+import socket
 
 from twisted.internet import reactor
 
 import deluge.component as component
-from deluge.common import get_version, is_ip, windows_check
+from deluge.common import get_version, is_ip, is_process_running, windows_check
 from deluge.configmanager import get_config_dir
 from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer, export
@@ -28,44 +29,36 @@ if windows_check():
 log = logging.getLogger(__name__)
 
 
-def check_running_daemon(pid_file):
-    """Check for another running instance of the daemon using the same pid file."""
-    if os.path.isfile(pid_file):
-        # Get the PID and the port of the supposedly running daemon
+def is_daemon_running(pid_file):
+    """
+    Check for another running instance of the daemon using the same pid file.
+
+    Args:
+        pid_file: The location of the file with pid, port values.
+
+    Returns:
+        bool: True is daemon is running, False otherwise.
+
+    """
+
+    try:
         with open(pid_file) as _file:
-            (pid, port) = _file.readline().strip().split(";")
+            pid, port = [int(x) for x in _file.readline().strip().split(";")]
+    except EnvironmentError:
+        return False
+
+    if is_process_running(pid):
+        # Ensure it's a deluged process by trying to open a socket to it's port.
+        _socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
-            pid, port = int(pid), int(port)
-        except ValueError:
-            pid, port = None, None
-
-        def process_running(pid):
-            """Verify if pid is a running process."""
-            if windows_check():
-                from win32process import EnumProcesses
-                return pid in EnumProcesses()
-            else:
-                # We can just use os.kill on UNIX to test if the process is running
-                try:
-                    os.kill(pid, 0)
-                except OSError:
-                    return False
-                else:
-                    return True
-
-        if pid is not None and process_running(pid):
-            # Ensure it's a deluged process by trying to open a socket to it's port.
-            import socket
-            _socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            try:
-                _socket.connect(("127.0.0.1", port))
-            except socket.error:
-                # Can't connect, so it must not be a deluged process..
-                pass
-            else:
-                # This is a deluged!
-                _socket.close()
-                raise DaemonRunningError("Deluge daemon already running with this config directory!")
+            _socket.connect(("127.0.0.1", port))
+        except socket.error:
+            # Can't connect, so pid is not a deluged process.
+            return False
+        else:
+            # This is a deluged process!
+            _socket.close()
+            return True
 
 
 class Daemon(object):
@@ -86,7 +79,8 @@ class Daemon(object):
         self.classic = classic
         self.pid_file = get_config_dir("deluged.pid")
         log.info("Deluge daemon %s", get_version())
-        check_running_daemon(self.pid_file)
+        if is_daemon_running(self.pid_file):
+            raise DaemonRunningError("Deluge daemon already running with this config directory!")
 
         # Twisted catches signals to terminate, so just have it call the shutdown method.
         reactor.addSystemEventTrigger("before", "shutdown", self._shutdown)

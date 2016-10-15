@@ -15,7 +15,6 @@ from logging import FileHandler, getLogger
 
 from deluge.common import run_profiled
 from deluge.configmanager import get_config_dir
-from deluge.error import DaemonRunningError
 from deluge.ui.baseargparser import BaseArgParser
 from deluge.ui.util import lang
 
@@ -53,13 +52,11 @@ def start_daemon(skip_start=False):
     options = parser.parse_args()
 
     # Check for any daemons running with this same config
-    from deluge.core.daemon import check_running_daemon
+    from deluge.core.daemon import is_daemon_running
     pid_file = get_config_dir("deluged.pid")
-    try:
-        check_running_daemon(pid_file)
-    except DaemonRunningError:
-        print("You cannot run multiple daemons with the same config directory set.")
-        print("If you believe this is an error, you can force a start by deleting: %s" % pid_file)
+    if is_daemon_running(pid_file):
+        print("Cannot run multiple daemons using the same config directory.\n"
+              "If you believe this is an error, you can force a start by deleting: %s" % pid_file)
         sys.exit(1)
 
     log = getLogger(__name__)

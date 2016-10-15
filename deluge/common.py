@@ -1036,3 +1036,27 @@ def run_profiled(func, *args, **kwargs):
             on_shutdown()
     else:
         return func(*args)
+
+
+def is_process_running(pid):
+    """
+    Verify if the supplied pid is a running process.
+
+    Args:
+        pid (int): The pid to check.
+
+    Returns:
+        bool: True if pid is a running process, False otherwise.
+
+    """
+
+    if windows_check():
+        from win32process import EnumProcesses
+        return pid in EnumProcesses()
+    else:
+        try:
+            os.kill(pid, 0)
+        except OSError:
+            return False
+        else:
+            return True
