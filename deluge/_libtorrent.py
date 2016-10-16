@@ -24,7 +24,7 @@ REQUIRED_VERSION = "1.0.6.0"
 
 def check_version(libtorrent):
     from deluge.common import VersionSplit
-    if VersionSplit(libtorrent.version) < VersionSplit(REQUIRED_VERSION):
+    if VersionSplit(libtorrent.__version__) < VersionSplit(REQUIRED_VERSION):
         raise ImportError("This version of Deluge requires libtorrent >=%s!" % REQUIRED_VERSION)
 
 try:

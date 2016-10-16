@@ -88,7 +88,7 @@ def get_version():
     version_str = "%s\n" % (common.get_version())
     try:
         from deluge._libtorrent import lt
-        version_str += "libtorrent: %s\n" % lt.version
+        version_str += "libtorrent: %s\n" % lt.__version__
     except ImportError:
         pass
     version_str += "Python: %s\n" % platform.python_version()
