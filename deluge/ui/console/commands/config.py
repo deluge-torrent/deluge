@@ -20,16 +20,16 @@ from deluge.ui.console.main import BaseCommand
 log = logging.getLogger(__name__)
 
 
-def atom(_next, token):
+def atom(src, token):
     """taken with slight modifications from http://effbot.org/zone/simple-iterator-parser.htm"""
     if token[1] == "(":
         out = []
-        token = _next()
+        token = next(src)
         while token[1] != ")":
-            out.append(atom(_next, token))
-            token = _next()
+            out.append(atom(src, token))
+            token = next(src)
             if token[1] == ",":
-                token = _next()
+                token = next(src)
         return tuple(out)
     elif token[0] is tokenize.NUMBER or token[1] == "-":
         try:
@@ -58,7 +58,7 @@ def simple_eval(source):
     src = cStringIO.StringIO(source).readline
     src = tokenize.generate_tokens(src)
     src = (token for token in src if token[0] is not tokenize.NL)
-    res = atom(src.next, src.next())
+    res = atom(src, next(src))
     return res
 
 
