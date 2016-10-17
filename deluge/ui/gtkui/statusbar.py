@@ -286,7 +286,7 @@ class StatusBar(component.Component):
         This is called when we receive a ConfigValueChangedEvent from
         the core.
         """
-        if key in self.config_value_changed_dict.keys():
+        if key in self.config_value_changed_dict:
             self.config_value_changed_dict[key](value)
 
     def _on_max_connections_global(self, max_connections):

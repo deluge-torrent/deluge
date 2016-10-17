@@ -131,9 +131,9 @@ class Core(CorePluginBase):
             for w_id, w in self.watchdirs.iteritems():
                 if options["abspath"] == w["abspath"] and watchdir_id != w_id:
                     raise Exception("Path is already being watched.")
-        for key in options.keys():
+        for key in options:
             if key not in OPTIONS_AVAILABLE:
-                if key not in [key2 + "_toggle" for key2 in OPTIONS_AVAILABLE.iterkeys()]:
+                if key not in [key2 + "_toggle" for key2 in OPTIONS_AVAILABLE]:
                     raise Exception("autoadd: Invalid options key:%s" % key)
         # disable the watch loop if it was active
         if watchdir_id in self.update_timers:
@@ -360,7 +360,7 @@ class Core(CorePluginBase):
     def set_config(self, config):
         """Sets the config dictionary."""
         config = self._make_unicode(config)
-        for key in config.keys():
+        for key in config:
             self.config[key] = config[key]
         self.config.save()
         component.get("EventManager").emit(AutoaddOptionsChangedEvent())
@@ -386,7 +386,7 @@ class Core(CorePluginBase):
                 watchdirs[watchdir_id] = watchdir
 
         log.debug("Current logged in user %s is not an ADMIN, send only "
-                  "his watchdirs: %s", session_user, watchdirs.keys())
+                  "his watchdirs: %s", session_user, list(watchdirs))
         return watchdirs
 
     def _make_unicode(self, options):
@@ -434,7 +434,7 @@ class Core(CorePluginBase):
         component.get("EventManager").emit(AutoaddOptionsChangedEvent())
 
     def __migrate_config_1_to_2(self, config):
-        for watchdir_id in config["watchdirs"].iterkeys():
+        for watchdir_id in config["watchdirs"]:
             config["watchdirs"][watchdir_id]["owner"] = "localclient"
         return config
 

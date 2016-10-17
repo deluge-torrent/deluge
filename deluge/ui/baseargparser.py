@@ -37,7 +37,7 @@ def find_subcommand(self, args=None, sys_argv=True):
     for x in self._subparsers._actions:
         if not isinstance(x, argparse._SubParsersAction):
             continue
-        for sp_name in x._name_parser_map.keys():
+        for sp_name in x._name_parser_map:
             if sp_name in args:
                 subcommand_found = args.index(sp_name)
 

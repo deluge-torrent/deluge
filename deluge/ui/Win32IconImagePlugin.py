@@ -139,7 +139,7 @@ class Win32IcoFile(object):
             # figure out where AND mask image starts
             mode = a[0]
             bpp = 8
-            for k in PIL.BmpImagePlugin.BIT2MODE.keys():
+            for k in PIL.BmpImagePlugin.BIT2MODE:
                 if mode == PIL.BmpImagePlugin.BIT2MODE[k][1]:
                     bpp = k
                     break
