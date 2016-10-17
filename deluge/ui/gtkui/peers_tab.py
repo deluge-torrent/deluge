@@ -9,7 +9,7 @@
 
 import logging
 import os.path
-from itertools import izip
+from future_builtins import zip  # pylint: disable=redefined-builtin
 
 import gtk
 
@@ -266,7 +266,7 @@ class PeersTab(Tab):
                 if peer["ip"].count(":") == 1:
                     # This is an IPv4 address
                     ip_int = sum([int(byte) << shift
-                                  for byte, shift in izip(peer["ip"].split(":")[0].split("."), (24, 16, 8, 0))])
+                                  for byte, shift in zip(peer["ip"].split(":")[0].split("."), (24, 16, 8, 0))])
                     peer_ip = peer["ip"]
                 else:
                     # This is an IPv6 address

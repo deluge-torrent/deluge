@@ -19,7 +19,7 @@ from __future__ import division
 import logging
 import os
 import socket
-from itertools import izip
+from future_builtins import zip  # pylint: disable=redefined-builtin
 from urlparse import urlparse
 
 from twisted.internet.defer import Deferred, DeferredList
@@ -829,7 +829,7 @@ class Torrent(object):
         if not self.has_metadata:
             return 0.0
         return [progress / _file.size if _file.size else 0.0 for progress, _file in
-                izip(self.handle.file_progress(), self.torrent_info.files())]
+                zip(self.handle.file_progress(), self.torrent_info.files())]
 
     def get_tracker_host(self):
         """Get the hostname of the currently connected tracker.
@@ -1370,7 +1370,7 @@ class Torrent(object):
             pieces = None
         else:
             pieces = []
-            for piece, avail_piece in izip(self.status.pieces, self.handle.piece_availability()):
+            for piece, avail_piece in zip(self.status.pieces, self.handle.piece_availability()):
                 if piece:
                     pieces.append(3)  # Completed.
                 elif avail_piece:
