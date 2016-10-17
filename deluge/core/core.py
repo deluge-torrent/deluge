@@ -57,7 +57,7 @@ class Core(component.Component):
             client_version.append(0)
 
         # Start the libtorrent session
-        log.info("Starting libtorrent %s (%s, %s) session...", lt.version, client_id, client_version)
+        log.info("Starting libtorrent %s (%s, %s) session...", lt.__version__, client_id, client_version)
         self.session = lt.session(lt.fingerprint(client_id, *client_version), flags=0)
 
         # Load the session state if available
@@ -948,7 +948,7 @@ class Core(component.Component):
         :rtype: string
 
         """
-        return lt.version
+        return lt.__version__
 
     @export
     def get_completion_paths(self, args):

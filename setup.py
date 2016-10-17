@@ -231,7 +231,7 @@ class Build(_build):
         _build.run(self)
         try:
             from deluge._libtorrent import lt
-            print('Found libtorrent version: %s' % lt.version)
+            print('Found libtorrent version: %s' % lt.__version__)
         except ImportError, e:
             print('Warning libtorrent not found: %s' % e)
 

@@ -8,28 +8,22 @@
 #
 
 """
-This module is used to handle the importing of libtorrent.
+This module is used to handle the importing of libtorrent and also controls
+the minimum versions of libtorrent that this version of Deluge supports.
 
-We use this module to control what versions of libtorrent this version of Deluge
-supports.
-
-** Usage **
-
->>> from deluge._libtorrent import lt
+Example:
+    >>> from deluge._libtorrent import lt
 
 """
 
-REQUIRED_VERSION = "1.0.6.0"
-
-
-def check_version(libtorrent):
-    from deluge.common import VersionSplit
-    if VersionSplit(libtorrent.version) < VersionSplit(REQUIRED_VERSION):
-        raise ImportError("This version of Deluge requires libtorrent >=%s!" % REQUIRED_VERSION)
+from deluge.common import VersionSplit, get_version
 
 try:
     import deluge.libtorrent as lt
-    check_version(lt)
 except ImportError:
     import libtorrent as lt
-    check_version(lt)
+
+REQUIRED_VERSION = "1.0.7.0"
+
+if VersionSplit(lt.__version__) < VersionSplit(REQUIRED_VERSION):
+    raise ImportError("Deluge %s requires libtorrent >= %s" % (get_version(), REQUIRED_VERSION))
