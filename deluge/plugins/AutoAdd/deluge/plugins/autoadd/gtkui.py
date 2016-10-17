@@ -401,7 +401,7 @@ class GtkUI(GtkPluginBase):
 
     def create_model(self):
         store = gtk.ListStore(str, bool, str, str)
-        for watchdir_id, watchdir in self.watchdirs.iteritems():
+        for watchdir_id, watchdir in self.watchdirs.items():
             store.append([
                 watchdir_id, watchdir['enabled'],
                 watchdir.get('owner', 'localclient'), watchdir['path']
@@ -474,7 +474,7 @@ class GtkUI(GtkPluginBase):
 
     def on_apply_prefs(self):
         log.debug("applying prefs for AutoAdd")
-        for watchdir_id, watchdir in self.watchdirs.iteritems():
+        for watchdir_id, watchdir in self.watchdirs.items():
             client.autoadd.set_options(watchdir_id, watchdir)
 
     def on_show_prefs(self):
@@ -488,7 +488,7 @@ class GtkUI(GtkPluginBase):
         log.trace("Got whatchdirs from core: %s", watchdirs)
         self.watchdirs = watchdirs or {}
         self.store.clear()
-        for watchdir_id, watchdir in self.watchdirs.iteritems():
+        for watchdir_id, watchdir in self.watchdirs.items():
             self.store.append([
                 watchdir_id, watchdir['enabled'],
                 watchdir.get('owner', 'localclient'), watchdir['path']
