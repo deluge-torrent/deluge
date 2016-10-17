@@ -1075,7 +1075,7 @@ class Preferences(component.Component):
         known_accounts_to_log = []
         for account in known_accounts:
             account_to_log = {}
-            for key, value in account.copy().iteritems():
+            for key, value in account.copy().items():
                 if key == 'password':
                     value = '*' * len(value)
                 account_to_log[key] = value
