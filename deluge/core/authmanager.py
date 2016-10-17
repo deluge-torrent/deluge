@@ -29,7 +29,7 @@ AUTH_LEVELS_MAPPING = {
 }
 
 AUTH_LEVELS_MAPPING_REVERSE = {}
-for key, value in AUTH_LEVELS_MAPPING.iteritems():
+for key, value in AUTH_LEVELS_MAPPING.items():
     AUTH_LEVELS_MAPPING_REVERSE[value] = key
 
 
