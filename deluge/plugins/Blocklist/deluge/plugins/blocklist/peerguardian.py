@@ -47,7 +47,7 @@ class PGReader(object):
         if ver != 1 and ver != 2:
             raise PGException(_("Invalid version") + " %d" % ver)
 
-    def next(self):
+    def __next__(self):
         # Skip over the string
         buf = -1
         while buf != 0:
@@ -63,6 +63,9 @@ class PGReader(object):
         end = socket.inet_ntoa(buf)
 
         return (start, end)
+
+    # Python 2 compatibility
+    next = __next__
 
     def close(self):
         self.fd.close()

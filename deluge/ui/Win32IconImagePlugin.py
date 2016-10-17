@@ -178,7 +178,7 @@ class Win32IcoFile(object):
                     # bitmap row data is aligned to word boundaries
                     w += 32 - (im.size[0] % 32)
                 # the total mask data is padded row size * height / bits per char
-                total_bytes = long((w * im.size[1]) / 8)
+                total_bytes = int((w * im.size[1]) / 8)
                 log.debug("tot=%d, off=%d, w=%d, size=%d", len(data), and_mask_offset, w, total_bytes)
 
                 self.buf.seek(and_mask_offset)

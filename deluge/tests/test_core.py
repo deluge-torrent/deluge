@@ -1,4 +1,5 @@
 import base64
+import sys
 from hashlib import sha1 as sha
 
 import pytest
@@ -259,7 +260,11 @@ class CoreTestCase(BaseTestCase):
 
     def test_get_free_space(self):
         space = self.core.get_free_space(".")
-        self.assertTrue(isinstance(space, (int, long)))
+        # get_free_space returns long on Python 2 (32-bit).
+        if sys.version_info >= (3, 0):
+            self.assertTrue(isinstance(space, int))
+        else:
+            self.assertTrue(isinstance(space, (int, long)))
         self.assertTrue(space >= 0)
         self.assertEquals(self.core.get_free_space("/someinvalidpath"), -1)
 
