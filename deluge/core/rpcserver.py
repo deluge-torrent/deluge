@@ -429,7 +429,7 @@ class RPCServer(component.Component):
         :returns: the exported methods
         :rtype: list
         """
-        return self.factory.methods.keys()
+        return list(self.factory.methods)
 
     def get_session_id(self):
         """

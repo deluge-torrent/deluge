@@ -890,7 +890,7 @@ class WebApi(JSONComponent):
         :type config: dictionary
         """
         web_config = component.get("DelugeWeb").config
-        for key in config.keys():
+        for key in config:
             if key in ["sessions", "pwd_salt", "pwd_sha1"]:
                 log.warn("Ignored attempt to overwrite web config key '%s'", key)
                 continue
@@ -911,7 +911,7 @@ class WebApi(JSONComponent):
         """
 
         return {
-            "enabled_plugins": component.get("Web.PluginManager").plugins.keys(),
+            "enabled_plugins": list(component.get("Web.PluginManager").plugins),
             "available_plugins": component.get("Web.PluginManager").available_plugins
         }
 

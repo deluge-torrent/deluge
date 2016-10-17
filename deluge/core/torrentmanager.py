@@ -266,7 +266,7 @@ class TorrentManager(component.Component):
             list: A list of torrent_ids.
 
         """
-        torrent_ids = self.torrents.keys()
+        torrent_ids = list(self.torrents)
         if component.get("RPCServer").get_session_auth_level() == AUTH_LEVEL_ADMIN:
             return torrent_ids
 
@@ -924,25 +924,25 @@ class TorrentManager(component.Component):
     def on_set_max_connections_per_torrent(self, key, value):
         """Sets the per-torrent connection limit"""
         log.debug("max_connections_per_torrent set to %s...", value)
-        for key in self.torrents.keys():
+        for key in self.torrents:
             self.torrents[key].set_max_connections(value)
 
     def on_set_max_upload_slots_per_torrent(self, key, value):
         """Sets the per-torrent upload slot limit"""
         log.debug("max_upload_slots_per_torrent set to %s...", value)
-        for key in self.torrents.keys():
+        for key in self.torrents:
             self.torrents[key].set_max_upload_slots(value)
 
     def on_set_max_upload_speed_per_torrent(self, key, value):
         """Sets the per-torrent upload speed limit"""
         log.debug("max_upload_speed_per_torrent set to %s...", value)
-        for key in self.torrents.keys():
+        for key in self.torrents:
             self.torrents[key].set_max_upload_speed(value)
 
     def on_set_max_download_speed_per_torrent(self, key, value):
         """Sets the per-torrent download speed limit"""
         log.debug("max_download_speed_per_torrent set to %s...", value)
-        for key in self.torrents.keys():
+        for key in self.torrents:
             self.torrents[key].set_max_download_speed(value)
 
     # --- Alert handlers ---
@@ -1301,7 +1301,7 @@ class TorrentManager(component.Component):
         if self.torrents:
             for torrent_id in torrent_ids:
                 if torrent_id in self.torrents:
-                    status_keys = self.torrents[torrent_id].status_funcs.keys()
+                    status_keys = list(self.torrents[torrent_id].status_funcs)
                     leftover_keys = list(set(keys) - set(status_keys))
                     torrent_keys = list(set(keys) - set(leftover_keys))
                     return torrent_keys, leftover_keys
