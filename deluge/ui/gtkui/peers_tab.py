@@ -274,7 +274,7 @@ class PeersTab(Tab):
                     import binascii
                     # Split out the :port
                     ip = ":".join(peer["ip"].split(":")[:-1])
-                    ip_int = long(binascii.hexlify(socket.inet_pton(socket.AF_INET6, ip)), 16)
+                    ip_int = int(binascii.hexlify(socket.inet_pton(socket.AF_INET6, ip)), 16)
                     peer_ip = "[%s]:%s" % (ip, peer["ip"].split(":")[-1])
 
                 if peer["seed"]:
