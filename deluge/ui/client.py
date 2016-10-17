@@ -394,7 +394,7 @@ class DaemonSSLProxy(DaemonProxy):
         # We need to tell the daemon what events we're interested in receiving
         if self.__factory.event_handlers:
             self.call("daemon.set_event_interest",
-                      self.__factory.event_handlers.keys())
+                      list(self.__factory.event_handlers))
 
             self.call("core.get_auth_levels_mappings").addCallback(
                 self.__on_auth_levels_mappings

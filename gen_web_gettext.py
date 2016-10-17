@@ -89,7 +89,7 @@ def create_gettext_js(js_dir):
     gettext_file = os.path.join(os.path.dirname(js_dir), 'gettext.js')
     with open(gettext_file, 'w') as fp:
         fp.write(gettext_tpl)
-        for key in sorted(strings.keys()):
+        for key in sorted(strings):
             if DEBUG:
                 fp.write('\n// %s\n' % ', '.join(['%s:%s' % x for x in strings[key]]))
             fp.write('''GetText.add('%(key)s','${escape(_("%(key)s"))}')\n''' % locals())

@@ -107,8 +107,8 @@ class Core(CorePluginBase):
         pass
 
     def init_filter_dict(self):
-        filter_dict = dict([(label, 0) for label in self.labels.keys()])
-        filter_dict['All'] = len(self.torrents.keys())
+        filter_dict = dict([(label, 0) for label in self.labels])
+        filter_dict['All'] = len(self.torrents)
         return filter_dict
 
     # Plugin hooks #
@@ -142,8 +142,8 @@ class Core(CorePluginBase):
         *add any new keys in OPTIONS_DEFAULTS
         *set all None values to default <-fix development config
         """
-        log.debug(self.labels.keys())
-        for key in self.labels.keys():
+        log.debug(list(self.labels))
+        for key in self.labels:
             options = dict(OPTIONS_DEFAULTS)
             options.update(self.labels[key])
             self.labels[key] = options
@@ -159,7 +159,7 @@ class Core(CorePluginBase):
 
     @export
     def get_labels(self):
-        return sorted(self.labels.keys())
+        return sorted(self.labels)
 
     # Labels:
     @export
@@ -259,7 +259,7 @@ class Core(CorePluginBase):
         }
         """
         check_input(label_id in self.labels, _("Unknown Label"))
-        for key in options_dict.keys():
+        for key in options_dict:
             if key not in OPTIONS_DEFAULTS:
                 raise Exception("label: Invalid options_dict key:%s" % key)
 
