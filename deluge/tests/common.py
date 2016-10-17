@@ -32,7 +32,7 @@ def todo_test(caller):
     # Without the delugereporter the todo would print a stack trace, so in
     # that case we rely only on skipTest
     if os.environ.get("DELUGE_REPORTER", None):
-        getattr(caller, caller._testMethodName).im_func.todo = "To be fixed"
+        getattr(caller, caller._testMethodName).__func__.todo = "To be fixed"
 
     filename = os.path.basename(traceback.extract_stack(None, 2)[0][0])
     funcname = traceback.extract_stack(None, 2)[0][2]
