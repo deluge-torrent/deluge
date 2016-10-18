@@ -10,6 +10,7 @@
 """Common functions for various parts of Deluge to use."""
 
 import base64
+import functools
 import locale
 import logging
 import numbers
@@ -818,6 +819,7 @@ def utf8_encoded(s, encoding="utf8"):
     return s
 
 
+@functools.total_ordering
 class VersionSplit(object):
     """
     Used for comparing version numbers.
@@ -857,26 +859,32 @@ class VersionSplit(object):
             if vs[-1].startswith('dev'):
                 self.dev = vs[-1]
 
-    def __cmp__(self, ver):
+    def get_comparable_versions(self, other):
         """
-        The comparison method.
-
-        :param ver: the version to compare with
-        :type ver: VersionSplit
-
+        Returns a 2-tuple of lists for use in the comparison
+        methods.
         """
         # PEP 386 versions with .devN precede release version
-        if bool(self.dev) != bool(ver.dev):
+        if bool(self.dev) != bool(other.dev):
             if self.dev != 'dev':
                 self.dev = not self.dev
-            if ver.dev != 'dev':
-                ver.dev = not ver.dev
+            if other.dev != 'dev':
+                other.dev = not other.dev
 
         # If there is no suffix we use z because we want final
         # to appear after alpha, beta, and rc alphabetically.
         v1 = [self.version, self.suffix or 'z', self.dev]
-        v2 = [ver.version, ver.suffix or 'z', ver.dev]
-        return cmp(v1, v2)
+        v2 = [other.version, other.suffix or 'z', other.dev]
+
+        return (v1, v2)
+
+    def __eq__(self, other):
+        v1, v2 = self.get_comparable_versions(other)
+        return v1 == v2
+
+    def __lt__(self, other):
+        v1, v2 = self.get_comparable_versions(other)
+        return v1 < v2
 
 
 # Common AUTH stuff
