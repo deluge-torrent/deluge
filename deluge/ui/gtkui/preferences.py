@@ -150,8 +150,7 @@ class Preferences(component.Component):
 
         if not deluge.common.osx_check() and not deluge.common.windows_check():
             try:
-                import appindicator
-                assert appindicator  # silence pyflakes
+                import appindicator  # noqa pylint: disable=unused-import
             except ImportError:
                 pass
             else:

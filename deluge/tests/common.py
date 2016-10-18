@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import print_function
+
 import os
 import sys
 import tempfile
@@ -64,7 +66,7 @@ def add_watchdog(deferred, timeout=0.05, message=None):
             watchdog.cancel()
         if not deferred.called:
             if message:
-                print message
+                print(message)
             deferred.cancel()
         return value
 
@@ -190,7 +192,7 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
         if self.check_callbacks(data):
             pass
         elif '[ERROR' in data:
-            print data,
+            print(data, end=' ')
 
     def errReceived(self, data):  # NOQA
         """Process output from stderr"""
@@ -201,7 +203,7 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
             return
         data = "\n%s" % data.strip()
         prefixed = data.replace("\n", "\nSTDERR: ")
-        print "\n%s" % prefixed
+        print("\n%s" % prefixed)
 
 
 def start_core(listen_port=58846, logfile=None, timeout=10, timeout_msg=None,

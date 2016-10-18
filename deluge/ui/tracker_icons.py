@@ -15,6 +15,7 @@ from urlparse import urljoin, urlparse
 
 from twisted.internet import defer, threads
 from twisted.web.error import PageRedirect
+from twisted.web.resource import ForbiddenResource, NoResource
 
 from deluge.component import Component
 from deluge.configmanager import get_config_dir
@@ -22,18 +23,11 @@ from deluge.decorators import proxy
 from deluge.httpdownloader import download_file
 
 try:
-    from twisted.web.resource import NoResource, ForbiddenResource
-except ImportError:
-    # twisted 8
-    from twisted.web.error import NoResource, ForbiddenResource
-
-try:
     import PIL.Image as Image
-    import deluge.ui.Win32IconImagePlugin
-    assert deluge.ui.Win32IconImagePlugin  # silence pyflakes
 except ImportError:
     PIL_INSTALLED = False
 else:
+    import deluge.ui.Win32IconImagePlugin  # noqa pylint: disable=unused-import, ungrouped-imports
     PIL_INSTALLED = True
 
 log = logging.getLogger(__name__)

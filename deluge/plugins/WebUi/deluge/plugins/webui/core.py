@@ -50,8 +50,7 @@ class Core(CorePluginBase):
     @export
     def got_deluge_web(self):
         try:
-            from deluge.ui.web import server
-            assert server  # silence pyflakes
+            from deluge.ui.web import server  # noqa pylint: disable=unused-import
             return True
         except ImportError:
             return False

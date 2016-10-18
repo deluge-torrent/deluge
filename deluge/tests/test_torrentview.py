@@ -8,20 +8,21 @@ from deluge.ui.util import lang
 from . import common
 from .basetest import BaseTestCase
 
-libs_available = True
 # Allow running other tests without GTKUI dependencies available
 try:
     from gobject import TYPE_UINT64
-    from deluge.ui.gtkui.mainwindow import MainWindow
-    from deluge.ui.gtkui.menubar import MenuBar
-    from deluge.ui.gtkui.torrentdetails import TorrentDetails
-    from deluge.ui.gtkui.torrentview import TorrentView
-    from deluge.ui.gtkui.gtkui import DEFAULT_PREFS
 except ImportError as err:
     libs_available = False
     TYPE_UINT64 = "Whatever"
     import traceback
     traceback.print_exc()
+else:
+    libs_available = True
+    from deluge.ui.gtkui.mainwindow import MainWindow  # pylint: disable=ungrouped-imports
+    from deluge.ui.gtkui.menubar import MenuBar
+    from deluge.ui.gtkui.torrentdetails import TorrentDetails
+    from deluge.ui.gtkui.torrentview import TorrentView
+    from deluge.ui.gtkui.gtkui import DEFAULT_PREFS
 
 lang.setup_translations()
 

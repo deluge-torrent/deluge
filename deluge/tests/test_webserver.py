@@ -26,9 +26,6 @@ class WebServerTestCase(WebServerTestBase, WebServerMockBase):
 
     @defer.inlineCallbacks
     def test_get_torrent_info(self):
-        """
-
-        """
         agent = Agent(reactor)
 
         self.mock_authentication_ignore(self.deluge_web.auth)
