@@ -868,7 +868,6 @@ class VersionSplit(object):
         return v1 < v2
 
 
-
 # Common AUTH stuff
 AUTH_LEVEL_NONE = 0
 AUTH_LEVEL_READONLY = 1
