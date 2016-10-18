@@ -738,6 +738,12 @@ class AddTorrentDialog(component.Component):
         dialog.set_default_response(gtk.RESPONSE_OK)
         dialog.set_transient_for(self.dialog)
         entry.grab_focus()
+
+        text = (gtk.clipboard_get(selection='PRIMARY').wait_for_text() or
+                gtk.clipboard_get().wait_for_text()).strip()
+        if len(text) == 40:
+            entry.set_text(text)
+
         dialog.show_all()
         response = dialog.run()
         infohash = entry.get_text().strip()
