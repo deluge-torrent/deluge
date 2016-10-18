@@ -250,7 +250,8 @@ class ConsoleUI(component.Component):
               replaced by a mock object, leaving the return deferred object
               necessary for the tests to run properly.
 
-        Returns: If valid commands are provived, a deferred that fires when
+        Returns:
+            Deferred: If valid commands are provided, a deferred that fires when
                  all commands are executed. Else None is returned.
         """
         if self.options.parsed_cmds:
