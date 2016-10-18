@@ -1,3 +1,4 @@
+# pylint: disable=C0412
 import pytest
 from twisted.trial import unittest
 

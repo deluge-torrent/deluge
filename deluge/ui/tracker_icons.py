@@ -15,22 +15,20 @@ from urlparse import urljoin, urlparse
 
 from twisted.internet import defer, threads
 from twisted.web.error import PageRedirect
-
-from deluge.component import Component
-from deluge.configmanager import get_config_dir
-from deluge.decorators import proxy
-from deluge.httpdownloader import download_file
-
 try:
     from twisted.web.resource import NoResource, ForbiddenResource
 except ImportError:
     # twisted 8
     from twisted.web.error import NoResource, ForbiddenResource
 
+from deluge.component import Component
+from deluge.configmanager import get_config_dir
+from deluge.decorators import proxy
+from deluge.httpdownloader import download_file
 try:
-    import PIL.Image as Image
     import deluge.ui.Win32IconImagePlugin
     assert deluge.ui.Win32IconImagePlugin  # silence pyflakes
+    import PIL.Image as Image
 except ImportError:
     PIL_INSTALLED = False
 else:

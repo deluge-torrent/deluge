@@ -1,3 +1,4 @@
+# pylint: disable=C0412
 import tempfile
 from email.utils import formatdate
 
