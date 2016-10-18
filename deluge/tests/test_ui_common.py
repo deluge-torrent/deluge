@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-import os.path
 
 from twisted.trial import unittest
 
 from deluge.ui.common import TorrentInfo
+
+from . import common
 
 
 class UICommonTestCase(unittest.TestCase):
@@ -14,12 +15,12 @@ class UICommonTestCase(unittest.TestCase):
         pass
 
     def test_utf8_encoded_paths(self):
-        filename = os.path.join(os.path.dirname(__file__), "test.torrent")
+        filename = common.rpath("test.torrent")
         ti = TorrentInfo(filename)
         self.assertTrue("azcvsupdater_2.6.2.jar" in ti.files_tree)
 
     def test_utf8_encoded_paths2(self):
-        filename = os.path.join(os.path.dirname(__file__), "unicode_filenames.torrent")
+        filename = common.rpath("unicode_filenames.torrent")
         ti = TorrentInfo(filename)
 
         files = ti.files_tree["unicode_filenames"]

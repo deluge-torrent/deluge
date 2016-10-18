@@ -14,6 +14,7 @@ import deluge.log
 from deluge.error import DelugeError
 from deluge.ui.util import lang
 
+# This sets log level to critical, so use log.critical() to debug while running unit tests
 deluge.log.setup_logger("none")
 
 
@@ -25,6 +26,10 @@ def set_tmp_config_dir():
     config_directory = tempfile.mkdtemp()
     deluge.configmanager.set_config_dir(config_directory)
     return config_directory
+
+
+def setup_test_logger(level="info", prefix="deluge"):
+    deluge.log.setup_logger(level, filename="%s.log" % prefix, twisted_observer=False)
 
 
 def todo_test(caller):
@@ -60,6 +65,28 @@ def rpath(*args):
 
 # Initialize gettext
 lang.setup_translations()
+
+
+class ReactorOverride(object):
+    """Class used to patch reactor while running unit tests
+    to avoid starting and stopping the twisted reactor
+    """
+
+    def __getattr__(self, attr):
+        if attr == "run":
+            return self._run
+        if attr == "stop":
+            return self._stop
+        return getattr(reactor, attr)
+
+    def _run(self):
+        pass
+
+    def _stop(self):
+        pass
+
+    def addReader(self, arg):  # NOQA
+        pass
 
 
 class ProcessOutputHandler(protocol.ProcessProtocol):

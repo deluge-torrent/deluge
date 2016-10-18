@@ -219,6 +219,7 @@ class ConsoleUI(component.Component):
 
     def __init__(self, options=None, cmds=None):
         component.Component.__init__(self, "ConsoleUI", 2)
+        self.options = options
         # keep track of events for the log view
         self.events = []
         self.statusbars = None
@@ -238,36 +239,51 @@ class ConsoleUI(component.Component):
         # Set the interactive flag to indicate where we should print the output
         self.interactive = True
         self._commands = cmds
-        if options.parsed_cmds:
-            self.interactive = False
-            if not cmds:
-                print("Sorry, couldn't find any commands")
-                return
-            else:
-                self.exec_args(options)
-
         self.coreconfig = CoreConfig()
-        if self.interactive and not deluge.common.windows_check():
-            # We use the curses.wrapper function to prevent the console from getting
-            # messed up if an uncaught exception is experienced.
-            import curses.wrapper
-            curses.wrapper(self.run)
-        elif self.interactive and deluge.common.windows_check():
-            print("""\nDeluge-console does not run in interactive mode on Windows. \n
+
+    def start_ui(self):
+        """Start the console UI.
+
+        Note: When running console UI reactor.run() will be called which
+              effectively blocks this function making the return value
+              insignificant. However, when running unit tests, the reacor is
+              replaced by a mock object, leaving the return deferred object
+              necessary for the tests to run properly.
+
+        Returns:
+            Deferred: If valid commands are provided, a deferred that fires when
+                 all commands are executed. Else None is returned.
+        """
+        if self.options.parsed_cmds:
+            self.interactive = False
+            if not self._commands:
+                print("No valid console commands found")
+                return
+
+            deferred = self.exec_args(self.options)
+            reactor.run()
+            return deferred
+        else:
+            # Interactive
+            if deluge.common.windows_check():
+                print("""\nDeluge-console does not run in interactive mode on Windows. \n
 Please use commands from the command line, e.g.:\n
     deluge-console.exe help
     deluge-console.exe info
     deluge-console.exe "add --help"
     deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
-            """)
-        else:
-            reactor.run()
+""")
+            else:
+                # We use the curses.wrapper function to prevent the console from getting
+                # messed up if an uncaught exception is experienced.
+                import curses.wrapper
+                curses.wrapper(self.run)
 
     def exec_args(self, options):
         commander = Commander(self._commands)
 
         def on_connect(result):
-            def on_started(result):
+            def on_components_started(result):
                 def on_started(result):
                     def do_command(result, cmd):
                         return commander.do_command(cmd)
@@ -280,11 +296,15 @@ Please use commands from the command line, e.g.:\n
                             break
                         d.addCallback(exec_command, command)
                     d.addCallback(do_command, "quit")
+                    return d
 
                 # We need to wait for the rpcs in start() to finish before processing
                 # any of the commands.
                 self.started_deferred.addCallback(on_started)
-            component.start().addCallback(on_started)
+                return self.started_deferred
+            d = component.start()
+            d.addCallback(on_components_started)
+            return d
 
         def on_connect_fail(reason):
             if reason.check(DelugeError):
@@ -303,6 +323,7 @@ Please use commands from the command line, e.g.:\n
             d = client.connect(options.daemon_addr, options.daemon_port, options.daemon_user, options.daemon_pass)
         d.addCallback(on_connect)
         d.addErrback(on_connect_fail)
+        return d
 
     def run(self, stdscr):
         """
