@@ -115,7 +115,7 @@ def make(filename, outfile):
 
     try:
         lines = open(infile).readlines()
-    except IOError, msg:
+    except IOError as msg:
         print(msg, file=sys.stderr)
         sys.exit(1)
 
@@ -182,7 +182,7 @@ def make(filename, outfile):
 
     try:
         open(outfile, "wb").write(output)
-    except IOError, msg:
+    except IOError as msg:
         print(msg, file=sys.stderr)
 
 
@@ -190,7 +190,7 @@ def main():
     try:
         opts, args = getopt.getopt(sys.argv[1:], 'hVo:',
                                    ['help', 'version', 'output-file='])
-    except getopt.error, msg:
+    except getopt.error as msg:
         usage(1, msg)
 
     outfile = None
