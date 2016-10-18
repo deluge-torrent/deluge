@@ -15,8 +15,6 @@ from deluge.httpdownloader import download_file
 from deluge.log import setup_logger
 from deluge.ui.web.common import compress
 
-from . import common
-
 try:
     from twisted.web.resource import Resource
 except ImportError:
@@ -24,7 +22,6 @@ except ImportError:
     from twisted.web.error import Resource
 
 
-rpath = common.rpath
 temp_dir = tempfile.mkdtemp()
 
 

@@ -7,7 +7,6 @@
 # See LICENSE for more details.
 #
 
-import os
 from StringIO import StringIO
 
 from twisted.internet import defer, reactor
@@ -31,27 +30,11 @@ from .daemon_base import DaemonBase
 common.disable_new_release_check()
 
 
-class ReactorOverride(object):
-
-    def __getattr__(self, attr):
-        if attr == "run":
-            return self._run
-        if attr == "stop":
-            return self._stop
-        return getattr(reactor, attr)
-
-    def _run(self):
-        pass
-
-    def _stop(self):
-        pass
-
-
 class WebAPITestCase(BaseTestCase, DaemonBase):
 
     def set_up(self):
         self.host_id = None
-        deluge.ui.web.server.reactor = ReactorOverride()
+        deluge.ui.web.server.reactor = common.ReactorOverride()
         d = self.common_set_up()
         d.addCallback(self.start_core)
         d.addCallback(self.start_webapi)
@@ -172,7 +155,7 @@ class WebAPITestCase(BaseTestCase, DaemonBase):
         self.assertFalse(self.deluge_web.web_api.remove_host(conn[0]))
 
     def test_get_torrent_info(self):
-        filename = os.path.join(os.path.dirname(__file__), "test.torrent")
+        filename = common.rpath("test.torrent")
         ret = self.deluge_web.web_api.get_torrent_info(filename)
         self.assertEquals(ret["name"], "azcvsupdater_2.6.2.jar")
         self.assertEquals(ret["info_hash"], "ab570cdd5a17ea1b61e970bb72047de141bce173")
@@ -187,7 +170,7 @@ class WebAPITestCase(BaseTestCase, DaemonBase):
     @defer.inlineCallbacks
     def test_get_torrent_files(self):
         yield self.deluge_web.web_api.connect(self.host_id)
-        filename = os.path.join(os.path.dirname(__file__), "test.torrent")
+        filename = common.rpath("test.torrent")
         torrents = [{"path": filename, "options": {"download_location": "/home/deluge/"}}]
         yield self.deluge_web.web_api.add_torrents(torrents)
         ret = yield self.deluge_web.web_api.get_torrent_files("ab570cdd5a17ea1b61e970bb72047de141bce173")

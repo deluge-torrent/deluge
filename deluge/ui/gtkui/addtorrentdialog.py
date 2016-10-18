@@ -663,9 +663,16 @@ class AddTorrentDialog(component.Component):
         dialog.set_default_response(gtk.RESPONSE_OK)
         dialog.set_transient_for(self.dialog)
         entry.grab_focus()
+
+        text = (gtk.clipboard_get(selection='PRIMARY').wait_for_text() or
+                gtk.clipboard_get().wait_for_text()).strip()
+        if deluge.common.is_infohash(text):
+            entry.set_text(text)
+
         dialog.show_all()
         response = dialog.run()
-        if response == gtk.RESPONSE_OK and len(entry.get_text()) == 40:
+        infohash = entry.get_text().strip()
+        if response == gtk.RESPONSE_OK and deluge.common.is_infohash(infohash):
             trackers = []
             b = textview.get_buffer()
             lines = b.get_text(b.get_start_iter(), b.get_end_iter()).strip().split("\n")
@@ -676,9 +683,7 @@ class AddTorrentDialog(component.Component):
             # Convert the information to a magnet uri, this is just easier to
             # handle this way.
             log.debug("trackers: %s", trackers)
-            magnet = deluge.common.create_magnet_uri(
-                infohash=entry.get_text().decode("utf-8"),
-                trackers=trackers)
+            magnet = deluge.common.create_magnet_uri(infohash, infohash, trackers)
             log.debug("magnet uri: %s", magnet)
             self.add_from_magnets([magnet])
 

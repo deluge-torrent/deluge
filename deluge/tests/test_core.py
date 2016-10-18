@@ -1,5 +1,4 @@
 import base64
-import os
 from hashlib import sha1 as sha
 
 import pytest
@@ -24,8 +23,6 @@ from .basetest import BaseTestCase
 
 common.disable_new_release_check()
 
-rpath = common.rpath
-
 
 class CookieResource(Resource):
 
@@ -35,7 +32,7 @@ class CookieResource(Resource):
             return
 
         request.setHeader("Content-Type", "application/x-bittorrent")
-        with open(rpath("ubuntu-9.04-desktop-i386.iso.torrent")) as _file:
+        with open(common.rpath("ubuntu-9.04-desktop-i386.iso.torrent")) as _file:
             data = _file.read()
         return data
 
@@ -43,7 +40,7 @@ class CookieResource(Resource):
 class PartialDownload(Resource):
 
     def render(self, request):
-        with open(rpath("ubuntu-9.04-desktop-i386.iso.torrent")) as _file:
+        with open(common.rpath("ubuntu-9.04-desktop-i386.iso.torrent")) as _file:
             data = _file.read()
         request.setHeader("Content-Type", len(data))
         request.setHeader("Content-Type", "application/x-bittorrent")
@@ -111,7 +108,7 @@ class CoreTestCase(BaseTestCase):
         filenames = ["test.torrent", "test_torrent.file.torrent"]
         files_to_add = []
         for f in filenames:
-            filename = os.path.join(os.path.dirname(__file__), f)
+            filename = common.rpath(f)
             with open(filename) as _file:
                 filedump = base64.encodestring(_file.read())
             files_to_add.append((filename, filedump, options))
@@ -124,7 +121,7 @@ class CoreTestCase(BaseTestCase):
         filenames = ["test.torrent", "test.torrent"]
         files_to_add = []
         for f in filenames:
-            filename = os.path.join(os.path.dirname(__file__), f)
+            filename = common.rpath(f)
             with open(filename) as _file:
                 filedump = base64.encodestring(_file.read())
             files_to_add.append((filename, filedump, options))
@@ -135,7 +132,7 @@ class CoreTestCase(BaseTestCase):
     @defer.inlineCallbacks
     def test_add_torrent_file(self):
         options = {}
-        filename = os.path.join(os.path.dirname(__file__), "test.torrent")
+        filename = common.rpath("test.torrent")
         with open(filename) as _file:
             filedump = base64.encodestring(_file.read())
         torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
@@ -148,7 +145,7 @@ class CoreTestCase(BaseTestCase):
 
     def test_add_torrent_file_invalid_filedump(self):
         options = {}
-        filename = os.path.join(os.path.dirname(__file__), "test.torrent")
+        filename = common.rpath("test.torrent")
         self.assertRaises(AddTorrentError, self.core.add_torrent_file, filename, False, options)
 
     @defer.inlineCallbacks
@@ -203,7 +200,7 @@ class CoreTestCase(BaseTestCase):
     @defer.inlineCallbacks
     def test_remove_torrent(self):
         options = {}
-        filename = os.path.join(os.path.dirname(__file__), "test.torrent")
+        filename = common.rpath("test.torrent")
         with open(filename) as _file:
             filedump = base64.encodestring(_file.read())
         torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
@@ -217,12 +214,12 @@ class CoreTestCase(BaseTestCase):
     @defer.inlineCallbacks
     def test_remove_torrents(self):
         options = {}
-        filename = os.path.join(os.path.dirname(__file__), "test.torrent")
+        filename = common.rpath("test.torrent")
         with open(filename) as _file:
             filedump = base64.encodestring(_file.read())
         torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
 
-        filename2 = os.path.join(os.path.dirname(__file__), "unicode_filenames.torrent")
+        filename2 = common.rpath("unicode_filenames.torrent")
         with open(filename2) as _file:
             filedump = base64.encodestring(_file.read())
         torrent_id2 = yield self.core.add_torrent_file(filename2, filedump, options)
@@ -240,7 +237,7 @@ class CoreTestCase(BaseTestCase):
     @defer.inlineCallbacks
     def test_remove_torrents_invalid(self):
         options = {}
-        filename = os.path.join(os.path.dirname(__file__), "test.torrent")
+        filename = common.rpath("test.torrent")
         with open(filename) as _file:
             filedump = base64.encodestring(_file.read())
             torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
