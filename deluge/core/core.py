@@ -96,6 +96,9 @@ class Core(component.Component):
         self.external_ip = None
         self.eventmanager.register_event_handler("ExternalIPEvent", self._on_external_ip_event)
 
+        # GeoIP instance with db loaded
+        self.geoip_instance = None
+
         # Get the core config
         self.config = ConfigManager("core.conf")
         self.config.save()

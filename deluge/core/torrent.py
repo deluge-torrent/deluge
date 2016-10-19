@@ -791,14 +791,14 @@ class Torrent(object):
             if peer.flags & peer.connecting or peer.flags & peer.handshake:
                 continue
 
-            client = decode_string(str(peer.client))
-            # Make country a proper string
-            country = str()
-            for char in peer.country:
-                if not char.isalpha():
-                    country += " "
-                else:
-                    country += char
+            client = decode_string(peer.client)
+
+            try:
+                country = component.get("Core").geoip_instance.country_code_by_addr(peer.ip[0])
+            except AttributeError:
+                country = ""
+            else:
+                country = "".join([char if char.isalpha() else " " for char in country])
 
             ret.append({
                 "client": client,

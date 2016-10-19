@@ -21,6 +21,11 @@ import deluge.configmanager
 from deluge._libtorrent import lt
 from deluge.event import ConfigValueChangedEvent
 
+try:
+    import GeoIP
+except ImportError:
+    GeoIP = None
+
 log = logging.getLogger(__name__)
 
 DEFAULT_PREFS = {
@@ -436,27 +441,19 @@ class PreferencesManager(component.Component):
         log.debug("%s: %s", key, value)
         self.session_set_setting("anonymous_mode", value)
 
-    def _on_set_geoip_db_location(self, key, value):
-        log.debug("%s: %s", key, value)
+    def _on_set_geoip_db_location(self, key, geoip_db):
+        log.debug("%s: %s", key, geoip_db)
         # Load the GeoIP DB for country look-ups if available
-        geoip_db = ""
-        if os.path.exists(value):
-            geoip_db = value
-        elif os.path.exists(deluge.common.resource_filename("deluge", os.path.join("data", "GeoIP.dat"))):
-            geoip_db = deluge.common.resource_filename(
-                "deluge", os.path.join("data", "GeoIP.dat")
-            )
+        deluge_geoip_db = deluge.common.resource_filename("deluge", os.path.join("data", "GeoIP.dat"))
+        for geoip_path in (geoip_db, deluge_geoip_db):
+            if os.path.exists(geoip_path):
+                try:
+                    self.core.geoip_instance = GeoIP.open(geoip_path, GeoIP.GEOIP_STANDARD)
+                except AttributeError:
+                    log.warning("GeoIP Unavailable")
+                break
         else:
-            log.warning("Unable to find GeoIP database file!")
-
-        if geoip_db:
-            try:
-                self.session.load_country_db(str(geoip_db))
-            except RuntimeError as ex:
-                log.error("Unable to load geoip database!")
-                log.exception(ex)
-            except AttributeError:
-                log.warning("GeoIP Unavailable")
+            log.warning("Unable to find GeoIP database file: %s")
 
     def _on_set_cache_size(self, key, value):
         log.debug("%s: %s", key, value)
