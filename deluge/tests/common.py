@@ -1,3 +1,12 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2016 bendikro <bro.devel+deluge@gmail.com>
+#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
+#
+
 import os
 import sys
 import tempfile
@@ -30,6 +39,10 @@ def set_tmp_config_dir():
 
 def setup_test_logger(level="info", prefix="deluge"):
     deluge.log.setup_logger(level, filename="%s.log" % prefix, twisted_observer=False)
+
+
+def get_test_data_file(filename):
+    return os.path.join(os.path.join(os.path.dirname(__file__), "data"), filename)
 
 
 def todo_test(caller):
