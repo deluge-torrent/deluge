@@ -49,6 +49,12 @@ import deluge.common
 import deluge.component as component
 from deluge.log import LOG as log
 
+try:
+    import GeoIP
+except ImportError:
+    GeoIP = None
+
+
 DEFAULT_PREFS = {
     "send_info": False,
     "info_sent": 0.0,
@@ -489,22 +495,18 @@ class PreferencesManager(component.Component):
     def _on_geoip_db_location(self, key, value):
         log.debug("%s: %s", key, value)
         # Load the GeoIP DB for country look-ups if available
-        geoip_db = ""
         if os.path.exists(value):
-            geoip_db = value
-        elif os.path.exists(pkg_resources.resource_filename("deluge", os.path.join("data", "GeoIP.dat"))):
-            geoip_db = pkg_resources.resource_filename("deluge", os.path.join("data", "GeoIP.dat"))
+            try:
+                self.core.geoip_instance = GeoIP.open(value, GeoIP.GEOIP_STANDARD)
+            except AttributeError:
+                try:
+                    self.session.load_country_db(value)
+                except RuntimeError, ex:
+                    log.error("Unable to load geoip database: %s", ex)
+                except AttributeError:
+                    log.warning("GeoIP Unavailable")
         else:
             log.warning("Unable to find GeoIP database file!")
-
-        if geoip_db:
-            try:
-                self.session.load_country_db(str(geoip_db))
-            except RuntimeError, e:
-                log.error("Unable to load geoip database!")
-                log.exception(e)
-            except AttributeError:
-                log.warning("GeoIP Unavailable")
 
     def _on_cache_size(self, key, value):
         log.debug("%s: %s", key, value)

@@ -138,6 +138,9 @@ class Core(component.Component):
         # New release check information
         self.new_release = None
 
+        # GeoIP instance with db loaded
+        self.geoip_instance = None
+
         # Get the core config
         self.config = deluge.configmanager.ConfigManager("core.conf")
 

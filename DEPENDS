@@ -12,6 +12,7 @@
  * geoip-database (optional)
  * setproctitle (optional)
  * pillow (optional)
+ * python-geoip (optional)
 
  * libtorrent (rasterbar) >= 0.14
 

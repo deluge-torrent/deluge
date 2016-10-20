@@ -556,13 +556,12 @@ class Torrent(object):
             except UnicodeDecodeError:
                 client = str(peer.client).decode("latin-1")
 
-            # Make country a proper string
-            country = str()
-            for c in peer.country:
-                if not c.isalpha():
-                    country += " "
-                else:
-                    country += c
+            try:
+                country = component.get("Core").geoip_instance.country_code_by_addr(peer.ip[0])
+            except AttributeError:
+                country = peer.country
+
+            country = "".join([char if char.isalpha() else " " for char in country])
 
             ret.append({
                 "client": client,
