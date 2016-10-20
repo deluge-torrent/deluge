@@ -53,7 +53,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
         var fieldset = this.add({
             xtype: 'fieldset',
             border: false,
-            title: _('Incoming Ports'),
+            title: _('Incoming Port'),
             style: 'margin-bottom: 5px; padding-bottom: 0px;',
             autoHeight: true,
             labelWidth: 1,
@@ -62,48 +62,33 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
         optMan.bind('random_port', fieldset.add({
             fieldLabel: '',
             labelSeparator: '',
-            boxLabel: _('Use Random Ports'),
+            boxLabel: _('Use Random Port'),
             name: 'random_port',
             height: 22,
             listeners: {
                 'check': {
                     fn: function(e, checked) {
-                        this.listenPorts.setDisabled(checked);
+                        this.listenPort.setDisabled(checked);
                     },
                     scope: this
                 }
             }
         }));
-        this.listenPorts = fieldset.add({
-            xtype: 'spinnergroup',
-            name: 'listen_ports',
+
+        this.listenPort = fieldset.add({
+            xtype: 'spinnerfield',
+            name: 'listen_port',
             fieldLabel: '',
             labelSeparator: '',
-            colCfg: {
-                labelWidth: 40,
-                style: 'margin-right: 10px;'
-            },
-            items: [{
-                fieldLabel: _('From:'),
-                labelSeparator: '',
-                strategy: {
-                    xtype: 'number',
-                    decimalPrecision: 0,
-                    minValue: -1,
-                    maxValue: 99999
-                }
-            }, {
-                fieldLabel: _('To:'),
-                labelSeparator: '',
-                strategy: {
-                    xtype: 'number',
-                    decimalPrecision: 0,
-                    minValue: -1,
-                    maxValue: 99999
-                }
-            }]
+            width: 75,
+            strategy: {
+                xtype: 'number',
+                decimalPrecision: 0,
+                minValue: 0,
+                maxValue: 65535
+            }
         });
-        optMan.bind('listen_ports', this.listenPorts);
+        optMan.bind('listen_ports', this.listenPort);
 
         fieldset = this.add({
             xtype: 'fieldset',
@@ -144,8 +129,8 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
                 strategy: {
                     xtype: 'number',
                     decimalPrecision: 0,
-                    minValue: -1,
-                    maxValue: 99999
+                    minValue: 0,
+                    maxValue: 65535
                 }
             }, {
                 fieldLabel: _('To:'),
@@ -153,8 +138,8 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
                 strategy: {
                     xtype: 'number',
                     decimalPrecision: 0,
-                    minValue: -1,
-                    maxValue: 99999
+                    minValue: 0,
+                    maxValue: 65535
                 }
             }]
         });

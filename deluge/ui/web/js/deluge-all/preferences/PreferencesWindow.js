@@ -108,6 +108,10 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
     onApply: function(e) {
         var changed = this.optionsManager.getDirty();
         if (!Ext.isObjectEmpty(changed)) {
+            // Workaround for only displaying single listen port but still pass array to core.
+            if ('listen_ports' in changed) {
+                changed.listen_ports = [changed.listen_ports, changed.listen_ports]
+            }
             deluge.client.core.set_config(changed, {
                 success: this.onSetConfig,
                 scope: this
