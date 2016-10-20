@@ -344,9 +344,8 @@ class Preferences(component.Component):
             "chk_sequential_download": ("active", "sequential_download"),
             "chk_add_paused": ("active", "add_paused"),
             "active_port_label": ("text", lambda: str(self.active_port)),
-            "spin_port_min": ("value", lambda: self.core_config["listen_ports"][0]),
-            "spin_port_max": ("value", lambda: self.core_config["listen_ports"][1]),
-            "chk_random_port": ("active", "random_port"),
+            "spin_incoming_port": ("value", lambda: self.core_config["listen_ports"][0]),
+            "chk_random_incoming_port": ("active", "random_port"),
             "spin_outgoing_port_min": ("value", lambda: self.core_config["outgoing_ports"][0]),
             "spin_outgoing_port_max": ("value", lambda: self.core_config["outgoing_ports"][1]),
             "chk_random_outgoing_ports": ("active", "random_outgoing_ports"),
@@ -561,13 +560,10 @@ class Preferences(component.Component):
         new_core_config["pre_allocate_storage"] = self.builder.get_object("chk_pre_allocation").get_active()
 
         # Network tab #
-        listen_ports = (
-            self.builder.get_object("spin_port_min").get_value_as_int(),
-            self.builder.get_object("spin_port_max").get_value_as_int()
-        )
+        listen_ports = [self.builder.get_object("spin_incoming_port").get_value_as_int()] * 2
         new_core_config["listen_ports"] = listen_ports
         new_core_config["random_port"] = \
-            self.builder.get_object("chk_random_port").get_active()
+            self.builder.get_object("chk_random_incoming_port").get_active()
         outgoing_ports = (
             self.builder.get_object("spin_outgoing_port_min").get_value_as_int(),
             self.builder.get_object("spin_outgoing_port_max").get_value_as_int()
@@ -842,8 +838,7 @@ class Preferences(component.Component):
 
         dependents = {
             "chk_show_dialog": {"chk_focus_dialog": True},
-            "chk_random_port": {"spin_port_min": False,
-                                "spin_port_max": False},
+            "chk_random_incoming_port": {"spin_incoming_port": False},
             "chk_random_outgoing_ports": {"spin_outgoing_port_min": False,
                                           "spin_outgoing_port_max": False},
             "chk_use_tray": {"radio_appind": True,
