@@ -20,12 +20,7 @@ from deluge.configmanager import ConfigManager
 log = logging.getLogger(__name__)
 
 
-COLOR_STATES = {
-    0: "missing",
-    1: "waiting",
-    2: "downloading",
-    3: "completed"
-}
+COLOR_STATES = ["missing", "waiting", "downloading", "completed"]
 
 
 class PiecesBar(gtk.DrawingArea):
@@ -73,13 +68,7 @@ class PiecesBar(gtk.DrawingArea):
         # Restrict Cairo to the exposed area; avoid extra work
         self.__roundcorners_clipping()
 
-        if self.__pieces:
-            self.__draw_pieces()
-        elif self.__num_pieces:
-            # Special case. Completed torrents do not send any pieces in their
-            # status.
-            self.__draw_pieces_completed()
-
+        self.__draw_pieces()
         self.__draw_progress_overlay()
         self.__write_text()
         self.__roundcorners_border()
@@ -102,7 +91,8 @@ class PiecesBar(gtk.DrawingArea):
         self.__cr.set_source_rgba(0.0, 0.0, 0.0, 0.9)
         self.__cr.stroke()
 
-    def __create_roundcorners_subpath(self, ctx, x, y, width, height):
+    @staticmethod
+    def __create_roundcorners_subpath(ctx, x, y, width, height):
         aspect = 1.0
         corner_radius = height / 10.0
         radius = corner_radius / aspect
@@ -124,10 +114,14 @@ class PiecesBar(gtk.DrawingArea):
             )
             ctx = cairo.Context(self.__pieces_overlay)
             start_pos = 0
-            num_pieces = self.__num_pieces and self.__num_pieces or len(self.__pieces)
-            piece_width = self.__width * 1.0 / num_pieces
+            piece_width = self.__width * 1.0 / (self.__num_pieces or len(self.__pieces))
 
-            for state in self.__pieces:
+            if self.__pieces:
+                pieces = self.__pieces
+            elif self.__num_pieces:
+                # Special case. Completed torrents do not send any pieces in their status.
+                pieces = [3] * self.__num_pieces
+            for state in pieces:
                 color = self.gtkui_config["pieces_color_%s" % COLOR_STATES[state]]
                 ctx.set_source_rgb(
                     color[0] / 65535.0,
@@ -137,32 +131,6 @@ class PiecesBar(gtk.DrawingArea):
                 ctx.rectangle(start_pos, 0, piece_width, self.__height)
                 ctx.fill()
                 start_pos += piece_width
-
-        self.__cr.set_source_surface(self.__pieces_overlay)
-        self.__cr.paint()
-
-    def __draw_pieces_completed(self):
-        if (self.__resized() or self.__pieces != self.__old_pieces or
-                self.__pieces_overlay is None):
-            # Need to recreate the cache drawing
-            self.__pieces_overlay = cairo.ImageSurface(
-                cairo.FORMAT_ARGB32, self.__width, self.__height
-            )
-            ctx = cairo.Context(self.__pieces_overlay)
-            piece_width = self.__width * 1.0 / self.__num_pieces
-            start = 0
-            for _ in range(self.__num_pieces):
-                # Like this to keep same aspect ratio
-                color = self.gtkui_config["pieces_color_%s" % COLOR_STATES[3]]
-                ctx.set_source_rgb(
-                    color[0] / 65535.0,
-                    color[1] / 65535.0,
-                    color[2] / 65535.0,
-                )
-                ctx.rectangle(start, 0, piece_width, self.__height)
-                ctx.fill()
-                start += piece_width
-
         self.__cr.set_source_surface(self.__pieces_overlay)
         self.__cr.paint()
 
