@@ -10,7 +10,6 @@
 import logging
 import os.path
 
-
 import gtk
 
 import deluge.common

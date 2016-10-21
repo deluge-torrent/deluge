@@ -19,7 +19,6 @@ from __future__ import division
 import logging
 import os
 import socket
-
 from urlparse import urlparse
 
 from twisted.internet.defer import Deferred, DeferredList

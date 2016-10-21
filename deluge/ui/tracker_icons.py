@@ -9,22 +9,19 @@
 
 import logging
 import os
-from HTMLParser import HTMLParseError, HTMLParser
 from tempfile import mkstemp
 from urlparse import urljoin, urlparse
 
 from twisted.internet import defer, threads
 from twisted.web.error import PageRedirect
-try:
-    from twisted.web.resource import NoResource, ForbiddenResource
-except ImportError:
-    # twisted 8
-    from twisted.web.error import NoResource, ForbiddenResource
+from twisted.web.resource import ForbiddenResource, NoResource
 
 from deluge.component import Component
 from deluge.configmanager import get_config_dir
 from deluge.decorators import proxy
 from deluge.httpdownloader import download_file
+from HTMLParser import HTMLParseError, HTMLParser
+
 try:
     import deluge.ui.Win32IconImagePlugin
     assert deluge.ui.Win32IconImagePlugin  # silence pyflakes

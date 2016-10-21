@@ -7,10 +7,9 @@
 # See LICENSE for more details.
 #
 
-from new import classobj
-
 from deluge.core.core import Core
 from deluge.core.daemon import Daemon
+from new import classobj
 
 
 class RpcApi(object):
