@@ -25,6 +25,7 @@ from deluge.ui.web.json_api import JSON, JSONException
 
 from . import common
 from .basetest import BaseTestCase
+from .common_web import WebServerMockBase
 from .daemon_base import DaemonBase
 
 common.disable_new_release_check()
@@ -186,7 +187,7 @@ class RPCRaiseDelugeErrorJSONTestCase(JSONBase):
         yield result
 
 
-class JSONRequestFailedTestCase(JSONBase):
+class JSONRequestFailedTestCase(JSONBase, WebServerMockBase):
 
     def set_up(self):
         d = self.common_set_up()
@@ -225,25 +226,16 @@ class JSONRequestFailedTestCase(JSONBase):
     def test_render_on_rpc_request_failed(self):
         json = JSON()
 
-        def get_session_id(s_id):
-            return s_id
-        self.patch(deluge.ui.web.auth, "get_session_id", get_session_id)
-        auth_conf = {"session_timeout": 10, "sessions": []}
-        auth = Auth(auth_conf)
-        request = Request(MagicMock(), False)
-        request.base = ""
-        auth._create_session(request)
         methods = yield json.get_remote_methods()
         # Verify the function has been registered
         self.assertTrue("testclass.test" in methods)
 
         request = MagicMock()
-        request.getCookie = MagicMock(return_value=list(auth.config["sessions"])[0])
 
-        def compress(contents, request):
-            return contents
-        # Patch compress to avoid having to decompress output
-        self.patch(deluge.ui.web.json_api, "compress", compress)
+        # Circumvent authentication
+        auth = Auth({})
+        self.mock_authentication_ignore(auth)
+        self.mock_compress_body()
 
         def write(response_str):
             request.write_was_called = True

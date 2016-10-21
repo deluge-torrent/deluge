@@ -117,6 +117,8 @@ class TorrentInfo(object):
                     f["sha1"] = f["sha1"].encode('hex')
                 if "ed2k" in f and len(f["ed2k"]) == 16:
                     f["ed2k"] = f["ed2k"].encode('hex')
+                if "filehash" in f and len(f["filehash"]) == 20:
+                    f["filehash"] = f["filehash"].encode('hex')
                 paths[path] = f
                 dirname = os.path.dirname(path)
                 while dirname:
