@@ -9,6 +9,7 @@
 
 import logging
 import os
+from HTMLParser import HTMLParseError, HTMLParser
 from tempfile import mkstemp
 from urlparse import urljoin, urlparse
 
@@ -20,7 +21,6 @@ from deluge.component import Component
 from deluge.configmanager import get_config_dir
 from deluge.decorators import proxy
 from deluge.httpdownloader import download_file
-from HTMLParser import HTMLParseError, HTMLParser
 
 try:
     import deluge.ui.Win32IconImagePlugin
