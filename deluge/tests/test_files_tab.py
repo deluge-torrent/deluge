@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import pytest
 from twisted.trial import unittest
 
@@ -46,7 +48,7 @@ class FilesTabTestCase(BaseTestCase):
         level = 1
 
         def p_level(s, l):
-            print "%s%s" % (" " * l, s)
+            print("%s%s" % (" " * l, s))
 
         def _print_treestore_children(i, lvl):
             while i:
@@ -55,9 +57,9 @@ class FilesTabTestCase(BaseTestCase):
                     _print_treestore_children(treestore.iter_children(i), lvl + 2)
                 i = treestore.iter_next(i)
 
-        print "\n%s" % title
+        print("\n%s" % title)
         _print_treestore_children(root, level)
-        print ""
+        print("")
 
     def verify_treestore(self, treestore, tree):
 

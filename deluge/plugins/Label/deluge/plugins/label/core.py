@@ -107,8 +107,8 @@ class Core(CorePluginBase):
         pass
 
     def init_filter_dict(self):
-        filter_dict = dict([(label, 0) for label in self.labels.keys()])
-        filter_dict['All'] = len(self.torrents.keys())
+        filter_dict = dict([(label, 0) for label in self.labels])
+        filter_dict['All'] = len(self.torrents)
         return filter_dict
 
     # Plugin hooks #
@@ -118,7 +118,7 @@ class Core(CorePluginBase):
         log.debug("post_torrent_add")
         torrent = self.torrents[torrent_id]
 
-        for label_id, options in self.labels.iteritems():
+        for label_id, options in self.labels.items():
             if options["auto_add"]:
                 if self._has_auto_match(torrent, options):
                     self.set_torrent(torrent_id, label_id)
@@ -132,7 +132,7 @@ class Core(CorePluginBase):
     # Utils #
     def clean_config(self):
         """remove invalid data from config-file"""
-        for torrent_id, label_id in list(self.torrent_labels.iteritems()):
+        for torrent_id, label_id in list(self.torrent_labels.items()):
             if (label_id not in self.labels) or (torrent_id not in self.torrents):
                 log.debug("label: rm %s:%s", torrent_id, label_id)
                 del self.torrent_labels[torrent_id]
@@ -142,8 +142,8 @@ class Core(CorePluginBase):
         *add any new keys in OPTIONS_DEFAULTS
         *set all None values to default <-fix development config
         """
-        log.debug(self.labels.keys())
-        for key in self.labels.keys():
+        log.debug(list(self.labels))
+        for key in self.labels:
             options = dict(OPTIONS_DEFAULTS)
             options.update(self.labels[key])
             self.labels[key] = options
@@ -159,7 +159,7 @@ class Core(CorePluginBase):
 
     @export
     def get_labels(self):
-        return sorted(self.labels.keys())
+        return sorted(self.labels)
 
     # Labels:
     @export
@@ -259,21 +259,21 @@ class Core(CorePluginBase):
         }
         """
         check_input(label_id in self.labels, _("Unknown Label"))
-        for key in options_dict.keys():
+        for key in options_dict:
             if key not in OPTIONS_DEFAULTS:
                 raise Exception("label: Invalid options_dict key:%s" % key)
 
         self.labels[label_id].update(options_dict)
 
         # apply
-        for torrent_id, label in self.torrent_labels.iteritems():
+        for torrent_id, label in self.torrent_labels.items():
             if label_id == label and torrent_id in self.torrents:
                 self._set_torrent_options(torrent_id, label_id)
 
         # auto add
         options = self.labels[label_id]
         if options["auto_add"]:
-            for torrent_id, torrent in self.torrents.iteritems():
+            for torrent_id, torrent in self.torrents.items():
                 if self._has_auto_match(torrent, options):
                     self.set_torrent(torrent_id, label_id)
 

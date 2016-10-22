@@ -400,7 +400,7 @@ class Preferences(component.Component):
         core_widgets[self.copy_torrent_files_path_chooser] = ("path_chooser", "torrentfiles_location")
 
         # Update the widgets accordingly
-        for key in core_widgets.keys():
+        for key in core_widgets:
             modifier = core_widgets[key][0]
             if isinstance(key, str):
                 widget = self.builder.get_object(key)
@@ -433,7 +433,7 @@ class Preferences(component.Component):
                 widget.set_text(value, cursor_end=False, default_text=True)
 
         if self.is_connected:
-            for key in core_widgets.keys():
+            for key in core_widgets:
                 if isinstance(key, str):
                     widget = self.builder.get_object(key)
                 else:
@@ -674,7 +674,7 @@ class Preferences(component.Component):
             dialog.run()
 
         # GtkUI
-        for key in new_gtkui_config.keys():
+        for key in new_gtkui_config:
             # The values do not match so this needs to be updated
             if self.gtkui_config[key] != new_gtkui_config[key]:
                 self.gtkui_config[key] = new_gtkui_config[key]
@@ -683,7 +683,7 @@ class Preferences(component.Component):
         if client.connected():
             # Only do this if we're connected to a daemon
             config_to_set = {}
-            for key in new_core_config.keys():
+            for key in new_core_config:
                 # The values do not match so this needs to be updated
                 if self.core_config[key] != new_core_config[key]:
                     config_to_set[key] = new_core_config[key]
@@ -799,7 +799,7 @@ class Preferences(component.Component):
 
         def update_dependent_widgets(name, value):
             dependency = dependents[name]
-            for dep in dependency.keys():
+            for dep in dependency:
                 if dep in path_choosers:
                     depwidget = path_choosers[dep]
                 else:
@@ -809,7 +809,7 @@ class Preferences(component.Component):
                 if dep in dependents:
                     update_dependent_widgets(dep, depwidget.get_active() and sensitive)
 
-        for key in dependents.keys():
+        for key in dependents:
             if widget != self.builder.get_object(key):
                 continue
             update_dependent_widgets(key, value)
@@ -1006,7 +1006,7 @@ class Preferences(component.Component):
         known_accounts_to_log = []
         for account in known_accounts:
             account_to_log = {}
-            for key, value in account.copy().iteritems():
+            for key, value in account.copy().items():
                 if key == 'password':
                     value = '*' * len(value)
                 account_to_log[key] = value

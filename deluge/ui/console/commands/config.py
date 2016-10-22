@@ -20,16 +20,16 @@ from deluge.ui.console.main import BaseCommand
 log = logging.getLogger(__name__)
 
 
-def atom(_next, token):
+def atom(src, token):
     """taken with slight modifications from http://effbot.org/zone/simple-iterator-parser.htm"""
     if token[1] == "(":
         out = []
-        token = _next()
+        token = next(src)
         while token[1] != ")":
-            out.append(atom(_next, token))
-            token = _next()
+            out.append(atom(src, token))
+            token = next(src)
             if token[1] == ",":
-                token = _next()
+                token = next(src)
         return tuple(out)
     elif token[0] is tokenize.NUMBER or token[1] == "-":
         try:
@@ -58,7 +58,7 @@ def simple_eval(source):
     src = cStringIO.StringIO(source).readline
     src = tokenize.generate_tokens(src)
     src = (token for token in src if token[0] is not tokenize.NL)
-    res = atom(src.next, src.next())
+    res = atom(src, next(src))
     return res
 
 
@@ -83,9 +83,8 @@ class Command(BaseCommand):
 
     def _get_config(self, options):
         def _on_get_config(config):
-            keys = sorted(config.keys())
             s = ""
-            for key in keys:
+            for key in sorted(config):
                 if key not in options.values:
                     continue
                 color = "{!white,black,bold!}"
@@ -120,7 +119,7 @@ class Command(BaseCommand):
             self.console.write("{!error!}%s" % ex)
             return
 
-        if key not in config.keys():
+        if key not in config:
             self.console.write("{!error!}The key '%s' is invalid!" % key)
             return
 
@@ -138,4 +137,4 @@ class Command(BaseCommand):
         return client.core.set_config({key: val}).addCallback(on_set_config)
 
     def complete(self, text):
-        return [k for k in component.get("CoreConfig").keys() if k.startswith(text)]
+        return [k for k in component.get("CoreConfig") if k.startswith(text)]

@@ -90,7 +90,7 @@ class SessionProxy(component.Component):
                         keys_to_remove = keys_diff_cached
                     else:
                         # Not the same keys so create a new diff
-                        keys_to_remove = set(sd[torrent_id].iterkeys()) - keys
+                        keys_to_remove = set(sd[torrent_id]) - keys
                         # Update the cached diff
                         keys_diff_cached = keys_to_remove
                         keys_len = len(sd[torrent_id])
@@ -123,7 +123,7 @@ class SessionProxy(component.Component):
             # Keep track of keys we need to request from the core
             keys_to_get = []
             if not keys:
-                keys = self.torrents[torrent_id][1].keys()
+                keys = list(self.torrents[torrent_id][1])
 
             for key in keys:
                 if time() - self.cache_times[torrent_id].get(key, 0.0) > self.cache_time:
@@ -178,7 +178,7 @@ class SessionProxy(component.Component):
         def on_status(result, torrent_ids, keys):
             # Update the internal torrent status dict with the update values
             t = time()
-            for key, value in result.iteritems():
+            for key, value in result.items():
                 try:
                     self.torrents[key][0] = t
                     self.torrents[key][1].update(value)
@@ -190,7 +190,7 @@ class SessionProxy(component.Component):
 
             # Create the status dict
             if not torrent_ids:
-                torrent_ids = result.keys()
+                torrent_ids = list(result)
 
             return self.create_status_dict(torrent_ids, keys)
 
@@ -214,13 +214,13 @@ class SessionProxy(component.Component):
         if not filter_dict:
             # This means we want all the torrents status
             # We get a list of any torrent_ids with expired status dicts
-            to_fetch = find_torrents_to_fetch(self.torrents.keys())
+            to_fetch = find_torrents_to_fetch(list(self.torrents))
             if to_fetch:
                 d = client.core.get_torrents_status({"id": to_fetch}, keys, True)
-                return d.addCallback(on_status, self.torrents.keys(), keys)
+                return d.addCallback(on_status, list(self.torrents), keys)
 
             # Don't need to fetch anything
-            return maybeDeferred(self.create_status_dict, self.torrents.keys(), keys)
+            return maybeDeferred(self.create_status_dict, list(self.torrents), keys)
 
         if len(filter_dict) == 1 and "id" in filter_dict:
             # At this point we should have a filter with just "id" in it

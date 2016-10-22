@@ -259,7 +259,7 @@ class CoreTestCase(BaseTestCase):
 
     def test_get_free_space(self):
         space = self.core.get_free_space(".")
-        self.assertTrue(isinstance(space, (int, long)))
+        self.assertTrue(isinstance(space, int))
         self.assertTrue(space >= 0)
         self.assertEquals(self.core.get_free_space("/someinvalidpath"), -1)
 

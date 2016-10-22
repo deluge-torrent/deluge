@@ -118,7 +118,7 @@ class ListView(object):
 
         def set_col_attributes(self, renderer, add=True, **kw):
             if add is True:
-                for attr, value in kw.iteritems():
+                for attr, value in kw.items():
                     self.add_attribute(renderer, attr, value)
             else:
                 self.set_attributes(renderer, **kw)
@@ -303,7 +303,7 @@ class ListView(object):
 
     def get_state_field_column(self, field):
         """Returns the column number for the state field"""
-        for column in self.columns.keys():
+        for column in self.columns:
             if self.columns[column].status_field is None:
                 continue
 

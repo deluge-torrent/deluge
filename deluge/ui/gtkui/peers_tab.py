@@ -9,7 +9,6 @@
 
 import logging
 import os.path
-from itertools import izip
 
 import gtk
 
@@ -266,7 +265,7 @@ class PeersTab(Tab):
                 if peer["ip"].count(":") == 1:
                     # This is an IPv4 address
                     ip_int = sum([int(byte) << shift
-                                  for byte, shift in izip(peer["ip"].split(":")[0].split("."), (24, 16, 8, 0))])
+                                  for byte, shift in zip(peer["ip"].split(":")[0].split("."), (24, 16, 8, 0))])
                     peer_ip = peer["ip"]
                 else:
                     # This is an IPv6 address
@@ -274,7 +273,7 @@ class PeersTab(Tab):
                     import binascii
                     # Split out the :port
                     ip = ":".join(peer["ip"].split(":")[:-1])
-                    ip_int = long(binascii.hexlify(socket.inet_pton(socket.AF_INET6, ip)), 16)
+                    ip_int = int(binascii.hexlify(socket.inet_pton(socket.AF_INET6, ip)), 16)
                     peer_ip = "[%s]:%s" % (ip, peer["ip"].split(":")[-1])
 
                 if peer["seed"]:
@@ -296,7 +295,7 @@ class PeersTab(Tab):
                 self.peers[peer["ip"]] = row
 
         # Now we need to remove any ips that were not in status["peers"] list
-        for ip in set(self.peers.keys()).difference(new_ips):
+        for ip in set(self.peers).difference(new_ips):
             self.liststore.remove(self.peers[ip])
             del self.peers[ip]
 

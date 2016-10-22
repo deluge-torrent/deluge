@@ -555,7 +555,7 @@ class AllTorrents(BaseMode, component.Component):
 
             # Get first element so we can check if it has given field
             # and if it's a string
-            first_element = state[state.keys()[0]]
+            first_element = state[list(state)[0]]
             if field in first_element:
                 is_string = isinstance(first_element[field], basestring)
 

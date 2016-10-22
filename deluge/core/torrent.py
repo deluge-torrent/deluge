@@ -19,7 +19,6 @@ from __future__ import division
 import logging
 import os
 import socket
-from itertools import izip
 from urlparse import urlparse
 
 from twisted.internet.defer import Deferred, DeferredList
@@ -160,7 +159,7 @@ class TorrentOptions(dict):
             "super_seeding": "super_seeding",
             "priority": "priority",
         }
-        for opt_k, conf_k in options_conf_map.iteritems():
+        for opt_k, conf_k in options_conf_map.items():
             self[opt_k] = config[conf_k]
         self["file_priorities"] = []
         self["mapped_files"] = {}
@@ -829,7 +828,7 @@ class Torrent(object):
         if not self.has_metadata:
             return 0.0
         return [progress / _file.size if _file.size else 0.0 for progress, _file in
-                izip(self.handle.file_progress(), self.torrent_info.files())]
+                zip(self.handle.file_progress(), self.torrent_info.files())]
 
     def get_tracker_host(self):
         """Get the hostname of the currently connected tracker.
@@ -940,7 +939,7 @@ class Torrent(object):
             self.update_status(self.handle.status())
 
         if all_keys:
-            keys = self.status_funcs.keys()
+            keys = list(self.status_funcs)
 
         status_dict = {}
 
@@ -1323,7 +1322,7 @@ class Torrent(object):
             torrent.waiting_on_folder_rename = [_dir for _dir in torrent.waiting_on_folder_rename if _dir]
             component.get("TorrentManager").save_resume_data((self.torrent_id,))
 
-        d = DeferredList(wait_on_folder.values())
+        d = DeferredList(list(wait_on_folder.values()))
         d.addBoth(on_folder_rename_complete, self, folder, new_folder)
         return d
 
@@ -1360,7 +1359,7 @@ class Torrent(object):
 
         If the key is no longer valid, the dict will be deleted.
         """
-        for key in self.prev_status.keys():
+        for key in self.prev_status:
             if not self.rpcserver.is_session_valid(key):
                 del self.prev_status[key]
 
@@ -1370,7 +1369,7 @@ class Torrent(object):
             pieces = None
         else:
             pieces = []
-            for piece, avail_piece in izip(self.status.pieces, self.handle.piece_availability()):
+            for piece, avail_piece in zip(self.status.pieces, self.handle.piece_availability()):
                 if piece:
                     pieces.append(3)  # Completed.
                 elif avail_piece:

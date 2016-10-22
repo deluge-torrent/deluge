@@ -159,7 +159,7 @@ class FilterTreeView(component.Component):
 
         # update rows
         visible_filters = []
-        for cat, filters in filter_items.iteritems():
+        for cat, filters in filter_items.items():
             for value, count in filters:
                 self.update_row(cat, value, count)
                 visible_filters.append((cat, value))
