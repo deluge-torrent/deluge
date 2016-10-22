@@ -404,22 +404,15 @@ class AddTorrentDialog(component.Component):
         options["move_completed_path"] = self.move_completed_path_chooser.get_text()
         options["pre_allocate_storage"] = self.builder.get_object("chk_pre_alloc").get_active()
         options["move_completed"] = self.builder.get_object("chk_move_completed").get_active()
-        options["max_download_speed"] = \
-            self.builder.get_object("spin_maxdown").get_value()
-        options["max_upload_speed"] = \
-            self.builder.get_object("spin_maxup").get_value()
-        options["max_connections"] = \
-            self.builder.get_object("spin_maxconnections").get_value_as_int()
-        options["max_upload_slots"] = \
-            self.builder.get_object("spin_maxupslots").get_value_as_int()
-        options["add_paused"] = \
-            self.builder.get_object("chk_paused").get_active()
-        options["prioritize_first_last_pieces"] = \
-            self.builder.get_object("chk_prioritize").get_active()
-        options["sequential_download"] = \
-            self.builder.get_object("chk_sequential_download").get_active() or False
-        options["move_completed"] = \
-            self.builder.get_object("chk_move_completed").get_active()
+        options["max_download_speed"] = self.builder.get_object("spin_maxdown").get_value()
+        options["max_upload_speed"] = self.builder.get_object("spin_maxup").get_value()
+        options["max_connections"] = self.builder.get_object("spin_maxconnections").get_value_as_int()
+        options["max_upload_slots"] = self.builder.get_object("spin_maxupslots").get_value_as_int()
+        options["add_paused"] = self.builder.get_object("chk_paused").get_active()
+        options["prioritize_first_last_pieces"] = self.builder.get_object("chk_prioritize").get_active()
+        options["sequential_download"] = self.builder.get_object(
+            "chk_sequential_download").get_active() or False
+        options["move_completed"] = self.builder.get_object("chk_move_completed").get_active()
         options["seed_mode"] = self.builder.get_object("chk_seed_mode").get_active()
 
         self.options[torrent_id] = options

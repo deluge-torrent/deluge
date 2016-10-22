@@ -722,8 +722,7 @@ class StoredValuesPopup(StoredValuesList, PathChooserPopup):
         self.popup_buttonbox = self.builder.get_object("buttonbox")
 
         # Add signal handlers
-        self.signal_handlers["on_buttonbox_key_press_event"] = \
-            self.on_buttonbox_key_press_event
+        self.signal_handlers["on_buttonbox_key_press_event"] = self.on_buttonbox_key_press_event
         self.signal_handlers["on_stored_values_treeview_scroll_event"] = self.on_scroll_event
         self.signal_handlers["on_button_toggle_dropdown_scroll_event"] = self.on_scroll_event
         self.signal_handlers["on_entry_text_scroll_event"] = self.on_scroll_event
@@ -922,10 +921,8 @@ class PathAutoCompleter(object):
 
         self.signal_handlers["on_completion_popup_window_key_press_event"] = \
             self.on_completion_popup_window_key_press_event
-        self.signal_handlers["on_entry_text_delete_text"] = \
-            self.on_entry_text_delete_text
-        self.signal_handlers["on_entry_text_insert_text"] = \
-            self.on_entry_text_insert_text
+        self.signal_handlers["on_entry_text_delete_text"] = self.on_entry_text_delete_text
+        self.signal_handlers["on_entry_text_insert_text"] = self.on_entry_text_insert_text
         self.accelerator_string = gtk.accelerator_name(keysyms.Tab, 0)
 
     def on_entry_text_insert_text(self, entry, new_text, new_text_length, position):

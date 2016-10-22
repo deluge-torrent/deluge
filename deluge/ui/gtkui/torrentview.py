@@ -636,8 +636,8 @@ class TorrentView(ListView, component.Component):
             row = self.model_filter.get_iter(path[0])
 
             if self.get_selected_torrents():
-                if self.model_filter.get_value(row, self.columns["torrent_id"].column_indices[0]) \
-                        not in self.get_selected_torrents():
+                if (self.model_filter.get_value(row, self.columns["torrent_id"].column_indices[0])
+                        not in self.get_selected_torrents()):
                     self.treeview.get_selection().unselect_all()
                     self.treeview.get_selection().select_iter(row)
             else:

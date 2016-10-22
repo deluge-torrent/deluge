@@ -85,12 +85,11 @@ class BasePane(object):
         for ipt in self.inputs:
             if not isinstance(ipt, NoInput):
                 # gross, have to special case in/out ports since they are tuples
-                if ipt.name in ("listen_ports_to", "listen_ports_from", "out_ports_from", "out_ports_to",
+                if ipt.name in ("listen_interface", "listen_port", "out_ports_from", "out_ports_to",
                                 "i2p_port", "i2p_hostname", "proxy_type", "proxy_username", "proxy_hostnames",
-                                "proxy_password", "proxy_hostname", "proxy_port", "proxy_peer_connections",
-                                "listen_interface"):
-                    if ipt.name == "listen_ports_to":
-                        conf_dict["listen_ports"] = (self.infrom.get_value(), self.into.get_value())
+                                "proxy_password", "proxy_hostname", "proxy_port", "proxy_peer_connections"):
+                    if ipt.name == "listen_port":
+                        conf_dict["listen_ports"] = [self.infrom.get_value()] * 2
                     elif ipt.name == "out_ports_to":
                         conf_dict["outgoing_ports"] = (self.outfrom.get_value(), self.outto.get_value())
                     elif ipt.name == "listen_interface":
@@ -309,17 +308,14 @@ class DownloadsPane(BasePane):
 class NetworkPane(BasePane):
     def __init__(self, offset, parent, width):
         BasePane.__init__(self, offset, parent, width)
-        self.add_header("Incomming Ports")
-        inrand = CheckedInput(parent, "Use Random Ports    Active Port: %d" % parent.active_port,
+        self.add_header("Incomming Port")
+        inrand = CheckedInput(parent, "Use Random Port    Active Port: %d" % parent.active_port,
                               "random_port", parent.core_config["random_port"])
         self.inputs.append(inrand)
         listen_ports = parent.core_config["listen_ports"]
-        self.infrom = IntSpinInput(self.parent, "  From:", "listen_ports_from", self.move, listen_ports[0], 0, 65535)
+        self.infrom = IntSpinInput(self.parent, "  ", "listen_port", self.move, listen_ports[0], 0, 65535)
         self.infrom.set_depend(inrand, True)
-        self.into = IntSpinInput(self.parent, "  To:  ", "listen_ports_to", self.move, listen_ports[1], 0, 65535)
-        self.into.set_depend(inrand, True)
         self.inputs.append(self.infrom)
-        self.inputs.append(self.into)
 
         self.add_header("Outgoing Ports", True)
         outrand = CheckedInput(parent, "Use Random Ports", "random_outgoing_ports",

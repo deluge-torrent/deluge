@@ -213,7 +213,7 @@ class PeersTab(Tab):
         component.get("SessionProxy").get_torrent_status(torrent_id, ["peers"]).addCallback(self._on_get_torrent_status)
 
     def get_flag_pixbuf(self, country):
-        if country == "  ":
+        if not country.strip():
             return None
 
         if country not in self.cached_flag_pixbufs:

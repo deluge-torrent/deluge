@@ -10,6 +10,7 @@
 
 import logging
 import os
+import random
 import threading
 
 from twisted.internet.task import LoopingCall
@@ -19,6 +20,11 @@ import deluge.component as component
 import deluge.configmanager
 from deluge._libtorrent import lt
 from deluge.event import ConfigValueChangedEvent
+
+try:
+    import GeoIP
+except ImportError:
+    GeoIP = None
 
 log = logging.getLogger(__name__)
 
@@ -31,13 +37,18 @@ DEFAULT_PREFS = {
     "download_location": deluge.common.get_default_download_dir(),
     "listen_ports": [6881, 6891],
     "listen_interface": "",
+    "random_port": True,
+    "listen_random_port": None,
+    "listen_use_sys_port": False,
+    "listen_reuse_port": True,
+    "outgoing_ports": [0, 0],
+    "random_outgoing_ports": True,
     "copy_torrent_file": False,
     "del_copy_torrent_file": False,
     "torrentfiles_location": deluge.common.get_default_download_dir(),
     "plugins_location": os.path.join(deluge.configmanager.get_config_dir(), "plugins"),
     "prioritize_first_last_pieces": False,
     "sequential_download": False,
-    "random_port": True,
     "dht": True,
     "upnp": True,
     "natpmp": True,
@@ -96,8 +107,6 @@ DEFAULT_PREFS = {
         "hostname": "",
         "port": 0
     },
-    "outgoing_ports": [0, 0],
-    "random_outgoing_ports": True,
     "peer_tos": "0x00",
     "rate_limit_ip_overhead": True,
     "anonymous_mode": False,
@@ -126,8 +135,15 @@ class PreferencesManager(component.Component):
         self.new_release_timer = None
 
     def start(self):
+        # Setup listen port followed by dht to ensure both use same port.
+        self.__set_listen_on()
+        self._on_set_dht("dht", self.config["dht"])
+
         # Set the initial preferences on start-up
         for key in DEFAULT_PREFS:
+            # Listen port and dht already setup in correct order so skip running again.
+            if key in ("dht", "random_port") or key.startswith("listen_"):
+                continue
             self.do_config_set_func(key, self.config[key])
 
         self.config.register_change_callback(self._on_config_value_change)
@@ -160,56 +176,51 @@ class PreferencesManager(component.Component):
                 log.debug("Unable to make directory: %s", ex)
 
     def _on_set_listen_ports(self, key, value):
-        # Only set the listen ports if random_port is not true
-        if self.config["random_port"] is not True:
-            log.debug("listen port range set to %s-%s", value[0], value[1])
-        try:
-            self.session.listen_on(
-                value[0], value[1], str(self.config["listen_interface"])
-            )
-        except RuntimeError as ex:
-            log.warn("Error on call to session.listen_on(%s, %s, %s): %s",
-                     value[0], value[1], str(self.config["listen_interface"]), ex)
+        self.__set_listen_on()
 
     def _on_set_listen_interface(self, key, value):
-        # Call the random_port callback since it'll do what we need
-        self._on_set_random_port("random_port", self.config["random_port"])
+        self.__set_listen_on()
 
     def _on_set_random_port(self, key, value):
-        log.debug("random port value set to %s", value)
-        # We need to check if the value has been changed to true and false
-        # and then handle accordingly.
-        if value:
-            import random
-            listen_ports = []
+        self.__set_listen_on()
 
-            def randrange():
-                return random.randrange(49152, 65525)
-            listen_ports.append(randrange())
-            listen_ports.append(listen_ports[0] + 10)
+    def __set_listen_on(self):
+        """ Set the ports and interface address to listen for incoming connections on."""
+        if self.config["random_port"]:
+            if not self.config["listen_random_port"]:
+                self.config["listen_random_port"] = random.randrange(49152, 65525)
+            listen_ports = [self.config["listen_random_port"]] * 2  # use single port range
         else:
+            self.config["listen_random_port"] = None
             listen_ports = self.config["listen_ports"]
 
-        # Set the listen ports
-        log.info("listen port range set to %s-%s on interface '%s'", listen_ports[0],
-                 listen_ports[1], str(self.config["listen_interface"]))
+        # If a single port range then always enable re-use port flag.
+        reuse_port = True if listen_ports[0] == listen_ports[1] else self.config["listen_reuse_port"]
+        flags = ((lt.listen_on_flags_t.listen_no_system_port
+                  if not self.config["listen_use_sys_port"] else 0) |
+                 (lt.listen_on_flags_t.listen_reuse_address
+                  if reuse_port else 0))
+        interface = str(self.config["listen_interface"].strip())
+
+        log.debug("Listen Interface: %s, Ports: %s with reuse_port: %s, use_sys_port: %s",
+                  interface, listen_ports, reuse_port, self.config["listen_use_sys_port"])
         try:
-            self.session.listen_on(
-                listen_ports[0], listen_ports[1],
-                str(self.config["listen_interface"])
-            )
+            self.session.listen_on(listen_ports[0], listen_ports[1], interface, flags)
         except RuntimeError as ex:
-            log.warn("Error on call to session.listen_on(%s, %s, %s): %s",
-                     listen_ports[0], listen_ports[1], str(self.config["listen_interface"]), ex)
+            if ex.message == "Invalid Argument":
+                log.error("Error setting listen interface (must be IP Address): %s %s-%s",
+                          interface, listen_ports[0], listen_ports[1])
 
     def _on_set_outgoing_ports(self, key, value):
-        if not self.config["random_outgoing_ports"]:
-            log.debug("outgoing port range set to %s-%s", value[0], value[1])
-            self.session_set_setting("outgoing_ports", (value[0], value[1]))
+        self.__set_outgoing_ports()
 
     def _on_set_random_outgoing_ports(self, key, value):
-        if value:
-            self.session.outgoing_ports(0, 0)
+        self.__set_outgoing_ports()
+
+    def __set_outgoing_ports(self):
+        ports = [0, 0] if self.config["random_outgoing_ports"] else self.config["outgoing_ports"]
+        log.debug("Outgoing ports set to %s", ports)
+        self.session_set_setting("outgoing_ports", (ports[0], ports[1]))
 
     def _on_set_peer_tos(self, key, value):
         log.debug("setting peer_tos to: %s", value)
@@ -430,27 +441,19 @@ class PreferencesManager(component.Component):
         log.debug("%s: %s", key, value)
         self.session_set_setting("anonymous_mode", value)
 
-    def _on_set_geoip_db_location(self, key, value):
-        log.debug("%s: %s", key, value)
+    def _on_set_geoip_db_location(self, key, geoip_db):
+        log.debug("%s: %s", key, geoip_db)
         # Load the GeoIP DB for country look-ups if available
-        geoip_db = ""
-        if os.path.exists(value):
-            geoip_db = value
-        elif os.path.exists(deluge.common.resource_filename("deluge", os.path.join("data", "GeoIP.dat"))):
-            geoip_db = deluge.common.resource_filename(
-                "deluge", os.path.join("data", "GeoIP.dat")
-            )
+        deluge_geoip_db = deluge.common.resource_filename("deluge", os.path.join("data", "GeoIP.dat"))
+        for geoip_path in (geoip_db, deluge_geoip_db):
+            if os.path.exists(geoip_path):
+                try:
+                    self.core.geoip_instance = GeoIP.open(geoip_path, GeoIP.GEOIP_STANDARD)
+                except AttributeError:
+                    log.warning("GeoIP Unavailable")
+                break
         else:
-            log.warning("Unable to find GeoIP database file!")
-
-        if geoip_db:
-            try:
-                self.session.load_country_db(str(geoip_db))
-            except RuntimeError as ex:
-                log.error("Unable to load geoip database!")
-                log.exception(ex)
-            except AttributeError:
-                log.warning("GeoIP Unavailable")
+            log.warning("Unable to find GeoIP database file: %s")
 
     def _on_set_cache_size(self, key, value):
         log.debug("%s: %s", key, value)
