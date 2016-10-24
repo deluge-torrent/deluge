@@ -17,7 +17,6 @@ import sys
 import mock
 import pytest
 from twisted.internet import defer
-from twisted.logger import Logger
 
 import deluge
 import deluge.component as component
@@ -31,8 +30,6 @@ from deluge.ui.web.server import DelugeWeb
 from . import common
 from .basetest import BaseTestCase
 from .daemon_base import DaemonBase
-
-log = Logger()
 
 DEBUG_COMMAND = False
 
@@ -165,8 +162,9 @@ class GtkUIBaseTestCase(UIBaseTestCase):
 class GtkUIDelugeScriptEntryTestCase(BaseTestCase, GtkUIBaseTestCase):
 
     def __init__(self, testname):
-        BaseTestCase.__init__(self, testname)
+        super(GtkUIDelugeScriptEntryTestCase, self).__init__(testname)
         GtkUIBaseTestCase.__init__(self)
+
         self.var["cmd_name"] = "deluge gtk"
         self.var["start_cmd"] = ui_entry.start_ui
         self.var["sys_arg_cmd"] = ["./deluge", "gtk"]
@@ -182,7 +180,7 @@ class GtkUIDelugeScriptEntryTestCase(BaseTestCase, GtkUIBaseTestCase):
 class GtkUIScriptEntryTestCase(BaseTestCase, GtkUIBaseTestCase):
 
     def __init__(self, testname):
-        BaseTestCase.__init__(self, testname)
+        super(GtkUIScriptEntryTestCase, self).__init__(testname)
         GtkUIBaseTestCase.__init__(self)
         from deluge.ui import gtkui
         self.var["cmd_name"] = "deluge-gtk"
@@ -231,7 +229,7 @@ class WebUIBaseTestCase(UIBaseTestCase):
 class WebUIScriptEntryTestCase(BaseTestCase, WebUIBaseTestCase):
 
     def __init__(self, testname):
-        BaseTestCase.__init__(self, testname)
+        super(WebUIScriptEntryTestCase, self).__init__(testname)
         WebUIBaseTestCase.__init__(self)
         self.var["cmd_name"] = "deluge-web"
         self.var["start_cmd"] = deluge.ui.web.start
@@ -247,7 +245,7 @@ class WebUIScriptEntryTestCase(BaseTestCase, WebUIBaseTestCase):
 class WebUIDelugeScriptEntryTestCase(BaseTestCase, WebUIBaseTestCase):
 
     def __init__(self, testname):
-        BaseTestCase.__init__(self, testname)
+        super(WebUIDelugeScriptEntryTestCase, self).__init__(testname)
         WebUIBaseTestCase.__init__(self)
         self.var["cmd_name"] = "deluge web"
         self.var["start_cmd"] = ui_entry.start_ui
@@ -368,7 +366,7 @@ Total torrents: 0
 class ConsoleScriptEntryWithDaemonTestCase(BaseTestCase, ConsoleUIWithDaemonBaseTestCase):
 
     def __init__(self, testname):
-        BaseTestCase.__init__(self, testname)
+        super(ConsoleScriptEntryWithDaemonTestCase, self).__init__(testname)
         ConsoleUIWithDaemonBaseTestCase.__init__(self)
         self.var["cmd_name"] = "deluge-console"
         self.var["sys_arg_cmd"] = ["./deluge-console"]
@@ -391,7 +389,7 @@ class ConsoleScriptEntryWithDaemonTestCase(BaseTestCase, ConsoleUIWithDaemonBase
 class ConsoleScriptEntryTestCase(BaseTestCase, ConsoleUIBaseTestCase):
 
     def __init__(self, testname):
-        BaseTestCase.__init__(self, testname)
+        super(ConsoleScriptEntryTestCase, self).__init__(testname)
         ConsoleUIBaseTestCase.__init__(self)
         self.var["cmd_name"] = "deluge-console"
         self.var["start_cmd"] = deluge.ui.console.start
@@ -407,7 +405,7 @@ class ConsoleScriptEntryTestCase(BaseTestCase, ConsoleUIBaseTestCase):
 class ConsoleDelugeScriptEntryTestCase(BaseTestCase, ConsoleUIBaseTestCase):
 
     def __init__(self, testname):
-        BaseTestCase.__init__(self, testname)
+        super(ConsoleDelugeScriptEntryTestCase, self).__init__(testname)
         ConsoleUIBaseTestCase.__init__(self)
         self.var["cmd_name"] = "deluge console"
         self.var["start_cmd"] = ui_entry.start_ui

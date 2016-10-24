@@ -12,6 +12,7 @@ from StringIO import StringIO
 
 import twisted.web.client
 from twisted.internet import defer, reactor
+from twisted.trial.unittest import SkipTest
 from twisted.web.client import Agent, FileBodyProducer
 from twisted.web.http_headers import Headers
 
@@ -26,6 +27,7 @@ class WebServerTestCase(WebServerTestBase, WebServerMockBase):
 
     @defer.inlineCallbacks
     def test_get_torrent_info(self):
+
         agent = Agent(reactor)
 
         self.mock_authentication_ignore(self.deluge_web.auth)
@@ -42,7 +44,10 @@ class WebServerTestCase(WebServerTestBase, WebServerMockBase):
             Headers({'User-Agent': ['Twisted Web Client Example'],
                      'Content-Type': ['application/json']}),
             FileBodyProducer(StringIO('{"params": ["%s"], "method": "web.get_torrent_info", "id": 22}' % filename)))
+        try:
+            body = yield twisted.web.client.readBody(d)
+        except AttributeError:
+            raise SkipTest("This test requires 't.w.c.readBody()' in Twisted version >= 13.2")
 
-        body = yield twisted.web.client.readBody(d)
         json = json_lib.loads(body)
         self.assertEqual(None, json["error"])

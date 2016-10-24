@@ -1,4 +1,5 @@
 from twisted.internet import defer, threads
+from twisted.trial.unittest import SkipTest
 
 import deluge.component as component
 
@@ -200,7 +201,10 @@ class ComponentTestClass(BaseTestCase):
         yield component.start(["test_pause_c1"])
         yield component.pause(["test_pause_c1"])
         test_comp = component.get("test_pause_c1")
-        result = self.failureResultOf(test_comp._component_start())
+        try:
+            result = self.failureResultOf(test_comp._component_start())
+        except AttributeError:
+            raise SkipTest("This test requires trial failureResultOf() in Twisted version >= 13")
         self.assertEqual(result.check(component.ComponentException), component.ComponentException)
 
     @defer.inlineCallbacks
