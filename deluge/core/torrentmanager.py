@@ -197,7 +197,7 @@ class TorrentManager(component.Component):
             archive_file("torrents.state")
             archive_file("torrents.fastresume")
         else:
-            with file(self.temp_file, 'a'):
+            with open(self.temp_file, 'a'):
                 os.utime(self.temp_file, None)
 
         # Try to load the state from file

@@ -95,7 +95,7 @@ def make_meta_file(path, url, piece_length, progress=None, title=None, comment=N
     info = makeinfo(path, piece_length, progress, name, content_type, private)
 
     # check_info(info)
-    h = file(f, 'wb')
+    h = open(f, 'wb')
 
     data['info'] = info
     if title:
@@ -184,7 +184,7 @@ def makeinfo(path, piece_length, progress, name=None, content_type=None, private
                            'content_type': content_type})  # HEREDAVE. bad for batch!
             else:
                 fs.append({'length': size, 'path': p2})
-            h = file(f, 'rb')
+            h = open(f, 'rb')
             while pos < size:
                 a = min(size - pos, piece_length - done)
                 sh.update(h.read(a))
@@ -224,7 +224,7 @@ def makeinfo(path, piece_length, progress, name=None, content_type=None, private
 
         pieces = []
         p = 0
-        h = file(path, 'rb')
+        h = open(path, 'rb')
         while p < size:
             x = h.read(min(piece_length, size - p))
             pieces.append(sha(x).digest())
