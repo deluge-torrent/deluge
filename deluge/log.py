@@ -151,7 +151,14 @@ def setup_logger(level="error", filename=None, filemode="w", logrotate=None, twi
     )
 
     handler.setFormatter(formatter)
-    root_logger.addHandler(handler)
+
+    # Check for existing handler to prevent duplicate logging.
+    if root_logger.handlers:
+        for handle in root_logger.handlers:
+            if not isinstance(handle, type(handler)):
+                root_logger.addHandler(handler)
+    else:
+        root_logger.addHandler(handler)
     root_logger.setLevel(level)
 
     if twisted_observer:
