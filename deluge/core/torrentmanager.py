@@ -1273,9 +1273,13 @@ class TorrentManager(component.Component):
         """Alert handler for libtorrent external_ip_alert
 
         Note:
-            alert.message format is: "external IP received: 0.0.0.0"
+            The alert.message IPv4 address format is:
+                'external IP received: 0.0.0.0'
+            and IPv6 address format is:
+                'external IP received: 0:0:0:0:0:0:0:0'
         """
-        external_ip = decode_string(alert.message()).split(':')[1].strip()
+
+        external_ip = decode_string(alert.message()).split(' ')[-1]
         log.info("on_alert_external_ip: %s", external_ip)
         component.get("EventManager").emit(ExternalIPEvent(external_ip))
 
