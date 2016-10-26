@@ -506,7 +506,7 @@ class Core(component.Component):
             status_dict, plugin_keys = args
             # Ask the plugin manager to fill in the plugin keys
             if len(plugin_keys) > 0:
-                for key in status_dict:
+                for key in status_dict.keys():
                     status_dict[key].update(self.pluginmanager.get_status(key, plugin_keys))
             return status_dict
         d.addCallback(add_plugin_fields)
@@ -545,7 +545,7 @@ class Core(component.Component):
     def set_config(self, config):
         """Set the config with values from dictionary"""
         # Load all the values into the configuration
-        for key in config:
+        for key in config.keys():
             if self.read_only_config_keys and key in self.read_only_config_keys:
                 continue
             if isinstance(config[key], basestring):

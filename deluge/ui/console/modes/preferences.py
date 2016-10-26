@@ -194,7 +194,7 @@ class Preferences(BaseMode):
         if client.connected():
             # Only do this if we're connected to a daemon
             config_to_set = {}
-            for key in new_core_config:
+            for key in new_core_config.keys():
                 # The values do not match so this needs to be updated
                 if self.core_config[key] != new_core_config[key]:
                     config_to_set[key] = new_core_config[key]
@@ -214,7 +214,7 @@ class Preferences(BaseMode):
             # are ever reordered, so do it the slightly slower but safer way
             if isinstance(pane, InterfacePane) or isinstance(pane, ColumnsPane):
                 pane.add_config_values(new_console_config)
-        for key in new_console_config:
+        for key in new_console_config.keys():
             # The values do not match so this needs to be updated
             if self.console_config[key] != new_console_config[key]:
                 self.console_config[key] = new_console_config[key]

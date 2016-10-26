@@ -296,7 +296,7 @@ class PeersTab(Tab):
                 self.peers[peer["ip"]] = row
 
         # Now we need to remove any ips that were not in status["peers"] list
-        for ip in set(self.peers).difference(new_ips):
+        for ip in set(self.peers.keys()).difference(new_ips):
             self.liststore.remove(self.peers[ip])
             del self.peers[ip]
 

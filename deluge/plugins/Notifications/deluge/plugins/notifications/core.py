@@ -80,7 +80,7 @@ class CoreNotifications(CustomNotifications):
 
     def get_handled_events(self):
         handled_events = []
-        for evt in sorted(known_events):
+        for evt in sorted(known_events.keys()):
             if known_events[evt].__module__.startswith('deluge.event'):
                 if evt not in ('TorrentFinishedEvent',):
                     # Skip all un-handled built-in events
@@ -204,7 +204,7 @@ class Core(CorePluginBase, CoreNotifications):
     @export
     def set_config(self, config):
         "sets the config dictionary"
-        for key in config:
+        for key in config.keys():
             self.config[key] = config[key]
         self.config.save()
 

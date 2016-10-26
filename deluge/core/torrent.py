@@ -940,7 +940,7 @@ class Torrent(object):
             self.update_status(self.handle.status())
 
         if all_keys:
-            keys = list(self.status_funcs)
+            keys = self.status_funcs.keys()
 
         status_dict = {}
 
@@ -1360,7 +1360,7 @@ class Torrent(object):
 
         If the key is no longer valid, the dict will be deleted.
         """
-        for key in self.prev_status:
+        for key in self.prev_status.keys():
             if not self.rpcserver.is_session_valid(key):
                 del self.prev_status[key]
 

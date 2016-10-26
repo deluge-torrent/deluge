@@ -413,7 +413,7 @@ class MenuBar(component.Component):
             "menuitem_max_connections": client.core.set_torrent_max_connections,
             "menuitem_upload_slots": client.core.set_torrent_max_upload_slots
         }
-        if widget.name in funcs:
+        if widget.name in funcs.keys():
             for torrent in component.get("TorrentView").get_selected_torrents():
                 funcs[widget.name](torrent, -1)
 

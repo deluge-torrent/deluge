@@ -303,7 +303,7 @@ class ListView(object):
 
     def get_state_field_column(self, field):
         """Returns the column number for the state field"""
-        for column in self.columns:
+        for column in self.columns.keys():
             if self.columns[column].status_field is None:
                 continue
 

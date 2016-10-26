@@ -172,7 +172,7 @@ class OptionsDialog(object):
         self.dialog.run()
 
     def load_options(self, options):
-        log.debug(list(options))
+        log.debug(options.keys())
 
         for spin_id in self.spin_ids + self.spin_int_ids:
             self.glade.get_widget(spin_id).set_value(options[spin_id])

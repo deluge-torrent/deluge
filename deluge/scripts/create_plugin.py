@@ -132,7 +132,7 @@ class Core(CorePluginBase):
     @export
     def set_config(self, config):
         \"\"\"Sets the config dictionary\"\"\"
-        for key in config:
+        for key in config.keys():
             self.config[key] = config[key]
         self.config.save()
 

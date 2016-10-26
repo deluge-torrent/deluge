@@ -74,7 +74,7 @@ class PluginManagerBase(object):
 
     def disable_plugins(self):
         # Disable all plugins that are enabled
-        for key in self.plugins:
+        for key in self.plugins.keys():
             self.disable_plugin(key)
 
     def __getitem__(self, key):
@@ -86,7 +86,7 @@ class PluginManagerBase(object):
 
     def get_enabled_plugins(self):
         """Returns a list of enabled plugins"""
-        return list(self.plugins)
+        return self.plugins.keys()
 
     def scan_for_plugins(self):
         """Scans for available plugins"""
@@ -243,14 +243,14 @@ class PluginManagerBase(object):
         for line in self.pkg_env[name][0].get_metadata("PKG-INFO").splitlines():
             if not line:
                 continue
-            if line[0] in ' \t' and (len(line.split(":", 1)) == 1 or line.split(":", 1)[0] not in info):
+            if line[0] in ' \t' and (len(line.split(":", 1)) == 1 or line.split(":", 1)[0] not in info.keys()):
                 # This is a continuation
                 cont_lines.append(line.strip())
             else:
                 if cont_lines:
                     info[last_header] = "\n".join(cont_lines).strip()
                     cont_lines = []
-                if line.split(":", 1)[0] in info:
+                if line.split(":", 1)[0] in info.keys():
                     last_header = line.split(":", 1)[0]
                     info[last_header] = line.split(":", 1)[1].strip()
         return info

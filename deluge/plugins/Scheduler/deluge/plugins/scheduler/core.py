@@ -146,7 +146,7 @@ class Core(CorePluginBase):
     @export()
     def set_config(self, config):
         "sets the config dictionary"
-        for key in config:
+        for key in config.keys():
             self.config[key] = config[key]
         self.config.save()
         self.do_schedule(False)

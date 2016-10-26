@@ -175,7 +175,7 @@ class RPCRaiseDelugeErrorJSONTestCase(JSONBase):
         self.assertTrue("testclass.test" in methods)
 
         request = MagicMock()
-        request.getCookie = MagicMock(return_value=list(auth.config["sessions"])[0])
+        request.getCookie = MagicMock(return_value=auth.config["sessions"].keys()[0])
         json_data = {"method": "testclass.test", "id": 0, "params": []}
         request.json = json_lib.dumps(json_data)
         request_id, result, error = json._handle_request(request)

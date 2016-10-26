@@ -58,7 +58,7 @@ class PathChoosersHandler(component.Component):
             self.config_properties.update(config)
             for chooser in self.path_choosers:
                 chooser.set_config(config)
-        keys = list(self.config_keys_to_funcs_mapping)
+        keys = self.config_keys_to_funcs_mapping.keys()
         keys += self.paths_list_keys
         client.core.get_config_values(keys).addCallback(_on_config_values)
 
@@ -107,7 +107,7 @@ class PathChoosersHandler(component.Component):
                 chooser.set_values(values)
 
     def get_config_keys(self):
-        keys = list(self.config_keys_to_funcs_mapping)
+        keys = self.config_keys_to_funcs_mapping.keys()
         keys += self.paths_list_keys
         return keys
 

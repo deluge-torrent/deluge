@@ -298,7 +298,7 @@ class ComponentRegistry(object):
         """
         # Start all the components if names is empty
         if not names:
-            names = list(self.components)
+            names = self.components.keys()
         elif isinstance(names, str):
             names = [names]
 
@@ -332,7 +332,7 @@ class ComponentRegistry(object):
 
         """
         if not names:
-            names = list(self.components)
+            names = self.components.keys()
         elif isinstance(names, str):
             names = [names]
 
@@ -370,7 +370,7 @@ class ComponentRegistry(object):
 
         """
         if not names:
-            names = list(self.components)
+            names = self.components.keys()
         elif isinstance(names, str):
             names = [names]
 
@@ -396,7 +396,7 @@ class ComponentRegistry(object):
 
         """
         if not names:
-            names = list(self.components)
+            names = self.components.keys()
         elif isinstance(names, str):
             names = [names]
 
@@ -421,7 +421,7 @@ class ComponentRegistry(object):
         def on_stopped(result):
             return DeferredList([comp._component_shutdown() for comp in self.components.values()])
 
-        return self.stop(list(self.components)).addCallback(on_stopped)
+        return self.stop(self.components.keys()).addCallback(on_stopped)
 
     def update(self):
         """Update all Components that are in a Started state."""

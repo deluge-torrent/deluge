@@ -61,8 +61,9 @@ def generate():
     """
     Return the generated output.
     """
+    keys = MESSAGES.keys()
     # the keys are sorted in the .mo file
-    keys = sorted(MESSAGES)
+    keys.sort()
     offsets = []
     ids = strs = ''
     for _id in keys:

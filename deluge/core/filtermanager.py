@@ -169,7 +169,7 @@ class FilterManager(component.Component):
         if not filter_dict:
             return torrent_ids
 
-        torrent_keys, plugin_keys = self.torrents.separate_keys(list(filter_dict), torrent_ids)
+        torrent_keys, plugin_keys = self.torrents.separate_keys(filter_dict.keys(), torrent_ids)
         # Leftover filter arguments, default filter on status fields.
         for torrent_id in list(torrent_ids):
             status = self.core.create_torrent_status(torrent_id, torrent_keys, plugin_keys)
@@ -186,7 +186,7 @@ class FilterManager(component.Component):
         for use in sidebar.
         """
         torrent_ids = self.torrents.get_torrent_list()
-        tree_keys = list(self.tree_fields)
+        tree_keys = list(self.tree_fields.keys())
         if hide_cat:
             for cat in hide_cat:
                 tree_keys.remove(cat)

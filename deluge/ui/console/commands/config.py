@@ -83,8 +83,9 @@ class Command(BaseCommand):
 
     def _get_config(self, options):
         def _on_get_config(config):
+            keys = sorted(config.keys())
             s = ""
-            for key in sorted(config):
+            for key in keys:
                 if key not in options.values:
                     continue
                 color = "{!white,black,bold!}"
@@ -119,7 +120,7 @@ class Command(BaseCommand):
             self.console.write("{!error!}%s" % ex)
             return
 
-        if key not in config:
+        if key not in config.keys():
             self.console.write("{!error!}The key '%s' is invalid!" % key)
             return
 
@@ -137,4 +138,4 @@ class Command(BaseCommand):
         return client.core.set_config({key: val}).addCallback(on_set_config)
 
     def complete(self, text):
-        return [k for k in component.get("CoreConfig") if k.startswith(text)]
+        return [k for k in component.get("CoreConfig").keys() if k.startswith(text)]

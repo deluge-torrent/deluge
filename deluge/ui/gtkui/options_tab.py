@@ -112,7 +112,7 @@ class OptionsTab(Tab):
         # We only want to update values that have been applied in the core.  This
         # is so we don't overwrite the user changes that haven't been applied yet.
         if self.prev_status is None:
-            self.prev_status = {}.fromkeys(list(status), None)
+            self.prev_status = {}.fromkeys(status.keys(), None)
 
         if status != self.prev_status:
             if status["max_download_speed"] != self.prev_status["max_download_speed"]:

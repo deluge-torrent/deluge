@@ -170,7 +170,7 @@ class Core(CorePluginBase):
 
         """
         needs_blocklist_import = False
-        for key in config:
+        for key in config.keys():
             if key == 'whitelisted':
                 saved = set(self.config[key])
                 update = set(config[key])
