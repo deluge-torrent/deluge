@@ -125,7 +125,7 @@ class Config(object):
         self._save_timer = None
 
         if defaults:
-            for key, value in defaults.items():
+            for key, value in defaults.iteritems():
                 self.set_item(key, value)
 
         # Load the config from file in the config_dir
@@ -363,7 +363,7 @@ what is currently in the config and it could not convert the value
 
         """
         log.debug("Calling all set functions..")
-        for key, value in self.__set_functions.items():
+        for key, value in self.__set_functions.iteritems():
             for func in value:
                 func(key, self.__config[key])
 

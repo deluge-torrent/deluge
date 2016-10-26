@@ -118,7 +118,7 @@ class ListView(object):
 
         def set_col_attributes(self, renderer, add=True, **kw):
             if add is True:
-                for attr, value in kw.items():
+                for attr, value in kw.iteritems():
                     self.add_attribute(renderer, attr, value)
             else:
                 self.set_attributes(renderer, **kw)

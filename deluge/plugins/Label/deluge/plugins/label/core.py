@@ -118,7 +118,7 @@ class Core(CorePluginBase):
         log.debug("post_torrent_add")
         torrent = self.torrents[torrent_id]
 
-        for label_id, options in self.labels.items():
+        for label_id, options in self.labels.iteritems():
             if options["auto_add"]:
                 if self._has_auto_match(torrent, options):
                     self.set_torrent(torrent_id, label_id)
@@ -132,7 +132,7 @@ class Core(CorePluginBase):
     # Utils #
     def clean_config(self):
         """remove invalid data from config-file"""
-        for torrent_id, label_id in list(self.torrent_labels.items()):
+        for torrent_id, label_id in list(self.torrent_labels.iteritems()):
             if (label_id not in self.labels) or (torrent_id not in self.torrents):
                 log.debug("label: rm %s:%s", torrent_id, label_id)
                 del self.torrent_labels[torrent_id]
@@ -266,14 +266,14 @@ class Core(CorePluginBase):
         self.labels[label_id].update(options_dict)
 
         # apply
-        for torrent_id, label in self.torrent_labels.items():
+        for torrent_id, label in self.torrent_labels.iteritems():
             if label_id == label and torrent_id in self.torrents:
                 self._set_torrent_options(torrent_id, label_id)
 
         # auto add
         options = self.labels[label_id]
         if options["auto_add"]:
-            for torrent_id, torrent in self.torrents.items():
+            for torrent_id, torrent in self.torrents.iteritems():
                 if self._has_auto_match(torrent, options):
                     self.set_torrent(torrent_id, label_id)
 

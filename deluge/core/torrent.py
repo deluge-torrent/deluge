@@ -160,7 +160,7 @@ class TorrentOptions(dict):
             "super_seeding": "super_seeding",
             "priority": "priority",
         }
-        for opt_k, conf_k in options_conf_map.items():
+        for opt_k, conf_k in options_conf_map.iteritems():
             self[opt_k] = config[conf_k]
         self["file_priorities"] = []
         self["mapped_files"] = {}
@@ -1323,7 +1323,7 @@ class Torrent(object):
             torrent.waiting_on_folder_rename = [_dir for _dir in torrent.waiting_on_folder_rename if _dir]
             component.get("TorrentManager").save_resume_data((self.torrent_id,))
 
-        d = DeferredList(list(wait_on_folder.values()))
+        d = DeferredList(wait_on_folder.values())
         d.addBoth(on_folder_rename_complete, self, folder, new_folder)
         return d
 

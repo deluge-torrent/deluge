@@ -178,7 +178,7 @@ class SessionProxy(component.Component):
         def on_status(result, torrent_ids, keys):
             # Update the internal torrent status dict with the update values
             t = time()
-            for key, value in result.items():
+            for key, value in result.iteritems():
                 try:
                     self.torrents[key][0] = t
                     self.torrents[key][1].update(value)

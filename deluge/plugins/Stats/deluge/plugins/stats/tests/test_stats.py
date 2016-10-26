@@ -18,7 +18,7 @@ from deluge.ui.client import client
 
 
 def print_totals(totals):
-    for name, value in totals.items():
+    for name, value in totals.iteritems():
         print(name, fsize(value))
 
     print("overhead:")

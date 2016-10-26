@@ -245,7 +245,7 @@ class Graph(object):
             self.draw_y_text(y_tick_text[i], left, y)
         self.draw_line(gray, left, top, left, bottom)
 
-        for stat, info in stats.items():
+        for stat, info in stats.iteritems():
             if len(info['values']) > 0:
                 self.draw_value_poly(info['values'], info['color'], max_value, bounds)
                 self.draw_value_poly(info['values'], info['fill_color'], max_value, bounds, info['fill'])

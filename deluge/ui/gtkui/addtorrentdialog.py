@@ -302,7 +302,7 @@ class AddTorrentDialog(component.Component):
 
     def add_files(self, parent_iter, split_files):
         ret = 0
-        for key, value in split_files.items():
+        for key, value in split_files.iteritems():
             if key.endswith(os.path.sep):
                 chunk_iter = self.files_treestore.append(
                     parent_iter, [True, key, 0, -1, False, gtk.STOCK_DIRECTORY])

@@ -99,7 +99,7 @@ class Core(CorePluginBase):
 
     def enable_looping(self):
         # Enable all looping calls for enabled watchdirs here
-        for watchdir_id, watchdir in self.watchdirs.items():
+        for watchdir_id, watchdir in self.watchdirs.iteritems():
             if watchdir["enabled"]:
                 self.enable_watchdir(watchdir_id)
 
@@ -108,7 +108,7 @@ class Core(CorePluginBase):
         component.get("EventManager").deregister_event_handler(
             "PreTorrentRemovedEvent", self.__on_pre_torrent_removed
         )
-        for loopingcall in self.update_timers.values():
+        for loopingcall in self.update_timers.itervalues():
             loopingcall.stop()
         self.config.save()
 
@@ -128,7 +128,7 @@ class Core(CorePluginBase):
             check_input(
                 os.path.isdir(options["abspath"]), _("Path does not exist.")
             )
-            for w_id, w in self.watchdirs.items():
+            for w_id, w in self.watchdirs.iteritems():
                 if options["abspath"] == w["abspath"] and watchdir_id != w_id:
                     raise Exception("Path is already being watched.")
         for key in options:
@@ -223,7 +223,7 @@ class Core(CorePluginBase):
             watchdir["stop_ratio_toggle"] = watchdir["stop_at_ratio_toggle"]
         # We default to True when reading _toggle values, so a config
         # without them is valid, and applies all its settings.
-        for option, value in watchdir.items():
+        for option, value in watchdir.iteritems():
             if OPTIONS_AVAILABLE.get(option):
                 if watchdir.get(option + "_toggle", True) or option in ["owner", "seed_mode"]:
                     opts[option] = value
@@ -381,7 +381,7 @@ class Core(CorePluginBase):
             return self.watchdirs
 
         watchdirs = {}
-        for watchdir_id, watchdir in self.watchdirs.items():
+        for watchdir_id, watchdir in self.watchdirs.iteritems():
             if watchdir.get("owner", "localclient") == session_user:
                 watchdirs[watchdir_id] = watchdir
 
@@ -409,7 +409,7 @@ class Core(CorePluginBase):
             os.access(abswatchdir, os.R_OK | os.W_OK),
             "You must have read and write access to watch folder."
         )
-        if abswatchdir in [wd["abspath"] for wd in self.watchdirs.values()]:
+        if abswatchdir in [wd["abspath"] for wd in self.watchdirs.itervalues()]:
             raise Exception("Path is already being watched.")
         options.setdefault("enabled", False)
         options["abspath"] = abswatchdir
@@ -447,7 +447,7 @@ class Core(CorePluginBase):
                         torrent_id)
             return
         torrent_fname = torrent.filename
-        for watchdir in self.watchdirs.values():
+        for watchdir in self.watchdirs.itervalues():
             if not watchdir.get("copy_torrent_toggle", False):
                 # This watchlist does copy torrents
                 continue
