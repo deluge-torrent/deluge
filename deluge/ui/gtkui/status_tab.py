@@ -25,11 +25,7 @@ def ftotal_sized(first, second):
 
 
 def fratio(value):
-    if value < 0:
-        return "∞"
-    elif value == 0:
-        return "0"
-    return "%.3f" % value
+    return ("%.3f" % value).rstrip('0').rstrip('.') if value > 0 else "∞"
 
 
 def fpcnt(value, state):
@@ -41,34 +37,40 @@ def fpcnt(value, state):
 
 def fspeed_max(value, max_value=-1):
     value = fspeed(value, shortform=True)
-    if max_value > -1:
-        return "%s (%s %s)" % (value, max_value, _("K/s"))
-    else:
-        return value
+    return "%s (%s %s)" % (value, max_value, _("K/s")) if max_value > -1 else value
 
 
 def fdate_or_never(value):
     """Display value as date, eg 05/05/08 or Never"""
-    if value > 0.0:
-        return fdate(value)
-    else:
-        return "Never"
+    return fdate(value, date_only=True) if value > 0 else _("Never")
 
 
 def ftime_or_dash(value):
     """Display value as time, eg 2h 30m or dash"""
-    if value > 0.0:
-        return ftime(value)
-    else:
-        return "-"
+    return ftime(value) if value > 0 else "-"
 
 
 def fseed_rank_or_dash(seed_rank, seeding_time):
     """Display value if seeding otherwise dash"""
-    if seeding_time > 0.0:
-        return str(seed_rank)
+
+    if seeding_time > 0:
+        if seed_rank >= 1000:
+            return "%ik" % (seed_rank // 1000)
+        else:
+            return str(seed_rank)
     else:
         return "-"
+
+
+def flast_active(time_since_download, time_since_upload):
+    """The last time the torrent was active as time e.g. 2h 30m or dash"""
+
+    try:
+        last_time_since = min((x for x in (time_since_download, time_since_upload) if x != -1))
+    except ValueError:
+        return "-"
+    else:
+        return ftime(last_time_since)
 
 
 class StatusTab(Tab):
@@ -100,6 +102,8 @@ class StatusTab(Tab):
             (builder.get_object("summary_seed_rank"), fseed_rank_or_dash, ("seed_rank", "seeding_time")),
             (builder.get_object("progressbar"), fpcnt, ("progress", "state")),
             (builder.get_object("summary_last_seen_complete"), fdate_or_never, ("last_seen_complete",)),
+            (builder.get_object("summary_last_active"), flast_active, ("time_since_download",
+                                                                       "time_since_upload")),
             (builder.get_object("summary_torrent_status"), str, ("message",)),
         ]
 
