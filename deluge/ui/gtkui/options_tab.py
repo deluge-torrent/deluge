@@ -56,8 +56,7 @@ class OptionsTab(Tab):
             "on_chk_stop_at_ratio_toggled": self._on_chk_stop_at_ratio_toggled,
             "on_chk_toggled": self._on_chk_toggled,
             "on_spin_value_changed": self._on_spin_value_changed,
-            "on_move_completed_file_set": self._on_move_completed_file_set,
-            "on_button_owner_clicked": self._on_button_owner_clicked,
+            "on_move_completed_file_set": self._on_move_completed_file_set
         })
 
         self.spin_max_download.connect("key-press-event", self._on_key_press_event)
@@ -246,7 +245,3 @@ class OptionsTab(Tab):
 
     def _on_path_chooser_text_changed_event(self, widget, path):
         self.button_apply.set_sensitive(True)
-
-    def _on_button_owner_clicked(self, button):
-
-        pass
