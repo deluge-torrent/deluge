@@ -252,9 +252,9 @@ def download_file(url, filename, callback=None, headers=None, force_filename=Fal
                                     allow_compression=allow_compression)
             result.addCallbacks(on_download_success, on_download_fail)
         else:
-            # Log the error and pass the failure to the caller
-            log.error("Error occurred downloading torrent from '%s': %s",
-                      url, failure.getErrorMessage())
+            # Log the failure and pass to the caller
+            log.warning("Error occurred downloading file from '%s': %s",
+                        url, failure.getErrorMessage())
             result = failure
         return result
 
