@@ -28,10 +28,12 @@ def fratio(value):
     return ("%.3f" % value).rstrip('0').rstrip('.') if value > 0 else "∞"
 
 
-def fpcnt(value, state):
+def fpcnt(value, state, message):
     textstr = _(state)
     if state not in ("Error", "Seeding") and value < 100:
         textstr = ('%s %.2f' % (textstr, value)).rstrip('0').rstrip('.') + '%'
+    elif state == "Error":
+        textstr = _("%s: %s") % (textstr, message)
     return textstr
 
 
@@ -100,11 +102,10 @@ class StatusTab(Tab):
             (builder.get_object("summary_active_time"), ftime_or_dash, ("active_time",)),
             (builder.get_object("summary_seed_time"), ftime_or_dash, ("seeding_time",)),
             (builder.get_object("summary_seed_rank"), fseed_rank_or_dash, ("seed_rank", "seeding_time")),
-            (builder.get_object("progressbar"), fpcnt, ("progress", "state")),
+            (builder.get_object("progressbar"), fpcnt, ("progress", "state", "message")),
             (builder.get_object("summary_last_seen_complete"), fdate_or_never, ("last_seen_complete",)),
             (builder.get_object("summary_last_active"), flast_active, ("time_since_download",
                                                                        "time_since_upload")),
-            (builder.get_object("summary_torrent_status"), str, ("message",)),
         ]
 
         self.status_keys = [status for widget in self.label_widgets for status in widget[2]]

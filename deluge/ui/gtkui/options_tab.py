@@ -38,6 +38,7 @@ class OptionsTab(Tab):
         self.entry_move_completed = builder.get_object("entry_move_completed")
         self.chk_shared = builder.get_object("chk_shared")
         self.button_apply = builder.get_object("button_apply")
+        self.summary_owner = builder.get_object("summary_owner")
 
         self.move_completed_hbox = builder.get_object("hbox_move_completed_path_chooser")
         self.move_completed_path_chooser = PathChooser("move_completed_paths_list")
@@ -55,7 +56,8 @@ class OptionsTab(Tab):
             "on_chk_stop_at_ratio_toggled": self._on_chk_stop_at_ratio_toggled,
             "on_chk_toggled": self._on_chk_toggled,
             "on_spin_value_changed": self._on_spin_value_changed,
-            "on_move_completed_file_set": self._on_move_completed_file_set
+            "on_move_completed_file_set": self._on_move_completed_file_set,
+            "on_button_owner_clicked": self._on_button_owner_clicked,
         })
 
         self.spin_max_download.connect("key-press-event", self._on_key_press_event)
@@ -100,7 +102,8 @@ class OptionsTab(Tab):
             "sequential_download",
             "move_on_completed",
             "move_on_completed_path",
-            "shared"
+            "shared",
+            "owner"
         ]).addCallback(self._on_get_torrent_status)
         self.prev_torrent_id = torrent_id
 
@@ -142,6 +145,8 @@ class OptionsTab(Tab):
                                                           cursor_end=False, default_text=True)
             if status["shared"] != self.prev_status["shared"]:
                 self.chk_shared.set_active(status["shared"])
+            if status["owner"] != self.prev_status["owner"]:
+                self.summary_owner.set_text(status["owner"])
 
             if status["storage_mode"] == "compact":
                 self.chk_prioritize_first_last.set_sensitive(False)
@@ -241,3 +246,7 @@ class OptionsTab(Tab):
 
     def _on_path_chooser_text_changed_event(self, widget, path):
         self.button_apply.set_sensitive(True)
+
+    def _on_button_owner_clicked(self, button):
+
+        pass

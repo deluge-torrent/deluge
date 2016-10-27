@@ -26,6 +26,11 @@ def ftranslate(text):
     return text
 
 
+def str_yes_no(value):
+    """Return Yes or No to bool value"""
+    return _("Yes") if value else _("No")
+
+
 class TrackersTab(Tab):
     def __init__(self):
         Tab.__init__(self)
@@ -42,6 +47,7 @@ class TrackersTab(Tab):
             (builder.get_object("summary_tracker"), None, ("tracker_host",)),
             (builder.get_object("summary_tracker_status"), ftranslate, ("tracker_status",)),
             (builder.get_object("summary_tracker_total"), fcount, ("trackers",)),
+            (builder.get_object("summary_private"), str_yes_no, ("private",)),
         ]
 
         self.status_keys = [status for widget in self.label_widgets for status in widget[2]]

@@ -17,6 +17,7 @@ import pango
 import pangocairo
 from cairo import FORMAT_ARGB32, Context, ImageSurface
 
+import deluge.ui.gtkui.status_tab
 from deluge.configmanager import ConfigManager
 
 log = logging.getLogger(__name__)
@@ -46,6 +47,7 @@ class PiecesBar(gtk.DrawingArea):
         self.__pieces = self.__old_pieces = ()
         self.__num_pieces = self.__old_num_pieces = None
         self.__text = self.__old_text = ""
+        self.__message = self.__old_message = ""
         self.__fraction = self.__old_fraction = 0.0
         self.__state = self.__old_state = None
         self.__progress_overlay = self.__text_overlay = self.__pieces_overlay = None
@@ -165,17 +167,11 @@ class PiecesBar(gtk.DrawingArea):
             pl.set_font_description(self.__text_font)
             pl.set_width(-1)    # No text wrapping
 
-            text = ""
             if self.__text:
-                text += self.__text
+                text = self.__text
             else:
-                if self.__state:
-                    text += _(self.__state) + " "
-                if self.__fraction == 1.0:
-                    fraction_format = "%d%%"
-                else:
-                    fraction_format = "%.2f%%"
-                text += fraction_format % (self.__fraction * 100)
+                text = deluge.ui.gtkui.status_tab.fpcnt(self.__fraction, self.__state, self.__message)
+
             log.trace("PiecesBar text %r", text)
             pl.set_text(text)
             plsize = pl.get_size()
@@ -208,6 +204,13 @@ class PiecesBar(gtk.DrawingArea):
         self.__old_text = self.__text
         self.__text = text
 
+    def get_status_message(self):
+        return self.__text
+
+    def set_status_message(self, message):
+        self.__old_message = self.__message
+        self.__message = message
+
     def set_pieces(self, pieces, num_pieces):
         self.__old_pieces = self.__pieces
         self.__pieces = pieces
@@ -234,6 +237,7 @@ class PiecesBar(gtk.DrawingArea):
             return
 
         self.set_pieces(status['pieces'], status['num_pieces'])
+        self.set_status_message(status['message'])
         self.update()
 
     def clear(self):

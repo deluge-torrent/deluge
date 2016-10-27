@@ -29,11 +29,6 @@ def fdate_or_dash(value):
         return "-"
 
 
-def str_yes_no(value):
-    """Return Yes or No to bool value"""
-    return _("Yes") if value else _("No")
-
-
 class DetailsTab(Tab):
     def __init__(self):
         Tab.__init__(self)
@@ -51,12 +46,9 @@ class DetailsTab(Tab):
             (builder.get_object("summary_num_files"), str, ("num_files",)),
             (builder.get_object("summary_completed"), fdate_or_dash, ("completed_time",)),
             (builder.get_object("summary_date_added"), fdate, ("time_added",)),
-            (builder.get_object("summary_private"), str_yes_no, ("private",)),
             (builder.get_object("summary_torrent_path"), None, ("download_location",)),
             (builder.get_object("summary_hash"), str, ("hash",)),
             (builder.get_object("summary_comments"), str, ("comment",)),
-            (builder.get_object("summary_owner"), str, ("owner",)),
-            (builder.get_object("summary_shared"), str_yes_no, ("shared",)),
             (builder.get_object("summary_pieces"), fpieces_num_size, ("num_pieces", "piece_length")),
         ]
 
