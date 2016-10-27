@@ -17,8 +17,8 @@ import pango
 import pangocairo
 from cairo import FORMAT_ARGB32, Context, ImageSurface
 
-import deluge.ui.gtkui.status_tab
 from deluge.configmanager import ConfigManager
+from deluge.ui.gtkui.tab_data_funcs import fpcnt
 
 log = logging.getLogger(__name__)
 
@@ -170,7 +170,7 @@ class PiecesBar(gtk.DrawingArea):
             if self.__text:
                 text = self.__text
             else:
-                text = deluge.ui.gtkui.status_tab.fpcnt(self.__fraction, self.__state, self.__message)
+                text = fpcnt(self.__fraction, self.__state, self.__message)
 
             log.trace("PiecesBar text %r", text)
             pl.set_text(text)

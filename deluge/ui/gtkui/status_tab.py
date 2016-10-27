@@ -12,67 +12,14 @@ from __future__ import division
 import logging
 
 import deluge.component as component
-from deluge.common import fdate, fpeer, fsize, fspeed, ftime
+from deluge.common import fpeer
 from deluge.configmanager import ConfigManager
 from deluge.ui.gtkui.piecesbar import PiecesBar
+from deluge.ui.gtkui.tab_data_funcs import (fdate_or_never, flast_active, fpcnt, fratio, fseed_rank_or_dash, fspeed_max,
+                                            ftime_or_dash, ftotal_sized)
 from deluge.ui.gtkui.torrentdetails import Tab
 
 log = logging.getLogger(__name__)
-
-
-def ftotal_sized(first, second):
-    return "%s (%s)" % (fsize(first, shortform=True), fsize(second, shortform=True))
-
-
-def fratio(value):
-    return ("%.3f" % value).rstrip('0').rstrip('.') if value > 0 else "∞"
-
-
-def fpcnt(value, state, message):
-    textstr = _(state)
-    if state not in ("Error", "Seeding") and value < 100:
-        textstr = ('%s %.2f' % (textstr, value)).rstrip('0').rstrip('.') + '%'
-    elif state == "Error":
-        textstr = _("%s: %s") % (textstr, message)
-    return textstr
-
-
-def fspeed_max(value, max_value=-1):
-    value = fspeed(value, shortform=True)
-    return "%s (%s %s)" % (value, max_value, _("K/s")) if max_value > -1 else value
-
-
-def fdate_or_never(value):
-    """Display value as date, eg 05/05/08 or Never"""
-    return fdate(value, date_only=True) if value > 0 else _("Never")
-
-
-def ftime_or_dash(value):
-    """Display value as time, eg 2h 30m or dash"""
-    return ftime(value) if value > 0 else "-"
-
-
-def fseed_rank_or_dash(seed_rank, seeding_time):
-    """Display value if seeding otherwise dash"""
-
-    if seeding_time > 0:
-        if seed_rank >= 1000:
-            return "%ik" % (seed_rank // 1000)
-        else:
-            return str(seed_rank)
-    else:
-        return "-"
-
-
-def flast_active(time_since_download, time_since_upload):
-    """The last time the torrent was active as time e.g. 2h 30m or dash"""
-
-    try:
-        last_time_since = min((x for x in (time_since_download, time_since_upload) if x != -1))
-    except ValueError:
-        return "-"
-    else:
-        return ftime(last_time_since)
 
 
 class StatusTab(Tab):

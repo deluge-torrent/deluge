@@ -11,24 +11,10 @@ import logging
 
 import deluge.component as component
 from deluge.common import ftime
+from deluge.ui.gtkui.tab_data_funcs import fcount, ftranslate, fyes_no
 from deluge.ui.gtkui.torrentdetails import Tab
 
 log = logging.getLogger(__name__)
-
-
-def fcount(value):
-    return "%s" % len(value)
-
-
-def ftranslate(text):
-    if text:
-        text = _(text)
-    return text
-
-
-def str_yes_no(value):
-    """Return Yes or No to bool value"""
-    return _("Yes") if value else _("No")
 
 
 class TrackersTab(Tab):
@@ -47,7 +33,7 @@ class TrackersTab(Tab):
             (builder.get_object("summary_tracker"), None, ("tracker_host",)),
             (builder.get_object("summary_tracker_status"), ftranslate, ("tracker_status",)),
             (builder.get_object("summary_tracker_total"), fcount, ("trackers",)),
-            (builder.get_object("summary_private"), str_yes_no, ("private",)),
+            (builder.get_object("summary_private"), fyes_no, ("private",)),
         ]
 
         self.status_keys = [status for widget in self.label_widgets for status in widget[2]]

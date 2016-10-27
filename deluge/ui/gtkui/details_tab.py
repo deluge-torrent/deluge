@@ -12,21 +12,10 @@ from xml.sax.saxutils import escape as xml_escape
 
 import deluge.component as component
 from deluge.common import fdate, fsize, is_url
+from deluge.ui.gtkui.tab_data_funcs import fdate_or_dash, fpieces_num_size
 from deluge.ui.gtkui.torrentdetails import Tab
 
 log = logging.getLogger(__name__)
-
-
-def fpieces_num_size(num_pieces, piece_size):
-    return "%s (%s)" % (num_pieces, fsize(piece_size, precision=0))
-
-
-def fdate_or_dash(value):
-    """Display value as date, eg 05/05/08 or dash"""
-    if value > 0.0:
-        return fdate(value)
-    else:
-        return "-"
 
 
 class DetailsTab(Tab):
