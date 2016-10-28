@@ -147,22 +147,14 @@ class OptionsTab(Tab):
             if status["owner"] != self.prev_status["owner"]:
                 self.summary_owner.set_text(status["owner"])
 
-            if status["storage_mode"] == "compact":
-                self.chk_prioritize_first_last.set_sensitive(False)
-                if self.chk_sequential_download.get_property("visible"):
-                    self.chk_prioritize_first_last.hide()
-                self.chk_sequential_download.set_sensitive(False)
-                if self.chk_sequential_download.get_property("visible"):
-                    self.chk_sequential_download.hide()
-            else:
-                if status["prioritize_first_last"] != self.prev_status["prioritize_first_last"]:
-                    self.chk_prioritize_first_last.set_active(status["prioritize_first_last"])
-                    if not self.chk_prioritize_first_last.get_property("visible"):
-                        self.chk_prioritize_first_last.show()
-                if status["sequential_download"] != self.prev_status["sequential_download"]:
-                    self.chk_sequential_download.set_active(status["sequential_download"])
-                    if not self.chk_sequential_download.get_property("visible"):
-                        self.chk_sequential_download.show()
+            if status["prioritize_first_last"] != self.prev_status["prioritize_first_last"]:
+                self.chk_prioritize_first_last.set_active(status["prioritize_first_last"])
+                if not self.chk_prioritize_first_last.get_property("visible"):
+                    self.chk_prioritize_first_last.show()
+            if status["sequential_download"] != self.prev_status["sequential_download"]:
+                self.chk_sequential_download.set_active(status["sequential_download"])
+                if not self.chk_sequential_download.get_property("visible"):
+                    self.chk_sequential_download.show()
 
             if self.button_apply.is_sensitive():
                 self.button_apply.set_sensitive(False)
@@ -180,12 +172,10 @@ class OptionsTab(Tab):
         if self.spin_max_upload_slots.get_value_as_int() != self.prev_status["max_upload_slots"]:
             client.core.set_torrent_max_upload_slots(
                 self.prev_torrent_id, self.spin_max_upload_slots.get_value_as_int())
-        if (self.chk_prioritize_first_last.get_active() !=
-                self.prev_status["prioritize_first_last"] and self.prev_status["storage_mode"] != "compact"):
+        if (self.chk_prioritize_first_last.get_active() != self.prev_status["prioritize_first_last"]):
             client.core.set_torrent_prioritize_first_last(
                 self.prev_torrent_id, self.chk_prioritize_first_last.get_active())
-        if (self.chk_sequential_download.get_active() !=
-                self.prev_status["sequential_download"] and self.prev_status["storage_mode"] != "compact"):
+        if (self.chk_sequential_download.get_active() != self.prev_status["sequential_download"]):
             client.core.set_torrent_options(
                 [self.prev_torrent_id], {"sequential_download": self.chk_sequential_download.get_active()})
         if self.chk_auto_managed.get_active() != self.prev_status["is_auto_managed"]:

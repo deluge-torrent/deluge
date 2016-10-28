@@ -382,9 +382,6 @@ class Torrent(object):
             return None, None
         if not self.has_metadata:
             return None, None
-        if self.get_status(["storage_mode"])["storage_mode"] == "compact":
-            log.debug("Setting first/last priority with compact allocation does not work!")
-            return None, None
         # A list of priorities for each piece in the torrent
         priorities = self.handle.piece_priorities()
         prioritized_pieces = []
@@ -417,11 +414,8 @@ class Torrent(object):
         Args:
             set_sequencial (bool): Enable sequencial downloading.
         """
-        if self.get_status(["storage_mode"])["storage_mode"] != "compact":
-            self.options["sequential_download"] = set_sequencial
-            self.handle.set_sequential_download(set_sequencial)
-        else:
-            self.options["sequential_download"] = False
+        self.options["sequential_download"] = set_sequencial
+        self.handle.set_sequential_download(set_sequencial)
 
     def set_auto_managed(self, auto_managed):
         """Set auto managed mode, i.e. will be started or queued automatically.
@@ -497,11 +491,6 @@ class Torrent(object):
             return
         if len(file_priorities) != self.torrent_info.num_files():
             log.debug("file_priorities len != num_files")
-            self.options["file_priorities"] = self.handle.file_priorities()
-            return
-
-        if self.get_status(["storage_mode"])["storage_mode"] == "compact":
-            log.warning("Setting file priority with compact allocation does not work!")
             self.options["file_priorities"] = self.handle.file_priorities()
             return
 
@@ -982,7 +971,7 @@ class Torrent(object):
             "seeding_time": lambda: self.status.seeding_time,
             "finished_time": lambda: self.status.finished_time,
             "all_time_download": lambda: self.status.all_time_download,
-            "storage_mode": lambda: self.status.storage_mode.name.split("_")[2],  # sparse, allocate or compact
+            "storage_mode": lambda: self.status.storage_mode.name.split("_")[2],  # sparse or allocate
             "distributed_copies": lambda: max(0.0, self.status.distributed_copies),
             "download_payload_rate": lambda: self.status.download_payload_rate,
             "file_priorities": lambda: self.options["file_priorities"],

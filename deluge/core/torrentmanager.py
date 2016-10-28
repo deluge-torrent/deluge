@@ -538,10 +538,7 @@ class TorrentManager(component.Component):
                 try:
                     for attr in set(dir(t_state_tmp)) - set(dir(state.torrents[0])):
                         for t_state in state.torrents:
-                            if attr == "storage_mode" and getattr(t_state, "compact", None):
-                                setattr(t_state, attr, "compact")
-                            else:
-                                setattr(t_state, attr, getattr(t_state_tmp, attr, None))
+                            setattr(t_state, attr, getattr(t_state_tmp, attr, None))
                 except AttributeError as ex:
                     log.error("Unable to update state file to a compatible version: %s", ex)
         return state

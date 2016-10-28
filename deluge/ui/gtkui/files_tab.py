@@ -445,10 +445,6 @@ class FilesTab(Tab):
         if self.torrent_id != torrent_id:
             return
 
-        # Store this torrent's compact setting
-        if "storage_mode" in status:
-            self.__compact = status["storage_mode"] == "compact"
-
         if "is_seed" in status:
             self.__is_seed = status["is_seed"]
 
@@ -498,7 +494,7 @@ class FilesTab(Tab):
                 self.listview.get_selection().select_iter(row)
 
             for widget in self.file_menu_priority_items:
-                widget.set_sensitive(not (self.__compact or self.__is_seed))
+                widget.set_sensitive(not self.__is_seed)
 
             self.file_menu.popup(None, None, None, event.button, event.time)
             return True
