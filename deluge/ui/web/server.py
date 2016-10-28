@@ -554,7 +554,7 @@ class DelugeWeb(component.Component):
 
         """
         component.Component.__init__(self, "DelugeWeb", depend=["Web"])
-        self.config = configmanager.ConfigManager("web.conf", CONFIG_DEFAULTS)
+        self.config = configmanager.ConfigManager("web.conf", defaults=CONFIG_DEFAULTS, file_version=2)
         self.config.run_converter((0, 1), 2, self._migrate_config_1_to_2)
         self.config.register_set_function("language", self._on_language_changed)
         self.socket = None

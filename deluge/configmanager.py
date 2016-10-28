@@ -84,12 +84,14 @@ class _ConfigManager(object):
         # We need to return True to keep the timer active
         return True
 
-    def get_config(self, config_file, defaults=None):
+    def get_config(self, config_file, defaults=None, file_version=1):
         """Get a reference to the Config object for this filename"""
         log.debug("Getting config '%s'", config_file)
         # Create the config object if not already created
         if config_file not in self.config_files.keys():
-            self.config_files[config_file] = Config(config_file, defaults, self.config_directory)
+            self.config_files[config_file] = Config(config_file, defaults,
+                                                    config_dir=self.config_directory,
+                                                    file_version=file_version)
 
         return self.config_files[config_file]
 
@@ -97,8 +99,8 @@ class _ConfigManager(object):
 _configmanager = _ConfigManager()
 
 
-def ConfigManager(config, defaults=None):  # NOQA
-    return _configmanager.get_config(config, defaults)
+def ConfigManager(config, defaults=None, file_version=1):  # NOQA
+    return _configmanager.get_config(config, defaults=defaults, file_version=file_version)
 
 
 def set_config_dir(directory):

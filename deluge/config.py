@@ -70,14 +70,14 @@ def prop(func):
 
 
 def find_json_objects(s):
-    """
-    Find json objects in a string.
+    """Find json objects in a string.
 
-    :param s: the string to find json objects in
-    :type s: string
+    Args:
+        s (str): the string to find json objects in
 
-    :returns: a list of tuples containing start and end locations of json objects in the string `s`
-    :rtype: [(start, end), ...]
+    Returns:
+        list ([(start, end), ...]): a list of tuples containing start and
+            end locations of json objects in the string `s`
 
     """
     objects = []
@@ -101,15 +101,18 @@ def find_json_objects(s):
 
 
 class Config(object):
-    """
-    This class is used to access/create/modify config files
+    """This class is used to access/create/modify config files
 
-    :param filename: the name of the config file
-    :param defaults: dictionary of default values
-    :param config_dir: the path to the config directory
+    Args:
+        filename (str): The config filename.
+        defaults (dict): The default config values to insert before loading the config file
+        config_dir (str): the path to the config directory
+        file_version (int): The file format for the default config values when creating
+            a fresh config. This value should be increased whenever a new migration function is
+            setup to convert old config files. Default value is 1.
 
     """
-    def __init__(self, filename, defaults=None, config_dir=None):
+    def __init__(self, filename, defaults=None, config_dir=None, file_version=1):
         self.__config = {}
         self.__set_functions = {}
         self.__change_callbacks = []
@@ -117,7 +120,7 @@ class Config(object):
         # These hold the version numbers and they will be set when loaded
         self.__version = {
             "format": 1,
-            "file": 1
+            "file": file_version
         }
 
         # This will get set with a reactor.callLater whenever a config option
@@ -140,24 +143,23 @@ class Config(object):
         return item in self.__config
 
     def __setitem__(self, key, value):
-        """
-        See
-        :meth:`set_item`
-        """
+        """See set_item"""
 
         return self.set_item(key, value)
 
     def set_item(self, key, value):
-        """
-        Sets item 'key' to 'value' in the config dictionary, but does not allow
+        """Sets item 'key' to 'value' in the config dictionary, but does not allow
         changing the item's type unless it is None.  If the types do not match,
         it will attempt to convert it to the set type before raising a ValueError.
 
-        :param key: string, item to change to change
-        :param value: the value to change item to, must be same type as what is currently in the config
+        Args:
+            key (str): item to change to change
+            value (any): the value to change item to, must be same type as what is
+                currently in the config
 
-        :raises ValueError: raised when the type of value is not the same as\
-what is currently in the config and it could not convert the value
+        Raises:
+            ValueError: raised when the type of value is not the same as what is
+                currently in the config and it could not convert the value
 
         **Usage**
 
@@ -218,20 +220,20 @@ what is currently in the config and it could not convert the value
             self._save_timer = callLater(5, self.save)
 
     def __getitem__(self, key):
-        """
-        See
-        :meth:`get_item`
-        """
+        """See get_item """
         return self.get_item(key)
 
     def get_item(self, key):
-        """
-        Gets the value of item 'key'
+        """Gets the value of item 'key'
 
-        :param key: the item for which you want it's value
-        :return: the value of item 'key'
+        Args:
+            key (str): the item for which you want it's value
 
-        :raises KeyError: if 'key' is not in the config dictionary
+        Returns:
+            the value of item 'key'
+
+        Raises:
+            ValueError: if 'key' is not in the config dictionary
 
         **Usage**
 
@@ -249,14 +251,16 @@ what is currently in the config and it could not convert the value
             return self.__config[key]
 
     def get(self, key, default=None):
-        """
-        Gets the value of item 'key' if key is in the config, else default.
+        """Gets the value of item 'key' if key is in the config, else default.
         If default is not given, it defaults to None, so that this method
         never raises a KeyError.
 
-        :param key: the item for which you want it's value
-        :param default: the default value if key is missing
-        :return: the value of item 'key' or default
+        Args:
+            key (str): the item for which you want it's value
+            default (any): the default value if key is missing
+
+        Returns:
+            the value of item 'key' or default
 
         **Usage**
 
@@ -280,11 +284,13 @@ what is currently in the config and it could not convert the value
         self.del_item(key)
 
     def del_item(self, key):
-        """
-        Deletes item with a specific key from the configuration.
+        """Deletes item with a specific key from the configuration.
 
-        :param key: the item which you wish to delete.
-        :raises KeyError: if 'key' is not in the config dictionary
+        Args:
+            key (str): the item which you wish to delete.
+
+        Raises:
+            ValueError: if 'key' is not in the config dictionary
 
         **Usage**
         >>> config = Config("test.conf", defaults={"test": 5})
@@ -302,10 +308,10 @@ what is currently in the config and it could not convert the value
             self._save_timer = callLater(5, self.save)
 
     def register_change_callback(self, callback):
-        """
-        Registers a callback function that will be called when a value is changed in the config dictionary
+        """Registers a callback function that will be called when a value is changed in the config dictionary
 
-        :param callback: the function, callback(key, value)
+        Args:
+            callback (func): the function, callback(key, value)
 
         **Usage**
 
@@ -319,12 +325,12 @@ what is currently in the config and it could not convert the value
         self.__change_callbacks.append(callback)
 
     def register_set_function(self, key, function, apply_now=True):
-        """
-        Register a function to be called when a config value changes
+        """Register a function to be called when a config value changes
 
-        :param key: the item to monitor for change
-        :param function: the function to call when the value changes, f(key, value)
-        :keyword apply_now: if True, the function will be called after it's registered
+        Args:
+            key (str): the item to monitor for change
+            function (func): the function to call when the value changes, f(key, value)
+            apply_now (bool): if True, the function will be called after it's registered
 
         **Usage**
 
@@ -348,8 +354,7 @@ what is currently in the config and it could not convert the value
         return
 
     def apply_all(self):
-        """
-        Calls all set functions
+        """Calls all set functions
 
         **Usage**
 
@@ -368,10 +373,10 @@ what is currently in the config and it could not convert the value
                 func(key, self.__config[key])
 
     def apply_set_functions(self, key):
-        """
-        Calls set functions for `:param:key`.
+        """Calls set functions for `:param:key`.
 
-        :param key: str, the config key
+        Args:
+            key (str): the config key
 
         """
         log.debug("Calling set functions for key %s..", key)
@@ -380,11 +385,10 @@ what is currently in the config and it could not convert the value
                 func(key, self.__config[key])
 
     def load(self, filename=None):
-        """
-        Load a config file
+        """Load a config file
 
-        :param filename: if None, uses filename set in object initialization
-
+        Args:
+            filename (str): if None, uses filename set in object initialization
 
         """
         if not filename:
@@ -427,12 +431,13 @@ what is currently in the config and it could not convert the value
                   self.__version["format"], self.__version["file"], self.__config)
 
     def save(self, filename=None):
-        """
-        Save configuration to disk
+        """Save configuration to disk
 
-        :param filename: if None, uses filename set in object initiliazation
-        :rtype bool:
-        :return: whether or not the save succeeded.
+        Args:
+            filename (str): if None, uses filename set in object initialization
+
+        Returns:
+            bool: whether or not the save succeeded.
 
         """
         if not filename:
@@ -489,17 +494,17 @@ what is currently in the config and it could not convert the value
                 self._save_timer.cancel()
 
     def run_converter(self, input_range, output_version, func):
-        """
-        Runs a function that will convert file versions in the `:param:input_range`
+        """Runs a function that will convert file versions in the `:param:input_range`
         to the `:param:output_version`.
 
-        :param input_range: tuple, (int, int) the range of input versions this
-            function will accept
-        :param output_version: int, the version this function will return
-        :param func: func, the function that will do the conversion, it will take
-            the config dict as an argument and return the augmented dict
+        Args:
+            input_range (tuple): (int, int) the range of input versions this function will accept
+            output_version (int): the version this function will return
+            func (func): the function that will do the conversion, it will take the config
+                dict as an argument and return the augmented dict
 
-        :raises ValueError: if the output_version is less than the input_range
+        Raises:
+            ValueError: if the output_version is less than the input_range
 
         """
         if output_version in input_range or output_version <= max(input_range):

@@ -102,7 +102,7 @@ class ConnectionManager(component.Component):
                 localclient_password
             )]
         }
-        config = ConfigManager("hostlist.conf.1.2", default_config)
+        config = ConfigManager("hostlist.conf.1.2", defaults=default_config, file_version=2)
         config.run_converter((0, 1), 2, self.__migrate_config_1_to_2)
         return config
 
