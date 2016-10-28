@@ -3256,7 +3256,7 @@ used sparingly.</property>
                                       <object class="GtkTable" id="table8">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="n_rows">3</property>
+                                        <property name="n_rows">2</property>
                                         <property name="n_columns">3</property>
                                         <property name="column_spacing">6</property>
                                         <property name="row_spacing">1</property>
@@ -3312,25 +3312,6 @@ used sparingly.</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkCheckButton" id="chk_lt_tex">
-                                            <property name="label" translatable="yes">Tracker Exchange</property>
-                                            <property name="use_action_appearance">False</property>
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">False</property>
-                                            <property name="tooltip_text" translatable="yes">Exchanges trackers between clients. (Disabling requires restart)</property>
-                                            <property name="use_underline">True</property>
-                                            <property name="active">True</property>
-                                            <property name="draw_indicator">True</property>
-                                          </object>
-                                          <packing>
-                                            <property name="left_attach">2</property>
-                                            <property name="right_attach">3</property>
-                                            <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                          </packing>
-                                        </child>
-                                        <child>
                                           <object class="GtkCheckButton" id="chk_lsd">
                                             <property name="label" translatable="yes">LSD</property>
                                             <property name="use_action_appearance">False</property>
@@ -3373,8 +3354,6 @@ used sparingly.</property>
                                               <object class="GtkLabel" id="label_peer_tos">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="tooltip_text" translatable="yes">TOS can help with network conjestion. This value is included in every IPv4 packet header sent to peers (inc. web seeds).
-Requires a Hex value.</property>
                                                 <property name="xpad">3</property>
                                                 <property name="label" translatable="yes">Peer TOS Byte:</property>
                                               </object>
@@ -3390,6 +3369,7 @@ Requires a Hex value.</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="max_length">4</property>
+                                                <property name="invisible_char">•</property>
                                                 <property name="width_chars">4</property>
                                                 <property name="text">0x00</property>
                                                 <property name="truncate_multiline">True</property>
@@ -3406,9 +3386,10 @@ Requires a Hex value.</property>
                                             </child>
                                           </object>
                                           <packing>
+                                            <property name="left_attach">2</property>
                                             <property name="right_attach">3</property>
-                                            <property name="top_attach">2</property>
-                                            <property name="bottom_attach">3</property>
+                                            <property name="top_attach">1</property>
+                                            <property name="bottom_attach">2</property>
                                           </packing>
                                         </child>
                                       </object>

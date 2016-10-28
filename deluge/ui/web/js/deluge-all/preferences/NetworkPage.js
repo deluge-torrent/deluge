@@ -189,13 +189,6 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             ctCls: 'x-deluge-indent-checkbox',
             name: 'dht'
         }));
-        optMan.bind('lt_tex', fieldset.add({
-            fieldLabel: '',
-            labelSeparator: '',
-            boxLabel: _('Tracker Exchange'),
-            ctCls: 'x-deluge-indent-checkbox',
-            name: 'lt_tex'
-        }));
 
         fieldset = this.add({
             xtype: 'fieldset',

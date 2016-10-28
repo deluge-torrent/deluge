@@ -249,7 +249,6 @@ class NetworkPane(BasePreferencePane):
         self.add_checked_input("upnp", "UPnP", core_conf["upnp"])
         self.add_checked_input("natpmp", "NAT-PMP", core_conf["natpmp"])
         self.add_checked_input("utpex", "Peer Exchange", core_conf["utpex"])
-        self.add_checked_input("lt_tex", "Tracker Exchange", core_conf["lt_tex"])
         self.add_checked_input("lsd", "LSD", core_conf["lsd"])
         self.add_checked_input("dht", "DHT", core_conf["dht"])
 

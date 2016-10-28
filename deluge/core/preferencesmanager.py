@@ -53,7 +53,6 @@ DEFAULT_PREFS = {
     "upnp": True,
     "natpmp": True,
     "utpex": True,
-    "lt_tex": True,
     "lsd": True,
     "enc_in_policy": 1,
     "enc_out_policy": 1,
@@ -265,11 +264,6 @@ class PreferencesManager(component.Component):
         log.debug("utpex value set to %s", value)
         if value:
             self.session.add_extension("ut_pex")
-
-    def _on_set_lt_tex(self, key, value):
-        log.debug("lt_tex value set to %s", value)
-        if value:
-            self.session.add_extension("lt_trackers")
 
     def _on_set_enc_in_policy(self, key, value):
         self._on_set_encryption(key, value)

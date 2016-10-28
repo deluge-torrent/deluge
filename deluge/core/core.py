@@ -77,7 +77,6 @@ class Core(component.Component):
 
         # --- libtorrent plugins ---
         # Allows peers to download the metadata from the swarm directly
-        self.session.add_extension("metadata_transfer")
         self.session.add_extension("ut_metadata")
         # Ban peers that sends bad data
         self.session.add_extension("smart_ban")
