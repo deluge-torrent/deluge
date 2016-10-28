@@ -31,12 +31,12 @@ class StatsTestCase(BaseTestCase):
     def set_up(self):
         defer.setDebugging(True)
         tests_common.set_tmp_config_dir()
-        client.start_classic_mode()
+        client.start_standalone()
         client.core.enable_plugin("Stats")
         return component.start()
 
     def tear_down(self):
-        client.stop_classic_mode()
+        client.stop_standalone()
         return component.shutdown()
 
     @defer.inlineCallbacks

@@ -128,7 +128,7 @@ class SystemTray(component.Component):
     def __start(self):
         if self.config["enable_system_tray"]:
 
-            if self.config["classic_mode"]:
+            if self.config["standalone"]:
                 try:
                     self.hide_widget_list.remove("menuitem_quitdaemon")
                     self.hide_widget_list.remove("separatormenuitem4")

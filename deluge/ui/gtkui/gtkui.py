@@ -71,7 +71,7 @@ except ImportError:
 
 
 DEFAULT_PREFS = {
-    "classic_mode": True,
+    "standalone": True,
     "interactive_add": True,
     "focus_add_dialog": True,
     "enable_system_tray": True,
@@ -167,10 +167,6 @@ class GtkUI(object):
         if not os.path.exists(os.path.join(get_config_dir(), "gtkui_state")):
             os.makedirs(os.path.join(get_config_dir(), "gtkui_state"))
 
-        # We need to check on exit if it was started in classic mode to ensure we
-        # shutdown the daemon.
-        self.started_in_classic = self.config["classic_mode"]
-
         # Set language
         if self.config["language"] is not None:
             lang.set_language(self.config["language"])
@@ -246,7 +242,7 @@ class GtkUI(object):
     def shutdown(self, *args, **kwargs):
         log.debug("GTKUI shutting down...")
         # Shutdown all components
-        if self.started_in_classic:
+        if client.is_standalone:
             return component.shutdown()
 
     @defer.inlineCallbacks
@@ -287,19 +283,19 @@ class GtkUI(object):
         log.debug("_on_reactor_start")
         self.mainwindow.first_show()
 
-        if self.config["classic_mode"]:
+        if self.config["standalone"]:
             def on_dialog_response(response):
                 if response != gtk.RESPONSE_YES:
                     # The user does not want to turn Standalone Mode off, so just quit
                     self.mainwindow.quit()
                     return
-                # Turning off classic_mode
-                self.config["classic_mode"] = False
-                self.__start_non_classic()
+                # Turning off standalone
+                self.config["standalone"] = False
+                self.__start_thinclient()
 
             try:
                 try:
-                    client.start_classic_mode()
+                    client.start_standalone()
                 except DaemonRunningError:
                     d = YesNoDialog(
                         _("Switch to Thin Client Mode?"),
@@ -307,7 +303,6 @@ class GtkUI(object):
                           "To use Standalone mode, stop this daemon and restart Deluge."
                           "\n\n"
                           "Continue in Thin Client mode?")).run()
-                    self.started_in_classic = False
                     d.addCallback(on_dialog_response)
                 except ImportError as ex:
                     if "No module named libtorrent" in ex.message:
@@ -316,7 +311,6 @@ class GtkUI(object):
                             _("Only Thin Client mode is available because libtorrent is not installed."
                               "\n\n"
                               "To use Deluge Standalone mode, please install libtorrent.")).run()
-                        self.started_in_classic = False
                         d.addCallback(on_dialog_response)
                     else:
                         raise ex
@@ -337,14 +331,13 @@ class GtkUI(object):
                         _("Switch to Thin Client Mode?"),
                         _("Unable to start Standalone mode would you like to continue in Thin Client mode?")
                     ).run()
-                    self.started_in_classic = False
                     d.addCallback(on_dialog_response)
                 ed.addCallback(on_ed_response)
         else:
             self.rpc_stats.start(10)
-            self.__start_non_classic()
+            self.__start_thinclient()
 
-    def __start_non_classic(self):
+    def __start_thinclient(self):
         # Autoconnect to a host
         if self.config["autoconnect"]:
 

@@ -90,7 +90,7 @@ class JSON(resource.Resource, component.Component):
         component.Component.__init__(self, "JSON")
         self._remote_methods = []
         self._local_methods = {}
-        if client.is_classicmode():
+        if client.is_standalone():
             self.get_remote_methods()
 
     def get_remote_methods(self, result=None):
@@ -378,7 +378,7 @@ class WebApi(JSONComponent):
         client.deregister_event_handler("PluginEnabledEvent", self._json.get_remote_methods)
         client.deregister_event_handler("PluginDisabledEvent", self._json.get_remote_methods)
 
-        if client.is_classicmode():
+        if client.is_standalone():
             component.get("Web.PluginManager").stop()
         else:
             client.disconnect()
@@ -388,7 +388,7 @@ class WebApi(JSONComponent):
         client.register_event_handler("PluginEnabledEvent", self._json.get_remote_methods)
         client.register_event_handler("PluginDisabledEvent", self._json.get_remote_methods)
 
-        if client.is_classicmode():
+        if client.is_standalone():
             component.get("Web.PluginManager").start()
         else:
             client.set_disconnect_callback(self._on_client_disconnect)

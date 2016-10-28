@@ -254,7 +254,7 @@ class AboutDialog(object):
         self.about.set_logo(gtk.gdk.pixbuf_new_from_file(get_pixmap("deluge-about.png")))
 
         if client.connected():
-            if not client.is_classicmode():
+            if not client.is_standalone():
                 self.about.set_comments(
                     self.about.get_comments() + _("Server:") + " %coreversion%\n")
 
@@ -272,7 +272,7 @@ class AboutDialog(object):
                 self.about.set_comments(c)
                 client.core.get_libtorrent_version().addCallback(on_lt_version)
 
-            if not client.is_classicmode():
+            if not client.is_standalone():
                 client.daemon.info().addCallback(on_info)
             else:
                 client.core.get_libtorrent_version().addCallback(on_lt_version)

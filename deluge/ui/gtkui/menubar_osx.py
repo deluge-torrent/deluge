@@ -68,7 +68,7 @@ def menubar_osx(gtkui, osxapp):
     osxapp.insert_app_menu_item(about_item, 0)
     osxapp.insert_app_menu_item(gtk.SeparatorMenuItem(), 1)
     osxapp.insert_app_menu_item(pref_item, 2)
-    if not config["classic_mode"]:
+    if not config["standalone"]:
         osxapp.insert_app_menu_item(conn_item, 3)
     if quit_all_item.get_visible():
         osxapp.insert_app_menu_item(gtk.SeparatorMenuItem(), 4)

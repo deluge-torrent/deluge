@@ -374,7 +374,7 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <child>
-                                          <object class="GtkRadioButton" id="radio_classic">
+                                          <object class="GtkRadioButton" id="radio_standalone">
                                             <property name="label" translatable="yes">Standalone</property>
                                             <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
@@ -399,7 +399,7 @@
                                             <property name="receives_default">False</property>
                                             <property name="tooltip_text" translatable="yes">Connect to a Deluge daemon (deluged)</property>
                                             <property name="draw_indicator">True</property>
-                                            <property name="group">radio_classic</property>
+                                            <property name="group">radio_standalone</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>

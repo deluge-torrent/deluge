@@ -449,8 +449,8 @@ class Preferences(component.Component):
         self.builder.get_object("chk_start_in_tray").set_active(self.gtkui_config["start_in_tray"])
         self.builder.get_object("radio_appind").set_active(self.gtkui_config["enable_appindicator"])
         self.builder.get_object("chk_lock_tray").set_active(self.gtkui_config["lock_tray"])
-        self.builder.get_object("radio_classic").set_active(self.gtkui_config["classic_mode"])
-        self.builder.get_object("radio_thinclient").set_active(not self.gtkui_config["classic_mode"])
+        self.builder.get_object("radio_standalone").set_active(self.gtkui_config["standalone"])
+        self.builder.get_object("radio_thinclient").set_active(not self.gtkui_config["standalone"])
         self.builder.get_object("chk_show_rate_in_title").set_active(self.gtkui_config["show_rate_in_title"])
         self.builder.get_object("chk_focus_main_window_on_add").set_active(
             self.gtkui_config["focus_main_window_on_add"])
@@ -492,7 +492,6 @@ class Preferences(component.Component):
 
         :param hide: bool, if True, will not re-show the dialog and will hide it instead
         """
-        classic_mode_was_set = self.gtkui_config["classic_mode"]
 
         # Get the values from the dialog
         new_core_config = {}
@@ -583,8 +582,9 @@ class Preferences(component.Component):
         if passhex != "c07eb5a8c0dc7bb81c217b67f11c3b7a5e95ffd7":
             new_gtkui_config["tray_password"] = passhex
 
-        new_gtkui_in_classic_mode = self.builder.get_object("radio_classic").get_active()
-        new_gtkui_config["classic_mode"] = new_gtkui_in_classic_mode
+        was_standalone = self.gtkui_config["standalone"]
+        new_gtkui_standalone = self.builder.get_object("radio_standalone").get_active()
+        new_gtkui_config["standalone"] = new_gtkui_standalone
 
         new_gtkui_config["show_rate_in_title"] = self.builder.get_object(
             "chk_show_rate_in_title").get_active()
@@ -698,19 +698,19 @@ class Preferences(component.Component):
             # Re-show the dialog to make sure everything has been updated
             self.show()
 
-        if classic_mode_was_set != new_gtkui_in_classic_mode:
+        if was_standalone != new_gtkui_standalone:
             def on_response(response):
                 if response == gtk.RESPONSE_YES:
-                    shutdown_daemon = (not client.is_classicmode() and
+                    shutdown_daemon = (not client.is_standalone() and
                                        client.connected() and
                                        client.is_localhost())
                     component.get("MainWindow").quit(shutdown=shutdown_daemon)
                 else:
-                    self.gtkui_config["classic_mode"] = not new_gtkui_in_classic_mode
-                    self.builder.get_object("radio_classic").set_active(
-                        self.gtkui_config["classic_mode"])
+                    self.gtkui_config["standalone"] = not new_gtkui_standalone
+                    self.builder.get_object("radio_standalone").set_active(
+                        self.gtkui_config["standalone"])
                     self.builder.get_object("radio_thinclient").set_active(
-                        not self.gtkui_config["classic_mode"])
+                        not self.gtkui_config["standalone"])
             dialog = YesNoDialog(
                 _("Switching client mode..."),
                 _("Your current session will be stopped. Do you wish to continue?")

@@ -176,9 +176,9 @@ class MenuBar(component.Component):
                 self.builder.get_object(widget).hide()
                 self.builder.get_object(widget).set_no_show_all(True)
 
-        self.main_builder.get_object("separatormenuitem").set_visible(not self.config["classic_mode"])
-        self.main_builder.get_object("menuitem_quitdaemon").set_visible(not self.config["classic_mode"])
-        self.main_builder.get_object("menuitem_connectionmanager").set_visible(not self.config["classic_mode"])
+        self.main_builder.get_object("separatormenuitem").set_visible(not self.config["standalone"])
+        self.main_builder.get_object("menuitem_quitdaemon").set_visible(not self.config["standalone"])
+        self.main_builder.get_object("menuitem_connectionmanager").set_visible(not self.config["standalone"])
 
         # Show the Torrent menu because we're connected to a host
         self.menu_torrent.show()

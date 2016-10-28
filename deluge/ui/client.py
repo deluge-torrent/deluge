@@ -424,18 +424,18 @@ class DaemonSSLProxy(DaemonProxy):
         return self.protocol.get_bytes_sent()
 
 
-class DaemonClassicProxy(DaemonProxy):
+class DaemonStandaloneProxy(DaemonProxy):
     def __init__(self, event_handlers=None):
         if event_handlers is None:
             event_handlers = {}
         from deluge.core import daemon
-        self.__daemon = daemon.Daemon(classic=True)
+        self.__daemon = daemon.Daemon(standalone=True)
         self.__daemon.start()
         log.debug("daemon created!")
         self.connected = True
         self.host = "localhost"
         self.port = 58846
-        # Running in classic mode, it's safe to import auth level
+        # Running in standalone mode, it's safe to import auth level
         from deluge.core.authmanager import (AUTH_LEVEL_ADMIN,
                                              AUTH_LEVELS_MAPPING,
                                              AUTH_LEVELS_MAPPING_REVERSE)
@@ -528,7 +528,7 @@ class Client(object):
     def __init__(self):
         self._daemon_proxy = None
         self.disconnect_callback = None
-        self.__started_in_classic = False
+        self.__started_standalone = False
 
     def connect(self, host="127.0.0.1", port=58846, username="", password="",
                 skip_authentication=False):
@@ -586,27 +586,35 @@ class Client(object):
         """
         Disconnects from the daemon.
         """
-        if self.is_classicmode():
+        if self.is_standalone():
             self._daemon_proxy.disconnect()
-            self.stop_classic_mode()
+            self.stop_standalone()
             return defer.succeed(True)
 
         if self._daemon_proxy:
             return self._daemon_proxy.disconnect()
 
-    def start_classic_mode(self):
+    def start_standalone(self):
         """
         Starts a daemon in the same process as the client.
         """
-        self._daemon_proxy = DaemonClassicProxy(self.__event_handlers)
-        self.__started_in_classic = True
+        self._daemon_proxy = DaemonStandaloneProxy(self.__event_handlers)
+        self.__started_standalone = True
 
-    def stop_classic_mode(self):
+    def stop_standalone(self):
         """
         Stops the daemon process in the client.
         """
         self._daemon_proxy = None
-        self.__started_in_classic = False
+        self.__started_standalone = False
+
+    def start_classic_mode(self):
+        """Deprecated"""
+        self.start_standalone()
+
+    def stop_classic_mode(self):
+        """Deprecated"""
+        self.stop_standalone()
 
     def start_daemon(self, port, config):
         """
@@ -649,18 +657,22 @@ that you forgot to install the deluged package or it's not in your PATH."))
 
         """
         if (self._daemon_proxy and self._daemon_proxy.host in ("127.0.0.1", "localhost") or
-                isinstance(self._daemon_proxy, DaemonClassicProxy)):
+                isinstance(self._daemon_proxy, DaemonStandaloneProxy)):
             return True
         return False
 
+    def is_standalone(self):
+        """
+        Checks to see if the client has been started in standalone mode.
+
+        :returns: bool, True if in standalone mode
+
+        """
+        return self.__started_standalone
+
     def is_classicmode(self):
-        """
-        Checks to see if the client has been started in classic mode.
-
-        :returns: bool, True if in classic mode
-
-        """
-        return self.__started_in_classic
+        """Deprecated"""
+        self.is_standalone()
 
     def connected(self):
         """

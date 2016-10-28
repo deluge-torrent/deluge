@@ -55,7 +55,7 @@ class ToolBar(component.Component):
 
     def start(self):
         self.window.get_builder().get_object("toolbutton_connectionmanager").set_visible(
-            not self.config["classic_mode"])
+            not self.config["standalone"])
 
         for widget in self.change_sensitivity:
             self.window.get_builder().get_object(widget).set_sensitive(True)

@@ -64,19 +64,19 @@ def is_daemon_running(pid_file):
 class Daemon(object):
     """The Deluge Daemon class"""
 
-    def __init__(self, listen_interface=None, interface=None, port=None, classic=False,
+    def __init__(self, listen_interface=None, interface=None, port=None, standalone=False,
                  read_only_config_keys=None):
         """
         Args:
             listen_interface (str, optional): The IP address to listen to bittorrent connections on.
             interface (str, optional): The IP address the daemon will listen for UI connections on.
             port (int, optional): The port the daemon will listen for UI connections on.
-            classic (bool, optional): If True the client is in Classic (Standalone) mode otherwise, if
+            standalone (bool, optional): If True the client is in Standalone mode otherwise, if
                 False, start the daemon as separate process.
             read_only_config_keys (list of str, optional): A list of config keys that will not be
                 altered by core.set_config() RPC method.
         """
-        self.classic = classic
+        self.standalone = standalone
         self.pid_file = get_config_dir("deluged.pid")
         log.info("Deluge daemon %s", get_version())
         if is_daemon_running(self.pid_file):
@@ -110,7 +110,7 @@ class Daemon(object):
         self.rpcserver = RPCServer(
             port=port,
             allow_remote=self.core.config["allow_remote"],
-            listen=not classic,
+            listen=not standalone,
             interface=interface
         )
 
@@ -124,7 +124,7 @@ class Daemon(object):
         # Make sure we start the PreferencesManager first
         component.start("PreferencesManager")
 
-        if not self.classic:
+        if not self.standalone:
             log.info("Deluge daemon starting...")
             # Create pid file to track if deluged is running, also includes the port number.
             pid = os.getpid()
@@ -148,7 +148,7 @@ class Daemon(object):
 
     def _shutdown(self, *args, **kwargs):
         log.info("Deluge daemon shutting down, waiting for components to shutdown...")
-        if not self.classic:
+        if not self.standalone:
             return component.shutdown()
 
     @export()

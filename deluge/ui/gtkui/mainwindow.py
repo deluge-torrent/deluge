@@ -216,7 +216,7 @@ class MainWindow(component.Component):
 
             if shutdown:
                 client.daemon.shutdown().addCallback(stop_gtk_reactor)
-            elif not client.is_classicmode() and client.connected():
+            elif not client.is_standalone() and client.connected():
                 client.disconnect().addCallback(stop_gtk_reactor)
             else:
                 stop_gtk_reactor()
