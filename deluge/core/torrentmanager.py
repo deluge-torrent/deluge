@@ -1292,8 +1292,7 @@ class TorrentManager(component.Component):
             if send_buffer_watermark < max_send_buffer_watermark:
                 value = send_buffer_watermark + (500 * 1024)
                 log.info("Increasing send_buffer_watermark from %s to %s Bytes", send_buffer_watermark, value)
-                settings["send_buffer_watermark"] = value
-                self.session.set_settings(settings)
+                component.get("Core").apply_session_setting("send_buffer_watermark", value)
             else:
                 log.warning("send_buffer_watermark reached maximum value: %s Bytes", max_send_buffer_watermark)
 

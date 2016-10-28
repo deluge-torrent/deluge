@@ -65,17 +65,18 @@ class Core(component.Component):
         # Load the session state if available
         self.__load_session_state()
 
-        # --- Set session settings ---
-        settings = self.session.get_settings()
-        settings["user_agent"] = "Deluge/%(deluge_version)s libtorrent/%(lt_version)s" % {
-            'deluge_version': deluge.common.get_version(),
-            'lt_version': self.get_libtorrent_version().rpartition(".")[0]
-        }
-        # No SSL torrent support in code so disable the listen port.
-        settings["ssl_listen"] = 0
-        self.session.set_settings(settings)
+        # Apply session settings
+        self.apply_session_setting(
+            "user_agent",
+            "Deluge/%(deluge_version)s libtorrent/%(lt_version)s" % {
+                'deluge_version': deluge.common.get_version(),
+                'lt_version': self.get_libtorrent_version().rpartition(".")[0]}
+        )
 
-        # --- libtorrent plugins ---
+        # No SSL torrent support in code so disable the listen port.
+        self.apply_session_setting("ssl_listen", 0)
+
+        # Enable libtorrent extensions
         # Allows peers to download the metadata from the swarm directly
         self.session.add_extension("ut_metadata")
         # Ban peers that sends bad data
@@ -136,6 +137,22 @@ class Core(component.Component):
 
     def shutdown(self):
         pass
+
+    def apply_session_setting(self, key, value):
+        self.apply_session_settings({key: value})
+
+    def apply_session_settings(self, settings):
+        """Apply libtorrent session settings.
+
+        Args:
+            settings (dict): A dict of lt session settings to apply.
+
+        """
+
+        try:
+            self.session.apply_settings(settings)
+        except AttributeError:
+            self.session.set_settings(settings)
 
     def __save_session_state(self):
         """Saves the libtorrent session state"""
@@ -389,6 +406,7 @@ class Core(component.Component):
 
         """
         status = {}
+        # TODO: libtorrent DEPRECATED for session_stats http://libtorrent.org/manual-ref.html#session-statistics
         session_status = self.session.status()
         for key in keys:
             status[key] = getattr(session_status, key)
@@ -404,7 +422,7 @@ class Core(component.Component):
         :rtype: dict
 
         """
-
+        # TODO: libtorrent DEPRECATED for session_stats: disk.num_blocks_cache_hits etc...
         status = self.session.get_cache_status()
         cache = {}
         for attr in dir(status):
@@ -559,7 +577,7 @@ class Core(component.Component):
     @export
     def get_i2p_proxy(self):
         """Returns the active listen port"""
-        i2p_settings = self.session.i2p_proxy()
+        i2p_settings = self.session.i2p_proxy()  # Deprecated, moved to proxy types
         i2p_dict = {"hostname": i2p_settings.hostname, "port": i2p_settings.port}
         return i2p_dict
 

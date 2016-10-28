@@ -120,14 +120,14 @@ class Core(CorePluginBase):
             self.__apply_set_functions()
         elif state == "Yellow":
             # This is Yellow (Slow), so use the settings provided from the user
-            session = component.get("Core").session
-            session.set_download_rate_limit(int(self.config["low_down"] * 1024))
-            session.set_upload_rate_limit(int(self.config["low_up"] * 1024))
-            settings = session.get_settings()
-            settings["active_limit"] = self.config["low_active"]
-            settings["active_downloads"] = self.config["low_active_down"]
-            settings["active_seeds"] = self.config["low_active_up"]
-            session.set_settings(settings)
+            settings = {
+                "active_limit": self.config["low_active"],
+                "active_downloads": self.config["low_active_down"],
+                "active_seeds": self.config["low_active_up"],
+                "download_rate_limit": int(self.config["low_down"] * 1024),
+                "upload_rate_limit": int(self.config["low_up"] * 1024)
+            }
+            component.get("Core").apply_session_settings(settings)
             # Resume the session if necessary
             component.get("Core").resume_session()
         elif state == "Red":

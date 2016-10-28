@@ -38,14 +38,18 @@ class AlertManager(component.Component):
         self.alert_queue_size = 10000
         self.set_alert_queue_size(self.alert_queue_size)
 
-        self.session.set_alert_mask(
-            lt.alert.category_t.error_notification |
-            lt.alert.category_t.port_mapping_notification |
-            lt.alert.category_t.storage_notification |
-            lt.alert.category_t.tracker_notification |
-            lt.alert.category_t.status_notification |
-            lt.alert.category_t.ip_block_notification |
-            lt.alert.category_t.performance_warning)
+        alert_mask = (lt.alert.category_t.error_notification |
+                      lt.alert.category_t.port_mapping_notification |
+                      lt.alert.category_t.storage_notification |
+                      lt.alert.category_t.tracker_notification |
+                      lt.alert.category_t.status_notification |
+                      lt.alert.category_t.ip_block_notification |
+                      lt.alert.category_t.performance_warning)
+
+        try:
+            self.session.apply_settings("alert_mask", alert_mask)
+        except AttributeError:
+            self.session.set_alert_mask(alert_mask)
 
         # handlers is a dictionary of lists {"alert_type": [handler1,h2,..]}
         self.handlers = {}
@@ -120,6 +124,4 @@ class AlertManager(component.Component):
         """Sets the maximum size of the libtorrent alert queue"""
         log.info("Alert Queue Size set to %s", queue_size)
         self.alert_queue_size = queue_size
-        settings = self.session.get_settings()
-        settings["alert_queue_size"] = self.alert_queue_size
-        self.session.set_settings(settings)
+        component.get("Core").apply_session_setting("alert_queue_size", self.alert_queue_size)
