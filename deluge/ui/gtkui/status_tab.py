@@ -28,12 +28,15 @@ class StatusTab(Tab):
         # Get the labels we need to update.
         # widget name, modifier function, status keys
         self.builder = builder = component.get("MainWindow").get_builder()
-        self.progressbar = builder.get_object("progressbar")
 
         self._name = "Status"
         self._child_widget = builder.get_object("status_tab")
         self._tab_label = builder.get_object("status_tab_label")
         self.config = ConfigManager("gtkui.conf")
+
+        self.progressbar = builder.get_object("progressbar")
+        self.piecesbar = None
+        self.piecesbar_label_widget = None
 
         self.label_widgets = [
             (builder.get_object("summary_availability"), fratio, ("distributed_copies",)),
@@ -56,18 +59,13 @@ class StatusTab(Tab):
         ]
 
         self.status_keys = [status for widget in self.label_widgets for status in widget[2]]
-
-        self.piecesbar = None
         self.config.register_set_function("show_piecesbar", self.on_show_piecesbar_config_changed, apply_now=True)
 
     def update(self):
         # Get the first selected torrent
-        selected = component.get("TorrentView").get_selected_torrents()
+        selected = component.get("TorrentView").get_selected_torrent()
 
-        # Only use the first torrent in the list or return if None selected
-        if selected:
-            selected = selected[0]
-        else:
+        if not selected:
             # No torrent is selected in the torrentview
             self.clear()
             return
@@ -75,14 +73,14 @@ class StatusTab(Tab):
         # Get the torrent status
         status_keys = self.status_keys
         if self.config['show_piecesbar']:
-            status_keys = self.status_keys + ["pieces", "num_pieces"]
+            status_keys.extend(["pieces", "num_pieces"])
 
         component.get("SessionProxy").get_torrent_status(
             selected, status_keys).addCallback(self._on_get_torrent_status)
 
     def _on_get_torrent_status(self, status):
         # Check to see if we got valid data from the core
-        if status is None:
+        if not status:
             return
 
         # Update all the label widgets
@@ -91,11 +89,17 @@ class StatusTab(Tab):
             if widget[0].get_text() != txt:
                 widget[0].set_text(txt)
 
-        # Do the progress bar because it's a special case (not a label)
+        # Update progress bar seperately as it's a special case (not a label).
+        fraction = status["progress"] / 100
+
         if self.config['show_piecesbar']:
-            self.piecesbar.update_from_status(status)
+            if self.piecesbar.get_fraction() != fraction:
+                self.piecesbar.set_fraction(fraction)
+            if status["state"] != "Checking" and self.piecesbar.get_pieces() != status['pieces']:
+                # Skip pieces assignment if checking torrent.
+                self.piecesbar.set_pieces(status['pieces'], status['num_pieces'])
+            self.piecesbar.update()
         else:
-            fraction = status["progress"] / 100
             if self.progressbar.get_fraction() != fraction:
                 self.progressbar.set_fraction(fraction)
 
@@ -109,6 +113,8 @@ class StatusTab(Tab):
         if self.piecesbar is None:
             self.piecesbar = PiecesBar()
             self.builder.get_object("status_progress_vbox").pack_start(self.piecesbar, False, False, 0)
+        self.piecesbar_label_widget = (self.piecesbar, fpcnt, ("progress", "state", "message"))
+        self.label_widgets.append(self.piecesbar_label_widget)
         self.piecesbar.show()
         self.progressbar.hide()
 
@@ -116,7 +122,8 @@ class StatusTab(Tab):
         self.progressbar.show()
         if self.piecesbar:
             self.piecesbar.hide()
-            self.piecesbar = None
+            self.label_widgets.remove(self.piecesbar_label_widget)
+            self.piecesbar = self.piecesbar_label_widget = None
 
     def clear(self):
         for widget in self.label_widgets:
@@ -125,4 +132,4 @@ class StatusTab(Tab):
         if self.config['show_piecesbar']:
             self.piecesbar.clear()
         else:
-            self.progressbar.set_fraction(0.0)
+            self.progressbar.set_fraction(0)

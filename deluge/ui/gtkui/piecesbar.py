@@ -9,7 +9,6 @@
 
 from __future__ import division
 
-import logging
 from math import pi
 
 import gtk
@@ -18,10 +17,6 @@ import pangocairo
 from cairo import FORMAT_ARGB32, Context, ImageSurface
 
 from deluge.configmanager import ConfigManager
-from deluge.ui.gtkui.tab_data_funcs import fpcnt
-
-log = logging.getLogger(__name__)
-
 
 COLOR_STATES = ["missing", "waiting", "downloading", "completed"]
 
@@ -35,68 +30,63 @@ class PiecesBar(gtk.DrawingArea):
         # Get progress bar styles, in order to keep font consistency
         pb = gtk.ProgressBar()
         pb_style = pb.get_style()
-        self.__text_font = pb_style.font_desc
-        self.__text_font.set_weight(pango.WEIGHT_BOLD)
+        self.text_font = pb_style.font_desc
+        self.text_font.set_weight(pango.WEIGHT_BOLD)
         # Done with the ProgressBar styles, don't keep refs of it
         del pb, pb_style
 
         self.set_size_request(-1, 25)
         self.gtkui_config = ConfigManager("gtkui.conf")
-        self.__width = self.__old_width = 0
-        self.__height = self.__old_height = 0
-        self.__pieces = self.__old_pieces = ()
-        self.__num_pieces = self.__old_num_pieces = None
-        self.__text = self.__old_text = ""
-        self.__message = self.__old_message = ""
-        self.__fraction = self.__old_fraction = 0.0
-        self.__state = self.__old_state = None
-        self.__progress_overlay = self.__text_overlay = self.__pieces_overlay = None
-        self.__cr = None
+
+        self.width = self.prev_width = 0
+        self.height = self.prev_height = 0
+        self.pieces = self.prev_pieces = ()
+        self.num_pieces = None
+        self.text = self.prev_text = ""
+        self.fraction = self.prev_fraction = 0
+        self.progress_overlay = self.text_overlay = self.pieces_overlay = None
+        self.cr = None
 
         self.connect('size-allocate', self.do_size_allocate_event)
         self.set_colormap(gtk.gdk.colormap_get_system())
         self.show()
 
     def do_size_allocate_event(self, widget, size):
-        self.__old_width = self.__width
-        self.__width = size.width
-        self.__old_height = self.__height
-        self.__height = size.height
+        self.prev_width = self.width
+        self.width = size.width
+        self.prev_height = self.height
+        self.height = size.height
 
     # Handle the expose-event by drawing
     def do_expose_event(self, event):
         # Create cairo context
-        self.__cr = self.window.cairo_create()
-        self.__cr.set_line_width(max(self.__cr.device_to_user_distance(0.5, 0.5)))
+        self.cr = self.window.cairo_create()
+        self.cr.set_line_width(max(self.cr.device_to_user_distance(0.5, 0.5)))
 
         # Restrict Cairo to the exposed area; avoid extra work
-        self.__roundcorners_clipping()
+        self.roundcorners_clipping()
 
-        self.__draw_pieces()
-        self.__draw_progress_overlay()
-        self.__write_text()
-        self.__roundcorners_border()
+        self.draw_pieces()
+        self.draw_progress_overlay()
+        self.write_text()
+        self.roundcorners_border()
 
-        # Drawn once, update width, eight
-        if self.__resized():
-            self.__old_width = self.__width
-            self.__old_height = self.__height
+        # Drawn once, update width, height
+        if self.resized():
+            self.prev_width = self.width
+            self.prev_height = self.height
 
-    def __roundcorners_clipping(self):
-        self.__create_roundcorners_subpath(
-            self.__cr, 0, 0, self.__width, self.__height
-        )
-        self.__cr.clip()
+    def roundcorners_clipping(self):
+        self.create_roundcorners_subpath(self.cr, 0, 0, self.width, self.height)
+        self.cr.clip()
 
-    def __roundcorners_border(self):
-        self.__create_roundcorners_subpath(
-            self.__cr, 0.5, 0.5, self.__width - 1, self.__height - 1
-        )
-        self.__cr.set_source_rgba(0.0, 0.0, 0.0, 0.9)
-        self.__cr.stroke()
+    def roundcorners_border(self):
+        self.create_roundcorners_subpath(self.cr, 0.5, 0.5, self.width - 1, self.height - 1)
+        self.cr.set_source_rgba(0, 0, 0, 0.9)
+        self.cr.stroke()
 
     @staticmethod
-    def __create_roundcorners_subpath(ctx, x, y, width, height):
+    def create_roundcorners_subpath(ctx, x, y, width, height):
         aspect = 1.0
         corner_radius = height / 10
         radius = corner_radius / aspect
@@ -109,145 +99,107 @@ class PiecesBar(gtk.DrawingArea):
         ctx.close_path()
         return ctx
 
-    def __draw_pieces(self):
-        if not self.__pieces and not self.__num_pieces:
+    def draw_pieces(self):
+        if not self.num_pieces:
             # Nothing to draw.
             return
 
-        if self.__resized() or self.__pieces != self.__old_pieces or self.__pieces_overlay is None:
+        if self.resized() or self.pieces != self.prev_pieces or self.pieces_overlay is None:
             # Need to recreate the cache drawing
-            self.__pieces_overlay = ImageSurface(FORMAT_ARGB32, self.__width, self.__height)
-            ctx = Context(self.__pieces_overlay)
+            self.pieces_overlay = ImageSurface(FORMAT_ARGB32, self.width, self.height)
+            ctx = Context(self.pieces_overlay)
 
-            start_pos = 0
-            if self.__pieces:
-                pieces = self.__pieces
-            elif self.__num_pieces:
+            if self.pieces:
+                pieces = self.pieces
+            elif self.num_pieces:
                 # Completed torrents do not send any pieces so create list using 'completed' state.
-                pieces = [COLOR_STATES.index("completed")] * self.__num_pieces
-            piece_width = self.__width / len(pieces)
-
+                pieces = [COLOR_STATES.index("completed")] * self.num_pieces
+            start_pos = 0
+            piece_width = self.width / len(pieces)
+            pieces_colors = [[color / 65535 for color in self.gtkui_config["pieces_color_%s" % state]]
+                             for state in COLOR_STATES]
             for state in pieces:
-                color = self.gtkui_config["pieces_color_%s" % COLOR_STATES[state]]
-                ctx.set_source_rgb(color[0] / 65535, color[1] / 65535, color[2] / 65535)
-                ctx.rectangle(start_pos, 0, piece_width, self.__height)
+                ctx.set_source_rgb(*pieces_colors[state])
+                ctx.rectangle(start_pos, 0, piece_width, self.height)
                 ctx.fill()
                 start_pos += piece_width
 
-        self.__cr.set_source_surface(self.__pieces_overlay)
-        self.__cr.paint()
+        self.cr.set_source_surface(self.pieces_overlay)
+        self.cr.paint()
 
-    def __draw_progress_overlay(self):
-        if not self.__state:
+    def draw_progress_overlay(self):
+        if not self.text:
             # Nothing useful to draw, return now!
             return
-        if (self.__resized() or self.__fraction != self.__old_fraction) or self.__progress_overlay is None:
+
+        if self.resized() or self.fraction != self.prev_fraction or self.progress_overlay is None:
             # Need to recreate the cache drawing
-            self.__progress_overlay = ImageSurface(FORMAT_ARGB32, self.__width, self.__height)
-            ctx = Context(self.__progress_overlay)
+            self.progress_overlay = ImageSurface(FORMAT_ARGB32, self.width, self.height)
+            ctx = Context(self.progress_overlay)
             ctx.set_source_rgba(0.1, 0.1, 0.1, 0.3)  # Transparent
-            ctx.rectangle(0.0, 0.0, self.__width * self.__fraction, self.__height)
+            ctx.rectangle(0, 0, self.width * self.fraction, self.height)
             ctx.fill()
-        self.__cr.set_source_surface(self.__progress_overlay)
-        self.__cr.paint()
+        self.cr.set_source_surface(self.progress_overlay)
+        self.cr.paint()
 
-    def __write_text(self):
-        if not self.__state:
+    def write_text(self):
+        if not self.text:
             # Nothing useful to draw, return now!
             return
-        if (self.__resized() or self.__text != self.__old_text or
-                self.__fraction != self.__old_fraction or
-                self.__state != self.__old_state or
-                self.__text_overlay is None):
+
+        if self.resized() or self.text != self.prev_text or self.text_overlay is None:
             # Need to recreate the cache drawing
-            self.__text_overlay = ImageSurface(FORMAT_ARGB32, self.__width, self.__height)
-            ctx = Context(self.__text_overlay)
+            self.text_overlay = ImageSurface(FORMAT_ARGB32, self.width, self.height)
+            ctx = Context(self.text_overlay)
             pg = pangocairo.CairoContext(ctx)
             pl = pg.create_layout()
-            pl.set_font_description(self.__text_font)
-            pl.set_width(-1)    # No text wrapping
-
-            if self.__text:
-                text = self.__text
-            else:
-                text = fpcnt(self.__fraction, self.__state, self.__message)
-
-            log.trace("PiecesBar text %r", text)
-            pl.set_text(text)
+            pl.set_font_description(self.text_font)
+            pl.set_width(-1)  # No text wrapping
+            pl.set_text(self.text)
             plsize = pl.get_size()
             text_width = plsize[0] // pango.SCALE
             text_height = plsize[1] // pango.SCALE
-            area_width_without_text = self.__width - text_width
-            area_height_without_text = self.__height - text_height
+            area_width_without_text = self.width - text_width
+            area_height_without_text = self.height - text_height
             ctx.move_to(area_width_without_text // 2, area_height_without_text // 2)
-            ctx.set_source_rgb(1.0, 1.0, 1.0)
+            ctx.set_source_rgb(1, 1, 1)
             pg.update_layout(pl)
             pg.show_layout(pl)
-        self.__cr.set_source_surface(self.__text_overlay)
-        self.__cr.paint()
+        self.cr.set_source_surface(self.text_overlay)
+        self.cr.paint()
 
-    def __resized(self):
-        return (self.__old_width != self.__width or
-                self.__old_height != self.__height)
+    def resized(self):
+        return self.prev_width != self.width or self.prev_height != self.height
 
     def set_fraction(self, fraction):
-        self.__old_fraction = self.__fraction
-        self.__fraction = fraction
+        self.prev_fraction = self.fraction
+        self.fraction = fraction
 
     def get_fraction(self):
-        return self.__fraction
+        return self.fraction
 
     def get_text(self):
-        return self.__text
+        return self.text
 
     def set_text(self, text):
-        self.__old_text = self.__text
-        self.__text = text
-
-    def get_status_message(self):
-        return self.__text
-
-    def set_status_message(self, message):
-        self.__old_message = self.__message
-        self.__message = message
+        self.prev_text = self.text
+        self.text = text
 
     def set_pieces(self, pieces, num_pieces):
-        self.__old_pieces = self.__pieces
-        self.__pieces = pieces
-        self.__num_pieces = num_pieces
+        self.prev_pieces = self.pieces
+        self.pieces = pieces
+        self.num_pieces = num_pieces
 
     def get_pieces(self):
-        return self.__pieces
-
-    def set_state(self, state):
-        self.__old_state = self.__state
-        self.__state = state
-
-    def get_state(self):
-        return self.__state
-
-    def update_from_status(self, status):
-        log.trace("Updating PiecesBar from status")
-        self.set_fraction(status["progress"] / 100)
-        torrent_state = status["state"]
-        self.set_state(torrent_state)
-        if torrent_state == "Checking":
-            self.update()
-            # Skip the pieces assignment
-            return
-
-        self.set_pieces(status['pieces'], status['num_pieces'])
-        self.set_status_message(status['message'])
-        self.update()
+        return self.pieces
 
     def clear(self):
-        self.__pieces = self.__old_pieces = ()
-        self.__num_pieces = self.__old_num_pieces = None
-        self.__text = self.__old_text = ""
-        self.__fraction = self.__old_fraction = 0.0
-        self.__state = self.__old_state = None
-        self.__progress_overlay = self.__text_overlay = self.__pieces_overlay = None
-        self.__cr = None
+        self.pieces = self.prev_pieces = ()
+        self.num_pieces = None
+        self.text = self.prev_text = ""
+        self.fraction = self.prev_fraction = 0
+        self.progress_overlay = self.text_overlay = self.pieces_overlay = None
+        self.cr = None
         self.update()
 
     def update(self):
