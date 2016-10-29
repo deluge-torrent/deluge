@@ -460,7 +460,7 @@ what is currently in the config and it could not convert the value
             log.debug("Saving new config file %s", filename + ".new")
             with open(filename + ".new", "wb") as _file:
                 json.dump(self.__version, _file, indent=2)
-                json.dump(self.__config, _file, indent=2)
+                json.dump(self.__config, _file, indent=2, sort_keys=True)
                 _file.flush()
                 os.fsync(_file.fileno())
         except IOError as ex:
