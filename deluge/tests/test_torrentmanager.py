@@ -29,7 +29,7 @@ class TorrentmanagerTestCase(BaseTestCase):
 
     @defer.inlineCallbacks
     def test_remove_torrent(self):
-        filename = common.rpath("test.torrent")
+        filename = common.get_test_data_file("test.torrent")
         with open(filename) as _file:
             filedump = base64.encodestring(_file.read())
         torrent_id = yield self.core.add_torrent_file(filename, filedump, {})
