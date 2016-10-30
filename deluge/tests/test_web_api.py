@@ -121,7 +121,7 @@ class WebAPITestCase(WebServerTestBase):
         self.assertFalse(self.deluge_web.web_api.remove_host(conn[0]))
 
     def test_get_torrent_info(self):
-        filename = common.rpath("test.torrent")
+        filename = common.get_test_data_file("test.torrent")
         ret = self.deluge_web.web_api.get_torrent_info(filename)
         self.assertEquals(ret["name"], "azcvsupdater_2.6.2.jar")
         self.assertEquals(ret["info_hash"], "ab570cdd5a17ea1b61e970bb72047de141bce173")
@@ -136,7 +136,7 @@ class WebAPITestCase(WebServerTestBase):
     @defer.inlineCallbacks
     def test_get_torrent_files(self):
         yield self.deluge_web.web_api.connect(self.host_id)
-        filename = common.rpath("test.torrent")
+        filename = common.get_test_data_file("test.torrent")
         torrents = [{"path": filename, "options": {"download_location": "/home/deluge/"}}]
         yield self.deluge_web.web_api.add_torrents(torrents)
         ret = yield self.deluge_web.web_api.get_torrent_files("ab570cdd5a17ea1b61e970bb72047de141bce173")
@@ -148,7 +148,7 @@ class WebAPITestCase(WebServerTestBase):
     @defer.inlineCallbacks
     def test_download_torrent_from_url(self):
         filename = "ubuntu-9.04-desktop-i386.iso.torrent"
-        self.deluge_web.top_level.putChild(filename, File(common.rpath(filename)))
+        self.deluge_web.top_level.putChild(filename, File(common.get_test_data_file(filename)))
         url = "http://localhost:%d/%s" % (self.webserver_listen_port, filename)
         res = yield self.deluge_web.web_api.download_torrent_from_url(url)
         self.assertTrue(res.endswith(filename))

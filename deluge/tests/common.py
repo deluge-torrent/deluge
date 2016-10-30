@@ -75,9 +75,6 @@ def add_watchdog(deferred, timeout=0.05, message=None):
     return watchdog
 
 
-def rpath(*args):
-    return os.path.join(os.path.dirname(__file__), *args)
-
 # Initialize gettext
 lang.setup_translations()
 

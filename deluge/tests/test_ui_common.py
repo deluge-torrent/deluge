@@ -22,12 +22,12 @@ class UICommonTestCase(unittest.TestCase):
         pass
 
     def test_utf8_encoded_paths(self):
-        filename = common.rpath("test.torrent")
+        filename = common.get_test_data_file("test.torrent")
         ti = TorrentInfo(filename)
         self.assertTrue("azcvsupdater_2.6.2.jar" in ti.files_tree)
 
     def test_utf8_encoded_paths2(self):
-        filename = common.rpath("unicode_filenames.torrent")
+        filename = common.get_test_data_file("unicode_filenames.torrent")
         ti = TorrentInfo(filename)
 
         files = ti.files_tree["unicode_filenames"]

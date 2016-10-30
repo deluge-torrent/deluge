@@ -33,7 +33,7 @@ class CookieResource(Resource):
             return
 
         request.setHeader("Content-Type", "application/x-bittorrent")
-        with open(common.rpath("ubuntu-9.04-desktop-i386.iso.torrent")) as _file:
+        with open(common.get_test_data_file("ubuntu-9.04-desktop-i386.iso.torrent")) as _file:
             data = _file.read()
         return data
 
@@ -41,7 +41,7 @@ class CookieResource(Resource):
 class PartialDownload(Resource):
 
     def render(self, request):
-        with open(common.rpath("ubuntu-9.04-desktop-i386.iso.torrent")) as _file:
+        with open(common.get_test_data_file("ubuntu-9.04-desktop-i386.iso.torrent")) as _file:
             data = _file.read()
         request.setHeader("Content-Type", len(data))
         request.setHeader("Content-Type", "application/x-bittorrent")
@@ -67,7 +67,7 @@ class TopLevelResource(Resource):
         self.putChild("partial", PartialDownload())
         self.putChild("redirect", RedirectResource())
         self.putChild("ubuntu-9.04-desktop-i386.iso.torrent",
-                      File(common.rpath("ubuntu-9.04-desktop-i386.iso.torrent")))
+                      File(common.get_test_data_file("ubuntu-9.04-desktop-i386.iso.torrent")))
 
 
 class CoreTestCase(BaseTestCase):
@@ -109,7 +109,7 @@ class CoreTestCase(BaseTestCase):
         filenames = ["test.torrent", "test_torrent.file.torrent"]
         files_to_add = []
         for f in filenames:
-            filename = common.rpath(f)
+            filename = common.get_test_data_file(f)
             with open(filename) as _file:
                 filedump = base64.encodestring(_file.read())
             files_to_add.append((filename, filedump, options))
@@ -122,7 +122,7 @@ class CoreTestCase(BaseTestCase):
         filenames = ["test.torrent", "test.torrent"]
         files_to_add = []
         for f in filenames:
-            filename = common.rpath(f)
+            filename = common.get_test_data_file(f)
             with open(filename) as _file:
                 filedump = base64.encodestring(_file.read())
             files_to_add.append((filename, filedump, options))
@@ -133,7 +133,7 @@ class CoreTestCase(BaseTestCase):
     @defer.inlineCallbacks
     def test_add_torrent_file(self):
         options = {}
-        filename = common.rpath("test.torrent")
+        filename = common.get_test_data_file("test.torrent")
         with open(filename) as _file:
             filedump = base64.encodestring(_file.read())
         torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
@@ -146,7 +146,7 @@ class CoreTestCase(BaseTestCase):
 
     def test_add_torrent_file_invalid_filedump(self):
         options = {}
-        filename = common.rpath("test.torrent")
+        filename = common.get_test_data_file("test.torrent")
         self.assertRaises(AddTorrentError, self.core.add_torrent_file, filename, False, options)
 
     @defer.inlineCallbacks
@@ -201,7 +201,7 @@ class CoreTestCase(BaseTestCase):
     @defer.inlineCallbacks
     def test_remove_torrent(self):
         options = {}
-        filename = common.rpath("test.torrent")
+        filename = common.get_test_data_file("test.torrent")
         with open(filename) as _file:
             filedump = base64.encodestring(_file.read())
         torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
@@ -215,12 +215,12 @@ class CoreTestCase(BaseTestCase):
     @defer.inlineCallbacks
     def test_remove_torrents(self):
         options = {}
-        filename = common.rpath("test.torrent")
+        filename = common.get_test_data_file("test.torrent")
         with open(filename) as _file:
             filedump = base64.encodestring(_file.read())
         torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
 
-        filename2 = common.rpath("unicode_filenames.torrent")
+        filename2 = common.get_test_data_file("unicode_filenames.torrent")
         with open(filename2) as _file:
             filedump = base64.encodestring(_file.read())
         torrent_id2 = yield self.core.add_torrent_file(filename2, filedump, options)
@@ -238,7 +238,7 @@ class CoreTestCase(BaseTestCase):
     @defer.inlineCallbacks
     def test_remove_torrents_invalid(self):
         options = {}
-        filename = common.rpath("test.torrent")
+        filename = common.get_test_data_file("test.torrent")
         with open(filename) as _file:
             filedump = base64.encodestring(_file.read())
             torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
