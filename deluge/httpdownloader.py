@@ -198,7 +198,7 @@ def _download_file(url, filename, callback=None, headers=None, force_filename=Fa
         except ImportError:
             ctx_factory = ssl.ClientContextFactory()
         else:
-            class TLSSNIContextFactory(ssl.ClientContextFactory):
+            class TLSSNIContextFactory(ssl.ClientContextFactory):  # pylint: disable=no-init
                 """
                 A custom context factory to add a server name for TLS connections.
                 """

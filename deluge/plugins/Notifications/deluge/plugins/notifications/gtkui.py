@@ -73,6 +73,9 @@ SND_EVENT, SND_EVENT_DOC, SND_NAME, SND_PATH = range(4)
 
 class GtkUiNotifications(CustomNotifications):
 
+    def __init__(self, plugin_name=None):
+        CustomNotifications.__init__(self, plugin_name)
+
     def enable(self):
         CustomNotifications.enable(self)
         self.register_custom_blink_notification(

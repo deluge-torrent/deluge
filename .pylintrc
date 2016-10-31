@@ -68,7 +68,10 @@ disable=missing-docstring, invalid-name, wrong-import-position, wrong-import-ord
     R,
     unused-argument, fixme, protected-access, import-error, unused-variable,
         global-statement, attribute-defined-outside-init, arguments-differ,
-        no-init, super-init-not-called, broad-except
+        super-init-not-called,
+
+    # The following warnings should eventually be enabled:
+    broad-except
 
 [REPORTS]
 
