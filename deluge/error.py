@@ -18,6 +18,7 @@ class DelugeError(Exception):
         return inst
 
     def __init__(self, message=None):
+        super(DelugeError, self).__init__(message)
         self.message = message
 
     def __str__(self):
@@ -43,7 +44,7 @@ class InvalidPathError(DelugeError):
 class WrappedException(DelugeError):
 
     def __init__(self, message, exception_type, traceback):
-        self.message = message
+        super(WrappedException, self).__init__(message)
         self.type = exception_type
         self.traceback = traceback
 

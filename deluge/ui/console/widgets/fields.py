@@ -29,6 +29,7 @@ log = logging.getLogger(__name__)
 class BaseField(InputKeyHandler):
 
     def __init__(self, parent=None, name=None, selectable=True, **kwargs):
+        super(BaseField, self).__init__()
         self.name = name
         self.parent = parent
         self.fmt_keys = {}

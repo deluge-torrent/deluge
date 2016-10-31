@@ -63,6 +63,7 @@ class GzipResource(Resource):
 class PartialDownloadResource(Resource):
 
     def __init__(self, *args, **kwargs):
+        Resource.__init__(self)
         self.render_count = 0
 
     def render(self, request):

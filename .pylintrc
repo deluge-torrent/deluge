@@ -82,7 +82,7 @@ disable=
     too-many-nested-blocks, too-many-return-statements,
 # Warning
     unused-argument, protected-access, import-error, unused-variable,
-    attribute-defined-outside-init, super-init-not-called,
+    attribute-defined-outside-init,
 # Warning msgs that should eventually be enabled:
     arguments-differ, global-statement, fixme, broad-except
 
