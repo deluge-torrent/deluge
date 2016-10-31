@@ -28,7 +28,7 @@ from deluge.ui.client import client
 try:
     import rencode
 except ImportError:
-    import deluge.rencode as rencode
+    import deluge.rencode as rencode  # pylint: disable=ungrouped-imports
 
 log = logging.getLogger(__name__)
 

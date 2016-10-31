@@ -46,7 +46,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, component.Compon
         self.stop()
 
     def update_plugins(self):
-        for plugin in self.plugins.keys():
+        for plugin in self.plugins:
             if hasattr(self.plugins[plugin], "update"):
                 try:
                     self.plugins[plugin].update()

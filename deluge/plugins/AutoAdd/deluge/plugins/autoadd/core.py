@@ -131,7 +131,7 @@ class Core(CorePluginBase):
             for w_id, w in self.watchdirs.iteritems():
                 if options["abspath"] == w["abspath"] and watchdir_id != w_id:
                     raise Exception("Path is already being watched.")
-        for key in options.keys():
+        for key in options:
             if key not in OPTIONS_AVAILABLE:
                 if key not in [key2 + "_toggle" for key2 in OPTIONS_AVAILABLE.iterkeys()]:
                     raise Exception("autoadd: Invalid options key:%s" % key)
@@ -360,7 +360,7 @@ class Core(CorePluginBase):
     def set_config(self, config):
         """Sets the config dictionary."""
         config = self._make_unicode(config)
-        for key in config.keys():
+        for key in config:
             self.config[key] = config[key]
         self.config.save()
         component.get("EventManager").emit(AutoaddOptionsChangedEvent())

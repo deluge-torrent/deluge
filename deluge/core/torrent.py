@@ -1354,7 +1354,8 @@ class Torrent(object):
 
         If the key is no longer valid, the dict will be deleted.
         """
-        for key in self.prev_status.keys():
+        # Dict will be modified so iterate over generated list
+        for key in list(self.prev_status):
             if not self.rpcserver.is_session_valid(key):
                 del self.prev_status[key]
 

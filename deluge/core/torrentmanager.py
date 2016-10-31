@@ -921,25 +921,25 @@ class TorrentManager(component.Component):
     def on_set_max_connections_per_torrent(self, key, value):
         """Sets the per-torrent connection limit"""
         log.debug("max_connections_per_torrent set to %s...", value)
-        for key in self.torrents.keys():
+        for key in self.torrents:
             self.torrents[key].set_max_connections(value)
 
     def on_set_max_upload_slots_per_torrent(self, key, value):
         """Sets the per-torrent upload slot limit"""
         log.debug("max_upload_slots_per_torrent set to %s...", value)
-        for key in self.torrents.keys():
+        for key in self.torrents:
             self.torrents[key].set_max_upload_slots(value)
 
     def on_set_max_upload_speed_per_torrent(self, key, value):
         """Sets the per-torrent upload speed limit"""
         log.debug("max_upload_speed_per_torrent set to %s...", value)
-        for key in self.torrents.keys():
+        for key in self.torrents:
             self.torrents[key].set_max_upload_speed(value)
 
     def on_set_max_download_speed_per_torrent(self, key, value):
         """Sets the per-torrent download speed limit"""
         log.debug("max_download_speed_per_torrent set to %s...", value)
-        for key in self.torrents.keys():
+        for key in self.torrents:
             self.torrents[key].set_max_download_speed(value)
 
     # --- Alert handlers ---

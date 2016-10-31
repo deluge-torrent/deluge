@@ -46,6 +46,9 @@ DEFAULT_PREFS = {
 
 class CoreNotifications(CustomNotifications):
 
+    def __init__(self, plugin_name=None):
+        CustomNotifications.__init__(self, plugin_name)
+
     def enable(self):
         CustomNotifications.enable(self)
         self.register_custom_email_notification('TorrentFinishedEvent',
@@ -80,7 +83,7 @@ class CoreNotifications(CustomNotifications):
 
     def get_handled_events(self):
         handled_events = []
-        for evt in sorted(known_events.keys()):
+        for evt in sorted(known_events):
             if known_events[evt].__module__.startswith('deluge.event'):
                 if evt not in ('TorrentFinishedEvent',):
                     # Skip all un-handled built-in events

@@ -73,8 +73,9 @@ class PluginManagerBase(object):
             self.enable_plugin(name)
 
     def disable_plugins(self):
-        # Disable all plugins that are enabled
-        for key in self.plugins.keys():
+        """Disable all plugins that are enabled"""
+        # Dict will be modified so iterate over generated list
+        for key in list(self.plugins):
             self.disable_plugin(key)
 
     def __getitem__(self, key):
