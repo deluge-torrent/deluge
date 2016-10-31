@@ -37,13 +37,17 @@ def get_translations_path():
 
 def get_languages():
     from deluge.ui import languages  # Import here so that gettext has been setup first
+
+    lang = []
+
     translations_path = get_translations_path()
     for root, dirs, files in os.walk(translations_path):
         # Get the dirs
         lang_dirs = dirs
         break
+    else:
+        return lang
 
-    lang = []
     for i, lang_code in enumerate(lang_dirs):
         name = "%s (Language name missing)" % lang_code
         if lang_code in languages.LANGUAGES:
