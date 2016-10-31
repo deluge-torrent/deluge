@@ -142,7 +142,7 @@ class Core(CorePluginBase):
                 command = os.path.expanduser(command)
 
                 cmd_args = [torrent_id, torrent_name, save_path]
-                if windows_check:
+                if windows_check():
                     # Escape ampersand on windows (see #2784)
                     cmd_args = [arg.replace("&", "^^^&") for arg in cmd_args]
 
