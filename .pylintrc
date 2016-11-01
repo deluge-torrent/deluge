@@ -75,11 +75,15 @@ disable=
 # Information
     locally-disabled,
 # Refactor
-    R,
+    no-self-use, too-many-arguments, too-many-branches, too-many-instance-attributes,
+    too-many-locals,  too-few-public-methods, too-many-public-methods, too-many-statements,
+# Refactor msgs that should eventually be enabled:
+    redefined-variable-type, simplifiable-if-statement, too-many-ancestors,
+    too-many-nested-blocks, too-many-return-statements,
 # Warning
     unused-argument, protected-access, import-error, unused-variable,
     attribute-defined-outside-init, super-init-not-called,
-# Warnings that should eventually be enabled:
+# Warning msgs that should eventually be enabled:
     arguments-differ, global-statement, fixme, broad-except
 
 [REPORTS]
