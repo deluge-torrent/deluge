@@ -9,7 +9,7 @@
 
 import logging
 import os.path
-from future_builtins import zip  # pylint: disable=redefined-builtin
+from future_builtins import zip
 
 import gtk
 

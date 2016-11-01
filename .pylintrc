@@ -11,6 +11,10 @@
 # paths.
 ignore=CVS
 
+# Add files or directories matching the regex patterns to the blacklist. The
+# regex matches against base names, not paths.
+ignore-patterns=
+
 # Pickle collected data for later comparisons.
 persistent=yes
 
@@ -35,7 +39,8 @@ extension-pkg-whitelist=
 # be used to obtain the result of joining multiple strings with the addition
 # operator. Joining a lot of strings can lead to a maximum recursion error in
 # Pylint and this flag can prevent that. It has one side effect, the resulting
-# AST will be different than the one from reality.
+# AST will be different than the one from reality. This option is deprecated
+# and it will be removed in Pylint 2.0.
 optimize-ast=no
 
 
@@ -47,7 +52,8 @@ confidence=
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
-# multiple time. See also the "--disable" option for examples.
+# multiple time (only on the command line, not in the configuration file where
+# it should appear only once). See also the "--disable" option for examples.
 #enable=
 
 # Disable the message, report, category or checker with the given id(s). You
@@ -60,18 +66,21 @@ confidence=
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
 #
-# Arranged by category: Convention, Error, Information, Refactor, Warning.
-# Category per line (wrapped categories are indented) using symbolic names instead of ids.
-disable=missing-docstring, invalid-name, wrong-import-position, wrong-import-order,
+# Arranged by category and use symbolic names instead of ids.
+disable=
+# Convention
+    missing-docstring, invalid-name,
+# Error
     no-member, no-name-in-module,
+# Information
     locally-disabled,
+# Refactor
     R,
-    unused-argument, fixme, protected-access, import-error, unused-variable,
-        global-statement, attribute-defined-outside-init, arguments-differ,
-        super-init-not-called,
-
-    # The following warnings should eventually be enabled:
-    broad-except
+# Warning
+    unused-argument, protected-access, import-error, unused-variable,
+    attribute-defined-outside-init, super-init-not-called,
+# Warnings that should eventually be enabled:
+    arguments-differ, global-statement, fixme, broad-except
 
 [REPORTS]
 
@@ -82,7 +91,8 @@ output-format=parseable
 
 # Put messages in a separate file for each module / package specified on the
 # command line instead of printing them on stdout. Reports (if any) will be
-# written in a file name "pylint_global.[txt|html]".
+# written in a file name "pylint_global.[txt|html]". This option is deprecated
+# and it will be removed in Pylint 2.0.
 files-output=no
 
 # Tells whether to display a full report or only the messages
@@ -119,9 +129,6 @@ spelling-store-unknown-words=no
 
 [BASIC]
 
-# List of builtins function names that should not be used, separated by a comma
-bad-functions=map,filter,input
-
 # Good variable names which should always be accepted, separated by a comma
 good-names=d,i,j,k,ex,Run,_,log
 
@@ -134,6 +141,10 @@ name-group=
 
 # Include a hint for the correct naming format with invalid-name
 include-naming-hint=no
+
+# List of decorators that produce properties, such as abc.abstractproperty. Add
+# to this list to register other decorators that produce valid properties.
+property-classes=abc.abstractproperty
 
 # Regular expression matching correct function names
 function-rgx=[a-z_][a-z0-9_]{2,30}$
@@ -204,6 +215,12 @@ no-docstring-rgx=__.*__
 docstring-min-length=-1
 
 
+[ELIF]
+
+# Maximum number of nested blocks for function / method body
+max-nested-blocks=5
+
+
 [LOGGING]
 
 # Logging modules to check that the string format arguments are in logging
@@ -223,13 +240,16 @@ ignore-long-lines=^\s*(# )?<?https?://\S+>?$
 # else.
 single-line-if-stmt=no
 
-# List of optional constructs for which whitespace checking is disabled
+# List of optional constructs for which whitespace checking is disabled. `dict-
+# separator` is used to allow tabulation in dicts, etc.: {1  : 1,\n222: 2}.
+# `trailing-comma` allows a space between comma and closing bracket: (a, ).
+# `empty-line` allows space-only lines.
 no-space-check=trailing-comma,dict-separator
 
 # Maximum number of lines in a module
 max-module-lines=1550
 
-# String used as indentation unit. This is usually " " (4 spaces) or "\t" (1
+# String used as indentation unit. This is usually "    " (4 spaces) or "\t" (1
 # tab).
 indent-string='    '
 
@@ -263,6 +283,10 @@ additional-builtins=_,_n,__request__
 # name must start or end with one of those strings.
 callbacks=cb_,_cb
 
+# List of qualified module names which can have objects that can redefine
+# builtins.
+redefining-builtins-modules=six.moves,future.builtins,future_builtins
+
 
 [TYPECHECK]
 
@@ -272,17 +296,24 @@ ignore-mixin-members=yes
 
 # List of module names for which member attributes should not be checked
 # (useful for modules/projects where namespaces are manipulated during runtime
-# and thus existing member attributes cannot be deduced by static analysis
+# and thus existing member attributes cannot be deduced by static analysis. It
+# supports qualified module names, as well as Unix pattern matching.
 ignored-modules=
 
-# List of classes names for which member attributes should not be checked
-# (useful for classes with attributes dynamically set).
+# List of class names for which member attributes should not be checked (useful
+# for classes with dynamically set attributes). This supports the use of
+# qualified names.
 ignored-classes=SQLObject,twisted.internet.reactor
 
 # List of members which are set dynamically and missed by pylint inference
-# system, and so shouldn't trigger E0201 when accessed. Python regular
+# system, and so shouldn't trigger E1101 when accessed. Python regular
 # expressions are accepted.
 generated-members=REQUEST,acl_users,aq_parent
+
+# List of decorators that produce context managers, such as
+# contextlib.contextmanager. Add to this list to register other decorators that
+# produce valid context managers.
+contextmanager-decorators=contextlib.contextmanager
 
 
 [SIMILARITIES]
@@ -317,6 +348,18 @@ ext-import-graph=
 # not be disabled)
 int-import-graph=
 
+# Force import order to recognize a module as part of the standard
+# compatibility libraries.
+known-standard-library=
+
+# Force import order to recognize a module as part of a third party library.
+known-third-party=enchant
+
+# Analyse import fallback blocks. This can be used to support both Python 2 and
+# 3 compatible code, which means that the block might have code that exists
+# only in one or another interpreter, leading to false positives when analysed.
+analyse-fallback-blocks=no
+
 
 [DESIGN]
 
@@ -350,6 +393,9 @@ min-public-methods=2
 
 # Maximum number of public methods for a class (see R0904).
 max-public-methods=20
+
+# Maximum number of boolean expressions in a if statement
+max-bool-expr=5
 
 
 [CLASSES]

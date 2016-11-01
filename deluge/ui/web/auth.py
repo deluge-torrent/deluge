@@ -37,7 +37,7 @@ class AuthError(Exception):
     pass
 
 # Import after as json_api imports the above AuthError and AUTH_LEVEL_DEFAULT
-from deluge.ui.web.json_api import export, JSONComponent  # NOQA, isort:skip
+from deluge.ui.web.json_api import export, JSONComponent  # NOQA, isort:skip pylint: disable=wrong-import-position
 
 
 def make_checksum(session_id):

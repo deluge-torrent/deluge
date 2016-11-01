@@ -37,7 +37,6 @@
 #
 # (The rencode module is licensed under the above license as well).
 #
-# pylint: disable=redefined-builtin
 
 """
 rencode -- Web safe object pickling/unpickling.
@@ -68,8 +67,8 @@ __all__ = ['dumps', 'loads']
 
 py3 = sys.version_info[0] >= 3
 if py3:
-    long = int
-    unicode = str
+    long = int  # pylint: disable=redefined-builtin
+    unicode = str  # pylint: disable=redefined-builtin
 
     def int2byte(c):
         return bytes([c])

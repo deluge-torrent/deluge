@@ -19,7 +19,7 @@ from __future__ import division
 import logging
 import os
 import socket
-from future_builtins import zip  # pylint: disable=redefined-builtin
+from future_builtins import zip
 from urlparse import urlparse
 
 from twisted.internet.defer import Deferred, DeferredList
