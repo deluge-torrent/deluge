@@ -141,7 +141,7 @@ class Win32IcoFile(object):
             # figure out where AND mask image starts
             mode = a[0]
             bpp = 8
-            for k in PIL.BmpImagePlugin.BIT2MODE.keys():
+            for k in PIL.BmpImagePlugin.BIT2MODE:
                 if mode == PIL.BmpImagePlugin.BIT2MODE[k][1]:
                     bpp = k
                     break
@@ -214,7 +214,7 @@ class Win32IcoFile(object):
 # end Win32IcoFile
 
 
-class Win32IconImageFile(PIL.ImageFile.ImageFile):
+class Win32IconImageFile(PIL.ImageFile.ImageFile):  # pylint: disable=abstract-method
     """
     PIL read-only image support for Microsoft .ico files.
 

@@ -63,7 +63,7 @@ class BadIP(Exception):
     _message = None
 
     def __init__(self, message):
-        self.message = message
+        super(BadIP, self).__init__(message)
 
     def __set_message(self, message):
         self._message = message

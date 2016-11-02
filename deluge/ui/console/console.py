@@ -15,7 +15,6 @@ import sys
 
 import deluge.common
 from deluge.ui.baseargparser import BaseArgParser, DelugeTextHelpFormatter
-from deluge.ui.console import UI_PATH
 from deluge.ui.ui import UI
 
 log = logging.getLogger(__name__)
@@ -87,6 +86,7 @@ class Console(UI):
         subparsers = self.console_parser.add_subparsers(title=_("Console commands"), help=_("Description"),
                                                         description=_("The following console commands are available:"),
                                                         metavar=_("Command"), dest="command")
+        from deluge.ui.console import UI_PATH  # Must import here
         self.console_cmds = load_commands(os.path.join(UI_PATH, "cmdline", "commands"))
         for c in sorted(self.console_cmds):
             self.console_cmds[c].add_subparser(subparsers)

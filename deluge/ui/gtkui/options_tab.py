@@ -172,10 +172,10 @@ class OptionsTab(Tab):
         if self.spin_max_upload_slots.get_value_as_int() != self.prev_status["max_upload_slots"]:
             client.core.set_torrent_max_upload_slots(
                 self.prev_torrent_id, self.spin_max_upload_slots.get_value_as_int())
-        if (self.chk_prioritize_first_last.get_active() != self.prev_status["prioritize_first_last"]):
+        if self.chk_prioritize_first_last.get_active() != self.prev_status["prioritize_first_last"]:
             client.core.set_torrent_prioritize_first_last(
                 self.prev_torrent_id, self.chk_prioritize_first_last.get_active())
-        if (self.chk_sequential_download.get_active() != self.prev_status["sequential_download"]):
+        if self.chk_sequential_download.get_active() != self.prev_status["sequential_download"]:
             client.core.set_torrent_options(
                 [self.prev_torrent_id], {"sequential_download": self.chk_sequential_download.get_active()})
         if self.chk_auto_managed.get_active() != self.prev_status["is_auto_managed"]:
