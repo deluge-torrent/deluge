@@ -40,7 +40,15 @@ class CommonTestCase(unittest.TestCase):
         self.failUnless(fpeer(10, -1) == "10")
 
     def test_ftime(self):
+        self.failUnless(ftime(0) == "")
+        self.failUnless(ftime(5) == "5s")
+        self.failUnless(ftime(100) == "1m 40s")
+        self.failUnless(ftime(3789) == "1h 3m")
         self.failUnless(ftime(23011) == "6h 23m")
+        self.failUnless(ftime(391187) == "4d 12h")
+        self.failUnless(ftime(604800) == "1w 0d")
+        self.failUnless(ftime(13893086) == "22w 6d")
+        self.failUnless(ftime(59740269) == "1y 46w")
 
     def test_fdate(self):
         self.failUnless(fdate(-1) == "")

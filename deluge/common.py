@@ -272,7 +272,6 @@ def open_url_in_browser(url):
 
 # Formatting text functions
 
-# For performance reasons these fsize units are translated outside the function
 byte_txt = "B"
 kib_txt = "KiB"
 mib_txt = "MiB"
@@ -285,6 +284,8 @@ tib_txt_short = "T"
 
 
 def translate_size_units():
+    """For performance reasons these units are translated outside the function"""
+
     global byte_txt, kib_txt, mib_txt, gib_txt, tib_txt
     global kib_txt_short, mib_txt_short, gib_txt_short, tib_txt_short
 
@@ -300,35 +301,34 @@ def translate_size_units():
 
 
 def fsize(fsize_b, precision=1, shortform=False):
+    """Formats the bytes value into a string with KiB, MiB or GiB units.
+
+    Args:
+        fsize_b (int): The filesize in bytes.
+        precision (int): The filesize float precision.
+
+    Returns:
+        str: A formatted string in KiB, MiB or GiB units.
+
+    Examples:
+
+        >>> fsize(112245)
+        '109.6 KiB'
+        >>> fsize(112245, precision=0)
+        '110 KiB'
+
+    Note:
+        This function has been refactored for perfomance with the
+        fsize units being translated outside the function.
+
     """
-    Formats the bytes value into a string with KiB, MiB or GiB units
 
-    :param fsize_b: the filesize in bytes
-    :type fsize_b: int
-    :param precision: the filesize float precision
-    :type precision: int
-    :returns: formatted string in KiB, MiB or GiB units
-    :rtype: string
-
-    **Usage**
-
-    >>> fsize(112245)
-    '109.6 KiB'
-    >>> fsize(112245, precision=0)
-    '110 KiB'
-
-    """
-
-    # Bigger than 1 TiB
-    if fsize_b >= 1099511627776:
-        return "%.*f %s" % (precision, fsize_b / 1099511627776, tib_txt_short if shortform else tib_txt)
-    # Bigger than 1 GiB
-    elif fsize_b >= 1073741824:
-        return "%.*f %s" % (precision, fsize_b / 1073741824, gib_txt_short if shortform else gib_txt)
-    # Bigger than 1 MiB
-    elif fsize_b >= 1048576:
-        return "%.*f %s" % (precision, fsize_b / 1048576, mib_txt_short if shortform else mib_txt)
-    # Bigger than 1 KiB
+    if fsize_b >= 1024 ** 4:
+        return "%.*f %s" % (precision, fsize_b / 1024 ** 4, tib_txt_short if shortform else tib_txt)
+    elif fsize_b >= 1024 ** 3:
+        return "%.*f %s" % (precision, fsize_b / 1024 ** 3, gib_txt_short if shortform else gib_txt)
+    elif fsize_b >= 1024 ** 2:
+        return "%.*f %s" % (precision, fsize_b / 1024 ** 2, mib_txt_short if shortform else mib_txt)
     elif fsize_b >= 1024:
         return "%.*f %s" % (precision, fsize_b / 1024, kib_txt_short if shortform else kib_txt)
     else:
@@ -336,24 +336,23 @@ def fsize(fsize_b, precision=1, shortform=False):
 
 
 def fpcnt(dec, precision=2):
-    """
-    Formats a string to display a percentage with two decimal places
+    """Formats a string to display a percentage with <precision> places.
 
-    :param dec: the ratio in the range [0.0, 1.0]
-    :type dec: float
-    :param precision: the percentage float precision
-    :type precision: int
-    :returns: a formatted string representing a percentage
-    :rtype: string
+    Args:
+        dec (float): The ratio in the range [0.0, 1.0].
+        precision (int): The percentage float precision.
 
-    **Usage**
+    Returns:
+        str: A formatted string representing a percentage.
 
-    >>> fpcnt(0.9311)
-    '93.11%'
-    >>> fpcnt(0.9311, precision=0)
-    '93%'
+    Examples:
+        >>> fpcnt(0.9311)
+        '93.11%'
+        >>> fpcnt(0.9311, precision=0)
+        '93%'
 
     """
+
     pcnt = (dec * 100)
     if pcnt == 0 or pcnt == 100:
         precision = 0
@@ -361,111 +360,101 @@ def fpcnt(dec, precision=2):
 
 
 def fspeed(bps, precision=1, shortform=False):
+    """Formats a string to display a transfer speed.
+
+    Args:
+        bps (int): The speed in bytes per second.
+
+    Returns:
+        str: A formatted string representing transfer speed.
+
+    Examples:
+        >>> fspeed(43134)
+        '42.1 KiB/s'
+
     """
-    Formats a string to display a transfer speed utilizing :func:`fsize`
 
-    :param bps: bytes per second
-    :type bps: int
-    :returns: a formatted string representing transfer speed
-    :rtype: string
-
-    **Usage**
-
-    >>> fspeed(43134)
-    '42.1 KiB/s'
-
-    """
-
-    fspeed_kb = bps / 1024
-    if fspeed_kb < 1024:
-        return "%.*f %s" % (precision, fspeed_kb, _("K/s") if shortform else _("KiB/s"))
-    fspeed_mb = fspeed_kb / 1024
-    if fspeed_mb < 1024:
-        return "%.*f %s" % (precision, fspeed_mb, _("M/s") if shortform else _("MiB/s"))
-    fspeed_gb = fspeed_mb / 1024
-    if fspeed_gb < 1024:
-        return "%.*f %s" % (precision, fspeed_gb, _("G/s") if shortform else _("GiB/s"))
-    fspeed_tb = fspeed_gb / 1024
-    return "%.*f %s" % (precision, fspeed_tb, _("T/s") if shortform else _("TiB/s"))
+    if bps < 1024 ** 2:
+        return "%.*f %s" % (precision, bps / 1024, _("K/s") if shortform else _("KiB/s"))
+    elif bps < 1024 ** 3:
+        return "%.*f %s" % (precision, bps / 1024 ** 2, _("M/s") if shortform else _("MiB/s"))
+    elif bps < 1024 ** 4:
+        return "%.*f %s" % (precision, bps / 1024 ** 3, _("G/s") if shortform else _("GiB/s"))
+    else:
+        return "%.*f %s" % (precision, bps / 1024 ** 4, _("T/s") if shortform else _("TiB/s"))
 
 
 def fpeer(num_peers, total_peers):
-    """
-    Formats a string to show 'num_peers' ('total_peers')
+    """Formats a string to show 'num_peers' ('total_peers').
 
-    :param num_peers: the number of connected peers
-    :type num_peers: int
-    :param total_peers: the total number of peers
-    :type total_peers: int
-    :returns: a formatted string: num_peers (total_peers), if total_peers < 0, then it will not be shown
-    :rtype: string
+    Args:
+        num_peers (int): The number of connected peers.
+        total_peers (int): The total number of peers.
 
-    **Usage**
+    Returns:
+        str: A formatted string 'num_peers (total_peers)' or total_peers < 0, just 'num_peers'.
 
-    >>> fpeer(10, 20)
-    '10 (20)'
-    >>> fpeer(10, -1)
-    '10'
+    Examples:
+        >>> fpeer(10, 20)
+        '10 (20)'
+        >>> fpeer(10, -1)
+        '10'
 
     """
     if total_peers > -1:
-        return "%d (%d)" % (num_peers, total_peers)
+        return "{:d} ({:d})".format(num_peers, total_peers)
     else:
-        return "%d" % num_peers
+        return "{:d}".format(num_peers)
 
 
-def ftime(seconds):
+def ftime(secs):
+    """Formats a string to show time in a human readable form.
+
+    Args:
+        secs (int): The number of seconds.
+
+    Returns:
+        str: A formatted time string or empty string if value is 0.
+
+    Examples:
+        >>> ftime(23011)
+        '6h 23m'
+
+    Note:
+        This function has been refactored for perfomance.
+
     """
-    Formats a string to show time in a human readable form
 
-    :param seconds: the number of seconds
-    :type seconds: int
-    :returns: a formatted time string, will return '' if seconds == 0
-    :rtype: string
+    if secs == 0:
+        time_str = ''
+    elif secs < 60:
+        time_str = '{:d}s'.format(secs)
+    elif secs < 3600:
+        time_str = '{:d}m {:d}s'.format(secs // 60, secs % 60)
+    elif secs < 86400:
+        time_str = '{:d}h {:d}m'.format(secs // 3600, secs // 60 % 60)
+    elif secs < 604800:
+        time_str = '{:d}d {:d}h'.format(secs // 86400, secs // 3600 % 24)
+    elif secs < 31449600:
+        time_str = '{:d}w {:d}d'.format(secs // 604800, secs // 86400 % 7)
+    else:
+        time_str = '{:d}y {:d}w'.format(secs // 31449600, secs // 604800 % 52)
 
-    **Usage**
-
-    >>> ftime(23011)
-    '6h 23m'
-
-    """
-    if seconds == 0:
-        return ""
-    if seconds < 60:
-        return '%ds' % (seconds)
-    minutes = seconds // 60
-    if minutes < 60:
-        seconds = seconds % 60
-        return '%dm %ds' % (minutes, seconds)
-    hours = minutes // 60
-    if hours < 24:
-        minutes = minutes % 60
-        return '%dh %dm' % (hours, minutes)
-    days = hours // 24
-    if days < 7:
-        hours = hours % 24
-        return '%dd %dh' % (days, hours)
-    weeks = days // 7
-    if weeks < 52:
-        days = days % 7
-        return '%dw %dd' % (weeks, days)
-    years = weeks // 52
-    weeks = weeks % 52
-    return '%dy %dw' % (years, weeks)
+    return time_str
 
 
 def fdate(seconds, date_only=False, precision_secs=False):
-    """
-    Formats a date time string in the locale's date representation based on the systems timezone
+    """Formats a date time string in the locale's date representation based on the systems timezone.
 
-    :param seconds: time in seconds since the Epoch
-    :type seconds: float
-    :param precision_secs: include seconds in time format
-    :type precision_secs: bool
-    :returns: a string in the locale's datetime representation or "" if seconds < 0
-    :rtype: string
+    Args:
+        seconds (float): Time in seconds since the Epoch.
+        precision_secs (bool): Include seconds in time format.
+
+    Returns:
+        str: A string in the locale's datetime representation or "" if seconds < 0
 
     """
+
     if seconds < 0:
         return ""
     time_format = "%x %X" if precision_secs else "%x %H:%M"
