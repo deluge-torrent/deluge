@@ -623,15 +623,20 @@ class Torrent(object):
         session_paused = component.get("Core").session.is_paused()
         old_state = self.state
         self.set_status_message()
+        try:
+            status_error = status.errc
+        except AttributeError:
+            # Deprecated in libtorrent 1.1
+            status_error = status.error
 
         if self.forced_error:
             self.state = "Error"
             self.set_status_message(self.forced_error.error_message)
-        elif status.error:
+        elif status_error:
             self.state = "Error"
             # auto-manage status will be reverted upon resuming.
             self.handle.auto_managed(False)
-            self.set_status_message(decode_string(status.error))
+            self.set_status_message(decode_string(status_error))
         elif self.moving_storage:
             self.state = "Moving"
         elif not session_paused and status.paused and status.auto_managed:
@@ -646,7 +651,7 @@ class Torrent(object):
 
         if log.isEnabledFor(logging.DEBUG):
             log.debug("State from lt was: %s | Session is paused: %s\nTorrent state set from '%s' to '%s' (%s)",
-                      "error" if status.error else status.state, session_paused, old_state, self.state, self.torrent_id)
+                      "error" if status_error else status.state, session_paused, old_state, self.state, self.torrent_id)
             if self.forced_error:
                 log.debug("Torrent Error state message: %s", self.forced_error.error_message)
 

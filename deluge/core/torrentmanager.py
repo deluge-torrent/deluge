@@ -1062,7 +1062,11 @@ class TorrentManager(component.Component):
 
     def on_alert_tracker_error(self, alert):
         """Alert handler for libtorrent tracker_error_alert"""
-        error_message = decode_string(alert.msg)
+        try:
+            error_message = decode_string(alert.error_message)
+        except AttributeError:
+            # Deprecated in libtorrent 1.1
+            error_message = decode_string(alert.msg)
         # If alert.msg is empty then it's a '-1' code so fallback to a.e.message. Note that alert.msg
         # cannot be replaced by a.e.message because the code is included in the string (for non-'-1').
         if not error_message:
@@ -1083,7 +1087,12 @@ class TorrentManager(component.Component):
             torrent = self.torrents[torrent_id]
         except (RuntimeError, KeyError):
             return
-        torrent.set_download_location(os.path.normpath(alert.handle.save_path()))
+        try:
+            storage_path = os.path.normpath(alert.storage_path)
+        except AttributeError:
+            # Deprecated in libtorrent 1.1
+            storage_path = os.path.normpath(alert.handle.save_path())
+        torrent.set_download_location(storage_path)
         torrent.set_move_completed(False)
         torrent.moving_storage = False
         torrent.update_state()
@@ -1196,7 +1205,12 @@ class TorrentManager(component.Component):
 
         """
         log.debug("on_alert_file_renamed")
-        log.debug("index: %s name: %s", alert.index, decode_string(alert.name))
+        try:
+            new_name = decode_string(alert.new_name)
+        except AttributeError:
+            # Deprecated in libtorrent 1.1
+            new_name = decode_string(alert.name)
+        log.debug("index: %s name: %s", alert.index, new_name)
         try:
             torrent_id = str(alert.handle.info_hash())
             torrent = self.torrents[torrent_id]
@@ -1210,7 +1224,7 @@ class TorrentManager(component.Component):
                 break
         else:
             # This is just a regular file rename so send the signal
-            component.get("EventManager").emit(TorrentFileRenamedEvent(torrent_id, alert.index, alert.name))
+            component.get("EventManager").emit(TorrentFileRenamedEvent(torrent_id, alert.index, new_name))
             self.save_resume_data((torrent_id,))
 
     def on_alert_metadata_received(self, alert):
