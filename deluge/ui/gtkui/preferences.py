@@ -474,10 +474,7 @@ class Preferences(component.Component):
         self.plugin_liststore.clear()
         # Iterate through the lists and add them to the liststore
         for plugin in all_plugins:
-            if plugin in enabled_plugins:
-                enabled = True
-            else:
-                enabled = False
+            enabled = plugin in enabled_plugins
             row = self.plugin_liststore.append()
             self.plugin_liststore.set_value(row, 0, plugin)
             self.plugin_liststore.set_value(row, 1, enabled)

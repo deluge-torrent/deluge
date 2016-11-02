@@ -743,10 +743,7 @@ class CmdLine(BaseMode, Commander):
 
         """
 
-        if len(line) == 0:
-            empty = True
-        else:
-            empty = False
+        empty = len(line) == 0
 
         # Remove dangling backslashes to avoid breaking shlex
         if line.endswith("\\"):

@@ -76,9 +76,9 @@ disable=
     locally-disabled,
 # Refactor
     no-self-use, too-many-arguments, too-many-branches, too-many-instance-attributes,
-    too-many-locals,  too-few-public-methods, too-many-public-methods, too-many-statements,
+    too-many-locals, too-few-public-methods, too-many-public-methods, too-many-statements,
 # Refactor msgs that should eventually be enabled:
-    redefined-variable-type, simplifiable-if-statement, too-many-ancestors,
+    redefined-variable-type, too-many-ancestors,
     too-many-nested-blocks, too-many-return-statements,
 # Warning
     unused-argument, protected-access, import-error, unused-variable,
