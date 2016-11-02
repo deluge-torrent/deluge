@@ -18,7 +18,6 @@ install:
 
 env:
   global:
-    - PIP_DOWNLOAD_CACHE=$HOME/.cache/pip
     - APTPACKAGES="python-libtorrent"
     - APTPACKAGES_GTKUI="python-gobject python-glade2"
     - DISPLAY=:99.0
