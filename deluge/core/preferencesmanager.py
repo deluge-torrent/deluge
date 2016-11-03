@@ -455,19 +455,16 @@ class PreferencesManager(component.Component):
         log.debug("%s: %s", key, value)
         self.session_set_setting("anonymous_mode", value)
 
-    def _on_set_geoip_db_location(self, key, geoip_db):
-        log.debug("%s: %s", key, geoip_db)
+    def _on_set_geoip_db_location(self, key, geoipdb_path):
+        log.debug("%s: %s", key, geoipdb_path)
         # Load the GeoIP DB for country look-ups if available
-        deluge_geoip_db = deluge.common.resource_filename("deluge", os.path.join("data", "GeoIP.dat"))
-        for geoip_path in (geoip_db, deluge_geoip_db):
-            if os.path.exists(geoip_path):
-                try:
-                    self.core.geoip_instance = GeoIP.open(geoip_path, GeoIP.GEOIP_STANDARD)
-                except AttributeError:
-                    log.warning("GeoIP Unavailable")
-                break
+        if os.path.exists(geoipdb_path):
+            try:
+                self.core.geoip_instance = GeoIP.open(geoipdb_path, GeoIP.GEOIP_STANDARD)
+            except AttributeError:
+                log.warning("GeoIP Unavailable")
         else:
-            log.warning("Unable to find GeoIP database file: %s")
+            log.warning("Unable to find GeoIP database file: %s", geoipdb_path)
 
     def _on_set_cache_size(self, key, value):
         log.debug("%s: %s", key, value)
