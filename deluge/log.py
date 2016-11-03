@@ -222,7 +222,7 @@ def tweak_logging_levels():
             if level not in levels:
                 continue
 
-            log.warn("Setting logger \"%s\" to logging level \"%s\"", name, level)
+            log.warn('Setting logger "%s" to logging level "%s"', name, level)
             set_logger_level(level, name)
 
 

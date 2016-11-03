@@ -193,16 +193,16 @@ class DelugeRPCClientFactory(ClientFactory):
         self.event_handlers = event_handlers
 
     def startedConnecting(self, connector):  # NOQA
-        log.debug("Connecting to daemon at \"%s:%s\"...",
+        log.debug('Connecting to daemon at "%s:%s"...',
                   connector.host, connector.port)
 
     def clientConnectionFailed(self, connector, reason):  # NOQA
-        log.debug("Connection to daemon at \"%s:%s\" failed: %s",
+        log.debug('Connection to daemon at "%s:%s" failed: %s',
                   connector.host, connector.port, reason.value)
         self.daemon.connect_deferred.errback(reason)
 
     def clientConnectionLost(self, connector, reason):  # NOQA
-        log.debug("Connection lost to daemon at \"%s:%s\" reason: %s",
+        log.debug('Connection lost to daemon at "%s:%s" reason: %s',
                   connector.host, connector.port, reason.value)
         self.daemon.host = None
         self.daemon.port = None

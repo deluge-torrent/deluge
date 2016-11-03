@@ -314,7 +314,7 @@ class Core(CorePluginBase):
                 elif watchdir.get('copy_torrent_toggle'):
                     copy_torrent_path = watchdir['copy_torrent']
                     copy_torrent_file = os.path.join(copy_torrent_path, filename)
-                    log.debug("Moving added torrent file \"%s\" to \"%s\"",
+                    log.debug('Moving added torrent file "%s" to "%s"',
                               os.path.basename(filepath), copy_torrent_path)
                     shutil.move(filepath, copy_torrent_file)
 
@@ -324,7 +324,7 @@ class Core(CorePluginBase):
     def on_update_watchdir_error(self, failure, watchdir_id):
         """Disables any watch folders with un-handled exceptions."""
         self.disable_watchdir(watchdir_id)
-        log.error("Disabling '%s', error during update: %s",
+        log.error('Disabling "%s", error during update: %s',
                   self.watchdirs[watchdir_id]['path'], failure)
 
     @export
@@ -459,9 +459,9 @@ class Core(CorePluginBase):
             if os.path.isfile(torrent_fname_path):
                 try:
                     os.remove(torrent_fname_path)
-                    log.info("Removed torrent file \"%s\" from \"%s\"",
+                    log.info('Removed torrent file "%s" from "%s"',
                              torrent_fname, copy_torrent_path)
                     break
                 except OSError as ex:
-                    log.info("Failed to removed torrent file \"%s\" from "
-                             "\"%s\": %s", torrent_fname, copy_torrent_path, ex)
+                    log.info('Failed to removed torrent file "%s" from "%s": %s',
+                             torrent_fname, copy_torrent_path, ex)

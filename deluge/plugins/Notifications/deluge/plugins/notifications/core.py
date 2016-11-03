@@ -171,10 +171,10 @@ Date: %(date)s
         torrent = component.get('TorrentManager')[torrent_id]
         torrent_status = torrent.get_status({})
         # Email
-        subject = _("Finished Torrent \"%(name)s\"") % torrent_status
+        subject = _('Finished Torrent "%(name)s"') % torrent_status
         message = _(
             'This email is to inform you that Deluge has finished '
-            "downloading \"%(name)s\", which includes %(num_files)i files."
+            'downloading \"%(name)s\", which includes %(num_files)i files.'
             '\nTo stop receiving these alerts, simply turn off email '
             "notification in Deluge's preferences.\n\n"
             'Thank you,\nDeluge.'

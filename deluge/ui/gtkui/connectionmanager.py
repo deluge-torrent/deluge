@@ -530,7 +530,7 @@ class ConnectionManager(component.Component):
         msg = str(reason.value)
         if not self.builder.get_object('chk_autostart').get_active():
             msg += '\n' + _('Auto-starting the daemon locally is not enabled. '
-                            "See \"Options\" on the \"Connection Manager\".")
+                            'See "Options" on the "Connection Manager".')
         ErrorDialog(_('Failed To Connect'), msg).run()
 
     def on_button_connect_clicked(self, widget=None):

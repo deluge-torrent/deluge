@@ -184,7 +184,7 @@ for script in script_list:
 
 # Copy version info to file for nsis script.
 with open('VERSION.tmp', 'w') as ver_file:
-    ver_file.write("build_version = \"%s\"" % build_version)
+    ver_file.write('build_version = "%s"' % build_version)
 
 # Create the install and uninstall file list for NSIS.
 filedir_list = []

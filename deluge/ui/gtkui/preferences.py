@@ -1105,8 +1105,8 @@ class Preferences(component.Component):
 
         username = model[itr][0]
         header = _('Remove Account')
-        text = _("Are you sure you wan't do remove the account with the "
-                 "username \"%(username)s\"?" % dict(username=username))
+        text = _('Are you sure you want to remove the account with the '
+                 'username "%(username)s"?' % dict(username=username))
         dialog = YesNoDialog(header, text, parent=self.pref_dialog)
 
         def dialog_finished(response_id):

@@ -665,7 +665,7 @@ class ListView(object):
                 continue
             column = find_column(col_state.name)
             if not column:
-                log.debug("Could not find column matching \"%s\" on state.", col_state.name)
+                log.debug('Could not find column matching "%s" on state.', col_state.name)
                 # The cases where I've found that the column could not be found
                 # is when not using the english locale, ie, the default one, or
                 # when changing locales between runs.

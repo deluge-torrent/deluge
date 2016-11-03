@@ -552,7 +552,7 @@ class MenuBar(component.Component):
                 update_torrents.append(torrent_id)
 
         if update_torrents:
-            log.debug("Setting torrent owner \"%s\" on %s", username, update_torrents)
+            log.debug('Setting torrent owner "%s" on %s', username, update_torrents)
 
             def failed_change_owner(failure):
                 ErrorDialog(

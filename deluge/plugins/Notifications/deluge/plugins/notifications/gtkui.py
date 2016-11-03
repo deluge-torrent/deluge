@@ -222,7 +222,7 @@ class GtkUiNotifications(CustomNotifications):
                   'Got Torrent Status')
         title = _('Finished Torrent')
         torrent_status['num_files'] = torrent_status['file_progress'].count(1.0)
-        message = _("The torrent \"%(name)s\" including %(num_files)i file(s) "
+        message = _('The torrent \"%(name)s\" including %(num_files)i file(s) '
                     'has finished downloading.') % torrent_status
         return title, message
 
@@ -472,7 +472,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
                   old_sound_file, new_sound_file)
         custom_sounds = {}
         for event_name, event_doc, filename, filepath in self.sounds_model:
-            log.debug("Custom sound for event \"%s\": %s", event_name, filename)
+            log.debug('Custom sound for event "%s": %s', event_name, filename)
             if filepath == old_sound_file:
                 continue
             custom_sounds[event_name] = filepath

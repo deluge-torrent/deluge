@@ -40,7 +40,7 @@ class Command(BaseCommand):
             names.append(self.console.get_torrent_name(tid))
 
         def on_move(res):
-            msg = "Moved \"%s\" to %s" % (', '.join(names), options.path)
+            msg = 'Moved "%s" to %s' % (', '.join(names), options.path)
             self.console.write(msg)
             log.info(msg)
 

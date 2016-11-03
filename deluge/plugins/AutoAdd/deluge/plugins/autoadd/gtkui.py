@@ -341,8 +341,8 @@ class OptionsDialog(object):
             options[chk_id + '_toggle'] = self.glade.get_widget(chk_id + '_toggle').get_active()
 
         if options['copy_torrent_toggle'] and options['path'] == options['copy_torrent']:
-            raise IncompatibleOption(_("\"Watch Folder\" directory and \"Copy of .torrent"
-                                       " files to\" directory cannot be the same!"))
+            raise IncompatibleOption(_('"Watch Folder" directory and "Copy of .torrent'
+                                       ' files to" directory cannot be the same!'))
         return options
 
 

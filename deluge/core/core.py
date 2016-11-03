@@ -716,7 +716,7 @@ class Core(component.Component):
         :raises DelugeError: if the username is not known
         """
         if not self.authmanager.has_account(username):
-            raise DelugeError("Username \"%s\" is not known." % username)
+            raise DelugeError('Username "%s" is not known.' % username)
         if isinstance(torrent_ids, basestring):
             torrent_ids = [torrent_ids]
         for torrent_id in torrent_ids:

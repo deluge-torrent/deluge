@@ -328,7 +328,7 @@ class StatusBar(component.Component):
         if space >= 0:
             self.diskspace_item.set_markup('<small>%s</small>' % fsize(space, shortform=True))
         else:
-            self.diskspace_item.set_markup("<span foreground=\"red\">" + _('Error') + '</span>')
+            self.diskspace_item.set_markup('<span foreground="red">' + _('Error') + '</span>')
 
     def _on_max_download_speed(self, max_download_speed):
         self.max_download_speed = max_download_speed

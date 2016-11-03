@@ -518,16 +518,16 @@ class RPCServer(component.Component):
         :type event: :class:`deluge.event.DelugeEvent`
         """
         if not self.is_session_valid(session_id):
-            log.debug("Session ID %s is not valid. Not sending event \"%s\".", session_id, event.name)
+            log.debug('Session ID %s is not valid. Not sending event "%s".', session_id, event.name)
             return
         if session_id not in self.factory.interested_events:
-            log.debug("Session ID %s is not interested in any events. Not sending event \"%s\".",
+            log.debug('Session ID %s is not interested in any events. Not sending event "%s".',
                       session_id, event.name)
             return
         if event.name not in self.factory.interested_events[session_id]:
-            log.debug("Session ID %s is not interested in event \"%s\". Not sending it.", session_id, event.name)
+            log.debug('Session ID %s is not interested in event "%s". Not sending it.', session_id, event.name)
             return
-        log.debug("Sending event \"%s\" with args \"%s\" to session id \"%s\".",
+        log.debug('Sending event "%s" with args "%s" to session id "%s".',
                   event.name, event.args, session_id)
         self.factory.session_protocols[session_id].sendData((RPC_EVENT, event.name, event.args))
 

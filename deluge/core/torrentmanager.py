@@ -446,7 +446,7 @@ class TorrentManager(component.Component):
             log.debug('Torrent added: %s', str(alert.handle.info_hash()))
         if log.isEnabledFor(logging.INFO):
             name_and_owner = torrent.get_status(['name', 'owner'])
-            log.info("Torrent %s from user \"%s\" %s",
+            log.info('Torrent %s from user "%s" %s',
                      name_and_owner['name'],
                      name_and_owner['owner'],
                      from_state and 'loaded' or 'added')

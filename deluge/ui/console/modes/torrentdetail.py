@@ -454,7 +454,7 @@ class TorrentDetail(BaseMode, PopupsHandler):
 
         # Tracker
         tracker_color = '{!green!}' if status['message'] == 'OK' else '{!red!}'
-        s = "{!info!}%s: {!magenta!}%s{!input!} says \"%s%s{!input!}\"" % (
+        s = '{!info!}%s: {!magenta!}%s{!input!} says "%s%s{!input!}"' % (
             torrent_data_fields['tracker']['name'], status['tracker_host'], tracker_color, status['message'])
         row = self.add_string(row, s)
 
