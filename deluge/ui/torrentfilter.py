@@ -23,7 +23,7 @@ log = logging.getLogger(__name__)
 def tracker_error_filter(torrents_filter, values):
     for v in values:
         if v == 'Error':
-            torrents_filter |= (torrents_filter.db('tracker_error') == True)  # noqa (singleton-comparison) pylint: disable=all
+            torrents_filter |= (torrents_filter.db('tracker_error') == True)  # noqa pylint: disable=singleton-comparison
         else:
             torrents_filter |= (torrents_filter.db('tracker_host') == values[0])
     return torrents_filter
@@ -32,15 +32,15 @@ def tracker_error_filter(torrents_filter, values):
 def state_filter(torrents_filter, values):
     for v in values:
         if v == 'Active':
-            torrents_filter |= (torrents_filter.db('active') == True)  # noqa (singleton-comparison) pylint: disable=all
+            torrents_filter |= (torrents_filter.db('active') == True)  # noqa pylint: disable=singleton-comparison
         else:
-            torrents_filter |= (torrents_filter.db('state') == v)  # noqa (singleton-comparison) pylint: disable=all
+            torrents_filter |= (torrents_filter.db('state') == v)
     return torrents_filter
 
 
 def owner_filter(torrents_filter, values):
     for v in values:
-        torrents_filter |= (torrents_filter.db('owner') == v)  # noqa (singleton-comparison) pylint: disable=all
+        torrents_filter |= (torrents_filter.db('owner') == v)
     return torrents_filter
 
 
@@ -99,7 +99,7 @@ class TorrentFilter(component.Component):
 
         """
         del self.torrents[torrent_id]
-        records = self.filter_db(torrent_id=torrent_id)
+        records = self.filter_db(torrent_id=torrent_id)  # noqa pylint: disable=not-callable
         self.filter_db.delete(records)
 
     def update_keys(self, keys):
@@ -149,7 +149,7 @@ class TorrentFilter(component.Component):
         if 'tracker_status' in update and 'Error:' in update['tracker_status']:
             update['tracker_error'] = True
 
-        records = self.filter_db(torrent_id=torrent_id)
+        records = self.filter_db(torrent_id=torrent_id)  # noqa pylint: disable=not-callable
         if not records:
             update['torrent_id'] = torrent_id
             self.filter_db.insert(**update)
@@ -189,7 +189,7 @@ class TorrentFilter(component.Component):
             # Optimized filter for id
             if 'id' in filter_dict:
                 torrent_ids = list(filter_dict['id'])
-                torrents_filter = (self.filter_db('torrent_id') == torrent_ids)
+                torrents_filter = (self.filter_db('torrent_id') == torrent_ids)  # noqa pylint: disable=not-callable
 
             # Registered filters
             for field, values in filter_dict.items():
@@ -225,7 +225,7 @@ class TorrentFilter(component.Component):
         else:
             matching_torrent_ids = self.filter_db.get_unique_ids('torrent_id', db_filter=torrents_filter)
             # Filter on only the torrents that have been updated since last time
-            filter_only_updated = (self.filter_db('torrent_id') == only_updated_ids)
+            filter_only_updated = (self.filter_db('torrent_id') == only_updated_ids)  # noqa pylint: disable=not-callable
 
             # Filter on the current torrent filter
             records = (filter_only_updated & torrents_filter)
@@ -356,8 +356,7 @@ class FilterTree(object):
     def _create_state_tree(self, torrents_filter):
         tree = {'All': len(torrents_filter),
                 'Active': len(torrents_filter & (self.tf.filter_db('active') == True)),  # noqa pylint: disable=singleton-comparison
-                'Downloading': 0, 'Seeding': 0, 'Paused': 0, 'Checking': 0, 'Queued': 0, 'Error': 0,
-                }
+                'Downloading': 0, 'Seeding': 0, 'Paused': 0, 'Checking': 0, 'Queued': 0, 'Error': 0}
         result = self.tf.filter_db.get_group_count('state', db_filter=torrents_filter)
         for state in result:
             tree[state[0]] = state[1]

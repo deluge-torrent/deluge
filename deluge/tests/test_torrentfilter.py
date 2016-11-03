@@ -16,7 +16,7 @@ class TorrentFilterTestCase(BaseTestCase):
         torrent_id = 'id_abc'
         self.tf.add_torrent(torrent_id)
         self.assertTrue(torrent_id in self.tf.torrents)
-        records = self.tf.filter_db(torrent_id=torrent_id)
+        records = self.tf.filter_db(torrent_id=torrent_id)  # noqa pylint: disable=not-callable
         self.assertEquals(len(records), 1)
 
     def test_remove_torrent(self):
@@ -24,7 +24,7 @@ class TorrentFilterTestCase(BaseTestCase):
         self.tf.add_torrent(torrent_id)
         self.tf.remove_torrent(torrent_id)
         self.assertFalse(torrent_id in self.tf.torrents)
-        records = self.tf.filter_db(torrent_id=torrent_id)
+        records = self.tf.filter_db(torrent_id=torrent_id)  # noqa pylint: disable=not-callable
         self.assertEquals(len(records), 0)
 
     def test_update_keys_bad_input_type(self):

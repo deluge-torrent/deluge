@@ -38,7 +38,7 @@ class FilterManager(object):
         self.filter_db.insert(**status)
 
     def on_torrent_removed(self, torrent_id):
-        records = self.filter_db(torrent_id=torrent_id)
+        records = self.filter_db(torrent_id=torrent_id)  # noqa pylint: disable=not-callable
         if not records:
             return
         self.filter_db.delete(records[0])
@@ -53,7 +53,7 @@ class FilterManager(object):
         if component.get('RPCServer').get_session_auth_level() == AUTH_LEVEL_ADMIN:
             return self.filter_db.filter()
         user = component.get('RPCServer').get_session_user()
-        return (self.filter_db('owner') == user) | (self.filter_db('shared') == True)  # noqa pylint: disable=singleton-comparison
+        return (self.filter_db('owner') == user) | (self.filter_db('shared') == True)  # noqa pylint: disable=singleton-comparison,not-callable
 
     def get_torrent_list(self):
         """

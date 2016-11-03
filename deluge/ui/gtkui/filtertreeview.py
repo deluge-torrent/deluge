@@ -288,7 +288,7 @@ class FilterTreeView(component.Component):
                 filter_dict[cat] = current_value
 
             # Any category not explicitly chosen is removed (by setting to None)
-            for cat in self.cat_nodes.keys():
+            for cat in self.cat_nodes:
                 if cat not in filter_dict:
                     filter_dict[cat] = None
 
