@@ -155,6 +155,8 @@ class PreferencesManager(component.Component):
     def do_config_set_func(self, key, value):
         on_set_func = getattr(self, "_on_set_" + key, None)
         if on_set_func:
+            if log.isEnabledFor(logging.DEBUG):
+                log.debug("Config key: %s set to %s..", key, value)
             on_set_func(key, value)
 
     def session_set_setting(self, key, value):
@@ -238,7 +240,6 @@ class PreferencesManager(component.Component):
         self.session_set_setting("outgoing_ports", (ports[0], ports[1]))
 
     def _on_set_peer_tos(self, key, value):
-        log.debug("setting peer_tos to: %s", value)
         try:
             self.session_set_setting("peer_tos", chr(int(value, 16)))
         except ValueError as ex:
@@ -246,25 +247,20 @@ class PreferencesManager(component.Component):
             return
 
     def _on_set_dht(self, key, value):
-        log.debug("dht value set to %s", value)
         dht_bootstraps = "router.bittorrent.com:6881,router.utorrent.com:6881,router.bitcomet.com:6881"
         self.session_set_setting("dht_bootstrap_nodes", dht_bootstraps)
         self.session_set_setting("enable_dht", value)
 
     def _on_set_upnp(self, key, value):
-        log.debug("upnp value set to %s", value)
         self.session_set_setting("enable_upnp", value)
 
     def _on_set_natpmp(self, key, value):
-        log.debug("natpmp value set to %s", value)
         self.session_set_setting("enable_natpmp", value)
 
     def _on_set_lsd(self, key, value):
-        log.debug("lsd value set to %s", value)
         self.session_set_setting("enable_lsd", value)
 
     def _on_set_utpex(self, key, value):
-        log.debug("utpex value set to %s", value)
         if value:
             self.session.add_extension("ut_pex")
 
@@ -278,7 +274,6 @@ class PreferencesManager(component.Component):
         self._on_set_encryption(key, value)
 
     def _on_set_encryption(self, key, value):
-        log.debug("encryption value %s set to %s..", key, value)
         # Convert Deluge enc_level values to libtorrent enc_level values.
         pe_enc_level = {0: lt.enc_level.plaintext, 1: lt.enc_level.rc4, 2: lt.enc_level.both}
         try:
@@ -303,64 +298,50 @@ class PreferencesManager(component.Component):
                       pe_sess_settings.prefer_rc4)
 
     def _on_set_max_connections_global(self, key, value):
-        log.debug("max_connections_global set to %s..", value)
         self.session_set_setting("connections_limit", value)
 
     def _on_set_max_upload_speed(self, key, value):
-        log.debug("max_upload_speed set to %s..", value)
         # We need to convert Kb/s to B/s
         value = -1 if value < 0 else int(value * 1024)
         self.session_set_setting("upload_rate_limit", value)
 
     def _on_set_max_download_speed(self, key, value):
-        log.debug("max_download_speed set to %s..", value)
         # We need to convert Kb/s to B/s
         value = -1 if value < 0 else int(value * 1024)
         self.session_set_setting("download_rate_limit", value)
 
     def _on_set_max_upload_slots_global(self, key, value):
-        log.debug("max_upload_slots_global set to %s..", value)
         self.session_set_setting("unchoke_slots_limit", value)
 
     def _on_set_max_half_open_connections(self, key, value):
-        log.debug("max_half_open_connections set to %s..", value)
         self.session_set_setting("half_open_limit", value)
 
     def _on_set_max_connections_per_second(self, key, value):
-        log.debug("max_connections_per_second set to %s..", value)
         self.session_set_setting("connection_speed", value)
 
     def _on_set_ignore_limits_on_local_network(self, key, value):
-        log.debug("ignore_limits_on_local_network set to %s..", value)
         self.session_set_setting("ignore_limits_on_local_network", value)
 
     def _on_set_share_ratio_limit(self, key, value):
-        log.debug("%s set to %s..", key, value)
         self.session_set_setting("share_ratio_limit", value)
 
     def _on_set_seed_time_ratio_limit(self, key, value):
-        log.debug("%s set to %s..", key, value)
         self.session_set_setting("seed_time_ratio_limit", value)
 
     def _on_set_seed_time_limit(self, key, value):
-        log.debug("%s set to %s..", key, value)
         # This value is stored in minutes in deluge, but libtorrent wants seconds
         self.session_set_setting("seed_time_limit", int(value * 60))
 
     def _on_set_max_active_downloading(self, key, value):
-        log.debug("%s set to %s..", key, value)
         self.session_set_setting("active_downloads", value)
 
     def _on_set_max_active_seeding(self, key, value):
-        log.debug("%s set to %s..", key, value)
         self.session_set_setting("active_seeds", value)
 
     def _on_set_max_active_limit(self, key, value):
-        log.debug("%s set to %s..", key, value)
         self.session_set_setting("active_limit", value)
 
     def _on_set_dont_count_slow_torrents(self, key, value):
-        log.debug("%s set to %s..", key, value)
         self.session_set_setting("dont_count_slow_torrents", value)
 
     def _on_set_send_info(self, key, value):
@@ -409,7 +390,6 @@ class PreferencesManager(component.Component):
                 self.new_release_timer.stop()
 
     def _on_set_proxy(self, key, value):
-        log.debug("Setting proxy to: %s", value)
         try:
             if key == "i2p_proxy":
                 self.session.apply_settings("proxy_type", lt.proxy_type("i2p_proxy"))
@@ -444,19 +424,15 @@ class PreferencesManager(component.Component):
                 self.session.set_proxy(proxy_settings)
 
     def _on_set_i2p_proxy(self, key, value):
-        log.debug("Setting I2P proxy to: %s", value)
         self._on_set_proxy(key, value)
 
     def _on_set_rate_limit_ip_overhead(self, key, value):
-        log.debug("%s: %s", key, value)
         self.session_set_setting("rate_limit_ip_overhead", value)
 
     def _on_set_anonymous_mode(self, key, value):
-        log.debug("%s: %s", key, value)
         self.session_set_setting("anonymous_mode", value)
 
     def _on_set_geoip_db_location(self, key, geoipdb_path):
-        log.debug("%s: %s", key, geoipdb_path)
         # Load the GeoIP DB for country look-ups if available
         if os.path.exists(geoipdb_path):
             try:
@@ -467,13 +443,10 @@ class PreferencesManager(component.Component):
             log.warning("Unable to find GeoIP database file: %s", geoipdb_path)
 
     def _on_set_cache_size(self, key, value):
-        log.debug("%s: %s", key, value)
         self.session_set_setting("cache_size", value)
 
     def _on_set_cache_expiry(self, key, value):
-        log.debug("%s: %s", key, value)
         self.session_set_setting("cache_expiry", value)
 
     def _on_auto_manage_prefer_seeds(self, key, value):
-        log.debug("%s set to %s..", key, value)
         self.session_set_setting("auto_manage_prefer_seeds", value)
