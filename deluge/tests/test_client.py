@@ -20,7 +20,7 @@ from .daemon_base import DaemonBase
 class NoVersionSendingDaemonSSLProxy(DaemonSSLProxy):
     def authenticate(self, username, password):
         self.login_deferred = defer.Deferred()
-        d = self.call("daemon.login", username, password)
+        d = self.call('daemon.login', username, password)
         d.addCallback(self.__on_login, username)
         d.addErrback(self.__on_login_fail)
         return self.login_deferred
@@ -34,7 +34,7 @@ class NoVersionSendingDaemonSSLProxy(DaemonSSLProxy):
 
 class NoVersionSendingClient(Client):
 
-    def connect(self, host="127.0.0.1", port=58846, username="", password="",
+    def connect(self, host='127.0.0.1', port=58846, username='', password='',
                 skip_authentication=False):
         self._daemon_proxy = NoVersionSendingDaemonSSLProxy()
         self._daemon_proxy.set_disconnect_callback(self.__on_disconnect)
@@ -85,7 +85,7 @@ class ClientTestCase(BaseTestCase, DaemonBase):
         return d
 
     def test_connect_no_credentials(self):
-        d = client.connect("localhost", self.listen_port, username="", password="")
+        d = client.connect('localhost', self.listen_port, username='', password='')
 
         def on_connect(result):
             self.assertEqual(client.get_auth_level(), AUTH_LEVEL_ADMIN)
@@ -97,7 +97,7 @@ class ClientTestCase(BaseTestCase, DaemonBase):
 
     def test_connect_localclient(self):
         username, password = deluge.ui.common.get_localhost_auth()
-        d = client.connect("localhost", self.listen_port, username=username, password=password)
+        d = client.connect('localhost', self.listen_port, username=username, password=password)
 
         def on_connect(result):
             self.assertEqual(client.get_auth_level(), AUTH_LEVEL_ADMIN)
@@ -109,14 +109,14 @@ class ClientTestCase(BaseTestCase, DaemonBase):
 
     def test_connect_bad_password(self):
         username, password = deluge.ui.common.get_localhost_auth()
-        d = client.connect("localhost", self.listen_port, username=username, password=password + "1")
+        d = client.connect('localhost', self.listen_port, username=username, password=password + '1')
 
         def on_failure(failure):
             self.assertEqual(
                 failure.trap(error.BadLoginError),
                 error.BadLoginError
             )
-            self.assertEquals(failure.value.message, "Password does not match")
+            self.assertEquals(failure.value.message, 'Password does not match')
             self.addCleanup(client.disconnect)
 
         d.addCallbacks(self.fail, on_failure)
@@ -124,14 +124,14 @@ class ClientTestCase(BaseTestCase, DaemonBase):
 
     def test_connect_invalid_user(self):
         username, password = deluge.ui.common.get_localhost_auth()
-        d = client.connect("localhost", self.listen_port, username="invalid-user")
+        d = client.connect('localhost', self.listen_port, username='invalid-user')
 
         def on_failure(failure):
             self.assertEqual(
                 failure.trap(error.BadLoginError),
                 error.BadLoginError
             )
-            self.assertEquals(failure.value.message, "Username does not exist")
+            self.assertEquals(failure.value.message, 'Username does not exist')
             self.addCleanup(client.disconnect)
 
         d.addCallbacks(self.fail, on_failure)
@@ -139,7 +139,7 @@ class ClientTestCase(BaseTestCase, DaemonBase):
 
     def test_connect_without_password(self):
         username, password = deluge.ui.common.get_localhost_auth()
-        d = client.connect("localhost", self.listen_port, username=username)
+        d = client.connect('localhost', self.listen_port, username=username)
 
         def on_failure(failure):
             self.assertEqual(
@@ -155,16 +155,16 @@ class ClientTestCase(BaseTestCase, DaemonBase):
     @defer.inlineCallbacks
     def test_connect_with_password(self):
         username, password = deluge.ui.common.get_localhost_auth()
-        yield client.connect("localhost", self.listen_port, username=username, password=password)
-        yield client.core.create_account("testuser", "testpw", "DEFAULT")
+        yield client.connect('localhost', self.listen_port, username=username, password=password)
+        yield client.core.create_account('testuser', 'testpw', 'DEFAULT')
         yield client.disconnect()
-        ret = yield client.connect("localhost", self.listen_port, username="testuser", password="testpw")
+        ret = yield client.connect('localhost', self.listen_port, username='testuser', password='testpw')
         self.assertEquals(ret, deluge.common.AUTH_LEVEL_NORMAL)
         yield
 
     @defer.inlineCallbacks
     def test_invalid_rpc_method_call(self):
-        yield client.connect("localhost", self.listen_port, username="", password="")
+        yield client.connect('localhost', self.listen_port, username='', password='')
         d = client.core.invalid_method()
 
         def on_failure(failure):
@@ -177,7 +177,7 @@ class ClientTestCase(BaseTestCase, DaemonBase):
         username, password = deluge.ui.common.get_localhost_auth()
         no_version_sending_client = NoVersionSendingClient()
         d = no_version_sending_client.connect(
-            "localhost", self.listen_port, username=username, password=password
+            'localhost', self.listen_port, username=username, password=password
         )
 
         def on_failure(failure):

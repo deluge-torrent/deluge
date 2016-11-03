@@ -27,27 +27,27 @@ log = logging.getLogger(__name__)
 
 class GtkUI(GtkPluginBase):
     def enable(self):
-        self.glade = gtk.glade.XML(get_resource("config.glade"))
+        self.glade = gtk.glade.XML(get_resource('config.glade'))
 
-        component.get("Preferences").add_page(_("WebUi"), self.glade.get_widget("prefs_box"))
-        component.get("PluginManager").register_hook("on_apply_prefs", self.on_apply_prefs)
-        component.get("PluginManager").register_hook("on_show_prefs", self.on_show_prefs)
+        component.get('Preferences').add_page(_('WebUi'), self.glade.get_widget('prefs_box'))
+        component.get('PluginManager').register_hook('on_apply_prefs', self.on_apply_prefs)
+        component.get('PluginManager').register_hook('on_show_prefs', self.on_show_prefs)
         client.webui.get_config().addCallback(self.cb_get_config)
         client.webui.got_deluge_web().addCallback(self.cb_chk_deluge_web)
 
     def disable(self):
-        component.get("Preferences").remove_page(_("WebUi"))
-        component.get("PluginManager").deregister_hook("on_apply_prefs", self.on_apply_prefs)
-        component.get("PluginManager").deregister_hook("on_show_prefs", self.on_show_prefs)
+        component.get('Preferences').remove_page(_('WebUi'))
+        component.get('PluginManager').deregister_hook('on_apply_prefs', self.on_apply_prefs)
+        component.get('PluginManager').deregister_hook('on_show_prefs', self.on_show_prefs)
 
     def on_apply_prefs(self):
         if not self.have_web:
             return
-        log.debug("applying prefs for WebUi")
+        log.debug('applying prefs for WebUi')
         config = {
-            "enabled": self.glade.get_widget("enabled_checkbutton").get_active(),
-            "ssl": self.glade.get_widget("ssl_checkbutton").get_active(),
-            "port": self.glade.get_widget("port_spinbutton").get_value_as_int()
+            'enabled': self.glade.get_widget('enabled_checkbutton').get_active(),
+            'ssl': self.glade.get_widget('ssl_checkbutton').get_active(),
+            'port': self.glade.get_widget('port_spinbutton').get_value_as_int()
         }
         client.webui.set_config(config)
 
@@ -55,26 +55,26 @@ class GtkUI(GtkPluginBase):
         client.webui.get_config().addCallback(self.cb_get_config)
 
     def cb_get_config(self, config):
-        "callback for on show_prefs"
-        self.glade.get_widget("enabled_checkbutton").set_active(config["enabled"])
-        self.glade.get_widget("ssl_checkbutton").set_active(config["ssl"])
-        self.glade.get_widget("port_spinbutton").set_value(config["port"])
+        'callback for on show_prefs'
+        self.glade.get_widget('enabled_checkbutton').set_active(config['enabled'])
+        self.glade.get_widget('ssl_checkbutton').set_active(config['ssl'])
+        self.glade.get_widget('port_spinbutton').set_value(config['port'])
 
     def cb_chk_deluge_web(self, have_web):
         self.have_web = have_web
         if have_web:
             return
-        self.glade.get_widget("settings_vbox").set_sensitive(False)
+        self.glade.get_widget('settings_vbox').set_sensitive(False)
 
-        vbox = self.glade.get_widget("prefs_box")
+        vbox = self.glade.get_widget('prefs_box')
 
         hbox = gtk.HBox()
         icon = gtk.image_new_from_stock(gtk.STOCK_DIALOG_ERROR, gtk.ICON_SIZE_SMALL_TOOLBAR)
         icon.set_padding(5, 5)
         hbox.pack_start(icon, False, False)
 
-        label = gtk.Label(_("The Deluge web interface is not installed, "
-                            "please install the\ninterface and try again"))
+        label = gtk.Label(_('The Deluge web interface is not installed, '
+                            'please install the\ninterface and try again'))
         label.set_alignment(0, 0.5)
         label.set_padding(5, 5)
         hbox.pack_start(label)

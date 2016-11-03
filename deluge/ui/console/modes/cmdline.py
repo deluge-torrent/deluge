@@ -36,20 +36,20 @@ MAX_HISTFILE_SIZE = 2000
 
 
 def complete_line(line, possible_matches):
-    "Find the common prefix of possible matches, proritizing matching-case elements"
+    'Find the common prefix of possible matches, proritizing matching-case elements'
 
     if not possible_matches:
         return line
 
-    line = line.replace(r"\ ", " ")
+    line = line.replace(r'\ ', ' ')
 
     matches1 = []
     matches2 = []
 
     for match in possible_matches:
         match = remove_formatting(match)
-        match = match.replace(r"\ ", " ")
-        m1, m2 = "", ""
+        match = match.replace(r'\ ', ' ')
+        m1, m2 = '', ''
         for i, c in enumerate(line):
             if m1 and m2:
                 break
@@ -76,13 +76,13 @@ def complete_line(line, possible_matches):
                 maxlen = min(maxlen, i)
                 break
 
-    return possible_matches[0][:maxlen].replace(" ", r"\ ")
+    return possible_matches[0][:maxlen].replace(' ', r'\ ')
 
 
 def commonprefix(m):
-    "Given a list of pathnames, returns the longest common leading component"
+    'Given a list of pathnames, returns the longest common leading component'
     if not m:
-        return ""
+        return ''
     s1 = min(m)
     s2 = max(m)
     for i, c in enumerate(s1):
@@ -95,7 +95,7 @@ class CmdLine(BaseMode, Commander):
 
     def __init__(self, stdscr, encoding=None):
         # Get a handle to the main console
-        self.console = component.get("ConsoleUI")
+        self.console = component.get('ConsoleUI')
         Commander.__init__(self, self.console._commands, interactive=True)
 
         self.batch_write = False
@@ -106,8 +106,8 @@ class CmdLine(BaseMode, Commander):
         self.display_lines_offset = 0
 
         # Holds the user input and is cleared on 'enter'
-        self.input = u""
-        self.input_incomplete = u""
+        self.input = u''
+        self.input_incomplete = u''
 
         # Keep track of where the cursor is
         self.input_cursor = 0
@@ -118,7 +118,7 @@ class CmdLine(BaseMode, Commander):
         # Keep track of double- and multi-tabs
         self.tab_count = 0
 
-        self.console_config = component.get("TorrentList").config
+        self.console_config = component.get('TorrentList').config
 
         # To avoid having to truncate the file every time we're writing
         # or doing it on exit(and therefore relying on an error-less
@@ -126,13 +126,13 @@ class CmdLine(BaseMode, Commander):
         # that we swap around based on length
         config_dir = deluge.configmanager.get_config_dir()
         self.history_file = [
-            os.path.join(config_dir, "cmd_line.hist1"),
-            os.path.join(config_dir, "cmd_line.hist2")
+            os.path.join(config_dir, 'cmd_line.hist1'),
+            os.path.join(config_dir, 'cmd_line.hist2')
         ]
         self._hf_lines = [0, 0]
-        if self.console_config["cmdline"]["save_command_history"]:
+        if self.console_config['cmdline']['save_command_history']:
             try:
-                with open(self.history_file[0], "r") as _file:
+                with open(self.history_file[0], 'r') as _file:
                     lines1 = _file.read().splitlines()
                 self._hf_lines[0] = len(lines1)
             except IOError:
@@ -140,7 +140,7 @@ class CmdLine(BaseMode, Commander):
                 self._hf_lines[0] = 0
 
             try:
-                with open(self.history_file[1], "r") as _file:
+                with open(self.history_file[1], 'r') as _file:
                     lines2 = _file.read().splitlines()
                 self._hf_lines[1] = len(lines2)
             except IOError:
@@ -163,9 +163,9 @@ class CmdLine(BaseMode, Commander):
                     # line = line.encode(self.encoding)
                     # self.lines[i] = line
                 line = remove_formatting(line)
-                if line.startswith(">>> "):
+                if line.startswith('>>> '):
                     console_input = line[4:]
-                    if self.console_config["cmdline"]["ignore_duplicate_lines"]:
+                    if self.console_config['cmdline']['ignore_duplicate_lines']:
                         if len(self.input_history) > 0:
                             if self.input_history[-1] != console_input:
                                 self.input_history.append(console_input)
@@ -176,11 +176,11 @@ class CmdLine(BaseMode, Commander):
 
         # show the cursor
         util.safe_curs_set(util.Curser.VERY_VISIBLE)
-        BaseMode.__init__(self, stdscr, encoding, depend=["SessionProxy"])
+        BaseMode.__init__(self, stdscr, encoding, depend=['SessionProxy'])
 
     @overrides(component.Component)
     def update(self):
-        if not component.get("ConsoleUI").is_active_mode(self):
+        if not component.get('ConsoleUI').is_active_mode(self):
             return
         # Update just the status bars
         self.draw_statusbars(bottom_row=-2, bottombar_help=False)
@@ -215,16 +215,16 @@ class CmdLine(BaseMode, Commander):
         # We clear the input string and send it to the command parser on ENTER
         if c in [curses.KEY_ENTER, util.KEY_ENTER2]:
             if self.input:
-                if self.input.endswith("\\"):
+                if self.input.endswith('\\'):
                     self.input = self.input[:-1]
                     self.input_cursor -= 1
-                self.add_line("{!yellow,black,bold!}>>>{!input!} %s" % self.input)
+                self.add_line('{!yellow,black,bold!}>>>{!input!} %s' % self.input)
                 self.do_command(self.input)
                 if len(self.input_history) == INPUT_HISTORY_SIZE:
                     # Remove the oldest input history if the max history size
                     # is reached.
                     del self.input_history[0]
-                if self.console_config["cmdline"]["ignore_duplicate_lines"]:
+                if self.console_config['cmdline']['ignore_duplicate_lines']:
                     if len(self.input_history) > 0:
                         if self.input_history[-1] != self.input:
                             self.input_history.append(self.input)
@@ -233,8 +233,8 @@ class CmdLine(BaseMode, Commander):
                 else:
                     self.input_history.append(self.input)
                 self.input_history_index = len(self.input_history)
-                self.input = u""
-                self.input_incomplete = u""
+                self.input = u''
+                self.input_incomplete = u''
                 self.input_cursor = 0
                 self.stdscr.refresh()
 
@@ -246,7 +246,7 @@ class CmdLine(BaseMode, Commander):
             if self.tab_completer:
                 # We only call the tab completer function if we're at the end of
                 # the input string on the cursor is on a space
-                if self.input_cursor == len(self.input) or self.input[self.input_cursor] == " ":
+                if self.input_cursor == len(self.input) or self.input[self.input_cursor] == ' ':
                     self.input, self.input_cursor = self.tab_completer(self.input, self.input_cursor, self.tab_count)
 
         # We use the UP and DOWN keys to cycle through input history
@@ -315,7 +315,7 @@ class CmdLine(BaseMode, Commander):
             if c > 31 and c < 256:
                 # Emulate getwch
                 stroke = chr(c)
-                uchar = ""
+                uchar = ''
                 while not uchar:
                     try:
                         uchar = stroke.decode(self.encoding)
@@ -348,7 +348,7 @@ class CmdLine(BaseMode, Commander):
         Updates the lines based on the`:attr:lines` based on the `:attr:display_lines_offset`
         attribute and the status bars.
         """
-        if not component.get("ConsoleUI").is_active_mode(self):
+        if not component.get('ConsoleUI').is_active_mode(self):
             return
         self.stdscr.erase()
 
@@ -367,7 +367,7 @@ class CmdLine(BaseMode, Commander):
         elif len(self.lines) == available_lines:
             lines = self.lines
         else:
-            lines = [""] * (available_lines - len(self.lines))
+            lines = [''] * (available_lines - len(self.lines))
             lines.extend(self.lines)
 
         # Add the lines to the screen
@@ -408,7 +408,7 @@ class CmdLine(BaseMode, Commander):
 
         """
 
-        if self.console_config["cmdline"]["save_command_history"]:
+        if self.console_config['cmdline']['save_command_history']:
             # Determine which file is the active one
             # If both are under maximum, it's first, otherwise it's the one not full
             if self._hf_lines[0] < MAX_HISTFILE_SIZE and self._hf_lines[1] < MAX_HISTFILE_SIZE:
@@ -419,7 +419,7 @@ class CmdLine(BaseMode, Commander):
                 active_file = 0
 
             # Write the line
-            with open(self.history_file[active_file], "a") as _file:
+            with open(self.history_file[active_file], 'a') as _file:
                 if isinstance(text, unicode):
                     text = text.encode(self.encoding)
                 _file.write(text)
@@ -432,7 +432,7 @@ class CmdLine(BaseMode, Commander):
             # therefore swapping the currently active file
             if self._hf_lines[active_file] == MAX_HISTFILE_SIZE:
                 self._hf_lines[1 - active_file] = 0
-                with open(self.history_file[1 - active_file], "w") as _file:
+                with open(self.history_file[1 - active_file], 'w') as _file:
                     _file.truncate(0)
 
         def get_line_chunks(line):
@@ -440,21 +440,21 @@ class CmdLine(BaseMode, Commander):
             Returns a list of 2-tuples (color string, text)
 
             """
-            if not line or line.count("{!") != line.count("!}"):
+            if not line or line.count('{!') != line.count('!}'):
                 return []
 
             chunks = []
-            if not line.startswith("{!"):
-                begin = line.find("{!")
+            if not line.startswith('{!'):
+                begin = line.find('{!')
                 if begin == -1:
                     begin = len(line)
-                chunks.append(("", line[:begin]))
+                chunks.append(('', line[:begin]))
                 line = line[begin:]
 
             while line:
                 # We know the line starts with "{!" here
-                end_color = line.find("!}")
-                next_color = line.find("{!", end_color)
+                end_color = line.find('!}')
+                next_color = line.find('{!', end_color)
                 if next_color == -1:
                     next_color = len(line)
                 chunks.append((line[:end_color + 2], line[end_color + 2:next_color]))
@@ -466,11 +466,11 @@ class CmdLine(BaseMode, Commander):
             try:
                 line_length = colors.get_line_width(line)
             except colors.BadColorString:
-                log.error("Passed a bad colored line: %s", line)
+                log.error('Passed a bad colored line: %s', line)
                 continue
 
             if line_length >= (self.cols - 1):
-                s = ""
+                s = ''
                 # The length of the text without the color tags
                 s_len = 0
                 # We need to split this over multiple lines
@@ -515,13 +515,13 @@ class CmdLine(BaseMode, Commander):
         try:
             parsed = colors.parse_color_string(string, self.encoding)
         except colors.BadColorString as ex:
-            log.error("Cannot add bad color string %s: %s", string, ex)
+            log.error('Cannot add bad color string %s: %s', string, ex)
             return
 
         for index, (color, s) in enumerate(parsed):
             if index + 1 == len(parsed):
                 # This is the last string so lets append some " " to it
-                s += " " * (self.cols - (col + strwidth(s)) - 1)
+                s += ' ' * (self.cols - (col + strwidth(s)) - 1)
             try:
                 self.stdscr.addstr(row, col, s, color)
             except curses.error:
@@ -571,9 +571,9 @@ class CmdLine(BaseMode, Commander):
 
         # We don't want to split by escaped spaces
         def split(string):
-            return re.split(r"(?<!\\) ", string)
+            return re.split(r'(?<!\\) ', string)
 
-        if " " not in line:
+        if ' ' not in line:
             possible_matches = []
             # Iterate through the commands looking for ones that startwith the
             # line.
@@ -581,13 +581,13 @@ class CmdLine(BaseMode, Commander):
                 if cmd.startswith(line):
                     possible_matches.append(cmd)
 
-            line_prefix = ""
+            line_prefix = ''
         else:
             cmd = split(line)[0]
             if cmd in self.console._commands:
                 # Call the command's complete method to get 'er done
                 possible_matches = self.console._commands[cmd].complete(split(line)[-1])
-                line_prefix = " ".join(split(line)[:-1]) + " "
+                line_prefix = ' '.join(split(line)[:-1]) + ' '
             else:
                 # This is a bogus command
                 return (line, cursor)
@@ -601,70 +601,70 @@ class CmdLine(BaseMode, Commander):
         elif len(possible_matches) == 1:
             # Do not append space after directory names
             new_line = line_prefix + possible_matches[0]
-            if not new_line.endswith("/") and not new_line.endswith(r"\\"):
-                new_line += " "
+            if not new_line.endswith('/') and not new_line.endswith(r'\\'):
+                new_line += ' '
             # We only want to print eventual colors or other control characters, not return them
             new_line = remove_formatting(new_line)
             return (new_line, len(new_line))
         else:
             if hits == 1:
-                p = " ".join(split(line)[:-1])
+                p = ' '.join(split(line)[:-1])
 
                 try:
                     l_arg = split(line)[-1]
                 except IndexError:
-                    l_arg = ""
+                    l_arg = ''
 
-                new_line = " ".join([p, complete_line(l_arg, possible_matches)]).lstrip()
+                new_line = ' '.join([p, complete_line(l_arg, possible_matches)]).lstrip()
 
                 if len(remove_formatting(new_line)) > len(line):
                     line = new_line
                     cursor = len(line)
             elif hits >= 2:
-                max_list = self.console_config["cmdline"]["torrents_per_tab_press"]
+                max_list = self.console_config['cmdline']['torrents_per_tab_press']
                 match_count = len(possible_matches)
                 listed = (hits - 2) * max_list
                 pages = (match_count - 1) // max_list + 1
                 left = match_count - listed
                 if hits == 2:
-                    self.write(" ")
+                    self.write(' ')
 
                     if match_count >= 4:
-                        self.write("{!green!}Autocompletion matches:")
+                        self.write('{!green!}Autocompletion matches:')
                 # Only list some of the matching torrents as there can be hundreds of them
-                if self.console_config["cmdline"]["third_tab_lists_all"]:
+                if self.console_config['cmdline']['third_tab_lists_all']:
                     if hits == 2 and left > max_list:
                         for i in range(listed, listed + max_list):
                             match = possible_matches[i]
-                            self.write(match.replace(r"\ ", " "))
-                        self.write("{!error!}And %i more. Press <tab> to list them" % (left - max_list))
+                            self.write(match.replace(r'\ ', ' '))
+                        self.write('{!error!}And %i more. Press <tab> to list them' % (left - max_list))
                     else:
                         self.tab_count = 0
                         for match in possible_matches[listed:]:
-                            self.write(match.replace(r"\ ", " "))
+                            self.write(match.replace(r'\ ', ' '))
                 else:
                     if left > max_list:
                         for i in range(listed, listed + max_list):
                             match = possible_matches[i]
-                            self.write(match.replace(r"\ ", " "))
-                        self.write("{!error!}And %i more (%i/%i). Press <tab> to view more" % (
+                            self.write(match.replace(r'\ ', ' '))
+                        self.write('{!error!}And %i more (%i/%i). Press <tab> to view more' % (
                             left - max_list, hits - 1, pages))
                     else:
                         self.tab_count = 0
                         for match in possible_matches[listed:]:
-                            self.write(match.replace(r"\ ", " "))
+                            self.write(match.replace(r'\ ', ' '))
                         if hits > 2:
-                            self.write("{!green!}Finished listing %i torrents (%i/%i)" % (match_count, hits - 1, pages))
+                            self.write('{!green!}Finished listing %i torrents (%i/%i)' % (match_count, hits - 1, pages))
 
             # We only want to print eventual colors or other control characters, not return them
             line = remove_formatting(line)
             cursor = len(line)
             return (line, cursor)
 
-    def tab_complete_path(self, line, path_type="file", ext="", sort="name", dirs_first=1):
-        self.console = component.get("ConsoleUI")
+    def tab_complete_path(self, line, path_type='file', ext='', sort='name', dirs_first=1):
+        self.console = component.get('ConsoleUI')
 
-        line = line.replace("\\ ", " ")
+        line = line.replace('\\ ', ' ')
         line = os.path.abspath(os.path.expanduser(line))
         ret = []
         if os.path.exists(line):
@@ -675,19 +675,19 @@ class CmdLine(BaseMode, Commander):
                 try:
                     for f in os.listdir(line):
                         # Skip hidden
-                        if f.startswith("."):
+                        if f.startswith('.'):
                             continue
                         f = os.path.join(line, f)
                         if os.path.isdir(f):
-                            if os.sep == "\\":  # Windows path support
-                                f += "\\"
+                            if os.sep == '\\':  # Windows path support
+                                f += '\\'
                             else:  # Unix
-                                f += "/"
+                                f += '/'
                         elif not f.endswith(ext):
                             continue
                         ret.append(f)
                 except OSError:
-                    self.console.write("{!error!}Permission denied: {!info!}%s" % line)
+                    self.console.write('{!error!}Permission denied: {!info!}%s' % line)
             else:
                 try:
                     # This is a file, but we could be looking for another file that
@@ -696,7 +696,7 @@ class CmdLine(BaseMode, Commander):
                         if f.startswith(os.path.split(line)[1]):
                             ret.append(os.path.join(os.path.dirname(line), f))
                 except OSError:
-                    self.console.write("{!error!}Permission denied: {!info!}%s" % line)
+                    self.console.write('{!error!}Permission denied: {!info!}%s' % line)
         else:
             # This path does not exist, so lets do a listdir on it's parent
             # and find any matches.
@@ -708,15 +708,15 @@ class CmdLine(BaseMode, Commander):
                             p = os.path.join(os.path.dirname(line), f)
 
                             if os.path.isdir(p):
-                                if os.sep == "\\":  # Windows path support
-                                    p += "\\"
+                                if os.sep == '\\':  # Windows path support
+                                    p += '\\'
                                 else:  # Unix
-                                    p += "/"
+                                    p += '/'
                             ret.append(p)
             except OSError:
-                self.console.write("{!error!}Permission denied: {!info!}%s" % line)
+                self.console.write('{!error!}Permission denied: {!info!}%s' % line)
 
-        if sort == "date":
+        if sort == 'date':
             ret = sorted(ret, key=os.path.getmtime, reverse=True)
 
         if dirs_first == 1:
@@ -727,10 +727,10 @@ class CmdLine(BaseMode, Commander):
         # Highlight directory names
         for i, filename in enumerate(ret):
             if os.path.isdir(filename):
-                ret[i] = "{!cyan!}%s" % filename
+                ret[i] = '{!cyan!}%s' % filename
 
         for i in range(0, len(ret)):
-            ret[i] = ret[i].replace(" ", r"\ ")
+            ret[i] = ret[i].replace(' ', r'\ ')
         return ret
 
     def tab_complete_torrent(self, line):
@@ -746,11 +746,11 @@ class CmdLine(BaseMode, Commander):
         empty = len(line) == 0
 
         # Remove dangling backslashes to avoid breaking shlex
-        if line.endswith("\\"):
+        if line.endswith('\\'):
             line = line[:-1]
 
         raw_line = line
-        line = line.replace("\\ ", " ")
+        line = line.replace('\\ ', ' ')
 
         possible_matches = []
         possible_matches2 = []
@@ -769,7 +769,7 @@ class CmdLine(BaseMode, Commander):
         for torrent_id, torrent_name in self.console.torrents:
             # Escape spaces to avoid, for example, expanding "Doc" into "Doctor Who" and removing
             # everything containing one of these words
-            escaped_name = torrent_name.replace(" ", "\\ ")
+            escaped_name = torrent_name.replace(' ', '\\ ')
             # If we only matched one torrent, don't add the full name or it'll also get autocompleted
             if match_count == 1:
                 if torrent_id.startswith(line):
@@ -791,11 +791,11 @@ class CmdLine(BaseMode, Commander):
                     text = "{!info!}%s{!input!}%s - '%s'" % (torrent_id[:l], torrent_id[l:], torrent_name)
                     possible_matches.append(text)
                 if torrent_name.startswith(line):
-                    text = "{!info!}%s{!input!}%s ({!cyan!}%s{!input!})" % (
+                    text = '{!info!}%s{!input!}%s ({!cyan!}%s{!input!})' % (
                         escaped_name[:l], escaped_name[l:], torrent_id)
                     possible_matches.append(text)
                 elif torrent_name.lower().startswith(line.lower()):
-                    text = "{!info!}%s{!input!}%s ({!cyan!}%s{!input!})" % (
+                    text = '{!info!}%s{!input!}%s ({!cyan!}%s{!input!})' % (
                         escaped_name[:l], escaped_name[l:], torrent_id)
                     possible_matches2.append(text)
 

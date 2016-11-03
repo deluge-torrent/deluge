@@ -23,5 +23,5 @@ log = logging.getLogger(__name__)
 
 class WebUI(WebPluginBase):
 
-    scripts = [get_resource("scheduler.js")]
+    scripts = [get_resource('scheduler.js')]
     debug_scripts = scripts

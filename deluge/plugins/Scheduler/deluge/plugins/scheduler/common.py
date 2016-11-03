@@ -15,4 +15,4 @@
 def get_resource(filename):
     import os
     import pkg_resources
-    return pkg_resources.resource_filename("deluge.plugins.scheduler", os.path.join("data", filename))
+    return pkg_resources.resource_filename('deluge.plugins.scheduler', os.path.join('data', filename))

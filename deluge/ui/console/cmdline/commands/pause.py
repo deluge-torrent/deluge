@@ -16,16 +16,16 @@ from . import BaseCommand
 
 class Command(BaseCommand):
     """Pause torrents"""
-    usage = "pause [ * | <torrent-id> [<torrent-id> ...] ]"
+    usage = 'pause [ * | <torrent-id> [<torrent-id> ...] ]'
 
     def add_arguments(self, parser):
-        parser.add_argument("torrent_ids", metavar="<torrent-id>", nargs="+",
+        parser.add_argument('torrent_ids', metavar='<torrent-id>', nargs='+',
                             help=_("One or more torrent ids. '*' pauses all torrents"))
 
     def handle(self, options):
-        self.console = component.get("ConsoleUI")
+        self.console = component.get('ConsoleUI')
 
-        if options.torrent_ids[0] == "*":
+        if options.torrent_ids[0] == '*':
             client.core.pause_session()
             return
 
@@ -38,4 +38,4 @@ class Command(BaseCommand):
 
     def complete(self, line):
         # We use the ConsoleUI torrent tab complete method
-        return component.get("ConsoleUI").tab_complete_torrent(line)
+        return component.get('ConsoleUI').tab_complete_torrent(line)

@@ -102,14 +102,14 @@ where you input something
 class TorrentList(BaseMode, PopupsHandler):
 
     def __init__(self, stdscr, encoding=None):
-        BaseMode.__init__(self, stdscr, encoding=encoding, do_refresh=False, depend=["SessionProxy"])
+        BaseMode.__init__(self, stdscr, encoding=encoding, do_refresh=False, depend=['SessionProxy'])
         PopupsHandler.__init__(self)
         self.messages = deque()
         self.last_mark = -1
         self.go_top = False
         self.minor_mode = None
 
-        self.consoleui = component.get("ConsoleUI")
+        self.consoleui = component.get('ConsoleUI')
         self.coreconfig = self.consoleui.coreconfig
         self.config = self.consoleui.config
         self.sidebar = FilterSidebar(self, self.config)
@@ -128,7 +128,7 @@ class TorrentList(BaseMode, PopupsHandler):
         self.torrentview.on_config_changed()
 
     def toggle_sidebar(self):
-        if self.config["torrentview"]["show_sidebar"]:
+        if self.config['torrentview']['show_sidebar']:
             self.sidebar.show()
             self.sidebar.resize_window(curses.LINES - 2, self.sidebar.width)
             self.torrentview_panel.resize(curses.LINES - 1, curses.COLS - self.sidebar.width)
@@ -147,9 +147,9 @@ class TorrentList(BaseMode, PopupsHandler):
         self.torrentview.on_config_changed()
         self.toggle_sidebar()
 
-        if self.config["first_run"]:
-            self.push_popup(MessagePopup(self, "Welcome to Deluge", HELP_STR, width_req=0.65))
-            self.config["first_run"] = False
+        if self.config['first_run']:
+            self.push_popup(MessagePopup(self, 'Welcome to Deluge', HELP_STR, width_req=0.65))
+            self.config['first_run'] = False
             self.config.save()
 
         if client.connected():
@@ -180,7 +180,7 @@ class TorrentList(BaseMode, PopupsHandler):
         self.toggle_sidebar()
 
     def show_torrent_details(self, tid):
-        mode = self.consoleui.set_mode("TorrentDetail")
+        mode = self.consoleui.set_mode('TorrentDetail')
         mode.update(tid)
 
     def set_minor_mode(self, mode):
@@ -206,9 +206,9 @@ class TorrentList(BaseMode, PopupsHandler):
         self.add_string(1, self.torrentview.column_string, scr=self.torrentview_panel)
 
         # Update the status bars
-        statusbar_args = {"scr": self.stdscr, "bottombar_help": True}
+        statusbar_args = {'scr': self.stdscr, 'bottombar_help': True}
         if self.torrentview.curr_filter is not None:
-            statusbar_args["topbar"] = ("%s    {!filterstatus!}Current filter: %s"
+            statusbar_args['topbar'] = ('%s    {!filterstatus!}Current filter: %s'
                                         % (self.statusbars.topbar, self.torrentview.curr_filter))
 
         if self.minor_mode:
@@ -258,7 +258,7 @@ class TorrentList(BaseMode, PopupsHandler):
             self.refresh()
             return ret
         if util.is_printable_char(c):
-            if chr(c) == "Q":
+            if chr(c) == 'Q':
                 from twisted.internet import reactor
                 if client.connected():
                     def on_disconnect(result):
@@ -267,14 +267,14 @@ class TorrentList(BaseMode, PopupsHandler):
                 else:
                     reactor.stop()
                 return
-            elif chr(c) == "C":
-                self.consoleui.set_mode("ConnectionManager")
+            elif chr(c) == 'C':
+                self.consoleui.set_mode('ConnectionManager')
                 return
-            elif chr(c) == "q":
+            elif chr(c) == 'q':
                 self.torrentview.update_marked(self.torrentview.cursel)
                 self.set_minor_mode(QueueMode(self, self.torrentview._selected_torrent_ids()))
                 return
-            elif chr(c) == "/":
+            elif chr(c) == '/':
                 self.set_minor_mode(SearchMode(self))
                 return
 
@@ -311,25 +311,25 @@ class TorrentList(BaseMode, PopupsHandler):
                 return
 
         elif util.is_printable_char(c):
-            if chr(c) == "a":
+            if chr(c) == 'a':
                 show_torrent_add_popup(self)
-            elif chr(c) == "v":
+            elif chr(c) == 'v':
                 self._show_visible_columns_popup()
-            elif chr(c) == "h":
-                self.push_popup(MessagePopup(self, "Help", HELP_STR, width_req=0.65))
-            elif chr(c) == "p":
-                mode = self.consoleui.set_mode("Preferences")
+            elif chr(c) == 'h':
+                self.push_popup(MessagePopup(self, 'Help', HELP_STR, width_req=0.65))
+            elif chr(c) == 'p':
+                mode = self.consoleui.set_mode('Preferences')
                 mode.load_config()
                 return
-            elif chr(c) == "e":
-                self.consoleui.set_mode("EventView")
+            elif chr(c) == 'e':
+                self.consoleui.set_mode('EventView')
                 return
-            elif chr(c) == "S":
-                self.config["torrentview"]["show_sidebar"] = self.config["torrentview"]["show_sidebar"] is False
+            elif chr(c) == 'S':
+                self.config['torrentview']['show_sidebar'] = self.config['torrentview']['show_sidebar'] is False
                 self.config.save()
                 self.toggle_sidebar()
-            elif chr(c) == "l":
-                self.consoleui.set_mode("CmdLine", refresh=True)
+            elif chr(c) == 'l':
+                self.consoleui.set_mode('CmdLine', refresh=True)
                 return
 
         self.refresh(affected_lines)

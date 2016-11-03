@@ -24,40 +24,40 @@ class SideBar(component.Component):
     purpose : plugins
     """
     def __init__(self):
-        component.Component.__init__(self, "SideBar")
-        self.window = component.get("MainWindow")
+        component.Component.__init__(self, 'SideBar')
+        self.window = component.get('MainWindow')
         builder = self.window.get_builder()
-        self.notebook = builder.get_object("sidebar_notebook")
-        self.hpaned = builder.get_object("main_window_hpaned")
-        self.config = ConfigManager("gtkui.conf")
+        self.notebook = builder.get_object('sidebar_notebook')
+        self.hpaned = builder.get_object('main_window_hpaned')
+        self.config = ConfigManager('gtkui.conf')
         # self.hpaned_position = self.hpaned.get_position()
 
         # Tabs holds references to the Tab widgets by their name
         self.tabs = {}
 
         # Hide if necessary
-        self.visible(self.config["show_sidebar"])
+        self.visible(self.config['show_sidebar'])
 
     def shutdown(self):
-        log.debug("hpaned.position: %s", self.hpaned.get_position())
-        self.config["sidebar_position"] = self.hpaned.get_position()
+        log.debug('hpaned.position: %s', self.hpaned.get_position())
+        self.config['sidebar_position'] = self.hpaned.get_position()
 
     def visible(self, visible):
         if visible:
-            if self.config["sidebar_position"]:
-                self.hpaned.set_position(self.config["sidebar_position"])
+            if self.config['sidebar_position']:
+                self.hpaned.set_position(self.config['sidebar_position'])
             self.notebook.show()
         else:
             self.notebook.hide()
             # Store the position for restoring upon show()
-            self.config["sidebar_position"] = self.hpaned.get_position()
+            self.config['sidebar_position'] = self.hpaned.get_position()
             self.hpaned.set_position(-1)
 
-        self.config["show_sidebar"] = visible
+        self.config['show_sidebar'] = visible
 
     def add_tab(self, widget, tab_name, label):
         """Adds a tab object to the notebook."""
-        log.debug("add tab: %s", tab_name)
+        log.debug('add tab: %s', tab_name)
         self.tabs[tab_name] = widget
         scrolled = gtk.ScrolledWindow()
         scrolled.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)

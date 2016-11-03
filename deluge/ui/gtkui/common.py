@@ -36,9 +36,9 @@ def get_logo(size):
     Returns:
         gtk.gdk.Pixbuf: deluge logo
     """
-    filename = "deluge.svg"
+    filename = 'deluge.svg'
     if deluge.common.windows_check() or deluge.common.osx_check():
-        filename = "deluge.png"
+        filename = 'deluge.png'
     try:
         return gtk.gdk.pixbuf_new_from_file_at_size(deluge.common.get_pixmap(filename), size, size)
     except GError as ex:
@@ -46,7 +46,7 @@ def get_logo(size):
 
 
 def build_menu_radio_list(value_list, callback, pref_value=None, suffix=None, show_notset=False,
-                          notset_label="∞", notset_lessthan=0, show_other=False):
+                          notset_label='∞', notset_lessthan=0, show_other=False):
     """Build a menu with radio menu items from a list and connect them to the callback.
 
     Params:
@@ -74,29 +74,29 @@ def build_menu_radio_list(value_list, callback, pref_value=None, suffix=None, sh
     for value in sorted(value_list):
         item_text = str(value)
         if suffix:
-            item_text += " " + suffix
+            item_text += ' ' + suffix
         menuitem = gtk.RadioMenuItem(group, item_text)
         group = menuitem
         if pref_value and value == pref_value:
             menuitem.set_active(True)
         if callback:
-            menuitem.connect("toggled", callback)
+            menuitem.connect('toggled', callback)
         menu.append(menuitem)
 
     if show_notset:
         menuitem = gtk.RadioMenuItem(group, notset_label)
-        menuitem.set_name("unlimited")
+        menuitem.set_name('unlimited')
         if pref_value and pref_value < notset_lessthan:
             menuitem.set_active(True)
-        menuitem.connect("toggled", callback)
+        menuitem.connect('toggled', callback)
         menu.append(menuitem)
 
     if show_other:
         menuitem = gtk.SeparatorMenuItem()
         menu.append(menuitem)
-        menuitem = gtk.MenuItem(_("Other..."))
-        menuitem.set_name("other")
-        menuitem.connect("activate", callback)
+        menuitem = gtk.MenuItem(_('Other...'))
+        menuitem.set_name('other')
+        menuitem.connect('activate', callback)
         menu.append(menuitem)
 
     return menu
@@ -144,7 +144,7 @@ def get_deluge_icon():
     else:
         try:
             icon_theme = gtk.icon_theme_get_default()
-            return icon_theme.load_icon("deluge", 64, 0)
+            return icon_theme.load_icon('deluge', 64, 0)
         except GError:
             return get_logo(64)
 
@@ -164,25 +164,25 @@ def associate_magnet_links(overwrite=False):
         import _winreg
 
         try:
-            hkey = _winreg.OpenKey(_winreg.HKEY_CLASSES_ROOT, "Magnet")
+            hkey = _winreg.OpenKey(_winreg.HKEY_CLASSES_ROOT, 'Magnet')
         except WindowsError:  # pylint: disable=undefined-variable
             overwrite = True
         else:
             _winreg.CloseKey(hkey)
 
         if overwrite:
-            deluge_exe = os.path.join(os.path.dirname(sys.executable), "deluge.exe")
+            deluge_exe = os.path.join(os.path.dirname(sys.executable), 'deluge.exe')
             try:
-                magnet_key = _winreg.CreateKey(_winreg.HKEY_CLASSES_ROOT, "Magnet")
+                magnet_key = _winreg.CreateKey(_winreg.HKEY_CLASSES_ROOT, 'Magnet')
             except WindowsError:  # pylint: disable=undefined-variable
                 # Could not create for all users, falling back to current user
-                magnet_key = _winreg.CreateKey(_winreg.HKEY_CURRENT_USER, "Software\\Classes\\Magnet")
+                magnet_key = _winreg.CreateKey(_winreg.HKEY_CURRENT_USER, 'Software\\Classes\\Magnet')
 
-            _winreg.SetValue(magnet_key, "", _winreg.REG_SZ, "URL:Magnet Protocol")
-            _winreg.SetValueEx(magnet_key, "URL Protocol", 0, _winreg.REG_SZ, "")
-            _winreg.SetValueEx(magnet_key, "BrowserFlags", 0, _winreg.REG_DWORD, 0x8)
-            _winreg.SetValue(magnet_key, "DefaultIcon", _winreg.REG_SZ, "{},0".format(deluge_exe))
-            _winreg.SetValue(magnet_key, r"shell\open\command", _winreg.REG_SZ, '"{}" "%1"'.format(deluge_exe))
+            _winreg.SetValue(magnet_key, '', _winreg.REG_SZ, 'URL:Magnet Protocol')
+            _winreg.SetValueEx(magnet_key, 'URL Protocol', 0, _winreg.REG_SZ, '')
+            _winreg.SetValueEx(magnet_key, 'BrowserFlags', 0, _winreg.REG_DWORD, 0x8)
+            _winreg.SetValue(magnet_key, 'DefaultIcon', _winreg.REG_SZ, '{},0'.format(deluge_exe))
+            _winreg.SetValue(magnet_key, r'shell\open\command', _winreg.REG_SZ, '"{}" "%1"'.format(deluge_exe))
             _winreg.CloseKey(magnet_key)
 
     # Don't try associate magnet on OSX see: #2420
@@ -191,20 +191,20 @@ def associate_magnet_links(overwrite=False):
         try:
             import gconf
         except ImportError:
-            log.debug("gconf not available, so will not attempt to register magnet uri handler")
+            log.debug('gconf not available, so will not attempt to register magnet uri handler')
             return False
         else:
-            key = "/desktop/gnome/url-handlers/magnet/command"
+            key = '/desktop/gnome/url-handlers/magnet/command'
             gconf_client = gconf.client_get_default()
             if (gconf_client.get(key) and overwrite) or not gconf_client.get(key):
                 # We are either going to overwrite the key, or do it if it hasn't been set yet
                 if gconf_client.set_string(key, "deluge '%s'"):
-                    gconf_client.set_bool("/desktop/gnome/url-handlers/magnet/needs_terminal", False)
-                    gconf_client.set_bool("/desktop/gnome/url-handlers/magnet/enabled", True)
-                    log.info("Deluge registered as default magnet uri handler!")
+                    gconf_client.set_bool('/desktop/gnome/url-handlers/magnet/needs_terminal', False)
+                    gconf_client.set_bool('/desktop/gnome/url-handlers/magnet/enabled', True)
+                    log.info('Deluge registered as default magnet uri handler!')
                     return True
                 else:
-                    log.error("Unable to register Deluge as default magnet uri handler.")
+                    log.error('Unable to register Deluge as default magnet uri handler.')
                     return False
     return False
 
@@ -217,29 +217,29 @@ def save_pickled_state_file(filename, state):
         state (state): The data to be pickled and written to file
     """
     from deluge.configmanager import get_config_dir
-    filepath = os.path.join(get_config_dir(), "gtkui_state", filename)
-    filepath_bak = filepath + ".bak"
-    filepath_tmp = filepath + ".tmp"
+    filepath = os.path.join(get_config_dir(), 'gtkui_state', filename)
+    filepath_bak = filepath + '.bak'
+    filepath_tmp = filepath + '.tmp'
 
     try:
         if os.path.isfile(filepath):
-            log.debug("Creating backup of %s at: %s", filename, filepath_bak)
+            log.debug('Creating backup of %s at: %s', filename, filepath_bak)
             shutil.copy2(filepath, filepath_bak)
     except IOError as ex:
-        log.error("Unable to backup %s to %s: %s", filepath, filepath_bak, ex)
+        log.error('Unable to backup %s to %s: %s', filepath, filepath_bak, ex)
     else:
-        log.info("Saving the %s at: %s", filename, filepath)
+        log.info('Saving the %s at: %s', filename, filepath)
         try:
-            with open(filepath_tmp, "wb") as _file:
+            with open(filepath_tmp, 'wb') as _file:
                 # Pickle the state object
                 cPickle.dump(state, _file)
                 _file.flush()
                 os.fsync(_file.fileno())
             shutil.move(filepath_tmp, filepath)
         except (IOError, EOFError, cPickle.PicklingError) as ex:
-            log.error("Unable to save %s: %s", filename, ex)
+            log.error('Unable to save %s: %s', filename, ex)
             if os.path.isfile(filepath_bak):
-                log.info("Restoring backup of %s from: %s", filename, filepath_bak)
+                log.info('Restoring backup of %s from: %s', filename, filepath_bak)
                 shutil.move(filepath_bak, filepath)
 
 
@@ -253,19 +253,19 @@ def load_pickled_state_file(filename):
         state: the unpickled state
     """
     from deluge.configmanager import get_config_dir
-    filepath = os.path.join(get_config_dir(), "gtkui_state", filename)
-    filepath_bak = filepath + ".bak"
+    filepath = os.path.join(get_config_dir(), 'gtkui_state', filename)
+    filepath_bak = filepath + '.bak'
     old_data_filepath = os.path.join(get_config_dir(), filename)
 
     for _filepath in (filepath, filepath_bak, old_data_filepath):
-        log.info("Opening %s for load: %s", filename, _filepath)
+        log.info('Opening %s for load: %s', filename, _filepath)
         try:
-            with open(_filepath, "rb") as _file:
+            with open(_filepath, 'rb') as _file:
                 state = cPickle.load(_file)
         except (IOError, cPickle.UnpicklingError) as ex:
-            log.warning("Unable to load %s: %s", _filepath, ex)
+            log.warning('Unable to load %s: %s', _filepath, ex)
         else:
-            log.info("Successfully loaded %s: %s", filename, _filepath)
+            log.info('Successfully loaded %s: %s', filename, _filepath)
             return state
 
 

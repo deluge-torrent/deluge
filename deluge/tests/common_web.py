@@ -29,9 +29,9 @@ class ReactorOverride(object):
 
     """
     def __getattr__(self, attr):
-        if attr == "run":
+        if attr == 'run':
             return self._run
-        if attr == "stop":
+        if attr == 'stop':
             return self._stop
         return getattr(reactor, attr)
 
@@ -59,14 +59,14 @@ class WebServerTestBase(BaseTestCase, DaemonBase):
         self.webserver_listen_port = 8999
 
         config_defaults = deluge.ui.web.server.CONFIG_DEFAULTS.copy()
-        config_defaults["port"] = self.webserver_listen_port
-        self.config = configmanager.ConfigManager("web.conf", config_defaults)
+        config_defaults['port'] = self.webserver_listen_port
+        self.config = configmanager.ConfigManager('web.conf', config_defaults)
 
         self.deluge_web = DelugeWeb(daemon=False)
 
-        host = list(self.deluge_web.web_api.host_list["hosts"][0])
+        host = list(self.deluge_web.web_api.host_list['hosts'][0])
         host[2] = self.listen_port
-        self.deluge_web.web_api.host_list["hosts"][0] = tuple(host)
+        self.deluge_web.web_api.host_list['hosts'][0] = tuple(host)
         self.host_id = host[0]
         self.deluge_web.start()
 
@@ -86,11 +86,11 @@ class WebServerMockBase(object):
         def check_request(request, method=None, level=None):
             pass
 
-        self.patch(auth, "check_request", check_request)
+        self.patch(auth, 'check_request', check_request)
 
     def mock_compress_body(self):
 
         def compress(contents, request):
             return contents
         # Patch compress to avoid having to decompress output with zlib
-        self.patch(deluge.ui.web.json_api, "compress", compress)
+        self.patch(deluge.ui.web.json_api, 'compress', compress)

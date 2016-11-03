@@ -21,23 +21,23 @@ log = logging.getLogger(__name__)
 class Command(BaseCommand):
     """Connect to a new deluge server."""
 
-    usage = _("Usage: connect <host[:port]> [<username>] [<password>]")
+    usage = _('Usage: connect <host[:port]> [<username>] [<password>]')
 
     def add_arguments(self, parser):
-        parser.add_argument("host", help=_("Daemon host and port"), metavar="<host[:port]>")
-        parser.add_argument("username", help=_("Username"), metavar="<username>", nargs="?", default="")
-        parser.add_argument("password", help=_("Password"), metavar="<password>", nargs="?", default="")
+        parser.add_argument('host', help=_('Daemon host and port'), metavar='<host[:port]>')
+        parser.add_argument('username', help=_('Username'), metavar='<username>', nargs='?', default='')
+        parser.add_argument('password', help=_('Password'), metavar='<password>', nargs='?', default='')
 
     def add_parser(self, subparsers):
-        parser = subparsers.add_parser(self.name, help=self.__doc__, description=self.__doc__, prog="connect")
+        parser = subparsers.add_parser(self.name, help=self.__doc__, description=self.__doc__, prog='connect')
         self.add_arguments(parser)
 
     def handle(self, options):
-        self.console = component.get("ConsoleUI")
+        self.console = component.get('ConsoleUI')
 
         host = options.host
         try:
-            host, port = host.split(":")
+            host, port = host.split(':')
             port = int(port)
         except ValueError:
             port = 58846
@@ -47,7 +47,7 @@ class Command(BaseCommand):
 
             def on_connect(result):
                 if self.console.interactive:
-                    self.console.write("{!success!}Connected to %s:%s!" % (host, port))
+                    self.console.write('{!success!}Connected to %s:%s!' % (host, port))
                 return component.start()
 
             def on_connect_fail(result):
@@ -55,7 +55,7 @@ class Command(BaseCommand):
                     msg = result.value.exception_msg
                 except AttributeError:
                     msg = result.value.message
-                self.console.write("{!error!}Failed to connect to %s:%s with reason: %s" % (host, port, msg))
+                self.console.write('{!error!}Failed to connect to %s:%s with reason: %s' % (host, port, msg))
                 return result
 
             d.addCallbacks(on_connect, on_connect_fail)

@@ -23,8 +23,8 @@ except ImportError:
     get_version = None
 
 # Must add these for autodoc to import packages successully
-__builtin__.__dict__["_"] = lambda x: x
-__builtin__.__dict__["_n"] = lambda s, p, n: s if n == 1 else p
+__builtin__.__dict__['_'] = lambda x: x
+__builtin__.__dict__['_n'] = lambda s, p, n: s if n == 1 else p
 
 # If your extensions are in another directory, add it here. If the directory
 # is relative to the documentation root, use os.path.abspath to make it
@@ -55,7 +55,7 @@ class Mock(object):
 
 MOCK_MODULES = ['deluge.ui.gtkui.gtkui', 'deluge._libtorrent',
                 'libtorrent', 'psyco',
-                'pygtk', "gtk", "gobject", "gtk.gdk", "pango", "cairo", "pangocairo", "chardet"]
+                'pygtk', 'gtk', 'gobject', 'gtk.gdk', 'pango', 'cairo', 'pangocairo', 'chardet']
 
 for mod_name in MOCK_MODULES:
     sys.modules[mod_name] = Mock()
@@ -89,7 +89,7 @@ copyright = '2008-%s, Deluge Team' % current_year
 if get_version:
     version = get_version(prefix='deluge-', suffix='.dev0')
 else:
-    version = pkg_resources.require("Deluge")[0].version
+    version = pkg_resources.require('Deluge')[0].version
 # The full version, including alpha/beta/rc tags.
 release = version
 

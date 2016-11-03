@@ -36,26 +36,26 @@ from __future__ import print_function
 import os
 from subprocess import PIPE, Popen
 
-__all__ = ("get_version")
+__all__ = ('get_version')
 
-VERSION_FILE = os.path.join(os.path.dirname(__file__), "RELEASE-VERSION")
+VERSION_FILE = os.path.join(os.path.dirname(__file__), 'RELEASE-VERSION')
 
 
-def call_git_describe(prefix="", suffix=""):
-    cmd = "git describe --tags --match %s[0-9]*" % prefix
+def call_git_describe(prefix='', suffix=''):
+    cmd = 'git describe --tags --match %s[0-9]*' % prefix
     try:
         output = Popen(cmd.split(), stdout=PIPE, stderr=PIPE).communicate()
-        version = output[0].decode("utf-8").strip().replace(prefix, "")
-        if "-" in version:
-            version = ".dev".join(version.replace(suffix, "").split("-")[:2])
+        version = output[0].decode('utf-8').strip().replace(prefix, '')
+        if '-' in version:
+            version = '.dev'.join(version.replace(suffix, '').split('-')[:2])
         return version
     except OSError:
         return None
 
 
-def get_version(prefix="", suffix=""):
+def get_version(prefix='', suffix=''):
     try:
-        with open(VERSION_FILE, "r") as f:
+        with open(VERSION_FILE, 'r') as f:
             release_version = f.readline().strip()
     except IOError:
         release_version = None
@@ -65,13 +65,13 @@ def get_version(prefix="", suffix=""):
     if not version:
         version = release_version
     if not version:
-        raise ValueError("Cannot find the version number!")
+        raise ValueError('Cannot find the version number!')
 
     if version != release_version:
-        with open(VERSION_FILE, "w") as f:
-            f.write("%s\n" % version)
+        with open(VERSION_FILE, 'w') as f:
+            f.write('%s\n' % version)
 
     return version
 
-if __name__ == "__main__":
-    print(get_version(prefix="deluge-", suffix=".dev0"))
+if __name__ == '__main__':
+    print(get_version(prefix='deluge-', suffix='.dev0'))

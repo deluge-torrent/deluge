@@ -21,9 +21,9 @@ def print_totals(totals):
     for name, value in totals.iteritems():
         print(name, fsize(value))
 
-    print("overhead:")
-    print("up:", fsize(totals["total_upload"] - totals["total_payload_upload"]))
-    print("down:", fsize(totals["total_download"] - totals["total_payload_download"]))
+    print('overhead:')
+    print('up:', fsize(totals['total_upload'] - totals['total_payload_upload']))
+    print('down:', fsize(totals['total_download'] - totals['total_payload_download']))
 
 
 class StatsTestCase(BaseTestCase):
@@ -32,7 +32,7 @@ class StatsTestCase(BaseTestCase):
         defer.setDebugging(True)
         tests_common.set_tmp_config_dir()
         client.start_standalone()
-        client.core.enable_plugin("Stats")
+        client.core.enable_plugin('Stats')
         return component.start()
 
     def tear_down(self):
@@ -42,8 +42,8 @@ class StatsTestCase(BaseTestCase):
     @defer.inlineCallbacks
     def test_client_totals(self):
         plugins = yield client.core.get_available_plugins()
-        if "Stats" not in plugins:
-            raise unittest.SkipTest("WebUi plugin not available for testing")
+        if 'Stats' not in plugins:
+            raise unittest.SkipTest('WebUi plugin not available for testing')
 
         totals = yield client.stats.get_totals()
         self.assertEquals(totals['total_upload'], 0)
@@ -55,8 +55,8 @@ class StatsTestCase(BaseTestCase):
     @defer.inlineCallbacks
     def test_session_totals(self):
         plugins = yield client.core.get_available_plugins()
-        if "Stats" not in plugins:
-            raise unittest.SkipTest("WebUi plugin not available for testing")
+        if 'Stats' not in plugins:
+            raise unittest.SkipTest('WebUi plugin not available for testing')
 
         totals = yield client.stats.get_session_totals()
         self.assertEquals(totals['total_upload'], 0)
@@ -82,7 +82,7 @@ class StatsTestCase(BaseTestCase):
         from deluge.ui.gtkui.torrentview import TorrentView
         from deluge.plugins.Stats.deluge.plugins.stats import graph, gtkui
 
-        ConfigManager("gtkui.conf", defaults=DEFAULT_PREFS)
+        ConfigManager('gtkui.conf', defaults=DEFAULT_PREFS)
 
         self.plugins = PluginManager()
         MainWindow()
@@ -97,7 +97,7 @@ class StatsTestCase(BaseTestCase):
             def write(self, data):
                 self.data.append(data)
 
-        stats_gtkui = gtkui.GtkUI("test_stats")
+        stats_gtkui = gtkui.GtkUI('test_stats')
         stats_gtkui.enable()
         yield stats_gtkui.graphs_tab.update()
 
@@ -109,6 +109,6 @@ class StatsTestCase(BaseTestCase):
         surface = g.draw(900, 150)
         file_like = FakeFile()
         surface.write_to_png(file_like)
-        data = "".join(file_like.data)
-        with open("file_like.png", "wb") as _file:
+        data = ''.join(file_like.data)
+        with open('file_like.png', 'wb') as _file:
             _file.write(data)

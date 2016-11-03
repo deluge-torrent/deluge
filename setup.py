@@ -38,7 +38,7 @@ def windows_check():
 
 
 def osx_check():
-    return platform.system() == "Darwin"
+    return platform.system() == 'Darwin'
 
 desktop_data = 'deluge/ui/data/share/applications/deluge.desktop'
 
@@ -64,7 +64,7 @@ class BuildDocs(BuildDoc):
     description = 'Build the documentation'
 
     def run(self):
-        print("Generating module documentation...")
+        print('Generating module documentation...')
         os.system('sphinx-apidoc --force -o docs/source/modules/ deluge deluge/plugins')
         BuildDoc.run(self)
 
@@ -409,7 +409,7 @@ _version = get_version(prefix='deluge-', suffix='.dev0')
 if 'dev' in _version:
     _exclude_package_data = {}
 else:
-    _exclude_package_data = {"deluge.ui.web": ["*-debug.js", '*-debug.css']}
+    _exclude_package_data = {'deluge.ui.web': ['*-debug.js', '*-debug.css']}
 
 # Main setup
 setup(

@@ -56,7 +56,7 @@ from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.util import lang
 
 
-gobject.set_prgname("deluge")
+gobject.set_prgname('deluge')
 
 log = logging.getLogger(__name__)
 
@@ -71,64 +71,64 @@ except ImportError:
 
 
 DEFAULT_PREFS = {
-    "standalone": True,
-    "interactive_add": True,
-    "focus_add_dialog": True,
-    "enable_system_tray": True,
-    "close_to_tray": False,
-    "start_in_tray": False,
-    "enable_appindicator": False,
-    "lock_tray": False,
-    "tray_password": "",
-    "check_new_releases": True,
-    "default_load_path": None,
-    "window_maximized": False,
-    "window_x_pos": 0,
-    "window_y_pos": 0,
-    "window_width": 640,
-    "window_height": 480,
-    "pref_dialog_width": None,
-    "pref_dialog_height": None,
-    "edit_trackers_dialog_width": None,
-    "edit_trackers_dialog_height": None,
-    "window_pane_position": 235,
-    "tray_download_speed_list": [5.0, 10.0, 30.0, 80.0, 300.0],
-    "tray_upload_speed_list": [5.0, 10.0, 30.0, 80.0, 300.0],
-    "connection_limit_list": [50, 100, 200, 300, 500],
-    "enabled_plugins": [],
-    "show_connection_manager_on_start": True,
-    "autoconnect": False,
-    "autoconnect_host_id": None,
-    "autostart_localhost": False,
-    "autoadd_queued": False,
-    "choose_directory_dialog_path": deluge.common.get_default_download_dir(),
-    "show_new_releases": True,
-    "ntf_tray_blink": True,
-    "ntf_sound": False,
-    "ntf_sound_path": deluge.common.get_default_download_dir(),
-    "ntf_popup": False,
-    "ntf_email": False,
-    "ntf_email_add": "",
-    "ntf_username": "",
-    "ntf_pass": "",
-    "ntf_server": "",
-    "ntf_security": None,
-    "show_sidebar": True,
-    "show_toolbar": True,
-    "show_statusbar": True,
-    "sidebar_show_zero": False,
-    "sidebar_show_trackers": True,
-    "sidebar_show_owners": True,
-    "sidebar_position": 170,
-    "show_rate_in_title": False,
-    "createtorrent.trackers": [],
-    "show_piecesbar": False,
-    "pieces_color_missing": [65535, 0, 0],
-    "pieces_color_waiting": [4874, 56494, 0],
-    "pieces_color_downloading": [65535, 55255, 0],
-    "pieces_color_completed": [4883, 26985, 56540],
-    "focus_main_window_on_add": True,
-    "language": None,
+    'standalone': True,
+    'interactive_add': True,
+    'focus_add_dialog': True,
+    'enable_system_tray': True,
+    'close_to_tray': False,
+    'start_in_tray': False,
+    'enable_appindicator': False,
+    'lock_tray': False,
+    'tray_password': '',
+    'check_new_releases': True,
+    'default_load_path': None,
+    'window_maximized': False,
+    'window_x_pos': 0,
+    'window_y_pos': 0,
+    'window_width': 640,
+    'window_height': 480,
+    'pref_dialog_width': None,
+    'pref_dialog_height': None,
+    'edit_trackers_dialog_width': None,
+    'edit_trackers_dialog_height': None,
+    'window_pane_position': 235,
+    'tray_download_speed_list': [5.0, 10.0, 30.0, 80.0, 300.0],
+    'tray_upload_speed_list': [5.0, 10.0, 30.0, 80.0, 300.0],
+    'connection_limit_list': [50, 100, 200, 300, 500],
+    'enabled_plugins': [],
+    'show_connection_manager_on_start': True,
+    'autoconnect': False,
+    'autoconnect_host_id': None,
+    'autostart_localhost': False,
+    'autoadd_queued': False,
+    'choose_directory_dialog_path': deluge.common.get_default_download_dir(),
+    'show_new_releases': True,
+    'ntf_tray_blink': True,
+    'ntf_sound': False,
+    'ntf_sound_path': deluge.common.get_default_download_dir(),
+    'ntf_popup': False,
+    'ntf_email': False,
+    'ntf_email_add': '',
+    'ntf_username': '',
+    'ntf_pass': '',
+    'ntf_server': '',
+    'ntf_security': None,
+    'show_sidebar': True,
+    'show_toolbar': True,
+    'show_statusbar': True,
+    'sidebar_show_zero': False,
+    'sidebar_show_trackers': True,
+    'sidebar_show_owners': True,
+    'sidebar_position': 170,
+    'show_rate_in_title': False,
+    'createtorrent.trackers': [],
+    'show_piecesbar': False,
+    'pieces_color_missing': [65535, 0, 0],
+    'pieces_color_waiting': [4874, 56494, 0],
+    'pieces_color_downloading': [65535, 55255, 0],
+    'pieces_color_completed': [4883, 26985, 56540],
+    'focus_main_window_on_add': True,
+    'language': None,
 }
 
 
@@ -147,10 +147,10 @@ class GtkUI(object):
             SetConsoleCtrlHandler(on_die, True)
             log.debug("Win32 'die' handler registered")
         elif deluge.common.osx_check():
-            if gtk.gdk.WINDOWING == "quartz":
+            if gtk.gdk.WINDOWING == 'quartz':
                 import gtkosx_application
                 self.osxapp = gtkosx_application.gtkosx_application_get()
-                self.osxapp.connect("NSApplicationWillTerminate", on_die)
+                self.osxapp.connect('NSApplicationWillTerminate', on_die)
                 log.debug("OSX quartz 'die' handler registered")
 
         # Set process name again to fix gtk issue
@@ -161,15 +161,15 @@ class GtkUI(object):
         associate_magnet_links(False)
 
         # Make sure gtkui.conf has at least the defaults set
-        self.config = ConfigManager("gtkui.conf", DEFAULT_PREFS)
+        self.config = ConfigManager('gtkui.conf', DEFAULT_PREFS)
 
         # Make sure the gtkui state folder has been created
-        if not os.path.exists(os.path.join(get_config_dir(), "gtkui_state")):
-            os.makedirs(os.path.join(get_config_dir(), "gtkui_state"))
+        if not os.path.exists(os.path.join(get_config_dir(), 'gtkui_state')):
+            os.makedirs(os.path.join(get_config_dir(), 'gtkui_state'))
 
         # Set language
-        if self.config["language"] is not None:
-            lang.set_language(self.config["language"])
+        if self.config['language'] is not None:
+            lang.set_language(self.config['language'])
 
         # Start the IPC Interface before anything else.. Just in case we are
         # already running.
@@ -197,13 +197,13 @@ class GtkUI(object):
         self.statusbar = StatusBar()
         self.addtorrentdialog = AddTorrentDialog()
 
-        if deluge.common.osx_check() and gtk.gdk.WINDOWING == "quartz":
+        if deluge.common.osx_check() and gtk.gdk.WINDOWING == 'quartz':
             def nsapp_open_file(osxapp, filename):
                 # Ignore command name which is raised at app launch (python opening main script).
                 if filename == sys.argv[0]:
                     return True
                 process_args([filename])
-            self.osxapp.connect("NSApplicationOpenFile", nsapp_open_file)
+            self.osxapp.connect('NSApplicationOpenFile', nsapp_open_file)
             from deluge.ui.gtkui.menubar_osx import menubar_osx
             menubar_osx(self, self.osxapp)
             self.osxapp.ready()
@@ -221,7 +221,7 @@ class GtkUI(object):
         self.closing = False
 
         # Twisted catches signals to terminate, so have it call a pre_shutdown method.
-        reactor.addSystemEventTrigger("before", "gtkui_close", self.close)
+        reactor.addSystemEventTrigger('before', 'gtkui_close', self.close)
 
         def gtkui_sigint_handler(num, frame):
             log.debug("SIGINT signal caught - firing event: 'gtkui_close'")
@@ -240,7 +240,7 @@ class GtkUI(object):
         gtk.gdk.threads_leave()
 
     def shutdown(self, *args, **kwargs):
-        log.debug("GTKUI shutting down...")
+        log.debug('GTKUI shutting down...')
         # Shutdown all components
         if client.is_standalone:
             return component.shutdown()
@@ -276,21 +276,21 @@ class GtkUI(object):
         self.daemon_bps = (t, sent, recv)
         sent_rate = deluge.common.fspeed(delta_sent / delta_time)
         recv_rate = deluge.common.fspeed(delta_recv / delta_time)
-        log.debug("RPC: Sent %s (%s) Recv %s (%s)",
+        log.debug('RPC: Sent %s (%s) Recv %s (%s)',
                   deluge.common.fsize(sent), sent_rate, deluge.common.fsize(recv), recv_rate)
 
     def _on_reactor_start(self):
-        log.debug("_on_reactor_start")
+        log.debug('_on_reactor_start')
         self.mainwindow.first_show()
 
-        if self.config["standalone"]:
+        if self.config['standalone']:
             def on_dialog_response(response):
                 if response != gtk.RESPONSE_YES:
                     # The user does not want to turn Standalone Mode off, so just quit
                     self.mainwindow.quit()
                     return
                 # Turning off standalone
-                self.config["standalone"] = False
+                self.config['standalone'] = False
                 self.__start_thinclient()
 
             try:
@@ -298,19 +298,19 @@ class GtkUI(object):
                     client.start_standalone()
                 except DaemonRunningError:
                     d = YesNoDialog(
-                        _("Switch to Thin Client Mode?"),
-                        _("A Deluge daemon process (deluged) is already running. "
-                          "To use Standalone mode, stop this daemon and restart Deluge."
-                          "\n\n"
-                          "Continue in Thin Client mode?")).run()
+                        _('Switch to Thin Client Mode?'),
+                        _('A Deluge daemon process (deluged) is already running. '
+                          'To use Standalone mode, stop this daemon and restart Deluge.'
+                          '\n\n'
+                          'Continue in Thin Client mode?')).run()
                     d.addCallback(on_dialog_response)
                 except ImportError as ex:
-                    if "No module named libtorrent" in ex.message:
+                    if 'No module named libtorrent' in ex.message:
                         d = YesNoDialog(
-                            _("Switch to Thin Client Mode?"),
-                            _("Only Thin Client mode is available because libtorrent is not installed."
-                              "\n\n"
-                              "To use Deluge Standalone mode, please install libtorrent.")).run()
+                            _('Switch to Thin Client Mode?'),
+                            _('Only Thin Client mode is available because libtorrent is not installed.'
+                              '\n\n'
+                              'To use Deluge Standalone mode, please install libtorrent.')).run()
                         d.addCallback(on_dialog_response)
                     else:
                         raise ex
@@ -321,15 +321,15 @@ class GtkUI(object):
                 import traceback
                 tb = sys.exc_info()
                 ed = ErrorDialog(
-                    _("Error Starting Core"),
-                    _("An error occurred starting the core component required to run Deluge in Standalone mode."
-                      "\n\n"
-                      "Please see the details below for more information."), details=traceback.format_exc(tb[2])).run()
+                    _('Error Starting Core'),
+                    _('An error occurred starting the core component required to run Deluge in Standalone mode.'
+                      '\n\n'
+                      'Please see the details below for more information.'), details=traceback.format_exc(tb[2])).run()
 
                 def on_ed_response(response):
                     d = YesNoDialog(
-                        _("Switch to Thin Client Mode?"),
-                        _("Unable to start Standalone mode would you like to continue in Thin Client mode?")
+                        _('Switch to Thin Client Mode?'),
+                        _('Unable to start Standalone mode would you like to continue in Thin Client mode?')
                     ).run()
                     d.addCallback(on_dialog_response)
                 ed.addCallback(on_ed_response)
@@ -339,35 +339,35 @@ class GtkUI(object):
 
     def __start_thinclient(self):
         # Autoconnect to a host
-        if self.config["autoconnect"]:
+        if self.config['autoconnect']:
 
             def update_connection_manager():
                 if not self.connectionmanager.running:
                     return
-                self.connectionmanager.builder.get_object("button_refresh").emit("clicked")
+                self.connectionmanager.builder.get_object('button_refresh').emit('clicked')
 
             def close_connection_manager():
                 if not self.connectionmanager.running:
                     return
-                self.connectionmanager.builder.get_object("button_close").emit("clicked")
+                self.connectionmanager.builder.get_object('button_close').emit('clicked')
 
-            for host_config in self.connectionmanager.config["hosts"]:
+            for host_config in self.connectionmanager.config['hosts']:
                 hostid, host, port, user, passwd = host_config
-                if hostid == self.config["autoconnect_host_id"]:
+                if hostid == self.config['autoconnect_host_id']:
                     try_connect = True
                     # Check to see if we need to start the localhost daemon
-                    if self.config["autostart_localhost"] and host in ("localhost", "127.0.0.1"):
-                        log.debug("Autostarting localhost:%s", host)
+                    if self.config['autostart_localhost'] and host in ('localhost', '127.0.0.1'):
+                        log.debug('Autostarting localhost:%s', host)
                         try_connect = client.start_daemon(
                             port, get_config_dir()
                         )
-                        log.debug("Localhost started: %s", try_connect)
+                        log.debug('Localhost started: %s', try_connect)
                         if not try_connect:
                             ErrorDialog(
-                                _("Error Starting Daemon"),
-                                _("There was an error starting the daemon "
-                                  "process.  Try running it from a console "
-                                  "to see if there is an error.")
+                                _('Error Starting Daemon'),
+                                _('There was an error starting the daemon '
+                                  'process.  Try running it from a console '
+                                  'to see if there is an error.')
                             ).run()
 
                         # Daemon Started, let's update it's info
@@ -384,7 +384,7 @@ class GtkUI(object):
                             return
 
                         if reason.check(AuthenticationRequired, BadLoginError):
-                            log.debug("PasswordRequired exception")
+                            log.debug('PasswordRequired exception')
                             dialog = AuthenticationDialog(reason.value.message, reason.value.username)
 
                             def dialog_finished(response_id, host, port):
@@ -396,15 +396,15 @@ class GtkUI(object):
                             dialog.run().addCallback(dialog_finished, host, port)
                             return
 
-                        log.info("Connection to host failed..")
-                        log.info("Retrying connection.. Retries left: "
-                                 "%s", try_counter)
+                        log.info('Connection to host failed..')
+                        log.info('Retrying connection.. Retries left: '
+                                 '%s', try_counter)
                         reactor.callLater(0.5, update_connection_manager)
                         reactor.callLater(0.5, do_connect, try_counter - 1,
                                           host, port, user, passwd)
 
                     def do_connect(try_counter, host, port, user, passwd):
-                        log.debug("Trying to connect to %s@%s:%s",
+                        log.debug('Trying to connect to %s@%s:%s',
                                   user, host, port)
                         d = client.connect(host, port, user, passwd)
                         d.addCallback(on_connect)
@@ -417,7 +417,7 @@ class GtkUI(object):
                         )
                     break
 
-        if self.config["show_connection_manager_on_start"]:
+        if self.config['show_connection_manager_on_start']:
             if deluge.common.windows_check():
                 # Call to simulate() required to workaround showing daemon status (see #2813)
                 reactor.simulate()

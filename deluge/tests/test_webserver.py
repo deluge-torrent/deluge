@@ -36,7 +36,7 @@ class WebServerTestCase(WebServerTestBase, WebServerMockBase):
         # This torrent file contains an uncommon field 'filehash' which must be hex
         # encoded to allow dumping the torrent info to json. Otherwise it will fail with:
         # UnicodeDecodeError: 'utf8' codec can't decode byte 0xe5 in position 0: invalid continuation byte
-        filename = get_test_data_file("filehash_field.torrent")
+        filename = get_test_data_file('filehash_field.torrent')
 
         d = yield agent.request(
             'POST',
@@ -50,4 +50,4 @@ class WebServerTestCase(WebServerTestBase, WebServerMockBase):
             raise SkipTest("This test requires 't.w.c.readBody()' in Twisted version >= 13.2")
 
         json = json_lib.loads(body)
-        self.assertEqual(None, json["error"])
+        self.assertEqual(None, json['error'])

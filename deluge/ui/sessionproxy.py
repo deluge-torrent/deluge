@@ -27,8 +27,8 @@ class SessionProxy(component.Component):
 
     """
     def __init__(self):
-        log.debug("SessionProxy init..")
-        component.Component.__init__(self, "SessionProxy", interval=5)
+        log.debug('SessionProxy init..')
+        component.Component.__init__(self, 'SessionProxy', interval=5)
 
         # Set the cache time in seconds
         # This is how long data will be valid before re-fetching from the core
@@ -41,9 +41,9 @@ class SessionProxy(component.Component):
         self.cache_times = {}
 
     def start(self):
-        client.register_event_handler("TorrentStateChangedEvent", self.on_torrent_state_changed)
-        client.register_event_handler("TorrentRemovedEvent", self.on_torrent_removed)
-        client.register_event_handler("TorrentAddedEvent", self.on_torrent_added)
+        client.register_event_handler('TorrentStateChangedEvent', self.on_torrent_state_changed)
+        client.register_event_handler('TorrentRemovedEvent', self.on_torrent_removed)
+        client.register_event_handler('TorrentAddedEvent', self.on_torrent_added)
 
         def on_get_session_state(torrent_ids):
             for torrent_id in torrent_ids:
@@ -55,9 +55,9 @@ class SessionProxy(component.Component):
         return client.core.get_session_state().addCallback(on_get_session_state)
 
     def stop(self):
-        client.deregister_event_handler("TorrentStateChangedEvent", self.on_torrent_state_changed)
-        client.deregister_event_handler("TorrentRemovedEvent", self.on_torrent_removed)
-        client.deregister_event_handler("TorrentAddedEvent", self.on_torrent_added)
+        client.deregister_event_handler('TorrentStateChangedEvent', self.on_torrent_state_changed)
+        client.deregister_event_handler('TorrentRemovedEvent', self.on_torrent_removed)
+        client.deregister_event_handler('TorrentAddedEvent', self.on_torrent_added)
         self.torrents = {}
 
     def create_status_dict(self, torrent_ids, keys):
@@ -216,21 +216,21 @@ class SessionProxy(component.Component):
             # We get a list of any torrent_ids with expired status dicts
             to_fetch = find_torrents_to_fetch(self.torrents.keys())
             if to_fetch:
-                d = client.core.get_torrents_status({"id": to_fetch}, keys, True)
+                d = client.core.get_torrents_status({'id': to_fetch}, keys, True)
                 return d.addCallback(on_status, self.torrents.keys(), keys)
 
             # Don't need to fetch anything
             return maybeDeferred(self.create_status_dict, self.torrents.keys(), keys)
 
-        if len(filter_dict) == 1 and "id" in filter_dict:
+        if len(filter_dict) == 1 and 'id' in filter_dict:
             # At this point we should have a filter with just "id" in it
-            to_fetch = find_torrents_to_fetch(filter_dict["id"])
+            to_fetch = find_torrents_to_fetch(filter_dict['id'])
             if to_fetch:
-                d = client.core.get_torrents_status({"id": to_fetch}, keys, True)
-                return d.addCallback(on_status, filter_dict["id"], keys)
+                d = client.core.get_torrents_status({'id': to_fetch}, keys, True)
+                return d.addCallback(on_status, filter_dict['id'], keys)
             else:
                 # Don't need to fetch anything, so just return data from the cache
-                return maybeDeferred(self.create_status_dict, filter_dict["id"], keys)
+                return maybeDeferred(self.create_status_dict, filter_dict['id'], keys)
         else:
             # This is a keyworded filter so lets just pass it onto the core
             # XXX: Add more caching here.
@@ -239,7 +239,7 @@ class SessionProxy(component.Component):
 
     def on_torrent_state_changed(self, torrent_id, state):
         if torrent_id in self.torrents:
-            self.torrents[torrent_id][1].setdefault("state", state)
+            self.torrents[torrent_id][1].setdefault('state', state)
             self.cache_times.setdefault(torrent_id, {}).update(state=time())
 
     def on_torrent_added(self, torrent_id, from_state):

@@ -28,12 +28,12 @@ common.disable_new_release_check()
 class CookieResource(Resource):
 
     def render(self, request):
-        if request.getCookie("password") != "deluge":
+        if request.getCookie('password') != 'deluge':
             request.setResponseCode(FORBIDDEN)
             return
 
-        request.setHeader("Content-Type", "application/x-bittorrent")
-        with open(common.get_test_data_file("ubuntu-9.04-desktop-i386.iso.torrent")) as _file:
+        request.setHeader('Content-Type', 'application/x-bittorrent')
+        with open(common.get_test_data_file('ubuntu-9.04-desktop-i386.iso.torrent')) as _file:
             data = _file.read()
         return data
 
@@ -41,11 +41,11 @@ class CookieResource(Resource):
 class PartialDownload(Resource):
 
     def render(self, request):
-        with open(common.get_test_data_file("ubuntu-9.04-desktop-i386.iso.torrent")) as _file:
+        with open(common.get_test_data_file('ubuntu-9.04-desktop-i386.iso.torrent')) as _file:
             data = _file.read()
-        request.setHeader("Content-Type", len(data))
-        request.setHeader("Content-Type", "application/x-bittorrent")
-        if request.requestHeaders.hasHeader("accept-encoding"):
+        request.setHeader('Content-Type', len(data))
+        request.setHeader('Content-Type', 'application/x-bittorrent')
+        if request.requestHeaders.hasHeader('accept-encoding'):
             return compress(data, request)
         return data
 
@@ -53,8 +53,8 @@ class PartialDownload(Resource):
 class RedirectResource(Resource):
 
     def render(self, request):
-        request.redirect("/ubuntu-9.04-desktop-i386.iso.torrent")
-        return ""
+        request.redirect('/ubuntu-9.04-desktop-i386.iso.torrent')
+        return ''
 
 
 class TopLevelResource(Resource):
@@ -63,11 +63,11 @@ class TopLevelResource(Resource):
 
     def __init__(self):
         Resource.__init__(self)
-        self.putChild("cookie", CookieResource())
-        self.putChild("partial", PartialDownload())
-        self.putChild("redirect", RedirectResource())
-        self.putChild("ubuntu-9.04-desktop-i386.iso.torrent",
-                      File(common.get_test_data_file("ubuntu-9.04-desktop-i386.iso.torrent")))
+        self.putChild('cookie', CookieResource())
+        self.putChild('partial', PartialDownload())
+        self.putChild('redirect', RedirectResource())
+        self.putChild('ubuntu-9.04-desktop-i386.iso.torrent',
+                      File(common.get_test_data_file('ubuntu-9.04-desktop-i386.iso.torrent')))
 
 
 class CoreTestCase(BaseTestCase):
@@ -106,7 +106,7 @@ class CoreTestCase(BaseTestCase):
     @defer.inlineCallbacks
     def test_add_torrent_files(self):
         options = {}
-        filenames = ["test.torrent", "test_torrent.file.torrent"]
+        filenames = ['test.torrent', 'test_torrent.file.torrent']
         files_to_add = []
         for f in filenames:
             filename = common.get_test_data_file(f)
@@ -119,7 +119,7 @@ class CoreTestCase(BaseTestCase):
     @defer.inlineCallbacks
     def test_add_torrent_files_error_duplicate(self):
         options = {}
-        filenames = ["test.torrent", "test.torrent"]
+        filenames = ['test.torrent', 'test.torrent']
         files_to_add = []
         for f in filenames:
             filename = common.get_test_data_file(f)
@@ -128,12 +128,12 @@ class CoreTestCase(BaseTestCase):
             files_to_add.append((filename, filedump, options))
         errors = yield self.core.add_torrent_files(files_to_add)
         self.assertEquals(len(errors), 1)
-        self.assertTrue(str(errors[0]).startswith("Torrent already in session"))
+        self.assertTrue(str(errors[0]).startswith('Torrent already in session'))
 
     @defer.inlineCallbacks
     def test_add_torrent_file(self):
         options = {}
-        filename = common.get_test_data_file("test.torrent")
+        filename = common.get_test_data_file('test.torrent')
         with open(filename) as _file:
             filedump = base64.encodestring(_file.read())
         torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
@@ -141,28 +141,28 @@ class CoreTestCase(BaseTestCase):
         # Get the info hash from the test.torrent
         from deluge.bencode import bdecode, bencode
         with open(filename) as _file:
-            info_hash = sha(bencode(bdecode(_file.read())["info"])).hexdigest()
+            info_hash = sha(bencode(bdecode(_file.read())['info'])).hexdigest()
         self.assertEquals(torrent_id, info_hash)
 
     def test_add_torrent_file_invalid_filedump(self):
         options = {}
-        filename = common.get_test_data_file("test.torrent")
+        filename = common.get_test_data_file('test.torrent')
         self.assertRaises(AddTorrentError, self.core.add_torrent_file, filename, False, options)
 
     @defer.inlineCallbacks
     def test_add_torrent_url(self):
-        url = "http://localhost:%d/ubuntu-9.04-desktop-i386.iso.torrent" % self.listen_port
+        url = 'http://localhost:%d/ubuntu-9.04-desktop-i386.iso.torrent' % self.listen_port
         options = {}
-        info_hash = "60d5d82328b4547511fdeac9bf4d0112daa0ce00"
+        info_hash = '60d5d82328b4547511fdeac9bf4d0112daa0ce00'
 
         torrent_id = yield self.core.add_torrent_url(url, options)
         self.assertEquals(torrent_id, info_hash)
 
     def test_add_torrent_url_with_cookie(self):
-        url = "http://localhost:%d/cookie" % self.listen_port
+        url = 'http://localhost:%d/cookie' % self.listen_port
         options = {}
-        headers = {"Cookie": "password=deluge"}
-        info_hash = "60d5d82328b4547511fdeac9bf4d0112daa0ce00"
+        headers = {'Cookie': 'password=deluge'}
+        info_hash = '60d5d82328b4547511fdeac9bf4d0112daa0ce00'
 
         d = self.core.add_torrent_url(url, options)
         d.addCallbacks(self.fail, self.assertIsInstance, errbackArgs=(Failure,))
@@ -173,18 +173,18 @@ class CoreTestCase(BaseTestCase):
         return d
 
     def test_add_torrent_url_with_redirect(self):
-        url = "http://localhost:%d/redirect" % self.listen_port
+        url = 'http://localhost:%d/redirect' % self.listen_port
         options = {}
-        info_hash = "60d5d82328b4547511fdeac9bf4d0112daa0ce00"
+        info_hash = '60d5d82328b4547511fdeac9bf4d0112daa0ce00'
 
         d = self.core.add_torrent_url(url, options)
         d.addCallback(self.assertEquals, info_hash)
         return d
 
     def test_add_torrent_url_with_partial_download(self):
-        url = "http://localhost:%d/partial" % self.listen_port
+        url = 'http://localhost:%d/partial' % self.listen_port
         options = {}
-        info_hash = "60d5d82328b4547511fdeac9bf4d0112daa0ce00"
+        info_hash = '60d5d82328b4547511fdeac9bf4d0112daa0ce00'
 
         d = self.core.add_torrent_url(url, options)
         d.addCallback(self.assertEquals, info_hash)
@@ -192,7 +192,7 @@ class CoreTestCase(BaseTestCase):
 
     @defer.inlineCallbacks
     def test_add_torrent_magnet(self):
-        info_hash = "60d5d82328b4547511fdeac9bf4d0112daa0ce00"
+        info_hash = '60d5d82328b4547511fdeac9bf4d0112daa0ce00'
         uri = deluge.common.create_magnet_uri(info_hash)
         options = {}
         torrent_id = yield self.core.add_torrent_magnet(uri, options)
@@ -201,7 +201,7 @@ class CoreTestCase(BaseTestCase):
     @defer.inlineCallbacks
     def test_remove_torrent(self):
         options = {}
-        filename = common.get_test_data_file("test.torrent")
+        filename = common.get_test_data_file('test.torrent')
         with open(filename) as _file:
             filedump = base64.encodestring(_file.read())
         torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
@@ -210,17 +210,17 @@ class CoreTestCase(BaseTestCase):
         self.assertEquals(len(self.core.get_session_state()), 0)
 
     def test_remove_torrent_invalid(self):
-        self.assertRaises(InvalidTorrentError, self.core.remove_torrent, "torrentidthatdoesntexist", True)
+        self.assertRaises(InvalidTorrentError, self.core.remove_torrent, 'torrentidthatdoesntexist', True)
 
     @defer.inlineCallbacks
     def test_remove_torrents(self):
         options = {}
-        filename = common.get_test_data_file("test.torrent")
+        filename = common.get_test_data_file('test.torrent')
         with open(filename) as _file:
             filedump = base64.encodestring(_file.read())
         torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
 
-        filename2 = common.get_test_data_file("unicode_filenames.torrent")
+        filename2 = common.get_test_data_file('unicode_filenames.torrent')
         with open(filename2) as _file:
             filedump = base64.encodestring(_file.read())
         torrent_id2 = yield self.core.add_torrent_file(filename2, filedump, options)
@@ -238,35 +238,35 @@ class CoreTestCase(BaseTestCase):
     @defer.inlineCallbacks
     def test_remove_torrents_invalid(self):
         options = {}
-        filename = common.get_test_data_file("test.torrent")
+        filename = common.get_test_data_file('test.torrent')
         with open(filename) as _file:
             filedump = base64.encodestring(_file.read())
             torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
-        val = yield self.core.remove_torrents(["invalidid1", "invalidid2", torrent_id], False)
+        val = yield self.core.remove_torrents(['invalidid1', 'invalidid2', torrent_id], False)
         self.assertEqual(len(val), 2)
         self.assertEqual(val[0], ('invalidid1', "torrent_id 'invalidid1' not in session."))
         self.assertEqual(val[1], ('invalidid2', "torrent_id 'invalidid2' not in session."))
 
     def test_get_session_status(self):
-        status = self.core.get_session_status(["upload_rate", "download_rate"])
+        status = self.core.get_session_status(['upload_rate', 'download_rate'])
         self.assertEquals(type(status), dict)
-        self.assertEquals(status["upload_rate"], 0.0)
+        self.assertEquals(status['upload_rate'], 0.0)
 
     def test_get_cache_status(self):
         status = self.core.get_cache_status()
         self.assertEquals(type(status), dict)
-        self.assertEquals(status["write_hit_ratio"], 0.0)
-        self.assertEquals(status["read_hit_ratio"], 0.0)
+        self.assertEquals(status['write_hit_ratio'], 0.0)
+        self.assertEquals(status['read_hit_ratio'], 0.0)
 
     def test_get_free_space(self):
-        space = self.core.get_free_space(".")
+        space = self.core.get_free_space('.')
         # get_free_space returns long on Python 2 (32-bit).
         if sys.version_info >= (3, 0):
             self.assertTrue(isinstance(space, int))
         else:
             self.assertTrue(isinstance(space, (int, long)))
         self.assertTrue(space >= 0)
-        self.assertEquals(self.core.get_free_space("/someinvalidpath"), -1)
+        self.assertEquals(self.core.get_free_space('/someinvalidpath'), -1)
 
     @pytest.mark.slow
     def test_test_listen_port(self):
@@ -295,11 +295,11 @@ class CoreTestCase(BaseTestCase):
             self.assertEquals(deluge.core.torrent.sanitize_filepath(key, folder=True), pathlist[key] + '/')
 
     def test_get_set_config_values(self):
-        self.assertEquals(self.core.get_config_values(["abc", "foo"]), {"foo": None, "abc": None})
-        self.assertEquals(self.core.get_config_value("foobar"), None)
-        self.core.set_config({"abc": "def", "foo": 10, "foobar": "barfoo"})
-        self.assertEquals(self.core.get_config_values(["foo", "abc"]), {"foo": 10, "abc": "def"})
-        self.assertEquals(self.core.get_config_value("foobar"), "barfoo")
+        self.assertEquals(self.core.get_config_values(['abc', 'foo']), {'foo': None, 'abc': None})
+        self.assertEquals(self.core.get_config_value('foobar'), None)
+        self.core.set_config({'abc': 'def', 'foo': 10, 'foobar': 'barfoo'})
+        self.assertEquals(self.core.get_config_values(['foo', 'abc']), {'foo': 10, 'abc': 'def'})
+        self.assertEquals(self.core.get_config_value('foobar'), 'barfoo')
 
     def test_read_only_config_keys(self):
         key = 'max_upload_speed'

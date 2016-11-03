@@ -174,7 +174,7 @@ class Popup(BaseWindow, InputKeyHandler):
 
     def close(self, *args, **kwargs):
         self._closed = True
-        if kwargs.get("call_cb", True):
+        if kwargs.get('call_cb', True):
             self._call_close_cb(*args)
         self.panel.hide()
 
@@ -209,15 +209,15 @@ class SelectablePopup(BaseInputPane, Popup):
 
         """
         Popup.__init__(self, parent_mode, title, close_cb=close_cb, **kwargs)
-        kwargs.update({"allow_rearrange": allow_rearrange, "immediate_action": immediate_action})
+        kwargs.update({'allow_rearrange': allow_rearrange, 'immediate_action': immediate_action})
         BaseInputPane.__init__(self, self, **kwargs)
         self.selection_cb = selection_cb
         self.input_cb = input_cb
         self.hotkeys = {}
         self.cb_arg = {}
-        self.cb_args = kwargs.get("cb_args", {})
-        if "base_popup" not in self.cb_args:
-            self.cb_args["base_popup"] = self
+        self.cb_args = kwargs.get('cb_args', {})
+        if 'base_popup' not in self.cb_args:
+            self.cb_args['base_popup'] = self
 
     @property
     @overrides(BaseWindow)
@@ -226,7 +226,7 @@ class SelectablePopup(BaseInputPane, Popup):
         return Popup.visible_content_pane_height.fget(self)
 
     def current_selection(self):
-        "Returns a tuple of (selected index, selected data)"
+        'Returns a tuple of (selected index, selected data)'
         return self.active_input
 
     def set_selection(self, index):
@@ -238,15 +238,15 @@ class SelectablePopup(BaseInputPane, Popup):
         hotkey = None
         self.cb_arg[name] = cb_arg
         if use_underline:
-            udx = string.find("_")
+            udx = string.find('_')
             if udx >= 0:
                 hotkey = string[udx].lower()
-                string = string[:udx] + "{!+underline!}" + string[udx + 1] + "{!-underline!}" + string[udx + 2:]
+                string = string[:udx] + '{!+underline!}' + string[udx + 1] + '{!-underline!}' + string[udx + 2:]
 
-        kwargs["selectable"] = selectable
+        kwargs['selectable'] = selectable
         if foreground:
-            kwargs["color_active"] = "%s,white" % foreground
-            kwargs["color"] = "%s,black" % foreground
+            kwargs['color_active'] = '%s,white' % foreground
+            kwargs['color'] = '%s,black' % foreground
 
         field = self.add_text_field(name, string, **kwargs)
         if hotkey:
@@ -259,7 +259,7 @@ class SelectablePopup(BaseInputPane, Popup):
     def handle_read(self, c):
         if c in [curses.KEY_ENTER, util.KEY_ENTER2]:
             for k, v in self.get_values().iteritems():
-                if v["active"]:
+                if v['active']:
                     if self.selection_cb(k, **dict(self.cb_args, data=self.cb_arg)):
                         self.close(None)
             return util.ReadState.READ
@@ -279,12 +279,12 @@ class SelectablePopup(BaseInputPane, Popup):
         self.refresh()
         return util.ReadState.IGNORED
 
-    def add_divider(self, message=None, char="-", fill_width=True, color="white"):
+    def add_divider(self, message=None, char='-', fill_width=True, color='white'):
         if message is not None:
             fill_width = False
         else:
             message = char
-        self.add_divider_field("", message, selectable=False, fill_width=fill_width)
+        self.add_divider_field('', message, selectable=False, fill_width=fill_width)
 
 
 class MessagePopup(Popup, BaseInputPane):
@@ -304,7 +304,7 @@ class MessagePopup(Popup, BaseInputPane):
 
         self.handle_resize()
         self.no_refresh = False
-        self.add_text_area("TextMessage", message)
+        self.add_text_area('TextMessage', message)
 
     @overrides(Popup, BaseInputPane)
     def handle_read(self, c):

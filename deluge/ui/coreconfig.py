@@ -17,13 +17,13 @@ log = logging.getLogger(__name__)
 
 class CoreConfig(component.Component):
     def __init__(self):
-        log.debug("CoreConfig init..")
-        component.Component.__init__(self, "CoreConfig")
+        log.debug('CoreConfig init..')
+        component.Component.__init__(self, 'CoreConfig')
         self.config = {}
 
         def on_configvaluechanged_event(key, value):
             self.config[key] = value
-        client.register_event_handler("ConfigValueChangedEvent", on_configvaluechanged_event)
+        client.register_event_handler('ConfigValueChangedEvent', on_configvaluechanged_event)
 
     def start(self):
         def on_get_config(config):

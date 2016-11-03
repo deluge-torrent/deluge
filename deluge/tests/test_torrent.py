@@ -23,7 +23,7 @@ class TorrentTestCase(BaseTestCase):
 
     def setup_config(self):
         config_dir = common.set_tmp_config_dir()
-        core_config = deluge.config.Config("core.conf", defaults=deluge.core.preferencesmanager.DEFAULT_PREFS,
+        core_config = deluge.config.Config('core.conf', defaults=deluge.core.preferencesmanager.DEFAULT_PREFS,
                                            config_dir=config_dir)
         core_config.save()
 
@@ -44,7 +44,7 @@ class TorrentTestCase(BaseTestCase):
             if i % 100 == 0:
                 print(tmp)
                 tmp = ''
-            tmp += "%s" % p
+            tmp += '%s' % p
         print(tmp)
 
     def assert_state(self, torrent, state):
@@ -55,19 +55,19 @@ class TorrentTestCase(BaseTestCase):
         filename = common.get_test_data_file(filename)
         with open(filename, 'rb') as _file:
             info = lt.torrent_info(lt.bdecode(_file.read()))
-        atp = {"ti": info}
-        atp["save_path"] = os.getcwd()
-        atp["storage_mode"] = lt.storage_mode_t.storage_mode_sparse
-        atp["add_paused"] = False
-        atp["auto_managed"] = True
-        atp["duplicate_is_error"] = True
+        atp = {'ti': info}
+        atp['save_path'] = os.getcwd()
+        atp['storage_mode'] = lt.storage_mode_t.storage_mode_sparse
+        atp['add_paused'] = False
+        atp['auto_managed'] = True
+        atp['duplicate_is_error'] = True
         return atp
 
     def test_set_prioritize_first_last_pieces(self):
         piece_indexes = [(0, 1), (0, 1), (0, 1), (0, 1), (0, 2), (50, 52),
                          (51, 53), (110, 112), (111, 114), (200, 203),
                          (202, 203), (212, 213), (212, 218), (457, 463)]
-        self.run_test_set_prioritize_first_last_pieces("dir_with_6_files.torrent", piece_indexes)
+        self.run_test_set_prioritize_first_last_pieces('dir_with_6_files.torrent', piece_indexes)
 
     def run_test_set_prioritize_first_last_pieces(self, torrent_file, prioritized_piece_indexes):
         atp = self.get_torrent_atp(torrent_file)
@@ -99,7 +99,7 @@ class TorrentTestCase(BaseTestCase):
         # self.print_priority_list(priorities)
 
     def test_set_prioritize_first_last_pieces_false(self):
-        atp = self.get_torrent_atp("dir_with_6_files.torrent")
+        atp = self.get_torrent_atp('dir_with_6_files.torrent')
         handle = self.session.add_torrent(atp)
         self.torrent = Torrent(handle, {})
         # First set some pieces prioritized
@@ -116,36 +116,36 @@ class TorrentTestCase(BaseTestCase):
 
     @defer.inlineCallbacks
     def test_torrent_error_data_missing(self):
-        options = {"seed_mode": True}
-        filename = common.get_test_data_file("test_torrent.file.torrent")
+        options = {'seed_mode': True}
+        filename = common.get_test_data_file('test_torrent.file.torrent')
         with open(filename) as _file:
             filedump = base64.encodestring(_file.read())
         torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
         torrent = self.core.torrentmanager.torrents[torrent_id]
 
-        self.assert_state(torrent, "Seeding")
+        self.assert_state(torrent, 'Seeding')
 
         # Force an error by reading (non-existant) piece from disk
         torrent.handle.read_piece(0)
         time.sleep(0.2)  # Delay to wait for alert from lt
-        self.assert_state(torrent, "Error")
+        self.assert_state(torrent, 'Error')
 
     @defer.inlineCallbacks
     def test_torrent_error_resume_original_state(self):
-        options = {"seed_mode": True, "add_paused": True}
-        filename = common.get_test_data_file("test_torrent.file.torrent")
+        options = {'seed_mode': True, 'add_paused': True}
+        filename = common.get_test_data_file('test_torrent.file.torrent')
         with open(filename) as _file:
             filedump = base64.encodestring(_file.read())
         torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
         torrent = self.core.torrentmanager.torrents[torrent_id]
 
-        orig_state = "Paused"
+        orig_state = 'Paused'
         self.assert_state(torrent, orig_state)
 
         # Force an error by reading (non-existant) piece from disk
         torrent.handle.read_piece(0)
         time.sleep(0.2)  # Delay to wait for alert from lt
-        self.assert_state(torrent, "Error")
+        self.assert_state(torrent, 'Error')
 
         # Clear error and verify returned to original state
         torrent.force_recheck()
@@ -178,7 +178,7 @@ class TorrentTestCase(BaseTestCase):
             is_finished=True,
         )
 
-        filename = common.get_test_data_file("test_torrent.file.torrent")
+        filename = common.get_test_data_file('test_torrent.file.torrent')
         with open(filename) as _file:
             filedump = _file.read()
         torrent_id = yield self.core.torrentmanager.add(state=torrent_state, filedump=filedump,
@@ -186,7 +186,7 @@ class TorrentTestCase(BaseTestCase):
         torrent = self.core.torrentmanager.torrents[torrent_id]
 
         def assert_resume_data():
-            self.assert_state(torrent, "Error")
+            self.assert_state(torrent, 'Error')
             tm_resume_data = lt.bdecode(self.core.torrentmanager.resume_data[torrent.torrent_id])
             self.assertEquals(tm_resume_data, resume_data)
 

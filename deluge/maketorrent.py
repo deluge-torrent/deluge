@@ -46,7 +46,7 @@ class TorrentMetadata(object):
     def __init__(self):
         self.__data_path = None
         self.__piece_size = 0
-        self.__comment = ""
+        self.__comment = ''
         self.__private = False
         self.__trackers = []
         self.__webseeds = []
@@ -65,37 +65,37 @@ class TorrentMetadata(object):
 
         """
         if not self.data_path:
-            raise InvalidPath("Need to set a data_path!")
+            raise InvalidPath('Need to set a data_path!')
 
         torrent = {
-            "info": {}
+            'info': {}
         }
 
         if self.comment:
-            torrent["comment"] = self.comment.encode("UTF-8")
+            torrent['comment'] = self.comment.encode('UTF-8')
 
         if self.private:
-            torrent["info"]["private"] = True
+            torrent['info']['private'] = True
 
         if self.trackers:
-            torrent["announce"] = self.trackers[0][0]
-            torrent["announce-list"] = self.trackers
+            torrent['announce'] = self.trackers[0][0]
+            torrent['announce-list'] = self.trackers
         else:
-            torrent["announce"] = ""
+            torrent['announce'] = ''
 
         if self.webseeds:
             httpseeds = []
             webseeds = []
             for w in self.webseeds:
-                if w.endswith(".php"):
+                if w.endswith('.php'):
                     httpseeds.append(w)
                 else:
                     webseeds.append(w)
 
             if httpseeds:
-                torrent["httpseeds"] = httpseeds
+                torrent['httpseeds'] = httpseeds
             if webseeds:
-                torrent["url-list"] = webseeds
+                torrent['url-list'] = webseeds
 
         datasize = get_path_size(self.data_path)
 
@@ -112,11 +112,11 @@ class TorrentMetadata(object):
         if datasize % piece_size:
             num_pieces += 1
 
-        torrent["info"]["piece length"] = piece_size
+        torrent['info']['piece length'] = piece_size
 
         # Create the info
         if os.path.isdir(self.data_path):
-            torrent["info"]["name"] = os.path.split(self.data_path)[1]
+            torrent['info']['name'] = os.path.split(self.data_path)[1]
             files = []
             padding_count = 0
             # Collect a list of file paths and add padding files if necessary
@@ -124,8 +124,8 @@ class TorrentMetadata(object):
                 for index, filename in enumerate(filenames):
                     size = get_path_size(os.path.join(self.data_path, dirpath, filename))
                     p = dirpath[len(self.data_path):]
-                    p = p.lstrip("/")
-                    p = p.split("/")
+                    p = p.lstrip('/')
+                    p = p.split('/')
                     if p[0]:
                         p += [filename]
                     else:
@@ -136,7 +136,7 @@ class TorrentMetadata(object):
                         left = size % piece_size
                         if left:
                             p = list(p)
-                            p[-1] = "_____padding_file_" + str(padding_count)
+                            p[-1] = '_____padding_file_' + str(padding_count)
                             files.append((piece_size - left, p))
                             padding_count += 1
 
@@ -147,17 +147,17 @@ class TorrentMetadata(object):
             fs = []
             pieces = []
             # Create the piece hashes
-            buf = ""
+            buf = ''
             for size, path in files:
-                path = [s.decode(sys.getfilesystemencoding()).encode("UTF-8") for s in path]
-                fs.append({"length": size, "path": path})
-                if path[-1].startswith("_____padding_file_"):
-                    buf += "\0" * size
+                path = [s.decode(sys.getfilesystemencoding()).encode('UTF-8') for s in path]
+                fs.append({'length': size, 'path': path})
+                if path[-1].startswith('_____padding_file_'):
+                    buf += '\0' * size
                     pieces.append(sha(buf).digest())
-                    buf = ""
-                    fs[-1]["attr"] = "p"
+                    buf = ''
+                    fs[-1]['attr'] = 'p'
                 else:
-                    with open(os.path.join(self.data_path, *path), "rb") as _file:
+                    with open(os.path.join(self.data_path, *path), 'rb') as _file:
                         r = _file.read(piece_size - len(buf))
                         while r:
                             buf += r
@@ -166,7 +166,7 @@ class TorrentMetadata(object):
                                 # Run the progress function if necessary
                                 if progress:
                                     progress(len(pieces), num_pieces)
-                                buf = ""
+                                buf = ''
                             else:
                                 break
                             r = _file.read(piece_size - len(buf))
@@ -175,17 +175,17 @@ class TorrentMetadata(object):
                 pieces.append(sha(buf).digest())
                 if progress:
                     progress(len(pieces), num_pieces)
-                buf = ""
+                buf = ''
 
-            torrent["info"]["pieces"] = "".join(pieces)
-            torrent["info"]["files"] = fs
+            torrent['info']['pieces'] = ''.join(pieces)
+            torrent['info']['files'] = fs
 
         elif os.path.isfile(self.data_path):
-            torrent["info"]["name"] = os.path.split(self.data_path)[1]
-            torrent["info"]["length"] = get_path_size(self.data_path)
+            torrent['info']['name'] = os.path.split(self.data_path)[1]
+            torrent['info']['length'] = get_path_size(self.data_path)
             pieces = []
 
-            with open(self.data_path, "rb") as _file:
+            with open(self.data_path, 'rb') as _file:
                 r = _file.read(piece_size)
                 while r:
                     pieces.append(sha(r).digest())
@@ -194,10 +194,10 @@ class TorrentMetadata(object):
 
                     r = _file.read(piece_size)
 
-            torrent["info"]["pieces"] = "".join(pieces)
+            torrent['info']['pieces'] = ''.join(pieces)
 
         # Write out the torrent file
-        with open(torrent_path, "wb") as _file:
+        with open(torrent_path, 'wb') as _file:
             _file.write(bencode(torrent))
 
     def get_data_path(self):
@@ -228,7 +228,7 @@ class TorrentMetadata(object):
         if os.path.exists(path) and (os.path.isdir(path) or os.path.isfile(path)):
             self.__data_path = os.path.abspath(path)
         else:
-            raise InvalidPath("No such file or directory: %s" % path)
+            raise InvalidPath('No such file or directory: %s' % path)
 
     def get_piece_size(self):
         """The size of the pieces.
@@ -254,7 +254,7 @@ class TorrentMetadata(object):
 
         """
         if size % 16 and size:
-            raise InvalidPieceSize("Piece size must be a multiple of 16 KiB")
+            raise InvalidPieceSize('Piece size must be a multiple of 16 KiB')
         self.__piece_size = size
 
     def get_comment(self):

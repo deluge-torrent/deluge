@@ -24,35 +24,35 @@ class PGException(Exception):
 class PGReader(object):
 
     def __init__(self, filename):
-        log.debug("PGReader loading: %s", filename)
+        log.debug('PGReader loading: %s', filename)
 
         try:
-            with gzip.open(filename, "rb") as _file:
+            with gzip.open(filename, 'rb') as _file:
                 self.fd = _file
         except IOError:
-            log.debug("Blocklist: PGReader: Incorrect file type or list is corrupt")
+            log.debug('Blocklist: PGReader: Incorrect file type or list is corrupt')
 
         # 4 bytes, should be 0xffffffff
         buf = self.fd.read(4)
-        hdr = unpack("l", buf)[0]
+        hdr = unpack('l', buf)[0]
         if hdr != -1:
-            raise PGException(_("Invalid leader") + " %d" % hdr)
+            raise PGException(_('Invalid leader') + ' %d' % hdr)
 
         magic = self.fd.read(3)
-        if magic != "P2B":
-            raise PGException(_("Invalid magic code"))
+        if magic != 'P2B':
+            raise PGException(_('Invalid magic code'))
 
         buf = self.fd.read(1)
         ver = ord(buf)
         if ver != 1 and ver != 2:
-            raise PGException(_("Invalid version") + " %d" % ver)
+            raise PGException(_('Invalid version') + ' %d' % ver)
 
     def __next__(self):
         # Skip over the string
         buf = -1
         while buf != 0:
             buf = self.fd.read(1)
-            if buf == "":  # EOF
+            if buf == '':  # EOF
                 return False
             buf = ord(buf)
 

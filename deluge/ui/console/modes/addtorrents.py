@@ -68,9 +68,9 @@ class AddTorrents(BaseMode):
         self.marked = set()
         self.last_mark = -1
 
-        path = os.path.expanduser(self.console_config["addtorrents"]["last_path"])
+        path = os.path.expanduser(self.console_config['addtorrents']['last_path'])
 
-        self.path_stack = ["/"] + path.strip("/").split("/")
+        self.path_stack = ['/'] + path.strip('/').split('/')
         self.path_stack_pos = len(self.path_stack)
         self.listing_files = []
         self.listing_dirs = []
@@ -80,8 +80,8 @@ class AddTorrents(BaseMode):
         self.raw_rows_dirs = []
         self.formatted_rows = []
 
-        self.sort_column = self.console_config["addtorrents"]["sort_column"]
-        self.reverse_sort = self.console_config["addtorrents"]["reverse_sort"]
+        self.sort_column = self.console_config['addtorrents']['sort_column']
+        self.reverse_sort = self.console_config['addtorrents']['reverse_sort']
 
         BaseMode.__init__(self, stdscr, encoding)
 
@@ -114,14 +114,14 @@ class AddTorrents(BaseMode):
 
         for f in listing:
             if os.path.isdir(os.path.join(path, f)):
-                if self.console_config["addtorrents"]["show_hidden_folders"]:
+                if self.console_config['addtorrents']['show_hidden_folders']:
                     self.listing_dirs.append(f)
-                elif f[0] != ".":
+                elif f[0] != '.':
                     self.listing_dirs.append(f)
             elif os.path.isfile(os.path.join(path, f)):
-                if self.console_config["addtorrents"]["show_misc_files"]:
+                if self.console_config['addtorrents']['show_misc_files']:
                     self.listing_files.append(f)
-                elif f.endswith(".torrent"):
+                elif f.endswith('.torrent'):
                     self.listing_files.append(f)
 
         for dirname in self.listing_dirs:
@@ -162,15 +162,15 @@ class AddTorrents(BaseMode):
         self.__sort_rows()
 
     def __sort_rows(self):
-        self.console_config["addtorrents"]["sort_column"] = self.sort_column
-        self.console_config["addtorrents"]["reverse_sort"] = self.reverse_sort
+        self.console_config['addtorrents']['sort_column'] = self.sort_column
+        self.console_config['addtorrents']['reverse_sort'] = self.reverse_sort
         self.console_config.save()
 
         self.raw_rows_dirs.sort(key=lambda r: r[0].lower())
 
-        if self.sort_column == "name":
+        if self.sort_column == 'name':
             self.raw_rows_files.sort(key=lambda r: r[0].lower(), reverse=self.reverse_sort)
-        elif self.sort_column == "date":
+        elif self.sort_column == 'date':
             self.raw_rows_files.sort(key=lambda r: r[2], reverse=self.reverse_sort)
         self.raw_rows = self.raw_rows_dirs + self.raw_rows_files
         self.__refresh_rows()
@@ -185,9 +185,9 @@ class AddTorrents(BaseMode):
 
             if row[4]:
                 if size != -1:
-                    size_str = "%i items" % size
+                    size_str = '%i items' % size
                 else:
-                    size_str = " unknown"
+                    size_str = ' unknown'
 
                 cols = [filename, size_str, deluge.common.fdate(time)]
                 widths = [self.cols - 35, 12, 23]
@@ -237,44 +237,44 @@ class AddTorrents(BaseMode):
         off = 1
 
         # Render breadcrumbs
-        s = "Location: "
+        s = 'Location: '
         for i, e in enumerate(self.path_stack):
-            if e == "/":
+            if e == '/':
                 if i == self.path_stack_pos - 1:
-                    s += "{!black,red,bold!}root"
+                    s += '{!black,red,bold!}root'
                 else:
-                    s += "{!red,black,bold!}root"
+                    s += '{!red,black,bold!}root'
             else:
                 if i == self.path_stack_pos - 1:
-                    s += "{!black,white,bold!}%s" % e
+                    s += '{!black,white,bold!}%s' % e
                 else:
-                    s += "{!white,black,bold!}%s" % e
+                    s += '{!white,black,bold!}%s' % e
 
             if e != len(self.path_stack) - 1:
-                s += "{!white,black!}/"
+                s += '{!white,black!}/'
 
         self.add_string(off, s)
         off += 1
 
         # Render header
-        cols = ["Name", "Contents", "Modification time"]
+        cols = ['Name', 'Contents', 'Modification time']
         widths = [self.cols - 35, 12, 23]
-        s = ""
+        s = ''
         for i, (c, w) in enumerate(zip(cols, widths)):
-            cn = ""
+            cn = ''
             if i == 0:
-                cn = "name"
+                cn = 'name'
             elif i == 2:
-                cn = "date"
+                cn = 'date'
 
             if cn == self.sort_column:
-                s += "{!black,green,bold!}" + c.ljust(w - 2)
+                s += '{!black,green,bold!}' + c.ljust(w - 2)
                 if self.reverse_sort:
-                    s += "^ "
+                    s += '^ '
                 else:
-                    s += "v "
+                    s += 'v '
             else:
-                s += "{!green,black,bold!}" + c.ljust(w)
+                s += '{!green,black,bold!}' + c.ljust(w)
         self.add_string(off, s)
         off += 1
 
@@ -282,26 +282,26 @@ class AddTorrents(BaseMode):
         for i, row in enumerate(self.formatted_rows[self.view_offset:]):
             i += self.view_offset
             # It's a folder
-            color_string = ""
+            color_string = ''
             if self.raw_rows[i][4]:
                 if self.raw_rows[i][1] == -1:
                     if i == self.cursel:
-                        color_string = "{!black,red,bold!}"
+                        color_string = '{!black,red,bold!}'
                     else:
-                        color_string = "{!red,black!}"
+                        color_string = '{!red,black!}'
                 else:
                     if i == self.cursel:
-                        color_string = "{!black,cyan,bold!}"
+                        color_string = '{!black,cyan,bold!}'
                     else:
-                        color_string = "{!cyan,black!}"
+                        color_string = '{!cyan,black!}'
 
             elif i == self.cursel:
                 if self.raw_rows[i][0] in self.marked:
-                    color_string = "{!blue,white,bold!}"
+                    color_string = '{!blue,white,bold!}'
                 else:
-                    color_string = "{!black,white,bold!}"
+                    color_string = '{!black,white,bold!}'
             elif self.raw_rows[i][0] in self.marked:
-                color_string = "{!white,blue,bold!}"
+                color_string = '{!white,blue,bold!}'
 
             self.add_string(off, color_string + row)
             off += 1
@@ -309,7 +309,7 @@ class AddTorrents(BaseMode):
             if off > self.rows - 2:
                 break
 
-        if not component.get("ConsoleUI").is_active_mode(self):
+        if not component.get('ConsoleUI').is_active_mode(self):
             return
 
         self.stdscr.noutrefresh()
@@ -321,7 +321,7 @@ class AddTorrents(BaseMode):
 
     def back_to_overview(self):
         self.parent_mode.go_top = False
-        component.get("ConsoleUI").set_mode(self.parent_mode.mode_name)
+        component.get('ConsoleUI').set_mode(self.parent_mode.mode_name)
 
     def _perform_action(self):
         if self.cursel < len(self.listing_dirs):
@@ -346,7 +346,7 @@ class AddTorrents(BaseMode):
 
         if not os.access(path, os.R_OK):
             self.path_stack = self.path_stack[:self.path_stack_pos]
-            self.popup = MessagePopup(self, "Error", "{!error!}Access denied: %s" % path)
+            self.popup = MessagePopup(self, 'Error', '{!error!}Access denied: %s' % path)
             self.__refresh_listing()
             return
 
@@ -362,23 +362,23 @@ class AddTorrents(BaseMode):
     def _show_add_dialog(self):
 
         def _do_add(result, **kwargs):
-            ress = {"succ": 0, "fail": 0, "total": len(self.marked), "fmsg": []}
+            ress = {'succ': 0, 'fail': 0, 'total': len(self.marked), 'fmsg': []}
 
             def fail_cb(msg, t_file, ress):
-                log.debug("failed to add torrent: %s: %s", t_file, msg)
-                ress["fail"] += 1
-                ress["fmsg"].append("{!input!} * %s: {!error!}%s" % (t_file, msg))
-                if (ress["succ"] + ress["fail"]) >= ress["total"]:
-                    report_add_status(component.get("TorrentList"), ress["succ"], ress["fail"], ress["fmsg"])
+                log.debug('failed to add torrent: %s: %s', t_file, msg)
+                ress['fail'] += 1
+                ress['fmsg'].append('{!input!} * %s: {!error!}%s' % (t_file, msg))
+                if (ress['succ'] + ress['fail']) >= ress['total']:
+                    report_add_status(component.get('TorrentList'), ress['succ'], ress['fail'], ress['fmsg'])
 
             def success_cb(tid, t_file, ress):
                 if tid:
-                    log.debug("added torrent: %s (%s)", t_file, tid)
-                    ress["succ"] += 1
-                    if (ress["succ"] + ress["fail"]) >= ress["total"]:
-                        report_add_status(component.get("TorrentList"), ress["succ"], ress["fail"], ress["fmsg"])
+                    log.debug('added torrent: %s (%s)', t_file, tid)
+                    ress['succ'] += 1
+                    if (ress['succ'] + ress['fail']) >= ress['total']:
+                        report_add_status(component.get('TorrentList'), ress['succ'], ress['fail'], ress['fmsg'])
                 else:
-                    fail_cb("Already in session (probably)", t_file, ress)
+                    fail_cb('Already in session (probably)', t_file, ress)
 
             for m in self.marked:
                 filename = m
@@ -387,39 +387,39 @@ class AddTorrents(BaseMode):
                 with open(path) as _file:
                     filedump = base64.encodestring(_file.read())
                 t_options = {}
-                if result["location"]["value"]:
-                    t_options["download_location"] = result["location"]["value"]
-                t_options["add_paused"] = result["add_paused"]["value"]
+                if result['location']['value']:
+                    t_options['download_location'] = result['location']['value']
+                t_options['add_paused'] = result['add_paused']['value']
 
                 d = client.core.add_torrent_file(filename, filedump, t_options)
                 d.addCallback(success_cb, filename, ress)
                 d.addErrback(fail_cb, filename, ress)
 
-            self.console_config["addtorrents"]["last_path"] = os.path.join(*self.path_stack[:self.path_stack_pos])
+            self.console_config['addtorrents']['last_path'] = os.path.join(*self.path_stack[:self.path_stack_pos])
             self.console_config.save()
 
             self.back_to_overview()
 
-        config = component.get("ConsoleUI").coreconfig
-        if config["add_paused"]:
+        config = component.get('ConsoleUI').coreconfig
+        if config['add_paused']:
             ap = 0
         else:
             ap = 1
-        self.popup = InputPopup(self, "Add Torrents (Esc to cancel)", close_cb=_do_add, height_req=17)
+        self.popup = InputPopup(self, 'Add Torrents (Esc to cancel)', close_cb=_do_add, height_req=17)
 
-        msg = "Adding torrent files:"
+        msg = 'Adding torrent files:'
         for i, m in enumerate(self.marked):
             name = m
-            msg += "\n * {!input!}%s" % name
+            msg += '\n * {!input!}%s' % name
             if i == 5:
                 if i < len(self.marked):
-                    msg += "\n  {!red!}And %i more" % (len(self.marked) - 5)
+                    msg += '\n  {!red!}And %i more' % (len(self.marked) - 5)
                 break
         self.popup.add_text(msg)
         self.popup.add_spaces(1)
 
-        self.popup.add_text_input("location", "Download Folder:", config["download_location"], complete=True)
-        self.popup.add_select_input("add_paused", "Add Paused:", ["Yes", "No"], [True, False], ap)
+        self.popup.add_text_input('location', 'Download Folder:', config['download_location'], complete=True)
+        self.popup.add_select_input('add_paused', 'Add Paused:', ['Yes', 'No'], [True, False], ap)
 
     def _go_up(self):
         # Go up in directory hierarchy
@@ -443,7 +443,7 @@ class AddTorrents(BaseMode):
             return
 
         if util.is_printable_char(c):
-            if chr(c) == "Q":
+            if chr(c) == 'Q':
                 from twisted.internet import reactor
                 if client.connected():
                     def on_disconnect(result):
@@ -452,7 +452,7 @@ class AddTorrents(BaseMode):
                 else:
                     reactor.stop()
                 return
-            elif chr(c) == "q":
+            elif chr(c) == 'q':
                 self.back_to_overview()
                 return
 
@@ -480,23 +480,23 @@ class AddTorrents(BaseMode):
             self.back_to_overview()
         else:
             if util.is_printable_char(c):
-                if chr(c) == "h":
-                    self.popup = MessagePopup(self, "Help", HELP_STR, width_req=0.75)
-                elif chr(c) == ">":
-                    if self.sort_column == "date":
+                if chr(c) == 'h':
+                    self.popup = MessagePopup(self, 'Help', HELP_STR, width_req=0.75)
+                elif chr(c) == '>':
+                    if self.sort_column == 'date':
                         self.reverse_sort = not self.reverse_sort
                     else:
-                        self.sort_column = "date"
+                        self.sort_column = 'date'
                         self.reverse_sort = True
                     self.__sort_rows()
-                elif chr(c) == "<":
-                    if self.sort_column == "name":
+                elif chr(c) == '<':
+                    if self.sort_column == 'name':
                         self.reverse_sort = not self.reverse_sort
                     else:
-                        self.sort_column = "name"
+                        self.sort_column = 'name'
                         self.reverse_sort = False
                     self.__sort_rows()
-                elif chr(c) == "m":
+                elif chr(c) == 'm':
                     s = self.raw_rows[self.cursel][0]
                     if s in self.marked:
                         self.marked.remove(s)
@@ -504,11 +504,11 @@ class AddTorrents(BaseMode):
                         self.marked.add(s)
 
                     self.last_mark = self.cursel
-                elif chr(c) == "j":
+                elif chr(c) == 'j':
                     self.scroll_list_up(1)
-                elif chr(c) == "k":
+                elif chr(c) == 'k':
                     self.scroll_list_down(1)
-                elif chr(c) == "M":
+                elif chr(c) == 'M':
                     if self.last_mark != -1:
                         if self.last_mark > self.cursel:
                             m = range(self.cursel, self.last_mark)

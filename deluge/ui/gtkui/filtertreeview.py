@@ -25,21 +25,21 @@ from deluge.ui.client import client
 log = logging.getLogger(__name__)
 
 STATE_PIX = {
-    "All": "all",
-    "Downloading": "downloading",
-    "Seeding": "seeding",
-    "Paused": "inactive",
-    "Checking": "checking",
-    "Queued": "queued",
-    "Error": "alert",
-    "Active": "active",
-    "Allocating": "checking",
-    "Moving": "checking"
+    'All': 'all',
+    'Downloading': 'downloading',
+    'Seeding': 'seeding',
+    'Paused': 'inactive',
+    'Checking': 'checking',
+    'Queued': 'queued',
+    'Error': 'alert',
+    'Active': 'active',
+    'Allocating': 'checking',
+    'Moving': 'checking'
 }
 
 TRACKER_PIX = {
-    "All": "tracker_all",
-    "Error": "tracker_warning",
+    'All': 'tracker_all',
+    'Error': 'tracker_warning',
 }
 
 FILTER_COLUMN = 5
@@ -47,25 +47,25 @@ FILTER_COLUMN = 5
 
 class FilterTreeView(component.Component):
     def __init__(self):
-        component.Component.__init__(self, "FilterTreeView", interval=2)
-        self.window = component.get("MainWindow")
-        self.config = ConfigManager("gtkui.conf")
+        component.Component.__init__(self, 'FilterTreeView', interval=2)
+        self.window = component.get('MainWindow')
+        self.config = ConfigManager('gtkui.conf')
 
-        self.tracker_icons = component.get("TrackerIcons")
+        self.tracker_icons = component.get('TrackerIcons')
 
-        self.sidebar = component.get("SideBar")
+        self.sidebar = component.get('SideBar')
         self.treeview = gtk.TreeView()
-        self.sidebar.add_tab(self.treeview, "filters", "Filters")
+        self.sidebar.add_tab(self.treeview, 'filters', 'Filters')
 
         # set filter to all when hidden:
-        self.sidebar.notebook.connect("hide", self._on_hide)
+        self.sidebar.notebook.connect('hide', self._on_hide)
 
         # Create the treestore
         # cat, value, label, count, pixmap, visible
         self.treestore = gtk.TreeStore(str, str, str, int, gtk.gdk.Pixbuf, bool)
 
         # Create the column and cells
-        column = gtk.TreeViewColumn("Filters")
+        column = gtk.TreeViewColumn('Filters')
         column.set_sizing(gtk.TREE_VIEW_COLUMN_AUTOSIZE)
         # icon cell
         self.cell_pix = gtk.CellRendererPixbuf()
@@ -93,10 +93,10 @@ class FilterTreeView(component.Component):
                             class "GtkTreeView" style "treeview-style" """)
 
         self.treeview.set_model(self.treestore)
-        self.treeview.get_selection().connect("changed", self.on_selection_changed)
+        self.treeview.get_selection().connect('changed', self.on_selection_changed)
         self.create_model_filter()
 
-        self.treeview.connect("button-press-event", self.on_button_press_event)
+        self.treeview.connect('button-press-event', self.on_button_press_event)
 
         # colors using current theme.
         style = self.window.window.get_style()
@@ -105,12 +105,12 @@ class FilterTreeView(component.Component):
 
         # filtertree menu
         builder = gtk.Builder()
-        builder.add_from_file(resource_filename("deluge.ui.gtkui", os.path.join("glade", "filtertree_menu.ui")))
-        self.menu = builder.get_object("filtertree_menu")
+        builder.add_from_file(resource_filename('deluge.ui.gtkui', os.path.join('glade', 'filtertree_menu.ui')))
+        self.menu = builder.get_object('filtertree_menu')
         builder.connect_signals({
-            "select_all": self.on_select_all,
-            "pause_all": self.on_pause_all,
-            "resume_all": self.on_resume_all
+            'select_all': self.on_select_all,
+            'pause_all': self.on_pause_all,
+            'resume_all': self.on_resume_all
         })
 
         self.default_menu_items = self.menu.get_children()
@@ -121,19 +121,19 @@ class FilterTreeView(component.Component):
         self.filters = {}
 
         # initial order of state filter:
-        self.cat_nodes["state"] = self.treestore.append(None, ["cat", "state", _("States"), 0, None, False])
-        for state in ["All", "Active"] + TORRENT_STATE:
-            self.update_row("state", state, 0, _(state))
+        self.cat_nodes['state'] = self.treestore.append(None, ['cat', 'state', _('States'), 0, None, False])
+        for state in ['All', 'Active'] + TORRENT_STATE:
+            self.update_row('state', state, 0, _(state))
 
-        self.cat_nodes["tracker_host"] = self.treestore.append(None, ["cat", "tracker_host",
-                                                                      _("Trackers"), 0, None, False])
-        self.update_row("tracker_host", "All", 0, _("All"))
-        self.update_row("tracker_host", "Error", 0, _("Error"))
-        self.update_row("tracker_host", "", 0, _("None"))
+        self.cat_nodes['tracker_host'] = self.treestore.append(None, ['cat', 'tracker_host',
+                                                                      _('Trackers'), 0, None, False])
+        self.update_row('tracker_host', 'All', 0, _('All'))
+        self.update_row('tracker_host', 'Error', 0, _('Error'))
+        self.update_row('tracker_host', '', 0, _('None'))
 
-        self.cat_nodes["owner"] = self.treestore.append(None, ["cat", "owner", _("Owner"), 0, None, False])
-        self.update_row("owner", "localclient", 0, _("Admin"))
-        self.update_row("owner", "", 0, _("None"))
+        self.cat_nodes['owner'] = self.treestore.append(None, ['cat', 'owner', _('Owner'), 0, None, False])
+        self.update_row('owner', 'localclient', 0, _('Admin'))
+        self.update_row('owner', '', 0, _('None'))
 
         # We set to this expand the rows on start-up
         self.expand_rows = True
@@ -153,9 +153,9 @@ class FilterTreeView(component.Component):
         for cat in filter_items:
             if cat not in self.cat_nodes:
                 label = _(cat)
-                if cat == "label":
-                    label = _("Labels")
-                self.cat_nodes[cat] = self.treestore.append(None, ["cat", cat, label, 0, None, False])
+                if cat == 'label':
+                    label = _('Labels')
+                self.cat_nodes[cat] = self.treestore.append(None, ['cat', cat, label, 0, None, False])
 
         # update rows
         visible_filters = []
@@ -191,18 +191,18 @@ class FilterTreeView(component.Component):
         else:
             pix = self.get_pixmap(cat, value)
 
-            if value == "":
-                if cat == "label":
-                    label = _("No Label")
-                elif cat == "owner":
-                    label = _("No Owner")
+            if value == '':
+                if cat == 'label':
+                    label = _('No Label')
+                elif cat == 'owner':
+                    label = _('No Owner')
             elif not label and value:
                 label = _(value)
 
             row = self.treestore.append(self.cat_nodes[cat], [cat, value, label, count, pix, True])
             self.filters[(cat, value)] = row
 
-            if cat == "tracker_host" and value not in ("All", "Error") and value:
+            if cat == 'tracker_host' and value not in ('All', 'Error') and value:
                 d = self.tracker_icons.fetch(value)
                 d.addCallback(on_get_icon)
 
@@ -216,35 +216,35 @@ class FilterTreeView(component.Component):
 
         # Supress Warning: g_object_set_qdata: assertion `G_IS_OBJECT (object)' failed
         original_filters = warnings.filters[:]
-        warnings.simplefilter("ignore")
+        warnings.simplefilter('ignore')
         try:
             pix = model.get_value(row, 4)
         finally:
             warnings.filters = original_filters
 
-        self.cell_pix.set_property("visible", True if pix else False)
+        self.cell_pix.set_property('visible', True if pix else False)
 
-        if cat == "cat":
-            self.cell_count.set_property("visible", False)
+        if cat == 'cat':
+            self.cell_count.set_property('visible', False)
             cell.set_padding(10, 2)
-            label = "<b>%s</b>" % label
+            label = '<b>%s</b>' % label
         else:
-            count_txt = "<small>%s</small>" % count
+            count_txt = '<small>%s</small>' % count
             self.cell_count.set_property('markup', count_txt)
-            self.cell_count.set_property("visible", True)
+            self.cell_count.set_property('visible', True)
             cell.set_padding(2, 1)
         cell.set_property('markup', label)
 
     def get_pixmap(self, cat, value):
         pix = None
-        if cat == "state":
+        if cat == 'state':
             pix = STATE_PIX.get(value, None)
-        elif cat == "tracker_host":
+        elif cat == 'tracker_host':
             pix = TRACKER_PIX.get(value, None)
 
         if pix:
             try:
-                return gtk.gdk.pixbuf_new_from_file(get_pixmap("%s16.png" % pix))
+                return gtk.gdk.pixbuf_new_from_file(get_pixmap('%s16.png' % pix))
             except GError as ex:
                 log.warning(ex)
         return self.get_transparent_pix(16, 16)
@@ -271,17 +271,17 @@ class FilterTreeView(component.Component):
         try:
             (model, row) = self.treeview.get_selection().get_selected()
             if not row:
-                log.debug("nothing selected")
+                log.debug('nothing selected')
                 return
 
             cat = model.get_value(row, 0)
             value = model.get_value(row, 1)
 
             filter_dict = {cat: [value]}
-            if value == "All" or cat == "cat":
+            if value == 'All' or cat == 'cat':
                 filter_dict = {}
 
-            component.get("TorrentView").set_filter(filter_dict)
+            component.get('TorrentView').set_filter(filter_dict)
 
             self.selected_path = model.get_path(row)
 
@@ -293,11 +293,11 @@ class FilterTreeView(component.Component):
     def update(self):
         try:
             hide_cat = []
-            if not self.config["sidebar_show_trackers"]:
-                hide_cat.append("tracker_host")
-            if not self.config["sidebar_show_owners"]:
-                hide_cat.append("owner")
-            client.core.get_filter_tree(self.config["sidebar_show_zero"],
+            if not self.config['sidebar_show_trackers']:
+                hide_cat.append('tracker_host')
+            if not self.config['sidebar_show_owners']:
+                hide_cat.append('owner')
+            client.core.get_filter_tree(self.config['sidebar_show_zero'],
                                         hide_cat).addCallback(self.cb_update_filter_tree)
         except Exception as ex:
             log.debug(ex)
@@ -314,7 +314,7 @@ class FilterTreeView(component.Component):
 
         if event.button == 1:
             # Prevent selecting a category label
-            if cat == "cat":
+            if cat == 'cat':
                 if self.treeview.row_expanded(path):
                     self.treeview.collapse_row(path)
                 else:
@@ -342,37 +342,37 @@ class FilterTreeView(component.Component):
             self.menu.popup(None, None, None, event.button, event.time)
             self.menu.show()
 
-            if cat == "cat":
+            if cat == 'cat':
                 # Do not select the row
                 return True
 
     def set_menu_sensitivity(self):
         # select-all/pause/resume
-        sensitive = (self.cat != "cat" and self.count != 0)
+        sensitive = (self.cat != 'cat' and self.count != 0)
         for item in self.default_menu_items:
             item.set_sensitive(sensitive)
 
     def select_all(self):
-        "for use in popup menu"
-        component.get("TorrentView").treeview.get_selection().select_all()
+        'for use in popup menu'
+        component.get('TorrentView').treeview.get_selection().select_all()
 
     def on_select_all(self, event):
         self.select_all()
 
     def on_pause_all(self, event):
         self.select_all()
-        func = getattr(component.get("MenuBar"), "on_menuitem_%s_activate" % "pause")
+        func = getattr(component.get('MenuBar'), 'on_menuitem_%s_activate' % 'pause')
         func(event)
 
     def on_resume_all(self, event):
         self.select_all()
-        func = getattr(component.get("MenuBar"), "on_menuitem_%s_activate" % "resume")
+        func = getattr(component.get('MenuBar'), 'on_menuitem_%s_activate' % 'resume')
         func(event)
 
     def _on_hide(self, *args):
         self.select_default_filter()
 
     def select_default_filter(self):
-        row = self.filters[("state", "All")]
+        row = self.filters[('state', 'All')]
         path = self.treestore.get_path(row)
         self.treeview.get_selection().select_path(path)

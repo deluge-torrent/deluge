@@ -14,13 +14,13 @@
 
 from setuptools import find_packages, setup
 
-__plugin_name__ = "Notifications"
-__author__ = "Pedro Algarvio"
-__author_email__ = "pedro@algarvio.me"
-__version__ = "0.2"
-__url__ = "http://dev.deluge-torrent.org/"
-__license__ = "GPLv3"
-__description__ = "Plugin which provides notifications to Deluge."
+__plugin_name__ = 'Notifications'
+__author__ = 'Pedro Algarvio'
+__author_email__ = 'pedro@algarvio.me'
+__version__ = '0.2'
+__url__ = 'http://dev.deluge-torrent.org/'
+__license__ = 'GPLv3'
+__description__ = 'Plugin which provides notifications to Deluge.'
 __long_description__ = """
 Plugin which provides notifications to Deluge
 
@@ -29,7 +29,7 @@ Email, Popup, Blink and Sound notifications
 The plugin also allows other plugins to make
  use of itself for their own custom notifications
 """
-__pkg_data__ = {"deluge.plugins." + __plugin_name__.lower(): ["template/*", "data/*"]}
+__pkg_data__ = {'deluge.plugins.' + __plugin_name__.lower(): ['template/*', 'data/*']}
 
 setup(
     name=__plugin_name__,
@@ -42,7 +42,7 @@ setup(
     long_description=__long_description__ if __long_description__ else __description__,
 
     packages=find_packages(exclude=['**/test.py']),
-    namespace_packages=["deluge", "deluge.plugins"],
+    namespace_packages=['deluge', 'deluge.plugins'],
     package_data=__pkg_data__,
 
     entry_points="""

@@ -24,9 +24,9 @@ from deluge.plugins.pluginbase import CorePluginBase
 log = logging.getLogger(__name__)
 
 DEFAULT_PREFS = {
-    "enabled": False,
-    "ssl": False,
-    "port": 8112
+    'enabled': False,
+    'ssl': False,
+    'port': 8112
 }
 
 
@@ -34,7 +34,7 @@ class Core(CorePluginBase):
     server = None
 
     def enable(self):
-        self.config = configmanager.ConfigManager("web_plugin.conf", DEFAULT_PREFS)
+        self.config = configmanager.ConfigManager('web_plugin.conf', DEFAULT_PREFS)
         if self.config['enabled']:
             self.start_server()
 
@@ -63,16 +63,16 @@ class Core(CorePluginBase):
                 return False
 
             try:
-                self.server = component.get("DelugeWeb")
+                self.server = component.get('DelugeWeb')
             except KeyError:
                 self.server = server.DelugeWeb(daemon=False)
 
-        self.server.port = self.config["port"]
-        self.server.https = self.config["ssl"]
+        self.server.port = self.config['port']
+        self.server.https = self.config['ssl']
         try:
             self.server.start()
         except CannotListenError as ex:
-            log.warn("Failed to start WebUI server: %s", ex)
+            log.warn('Failed to start WebUI server: %s', ex)
             raise
         return True
 
@@ -86,14 +86,14 @@ class Core(CorePluginBase):
 
     @export
     def set_config(self, config):
-        "sets the config dictionary"
+        'sets the config dictionary'
 
         action = None
-        if "enabled" in config:
-            if config["enabled"] != self.config["enabled"]:
-                action = config["enabled"] and 'start' or 'stop'
+        if 'enabled' in config:
+            if config['enabled'] != self.config['enabled']:
+                action = config['enabled'] and 'start' or 'stop'
 
-        if "ssl" in config:
+        if 'ssl' in config:
             if not action:
                 action = 'restart'
 
@@ -110,5 +110,5 @@ class Core(CorePluginBase):
 
     @export
     def get_config(self):
-        "returns the config dictionary"
+        'returns the config dictionary'
         return self.config.config

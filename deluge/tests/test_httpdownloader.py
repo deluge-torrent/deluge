@@ -19,7 +19,7 @@ temp_dir = tempfile.mkdtemp()
 
 
 def fname(name):
-    return "%s/%s" % (temp_dir, name)
+    return '%s/%s' % (temp_dir, name)
 
 
 class RedirectResource(Resource):
@@ -32,31 +32,31 @@ class RedirectResource(Resource):
 class RenameResource(Resource):
 
     def render(self, request):
-        filename = request.args.get("filename", ["renamed_file"])[0]
-        request.setHeader("Content-Type", "text/plain")
-        request.setHeader("Content-Disposition", "attachment; filename=" +
+        filename = request.args.get('filename', ['renamed_file'])[0]
+        request.setHeader('Content-Type', 'text/plain')
+        request.setHeader('Content-Disposition', 'attachment; filename=' +
                           filename)
-        return "This file should be called " + filename
+        return 'This file should be called ' + filename
 
 
 class CookieResource(Resource):
 
     def render(self, request):
-        request.setHeader("Content-Type", "text/plain")
-        if request.getCookie("password") is None:
-            return "Password cookie not set!"
+        request.setHeader('Content-Type', 'text/plain')
+        if request.getCookie('password') is None:
+            return 'Password cookie not set!'
 
-        if request.getCookie("password") == "deluge":
-            return "COOKIE MONSTER!"
+        if request.getCookie('password') == 'deluge':
+            return 'COOKIE MONSTER!'
 
-        return request.getCookie("password")
+        return request.getCookie('password')
 
 
 class GzipResource(Resource):
 
     def render(self, request):
-        message = request.args.get("msg", ["EFFICIENCY!"])[0]
-        request.setHeader("Content-Type", "text/plain")
+        message = request.args.get('msg', ['EFFICIENCY!'])[0]
+        request.setHeader('Content-Type', 'text/plain')
         return compress(message, request)
 
 
@@ -69,9 +69,9 @@ class PartialDownloadResource(Resource):
     def render(self, request):
         # encoding = request.requestHeaders._rawHeaders.get("accept-encoding", None)
         if self.render_count == 0:
-            request.setHeader("content-length", "5")
+            request.setHeader('content-length', '5')
         else:
-            request.setHeader("content-length", "3")
+            request.setHeader('content-length', '3')
 
         # if encoding == "deflate, gzip, x-gzip":
         request.write('abc')
@@ -85,32 +85,32 @@ class TopLevelResource(Resource):
 
     def __init__(self):
         Resource.__init__(self)
-        self.putChild("cookie", CookieResource())
-        self.putChild("gzip", GzipResource())
+        self.putChild('cookie', CookieResource())
+        self.putChild('gzip', GzipResource())
         self.redirect_rsrc = RedirectResource()
-        self.putChild("redirect", self.redirect_rsrc)
-        self.putChild("rename", RenameResource())
-        self.putChild("partial", PartialDownloadResource())
+        self.putChild('redirect', self.redirect_rsrc)
+        self.putChild('rename', RenameResource())
+        self.putChild('partial', PartialDownloadResource())
 
     def getChild(self, path, request):  # NOQA
-        if path == "":
+        if path == '':
             return self
         else:
             return Resource.getChild(self, path, request)
 
     def render(self, request):
-        if request.getHeader("If-Modified-Since"):
+        if request.getHeader('If-Modified-Since'):
             request.setResponseCode(NOT_MODIFIED)
-        return "<h1>Deluge HTTP Downloader tests webserver here</h1>"
+        return '<h1>Deluge HTTP Downloader tests webserver here</h1>'
 
 
 class DownloadFileTestCase(unittest.TestCase):
 
-    def get_url(self, path=""):
-        return "http://localhost:%d/%s" % (self.listen_port, path)
+    def get_url(self, path=''):
+        return 'http://localhost:%d/%s' % (self.listen_port, path)
 
     def setUp(self):  # NOQA
-        setup_logger("warning", fname("log_file"))
+        setup_logger('warning', fname('log_file'))
         self.website = Site(TopLevelResource())
         self.listen_port = 51242
         self.website.resource.redirect_rsrc.get_url = self.get_url
@@ -145,69 +145,69 @@ class DownloadFileTestCase(unittest.TestCase):
         return filename
 
     def test_download(self):
-        d = download_file(self.get_url(), fname("index.html"))
-        d.addCallback(self.assertEqual, fname("index.html"))
+        d = download_file(self.get_url(), fname('index.html'))
+        d.addCallback(self.assertEqual, fname('index.html'))
         return d
 
     def test_download_without_required_cookies(self):
-        url = self.get_url("cookie")
-        d = download_file(url, fname("none"))
+        url = self.get_url('cookie')
+        d = download_file(url, fname('none'))
         d.addCallback(self.fail)
         d.addErrback(self.assertIsInstance, Failure)
         return d
 
     def test_download_with_required_cookies(self):
-        url = self.get_url("cookie")
-        cookie = {"cookie": "password=deluge"}
-        d = download_file(url, fname("monster"), headers=cookie)
-        d.addCallback(self.assertEqual, fname("monster"))
-        d.addCallback(self.assertContains, "COOKIE MONSTER!")
+        url = self.get_url('cookie')
+        cookie = {'cookie': 'password=deluge'}
+        d = download_file(url, fname('monster'), headers=cookie)
+        d.addCallback(self.assertEqual, fname('monster'))
+        d.addCallback(self.assertContains, 'COOKIE MONSTER!')
         return d
 
     def test_download_with_rename(self):
-        url = self.get_url("rename?filename=renamed")
-        d = download_file(url, fname("original"))
-        d.addCallback(self.assertEqual, fname("renamed"))
-        d.addCallback(self.assertContains, "This file should be called renamed")
+        url = self.get_url('rename?filename=renamed')
+        d = download_file(url, fname('original'))
+        d.addCallback(self.assertEqual, fname('renamed'))
+        d.addCallback(self.assertContains, 'This file should be called renamed')
         return d
 
     def test_download_with_rename_exists(self):
         open(fname('renamed'), 'w').close()
-        url = self.get_url("rename?filename=renamed")
-        d = download_file(url, fname("original"))
-        d.addCallback(self.assertEqual, fname("renamed-1"))
-        d.addCallback(self.assertContains, "This file should be called renamed")
+        url = self.get_url('rename?filename=renamed')
+        d = download_file(url, fname('original'))
+        d.addCallback(self.assertEqual, fname('renamed-1'))
+        d.addCallback(self.assertContains, 'This file should be called renamed')
         return d
 
     def test_download_with_rename_sanitised(self):
-        url = self.get_url("rename?filename=/etc/passwd")
-        d = download_file(url, fname("original"))
-        d.addCallback(self.assertEqual, fname("passwd"))
-        d.addCallback(self.assertContains, "This file should be called /etc/passwd")
+        url = self.get_url('rename?filename=/etc/passwd')
+        d = download_file(url, fname('original'))
+        d.addCallback(self.assertEqual, fname('passwd'))
+        d.addCallback(self.assertContains, 'This file should be called /etc/passwd')
         return d
 
     def test_download_with_rename_prevented(self):
-        url = self.get_url("rename?filename=spam")
-        d = download_file(url, fname("forced"), force_filename=True)
-        d.addCallback(self.assertEqual, fname("forced"))
-        d.addCallback(self.assertContains, "This file should be called spam")
+        url = self.get_url('rename?filename=spam')
+        d = download_file(url, fname('forced'), force_filename=True)
+        d.addCallback(self.assertEqual, fname('forced'))
+        d.addCallback(self.assertContains, 'This file should be called spam')
         return d
 
     def test_download_with_gzip_encoding(self):
-        url = self.get_url("gzip?msg=success")
-        d = download_file(url, fname("gzip_encoded"))
-        d.addCallback(self.assertContains, "success")
+        url = self.get_url('gzip?msg=success')
+        d = download_file(url, fname('gzip_encoded'))
+        d.addCallback(self.assertContains, 'success')
         return d
 
     def test_download_with_gzip_encoding_disabled(self):
-        url = self.get_url("gzip?msg=fail")
-        d = download_file(url, fname("gzip_encoded"), allow_compression=False)
-        d.addCallback(self.failIfContains, "fail")
+        url = self.get_url('gzip?msg=fail')
+        d = download_file(url, fname('gzip_encoded'), allow_compression=False)
+        d.addCallback(self.failIfContains, 'fail')
         return d
 
     def test_page_redirect_unhandled(self):
-        url = self.get_url("redirect")
-        d = download_file(url, fname("none"))
+        url = self.get_url('redirect')
+        d = download_file(url, fname('none'))
         d.addCallback(self.fail)
 
         def on_redirect(failure):
@@ -216,21 +216,21 @@ class DownloadFileTestCase(unittest.TestCase):
         return d
 
     def test_page_redirect(self):
-        url = self.get_url("redirect")
-        d = download_file(url, fname("none"), handle_redirects=True)
-        d.addCallback(self.assertEqual, fname("none"))
+        url = self.get_url('redirect')
+        d = download_file(url, fname('none'), handle_redirects=True)
+        d.addCallback(self.assertEqual, fname('none'))
         d.addErrback(self.fail)
         return d
 
     def test_page_not_found(self):
-        d = download_file(self.get_url("page/not/found"), fname("none"))
+        d = download_file(self.get_url('page/not/found'), fname('none'))
         d.addCallback(self.fail)
         d.addErrback(self.assertIsInstance, Failure)
         return d
 
     def test_page_not_modified(self):
         headers = {'If-Modified-Since': formatdate(usegmt=True)}
-        d = download_file(self.get_url(), fname("index.html"), headers=headers)
+        d = download_file(self.get_url(), fname('index.html'), headers=headers)
         d.addCallback(self.fail)
         d.addErrback(self.assertIsInstance, Failure)
         return d

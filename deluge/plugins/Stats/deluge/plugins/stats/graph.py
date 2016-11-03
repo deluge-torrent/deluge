@@ -88,12 +88,12 @@ class Graph(object):
         }
 
     def set_stats(self, stats):
-        self.last_update = stats["_last_update"]
-        del stats["_last_update"]
-        self.length = stats["_length"]
-        del stats["_length"]
-        self.interval = stats["_update_interval"]
-        del stats["_update_interval"]
+        self.last_update = stats['_last_update']
+        del stats['_last_update']
+        self.length = stats['_length']
+        del stats['_length']
+        self.interval = stats['_update_interval']
+        del stats['_update_interval']
         self.stats = stats
         return
 

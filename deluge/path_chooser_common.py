@@ -41,9 +41,9 @@ def get_completion_paths(args):
     :rtype: list
 
     """
-    args["paths"] = []
-    path_value = args["completion_text"]
-    hidden_files = args["show_hidden_files"]
+    args['paths'] = []
+    path_value = args['completion_text']
+    hidden_files = args['show_hidden_files']
 
     def get_subdirs(dirname):
         try:
@@ -78,5 +78,5 @@ def get_completion_paths(args):
                 p += os.path.sep
             matching_dirs.append(p)
 
-    args["paths"] = sorted(matching_dirs)
+    args['paths'] = sorted(matching_dirs)
     return args

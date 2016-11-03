@@ -39,7 +39,7 @@ class Tab(object):
 
     def get_tab_label(self):
         parent = self._tab_label.get_parent()
-        log.debug("parent: %s", parent)
+        log.debug('parent: %s', parent)
         if parent is not None:
             parent.remove(self._tab_label)
 
@@ -53,23 +53,23 @@ class Tab(object):
                 args = [status[key] for key in widget[2]]
                 txt = widget[1](*args)
         except KeyError as ex:
-            log.warn("Unable to get status value: %s", ex)
-            txt = ""
+            log.warn('Unable to get status value: %s', ex)
+            txt = ''
         return txt
 
 
 class TorrentDetails(component.Component):
     def __init__(self):
-        component.Component.__init__(self, "TorrentDetails", interval=2)
-        self.window = component.get("MainWindow")
+        component.Component.__init__(self, 'TorrentDetails', interval=2)
+        self.window = component.get('MainWindow')
         builder = self.window.get_builder()
 
-        self.notebook = builder.get_object("torrent_info")
+        self.notebook = builder.get_object('torrent_info')
 
         # This is the menu item we'll attach the tabs checklist menu to
-        self.menu_tabs = builder.get_object("menu_tabs")
+        self.menu_tabs = builder.get_object('menu_tabs')
 
-        self.notebook.connect("switch-page", self._on_switch_page)
+        self.notebook.connect('switch-page', self._on_switch_page)
 
         # Tabs holds references to the Tab objects by their name
         self.tabs = {}
@@ -83,32 +83,32 @@ class TorrentDetails(component.Component):
         from deluge.ui.gtkui.trackers_tab import TrackersTab
 
         default_tabs = {
-            "Status": StatusTab,
-            "Details": DetailsTab,
-            "Files": FilesTab,
-            "Peers": PeersTab,
-            "Options": OptionsTab,
-            "Trackers": TrackersTab
+            'Status': StatusTab,
+            'Details': DetailsTab,
+            'Files': FilesTab,
+            'Peers': PeersTab,
+            'Options': OptionsTab,
+            'Trackers': TrackersTab
         }
 
         # tab_name, visible
         default_order = [
-            ("Status", True),
-            ("Details", True),
-            ("Options", True),
-            ("Files", True),
-            ("Peers", True),
-            ("Trackers", True)
+            ('Status', True),
+            ('Details', True),
+            ('Options', True),
+            ('Files', True),
+            ('Peers', True),
+            ('Trackers', True)
         ]
 
         self.translate_tabs = {
-            "All": _("_All"),
-            "Status": _("_Status"),
-            "Details": _("_Details"),
-            "Files": _("_Files"),
-            "Peers": _("_Peers"),
-            "Options": _("_Options"),
-            "Trackers": _("_Trackers")
+            'All': _('_All'),
+            'Status': _('_Status'),
+            'Details': _('_Details'),
+            'Files': _('_Files'),
+            'Peers': _('_Peers'),
+            'Options': _('_Options'),
+            'Trackers': _('_Trackers')
         }
 
         # Get the state from saved file
@@ -117,7 +117,7 @@ class TorrentDetails(component.Component):
         if state:
             for item in state:
                 if not isinstance(item, tuple):
-                    log.debug("Old tabs.state, using default..")
+                    log.debug('Old tabs.state, using default..')
                     state = None
                     break
 
@@ -127,7 +127,7 @@ class TorrentDetails(component.Component):
             state = default_order
 
         # We need to rename the tab in the state for backwards compat
-        self.state = [(tab_name.replace("Statistics", "Status"), visible) for tab_name, visible in state]
+        self.state = [(tab_name.replace('Statistics', 'Status'), visible) for tab_name, visible in state]
 
         for tab in default_tabs.itervalues():
             self.add_tab(tab(), generate_menu=False)
@@ -142,14 +142,14 @@ class TorrentDetails(component.Component):
 
         weights = sorted([(tab.weight, name) for name, tab in self.tabs.iteritems() if tab.is_visible])
 
-        log.debug("weights: %s", weights)
-        log.debug("weight of tab: %s", weight)
+        log.debug('weights: %s', weights)
+        log.debug('weight of tab: %s', weight)
 
         position = -1
         for w, name in weights:
             if w >= weight:
                 position = self.tabs[name].position
-                log.debug("Found pos %d", position)
+                log.debug('Found pos %d', position)
                 break
         return position
 
@@ -177,14 +177,14 @@ class TorrentDetails(component.Component):
             tab.is_visible = True
             # add the tab at position guided by the weight
             insert_pos = self.tab_insert_position(weight)
-            log.debug("Trying to insert tab at %d", insert_pos)
+            log.debug('Trying to insert tab at %d', insert_pos)
             pos = self.notebook.insert_page(
                 tab.get_child_widget(),
                 tab.get_tab_label(),
                 insert_pos)
-            log.debug("Tab inserted at %d", pos)
+            log.debug('Tab inserted at %d', pos)
             tab.position = pos
-            if not self.notebook.get_property("visible"):
+            if not self.notebook.get_property('visible'):
                 # If the notebook isn't visible, show it
                 self.visible(True)
         else:
@@ -218,13 +218,13 @@ class TorrentDetails(component.Component):
 
     def hide_all_tabs(self):
         """Hides all tabs"""
-        log.debug("n_pages: %s", self.notebook.get_n_pages())
+        log.debug('n_pages: %s', self.notebook.get_n_pages())
         for n in xrange(self.notebook.get_n_pages() - 1, -1, -1):
             self.notebook.remove_page(n)
 
         for tab in self.tabs:
             self.tabs[tab].is_visible = False
-        log.debug("n_pages: %s", self.notebook.get_n_pages())
+        log.debug('n_pages: %s', self.notebook.get_n_pages())
         self.generate_menu()
         self.visible(False)
 
@@ -249,12 +249,12 @@ class TorrentDetails(component.Component):
         self.visible(show)
 
     def show_tab(self, tab_name, generate_menu=True):
-        log.debug("%s\n%s\n%s", self.tabs[tab_name].get_child_widget(),
+        log.debug('%s\n%s\n%s', self.tabs[tab_name].get_child_widget(),
                   self.tabs[tab_name].get_tab_label(), self.tabs[tab_name].position)
 
         position = self.tab_insert_position(self.tabs[tab_name].weight)
 
-        log.debug("position: %s", position)
+        log.debug('position: %s', position)
         self.notebook.insert_page(
             self.tabs[tab_name].get_child_widget(),
             self.tabs[tab_name].get_tab_label(),
@@ -269,8 +269,8 @@ class TorrentDetails(component.Component):
         """Generates the checklist menu for all the tabs and attaches it"""
         menu = gtk.Menu()
         # Create 'All' menuitem and a separator
-        menuitem = gtk.CheckMenuItem(self.translate_tabs["All"], True)
-        menuitem.set_name("All")
+        menuitem = gtk.CheckMenuItem(self.translate_tabs['All'], True)
+        menuitem.set_name('All')
 
         all_tabs = True
         for key in self.tabs:
@@ -278,7 +278,7 @@ class TorrentDetails(component.Component):
                 all_tabs = False
                 break
         menuitem.set_active(all_tabs)
-        menuitem.connect("toggled", self._on_menuitem_toggled)
+        menuitem.connect('toggled', self._on_menuitem_toggled)
 
         menu.append(menuitem)
 
@@ -295,7 +295,7 @@ class TorrentDetails(component.Component):
             menuitem = gtk.CheckMenuItem(self.translate_tabs[name], True)
             menuitem.set_name(name)
             menuitem.set_active(self.tabs[name].is_visible)
-            menuitem.connect("toggled", self._on_menuitem_toggled)
+            menuitem.connect('toggled', self._on_menuitem_toggled)
             menu.append(menuitem)
 
         self.menu_tabs.set_submenu(menu)
@@ -310,7 +310,7 @@ class TorrentDetails(component.Component):
 
     def set_tab_visible(self, tab_name, visible):
         """Sets the tab to visible"""
-        log.debug("set_tab_visible name: %s visible: %s", tab_name, visible)
+        log.debug('set_tab_visible name: %s visible: %s', tab_name, visible)
         if visible and not self.tabs[tab_name].is_visible:
             self.show_tab(tab_name)
         elif not visible and self.tabs[tab_name].is_visible:
@@ -343,11 +343,11 @@ class TorrentDetails(component.Component):
         self.save_state()
 
     def update(self, page_num=None):
-        if len(component.get("TorrentView").get_selected_torrents()) == 0:
+        if len(component.get('TorrentView').get_selected_torrents()) == 0:
             # No torrents selected, so just clear
             self.clear()
 
-        if self.notebook.get_property("visible"):
+        if self.notebook.get_property('visible'):
             if page_num is None:
                 page_num = self.notebook.get_current_page()
             try:
@@ -373,7 +373,7 @@ class TorrentDetails(component.Component):
             if name:
                 self.tabs[name].clear()
         except Exception as ex:
-            log.debug("Unable to clear torrentdetails: %s", ex)
+            log.debug('Unable to clear torrentdetails: %s', ex)
 
     def _on_switch_page(self, notebook, page, page_num):
         self.update(page_num)
@@ -382,7 +382,7 @@ class TorrentDetails(component.Component):
     def _on_menuitem_toggled(self, widget):
         # Get the tab name
         name = widget.get_name()
-        if name == "All":
+        if name == 'All':
             if widget.get_active():
                 self.show_all_tabs()
             else:
@@ -397,13 +397,13 @@ class TorrentDetails(component.Component):
         # Leave tabs we dont know anything about it the state as they
         # might come from a plugin
         for i, (name, visible) in enumerate(self.state):
-            log.debug("Testing name: %s", name)
+            log.debug('Testing name: %s', name)
             if name in self.tabs:
                 self.state[i] = (name, self.tabs[name].is_visible)
-                log.debug("Set to %s", self.state[i])
+                log.debug('Set to %s', self.state[i])
         state = self.state
 
-        save_pickled_state_file("tabs.state", state)
+        save_pickled_state_file('tabs.state', state)
 
     def load_state(self):
-        return load_pickled_state_file("tabs.state")
+        return load_pickled_state_file('tabs.state')

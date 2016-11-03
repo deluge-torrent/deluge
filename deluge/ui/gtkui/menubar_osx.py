@@ -14,7 +14,7 @@ from deluge.configmanager import ConfigManager
 
 def accel_swap(item, group, skey, smod, dkey, dmod):
     item.remove_accelerator(group, ord(skey), smod)
-    item.add_accelerator("activate", group, ord(dkey), dmod, gtk.ACCEL_VISIBLE)
+    item.add_accelerator('activate', group, ord(dkey), dmod, gtk.ACCEL_VISIBLE)
 
 
 def accel_meta(item, group, key):
@@ -24,16 +24,16 @@ def accel_meta(item, group, key):
 def menubar_osx(gtkui, osxapp):
     window = gtkui.mainwindow
     main_builder = window.get_builder()
-    menubar = main_builder.get_object("menubar")
+    menubar = main_builder.get_object('menubar')
     group = gtk.accel_groups_from_object(window.window)[0]
 
-    config = ConfigManager("gtkui.conf")
+    config = ConfigManager('gtkui.conf')
 
     # NOTE: accel maps doesn't work with glade file format
     # because of libglade not setting MenuItem accel groups
     # That's why we remove / set accelerators by hand... (dirty)
     # Clean solution: migrate glades files to gtkbuilder format
-    file_menu = main_builder.get_object("menu_file").get_submenu()
+    file_menu = main_builder.get_object('menu_file').get_submenu()
     file_items = file_menu.get_children()
     accel_meta(file_items[0], group, 'o')
     accel_meta(file_items[1], group, 'n')
@@ -43,7 +43,7 @@ def menubar_osx(gtkui, osxapp):
     for item in range(2, len(file_items)):  # remove quits
         file_menu.remove(file_items[item])
 
-    menu_widget = main_builder.get_object("menu_edit")
+    menu_widget = main_builder.get_object('menu_edit')
     edit_menu = menu_widget.get_submenu()
     edit_items = edit_menu.get_children()
     pref_item = edit_items[0]
@@ -56,7 +56,7 @@ def menubar_osx(gtkui, osxapp):
 
     menubar.remove(menu_widget)
 
-    help_menu = main_builder.get_object("menu_help").get_submenu()
+    help_menu = main_builder.get_object('menu_help').get_submenu()
     help_items = help_menu.get_children()
     about_item = help_items[4]
     help_menu.remove(about_item)
@@ -68,7 +68,7 @@ def menubar_osx(gtkui, osxapp):
     osxapp.insert_app_menu_item(about_item, 0)
     osxapp.insert_app_menu_item(gtk.SeparatorMenuItem(), 1)
     osxapp.insert_app_menu_item(pref_item, 2)
-    if not config["standalone"]:
+    if not config['standalone']:
         osxapp.insert_app_menu_item(conn_item, 3)
     if quit_all_item.get_visible():
         osxapp.insert_app_menu_item(gtk.SeparatorMenuItem(), 4)

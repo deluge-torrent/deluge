@@ -18,18 +18,18 @@ class _Reporter(object):
         self.shortOpt = shortOpt
         self.klass = klass
 
-deluge = _Reporter("Deluge reporter that suppresses Stacktrace from TODO tests",
-                   "twisted.plugins.delugereporter",
-                   description="Deluge Reporter",
-                   longOpt="deluge-reporter",
+deluge = _Reporter('Deluge reporter that suppresses Stacktrace from TODO tests',
+                   'twisted.plugins.delugereporter',
+                   description='Deluge Reporter',
+                   longOpt='deluge-reporter',
                    shortOpt=None,
-                   klass="DelugeReporter")
+                   klass='DelugeReporter')
 
 
 class DelugeReporter(TreeReporter):
 
     def __init__(self, *args, **kwargs):
-        os.environ["DELUGE_REPORTER"] = "true"
+        os.environ['DELUGE_REPORTER'] = 'true'
         TreeReporter.__init__(self, *args, **kwargs)
 
     def addExpectedFailure(self, *args):  # NOQA

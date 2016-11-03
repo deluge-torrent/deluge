@@ -23,18 +23,18 @@ log = logging.getLogger(__name__)
 
 def atom(src, token):
     """taken with slight modifications from http://effbot.org/zone/simple-iterator-parser.htm"""
-    if token[1] == "(":
+    if token[1] == '(':
         out = []
         token = next(src)
-        while token[1] != ")":
+        while token[1] != ')':
             out.append(atom(src, token))
             token = next(src)
-            if token[1] == ",":
+            if token[1] == ',':
                 token = next(src)
         return tuple(out)
-    elif token[0] is tokenize.NUMBER or token[1] == "-":
+    elif token[0] is tokenize.NUMBER or token[1] == '-':
         try:
-            if token[1] == "-":
+            if token[1] == '-':
                 return int(token[-1], 0)
             else:
                 return int(token[1], 0)
@@ -43,14 +43,14 @@ def atom(src, token):
                 return float(token[-1])
             except ValueError:
                 return str(token[-1])
-    elif token[1].lower() == "true":
+    elif token[1].lower() == 'true':
         return True
-    elif token[1].lower() == "false":
+    elif token[1].lower() == 'false':
         return False
-    elif token[0] is tokenize.STRING or token[1] == "/":
-        return token[-1].decode("string-escape")
+    elif token[0] is tokenize.STRING or token[1] == '/':
+        return token[-1].decode('string-escape')
 
-    raise SyntaxError("malformed expression (%s)" % token[1])
+    raise SyntaxError('malformed expression (%s)' % token[1])
 
 
 def simple_eval(source):
@@ -66,17 +66,17 @@ def simple_eval(source):
 class Command(BaseCommand):
     """Show and set configuration values"""
 
-    usage = _("Usage: config [--set <key> <value>] [<key> [<key>...] ]")
+    usage = _('Usage: config [--set <key> <value>] [<key> [<key>...] ]')
 
     def add_arguments(self, parser):
-        set_group = parser.add_argument_group("setting a value")
-        set_group.add_argument("-s", "--set", action="store", metavar="<key>", help=_("set value for this key"))
-        set_group.add_argument("values", metavar="<value>", nargs="+", help=_("Value to set"))
-        get_group = parser.add_argument_group("getting values")
-        get_group.add_argument("keys", metavar="<keys>", nargs="*", help=_("one or more keys separated by space"))
+        set_group = parser.add_argument_group('setting a value')
+        set_group.add_argument('-s', '--set', action='store', metavar='<key>', help=_('set value for this key'))
+        set_group.add_argument('values', metavar='<value>', nargs='+', help=_('Value to set'))
+        get_group = parser.add_argument_group('getting values')
+        get_group.add_argument('keys', metavar='<keys>', nargs='*', help=_('one or more keys separated by space'))
 
     def handle(self, options):
-        self.console = component.get("ConsoleUI")
+        self.console = component.get('ConsoleUI')
         if options.set:
             return self._set_config(options)
         else:
@@ -85,11 +85,11 @@ class Command(BaseCommand):
     def _get_config(self, options):
         def _on_get_config(config):
             keys = sorted(config.keys())
-            s = ""
+            s = ''
             for key in keys:
                 if key not in options.values:
                     continue
-                color = "{!white,black,bold!}"
+                color = '{!white,black,bold!}'
                 value = config[key]
                 try:
                     color = colors.type_color[type(value)]
@@ -102,23 +102,23 @@ class Command(BaseCommand):
                     value = pprint.pformat(value, 2, 80)
                     new_value = []
                     for line in value.splitlines():
-                        new_value.append("%s%s" % (color, line))
-                    value = "\n".join(new_value)
+                        new_value.append('%s%s' % (color, line))
+                    value = '\n'.join(new_value)
 
-                s += "%s: %s%s\n" % (key, color, value)
+                s += '%s: %s%s\n' % (key, color, value)
             self.console.write(s.strip())
 
         return client.core.get_config().addCallback(_on_get_config)
 
     def _set_config(self, options):
-        config = component.get("CoreConfig")
+        config = component.get('CoreConfig')
         key = options.set
-        val = " ".join(options.values)
+        val = ' '.join(options.values)
 
         try:
             val = simple_eval(val)
         except SyntaxError as ex:
-            self.console.write("{!error!}%s" % ex)
+            self.console.write('{!error!}%s' % ex)
             return
 
         if key not in config.keys():
@@ -129,14 +129,14 @@ class Command(BaseCommand):
             try:
                 val = type(config[key])(val)
             except TypeError:
-                self.config.write("{!error!}Configuration value provided has incorrect type.")
+                self.config.write('{!error!}Configuration value provided has incorrect type.')
                 return
 
         def on_set_config(result):
-            self.console.write("{!success!}Configuration value successfully updated.")
+            self.console.write('{!success!}Configuration value successfully updated.')
 
         self.console.write("Setting '%s' to '%s'" % (key, val))
         return client.core.set_config({key: val}).addCallback(on_set_config)
 
     def complete(self, text):
-        return [k for k in component.get("CoreConfig").keys() if k.startswith(text)]
+        return [k for k in component.get('CoreConfig').keys() if k.startswith(text)]

@@ -13,15 +13,15 @@
 
 from setuptools import find_packages, setup
 
-__plugin_name__ = "WebUi"
-__author__ = "Damien Churchill"
-__author_email__ = "damoxc@gmail.com"
-__version__ = "0.1"
-__url__ = "http://deluge-torrent.org"
-__license__ = "GPLv3"
-__description__ = "Allows starting the web interface within the daemon."
+__plugin_name__ = 'WebUi'
+__author__ = 'Damien Churchill'
+__author_email__ = 'damoxc@gmail.com'
+__version__ = '0.1'
+__url__ = 'http://deluge-torrent.org'
+__license__ = 'GPLv3'
+__description__ = 'Allows starting the web interface within the daemon.'
 __long_description__ = """"""
-__pkg_data__ = {"deluge.plugins." + __plugin_name__.lower(): ["template/*", "data/*"]}
+__pkg_data__ = {'deluge.plugins.' + __plugin_name__.lower(): ['template/*', 'data/*']}
 
 setup(
     name=__plugin_name__,
@@ -34,7 +34,7 @@ setup(
     long_description=__long_description__ if __long_description__ else __description__,
 
     packages=find_packages(),
-    namespace_packages=["deluge", "deluge.plugins"],
+    namespace_packages=['deluge', 'deluge.plugins'],
     package_data=__pkg_data__,
 
     entry_points="""

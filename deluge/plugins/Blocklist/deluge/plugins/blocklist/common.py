@@ -15,8 +15,8 @@ import pkg_resources
 
 
 def get_resource(filename):
-    return pkg_resources.resource_filename("deluge.plugins.blocklist",
-                                           os.path.join("data", filename))
+    return pkg_resources.resource_filename('deluge.plugins.blocklist',
+                                           os.path.join('data', filename))
 
 
 def raises_errors_as(error):
@@ -56,7 +56,7 @@ def remove_zeros(ip):
         000.000.000.003 -> 0.0.0.3
 
     """
-    return ".".join([part.lstrip("0").zfill(1) for part in ip.split(".")])
+    return '.'.join([part.lstrip('0').zfill(1) for part in ip.split('.')])
 
 
 class BadIP(Exception):

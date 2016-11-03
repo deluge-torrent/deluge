@@ -39,7 +39,7 @@ class BaseReader(object):
             try:
                 callback(IP.parse(start), IP.parse(end))
             except BadIP as ex:
-                log.error("Failed to parse IP: %s", ex)
+                log.error('Failed to parse IP: %s', ex)
         return self.file
 
     def is_ignored(self, line):
@@ -55,8 +55,8 @@ class BaseReader(object):
             if not self.is_ignored(line):
                 try:
                     (start, end) = self.parse(line)
-                    if not re.match(r"^(\d{1,3}\.){4}$", start + ".") or \
-                       not re.match(r"^(\d{1,3}\.){4}$", end + "."):
+                    if not re.match(r'^(\d{1,3}\.){4}$', start + '.') or \
+                       not re.match(r'^(\d{1,3}\.){4}$', end + '.'):
                         valid = False
                 except Exception:
                     valid = False
@@ -77,13 +77,13 @@ class BaseReader(object):
 class EmuleReader(BaseReader):
     """Blocklist reader for emule style blocklists"""
     def parse(self, line):
-        return line.strip().split(" , ")[0].split(" - ")
+        return line.strip().split(' , ')[0].split(' - ')
 
 
 class SafePeerReader(BaseReader):
     """Blocklist reader for SafePeer style blocklists"""
     def parse(self, line):
-        return line.strip().split(":")[-1].split("-")
+        return line.strip().split(':')[-1].split('-')
 
 
 class PeerGuardianReader(SafePeerReader):

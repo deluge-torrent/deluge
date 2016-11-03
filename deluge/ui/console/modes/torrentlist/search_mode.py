@@ -40,12 +40,12 @@ SEARCH_START_REACHED = 3
 SEARCH_END_REACHED = 4
 
 SEARCH_FORMAT = {
-    SEARCH_EMPTY: "{!black,white!}Search torrents: %s{!black,white!}",
-    SEARCH_SUCCESS: "{!black,white!}Search torrents: {!black,green!}%s{!black,white!}",
-    SEARCH_FAILING: "{!black,white!}Search torrents: {!black,red!}%s{!black,white!}",
+    SEARCH_EMPTY: '{!black,white!}Search torrents: %s{!black,white!}',
+    SEARCH_SUCCESS: '{!black,white!}Search torrents: {!black,green!}%s{!black,white!}',
+    SEARCH_FAILING: '{!black,white!}Search torrents: {!black,red!}%s{!black,white!}',
     SEARCH_START_REACHED:
-    "{!black,white!}Search torrents: {!black,yellow!}%s{!black,white!} (start reached)",
-    SEARCH_END_REACHED: "{!black,white!}Search torrents: {!black,yellow!}%s{!black,white!} (end reached)"
+    '{!black,white!}Search torrents: {!black,yellow!}%s{!black,white!} (start reached)',
+    SEARCH_END_REACHED: '{!black,white!}Search torrents: {!black,yellow!}%s{!black,white!} (end reached)'
 }
 
 
@@ -56,15 +56,15 @@ class SearchMode(InputKeyHandler):
         self.torrentlist = torrentlist
         self.torrentview = torrentlist.torrentview
         self.search_state = SEARCH_EMPTY
-        self.search_string = ""
+        self.search_string = ''
 
     def update_cursor(self):
         util.safe_curs_set(util.Curser.VERY_VISIBLE)
         move_cursor(self.torrentlist.stdscr, self.torrentlist.rows - 1, len(self.search_string) + 17)
 
     def set_statusbar_args(self, statusbar_args):
-        statusbar_args["bottombar"] = SEARCH_FORMAT[self.search_state] % self.search_string
-        statusbar_args["bottombar_help"] = False
+        statusbar_args['bottombar'] = SEARCH_FORMAT[self.search_state] % self.search_string
+        statusbar_args['bottombar_help'] = False
 
     def update_colors(self, tidx, colors):
         if len(self.search_string) > 1:
@@ -74,14 +74,14 @@ class SearchMode(InputKeyHandler):
                 if tidx == self.torrentview.cursel:
                     pass
                 elif tidx in self.torrentview.marked:
-                    colors["bg"] = "magenta"
+                    colors['bg'] = 'magenta'
                 else:
-                    colors["bg"] = "green"
-                    if colors["fg"] == "green":
-                        colors["fg"] = "black"
-                    colors["attr"] = "bold"
+                    colors['bg'] = 'green'
+                    if colors['fg'] == 'green':
+                        colors['fg'] = 'black'
+                    colors['attr'] = 'bold'
 
-    def do_search(self, direction="first"):
+    def do_search(self, direction='first'):
         """
         Performs a search on visible torrent and sets cursor to the match
 
@@ -91,11 +91,11 @@ class SearchMode(InputKeyHandler):
         """
         search_space = list(enumerate(self.torrentview.torrent_names))
 
-        if direction == "last":
+        if direction == 'last':
             search_space = reversed(search_space)
-        elif direction == "next":
+        elif direction == 'next':
             search_space = search_space[self.torrentview.cursel + 1:]
-        elif direction == "previous":
+        elif direction == 'previous':
             search_space = reversed(search_space[:self.torrentview.cursel])
 
         search_string = self.search_string.lower()
@@ -110,11 +110,11 @@ class SearchMode(InputKeyHandler):
                     self.torrentview.curoff = max(0, self.torrentview.cursel)
                 self.search_state = SEARCH_SUCCESS
                 return
-        if direction in ["first", "last"]:
+        if direction in ['first', 'last']:
             self.search_state = SEARCH_FAILING
-        elif direction == "next":
+        elif direction == 'next':
             self.search_state = SEARCH_END_REACHED
-        elif direction == "previous":
+        elif direction == 'previous':
             self.search_state = SEARCH_START_REACHED
 
     @overrides(InputKeyHandler)
@@ -134,16 +134,16 @@ class SearchMode(InputKeyHandler):
                 self.torrentlist.set_minor_mode(None)
                 self.search_state = SEARCH_EMPTY
         elif c == curses.KEY_DC:
-            self.search_string = ""
+            self.search_string = ''
             self.search_state = SEARCH_SUCCESS
         elif c == curses.KEY_UP:
-            self.do_search("previous")
+            self.do_search('previous')
         elif c == curses.KEY_DOWN:
-            self.do_search("next")
+            self.do_search('next')
         elif c == curses.KEY_LEFT:
             self.torrentlist.set_minor_mode(None)
             self.search_state = SEARCH_EMPTY
-        elif c == ord("/"):
+        elif c == ord('/'):
             self.torrentlist.set_minor_mode(None)
             self.search_state = SEARCH_EMPTY
         elif c == curses.KEY_RIGHT:
@@ -151,21 +151,21 @@ class SearchMode(InputKeyHandler):
             self.torrentlist.show_torrent_details(tid)
             refresh = False
         elif c == curses.KEY_HOME:
-            self.do_search("first")
+            self.do_search('first')
         elif c == curses.KEY_END:
-            self.do_search("last")
+            self.do_search('last')
         elif c in [10, curses.KEY_ENTER]:
             self.last_mark = -1
             tid = self.torrentview.current_torrent_id()
             torrent_actions_popup(self.torrentlist, [tid], details=True)
             refresh = False
         elif c == util.KEY_ESC:
-            self.search_string = ""
+            self.search_string = ''
             self.search_state = SEARCH_EMPTY
         elif c > 31 and c < 256:
             old_search_string = self.search_string
             stroke = chr(c)
-            uchar = ""
+            uchar = ''
             while not uchar:
                 try:
                     uchar = stroke.decode(self.torrentlist.encoding)

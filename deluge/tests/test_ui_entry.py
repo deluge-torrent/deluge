@@ -46,11 +46,11 @@ class StringFileDescriptor(object):
     def __init__(self, fd):
         self.out = StringIO.StringIO()
         self.fd = fd
-        for a in ["encoding"]:
+        for a in ['encoding']:
             setattr(self, a, getattr(sys_stdout, a))
 
     def write(self, *data, **kwargs):
-        print(*data, file=self.out, end="")
+        print(*data, file=self.out, end='')
 
     def flush(self):
         self.out.flush()
@@ -63,7 +63,7 @@ class UIBaseTestCase(object):
 
     def set_up(self):
         common.set_tmp_config_dir()
-        common.setup_test_logger(level="info", prefix=self.id())
+        common.setup_test_logger(level='info', prefix=self.id())
         return component.start()
 
     def tear_down(self):
@@ -72,7 +72,7 @@ class UIBaseTestCase(object):
     def exec_command(self):
         if DEBUG_COMMAND:
             print("Executing: '%s'\n" % sys.argv, file=sys_stdout)
-        return self.var["start_cmd"]()
+        return self.var['start_cmd']()
 
 
 class UIWithDaemonBaseTestCase(UIBaseTestCase, DaemonBase):
@@ -83,7 +83,7 @@ class UIWithDaemonBaseTestCase(UIBaseTestCase, DaemonBase):
 
     def set_up(self):
         d = self.common_set_up()
-        common.setup_test_logger(level="info", prefix=self.id())
+        common.setup_test_logger(level='info', prefix=self.id())
         d.addCallback(self.start_core)
         return d
 
@@ -103,58 +103,58 @@ class DelugeEntryTestCase(BaseTestCase):
         return component.shutdown()
 
     def test_deluge_help(self):
-        self.patch(sys, "argv", ["./deluge", "-h"])
-        config = deluge.configmanager.ConfigManager("ui.conf", ui_entry.DEFAULT_PREFS)
-        config.config["default_ui"] = "console"
+        self.patch(sys, 'argv', ['./deluge', '-h'])
+        config = deluge.configmanager.ConfigManager('ui.conf', ui_entry.DEFAULT_PREFS)
+        config.config['default_ui'] = 'console'
         config.save()
 
         fd = StringFileDescriptor(sys.stdout)
-        self.patch(argparse._sys, "stdout", fd)
+        self.patch(argparse._sys, 'stdout', fd)
 
-        with mock.patch("deluge.ui.console.main.ConsoleUI"):
+        with mock.patch('deluge.ui.console.main.ConsoleUI'):
             self.assertRaises(exceptions.SystemExit, ui_entry.start_ui)
-            self.assertTrue("usage: deluge" in fd.out.getvalue())
-            self.assertTrue("UI Options:" in fd.out.getvalue())
-            self.assertTrue("* console" in fd.out.getvalue())
+            self.assertTrue('usage: deluge' in fd.out.getvalue())
+            self.assertTrue('UI Options:' in fd.out.getvalue())
+            self.assertTrue('* console' in fd.out.getvalue())
 
     def test_start_default(self):
-        self.patch(sys, "argv", ["./deluge"])
-        config = deluge.configmanager.ConfigManager("ui.conf", ui_entry.DEFAULT_PREFS)
-        config.config["default_ui"] = "console"
+        self.patch(sys, 'argv', ['./deluge'])
+        config = deluge.configmanager.ConfigManager('ui.conf', ui_entry.DEFAULT_PREFS)
+        config.config['default_ui'] = 'console'
         config.save()
 
-        with mock.patch("deluge.ui.console.main.ConsoleUI"):
+        with mock.patch('deluge.ui.console.main.ConsoleUI'):
             # Just test that no exception is raised
             ui_entry.start_ui()
 
     def test_start_with_log_level(self):
         _level = []
 
-        def setup_logger(level="error", filename=None, filemode="w", logrotate=None, output_stream=sys.stdout):
+        def setup_logger(level='error', filename=None, filemode='w', logrotate=None, output_stream=sys.stdout):
             _level.append(level)
 
-        self.patch(deluge.log, "setup_logger", setup_logger)
-        self.patch(sys, "argv", ["./deluge", "-L", "info"])
+        self.patch(deluge.log, 'setup_logger', setup_logger)
+        self.patch(sys, 'argv', ['./deluge', '-L', 'info'])
 
-        config = deluge.configmanager.ConfigManager("ui.conf", ui_entry.DEFAULT_PREFS)
-        config.config["default_ui"] = "console"
+        config = deluge.configmanager.ConfigManager('ui.conf', ui_entry.DEFAULT_PREFS)
+        config.config['default_ui'] = 'console'
         config.save()
 
-        with mock.patch("deluge.ui.console.main.ConsoleUI"):
+        with mock.patch('deluge.ui.console.main.ConsoleUI'):
             # Just test that no exception is raised
             ui_entry.start_ui()
 
-        self.assertEqual(_level[0], "info")
+        self.assertEqual(_level[0], 'info')
 
 
 class GtkUIBaseTestCase(UIBaseTestCase):
     """Implement all GtkUI tests here"""
 
     def test_start_gtkui(self):
-        self.patch(sys, "argv", self.var["sys_arg_cmd"])
+        self.patch(sys, 'argv', self.var['sys_arg_cmd'])
 
         from deluge.ui.gtkui import gtkui
-        with mock.patch.object(gtkui.GtkUI, "start", autospec=True):
+        with mock.patch.object(gtkui.GtkUI, 'start', autospec=True):
             self.exec_command()
 
 
@@ -165,9 +165,9 @@ class GtkUIDelugeScriptEntryTestCase(BaseTestCase, GtkUIBaseTestCase):
         super(GtkUIDelugeScriptEntryTestCase, self).__init__(testname)
         GtkUIBaseTestCase.__init__(self)
 
-        self.var["cmd_name"] = "deluge gtk"
-        self.var["start_cmd"] = ui_entry.start_ui
-        self.var["sys_arg_cmd"] = ["./deluge", "gtk"]
+        self.var['cmd_name'] = 'deluge gtk'
+        self.var['start_cmd'] = ui_entry.start_ui
+        self.var['sys_arg_cmd'] = ['./deluge', 'gtk']
 
     def set_up(self):
         return GtkUIBaseTestCase.set_up(self)
@@ -183,9 +183,9 @@ class GtkUIScriptEntryTestCase(BaseTestCase, GtkUIBaseTestCase):
         super(GtkUIScriptEntryTestCase, self).__init__(testname)
         GtkUIBaseTestCase.__init__(self)
         from deluge.ui import gtkui
-        self.var["cmd_name"] = "deluge-gtk"
-        self.var["start_cmd"] = gtkui.start
-        self.var["sys_arg_cmd"] = ["./deluge-gtk"]
+        self.var['cmd_name'] = 'deluge-gtk'
+        self.var['start_cmd'] = gtkui.start
+        self.var['sys_arg_cmd'] = ['./deluge-gtk']
 
     def set_up(self):
         return GtkUIBaseTestCase.set_up(self)
@@ -196,7 +196,7 @@ class GtkUIScriptEntryTestCase(BaseTestCase, GtkUIBaseTestCase):
 
 class DelugeWebMock(DelugeWeb):
     def __init__(self, *args, **kwargs):
-        kwargs["daemon"] = False
+        kwargs['daemon'] = False
         DelugeWeb.__init__(self, *args, **kwargs)
 
 
@@ -204,26 +204,26 @@ class WebUIBaseTestCase(UIBaseTestCase):
     """Implement all WebUI tests here"""
 
     def test_start_webserver(self):
-        self.patch(sys, "argv", self.var["sys_arg_cmd"])
-        self.patch(deluge.ui.web.server, "DelugeWeb", DelugeWebMock)
+        self.patch(sys, 'argv', self.var['sys_arg_cmd'])
+        self.patch(deluge.ui.web.server, 'DelugeWeb', DelugeWebMock)
         self.exec_command()
 
     def test_start_web_with_log_level(self):
         _level = []
 
-        def setup_logger(level="error", filename=None, filemode="w", logrotate=None, output_stream=sys.stdout):
+        def setup_logger(level='error', filename=None, filemode='w', logrotate=None, output_stream=sys.stdout):
             _level.append(level)
 
-        self.patch(deluge.log, "setup_logger", setup_logger)
-        self.patch(sys, "argv", self.var["sys_arg_cmd"] + ["-L", "info"])
+        self.patch(deluge.log, 'setup_logger', setup_logger)
+        self.patch(sys, 'argv', self.var['sys_arg_cmd'] + ['-L', 'info'])
 
-        config = deluge.configmanager.ConfigManager("ui.conf", ui_entry.DEFAULT_PREFS)
-        config.config["default_ui"] = "web"
+        config = deluge.configmanager.ConfigManager('ui.conf', ui_entry.DEFAULT_PREFS)
+        config.config['default_ui'] = 'web'
         config.save()
 
-        self.patch(deluge.ui.web.server, "DelugeWeb", DelugeWebMock)
+        self.patch(deluge.ui.web.server, 'DelugeWeb', DelugeWebMock)
         self.exec_command()
-        self.assertEqual(_level[0], "info")
+        self.assertEqual(_level[0], 'info')
 
 
 class WebUIScriptEntryTestCase(BaseTestCase, WebUIBaseTestCase):
@@ -231,9 +231,9 @@ class WebUIScriptEntryTestCase(BaseTestCase, WebUIBaseTestCase):
     def __init__(self, testname):
         super(WebUIScriptEntryTestCase, self).__init__(testname)
         WebUIBaseTestCase.__init__(self)
-        self.var["cmd_name"] = "deluge-web"
-        self.var["start_cmd"] = deluge.ui.web.start
-        self.var["sys_arg_cmd"] = ["./deluge-web", "--do-not-daemonize"]
+        self.var['cmd_name'] = 'deluge-web'
+        self.var['start_cmd'] = deluge.ui.web.start
+        self.var['sys_arg_cmd'] = ['./deluge-web', '--do-not-daemonize']
 
     def set_up(self):
         return WebUIBaseTestCase.set_up(self)
@@ -247,9 +247,9 @@ class WebUIDelugeScriptEntryTestCase(BaseTestCase, WebUIBaseTestCase):
     def __init__(self, testname):
         super(WebUIDelugeScriptEntryTestCase, self).__init__(testname)
         WebUIBaseTestCase.__init__(self)
-        self.var["cmd_name"] = "deluge web"
-        self.var["start_cmd"] = ui_entry.start_ui
-        self.var["sys_arg_cmd"] = ["./deluge", "web", "--do-not-daemonize"]
+        self.var['cmd_name'] = 'deluge web'
+        self.var['start_cmd'] = ui_entry.start_ui
+        self.var['sys_arg_cmd'] = ['./deluge', 'web', '--do-not-daemonize']
 
     def set_up(self):
         return WebUIBaseTestCase.set_up(self)
@@ -262,69 +262,69 @@ class ConsoleUIBaseTestCase(UIBaseTestCase):
     """Implement Console tests that do not require a running daemon"""
 
     def test_start_console(self):
-        self.patch(sys, "argv", self.var["sys_arg_cmd"])
-        with mock.patch("deluge.ui.console.main.ConsoleUI"):
+        self.patch(sys, 'argv', self.var['sys_arg_cmd'])
+        with mock.patch('deluge.ui.console.main.ConsoleUI'):
             self.exec_command()
 
     def test_start_console_with_log_level(self):
         _level = []
 
-        def setup_logger(level="error", filename=None, filemode="w", logrotate=None, output_stream=sys.stdout):
+        def setup_logger(level='error', filename=None, filemode='w', logrotate=None, output_stream=sys.stdout):
             _level.append(level)
 
-        self.patch(deluge.log, "setup_logger", setup_logger)
-        self.patch(sys, "argv", self.var["sys_arg_cmd"] + ["-L", "info"])
+        self.patch(deluge.log, 'setup_logger', setup_logger)
+        self.patch(sys, 'argv', self.var['sys_arg_cmd'] + ['-L', 'info'])
 
-        config = deluge.configmanager.ConfigManager("ui.conf", ui_entry.DEFAULT_PREFS)
-        config.config["default_ui"] = "console"
+        config = deluge.configmanager.ConfigManager('ui.conf', ui_entry.DEFAULT_PREFS)
+        config.config['default_ui'] = 'console'
         config.save()
 
-        with mock.patch("deluge.ui.console.main.ConsoleUI"):
+        with mock.patch('deluge.ui.console.main.ConsoleUI'):
             # Just test that no exception is raised
             self.exec_command()
 
-        self.assertEqual(_level[0], "info")
+        self.assertEqual(_level[0], 'info')
 
     def test_console_help(self):
-        self.patch(sys, "argv", self.var["sys_arg_cmd"] + ["-h"])
+        self.patch(sys, 'argv', self.var['sys_arg_cmd'] + ['-h'])
         fd = StringFileDescriptor(sys.stdout)
-        self.patch(argparse._sys, "stdout", fd)
+        self.patch(argparse._sys, 'stdout', fd)
 
-        with mock.patch("deluge.ui.console.main.ConsoleUI"):
+        with mock.patch('deluge.ui.console.main.ConsoleUI'):
             self.assertRaises(exceptions.SystemExit, self.exec_command)
             std_output = fd.out.getvalue()
-            self.assertTrue(("usage: %s" % self.var["cmd_name"]) in std_output)  # Check command name
-            self.assertTrue("Common Options:" in std_output)
-            self.assertTrue("Console Options:" in std_output)
-            self.assertTrue("Console commands:\n  The following console commands are available:" in std_output)
-            self.assertTrue("The following console commands are available:" in std_output)
+            self.assertTrue(('usage: %s' % self.var['cmd_name']) in std_output)  # Check command name
+            self.assertTrue('Common Options:' in std_output)
+            self.assertTrue('Console Options:' in std_output)
+            self.assertTrue('Console commands:\n  The following console commands are available:' in std_output)
+            self.assertTrue('The following console commands are available:' in std_output)
 
     def test_console_command_info(self):
-        self.patch(sys, "argv", self.var["sys_arg_cmd"] + ["info"])
+        self.patch(sys, 'argv', self.var['sys_arg_cmd'] + ['info'])
         fd = StringFileDescriptor(sys.stdout)
-        self.patch(argparse._sys, "stdout", fd)
+        self.patch(argparse._sys, 'stdout', fd)
 
-        with mock.patch("deluge.ui.console.main.ConsoleUI"):
+        with mock.patch('deluge.ui.console.main.ConsoleUI'):
             self.exec_command()
 
     def test_console_command_info_help(self):
-        self.patch(sys, "argv", self.var["sys_arg_cmd"] + ["info", "-h"])
+        self.patch(sys, 'argv', self.var['sys_arg_cmd'] + ['info', '-h'])
         fd = StringFileDescriptor(sys.stdout)
-        self.patch(argparse._sys, "stdout", fd)
+        self.patch(argparse._sys, 'stdout', fd)
 
-        with mock.patch("deluge.ui.console.main.ConsoleUI"):
+        with mock.patch('deluge.ui.console.main.ConsoleUI'):
             self.assertRaises(exceptions.SystemExit, self.exec_command)
             std_output = fd.out.getvalue()
-            self.assertTrue("usage: info" in std_output)
-            self.assertTrue("Show information about the torrents" in std_output)
+            self.assertTrue('usage: info' in std_output)
+            self.assertTrue('Show information about the torrents' in std_output)
 
     def test_console_unrecognized_arguments(self):
-        self.patch(sys, "argv", ["./deluge", "--ui", "console"])  # --ui is not longer supported
+        self.patch(sys, 'argv', ['./deluge', '--ui', 'console'])  # --ui is not longer supported
         fd = StringFileDescriptor(sys.stdout)
-        self.patch(argparse._sys, "stderr", fd)
-        with mock.patch("deluge.ui.console.main.ConsoleUI"):
+        self.patch(argparse._sys, 'stderr', fd)
+        with mock.patch('deluge.ui.console.main.ConsoleUI'):
             self.assertRaises(exceptions.SystemExit, self.exec_command)
-            self.assertTrue("unrecognized arguments: --ui" in fd.out.getvalue())
+            self.assertTrue('unrecognized arguments: --ui' in fd.out.getvalue())
 
 
 class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
@@ -332,17 +332,17 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
 
     def set_up(self):
         # Avoid calling reactor.shutdown after commands are executed by main.exec_args()
-        self.patch(deluge.ui.console.cmdline.commands.quit, "reactor", common.ReactorOverride())
+        self.patch(deluge.ui.console.cmdline.commands.quit, 'reactor', common.ReactorOverride())
         return UIWithDaemonBaseTestCase.set_up(self)
 
     @defer.inlineCallbacks
     def test_console_command_status(self):
         username, password = deluge.ui.common.get_localhost_auth()
-        self.patch(sys, "argv", self.var["sys_arg_cmd"] + ["--port"] + ["58900"] + ["--username"] +
-                   [username] + ["--password"] + [password] + ["status"])
+        self.patch(sys, 'argv', self.var['sys_arg_cmd'] + ['--port'] + ['58900'] + ['--username'] +
+                   [username] + ['--password'] + [password] + ['status'])
         fd = StringFileDescriptor(sys.stdout)
-        self.patch(sys, "stdout", fd)
-        self.patch(deluge.ui.console.main, "reactor", common.ReactorOverride())
+        self.patch(sys, 'stdout', fd)
+        self.patch(deluge.ui.console.main, 'reactor', common.ReactorOverride())
 
         yield self.exec_command()
 
@@ -368,8 +368,8 @@ class ConsoleScriptEntryWithDaemonTestCase(BaseTestCase, ConsoleUIWithDaemonBase
     def __init__(self, testname):
         super(ConsoleScriptEntryWithDaemonTestCase, self).__init__(testname)
         ConsoleUIWithDaemonBaseTestCase.__init__(self)
-        self.var["cmd_name"] = "deluge-console"
-        self.var["sys_arg_cmd"] = ["./deluge-console"]
+        self.var['cmd_name'] = 'deluge-console'
+        self.var['sys_arg_cmd'] = ['./deluge-console']
 
     def set_up(self):
         from deluge.ui.console.console import Console
@@ -377,8 +377,8 @@ class ConsoleScriptEntryWithDaemonTestCase(BaseTestCase, ConsoleUIWithDaemonBase
         def start_console():
             return Console().start()
 
-        self.patch(deluge.ui.console, "start", start_console)
-        self.var["start_cmd"] = deluge.ui.console.start
+        self.patch(deluge.ui.console, 'start', start_console)
+        self.var['start_cmd'] = deluge.ui.console.start
 
         return ConsoleUIWithDaemonBaseTestCase.set_up(self)
 
@@ -391,9 +391,9 @@ class ConsoleScriptEntryTestCase(BaseTestCase, ConsoleUIBaseTestCase):
     def __init__(self, testname):
         super(ConsoleScriptEntryTestCase, self).__init__(testname)
         ConsoleUIBaseTestCase.__init__(self)
-        self.var["cmd_name"] = "deluge-console"
-        self.var["start_cmd"] = deluge.ui.console.start
-        self.var["sys_arg_cmd"] = ["./deluge-console"]
+        self.var['cmd_name'] = 'deluge-console'
+        self.var['start_cmd'] = deluge.ui.console.start
+        self.var['sys_arg_cmd'] = ['./deluge-console']
 
     def set_up(self):
         return ConsoleUIBaseTestCase.set_up(self)
@@ -407,9 +407,9 @@ class ConsoleDelugeScriptEntryTestCase(BaseTestCase, ConsoleUIBaseTestCase):
     def __init__(self, testname):
         super(ConsoleDelugeScriptEntryTestCase, self).__init__(testname)
         ConsoleUIBaseTestCase.__init__(self)
-        self.var["cmd_name"] = "deluge console"
-        self.var["start_cmd"] = ui_entry.start_ui
-        self.var["sys_arg_cmd"] = ["./deluge", "console"]
+        self.var['cmd_name'] = 'deluge console'
+        self.var['start_cmd'] = ui_entry.start_ui
+        self.var['sys_arg_cmd'] = ['./deluge', 'console']
 
     def set_up(self):
         return ConsoleUIBaseTestCase.set_up(self)

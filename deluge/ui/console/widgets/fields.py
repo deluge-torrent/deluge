@@ -33,16 +33,16 @@ class BaseField(InputKeyHandler):
         self.name = name
         self.parent = parent
         self.fmt_keys = {}
-        self.set_fmt_key("font", "ignore", kwargs)
-        self.set_fmt_key("color", "white,black", kwargs)
-        self.set_fmt_key("color_end", "white,black", kwargs)
-        self.set_fmt_key("color_active", "black,white", kwargs)
-        self.set_fmt_key("color_unfocused", "color", kwargs)
-        self.set_fmt_key("color_unfocused_active", "black,whitegrey", kwargs)
-        self.set_fmt_key("font_active", "font", kwargs)
-        self.set_fmt_key("font_unfocused", "font", kwargs)
-        self.set_fmt_key("font_unfocused_active", "font_active", kwargs)
-        self.default_col = kwargs.get("col", -1)
+        self.set_fmt_key('font', 'ignore', kwargs)
+        self.set_fmt_key('color', 'white,black', kwargs)
+        self.set_fmt_key('color_end', 'white,black', kwargs)
+        self.set_fmt_key('color_active', 'black,white', kwargs)
+        self.set_fmt_key('color_unfocused', 'color', kwargs)
+        self.set_fmt_key('color_unfocused_active', 'black,whitegrey', kwargs)
+        self.set_fmt_key('font_active', 'font', kwargs)
+        self.set_fmt_key('font_unfocused', 'font', kwargs)
+        self.set_fmt_key('font_unfocused_active', 'font_active', kwargs)
+        self.default_col = kwargs.get('col', -1)
         self._selectable = selectable
         self.value = None
 
@@ -56,19 +56,19 @@ class BaseField(InputKeyHandler):
         self.fmt_keys[key] = value
 
     def get_fmt_keys(self, focused, active, **kwargs):
-        color_key = kwargs.get("color_key", "color")
-        font_key = "font"
+        color_key = kwargs.get('color_key', 'color')
+        font_key = 'font'
         if not focused:
-            color_key += "_unfocused"
-            font_key += "_unfocused"
+            color_key += '_unfocused'
+            font_key += '_unfocused'
         if active:
-            color_key += "_active"
-            font_key += "_active"
+            color_key += '_active'
+            font_key += '_active'
         return color_key, font_key
 
-    def build_fmt_string(self, focused, active, value_key="msg", **kwargs):
+    def build_fmt_string(self, focused, active, value_key='msg', **kwargs):
         color_key, font_key = self.get_fmt_keys(focused, active, **kwargs)
-        return "{!%%(%s)s,%%(%s)s!}%%(%s)s{!%%(%s)s!}" % (color_key, font_key, value_key, "color_end")
+        return '{!%%(%s)s,%%(%s)s!}%%(%s)s{!%%(%s)s!}' % (color_key, font_key, value_key, 'color_end')
 
     def depend_skip(self):
         return False
@@ -124,7 +124,7 @@ class InputField(BaseField):
 
     def set_depend(self, i, inverse=False):
         if not isinstance(i, CheckedInput):
-            raise Exception("Can only depend on CheckedInputs")
+            raise Exception('Can only depend on CheckedInputs')
         self.depend = i
         self.inverse = inverse
 
@@ -140,10 +140,10 @@ class InputField(BaseField):
 class Header(NoInputField):
 
     def __init__(self, parent, header, space_above, space_below, **kwargs):
-        if "name" not in kwargs:
-            kwargs["name"] = header
+        if 'name' not in kwargs:
+            kwargs['name'] = header
         NoInputField.__init__(self, parent=parent, **kwargs)
-        self.header = "{!white,black,bold!}%s" % header
+        self.header = '{!white,black,bold!}%s' % header
         self.space_above = space_above
         self.space_below = space_below
 
@@ -169,7 +169,7 @@ class InfoField(NoInputField):
         NoInputField.__init__(self, parent=parent, name=name, **kwargs)
         self.label = label
         self.value = value
-        self.txt = "%s %s" % (label, value)
+        self.txt = '%s %s' % (label, value)
 
     @overrides(BaseField)
     def render(self, screen, row, col=0, **kwargs):
@@ -180,27 +180,27 @@ class InfoField(NoInputField):
     def set_value(self, v):
         self.value = v
         if isinstance(v, float):
-            self.txt = "%s %.2f" % (self.label, self.value)
+            self.txt = '%s %.2f' % (self.label, self.value)
         else:
-            self.txt = "%s %s" % (self.label, self.value)
+            self.txt = '%s %s' % (self.label, self.value)
 
 
 class CheckedInput(InputField):
 
-    def __init__(self, parent, name, message, checked=False, checked_char="X", unchecked_char=" ",
-                 checkbox_format="[%s] ", **kwargs):
+    def __init__(self, parent, name, message, checked=False, checked_char='X', unchecked_char=' ',
+                 checkbox_format='[%s] ', **kwargs):
         InputField.__init__(self, parent, name, message, **kwargs)
         self.set_value(checked)
-        self.fmt_keys.update({"msg": message, "checkbox_format": checkbox_format,
-                              "unchecked_char": unchecked_char, "checked_char": checked_char})
-        self.set_fmt_key("font_checked", "font", kwargs)
-        self.set_fmt_key("font_unfocused_checked", "font_checked", kwargs)
-        self.set_fmt_key("font_active_checked", "font_active", kwargs)
-        self.set_fmt_key("font_unfocused_active_checked", "font_active_checked", kwargs)
-        self.set_fmt_key("color_checked", "color", kwargs)
-        self.set_fmt_key("color_active_checked", "color_active", kwargs)
-        self.set_fmt_key("color_unfocused_checked", "color_checked", kwargs)
-        self.set_fmt_key("color_unfocused_active_checked", "color_unfocused_active", kwargs)
+        self.fmt_keys.update({'msg': message, 'checkbox_format': checkbox_format,
+                              'unchecked_char': unchecked_char, 'checked_char': checked_char})
+        self.set_fmt_key('font_checked', 'font', kwargs)
+        self.set_fmt_key('font_unfocused_checked', 'font_checked', kwargs)
+        self.set_fmt_key('font_active_checked', 'font_active', kwargs)
+        self.set_fmt_key('font_unfocused_active_checked', 'font_active_checked', kwargs)
+        self.set_fmt_key('color_checked', 'color', kwargs)
+        self.set_fmt_key('color_active_checked', 'color_active', kwargs)
+        self.set_fmt_key('color_unfocused_checked', 'color_checked', kwargs)
+        self.set_fmt_key('color_unfocused_active_checked', 'color_unfocused_active', kwargs)
 
     @property
     def checked(self):
@@ -210,16 +210,16 @@ class CheckedInput(InputField):
     def get_fmt_keys(self, focused, active, **kwargs):
         color_key, font_key = super(CheckedInput, self).get_fmt_keys(focused, active, **kwargs)
         if self.checked:
-            color_key += "_checked"
-            font_key += "_checked"
+            color_key += '_checked'
+            font_key += '_checked'
         return color_key, font_key
 
     def build_msg_string(self, focused, active):
         fmt_str = self.build_fmt_string(focused, active)
-        char = self.fmt_keys["checked_char" if self.checked else "unchecked_char"]
-        chk_box = ""
+        char = self.fmt_keys['checked_char' if self.checked else 'unchecked_char']
+        chk_box = ''
         try:
-            chk_box = self.fmt_keys["checkbox_format"] % char
+            chk_box = self.fmt_keys['checkbox_format'] % char
         except KeyError:
             pass
         msg = fmt_str % self.fmt_keys
@@ -227,7 +227,7 @@ class CheckedInput(InputField):
 
     @overrides(InputField)
     def render(self, screen, row, col=0, **kwargs):
-        string = self.build_msg_string(kwargs.get("focused"), kwargs.get("active"))
+        string = self.build_msg_string(kwargs.get('focused'), kwargs.get('active'))
 
         self.parent.add_string(row, string, scr=screen, col=col, pad=False)
         return 1
@@ -242,9 +242,9 @@ class CheckedInput(InputField):
     @overrides(InputField)
     def set_message(self, msg):
         changed = InputField.set_message(self, msg)
-        if "msg" in self.fmt_keys and self.fmt_keys["msg"] != msg:
+        if 'msg' in self.fmt_keys and self.fmt_keys['msg'] != msg:
             changed = True
-        self.fmt_keys.update({"msg": msg})
+        self.fmt_keys.update({'msg': msg})
 
         return changed
 
@@ -252,7 +252,7 @@ class CheckedInput(InputField):
 class CheckedPlusInput(CheckedInput):
 
     def __init__(self, parent, name, message, child, child_always_visible=False,
-                 show_usage_hints=True, msg_fmt="%s ", **kwargs):
+                 show_usage_hints=True, msg_fmt='%s ', **kwargs):
         CheckedInput.__init__(self, parent, name, message, **kwargs)
         self.child = child
         self.child_active = False
@@ -270,7 +270,7 @@ class CheckedPlusInput(CheckedInput):
         CheckedInput.render(self, screen, row, width=width, active=isact, focused=focused, col=col)
         rows = 1
         if self.show_usage_hints and (self.child_always_visible or (active and self.checked)):
-            msg = "(esc to leave)" if self.child_active else "(right arrow to edit)"
+            msg = '(esc to leave)' if self.child_active else '(right arrow to edit)'
             self.parent.add_string(row + 1, msg, scr=screen, col=col, pad=False)
             rows += 1
 
@@ -282,7 +282,7 @@ class CheckedPlusInput(CheckedInput):
                                       col=col + msglen, cursor_offset=msglen)
             rows = max(rows, crows)
         else:
-            self.parent.add_string(row, "(enable to view/edit value)", scr=screen,
+            self.parent.add_string(row, '(enable to view/edit value)', scr=screen,
                                    col=col + msglen, pad=False)
         return rows
 
@@ -310,7 +310,7 @@ class CheckedPlusInput(CheckedInput):
 class IntSpinInput(InputField):
 
     def __init__(self, parent, name, message, move_func, value, min_val=None, max_val=None,
-                 inc_amt=1, incr_large=10, strict_validation=False, fmt="%d", **kwargs):
+                 inc_amt=1, incr_large=10, strict_validation=False, fmt='%d', **kwargs):
         InputField.__init__(self, parent, name, message, **kwargs)
         self.convert_func = int
         self.fmt = fmt
@@ -344,16 +344,16 @@ class IntSpinInput(InputField):
             self.set_value(self.valstr, validate=True, value_on_fail=self.last_valid_value)
             self.last_active = False
 
-        fmt_str = self.build_fmt_string(focused, active, value_key="value")
-        value_format = "%(msg)s {!input!}"
+        fmt_str = self.build_fmt_string(focused, active, value_key='value')
+        value_format = '%(msg)s {!input!}'
         if not self.valstr:
-            value_format += "[  ]"
+            value_format += '[  ]'
         elif self.format_default and self.valstr == self.default_str:
-            value_format += "[ {!magenta,black!}%(value)s{!input!} ]"
+            value_format += '[ {!magenta,black!}%(value)s{!input!} ]'
         else:
-            value_format += "[ " + fmt_str + " ]"
+            value_format += '[ ' + fmt_str + ' ]'
 
-        self.parent.add_string(row, value_format % dict({"msg": self.message, "value": "%s" % self.valstr},
+        self.parent.add_string(row, value_format % dict({'msg': self.message, 'value': '%s' % self.valstr},
                                                         **self.fmt_keys),
                                scr=screen, col=col, pad=False)
         if active:
@@ -409,7 +409,7 @@ class IntSpinInput(InputField):
                 self.set_value(new_val, validate=True, cursor=self.cursor + 1,
                                value_on_fail=self.valstr, on_invalid=self.value)
             else:
-                minus_place = self.valstr.find("-")
+                minus_place = self.valstr.find('-')
                 if self.cursor > minus_place:
                     new_val = self.valstr[:self.cursor] + chr(c) + self.valstr[self.cursor:]
                     self.set_value(new_val, validate=True, cursor=self.cursor + 1, on_invalid=self.value)
@@ -447,7 +447,7 @@ class IntSpinInput(InputField):
                 self.cursor = cursor
         except TypeError:
             import traceback
-            log.warn("TypeError: %s", "".join(traceback.format_exc()))
+            log.warn('TypeError: %s', ''.join(traceback.format_exc()))
         else:
             if cursor is True:
                 self.cursor = len(self.valstr)
@@ -460,7 +460,7 @@ class FloatSpinInput(IntSpinInput):
     def __init__(self, parent, message, name, move_func, value, precision=1, **kwargs):
         self.precision = precision
         IntSpinInput.__init__(self, parent, message, name, move_func, value, **kwargs)
-        self.fmt = "%%.%df" % precision
+        self.fmt = '%%.%df' % precision
         self.convert_func = lambda valstr: round(float(valstr), self.precision)
         self.set_value(value)
         self.cursor = len(self.valstr)
@@ -468,10 +468,10 @@ class FloatSpinInput(IntSpinInput):
     @overrides(IntSpinInput)
     def handle_read(self, c):
         if c == ord('.'):
-            minus_place = self.valstr.find("-")
+            minus_place = self.valstr.find('-')
             if self.cursor <= minus_place:
                 return util.ReadState.READ
-            point_place = self.valstr.find(".")
+            point_place = self.valstr.find('.')
             if point_place >= 0:
                 return util.ReadState.READ
             new_val = self.valstr[:self.cursor] + chr(c) + self.valstr[self.cursor:]
@@ -491,27 +491,27 @@ class SelectInput(InputField):
         self.selected_index = active_index
         self.default_option = active_index if active_default else None
         self.require_select_action = require_select_action
-        self.fmt_keys.update({"font_active": "bold"})
-        font_selected = kwargs.get("font_selected", "bold,underline")
+        self.fmt_keys.update({'font_active': 'bold'})
+        font_selected = kwargs.get('font_selected', 'bold,underline')
 
-        self.set_fmt_key("font_selected", font_selected, kwargs)
-        self.set_fmt_key("font_active_selected", "font_selected", kwargs)
-        self.set_fmt_key("font_unfocused_selected", "font_selected", kwargs)
-        self.set_fmt_key("font_unfocused_active_selected", "font_active_selected", kwargs)
+        self.set_fmt_key('font_selected', font_selected, kwargs)
+        self.set_fmt_key('font_active_selected', 'font_selected', kwargs)
+        self.set_fmt_key('font_unfocused_selected', 'font_selected', kwargs)
+        self.set_fmt_key('font_unfocused_active_selected', 'font_active_selected', kwargs)
 
-        self.set_fmt_key("color_selected", "color", kwargs)
-        self.set_fmt_key("color_active_selected", "color_active", kwargs)
-        self.set_fmt_key("color_unfocused_selected", "color_selected", kwargs)
-        self.set_fmt_key("color_unfocused_active_selected", "color_unfocused_active", kwargs)
-        self.set_fmt_key("color_default_value", "magenta,black", kwargs)
+        self.set_fmt_key('color_selected', 'color', kwargs)
+        self.set_fmt_key('color_active_selected', 'color_active', kwargs)
+        self.set_fmt_key('color_unfocused_selected', 'color_selected', kwargs)
+        self.set_fmt_key('color_unfocused_active_selected', 'color_unfocused_active', kwargs)
+        self.set_fmt_key('color_default_value', 'magenta,black', kwargs)
 
-        self.set_fmt_key("color_default_value", "magenta,black")
-        self.set_fmt_key("color_default_value_active", "magentadark,white")
-        self.set_fmt_key("color_default_value_selected", "color_default_value", kwargs)
-        self.set_fmt_key("color_default_value_unfocused", "color_default_value", kwargs)
-        self.set_fmt_key("color_default_value_unfocused_selected", "color_default_value_selected", kwargs)
-        self.set_fmt_key("color_default_value_active_selected", "magentadark,white")
-        self.set_fmt_key("color_default_value_unfocused_active_selected", "color_unfocused_active", kwargs)
+        self.set_fmt_key('color_default_value', 'magenta,black')
+        self.set_fmt_key('color_default_value_active', 'magentadark,white')
+        self.set_fmt_key('color_default_value_selected', 'color_default_value', kwargs)
+        self.set_fmt_key('color_default_value_unfocused', 'color_default_value', kwargs)
+        self.set_fmt_key('color_default_value_unfocused_selected', 'color_default_value_selected', kwargs)
+        self.set_fmt_key('color_default_value_active_selected', 'magentadark,white')
+        self.set_fmt_key('color_default_value_unfocused_active_selected', 'color_unfocused_active', kwargs)
 
     @property
     def height(self):
@@ -521,8 +521,8 @@ class SelectInput(InputField):
     def get_fmt_keys(self, focused, active, selected=False, **kwargs):
         color_key, font_key = super(SelectInput, self).get_fmt_keys(focused, active, **kwargs)
         if selected:
-            color_key += "_selected"
-            font_key += "_selected"
+            color_key += '_selected'
+            font_key += '_selected'
         return color_key, font_key
 
     @overrides(InputField)
@@ -533,12 +533,12 @@ class SelectInput(InputField):
 
         off = col + 1
         for i, opt in enumerate(self.opts):
-            self.fmt_keys["msg"] = opt
-            fmt_args = {"selected": i == self.selected_index}
+            self.fmt_keys['msg'] = opt
+            fmt_args = {'selected': i == self.selected_index}
             if i == self.default_option:
-                fmt_args["color_key"] = "color_default_value"
+                fmt_args['color_key'] = 'color_default_value'
             fmt = self.build_fmt_string(focused, (i == self.active_index) and active, **fmt_args)
-            string = "[%s]" % (fmt % self.fmt_keys)
+            string = '[%s]' % (fmt % self.fmt_keys)
             self.parent.add_string(row, string, scr=screen, col=off, pad=False)
             off += len(opt) + 3
         if self.message:
@@ -573,7 +573,7 @@ class SelectInput(InputField):
             if value == val:
                 self.selected_index = i
                 return
-        raise Exception("Invalid value for SelectInput")
+        raise Exception('Invalid value for SelectInput')
 
 
 class TextInput(InputField):
@@ -665,11 +665,11 @@ class TextInput(InputField):
                 x_pos = self.calculate_cursor_pos(width, col)
                 self.move_func(row, x_pos)
 
-        fmt = "{!black,white,bold!}%s"
+        fmt = '{!black,white,bold!}%s'
         if self.format_default and len(self.value) != 0 and self.value == self.default_value:
-            fmt = "{!magenta,white!}%s"
+            fmt = '{!magenta,white!}%s'
         if not active or not focused or self.input_active:
-            fmt = "{!white,grey,bold!}%s"
+            fmt = '{!white,grey,bold!}%s'
 
         self.parent.add_string(row, fmt % vstr, scr=screen, col=col, pad=False, trim=False)
         return self.height
@@ -709,13 +709,13 @@ class TextInput(InputField):
 
             # We only call the tab completer function if we're at the end of
             # the input string on the cursor is on a space
-            if self.cursor == len(self.value) or self.value[self.cursor] == " ":
+            if self.cursor == len(self.value) or self.value[self.cursor] == ' ':
                 if self.opts:
                     prev = self.opt_off
                     self.opt_off += self.width - 3
                     # now find previous double space, best guess at a split point
                     # in future could keep opts unjoined to get this really right
-                    self.opt_off = self.opts.rfind("  ", 0, self.opt_off) + 2
+                    self.opt_off = self.opts.rfind('  ', 0, self.opt_off) + 2
                     if second_hit and self.opt_off == prev:  # double tap and we're at the end
                         self.opt_off = 0
                 else:
@@ -732,7 +732,7 @@ class TextInput(InputField):
 
                     if len(opts) > 1 and second_hit:  # display multiple options on second tab hit
                         sp = self.value.rfind(os.sep) + 1
-                        self.opts = "  ".join([o[sp:] for o in opts])
+                        self.opts = '  '.join([o[sp:] for o in opts])
 
         # Cursor movement
         elif c == curses.KEY_LEFT:
@@ -757,7 +757,7 @@ class TextInput(InputField):
         elif c > 31 and c < 256:
             # Emulate getwch
             stroke = chr(c)
-            uchar = ""
+            uchar = ''
             while not uchar:
                 try:
                     uchar = stroke.decode(self.parent.encoding)
@@ -789,7 +789,7 @@ class TextInput(InputField):
                 # Directory, so we need to show contents of directory
                 for f in os.listdir(line):
                     # Skip hidden
-                    if f.startswith("."):
+                    if f.startswith('.'):
                         continue
                     f = os.path.join(line, f)
                     if os.path.isdir(f):
@@ -831,8 +831,8 @@ class ComboInput(InputField):
 
     @overrides(BaseField)
     def render(self, screen, row, col=0, **kwargs):
-        fmt_str = self.build_fmt_string(kwargs.get("focused"), kwargs.get("active"))
-        string = "%s: [%10s]" % (self.message, fmt_str % self.fmt_keys)
+        fmt_str = self.build_fmt_string(kwargs.get('focused'), kwargs.get('active'))
+        string = '%s: [%10s]' % (self.message, fmt_str % self.fmt_keys)
         self.parent.add_string(row, string, scr=screen, col=col, pad=False)
         return 1
 
@@ -865,11 +865,11 @@ class ComboInput(InputField):
                     select_in_range(0, selected)
 
             from deluge.ui.console.widgets.popup import SelectablePopup  # Must import here
-            select_popup = SelectablePopup(self.parent, " %s " % _("Select Language"), self._lang_selected,
+            select_popup = SelectablePopup(self.parent, ' %s ' % _('Select Language'), self._lang_selected,
                                            input_cb=search_handler if self.searchable else None,
                                            border_off_west=1, active_wrap=False, width_req=self.choices_width + 12)
             for choice in self.choices:
-                args = {"data": choice[0]}
+                args = {'data': choice[0]}
                 select_popup.add_line(choice[0], choice[1], selectable=True,
                                       selected=choice[0] == self.get_value(), **args)
             self.parent.push_popup(select_popup)
@@ -886,12 +886,12 @@ class ComboInput(InputField):
                 break
         if msg is None:
             log.warn("Setting a value '%s' found found in choices: %s", val, self.choices)
-        self.fmt_keys.update({"msg": msg})
+        self.fmt_keys.update({'msg': msg})
 
 
 class TextField(BaseField):
 
-    def __init__(self, parent, name, value, selectable=True, value_fmt="%s", **kwargs):
+    def __init__(self, parent, name, value, selectable=True, value_fmt='%s', **kwargs):
         BaseField.__init__(self, parent=parent, name=name, selectable=selectable, **kwargs)
         self.value = value
         self.value_fmt = value_fmt
@@ -910,7 +910,7 @@ class TextField(BaseField):
     def render(self, screen, row, active=False, focused=False, col=0, **kwargs):
         util.safe_curs_set(util.Curser.INVISIBLE)  # Make cursor invisible when text field is active
         fmt = self.build_fmt_string(focused, active)
-        self.fmt_keys["msg"] = self.txt
+        self.fmt_keys['msg'] = self.txt
         string = fmt % self.fmt_keys
         self.parent.add_string(row, string, scr=screen, col=col, pad=False, trim=False)
         return 1
@@ -918,17 +918,17 @@ class TextField(BaseField):
 
 class TextArea(TextField):
 
-    def __init__(self, parent, name, value, value_fmt="%s", **kwargs):
+    def __init__(self, parent, name, value, value_fmt='%s', **kwargs):
         TextField.__init__(self, parent, name, value, selectable=False, value_fmt=value_fmt, **kwargs)
 
     @overrides(TextField)
     def render(self, screen, row, col=0, **kwargs):
         util.safe_curs_set(util.Curser.INVISIBLE)  # Make cursor invisible when text field is active
-        color = "{!white,black!}"
+        color = '{!white,black!}'
         lines = wrap_string(self.txt, self.parent.width - 3, 3, True)
 
         for i, line in enumerate(lines):
-            self.parent.add_string(row + i, "%s%s" % (color, line), scr=screen, col=col, pad=False, trim=False)
+            self.parent.add_string(row + i, '%s%s' % (color, line), scr=screen, col=col, pad=False, trim=False)
         return len(lines)
 
     @property
@@ -943,7 +943,7 @@ class TextArea(TextField):
 
 class DividerField(NoInputField):
 
-    def __init__(self, parent, name, value, selectable=False, fill_width=True, value_fmt="%s", **kwargs):
+    def __init__(self, parent, name, value, selectable=False, fill_width=True, value_fmt='%s', **kwargs):
         NoInputField.__init__(self, parent=parent, name=name, selectable=selectable, **kwargs)
         self.value = value
         self.value_fmt = value_fmt
@@ -959,12 +959,12 @@ class DividerField(NoInputField):
     def render(self, screen, row, active=False, focused=False, col=0, width=None, **kwargs):
         util.safe_curs_set(util.Curser.INVISIBLE)  # Make cursor invisible when text field is active
         fmt = self.build_fmt_string(focused, active)
-        self.fmt_keys["msg"] = self.txt
+        self.fmt_keys['msg'] = self.txt
         if self.fill_width:
-            self.fmt_keys["msg"] = ""
+            self.fmt_keys['msg'] = ''
             string_len = len(remove_formatting(fmt % self.fmt_keys))
             fill_len = width - string_len - (len(self.txt) - 1)
-            self.fmt_keys["msg"] = self.txt * fill_len
+            self.fmt_keys['msg'] = self.txt * fill_len
         string = fmt % self.fmt_keys
         self.parent.add_string(row, string, scr=screen, col=col, pad=False, trim=False)
         return 1

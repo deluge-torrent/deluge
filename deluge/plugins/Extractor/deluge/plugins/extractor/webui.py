@@ -22,5 +22,5 @@ log = logging.getLogger(__name__)
 
 class WebUI(WebPluginBase):
 
-    scripts = [get_resource("extractor.js")]
+    scripts = [get_resource('extractor.js')]
     debug_scripts = scripts

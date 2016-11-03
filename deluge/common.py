@@ -32,7 +32,7 @@ from deluge.error import InvalidPathError
 try:
     import dbus
     bus = dbus.SessionBus()
-    dbus_fileman = bus.get_object("org.freedesktop.FileManager1", "/org/freedesktop/FileManager1")
+    dbus_fileman = bus.get_object('org.freedesktop.FileManager1', '/org/freedesktop/FileManager1')
 except Exception:
     dbus_fileman = None
 
@@ -40,29 +40,29 @@ except Exception:
 log = logging.getLogger(__name__)
 
 TORRENT_STATE = [
-    "Allocating",
-    "Checking",
-    "Downloading",
-    "Seeding",
-    "Paused",
-    "Error",
-    "Queued",
-    "Moving"
+    'Allocating',
+    'Checking',
+    'Downloading',
+    'Seeding',
+    'Paused',
+    'Error',
+    'Queued',
+    'Moving'
 ]
 
 FILE_PRIORITY = {
-    0: "Do Not Download",
-    1: "Normal Priority",
-    2: "High Priority",
-    3: "High Priority",
-    4: "High Priority",
-    5: "High Priority",
-    6: "High Priority",
-    7: "Highest Priority",
-    "Do Not Download": 0,
-    "Normal Priority": 1,
-    "High Priority": 5,
-    "Highest Priority": 7
+    0: 'Do Not Download',
+    1: 'Normal Priority',
+    2: 'High Priority',
+    3: 'High Priority',
+    4: 'High Priority',
+    5: 'High Priority',
+    6: 'High Priority',
+    7: 'Highest Priority',
+    'Do Not Download': 0,
+    'Normal Priority': 1,
+    'High Priority': 5,
+    'Highest Priority': 7
 }
 
 
@@ -74,7 +74,7 @@ def get_version():
     :rtype: string
 
     """
-    return pkg_resources.require("Deluge")[0].version
+    return pkg_resources.require('Deluge')[0].version
 
 
 def get_default_config_dir(filename=None):
@@ -89,12 +89,12 @@ def get_default_config_dir(filename=None):
 
     if windows_check():
         def save_config_path(resource):
-            app_data_path = os.environ.get("APPDATA")
+            app_data_path = os.environ.get('APPDATA')
             if not app_data_path:
                 import _winreg
                 hkey = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER,
-                                       "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders")
-                app_data_reg = _winreg.QueryValueEx(hkey, "AppData")
+                                       'Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders')
+                app_data_reg = _winreg.QueryValueEx(hkey, 'AppData')
                 app_data_path = app_data_reg[0]
                 _winreg.CloseKey(hkey)
             return os.path.join(app_data_path, resource)
@@ -103,9 +103,9 @@ def get_default_config_dir(filename=None):
     if not filename:
         filename = ''
     try:
-        return os.path.join(save_config_path("deluge"), filename)
+        return os.path.join(save_config_path('deluge'), filename)
     except OSError as ex:
-        log.error("Unable to use default config directory, exiting... (%s)", ex)
+        log.error('Unable to use default config directory, exiting... (%s)', ex)
         sys.exit(1)
 
 
@@ -115,20 +115,20 @@ def get_default_download_dir():
     :rtype: string
 
     """
-    download_dir = ""
+    download_dir = ''
     if not windows_check():
         from xdg.BaseDirectory import xdg_config_home
         try:
             with open(os.path.join(xdg_config_home, 'user-dirs.dirs'), 'r') as _file:
                 for line in _file:
                     if not line.startswith('#') and line.startswith('XDG_DOWNLOAD_DIR'):
-                        download_dir = os.path.expandvars(line.partition("=")[2].rstrip().strip('"'))
+                        download_dir = os.path.expandvars(line.partition('=')[2].rstrip().strip('"'))
                         break
         except IOError:
             pass
 
     if not download_dir:
-        download_dir = os.path.join(os.path.expanduser("~"), 'Downloads')
+        download_dir = os.path.join(os.path.expanduser('~'), 'Downloads')
     return download_dir
 
 
@@ -151,7 +151,7 @@ def vista_check():
     :rtype: bool
 
     """
-    return platform.release() == "Vista"
+    return platform.release() == 'Vista'
 
 
 def osx_check():
@@ -162,7 +162,7 @@ def osx_check():
     :rtype: bool
 
     """
-    return platform.system() == "Darwin"
+    return platform.system() == 'Darwin'
 
 
 def linux_check():
@@ -173,7 +173,7 @@ def linux_check():
     :rtype: bool
 
     """
-    return platform.system() == "Linux"
+    return platform.system() == 'Linux'
 
 
 def get_os_version():
@@ -197,7 +197,7 @@ def get_pixmap(fname):
     :rtype: string
 
     """
-    return resource_filename("deluge", os.path.join("ui", "data", "pixmaps", fname))
+    return resource_filename('deluge', os.path.join('ui', 'data', 'pixmaps', fname))
 
 
 def resource_filename(module, path):
@@ -207,8 +207,8 @@ def resource_filename(module, path):
     # not, it returns the first found on the python path, which is not good
     # enough.
     # This is a work-around that.
-    return pkg_resources.require("Deluge>=%s" % get_version())[0].get_resource_filename(
-        pkg_resources._manager, os.path.join(*(module.split(".") + [path]))
+    return pkg_resources.require('Deluge>=%s' % get_version())[0].get_resource_filename(
+        pkg_resources._manager, os.path.join(*(module.split('.') + [path]))
     )
 
 
@@ -223,14 +223,14 @@ def open_file(path, timestamp=None):
     if windows_check():
         os.startfile(path)
     elif osx_check():
-        subprocess.Popen(["open", path])
+        subprocess.Popen(['open', path])
     else:
         if timestamp is None:
             timestamp = int(time.time())
         env = os.environ.copy()
-        env["DESKTOP_STARTUP_ID"] = "%s-%u-%s-xdg_open_TIME%d" % \
+        env['DESKTOP_STARTUP_ID'] = '%s-%u-%s-xdg_open_TIME%d' % \
             (os.path.basename(sys.argv[0]), os.getpid(), os.uname()[1], timestamp)
-        subprocess.Popen(["xdg-open", "%s" % path], env=env)
+        subprocess.Popen(['xdg-open', '%s' % path], env=env)
 
 
 def show_file(path, timestamp=None):
@@ -242,21 +242,21 @@ def show_file(path, timestamp=None):
 
     """
     if windows_check():
-        subprocess.Popen(["explorer", "/select,", path])
+        subprocess.Popen(['explorer', '/select,', path])
     elif osx_check():
-        subprocess.Popen(["open", "-R", path])
+        subprocess.Popen(['open', '-R', path])
     else:
         if timestamp is None:
             timestamp = int(time.time())
-        startup_id = "%s_%u_%s-dbus_TIME%d" % (os.path.basename(sys.argv[0]), os.getpid(), os.uname()[1], timestamp)
+        startup_id = '%s_%u_%s-dbus_TIME%d' % (os.path.basename(sys.argv[0]), os.getpid(), os.uname()[1], timestamp)
         if dbus_fileman:
-            paths = [urlparse.urljoin("file:", urllib.pathname2url(utf8_encoded(path)))]
-            dbus_fileman.ShowItems(paths, startup_id, dbus_interface="org.freedesktop.FileManager1")
+            paths = [urlparse.urljoin('file:', urllib.pathname2url(utf8_encoded(path)))]
+            dbus_fileman.ShowItems(paths, startup_id, dbus_interface='org.freedesktop.FileManager1')
         else:
             env = os.environ.copy()
-            env["DESKTOP_STARTUP_ID"] = startup_id.replace("dbus", "xdg-open")
+            env['DESKTOP_STARTUP_ID'] = startup_id.replace('dbus', 'xdg-open')
             # No option in xdg to highlight a file so just open parent folder.
-            subprocess.Popen(["xdg-open", os.path.dirname(path.rstrip("/"))], env=env)
+            subprocess.Popen(['xdg-open', os.path.dirname(path.rstrip('/'))], env=env)
 
 
 def open_url_in_browser(url):
@@ -272,15 +272,15 @@ def open_url_in_browser(url):
 
 # Formatting text functions
 
-byte_txt = "B"
-kib_txt = "KiB"
-mib_txt = "MiB"
-gib_txt = "GiB"
-tib_txt = "TiB"
-kib_txt_short = "K"
-mib_txt_short = "M"
-gib_txt_short = "G"
-tib_txt_short = "T"
+byte_txt = 'B'
+kib_txt = 'KiB'
+mib_txt = 'MiB'
+gib_txt = 'GiB'
+tib_txt = 'TiB'
+kib_txt_short = 'K'
+mib_txt_short = 'M'
+gib_txt_short = 'G'
+tib_txt_short = 'T'
 
 
 def translate_size_units():
@@ -289,15 +289,15 @@ def translate_size_units():
     global byte_txt, kib_txt, mib_txt, gib_txt, tib_txt
     global kib_txt_short, mib_txt_short, gib_txt_short, tib_txt_short
 
-    byte_txt = _("B")
-    kib_txt = _("KiB")
-    mib_txt = _("MiB")
-    gib_txt = _("GiB")
-    tib_txt = _("TiB")
-    kib_txt_short = _("K")
-    mib_txt_short = _("M")
-    gib_txt_short = _("G")
-    tib_txt_short = _("T")
+    byte_txt = _('B')
+    kib_txt = _('KiB')
+    mib_txt = _('MiB')
+    gib_txt = _('GiB')
+    tib_txt = _('TiB')
+    kib_txt_short = _('K')
+    mib_txt_short = _('M')
+    gib_txt_short = _('G')
+    tib_txt_short = _('T')
 
 
 def fsize(fsize_b, precision=1, shortform=False):
@@ -324,15 +324,15 @@ def fsize(fsize_b, precision=1, shortform=False):
     """
 
     if fsize_b >= 1024 ** 4:
-        return "%.*f %s" % (precision, fsize_b / 1024 ** 4, tib_txt_short if shortform else tib_txt)
+        return '%.*f %s' % (precision, fsize_b / 1024 ** 4, tib_txt_short if shortform else tib_txt)
     elif fsize_b >= 1024 ** 3:
-        return "%.*f %s" % (precision, fsize_b / 1024 ** 3, gib_txt_short if shortform else gib_txt)
+        return '%.*f %s' % (precision, fsize_b / 1024 ** 3, gib_txt_short if shortform else gib_txt)
     elif fsize_b >= 1024 ** 2:
-        return "%.*f %s" % (precision, fsize_b / 1024 ** 2, mib_txt_short if shortform else mib_txt)
+        return '%.*f %s' % (precision, fsize_b / 1024 ** 2, mib_txt_short if shortform else mib_txt)
     elif fsize_b >= 1024:
-        return "%.*f %s" % (precision, fsize_b / 1024, kib_txt_short if shortform else kib_txt)
+        return '%.*f %s' % (precision, fsize_b / 1024, kib_txt_short if shortform else kib_txt)
     else:
-        return "%d %s" % (fsize_b, byte_txt)
+        return '%d %s' % (fsize_b, byte_txt)
 
 
 def fpcnt(dec, precision=2):
@@ -375,13 +375,13 @@ def fspeed(bps, precision=1, shortform=False):
     """
 
     if bps < 1024 ** 2:
-        return "%.*f %s" % (precision, bps / 1024, _("K/s") if shortform else _("KiB/s"))
+        return '%.*f %s' % (precision, bps / 1024, _('K/s') if shortform else _('KiB/s'))
     elif bps < 1024 ** 3:
-        return "%.*f %s" % (precision, bps / 1024 ** 2, _("M/s") if shortform else _("MiB/s"))
+        return '%.*f %s' % (precision, bps / 1024 ** 2, _('M/s') if shortform else _('MiB/s'))
     elif bps < 1024 ** 4:
-        return "%.*f %s" % (precision, bps / 1024 ** 3, _("G/s") if shortform else _("GiB/s"))
+        return '%.*f %s' % (precision, bps / 1024 ** 3, _('G/s') if shortform else _('GiB/s'))
     else:
-        return "%.*f %s" % (precision, bps / 1024 ** 4, _("T/s") if shortform else _("TiB/s"))
+        return '%.*f %s' % (precision, bps / 1024 ** 4, _('T/s') if shortform else _('TiB/s'))
 
 
 def fpeer(num_peers, total_peers):
@@ -402,9 +402,9 @@ def fpeer(num_peers, total_peers):
 
     """
     if total_peers > -1:
-        return "{:d} ({:d})".format(num_peers, total_peers)
+        return '{:d} ({:d})'.format(num_peers, total_peers)
     else:
-        return "{:d}".format(num_peers)
+        return '{:d}'.format(num_peers)
 
 
 def ftime(secs):
@@ -456,8 +456,8 @@ def fdate(seconds, date_only=False, precision_secs=False):
     """
 
     if seconds < 0:
-        return ""
-    time_format = "%x %X" if precision_secs else "%x %H:%M"
+        return ''
+    time_format = '%x %X' if precision_secs else '%x %H:%M'
     if date_only:
         time_format = time_format.split()[0]
     return time.strftime(time_format, time.localtime(seconds))
@@ -535,7 +535,7 @@ def parse_human_size(size):
                 if normalized_unit.startswith(unit['prefix'].lower()):
                     return int(tokens[0] * unit['divider'])
     # We failed to parse the size specification.
-    msg = "Failed to parse size! (input %r was tokenized as %r)"
+    msg = 'Failed to parse size! (input %r was tokenized as %r)'
     raise InvalidSize(msg % (size, tokens))
 
 
@@ -554,7 +554,7 @@ def is_url(url):
     True
 
     """
-    return url.partition('://')[0] in ("http", "https", "ftp", "udp")
+    return url.partition('://')[0] in ('http', 'https', 'ftp', 'udp')
 
 
 def is_infohash(infohash):
@@ -623,9 +623,9 @@ def get_magnet_info(uri):
                 xt_hash = param[len(xt_param):]
                 if len(xt_hash) == 32:
                     try:
-                        info_hash = base64.b32decode(xt_hash.upper()).encode("hex")
+                        info_hash = base64.b32decode(xt_hash.upper()).encode('hex')
                     except TypeError as ex:
-                        log.debug("Invalid base32 magnet hash: %s, %s", xt_hash, ex)
+                        log.debug('Invalid base32 magnet hash: %s, %s', xt_hash, ex)
                         break
                 elif is_infohash(xt_hash):
                     info_hash = xt_hash.lower()
@@ -637,7 +637,7 @@ def get_magnet_info(uri):
         if info_hash:
             if not name:
                 name = info_hash
-            return {"name": name, "info_hash": info_hash, "files_tree": ''}
+            return {'name': name, 'info_hash': info_hash, 'files_tree': ''}
     return False
 
 
@@ -657,12 +657,12 @@ def create_magnet_uri(infohash, name=None, trackers=None):
 
     """
     from base64 import b32encode
-    uri = "magnet:?xt=urn:btih:" + b32encode(infohash.decode("hex"))
+    uri = 'magnet:?xt=urn:btih:' + b32encode(infohash.decode('hex'))
     if name:
-        uri = uri + "&dn=" + name
+        uri = uri + '&dn=' + name
     if trackers:
         for t in trackers:
-            uri = uri + "&tr=" + t
+            uri = uri + '&tr=' + t
 
     return uri
 
@@ -704,13 +704,13 @@ def free_space(path):
 
     """
     if not path or not os.path.exists(path):
-        raise InvalidPathError("%s is not a valid path" % path)
+        raise InvalidPathError('%s is not a valid path' % path)
 
     if windows_check():
         from win32file import GetDiskFreeSpaceEx
         return GetDiskFreeSpaceEx(path)[0]
     else:
-        disk_data = os.statvfs(path.encode("utf8"))
+        disk_data = os.statvfs(path.encode('utf8'))
         block_size = disk_data.f_frsize
         return disk_data.f_bavail * block_size
 
@@ -745,7 +745,7 @@ def is_ip(ip):
     # now test ipv6
     try:
         if windows_check():
-            log.warning("ipv6 check unavailable on windows")
+            log.warning('ipv6 check unavailable on windows')
             return True
         else:
             if socket.inet_pton(socket.AF_INET6, ip):
@@ -754,7 +754,7 @@ def is_ip(ip):
         return False
 
 
-def decode_string(s, encoding="utf8"):
+def decode_string(s, encoding='utf8'):
     """
     Decodes a string and return unicode. If it cannot decode using
     `:param:encoding` then it will try latin1, and if that fails,
@@ -774,12 +774,12 @@ def decode_string(s, encoding="utf8"):
     elif isinstance(s, unicode):
         return s
 
-    encodings = [lambda: ("utf8", 'strict'),
-                 lambda: ("iso-8859-1", 'strict'),
-                 lambda: (chardet.detect(s)["encoding"], 'strict'),
+    encodings = [lambda: ('utf8', 'strict'),
+                 lambda: ('iso-8859-1', 'strict'),
+                 lambda: (chardet.detect(s)['encoding'], 'strict'),
                  lambda: (encoding, 'ignore')]
 
-    if encoding is not "utf8":
+    if encoding is not 'utf8':
         encodings.insert(0, lambda: (encoding, 'strict'))
 
     for l in encodings:
@@ -790,7 +790,7 @@ def decode_string(s, encoding="utf8"):
     return u''
 
 
-def utf8_encoded(s, encoding="utf8"):
+def utf8_encoded(s, encoding='utf8'):
     """
     Returns a utf8 encoded string of s
 
@@ -803,9 +803,9 @@ def utf8_encoded(s, encoding="utf8"):
 
     """
     if isinstance(s, str):
-        s = decode_string(s, encoding).encode("utf8")
+        s = decode_string(s, encoding).encode('utf8')
     elif isinstance(s, unicode):
-        s = s.encode("utf8")
+        s = s.encode('utf8')
     return s
 
 
@@ -838,13 +838,13 @@ class VersionSplit(object):
             vs = [''.join(group[0:2]), ''.join(group[2:4]), group[4].lstrip('.')]
         else:
             ver = ver.lower()
-            vs = ver.replace("_", "-").split("-")
+            vs = ver.replace('_', '-').split('-')
 
-        self.version = [int(x) for x in vs[0].split(".") if x.isdigit()]
+        self.version = [int(x) for x in vs[0].split('.') if x.isdigit()]
         self.suffix = None
         self.dev = False
         if len(vs) > 1:
-            if vs[1].startswith(("rc", "a", "b", "c")):
+            if vs[1].startswith(('rc', 'a', 'b', 'c')):
                 self.suffix = vs[1]
             if vs[-1].startswith('dev'):
                 self.dev = vs[-1]
@@ -889,10 +889,10 @@ def create_auth_file():
     import stat
     import deluge.configmanager
 
-    auth_file = deluge.configmanager.get_config_dir("auth")
+    auth_file = deluge.configmanager.get_config_dir('auth')
     # Check for auth file and create if necessary
     if not os.path.exists(auth_file):
-        with open(auth_file, "w") as _file:
+        with open(auth_file, 'w') as _file:
             _file.flush()
             os.fsync(_file.fileno())
         # Change the permissions on the file so only this user can read/write it
@@ -904,13 +904,13 @@ def create_localclient_account(append=False):
     from hashlib import sha1 as sha
     import deluge.configmanager
 
-    auth_file = deluge.configmanager.get_config_dir("auth")
+    auth_file = deluge.configmanager.get_config_dir('auth')
     if not os.path.exists(auth_file):
         create_auth_file()
 
-    with open(auth_file, "a" if append else "w") as _file:
-        _file.write(":".join([
-            "localclient",
+    with open(auth_file, 'a' if append else 'w') as _file:
+        _file.write(':'.join([
+            'localclient',
             sha(str(random.random())).hexdigest(),
             str(AUTH_LEVEL_ADMIN)
         ]) + '\n')
@@ -1008,11 +1008,11 @@ def unicode_argv():
     else:
         # On other platforms, we have to find the likely encoding of the args and decode
         # First check if sys.stdout or stdin have encoding set
-        encoding = getattr(sys.stdout, "encoding") or getattr(sys.stdin, "encoding")
+        encoding = getattr(sys.stdout, 'encoding') or getattr(sys.stdin, 'encoding')
         # If that fails, check what the locale is set to
         encoding = encoding or locale.getpreferredencoding()
         # As a last resort, just default to utf-8
-        encoding = encoding or "utf-8"
+        encoding = encoding or 'utf-8'
 
         return [arg.decode(encoding) for arg in sys.argv]
 
@@ -1028,16 +1028,16 @@ def run_profiled(func, *args, **kwargs):
         output_file (str, optional): Filename to save profile results. If None, print to stdout.
                                      Defaults to None.
     """
-    if kwargs.get("do_profile", True) is not False:
+    if kwargs.get('do_profile', True) is not False:
         import cProfile
         profiler = cProfile.Profile()
 
         def on_shutdown():
-            output_file = kwargs.get("output_file", None)
+            output_file = kwargs.get('output_file', None)
             if output_file:
                 profiler.dump_stats(output_file)
-                log.info("Profile stats saved to %s", output_file)
-                print("Profile stats saved to %s" % output_file)
+                log.info('Profile stats saved to %s', output_file)
+                print('Profile stats saved to %s' % output_file)
             else:
                 import pstats
                 import StringIO

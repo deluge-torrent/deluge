@@ -22,13 +22,13 @@ log = logging.getLogger(__name__)
 
 class WebUI(WebPluginBase):
 
-    scripts = [get_resource("stats.js")]
+    scripts = [get_resource('stats.js')]
 
     # The enable and disable methods are not scrictly required on the WebUI
     # plugins. They are only here if you need to register images/stylesheets
     # with the webserver.
     def enable(self):
-        log.debug("Stats Web plugin enabled!")
+        log.debug('Stats Web plugin enabled!')
 
     def disable(self):
-        log.debug("Stats Web plugin disabled!")
+        log.debug('Stats Web plugin disabled!')

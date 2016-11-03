@@ -19,32 +19,32 @@ sclient.set_core_uri()
 print(sclient.get_enabled_plugins())
 
 # enable plugin.
-if "label" not in sclient.get_enabled_plugins():
-    sclient.enable_plugin("label")
+if 'label' not in sclient.get_enabled_plugins():
+    sclient.enable_plugin('label')
 
 
 # test labels.
-print("#init labels")
+print('#init labels')
 try:
-    sclient.label_remove("test")
+    sclient.label_remove('test')
 except Exception:
     pass
 sess_id = sclient.get_session_state()[0]
 
-print("#add")
-sclient.label_add("test")
-print("#set")
-sclient.label_set_torrent(id, "test")
+print('#add')
+sclient.label_add('test')
+print('#set')
+sclient.label_set_torrent(id, 'test')
 
-print(sclient.get_torrents_status({"label": "test"}, "name"))
+print(sclient.get_torrents_status({'label': 'test'}, 'name'))
 
 
-print("#set options")
-sclient.label_set_options("test", {"max_download_speed": 999}, True)
-print(sclient.get_torrent_status(sess_id, ["max_download_speed"]), "999")
-sclient.label_set_options("test", {"max_download_speed": 9}, True)
-print(sclient.get_torrent_status(sess_id, ["max_download_speed"]), "9")
-sclient.label_set_options("test", {"max_download_speed": 888}, False)
-print(sclient.get_torrent_status(sess_id, ["max_download_speed"]), "9 (888)")
+print('#set options')
+sclient.label_set_options('test', {'max_download_speed': 999}, True)
+print(sclient.get_torrent_status(sess_id, ['max_download_speed']), '999')
+sclient.label_set_options('test', {'max_download_speed': 9}, True)
+print(sclient.get_torrent_status(sess_id, ['max_download_speed']), '9')
+sclient.label_set_options('test', {'max_download_speed': 888}, False)
+print(sclient.get_torrent_status(sess_id, ['max_download_speed']), '9 (888)')
 
 print(sclient.get_torrent_status(sess_id, ['name', 'tracker_host', 'label']))

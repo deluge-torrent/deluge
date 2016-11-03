@@ -17,7 +17,7 @@ from deluge.ui.common import get_localhost_auth
 
 from .basetest import BaseTestCase
 
-setup_logger("none")
+setup_logger('none')
 
 
 class DelugeRPCProtocolTester(DelugeRPCProtocol):
@@ -34,14 +34,14 @@ class RPCServerTestCase(BaseTestCase):
         self.rpcserver = RPCServer(listen=False)
         self.rpcserver.factory.protocol = DelugeRPCProtocolTester
         self.factory = self.rpcserver.factory
-        self.session_id = "0"
+        self.session_id = '0'
         self.request_id = 11
         self.protocol = self.rpcserver.factory.protocol()
         self.protocol.factory = self.factory
         self.protocol.transport = self.protocol
         self.factory.session_protocols[self.session_id] = self.protocol
         self.factory.authorized_sessions[self.session_id] = None
-        self.factory.interested_events[self.session_id] = ["TorrentFolderRenamedEvent"]
+        self.factory.interested_events[self.session_id] = ['TorrentFolderRenamedEvent']
         self.protocol.sessionno = self.session_id
         return component.start()
 
@@ -51,18 +51,18 @@ class RPCServerTestCase(BaseTestCase):
         return component.shutdown().addCallback(on_shutdown)
 
     def test_emit_event_for_session_id(self):
-        torrent_id = "12"
+        torrent_id = '12'
         from deluge.event import TorrentFolderRenamedEvent
-        data = [torrent_id, "new name", "old name"]
+        data = [torrent_id, 'new name', 'old name']
         e = TorrentFolderRenamedEvent(*data)
         self.rpcserver.emit_event_for_session_id(self.session_id, e)
         msg = self.protocol.messages.pop()
         self.assertEquals(msg[0], rpcserver.RPC_EVENT, str(msg))
-        self.assertEquals(msg[1], "TorrentFolderRenamedEvent", str(msg))
+        self.assertEquals(msg[1], 'TorrentFolderRenamedEvent', str(msg))
         self.assertEquals(msg[2], data, str(msg))
 
     def test_invalid_client_login(self):
-        self.protocol.dispatch(self.request_id, "daemon.login", [1], {})
+        self.protocol.dispatch(self.request_id, 'daemon.login', [1], {})
         msg = self.protocol.messages.pop()
         self.assertEquals(msg[0], rpcserver.RPC_ERROR)
         self.assertEquals(msg[1], self.request_id)
@@ -70,7 +70,7 @@ class RPCServerTestCase(BaseTestCase):
     def test_valid_client_login(self):
         self.authmanager = AuthManager()
         auth = get_localhost_auth()
-        self.protocol.dispatch(self.request_id, "daemon.login", auth, {"client_version": "Test"})
+        self.protocol.dispatch(self.request_id, 'daemon.login', auth, {'client_version': 'Test'})
         msg = self.protocol.messages.pop()
         self.assertEquals(msg[0], rpcserver.RPC_RESPONSE, str(msg))
         self.assertEquals(msg[1], self.request_id, str(msg))
@@ -81,25 +81,25 @@ class RPCServerTestCase(BaseTestCase):
         self.protocol.transport = None   # This should cause AttributeError
         self.authmanager = AuthManager()
         auth = get_localhost_auth()
-        self.protocol.dispatch(self.request_id, "daemon.login", auth, {"client_version": "Test"})
+        self.protocol.dispatch(self.request_id, 'daemon.login', auth, {'client_version': 'Test'})
         msg = self.protocol.messages.pop()
         self.assertEquals(msg[0], rpcserver.RPC_ERROR)
         self.assertEquals(msg[1], self.request_id)
-        self.assertEquals(msg[2], "WrappedException")
-        self.assertEquals(msg[3][1], "AttributeError")
+        self.assertEquals(msg[2], 'WrappedException')
+        self.assertEquals(msg[3][1], 'AttributeError')
 
     def test_client_invalid_method_call(self):
         self.authmanager = AuthManager()
         auth = get_localhost_auth()
-        self.protocol.dispatch(self.request_id, "invalid_function", auth, {})
+        self.protocol.dispatch(self.request_id, 'invalid_function', auth, {})
         msg = self.protocol.messages.pop()
         self.assertEquals(msg[0], rpcserver.RPC_ERROR)
         self.assertEquals(msg[1], self.request_id)
-        self.assertEquals(msg[2], "WrappedException")
-        self.assertEquals(msg[3][1], "AttributeError")
+        self.assertEquals(msg[2], 'WrappedException')
+        self.assertEquals(msg[3][1], 'AttributeError')
 
     def test_daemon_info(self):
-        self.protocol.dispatch(self.request_id, "daemon.info", [], {})
+        self.protocol.dispatch(self.request_id, 'daemon.info', [], {})
         msg = self.protocol.messages.pop()
         self.assertEquals(msg[0], rpcserver.RPC_RESPONSE, str(msg))
         self.assertEquals(msg[1], self.request_id, str(msg))

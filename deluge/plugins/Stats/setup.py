@@ -14,18 +14,18 @@
 
 from setuptools import find_packages, setup
 
-__plugin_name__ = "Stats"
-__author__ = "Ian Martin"
-__author_email__ = "ianmartin@cantab.net"
-__version__ = "0.3.2"
-__url__ = "http://deluge-torrent.org"
-__license__ = "GPLv3"
-__description__ = "Display stats graphs"
+__plugin_name__ = 'Stats'
+__author__ = 'Ian Martin'
+__author_email__ = 'ianmartin@cantab.net'
+__version__ = '0.3.2'
+__url__ = 'http://deluge-torrent.org'
+__license__ = 'GPLv3'
+__description__ = 'Display stats graphs'
 __long_description__ = """
 Records lots of extra stats
 and produces time series
 graphs"""
-__pkg_data__ = {"deluge.plugins." + __plugin_name__.lower(): ["template/*", "data/*"]}
+__pkg_data__ = {'deluge.plugins.' + __plugin_name__.lower(): ['template/*', 'data/*']}
 
 setup(
     name=__plugin_name__,
@@ -38,7 +38,7 @@ setup(
     long_description=__long_description__,
 
     packages=find_packages(),
-    namespace_packages=["deluge", "deluge.plugins"],
+    namespace_packages=['deluge', 'deluge.plugins'],
     package_data=__pkg_data__,
 
     entry_points="""

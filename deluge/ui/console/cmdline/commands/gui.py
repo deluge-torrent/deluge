@@ -21,7 +21,7 @@ class Command(BaseCommand):
     interactive_only = True
 
     def handle(self, options):
-        console = component.get("ConsoleUI")
-        at = console.set_mode("TorrentList")
+        console = component.get('ConsoleUI')
+        at = console.set_mode('TorrentList')
         at.go_top = True
         at.resume()

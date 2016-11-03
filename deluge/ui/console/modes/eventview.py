@@ -30,7 +30,7 @@ class EventView(BaseMode):
         self.offset = 0
 
     def back_to_overview(self):
-        component.get("ConsoleUI").set_mode(self.parent_mode.mode_name)
+        component.get('ConsoleUI').set_mode(self.parent_mode.mode_name)
 
     @overrides(component.Component)
     def update(self):
@@ -41,7 +41,7 @@ class EventView(BaseMode):
         """
         This method just shows each line of the event log
         """
-        events = component.get("ConsoleUI").events
+        events = component.get('ConsoleUI').events
 
         self.stdscr.erase()
         self.draw_statusbars()
@@ -51,7 +51,7 @@ class EventView(BaseMode):
                 if i - self.offset >= self.rows - 2:
                     more = len(events) - self.offset - self.rows + 2
                     if more > 0:
-                        self.add_string(i - self.offset, "  (And %i more)" % more)
+                        self.add_string(i - self.offset, '  (And %i more)' % more)
                     break
 
                 elif i - self.offset < 0:
@@ -61,9 +61,9 @@ class EventView(BaseMode):
                 except curses.error:
                     pass  # This'll just cut the line. Note: This seriously should be fixed in a better way
         else:
-            self.add_string(1, "{!white,black,bold!}No events to show yet")
+            self.add_string(1, '{!white,black,bold!}No events to show yet')
 
-        if not component.get("ConsoleUI").is_active_mode(self):
+        if not component.get('ConsoleUI').is_active_mode(self):
             return
 
         self.stdscr.noutrefresh()
@@ -84,7 +84,7 @@ class EventView(BaseMode):
 
         # TODO: Scroll event list
         jumplen = self.rows - 3
-        num_events = len(component.get("ConsoleUI").events)
+        num_events = len(component.get('ConsoleUI').events)
 
         if c == curses.KEY_UP:
             self.offset -= 1
@@ -98,9 +98,9 @@ class EventView(BaseMode):
             self.offset += jumplen
         elif c == curses.KEY_END:
             self.offset += num_events
-        elif c == ord("j"):
+        elif c == ord('j'):
             self.offset -= 1
-        elif c == ord("k"):
+        elif c == ord('k'):
             self.offset += 1
 
         if self.offset <= 0:

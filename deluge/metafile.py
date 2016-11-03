@@ -47,10 +47,10 @@ def get_filesystem_encoding():
 def decode_from_filesystem(path):
     encoding = get_filesystem_encoding()
     if encoding is None:
-        assert isinstance(path, unicode), "Path should be unicode not %s" % type(path)
+        assert isinstance(path, unicode), 'Path should be unicode not %s' % type(path)
         decoded_path = path
     else:
-        assert isinstance(path, str), "Path should be str not %s" % type(path)
+        assert isinstance(path, str), 'Path should be str not %s' % type(path)
         decoded_path = path.decode(encoding)
 
     return decoded_path
@@ -65,7 +65,7 @@ class RemoteFileProgress(object):
         self.session_id = session_id
 
     def __call__(self, piece_count, num_pieces):
-        component.get("RPCServer").emit_event_for_session_id(
+        component.get('RPCServer').emit_event_for_session_id(
             self.session_id, CreateTorrentProgressEvent(piece_count, num_pieces)
         )
 
@@ -86,11 +86,11 @@ def make_meta_file(path, url, piece_length, progress=None, title=None, comment=N
         f = target
 
     if progress is None:
-        session_id = component.get("RPCServer").get_session_id()
+        session_id = component.get('RPCServer').get_session_id()
         if not session_id:
             progress = dummy
         else:
-            progress = RemoteFileProgress(component.get("RPCServer").get_session_id())
+            progress = RemoteFileProgress(component.get('RPCServer').get_session_id())
 
     info = makeinfo(path, piece_length, progress, name, content_type, private)
 
@@ -99,18 +99,18 @@ def make_meta_file(path, url, piece_length, progress=None, title=None, comment=N
 
     data['info'] = info
     if title:
-        data['title'] = title.encode("utf8")
+        data['title'] = title.encode('utf8')
     if comment:
-        data['comment'] = comment.encode("utf8")
+        data['comment'] = comment.encode('utf8')
     if safe:
-        data['safe'] = safe.encode("utf8")
+        data['safe'] = safe.encode('utf8')
 
     httpseeds = []
     url_list = []
 
     if webseeds:
         for webseed in webseeds:
-            if webseed.endswith(".php"):
+            if webseed.endswith('.php'):
                 httpseeds.append(webseed)
             else:
                 url_list.append(webseed)
@@ -120,12 +120,12 @@ def make_meta_file(path, url, piece_length, progress=None, title=None, comment=N
     if httpseeds:
         data['httpseeds'] = httpseeds
     if created_by:
-        data['created by'] = created_by.encode("utf8")
+        data['created by'] = created_by.encode('utf8')
 
     if trackers and (len(trackers[0]) > 1 or len(trackers) > 1):
         data['announce-list'] = trackers
 
-    data["encoding"] = "UTF-8"
+    data['encoding'] = 'UTF-8'
 
     h.write(bencode(data))
     h.close()

@@ -34,14 +34,14 @@ class WebUIPluginTestCase(BaseTestCase):
         return component.shutdown().addCallback(on_shutdown)
 
     def test_enable_webui(self):
-        if "WebUi" not in self.core.get_available_plugins():
-            raise unittest.SkipTest("WebUi plugin not available for testing")
+        if 'WebUi' not in self.core.get_available_plugins():
+            raise unittest.SkipTest('WebUi plugin not available for testing')
 
-        d = self.core.enable_plugin("WebUi")
+        d = self.core.enable_plugin('WebUi')
 
         def result_cb(result):
-            if "WebUi" not in self.core.get_enabled_plugins():
-                self.fail("Failed to enable WebUi plugin")
+            if 'WebUi' not in self.core.get_enabled_plugins():
+                self.fail('Failed to enable WebUi plugin')
             self.assertTrue(result)
 
         d.addBoth(result_cb)

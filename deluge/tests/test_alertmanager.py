@@ -15,8 +15,8 @@ class AlertManagerTestCase(BaseTestCase):
 
     def set_up(self):
         self.core = Core()
-        self.am = component.get("AlertManager")
-        return component.start(["AlertManager"])
+        self.am = component.get('AlertManager')
+        return component.start(['AlertManager'])
 
     def tear_down(self):
         return component.shutdown()
@@ -25,13 +25,13 @@ class AlertManagerTestCase(BaseTestCase):
         def handler(alert):
             return
 
-        self.am.register_handler("dummy_alert", handler)
-        self.assertEquals(self.am.handlers["dummy_alert"], [handler])
+        self.am.register_handler('dummy_alert', handler)
+        self.assertEquals(self.am.handlers['dummy_alert'], [handler])
 
     def test_deregister_handler(self):
         def handler(alert):
             return
 
-        self.am.register_handler("dummy_alert", handler)
+        self.am.register_handler('dummy_alert', handler)
         self.am.deregister_handler(handler)
-        self.assertEquals(self.am.handlers["dummy_alert"], [])
+        self.assertEquals(self.am.handlers['dummy_alert'], [])

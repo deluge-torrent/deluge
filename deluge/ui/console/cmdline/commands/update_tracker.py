@@ -16,18 +16,18 @@ from . import BaseCommand
 
 class Command(BaseCommand):
     """Update tracker for torrent(s)"""
-    usage = "update_tracker [ * | <torrent-id> [<torrent-id> ...] ]"
+    usage = 'update_tracker [ * | <torrent-id> [<torrent-id> ...] ]'
     aliases = ['reannounce']
 
     def add_arguments(self, parser):
-        parser.add_argument('torrent_ids', metavar="<torrent-id>", nargs='+',
+        parser.add_argument('torrent_ids', metavar='<torrent-id>', nargs='+',
                             help='One or more torrent ids. "*" updates all torrents')
 
     def handle(self, options):
-        self.console = component.get("ConsoleUI")
+        self.console = component.get('ConsoleUI')
         args = options.torrent_ids
-        if options.torrent_ids[0] == "*":
-            args = [""]
+        if options.torrent_ids[0] == '*':
+            args = ['']
 
         torrent_ids = []
         for arg in args:
@@ -37,4 +37,4 @@ class Command(BaseCommand):
 
     def complete(self, line):
         # We use the ConsoleUI torrent tab complete method
-        return component.get("ConsoleUI").tab_complete_torrent(line)
+        return component.get('ConsoleUI').tab_complete_torrent(line)

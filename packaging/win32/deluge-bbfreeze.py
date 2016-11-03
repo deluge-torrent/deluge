@@ -31,10 +31,10 @@ class VersionInfo(object):
                  comments=None, company=None, description=None,
                  _copyright=None, trademarks=None, product=None, dll=False,
                  debug=False, verbose=True):
-        parts = version.split(".")
+        parts = version.split('.')
         while len(parts) < 4:
-            parts.append("0")
-        self.version = ".".join(parts)
+            parts.append('0')
+        self.version = '.'.join(parts)
         self.internal_name = internalname
         self.original_filename = originalfilename
         self.comments = comments
@@ -48,31 +48,31 @@ class VersionInfo(object):
         self.verbose = verbose
 
 DEBUG = False
-if len(sys.argv) == 2 and sys.argv[1].lower() == "debug":
+if len(sys.argv) == 2 and sys.argv[1].lower() == 'debug':
     DEBUG = True
 
 # Get build_version from installed deluge.
 build_version = deluge.common.get_version()
 python_path = os.path.dirname(sys.executable)
-if python_path.endswith("Scripts"):
+if python_path.endswith('Scripts'):
     python_path = python_path[:-8]
-gtk_root = os.path.join(gtk.__path__[0], "..", "runtime")
-build_dir = os.path.join("build-win32", "deluge-bbfreeze-" + build_version)
+gtk_root = os.path.join(gtk.__path__[0], '..', 'runtime')
+build_dir = os.path.join('build-win32', 'deluge-bbfreeze-' + build_version)
 
 if DEBUG:
-    print("Python Path: %s" % python_path)
-    print("Gtk Path: %s" % gtk_root)
-    print("bbfreeze Output Path: %s" % build_dir)
+    print('Python Path: %s' % python_path)
+    print('Gtk Path: %s' % gtk_root)
+    print('bbfreeze Output Path: %s' % build_dir)
 
-print("Freezing Deluge %s..." % build_version)
+print('Freezing Deluge %s...' % build_version)
 # Disable printing to console for bbfreezing.
 if not DEBUG:
-    sys.stdout = open(os.devnull, "w")
+    sys.stdout = open(os.devnull, 'w')
 
 # Include python modules not picked up automatically by bbfreeze.
-includes = ("libtorrent", "cairo", "pangocairo", "atk", "pango", "twisted.internet.utils",
-            "gio", "gzip", "email.mime.multipart", "email.mime.text", "_cffi_backend")
-excludes = ("numpy", "OpenGL", "psyco", "win32ui", "unittest")
+includes = ('libtorrent', 'cairo', 'pangocairo', 'atk', 'pango', 'twisted.internet.utils',
+            'gio', 'gzip', 'email.mime.multipart', 'email.mime.text', '_cffi_backend')
+excludes = ('numpy', 'OpenGL', 'psyco', 'win32ui', 'unittest')
 
 
 def recipe_gtk_override(mf):
@@ -83,30 +83,30 @@ bbfreeze.recipes.recipe_gtk_and_friends = recipe_gtk_override
 
 # Workaround for "ImportError: The 'packaging' package is required" with setuptools > 18.8.
 # (https://github.com/pypa/setuptools/issues/517)
-bbfreeze.recipes.recipe_pkg_resources = bbfreeze.recipes.include_whole_package("pkg_resources")
+bbfreeze.recipes.recipe_pkg_resources = bbfreeze.recipes.include_whole_package('pkg_resources')
 
 fzr = bbfreeze.Freezer(build_dir, includes=includes, excludes=excludes)
 fzr.include_py = False
-fzr.setIcon(os.path.join(os.path.dirname(deluge.common.__file__), "ui", "data", "pixmaps", "deluge.ico"))
+fzr.setIcon(os.path.join(os.path.dirname(deluge.common.__file__), 'ui', 'data', 'pixmaps', 'deluge.ico'))
 
 # TODO: Can/should we grab the script list from setup.py entry_points somehow.
 
 # Hide cmd console popup for these console entries force gui_script True.
-force_gui = ["deluge-web", "deluged"]
+force_gui = ['deluge-web', 'deluged']
 
 for force_script in force_gui:
-    script_path = os.path.join(python_path, "Scripts", force_script + "-script.py")
-    shutil.copy(script_path, script_path.replace("script", "debug-script"))
+    script_path = os.path.join(python_path, 'Scripts', force_script + '-script.py')
+    shutil.copy(script_path, script_path.replace('script', 'debug-script'))
 
 script_list = []
-for script in glob.glob(os.path.join(python_path, "Scripts\\deluge*-script.py*")):
+for script in glob.glob(os.path.join(python_path, 'Scripts\\deluge*-script.py*')):
     # Copy the scripts to remove the '-script' suffix before adding to freezer.
-    new_script = script.replace("-script", "")
+    new_script = script.replace('-script', '')
     shutil.copy(script, new_script)
 
     gui_script = False
     script_splitext = os.path.splitext(os.path.basename(new_script))
-    if script_splitext[1] == ".pyw" or script_splitext[0] in force_gui:
+    if script_splitext[1] == '.pyw' or script_splitext[0] in force_gui:
         gui_script = True
     try:
         fzr.addScript(new_script, gui_only=gui_script)
@@ -122,10 +122,10 @@ for script in script_list:
     os.remove(script)
 
 # Exclude files which are already included in GTK or Windows. Also exclude unneeded pygame dlls.
-excludeDlls = ("MSIMG32.dll", "MSVCR90.dll", "MSVCP90.dll", "MSVCR120.dll",
-               "POWRPROF.dll", "DNSAPI.dll", "USP10.dll", "MPR.dll",
-               "jpeg.dll", "libfreetype-6.dll", "libpng12-0.dll", "libtiff.dll",
-               "SDL_image.dll", "SDL_ttf.dll")
+excludeDlls = ('MSIMG32.dll', 'MSVCR90.dll', 'MSVCP90.dll', 'MSVCR120.dll',
+               'POWRPROF.dll', 'DNSAPI.dll', 'USP10.dll', 'MPR.dll',
+               'jpeg.dll', 'libfreetype-6.dll', 'libpng12-0.dll', 'libtiff.dll',
+               'SDL_image.dll', 'SDL_ttf.dll')
 for exclude_dll in excludeDlls:
     try:
         os.remove(os.path.join(build_dir, exclude_dll))
@@ -151,12 +151,12 @@ shutil.copytree(gtk_locale, os.path.join(build_dir, 'share/locale'), ignore=igno
 
 # Copy gtk theme files.
 theme_include_list = [
-    [gtk_root, "share/icons/hicolor/index.theme"],
-    [gtk_root, "lib/gtk-2.0/2.10.0/engines"],
-    [gtk_root, "share/themes/MS-Windows"],
-    ["DelugeStart Theme", "lib/gtk-2.0/2.10.0/engines/libmurrine.dll"],
-    ["DelugeStart Theme", "share/themes/DelugeStart"],
-    ["DelugeStart Theme", "etc/gtk-2.0/gtkrc"]
+    [gtk_root, 'share/icons/hicolor/index.theme'],
+    [gtk_root, 'lib/gtk-2.0/2.10.0/engines'],
+    [gtk_root, 'share/themes/MS-Windows'],
+    ['DelugeStart Theme', 'lib/gtk-2.0/2.10.0/engines/libmurrine.dll'],
+    ['DelugeStart Theme', 'share/themes/DelugeStart'],
+    ['DelugeStart Theme', 'etc/gtk-2.0/gtkrc']
 ]
 for path_root, path in theme_include_list:
     full_path = os.path.join(path_root, path)
@@ -172,14 +172,14 @@ for path_root, path in theme_include_list:
 
 # Add version information to exe files.
 for script in script_list:
-    script_exe = os.path.splitext(os.path.basename(script))[0] + ".exe"
+    script_exe = os.path.splitext(os.path.basename(script))[0] + '.exe'
     # Don't add to dev build versions.
     if not re.search('[a-zA-Z_-]', build_version):
         versionInfo = VersionInfo(build_version,
-                                  description="Deluge Bittorrent Client",
-                                  company="Deluge Team",
-                                  product="Deluge",
-                                  _copyright="Deluge Team")
+                                  description='Deluge Bittorrent Client',
+                                  company='Deluge Team',
+                                  product='Deluge',
+                                  _copyright='Deluge Team')
         stamp(os.path.join(build_dir, script_exe), versionInfo)
 
 # Copy version info to file for nsis script.

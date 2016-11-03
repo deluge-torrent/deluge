@@ -26,7 +26,7 @@ DEFAULT_PREFS = {
 
 class Core(CorePluginBase):
     def enable(self):
-        self.core = component.get("Core")
+        self.core = component.get('Core')
 
     def disable(self):
         pass

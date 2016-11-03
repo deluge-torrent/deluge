@@ -9,19 +9,19 @@
 
 from setuptools import find_packages, setup
 
-__plugin_name__ = "Label"
-__author__ = "Martijn Voncken"
-__author_email__ = "mvoncken@gmail.com"
-__version__ = "0.2"
-__url__ = "http://deluge-torrent.org"
-__license__ = "GPLv3"
-__description__ = "Allows labels to be assigned to torrents"
+__plugin_name__ = 'Label'
+__author__ = 'Martijn Voncken'
+__author_email__ = 'mvoncken@gmail.com'
+__version__ = '0.2'
+__url__ = 'http://deluge-torrent.org'
+__license__ = 'GPLv3'
+__description__ = 'Allows labels to be assigned to torrents'
 __long_description__ = """
 Allows labels to be assigned to torrents
 
 Also offers filters on state, tracker and keywords
 """
-__pkg_data__ = {"deluge.plugins." + __plugin_name__.lower(): ["template/*", "data/*"]}
+__pkg_data__ = {'deluge.plugins.' + __plugin_name__.lower(): ['template/*', 'data/*']}
 
 setup(
     name=__plugin_name__,
@@ -34,7 +34,7 @@ setup(
     long_description=__long_description__,
 
     packages=find_packages(),
-    namespace_packages=["deluge", "deluge.plugins"],
+    namespace_packages=['deluge', 'deluge.plugins'],
     package_data=__pkg_data__,
 
     entry_points="""

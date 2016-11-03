@@ -32,24 +32,24 @@ class BaseDialog(gtk.Dialog):
         """
         super(BaseDialog, self).__init__(
             title=header,
-            parent=parent if parent else component.get("MainWindow").window,
+            parent=parent if parent else component.get('MainWindow').window,
             flags=gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT | gtk.DIALOG_NO_SEPARATOR,
             buttons=buttons)
 
         self.set_icon(get_deluge_icon())
 
-        self.connect("delete-event", self._on_delete_event)
-        self.connect("response", self._on_response)
+        self.connect('delete-event', self._on_delete_event)
+        self.connect('response', self._on_response)
 
         # Setup all the formatting and such to make our dialog look pretty
         self.set_border_width(5)
         self.set_default_size(200, 100)
         hbox = gtk.HBox(spacing=5)
         image = gtk.Image()
-        if not gtk.stock_lookup(icon) and (icon.endswith(".svg") or icon.endswith(".png")):
+        if not gtk.stock_lookup(icon) and (icon.endswith('.svg') or icon.endswith('.png')):
             # Hack for Windows since it doesn't support svg
-            if icon.endswith(".svg") and (windows_check() or osx_check()):
-                icon = icon.rpartition(".svg")[0] + "16.png"
+            if icon.endswith('.svg') and (windows_check() or osx_check()):
+                icon = icon.rpartition('.svg')[0] + '16.png'
             pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(get_pixmap(icon), 32, 32)
             image.set_from_pixbuf(pixbuf)
         else:
@@ -156,7 +156,7 @@ class ErrorDialog(BaseDialog):
             tb = sys.exc_info()
             tb = traceback.format_exc(tb[2])
             if details:
-                details += "\n" + tb
+                details += '\n' + tb
             else:
                 details = tb
 
@@ -169,7 +169,7 @@ class ErrorDialog(BaseDialog):
             sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
             sw.set_shadow_type(gtk.SHADOW_IN)
             sw.add(textview)
-            label = gtk.Label(_("Details:"))
+            label = gtk.Label(_('Details:'))
             label.set_alignment(0.0, 0.5)
             self.vbox.pack_start(label, False, False)
             self.vbox.pack_start(sw)
@@ -183,20 +183,20 @@ class AuthenticationDialog(BaseDialog):
     When run(), it will return either a gtk.RESPONSE_CANCEL or a
     gtk.RESPONSE_OK.
     """
-    def __init__(self, err_msg="", username=None, parent=None):
+    def __init__(self, err_msg='', username=None, parent=None):
         """
         :param err_msg: the error message we got back from the server
         :type err_msg: string
         """
         super(AuthenticationDialog, self).__init__(
-            _("Authenticate"), err_msg,
+            _('Authenticate'), err_msg,
             gtk.STOCK_DIALOG_AUTHENTICATION,
             (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_CONNECT, gtk.RESPONSE_OK),
             parent)
 
         table = gtk.Table(2, 2, False)
         self.username_label = gtk.Label()
-        self.username_label.set_markup("<b>" + _("Username:") + "</b>")
+        self.username_label.set_markup('<b>' + _('Username:') + '</b>')
         self.username_label.set_alignment(1.0, 0.5)
         self.username_label.set_padding(5, 5)
         self.username_entry = gtk.Entry()
@@ -204,12 +204,12 @@ class AuthenticationDialog(BaseDialog):
         table.attach(self.username_entry, 1, 2, 0, 1)
 
         self.password_label = gtk.Label()
-        self.password_label.set_markup("<b>" + _("Password:") + "</b>")
+        self.password_label.set_markup('<b>' + _('Password:') + '</b>')
         self.password_label.set_alignment(1.0, 0.5)
         self.password_label.set_padding(5, 5)
         self.password_entry = gtk.Entry()
         self.password_entry.set_visibility(False)
-        self.password_entry.connect("activate", self.on_password_activate)
+        self.password_entry.connect('activate', self.on_password_activate)
         table.attach(self.password_label, 0, 1, 1, 2)
         table.attach(self.password_entry, 1, 2, 1, 2)
 
@@ -238,16 +238,16 @@ class AccountDialog(BaseDialog):
                  levels_mapping=None, parent=None):
         if username:
             super(AccountDialog, self).__init__(
-                _("Edit Account"),
-                _("Edit existing account"),
+                _('Edit Account'),
+                _('Edit existing account'),
                 gtk.STOCK_DIALOG_INFO,
                 (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
                  gtk.STOCK_APPLY, gtk.RESPONSE_OK),
                 parent)
         else:
             super(AccountDialog, self).__init__(
-                _("New Account"),
-                _("Create a new account"),
+                _('New Account'),
+                _('Create a new account'),
                 gtk.STOCK_DIALOG_INFO,
                 (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
                  gtk.STOCK_ADD, gtk.RESPONSE_OK),
@@ -257,7 +257,7 @@ class AccountDialog(BaseDialog):
 
         table = gtk.Table(2, 3, False)
         self.username_label = gtk.Label()
-        self.username_label.set_markup("<b>" + _("Username:") + "</b>")
+        self.username_label.set_markup('<b>' + _('Username:') + '</b>')
         self.username_label.set_alignment(1.0, 0.5)
         self.username_label.set_padding(5, 5)
         self.username_entry = gtk.Entry()
@@ -265,7 +265,7 @@ class AccountDialog(BaseDialog):
         table.attach(self.username_entry, 1, 2, 0, 1)
 
         self.authlevel_label = gtk.Label()
-        self.authlevel_label.set_markup("<b>" + _("Authentication Level:") + "</b>")
+        self.authlevel_label.set_markup('<b>' + _('Authentication Level:') + '</b>')
         self.authlevel_label.set_alignment(1.0, 0.5)
         self.authlevel_label.set_padding(5, 5)
 
@@ -285,7 +285,7 @@ class AccountDialog(BaseDialog):
         table.attach(self.authlevel_combo, 1, 2, 1, 2)
 
         self.password_label = gtk.Label()
-        self.password_label.set_markup("<b>" + _("Password:") + "</b>")
+        self.password_label.set_markup('<b>' + _('Password:') + '</b>')
         self.password_label.set_alignment(1.0, 0.5)
         self.password_label.set_padding(5, 5)
         self.password_entry = gtk.Entry()
@@ -324,10 +324,10 @@ class OtherDialog(BaseDialog):
     Returns:
         int or float:
     """
-    def __init__(self, header, text="", unit_text="", icon=None, default=0, parent=None):
+    def __init__(self, header, text='', unit_text='', icon=None, default=0, parent=None):
         self.value_type = type(default)
         if self.value_type not in (int, float):
-            raise TypeError("default value needs to be an int or float")
+            raise TypeError('default value needs to be an int or float')
 
         if not icon:
             icon = gtk.STOCK_DIALOG_INFO
@@ -383,25 +383,25 @@ class PasswordDialog(BaseDialog):
 
     When run(), it will return either a gtk.RESPONSE_CANCEL or a gtk.RESPONSE_OK.
     """
-    def __init__(self, password_msg="", parent=None):
+    def __init__(self, password_msg='', parent=None):
         """
         :param password_msg: the error message we got back from the server
         :type password_msg: string
         """
         super(PasswordDialog, self).__init__(
-            _("Password Protected"), password_msg,
+            _('Password Protected'), password_msg,
             gtk.STOCK_DIALOG_AUTHENTICATION,
             (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_CONNECT, gtk.RESPONSE_OK),
             parent)
 
         table = gtk.Table(1, 2, False)
         self.password_label = gtk.Label()
-        self.password_label.set_markup("<b>" + _("Password:") + "</b>")
+        self.password_label.set_markup('<b>' + _('Password:') + '</b>')
         self.password_label.set_alignment(1.0, 0.5)
         self.password_label.set_padding(5, 5)
         self.password_entry = gtk.Entry()
         self.password_entry.set_visibility(False)
-        self.password_entry.connect("activate", self.on_password_activate)
+        self.password_entry.connect('activate', self.on_password_activate)
         table.attach(self.password_label, 0, 1, 1, 2)
         table.attach(self.password_entry, 1, 2, 1, 2)
 

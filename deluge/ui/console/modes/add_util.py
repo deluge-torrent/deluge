@@ -22,7 +22,7 @@ log = logging.getLogger(__name__)
 
 
 def _bracket_fixup(path):
-    if path.find("[") == -1 and path.find("]") == -1:
+    if path.find('[') == -1 and path.find(']') == -1:
         return path
     sentinal = 256
     while path.find(unichr(sentinal)) != -1:
@@ -30,27 +30,27 @@ def _bracket_fixup(path):
         if sentinal > 65535:
             log.error("Can't fix brackets in path, path contains all possible sentinal characters")
             return path
-    newpath = path.replace("]", unichr(sentinal))
-    newpath = newpath.replace("[", "[[]")
-    newpath = newpath.replace(unichr(sentinal), "[]]")
+    newpath = path.replace(']', unichr(sentinal))
+    newpath = newpath.replace('[', '[[]')
+    newpath = newpath.replace(unichr(sentinal), '[]]')
     return newpath
 
 
 def add_torrent(t_file, options, success_cb, fail_cb, ress):
     t_options = {}
-    if options["path"]:
-        t_options["download_location"] = os.path.expanduser(options["path"])
-    t_options["add_paused"] = options["add_paused"]
+    if options['path']:
+        t_options['download_location'] = os.path.expanduser(options['path'])
+    t_options['add_paused'] = options['add_paused']
 
-    is_url = (options["path_type"] != 1) and (deluge.common.is_url(t_file) or options["path_type"] == 2)
-    is_magnet = not(is_url) and (options["path_type"] != 1) and deluge.common.is_magnet(t_file)
+    is_url = (options['path_type'] != 1) and (deluge.common.is_url(t_file) or options['path_type'] == 2)
+    is_magnet = not(is_url) and (options['path_type'] != 1) and deluge.common.is_magnet(t_file)
 
     if is_url or is_magnet:
         files = [t_file]
     else:
         files = glob.glob(_bracket_fixup(t_file))
     num_files = len(files)
-    ress["total"] = num_files
+    ress['total'] = num_files
 
     if num_files <= 0:
         fail_cb("Doesn't exist", t_file, ress)
@@ -65,7 +65,7 @@ def add_torrent(t_file, options, success_cb, fail_cb, ress):
                 fail_cb("Doesn't exist", f, ress)
                 continue
             if not os.path.isfile(f):
-                fail_cb("Is a directory", f, ress)
+                fail_cb('Is a directory', f, ress)
                 continue
 
             try:

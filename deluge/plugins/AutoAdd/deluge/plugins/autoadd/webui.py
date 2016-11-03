@@ -23,7 +23,7 @@ log = logging.getLogger(__name__)
 
 class WebUI(WebPluginBase):
 
-    scripts = [get_resource("autoadd.js")]
+    scripts = [get_resource('autoadd.js')]
 
     def enable(self):
         pass

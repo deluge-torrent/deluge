@@ -23,29 +23,29 @@ class DetailsTab(Tab):
         Tab.__init__(self)
         # Get the labels we need to update.
         # widget name, modifier function, status keys
-        builder = component.get("MainWindow").get_builder()
+        builder = component.get('MainWindow').get_builder()
 
-        self._name = "Details"
-        self._child_widget = builder.get_object("details_tab")
-        self._tab_label = builder.get_object("details_tab_label")
+        self._name = 'Details'
+        self._child_widget = builder.get_object('details_tab')
+        self._tab_label = builder.get_object('details_tab_label')
 
         self.label_widgets = [
-            (builder.get_object("summary_name"), None, ("name",)),
-            (builder.get_object("summary_total_size"), fsize, ("total_size",)),
-            (builder.get_object("summary_num_files"), str, ("num_files",)),
-            (builder.get_object("summary_completed"), fdate_or_dash, ("completed_time",)),
-            (builder.get_object("summary_date_added"), fdate, ("time_added",)),
-            (builder.get_object("summary_torrent_path"), None, ("download_location",)),
-            (builder.get_object("summary_hash"), str, ("hash",)),
-            (builder.get_object("summary_comments"), str, ("comment",)),
-            (builder.get_object("summary_pieces"), fpieces_num_size, ("num_pieces", "piece_length")),
+            (builder.get_object('summary_name'), None, ('name',)),
+            (builder.get_object('summary_total_size'), fsize, ('total_size',)),
+            (builder.get_object('summary_num_files'), str, ('num_files',)),
+            (builder.get_object('summary_completed'), fdate_or_dash, ('completed_time',)),
+            (builder.get_object('summary_date_added'), fdate, ('time_added',)),
+            (builder.get_object('summary_torrent_path'), None, ('download_location',)),
+            (builder.get_object('summary_hash'), str, ('hash',)),
+            (builder.get_object('summary_comments'), str, ('comment',)),
+            (builder.get_object('summary_pieces'), fpieces_num_size, ('num_pieces', 'piece_length')),
         ]
 
         self.status_keys = [status for widget in self.label_widgets for status in widget[2]]
 
     def update(self):
         # Get the first selected torrent
-        selected = component.get("TorrentView").get_selected_torrents()
+        selected = component.get('TorrentView').get_selected_torrents()
 
         # Only use the first torrent in the list or return if None selected
         if selected:
@@ -55,7 +55,7 @@ class DetailsTab(Tab):
             self.clear()
             return
 
-        session = component.get("SessionProxy")
+        session = component.get('SessionProxy')
         session.get_torrent_status(selected, self.status_keys).addCallback(self._on_get_torrent_status)
 
     def _on_get_torrent_status(self, status):
@@ -67,11 +67,11 @@ class DetailsTab(Tab):
         for widget in self.label_widgets:
             txt = xml_escape(self.get_status_for_widget(widget, status))
             if widget[0].get_text() != txt:
-                if widget[2][0] == "comment" and is_url(txt):
+                if widget[2][0] == 'comment' and is_url(txt):
                     widget[0].set_markup('<a href="%s">%s</a>' % (txt, txt))
                 else:
                     widget[0].set_markup(txt)
 
     def clear(self):
         for widget in self.label_widgets:
-            widget[0].set_text("")
+            widget[0].set_text('')

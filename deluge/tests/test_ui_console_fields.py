@@ -25,5 +25,5 @@ class UICommonTestCase(unittest.TestCase):
             self._cursor_row = r
             self._cursor_col = c
 
-        t = TextInput(self.parent, "name", "message", move_func, 20, "/text/field/file/path", complete=False)
+        t = TextInput(self.parent, 'name', 'message', move_func, 20, '/text/field/file/path', complete=False)
         self.assertTrue(t)  # Shut flake8 up (unused variable)

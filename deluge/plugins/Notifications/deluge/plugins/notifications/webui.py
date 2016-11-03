@@ -23,11 +23,11 @@ log = logging.getLogger(__name__)
 
 class WebUI(WebPluginBase):
 
-    scripts = [get_resource("notifications.js")]
+    scripts = [get_resource('notifications.js')]
     debug_scripts = scripts
 
     def enable(self):
-        log.debug("Enabling Web UI notifications")
+        log.debug('Enabling Web UI notifications')
 
     def disable(self):
-        log.debug("Disabling Web UI notifications")
+        log.debug('Disabling Web UI notifications')

@@ -23,12 +23,12 @@ Control column visibilty with the following actions:
 {!info!}'CTRL+down'{!normal!} - {|indent_pos:|} Move column right
 """
 
-column_pref_names = ["queue", "name", "size", "downloaded", "uploaded", "remaining", "state",
-                     "progress", "seeds", "peers", "seeds_peers_ratio",
-                     "download_speed", "upload_speed", "max_download_speed", "max_upload_speed",
-                     "eta", "ratio", "avail", "time_added", "completed_time", "last_seen_complete",
-                     "tracker", "download_location", "active_time", "seeding_time", "finished_time",
-                     "shared", "owner"]
+column_pref_names = ['queue', 'name', 'size', 'downloaded', 'uploaded', 'remaining', 'state',
+                     'progress', 'seeds', 'peers', 'seeds_peers_ratio',
+                     'download_speed', 'upload_speed', 'max_download_speed', 'max_upload_speed',
+                     'eta', 'ratio', 'avail', 'time_added', 'completed_time', 'last_seen_complete',
+                     'tracker', 'download_location', 'active_time', 'seeding_time', 'finished_time',
+                     'shared', 'owner']
 
 
 class ColumnAndWidth(CheckedPlusInput):
@@ -54,7 +54,7 @@ class TorrentViewColumns(InputPopup):
         self.torrentlist = torrentlist
         self.torrentview = torrentlist.torrentview
 
-        title = "Visible columns (Esc to exit)"
+        title = 'Visible columns (Esc to exit)'
         InputPopup.__init__(self, torrentlist, title, close_cb=self._do_set_column_visibility,
                             immediate_action=True,
                             height_req=len(column_pref_names) - 5,
@@ -62,20 +62,20 @@ class TorrentViewColumns(InputPopup):
                             border_off_west=1,
                             allow_rearrange=True)
 
-        msg_fmt = "%-25s"
-        self.add_header((msg_fmt % _("Columns")) + " " + _("Width"), space_below=True)
+        msg_fmt = '%-25s'
+        self.add_header((msg_fmt % _('Columns')) + ' ' + _('Width'), space_below=True)
 
         for colpref_name in column_pref_names:
-            col = self.torrentview.config["torrentview"]["columns"][colpref_name]
-            width_spin = IntSpinInput(self, colpref_name + "_ width", "", self.move, col["width"],
-                                      min_val=-1, max_val=99, fmt="%2d")
+            col = self.torrentview.config['torrentview']['columns'][colpref_name]
+            width_spin = IntSpinInput(self, colpref_name + '_ width', '', self.move, col['width'],
+                                      min_val=-1, max_val=99, fmt='%2d')
 
             def on_width_func(name, width):
-                self.torrentview.config["torrentview"]["columns"][name]["width"] = width
+                self.torrentview.config['torrentview']['columns'][name]['width'] = width
 
-            self._add_input(ColumnAndWidth(self, colpref_name, torrent_data_fields[colpref_name]["name"], width_spin,
+            self._add_input(ColumnAndWidth(self, colpref_name, torrent_data_fields[colpref_name]['name'], width_spin,
                                            on_width_func,
-                                           checked=col["visible"], checked_char="*", msg_fmt=msg_fmt,
+                                           checked=col['visible'], checked_char='*', msg_fmt=msg_fmt,
                                            show_usage_hints=False, child_always_visible=True))
 
     def _do_set_column_visibility(self, data=None, state_changed=True, close=True, **kwargs):
@@ -86,8 +86,8 @@ class TorrentViewColumns(InputPopup):
             return
 
         for key, value in data.items():
-            self.torrentview.config["torrentview"]["columns"][key]["visible"] = value["value"]
-            self.torrentview.config["torrentview"]["columns"][key]["order"] = value["order"]
+            self.torrentview.config['torrentview']['columns'][key]['visible'] = value['value']
+            self.torrentview.config['torrentview']['columns'][key]['order'] = value['order']
 
         self.torrentview.config.save()
         self.torrentview.on_config_changed()
@@ -96,7 +96,7 @@ class TorrentViewColumns(InputPopup):
     @overrides(InputPopup)
     def handle_read(self, c):
         if c == ord('h'):
-            popup = MessagePopup(self.torrentlist, "Help", COLUMN_VIEW_HELP_STR, width_req=70, border_off_west=1)
+            popup = MessagePopup(self.torrentlist, 'Help', COLUMN_VIEW_HELP_STR, width_req=70, border_off_west=1)
             self.torrentlist.push_popup(popup)
             return util.ReadState.READ
         return InputPopup.handle_read(self, c)

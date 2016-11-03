@@ -42,11 +42,11 @@ def check_missing_markup(js_dir):
     except_chars = "' &#"
 
     # A list of strings that should be skipped shuold the match contain them.
-    skip = ["HTTP:"]
+    skip = ['HTTP:']
 
     # Create a list of the matching strings to search for with the except_chars appended to each one.
     string_re = re.compile(
-        "(" + ")|(".join(["%s[^" + except_chars + "].*'"]*len(attr_list)) % tuple(attr_list) + ")"
+        '(' + ')|('.join(['%s[^' + except_chars + "].*'"]*len(attr_list)) % tuple(attr_list) + ')'
     )
 
     strings = {}
@@ -100,7 +100,7 @@ if __name__ == '__main__':
     print("Created '%s'" % gettext_fname)
     missed_markup = check_missing_markup(WEBUI_JS_DIR)
     if missed_markup:
-        print("Possible missed text for translation markup:")
+        print('Possible missed text for translation markup:')
         for text, filenames in missed_markup.iteritems():
             for filename_lineno in filenames:
-                print("{0:<58}    {1}".format(':'.join(filename_lineno), text))
+                print('{0:<58}    {1}'.format(':'.join(filename_lineno), text))

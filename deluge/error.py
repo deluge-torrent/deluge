@@ -49,7 +49,7 @@ class WrappedException(DelugeError):
         self.traceback = traceback
 
     def __str__(self):
-        return "%s\n%s" % (self.message, self.traceback)
+        return '%s\n%s' % (self.message, self.traceback)
 
 
 class _ClientSideRecreateError(DelugeError):
@@ -60,8 +60,8 @@ class IncompatibleClient(_ClientSideRecreateError):
 
     def __init__(self, daemon_version):
         self.daemon_version = daemon_version
-        msg = "Your deluge client is not compatible with the daemon. "\
-            "Please upgrade your client to %(daemon_version)s" % \
+        msg = 'Your deluge client is not compatible with the daemon. '\
+            'Please upgrade your client to %(daemon_version)s' % \
             dict(daemon_version=self.daemon_version)
         super(IncompatibleClient, self).__init__(message=msg)
 
@@ -69,7 +69,7 @@ class IncompatibleClient(_ClientSideRecreateError):
 class NotAuthorizedError(_ClientSideRecreateError):
 
     def __init__(self, current_level, required_level):
-        msg = "Auth level too low: %(current_level)s < %(required_level)s" % \
+        msg = 'Auth level too low: %(current_level)s < %(required_level)s' % \
             dict(current_level=current_level, required_level=required_level)
         super(NotAuthorizedError, self).__init__(message=msg)
         self.current_level = current_level

@@ -27,43 +27,43 @@ class StatusTab(Tab):
         Tab.__init__(self)
         # Get the labels we need to update.
         # widget name, modifier function, status keys
-        self.builder = builder = component.get("MainWindow").get_builder()
+        self.builder = builder = component.get('MainWindow').get_builder()
 
-        self._name = "Status"
-        self._child_widget = builder.get_object("status_tab")
-        self._tab_label = builder.get_object("status_tab_label")
-        self.config = ConfigManager("gtkui.conf")
+        self._name = 'Status'
+        self._child_widget = builder.get_object('status_tab')
+        self._tab_label = builder.get_object('status_tab_label')
+        self.config = ConfigManager('gtkui.conf')
 
-        self.progressbar = builder.get_object("progressbar")
+        self.progressbar = builder.get_object('progressbar')
         self.piecesbar = None
         self.piecesbar_label_widget = None
 
         self.label_widgets = [
-            (builder.get_object("summary_availability"), fratio, ("distributed_copies",)),
-            (builder.get_object("summary_total_downloaded"), ftotal_sized, ("all_time_download",
-                                                                            "total_payload_download")),
-            (builder.get_object("summary_total_uploaded"), ftotal_sized, ("total_uploaded", "total_payload_upload")),
-            (builder.get_object("summary_download_speed"), fspeed_max, ("download_payload_rate", "max_download_speed")),
-            (builder.get_object("summary_upload_speed"), fspeed_max, ("upload_payload_rate", "max_upload_speed")),
-            (builder.get_object("summary_seeds"), fpeer, ("num_seeds", "total_seeds")),
-            (builder.get_object("summary_peers"), fpeer, ("num_peers", "total_peers")),
-            (builder.get_object("summary_eta"), ftime_or_dash, ("eta",)),
-            (builder.get_object("summary_share_ratio"), fratio, ("ratio",)),
-            (builder.get_object("summary_active_time"), ftime_or_dash, ("active_time",)),
-            (builder.get_object("summary_seed_time"), ftime_or_dash, ("seeding_time",)),
-            (builder.get_object("summary_seed_rank"), fseed_rank_or_dash, ("seed_rank", "seeding_time")),
-            (builder.get_object("progressbar"), fpcnt, ("progress", "state", "message")),
-            (builder.get_object("summary_last_seen_complete"), fdate_or_never, ("last_seen_complete",)),
-            (builder.get_object("summary_last_active"), flast_active, ("time_since_download",
-                                                                       "time_since_upload")),
+            (builder.get_object('summary_availability'), fratio, ('distributed_copies',)),
+            (builder.get_object('summary_total_downloaded'), ftotal_sized, ('all_time_download',
+                                                                            'total_payload_download')),
+            (builder.get_object('summary_total_uploaded'), ftotal_sized, ('total_uploaded', 'total_payload_upload')),
+            (builder.get_object('summary_download_speed'), fspeed_max, ('download_payload_rate', 'max_download_speed')),
+            (builder.get_object('summary_upload_speed'), fspeed_max, ('upload_payload_rate', 'max_upload_speed')),
+            (builder.get_object('summary_seeds'), fpeer, ('num_seeds', 'total_seeds')),
+            (builder.get_object('summary_peers'), fpeer, ('num_peers', 'total_peers')),
+            (builder.get_object('summary_eta'), ftime_or_dash, ('eta',)),
+            (builder.get_object('summary_share_ratio'), fratio, ('ratio',)),
+            (builder.get_object('summary_active_time'), ftime_or_dash, ('active_time',)),
+            (builder.get_object('summary_seed_time'), ftime_or_dash, ('seeding_time',)),
+            (builder.get_object('summary_seed_rank'), fseed_rank_or_dash, ('seed_rank', 'seeding_time')),
+            (builder.get_object('progressbar'), fpcnt, ('progress', 'state', 'message')),
+            (builder.get_object('summary_last_seen_complete'), fdate_or_never, ('last_seen_complete',)),
+            (builder.get_object('summary_last_active'), flast_active, ('time_since_download',
+                                                                       'time_since_upload')),
         ]
 
         self.status_keys = [status for widget in self.label_widgets for status in widget[2]]
-        self.config.register_set_function("show_piecesbar", self.on_show_piecesbar_config_changed, apply_now=True)
+        self.config.register_set_function('show_piecesbar', self.on_show_piecesbar_config_changed, apply_now=True)
 
     def update(self):
         # Get the first selected torrent
-        selected = component.get("TorrentView").get_selected_torrent()
+        selected = component.get('TorrentView').get_selected_torrent()
 
         if not selected:
             # No torrent is selected in the torrentview
@@ -73,9 +73,9 @@ class StatusTab(Tab):
         # Get the torrent status
         status_keys = self.status_keys
         if self.config['show_piecesbar']:
-            status_keys.extend(["pieces", "num_pieces"])
+            status_keys.extend(['pieces', 'num_pieces'])
 
-        component.get("SessionProxy").get_torrent_status(
+        component.get('SessionProxy').get_torrent_status(
             selected, status_keys).addCallback(self._on_get_torrent_status)
 
     def _on_get_torrent_status(self, status):
@@ -90,12 +90,12 @@ class StatusTab(Tab):
                 widget[0].set_text(txt)
 
         # Update progress bar seperately as it's a special case (not a label).
-        fraction = status["progress"] / 100
+        fraction = status['progress'] / 100
 
         if self.config['show_piecesbar']:
             if self.piecesbar.get_fraction() != fraction:
                 self.piecesbar.set_fraction(fraction)
-            if status["state"] != "Checking" and self.piecesbar.get_pieces() != status['pieces']:
+            if status['state'] != 'Checking' and self.piecesbar.get_pieces() != status['pieces']:
                 # Skip pieces assignment if checking torrent.
                 self.piecesbar.set_pieces(status['pieces'], status['num_pieces'])
             self.piecesbar.update()
@@ -112,8 +112,8 @@ class StatusTab(Tab):
     def show_piecesbar(self):
         if self.piecesbar is None:
             self.piecesbar = PiecesBar()
-            self.builder.get_object("status_progress_vbox").pack_start(self.piecesbar, False, False, 0)
-        self.piecesbar_label_widget = (self.piecesbar, fpcnt, ("progress", "state", "message"))
+            self.builder.get_object('status_progress_vbox').pack_start(self.piecesbar, False, False, 0)
+        self.piecesbar_label_widget = (self.piecesbar, fpcnt, ('progress', 'state', 'message'))
         self.label_widgets.append(self.piecesbar_label_widget)
         self.piecesbar.show()
         self.progressbar.hide()
@@ -127,7 +127,7 @@ class StatusTab(Tab):
 
     def clear(self):
         for widget in self.label_widgets:
-            widget[0].set_text("")
+            widget[0].set_text('')
 
         if self.config['show_piecesbar']:
             self.piecesbar.clear()

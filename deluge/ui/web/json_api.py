@@ -41,7 +41,7 @@ AuthError = None
 class JSONComponent(component.Component):
     def __init__(self, name, interval=1, depend=None):
         super(JSONComponent, self).__init__(name, interval, depend)
-        self._json = component.get("JSON")
+        self._json = component.get('JSON')
         self._json.register_object(self, name)
 
 
@@ -87,7 +87,7 @@ class JSON(resource.Resource, component.Component):
 
     def __init__(self):
         resource.Resource.__init__(self)
-        component.Component.__init__(self, "JSON")
+        component.Component.__init__(self, 'JSON')
         self._remote_methods = []
         self._local_methods = {}
         if client.is_standalone():
@@ -109,7 +109,7 @@ class JSON(resource.Resource, component.Component):
         """
         Handles executing all local methods.
         """
-        if method == "system.listMethods":
+        if method == 'system.listMethods':
             d = Deferred()
             methods = list(self._remote_methods)
             methods.extend(self._local_methods)
@@ -120,16 +120,16 @@ class JSON(resource.Resource, component.Component):
             # and any plugins.
             meth = self._local_methods[method]
             meth.__globals__['__request__'] = request
-            component.get("Auth").check_request(request, meth)
+            component.get('Auth').check_request(request, meth)
             return meth(*params)
-        raise JSONException("Unknown system method")
+        raise JSONException('Unknown system method')
 
     def _exec_remote(self, method, params, request):
         """
         Executes methods using the Deluge client.
         """
-        component.get("Auth").check_request(request, level=AUTH_LEVEL_DEFAULT)
-        core_component, method = method.split(".")
+        component.get('Auth').check_request(request, level=AUTH_LEVEL_DEFAULT)
+        core_component, method = method.split('.')
         return getattr(getattr(client, core_component), method)(*params)
 
     def _handle_request(self, request):
@@ -141,29 +141,29 @@ class JSON(resource.Resource, component.Component):
         try:
             request.json = json.loads(request.json)
         except (ValueError, TypeError):
-            raise JSONException("JSON not decodable")
-        if "method" not in request.json or "id" not in request.json or \
-           "params" not in request.json:
-            raise JSONException("Invalid JSON request")
+            raise JSONException('JSON not decodable')
+        if 'method' not in request.json or 'id' not in request.json or \
+           'params' not in request.json:
+            raise JSONException('Invalid JSON request')
 
-        method, params = request.json["method"], request.json["params"]
-        request_id = request.json["id"]
+        method, params = request.json['method'], request.json['params']
+        request_id = request.json['id']
         result = None
         error = None
 
         try:
-            if method.startswith("system.") or method in self._local_methods:
+            if method.startswith('system.') or method in self._local_methods:
                 result = self._exec_local(method, params, request)
             elif method in self._remote_methods:
                 result = self._exec_remote(method, params, request)
             else:
-                error = {"message": "Unknown method", "code": 2}
+                error = {'message': 'Unknown method', 'code': 2}
         except AuthError:
-            error = {"message": "Not authenticated", "code": 1}
+            error = {'message': 'Not authenticated', 'code': 1}
         except Exception as ex:
-            log.error("Error calling method `%s`", method)
+            log.error('Error calling method `%s`', method)
             log.exception(ex)
-            error = {"message": "%s: %s" % (ex.__class__.__name__, str(ex)), "code": 3}
+            error = {'message': '%s: %s' % (ex.__class__.__name__, str(ex)), 'code': 3}
 
         return request_id, result, error
 
@@ -171,7 +171,7 @@ class JSON(resource.Resource, component.Component):
         """
         Sends the response of any rpc calls back to the json-rpc client.
         """
-        response["result"] = result
+        response['result'] = result
         return self._send_response(request, response)
 
     def _on_rpc_request_failed(self, reason, response, request):
@@ -179,7 +179,7 @@ class JSON(resource.Resource, component.Component):
         Handles any failures that occurred while making an rpc call.
         """
         log.exception(reason)
-        response["error"] = {"message": "%s: %s" % (reason.__class__.__name__, str(reason)), "code": 4}
+        response['error'] = {'message': '%s: %s' % (reason.__class__.__name__, str(reason)), 'code': 4}
         return self._send_response(request, response)
 
     def _on_json_request(self, request):
@@ -187,16 +187,16 @@ class JSON(resource.Resource, component.Component):
         Handler to take the json data as a string and pass it on to the
         _handle_request method for further processing.
         """
-        log.debug("json-request: %s", request.json)
-        response = {"result": None, "error": None, "id": None}
-        response["id"], d, response["error"] = self._handle_request(request)
+        log.debug('json-request: %s', request.json)
+        response = {'result': None, 'error': None, 'id': None}
+        response['id'], d, response['error'] = self._handle_request(request)
 
         if isinstance(d, Deferred):
             d.addCallback(self._on_rpc_request_finished, response, request)
             d.addErrback(self._on_rpc_request_failed, response, request)
             return d
         else:
-            response["result"] = d
+            response['result'] = d
             return self._send_response(request, response)
 
     def _on_json_request_failed(self, reason, request):
@@ -204,16 +204,16 @@ class JSON(resource.Resource, component.Component):
         Returns the error in json response.
         """
         log.exception(reason)
-        response = {"result": None, "id": None,
-                    "error": {"code": 5,
-                              "message": "%s: %s" % (reason.__class__.__name__, str(reason))}}
+        response = {'result': None, 'id': None,
+                    'error': {'code': 5,
+                              'message': '%s: %s' % (reason.__class__.__name__, str(reason))}}
         return self._send_response(request, response)
 
     def _send_response(self, request, response):
         if request._disconnected:
-            return ""
+            return ''
         response = json.dumps(response)
-        request.setHeader("content-type", "application/x-json")
+        request.setHeader('content-type', 'application/x-json')
         request.write(compress(response, request))
         request.finish()
         return server.NOT_DONE_YET
@@ -222,7 +222,7 @@ class JSON(resource.Resource, component.Component):
         """
         Handles all the POST requests made to the /json controller.
         """
-        if request.method != "POST":
+        if request.method != 'POST':
             request.setResponseCode(http.NOT_ALLOWED)
             request.finish()
             return server.NOT_DONE_YET
@@ -249,11 +249,11 @@ class JSON(resource.Resource, component.Component):
         name = name.lower()
 
         for d in dir(obj):
-            if d[0] == "_":
+            if d[0] == '_':
                 continue
             if getattr(getattr(obj, d), '_json_export', False):
-                log.debug("Registering method: %s", name + "." + d)
-                self._local_methods[name + "." + d] = getattr(obj, d)
+                log.debug('Registering method: %s', name + '.' + d)
+                self._local_methods[name + '.' + d] = getattr(obj, d)
 
 
 HOSTLIST_ID = 0
@@ -269,7 +269,7 @@ HOSTS_USER = HOSTLIST_USER
 HOSTS_STATUS = 3
 HOSTS_INFO = 4
 
-FILES_KEYS = ["files", "file_progress", "file_priorities"]
+FILES_KEYS = ['files', 'file_progress', 'file_priorities']
 
 
 class EventQueue(object):
@@ -363,45 +363,45 @@ class WebApi(JSONComponent):
     """
 
     def __init__(self):
-        super(WebApi, self).__init__("Web", depend=["SessionProxy"])
-        self.host_list = ConfigManager("hostlist.conf.1.2", uicommon.DEFAULT_HOSTS)
+        super(WebApi, self).__init__('Web', depend=['SessionProxy'])
+        self.host_list = ConfigManager('hostlist.conf.1.2', uicommon.DEFAULT_HOSTS)
         if not os.path.isfile(self.host_list.config_file):
             self.host_list.save()
         self.core_config = CoreConfig()
         self.event_queue = EventQueue()
         try:
-            self.sessionproxy = component.get("SessionProxy")
+            self.sessionproxy = component.get('SessionProxy')
         except KeyError:
             self.sessionproxy = SessionProxy()
 
     def disable(self):
-        client.deregister_event_handler("PluginEnabledEvent", self._json.get_remote_methods)
-        client.deregister_event_handler("PluginDisabledEvent", self._json.get_remote_methods)
+        client.deregister_event_handler('PluginEnabledEvent', self._json.get_remote_methods)
+        client.deregister_event_handler('PluginDisabledEvent', self._json.get_remote_methods)
 
         if client.is_standalone():
-            component.get("Web.PluginManager").stop()
+            component.get('Web.PluginManager').stop()
         else:
             client.disconnect()
             client.set_disconnect_callback(None)
 
     def enable(self):
-        client.register_event_handler("PluginEnabledEvent", self._json.get_remote_methods)
-        client.register_event_handler("PluginDisabledEvent", self._json.get_remote_methods)
+        client.register_event_handler('PluginEnabledEvent', self._json.get_remote_methods)
+        client.register_event_handler('PluginDisabledEvent', self._json.get_remote_methods)
 
         if client.is_standalone():
-            component.get("Web.PluginManager").start()
+            component.get('Web.PluginManager').start()
         else:
             client.set_disconnect_callback(self._on_client_disconnect)
-            if component.get("DelugeWeb").config["default_daemon"]:
+            if component.get('DelugeWeb').config['default_daemon']:
                 # Sort out getting the default daemon here
-                default_host_id = component.get("DelugeWeb").config["default_daemon"]
-                host_info = component.get("Web")._get_host(default_host_id)
+                default_host_id = component.get('DelugeWeb').config['default_daemon']
+                host_info = component.get('Web')._get_host(default_host_id)
                 return self._connect_daemon(*host_info[1:])
 
         return defer.succeed(True)
 
     def _on_client_disconnect(self, *args):
-        component.get("Web.PluginManager").stop()
+        component.get('Web.PluginManager').stop()
         return self.stop()
 
     def _get_host(self, host_id):
@@ -415,7 +415,7 @@ class WebApi(JSONComponent):
 
         """
         host_info = []
-        for host_entry in self.host_list["hosts"]:
+        for host_entry in self.host_list['hosts']:
             if host_entry[0] == host_id:
                 host_info = host_entry
                 break
@@ -430,7 +430,7 @@ class WebApi(JSONComponent):
         self.sessionproxy.stop()
         return defer.succeed(True)
 
-    def _connect_daemon(self, host="localhost", port=58846, username="", password=""):
+    def _connect_daemon(self, host='localhost', port=58846, username='', password=''):
         """
         Connects the client to a daemon
         """
@@ -442,7 +442,7 @@ class WebApi(JSONComponent):
             invokes retrieving the method names.
             """
             d = self._json.get_remote_methods()
-            component.get("Web.PluginManager").start()
+            component.get('Web.PluginManager').start()
             self.start()
             return d
 
@@ -461,7 +461,7 @@ class WebApi(JSONComponent):
         host = self._get_host(host_id)
         if host:
             return self._connect_daemon(*host[1:])
-        return defer.fail(Exception("Bad host id"))
+        return defer.fail(Exception('Bad host id'))
 
     @export
     def connected(self):
@@ -499,13 +499,13 @@ class WebApi(JSONComponent):
         """
         d = Deferred()
         ui_info = {
-            "connected": client.connected(),
-            "torrents": None,
-            "filters": None,
-            "stats": {
-                "max_download": self.core_config.get("max_download_speed"),
-                "max_upload": self.core_config.get("max_upload_speed"),
-                "max_num_connections": self.core_config.get("max_connections_global")
+            'connected': client.connected(),
+            'torrents': None,
+            'filters': None,
+            'stats': {
+                'max_download': self.core_config.get('max_download_speed'),
+                'max_upload': self.core_config.get('max_upload_speed'),
+                'max_num_connections': self.core_config.get('max_connections_global')
             }
         }
 
@@ -514,47 +514,47 @@ class WebApi(JSONComponent):
             return d
 
         def got_stats(stats):
-            ui_info["stats"]["num_connections"] = stats["num_peers"]
-            ui_info["stats"]["upload_rate"] = stats["payload_upload_rate"]
-            ui_info["stats"]["download_rate"] = stats["payload_download_rate"]
-            ui_info["stats"]["download_protocol_rate"] = stats["download_rate"] - stats["payload_download_rate"]
-            ui_info["stats"]["upload_protocol_rate"] = stats["upload_rate"] - stats["payload_upload_rate"]
-            ui_info["stats"]["dht_nodes"] = stats["dht_nodes"]
-            ui_info["stats"]["has_incoming_connections"] = stats["has_incoming_connections"]
+            ui_info['stats']['num_connections'] = stats['num_peers']
+            ui_info['stats']['upload_rate'] = stats['payload_upload_rate']
+            ui_info['stats']['download_rate'] = stats['payload_download_rate']
+            ui_info['stats']['download_protocol_rate'] = stats['download_rate'] - stats['payload_download_rate']
+            ui_info['stats']['upload_protocol_rate'] = stats['upload_rate'] - stats['payload_upload_rate']
+            ui_info['stats']['dht_nodes'] = stats['dht_nodes']
+            ui_info['stats']['has_incoming_connections'] = stats['has_incoming_connections']
 
         def got_filters(filters):
-            ui_info["filters"] = filters
+            ui_info['filters'] = filters
 
         def got_free_space(free_space):
-            ui_info["stats"]["free_space"] = free_space
+            ui_info['stats']['free_space'] = free_space
 
         def got_external_ip(external_ip):
-            ui_info["stats"]["external_ip"] = external_ip
+            ui_info['stats']['external_ip'] = external_ip
 
         def got_torrents(torrents):
-            ui_info["torrents"] = torrents
+            ui_info['torrents'] = torrents
 
         def on_complete(result):
             d.callback(ui_info)
 
-        d1 = component.get("SessionProxy").get_torrents_status(filter_dict, keys)
+        d1 = component.get('SessionProxy').get_torrents_status(filter_dict, keys)
         d1.addCallback(got_torrents)
 
         d2 = client.core.get_filter_tree()
         d2.addCallback(got_filters)
 
         d3 = client.core.get_session_status([
-            "num_peers",
-            "payload_download_rate",
-            "payload_upload_rate",
-            "download_rate",
-            "upload_rate",
-            "dht_nodes",
-            "has_incoming_connections"
+            'num_peers',
+            'payload_download_rate',
+            'payload_upload_rate',
+            'download_rate',
+            'upload_rate',
+            'dht_nodes',
+            'has_incoming_connections'
         ])
         d3.addCallback(got_stats)
 
-        d4 = client.core.get_free_space(self.core_config.get("download_location"))
+        d4 = client.core.get_free_space(self.core_config.get('download_location'))
         d4.addCallback(got_free_space)
 
         d5 = client.core.get_external_ip()
@@ -565,40 +565,40 @@ class WebApi(JSONComponent):
         return d
 
     def _on_got_files(self, torrent, d):
-        files = torrent.get("files")
-        file_progress = torrent.get("file_progress")
-        file_priorities = torrent.get("file_priorities")
+        files = torrent.get('files')
+        file_progress = torrent.get('file_progress')
+        file_priorities = torrent.get('file_priorities')
 
         paths = []
         info = {}
         for index, torrent_file in enumerate(files):
-            path = torrent_file["path"]
+            path = torrent_file['path']
             paths.append(path)
-            torrent_file["progress"] = file_progress[index]
-            torrent_file["priority"] = file_priorities[index]
-            torrent_file["index"] = index
-            torrent_file["path"] = path
+            torrent_file['progress'] = file_progress[index]
+            torrent_file['priority'] = file_priorities[index]
+            torrent_file['index'] = index
+            torrent_file['path'] = path
             info[path] = torrent_file
 
             # update the directory info
             dirname = os.path.dirname(path)
             while dirname:
                 dirinfo = info.setdefault(dirname, {})
-                dirinfo["size"] = dirinfo.get("size", 0) + torrent_file["size"]
-                if "priority" not in dirinfo:
-                    dirinfo["priority"] = torrent_file["priority"]
+                dirinfo['size'] = dirinfo.get('size', 0) + torrent_file['size']
+                if 'priority' not in dirinfo:
+                    dirinfo['priority'] = torrent_file['priority']
                 else:
-                    if dirinfo["priority"] != torrent_file["priority"]:
-                        dirinfo["priority"] = 9
+                    if dirinfo['priority'] != torrent_file['priority']:
+                        dirinfo['priority'] = 9
 
-                progresses = dirinfo.setdefault("progresses", [])
-                progresses.append(torrent_file["size"] * torrent_file["progress"] / 100)
-                dirinfo["progress"] = sum(progresses) / dirinfo["size"] * 100
-                dirinfo["path"] = dirname
+                progresses = dirinfo.setdefault('progresses', [])
+                progresses.append(torrent_file['size'] * torrent_file['progress'] / 100)
+                dirinfo['progress'] = sum(progresses) / dirinfo['size'] * 100
+                dirinfo['path'] = dirname
                 dirname = os.path.dirname(dirname)
 
         def walk(path, item):
-            if item["type"] == "dir":
+            if item['type'] == 'dir':
                 item.update(info[path])
                 return item
             else:
@@ -611,7 +611,7 @@ class WebApi(JSONComponent):
 
     @export
     def get_torrent_status(self, torrent_id, keys):
-        return component.get("SessionProxy").get_torrent_status(torrent_id, keys)
+        return component.get('SessionProxy').get_torrent_status(torrent_id, keys)
 
     @export
     def get_torrent_files(self, torrent_id):
@@ -624,7 +624,7 @@ class WebApi(JSONComponent):
         :rtype: dictionary
         """
         main_deferred = Deferred()
-        d = component.get("SessionProxy").get_torrent_status(torrent_id, FILES_KEYS)
+        d = component.get('SessionProxy').get_torrent_status(torrent_id, FILES_KEYS)
         d.addCallback(self._on_got_files, main_deferred)
         return main_deferred
 
@@ -640,20 +640,20 @@ class WebApi(JSONComponent):
         """
 
         def on_download_success(result):
-            log.debug("Successfully downloaded %s to %s", url, result)
+            log.debug('Successfully downloaded %s to %s', url, result)
             return result
 
         def on_download_fail(result):
-            log.error("Failed to add torrent from url %s", url)
+            log.error('Failed to add torrent from url %s', url)
             return result
 
-        tempdir = tempfile.mkdtemp(prefix="delugeweb-")
-        tmp_file = os.path.join(tempdir, url.split("/")[-1])
-        log.debug("filename: %s", tmp_file)
+        tempdir = tempfile.mkdtemp(prefix='delugeweb-')
+        tmp_file = os.path.join(tempdir, url.split('/')[-1])
+        log.debug('filename: %s', tmp_file)
         headers = {}
         if cookie:
-            headers["Cookie"] = cookie
-            log.debug("cookie: %s", cookie)
+            headers['Cookie'] = cookie
+            log.debug('cookie: %s', cookie)
         d = httpdownloader.download_file(url, tmp_file, headers=headers)
         d.addCallbacks(on_download_success, on_download_fail)
         return d
@@ -680,7 +680,7 @@ class WebApi(JSONComponent):
         """
         try:
             torrent_info = uicommon.TorrentInfo(filename.strip(), 2)
-            return torrent_info.as_dict("name", "info_hash", "files_tree")
+            return torrent_info.as_dict('name', 'info_hash', 'files_tree')
         except Exception as ex:
             log.exception(ex)
             return False
@@ -709,18 +709,18 @@ class WebApi(JSONComponent):
         deferreds = []
 
         for torrent in torrents:
-            if common.is_magnet(torrent["path"]):
-                log.info("Adding torrent from magnet uri `%s` with options `%r`",
-                         torrent["path"], torrent["options"])
-                d = client.core.add_torrent_magnet(torrent["path"], torrent["options"])
+            if common.is_magnet(torrent['path']):
+                log.info('Adding torrent from magnet uri `%s` with options `%r`',
+                         torrent['path'], torrent['options'])
+                d = client.core.add_torrent_magnet(torrent['path'], torrent['options'])
                 deferreds.append(d)
             else:
-                filename = os.path.basename(torrent["path"])
-                with open(torrent["path"], "rb") as _file:
+                filename = os.path.basename(torrent['path'])
+                with open(torrent['path'], 'rb') as _file:
                     fdump = base64.encodestring(_file.read())
-                log.info("Adding torrent from file `%s` with options `%r`",
-                         filename, torrent["options"])
-                d = client.core.add_torrent_file(filename, fdump, torrent["options"])
+                log.info('Adding torrent from file `%s` with options `%r`',
+                         filename, torrent['options'])
+                d = client.core.add_torrent_file(filename, fdump, torrent['options'])
                 deferreds.append(d)
         return DeferredList(deferreds, consumeErrors=False)
 
@@ -729,8 +729,8 @@ class WebApi(JSONComponent):
         """
         Return the hosts in the hostlist.
         """
-        log.debug("get_hosts called")
-        return [(tuple(host[HOSTS_ID:HOSTS_USER + 1]) + ("Offline",)) for host in self.host_list["hosts"]]
+        log.debug('get_hosts called')
+        return [(tuple(host[HOSTS_ID:HOSTS_USER + 1]) + ('Offline',)) for host in self.host_list['hosts']]
 
     @export
     def get_host_status(self, host_id):
@@ -748,30 +748,30 @@ class WebApi(JSONComponent):
         except TypeError:
             host = None
             port = None
-            return response("Offline")
+            return response('Offline')
 
         def on_connect(connected, c, host_id):
             def on_info(info, c):
                 c.disconnect()
-                return response("Online", info)
+                return response('Online', info)
 
             def on_info_fail(reason, c):
                 c.disconnect()
-                return response("Offline")
+                return response('Offline')
 
             if not connected:
-                return response("Offline")
+                return response('Offline')
 
             return c.daemon.info().addCallback(on_info, c).addErrback(on_info_fail, c)
 
         def on_connect_failed(reason, host_id):
-            return response("Offline")
+            return response('Offline')
 
-        if client.connected() and (host, port, "localclient" if not
-                                   user and host in ("127.0.0.1", "localhost") else
+        if client.connected() and (host, port, 'localclient' if not
+                                   user and host in ('127.0.0.1', 'localhost') else
                                    user) == client.connection_info():
             def on_info(info):
-                return response("Connected", info)
+                return response('Connected', info)
 
             return client.daemon.info().addCallback(on_info)
         else:
@@ -804,7 +804,7 @@ class WebApi(JSONComponent):
         try:
             def on_connect(connected, c):
                 if not connected:
-                    main_deferred.callback((False, _("Daemon not running")))
+                    main_deferred.callback((False, _('Daemon not running')))
                     return
                 c.daemon.shutdown()
                 main_deferred.callback((True, ))
@@ -818,11 +818,11 @@ class WebApi(JSONComponent):
             d.addCallback(on_connect, c)
             d.addErrback(on_connect_failed)
         except Exception:
-            main_deferred.callback((False, "An error occurred"))
+            main_deferred.callback((False, 'An error occurred'))
         return main_deferred
 
     @export
-    def add_host(self, host, port, username="", password=""):
+    def add_host(self, host, port, username='', password=''):
         """
         Adds a host to the list.
 
@@ -838,18 +838,18 @@ class WebApi(JSONComponent):
         """
         # Check to see if there is already an entry for this host and return
         # if thats the case
-        for entry in self.host_list["hosts"]:
+        for entry in self.host_list['hosts']:
             if (entry[1], entry[2], entry[3]) == (host, port, username):
-                return (False, "Host already in the list")
+                return (False, 'Host already in the list')
 
         try:
             port = int(port)
         except ValueError:
-            return (False, "Port is invalid")
+            return (False, 'Port is invalid')
 
         # Host isn't in the list, so lets add it
         connection_id = hashlib.sha1(str(time.time())).hexdigest()
-        self.host_list["hosts"].append([connection_id, host, port, username,
+        self.host_list['hosts'].append([connection_id, host, port, username,
                                         password])
         self.host_list.save()
         return True, connection_id
@@ -866,7 +866,7 @@ class WebApi(JSONComponent):
         if not host:
             return False
 
-        self.host_list["hosts"].remove(host)
+        self.host_list['hosts'].remove(host)
         self.host_list.save()
         return True
 
@@ -878,10 +878,10 @@ class WebApi(JSONComponent):
         :rtype: dictionary
         :returns: the configuration
         """
-        config = component.get("DelugeWeb").config.config.copy()
-        del config["sessions"]
-        del config["pwd_salt"]
-        del config["pwd_sha1"]
+        config = component.get('DelugeWeb').config.config.copy()
+        del config['sessions']
+        del config['pwd_salt']
+        del config['pwd_sha1']
         return config
 
     @export
@@ -892,13 +892,13 @@ class WebApi(JSONComponent):
         :param config: The configuration options to update
         :type config: dictionary
         """
-        web_config = component.get("DelugeWeb").config
+        web_config = component.get('DelugeWeb').config
         for key in config.keys():
-            if key in ["sessions", "pwd_salt", "pwd_sha1"]:
+            if key in ['sessions', 'pwd_salt', 'pwd_sha1']:
                 log.warn("Ignored attempt to overwrite web config key '%s'", key)
                 continue
             if isinstance(config[key], basestring):
-                config[key] = config[key].encode("utf8")
+                config[key] = config[key].encode('utf8')
             web_config[key] = config[key]
 
     @export
@@ -914,34 +914,34 @@ class WebApi(JSONComponent):
         """
 
         return {
-            "enabled_plugins": component.get("Web.PluginManager").plugins.keys(),
-            "available_plugins": component.get("Web.PluginManager").available_plugins
+            'enabled_plugins': component.get('Web.PluginManager').plugins.keys(),
+            'available_plugins': component.get('Web.PluginManager').available_plugins
         }
 
     @export
     def get_plugin_info(self, name):
-        return component.get("Web.PluginManager").get_plugin_info(name)
+        return component.get('Web.PluginManager').get_plugin_info(name)
 
     @export
     def get_plugin_resources(self, name):
-        return component.get("Web.PluginManager").get_plugin_resources(name)
+        return component.get('Web.PluginManager').get_plugin_resources(name)
 
     @export
     def upload_plugin(self, filename, path):
         main_deferred = Deferred()
 
-        shutil.copyfile(path, os.path.join(get_config_dir(), "plugins", filename))
-        component.get("Web.PluginManager").scan_for_plugins()
+        shutil.copyfile(path, os.path.join(get_config_dir(), 'plugins', filename))
+        component.get('Web.PluginManager').scan_for_plugins()
 
         if client.is_localhost():
             client.core.rescan_plugins()
             return True
-        with open(path, "rb") as _file:
+        with open(path, 'rb') as _file:
             plugin_data = base64.encodestring(_file.read())
 
         def on_upload_complete(*args):
             client.core.rescan_plugins()
-            component.get("Web.PluginManager").scan_for_plugins()
+            component.get('Web.PluginManager').scan_for_plugins()
             main_deferred.callback(True)
 
         def on_upload_error(*args):
@@ -985,7 +985,7 @@ class WebUtils(JSONComponent):
     Utility functions for the webui that do not fit in the WebApi.
     """
     def __init__(self):
-        super(WebUtils, self).__init__("WebUtils")
+        super(WebUtils, self).__init__('WebUtils')
 
     @export
     def get_languages(self):

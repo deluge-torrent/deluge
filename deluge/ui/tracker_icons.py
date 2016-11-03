@@ -45,7 +45,7 @@ class TrackerIcon(object):
         :type filename: string
         """
         self.filename = os.path.abspath(filename)
-        self.mimetype = extension_to_mimetype(self.filename.rpartition(".")[2])
+        self.mimetype = extension_to_mimetype(self.filename.rpartition('.')[2])
         self.data = None
         self.icon_cache = None
 
@@ -79,7 +79,7 @@ class TrackerIcon(object):
         :rtype: string
         """
         if not self.data:
-            with open(self.filename, "rb") as _file:
+            with open(self.filename, 'rb') as _file:
                 self.data = _file.read()
         return self.data
 
@@ -124,9 +124,9 @@ class TrackerIcons(Component):
                        can be fetched
         :type no_icon: string
         """
-        Component.__init__(self, "TrackerIcons")
+        Component.__init__(self, 'TrackerIcons')
         if not icon_dir:
-            icon_dir = get_config_dir("icons")
+            icon_dir = get_config_dir('icons')
         self.dir = icon_dir
         if not os.path.isdir(self.dir):
             os.makedirs(self.dir)
@@ -138,12 +138,12 @@ class TrackerIcons(Component):
                 try:
                     self.icons[host] = TrackerIcon(os.path.join(self.dir, icon))
                 except KeyError:
-                    log.warning("invalid icon %s", icon)
+                    log.warning('invalid icon %s', icon)
         if no_icon:
             self.icons[None] = TrackerIcon(no_icon)
         else:
             self.icons[None] = None
-        self.icons[""] = self.icons[None]
+        self.icons[''] = self.icons[None]
 
         self.pending = {}
         self.redirects = {}
@@ -227,7 +227,7 @@ class TrackerIcons(Component):
         """
         if not url:
             url = self.host_to_url(host)
-        log.debug("Downloading %s %s", host, url)
+        log.debug('Downloading %s %s', host, url)
         tmp_fd, tmp_file = mkstemp(prefix='deluge_ticon.')
         os.close(tmp_fd)
         return download_file(url, tmp_file, force_filename=True, handle_redirects=False)
@@ -241,7 +241,7 @@ class TrackerIcons(Component):
         :returns: the page that finished downloading
         :rtype: string
         """
-        log.debug("Finished downloading %s", page)
+        log.debug('Finished downloading %s', page)
         return page
 
     def on_download_page_fail(self, f, host):
@@ -257,11 +257,11 @@ class TrackerIcons(Component):
         :rtype: Deferred or Failure
         """
         error_msg = f.getErrorMessage()
-        log.debug("Error downloading page: %s", error_msg)
+        log.debug('Error downloading page: %s', error_msg)
         d = f
         if f.check(PageRedirect):
             # Handle redirect errors
-            location = urljoin(self.host_to_url(host), error_msg.split(" to ")[1])
+            location = urljoin(self.host_to_url(host), error_msg.split(' to ')[1])
             self.redirects[host] = url_to_host(location)
             d = self.download_page(host, url=location)
             d.addCallbacks(self.on_download_page_complete, self.on_download_page_fail,
@@ -279,7 +279,7 @@ class TrackerIcons(Component):
         :returns: a Deferred which callbacks a list of available favicons (url, type)
         :rtype: Deferred
         """
-        with open(page, "r") as _file:
+        with open(page, 'r') as _file:
             parser = FaviconParser()
             for line in _file:
                 parser.feed(line)
@@ -304,10 +304,10 @@ class TrackerIcons(Component):
         :returns: the icons that were extracted from the page
         :rtype: list
         """
-        log.debug("Parse Complete, got icons for %s: %s", host, icons)
+        log.debug('Parse Complete, got icons for %s: %s', host, icons)
         url = self.host_to_url(host)
         icons = [(urljoin(url, icon), mimetype) for icon, mimetype in icons]
-        log.debug("Icon urls from %s: %s", host, icons)
+        log.debug('Icon urls from %s: %s', host, icons)
         return icons
 
     def on_parse_fail(self, f):
@@ -320,7 +320,7 @@ class TrackerIcons(Component):
                   else the original failure
         :rtype: Deferred or Failure
         """
-        log.debug("Error parsing page: %s", f.getErrorMessage())
+        log.debug('Error parsing page: %s', f.getErrorMessage())
         return f
 
     def download_icon(self, icons, host):
@@ -335,7 +335,7 @@ class TrackerIcons(Component):
         :rtype: Deferred
         """
         if len(icons) == 0:
-            raise NoIconsError("empty icons list")
+            raise NoIconsError('empty icons list')
         (url, mimetype) = icons.pop(0)
         d = download_file(url, os.path.join(self.dir, host_to_icon_name(host, mimetype)),
                           force_filename=True)
@@ -364,7 +364,7 @@ class TrackerIcons(Component):
                 raise InvalidIconError(ex)
         else:
             if os.stat(icon_name).st_size == 0:
-                raise InvalidIconError("empty icon")
+                raise InvalidIconError('empty icon')
 
         return icon_name
 
@@ -379,7 +379,7 @@ class TrackerIcons(Component):
         :returns: the icon that finished downloading
         :rtype: TrackerIcon
         """
-        log.debug("Successfully downloaded from %s: %s", host, icon_name)
+        log.debug('Successfully downloaded from %s: %s', host, icon_name)
         icon = TrackerIcon(icon_name)
         return icon
 
@@ -400,12 +400,12 @@ class TrackerIcons(Component):
         if not icons:
             icons = []
         error_msg = f.getErrorMessage()
-        log.debug("Error downloading icon from %s: %s", host, error_msg)
+        log.debug('Error downloading icon from %s: %s', host, error_msg)
         d = f
         if f.check(PageRedirect):
             # Handle redirect errors
-            location = urljoin(self.host_to_url(host), error_msg.split(" to ")[1])
-            d = self.download_icon([(location, extension_to_mimetype(location.rpartition(".")[2]))] + icons, host)
+            location = urljoin(self.host_to_url(host), error_msg.split(' to ')[1])
+            d = self.download_icon([(location, extension_to_mimetype(location.rpartition('.')[2]))] + icons, host)
             if not icons:
                 d.addCallbacks(self.on_download_icon_complete, self.on_download_icon_fail,
                                callbackArgs=(host,), errbackArgs=(host,))
@@ -413,8 +413,8 @@ class TrackerIcons(Component):
             d = self.download_icon(icons, host)
         elif f.check(NoIconsError, HTMLParseError):
             # No icons, try favicon.ico as an act of desperation
-            d = self.download_icon([(urljoin(self.host_to_url(host), "favicon.ico"),
-                                     extension_to_mimetype("ico"))], host)
+            d = self.download_icon([(urljoin(self.host_to_url(host), 'favicon.ico'),
+                                     extension_to_mimetype('ico'))], host)
             d.addCallbacks(self.on_download_icon_complete, self.on_download_icon_fail,
                            callbackArgs=(host,), errbackArgs=(host,))
         else:
@@ -438,7 +438,7 @@ class TrackerIcons(Component):
             filename = icon.get_filename()
             with Image.open(filename) as img:
                 if img.size > (16, 16):
-                    new_filename = filename.rpartition(".")[0] + ".png"
+                    new_filename = filename.rpartition('.')[0] + '.png'
                     img = img.resize((16, 16), Image.ANTIALIAS)
                     img.save(new_filename)
                     if new_filename != filename:
@@ -475,7 +475,7 @@ class TrackerIcons(Component):
         """
         if host in self.redirects:
             host = self.redirects[host]
-        return "http://%s/" % host
+        return 'http://%s/' % host
 
 # ------- HELPER CLASSES ------
 
@@ -490,17 +490,17 @@ class FaviconParser(HTMLParser):
         HTMLParser.__init__(self)
 
     def handle_starttag(self, tag, attrs):
-        if tag == "link" and ("rel", "icon") in attrs or ("rel", "shortcut icon") in attrs:
+        if tag == 'link' and ('rel', 'icon') in attrs or ('rel', 'shortcut icon') in attrs:
             href = None
             icon_type = None
             for attr, value in attrs:
-                if attr == "href":
+                if attr == 'href':
                     href = value
-                elif attr == "type":
+                elif attr == 'type':
                     icon_type = value
             if href:
                 try:
-                    mimetype = extension_to_mimetype(href.rpartition(".")[2])
+                    mimetype = extension_to_mimetype(href.rpartition('.')[2])
                 except KeyError:
                     pass
                 else:
@@ -509,7 +509,7 @@ class FaviconParser(HTMLParser):
                     self.icons.append((href, icon_type))
 
     def handle_endtag(self, tag):
-        if tag == "head":
+        if tag == 'head':
             self.left_head = True
 
     def get_icons(self):
@@ -548,7 +548,7 @@ def host_to_icon_name(host, mimetype):
     :rtype: string
 
     """
-    return host + "." + mimetype_to_extension(mimetype)
+    return host + '.' + mimetype_to_extension(mimetype)
 
 
 def icon_name_to_host(icon):
@@ -560,19 +560,19 @@ def icon_name_to_host(icon):
     :returns: the host name
     :rtype: string
     """
-    return icon.rpartition(".")[0]
+    return icon.rpartition('.')[0]
 
 MIME_MAP = {
-    "image/gif": "gif",
-    "image/jpeg": "jpg",
-    "image/png": "png",
-    "image/vnd.microsoft.icon": "ico",
-    "image/x-icon": "ico",
-    "gif": "image/gif",
-    "jpg": "image/jpeg",
-    "jpeg": "image/jpeg",
-    "png": "image/png",
-    "ico": "image/vnd.microsoft.icon",
+    'image/gif': 'gif',
+    'image/jpeg': 'jpg',
+    'image/png': 'png',
+    'image/vnd.microsoft.icon': 'ico',
+    'image/x-icon': 'ico',
+    'gif': 'image/gif',
+    'jpg': 'image/jpeg',
+    'jpeg': 'image/jpeg',
+    'png': 'image/png',
+    'ico': 'image/vnd.microsoft.icon',
 }
 
 

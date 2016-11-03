@@ -65,17 +65,17 @@ class Commander(object):
         """
         if not cmd_line:
             return
-        cmd, _, line = cmd_line.partition(" ")
+        cmd, _, line = cmd_line.partition(' ')
         try:
             parser = self._commands[cmd].create_parser()
         except KeyError:
-            self.write("{!error!}Unknown command: %s" % cmd)
+            self.write('{!error!}Unknown command: %s' % cmd)
             return
 
         try:
             args = [cmd] + self._commands[cmd].split(line)
         except ValueError as ex:
-            self.write("{!error!}Error parsing command: %s" % ex)
+            self.write('{!error!}Error parsing command: %s' % ex)
             return
 
         # Do a little hack here to print 'command --help' properly
@@ -89,32 +89,32 @@ class Commander(object):
         parser.print_help = print_help
 
         # Only these commands can be run when not connected to a daemon
-        not_connected_cmds = ["help", "connect", "quit"]
+        not_connected_cmds = ['help', 'connect', 'quit']
         aliases = []
         for c in not_connected_cmds:
             aliases.extend(self._commands[c].aliases)
         not_connected_cmds.extend(aliases)
 
         if not client.connected() and cmd not in not_connected_cmds:
-            self.write("{!error!}Not connected to a daemon, please use the connect command first.")
+            self.write('{!error!}Not connected to a daemon, please use the connect command first.')
             return
 
         try:
             options = parser.parse_args(args=args)
             options.command = cmd
         except TypeError as ex:
-            self.write("{!error!}Error parsing options: %s" % ex)
+            self.write('{!error!}Error parsing options: %s' % ex)
             import traceback
-            self.write("%s" % traceback.format_exc())
+            self.write('%s' % traceback.format_exc())
             return
         except OptionParserError as ex:
             import traceback
             log.warn("Error parsing command '%s':  %s", args, ex)
-            self.write("{!error!} %s" % ex)
+            self.write('{!error!} %s' % ex)
             parser.print_help()
             return
 
-        if getattr(parser, "_exit", False):
+        if getattr(parser, '_exit', False):
             return
         return options
 
@@ -131,10 +131,10 @@ class Commander(object):
         try:
             ret = self._commands[options.command].handle(options)
         except Exception as ex:  # pylint: disable=broad-except
-            self.write("{!error!} %s" % ex)
+            self.write('{!error!} %s' % ex)
             log.exception(ex)
             import traceback
-            self.write("%s" % traceback.format_exc())
+            self.write('%s' % traceback.format_exc())
             return defer.succeed(True)
         else:
             return ret
@@ -145,8 +145,8 @@ class BaseCommand(object):
     usage = None
     interactive_only = False
     aliases = []
-    _name = "base"
-    epilog = ""
+    _name = 'base'
+    epilog = ''
 
     def complete(self, text, *args):
         return []
@@ -160,7 +160,7 @@ class BaseCommand(object):
 
     @property
     def name_with_alias(self):
-        return "/".join([self._name] + self.aliases)
+        return '/'.join([self._name] + self.aliases)
 
     @property
     def description(self):
@@ -168,27 +168,27 @@ class BaseCommand(object):
 
     def split(self, text):
         if windows_check():
-            text = text.replace("\\", "\\\\")
+            text = text.replace('\\', '\\\\')
         result = shlex.split(text)
         for i, s in enumerate(result):
-            result[i] = s.replace(r"\ ", " ")
-        result = [s for s in result if s != ""]
+            result[i] = s.replace(r'\ ', ' ')
+        result = [s for s in result if s != '']
         return result
 
     def create_parser(self):
-        opts = {"prog": self.name_with_alias, "description": self.__doc__, "epilog": self.epilog}
+        opts = {'prog': self.name_with_alias, 'description': self.__doc__, 'epilog': self.epilog}
         if self.usage:
-            opts["usage"] = self.usage
+            opts['usage'] = self.usage
         parser = OptionParser(**opts)
-        parser.add_argument(self.name, metavar="")
+        parser.add_argument(self.name, metavar='')
         parser.base_parser = parser
         self.add_arguments(parser)
         return parser
 
     def add_subparser(self, subparsers):
-        opts = {"prog": self.name_with_alias, "help": self.__doc__, "description": self.__doc__}
+        opts = {'prog': self.name_with_alias, 'help': self.__doc__, 'description': self.__doc__}
         if self.usage:
-            opts["usage"] = self.usage
+            opts['usage'] = self.usage
         parser = subparsers.add_parser(self.name, **opts)
         self.add_arguments(parser)
 

@@ -67,11 +67,11 @@ class TermResizeHandler(object):
         try:
             signal.signal(signal.SIGWINCH, self.on_terminal_size)
         except ValueError as ex:
-            log.debug("Unable to catch SIGWINCH signal: %s", ex)
+            log.debug('Unable to catch SIGWINCH signal: %s', ex)
 
     def on_terminal_size(self, *args):
         # Get the new rows and cols value
-        rows, cols = struct.unpack("hhhh", ioctl(0, termios.TIOCGWINSZ, "\000" * 8))[0:2]
+        rows, cols = struct.unpack('hhhh', ioctl(0, termios.TIOCGWINSZ, '\000' * 8))[0:2]
         curses.resizeterm(rows, cols)
         return rows, cols
 
@@ -91,7 +91,7 @@ class CursesStdIO(object):
         pass
 
     def logPrefix(self):  # NOQA
-        return "CursesClient"
+        return 'CursesClient'
 
 
 class BaseMode(CursesStdIO, component.Component):
@@ -125,8 +125,8 @@ class BaseMode(CursesStdIO, component.Component):
 
         self.paused = False
         # Strings for the 2 status bars
-        self.statusbars = component.get("StatusBars")
-        self.help_hstr = "{!status!} Press {!magenta,blue,bold!}[h]{!status!} for help"
+        self.statusbars = component.get('StatusBars')
+        self.help_hstr = '{!status!} Press {!magenta,blue,bold!}[h]{!status!} for help'
 
         # Keep track of the screen size
         self.rows, self.cols = self.stdscr.getmaxyx()
@@ -161,7 +161,7 @@ class BaseMode(CursesStdIO, component.Component):
         if bottombar_help:
             if bottombar_help is True:
                 bottombar_help = self.help_hstr
-            bottombar += " " * (self.cols - len(remove_formatting(bottombar)) -
+            bottombar += ' ' * (self.cols - len(remove_formatting(bottombar)) -
                                 len(remove_formatting(bottombar_help))) + bottombar_help
         self.add_string(self.rows + bottom_row, bottombar, scr=scr)
 
@@ -219,7 +219,7 @@ class BaseMode(CursesStdIO, component.Component):
         curses.endwin()
 
 
-def add_string(row, string, screen, encoding, col=0, pad=True, pad_char=" ", trim="...", leaveok=0):
+def add_string(row, string, screen, encoding, col=0, pad=True, pad_char=' ', trim='...', leaveok=0):
     """
     Adds a string to the desired `:param:row`.
 
@@ -256,7 +256,7 @@ def add_string(row, string, screen, encoding, col=0, pad=True, pad_char=" ", tri
     try:
         parsed = colors.parse_color_string(string, encoding)
     except colors.BadColorString as ex:
-        log.error("Cannot add bad color string %s: %s", string, ex)
+        log.error('Cannot add bad color string %s: %s', string, ex)
         return
 
     if leaveok:
@@ -274,7 +274,7 @@ def add_string(row, string, screen, encoding, col=0, pad=True, pad_char=" ", tri
 
         if (col + len(s)) > max_x:
             if trim:
-                s = "%s%s" % (s[0:max_x - len(trim) - col], trim)
+                s = '%s%s' % (s[0:max_x - len(trim) - col], trim)
             else:
                 s = s[0:max_x - col]
 
@@ -290,7 +290,7 @@ def add_string(row, string, screen, encoding, col=0, pad=True, pad_char=" ", tri
                 log.warn("FAILED on call screen.addstr(%s, %s, '%s', %s) - max_y: %s, max_x: %s, "
                          "curses.LINES: %s, curses.COLS: %s, Error: '%s', trace:\n%s",
                          row, col, s, color, max_y, max_x, curses.LINES, curses.COLS, ex,
-                         "".join(traceback.format_stack(limit=5)))
+                         ''.join(traceback.format_stack(limit=5)))
 
         col += len(s)
 
@@ -334,4 +334,4 @@ def move_cursor(screen, row, col):
     except curses.error as ex:
         import traceback
         log.warn("Error on screen.move(%s, %s): (curses.LINES: %s, curses.COLS: %s) Error: '%s'\nStack: %s",
-                 row, col, curses.LINES, curses.COLS, ex, "".join(traceback.format_stack()))
+                 row, col, curses.LINES, curses.COLS, ex, ''.join(traceback.format_stack()))

@@ -12,7 +12,7 @@ from deluge.error import InvalidTorrentError
 from . import common
 from .basetest import BaseTestCase
 
-warnings.filterwarnings("ignore", category=RuntimeWarning)
+warnings.filterwarnings('ignore', category=RuntimeWarning)
 warnings.resetwarnings()
 
 
@@ -29,7 +29,7 @@ class TorrentmanagerTestCase(BaseTestCase):
 
     @defer.inlineCallbacks
     def test_remove_torrent(self):
-        filename = common.get_test_data_file("test.torrent")
+        filename = common.get_test_data_file('test.torrent')
         with open(filename) as _file:
             filedump = base64.encodestring(_file.read())
         torrent_id = yield self.core.add_torrent_file(filename, filedump, {})
@@ -41,4 +41,4 @@ class TorrentmanagerTestCase(BaseTestCase):
         common.todo_test(self)
 
     def test_remove_invalid_torrent(self):
-        self.assertRaises(InvalidTorrentError, self.core.torrentmanager.remove, "torrentidthatdoesntexist")
+        self.assertRaises(InvalidTorrentError, self.core.torrentmanager.remove, 'torrentidthatdoesntexist')

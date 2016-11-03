@@ -23,17 +23,17 @@ from deluge.core.rpcserver import export
 from deluge.plugins.pluginbase import CorePluginBase
 
 DEFAULT_PREFS = {
-    "test": "NiNiNi",
-    "update_interval": 1,  # 2 seconds.
-    "length": 150,  # 2 seconds * 150 --> 5 minutes.
+    'test': 'NiNiNi',
+    'update_interval': 1,  # 2 seconds.
+    'length': 150,  # 2 seconds * 150 --> 5 minutes.
 }
 
 DEFAULT_TOTALS = {
-    "total_upload": 0,
-    "total_download": 0,
-    "total_payload_upload": 0,
-    "total_payload_download": 0,
-    "stats": {}
+    'total_upload': 0,
+    'total_download': 0,
+    'total_payload_upload': 0,
+    'total_payload_download': 0,
+    'stats': {}
 }
 
 log = logging.getLogger(__name__)
@@ -57,8 +57,8 @@ class Core(CorePluginBase):
     totals = {}  # class var to catch only updating this once per session in enable.
 
     def enable(self):
-        log.debug("Stats plugin enabled")
-        self.core = component.get("Core")
+        log.debug('Stats plugin enabled')
+        self.core = component.get('Core')
         self.stats = {}
         self.count = {}
         self.intervals = [1, 5, 30, 300]
@@ -70,12 +70,12 @@ class Core(CorePluginBase):
             self.last_update[i] = t
             self.count[i] = 0
 
-        self.config = configmanager.ConfigManager("stats.conf", DEFAULT_PREFS)
-        self.saved_stats = configmanager.ConfigManager("stats.totals", DEFAULT_TOTALS)
+        self.config = configmanager.ConfigManager('stats.conf', DEFAULT_PREFS)
+        self.saved_stats = configmanager.ConfigManager('stats.totals', DEFAULT_TOTALS)
         if self.totals == {}:
             self.totals.update(self.saved_stats.config)
 
-        self.length = self.config["length"]
+        self.length = self.config['length']
 
         # self.stats = get_key(self.saved_stats, "stats") or {}
         self.stats_keys = []
@@ -92,7 +92,7 @@ class Core(CorePluginBase):
         self.update_stats()
 
         self.update_timer = LoopingCall(self.update_stats)
-        self.update_timer.start(self.config["update_interval"])
+        self.update_timer.start(self.config['update_interval'])
 
         self.save_timer = LoopingCall(self.save_stats)
         self.save_timer.start(60)
@@ -124,10 +124,10 @@ class Core(CorePluginBase):
                     stats.update(self.core.get_session_status([key]))
                 except AttributeError:
                     pass
-            stats["num_connections"] = stats["num_peers"]
-            stats.update(self.core.get_config_values(["max_download",
-                                                      "max_upload",
-                                                      "max_num_connections"]))
+            stats['num_connections'] = stats['num_peers']
+            stats.update(self.core.get_config_values(['max_download',
+                                                      'max_upload',
+                                                      'max_num_connections']))
             # status = self.core.session.status()
             # for stat in dir(status):
             #     if not stat.startswith('_') and stat not in stats:
@@ -166,16 +166,16 @@ class Core(CorePluginBase):
             update_interval(300, 30, 10)
 
         except Exception as ex:
-            log.error("Stats update error %s", ex)
+            log.error('Stats update error %s', ex)
         return True
 
     def save_stats(self):
         try:
-            self.saved_stats["stats"] = self.stats
+            self.saved_stats['stats'] = self.stats
             self.saved_stats.config.update(self.get_totals())
             self.saved_stats.save()
         except Exception as ex:
-            log.error("Stats save error %s", ex)
+            log.error('Stats save error %s', ex)
         return True
 
     # export:
@@ -189,9 +189,9 @@ class Core(CorePluginBase):
             if key in self.stats[interval]:
                 stats_dict[key] = self.stats[interval][key]
 
-        stats_dict["_last_update"] = self.last_update[interval]
-        stats_dict["_length"] = self.config["length"]
-        stats_dict["_update_interval"] = interval
+        stats_dict['_last_update'] = self.last_update[interval]
+        stats_dict['_length'] = self.config['length']
+        stats_dict['_update_interval'] = interval
         return stats_dict
 
     @export
@@ -206,25 +206,25 @@ class Core(CorePluginBase):
     def get_session_totals(self):
         status = self.core.session.status()
         return {
-            "total_upload": status.total_upload,
-            "total_download": status.total_download,
-            "total_payload_upload": status.total_payload_upload,
-            "total_payload_download": status.total_payload_download
+            'total_upload': status.total_upload,
+            'total_download': status.total_download,
+            'total_payload_upload': status.total_payload_upload,
+            'total_payload_download': status.total_payload_download
         }
 
     @export
     def set_config(self, config):
-        "sets the config dictionary"
+        'sets the config dictionary'
         for key in config.keys():
             self.config[key] = config[key]
         self.config.save()
 
     @export
     def get_config(self):
-        "returns the config dictionary"
+        'returns the config dictionary'
         return self.config.config
 
     @export
     def get_intervals(self):
-        "Returns the available resolutions"
+        'Returns the available resolutions'
         return self.intervals

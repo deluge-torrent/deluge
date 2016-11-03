@@ -17,7 +17,7 @@ import deluge.log
 import deluge.rencode as rencode
 from deluge.transfer import DelugeTransferProtocol
 
-deluge.log.setup_logger("none")
+deluge.log.setup_logger('none')
 
 
 class TransferTestClass(DelugeTransferProtocol):
@@ -44,7 +44,7 @@ class TransferTestClass(DelugeTransferProtocol):
         self.messages_in.append(message)
 
     def get_messages_out_joined(self):
-        return b"".join(self.messages_out)
+        return b''.join(self.messages_out)
 
     def get_messages_in(self):
         return self.messages_in
@@ -57,11 +57,11 @@ class TransferTestClass(DelugeTransferProtocol):
 
         """
         import zlib
-        print("\n=== New Data Received ===\nBytes received:", len(data))
+        print('\n=== New Data Received ===\nBytes received:', len(data))
 
         if self._buffer:
             # We have some data from the last dataReceived() so lets prepend it
-            print("Current buffer:", len(self._buffer) if self._buffer else "0")
+            print('Current buffer:', len(self._buffer) if self._buffer else '0')
             data = self._buffer + data
             self._buffer = None
 
@@ -69,10 +69,10 @@ class TransferTestClass(DelugeTransferProtocol):
         self._bytes_received += len(data)
 
         while data:
-            print("\n-- Handle packet data --")
+            print('\n-- Handle packet data --')
 
-            print("Bytes received:", self._bytes_received)
-            print("Current data:", len(data))
+            print('Bytes received:', self._bytes_received)
+            print('Current data:', len(data))
 
             if self._message_length == 0:
                 # handle_new_message uses _buffer so set data to _buffer.
@@ -81,21 +81,21 @@ class TransferTestClass(DelugeTransferProtocol):
                 data = self._buffer
                 self._buffer = None
                 self.packet_count = 1
-                print("New message of length:", self._message_length)
+                print('New message of length:', self._message_length)
 
             dobj = zlib.decompressobj()
             try:
                 request = rencode.loads(dobj.decompress(data))
-                print("Successfully loaded message", end=' ')
-                print(" - Buffer length: %d, data length: %d, unused length: %d" %
+                print('Successfully loaded message', end=' ')
+                print(' - Buffer length: %d, data length: %d, unused length: %d' %
                       (len(data), len(data) - len(dobj.unused_data), len(dobj.unused_data)))
-                print("Packet count:", self.packet_count)
+                print('Packet count:', self.packet_count)
             except Exception as ex:
                 # log.debug("Received possible invalid message (%r): %s", data, e)
                 # This could be cut-off data, so we'll save this in the buffer
                 # and try to prepend it on the next dataReceived()
                 self._buffer = data
-                print("Failed to load buffer (size %d): %s" % (len(self._buffer), str(ex)))
+                print('Failed to load buffer (size %d): %s' % (len(self._buffer), str(ex)))
                 return
             else:
                 data = dobj.unused_data
@@ -117,19 +117,19 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
 
         """
         self.transfer = TransferTestClass()
-        self.msg1 = (0, 1, {"key_int": 1242429423}, {"key_str": "some string"}, {"key_bool": True})
-        self.msg2 = (2, 3, {"key_float": 12424.29423},
-                     {"key_unicode": u"some string"},
-                     {"key_dict_with_tuple": {"key_tuple": (1, 2, 3)}},
-                     {"keylist": [4, "5", 6.7]})
+        self.msg1 = (0, 1, {'key_int': 1242429423}, {'key_str': 'some string'}, {'key_bool': True})
+        self.msg2 = (2, 3, {'key_float': 12424.29423},
+                     {'key_unicode': u'some string'},
+                     {'key_dict_with_tuple': {'key_tuple': (1, 2, 3)}},
+                     {'keylist': [4, '5', 6.7]})
 
-        self.msg1_expected_compressed_base64 = "RAAAADF4nDvKwJjenp1aGZ+ZV+Lgxfv9PYRXXFLU"\
-                                               "XZyfm6oAZGTmpad3gAST8vNznAEAJhSQ"
+        self.msg1_expected_compressed_base64 = 'RAAAADF4nDvKwJjenp1aGZ+ZV+Lgxfv9PYRXXFLU'\
+                                               'XZyfm6oAZGTmpad3gAST8vNznAEAJhSQ'
 
-        self.msg2_expected_compressed_base64 = "RAAAAF14nDvGxJzemZ1aGZ+Wk59Y4uTmpKib3g3i"\
-                                               "l+ZlJuenpHYX5+emKhSXFGXmpadPBkmkZCaXxJdn"\
-                                               "lmTEl5QW5KRCdIOZhxmBhrUDuTmZxSWHWRpNnRyu"\
-                                               "paUBAHYlJxI="
+        self.msg2_expected_compressed_base64 = 'RAAAAF14nDvGxJzemZ1aGZ+Wk59Y4uTmpKib3g3i'\
+                                               'l+ZlJuenpHYX5+emKhSXFGXmpadPBkmkZCaXxJdn'\
+                                               'lmTEl5QW5KRCdIOZhxmBhrUDuTmZxSWHWRpNnRyu'\
+                                               'paUBAHYlJxI='
 
     def test_send_one_message(self):
         """
@@ -239,13 +239,13 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
 
         print()
 
-        print("Msg1 size:", len(base64.b64decode(self.msg1_expected_compressed_base64)) - 4)
-        print("Msg2 size:", len(base64.b64decode(self.msg2_expected_compressed_base64)) - 4)
-        print("Msg3 size:", len(base64.b64decode(self.msg1_expected_compressed_base64)) - 4)
+        print('Msg1 size:', len(base64.b64decode(self.msg1_expected_compressed_base64)) - 4)
+        print('Msg2 size:', len(base64.b64decode(self.msg2_expected_compressed_base64)) - 4)
+        print('Msg3 size:', len(base64.b64decode(self.msg1_expected_compressed_base64)) - 4)
 
-        print("one_message_byte_count:", one_message_byte_count)
-        print("two_messages_byte_count:", two_messages_byte_count)
-        print("three_messages_byte_count:", three_messages_byte_count)
+        print('one_message_byte_count:', one_message_byte_count)
+        print('two_messages_byte_count:', two_messages_byte_count)
+        print('three_messages_byte_count:', three_messages_byte_count)
 
         for d in self.receive_parts_helper(msg_bytes, packet_size, self.transfer.data_received_old_protocol):
             bytes_received = self.transfer.get_bytes_recv()
@@ -260,7 +260,7 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
                 expected_msgs_received_count = 0
             # Verify that the expected number of complete messages has arrived
             if expected_msgs_received_count != len(self.transfer.get_messages_in()):
-                print("Expected number of messages received is %d, but %d have been received." %
+                print('Expected number of messages received is %d, but %d have been received.' %
                       (expected_msgs_received_count, len(self.transfer.get_messages_in())))
 
         # Get the data as received by DelugeTransferProtocol

@@ -37,16 +37,16 @@ class TestEmailNotifications(component.Component):
         self.events_classes = []
 
     def enable(self):
-        log.debug("\n\nEnabling %s", self.__class__.__name__)
+        log.debug('\n\nEnabling %s', self.__class__.__name__)
         for event in self.events:
             if self.__imp == 'core':
                 # component.get("CorePlugin.Notifications").register_custom_email_notification(
-                component.get("Notifications").register_custom_email_notification(
+                component.get('Notifications').register_custom_email_notification(
                     event.__class__.__name__,
                     self.custom_email_message_provider
                 )
             elif self.__imp == 'gtk':
-                notifications_component = component.get("Notifications")
+                notifications_component = component.get('Notifications')
                 notifications_component.register_custom_popup_notification(
                     event.__class__.__name__,
                     self.custom_popup_message_provider
@@ -63,32 +63,32 @@ class TestEmailNotifications(component.Component):
         self.lc.start(60, False)
 
     def disable(self):
-        log.debug("\n\nDisabling %s", self.__class__.__name__)
+        log.debug('\n\nDisabling %s', self.__class__.__name__)
         self.lc.stop()
 
     def update(self):
         if self.__imp == 'core':
-            log.debug("\n\nUpdating %s", self.__class__.__name__)
+            log.debug('\n\nUpdating %s', self.__class__.__name__)
             self.events.append(self.events.pop(0))  # Re-Queue
             self.n += 1
-            component.get("EventManager").emit(self.events[0])
+            component.get('EventManager').emit(self.events[0])
 
     def custom_email_message_provider(self, *evt_args, **evt_kwargs):
-        log.debug("Running custom email message provider: %s %s", evt_args, evt_kwargs)
-        subject = "%s Email Subject: %s" % (self.events[0].__class__.__name__, self.n)
-        message = "%s Email Message: %s" % (self.events[0].__class__.__name__, self.n)
+        log.debug('Running custom email message provider: %s %s', evt_args, evt_kwargs)
+        subject = '%s Email Subject: %s' % (self.events[0].__class__.__name__, self.n)
+        message = '%s Email Message: %s' % (self.events[0].__class__.__name__, self.n)
         return subject, message
 
     def custom_popup_message_provider(self, *evt_args, **evt_kwargs):
-        log.debug("Running custom popup message provider: %s %s", evt_args, evt_kwargs)
-        title = "%s Popup Title: %s" % (self.events[0].__class__.__name__, self.n)
-        message = "%s Popup Message: %s" % (self.events[0].__class__.__name__, self.n)
+        log.debug('Running custom popup message provider: %s %s', evt_args, evt_kwargs)
+        title = '%s Popup Title: %s' % (self.events[0].__class__.__name__, self.n)
+        message = '%s Popup Message: %s' % (self.events[0].__class__.__name__, self.n)
         return title, message
 
     def custom_blink_message_provider(self, *evt_args, **evt_kwargs):
-        log.debug("Running custom blink message provider: %s %s", evt_args, evt_kwargs)
+        log.debug('Running custom blink message provider: %s %s', evt_args, evt_kwargs)
         return True
 
     def custom_sound_message_provider(self, *evt_args, **evt_kwargs):
-        log.debug("Running custom sound message provider: %s %s", evt_args, evt_kwargs)
+        log.debug('Running custom sound message provider: %s %s', evt_args, evt_kwargs)
         return ''

@@ -34,10 +34,10 @@ class IncompatibleOption(Exception):
 
 
 class OptionsDialog(object):
-    spin_ids = ["max_download_speed", "max_upload_speed", "stop_ratio"]
-    spin_int_ids = ["max_upload_slots", "max_connections"]
-    chk_ids = ["stop_at_ratio", "remove_at_ratio", "move_completed",
-               "add_paused", "auto_managed", "queue_to_top"]
+    spin_ids = ['max_download_speed', 'max_upload_speed', 'stop_ratio']
+    spin_int_ids = ['max_upload_slots', 'max_connections']
+    chk_ids = ['stop_at_ratio', 'remove_at_ratio', 'move_completed',
+               'add_paused', 'auto_managed', 'queue_to_top']
 
     def __init__(self):
         self.accounts = gtk.ListStore(str)
@@ -47,16 +47,16 @@ class OptionsDialog(object):
     def show(self, options=None, watchdir_id=None):
         if options is None:
             options = {}
-        self.glade = gtk.glade.XML(get_resource("autoadd_options.glade"))
+        self.glade = gtk.glade.XML(get_resource('autoadd_options.glade'))
         self.glade.signal_autoconnect({
-            "on_opts_add": self.on_add,
-            "on_opts_apply": self.on_apply,
-            "on_opts_cancel": self.on_cancel,
-            "on_options_dialog_close": self.on_cancel,
-            "on_toggle_toggled": self.on_toggle_toggled
+            'on_opts_add': self.on_add,
+            'on_opts_apply': self.on_apply,
+            'on_opts_cancel': self.on_cancel,
+            'on_options_dialog_close': self.on_cancel,
+            'on_toggle_toggled': self.on_toggle_toggled
         })
-        self.dialog = self.glade.get_widget("options_dialog")
-        self.dialog.set_transient_for(component.get("Preferences").pref_dialog)
+        self.dialog = self.glade.get_widget('options_dialog')
+        self.dialog.set_transient_for(component.get('Preferences').pref_dialog)
 
         if watchdir_id:
             # We have an existing watchdir_id, we are editing
@@ -108,10 +108,10 @@ class OptionsDialog(object):
 
         for spin_id in self.spin_ids + self.spin_int_ids:
             self.glade.get_widget(spin_id).set_value(options.get(spin_id, 0))
-            self.glade.get_widget(spin_id + "_toggle").set_active(options.get(spin_id + "_toggle", False))
+            self.glade.get_widget(spin_id + '_toggle').set_active(options.get(spin_id + '_toggle', False))
         for chk_id in self.chk_ids:
             self.glade.get_widget(chk_id).set_active(bool(options.get(chk_id, True)))
-            self.glade.get_widget(chk_id + "_toggle").set_active(options.get(chk_id + "_toggle", False))
+            self.glade.get_widget(chk_id + '_toggle').set_active(options.get(chk_id + '_toggle', False))
         if not options.get('add_paused', True):
             self.glade.get_widget('isnt_add_paused').set_active(True)
         if not options.get('queue_to_top', True):
@@ -121,59 +121,59 @@ class OptionsDialog(object):
         for field in ['move_completed_path', 'path', 'download_location',
                       'copy_torrent']:
             if client.is_localhost():
-                self.glade.get_widget(field + "_chooser").set_current_folder(
-                    options.get(field, os.path.expanduser("~"))
+                self.glade.get_widget(field + '_chooser').set_current_folder(
+                    options.get(field, os.path.expanduser('~'))
                 )
-                self.glade.get_widget(field + "_chooser").show()
-                self.glade.get_widget(field + "_entry").hide()
+                self.glade.get_widget(field + '_chooser').show()
+                self.glade.get_widget(field + '_entry').hide()
             else:
-                self.glade.get_widget(field + "_entry").set_text(
-                    options.get(field, "")
+                self.glade.get_widget(field + '_entry').set_text(
+                    options.get(field, '')
                 )
-                self.glade.get_widget(field + "_entry").show()
-                self.glade.get_widget(field + "_chooser").hide()
+                self.glade.get_widget(field + '_entry').show()
+                self.glade.get_widget(field + '_chooser').hide()
         self.set_sensitive()
 
         def on_core_config(config):
             if client.is_localhost():
                 self.glade.get_widget('download_location_chooser').set_current_folder(
-                    options.get('download_location', config["download_location"])
+                    options.get('download_location', config['download_location'])
                 )
-                if options.get('move_completed_toggle', config["move_completed"]):
+                if options.get('move_completed_toggle', config['move_completed']):
                     self.glade.get_widget('move_completed_toggle').set_active(True)
                     self.glade.get_widget('move_completed_path_chooser').set_current_folder(
-                        options.get('move_completed_path', config["move_completed_path"])
+                        options.get('move_completed_path', config['move_completed_path'])
                     )
-                if options.get('copy_torrent_toggle', config["copy_torrent_file"]):
+                if options.get('copy_torrent_toggle', config['copy_torrent_file']):
                     self.glade.get_widget('copy_torrent_toggle').set_active(True)
                     self.glade.get_widget('copy_torrent_chooser').set_current_folder(
-                        options.get('copy_torrent', config["torrentfiles_location"])
+                        options.get('copy_torrent', config['torrentfiles_location'])
                     )
             else:
                 self.glade.get_widget('download_location_entry').set_text(
-                    options.get('download_location', config["download_location"])
+                    options.get('download_location', config['download_location'])
                 )
-                if options.get('move_completed_toggle', config["move_completed"]):
+                if options.get('move_completed_toggle', config['move_completed']):
                     self.glade.get_widget('move_completed_toggle').set_active(
                         options.get('move_completed_toggle', False)
                     )
                     self.glade.get_widget('move_completed_path_entry').set_text(
-                        options.get('move_completed_path', config["move_completed_path"])
+                        options.get('move_completed_path', config['move_completed_path'])
                     )
-                if options.get('copy_torrent_toggle', config["copy_torrent_file"]):
+                if options.get('copy_torrent_toggle', config['copy_torrent_file']):
                     self.glade.get_widget('copy_torrent_toggle').set_active(True)
                     self.glade.get_widget('copy_torrent_entry').set_text(
-                        options.get('copy_torrent', config["torrentfiles_location"])
+                        options.get('copy_torrent', config['torrentfiles_location'])
                     )
 
-            if options.get('delete_copy_torrent_toggle', config["del_copy_torrent_file"]):
+            if options.get('delete_copy_torrent_toggle', config['del_copy_torrent_file']):
                 self.glade.get_widget('delete_copy_torrent_toggle').set_active(True)
 
         if not options:
             client.core.get_config().addCallback(on_core_config)
 
         def on_accounts(accounts, owner):
-            log.debug("Got Accounts")
+            log.debug('Got Accounts')
             selected_iter = None
             for account in accounts:
                 acc_iter = self.accounts.append()
@@ -185,14 +185,14 @@ class OptionsDialog(object):
             self.glade.get_widget('OwnerCombobox').set_active_iter(selected_iter)
 
         def on_accounts_failure(failure):
-            log.debug("Failed to get accounts!!! %s", failure)
+            log.debug('Failed to get accounts!!! %s', failure)
             acc_iter = self.accounts.append()
             self.accounts.set_value(acc_iter, 0, client.get_auth_user())
             self.glade.get_widget('OwnerCombobox').set_active(0)
             self.glade.get_widget('OwnerCombobox').set_sensitive(False)
 
         def on_labels(labels):
-            log.debug("Got Labels: %s", labels)
+            log.debug('Got Labels: %s', labels)
             for label in labels:
                 self.labels.set_value(self.labels.append(), 0, label)
             label_widget = self.glade.get_widget('label')
@@ -228,10 +228,10 @@ class OptionsDialog(object):
                        'max_upload_slots', 'add_paused', 'auto_managed',
                        'stop_at_ratio', 'queue_to_top', 'copy_torrent']
         for maintoggle in maintoggles:
-            self.on_toggle_toggled(self.glade.get_widget(maintoggle + "_toggle"))
+            self.on_toggle_toggled(self.glade.get_widget(maintoggle + '_toggle'))
 
     def on_toggle_toggled(self, tb):
-        toggle = str(tb.name).replace("_toggle", "")
+        toggle = str(tb.name).replace('_toggle', '')
         isactive = tb.get_active()
         if toggle == 'download_location':
             self.glade.get_widget('download_location_chooser').set_sensitive(isactive)
@@ -279,10 +279,10 @@ class OptionsDialog(object):
                 str(self.watchdir_id), options
             ).addCallbacks(self.on_added, self.on_error_show)
         except IncompatibleOption as ex:
-            dialogs.ErrorDialog(_("Incompatible Option"), str(ex), self.dialog).run()
+            dialogs.ErrorDialog(_('Incompatible Option'), str(ex), self.dialog).run()
 
     def on_error_show(self, result):
-        d = dialogs.ErrorDialog(_("Error"), result.value.exception_msg, self.dialog)
+        d = dialogs.ErrorDialog(_('Error'), result.value.exception_msg, self.dialog)
         result.cleanFailure()
         d.run()
 
@@ -294,7 +294,7 @@ class OptionsDialog(object):
             options = self.generate_opts()
             client.autoadd.add(options).addCallbacks(self.on_added, self.on_error_show)
         except IncompatibleOption as ex:
-            dialogs.ErrorDialog(_("Incompatible Option"), str(ex), self.dialog).run()
+            dialogs.ErrorDialog(_('Incompatible Option'), str(ex), self.dialog).run()
 
     def on_cancel(self, event=None):
         self.dialog.destroy()
@@ -332,13 +332,13 @@ class OptionsDialog(object):
 
         for spin_id in self.spin_ids:
             options[spin_id] = self.glade.get_widget(spin_id).get_value()
-            options[spin_id + "_toggle"] = self.glade.get_widget(spin_id + "_toggle").get_active()
+            options[spin_id + '_toggle'] = self.glade.get_widget(spin_id + '_toggle').get_active()
         for spin_int_id in self.spin_int_ids:
             options[spin_int_id] = self.glade.get_widget(spin_int_id).get_value_as_int()
-            options[spin_int_id + "_toggle"] = self.glade.get_widget(spin_int_id + "_toggle").get_active()
+            options[spin_int_id + '_toggle'] = self.glade.get_widget(spin_int_id + '_toggle').get_active()
         for chk_id in self.chk_ids:
             options[chk_id] = self.glade.get_widget(chk_id).get_active()
-            options[chk_id + "_toggle"] = self.glade.get_widget(chk_id + "_toggle").get_active()
+            options[chk_id + '_toggle'] = self.glade.get_widget(chk_id + '_toggle').get_active()
 
         if options['copy_torrent_toggle'] and options['path'] == options['copy_torrent']:
             raise IncompatibleOption(_("\"Watch Folder\" directory and \"Copy of .torrent"
@@ -349,27 +349,27 @@ class OptionsDialog(object):
 class GtkUI(GtkPluginBase):
     def enable(self):
 
-        self.glade = gtk.glade.XML(get_resource("config.glade"))
+        self.glade = gtk.glade.XML(get_resource('config.glade'))
         self.glade.signal_autoconnect({
-            "on_add_button_clicked": self.on_add_button_clicked,
-            "on_edit_button_clicked": self.on_edit_button_clicked,
-            "on_remove_button_clicked": self.on_remove_button_clicked
+            'on_add_button_clicked': self.on_add_button_clicked,
+            'on_edit_button_clicked': self.on_edit_button_clicked,
+            'on_remove_button_clicked': self.on_remove_button_clicked
         })
         self.opts_dialog = OptionsDialog()
 
-        component.get("PluginManager").register_hook(
-            "on_apply_prefs", self.on_apply_prefs
+        component.get('PluginManager').register_hook(
+            'on_apply_prefs', self.on_apply_prefs
         )
-        component.get("PluginManager").register_hook(
-            "on_show_prefs", self.on_show_prefs
+        component.get('PluginManager').register_hook(
+            'on_show_prefs', self.on_show_prefs
         )
         client.register_event_handler(
-            "AutoaddOptionsChangedEvent", self.on_options_changed_event
+            'AutoaddOptionsChangedEvent', self.on_options_changed_event
         )
 
         self.watchdirs = {}
 
-        vbox = self.glade.get_widget("watchdirs_vbox")
+        vbox = self.glade.get_widget('watchdirs_vbox')
         sw = gtk.ScrolledWindow()
         sw.set_shadow_type(gtk.SHADOW_ETCHED_IN)
         sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
@@ -379,24 +379,24 @@ class GtkUI(GtkPluginBase):
         self.store = self.create_model()
 
         self.treeView = gtk.TreeView(self.store)
-        self.treeView.connect("cursor-changed", self.on_listitem_activated)
-        self.treeView.connect("row-activated", self.on_edit_button_clicked)
+        self.treeView.connect('cursor-changed', self.on_listitem_activated)
+        self.treeView.connect('row-activated', self.on_edit_button_clicked)
         self.treeView.set_rules_hint(True)
 
         self.create_columns(self.treeView)
         sw.add(self.treeView)
         sw.show_all()
-        component.get("Preferences").add_page(
-            _("AutoAdd"), self.glade.get_widget("prefs_box")
+        component.get('Preferences').add_page(
+            _('AutoAdd'), self.glade.get_widget('prefs_box')
         )
 
     def disable(self):
-        component.get("Preferences").remove_page(_("AutoAdd"))
-        component.get("PluginManager").deregister_hook(
-            "on_apply_prefs", self.on_apply_prefs
+        component.get('Preferences').remove_page(_('AutoAdd'))
+        component.get('PluginManager').deregister_hook(
+            'on_apply_prefs', self.on_apply_prefs
         )
-        component.get("PluginManager").deregister_hook(
-            "on_show_prefs", self.on_show_prefs
+        component.get('PluginManager').deregister_hook(
+            'on_show_prefs', self.on_show_prefs
         )
 
     def create_model(self):
@@ -411,7 +411,7 @@ class GtkUI(GtkPluginBase):
     def create_columns(self, treeview):
         renderer_toggle = gtk.CellRendererToggle()
         column = gtk.TreeViewColumn(
-            _("Active"), renderer_toggle, activatable=1, active=1
+            _('Active'), renderer_toggle, activatable=1, active=1
         )
         column.set_sort_column_id(1)
         treeview.append_column(column)
@@ -420,7 +420,7 @@ class GtkUI(GtkPluginBase):
         treeview.set_tooltip_cell(tt, None, None, renderer_toggle)
 
         renderertext = gtk.CellRendererText()
-        column = gtk.TreeViewColumn(_("Owner"), renderertext, text=2)
+        column = gtk.TreeViewColumn(_('Owner'), renderertext, text=2)
         column.set_sort_column_id(2)
         treeview.append_column(column)
         tt2 = gtk.Tooltip()
@@ -428,7 +428,7 @@ class GtkUI(GtkPluginBase):
         treeview.set_has_tooltip(True)
 
         renderertext = gtk.CellRendererText()
-        column = gtk.TreeViewColumn(_("Path"), renderertext, text=3)
+        column = gtk.TreeViewColumn(_('Path'), renderertext, text=3)
         column.set_sort_column_id(3)
         treeview.append_column(column)
         tt2 = gtk.Tooltip()
@@ -455,7 +455,7 @@ class GtkUI(GtkPluginBase):
         tree, tree_id = self.treeView.get_selection().get_selected()
         watchdir_id = str(self.store.get_value(tree_id, 0))
         if watchdir_id:
-            if col and col.get_title() == _("Active"):
+            if col and col.get_title() == _('Active'):
                 if self.watchdirs[watchdir_id]['enabled']:
                     client.autoadd.disable_watchdir(watchdir_id)
                 else:
@@ -473,7 +473,7 @@ class GtkUI(GtkPluginBase):
             self.glade.get_widget('remove_button').set_sensitive(False)
 
     def on_apply_prefs(self):
-        log.debug("applying prefs for AutoAdd")
+        log.debug('applying prefs for AutoAdd')
         for watchdir_id, watchdir in self.watchdirs.iteritems():
             client.autoadd.set_options(watchdir_id, watchdir)
 
@@ -485,7 +485,7 @@ class GtkUI(GtkPluginBase):
 
     def cb_get_config(self, watchdirs):
         """callback for on show_prefs"""
-        log.trace("Got whatchdirs from core: %s", watchdirs)
+        log.trace('Got whatchdirs from core: %s', watchdirs)
         self.watchdirs = watchdirs or {}
         self.store.clear()
         for watchdir_id, watchdir in self.watchdirs.iteritems():

@@ -29,7 +29,7 @@ class ConsoleBaseParser(argparse.ArgumentParser):
         """
         # Handle epilog manually to keep the text formatting
         epilog = self.epilog
-        self.epilog = ""
+        self.epilog = ''
         help_str = super(ConsoleBaseParser, self).format_help()
         if epilog is not None:
             help_str += epilog
@@ -44,9 +44,9 @@ class ConsoleCommandParser(ConsoleBaseParser):
         for a in args:
             if not a:
                 continue
-            if ";" in a:
-                cmd_lines = [arg.strip() for arg in a.split(";")]
-            elif " " in a:
+            if ';' in a:
+                cmd_lines = [arg.strip() for arg in a.split(';')]
+            elif ' ' in a:
                 cmd_lines = [a]
             else:
                 continue
@@ -84,8 +84,8 @@ class ConsoleCommandParser(ConsoleBaseParser):
             options.parsed_cmds = multi_command
         else:
             subcommand = False
-            if hasattr(self.base_parser, "subcommand"):
-                subcommand = getattr(self.base_parser, "subcommand")
+            if hasattr(self.base_parser, 'subcommand'):
+                subcommand = getattr(self.base_parser, 'subcommand')
             if not subcommand:
                 # We must use parse_known_args to handle case when no subcommand
                 # is provided, because argparse does not support parsing without
@@ -100,7 +100,7 @@ class ConsoleCommandParser(ConsoleBaseParser):
                 options = super(ConsoleCommandParser, self).parse_args(args=args)
                 options.parsed_cmds = [options]
 
-        if not hasattr(options, "remaining"):
+        if not hasattr(options, 'remaining'):
             options.remaining = []
 
         return options
@@ -127,13 +127,13 @@ class OptionParser(ConsoleBaseParser):
         raise OptionParserError(msg)
 
     def print_usage(self, _file=None):
-        console = component.get("ConsoleUI")
+        console = component.get('ConsoleUI')
         if self.usage:
             for line in self.format_usage().splitlines():
                 console.write(line)
 
     def print_help(self, _file=None):
-        console = component.get("ConsoleUI")
+        console = component.get('ConsoleUI')
         console.set_batch_write(True)
         for line in self.format_help().splitlines():
             console.write(line)

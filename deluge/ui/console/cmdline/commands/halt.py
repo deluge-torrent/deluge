@@ -15,15 +15,15 @@ from . import BaseCommand
 
 
 class Command(BaseCommand):
-    "Shutdown the deluge server"
+    'Shutdown the deluge server'
 
     def handle(self, options):
-        self.console = component.get("ConsoleUI")
+        self.console = component.get('ConsoleUI')
 
         def on_shutdown(result):
-            self.console.write("{!success!}Daemon was shutdown")
+            self.console.write('{!success!}Daemon was shutdown')
 
         def on_shutdown_fail(reason):
-            self.console.write("{!error!}Unable to shutdown daemon: %s" % reason)
+            self.console.write('{!error!}Unable to shutdown daemon: %s' % reason)
 
         return client.daemon.shutdown().addCallback(on_shutdown).addErrback(on_shutdown_fail)

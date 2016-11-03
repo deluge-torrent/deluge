@@ -30,22 +30,22 @@ class FilterSidebar(Sidebar, Component):
     def __init__(self, torrentlist, config):
         self.config = config
         height = curses.LINES - 2
-        width = self.config["torrentview"]["sidebar_width"]
-        Sidebar.__init__(self, torrentlist, width, height, title=" Filter ", border_off_north=1,
+        width = self.config['torrentview']['sidebar_width']
+        Sidebar.__init__(self, torrentlist, width, height, title=' Filter ', border_off_north=1,
                          allow_resize=True)
-        Component.__init__(self, "FilterSidebar")
+        Component.__init__(self, 'FilterSidebar')
         self.checked_index = 0
-        kwargs = {"checked_char": "*", "unchecked_char": "-", "checkbox_format": " %s ", "col": 0}
-        self.add_checked_input("All", "All", checked=True, **kwargs)
-        self.add_checked_input("Active", "Active", **kwargs)
-        self.add_checked_input("Downloading", "Downloading", color="green,black", **kwargs)
-        self.add_checked_input("Seeding", "Seeding", color="cyan,black", **kwargs)
-        self.add_checked_input("Paused", "Paused", **kwargs)
-        self.add_checked_input("Error", "Error", color="red,black", **kwargs)
-        self.add_checked_input("Checking", "Checking", color="blue,black", **kwargs)
-        self.add_checked_input("Queued", "Queued", **kwargs)
-        self.add_checked_input("Allocating", "Allocating", color="yellow,black", **kwargs)
-        self.add_checked_input("Moving", "Moving", color="green,black", **kwargs)
+        kwargs = {'checked_char': '*', 'unchecked_char': '-', 'checkbox_format': ' %s ', 'col': 0}
+        self.add_checked_input('All', 'All', checked=True, **kwargs)
+        self.add_checked_input('Active', 'Active', **kwargs)
+        self.add_checked_input('Downloading', 'Downloading', color='green,black', **kwargs)
+        self.add_checked_input('Seeding', 'Seeding', color='cyan,black', **kwargs)
+        self.add_checked_input('Paused', 'Paused', **kwargs)
+        self.add_checked_input('Error', 'Error', color='red,black', **kwargs)
+        self.add_checked_input('Checking', 'Checking', color='blue,black', **kwargs)
+        self.add_checked_input('Queued', 'Queued', **kwargs)
+        self.add_checked_input('Allocating', 'Allocating', color='yellow,black', **kwargs)
+        self.add_checked_input('Moving', 'Moving', color='green,black', **kwargs)
 
     @overrides(Component)
     def update(self):
@@ -59,7 +59,7 @@ class FilterSidebar(Sidebar, Component):
 
     def _cb_update_filter_tree(self, filter_items):
         """Callback function on client.core.get_filter_tree"""
-        states = filter_items["state"]
+        states = filter_items['state']
         largest_count = 0
         largest_state_width = 0
         for state in states:
@@ -74,7 +74,7 @@ class FilterSidebar(Sidebar, Component):
         for state in states:
             field = self.get_input(state[0])
             if field:
-                txt = ("%%-%ds%%%ds" % (filter_state_width, filter_count_width) % (state[0], state[1]))
+                txt = ('%%-%ds%%%ds' % (filter_state_width, filter_count_width) % (state[0], state[1]))
                 if field.set_message(txt):
                     changed = True
         return changed
@@ -97,9 +97,9 @@ class FilterSidebar(Sidebar, Component):
 
     @overrides(Sidebar)
     def on_resize(self, width):
-        sidebar_width = self.config["torrentview"]["sidebar_width"]
+        sidebar_width = self.config['torrentview']['sidebar_width']
         if sidebar_width != width:
-            self.config["torrentview"]["sidebar_width"] = width
+            self.config['torrentview']['sidebar_width'] = width
             self.config.save()
         self.resize_window(self.height, width)
         self.parent.toggle_sidebar()

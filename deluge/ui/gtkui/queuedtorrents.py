@@ -24,36 +24,36 @@ log = logging.getLogger(__name__)
 
 class QueuedTorrents(component.Component):
     def __init__(self):
-        component.Component.__init__(self, "QueuedTorrents", depend=["StatusBar", "AddTorrentDialog"])
+        component.Component.__init__(self, 'QueuedTorrents', depend=['StatusBar', 'AddTorrentDialog'])
         self.queue = []
         self.status_item = None
 
-        self.config = ConfigManager("gtkui.conf")
+        self.config = ConfigManager('gtkui.conf')
         self.builder = gtk.Builder()
         self.builder.add_from_file(deluge.common.resource_filename(
-            "deluge.ui.gtkui", os.path.join("glade", "queuedtorrents.ui")))
-        self.builder.get_object("chk_autoadd").set_active(self.config["autoadd_queued"])
-        self.dialog = self.builder.get_object("queued_torrents_dialog")
+            'deluge.ui.gtkui', os.path.join('glade', 'queuedtorrents.ui')))
+        self.builder.get_object('chk_autoadd').set_active(self.config['autoadd_queued'])
+        self.dialog = self.builder.get_object('queued_torrents_dialog')
         self.dialog.set_icon(get_logo(32))
 
         self.builder.connect_signals({
-            "on_button_remove_clicked": self.on_button_remove_clicked,
-            "on_button_clear_clicked": self.on_button_clear_clicked,
-            "on_button_close_clicked": self.on_button_close_clicked,
-            "on_button_add_clicked": self.on_button_add_clicked,
-            "on_chk_autoadd_toggled": self.on_chk_autoadd_toggled
+            'on_button_remove_clicked': self.on_button_remove_clicked,
+            'on_button_clear_clicked': self.on_button_clear_clicked,
+            'on_button_close_clicked': self.on_button_close_clicked,
+            'on_button_add_clicked': self.on_button_add_clicked,
+            'on_chk_autoadd_toggled': self.on_chk_autoadd_toggled
         })
 
-        self.treeview = self.builder.get_object("treeview")
+        self.treeview = self.builder.get_object('treeview')
         self.treeview.append_column(
-            gtk.TreeViewColumn(_("Torrent"), gtk.CellRendererText(), text=0))
+            gtk.TreeViewColumn(_('Torrent'), gtk.CellRendererText(), text=0))
 
         self.liststore = gtk.ListStore(str, str)
         self.treeview.set_model(self.liststore)
         self.treeview.set_tooltip_column(1)
 
     def run(self):
-        self.dialog.set_transient_for(component.get("MainWindow").window)
+        self.dialog.set_transient_for(component.get('MainWindow').window)
         self.dialog.show()
 
     def start(self):
@@ -64,16 +64,16 @@ class QueuedTorrents(component.Component):
         self.update_status_bar()
 
         # We only want the add button sensitive if we're connected to a host
-        self.builder.get_object("button_add").set_sensitive(True)
+        self.builder.get_object('button_add').set_sensitive(True)
 
-        if self.config["autoadd_queued"] or self.config["standalone"]:
+        if self.config['autoadd_queued'] or self.config['standalone']:
             self.on_button_add_clicked(None)
         else:
             self.run()
 
     def stop(self):
         # We only want the add button sensitive if we're connected to a host
-        self.builder.get_object("button_add").set_sensitive(False)
+        self.builder.get_object('button_add').set_sensitive(False)
         self.update_status_bar()
 
     def add_to_queue(self, torrents):
@@ -86,7 +86,7 @@ class QueuedTorrents(component.Component):
         for torrent in self.queue:
             if deluge.common.is_magnet(torrent):
                 magnet = deluge.common.get_magnet_info(torrent)
-                self.liststore.append([magnet["name"], torrent])
+                self.liststore.append([magnet['name'], torrent])
             else:
                 self.liststore.append([os.path.split(torrent)[1], torrent])
 
@@ -98,12 +98,12 @@ class QueuedTorrents(component.Component):
         # If there are no queued torrents.. remove statusbar widgets and return
         if len(self.queue) == 0:
             if self.status_item is not None:
-                component.get("StatusBar").remove_item(self.status_item)
+                component.get('StatusBar').remove_item(self.status_item)
                 self.status_item = None
             return False
 
         try:
-            component.get("StatusBar")
+            component.get('StatusBar')
         except Exception:
             # The statusbar hasn't been loaded yet, so we'll add a timer to
             # update it later.
@@ -112,14 +112,14 @@ class QueuedTorrents(component.Component):
 
         # Set the label text for statusbar
         if len(self.queue) > 1:
-            label = str(len(self.queue)) + _(" Torrents Queued")
+            label = str(len(self.queue)) + _(' Torrents Queued')
         else:
-            label = str(len(self.queue)) + _(" Torrent Queued")
+            label = str(len(self.queue)) + _(' Torrent Queued')
 
         # Add the statusbar items if needed, or just modify the label if they
         # have already been added.
         if self.status_item is None:
-            self.status_item = component.get("StatusBar").add_item(
+            self.status_item = component.get('StatusBar').add_item(
                 stock=gtk.STOCK_SORT_DESCENDING,
                 text=label,
                 callback=self.on_statusbar_click)
@@ -130,7 +130,7 @@ class QueuedTorrents(component.Component):
         return False
 
     def on_statusbar_click(self, widget, event):
-        log.debug("on_statusbar_click")
+        log.debug('on_statusbar_click')
         self.run()
 
     def on_button_remove_clicked(self, widget):
@@ -161,4 +161,4 @@ class QueuedTorrents(component.Component):
         self.update_status_bar()
 
     def on_chk_autoadd_toggled(self, widget):
-        self.config["autoadd_queued"] = widget.get_active()
+        self.config['autoadd_queued'] = widget.get_active()

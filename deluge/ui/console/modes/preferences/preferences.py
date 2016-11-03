@@ -74,11 +74,11 @@ class PreferenceSidebar(Sidebar):
     def __init__(self, torrentview, width):
         height = curses.LINES - 2
         Sidebar.__init__(self, torrentview, width, height, title=None, border_off_north=1)
-        self.categories = [_("Interface"), _("Downloads"), _("Network"), _("Bandwidth"),
-                           _("Other"), _("Daemon"), _("Queue"), _("Proxy"), _("Cache")]
+        self.categories = [_('Interface'), _('Downloads'), _('Network'), _('Bandwidth'),
+                           _('Other'), _('Daemon'), _('Queue'), _('Proxy'), _('Cache')]
         for name in self.categories:
-            self.add_text_field(name, name, selectable=True, font_unfocused_active="bold",
-                                color_unfocused_active="white,black")
+            self.add_text_field(name, name, selectable=True, font_unfocused_active='bold',
+                                color_unfocused_active='white,black')
 
     def on_resize(self):
         self.resize_window(curses.LINES - 2, self.width)
@@ -117,7 +117,7 @@ class Preferences(BaseMode, PopupsHandler):
             CachePane(self)
         ]
 
-        self.action_input = SelectInput(self, None, None, [_("Cancel"), _("Apply"), _("OK")], [0, 1, 2], 0)
+        self.action_input = SelectInput(self, None, None, [_('Cancel'), _('Apply'), _('OK')], [0, 1, 2], 0)
 
     def load_config(self):
         if self.config_loaded:
@@ -160,7 +160,7 @@ class Preferences(BaseMode, PopupsHandler):
 
     def _draw_actions(self):
         selected = self.active_zone == ZONE.ACTIONS
-        self.stdscr.hline(self.rows - 3, self.sidebar_width, "_", self.cols)
+        self.stdscr.hline(self.rows - 3, self.sidebar_width, '_', self.cols)
         self.action_input.render(self.stdscr, self.rows - 2, width=self.cols,
                                  active=selected, focus=True, col=self.cols - 22)
 
@@ -187,7 +187,7 @@ class Preferences(BaseMode, PopupsHandler):
 
     @overrides(BaseMode)
     def refresh(self):
-        if not component.get("ConsoleUI").is_active_mode(self) or not self.config_loaded:
+        if not component.get('ConsoleUI').is_active_mode(self) or not self.config_loaded:
             return
 
         if self.popup is None and self.messages:
@@ -248,13 +248,13 @@ class Preferences(BaseMode, PopupsHandler):
             # are ever reordered, so do it the slightly slower but safer way
             if isinstance(pane, InterfacePane):
                 pane.add_config_values(new_console_config)
-                for k in ["ring_bell", "language"]:
+                for k in ['ring_bell', 'language']:
                     didupdate = update_conf_value(k, new_console_config, self.console_config, didupdate)
-                for k in ["separate_complete", "move_selection"]:
-                    didupdate = update_conf_value(k, new_console_config, self.console_config["torrentview"], didupdate)
-                for k in ["ignore_duplicate_lines", "save_command_history",
-                          "third_tab_lists_all", "torrents_per_tab_press"]:
-                    didupdate = update_conf_value(k, new_console_config, self.console_config["cmdline"], didupdate)
+                for k in ['separate_complete', 'move_selection']:
+                    didupdate = update_conf_value(k, new_console_config, self.console_config['torrentview'], didupdate)
+                for k in ['ignore_duplicate_lines', 'save_command_history',
+                          'third_tab_lists_all', 'torrents_per_tab_press']:
+                    didupdate = update_conf_value(k, new_console_config, self.console_config['cmdline'], didupdate)
 
         if didupdate:
             self.parent_mode.on_config_changed()
@@ -278,7 +278,7 @@ class Preferences(BaseMode, PopupsHandler):
                 self.back_to_parent()
 
     def back_to_parent(self):
-        component.get("ConsoleUI").set_mode(self.parent_mode.mode_name)
+        component.get('ConsoleUI').set_mode(self.parent_mode.mode_name)
 
     @overrides(BaseMode)
     def read_input(self):
@@ -291,7 +291,7 @@ class Preferences(BaseMode, PopupsHandler):
             return
 
         if util.is_printable_char(c):
-            if chr(c) == "Q":
+            if chr(c) == 'Q':
                 from twisted.internet import reactor
                 if client.connected():
                     def on_disconnect(result):
@@ -300,8 +300,8 @@ class Preferences(BaseMode, PopupsHandler):
                 else:
                     reactor.stop()
                 return
-            elif chr(c) == "h":
-                self.push_popup(MessagePopup(self, "Preferences Help", HELP_STR))
+            elif chr(c) == 'h':
+                self.push_popup(MessagePopup(self, 'Preferences Help', HELP_STR))
 
         if self.sidebar.has_focus() and c == util.KEY_ESC:
             self.back_to_parent()

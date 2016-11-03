@@ -31,19 +31,19 @@ class PathChoosersHandler(component.Component):
 
     def __init__(self, paths_config_key=None):
         # self.chooser_name = "PathChooser_%d" % (len(PathChooser.path_choosers) +1)
-        component.Component.__init__(self, "PathChoosersHandler")
+        component.Component.__init__(self, 'PathChoosersHandler')
         self.path_choosers = []
         self.paths_list_keys = []
         self.config_properties = {}
         self.started = False
         self.config_keys_to_funcs_mapping = {
-            "path_chooser_show_chooser_button_on_localhost": "filechooser_button_visible",
-            "path_chooser_show_path_entry": "path_entry_visible",
-            "path_chooser_auto_complete_enabled": "auto_complete_enabled",
-            "path_chooser_show_folder_name": "show_folder_name_on_button",
-            "path_chooser_accelerator_string": "accelerator_string",
-            "path_chooser_show_hidden_files": "show_hidden_files",
-            "path_chooser_max_popup_rows": "max_popup_rows",
+            'path_chooser_show_chooser_button_on_localhost': 'filechooser_button_visible',
+            'path_chooser_show_path_entry': 'path_entry_visible',
+            'path_chooser_auto_complete_enabled': 'auto_complete_enabled',
+            'path_chooser_show_folder_name': 'show_folder_name_on_button',
+            'path_chooser_accelerator_string': 'accelerator_string',
+            'path_chooser_show_hidden_files': 'show_hidden_files',
+            'path_chooser_max_popup_rows': 'max_popup_rows',
         }
 
     def start(self):
@@ -66,8 +66,8 @@ class PathChoosersHandler(component.Component):
         chooser.config_key_funcs = {}
         for key in self.config_keys_to_funcs_mapping:
             chooser.config_key_funcs[key] = [None, None]
-            chooser.config_key_funcs[key][0] = getattr(chooser, "get_%s" % self.config_keys_to_funcs_mapping[key])
-            chooser.config_key_funcs[key][1] = getattr(chooser, "set_%s" % self.config_keys_to_funcs_mapping[key])
+            chooser.config_key_funcs[key][0] = getattr(chooser, 'get_%s' % self.config_keys_to_funcs_mapping[key])
+            chooser.config_key_funcs[key][1] = getattr(chooser, 'set_%s' % self.config_keys_to_funcs_mapping[key])
 
         self.path_choosers.append(chooser)
         if chooser.paths_config_key not in self.paths_list_keys:
@@ -82,7 +82,7 @@ class PathChoosersHandler(component.Component):
             chooser.config_key_funcs[key][1](value)
 
         # Save to core
-        if key is not "path_chooser_max_popup_rows":
+        if key is not 'path_chooser_max_popup_rows':
             client.core.set_config({key: value})
         else:
             # Since the max rows value can be changed fast with a spinbutton, we
@@ -92,7 +92,7 @@ class PathChoosersHandler(component.Component):
             def update(value_):
                 # The value hasn't been changed in one second, so save to core
                 if self.max_rows_value_set == value_:
-                    client.core.set_config({"path_chooser_max_popup_rows": value})
+                    client.core.set_config({'path_chooser_max_popup_rows': value})
             from twisted.internet import reactor
             reactor.callLater(1, update, value)
 
@@ -120,35 +120,35 @@ class PathChooser(PathChooserComboBox):
         self.chooser_handler = PathChoosersHandler()
         self.chooser_handler.register_chooser(self)
         self.set_auto_completer_func(self.on_completion)
-        self.connect("list-values-changed", self.on_list_values_changed_event)
-        self.connect("auto-complete-enabled-toggled", self.on_auto_complete_enabled_toggled)
-        self.connect("show-filechooser-toggled", self.on_show_filechooser_toggled)
-        self.connect("show-folder-name-on-button", self.on_show_folder_on_button_toggled)
-        self.connect("show-path-entry-toggled", self.on_show_path_entry_toggled)
-        self.connect("accelerator-set", self.on_accelerator_set)
-        self.connect("max-rows-changed", self.on_max_rows_changed)
-        self.connect("show-hidden-files-toggled", self.on_show_hidden_files_toggled)
+        self.connect('list-values-changed', self.on_list_values_changed_event)
+        self.connect('auto-complete-enabled-toggled', self.on_auto_complete_enabled_toggled)
+        self.connect('show-filechooser-toggled', self.on_show_filechooser_toggled)
+        self.connect('show-folder-name-on-button', self.on_show_folder_on_button_toggled)
+        self.connect('show-path-entry-toggled', self.on_show_path_entry_toggled)
+        self.connect('accelerator-set', self.on_accelerator_set)
+        self.connect('max-rows-changed', self.on_max_rows_changed)
+        self.connect('show-hidden-files-toggled', self.on_show_hidden_files_toggled)
 
     def on_auto_complete_enabled_toggled(self, widget, value):
-        self.chooser_handler.set_value_for_path_choosers(value, "path_chooser_auto_complete_enabled")
+        self.chooser_handler.set_value_for_path_choosers(value, 'path_chooser_auto_complete_enabled')
 
     def on_show_filechooser_toggled(self, widget, value):
-        self.chooser_handler.set_value_for_path_choosers(value, "path_chooser_show_chooser_button_on_localhost")
+        self.chooser_handler.set_value_for_path_choosers(value, 'path_chooser_show_chooser_button_on_localhost')
 
     def on_show_folder_on_button_toggled(self, widget, value):
-        self.chooser_handler.set_value_for_path_choosers(value, "path_chooser_show_folder_name")
+        self.chooser_handler.set_value_for_path_choosers(value, 'path_chooser_show_folder_name')
 
     def on_show_path_entry_toggled(self, widget, value):
-        self.chooser_handler.set_value_for_path_choosers(value, "path_chooser_show_path_entry")
+        self.chooser_handler.set_value_for_path_choosers(value, 'path_chooser_show_path_entry')
 
     def on_accelerator_set(self, widget, value):
-        self.chooser_handler.set_value_for_path_choosers(value, "path_chooser_accelerator_string")
+        self.chooser_handler.set_value_for_path_choosers(value, 'path_chooser_accelerator_string')
 
     def on_show_hidden_files_toggled(self, widget, value):
-        self.chooser_handler.set_value_for_path_choosers(value, "path_chooser_show_hidden_files")
+        self.chooser_handler.set_value_for_path_choosers(value, 'path_chooser_show_hidden_files')
 
     def on_max_rows_changed(self, widget, value):
-        self.chooser_handler.set_value_for_path_choosers(value, "path_chooser_max_popup_rows")
+        self.chooser_handler.set_value_for_path_choosers(value, 'path_chooser_max_popup_rows')
 
     def on_list_values_changed_event(self, widget, values):
         self.chooser_handler.on_list_values_changed(values, self.paths_config_key, self)
@@ -160,7 +160,7 @@ class PathChooser(PathChooserComboBox):
                 try:
                     self.config_key_funcs[key][1](config[key])
                 except TypeError as ex:
-                    log.warn("TypeError: %s", ex)
+                    log.warn('TypeError: %s', ex)
 
         # Set the saved paths
         if self.paths_config_key and self.paths_config_key in config:

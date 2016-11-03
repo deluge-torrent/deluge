@@ -33,13 +33,13 @@ class UI(object):
 
     def __init__(self, name, **kwargs):
         self.__name = name
-        self.ui_args = kwargs.pop("ui_args", None)
+        self.ui_args = kwargs.pop('ui_args', None)
         lang.setup_translations()
         self.__parser = BaseArgParser(**kwargs)
 
     def parse_args(self, parser, args=None):
         options = parser.parse_args(args)
-        if not hasattr(options, "remaining"):
+        if not hasattr(options, 'remaining'):
             options.remaining = []
         return options
 
@@ -61,8 +61,8 @@ class UI(object):
             parser = self.parser
         self.__options = self.parse_args(parser, args)
 
-        setproctitle("deluge-%s" % self.__name)
+        setproctitle('deluge-%s' % self.__name)
 
-        log.info("Deluge ui %s", deluge.common.get_version())
-        log.debug("options: %s", self.__options)
-        log.info("Starting %s ui..", self.__name)
+        log.info('Deluge ui %s', deluge.common.get_version())
+        log.debug('options: %s', self.__options)
+        log.info('Starting %s ui..', self.__name)

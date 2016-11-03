@@ -27,12 +27,12 @@ EXECUTE_EVENT = 1
 EXECUTE_COMMAND = 2
 
 EVENT_MAP = {
-    "complete": _("Torrent Complete"),
-    "added": _("Torrent Added"),
-    "removed": _("Torrent Removed")
+    'complete': _('Torrent Complete'),
+    'added': _('Torrent Added'),
+    'removed': _('Torrent Removed')
 }
 
-EVENTS = ["complete", "added", "removed"]
+EVENTS = ['complete', 'added', 'removed']
 
 
 class ExecutePreferences(object):
@@ -40,13 +40,13 @@ class ExecutePreferences(object):
         self.plugin = plugin
 
     def load(self):
-        log.debug("Adding Execute Preferences page")
-        self.glade = gtk.glade.XML(common.get_resource("execute_prefs.glade"))
+        log.debug('Adding Execute Preferences page')
+        self.glade = gtk.glade.XML(common.get_resource('execute_prefs.glade'))
         self.glade.signal_autoconnect({
-            "on_add_button_clicked": self.on_add_button_clicked
+            'on_add_button_clicked': self.on_add_button_clicked
         })
 
-        events = self.glade.get_widget("event_combobox")
+        events = self.glade.get_widget('event_combobox')
 
         store = gtk.ListStore(str, str)
         for event in EVENTS:
@@ -55,31 +55,31 @@ class ExecutePreferences(object):
         events.set_model(store)
         events.set_active(0)
 
-        self.plugin.add_preferences_page(_("Execute"), self.glade.get_widget("execute_box"))
-        self.plugin.register_hook("on_show_prefs", self.load_commands)
-        self.plugin.register_hook("on_apply_prefs", self.on_apply_prefs)
+        self.plugin.add_preferences_page(_('Execute'), self.glade.get_widget('execute_box'))
+        self.plugin.register_hook('on_show_prefs', self.load_commands)
+        self.plugin.register_hook('on_apply_prefs', self.on_apply_prefs)
 
         self.load_commands()
 
-        client.register_event_handler("ExecuteCommandAddedEvent", self.on_command_added_event)
-        client.register_event_handler("ExecuteCommandRemovedEvent", self.on_command_removed_event)
+        client.register_event_handler('ExecuteCommandAddedEvent', self.on_command_added_event)
+        client.register_event_handler('ExecuteCommandRemovedEvent', self.on_command_removed_event)
 
     def unload(self):
-        self.plugin.remove_preferences_page(_("Execute"))
-        self.plugin.deregister_hook("on_apply_prefs", self.on_apply_prefs)
-        self.plugin.deregister_hook("on_show_prefs", self.load_commands)
+        self.plugin.remove_preferences_page(_('Execute'))
+        self.plugin.deregister_hook('on_apply_prefs', self.on_apply_prefs)
+        self.plugin.deregister_hook('on_show_prefs', self.load_commands)
 
     def add_command(self, command_id, event, command):
-        log.debug("Adding command `%s`", command_id)
-        vbox = self.glade.get_widget("commands_vbox")
+        log.debug('Adding command `%s`', command_id)
+        vbox = self.glade.get_widget('commands_vbox')
         hbox = gtk.HBox(False, 5)
-        hbox.set_name(command_id + "_" + event)
+        hbox.set_name(command_id + '_' + event)
         label = gtk.Label(EVENT_MAP[event])
         entry = gtk.Entry()
         entry.set_text(command)
         button = gtk.Button()
-        button.set_name("remove_%s" % command_id)
-        button.connect("clicked", self.on_remove_button_clicked)
+        button.set_name('remove_%s' % command_id)
+        button.connect('clicked', self.on_remove_button_clicked)
 
         img = gtk.Image()
         img.set_from_stock(gtk.STOCK_REMOVE, gtk.ICON_SIZE_BUTTON)
@@ -92,15 +92,15 @@ class ExecutePreferences(object):
         vbox.pack_start(hbox)
 
     def remove_command(self, command_id):
-        vbox = self.glade.get_widget("commands_vbox")
+        vbox = self.glade.get_widget('commands_vbox')
         children = vbox.get_children()
         for child in children:
-            if child.get_name().split("_")[0] == command_id:
+            if child.get_name().split('_')[0] == command_id:
                 vbox.remove(child)
                 break
 
     def clear_commands(self):
-        vbox = self.glade.get_widget("commands_vbox")
+        vbox = self.glade.get_widget('commands_vbox')
         children = vbox.get_children()
         for child in children:
             vbox.remove(child)
@@ -108,7 +108,7 @@ class ExecutePreferences(object):
     def load_commands(self):
         def on_get_commands(commands):
             self.clear_commands()
-            log.debug("on_get_commands: %s", commands)
+            log.debug('on_get_commands: %s', commands)
             for command in commands:
                 command_id, event, command = command
                 self.add_command(command_id, event, command)
@@ -116,38 +116,38 @@ class ExecutePreferences(object):
         client.execute.get_commands().addCallback(on_get_commands)
 
     def on_add_button_clicked(self, *args):
-        command = self.glade.get_widget("command_entry").get_text()
-        events = self.glade.get_widget("event_combobox")
+        command = self.glade.get_widget('command_entry').get_text()
+        events = self.glade.get_widget('event_combobox')
         event = events.get_model()[events.get_active()][1]
         client.execute.add_command(event, command)
 
     def on_remove_button_clicked(self, widget, *args):
-        command_id = widget.get_name().replace("remove_", "")
+        command_id = widget.get_name().replace('remove_', '')
         client.execute.remove_command(command_id)
 
     def on_apply_prefs(self):
-        vbox = self.glade.get_widget("commands_vbox")
+        vbox = self.glade.get_widget('commands_vbox')
         children = vbox.get_children()
         for child in children:
-            command_id, event = child.get_name().split("_")
+            command_id, event = child.get_name().split('_')
             for widget in child.get_children():
                 if isinstance(widget, gtk.Entry):
                     command = widget.get_text()
             client.execute.save_command(command_id, event, command)
 
     def on_command_added_event(self, command_id, event, command):
-        log.debug("Adding command %s: %s", event, command)
+        log.debug('Adding command %s: %s', event, command)
         self.add_command(command_id, event, command)
 
     def on_command_removed_event(self, command_id):
-        log.debug("Removing command %s", command_id)
+        log.debug('Removing command %s', command_id)
         self.remove_command(command_id)
 
 
 class GtkUI(GtkPluginBase):
 
     def enable(self):
-        self.plugin = component.get("PluginManager")
+        self.plugin = component.get('PluginManager')
         self.preferences = ExecutePreferences(self.plugin)
         self.preferences.load()
 

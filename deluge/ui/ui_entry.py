@@ -26,10 +26,10 @@ from deluge.ui.baseargparser import BaseArgParser
 from deluge.ui.util import lang
 
 DEFAULT_PREFS = {
-    "default_ui": "gtk"
+    'default_ui': 'gtk'
 }
 
-AMBIGUOUS_CMD_ARGS = ("-h", "--help", "-v", "-V", "--version")
+AMBIGUOUS_CMD_ARGS = ('-h', '--help', '-v', '-V', '--version')
 
 
 def start_ui():
@@ -38,14 +38,14 @@ def start_ui():
 
     # Get the registered UI entry points
     ui_entrypoints = dict([(entrypoint.name, entrypoint.load())
-                           for entrypoint in pkg_resources.iter_entry_points("deluge.ui")])
+                           for entrypoint in pkg_resources.iter_entry_points('deluge.ui')])
     ui_titles = sorted(ui_entrypoints.keys())
 
     def add_ui_options_group(_parser):
         """Function to enable reuse of UI Options group"""
-        group = _parser.add_argument_group(_("UI Options"))
-        group.add_argument("-s", "--set-default-ui", dest="default_ui", choices=ui_titles,
-                           help=_("Set the default UI to be run, when no UI is specified"))
+        group = _parser.add_argument_group(_('UI Options'))
+        group.add_argument('-s', '--set-default-ui', dest='default_ui', choices=ui_titles,
+                           help=_('Set the default UI to be run, when no UI is specified'))
         return _parser
 
     # Setup parser with Common Options and add UI Options group.
@@ -54,17 +54,17 @@ def start_ui():
     # Parse and handle common/process group options
     options = parser.parse_known_ui_args(sys.argv, withhold=AMBIGUOUS_CMD_ARGS)
 
-    config = deluge.configmanager.ConfigManager("ui.conf", DEFAULT_PREFS)
+    config = deluge.configmanager.ConfigManager('ui.conf', DEFAULT_PREFS)
     log = logging.getLogger(__name__)
-    log.info("Deluge ui %s", deluge.common.get_version())
+    log.info('Deluge ui %s', deluge.common.get_version())
 
     if options.default_ui:
-        config["default_ui"] = options.default_ui
+        config['default_ui'] = options.default_ui
         config.save()
-        log.info("The default UI has been changed to %s", options.default_ui)
+        log.info('The default UI has been changed to %s', options.default_ui)
         sys.exit(0)
 
-    default_ui = config["default_ui"]
+    default_ui = config['default_ui']
     config.save()  # Save in case config didn't already exist.
     del config
 
@@ -74,16 +74,16 @@ def start_ui():
     parser = add_ui_options_group(BaseArgParser(common_help=True))
 
     # Create subparser for each registered UI. Empty title is used to remove unwanted positional text.
-    subparsers = parser.add_subparsers(dest="selected_ui", metavar="{%s} [UI args]" % ",".join(ui_titles), title=None,
-                                       help=_("Alternative UI to launch, with optional ui args \n  (default UI: *)"))
+    subparsers = parser.add_subparsers(dest='selected_ui', metavar='{%s} [UI args]' % ','.join(ui_titles), title=None,
+                                       help=_('Alternative UI to launch, with optional ui args \n  (default UI: *)'))
     for ui in ui_titles:
         parser_ui = subparsers.add_parser(ui, common_help=False,
-                                          help=getattr(ui_entrypoints[ui], "cmd_description", ""))
-        parser_ui.add_argument("ui_args", nargs=argparse.REMAINDER)
+                                          help=getattr(ui_entrypoints[ui], 'cmd_description', ''))
+        parser_ui.add_argument('ui_args', nargs=argparse.REMAINDER)
         # If the UI is set as default, indicate this in help by prefixing with a star.
         subactions = subparsers._get_subactions()
-        prefix = "*" if ui == default_ui else " "
-        subactions[-1].dest = "%s %s" % (prefix, ui)
+        prefix = '*' if ui == default_ui else ' '
+        subactions[-1].dest = '%s %s' % (prefix, ui)
 
     # Insert a default UI subcommand unless one of the ambiguous_args are specified
     parser.set_default_subparser(default_ui, abort_opts=AMBIGUOUS_CMD_ARGS)
@@ -97,7 +97,7 @@ def start_ui():
     sys.argv.remove(selected_ui)
 
     try:
-        ui = ui_entrypoints[selected_ui](prog="%s %s" % (os.path.basename(sys.argv[0]), selected_ui), ui_args=ui_args)
+        ui = ui_entrypoints[selected_ui](prog='%s %s' % (os.path.basename(sys.argv[0]), selected_ui), ui_args=ui_args)
     except KeyError as ex:
         log.error("Unable to find chosen UI: '%s'. Please choose a different UI "
                   "or use '--set-default-ui' to change default UI.", selected_ui)
@@ -111,7 +111,7 @@ def start_ui():
                       "or use '--set-default-ui' to change default UI.", selected_ui)
         else:
             log.exception(ex)
-            log.error("Encountered an error launching the request UI: %s", selected_ui)
+            log.error('Encountered an error launching the request UI: %s', selected_ui)
         sys.exit(1)
     else:
         ui.start()

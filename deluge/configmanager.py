@@ -19,7 +19,7 @@ log = logging.getLogger(__name__)
 
 class _ConfigManager(object):
     def __init__(self):
-        log.debug("ConfigManager started..")
+        log.debug('ConfigManager started..')
         self.config_files = {}
         self.__config_directory = None
 
@@ -44,16 +44,16 @@ class _ConfigManager(object):
         if not directory:
             return False
 
-        log.info("Setting config directory to: %s", directory)
+        log.info('Setting config directory to: %s', directory)
         if not os.path.exists(directory):
             # Try to create the config folder if it doesn't exist
             try:
                 os.makedirs(directory)
             except OSError as ex:
-                log.error("Unable to make config directory: %s", ex)
+                log.error('Unable to make config directory: %s', ex)
                 return False
         elif not os.path.isdir(directory):
-            log.error("Config directory needs to be a directory!")
+            log.error('Config directory needs to be a directory!')
             return False
 
         self.__config_directory = directory

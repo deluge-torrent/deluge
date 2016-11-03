@@ -89,7 +89,7 @@ def _overrides(stack, method, explicit_base_classes=None):
     if explicit_base_classes:
         # One or more base classes are explicitly given, check only those classes
         override_classes = re.search(r'\s*@overrides\((.+)\)\s*', stack[1][4][0]).group(1)
-        override_classes = [c.strip() for c in override_classes.split(",")]
+        override_classes = [c.strip() for c in override_classes.split(',')]
         check_classes = override_classes
 
     for c in base_classes + check_classes:
@@ -108,9 +108,9 @@ def _overrides(stack, method, explicit_base_classes=None):
             for cls in check_classes:
                 if not hasattr(classes[cls], method.__name__):
                     raise Exception("Function override '%s' not found in superclass: '%s'\n%s"
-                                    % (method.__name__, cls, "File: %s:%s" % (stack[1][1], stack[1][2])))
+                                    % (method.__name__, cls, 'File: %s:%s' % (stack[1][1], stack[1][2])))
 
     if not any(hasattr(classes[cls], method.__name__) for cls in check_classes):
         raise Exception("Function override '%s' not found in any superclass: '%s'\n%s"
-                        % (method.__name__, check_classes, "File: %s:%s" % (stack[1][1], stack[1][2])))
+                        % (method.__name__, check_classes, 'File: %s:%s' % (stack[1][1], stack[1][2])))
     return method

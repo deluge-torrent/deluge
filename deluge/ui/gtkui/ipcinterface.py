@@ -39,10 +39,10 @@ class IPCProtocolServer(Protocol):
         pass
 
     def dataReceived(self, data):  # NOQA
-        config = ConfigManager("gtkui.conf")
+        config = ConfigManager('gtkui.conf')
         data = rencode.loads(data, decode_utf8=True)
-        if not data or config["focus_main_window_on_add"]:
-            component.get("MainWindow").present()
+        if not data or config['focus_main_window_on_add']:
+            component.get('MainWindow').present()
         process_args(data)
 
 
@@ -67,25 +67,25 @@ class IPCClientFactory(ClientFactory):
         self.stop = False
 
     def clientConnectionFailed(self, connector, reason):  # NOQA
-        log.warning("Connection to running instance failed.")
+        log.warning('Connection to running instance failed.')
         reactor.stop()
 
 
 class IPCInterface(component.Component):
     def __init__(self, args):
-        component.Component.__init__(self, "IPCInterface")
+        component.Component.__init__(self, 'IPCInterface')
         self.listener = None
-        ipc_dir = get_config_dir("ipc")
+        ipc_dir = get_config_dir('ipc')
         if not os.path.exists(ipc_dir):
             os.makedirs(ipc_dir)
-        socket = os.path.join(ipc_dir, "deluge-gtk")
+        socket = os.path.join(ipc_dir, 'deluge-gtk')
         if windows_check():
             # If we're on windows we need to check the global mutex to see if deluge is
             # already running.
             import win32event
             import win32api
             import winerror
-            self.mutex = win32event.CreateMutex(None, False, "deluge")
+            self.mutex = win32event.CreateMutex(None, False, 'deluge')
             if win32api.GetLastError() != winerror.ERROR_ALREADY_EXISTS:
                 # Create listen socket
                 self.factory = Factory()
@@ -94,7 +94,7 @@ class IPCInterface(component.Component):
                 port = random.randrange(20000, 65535)
                 self.listener = reactor.listenTCP(port, self.factory)
                 # Store the port number in the socket file
-                with open(socket, "w") as _file:
+                with open(socket, 'w') as _file:
                     _file.write(str(port))
                 # We need to process any args when starting this process
                 process_args(args)
@@ -105,7 +105,7 @@ class IPCInterface(component.Component):
                 self.factory = ClientFactory()
                 self.factory.args = args
                 self.factory.protocol = IPCProtocolClient
-                reactor.connectTCP("127.0.0.1", port, self.factory)
+                reactor.connectTCP('127.0.0.1', port, self.factory)
                 reactor.run()
                 sys.exit(0)
         else:
@@ -113,8 +113,8 @@ class IPCInterface(component.Component):
             restart_tempfile = glob(os.path.join(ipc_dir, 'restart.*'))
             for f in restart_tempfile:
                 os.remove(f)
-            lockfile = socket + ".lock"
-            log.debug("Checking if lockfile exists: %s", lockfile)
+            lockfile = socket + '.lock'
+            log.debug('Checking if lockfile exists: %s', lockfile)
             if os.path.lexists(lockfile):
                 def delete_lockfile():
                     log.debug("Removing lockfile since it's stale.")
@@ -122,7 +122,7 @@ class IPCInterface(component.Component):
                         os.remove(lockfile)
                         os.remove(socket)
                     except OSError as ex:
-                        log.error("Failed to delete lockfile: %s", ex)
+                        log.error('Failed to delete lockfile: %s', ex)
 
                 try:
                     os.kill(int(os.readlink(lockfile)), 0)
@@ -130,26 +130,26 @@ class IPCInterface(component.Component):
                     delete_lockfile()
                 else:
                     if restart_tempfile:
-                        log.warning("Found running PID but it is not a Deluge process, removing lockfile...")
+                        log.warning('Found running PID but it is not a Deluge process, removing lockfile...')
                         delete_lockfile()
             try:
                 self.factory = Factory()
                 self.factory.protocol = IPCProtocolServer
                 self.listener = reactor.listenUNIX(socket, self.factory, wantPID=True)
             except twisted.internet.error.CannotListenError as ex:
-                log.info("Deluge is already running! Sending arguments to running instance...")
+                log.info('Deluge is already running! Sending arguments to running instance...')
                 self.factory = IPCClientFactory()
                 self.factory.args = args
                 reactor.connectUNIX(socket, self.factory, checkPID=True)
                 reactor.run()
                 if self.factory.stop:
-                    log.info("Success sending arguments to running Deluge.")
+                    log.info('Success sending arguments to running Deluge.')
                     import gtk
                     gtk.gdk.notify_startup_complete()
                     sys.exit(0)
                 else:
                     if restart_tempfile:
-                        log.error("Deluge restart failed: %s", ex)
+                        log.error('Deluge restart failed: %s', ex)
                         sys.exit(1)
                     else:
                         log.warning('Restarting Deluge... (%s)', ex)
@@ -171,49 +171,49 @@ def process_args(args):
     """Process arguments sent to already running Deluge"""
     # Make sure args is a list
     args = list(args)
-    log.debug("Processing args from other process: %s", args)
+    log.debug('Processing args from other process: %s', args)
     if not client.connected():
         # We're not connected so add these to the queue
-        log.debug("Not connected to host.. Adding to queue.")
-        component.get("QueuedTorrents").add_to_queue(args)
+        log.debug('Not connected to host.. Adding to queue.')
+        component.get('QueuedTorrents').add_to_queue(args)
         return
-    config = ConfigManager("gtkui.conf")
+    config = ConfigManager('gtkui.conf')
 
     for arg in args:
         if not arg.strip():
             continue
-        log.debug("arg: %s", arg)
+        log.debug('arg: %s', arg)
 
         if is_url(arg):
-            log.debug("Attempting to add url (%s) from external source...", arg)
-            if config["interactive_add"]:
-                component.get("AddTorrentDialog").add_from_url(arg)
-                component.get("AddTorrentDialog").show(config["focus_add_dialog"])
+            log.debug('Attempting to add url (%s) from external source...', arg)
+            if config['interactive_add']:
+                component.get('AddTorrentDialog').add_from_url(arg)
+                component.get('AddTorrentDialog').show(config['focus_add_dialog'])
             else:
                 client.core.add_torrent_url(arg, None)
 
         elif is_magnet(arg):
-            log.debug("Attempting to add magnet (%s) from external source...", arg)
-            if config["interactive_add"]:
-                component.get("AddTorrentDialog").add_from_magnets([arg])
-                component.get("AddTorrentDialog").show(config["focus_add_dialog"])
+            log.debug('Attempting to add magnet (%s) from external source...', arg)
+            if config['interactive_add']:
+                component.get('AddTorrentDialog').add_from_magnets([arg])
+                component.get('AddTorrentDialog').show(config['focus_add_dialog'])
             else:
                 client.core.add_torrent_magnet(arg, {})
 
         else:
-            log.debug("Attempting to add file (%s) from external source...", arg)
-            if urlparse(arg).scheme == "file":
+            log.debug('Attempting to add file (%s) from external source...', arg)
+            if urlparse(arg).scheme == 'file':
                 arg = url2pathname(urlparse(arg).path)
             path = os.path.abspath(decode_string(arg))
 
             if not os.path.exists(path):
-                log.error("No such file: %s", path)
+                log.error('No such file: %s', path)
                 continue
 
-            if config["interactive_add"]:
-                component.get("AddTorrentDialog").add_from_files([path])
-                component.get("AddTorrentDialog").show(config["focus_add_dialog"])
+            if config['interactive_add']:
+                component.get('AddTorrentDialog').add_from_files([path])
+                component.get('AddTorrentDialog').show(config['focus_add_dialog'])
             else:
-                with open(path, "rb") as _file:
+                with open(path, 'rb') as _file:
                     filedump = base64.encodestring(_file.read())
                 client.core.add_torrent_file(os.path.split(path)[-1], filedump, None)

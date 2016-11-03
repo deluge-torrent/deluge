@@ -24,7 +24,7 @@ class DelugeEventMetaClass(type):
     """
     def __init__(self, name, bases, dct):  # pylint: disable=bad-mcs-method-argument
         super(DelugeEventMetaClass, self).__init__(name, bases, dct)
-        if name != "DelugeEvent":
+        if name != 'DelugeEvent':
             known_events[name] = self
 
 
@@ -44,7 +44,7 @@ class DelugeEvent(object):
         return self.__class__.__name__
 
     def _get_args(self):
-        if not hasattr(self, "_args"):
+        if not hasattr(self, '_args'):
             return []
         return self._args
 

@@ -47,24 +47,24 @@ class BaseInputPane(InputKeyHandler):
         self.border_off_south = border_off_south
         self.last_lineoff_move = 0
 
-        if not hasattr(self, "visible_content_pane_height"):
+        if not hasattr(self, 'visible_content_pane_height'):
             log.error("The class '%s' does not have the attribute '%s' required by super class '%s'",
-                      self.__class__.__name__, "visible_content_pane_height", BaseInputPane.__name__)
-            raise AttributeError("visible_content_pane_height")
+                      self.__class__.__name__, 'visible_content_pane_height', BaseInputPane.__name__)
+            raise AttributeError('visible_content_pane_height')
 
     @property
     def visible_content_pane_width(self):
         return self.mode.width
 
     def add_spaces(self, num):
-        string = ""
+        string = ''
         for i in range(num):
-            string += "\n"
+            string += '\n'
 
-        self.add_text_area("space %d" % len(self.inputs), string)
+        self.add_text_area('space %d' % len(self.inputs), string)
 
     def add_text(self, string):
-        self.add_text_area("", string)
+        self.add_text_area('', string)
 
     def move(self, r, c):
         self._cursor_row = r
@@ -82,7 +82,7 @@ class BaseInputPane(InputKeyHandler):
             if e.name == input_element.name:
                 import traceback
                 log.warn("Input element with name '%s' already exists in input pane (%s):\n%s",
-                         input_element.name, e, "".join(traceback.format_stack(limit=5)))
+                         input_element.name, e, ''.join(traceback.format_stack(limit=5)))
                 return
 
         self.inputs.append(input_element)
@@ -97,7 +97,7 @@ class BaseInputPane(InputKeyHandler):
     def add_info_field(self, name, label, value):
         return self._add_input(InfoField(self, name, label, value))
 
-    def add_text_field(self, name, message, selectable=True, col="+1", **kwargs):
+    def add_text_field(self, name, message, selectable=True, col='+1', **kwargs):
         return self._add_input(TextField(self, name, message, selectable=selectable, col=col, **kwargs))
 
     def add_text_area(self, name, message, **kwargs):
@@ -106,7 +106,7 @@ class BaseInputPane(InputKeyHandler):
     def add_divider_field(self, name, message, **kwargs):
         return self._add_input(DividerField(self, name, message, **kwargs))
 
-    def add_text_input(self, name, message, value="", col="+1", **kwargs):
+    def add_text_input(self, name, message, value='', col='+1', **kwargs):
         """
         Add a text input field
 
@@ -121,19 +121,19 @@ class BaseInputPane(InputKeyHandler):
     def add_select_input(self, name, message, opts, vals, default_index=0, **kwargs):
         return self._add_input(SelectInput(self, name, message, opts, vals, default_index, **kwargs))
 
-    def add_checked_input(self, name, message, checked=False, col="+1", **kwargs):
+    def add_checked_input(self, name, message, checked=False, col='+1', **kwargs):
         return self._add_input(CheckedInput(self, name, message, checked=checked, col=col, **kwargs))
 
-    def add_checkedplus_input(self, name, message, child, checked=False, col="+1", **kwargs):
+    def add_checkedplus_input(self, name, message, child, checked=False, col='+1', **kwargs):
         return self._add_input(CheckedPlusInput(self, name, message, child, checked=checked, col=col, **kwargs))
 
-    def add_float_spin_input(self, name, message, value=0.0, col="+1", **kwargs):
+    def add_float_spin_input(self, name, message, value=0.0, col='+1', **kwargs):
         return self._add_input(FloatSpinInput(self, name, message, self.move, value, col=col, **kwargs))
 
-    def add_int_spin_input(self, name, message, value=0, col="+1", **kwargs):
+    def add_int_spin_input(self, name, message, value=0, col='+1', **kwargs):
         return self._add_input(IntSpinInput(self, name, message, self.move, value, col=col, **kwargs))
 
-    def add_combo_input(self, name, message, choices, col="+1", **kwargs):
+    def add_combo_input(self, name, message, choices, col='+1', **kwargs):
         return self._add_input(ComboInput(self, name, message, choices, col=col, **kwargs))
 
     @overrides(InputKeyHandler)
@@ -190,7 +190,7 @@ class BaseInputPane(InputKeyHandler):
         for i, ipt in enumerate(self.inputs):
             if not ipt.has_input():
                 continue
-            vals[ipt.name] = {"value": ipt.get_value(), "order": i, "active": self.active_input == i}
+            vals[ipt.name] = {'value': ipt.get_value(), 'order': i, 'active': self.active_input == i}
         return vals
 
     def immediate_action_cb(self, state_changed=True):

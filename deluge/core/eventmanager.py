@@ -16,7 +16,7 @@ log = logging.getLogger(__name__)
 
 class EventManager(component.Component):
     def __init__(self):
-        component.Component.__init__(self, "EventManager")
+        component.Component.__init__(self, 'EventManager')
         self.handlers = {}
 
     def emit(self, event):
@@ -26,7 +26,7 @@ class EventManager(component.Component):
         :param event: DelugeEvent
         """
         # Emit the event to the interested clients
-        component.get("RPCServer").emit_event(event)
+        component.get('RPCServer').emit_event(event)
         # Call any handlers for the event
         if event.name in self.handlers:
             for handler in self.handlers[event.name]:
@@ -34,7 +34,7 @@ class EventManager(component.Component):
                 try:
                     handler(*event.args)
                 except Exception as ex:
-                    log.error("Event handler %s failed in %s with exception %s", event.name, handler, ex)
+                    log.error('Event handler %s failed in %s with exception %s', event.name, handler, ex)
 
     def register_event_handler(self, event, handler):
         """

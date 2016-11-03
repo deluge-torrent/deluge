@@ -9,15 +9,15 @@
 
 from setuptools import find_packages, setup
 
-__plugin_name__ = "Blocklist"
-__author__ = "John Garland"
-__author_email__ = "johnnybg+deluge@gmail.com"
-__version__ = "1.3"
-__url__ = "http://deluge-torrent.org"
-__license__ = "GPLv3"
-__description__ = "Download and import IP blocklists"
+__plugin_name__ = 'Blocklist'
+__author__ = 'John Garland'
+__author_email__ = 'johnnybg+deluge@gmail.com'
+__version__ = '1.3'
+__url__ = 'http://deluge-torrent.org'
+__license__ = 'GPLv3'
+__description__ = 'Download and import IP blocklists'
 __long_description__ = __description__
-__pkg_data__ = {'deluge.plugins.' + __plugin_name__.lower(): ["data/*"]}
+__pkg_data__ = {'deluge.plugins.' + __plugin_name__.lower(): ['data/*']}
 
 setup(
     name=__plugin_name__,
@@ -30,7 +30,7 @@ setup(
     zip_safe=False,
     long_description=__long_description__,
     packages=find_packages(),
-    namespace_packages=["deluge", "deluge.plugins"],
+    namespace_packages=['deluge', 'deluge.plugins'],
     package_data=__pkg_data__,
     entry_points="""
     [deluge.plugin.core]

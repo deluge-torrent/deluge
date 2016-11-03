@@ -26,11 +26,11 @@ from deluge.error import DelugeError
 from deluge.ui.util import lang
 
 # This sets log level to critical, so use log.critical() to debug while running unit tests
-deluge.log.setup_logger("none")
+deluge.log.setup_logger('none')
 
 
 def disable_new_release_check():
-    deluge.core.preferencesmanager.DEFAULT_PREFS["new_release_check"] = False
+    deluge.core.preferencesmanager.DEFAULT_PREFS['new_release_check'] = False
 
 
 def set_tmp_config_dir():
@@ -39,24 +39,24 @@ def set_tmp_config_dir():
     return config_directory
 
 
-def setup_test_logger(level="info", prefix="deluge"):
-    deluge.log.setup_logger(level, filename="%s.log" % prefix, twisted_observer=False)
+def setup_test_logger(level='info', prefix='deluge'):
+    deluge.log.setup_logger(level, filename='%s.log' % prefix, twisted_observer=False)
 
 
 def get_test_data_file(filename):
-    return os.path.join(os.path.join(os.path.dirname(__file__), "data"), filename)
+    return os.path.join(os.path.join(os.path.dirname(__file__), 'data'), filename)
 
 
 def todo_test(caller):
     # If we are using the delugereporter we can set todo mark on the test
     # Without the delugereporter the todo would print a stack trace, so in
     # that case we rely only on skipTest
-    if os.environ.get("DELUGE_REPORTER", None):
-        getattr(caller, caller._testMethodName).__func__.todo = "To be fixed"
+    if os.environ.get('DELUGE_REPORTER', None):
+        getattr(caller, caller._testMethodName).__func__.todo = 'To be fixed'
 
     filename = os.path.basename(traceback.extract_stack(None, 2)[0][0])
     funcname = traceback.extract_stack(None, 2)[0][2]
-    raise unittest.SkipTest("TODO: %s:%s" % (filename, funcname))
+    raise unittest.SkipTest('TODO: %s:%s' % (filename, funcname))
 
 
 def add_watchdog(deferred, timeout=0.05, message=None):
@@ -85,9 +85,9 @@ class ReactorOverride(object):
     """
 
     def __getattr__(self, attr):
-        if attr == "run":
+        if attr == 'run':
             return self._run
-        if attr == "stop":
+        if attr == 'stop':
             return self._stop
         return getattr(reactor, attr)
 
@@ -115,8 +115,8 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
         """
         self.callbacks = callbacks
         self.script = script
-        self.log_output = ""
-        self.stderr_out = ""
+        self.log_output = ''
+        self.stderr_out = ''
         self.logfile = logfile
         self.print_stderr = print_stderr
         self.quit_d = None
@@ -163,24 +163,24 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
         else:
             self.quit_d.errback(status)
 
-    def check_callbacks(self, data, cb_type="stdout"):
+    def check_callbacks(self, data, cb_type='stdout'):
         ret = False
         for c in self.callbacks:
-            if cb_type not in c["types"] or c["deferred"].called:
+            if cb_type not in c['types'] or c['deferred'].called:
                 continue
-            for trigger in c["triggers"]:
-                if trigger["expr"] in data:
+            for trigger in c['triggers']:
+                if trigger['expr'] in data:
                     ret = True
-                    if "cb" in trigger:
-                        trigger["cb"](self, c["deferred"], data, self.log_output)
-                    elif "value" not in trigger:
+                    if 'cb' in trigger:
+                        trigger['cb'](self, c['deferred'], data, self.log_output)
+                    elif 'value' not in trigger:
                         raise Exception("Trigger must specify either 'cb' or 'value'")
                     else:
-                        val = trigger["value"](self, data, self.log_output)
-                        if trigger.get("type", "callback") == "errback":
-                            c["deferred"].errback(val)
+                        val = trigger['value'](self, data, self.log_output)
+                        if trigger.get('type', 'callback') == 'errback':
+                            c['deferred'].errback(val)
                         else:
-                            c["deferred"].callback(val)
+                            c['deferred'].callback(val)
         return ret
 
     def outReceived(self, data):  # NOQA
@@ -195,16 +195,16 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
         """Process output from stderr"""
         self.log_output += data
         self.stderr_out += data
-        self.check_callbacks(data, cb_type="stderr")
+        self.check_callbacks(data, cb_type='stderr')
         if not self.print_stderr:
             return
-        data = "\n%s" % data.strip()
-        prefixed = data.replace("\n", "\nSTDERR: ")
-        print("\n%s" % prefixed)
+        data = '\n%s' % data.strip()
+        prefixed = data.replace('\n', '\nSTDERR: ')
+        print('\n%s' % prefixed)
 
 
 def start_core(listen_port=58846, logfile=None, timeout=10, timeout_msg=None,
-               custom_script="", print_stderr=True, extra_callbacks=None):
+               custom_script='', print_stderr=True, extra_callbacks=None):
     """Start the deluge core as a daemon.
 
     Args:
@@ -240,18 +240,18 @@ except:
     sys.stderr.write("Exception raised:\\n %%s" %% traceback.format_exc())
 """ % (config_directory, listen_port, custom_script)
     callbacks = []
-    default_core_cb = {"deferred": Deferred(), "types": "stdout"}
+    default_core_cb = {'deferred': Deferred(), 'types': 'stdout'}
     if timeout:
-        default_core_cb["timeout"] = timeout
+        default_core_cb['timeout'] = timeout
 
     # Specify the triggers for daemon log output
-    default_core_cb["triggers"] = [
-        {"expr": "Finished loading ", "value": lambda reader, data, data_all: reader},
-        {"expr": "Couldn't listen on localhost:%d" % (listen_port), "type": "errback",  # Error from libtorrent
-         "value": lambda reader, data, data_all: CannotListenError("localhost", listen_port,
-                                                                   "Could not start deluge test client!\n%s" % data)},
-        {"expr": "Traceback", "type": "errback",
-         "value": lambda reader, data, data_all: DelugeError("Traceback found when starting daemon:\n%s" % data)}
+    default_core_cb['triggers'] = [
+        {'expr': 'Finished loading ', 'value': lambda reader, data, data_all: reader},
+        {'expr': "Couldn't listen on localhost:%d" % (listen_port), 'type': 'errback',  # Error from libtorrent
+         'value': lambda reader, data, data_all: CannotListenError('localhost', listen_port,
+                                                                   'Could not start deluge test client!\n%s' % data)},
+        {'expr': 'Traceback', 'type': 'errback',
+         'value': lambda reader, data, data_all: DelugeError('Traceback found when starting daemon:\n%s' % data)}
     ]
 
     callbacks.append(default_core_cb)
@@ -259,7 +259,7 @@ except:
         callbacks.extend(extra_callbacks)
 
     process_protocol = start_process(daemon_script, callbacks, logfile, print_stderr)
-    return default_core_cb["deferred"], process_protocol
+    return default_core_cb['deferred'], process_protocol
 
 
 def start_process(script, callbacks, logfile=None, print_stderr=True):
@@ -291,8 +291,8 @@ def start_process(script, callbacks, logfile=None, print_stderr=True):
 
     # Add timeouts to deferreds
     for c in callbacks:
-        if "timeout" in c:
-            w = add_watchdog(c["deferred"], timeout=c["timeout"], message=c.get("timeout_msg", None))
+        if 'timeout' in c:
+            w = add_watchdog(c['deferred'], timeout=c['timeout'], message=c.get('timeout_msg', None))
             process_protocol.watchdogs.append(w)
 
     reactor.spawnProcess(process_protocol, sys.executable, args=[sys.executable], path=cwd)

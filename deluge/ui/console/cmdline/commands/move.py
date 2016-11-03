@@ -22,14 +22,14 @@ class Command(BaseCommand):
     """Move torrents' storage location"""
 
     def add_arguments(self, parser):
-        parser.add_argument("torrent_ids", metavar="<torrent-id>", nargs="+", help=_("One or more torrent ids"))
-        parser.add_argument("path", metavar="<path>", help=_("The path to move the torrents to"))
+        parser.add_argument('torrent_ids', metavar='<torrent-id>', nargs='+', help=_('One or more torrent ids'))
+        parser.add_argument('path', metavar='<path>', help=_('The path to move the torrents to'))
 
     def handle(self, options):
-        self.console = component.get("ConsoleUI")
+        self.console = component.get('ConsoleUI')
 
         if os.path.exists(options.path) and not os.path.isdir(options.path):
-            self.console.write("{!error!}Cannot Move Download Folder: %s exists and is not a directory" % options.path)
+            self.console.write('{!error!}Cannot Move Download Folder: %s exists and is not a directory' % options.path)
             return
 
         ids = []
@@ -40,7 +40,7 @@ class Command(BaseCommand):
             names.append(self.console.get_torrent_name(tid))
 
         def on_move(res):
-            msg = "Moved \"%s\" to %s" % (", ".join(names), options.path)
+            msg = "Moved \"%s\" to %s" % (', '.join(names), options.path)
             self.console.write(msg)
             log.info(msg)
 
@@ -58,11 +58,11 @@ class Command(BaseCommand):
                 # ret.extend(os.listdir(line))
                 for f in os.listdir(line):
                     # Skip hidden
-                    if f.startswith("."):
+                    if f.startswith('.'):
                         continue
                     f = os.path.join(line, f)
                     if os.path.isdir(f):
-                        f += "/"
+                        f += '/'
                     ret.append(f)
             else:
                 # This is a file, but we could be looking for another file that
@@ -80,6 +80,6 @@ class Command(BaseCommand):
                         p = os.path.join(os.path.dirname(line), f)
 
                         if os.path.isdir(p):
-                            p += "/"
+                            p += '/'
                         ret.append(p)
         return ret

@@ -26,13 +26,13 @@ def set_dummy_trans(warn_msg=None):
         if warn_msg:
             log.warn("'%s' has been marked for translation, but translation is unavailable.", txt[0])
         return txt[0]
-    __builtin__.__dict__["_"] = _func
-    __builtin__.__dict__["_n"] = _func
+    __builtin__.__dict__['_'] = _func
+    __builtin__.__dict__['_n'] = _func
 
 
 def get_translations_path():
     """Get the absolute path to the directory containing translation files"""
-    return deluge.common.resource_filename("deluge", "i18n")
+    return deluge.common.resource_filename('deluge', 'i18n')
 
 
 def get_languages():
@@ -49,7 +49,7 @@ def get_languages():
         return lang
 
     for i, lang_code in enumerate(lang_dirs):
-        name = "%s (Language name missing)" % lang_code
+        name = '%s (Language name missing)' % lang_code
         if lang_code in languages.LANGUAGES:
             name = languages.LANGUAGES[lang_code]
         lang.append([lang_code, name])
@@ -75,28 +75,28 @@ def set_language(lang):
 
     translations_path = get_translations_path()
     try:
-        ro = gettext.translation("deluge", localedir=translations_path, languages=[lang])
+        ro = gettext.translation('deluge', localedir=translations_path, languages=[lang])
         ro.install()
     except IOError as ex:
-        log.warn("IOError when loading translations: %s", ex)
+        log.warn('IOError when loading translations: %s', ex)
 
 
 # Initialize gettext
 def setup_translations(setup_gettext=True, setup_pygtk=False):
     translations_path = get_translations_path()
-    domain = "deluge"
-    log.info("Setting up translations from %s", translations_path)
+    domain = 'deluge'
+    log.info('Setting up translations from %s', translations_path)
 
     if setup_pygtk:
         try:
-            log.info("Setting up GTK translations from %s", translations_path)
+            log.info('Setting up GTK translations from %s', translations_path)
 
             if deluge.common.windows_check():
                 import ctypes
                 libintl = ctypes.cdll.intl
                 libintl.bindtextdomain(domain, translations_path.encode(sys.getfilesystemencoding()))
                 libintl.textdomain(domain)
-                libintl.bind_textdomain_codeset(domain, "UTF-8")
+                libintl.bind_textdomain_codeset(domain, 'UTF-8')
                 libintl.gettext.restype = ctypes.c_char_p
 
             # Use glade for plugins that still uses it
@@ -105,13 +105,13 @@ def setup_translations(setup_gettext=True, setup_pygtk=False):
             gtk.glade.bindtextdomain(domain, translations_path)
             gtk.glade.textdomain(domain)
         except Exception as ex:
-            log.error("Unable to initialize glade translation!")
+            log.error('Unable to initialize glade translation!')
             log.exception(ex)
     if setup_gettext:
         try:
-            if hasattr(locale, "bindtextdomain"):
+            if hasattr(locale, 'bindtextdomain'):
                 locale.bindtextdomain(domain, translations_path)
-            if hasattr(locale, "textdomain"):
+            if hasattr(locale, 'textdomain'):
                 locale.textdomain(domain)
 
             gettext.bindtextdomain(domain, translations_path)
@@ -119,9 +119,9 @@ def setup_translations(setup_gettext=True, setup_pygtk=False):
             gettext.textdomain(domain)
             gettext.install(domain, translations_path, unicode=True)
             import __builtin__
-            __builtin__.__dict__["_n"] = gettext.ngettext
+            __builtin__.__dict__['_n'] = gettext.ngettext
         except Exception as ex:
-            log.error("Unable to initialize gettext/locale!")
+            log.error('Unable to initialize gettext/locale!')
             log.exception(ex)
             set_dummy_trans()
 

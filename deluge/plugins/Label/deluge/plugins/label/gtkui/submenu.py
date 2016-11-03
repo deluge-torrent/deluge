@@ -21,26 +21,26 @@ log = logging.getLogger(__name__)
 # Deferred Translation
 def _(message):
     return message
-NO_LABEL = _("No Label")
+NO_LABEL = _('No Label')
 del _
 
 
 class LabelMenu(gtk.MenuItem):
     def __init__(self):
-        gtk.MenuItem.__init__(self, _("Label"))
+        gtk.MenuItem.__init__(self, _('Label'))
 
         self.sub_menu = gtk.Menu()
         self.set_submenu(self.sub_menu)
         self.items = []
 
         # attach..
-        self.sub_menu.connect("show", self.on_show, None)
+        self.sub_menu.connect('show', self.on_show, None)
 
     def get_torrent_ids(self):
-        return component.get("TorrentView").get_selected_torrents()
+        return component.get('TorrentView').get_selected_torrents()
 
     def on_show(self, widget=None, data=None):
-        log.debug("label-on-show")
+        log.debug('label-on-show')
         client.label.get_labels().addCallback(self.cb_labels)
 
     def cb_labels(self, labels):
@@ -50,12 +50,12 @@ class LabelMenu(gtk.MenuItem):
             if label == NO_LABEL:
                 item = gtk.MenuItem(_(NO_LABEL))
             else:
-                item = gtk.MenuItem(label.replace("_", "__"))
-            item.connect("activate", self.on_select_label, label)
+                item = gtk.MenuItem(label.replace('_', '__'))
+            item.connect('activate', self.on_select_label, label)
             self.sub_menu.append(item)
         self.show_all()
 
     def on_select_label(self, widget=None, label_id=None):
-        log.debug("select label:%s,%s", label_id, self.get_torrent_ids())
+        log.debug('select label:%s,%s', label_id, self.get_torrent_ids())
         for torrent_id in self.get_torrent_ids():
             client.label.set_torrent(torrent_id, label_id)

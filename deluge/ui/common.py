@@ -33,75 +33,75 @@ def _(message):
     return message
 
 STATE_TRANSLATION = {
-    "All": _("All"),
-    "Active": _("Active"),
-    "Allocating": _("Allocating"),
-    "Checking": _("Checking"),
-    "Downloading": _("Downloading"),
-    "Seeding": _("Seeding"),
-    "Paused": _("Paused"),
-    "Queued": _("Queued"),
-    "Error": _("Error"),
+    'All': _('All'),
+    'Active': _('Active'),
+    'Allocating': _('Allocating'),
+    'Checking': _('Checking'),
+    'Downloading': _('Downloading'),
+    'Seeding': _('Seeding'),
+    'Paused': _('Paused'),
+    'Queued': _('Queued'),
+    'Error': _('Error'),
 }
 
 TORRENT_DATA_FIELD = {
-    "queue":                     {"name": "#", "status": ["queue"]},
-    "name":                      {"name": _("Name"), "status": ["state", "name"]},
-    "progress_state":            {"name": _("Progress"), "status": ["progress", "state"]},
-    "state":                     {"name": _("State"), "status": ["state"]},
-    "progress":                  {"name": _("Progress"), "status": ["progress"]},
-    "size":                      {"name": _("Size"), "status": ["total_wanted"]},
-    "downloaded":                {"name": _("Downloaded"), "status": ["all_time_download"]},
-    "uploaded":                  {"name": _("Uploaded"), "status": ["total_uploaded"]},
-    "remaining":                 {"name": _("Remaining"), "status": ["total_remaining"]},
-    "ratio":                     {"name": _("Ratio"), "status": ["ratio"]},
-    "download_speed":            {"name": _("Down Speed"), "status": ["download_payload_rate"]},
-    "upload_speed":              {"name": _("Up Speed"), "status": ["upload_payload_rate"]},
-    "max_download_speed":        {"name": _("Down Limit"), "status": ["max_download_speed"]},
-    "max_upload_speed":          {"name": _("Up Limit"), "status": ["max_upload_speed"]},
-    "max_connections":           {"name": _("Max Connections"), "status": ["max_connections"]},
-    "max_upload_slots":          {"name": _("Max Upload Slots"), "status": ["max_upload_slots"]},
-    "peers":                     {"name": _("Peers"), "status": ["num_peers", "total_peers"]},
-    "seeds":                     {"name": _("Seeds"), "status": ["num_seeds", "total_seeds"]},
-    "avail":                     {"name": _("Avail"), "status": ["distributed_copies"]},
-    "seeds_peers_ratio":         {"name": _("Seeds:Peers"), "status": ["seeds_peers_ratio"]},
-    "time_added":                {"name": _("Added"), "status": ["time_added"]},
-    "tracker":                   {"name": _("Tracker"), "status": ["tracker_host"]},
-    "download_location":         {"name": _("Download Folder"), "status": ["download_location"]},
-    "seeding_time":              {"name": _("Seeding Time"), "status": ["seeding_time"]},
-    "active_time":               {"name": _("Active Time"), "status": ["active_time"]},
-    "finished_time":             {"name": _("Finished Time"), "status": ["finished_time"]},
-    "last_seen_complete":        {"name": _("Complete Seen"), "status": ["last_seen_complete"]},
-    "completed_time":            {"name": _("Completed"), "status": ["completed_time"]},
-    "eta":                       {"name": _("ETA"), "status": ["eta"]},
-    "shared":                    {"name": _("Shared"), "status": ["shared"]},
-    "prioritize_first_last":     {"name": _("Prioritize First/Last"), "status": ["prioritize_first_last"]},
-    "sequential_download":       {"name": _("Sequential Download"), "status": ["sequential_download"]},
-    "is_auto_managed":           {"name": _("Auto Managed"), "status": ["is_auto_managed"]},
-    "auto_managed":              {"name": _("Auto Managed"), "status": ["auto_managed"]},
-    "stop_at_ratio":             {"name": _("Stop At Ratio"), "status": ["stop_at_ratio"]},
-    "stop_ratio":                {"name": _("Stop Ratio"), "status": ["stop_ratio"]},
-    "remove_at_ratio":           {"name": _("Remove At Ratio"), "status": ["remove_at_ratio"]},
-    "move_completed":            {"name": _("Move On Completed"), "status": ["move_completed"]},
-    "move_completed_path":       {"name": _("Move Completed Path"), "status": ["move_completed_path"]},
-    "move_on_completed":         {"name": _("Move On Completed"), "status": ["move_on_completed"]},
-    "move_on_completed_path":    {"name": _("Move On Completed Path"), "status": ["move_on_completed_path"]},
-    "owner":                     {"name": _("Owner"), "status": ["owner"]}
+    'queue':                     {'name': '#', 'status': ['queue']},
+    'name':                      {'name': _('Name'), 'status': ['state', 'name']},
+    'progress_state':            {'name': _('Progress'), 'status': ['progress', 'state']},
+    'state':                     {'name': _('State'), 'status': ['state']},
+    'progress':                  {'name': _('Progress'), 'status': ['progress']},
+    'size':                      {'name': _('Size'), 'status': ['total_wanted']},
+    'downloaded':                {'name': _('Downloaded'), 'status': ['all_time_download']},
+    'uploaded':                  {'name': _('Uploaded'), 'status': ['total_uploaded']},
+    'remaining':                 {'name': _('Remaining'), 'status': ['total_remaining']},
+    'ratio':                     {'name': _('Ratio'), 'status': ['ratio']},
+    'download_speed':            {'name': _('Down Speed'), 'status': ['download_payload_rate']},
+    'upload_speed':              {'name': _('Up Speed'), 'status': ['upload_payload_rate']},
+    'max_download_speed':        {'name': _('Down Limit'), 'status': ['max_download_speed']},
+    'max_upload_speed':          {'name': _('Up Limit'), 'status': ['max_upload_speed']},
+    'max_connections':           {'name': _('Max Connections'), 'status': ['max_connections']},
+    'max_upload_slots':          {'name': _('Max Upload Slots'), 'status': ['max_upload_slots']},
+    'peers':                     {'name': _('Peers'), 'status': ['num_peers', 'total_peers']},
+    'seeds':                     {'name': _('Seeds'), 'status': ['num_seeds', 'total_seeds']},
+    'avail':                     {'name': _('Avail'), 'status': ['distributed_copies']},
+    'seeds_peers_ratio':         {'name': _('Seeds:Peers'), 'status': ['seeds_peers_ratio']},
+    'time_added':                {'name': _('Added'), 'status': ['time_added']},
+    'tracker':                   {'name': _('Tracker'), 'status': ['tracker_host']},
+    'download_location':         {'name': _('Download Folder'), 'status': ['download_location']},
+    'seeding_time':              {'name': _('Seeding Time'), 'status': ['seeding_time']},
+    'active_time':               {'name': _('Active Time'), 'status': ['active_time']},
+    'finished_time':             {'name': _('Finished Time'), 'status': ['finished_time']},
+    'last_seen_complete':        {'name': _('Complete Seen'), 'status': ['last_seen_complete']},
+    'completed_time':            {'name': _('Completed'), 'status': ['completed_time']},
+    'eta':                       {'name': _('ETA'), 'status': ['eta']},
+    'shared':                    {'name': _('Shared'), 'status': ['shared']},
+    'prioritize_first_last':     {'name': _('Prioritize First/Last'), 'status': ['prioritize_first_last']},
+    'sequential_download':       {'name': _('Sequential Download'), 'status': ['sequential_download']},
+    'is_auto_managed':           {'name': _('Auto Managed'), 'status': ['is_auto_managed']},
+    'auto_managed':              {'name': _('Auto Managed'), 'status': ['auto_managed']},
+    'stop_at_ratio':             {'name': _('Stop At Ratio'), 'status': ['stop_at_ratio']},
+    'stop_ratio':                {'name': _('Stop Ratio'), 'status': ['stop_ratio']},
+    'remove_at_ratio':           {'name': _('Remove At Ratio'), 'status': ['remove_at_ratio']},
+    'move_completed':            {'name': _('Move On Completed'), 'status': ['move_completed']},
+    'move_completed_path':       {'name': _('Move Completed Path'), 'status': ['move_completed_path']},
+    'move_on_completed':         {'name': _('Move On Completed'), 'status': ['move_on_completed']},
+    'move_on_completed_path':    {'name': _('Move On Completed Path'), 'status': ['move_on_completed_path']},
+    'owner':                     {'name': _('Owner'), 'status': ['owner']}
 }
 
 
 TRACKER_STATUS_TRANSLATION = {
-    "Error": _("Error"),
-    "Warning": _("Warning"),
-    "Announce OK": _("Announce OK"),
-    "Announce Sent": _("Announce Sent")
+    'Error': _('Error'),
+    'Warning': _('Warning'),
+    'Announce OK': _('Announce OK'),
+    'Announce Sent': _('Announce Sent')
 }
 del _
 
-DEFAULT_HOST = "127.0.0.1"
+DEFAULT_HOST = '127.0.0.1'
 DEFAULT_PORT = 58846
 DEFAULT_HOSTS = {
-    "hosts": [(sha(str(time.time())).hexdigest(), DEFAULT_HOST, DEFAULT_PORT, "", "")]
+    'hosts': [(sha(str(time.time())).hexdigest(), DEFAULT_HOST, DEFAULT_PORT, '', '')]
 }
 
 
@@ -116,73 +116,73 @@ class TorrentInfo(object):
     def __init__(self, filename, filetree=1):
         # Get the torrent data from the torrent file
         try:
-            log.debug("Attempting to open %s.", filename)
-            with open(filename, "rb") as _file:
+            log.debug('Attempting to open %s.', filename)
+            with open(filename, 'rb') as _file:
                 self.__m_filedata = _file.read()
         except IOError as ex:
-            log.warning("Unable to open %s: %s", filename, ex)
+            log.warning('Unable to open %s: %s', filename, ex)
             raise ex
         try:
             self.__m_metadata = bencode.bdecode(self.__m_filedata)
         except bencode.BTFailure as ex:
-            log.warning("Failed to decode %s: %s", filename, ex)
+            log.warning('Failed to decode %s: %s', filename, ex)
             raise ex
 
-        self.__m_info_hash = sha(bencode.bencode(self.__m_metadata["info"])).hexdigest()
+        self.__m_info_hash = sha(bencode.bencode(self.__m_metadata['info'])).hexdigest()
 
         # Get encoding from torrent file if available
         self.encoding = None
-        if "encoding" in self.__m_metadata:
-            self.encoding = self.__m_metadata["encoding"]
-        elif "codepage" in self.__m_metadata:
-            self.encoding = str(self.__m_metadata["codepage"])
+        if 'encoding' in self.__m_metadata:
+            self.encoding = self.__m_metadata['encoding']
+        elif 'codepage' in self.__m_metadata:
+            self.encoding = str(self.__m_metadata['codepage'])
         if not self.encoding:
-            self.encoding = "UTF-8"
+            self.encoding = 'UTF-8'
 
         # Check if 'name.utf-8' is in the torrent and if not try to decode the string
         # using the encoding found.
-        if "name.utf-8" in self.__m_metadata["info"]:
-            self.__m_name = utf8_encoded(self.__m_metadata["info"]["name.utf-8"])
+        if 'name.utf-8' in self.__m_metadata['info']:
+            self.__m_name = utf8_encoded(self.__m_metadata['info']['name.utf-8'])
         else:
-            self.__m_name = utf8_encoded(self.__m_metadata["info"]["name"], self.encoding)
+            self.__m_name = utf8_encoded(self.__m_metadata['info']['name'], self.encoding)
 
         # Get list of files from torrent info
         paths = {}
         dirs = {}
-        if "files" in self.__m_metadata["info"]:
-            prefix = ""
-            if len(self.__m_metadata["info"]["files"]) > 1:
+        if 'files' in self.__m_metadata['info']:
+            prefix = ''
+            if len(self.__m_metadata['info']['files']) > 1:
                 prefix = self.__m_name
 
-            for index, f in enumerate(self.__m_metadata["info"]["files"]):
-                if "path.utf-8" in f:
-                    path = os.path.join(prefix, *f["path.utf-8"])
-                    del f["path.utf-8"]
+            for index, f in enumerate(self.__m_metadata['info']['files']):
+                if 'path.utf-8' in f:
+                    path = os.path.join(prefix, *f['path.utf-8'])
+                    del f['path.utf-8']
                 else:
-                    path = utf8_encoded(os.path.join(prefix, utf8_encoded(os.path.join(*f["path"]),
+                    path = utf8_encoded(os.path.join(prefix, utf8_encoded(os.path.join(*f['path']),
                                                                           self.encoding)), self.encoding)
-                f["path"] = path
-                f["index"] = index
-                if "sha1" in f and len(f["sha1"]) == 20:
-                    f["sha1"] = f["sha1"].encode('hex')
-                if "ed2k" in f and len(f["ed2k"]) == 16:
-                    f["ed2k"] = f["ed2k"].encode('hex')
-                if "filehash" in f and len(f["filehash"]) == 20:
-                    f["filehash"] = f["filehash"].encode('hex')
+                f['path'] = path
+                f['index'] = index
+                if 'sha1' in f and len(f['sha1']) == 20:
+                    f['sha1'] = f['sha1'].encode('hex')
+                if 'ed2k' in f and len(f['ed2k']) == 16:
+                    f['ed2k'] = f['ed2k'].encode('hex')
+                if 'filehash' in f and len(f['filehash']) == 20:
+                    f['filehash'] = f['filehash'].encode('hex')
                 paths[path] = f
                 dirname = os.path.dirname(path)
                 while dirname:
                     dirinfo = dirs.setdefault(dirname, {})
-                    dirinfo["length"] = dirinfo.get("length", 0) + f["length"]
+                    dirinfo['length'] = dirinfo.get('length', 0) + f['length']
                     dirname = os.path.dirname(dirname)
 
             if filetree == 2:
                 def walk(path, item):
-                    if item["type"] == "dir":
+                    if item['type'] == 'dir':
                         item.update(dirs[path])
                     else:
                         item.update(paths[path])
-                    item["download"] = True
+                    item['download'] = True
 
                 file_tree = FileTree2(paths.keys())
                 file_tree.walk(walk)
@@ -190,7 +190,7 @@ class TorrentInfo(object):
                 def walk(path, item):
                     if isinstance(item, dict):
                         return item
-                    return [paths[path]["index"], paths[path]["length"], True]
+                    return [paths[path]['index'], paths[path]['length'], True]
 
                 file_tree = FileTree(paths)
                 file_tree.walk(walk)
@@ -198,37 +198,37 @@ class TorrentInfo(object):
         else:
             if filetree == 2:
                 self.__m_files_tree = {
-                    "contents": {
+                    'contents': {
                         self.__m_name: {
-                            "type": "file",
-                            "index": 0,
-                            "length": self.__m_metadata["info"]["length"],
-                            "download": True
+                            'type': 'file',
+                            'index': 0,
+                            'length': self.__m_metadata['info']['length'],
+                            'download': True
                         }
                     }
                 }
             else:
                 self.__m_files_tree = {
-                    self.__m_name: (0, self.__m_metadata["info"]["length"], True)
+                    self.__m_name: (0, self.__m_metadata['info']['length'], True)
                 }
 
         self.__m_files = []
-        if "files" in self.__m_metadata["info"]:
-            prefix = ""
-            if len(self.__m_metadata["info"]["files"]) > 1:
+        if 'files' in self.__m_metadata['info']:
+            prefix = ''
+            if len(self.__m_metadata['info']['files']) > 1:
                 prefix = self.__m_name
 
-            for f in self.__m_metadata["info"]["files"]:
+            for f in self.__m_metadata['info']['files']:
                 self.__m_files.append({
-                    'path': f["path"],
-                    'size': f["length"],
+                    'path': f['path'],
+                    'size': f['length'],
                     'download': True
                 })
         else:
             self.__m_files.append({
-                "path": self.__m_name,
-                "size": self.__m_metadata["info"]["length"],
-                "download": True
+                'path': self.__m_name,
+                'size': self.__m_metadata['info']['length'],
+                'download': True
             })
 
     def as_dict(self, *keys):
@@ -314,33 +314,33 @@ class FileTree2(object):
     """
 
     def __init__(self, paths):
-        self.tree = {"contents": {}, "type": "dir"}
+        self.tree = {'contents': {}, 'type': 'dir'}
 
         def get_parent(path):
             parent = self.tree
-            while "/" in path:
-                directory, path = path.split("/", 1)
-                child = parent["contents"].get(directory)
+            while '/' in path:
+                directory, path = path.split('/', 1)
+                child = parent['contents'].get(directory)
                 if child is None:
-                    parent["contents"][directory] = {
-                        "type": "dir",
-                        "contents": {}
+                    parent['contents'][directory] = {
+                        'type': 'dir',
+                        'contents': {}
                     }
-                parent = parent["contents"][directory]
+                parent = parent['contents'][directory]
             return parent, path
 
         for path in paths:
-            if path[-1] == "/":
+            if path[-1] == '/':
                 path = path[:-1]
                 parent, path = get_parent(path)
-                parent["contents"][path] = {
-                    "type": "dir",
-                    "contents": {}
+                parent['contents'][path] = {
+                    'type': 'dir',
+                    'contents': {}
                 }
             else:
                 parent, path = get_parent(path)
-                parent["contents"][path] = {
-                    "type": "file"
+                parent['contents'][path] = {
+                    'type': 'file'
                 }
 
     def get_tree(self):
@@ -363,29 +363,29 @@ class FileTree2(object):
         :type callback: function
         """
         def walk(directory, parent_path):
-            for path in directory["contents"].keys():
-                full_path = os.path.join(parent_path, path).replace("\\", "/")
-                if directory["contents"][path]["type"] == "dir":
-                    directory["contents"][path] = callback(
-                        full_path, directory["contents"][path]
-                        ) or directory["contents"][path]
-                    walk(directory["contents"][path], full_path)
+            for path in directory['contents'].keys():
+                full_path = os.path.join(parent_path, path).replace('\\', '/')
+                if directory['contents'][path]['type'] == 'dir':
+                    directory['contents'][path] = callback(
+                        full_path, directory['contents'][path]
+                        ) or directory['contents'][path]
+                    walk(directory['contents'][path], full_path)
                 else:
-                    directory["contents"][path] = callback(
-                        full_path, directory["contents"][path]
-                        ) or directory["contents"][path]
-        walk(self.tree, "")
+                    directory['contents'][path] = callback(
+                        full_path, directory['contents'][path]
+                        ) or directory['contents'][path]
+        walk(self.tree, '')
 
     def __str__(self):
         lines = []
 
         def write(path, item):
-            depth = path.count("/")
+            depth = path.count('/')
             path = os.path.basename(path)
-            path = path + "/" if item["type"] == "dir" else path
-            lines.append("  " * depth + path)
+            path = path + '/' if item['type'] == 'dir' else path
+            lines.append('  ' * depth + path)
         self.walk(write)
-        return "\n".join(lines)
+        return '\n'.join(lines)
 
 
 class FileTree(object):
@@ -401,8 +401,8 @@ class FileTree(object):
 
         def get_parent(path):
             parent = self.tree
-            while "/" in path:
-                directory, path = path.split("/", 1)
+            while '/' in path:
+                directory, path = path.split('/', 1)
                 child = parent.get(directory)
                 if child is None:
                     parent[directory] = {}
@@ -410,7 +410,7 @@ class FileTree(object):
             return parent, path
 
         for path in paths:
-            if path[-1] == "/":
+            if path[-1] == '/':
                 path = path[:-1]
                 parent, path = get_parent(path)
                 parent[path] = {}
@@ -450,18 +450,18 @@ class FileTree(object):
                     walk(directory[path], full_path)
                 else:
                     directory[path] = callback(full_path, directory[path]) or directory[path]
-        walk(self.tree, "")
+        walk(self.tree, '')
 
     def __str__(self):
         lines = []
 
         def write(path, item):
-            depth = path.count("/")
+            depth = path.count('/')
             path = os.path.basename(path)
-            path = isinstance(item, dict) and path + "/" or path
-            lines.append("  " * depth + path)
+            path = isinstance(item, dict) and path + '/' or path
+            lines.append('  ' * depth + path)
         self.walk(write)
-        return "\n".join(lines)
+        return '\n'.join(lines)
 
 
 def get_localhost_auth():
@@ -471,7 +471,7 @@ def get_localhost_auth():
     :returns: with the username and password to login as
     :rtype: tuple
     """
-    auth_file = deluge.configmanager.get_config_dir("auth")
+    auth_file = deluge.configmanager.get_config_dir('auth')
     if not os.path.exists(auth_file):
         from deluge.common import create_localclient_account
         create_localclient_account()
@@ -479,19 +479,19 @@ def get_localhost_auth():
     with open(auth_file) as auth:
         for line in auth:
             line = line.strip()
-            if line.startswith("#") or not line:
+            if line.startswith('#') or not line:
                 # This is a comment or blank line
                 continue
 
-            lsplit = line.split(":")
+            lsplit = line.split(':')
 
             if len(lsplit) == 2:
                 username, password = lsplit
             elif len(lsplit) == 3:
                 username, password, level = lsplit
             else:
-                log.error("Your auth file is malformed: Incorrect number of fields!")
+                log.error('Your auth file is malformed: Incorrect number of fields!')
                 continue
 
-            if username == "localclient":
+            if username == 'localclient':
                 return (username, password)

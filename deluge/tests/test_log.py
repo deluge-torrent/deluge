@@ -21,14 +21,14 @@ class LogTestCase(BaseTestCase):
         setup_logger(logging.DEBUG)
 
     def tear_down(self):
-        setup_logger("none")
+        setup_logger('none')
 
     def test_old_log_deprecation_warning(self):
         from deluge.log import LOG
         with warnings.catch_warnings(record=True) as w:
             # Cause all warnings to always be triggered.
-            warnings.simplefilter("always")
-            LOG.debug("foo")
+            warnings.simplefilter('always')
+            LOG.debug('foo')
             self.assertEqual(w[-1].category, DeprecationWarning)
 
     # def test_twisted_error_log(self):

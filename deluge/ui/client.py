@@ -28,7 +28,7 @@ log = logging.getLogger(__name__)
 
 
 def format_kwargs(kwargs):
-    return ", ".join([key + "=" + str(value) for key, value in kwargs.items()])
+    return ', '.join([key + '=' + str(value) for key, value in kwargs.items()])
 
 
 class DelugeRPCRequest(object):
@@ -47,14 +47,14 @@ class DelugeRPCRequest(object):
         Returns a string of the RPCRequest in the following form:
             method(arg, kwarg=foo, ...)
         """
-        s = self.method + "("
+        s = self.method + '('
         if self.args:
-            s += ", ".join([str(x) for x in self.args])
+            s += ', '.join([str(x) for x in self.args])
         if self.kwargs:
             if self.args:
-                s += ", "
+                s += ', '
             s += format_kwargs(self.kwargs)
-        s += ")"
+        s += ')'
 
         return s
 
@@ -66,7 +66,7 @@ class DelugeRPCRequest(object):
         :returns: a properly formated RPCRequest
         """
         if self.request_id is None or self.method is None or self.args is None or self.kwargs is None:
-            raise TypeError("You must set the properties of this object before calling format_message!")
+            raise TypeError('You must set the properties of this object before calling format_message!')
 
         return (self.request_id, self.method, self.args, self.kwargs)
 
@@ -82,7 +82,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
         self.factory.daemon.host = peer.host
         self.factory.daemon.port = peer.port
         self.factory.daemon.connected = True
-        log.debug("Connected to daemon at %s:%s..", peer.host, peer.port)
+        log.debug('Connected to daemon at %s:%s..', peer.host, peer.port)
         self.factory.daemon.connect_deferred.callback((peer.host, peer.port))
 
     def message_received(self, request):
@@ -93,11 +93,11 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
 
         """
         if not isinstance(request, tuple):
-            log.debug("Received invalid message: type is not tuple")
+            log.debug('Received invalid message: type is not tuple')
             return
         if len(request) < 3:
-            log.debug("Received invalid message: number of items in "
-                      "response is %s", len(request))
+            log.debug('Received invalid message: number of items in '
+                      'response is %s', len(request))
             return
 
         message_type = request[0]
@@ -129,7 +129,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                     exception_cls = getattr(error, request[2])
                     exception = exception_cls(*request[3], **request[4])
                 except TypeError:
-                    log.warn("Received invalid RPC_ERROR (Old daemon?): %s", request[2])
+                    log.warn('Received invalid RPC_ERROR (Old daemon?): %s', request[2])
                     return
 
                 # Ideally we would chain the deferreds instead of instance
@@ -140,17 +140,17 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                 # So, just do some instance checking and just log rpc error at
                 # diferent levels.
                 r = self.__rpc_requests[request_id]
-                msg = "RPCError Message Received!"
-                msg += "\n" + "-" * 80
-                msg += "\n" + "RPCRequest: " + r.__repr__()
-                msg += "\n" + "-" * 80
+                msg = 'RPCError Message Received!'
+                msg += '\n' + '-' * 80
+                msg += '\n' + 'RPCRequest: ' + r.__repr__()
+                msg += '\n' + '-' * 80
                 if isinstance(exception, error.WrappedException):
-                    msg += "\n" + exception.type + "\n" + exception.message + ": "
+                    msg += '\n' + exception.type + '\n' + exception.message + ': '
                     msg += exception.traceback
                 else:
-                    msg += "\n" + request[5] + "\n" + request[2] + ": "
+                    msg += '\n' + request[5] + '\n' + request[2] + ': '
                     msg += str(exception)
-                msg += "\n" + "-" * 80
+                msg += '\n' + '-' * 80
 
                 if not isinstance(exception, error._ClientSideRecreateError):
                     # Let's log these as errors
@@ -161,7 +161,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                     log.debug(msg)
             except Exception:
                 import traceback
-                log.error("Failed to handle RPC_ERROR (Old daemon?): %s\nLocal error: %s",
+                log.error('Failed to handle RPC_ERROR (Old daemon?): %s\nLocal error: %s',
                           request[2], traceback.format_exc())
             d.errback(exception)
         del self.__rpc_requests[request_id]
@@ -182,7 +182,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
             # Send the request in a tuple because multiple requests can be sent at once
             self.transfer_message((request.format_message(),))
         except Exception as ex:
-            log.warn("Error occurred when sending message: %s", ex)
+            log.warn('Error occurred when sending message: %s', ex)
 
 
 class DelugeRPCClientFactory(ClientFactory):
@@ -257,7 +257,7 @@ class DaemonSSLProxy(DaemonProxy):
         :returns: twisted.Deferred
 
         """
-        log.debug("sslproxy.connect()")
+        log.debug('sslproxy.connect()')
         self.host = host
         self.port = port
         self.__connector = reactor.connectSSL(self.host, self.port,
@@ -273,7 +273,7 @@ class DaemonSSLProxy(DaemonProxy):
         return self.daemon_info_deferred
 
     def disconnect(self):
-        log.debug("sslproxy.disconnect()")
+        log.debug('sslproxy.disconnect()')
         self.disconnect_deferred = defer.Deferred()
         self.__connector.disconnect()
         return self.disconnect_deferred
@@ -340,7 +340,7 @@ class DaemonSSLProxy(DaemonProxy):
             # that we're interested in receiving this type of event
             self.__factory.event_handlers[event] = []
             if self.connected:
-                self.call("daemon.set_event_interest", [event])
+                self.call('daemon.set_event_interest', [event])
 
         # Only add the handler if it's not already registered
         if handler not in self.__factory.event_handlers[event]:
@@ -360,43 +360,43 @@ class DaemonSSLProxy(DaemonProxy):
             self.__factory.event_handlers[event].remove(handler)
 
     def __on_connect(self, result):
-        log.debug("__on_connect called")
+        log.debug('__on_connect called')
 
         def on_info(daemon_info):
             self.daemon_info = daemon_info
-            log.debug("Got info from daemon: %s", daemon_info)
+            log.debug('Got info from daemon: %s', daemon_info)
             self.daemon_info_deferred.callback(daemon_info)
 
         def on_info_fail(reason):
-            log.debug("Failed to get info from daemon")
+            log.debug('Failed to get info from daemon')
             log.exception(reason)
             self.daemon_info_deferred.errback(reason)
 
-        self.call("daemon.info").addCallback(on_info).addErrback(on_info_fail)
+        self.call('daemon.info').addCallback(on_info).addErrback(on_info_fail)
         return self.daemon_info_deferred
 
     def __on_connect_fail(self, reason):
         self.daemon_info_deferred.errback(reason)
 
     def authenticate(self, username, password):
-        log.debug("%s.authenticate: %s", self.__class__.__name__, username)
+        log.debug('%s.authenticate: %s', self.__class__.__name__, username)
         login_deferred = defer.Deferred()
-        d = self.call("daemon.login", username, password,
+        d = self.call('daemon.login', username, password,
                       client_version=deluge.common.get_version())
         d.addCallbacks(self.__on_login, self.__on_login_fail, callbackArgs=[username, login_deferred],
                        errbackArgs=[login_deferred])
         return login_deferred
 
     def __on_login(self, result, username, login_deferred):
-        log.debug("__on_login called: %s %s", username, result)
+        log.debug('__on_login called: %s %s', username, result)
         self.username = username
         self.authentication_level = result
         # We need to tell the daemon what events we're interested in receiving
         if self.__factory.event_handlers:
-            self.call("daemon.set_event_interest",
+            self.call('daemon.set_event_interest',
                       self.__factory.event_handlers.keys())
 
-            self.call("core.get_auth_levels_mappings").addCallback(
+            self.call('core.get_auth_levels_mappings').addCallback(
                 self.__on_auth_levels_mappings
             )
 
@@ -431,15 +431,15 @@ class DaemonStandaloneProxy(DaemonProxy):
         from deluge.core import daemon
         self.__daemon = daemon.Daemon(standalone=True)
         self.__daemon.start()
-        log.debug("daemon created!")
+        log.debug('daemon created!')
         self.connected = True
-        self.host = "localhost"
+        self.host = 'localhost'
         self.port = 58846
         # Running in standalone mode, it's safe to import auth level
         from deluge.core.authmanager import (AUTH_LEVEL_ADMIN,
                                              AUTH_LEVELS_MAPPING,
                                              AUTH_LEVELS_MAPPING_REVERSE)
-        self.username = "localclient"
+        self.username = 'localclient'
         self.authentication_level = AUTH_LEVEL_ADMIN
         self.auth_levels_mapping = AUTH_LEVELS_MAPPING
         self.auth_levels_mapping_reverse = AUTH_LEVELS_MAPPING_REVERSE
@@ -506,7 +506,7 @@ class DottedObject(object):
         raise Exception("You must make calls in the form of 'component.method'!")
 
     def __getattr__(self, name):
-        return RemoteMethod(self.daemon, self.base + "." + name)
+        return RemoteMethod(self.daemon, self.base + '.' + name)
 
 
 class RemoteMethod(DottedObject):
@@ -530,7 +530,7 @@ class Client(object):
         self.disconnect_callback = None
         self.__started_standalone = False
 
-    def connect(self, host="127.0.0.1", port=58846, username="", password="",
+    def connect(self, host='127.0.0.1', port=58846, username='', password='',
                 skip_authentication=False):
         """
         Connects to a daemon process.
@@ -550,24 +550,24 @@ class Client(object):
         d = self._daemon_proxy.connect(host, port)
 
         def on_connected(daemon_version):
-            log.debug("on_connected. Daemon version: %s", daemon_version)
+            log.debug('on_connected. Daemon version: %s', daemon_version)
             return daemon_version
 
         def on_connect_fail(reason):
-            log.debug("on_connect_fail: %s", reason)
+            log.debug('on_connect_fail: %s', reason)
             self.disconnect()
             return reason
 
         def on_authenticate(result, daemon_info):
-            log.debug("Authentication successful: %s", result)
+            log.debug('Authentication successful: %s', result)
             return result
 
         def on_authenticate_fail(reason):
-            log.debug("Failed to authenticate: %s", reason.value)
+            log.debug('Failed to authenticate: %s', reason.value)
             return reason
 
         def authenticate(daemon_version, username, password):
-            if not username and host in ("127.0.0.1", "localhost"):
+            if not username and host in ('127.0.0.1', 'localhost'):
                 # No username provided and it's localhost, so attempt to get credentials from auth file.
                 username, password = get_localhost_auth()
 
@@ -633,7 +633,7 @@ class Client(object):
         # subprocess.popen does not work with unicode args (with non-ascii characters) on windows
         config = config.encode(sys.getfilesystemencoding())
         try:
-            subprocess.Popen(["deluged", "--port=%s" % port, "--config=%s" % config])
+            subprocess.Popen(['deluged', '--port=%s' % port, '--config=%s' % config])
         except OSError as ex:
             from errno import ENOENT
             if ex.errno == ENOENT:
@@ -643,7 +643,7 @@ that you forgot to install the deluged package or it's not in your PATH."))
                 log.exception(ex)
             raise ex
         except Exception as ex:
-            log.error("Unable to start daemon!")
+            log.error('Unable to start daemon!')
             log.exception(ex)
             return False
         else:
@@ -656,7 +656,7 @@ that you forgot to install the deluged package or it's not in your PATH."))
         :returns: bool, True if connected to a localhost
 
         """
-        if (self._daemon_proxy and self._daemon_proxy.host in ("127.0.0.1", "localhost") or
+        if (self._daemon_proxy and self._daemon_proxy.host in ('127.0.0.1', 'localhost') or
                 isinstance(self._daemon_proxy, DaemonStandaloneProxy)):
             return True
         return False

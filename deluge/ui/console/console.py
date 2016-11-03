@@ -64,30 +64,30 @@ class Console(UI):
     cmd_description = """Console or command-line user interface"""
 
     def __init__(self, *args, **kwargs):
-        super(Console, self).__init__("console", *args, log_stream=LogStream(), **kwargs)
+        super(Console, self).__init__('console', *args, log_stream=LogStream(), **kwargs)
 
-        group = self.parser.add_argument_group(_("Console Options"),
-                                               _("These daemon connect options will be "
-                                                 "used for commands, or if console ui autoconnect is enabled."))
-        group.add_argument("-d", "--daemon", dest="daemon_addr", required=False, default="127.0.0.1")
-        group.add_argument("-p", "--port", dest="daemon_port", type=int, required=False, default="58846")
-        group.add_argument("-U", "--username", dest="daemon_user", required=False)
-        group.add_argument("-P", "--password", dest="daemon_pass", required=False)
+        group = self.parser.add_argument_group(_('Console Options'),
+                                               _('These daemon connect options will be '
+                                                 'used for commands, or if console ui autoconnect is enabled.'))
+        group.add_argument('-d', '--daemon', dest='daemon_addr', required=False, default='127.0.0.1')
+        group.add_argument('-p', '--port', dest='daemon_port', type=int, required=False, default='58846')
+        group.add_argument('-U', '--username', dest='daemon_user', required=False)
+        group.add_argument('-P', '--password', dest='daemon_pass', required=False)
 
         # To properly print help message for the console commands ( e.g. deluge-console info -h),
         # we add a subparser for each command which will trigger the help/usage when given
         from deluge.ui.console.parser import ConsoleCommandParser  # import here because (see top)
         self.console_parser = ConsoleCommandParser(parents=[self.parser], add_help=False, prog=self.parser.prog,
-                                                   description="Starts the Deluge console interface",
+                                                   description='Starts the Deluge console interface',
                                                    formatter_class=lambda prog:
                                                    DelugeTextHelpFormatter(prog, max_help_position=33, width=90))
         self.parser.subparser = self.console_parser
         self.console_parser.base_parser = self.parser
-        subparsers = self.console_parser.add_subparsers(title=_("Console commands"), help=_("Description"),
-                                                        description=_("The following console commands are available:"),
-                                                        metavar=_("Command"), dest="command")
+        subparsers = self.console_parser.add_subparsers(title=_('Console commands'), help=_('Description'),
+                                                        description=_('The following console commands are available:'),
+                                                        metavar=_('Command'), dest='command')
         from deluge.ui.console import UI_PATH  # Must import here
-        self.console_cmds = load_commands(os.path.join(UI_PATH, "cmdline", "commands"))
+        self.console_cmds = load_commands(os.path.join(UI_PATH, 'cmdline', 'commands'))
         for c in sorted(self.console_cmds):
             self.console_cmds[c].add_subparser(subparsers)
 

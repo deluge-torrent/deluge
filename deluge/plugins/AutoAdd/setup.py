@@ -15,15 +15,15 @@
 
 from setuptools import find_packages, setup
 
-__plugin_name__ = "AutoAdd"
-__author__ = "Chase Sterling, Pedro Algarvio"
-__author_email__ = "chase.sterling@gmail.com, pedro@algarvio.me"
-__version__ = "1.05"
-__url__ = "http://dev.deluge-torrent.org/wiki/Plugins/AutoAdd"
-__license__ = "GPLv3"
-__description__ = "Monitors folders for .torrent files."
+__plugin_name__ = 'AutoAdd'
+__author__ = 'Chase Sterling, Pedro Algarvio'
+__author_email__ = 'chase.sterling@gmail.com, pedro@algarvio.me'
+__version__ = '1.05'
+__url__ = 'http://dev.deluge-torrent.org/wiki/Plugins/AutoAdd'
+__license__ = 'GPLv3'
+__description__ = 'Monitors folders for .torrent files.'
 __long_description__ = """"""
-__pkg_data__ = {'deluge.plugins.' + __plugin_name__.lower(): ["template/*", "data/*"]}
+__pkg_data__ = {'deluge.plugins.' + __plugin_name__.lower(): ['template/*', 'data/*']}
 
 setup(
     name=__plugin_name__,
@@ -35,7 +35,7 @@ setup(
     license=__license__,
     long_description=__long_description__ if __long_description__ else __description__,
     packages=find_packages(),
-    namespace_packages=["deluge", "deluge.plugins"],
+    namespace_packages=['deluge', 'deluge.plugins'],
     package_data=__pkg_data__,
 
     entry_points="""

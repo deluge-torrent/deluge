@@ -15,5 +15,5 @@
 def get_resource(filename):
     import os.path
     import pkg_resources
-    return pkg_resources.resource_filename("deluge.plugins.webui",
-                                           os.path.join("data", filename))
+    return pkg_resources.resource_filename('deluge.plugins.webui',
+                                           os.path.join('data', filename))

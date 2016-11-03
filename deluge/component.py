@@ -31,7 +31,7 @@ class ComponentException(Exception):
 
     def __str__(self):
         s = super(ComponentException, self).__str__()
-        return "%s\n%s" % (s, "".join(self.tb))
+        return '%s\n%s' % (s, ''.join(self.tb))
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
@@ -101,7 +101,7 @@ class Component(object):
         self._component_name = name
         self._component_interval = interval
         self._component_depend = depend
-        self._component_state = "Stopped"
+        self._component_state = 'Stopped'
         self._component_timer = None
         self._component_starting_deferred = None
         self._component_stopping_deferred = None
@@ -112,34 +112,34 @@ class Component(object):
             _ComponentRegistry.deregister(self)
 
     def _component_start_timer(self):
-        if hasattr(self, "update"):
+        if hasattr(self, 'update'):
             self._component_timer = LoopingCall(self.update)
             self._component_timer.start(self._component_interval)
 
     def _component_start(self):
         def on_start(result):
-            self._component_state = "Started"
+            self._component_state = 'Started'
             self._component_starting_deferred = None
             self._component_start_timer()
             return True
 
         def on_start_fail(result):
-            self._component_state = "Stopped"
+            self._component_state = 'Stopped'
             self._component_starting_deferred = None
             log.error(result)
             return fail(result)
 
-        if self._component_state == "Stopped":
-            if hasattr(self, "start"):
-                self._component_state = "Starting"
+        if self._component_state == 'Stopped':
+            if hasattr(self, 'start'):
+                self._component_state = 'Starting'
                 d = deferLater(reactor, 0, self.start)
                 d.addCallbacks(on_start, on_start_fail)
                 self._component_starting_deferred = d
             else:
                 d = maybeDeferred(on_start, None)
-        elif self._component_state == "Starting":
+        elif self._component_state == 'Starting':
             return self._component_starting_deferred
-        elif self._component_state == "Started":
+        elif self._component_state == 'Started':
             d = succeed(True)
         else:
             d = fail(ComponentException("Trying to start a component ('%s') not in stopped state. Current state: '%s'" %
@@ -148,20 +148,20 @@ class Component(object):
 
     def _component_stop(self):
         def on_stop(result):
-            self._component_state = "Stopped"
+            self._component_state = 'Stopped'
             if self._component_timer and self._component_timer.running:
                 self._component_timer.stop()
             return True
 
         def on_stop_fail(result):
-            self._component_state = "Started"
+            self._component_state = 'Started'
             self._component_stopping_deferred = None
             log.error(result)
             return result
 
-        if self._component_state != "Stopped" and self._component_state != "Stopping":
-            if hasattr(self, "stop"):
-                self._component_state = "Stopping"
+        if self._component_state != 'Stopped' and self._component_state != 'Stopping':
+            if hasattr(self, 'stop'):
+                self._component_state = 'Stopping'
                 d = maybeDeferred(self.stop)
                 d.addCallback(on_stop)
                 d.addErrback(on_stop_fail)
@@ -169,22 +169,22 @@ class Component(object):
             else:
                 d = maybeDeferred(on_stop, None)
 
-        if self._component_state == "Stopping":
+        if self._component_state == 'Stopping':
             return self._component_stopping_deferred
 
         return succeed(None)
 
     def _component_pause(self):
         def on_pause(result):
-            self._component_state = "Paused"
+            self._component_state = 'Paused'
 
-        if self._component_state == "Started":
+        if self._component_state == 'Started':
             if self._component_timer and self._component_timer.running:
                 d = maybeDeferred(self._component_timer.stop)
                 d.addCallback(on_pause)
             else:
                 d = succeed(None)
-        elif self._component_state == "Paused":
+        elif self._component_state == 'Paused':
             d = succeed(None)
         else:
             d = fail(ComponentException("Trying to pause a component ('%s') not in started state. Current state: '%s'" %
@@ -193,9 +193,9 @@ class Component(object):
 
     def _component_resume(self):
         def on_resume(result):
-            self._component_state = "Started"
+            self._component_state = 'Started'
 
-        if self._component_state == "Paused":
+        if self._component_state == 'Paused':
             d = maybeDeferred(self._component_start_timer)
             d.addCallback(on_resume)
         else:
@@ -205,7 +205,7 @@ class Component(object):
 
     def _component_shutdown(self):
         def on_stop(result):
-            if hasattr(self, "shutdown"):
+            if hasattr(self, 'shutdown'):
                 return maybeDeferred(self.shutdown)
             return succeed(None)
 
@@ -254,7 +254,7 @@ class ComponentRegistry(object):
         """
         name = obj._component_name
         if name in self.components:
-            raise ComponentAlreadyRegistered("Component already registered with name %s" % name)
+            raise ComponentAlreadyRegistered('Component already registered with name %s' % name)
 
         self.components[obj._component_name] = obj
         if obj._component_depend:
@@ -273,7 +273,7 @@ class ComponentRegistry(object):
 
         """
         if obj in self.components.values():
-            log.debug("Deregistering Component: %s", obj._component_name)
+            log.debug('Deregistering Component: %s', obj._component_name)
             d = self.stop([obj._component_name])
 
             def on_stop(result, name):
@@ -377,7 +377,7 @@ class ComponentRegistry(object):
         deferreds = []
 
         for name in names:
-            if self.components[name]._component_state == "Started":
+            if self.components[name]._component_state == 'Started':
                 deferreds.append(self.components[name]._component_pause())
 
         return DeferredList(deferreds)
@@ -403,7 +403,7 @@ class ComponentRegistry(object):
         deferreds = []
 
         for name in names:
-            if self.components[name]._component_state == "Paused":
+            if self.components[name]._component_state == 'Paused':
                 deferreds.append(self.components[name]._component_resume())
 
         return DeferredList(deferreds)

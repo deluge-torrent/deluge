@@ -20,17 +20,17 @@ class Command(BaseCommand):
     """Enable and disable debugging"""
 
     def add_arguments(self, parser):
-        parser.add_argument("state", metavar="<on|off>", choices=["on", "off"], help=_("The new state"))
+        parser.add_argument('state', metavar='<on|off>', choices=['on', 'off'], help=_('The new state'))
 
     def handle(self, options):
-        if options.state == "on":
-            deluge.log.set_logger_level("debug")
-        elif options.state == "off":
-            deluge.log.set_logger_level("error")
+        if options.state == 'on':
+            deluge.log.set_logger_level('debug')
+        elif options.state == 'off':
+            deluge.log.set_logger_level('error')
         else:
-            component.get("ConsoleUI").write("{!error!}%s" % self.usage)
+            component.get('ConsoleUI').write('{!error!}%s' % self.usage)
 
         return defer.succeed(True)
 
     def complete(self, text):
-        return [x for x in ["on", "off"] if x.startswith(text)]
+        return [x for x in ['on', 'off'] if x.startswith(text)]

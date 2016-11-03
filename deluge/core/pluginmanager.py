@@ -26,13 +26,13 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, component.Compon
     functions to access parts of the core."""
 
     def __init__(self, core):
-        component.Component.__init__(self, "CorePluginManager")
+        component.Component.__init__(self, 'CorePluginManager')
 
         self.status_fields = {}
 
         # Call the PluginManagerBase constructor
         deluge.pluginmanagerbase.PluginManagerBase.__init__(
-            self, "core.conf", "deluge.plugin.core")
+            self, 'core.conf', 'deluge.plugin.core')
 
     def start(self):
         # Enable plugins that are enabled in the config
@@ -47,7 +47,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, component.Compon
 
     def update_plugins(self):
         for plugin in self.plugins:
-            if hasattr(self.plugins[plugin], "update"):
+            if hasattr(self.plugins[plugin], 'update'):
                 try:
                     self.plugins[plugin].update()
                 except Exception as ex:
@@ -60,7 +60,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, component.Compon
 
             def on_enable_plugin(result):
                 if result is True and name in self.plugins:
-                    component.get("EventManager").emit(PluginEnabledEvent(name))
+                    component.get('EventManager').emit(PluginEnabledEvent(name))
                 return result
 
             d.addBoth(on_enable_plugin)
@@ -73,7 +73,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, component.Compon
 
             def on_disable_plugin(result):
                 if name not in self.plugins:
-                    component.get("EventManager").emit(PluginDisabledEvent(name))
+                    component.get('EventManager').emit(PluginDisabledEvent(name))
                 return result
             d.addBoth(on_disable_plugin)
         return d
@@ -93,13 +93,13 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, component.Compon
     def register_status_field(self, field, function):
         """Register a new status field.  This can be used in the same way the
         client requests other status information from core."""
-        log.debug("Registering status field %s with PluginManager", field)
+        log.debug('Registering status field %s with PluginManager', field)
         self.status_fields[field] = function
 
     def deregister_status_field(self, field):
         """Deregisters a status field"""
-        log.debug("Deregistering status field %s with PluginManager", field)
+        log.debug('Deregistering status field %s with PluginManager', field)
         try:
             del self.status_fields[field]
         except Exception:
-            log.warning("Unable to deregister status field %s", field)
+            log.warning('Unable to deregister status field %s', field)

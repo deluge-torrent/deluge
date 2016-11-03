@@ -23,8 +23,8 @@ class TrackerIconsTestCase(BaseTestCase):
 
     def test_get_deluge_png(self):
         # Deluge has a png favicon link
-        icon = TrackerIcon(common.get_test_data_file("deluge.png"))
-        d = self.icons.fetch("deluge-torrent.org")
+        icon = TrackerIcon(common.get_test_data_file('deluge.png'))
+        d = self.icons.fetch('deluge-torrent.org')
         d.addCallback(self.assertNotIdentical, None)
         d.addCallback(self.assertEquals, icon)
         return d
@@ -32,29 +32,29 @@ class TrackerIconsTestCase(BaseTestCase):
     def test_get_google_ico(self):
         # Google doesn't have any icon links
         # So instead we'll grab its favicon.ico
-        icon = TrackerIcon(common.get_test_data_file("google.ico"))
-        d = self.icons.fetch("www.google.com")
+        icon = TrackerIcon(common.get_test_data_file('google.ico'))
+        d = self.icons.fetch('www.google.com')
         d.addCallback(self.assertNotIdentical, None)
         d.addCallback(self.assertEquals, icon)
         return d
 
     def test_get_google_ico_with_redirect(self):
         # google.com redirects to www.google.com
-        icon = TrackerIcon(common.get_test_data_file("google.ico"))
-        d = self.icons.fetch("google.com")
+        icon = TrackerIcon(common.get_test_data_file('google.ico'))
+        d = self.icons.fetch('google.com')
         d.addCallback(self.assertNotIdentical, None)
         d.addCallback(self.assertEquals, icon)
         return d
 
     def test_get_ubuntu_ico(self):
         # ubuntu.com has inline css which causes HTMLParser issues
-        icon = TrackerIcon(common.get_test_data_file("ubuntu.png"))
-        d = self.icons.fetch("www.ubuntu.com")
+        icon = TrackerIcon(common.get_test_data_file('ubuntu.png'))
+        d = self.icons.fetch('www.ubuntu.com')
         d.addCallback(self.assertNotIdentical, None)
         d.addCallback(self.assertEquals, icon)
         return d
 
     def test_get_empty_string_tracker(self):
-        d = self.icons.fetch("")
+        d = self.icons.fetch('')
         d.addCallback(self.assertIdentical, None)
         return d

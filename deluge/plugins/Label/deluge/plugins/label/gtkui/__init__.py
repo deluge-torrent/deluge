@@ -16,7 +16,7 @@ from . import label_config, sidebar_menu, submenu
 
 log = logging.getLogger(__name__)
 
-NO_LABEL = "No Label"
+NO_LABEL = 'No Label'
 
 
 def cell_data_label(column, cell, model, row, data):
@@ -29,8 +29,8 @@ class GtkUI(GtkPluginBase):
             self.label_menu.on_show()
 
     def enable(self):
-        self.plugin = component.get("PluginManager")
-        self.torrentmenu = component.get("MenuBar").torrentmenu
+        self.plugin = component.get('PluginManager')
+        self.torrentmenu = component.get('MenuBar').torrentmenu
         self.label_menu = None
         self.labelcfg = None
         self.sidebar_menu = None
@@ -44,7 +44,7 @@ class GtkUI(GtkPluginBase):
         self.sidebar_menu.unload()
         del self.sidebar_menu
 
-        component.get("TorrentView").remove_column(_("Label"))
+        component.get('TorrentView').remove_column(_('Label'))
 
     def load_interface(self):
         # sidebar
@@ -54,7 +54,7 @@ class GtkUI(GtkPluginBase):
         # self.sidebar.load()
 
         # menu:
-        log.debug("add items to torrentview-popup menu.")
+        log.debug('add items to torrentview-popup menu.')
         self.label_menu = submenu.LabelMenu()
         self.torrentmenu.append(self.label_menu)
         self.label_menu.show_all()
@@ -70,6 +70,6 @@ class GtkUI(GtkPluginBase):
         log.debug('Finished loading Label plugin')
 
     def load_columns(self):
-        log.debug("add columns")
+        log.debug('add columns')
 
-        component.get("TorrentView").add_text_column(_("Label"), status_field=["label"])
+        component.get('TorrentView').add_text_column(_('Label'), status_field=['label'])

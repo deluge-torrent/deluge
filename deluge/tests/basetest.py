@@ -16,13 +16,13 @@ class BaseTestCase(unittest.TestCase):
     def setUp(self):  # NOQA
 
         if len(component._ComponentRegistry.components) != 0:
-            warnings.warn("The component._ComponentRegistry.components is not empty on test setup.\n"
+            warnings.warn('The component._ComponentRegistry.components is not empty on test setup.\n'
                           "This is probably caused by another test that didn't clean up after finishing!: %s" %
                           component._ComponentRegistry.components)
         d = maybeDeferred(self.set_up)
 
         def on_setup_error(error):
-            warnings.warn("Error caught in test setup!\n%s" % error.getTraceback())
+            warnings.warn('Error caught in test setup!\n%s' % error.getTraceback())
             self.fail()
 
         return d.addErrback(on_setup_error)
@@ -31,7 +31,7 @@ class BaseTestCase(unittest.TestCase):
         d = maybeDeferred(self.tear_down)
 
         def on_teardown_failed(error):
-            warnings.warn("Error caught in test teardown!\n%s" % error.getTraceback())
+            warnings.warn('Error caught in test teardown!\n%s' % error.getTraceback())
             self.fail()
 
         def on_teardown_complete(result):

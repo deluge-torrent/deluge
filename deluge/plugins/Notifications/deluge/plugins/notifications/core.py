@@ -29,17 +29,17 @@ from .common import CustomNotifications
 log = logging.getLogger(__name__)
 
 DEFAULT_PREFS = {
-    "smtp_enabled": False,
-    "smtp_host": "",
-    "smtp_port": 25,
-    "smtp_user": "",
-    "smtp_pass": "",
-    "smtp_from": "",
-    "smtp_tls": False,  # SSL or TLS
-    "smtp_recipients": [],
+    'smtp_enabled': False,
+    'smtp_host': '',
+    'smtp_port': 25,
+    'smtp_user': '',
+    'smtp_pass': '',
+    'smtp_from': '',
+    'smtp_tls': False,  # SSL or TLS
+    'smtp_recipients': [],
     # Subscriptions
-    "subscriptions": {
-        "email": []
+    'subscriptions': {
+        'email': []
     }
 }
 
@@ -73,9 +73,9 @@ class CoreNotifications(CustomNotifications):
 
     def handle_custom_email_notification(self, result, eventtype):
         if not self.config['smtp_enabled']:
-            return defer.succeed("SMTP notification not enabled.")
+            return defer.succeed('SMTP notification not enabled.')
         subject, message = result
-        log.debug("Spawning new thread to send email with subject: %s: %s",
+        log.debug('Spawning new thread to send email with subject: %s: %s',
                   subject, message)
         # Spawn thread because we don't want Deluge to lock up while we send the
         # email.
@@ -90,11 +90,11 @@ class CoreNotifications(CustomNotifications):
                     continue
             classdoc = known_events[evt].__doc__.strip()
             handled_events.append((evt, classdoc))
-        log.debug("Handled Notification Events: %s", handled_events)
+        log.debug('Handled Notification Events: %s', handled_events)
         return handled_events
 
     def _notify_email(self, subject='', message=''):
-        log.debug("Email prepared")
+        log.debug('Email prepared')
         to_addrs = self.config['smtp_recipients']
         to_addrs_str = ', '.join(self.config['smtp_recipients'])
         headers_dict = {
@@ -115,9 +115,9 @@ Date: %(date)s
 
         try:
             # Python 2.6
-            server = smtplib.SMTP(self.config["smtp_host"], self.config["smtp_port"], timeout=60)
+            server = smtplib.SMTP(self.config['smtp_host'], self.config['smtp_port'], timeout=60)
         except Exception as ex:
-            err_msg = _("There was an error sending the notification email: %s") % ex
+            err_msg = _('There was an error sending the notification email: %s') % ex
             log.error(err_msg)
             return ex
 
@@ -126,7 +126,7 @@ Date: %(date)s
         if security_enabled:
             server.ehlo()
             if 'starttls' not in server.esmtp_features:
-                log.warning("TLS/SSL enabled but server does not support it")
+                log.warning('TLS/SSL enabled but server does not support it')
             else:
                 server.starttls()
                 server.ehlo()
@@ -136,12 +136,12 @@ Date: %(date)s
                 server.login(self.config['smtp_user'], self.config['smtp_pass'])
             except smtplib.SMTPHeloError as ex:
                 err_msg = _("The server didn't reply properly to the helo "
-                            "greeting: %s") % ex
+                            'greeting: %s') % ex
                 log.error(err_msg)
                 return ex
             except smtplib.SMTPAuthenticationError as ex:
                 err_msg = _("The server didn't accept the username/password "
-                            "combination: %s") % ex
+                            'combination: %s') % ex
                 log.error(err_msg)
                 return ex
 
@@ -149,8 +149,8 @@ Date: %(date)s
             try:
                 server.sendmail(self.config['smtp_from'], to_addrs, message)
             except smtplib.SMTPException as ex:
-                err_msg = _("There was an error sending the notification email:"
-                            " %s") % ex
+                err_msg = _('There was an error sending the notification email:'
+                            ' %s') % ex
                 log.error(err_msg)
                 return ex
         finally:
@@ -164,20 +164,20 @@ Date: %(date)s
                     pass
             else:
                 server.quit()
-        return _("Notification email sent.")
+        return _('Notification email sent.')
 
     def _on_torrent_finished_event(self, torrent_id):
-        log.debug("Handler for TorrentFinishedEvent called for CORE")
-        torrent = component.get("TorrentManager")[torrent_id]
+        log.debug('Handler for TorrentFinishedEvent called for CORE')
+        torrent = component.get('TorrentManager')[torrent_id]
         torrent_status = torrent.get_status({})
         # Email
         subject = _("Finished Torrent \"%(name)s\"") % torrent_status
         message = _(
-            "This email is to inform you that Deluge has finished "
+            'This email is to inform you that Deluge has finished '
             "downloading \"%(name)s\", which includes %(num_files)i files."
-            "\nTo stop receiving these alerts, simply turn off email "
+            '\nTo stop receiving these alerts, simply turn off email '
             "notification in Deluge's preferences.\n\n"
-            "Thank you,\nDeluge."
+            'Thank you,\nDeluge.'
         ) % torrent_status
         return subject, message
 
@@ -197,23 +197,23 @@ class Core(CorePluginBase, CoreNotifications):
     def enable(self):
         CoreNotifications.enable(self)
         self.config = deluge.configmanager.ConfigManager(
-            "notifications-core.conf", DEFAULT_PREFS)
-        log.debug("ENABLING CORE NOTIFICATIONS")
+            'notifications-core.conf', DEFAULT_PREFS)
+        log.debug('ENABLING CORE NOTIFICATIONS')
 
     def disable(self):
-        log.debug("DISABLING CORE NOTIFICATIONS")
+        log.debug('DISABLING CORE NOTIFICATIONS')
         CoreNotifications.disable(self)
 
     @export
     def set_config(self, config):
-        "sets the config dictionary"
+        'sets the config dictionary'
         for key in config.keys():
             self.config[key] = config[key]
         self.config.save()
 
     @export
     def get_config(self):
-        "returns the config dictionary"
+        'returns the config dictionary'
         return self.config.config
 
     @export

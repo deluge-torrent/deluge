@@ -18,12 +18,12 @@ from cairo import FORMAT_ARGB32, Context, ImageSurface
 
 from deluge.configmanager import ConfigManager
 
-COLOR_STATES = ["missing", "waiting", "downloading", "completed"]
+COLOR_STATES = ['missing', 'waiting', 'downloading', 'completed']
 
 
 class PiecesBar(gtk.DrawingArea):
     # Draw in response to an expose-event
-    __gsignals__ = {"expose-event": "override"}
+    __gsignals__ = {'expose-event': 'override'}
 
     def __init__(self):
         gtk.DrawingArea.__init__(self)
@@ -36,13 +36,13 @@ class PiecesBar(gtk.DrawingArea):
         del pb, pb_style
 
         self.set_size_request(-1, 25)
-        self.gtkui_config = ConfigManager("gtkui.conf")
+        self.gtkui_config = ConfigManager('gtkui.conf')
 
         self.width = self.prev_width = 0
         self.height = self.prev_height = 0
         self.pieces = self.prev_pieces = ()
         self.num_pieces = None
-        self.text = self.prev_text = ""
+        self.text = self.prev_text = ''
         self.fraction = self.prev_fraction = 0
         self.progress_overlay = self.text_overlay = self.pieces_overlay = None
         self.cr = None
@@ -113,10 +113,10 @@ class PiecesBar(gtk.DrawingArea):
                 pieces = self.pieces
             elif self.num_pieces:
                 # Completed torrents do not send any pieces so create list using 'completed' state.
-                pieces = [COLOR_STATES.index("completed")] * self.num_pieces
+                pieces = [COLOR_STATES.index('completed')] * self.num_pieces
             start_pos = 0
             piece_width = self.width / len(pieces)
-            pieces_colors = [[color / 65535 for color in self.gtkui_config["pieces_color_%s" % state]]
+            pieces_colors = [[color / 65535 for color in self.gtkui_config['pieces_color_%s' % state]]
                              for state in COLOR_STATES]
             for state in pieces:
                 ctx.set_source_rgb(*pieces_colors[state])
@@ -196,7 +196,7 @@ class PiecesBar(gtk.DrawingArea):
     def clear(self):
         self.pieces = self.prev_pieces = ()
         self.num_pieces = None
-        self.text = self.prev_text = ""
+        self.text = self.prev_text = ''
         self.fraction = self.prev_fraction = 0
         self.progress_overlay = self.text_overlay = self.pieces_overlay = None
         self.cr = None

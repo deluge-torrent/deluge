@@ -40,14 +40,14 @@ class BaseWindow(object):
         self.posy, self.posx = posy, posx
         if encoding is None:
             from deluge import component
-            encoding = component.get("ConsoleUI").encoding
+            encoding = component.get('ConsoleUI').encoding
         self.encoding = encoding
 
         self.panel = mkpanel(curses.COLOR_GREEN, height, width, posy, posx)
         self.outer_screen = self.panel.window()
         self.outer_screen.bkgdset(0, curses.COLOR_RED)
         by, bx = self.outer_screen.getbegyx()
-        self.screen = mkpad(get_color_pair("white", "black"), height - 1, width - 2)
+        self.screen = mkpad(get_color_pair('white', 'black'), height - 1, width - 2)
         self._height, self._width = self.outer_screen.getmaxyx()
 
     @property
@@ -120,7 +120,7 @@ class BaseWindow(object):
         indicator_row = min(indicator_row, self.visible_content_pane_height)
         indicator_col = self.width + 1
 
-        add_string(indicator_row, "{!red,black,bold!}#", screen, self.encoding,
+        add_string(indicator_row, '{!red,black,bold!}#', screen, self.encoding,
                    col=indicator_col, pad=False, trim=False)
 
     def refresh(self):
@@ -130,7 +130,7 @@ class BaseWindow(object):
 
         if self.title:
             toff = max(1, (self.width // 2) - (len(self.title) // 2))
-            self.add_string(0, "{!white,black,bold!}%s" % self.title, scr=self.outer_screen, col=toff, pad=False)
+            self.add_string(0, '{!white,black,bold!}%s' % self.title, scr=self.outer_screen, col=toff, pad=False)
 
         self.draw_scroll_indicator(self.outer_screen)
         self.outer_screen.noutrefresh()
@@ -149,4 +149,4 @@ class BaseWindow(object):
         except curses.error as ex:
             import traceback
             log.warn("Error on screen.noutrefresh(%s, %s, %s, %s, %s, %s) Error: '%s'\nStack: %s",
-                     pminrow, pmincol, sminrow, smincol, smaxrow, smaxcol, ex, "".join(traceback.format_stack()))
+                     pminrow, pmincol, sminrow, smincol, smaxrow, smaxcol, ex, ''.join(traceback.format_stack()))

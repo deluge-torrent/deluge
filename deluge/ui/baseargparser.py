@@ -85,14 +85,14 @@ argparse.ArgumentParser.set_default_subparser = set_default_subparser
 
 
 def get_version():
-    version_str = "%s\n" % (common.get_version())
+    version_str = '%s\n' % (common.get_version())
     try:
         from deluge._libtorrent import lt
-        version_str += "libtorrent: %s\n" % lt.__version__
+        version_str += 'libtorrent: %s\n' % lt.__version__
     except ImportError:
         pass
-    version_str += "Python: %s\n" % platform.python_version()
-    version_str += "OS: %s %s\n" % (platform.system(), " ".join(common.get_os_version()))
+    version_str += 'Python: %s\n' % platform.python_version()
+    version_str += 'OS: %s %s\n' % (platform.system(), ' '.join(common.get_os_version()))
     return version_str
 
 
@@ -107,7 +107,7 @@ class DelugeTextHelpFormatter(argparse.RawDescriptionHelpFormatter):
         """
         wrapped_lines = []
         for l in text.splitlines():
-            wrapped_lines.extend(textwrap.wrap(l, width, subsequent_indent="  "))
+            wrapped_lines.extend(textwrap.wrap(l, width, subsequent_indent='  '))
         return wrapped_lines
 
     def _format_action_invocation(self, action):
@@ -133,16 +133,16 @@ class DelugeTextHelpFormatter(argparse.RawDescriptionHelpFormatter):
             else:
                 default = action.dest.upper()
                 args_string = self._format_args(action, default)
-                opt = ", ".join(action.option_strings)
-                parts.append("%s %s" % (opt, args_string))
-            return ", ".join(parts)
+                opt = ', '.join(action.option_strings)
+                parts.append('%s %s' % (opt, args_string))
+            return ', '.join(parts)
 
 
 class HelpAction(argparse._HelpAction):
 
     def __call__(self, parser, namespace, values, option_string=None):
-        if hasattr(parser, "subparser"):
-            subparser = getattr(parser, "subparser")
+        if hasattr(parser, 'subparser'):
+            subparser = getattr(parser, 'subparser')
             subparser.print_help()
         else:
             parser.print_help()
@@ -152,42 +152,42 @@ class HelpAction(argparse._HelpAction):
 class BaseArgParser(argparse.ArgumentParser):
 
     def __init__(self, *args, **kwargs):
-        if "formatter_class" not in kwargs:
-            kwargs["formatter_class"] = lambda prog: DelugeTextHelpFormatter(prog, max_help_position=33, width=90)
+        if 'formatter_class' not in kwargs:
+            kwargs['formatter_class'] = lambda prog: DelugeTextHelpFormatter(prog, max_help_position=33, width=90)
 
-        kwargs["add_help"] = kwargs.get("add_help", False)
-        common_help = kwargs.pop("common_help", True)
+        kwargs['add_help'] = kwargs.get('add_help', False)
+        common_help = kwargs.pop('common_help', True)
         self.log_stream = sys.stdout
-        if "log_stream" in kwargs:
-            self.log_stream = kwargs["log_stream"]
-            del kwargs["log_stream"]
+        if 'log_stream' in kwargs:
+            self.log_stream = kwargs['log_stream']
+            del kwargs['log_stream']
 
         super(BaseArgParser, self).__init__(*args, **kwargs)
 
         self.common_setup = False
         self.process_arg_group = False
-        self.group = self.add_argument_group(_("Common Options"))
+        self.group = self.add_argument_group(_('Common Options'))
         if common_help:
-            self.group.add_argument("-h", "--help", action=HelpAction,
-                                    help=_("Print this help message"))
-        self.group.add_argument("-V", "--version", action="version", version="%(prog)s " + get_version(),
-                                help=_("Print version information"))
-        self.group.add_argument("-v", action="version", version="%(prog)s " + get_version(),
+            self.group.add_argument('-h', '--help', action=HelpAction,
+                                    help=_('Print this help message'))
+        self.group.add_argument('-V', '--version', action='version', version='%(prog)s ' + get_version(),
+                                help=_('Print version information'))
+        self.group.add_argument('-v', action='version', version='%(prog)s ' + get_version(),
                                 help=argparse.SUPPRESS)  # Deprecated arg
-        self.group.add_argument("-c", "--config", metavar="<config>",
-                                help=_("Set the config directory path"))
-        self.group.add_argument("-l", "--logfile", metavar="<logfile>",
-                                help=_("Output to specified logfile instead of stdout"))
-        self.group.add_argument("-L", "--loglevel", choices=[l for k in deluge.log.levels for l in (k, k.upper())],
-                                help=_("Set the log level (none, error, warning, info, debug)"), metavar="<level>")
-        self.group.add_argument("--logrotate", nargs="?", const="2M", metavar="<max-size>",
-                                help=_("Enable logfile rotation, with optional maximum logfile size, "
-                                       "default: %(const)s (Logfile rotation count is 5)"))
-        self.group.add_argument("-q", "--quiet", action="store_true",
-                                help=_("Quieten logging output (Same as `--loglevel none`)"))
-        self.group.add_argument("--profile", metavar="<profile-file>", nargs="?", default=False,
-                                help=_("Profile %(prog)s with cProfile. Outputs to stdout "
-                                       "unless a filename is specified"))
+        self.group.add_argument('-c', '--config', metavar='<config>',
+                                help=_('Set the config directory path'))
+        self.group.add_argument('-l', '--logfile', metavar='<logfile>',
+                                help=_('Output to specified logfile instead of stdout'))
+        self.group.add_argument('-L', '--loglevel', choices=[l for k in deluge.log.levels for l in (k, k.upper())],
+                                help=_('Set the log level (none, error, warning, info, debug)'), metavar='<level>')
+        self.group.add_argument('--logrotate', nargs='?', const='2M', metavar='<max-size>',
+                                help=_('Enable logfile rotation, with optional maximum logfile size, '
+                                       'default: %(const)s (Logfile rotation count is 5)'))
+        self.group.add_argument('-q', '--quiet', action='store_true',
+                                help=_('Quieten logging output (Same as `--loglevel none`)'))
+        self.group.add_argument('--profile', metavar='<profile-file>', nargs='?', default=False,
+                                help=_('Profile %(prog)s with cProfile. Outputs to stdout '
+                                       'unless a filename is specified'))
 
     def parse_args(self, args=None):
         """Parse UI arguments and handle common and process group options.
@@ -238,14 +238,14 @@ class BaseArgParser(argparse.ArgumentParser):
 
             # Setup the logger
             if options.quiet:
-                options.loglevel = "none"
+                options.loglevel = 'none'
             if options.loglevel:
                 options.loglevel = options.loglevel.lower()
 
-            logfile_mode = "w"
+            logfile_mode = 'w'
             logrotate = options.logrotate
             if options.logrotate:
-                logfile_mode = "a"
+                logfile_mode = 'a'
                 logrotate = common.parse_human_size(options.logrotate)
 
             # Setup the logger
@@ -255,7 +255,7 @@ class BaseArgParser(argparse.ArgumentParser):
             if options.config:
                 if not set_config_dir(options.config):
                     log = logging.getLogger(__name__)
-                    log.error("There was an error setting the config dir! Exiting..")
+                    log.error('There was an error setting the config dir! Exiting..')
                     sys.exit(1)
             else:
                 if not os.path.exists(common.get_default_config_dir()):
@@ -276,8 +276,8 @@ class BaseArgParser(argparse.ArgumentParser):
 
             # Write pid file before chuid
             if options.pidfile:
-                with open(options.pidfile, "wb") as _file:
-                    _file.write("%d\n" % os.getpid())
+                with open(options.pidfile, 'wb') as _file:
+                    _file.write('%d\n' % os.getpid())
 
             if not common.windows_check():
                 if options.user:
@@ -297,15 +297,15 @@ class BaseArgParser(argparse.ArgumentParser):
         """Adds a grouping of common process args to control a daemon to the parser"""
 
         self.process_arg_group = True
-        self.group = self.add_argument_group(_("Process Control Options"))
-        self.group.add_argument("-P", "--pidfile", metavar="<pidfile>", action="store",
-                                help=_("Pidfile to store the process id"))
+        self.group = self.add_argument_group(_('Process Control Options'))
+        self.group.add_argument('-P', '--pidfile', metavar='<pidfile>', action='store',
+                                help=_('Pidfile to store the process id'))
         if not common.windows_check():
-            self.group.add_argument("-d", "--do-not-daemonize", dest="donotdaemonize", action="store_true",
-                                    help=_("Do not daemonize (fork) this process"))
-            self.group.add_argument("-f", "--fork", dest="donotdaemonize", action="store_false",
+            self.group.add_argument('-d', '--do-not-daemonize', dest='donotdaemonize', action='store_true',
+                                    help=_('Do not daemonize (fork) this process'))
+            self.group.add_argument('-f', '--fork', dest='donotdaemonize', action='store_false',
                                     help=argparse.SUPPRESS)  # Deprecated arg
-            self.group.add_argument("-U", "--user", metavar="<user>", action="store",
-                                    help=_("Change to this user on startup (Requires root)"))
-            self.group.add_argument("-g", "--group", metavar="<group>", action="store",
-                                    help=_("Change to this group on startup (Requires root)"))
+            self.group.add_argument('-U', '--user', metavar='<user>', action='store',
+                                    help=_('Change to this user on startup (Requires root)'))
+            self.group.add_argument('-g', '--group', metavar='<group>', action='store',
+                                    help=_('Change to this group on startup (Requires root)'))

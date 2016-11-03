@@ -51,12 +51,12 @@ class Account(object):
 
     def __repr__(self):
         return ('<Account username="%(username)s" authlevel=%(authlevel)s>' %
-                {"username": self.username, "authlevel": self.authlevel})
+                {'username': self.username, 'authlevel': self.authlevel})
 
 
 class AuthManager(component.Component):
     def __init__(self):
-        component.Component.__init__(self, "AuthManager", interval=10)
+        component.Component.__init__(self, 'AuthManager', interval=10)
         self.__auth = {}
         self.__auth_modification_time = None
 
@@ -70,16 +70,16 @@ class AuthManager(component.Component):
         pass
 
     def update(self):
-        auth_file = configmanager.get_config_dir("auth")
+        auth_file = configmanager.get_config_dir('auth')
         # Check for auth file and create if necessary
         if not os.path.isfile(auth_file):
-            log.info("Authfile not found, recreating it.")
+            log.info('Authfile not found, recreating it.')
             self.__load_auth_file()
             return
 
         auth_file_modification_time = os.stat(auth_file).st_mtime
         if self.__auth_modification_time != auth_file_modification_time:
-            log.info("Auth file changed, reloading it!")
+            log.info('Auth file changed, reloading it!')
             self.__load_auth_file()
 
     def authorize(self, username, password):
@@ -99,22 +99,22 @@ class AuthManager(component.Component):
         """
         if not username:
             raise AuthenticationRequired(
-                "Username and Password are required.", username
+                'Username and Password are required.', username
             )
 
         if username not in self.__auth:
             # Let's try to re-load the file.. Maybe it's been updated
             self.__load_auth_file()
             if username not in self.__auth:
-                raise BadLoginError("Username does not exist", username)
+                raise BadLoginError('Username does not exist', username)
 
         if self.__auth[username].password == password:
             # Return the users auth level
             return self.__auth[username].authlevel
         elif not password and self.__auth[username].password:
-            raise AuthenticationRequired("Password is required", username)
+            raise AuthenticationRequired('Password is required', username)
         else:
-            raise BadLoginError("Password does not match", username)
+            raise BadLoginError('Password does not match', username)
 
     def has_account(self, username):
         return username in self.__auth
@@ -126,7 +126,7 @@ class AuthManager(component.Component):
 
     def create_account(self, username, password, authlevel):
         if username in self.__auth:
-            raise AuthManagerError("Username in use.", username)
+            raise AuthManagerError('Username in use.', username)
         if authlevel not in AUTH_LEVELS_MAPPING:
             raise AuthManagerError("Invalid auth level: '%s'" % authlevel)
         try:
@@ -140,7 +140,7 @@ class AuthManager(component.Component):
 
     def update_account(self, username, password, authlevel):
         if username not in self.__auth:
-            raise AuthManagerError("Username not known", username)
+            raise AuthManagerError('Username not known', username)
         if authlevel not in AUTH_LEVELS_MAPPING:
             raise AuthManagerError("Invalid auth level: '%s'" % authlevel)
         try:
@@ -155,10 +155,10 @@ class AuthManager(component.Component):
 
     def remove_account(self, username):
         if username not in self.__auth:
-            raise AuthManagerError("Username not known", username)
-        elif username == component.get("RPCServer").get_session_user():
+            raise AuthManagerError('Username not known', username)
+        elif username == component.get('RPCServer').get_session_user():
             raise AuthManagerError(
-                "You cannot delete your own account while logged in!", username
+                'You cannot delete your own account while logged in!', username
             )
 
         del self.__auth[username]
@@ -166,39 +166,39 @@ class AuthManager(component.Component):
         return True
 
     def write_auth_file(self):
-        filename = "auth"
+        filename = 'auth'
         filepath = os.path.join(configmanager.get_config_dir(), filename)
-        filepath_bak = filepath + ".bak"
-        filepath_tmp = filepath + ".tmp"
+        filepath_bak = filepath + '.bak'
+        filepath_tmp = filepath + '.tmp'
 
         try:
             if os.path.isfile(filepath):
-                log.debug("Creating backup of %s at: %s", filename, filepath_bak)
+                log.debug('Creating backup of %s at: %s', filename, filepath_bak)
                 shutil.copy2(filepath, filepath_bak)
         except IOError as ex:
-            log.error("Unable to backup %s to %s: %s", filepath, filepath_bak, ex)
+            log.error('Unable to backup %s to %s: %s', filepath, filepath_bak, ex)
         else:
-            log.info("Saving the %s at: %s", filename, filepath)
+            log.info('Saving the %s at: %s', filename, filepath)
             try:
-                with open(filepath_tmp, "wb") as _file:
+                with open(filepath_tmp, 'wb') as _file:
                     for account in self.__auth.values():
-                        _file.write("%(username)s:%(password)s:%(authlevel_int)s\n" % account.data())
+                        _file.write('%(username)s:%(password)s:%(authlevel_int)s\n' % account.data())
                     _file.flush()
                     os.fsync(_file.fileno())
                 shutil.move(filepath_tmp, filepath)
             except IOError as ex:
-                log.error("Unable to save %s: %s", filename, ex)
+                log.error('Unable to save %s: %s', filename, ex)
                 if os.path.isfile(filepath_bak):
-                    log.info("Restoring backup of %s from: %s", filename, filepath_bak)
+                    log.info('Restoring backup of %s from: %s', filename, filepath_bak)
                     shutil.move(filepath_bak, filepath)
 
         self.__load_auth_file()
 
     def __load_auth_file(self):
         save_and_reload = False
-        filename = "auth"
+        filename = 'auth'
         auth_file = configmanager.get_config_dir(filename)
-        auth_file_bak = auth_file + ".bak"
+        auth_file_bak = auth_file + '.bak'
 
         # Check for auth file and create if necessary
         if not os.path.isfile(auth_file):
@@ -213,28 +213,28 @@ class AuthManager(component.Component):
             return
 
         for _filepath in (auth_file, auth_file_bak):
-            log.info("Opening %s for load: %s", filename, _filepath)
+            log.info('Opening %s for load: %s', filename, _filepath)
             try:
-                with open(_filepath, "rb") as _file:
+                with open(_filepath, 'rb') as _file:
                     file_data = _file.readlines()
             except IOError as ex:
-                log.warning("Unable to load %s: %s", _filepath, ex)
+                log.warning('Unable to load %s: %s', _filepath, ex)
                 file_data = []
             else:
-                log.info("Successfully loaded %s: %s", filename, _filepath)
+                log.info('Successfully loaded %s: %s', filename, _filepath)
                 break
 
         # Load the auth file into a dictionary: {username: Account(...)}
         for line in file_data:
             line = line.strip()
-            if line.startswith("#") or not line:
+            if line.startswith('#') or not line:
                 # This line is a comment or empty
                 continue
-            lsplit = line.split(":")
+            lsplit = line.split(':')
             if len(lsplit) == 2:
                 username, password = lsplit
-                log.warning("Your auth entry for %s contains no auth level, "
-                            "using AUTH_LEVEL_DEFAULT(%s)..", username, AUTH_LEVEL_DEFAULT)
+                log.warning('Your auth entry for %s contains no auth level, '
+                            'using AUTH_LEVEL_DEFAULT(%s)..', username, AUTH_LEVEL_DEFAULT)
                 if username == 'localclient':
                     authlevel = AUTH_LEVEL_ADMIN
                 else:
@@ -244,7 +244,7 @@ class AuthManager(component.Component):
             elif len(lsplit) == 3:
                 username, password, authlevel = lsplit
             else:
-                log.error("Your auth file is malformed: Incorrect number of fields!")
+                log.error('Your auth file is malformed: Incorrect number of fields!')
                 continue
 
             username = username.strip()
@@ -255,16 +255,16 @@ class AuthManager(component.Component):
                 try:
                     authlevel = AUTH_LEVELS_MAPPING[authlevel]
                 except KeyError:
-                    log.error("Your auth file is malformed: %r is not a valid auth level", authlevel)
+                    log.error('Your auth file is malformed: %r is not a valid auth level', authlevel)
                 continue
 
             self.__auth[username] = Account(username, password, authlevel)
 
-        if "localclient" not in self.__auth:
+        if 'localclient' not in self.__auth:
             create_localclient_account(True)
             return self.__load_auth_file()
 
         if save_and_reload:
-            log.info("Re-writing auth file (upgrade)")
+            log.info('Re-writing auth file (upgrade)')
             self.write_auth_file()
         self.__auth_modification_time = auth_file_modification_time

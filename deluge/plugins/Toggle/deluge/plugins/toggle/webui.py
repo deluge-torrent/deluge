@@ -23,7 +23,7 @@ log = logging.getLogger(__name__)
 
 class WebUI(WebPluginBase):
 
-    scripts = [get_resource("toggle.js")]
+    scripts = [get_resource('toggle.js')]
 
     def enable(self):
         pass

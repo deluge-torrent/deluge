@@ -44,8 +44,8 @@ class QueueMode(object):
         self.torrent_ids = torrent_ids
 
     def set_statusbar_args(self, statusbar_args):
-        statusbar_args["bottombar"] = "{!black,white!}Queue mode: change queue position of selected torrents."
-        statusbar_args["bottombar_help"] = " Press [h] for help"
+        statusbar_args['bottombar'] = '{!black,white!}Queue mode: change queue position of selected torrents.'
+        statusbar_args['bottombar_help'] = ' Press [h] for help'
 
     def update_cursor(self):
         pass
@@ -57,19 +57,19 @@ class QueueMode(object):
         if c in [util.KEY_ESC, util.KEY_BELL]:  # If Escape key or CTRL-g, we abort
             self.torrentslist.set_minor_mode(None)
         elif c == ord('h'):
-            popup = MessagePopup(self.torrentslist, "Help", QUEUE_MODE_HELP_STR, width_req=0.65, border_off_west=1)
+            popup = MessagePopup(self.torrentslist, 'Help', QUEUE_MODE_HELP_STR, width_req=0.65, border_off_west=1)
             self.torrentslist.push_popup(popup, clear=True)
         elif c in [curses.KEY_UP, curses.KEY_DOWN, curses.KEY_HOME, curses.KEY_END, curses.KEY_NPAGE, curses.KEY_PPAGE]:
             action = key_to_action[c]
             self.do_queue(action)
 
     def move_selection(self, cb_arg, qact):
-        if self.torrentslist.config["torrentview"]["move_selection"] is False:
+        if self.torrentslist.config['torrentview']['move_selection'] is False:
             return
         queue_length = 0
         selected_num = 0
         for tid in self.torrentview.curstate:
-            tq = self.torrentview.curstate[tid]["queue"]
+            tq = self.torrentview.curstate[tid]['queue']
             if tq != -1:
                 queue_length += 1
                 if tq in self.torrentview.marked:
@@ -107,9 +107,9 @@ class QueueMode(object):
             client.core.queue_down(self.torrent_ids).addCallback(self.move_selection, qact)
 
     def popup(self, **kwargs):
-        popup = SelectablePopup(self.torrentslist, "Queue Action", self.do_queue, cb_args=kwargs, border_off_west=1)
-        popup.add_line(ACTION.QUEUE_TOP, "_Top")
-        popup.add_line(ACTION.QUEUE_UP, "_Up")
-        popup.add_line(ACTION.QUEUE_DOWN, "_Down")
-        popup.add_line(ACTION.QUEUE_BOTTOM, "_Bottom")
+        popup = SelectablePopup(self.torrentslist, 'Queue Action', self.do_queue, cb_args=kwargs, border_off_west=1)
+        popup.add_line(ACTION.QUEUE_TOP, '_Top')
+        popup.add_line(ACTION.QUEUE_UP, '_Up')
+        popup.add_line(ACTION.QUEUE_DOWN, '_Down')
+        popup.add_line(ACTION.QUEUE_BOTTOM, '_Bottom')
         self.torrentslist.push_popup(popup)
