@@ -72,24 +72,17 @@ class BasePreferencePane(BaseInputPane, BaseWindow, PopupsHandler):
     def add_config_values(self, conf_dict):
         for ipt in self.inputs:
             if ipt.has_input():
-                # gross, have to special case in/out ports since they are tuples
-                if ipt.name in ('listen_ports_to', 'listen_ports_from', 'out_ports_from', 'out_ports_to',
-                                'i2p_port', 'i2p_hostname', 'proxy_type', 'proxy_username', 'proxy_hostnames',
-                                'proxy_password', 'proxy_hostname', 'proxy_port', 'proxy_peer_connections',
-                                'listen_interface'):
-                    if ipt.name == 'listen_ports_to':
-                        conf_dict['listen_ports'] = (self.infrom.get_value(), self.into.get_value())
-                    elif ipt.name == 'out_ports_to':
-                        conf_dict['outgoing_ports'] = (self.outfrom.get_value(), self.outto.get_value())
-                    elif ipt.name == 'listen_interface':
-                        interface = ipt.get_value().strip()
-                        if is_ip(interface) or not interface:
-                            conf_dict['listen_interface'] = interface
-                    elif ipt.name == 'i2p_port':
-                        conf_dict.setdefault('i2p_proxy', {})['port'] = ipt.get_value()
-                    elif ipt.name == 'i2p_hostname':
-                        conf_dict.setdefault('i2p_proxy', {})['hostname'] = ipt.get_value()
-                    elif ipt.name == 'proxy_type':
+                # Need special cases for in/out ports or proxy since they are tuples or dicts.
+                if ipt.name == 'listen_ports_to' or ipt.name == 'listen_ports_from':
+                    conf_dict['listen_ports'] = (self.infrom.get_value(), self.into.get_value())
+                elif ipt.name == 'out_ports_to' or ipt.name == 'out_ports_from':
+                    conf_dict['outgoing_ports'] = (self.outfrom.get_value(), self.outto.get_value())
+                elif ipt.name == 'listen_interface':
+                    interface = ipt.get_value().strip()
+                    if is_ip(interface) or not interface:
+                        conf_dict['listen_interface'] = interface
+                elif ipt.name.startswith('proxy_'):
+                    if ipt.name == 'proxy_type':
                         conf_dict.setdefault('proxy', {})['type'] = ipt.get_value()
                     elif ipt.name == 'proxy_username':
                         conf_dict.setdefault('proxy', {})['username'] = ipt.get_value()
@@ -103,8 +96,15 @@ class BasePreferencePane(BaseInputPane, BaseWindow, PopupsHandler):
                         conf_dict.setdefault('proxy', {})['proxy_hostnames'] = ipt.get_value()
                     elif ipt.name == 'proxy_peer_connections':
                         conf_dict.setdefault('proxy', {})['proxy_peer_connections'] = ipt.get_value()
+                    elif ipt.name == 'proxy_tracker_connections':
+                        conf_dict.setdefault('proxy', {})['proxy_tracker_connections'] = ipt.get_value()
+                elif ipt.name == 'force_proxy':
+                    conf_dict.setdefault('proxy', {})['force_proxy'] = ipt.get_value()
+                elif ipt.name == 'anonymous_mode':
+                    conf_dict.setdefault('proxy', {})['anonymous_mode'] = ipt.get_value()
                 else:
                     conf_dict[ipt.name] = ipt.get_value()
+
                 if hasattr(ipt, 'get_child'):
                     c = ipt.get_child()
                     conf_dict[c.name] = c.get_value()
@@ -372,25 +372,29 @@ class ProxyPane(BasePreferencePane):
 
     @overrides(BasePreferencePane)
     def create_pane(self, core_conf, console_config):
+        proxy = core_conf['proxy']
+
         self.add_header(_('Proxy Settings'))
         self.add_header(_('Proxy'), space_above=True)
-        proxy = core_conf['proxy']
         self.add_int_spin_input('proxy_type', '%s:' % _('Type'), proxy['type'], min_val=0, max_val=5)
-        self.add_info_field('proxy_info_1', '   0: None         1: Socks4   2: Socks5', '')
-        self.add_info_field('proxy_info_2', '   3: Socks5 Auth  4: HTTP     5: HTTP Auth', '')
         self.add_text_input('proxy_username', '%s:' % _('Username'), proxy['username'])
         self.add_text_input('proxy_password', '%s:' % _('Password'), proxy['password'])
         self.add_text_input('proxy_hostname', '%s:' % _('Hostname'), proxy['hostname'])
         self.add_int_spin_input('proxy_port', '%s:' % _('Port'), proxy['port'], min_val=0, max_val=65535)
-        self.add_checked_input('proxy_hostnames', _('Proxy hostnames'), proxy['proxy_hostnames'])
-        self.add_checked_input('proxy_peer_connections', _('Proxy peer connections'), proxy['proxy_peer_connections'])
-
-        self.add_header(_('I2P Proxy'), space_above=True)
-        self.add_text_input('i2p_hostname', '%s:' % _('Hostname'),
-                            core_conf['i2p_proxy']['hostname'])
-        self.add_int_spin_input('i2p_port',
-                                '%s:' % _('Port'), core_conf['i2p_proxy']['port'], min_val=0, max_val=65535)
-        self.add_checked_input('anonymous_mode', _('Anonymous Mode'), core_conf['anonymous_mode'])
+        self.add_checked_input('proxy_hostnames', _('Proxy Hostnames'), proxy['proxy_hostnames'])
+        self.add_checked_input('proxy_peer_connections', _('Proxy Peers'), proxy['proxy_peer_connections'])
+        self.add_checked_input('proxy_tracker_connections', _('Proxy Trackers'), proxy['proxy_tracker_connections'])
+        self.add_header('%s' % _('Force Proxy'), space_above=True)
+        self.add_checked_input('force_proxy', _('Force Proxy'), proxy['force_proxy'])
+        self.add_checked_input('anonymous_mode', _('Hide Client Identity'), proxy['anonymous_mode'])
+        self.add_header('%s' % _('Proxy Type Help'), space_above=True)
+        self.add_text_area(
+            'proxy_text_area',
+            ' 0: None   1: Socks4\n'
+            ' 2: Socks5 3: Socks5 Auth\n'
+            ' 4: HTTP   5: HTTP Auth\n'
+            ' 6: I2P'
+        )
 
 
 class CachePane(BasePreferencePane):

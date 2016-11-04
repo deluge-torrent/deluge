@@ -645,28 +645,34 @@ class Core(component.Component):
         """Returns the active listen port"""
         return self.session.listen_port()
 
-    @deprecated
-    @export
-    def get_i2p_proxy(self):
-        """Returns the active listen port"""
-        # Deprecated: Moved to proxy types
-        i2p_settings = self.session.i2p_proxy()
-        i2p_dict = {'hostname': i2p_settings.hostname, 'port': i2p_settings.port}
-        return i2p_dict
-
     @export
     def get_proxy(self):
-        """Returns the active listen port"""
-        proxy_settings = self.session.proxy()
+        """Returns the proxy settings
+
+        Returns:
+            dict: Contains proxy settings.
+
+        Notes:
+            Proxy type names:
+                0: None, 1: Socks4, 2: Socks5, 3: Socks5 w Auth, 4: HTTP, 5: HTTP w Auth, 6: I2P
+
+        """
+
+        settings = self.session.get_settings()
+        proxy_type = settings['proxy_type']
+        proxy_hostname = settings['i2p_hostname'] if proxy_type == 6 else settings['proxy_hostname']
+        proxy_port = settings['i2p_port'] if proxy_type == 6 else settings['proxy_port']
         proxy_dict = {
-            'type': int(proxy_settings.type),
-            'hostname': proxy_settings.hostname,
-            'username': proxy_settings.username,
-            'password': proxy_settings.password,
-            'port': proxy_settings.port,
-            'proxy_hostnames': proxy_settings.proxy_hostnames,
-            'proxy_peer_connections': proxy_settings.proxy_peer_connections
+            'type': proxy_type,
+            'hostname': proxy_hostname,
+            'username': settings['proxy_username'],
+            'password': settings['proxy_password'],
+            'port': proxy_port,
+            'proxy_hostnames': settings['proxy_hostnames'],
+            'proxy_peer_connections': settings['proxy_peer_connections'],
+            'proxy_tracker_connections': settings['proxy_tracker_connections']
         }
+
         return proxy_dict
 
     @export

@@ -2,6 +2,67 @@
 <interface>
   <requires lib="gtk+" version="2.24"/>
   <!-- interface-naming-policy toplevel-contextual -->
+  <object class="GtkAdjustment" id="adjustment_cache_expiry">
+    <property name="lower">1</property>
+    <property name="upper">32000</property>
+    <property name="value">60</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_cache_size">
+    <property name="upper">999999</property>
+    <property name="value">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_share_ratio">
+    <property name="lower">0.5</property>
+    <property name="upper">100</property>
+    <property name="value">2</property>
+    <property name="step_increment">0.10000000000000001</property>
+    <property name="page_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_share_ratio_limit">
+    <property name="lower">-1</property>
+    <property name="upper">100</property>
+    <property name="value">1.5</property>
+    <property name="step_increment">0.10000000000000001</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_active">
+    <property name="lower">-1</property>
+    <property name="upper">9999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_daemon_port">
+    <property name="upper">65535</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_downloading">
+    <property name="lower">-1</property>
+    <property name="upper">9999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_incoming_port">
+    <property name="upper">65535</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_max_conn_global">
+    <property name="lower">-1</property>
+    <property name="upper">9999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_spin_max_conn_per_sec">
+    <property name="lower">-1</property>
+    <property name="upper">9999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkAdjustment" id="adjustment_spin_max_conn_per_torrent">
     <property name="lower">-1</property>
     <property name="upper">9999</property>
@@ -82,72 +143,6 @@
     <property name="upper">100</property>
     <property name="value">6</property>
     <property name="step_increment">0.10000000000000001</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment_cache_expiry">
-    <property name="lower">1</property>
-    <property name="upper">32000</property>
-    <property name="value">60</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment_cache_size">
-    <property name="upper">999999</property>
-    <property name="value">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment_share_ratio">
-    <property name="lower">0.5</property>
-    <property name="upper">100</property>
-    <property name="value">2</property>
-    <property name="step_increment">0.10000000000000001</property>
-    <property name="page_increment">1</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment_share_ratio_limit">
-    <property name="lower">-1</property>
-    <property name="upper">100</property>
-    <property name="value">1.5</property>
-    <property name="step_increment">0.10000000000000001</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment_spin_active">
-    <property name="lower">-1</property>
-    <property name="upper">9999</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment_spin_daemon_port">
-    <property name="upper">65535</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment_spin_downloading">
-    <property name="lower">-1</property>
-    <property name="upper">9999</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment_spin_i2p_port">
-    <property name="upper">65535</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment_spin_incoming_port">
-    <property name="upper">65535</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment_spin_max_conn_global">
-    <property name="lower">-1</property>
-    <property name="upper">9999</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment_spin_max_conn_per_sec">
-    <property name="lower">-1</property>
-    <property name="upper">9999</property>
-    <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
   <object class="GtkListStore" id="liststore1">
@@ -232,6 +227,9 @@
       </row>
       <row>
         <col id="0" translatable="yes">HTTP Auth</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">I2P</col>
       </row>
     </data>
   </object>
@@ -3469,7 +3467,7 @@ used sparingly.</property>
                                       <object class="GtkTable" id="table11">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="n_rows">7</property>
+                                        <property name="n_rows">8</property>
                                         <property name="n_columns">2</property>
                                         <property name="column_spacing">5</property>
                                         <child>
@@ -3645,7 +3643,7 @@ the proxy instead of using the local DNS service</property>
                                         </child>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_proxy_peer_conn">
-                                            <property name="label" translatable="yes">Proxy Peer Connections</property>
+                                            <property name="label" translatable="yes">Proxy Peers</property>
                                             <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
@@ -3659,6 +3657,24 @@ the proxy instead of using the local DNS service</property>
                                             <property name="right_attach">2</property>
                                             <property name="top_attach">6</property>
                                             <property name="bottom_attach">7</property>
+                                            <property name="x_options">GTK_FILL</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkCheckButton" id="chk_proxy_tracker_conn">
+                                            <property name="label" translatable="yes">Proxy Trackers</property>
+                                            <property name="use_action_appearance">False</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">False</property>
+                                            <property name="xalign">0.49000000953674316</property>
+                                            <property name="active">True</property>
+                                            <property name="draw_indicator">True</property>
+                                          </object>
+                                          <packing>
+                                            <property name="right_attach">2</property>
+                                            <property name="top_attach">7</property>
+                                            <property name="bottom_attach">8</property>
                                             <property name="x_options">GTK_FILL</property>
                                           </packing>
                                         </child>
@@ -3685,101 +3701,71 @@ the proxy instead of using the local DNS service</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkFrame" id="frame_i2p">
+                              <object class="GtkFrame" id="frame_anon_mode">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label_xalign">0</property>
                                 <property name="shadow_type">none</property>
                                 <child>
-                                  <object class="GtkAlignment" id="alignment41">
+                                  <object class="GtkVBox" id="vbox9">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="top_padding">5</property>
-                                    <property name="left_padding">12</property>
-                                    <property name="right_padding">12</property>
                                     <child>
-                                      <object class="GtkTable" id="table5">
+                                      <object class="GtkAlignment" id="alignment_force_proxy">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="n_rows">2</property>
-                                        <property name="n_columns">2</property>
-                                        <property name="column_spacing">5</property>
-                                        <property name="row_spacing">2</property>
+                                        <property name="top_padding">5</property>
+                                        <property name="left_padding">12</property>
+                                        <property name="right_padding">12</property>
                                         <child>
-                                          <object class="GtkLabel" id="label_i2p_host">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
-                                            <property name="label" translatable="yes">Hostname:</property>
-                                          </object>
-                                          <packing>
-                                            <property name="x_options">GTK_FILL</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkEntry" id="entry_i2p_host">
+                                          <object class="GtkCheckButton" id="chk_force_proxy">
+                                            <property name="label" translatable="yes">Force Proxy Use</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="truncate_multiline">True</property>
-                                            <property name="primary_icon_activatable">False</property>
-                                            <property name="secondary_icon_activatable">False</property>
-                                            <property name="primary_icon_sensitive">True</property>
-                                            <property name="secondary_icon_sensitive">True</property>
+                                            <property name="receives_default">False</property>
+                                            <property name="draw_indicator">True</property>
                                           </object>
-                                          <packing>
-                                            <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkLabel" id="label_i2p_port">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="xalign">1</property>
-                                            <property name="label" translatable="yes">Port:</property>
-                                          </object>
-                                          <packing>
-                                            <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkAlignment" id="alignment_i2p_port">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
-                                            <property name="xscale">0</property>
-                                            <child>
-                                              <object class="GtkSpinButton" id="spin_i2p_port">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="primary_icon_activatable">False</property>
-                                                <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
-                                                <property name="adjustment">adjustment_spin_i2p_port</property>
-                                                <property name="numeric">True</property>
-                                              </object>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
-                                            <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                          </packing>
                                         </child>
                                       </object>
+                                      <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkAlignment" id="alignment_anon_mode">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="top_padding">5</property>
+                                        <property name="left_padding">12</property>
+                                        <property name="right_padding">12</property>
+                                        <child>
+                                          <object class="GtkCheckButton" id="chk_anonymous_mode">
+                                            <property name="label" translatable="yes">Hide Client Identity</property>
+                                            <property name="use_action_appearance">False</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">False</property>
+                                            <property name="tooltip_text" translatable="yes">Attempt to hide client identity and only use proxy  for incoming connections.</property>
+                                            <property name="draw_indicator">True</property>
+                                          </object>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
                                     </child>
                                   </object>
                                 </child>
                                 <child type="label">
-                                  <object class="GtkLabel" id="label_i2p">
+                                  <object class="GtkLabel" id="label_force_proxy">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">I2P Proxy</property>
+                                    <property name="label" translatable="yes">Force Proxy</property>
                                     <attributes>
                                       <attribute name="weight" value="bold"/>
                                     </attributes>
@@ -3791,50 +3777,6 @@ the proxy instead of using the local DNS service</property>
                                 <property name="fill">False</property>
                                 <property name="padding">5</property>
                                 <property name="position">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkFrame" id="frame_anon_mode">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label_xalign">0</property>
-                                <property name="shadow_type">none</property>
-                                <child>
-                                  <object class="GtkAlignment" id="alignment_anon_mode">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="top_padding">5</property>
-                                    <property name="left_padding">12</property>
-                                    <property name="right_padding">12</property>
-                                    <child>
-                                      <object class="GtkCheckButton" id="chk_anonymous_mode">
-                                        <property name="label" translatable="yes">Hide Client Identity</property>
-                                        <property name="use_action_appearance">False</property>
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">False</property>
-                                        <property name="tooltip_text" translatable="yes">Attempt to hide client identity and only use proxy  for incoming connections.</property>
-                                        <property name="draw_indicator">True</property>
-                                      </object>
-                                    </child>
-                                  </object>
-                                </child>
-                                <child type="label">
-                                  <object class="GtkLabel" id="label_anon_mode">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Anonymous Mode</property>
-                                    <attributes>
-                                      <attribute name="weight" value="bold"/>
-                                    </attributes>
-                                  </object>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="padding">5</property>
-                                <property name="position">2</property>
                               </packing>
                             </child>
                           </object>

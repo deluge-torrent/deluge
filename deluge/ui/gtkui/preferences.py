@@ -350,7 +350,7 @@ class Preferences(component.Component):
             'spin_max_connections_per_second': ('value', 'max_connections_per_second'),
             'chk_ignore_limits_on_local_network': ('active', 'ignore_limits_on_local_network'),
             'chk_rate_limit_ip_overhead': ('active', 'rate_limit_ip_overhead'),
-            'chk_anonymous_mode': ('active', 'anonymous_mode'),
+
             'spin_max_connections_per_torrent': ('value', 'max_connections_per_torrent'),
             'spin_max_upload_slots_per_torrent': ('value', 'max_upload_slots_per_torrent'),
             'spin_max_download_per_torrent': ('value', 'max_download_speed_per_torrent'),
@@ -379,8 +379,9 @@ class Preferences(component.Component):
             'spin_proxy_port': ('value', lambda: self.core_config['proxy']['port']),
             'chk_proxy_host_resolve': ('active', lambda: self.core_config['proxy']['proxy_hostnames']),
             'chk_proxy_peer_conn': ('active', lambda: self.core_config['proxy']['proxy_peer_connections']),
-            'entry_i2p_host': ('text', lambda: self.core_config['i2p_proxy']['hostname']),
-            'spin_i2p_port': ('value', lambda: self.core_config['i2p_proxy']['port']),
+            'chk_proxy_tracker_conn': ('active', lambda: self.core_config['proxy']['proxy_tracker_connections']),
+            'chk_force_proxy': ('active', lambda: self.core_config['proxy']['force_proxy']),
+            'chk_anonymous_mode': ('active', lambda: self.core_config['proxy']['anonymous_mode']),
             'accounts_add': (None, None),
             'accounts_listview': (None, None),
             'button_cache_refresh': (None, None),
@@ -599,20 +600,18 @@ class Preferences(component.Component):
         new_core_config['new_release_check'] = self.builder.get_object('chk_new_releases').get_active()
 
         # Proxy tab #
-        new_core_config['proxy'] = {}
-        new_core_config['proxy']['type'] = self.builder.get_object('combo_proxy_type').get_active()
-        new_core_config['proxy']['username'] = self.builder.get_object('entry_proxy_user').get_text()
-        new_core_config['proxy']['password'] = self.builder.get_object('entry_proxy_pass').get_text()
-        new_core_config['proxy']['hostname'] = self.builder.get_object('entry_proxy_host').get_text()
-        new_core_config['proxy']['port'] = self.builder.get_object('spin_proxy_port').get_value_as_int()
-        new_core_config['proxy']['proxy_hostnames'] = self.builder.get_object(
-            'chk_proxy_host_resolve').get_active()
-        new_core_config['proxy']['proxy_peer_connections'] = self.builder.get_object(
-            'chk_proxy_peer_conn').get_active()
-        new_core_config['i2p_proxy'] = {}
-        new_core_config['i2p_proxy']['hostname'] = self.builder.get_object('entry_i2p_host').get_text()
-        new_core_config['i2p_proxy']['port'] = self.builder.get_object('spin_i2p_port').get_value_as_int()
-        new_core_config['anonymous_mode'] = self.builder.get_object('chk_anonymous_mode').get_active()
+        new_core_config['proxy'] = {
+            'type': self.builder.get_object('combo_proxy_type').get_active(),
+            'username': self.builder.get_object('entry_proxy_user').get_text(),
+            'password': self.builder.get_object('entry_proxy_pass').get_text(),
+            'hostname': self.builder.get_object('entry_proxy_host').get_text(),
+            'port': self.builder.get_object('spin_proxy_port').get_value_as_int(),
+            'proxy_hostnames': self.builder.get_object('chk_proxy_host_resolve').get_active(),
+            'proxy_peer_connections': self.builder.get_object('chk_proxy_peer_conn').get_active(),
+            'proxy_tracker_connections': self.builder.get_object('chk_proxy_tracker_conn').get_active(),
+            'force_proxy': self.builder.get_object('chk_force_proxy').get_active(),
+            'anonymous_mode': self.builder.get_object('chk_anonymous_mode').get_active()
+        }
 
         # Queue tab #
         new_core_config['queue_new_to_top'] = self.builder.get_object('chk_queue_new_top').get_active()
@@ -642,7 +641,7 @@ class Preferences(component.Component):
         # Run plugin hook to apply preferences
         component.get('PluginManager').run_on_apply_prefs()
 
-        # Lanuage
+        # Language
         if self.language_checkbox.get_active():
             new_gtkui_config['language'] = None
         else:
@@ -954,31 +953,28 @@ class Preferences(component.Component):
 
     def _on_combo_proxy_type_changed(self, widget):
         proxy_type = self.builder.get_object('combo_proxy_type').get_active()
+        proxy_entries = [
+            'label_proxy_host', 'entry_proxy_host', 'label_proxy_port', 'spin_proxy_port',
+            'label_proxy_pass', 'entry_proxy_pass', 'label_proxy_user', 'entry_proxy_user',
+            'chk_proxy_host_resolve', 'chk_proxy_peer_conn', 'chk_proxy_tracker_conn']
 
-        hides = []
-        shows = []
-        # 0:"None"
-        if proxy_type == 0:
-            hides.extend(['entry_proxy_pass', 'entry_proxy_user', 'entry_proxy_host', 'spin_proxy_port',
-                          'label_proxy_pass', 'label_proxy_user', 'label_proxy_host', 'label_proxy_port',
-                          'chk_proxy_host_resolve', 'chk_proxy_peer_conn'])
-        # 1:"Socks4", 2:"Socks5", 4:"HTTP"
-        elif proxy_type in (1, 2, 4):
-            if proxy_type in (2, 4):
-                shows.extend(['chk_proxy_host_resolve'])
-            hides.extend(['entry_proxy_pass', 'entry_proxy_user', 'label_proxy_pass', 'label_proxy_user'])
-            shows.extend(['entry_proxy_host', 'spin_proxy_port', 'label_proxy_host',
-                          'label_proxy_port', 'chk_proxy_peer_conn'])
-        # 3:"Socks5 Auth", 5:"HTTP Auth"
-        elif proxy_type in (3, 5):
-            shows.extend(['entry_proxy_pass', 'entry_proxy_user', 'entry_proxy_host', 'spin_proxy_port',
-                          'label_proxy_pass', 'label_proxy_user', 'label_proxy_host', 'label_proxy_port',
-                          'chk_proxy_host_resolve', 'chk_proxy_peer_conn'])
+        # 0: None, 1: Socks4, 2: Socks5, 3: Socks5 Auth, 4: HTTP, 5: HTTP Auth, 6: I2P
+        show_entries = []
+        if proxy_type > 0:
+            show_entries.extend([
+                'label_proxy_host', 'entry_proxy_host', 'label_proxy_port', 'spin_proxy_port',
+                'chk_proxy_peer_conn', 'chk_proxy_tracker_conn'])
+            if proxy_type in (3, 5):
+                show_entries.extend([
+                    'label_proxy_pass', 'entry_proxy_pass', 'label_proxy_user', 'entry_proxy_user'])
+            if proxy_type in (2, 3, 4, 5):
+                show_entries.extend(['chk_proxy_host_resolve'])
 
-        for hide_entry in hides:
-            self.builder.get_object(hide_entry).hide()
-        for show_entry in shows:
-            self.builder.get_object(show_entry).show()
+        for entry in proxy_entries:
+            if entry in show_entries:
+                self.builder.get_object(entry).show()
+            else:
+                self.builder.get_object(entry).hide()
 
     def _on_button_associate_magnet_clicked(self, widget):
         associate_magnet_links(True)

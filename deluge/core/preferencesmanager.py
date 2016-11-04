@@ -101,14 +101,12 @@ DEFAULT_PREFS = {
         'port': 8080,
         'proxy_hostnames': True,
         'proxy_peer_connections': True,
-    },
-    'i2p_proxy': {
-        'hostname': '',
-        'port': 0
+        'proxy_tracker_connections': True,
+        'force_proxy': False,
+        'anonymous_mode': False,
     },
     'peer_tos': '0x00',
     'rate_limit_ip_overhead': True,
-    'anonymous_mode': False,
     'geoip_db_location': '/usr/share/GeoIP/GeoIP.dat',
     'cache_size': 512,
     'cache_expiry': 60,
@@ -127,6 +125,17 @@ class PreferencesManager(component.Component):
             self.config['proxy'].update(self.config['proxies']['peer'])
             log.warning('New proxy config is: %s', self.config['proxy'])
             del self.config['proxies']
+        if 'i2p_proxy' in self.config and self.config['i2p_proxy']['hostname']:
+            self.config['proxy'].update(self.config['i2p_proxy'])
+            self.config['proxy']['type'] = 6
+            del self.config['i2p_proxy']
+        if 'anonymous_mode' in self.config:
+            self.config['proxy']['anonymous_mode'] = self.config['anonymous_mode']
+            del self.config['anonymous_mode']
+        if 'proxy' in self.config:
+            for key in DEFAULT_PREFS['proxy']:
+                if key not in self.config['proxy']:
+                    self.config['proxy'][key] = DEFAULT_PREFS['proxy'][key]
 
         self.core = component.get('Core')
         self.new_release_timer = None
@@ -343,32 +352,38 @@ class PreferencesManager(component.Component):
                 self.new_release_timer.stop()
 
     def _on_set_proxy(self, key, value):
-        if key == 'i2p_proxy' or value['type'] == 6:
-            proxy_settings = {
+        # Initialise with type none and blank hostnames.
+        proxy_settings = {
+            'proxy_type': lt.proxy_type.none,
+            'i2p_hostname': '',
+            'proxy_hostname': '',
+            'proxy_hostnames': value['proxy_hostnames'],
+            'proxy_peer_connections': value['proxy_peer_connections'],
+            'proxy_tracker_connections': value['proxy_tracker_connections'],
+            'force_proxy': value['force_proxy'],
+            'anonymous_mode': value['anonymous_mode']
+        }
+
+        if value['type'] == lt.proxy_type.i2p_proxy:
+            proxy_settings.update({
                 'proxy_type': lt.proxy_type.i2p_proxy,
                 'i2p_hostname': value['hostname'],
-                'i2p_port': value['port']
-            }
-        else:
-            proxy_settings = {
+                'i2p_port': value['port'],
+            })
+        elif value['type'] != lt.proxy_type.none:
+            proxy_settings.update({
                 'proxy_type': value['type'],
                 'proxy_hostname': value['hostname'],
                 'proxy_port': value['port'],
                 'proxy_username': value['username'],
                 'proxy_password': value['password'],
-                'proxy_hostnames': value['proxy_hostnames'],
-                'proxy_peer_connections': value['proxy_peer_connections'],
-            }
-        self.core.apply_session_settings(proxy_settings)
 
-    def _on_set_i2p_proxy(self, key, value):
-        self._on_set_proxy(key, value)
+            })
+
+        self.core.apply_session_settings(proxy_settings)
 
     def _on_set_rate_limit_ip_overhead(self, key, value):
         self.core.apply_session_setting('rate_limit_ip_overhead', value)
-
-    def _on_set_anonymous_mode(self, key, value):
-        self.core.apply_session_setting('anonymous_mode', value)
 
     def _on_set_geoip_db_location(self, key, geoipdb_path):
         # Load the GeoIP DB for country look-ups if available
