@@ -13,7 +13,7 @@ class BaseTestCase(unittest.TestCase):
     have finished.
 
     """
-    def setUp(self):  # NOQA
+    def setUp(self):  # NOQA: N803
 
         if len(component._ComponentRegistry.components) != 0:
             warnings.warn('The component._ComponentRegistry.components is not empty on test setup.\n'
@@ -27,7 +27,7 @@ class BaseTestCase(unittest.TestCase):
 
         return d.addErrback(on_setup_error)
 
-    def tearDown(self):  # NOQA
+    def tearDown(self):  # NOQA: N803
         d = maybeDeferred(self.tear_down)
 
         def on_teardown_failed(error):

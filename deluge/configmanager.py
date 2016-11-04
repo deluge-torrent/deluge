@@ -99,7 +99,7 @@ class _ConfigManager(object):
 _configmanager = _ConfigManager()
 
 
-def ConfigManager(config, defaults=None, file_version=1):  # NOQA
+def ConfigManager(config, defaults=None, file_version=1):  # NOQA: N802
     return _configmanager.get_config(config, defaults=defaults, file_version=file_version)
 
 

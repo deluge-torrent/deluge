@@ -73,7 +73,7 @@ class DelugeRPCRequest(object):
 
 class DelugeRPCProtocol(DelugeTransferProtocol):
 
-    def connectionMade(self):  # NOQA
+    def connectionMade(self):  # NOQA: N802
         self.__rpc_requests = {}
         # Set the protocol in the daemon so it can send data
         self.factory.daemon.protocol = self
@@ -192,16 +192,16 @@ class DelugeRPCClientFactory(ClientFactory):
         self.daemon = daemon
         self.event_handlers = event_handlers
 
-    def startedConnecting(self, connector):  # NOQA
+    def startedConnecting(self, connector):  # NOQA: N802
         log.debug('Connecting to daemon at "%s:%s"...',
                   connector.host, connector.port)
 
-    def clientConnectionFailed(self, connector, reason):  # NOQA
+    def clientConnectionFailed(self, connector, reason):  # NOQA: N802
         log.debug('Connection to daemon at "%s:%s" failed: %s',
                   connector.host, connector.port, reason.value)
         self.daemon.connect_deferred.errback(reason)
 
-    def clientConnectionLost(self, connector, reason):  # NOQA
+    def clientConnectionLost(self, connector, reason):  # NOQA: N802
         log.debug('Connection lost to daemon at "%s:%s" reason: %s',
                   connector.host, connector.port, reason.value)
         self.daemon.host = None

@@ -56,7 +56,7 @@ class DelugeTransferProtocol(Protocol, object):
         self.transport.write(header)
         self.transport.write(compressed)
 
-    def dataReceived(self, data):  # NOQA
+    def dataReceived(self, data):  # NOQA: N802
         """
         This method is called whenever data is received.
 

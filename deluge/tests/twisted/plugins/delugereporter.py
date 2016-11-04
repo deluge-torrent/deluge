@@ -10,7 +10,7 @@ from zope.interface import implements
 class _Reporter(object):
     implements(IPlugin, IReporter)
 
-    def __init__(self, name, module, description, longOpt, shortOpt, klass):  # NOQA
+    def __init__(self, name, module, description, longOpt, shortOpt, klass):  # NOQA: N803
         self.name = name
         self.module = module
         self.description = description
@@ -32,6 +32,6 @@ class DelugeReporter(TreeReporter):
         os.environ['DELUGE_REPORTER'] = 'true'
         TreeReporter.__init__(self, *args, **kwargs)
 
-    def addExpectedFailure(self, *args):  # NOQA
+    def addExpectedFailure(self, *args):  # NOQA: N802
         # super(TreeReporter, self).addExpectedFailure(*args)
         self.endLine('[TODO]', self.TODO)

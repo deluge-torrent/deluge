@@ -106,7 +106,7 @@ class TransferTestClass(DelugeTransferProtocol):
 
 class DelugeTransferProtocolTestCase(unittest.TestCase):
 
-    def setUp(self):  # NOQA
+    def setUp(self):  # NOQA: N803
         """
         The expected messages corresponds to the test messages (msg1, msg2) after they've been processed
         by DelugeTransferProtocol.send, which means that they've first been encoded with pickle,

@@ -4,10 +4,10 @@ import deluge.error
 
 
 class ErrorTestCase(unittest.TestCase):
-    def setUp(self):  # NOQA
+    def setUp(self):  # NOQA: N803
         pass
 
-    def tearDown(self):  # NOQA
+    def tearDown(self):  # NOQA: N803
         pass
 
     def test_deluge_error(self):

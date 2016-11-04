@@ -52,11 +52,11 @@ class HTTPDownloader(client.HTTPDownloader):
         agent = 'Deluge/%s (http://deluge-torrent.org)' % get_version()
         client.HTTPDownloader.__init__(self, url, filename, headers=headers, agent=agent)
 
-    def gotStatus(self, version, status, message):  # NOQA
+    def gotStatus(self, version, status, message):  # NOQA: N802
         self.code = int(status)
         client.HTTPDownloader.gotStatus(self, version, status, message)
 
-    def gotHeaders(self, headers):  # NOQA
+    def gotHeaders(self, headers):  # NOQA: N802
         if self.code == http.OK:
             if 'content-length' in headers:
                 self.total_length = int(headers['content-length'][0])
@@ -92,7 +92,7 @@ class HTTPDownloader(client.HTTPDownloader):
 
         return client.HTTPDownloader.gotHeaders(self, headers)
 
-    def pagePart(self, data):  # NOQA
+    def pagePart(self, data):  # NOQA: N802
         if self.code == http.OK:
             self.current_length += len(data)
             if self.decoder:
@@ -102,7 +102,7 @@ class HTTPDownloader(client.HTTPDownloader):
 
         return client.HTTPDownloader.pagePart(self, data)
 
-    def pageEnd(self):  # NOQA
+    def pageEnd(self):  # NOQA: N802
         if self.decoder:
             data = self.decoder.flush()
             self.current_length -= len(data)
@@ -202,7 +202,7 @@ def _download_file(url, filename, callback=None, headers=None, force_filename=Fa
                 """
                 A custom context factory to add a server name for TLS connections.
                 """
-                def getContext(self):  # NOQA
+                def getContext(self):  # NOQA: N802
                     ctx = ssl.ClientContextFactory.getContext(self)
                     ClientTLSOptions(host, ctx)
                     return ctx

@@ -92,7 +92,7 @@ class TopLevelResource(Resource):
         self.putChild('rename', RenameResource())
         self.putChild('partial', PartialDownloadResource())
 
-    def getChild(self, path, request):  # NOQA
+    def getChild(self, path, request):  # NOQA: N803
         if path == '':
             return self
         else:

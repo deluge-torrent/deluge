@@ -13,7 +13,7 @@ import gzip
 import zipfile
 
 
-def Zipped(reader):  # NOQA
+def Zipped(reader):  # NOQA: N802
     """Blocklist reader for zipped blocklists"""
     def open(self):
         z = zipfile.ZipFile(self.file)
@@ -28,7 +28,7 @@ def Zipped(reader):  # NOQA
     return reader
 
 
-def GZipped(reader):  # NOQA
+def GZipped(reader):  # NOQA: N802
     """Blocklist reader for gzipped blocklists"""
     def open(self):
         return gzip.open(self.file)
@@ -36,7 +36,7 @@ def GZipped(reader):  # NOQA
     return reader
 
 
-def BZipped2(reader):  # NOQA
+def BZipped2(reader):  # NOQA: N802
     """Blocklist reader for bzipped2 blocklists"""
     def open(self):
         return bz2.BZ2File(self.file)

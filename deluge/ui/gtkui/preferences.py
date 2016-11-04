@@ -25,6 +25,11 @@ from deluge.ui.gtkui.dialogs import AccountDialog, ErrorDialog, InformationDialo
 from deluge.ui.gtkui.path_chooser import PathChooser
 from deluge.ui.util import lang
 
+try:
+    import appindicator
+except ImportError:
+    appindicator = False
+
 pygtk.require('2.0')
 
 
@@ -148,13 +153,8 @@ class Preferences(component.Component):
             'on_checkbutton_language_toggled': self._on_checkbutton_language_toggled,
         })
 
-        if not deluge.common.osx_check() and not deluge.common.windows_check():
-            try:
-                import appindicator  # noqa pylint: disable=unused-import
-            except ImportError:
-                pass
-            else:
-                self.builder.get_object('alignment_tray_type').set_visible(True)
+        # Radio buttons to choose between systray and appindicator
+        self.builder.get_object('alignment_tray_type').set_visible(appindicator)
 
         from deluge.ui.gtkui.gtkui import DEFAULT_PREFS
         self.COLOR_DEFAULTS = {}

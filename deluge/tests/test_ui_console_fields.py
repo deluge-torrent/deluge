@@ -14,10 +14,10 @@ class Parent(object):
 
 class UICommonTestCase(unittest.TestCase):
 
-    def setUp(self):  # NOQA
+    def setUp(self):  # NOQA: N803
         self.parent = Parent()
 
-    def tearDown(self):  # NOQA
+    def tearDown(self):  # NOQA: N803
         pass
 
     def test_text_input(self):

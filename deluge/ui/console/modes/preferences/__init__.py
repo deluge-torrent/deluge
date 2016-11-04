@@ -1,1 +1,3 @@
-from deluge.ui.console.modes.preferences.preferences import Preferences  # NOQA
+from deluge.ui.console.modes.preferences.preferences import Preferences
+
+__all__ = ['Preferences']

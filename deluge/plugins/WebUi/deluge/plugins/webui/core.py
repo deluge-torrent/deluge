@@ -21,6 +21,11 @@ from deluge import configmanager
 from deluge.core.rpcserver import export
 from deluge.plugins.pluginbase import CorePluginBase
 
+try:
+    from deluge.ui.web import server
+except ImportError:
+    server = False
+
 log = logging.getLogger(__name__)
 
 DEFAULT_PREFS = {
@@ -49,17 +54,20 @@ class Core(CorePluginBase):
 
     @export
     def got_deluge_web(self):
-        try:
-            from deluge.ui.web import server  # noqa pylint: disable=unused-import
-            return True
-        except ImportError:
-            return False
+        """Status of deluge-web module installation.
+
+        Check if deluge.ui.web.server modulge is installed and has been successfully imported.
+
+        Returns:
+            bool: True is deluge-web is installed and available, otherwise False.
+
+        """
+
+        return bool(server)
 
     def start_server(self):
         if not self.server:
-            try:
-                from deluge.ui.web import server
-            except ImportError:
+            if not self.got_deluge_web():
                 return False
 
             try:

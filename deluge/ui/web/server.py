@@ -124,7 +124,7 @@ class Upload(resource.Resource):
 
 class Render(resource.Resource):
 
-    def getChild(self, path, request):  # NOQA
+    def getChild(self, path, request):  # NOQA: N802
         request.render_file = path
         return self
 
@@ -149,7 +149,7 @@ class Tracker(resource.Resource):
         except KeyError:
             self.tracker_icons = TrackerIcons()
 
-    def getChild(self, path, request):  # NOQA
+    def getChild(self, path, request):  # NOQA: N802
         request.tracker_name = path
         return self
 
@@ -172,7 +172,7 @@ class Tracker(resource.Resource):
 
 
 class Flag(resource.Resource):
-    def getChild(self, path, request):  # NOQA
+    def getChild(self, path, request):  # NOQA: N802
         request.country = path
         return self
 
@@ -211,7 +211,7 @@ class LookupResource(resource.Resource, component.Component):
         log.debug('Removing directory `%s`', directory)
         self.__paths[path].remove(directory)
 
-    def getChild(self, path, request):  # NOQA
+    def getChild(self, path, request):  # NOQA: N802
         if hasattr(request, 'lookup_path'):
             request.lookup_path = os.path.join(request.lookup_path, path)
         else:
@@ -365,7 +365,7 @@ class ScriptResource(resource.Resource, component.Component):
                 scripts.append('js/' + path)
         return scripts
 
-    def getChild(self, path, request):  # NOQA
+    def getChild(self, path, request):  # NOQA: N802
         if hasattr(request, 'lookup_path'):
             request.lookup_path += '/' + path
         else:
@@ -477,13 +477,13 @@ class TopLevel(resource.Resource):
         self.__scripts.remove(script)
         self.__debug_scripts.remove(script)
 
-    def getChild(self, path, request):  # NOQA
+    def getChild(self, path, request):  # NOQA: N802
         if path == '':
             return self
         else:
             return resource.Resource.getChild(self, path, request)
 
-    def getChildWithDefault(self, path, request):  # NOQA
+    def getChildWithDefault(self, path, request):  # NOQA: N802
         # Calculate the request base
         header = request.getHeader('x-deluge-base')
         base = header if header else component.get('DelugeWeb').base

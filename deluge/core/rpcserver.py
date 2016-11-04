@@ -90,7 +90,7 @@ def format_request(call):
 
 
 class ServerContextFactory(object):
-    def getContext(self):  # NOQA
+    def getContext(self):  # NOQA: N802
         """
         Create an SSL context.
 
@@ -133,7 +133,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
             # log.debug("RPCRequest: %s", format_request(call))
             reactor.callLater(0, self.dispatch, *call)
 
-    def sendData(self, data):  # NOQA
+    def sendData(self, data):  # NOQA: N802
         """
         Sends the data to the client.
 
@@ -149,7 +149,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
             log.exception(ex)
             raise
 
-    def connectionMade(self):  # NOQA
+    def connectionMade(self):  # NOQA: N802
         """
         This method is called when a new client connects.
         """
@@ -159,7 +159,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
         # Set the initial auth level of this session to AUTH_LEVEL_NONE
         self.factory.authorized_sessions[self.transport.sessionno] = AUTH_LEVEL_NONE
 
-    def connectionLost(self, reason=connectionDone):  # NOQA
+    def connectionLost(self, reason=connectionDone):  # NOQA: N802
         """
         This method is called when the client is disconnected.
 

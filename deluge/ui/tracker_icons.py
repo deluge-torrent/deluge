@@ -27,7 +27,7 @@ try:
 except ImportError:
     PIL_INSTALLED = False
 else:
-    import deluge.ui.Win32IconImagePlugin  # noqa pylint: disable=unused-import, ungrouped-imports
+    import deluge.ui.Win32IconImagePlugin  # NOQA pylint: disable=unused-import, ungrouped-imports
     PIL_INSTALLED = True
 
 log = logging.getLogger(__name__)

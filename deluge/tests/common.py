@@ -97,7 +97,7 @@ class ReactorOverride(object):
     def _stop(self):
         pass
 
-    def addReader(self, arg):  # NOQA
+    def addReader(self, arg):  # NOQA: N802
         pass
 
 
@@ -123,11 +123,11 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
         self.killed = False
         self.watchdogs = []
 
-    def connectionMade(self):  # NOQA
+    def connectionMade(self):  # NOQA: N802
         self.transport.write(self.script)
         self.transport.closeStdin()
 
-    def outConnectionLost(self):  # NOQA
+    def outConnectionLost(self):  # NOQA: N802
         if not self.logfile:
             return
         with open(self.logfile, 'w') as f:
@@ -154,7 +154,7 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
             if not w.called and not w.cancelled:
                 w.cancel()
 
-    def processEnded(self, status):  # NOQA
+    def processEnded(self, status):  # NOQA: N802
         self.transport.loseConnection()
         if self.quit_d is None:
             return
@@ -183,7 +183,7 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
                             c['deferred'].callback(val)
         return ret
 
-    def outReceived(self, data):  # NOQA
+    def outReceived(self, data):  # NOQA: N802
         """Process output from stdout"""
         self.log_output += data
         if self.check_callbacks(data):
@@ -191,7 +191,7 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
         elif '[ERROR' in data:
             print(data, end=' ')
 
-    def errReceived(self, data):  # NOQA
+    def errReceived(self, data):  # NOQA: N802
         """Process output from stderr"""
         self.log_output += data
         self.stderr_out += data

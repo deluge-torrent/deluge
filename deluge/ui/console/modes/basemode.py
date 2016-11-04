@@ -86,11 +86,11 @@ class CursesStdIO(object):
         """ We want to select on FD 0 """
         return 0
 
-    def doRead(self):  # NOQA
+    def doRead(self):  # NOQA: N802
         """called when input is ready"""
         pass
 
-    def logPrefix(self):  # NOQA
+    def logPrefix(self):  # NOQA: N802
         return 'CursesClient'
 
 
@@ -143,7 +143,7 @@ class BaseMode(CursesStdIO, component.Component):
     def on_resize(self, rows, cols):
         self.rows, self.cols = rows, cols
 
-    def connectionLost(self, reason):  # NOQA
+    def connectionLost(self, reason):  # NOQA: N802
         self.close()
 
     def add_string(self, row, string, scr=None, **kwargs):
@@ -194,7 +194,7 @@ class BaseMode(CursesStdIO, component.Component):
         self.stdscr.redrawwin()
         self.stdscr.refresh()
 
-    def doRead(self):  # NOQA
+    def doRead(self):  # NOQA: N802
         """
         Called when there is data to be read, ie, input from the keyboard.
         """
