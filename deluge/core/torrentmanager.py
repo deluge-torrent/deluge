@@ -134,38 +134,28 @@ class TorrentManager(component.Component):
         self.last_state_update_alert_ts = 0
 
         # Register set functions
-        self.config.register_set_function('max_connections_per_torrent',
-                                          self.on_set_max_connections_per_torrent)
-        self.config.register_set_function('max_upload_slots_per_torrent',
-                                          self.on_set_max_upload_slots_per_torrent)
-        self.config.register_set_function('max_upload_speed_per_torrent',
-                                          self.on_set_max_upload_speed_per_torrent)
-        self.config.register_set_function('max_download_speed_per_torrent',
-                                          self.on_set_max_download_speed_per_torrent)
+        set_config_keys = ['max_connections_per_torrent', 'max_upload_slots_per_torrent',
+                           'max_upload_speed_per_torrent', 'max_download_speed_per_torrent']
+
+        for config_key in set_config_keys:
+            on_set_func = getattr(self, ''.join(['on_set_', config_key]))
+            self.config.register_set_function(config_key, on_set_func)
 
         # Register alert functions
-        self.alerts.register_handler('torrent_finished_alert', self.on_alert_torrent_finished)
-        self.alerts.register_handler('torrent_paused_alert', self.on_alert_torrent_paused)
-        self.alerts.register_handler('torrent_checked_alert', self.on_alert_torrent_checked)
-        self.alerts.register_handler('tracker_reply_alert', self.on_alert_tracker_reply)
-        self.alerts.register_handler('tracker_announce_alert', self.on_alert_tracker_announce)
-        self.alerts.register_handler('tracker_warning_alert', self.on_alert_tracker_warning)
-        self.alerts.register_handler('tracker_error_alert', self.on_alert_tracker_error)
-        self.alerts.register_handler('storage_moved_alert', self.on_alert_storage_moved)
-        self.alerts.register_handler('storage_moved_failed_alert', self.on_alert_storage_moved_failed)
-        self.alerts.register_handler('torrent_resumed_alert', self.on_alert_torrent_resumed)
-        self.alerts.register_handler('state_changed_alert', self.on_alert_state_changed)
-        self.alerts.register_handler('save_resume_data_alert', self.on_alert_save_resume_data)
-        self.alerts.register_handler('save_resume_data_failed_alert', self.on_alert_save_resume_data_failed)
-        self.alerts.register_handler('file_renamed_alert', self.on_alert_file_renamed)
-        self.alerts.register_handler('metadata_received_alert', self.on_alert_metadata_received)
-        self.alerts.register_handler('file_error_alert', self.on_alert_file_error)
-        self.alerts.register_handler('file_completed_alert', self.on_alert_file_completed)
-        self.alerts.register_handler('state_update_alert', self.on_alert_state_update)
-        self.alerts.register_handler('external_ip_alert', self.on_alert_external_ip)
-        self.alerts.register_handler('performance_alert', self.on_alert_performance)
-        self.alerts.register_handler('fastresume_rejected_alert', self.on_alert_fastresume_rejected)
-        self.alerts.register_handler('add_torrent_alert', self.on_add_torrent_alert)
+        alert_handles = [
+            'external_ip_alert', 'performance_alert', 'add_torrent_alert',
+            'metadata_received_alert', 'torrent_finished_alert', 'torrent_paused_alert',
+            'torrent_checked_alert', 'torrent_resumed_alert', 'tracker_reply_alert',
+            'tracker_announce_alert', 'tracker_warning_alert', 'tracker_error_alert',
+            'file_renamed_alert', 'file_error_alert', 'file_completed_alert',
+            'storage_moved_alert', 'storage_moved_failed_alert', 'state_update_alert',
+            'state_changed_alert', 'save_resume_data_alert', 'save_resume_data_failed_alert',
+            'fastresume_rejected_alert'
+        ]
+
+        for alert_handle in alert_handles:
+            on_alert_func = getattr(self, ''.join(['on_alert_', alert_handle.replace('_alert', '')]))
+            self.alerts.register_handler(alert_handle, on_alert_func)
 
         # Define timers
         self.save_state_timer = LoopingCall(self.save_state)
@@ -407,7 +397,7 @@ class TorrentManager(component.Component):
             raise AddTorrentError('Unable to add torrent to session: %s' % ex)
         return d
 
-    def on_add_torrent_alert(self, alert):
+    def on_alert_add_torrent(self, alert):
         """Alert handler for libtorrent add_torrent_alert"""
         if not alert.handle.is_valid():
             log.warn('Torrent handle is invalid!')
