@@ -935,7 +935,6 @@ class TorrentManager(component.Component):
     # --- Alert handlers ---
     def on_alert_torrent_finished(self, alert):
         """Alert handler for libtorrent torrent_finished_alert"""
-        log.debug('on_alert_torrent_finished')
         try:
             torrent_id = str(alert.handle.info_hash())
             torrent = self.torrents[torrent_id]
@@ -983,8 +982,6 @@ class TorrentManager(component.Component):
 
     def on_alert_torrent_paused(self, alert):
         """Alert handler for libtorrent torrent_paused_alert"""
-        if log.isEnabledFor(logging.DEBUG):
-            log.debug('on_alert_torrent_paused')
         try:
             torrent_id = str(alert.handle.info_hash())
             torrent = self.torrents[torrent_id]
@@ -997,8 +994,6 @@ class TorrentManager(component.Component):
 
     def on_alert_torrent_checked(self, alert):
         """Alert handler for libtorrent torrent_checked_alert"""
-        if log.isEnabledFor(logging.DEBUG):
-            log.debug('on_alert_torrent_checked')
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
         except (RuntimeError, KeyError):
@@ -1014,8 +1009,6 @@ class TorrentManager(component.Component):
 
     def on_alert_tracker_reply(self, alert):
         """Alert handler for libtorrent tracker_reply_alert"""
-        if log.isEnabledFor(logging.DEBUG):
-            log.debug('on_alert_tracker_reply: %s', decode_string(alert.message()))
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
         except (RuntimeError, KeyError):
@@ -1030,8 +1023,6 @@ class TorrentManager(component.Component):
 
     def on_alert_tracker_announce(self, alert):
         """Alert handler for libtorrent tracker_announce_alert"""
-        if log.isEnabledFor(logging.DEBUG):
-            log.debug('on_alert_tracker_announce')
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
         except (RuntimeError, KeyError):
@@ -1042,7 +1033,6 @@ class TorrentManager(component.Component):
 
     def on_alert_tracker_warning(self, alert):
         """Alert handler for libtorrent tracker_warning_alert"""
-        log.debug('on_alert_tracker_warning')
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
         except (RuntimeError, KeyError):
@@ -1071,7 +1061,6 @@ class TorrentManager(component.Component):
 
     def on_alert_storage_moved(self, alert):
         """Alert handler for libtorrent storage_moved_alert"""
-        log.debug('on_alert_storage_moved')
         try:
             torrent_id = str(alert.handle.info_hash())
             torrent = self.torrents[torrent_id]
@@ -1112,7 +1101,6 @@ class TorrentManager(component.Component):
 
     def on_alert_torrent_resumed(self, alert):
         """Alert handler for libtorrent torrent_resumed_alert"""
-        log.debug('on_alert_torrent_resumed')
         try:
             torrent_id = str(alert.handle.info_hash())
             torrent = self.torrents[torrent_id]
@@ -1128,8 +1116,6 @@ class TorrentManager(component.Component):
             TorrentStateChangedEvent: The state has changed.
 
         """
-        if log.isEnabledFor(logging.DEBUG):
-            log.debug('on_alert_state_changed')
         try:
             torrent_id = str(alert.handle.info_hash())
             torrent = self.torrents[torrent_id]
@@ -1144,8 +1130,6 @@ class TorrentManager(component.Component):
 
     def on_alert_save_resume_data(self, alert):
         """Alert handler for libtorrent save_resume_data_alert"""
-        if log.isEnabledFor(logging.DEBUG):
-            log.debug('on_alert_save_resume_data')
         try:
             torrent_id = str(alert.handle.info_hash())
         except RuntimeError:
@@ -1159,7 +1143,6 @@ class TorrentManager(component.Component):
 
     def on_alert_save_resume_data_failed(self, alert):
         """Alert handler for libtorrent save_resume_data_failed_alert"""
-        log.debug('on_alert_save_resume_data_failed: %s', decode_string(alert.message()))
         try:
             torrent_id = str(alert.handle.info_hash())
         except RuntimeError:
@@ -1194,7 +1177,6 @@ class TorrentManager(component.Component):
             TorrentFileRenamedEvent: Files in the torrent have been renamed.
 
         """
-        log.debug('on_alert_file_renamed')
         try:
             new_name = decode_string(alert.new_name)
         except AttributeError:
@@ -1219,7 +1201,6 @@ class TorrentManager(component.Component):
 
     def on_alert_metadata_received(self, alert):
         """Alert handler for libtorrent metadata_received_alert"""
-        log.debug('on_alert_metadata_received')
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
         except (RuntimeError, KeyError):
@@ -1228,7 +1209,6 @@ class TorrentManager(component.Component):
 
     def on_alert_file_error(self, alert):
         """Alert handler for libtorrent file_error_alert"""
-        log.debug('on_alert_file_error: %s', decode_string(alert.message()))
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
         except (RuntimeError, KeyError):
@@ -1242,7 +1222,6 @@ class TorrentManager(component.Component):
             TorrentFileCompletedEvent: When an individual file completes downloading.
 
         """
-        log.debug('file_completed_alert: %s', decode_string(alert.message()))
         try:
             torrent_id = str(alert.handle.info_hash())
         except RuntimeError:
@@ -1257,7 +1236,6 @@ class TorrentManager(component.Component):
         of all torrents that changed since last time this was posted.
 
         """
-        log.debug('on_status_notification: %s', decode_string(alert.message()))
         self.last_state_update_alert_ts = time.time()
 
         for t_status in alert.status:
