@@ -701,16 +701,17 @@ class Preferences(component.Component):
                     shutdown_daemon = (not client.is_standalone() and
                                        client.connected() and
                                        client.is_localhost())
-                    component.get('MainWindow').quit(shutdown=shutdown_daemon)
+                    component.get('MainWindow').quit(shutdown=shutdown_daemon, restart=True)
                 else:
                     self.gtkui_config['standalone'] = not new_gtkui_standalone
                     self.builder.get_object('radio_standalone').set_active(
                         self.gtkui_config['standalone'])
                     self.builder.get_object('radio_thinclient').set_active(
                         not self.gtkui_config['standalone'])
+            mode = 'Thinclient' if was_standalone else 'Standalone'
             dialog = YesNoDialog(
-                _('Switching client mode...'),
-                _('Your current session will be stopped. Do you wish to continue?')
+                _('Switching Deluge Client Mode...'),
+                _('Do you want to restart to use %s mode?' % mode)
             )
             dialog.run().addCallback(on_response)
 

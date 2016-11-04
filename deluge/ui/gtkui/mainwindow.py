@@ -107,6 +107,7 @@ class MainWindow(component.Component):
         # Keep track of window's minimization state so that we don't update the
         # UI when it is minimized.
         self.is_minimized = False
+        self.restart = False
 
         self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL, [('text/uri-list', 0, 80)], gtk.gdk.ACTION_COPY)
 
@@ -200,15 +201,18 @@ class MainWindow(component.Component):
         """Returns a reference to the main window GTK builder object."""
         return self.main_builder
 
-    def quit(self, shutdown=False):
-        """
-        Quits the GtkUI
+    def quit(self, shutdown=False, restart=False):
+        """Quits the GtkUI application.
 
-        :param shutdown: whether or not to shutdown the daemon as well
-        :type shutdown: boolean
+        Args:
+            shutdown (bool): Whether or not to shutdown the daemon as well.
+            restart (bool): Whether or not to restart the application after closing.
+
         """
+
         def quit_gtkui():
             def stop_gtk_reactor(result=None):
+                self.restart = restart
                 try:
                     reactor.callLater(0, reactor.fireSystemEvent, 'gtkui_close')
                 except ReactorNotRunning:

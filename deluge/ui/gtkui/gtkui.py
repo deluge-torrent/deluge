@@ -257,11 +257,16 @@ class GtkUI(object):
         # Shut down components
         yield self.shutdown()
 
-        # Modal dialogs can prevent the application exiting so destroy mainwindow
-        # Must do this here to avoid hang when closing with SIGINT (CTRL-C)
+        # The gtk modal dialogs (e.g. Preferences) can prevent the application
+        # quitting, so force exiting by destroying MainWindow. Must be done here
+        # to avoid hanging when quitting with SIGINT (CTRL-C).
         self.mainwindow.window.destroy()
 
         reactor.stop()
+
+        # Restart the application after closing if MainWindow attribute set.
+        if component.get('MainWindow').restart:
+            os.execv(sys.argv[0], sys.argv)
 
     def print_rpc_stats(self):
         if not client.connected():
