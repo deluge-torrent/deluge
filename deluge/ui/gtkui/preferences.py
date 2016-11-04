@@ -154,7 +154,7 @@ class Preferences(component.Component):
         })
 
         # Radio buttons to choose between systray and appindicator
-        self.builder.get_object('alignment_tray_type').set_visible(appindicator)
+        self.builder.get_object('alignment_tray_type').set_visible(bool(appindicator))
 
         from deluge.ui.gtkui.gtkui import DEFAULT_PREFS
         self.COLOR_DEFAULTS = {}
