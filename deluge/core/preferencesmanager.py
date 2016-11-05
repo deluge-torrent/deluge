@@ -209,10 +209,10 @@ class PreferencesManager(component.Component):
 
         log.debug('Listen Interface: %s, Ports: %s with use_sys_port: %s',
                   interface, listen_ports, self.config['listen_use_sys_port'])
+        interfaces = ['%s:%s' % (interface, port) for port in range(listen_ports[0], listen_ports[1]+1)]
         try:
-            interfaces = ['%s:%s' % (interface, port) for port in range(listen_ports[0], listen_ports[1]+1)]
-            self.session.apply_setting({'listen_system_port_fallback', self.config['listen_use_sys_port']})
-            self.session.apply_setting({'listen_interfaces', interfaces})
+            self.session.apply_settings({'listen_system_port_fallback': self.config['listen_use_sys_port'],
+                                         'listen_interfaces': ''.join(interfaces)})
         except AttributeError:
             # Deprecated in libtorrent 1.1
             # If a single port range then always enable re-use port flag.
@@ -235,9 +235,20 @@ class PreferencesManager(component.Component):
         self.__set_outgoing_ports()
 
     def __set_outgoing_ports(self):
-        ports = [0, 0] if self.config['random_outgoing_ports'] else self.config['outgoing_ports']
-        log.debug('Outgoing ports set to %s', ports)
-        self.session_set_setting('outgoing_ports', (ports[0], ports[1]))
+        port = 0 if self.config['random_outgoing_ports'] else self.config['outgoing_ports'][0]
+        if port:
+            num_ports = self.config['outgoing_ports'][1] - self.config['outgoing_ports'][0]
+            num_ports = num_ports if num_ports > 1 else 5
+        else:
+            num_ports = 0
+        log.debug('Outgoing port set to %s with range: %s', port, num_ports)
+        try:
+            self.session.apply_settings({'outgoing_port': port, 'num_outgoing_ports': num_ports})
+        except AttributeError:
+            # Deprecated in libtorrent 1.1
+            ports = [0, 0] if self.config['random_outgoing_ports'] else self.config['outgoing_ports']
+            log.debug('Outgoing port set to %s', ports)
+            self.session_set_setting('outgoing_ports', (ports[0], ports[1]))
 
     def _on_set_peer_tos(self, key, value):
         try:
@@ -277,10 +288,10 @@ class PreferencesManager(component.Component):
         # Convert Deluge enc_level values to libtorrent enc_level values.
         pe_enc_level = {0: lt.enc_level.plaintext, 1: lt.enc_level.rc4, 2: lt.enc_level.both}
         try:
-            self.session.apply_setting('out_enc_policy', lt.enc_policy(self.config['enc_out_policy']))
-            self.session.apply_setting('in_enc_policy', lt.enc_policy(self.config['enc_in_policy']))
-            self.session.apply_setting('allowed_enc_level', lt.enc_level(pe_enc_level[self.config['enc_level']]))
-            self.session.apply_setting('prefer_rc4', True)
+            self.session.apply_settings({'out_enc_policy': lt.enc_policy(self.config['enc_out_policy']),
+                                         'in_enc_policy': lt.enc_policy(self.config['enc_in_policy']),
+                                         'allowed_enc_level': lt.enc_level(pe_enc_level[self.config['enc_level']]),
+                                         'prefer_rc4': True})
         except AttributeError:
             # Deprecated in libtorrent 1.1
             pe_settings = lt.pe_settings()
