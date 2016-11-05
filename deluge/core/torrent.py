@@ -624,7 +624,7 @@ class Torrent(object):
         old_state = self.state
         self.set_status_message()
         try:
-            status_error = status.errc
+            status_error = status.errc.message() if status.errc.value() else ''
         except AttributeError:
             # Deprecated in libtorrent 1.1
             status_error = status.error

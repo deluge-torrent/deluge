@@ -391,19 +391,23 @@ class PreferencesManager(component.Component):
 
     def _on_set_proxy(self, key, value):
         try:
-            if key == 'i2p_proxy':
-                self.session.apply_settings('proxy_type', lt.proxy_type('i2p_proxy'))
-                self.session.apply_settings('i2p_hostname', value['hostname'])
-                self.session.apply_settings('i2p_port', value['port'])
+            if key == 'i2p_proxy' or value['type'] == 6:
+                proxy_settings = {
+                    'proxy_type': lt.proxy_type.i2p_proxy,
+                    'i2p_hostname': value['hostname'],
+                    'i2p_port': value['port']
+                }
             else:
-                self.session.apply_settings('proxy_type', lt.proxy_type(value['type']))
-                self.session.apply_settings('proxy_hostname', value['hostname'])
-                self.session.apply_settings('proxy_port', value['port'])
-                self.session.apply_settings('proxy_username', value['username'])
-                self.session.apply_settings('proxy_password', value['password'])
-                self.session.apply_settings('proxy_hostnames', value['proxy_hostnames'])
-                self.session.apply_settings('proxy_peer_connections', value['proxy_peer_connections'])
-                self.session.apply_settings('proxy_tracker_connections', value['proxy_tracker_connections'])
+                proxy_settings = {
+                    'proxy_type': value['type'],
+                    'proxy_hostname': value['hostname'],
+                    'proxy_port': value['port'],
+                    'proxy_username': value['username'],
+                    'proxy_password': value['password'],
+                    'proxy_hostnames': value['proxy_hostnames'],
+                    'proxy_peer_connections': value['proxy_peer_connections'],
+                }
+            self.session.apply_settings(proxy_settings)
         except AttributeError:
             proxy_settings = lt.proxy_settings()
             proxy_settings.hostname = value['hostname']
