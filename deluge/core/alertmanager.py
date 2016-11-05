@@ -47,7 +47,7 @@ class AlertManager(component.Component):
                       lt.alert.category_t.performance_warning)
 
         try:
-            self.session.apply_settings('alert_mask', alert_mask)
+            self.session.apply_settings({'alert_mask': alert_mask})
         except AttributeError:
             self.session.set_alert_mask(alert_mask)
 
