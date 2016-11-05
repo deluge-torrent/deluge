@@ -404,14 +404,14 @@ class MenuBar(component.Component):
     def on_menuitem_set_unlimited(self, widget):
         log.debug('widget name: %s', widget.get_name())
         funcs = {
-            'menuitem_down_speed': client.core.set_torrent_max_download_speed,
-            'menuitem_up_speed': client.core.set_torrent_max_upload_speed,
-            'menuitem_max_connections': client.core.set_torrent_max_connections,
-            'menuitem_upload_slots': client.core.set_torrent_max_upload_slots
+            'menuitem_down_speed': 'max_download_speed',
+            'menuitem_up_speed': 'max_upload_speed',
+            'menuitem_max_connections': 'max_connections',
+            'menuitem_upload_slots': 'max_upload_slots'
         }
         if widget.get_name() in funcs.keys():
-            for torrent in component.get('TorrentView').get_selected_torrents():
-                funcs[widget.get_name()](torrent, -1)
+            torrent_ids = component.get('TorrentView').get_selected_torrents()
+            client.core.set_torrent_options(torrent_ids, {funcs[widget.get_name()]: -1})
 
     def on_menuitem_set_other(self, widget):
         log.debug('widget name: %s', widget.get_name())
@@ -465,12 +465,12 @@ class MenuBar(component.Component):
         d.addCallback(_on_torrent_status)
 
     def on_menuitem_set_automanaged_on(self, widget):
-        for torrent in component.get('TorrentView').get_selected_torrents():
-            client.core.set_torrent_auto_managed(torrent, True)
+        client.core.set_torrent_options(component.get('TorrentView').get_selected_torrents(),
+                                        {'auto_managed': True})
 
     def on_menuitem_set_automanaged_off(self, widget):
-        for torrent in component.get('TorrentView').get_selected_torrents():
-            client.core.set_torrent_auto_managed(torrent, False)
+        client.core.set_torrent_options(component.get('TorrentView').get_selected_torrents(),
+                                        {'auto_managed': False})
 
     def on_menuitem_set_stop_seed_at_ratio_disable(self, widget):
         client.core.set_torrent_options(component.get('TorrentView').get_selected_torrents(),
@@ -556,5 +556,5 @@ class MenuBar(component.Component):
                     _('There was an error while trying changing ownership.'),
                     self.mainwindow.window, details=failure.value.logable()
                 ).run()
-            client.core.set_owner(
-                update_torrents, username).addErrback(failed_change_owner)
+            client.core.set_torrent_options(
+                update_torrents, {'owner': username}).addErrback(failed_change_owner)

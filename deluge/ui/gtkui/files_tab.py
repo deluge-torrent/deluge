@@ -541,8 +541,7 @@ class FilesTab(Tab):
         file_priorities.sort()
         priorities = [p[1] for p in file_priorities]
         log.debug('priorities: %s', priorities)
-
-        client.core.set_torrent_file_priorities(self.torrent_id, priorities)
+        client.core.set_torrent_options([self.torrent_id], {'file_priorities': priorities})
 
     def _on_menuitem_donotdownload_activate(self, menuitem):
         self._set_file_priorities_on_user_change(

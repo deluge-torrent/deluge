@@ -162,38 +162,34 @@ class OptionsTab(Tab):
             self.prev_status = status
 
     def _on_button_apply_clicked(self, button):
+        options = {}
         if self.spin_max_download.get_value() != self.prev_status['max_download_speed']:
-            client.core.set_torrent_max_download_speed(self.prev_torrent_id, self.spin_max_download.get_value())
+            options['max_download_speed'] = self.spin_max_download.get_value()
         if self.spin_max_upload.get_value() != self.prev_status['max_upload_speed']:
-            client.core.set_torrent_max_upload_speed(self.prev_torrent_id, self.spin_max_upload.get_value())
+            options['max_upload_speed'] = self.spin_max_upload.get_value()
         if self.spin_max_connections.get_value_as_int() != self.prev_status['max_connections']:
-            client.core.set_torrent_max_connections(
-                self.prev_torrent_id, self.spin_max_connections.get_value_as_int())
+            options['max_connections'] = self.spin_max_connections.get_value_as_int()
         if self.spin_max_upload_slots.get_value_as_int() != self.prev_status['max_upload_slots']:
-            client.core.set_torrent_max_upload_slots(
-                self.prev_torrent_id, self.spin_max_upload_slots.get_value_as_int())
+            options['max_upload_slots'] = self.spin_max_upload_slots.get_value_as_int()
         if self.chk_prioritize_first_last.get_active() != self.prev_status['prioritize_first_last']:
-            client.core.set_torrent_prioritize_first_last(
-                self.prev_torrent_id, self.chk_prioritize_first_last.get_active())
+            options['prioritize_first_last_pieces'] = self.chk_prioritize_first_last.get_active()
         if self.chk_sequential_download.get_active() != self.prev_status['sequential_download']:
-            client.core.set_torrent_options(
-                [self.prev_torrent_id], {'sequential_download': self.chk_sequential_download.get_active()})
+            options['sequential_download'] = self.chk_sequential_download.get_active()
         if self.chk_auto_managed.get_active() != self.prev_status['is_auto_managed']:
-            client.core.set_torrent_auto_managed(self.prev_torrent_id, self.chk_auto_managed.get_active())
+            options['auto_managed'] = self.chk_auto_managed.get_active()
         if self.chk_stop_at_ratio.get_active() != self.prev_status['stop_at_ratio']:
-            client.core.set_torrent_stop_at_ratio(self.prev_torrent_id, self.chk_stop_at_ratio.get_active())
+            options['stop_at_ratio'] = self.chk_stop_at_ratio.get_active()
         if self.spin_stop_ratio.get_value() != self.prev_status['stop_ratio']:
-            client.core.set_torrent_stop_ratio(self.prev_torrent_id, self.spin_stop_ratio.get_value())
+            options['stop_ratio'] = self.spin_stop_ratio.get_value()
         if self.chk_remove_at_ratio.get_active() != self.prev_status['remove_at_ratio']:
-            client.core.set_torrent_remove_at_ratio(self.prev_torrent_id, self.chk_remove_at_ratio.get_active())
+            options['remove_at_ratio'] = self.chk_remove_at_ratio.get_active()
         if self.chk_move_completed.get_active() != self.prev_status['move_on_completed']:
-            client.core.set_torrent_move_completed(self.prev_torrent_id, self.chk_move_completed.get_active())
+            options['move_completed'] = self.chk_move_completed.get_active()
         if self.chk_move_completed.get_active():
-            path = self.move_completed_path_chooser.get_text()
-            client.core.set_torrent_move_completed_path(self.prev_torrent_id, path)
+            options['move_completed_path'] = self.move_completed_path_chooser.get_text()
         if self.chk_shared.get_active() != self.prev_status['shared']:
-            client.core.set_torrents_shared(self.prev_torrent_id, self.chk_shared.get_active())
-
+            options['shared'] = self.chk_shared.get_active()
+        client.core.set_torrent_options([self.prev_torrent_id], options)
         self.button_apply.set_sensitive(False)
 
     def _on_chk_move_completed_toggled(self, widget):

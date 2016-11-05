@@ -108,64 +108,64 @@ class TorrentOptions(dict):
     """TorrentOptions create a dict of the torrent options.
 
     Attributes:
+        add_paused (bool): Add the torrrent in a paused state.
+        auto_managed (bool): Set torrent to auto managed mode, i.e. will be started or queued automatically.
+        download_location (str): The path for the torrent data to be stored while downloading.
+        file_priorities (list of int): The priority for files in torrent, range is [0..7] however
+            only [0, 1, 5, 7] are normally used and correspond to [Do Not Download, Normal, High, Highest]
+        mapped_files (dict): A mapping of the renamed filenames in 'index:filename' pairs.
         max_connections (int): Sets maximum number of connections this torrent will open.
             This must be at least 2. The default is unlimited (-1).
+        max_download_speed (float): Will limit the download bandwidth used by this torrent to the
+            limit you set.The default is unlimited (-1) but will not exceed global limit.
         max_upload_slots (int): Sets the maximum number of peers that are
             unchoked at the same time on this torrent. This defaults to infinite (-1).
         max_upload_speed (float): Will limit the upload bandwidth used by this torrent to the limit
             you set. The default is unlimited (-1) but will not exceed global limit.
-        max_download_speed (float): Will limit the download bandwidth used by this torrent to the
-            limit you set.The default is unlimited (-1) but will not exceed global limit.
-        prioritize_first_last_pieces (bool): Prioritize the first and last pieces in the torrent.
-        sequential_download (bool): Download the pieces of the torrent in order.
-        pre_allocate_storage (bool): When adding the torrent should all files be pre-allocated.
-        download_location (str): The path for the torrent data to be stored while downloading.
-        auto_managed (bool): Set torrent to auto managed mode, i.e. will be started or queued automatically.
-        stop_at_ratio (bool): Stop the torrent when it has reached stop_ratio.
-        stop_ratio (float): The seeding ratio to stop (or remove) the torrent at.
-        remove_at_ratio (bool): Remove the torrent when it has reached the stop_ratio.
         move_completed (bool): Move the torrent when downloading has finished.
         move_completed_path (str): The path to move torrent to when downloading has finished.
-        add_paused (bool): Add the torrrent in a paused state.
-        shared (bool): Enable the torrent to be seen by other Deluge users.
-        super_seeding (bool): Enable super seeding/initial seeding.
-        priority (int): Torrent bandwidth priority with a range [0..255], 0 is lowest and default priority.
-        file_priorities (list of int): The priority for files in torrent, range is [0..7] however
-            only [0, 1, 5, 7] are normally used and correspond to [Do Not Download, Normal, High, Highest]
-        mapped_files (dict): A mapping of the renamed filenames in 'index:filename' pairs.
-        owner (str): The user this torrent belongs to.
         name (str): The display name of the torrent.
+        owner (str): The user this torrent belongs to.
+        pre_allocate_storage (bool): When adding the torrent should all files be pre-allocated.
+        prioritize_first_last_pieces (bool): Prioritize the first and last pieces in the torrent.
+        priority (int): Torrent bandwidth priority with a range [0..255], 0 is lowest and default priority.
         seed_mode (bool): Assume that all files are present for this torrent (Only used when adding a torent).
+        sequential_download (bool): Download the pieces of the torrent in order.
+        shared (bool): Enable the torrent to be seen by other Deluge users.
+        stop_at_ratio (bool): Stop the torrent when it has reached stop_ratio.
+        stop_ratio (float): The seeding ratio to stop (or remove) the torrent at.
+        super_seeding (bool): Enable super seeding/initial seeding.
+        remove_at_ratio (bool): Remove the torrent when it has reached the stop_ratio.
     """
     def __init__(self):
         super(TorrentOptions, self).__init__()
         config = ConfigManager('core.conf').config
         options_conf_map = {
+            'add_paused': 'add_paused',
+            'auto_managed': 'auto_managed',
+            'download_location': 'download_location',
             'max_connections': 'max_connections_per_torrent',
+            'max_download_speed': 'max_download_speed_per_torrent',
             'max_upload_slots': 'max_upload_slots_per_torrent',
             'max_upload_speed': 'max_upload_speed_per_torrent',
-            'max_download_speed': 'max_download_speed_per_torrent',
-            'prioritize_first_last_pieces': 'prioritize_first_last_pieces',
-            'sequential_download': 'sequential_download',
-            'pre_allocate_storage': 'pre_allocate_storage',
-            'download_location': 'download_location',
-            'auto_managed': 'auto_managed',
-            'stop_at_ratio': 'stop_seed_at_ratio',
-            'stop_ratio': 'stop_seed_ratio',
-            'remove_at_ratio': 'remove_seed_at_ratio',
             'move_completed': 'move_completed',
             'move_completed_path': 'move_completed_path',
-            'add_paused': 'add_paused',
-            'shared': 'shared',
-            'super_seeding': 'super_seeding',
+            'pre_allocate_storage': 'pre_allocate_storage',
             'priority': 'priority',
+            'prioritize_first_last_pieces': 'prioritize_first_last_pieces',
+            'remove_at_ratio': 'remove_seed_at_ratio',
+            'sequential_download': 'sequential_download',
+            'shared': 'shared',
+            'stop_at_ratio': 'stop_seed_at_ratio',
+            'stop_ratio': 'stop_seed_ratio',
+            'super_seeding': 'super_seeding'
         }
         for opt_k, conf_k in options_conf_map.iteritems():
             self[opt_k] = config[conf_k]
         self['file_priorities'] = []
         self['mapped_files'] = {}
-        self['owner'] = ''
         self['name'] = ''
+        self['owner'] = ''
         self['seed_mode'] = False
 
 
@@ -545,8 +545,14 @@ class Torrent(object):
     def set_owner(self, account):
         """Sets the owner of this torrent.
 
-        Only a user with admin level auth can change this value.
+        Args:
+            account (str): The new owner account name.
+
+        Notes:
+            Only a user with admin level auth can change this value.
+
         """
+
         if self.rpcserver.get_session_auth_level() == AUTH_LEVEL_ADMIN:
             self.options['owner'] = account
 

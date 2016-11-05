@@ -565,7 +565,7 @@ class TorrentDetail(BaseMode, PopupsHandler):
         self.build_prio_list(self.file_list, plist, -1, data)
         plist.sort()
         priorities = [p[1] for p in plist]
-        client.core.set_torrent_file_priorities(self.torrentid, priorities)
+        client.core.set_torrent_options([self.torrent_id], {'file_priorities': priorities})
 
         if was_empty:
             self.marked = {}
