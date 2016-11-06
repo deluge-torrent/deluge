@@ -288,6 +288,8 @@ class PreferencesManager(component.Component):
         # Convert Deluge enc_level values to libtorrent enc_level values.
         pe_enc_level = {0: lt.enc_level.plaintext, 1: lt.enc_level.rc4, 2: lt.enc_level.both}
         try:
+            # XXX: Failing possibly calling apply_settings too often...
+            raise AttributeError
             self.session.apply_settings({'out_enc_policy': lt.enc_policy(self.config['enc_out_policy']),
                                          'in_enc_policy': lt.enc_policy(self.config['enc_in_policy']),
                                          'allowed_enc_level': lt.enc_level(pe_enc_level[self.config['enc_level']]),
