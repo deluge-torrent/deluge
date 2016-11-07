@@ -432,6 +432,7 @@ class CreateTorrentDialog(object):
             self.config['createtorrent.trackers'] = lines
             log.debug('lines: %s', lines)
             for l in lines:
+                l = l.replace('\\', '/')  # Fix mistyped urls.
                 if is_url(l):
                     trackers.append(l)
 

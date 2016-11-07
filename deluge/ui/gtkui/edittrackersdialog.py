@@ -220,6 +220,7 @@ class EditTrackersDialog(object):
         b = textview.get_buffer()
         lines = b.get_text(b.get_start_iter(), b.get_end_iter()).strip().split('\n')
         for l in lines:
+            l = l.replace('\\', '/')  # Fix mistyped urls.
             if is_url(l):
                 trackers.append(l)
 
