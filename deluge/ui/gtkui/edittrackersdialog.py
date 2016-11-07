@@ -24,6 +24,58 @@ from deluge.ui.gtkui.common import get_deluge_icon
 log = logging.getLogger(__name__)
 
 
+def last_tier_trackers_from_liststore(trackers_liststore):
+    """Create a list of tracker from existing liststore and find last tier number.
+
+    Args:
+        tracker_liststore (gtk.ListStore): A gtk.ListStore with [tier (int), tracker (str)] rows.
+
+    Returns:
+        tuple(int, list): A tuple containing last tier number and list of trackers.
+
+    """
+
+    last_tier = 0
+    trackers_from_liststore = []
+    for tier, tracker in trackers_liststore:
+        trackers_from_liststore.append(tracker)
+        if tier >= last_tier:
+            last_tier = tier + 1
+
+    return last_tier, trackers_from_liststore
+
+
+def trackers_tiers_from_text(text_str=''):
+    """Create a list of trackers from text.
+
+    Any duplicate trackers are removed.
+
+    Args:
+        text_input (str): A block of text with tracker separated by newlines.
+
+    Returns:
+        list: The list of trackers.
+
+    Notes:
+        Trackers should be separated by newlines and empty line denotes start of new tier.
+
+    """
+
+    trackers = {}
+    tier = 0
+
+    lines = text_str.strip().split('\n')
+    for line in lines:
+        if not line:
+            tier += 1
+            continue
+        line = line.replace('\\', '/')  # Fix any mistyped urls.
+        if is_url(line) and line not in trackers:
+            trackers[line] = tier
+
+    return trackers
+
+
 class EditTrackersDialog(object):
     def __init__(self, torrent_id, parent=None):
         self.torrent_id = torrent_id
@@ -215,16 +267,10 @@ class EditTrackersDialog(object):
         log.debug('on_button_add_ok_clicked')
 
         # Create a list of trackers from the textview widget
-        textview = self.builder.get_object('textview_trackers')
-        trackers = []
-        b = textview.get_buffer()
-        lines = b.get_text(b.get_start_iter(), b.get_end_iter()).strip().split('\n')
-        for l in lines:
-            l = l.replace('\\', '/')  # Fix mistyped urls.
-            if is_url(l):
-                trackers.append(l)
+        textview_buf = self.builder.get_object('textview_trackers').get_buffer()
+        trackers_text = textview_buf.get_text(*textview_buf.get_bounds())
 
-        for tracker in trackers:
+        for tracker in trackers_tiers_from_text(trackers_text):
             # Figure out what tier number to use.. it's going to be the highest+1
             # Also check for duplicates
             # Check if there are any entries
@@ -244,7 +290,7 @@ class EditTrackersDialog(object):
                 self.add_tracker(highest_tier + 1, tracker)
 
         # Clear the entry widget and hide the dialog
-        textview.get_buffer().set_text('')
+        textview_buf.set_text('')
         self.add_tracker_dialog.hide()
 
     def on_button_add_cancel_clicked(self, widget):

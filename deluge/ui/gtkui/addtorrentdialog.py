@@ -25,6 +25,7 @@ from deluge.ui.client import client
 from deluge.ui.common import TorrentInfo
 from deluge.ui.gtkui.common import listview_replace_treestore, reparent_iter
 from deluge.ui.gtkui.dialogs import ErrorDialog
+from deluge.ui.gtkui.edittrackersdialog import trackers_tiers_from_text
 from deluge.ui.gtkui.path_chooser import PathChooser
 from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
 
@@ -665,13 +666,12 @@ class AddTorrentDialog(component.Component):
         response = dialog.run()
         infohash = entry.get_text().strip()
         if response == gtk.RESPONSE_OK and deluge.common.is_infohash(infohash):
-            trackers = []
-            b = textview.get_buffer()
-            lines = b.get_text(b.get_start_iter(), b.get_end_iter()).strip().split('\n')
-            log.debug('lines: %s', lines)
-            for l in lines:
-                if deluge.common.is_url(l):
-                    trackers.append(l)
+            # Create a list of trackers from the textview buffer
+            tview_buf = textview.get_buffer()
+            trackers_text = tview_buf.get_text(*tview_buf.get_bounds())
+            log.debug('Create torrent tracker lines: %s', trackers_text)
+            trackers = list(trackers_tiers_from_text(trackers_text).keys())
+
             # Convert the information to a magnet uri, this is just easier to
             # handle this way.
             log.debug('trackers: %s', trackers)

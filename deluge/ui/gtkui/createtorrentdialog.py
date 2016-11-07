@@ -21,6 +21,7 @@ import deluge.component as component
 from deluge.common import get_path_size, is_url, resource_filename
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
+from deluge.ui.gtkui.edittrackersdialog import last_tier_trackers_from_liststore, trackers_tiers_from_text
 from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
 
 log = logging.getLogger(__name__)
@@ -292,12 +293,13 @@ class CreateTorrentDialog(object):
             tracker = trackers[0][0]
 
         # Get a list of webseeds
+        textview_buf = self.builder.get_object('textview_webseeds').get_buffer()
+        lines = textview_buf.get_text(*textview_buf.get_bounds()).strip().split('\n')
         webseeds = []
-        b = self.builder.get_object('textview_webseeds').get_buffer()
-        lines = b.get_text(b.get_start_iter(), b.get_end_iter()).strip().split('\n')
-        for l in lines:
-            if is_url(l):
-                webseeds.append(l)
+        for line in lines:
+            line = line.replace('\\', '/')  # Fix any mistyped urls.
+            if is_url(line):
+                webseeds.append(line)
         # Get the piece length in bytes
         combo = self.builder.get_object('combo_piece_size')
         piece_length = self.parse_piece_size_text(combo.get_model()[combo.get_active()][0])
@@ -426,24 +428,16 @@ class CreateTorrentDialog(object):
 
         if response == gtk.RESPONSE_OK:
             # Create a list of trackers from the textview buffer
-            trackers = []
-            b = textview.get_buffer()
-            lines = b.get_text(b.get_start_iter(), b.get_end_iter()).strip().split('\n')
-            self.config['createtorrent.trackers'] = lines
-            log.debug('lines: %s', lines)
-            for l in lines:
-                l = l.replace('\\', '/')  # Fix mistyped urls.
-                if is_url(l):
-                    trackers.append(l)
+            textview_buf = textview.get_buffer()
+            trackers_text = textview_buf.get_text(*textview_buf.get_bounds())
+            log.debug('Create torrent tracker lines: %s', trackers_text)
+            self.config['createtorrent.trackers'] = trackers_text.split('/n')
 
-            # We are going to add these trackers to the highest tier + 1
-            tier = 0
-            for row in self.trackers_liststore:
-                if row[0] > tier:
-                    tier = row[0]
-
-            for tracker in trackers:
-                self.trackers_liststore.append([tier, tracker])
+            # Append trackers liststore with unique trackers and tiers starting from last tier number.
+            last_tier, orig_trackers = last_tier_trackers_from_liststore(self.trackers_liststore)
+            for tracker, tier in trackers_tiers_from_text(trackers_text).items():
+                if tracker not in orig_trackers:
+                    self.trackers_liststore.append([tier + last_tier, tracker])
 
         dialog.destroy()
 
