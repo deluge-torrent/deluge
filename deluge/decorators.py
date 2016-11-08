@@ -9,6 +9,7 @@
 
 import inspect
 import re
+import warnings
 from functools import wraps
 
 
@@ -114,3 +115,21 @@ def _overrides(stack, method, explicit_base_classes=None):
         raise Exception('Function override "%s" not found in any superclass: %s\n%s'
                         % (method.__name__, check_classes, 'File: %s:%s' % (stack[1][1], stack[1][2])))
     return method
+
+
+def deprecated(func):
+    """This is a decorator which can be used to mark function as deprecated.
+
+    It will result in a warning being emmitted when the function is used.
+
+    """
+
+    @wraps(func)
+    def depr_func(*args, **kwargs):
+        warnings.simplefilter('always', DeprecationWarning)  # Turn off filter
+        warnings.warn('Call to deprecated function {}.'.format(func.__name__),
+                      category=DeprecationWarning, stacklevel=2)
+        warnings.simplefilter('default', DeprecationWarning)  # Reset filter
+        return func(*args, **kwargs)
+
+    return depr_func
