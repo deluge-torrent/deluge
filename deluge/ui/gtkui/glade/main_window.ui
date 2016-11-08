@@ -321,6 +321,7 @@
                             </child>
                             <child>
                               <object class="GtkCheckMenuItem" id="sidebar_show_owners">
+                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Show _Owners</property>
@@ -768,7 +769,7 @@ This will filter torrents for the current selection on the sidebar.</property>
                     <property name="show_border">False</property>
                     <property name="scrollable">True</property>
                     <property name="tab_hborder">8</property>
-                    <property name="tab_vborder">1</property>
+                    <property name="tab_vborder">0</property>
                   </object>
                   <packing>
                     <property name="resize">False</property>
