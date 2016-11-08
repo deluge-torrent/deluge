@@ -35,6 +35,7 @@ from deluge.core.pluginmanager import PluginManager
 from deluge.core.preferencesmanager import PreferencesManager
 from deluge.core.rpcserver import export
 from deluge.core.torrentmanager import TorrentManager
+from deluge.decorators import deprecated
 from deluge.error import AddTorrentError, DelugeError, InvalidPathError, InvalidTorrentError
 from deluge.event import NewVersionAvailableEvent, SessionPausedEvent, SessionResumedEvent, TorrentQueueChangedEvent
 from deluge.httpdownloader import download_file
@@ -572,10 +573,12 @@ class Core(component.Component):
         """Returns the active listen port"""
         return self.session.listen_port()
 
+    @deprecated
     @export
     def get_i2p_proxy(self):
         """Returns the active listen port"""
-        i2p_settings = self.session.i2p_proxy()  # Deprecated, moved to proxy types
+        # Deprecated: Moved to proxy types
+        i2p_settings = self.session.i2p_proxy()
         i2p_dict = {'hostname': i2p_settings.hostname, 'port': i2p_settings.port}
         return i2p_dict
 
@@ -640,77 +643,76 @@ class Core(component.Component):
         """Sets a torrents tracker list.  trackers will be [{"url", "tier"}]"""
         return self.torrentmanager[torrent_id].set_trackers(trackers)
 
+    @deprecated
     @export
     def set_torrent_max_connections(self, torrent_id, value):
-        # Deprecated method, use set_torrent_options instead
-        """Sets a torrents max number of connections"""
+        """Deprecated: Use set_torrent_options with 'max_connections'"""
         self.set_torrent_options([torrent_id], {'max_connections': value})
 
+    @deprecated
     @export
     def set_torrent_max_upload_slots(self, torrent_id, value):
-        # Deprecated method, use set_torrent_options instead
-        """Sets a torrents max number of upload slots"""
+        """Deprecated: Use set_torrent_options with 'max_upload_slots'"""
         self.set_torrent_options([torrent_id], {'max_upload_slots': value})
 
+    @deprecated
     @export
     def set_torrent_max_upload_speed(self, torrent_id, value):
-        # Deprecated method, use set_torrent_options instead
-        """Sets a torrents max upload speed"""
+        """Deprecated: Use set_torrent_options with 'max_upload_speed'"""
         self.set_torrent_options([torrent_id], {'max_upload_speed': value})
 
+    @deprecated
     @export
     def set_torrent_max_download_speed(self, torrent_id, value):
-        # Deprecated method, use set_torrent_options instead
-        """Sets a torrents max download speed"""
+        """Deprecated: Use set_torrent_options with 'max_download_speed'"""
         self.set_torrent_options([torrent_id], {'max_download_speed': value})
 
+    @deprecated
     @export
     def set_torrent_file_priorities(self, torrent_id, priorities):
-        # Deprecated method, use set_torrent_options instead
-        # Used by at least one 3rd party plugin:
-        """Sets a torrents file priorities"""
+        """Deprecated: Use set_torrent_options with 'file_priorities'"""
         self.set_torrent_options([torrent_id], {'file_priorities': priorities})
 
+    @deprecated
     @export
     def set_torrent_prioritize_first_last(self, torrent_id, value):
-        # Deprecated method, use set_torrent_options instead
-        """Sets a higher priority to the first and last pieces"""
+        """Deprecated: Use set_torrent_options with 'prioritize_first_last'"""
         self.set_torrent_options([torrent_id], {'prioritize_first_last_pieces': value})
 
+    @deprecated
     @export
     def set_torrent_auto_managed(self, torrent_id, value):
-        # Deprecated method, use set_torrent_options instead
-        """Sets the auto managed flag for queueing purposes"""
+        """Deprecated: Use set_torrent_options with 'auto_managed'"""
         self.set_torrent_options([torrent_id], {'auto_managed': value})
 
+    @deprecated
     @export
     def set_torrent_stop_at_ratio(self, torrent_id, value):
-        # Deprecated method, use set_torrent_options instead
-        """Sets the torrent to stop at 'stop_ratio'"""
+        """Deprecated: Use set_torrent_options with 'stop_at_ratio'"""
         self.set_torrent_options([torrent_id], {'stop_at_ratio': value})
 
+    @deprecated
     @export
     def set_torrent_stop_ratio(self, torrent_id, value):
-        # Deprecated method, use set_torrent_options instead
-        """Sets the ratio when to stop a torrent if 'stop_at_ratio' is set"""
+        """Deprecated: Use set_torrent_options with 'stop_ratio'"""
         self.set_torrent_options([torrent_id], {'stop_ratio': value})
 
+    @deprecated
     @export
     def set_torrent_remove_at_ratio(self, torrent_id, value):
-        # Deprecated method, use set_torrent_options instead
-        """Sets the torrent to be removed at 'stop_ratio'"""
+        """Deprecated: Use set_torrent_options with 'remove_at_ratio'"""
         self.set_torrent_options([torrent_id], {'remove_at_ratio': value})
 
+    @deprecated
     @export
     def set_torrent_move_completed(self, torrent_id, value):
-        # Deprecated method, use set_torrent_options instead
-        """Sets the torrent to be moved when completed"""
+        """Deprecated: Use set_torrent_options with 'move_completed'"""
         self.set_torrent_options([torrent_id], {'move_completed': value})
 
+    @deprecated
     @export
     def set_torrent_move_completed_path(self, torrent_id, value):
-        # Deprecated method, use set_torrent_options instead
-        """Sets the path for the torrent to be moved when completed"""
+        """Deprecated: Use set_torrent_options with 'move_completed_path'"""
         self.set_torrent_options([torrent_id], {'move_completed_path': value})
 
     @export

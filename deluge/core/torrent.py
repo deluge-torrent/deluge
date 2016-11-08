@@ -29,6 +29,7 @@ from deluge._libtorrent import lt
 from deluge.common import decode_string, utf8_encoded
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
+from deluge.decorators import deprecated
 from deluge.event import TorrentFolderRenamedEvent, TorrentStateChangedEvent, TorrentTrackerStatusEvent
 
 log = logging.getLogger(__name__)
@@ -361,8 +362,9 @@ class Torrent(object):
             value = int(m_down_speed * 1024)
         self.handle.set_download_limit(value)
 
+    @deprecated
     def set_prioritize_first_last(self, prioritize):
-        """Deprecated due to mismatch between option and func name."""
+        """Deprecated: Use set_prioritize_first_last_pieces."""
         self.set_prioritize_first_last_pieces(prioritize)
 
     def set_prioritize_first_last_pieces(self, prioritize):
@@ -517,8 +519,9 @@ class Torrent(object):
         if self.options['prioritize_first_last_pieces']:
             self.set_prioritize_first_last_pieces(self.options['prioritize_first_last_pieces'])
 
+    @deprecated
     def set_save_path(self, download_location):
-        """Deprecated, use set_download_location."""
+        """Deprecated: Use set_download_location."""
         self.set_download_location(download_location)
 
     def set_download_location(self, download_location):
@@ -994,8 +997,8 @@ class Torrent(object):
             'max_upload_slots': lambda: self.options['max_upload_slots'],
             'max_upload_speed': lambda: self.options['max_upload_speed'],
             'message': lambda: self.statusmsg,
-            'move_on_completed_path': lambda: self.options['move_completed_path'],  # Depr, use move_completed_path
-            'move_on_completed': lambda: self.options['move_completed'],  # Deprecated, use move_completed
+            'move_on_completed_path': lambda: self.options['move_completed_path'],  # Deprecated: move_completed_path
+            'move_on_completed': lambda: self.options['move_completed'],  # Deprecated: Use move_completed
             'move_completed_path': lambda: self.options['move_completed_path'],
             'move_completed': lambda: self.options['move_completed'],
             'next_announce': lambda: self.status.next_announce.seconds,
@@ -1008,7 +1011,7 @@ class Torrent(object):
             'progress': self.get_progress,
             'shared': lambda: self.options['shared'],
             'remove_at_ratio': lambda: self.options['remove_at_ratio'],
-            'save_path': lambda: self.options['download_location'],  # Deprecated, use download_location
+            'save_path': lambda: self.options['download_location'],  # Deprecated: Use download_location
             'download_location': lambda: self.options['download_location'],
             'seeds_peers_ratio': lambda: -1.0 if self.status.num_incomplete == 0 else (  # Use -1.0 to signify infinity
                 self.status.num_complete / self.status.num_incomplete),

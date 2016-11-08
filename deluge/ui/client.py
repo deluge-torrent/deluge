@@ -17,6 +17,7 @@ from twisted.internet.protocol import ClientFactory
 
 import deluge.common
 from deluge import error
+from deluge.decorators import deprecated
 from deluge.transfer import DelugeTransferProtocol
 from deluge.ui.common import get_localhost_auth
 
@@ -608,12 +609,14 @@ class Client(object):
         self._daemon_proxy = None
         self.__started_standalone = False
 
+    @deprecated
     def start_classic_mode(self):
-        """Deprecated"""
+        """Deprecated: Use start_standalone"""
         self.start_standalone()
 
+    @deprecated
     def stop_classic_mode(self):
-        """Deprecated"""
+        """Deprecated: Use stop_standalone"""
         self.stop_standalone()
 
     def start_daemon(self, port, config):
@@ -671,8 +674,9 @@ class Client(object):
         """
         return self.__started_standalone
 
+    @deprecated
     def is_classicmode(self):
-        """Deprecated"""
+        """Deprecated: Use is_standalone"""
         self.is_standalone()
 
     def connected(self):
