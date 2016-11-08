@@ -621,9 +621,13 @@ def get_magnet_info(uri):
     magnet_scheme = 'magnet:?'
     xt_param = 'xt=urn:btih:'
     dn_param = 'dn='
+    tr_param = 'tr='
+    tr0_param = re.compile('^tr.(\d+)=(\S+)')
     if uri.startswith(magnet_scheme):
         name = None
         info_hash = None
+        trackers = {}
+        tier = 0
         for param in uri[len(magnet_scheme):].split('&'):
             if param.startswith(xt_param):
                 xt_hash = param[len(xt_param):]
@@ -639,36 +643,47 @@ def get_magnet_info(uri):
                     break
             elif param.startswith(dn_param):
                 name = unquote_plus(param[len(dn_param):])
+            elif param.startswith(tr_param):
+                tracker = unquote_plus(param[len(tr_param):])
+                trackers[tracker] = tier
+                tier += 1
+            elif param.startswith('tr.'):
+                try:
+                    tier, tracker = re.match(tr0_param, param).groups()
+                    trackers[tracker] = tier
+                except AttributeError:
+                    pass
 
         if info_hash:
             if not name:
                 name = info_hash
-            return {'name': name, 'info_hash': info_hash, 'files_tree': ''}
+            return {'name': name, 'info_hash': info_hash, 'files_tree': '', 'trackers': trackers}
     return False
 
 
 def create_magnet_uri(infohash, name=None, trackers=None):
-    """
-    Creates a magnet uri
+    """Creates a magnet uri
 
-    :param infohash: the info-hash of the torrent
-    :type infohash: string
-    :param name: the name of the torrent (optional)
-    :type name: string
-    :param trackers: the trackers to announce to (optional)
-    :type trackers: list of strings
+    Args:
+        infohash (str): The info-hash of the torrent.
+        name (str, optional): The name of the torrent.
+        trackers (dict, optional): The trackers to announce to.
 
-    :returns: a magnet uri string
-    :rtype: string
+    Returns:
+        str: A magnet uri string.
 
     """
-    from base64 import b32encode
-    uri = 'magnet:?xt=urn:btih:' + b32encode(infohash.decode('hex'))
+
+    uri = 'magnet:?xt=urn:btih:' + base64.b32encode(infohash.decode('hex'))
     if name:
         uri = uri + '&dn=' + name
     if trackers:
-        for t in trackers:
-            uri = uri + '&tr=' + t
+        try:
+            for tracker in sorted(trackers, key=trackers.__getitem__):
+                uri = ''.join([uri, '&tr.%d=' % trackers[tracker], tracker])
+        except TypeError:
+            for tracker in trackers:
+                uri = ''.join([uri, '&tr=', tracker])
 
     return uri
 
