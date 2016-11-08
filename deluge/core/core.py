@@ -565,8 +565,6 @@ class Core(component.Component):
         for key in config.keys():
             if self.read_only_config_keys and key in self.read_only_config_keys:
                 continue
-            if isinstance(config[key], basestring):
-                config[key] = config[key].encode('utf8')
             self.config[key] = config[key]
 
     @export
