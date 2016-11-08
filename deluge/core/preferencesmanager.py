@@ -171,6 +171,8 @@ class PreferencesManager(component.Component):
                 self.session.add_dht_router('router.bittorrent.com', 6881)
                 self.session.add_dht_router('router.utorrent.com', 6881)
                 self.session.add_dht_router('router.bitcomet.com', 6881)
+            elif key == 'peer_tos':
+                self.session.set_settings({key: chr(value)})
             else:
                 self.session.set_settings({key: value})
 
@@ -206,6 +208,7 @@ class PreferencesManager(component.Component):
             listen_ports = self.config['listen_ports']
 
         interface = str(self.config['listen_interface'].strip())
+        interface = interface if interface else '0.0.0.0'
 
         log.debug('Listen Interface: %s, Ports: %s with use_sys_port: %s',
                   interface, listen_ports, self.config['listen_use_sys_port'])
@@ -252,10 +255,9 @@ class PreferencesManager(component.Component):
 
     def _on_set_peer_tos(self, key, value):
         try:
-            self.session_set_setting('peer_tos', chr(int(value, 16)))
+            self.session_set_setting('peer_tos', int(value, 16))
         except ValueError as ex:
-            log.debug('Invalid tos byte: %s', ex)
-            return
+            log.error('Invalid tos byte: %s', ex)
 
     def _on_set_dht(self, key, value):
         dht_bootstraps = 'router.bittorrent.com:6881,router.utorrent.com:6881,router.bitcomet.com:6881'
@@ -288,8 +290,6 @@ class PreferencesManager(component.Component):
         # Convert Deluge enc_level values to libtorrent enc_level values.
         pe_enc_level = {0: lt.enc_level.plaintext, 1: lt.enc_level.rc4, 2: lt.enc_level.both}
         try:
-            # XXX: Failing possibly calling apply_settings too often...
-            raise AttributeError
             self.session.apply_settings({'out_enc_policy': lt.enc_policy(self.config['enc_out_policy']),
                                          'in_enc_policy': lt.enc_policy(self.config['enc_in_policy']),
                                          'allowed_enc_level': lt.enc_level(pe_enc_level[self.config['enc_level']]),
