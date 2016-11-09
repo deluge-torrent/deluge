@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="2.16"/>
+  <requires lib="gtk+" version="2.24"/>
   <!-- interface-naming-policy project-wide -->
+  <object class="GtkAdjustment" id="adjustment_port">
+    <property name="upper">65535</property>
+    <property name="value">58846</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkDialog" id="addhost_dialog">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
@@ -23,10 +29,10 @@
             <child>
               <object class="GtkButton" id="button_addhost_cancel">
                 <property name="label">gtk-cancel</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -38,12 +44,12 @@
             <child>
               <object class="GtkButton" id="button_addhost_add">
                 <property name="label">gtk-add</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="has_default">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -55,9 +61,9 @@
             <child>
               <object class="GtkButton" id="button_addhost_save">
                 <property name="label">gtk-save</property>
+                <property name="use_action_appearance">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -256,11 +262,5 @@
       <action-widget response="1">button_addhost_add</action-widget>
       <action-widget response="2">button_addhost_save</action-widget>
     </action-widgets>
-  </object>
-  <object class="GtkAdjustment" id="adjustment_port">
-    <property name="upper">65535</property>
-    <property name="value">58846</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
   </object>
 </interface>

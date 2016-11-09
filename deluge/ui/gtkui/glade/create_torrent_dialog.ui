@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="2.16"/>
+  <requires lib="gtk+" version="2.24"/>
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkWindow" id="create_torrent_dialog">
     <property name="can_focus">False</property>
@@ -111,10 +111,10 @@
                         <property name="layout_style">center</property>
                         <child>
                           <object class="GtkButton" id="button_file">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_action_appearance">False</property>
                             <signal name="clicked" handler="on_button_file_clicked" swapped="no"/>
                             <child>
                               <object class="GtkHBox" id="hbox8">
@@ -157,10 +157,10 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button_folder">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_action_appearance">False</property>
                             <signal name="clicked" handler="on_button_folder_clicked" swapped="no"/>
                             <child>
                               <object class="GtkHBox" id="hbox9">
@@ -203,10 +203,10 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button_remote_path">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_action_appearance">False</property>
                             <signal name="clicked" handler="on_button_remote_path_clicked" swapped="no"/>
                             <child>
                               <object class="GtkHBox" id="hbox10">
@@ -451,10 +451,10 @@
                         <child>
                           <object class="GtkButton" id="button_up">
                             <property name="label">gtk-go-up</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_stock">True</property>
                             <signal name="clicked" handler="on_button_up_clicked" swapped="no"/>
                           </object>
@@ -467,10 +467,10 @@
                         <child>
                           <object class="GtkButton" id="button_add">
                             <property name="label">gtk-add</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_stock">True</property>
                             <signal name="clicked" handler="on_button_add_clicked" swapped="no"/>
                           </object>
@@ -483,10 +483,10 @@
                         <child>
                           <object class="GtkButton" id="button_remove">
                             <property name="label">gtk-remove</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_stock">True</property>
                             <signal name="clicked" handler="on_button_remove_clicked" swapped="no"/>
                           </object>
@@ -499,10 +499,10 @@
                         <child>
                           <object class="GtkButton" id="button_down">
                             <property name="label">gtk-go-down</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_stock">True</property>
                             <signal name="clicked" handler="on_button_down_clicked" swapped="no"/>
                           </object>
@@ -679,10 +679,10 @@
                     <child>
                       <object class="GtkCheckButton" id="chk_private_flag">
                         <property name="label" translatable="yes">Set Private Flag</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="draw_indicator">True</property>
                       </object>
                       <packing>
@@ -694,10 +694,10 @@
                     <child>
                       <object class="GtkCheckButton" id="chk_add_to_session">
                         <property name="label" translatable="yes">Add this torrent to the session</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="draw_indicator">True</property>
                       </object>
                       <packing>
@@ -767,10 +767,10 @@
                 <child>
                   <object class="GtkButton" id="button_cancel">
                     <property name="label">gtk-cancel</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_stock">True</property>
                     <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
                   </object>
@@ -783,10 +783,10 @@
                 <child>
                   <object class="GtkButton" id="button_save">
                     <property name="label">gtk-save</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_stock">True</property>
                     <signal name="clicked" handler="on_button_save_clicked" swapped="no"/>
                   </object>

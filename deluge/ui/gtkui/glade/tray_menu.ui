@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="2.16"/>
+  <requires lib="gtk+" version="2.24"/>
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkAccelGroup" id="accelgroup1"/>
   <object class="GtkImage" id="download-limit-image">
@@ -32,14 +32,19 @@
     <property name="stock">gtk-quit</property>
     <property name="icon-size">1</property>
   </object>
+  <object class="GtkImage" id="upload-limit-image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon-size">1</property>
+  </object>
   <object class="GtkMenu" id="tray_menu">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
       <object class="GtkCheckMenuItem" id="menuitem_show_deluge">
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">_Show Deluge</property>
         <property name="use_underline">True</property>
         <signal name="activate" handler="on_menuitem_show_deluge_activate" swapped="no"/>
@@ -54,9 +59,9 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_add_torrent">
         <property name="label" translatable="yes">_Add Torrent</property>
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image1</property>
         <property name="use_stock">False</property>
@@ -72,9 +77,9 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_pause_session">
         <property name="label" translatable="yes">_Pause Session</property>
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image6</property>
         <property name="use_stock">False</property>
@@ -84,9 +89,9 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_resume_session">
         <property name="label" translatable="yes">_Resume Session</property>
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image7</property>
         <property name="use_stock">False</property>
@@ -102,9 +107,9 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_download_limit">
         <property name="label" translatable="yes">_Download Speed Limit</property>
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">download-limit-image</property>
         <property name="use_stock">False</property>
@@ -114,9 +119,9 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_upload_limit">
         <property name="label" translatable="yes">_Upload Speed Limit</property>
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">upload-limit-image</property>
         <property name="use_stock">False</property>
@@ -132,9 +137,9 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_quitdaemon">
         <property name="label" translatable="yes">Quit &amp; Shutdown Daemon</property>
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image8</property>
         <property name="use_stock">False</property>
@@ -150,19 +155,14 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_quit">
         <property name="label">gtk-quit</property>
+        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
         <property name="accel_group">accelgroup1</property>
         <signal name="activate" handler="on_menuitem_quit_activate" swapped="no"/>
       </object>
     </child>
-  </object>
-  <object class="GtkImage" id="upload-limit-image">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="icon-size">1</property>
   </object>
 </interface>

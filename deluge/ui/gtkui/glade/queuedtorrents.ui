@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="2.16"/>
+  <requires lib="gtk+" version="2.24"/>
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkDialog" id="queued_torrents_dialog">
     <property name="can_focus">False</property>
@@ -24,10 +24,10 @@
             <child>
               <object class="GtkButton" id="button_close">
                 <property name="label">gtk-close</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
               </object>
@@ -40,6 +40,7 @@
             <child>
               <object class="GtkButton" id="button_add">
                 <property name="label">gtk-add</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
@@ -48,7 +49,6 @@
                 <property name="can_default">True</property>
                 <property name="has_default">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_add_clicked" swapped="no"/>
               </object>
@@ -142,10 +142,10 @@
                 <child>
                   <object class="GtkButton" id="button_remove">
                     <property name="label">gtk-remove</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_stock">True</property>
                     <signal name="clicked" handler="on_button_remove_clicked" swapped="no"/>
                   </object>
@@ -158,10 +158,10 @@
                 <child>
                   <object class="GtkButton" id="button_clear">
                     <property name="label">gtk-clear</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_stock">True</property>
                     <signal name="clicked" handler="on_button_clear_clicked" swapped="no"/>
                   </object>
@@ -181,10 +181,10 @@
             <child>
               <object class="GtkCheckButton" id="chk_autoadd">
                 <property name="label" translatable="yes">Automatically add torrents on connect</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="draw_indicator">True</property>
                 <signal name="toggled" handler="on_chk_autoadd_toggled" swapped="no"/>
               </object>
