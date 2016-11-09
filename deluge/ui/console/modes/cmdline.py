@@ -174,7 +174,7 @@ class CmdLine(BaseMode, Commander):
 
             self.input_history_index = len(self.input_history)
 
-        # show the cursor
+        # Show the cursor
         util.safe_curs_set(util.Curser.VERY_VISIBLE)
         BaseMode.__init__(self, stdscr, encoding, depend=['SessionProxy'])
 

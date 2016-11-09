@@ -11,6 +11,7 @@ import deluge.component as component
 import deluge.ui.common
 from deluge import error
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
+from deluge.core.eventmanager import EventManagerClient
 from deluge.ui.client import Client, DaemonSSLProxy, client
 
 from .basetest import BaseTestCase
@@ -18,6 +19,10 @@ from .daemon_base import DaemonBase
 
 
 class NoVersionSendingDaemonSSLProxy(DaemonSSLProxy):
+
+    def __init__(self):
+        super(NoVersionSendingDaemonSSLProxy, self).__init__(EventManagerClient())
+
     def authenticate(self, username, password):
         self.login_deferred = defer.Deferred()
         d = self.call('daemon.login', username, password)

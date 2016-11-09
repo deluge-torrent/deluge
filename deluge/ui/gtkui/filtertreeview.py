@@ -20,7 +20,6 @@ from gobject import GError
 import deluge.component as component
 from deluge.common import TORRENT_STATE, get_pixmap, resource_filename
 from deluge.configmanager import ConfigManager
-from deluge.ui.client import client
 
 log = logging.getLogger(__name__)
 
@@ -93,6 +92,7 @@ class FilterTreeView(component.Component):
                             class "GtkTreeView" style "treeview-style" """)
 
         self.treeview.set_model(self.treestore)
+        self.treeview.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
         self.treeview.get_selection().connect('changed', self.on_selection_changed)
         self.create_model_filter()
 
@@ -177,7 +177,7 @@ class FilterTreeView(component.Component):
             self.treeview.expand_all()
             self.expand_rows = False
 
-        if not self.selected_path:
+        if self.selected_path is None:
             self.select_default_filter()
 
     def update_row(self, cat, value, count, label=None):
@@ -269,26 +269,36 @@ class FilterTreeView(component.Component):
 
     def on_selection_changed(self, selection):
         try:
-            (model, row) = self.treeview.get_selection().get_selected()
-            if not row:
+            (model, rows) = self.treeview.get_selection().get_selected_rows()
+            if not rows:
                 log.debug('nothing selected')
                 return
 
-            cat = model.get_value(row, 0)
-            value = model.get_value(row, 1)
+            filter_dict = {}
+            for row in rows:
+                cat = model.get_value(model.get_iter(row), 0)
+                value = model.get_value(model.get_iter(row), 1)
 
-            filter_dict = {cat: [value]}
-            if value == 'All' or cat == 'cat':
-                filter_dict = {}
+                if value == 'All' or cat == 'cat':
+                    filter_dict[cat] = None
+
+                current_value = filter_dict.get(cat, list())
+                if current_value is not None:
+                    current_value.append(value)
+                filter_dict[cat] = current_value
+
+            # Any category not explicitly chosen is removed (by setting to None)
+            for cat in self.cat_nodes:
+                if cat not in filter_dict:
+                    filter_dict[cat] = None
 
             component.get('TorrentView').set_filter(filter_dict)
 
-            self.selected_path = model.get_path(row)
-
+            #  TOFIX: Should select path...?
+            # self.selected_path = model.get_path(row)
+            self.selected_path = True
         except Exception as ex:
             log.debug(ex)
-            # paths is likely None .. so lets return None
-            return None
 
     def update(self):
         try:
@@ -297,8 +307,8 @@ class FilterTreeView(component.Component):
                 hide_cat.append('tracker_host')
             if not self.config['sidebar_show_owners']:
                 hide_cat.append('owner')
-            client.core.get_filter_tree(self.config['sidebar_show_zero'],
-                                        hide_cat).addCallback(self.cb_update_filter_tree)
+            component.get('SessionProxy').get_filter_tree(self.config['sidebar_show_zero'],
+                                                          hide_cat).addCallback(self.cb_update_filter_tree)
         except Exception as ex:
             log.debug(ex)
 
@@ -322,7 +332,10 @@ class FilterTreeView(component.Component):
                     if not self.selected_path:
                         self.select_default_filter()
                     else:
-                        self.treeview.get_selection().select_path(self.selected_path)
+                        #  self.treeview.get_selection().select_path(self.selected_path)
+                        #  TOFIX: Should select path...?
+                        pass
+
                 return True
 
         elif event.button == 3:

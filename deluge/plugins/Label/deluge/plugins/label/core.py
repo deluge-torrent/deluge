@@ -22,6 +22,7 @@ import re
 import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.core.rpcserver import export
+from deluge.event import DelugeEvent
 from deluge.plugins.pluginbase import CorePluginBase
 
 log = logging.getLogger(__name__)
@@ -33,6 +34,7 @@ STATE = 'state'
 TRACKER = 'tracker'
 KEYWORD = 'keyword'
 LABEL = 'label'
+NO_LABEL = 'No Label'
 CONFIG_DEFAULTS = {
     'torrent_labels': {},  # torrent_id:label_id
     'labels': {},  # label_id:{name:value}
@@ -59,7 +61,21 @@ OPTIONS_DEFAULTS = {
     'auto_add_trackers': []
 }
 
-NO_LABEL = 'No Label'
+
+class LabelAddedEvent(DelugeEvent):
+    """
+    Emitted when a plugin is disabled in the Core.
+    """
+    def __init__(self, label):
+        self._args = [label]
+
+
+class LabelRemovedEvent(DelugeEvent):
+    """
+    Emitted when a plugin is disabled in the Core.
+    """
+    def __init__(self, label):
+        self._args = [label]
 
 
 def check_input(cond, message):
@@ -77,13 +93,12 @@ class Core(CorePluginBase):
         self.plugin = component.get('CorePluginManager')
         self.plugin.register_status_field('label', self._status_get_label)
 
-        # __init__
         core = component.get('Core')
         self.config = ConfigManager('label.conf', defaults=CONFIG_DEFAULTS)
         self.core_cfg = ConfigManager('core.conf')
 
-        # reduce typing, assigning some values to self...
         self.torrents = core.torrentmanager.torrents
+        self.torrentmanager = core.torrentmanager
         self.labels = self.config['labels']
         self.torrent_labels = self.config['torrent_labels']
 
@@ -92,14 +107,10 @@ class Core(CorePluginBase):
         component.get('EventManager').register_event_handler('TorrentAddedEvent', self.post_torrent_add)
         component.get('EventManager').register_event_handler('TorrentRemovedEvent', self.post_torrent_remove)
 
-        # register tree:
-        component.get('FilterManager').register_tree_field('label', self.init_filter_dict)
-
         log.debug('Label plugin enabled..')
 
     def disable(self):
         self.plugin.deregister_status_field('label')
-        component.get('FilterManager').deregister_tree_field('label')
         component.get('EventManager').deregister_event_handler('TorrentAddedEvent', self.post_torrent_add)
         component.get('EventManager').deregister_event_handler('TorrentRemovedEvent', self.post_torrent_remove)
 
@@ -161,7 +172,6 @@ class Core(CorePluginBase):
     def get_labels(self):
         return sorted(self.labels.keys())
 
-    # Labels:
     @export
     def add(self, label_id):
         """add a label
@@ -174,6 +184,7 @@ class Core(CorePluginBase):
 
         self.labels[label_id] = dict(OPTIONS_DEFAULTS)
         self.config.save()
+        component.get('EventManager').emit(LabelAddedEvent(label_id))
 
     @export
     def remove(self, label_id):
@@ -182,13 +193,14 @@ class Core(CorePluginBase):
         del self.labels[label_id]
         self.clean_config()
         self.config.save()
+        component.get('EventManager').emit(LabelRemovedEvent(label_id))
 
     def _set_torrent_options(self, torrent_id, label_id):
         options = self.labels[label_id]
         torrent = self.torrents[torrent_id]
 
         if not options['move_completed_path']:
-            options['move_completed_path'] = ''  # no None.
+            options['move_completed_path'] = ''
 
         if options['apply_max']:
             torrent.set_max_download_speed(options['max_download_speed'])
@@ -305,6 +317,7 @@ class Core(CorePluginBase):
             self._set_torrent_options(torrent_id, label_id)
 
         self.config.save()
+        self.torrentmanager.torrents_status.mark_dirty([torrent_id])
 
     @export
     def get_config(self):
@@ -323,3 +336,7 @@ class Core(CorePluginBase):
 
     def _status_get_label(self, torrent_id):
         return self.torrent_labels.get(torrent_id) or ''
+
+if __name__ == '__main__':
+    # import test
+    pass

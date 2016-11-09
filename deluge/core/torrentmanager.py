@@ -16,6 +16,7 @@ import operator
 import os
 import shutil
 import time
+from collections import namedtuple
 
 from twisted.internet import defer, reactor, threads
 from twisted.internet.defer import Deferred, DeferredList
@@ -31,6 +32,8 @@ from deluge.error import AddTorrentError, InvalidTorrentError
 from deluge.event import (ExternalIPEvent, PreTorrentRemovedEvent, SessionStartedEvent, TorrentAddedEvent,
                           TorrentFileCompletedEvent, TorrentFileRenamedEvent, TorrentFinishedEvent, TorrentRemovedEvent,
                           TorrentResumedEvent)
+
+StatusRequest = namedtuple('StatusRequest', ['session_id', 'd', 'req_torrents', 'keys', 'only_updated'])
 
 log = logging.getLogger(__name__)
 
@@ -129,9 +132,7 @@ class TorrentManager(component.Component):
         # Keeps track of resume data
         self.resume_data = {}
 
-        self.torrents_status_requests = []
-        self.status_dict = {}
-        self.last_state_update_alert_ts = 0
+        self.torrents_status = TorrentsStatus(self)
 
         # Register set functions
         self.config.register_set_function('max_connections_per_torrent',
@@ -142,6 +143,10 @@ class TorrentManager(component.Component):
                                           self.on_set_max_upload_speed_per_torrent)
         self.config.register_set_function('max_download_speed_per_torrent',
                                           self.on_set_max_download_speed_per_torrent)
+
+        component.get('EventManager').register_event_handler('ClientDisconnectedEvent', self.on_client_disconnected)
+        component.get('EventManager').register_event_handler('TorrentTrackerStatusEvent',
+                                                             self.on_torrent_tracker_status_changed)
 
         # Register alert functions
         self.alerts.register_handler('torrent_finished_alert', self.on_alert_torrent_finished)
@@ -169,8 +174,10 @@ class TorrentManager(component.Component):
 
         # Define timers
         self.save_state_timer = LoopingCall(self.save_state)
+        # The resume data for torrents that need it
         self.save_resume_data_timer = LoopingCall(self.save_resume_data)
-        self.prev_status_cleanup_loop = LoopingCall(self.cleanup_torrents_prev_status)
+        # Save resume data for all torrents
+        self.save_all_resume_data_timer = LoopingCall(self.save_resume_data, self.torrents.keys())
 
     def start(self):
         # Check for old temp file to verify safe shutdown
@@ -203,22 +210,12 @@ class TorrentManager(component.Component):
         # Try to load the state from file
         self.load_state()
 
-        # Save the state periodically
-        self.save_state_timer.start(200, False)
-        self.save_resume_data_timer.start(190, False)
-        self.prev_status_cleanup_loop.start(10)
+        self.set_timers(True)
 
     @defer.inlineCallbacks
     def stop(self):
         # Stop timers
-        if self.save_state_timer.running:
-            self.save_state_timer.stop()
-
-        if self.save_resume_data_timer.running:
-            self.save_resume_data_timer.stop()
-
-        if self.prev_status_cleanup_loop.running:
-            self.prev_status_cleanup_loop.stop()
+        self.set_timers(False)
 
         # Save state on shutdown
         yield self.save_state()
@@ -229,6 +226,21 @@ class TorrentManager(component.Component):
         # Remove the temp_file to signify successfully saved state
         if result and os.path.isfile(self.temp_file):
             os.remove(self.temp_file)
+
+    def set_timers(self, start):
+        if start:
+            # Save the state periodically
+            self.save_state_timer.start(200, False)
+            self.save_resume_data_timer.start(190, False)
+            self.save_all_resume_data_timer.start(900, False)
+        else:
+            # Stop timers
+            if self.save_state_timer.running:
+                self.save_state_timer.stop()
+            if self.save_resume_data_timer.running:
+                self.save_resume_data_timer.stop()
+            if self.save_all_resume_data_timer.running:
+                self.save_all_resume_data_timer.stop()
 
     def update(self):
         for torrent_id, torrent in self.torrents.items():
@@ -913,11 +925,6 @@ class TorrentManager(component.Component):
         self.torrents[torrent_id].handle.queue_position_bottom()
         return True
 
-    def cleanup_torrents_prev_status(self):
-        """Run cleanup_prev_status for each registered torrent"""
-        for torrent in self.torrents.iteritems():
-            torrent[1].cleanup_prev_status()
-
     def on_set_max_connections_per_torrent(self, key, value):
         """Sets the per-torrent connection limit"""
         log.debug('max_connections_per_torrent set to %s...', value)
@@ -1021,6 +1028,7 @@ class TorrentManager(component.Component):
                 torrent.handle.pause()
 
         torrent.update_state()
+        self.torrents_status.mark_dirty([torrent.torrent_id])
 
     def on_alert_tracker_reply(self, alert):
         """Alert handler for libtorrent tracker_reply_alert"""
@@ -1101,6 +1109,10 @@ class TorrentManager(component.Component):
             self.waiting_on_finish_moving.remove(torrent_id)
             torrent.is_finished = True
             component.get('EventManager').emit(TorrentFinishedEvent(torrent_id))
+
+        # Since changes to storage do not trigger an update for session.post_torrent_updates
+        # we must remove the torrent from the cached torrents for all the sessions here
+        self.torrents_status.mark_dirty([torrent_id])
 
     def on_alert_storage_moved_failed(self, alert):
         """Alert handler for libtorrent storage_moved_failed_alert"""
@@ -1260,26 +1272,6 @@ class TorrentManager(component.Component):
         if torrent_id in self.torrents:
             component.get('EventManager').emit(TorrentFileCompletedEvent(torrent_id, alert.index))
 
-    def on_alert_state_update(self, alert):
-        """Alert handler for libtorrent state_update_alert
-
-        Result of a session.post_torrent_updates() call and contains the torrent status
-        of all torrents that changed since last time this was posted.
-
-        """
-        log.debug('on_status_notification: %s', decode_string(alert.message()))
-        self.last_state_update_alert_ts = time.time()
-
-        for t_status in alert.status:
-            try:
-                torrent_id = str(t_status.info_hash)
-            except RuntimeError:
-                continue
-            if torrent_id in self.torrents:
-                self.torrents[torrent_id].update_status(t_status)
-
-        self.handle_torrents_status_callback(self.torrents_status_requests.pop())
-
     def on_alert_external_ip(self, alert):
         """Alert handler for libtorrent external_ip_alert
 
@@ -1310,7 +1302,7 @@ class TorrentManager(component.Component):
             else:
                 log.warning('send_buffer_watermark reached maximum value: %s Bytes', max_send_buffer_watermark)
 
-    def separate_keys(self, keys, torrent_ids):
+    def separate_torrent_keys(self, keys, torrent_ids):
         """Separates the input keys into torrent class keys and plugins keys"""
         if self.torrents:
             for torrent_id in torrent_ids:
@@ -1321,47 +1313,198 @@ class TorrentManager(component.Component):
                     return torrent_keys, leftover_keys
         return [], []
 
-    def handle_torrents_status_callback(self, status_request):
-        """Build the status dictionary with torrent values"""
-        d, torrent_ids, keys, diff = status_request
-        status_dict = {}.fromkeys(torrent_ids)
-        torrent_keys, plugin_keys = self.separate_keys(keys, torrent_ids)
+    def on_client_disconnected(self, session_id):
+        self.torrents_status.clear_status_requests(session_id)
 
-        # Get the torrent status for each torrent_id
+    def on_torrent_tracker_status_changed(self, torrent_id, status):
+        self.torrents_status.mark_dirty([torrent_id])
+
+    def on_alert_state_update(self, alert):
+        """
+        Alert handler for libtorrent state_update_alert
+
+        Result of a session.post_torrent_updates() call and contains the torrent status
+        of all torrents that changed since last time this was posted.
+
+        """
+        log.debug('on_alert_state_update: %s', decode_string(alert.message()))
+        updated_ids = []
+        for t_status in alert.status:
+            try:
+                torrent_id = str(t_status.info_hash)
+            except RuntimeError:
+                continue
+
+            # After a torrent is removed, a state update is triggered
+            if torrent_id in self.torrents:
+                self.torrents[torrent_id].update_status(t_status)
+                updated_ids.append(torrent_id)
+
+        self.torrents_status.on_status_update(updated_ids)
+
+    def torrents_status_update(self, torrent_ids, keys, only_updated=False):
+        return self.torrents_status.torrents_status_update(torrent_ids, keys, only_updated)
+
+
+class TorrentsStatus(object):
+    """
+    Handles torrent status requests from clients.
+
+    Contains a cache of all the torrent statuses which is returned unless
+    the status for a torrent has changed since last request. The cache is
+    also used to mark statuses dirty to allow returning only the statuses
+    that have been changed since last call, if requested by the client.
+
+    Args:
+        torrentmanager: The torrentmanager
+
+    Attributes:
+        status_cache (dict): The status cache for each connected client
+        requests_queue (list): The active requests being processed
+        last_state_update_ts (timestamp): The time of the last request
+        tm (torrentmanager): The torrentmanager
+    """
+
+    def __init__(self, torrentmanager):
+        self.status_cache = {}
+        self.requests_queue = []
+        self.last_state_update_ts = 0
+        self.tm = torrentmanager
+
+    def add_request(self, session_id, d, req_torrents, keys, only_updated=False):
+        """
+        Add a status request
+
+        Args:
+            session_id (str):
+            d (Deferred): The deferred corresponding to the request
+            req_torrents (dict): The requested torrents
+            keys (list): The status keys for the torrents
+            only_updated (bool, optional): If only torrents that have changed should be returned
+
+        """
+        self.requests_queue.insert(0, StatusRequest(session_id, d, req_torrents, keys, only_updated))
+
+    def mark_dirty(self, torrent_ids):
+        """
+        Remove the torrent ids from status_dicts
+        This marks the torrent id as dirty, i.e. the torrent id
+        has available updates.
+
+        Args:
+            torrent_ids (list): The torrent ids to mark dirty
+
+        """
         for torrent_id in torrent_ids:
-            if torrent_id not in self.torrents:
-                # The torrent_id does not exist in the dict.
-                # Could be the clients cache (sessionproxy) isn't up to speed.
-                del status_dict[torrent_id]
-            else:
-                status_dict[torrent_id] = self.torrents[torrent_id].get_status(torrent_keys, diff, all_keys=not keys)
-        self.status_dict = status_dict
-        d.callback((status_dict, plugin_keys))
+            for session_id in self.status_cache:
+                self.status_cache[session_id]['torrents_status'].pop(torrent_id, None)
 
-    def torrents_status_update(self, torrent_ids, keys, diff=False):
-        """Returns status dict for the supplied torrent_ids async.
+    def clear_status_requests(self, session_id):
+        """
+        Clean up any status requests registered for this session id
+
+        """
+        orig_len = len(self.requests_queue)
+        i = 0
+        while i < len(self.requests_queue):
+            if self.requests_queue[i].session_id == session_id:
+                del self.requests_queue[i]
+            else:
+                i += 1
+        log.debug('Removed %d entires from status requests queue', orig_len - len(self.requests_queue))
+
+    def on_status_update(self, updated_ids):
+        """
+        Update with new status from libtorrent
+
+        """
+        self.last_state_update_ts = time.time()
+        self.tm.torrents_status.mark_dirty(updated_ids)
+        self.process_status_request()
+
+    def process_status_request(self, request=None):
+        """
+        Build the status dictionary with torrent values of the requested torrents
+
+        Args:
+            request (StatusRequest, optional): The status request object
+
+        """
+        if request is None:
+            # May be empty if the client disconnected
+            if not self.requests_queue:
+                return
+            request = self.requests_queue.pop()
+
+        torrent_keys, plugin_keys = self.tm.separate_torrent_keys(request.keys, request.req_torrents)
+        cached_status = self.status_cache[request.session_id]['torrents_status']
+
+        # Keys have changed, so we clear the cached statuses
+        if set(self.status_cache[request.session_id]['keys']).symmetric_difference(request.keys):
+            cached_status.clear()
+            self.status_cache[request.session_id]['keys'] = request.keys
+
+        # Start with only valid keys
+        valid_keys = set(request.req_torrents.keys()).intersection(self.tm.torrents.keys())
+        # dirty_keys is the torrents that have been updated sice last request
+        dirty_keys = valid_keys - set(cached_status.keys())
+
+        # Update status of dirty keys
+        for torrent_id in dirty_keys:
+            cached_status[torrent_id] = self.tm.torrents[torrent_id].get_status(torrent_keys, all_keys=not request.keys)
+
+        # Create the status_dict with requested torrent ids
+        status_keys = valid_keys
+        if request.only_updated:
+            # Only return the updated ids
+            status_keys = dirty_keys
+
+        torrents_status = dict([(k, cached_status[k]) for k in status_keys])
+        request.d.callback((torrents_status, plugin_keys))
+
+    def torrents_status_update(self, req_torrents, keys, only_updated=False):
+        """Returns status dict for the supplied req_torrents async.
 
         Note:
             If torrent states was updated recently post_torrent_updates is not called and
             instead cached state is used.
 
         Args:
-            torrent_ids (list of str): The torrent IDs to get the status of.
+            req_torrents (dict): The torrents to get the status of.
             keys (list of str): The keys to get the status on.
-            diff (bool, optional): If True, will return a diff of the changes since the
-                last call to get_status based on the session_id, defaults to False.
-
+            only_updated (bool, optional):
+                         If True, will return only the torrents that have been updated
+                         since the last call to get_torrents_status for that session_id.
         Returns:
             dict: A status dictionary for the requested torrents.
 
         """
         d = Deferred()
         now = time.time()
-        # If last update was recent, use cached data instead of request updates from libtorrent
-        if (now - self.last_state_update_alert_ts) < 1.5:
-            reactor.callLater(0, self.handle_torrents_status_callback, (d, torrent_ids, keys, diff))
+
+        session_id = component.get('RPCServer').get_session_id()
+        if session_id not in self.status_cache:
+            self.status_cache[session_id] = {'torrents_status': {}, 'keys': []}
+
+        # If there are more than 10 active requests per client in total, ignore this
+        if len(self.requests_queue) > len(self.status_cache) * 10:
+            log.warn('Too many status updates requested (%d) - server overloaded?',
+                     len(self.requests_queue))
+
+            # For now just print the warning and continue as usual.
+            # This may help finding issues where too many torrent status requests
+            # are sent.
+
+            # def return_empty():
+            #     d.callback(({}, []))
+            # reactor.callLater(0, return_empty)
+            # return d
+        # If last update was recent, use cached data instead of requesting updates from libtorrent
+        if (now - self.last_state_update_ts) < 0.5:
+            reactor.callLater(0, self.process_status_request,
+                              StatusRequest(session_id, d, req_torrents, keys, only_updated))
         else:
             # Ask libtorrent for status update
-            self.torrents_status_requests.insert(0, (d, torrent_ids, keys, diff))
-            self.session.post_torrent_updates()
+            self.add_request(session_id, d, req_torrents, keys, only_updated)
+            self.tm.session.post_torrent_updates()
         return d

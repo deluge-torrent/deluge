@@ -87,6 +87,7 @@ deluge.ui = {
             bbar: deluge.statusbar
         });
 
+
         this.Viewport = new Ext.Viewport({
             layout: 'fit',
             items: [this.MainPanel]
@@ -133,7 +134,19 @@ deluge.ui = {
         this.oldFilters = this.filters;
         this.filters = filters;
 
-        deluge.client.web.update_ui(Deluge.Keys.Grid, filters, {
+        /* Find which keys to fetch */
+        var keys = new Array();
+        keys.push('state');
+        keys.push('tracker_host');
+        keys.push('is_auto_managed');
+
+        for (var i = 0; i < deluge.torrents.columns.length; i++) {
+            if (typeof(deluge.torrents.columns[i].hidden) == 'undefined' || deluge.torrents.columns[i].hidden == false) {
+                keys.push(deluge.torrents.columns[i].dataIndex);
+            }
+        }
+
+        deluge.client.web.update_ui(keys, filters, !Ext.areObjectsEqual(this.filters, this.oldFilters), {
             success: this.onUpdate,
             failure: this.onUpdateError,
             scope: this
@@ -142,7 +155,7 @@ deluge.ui = {
     },
 
     onConnectionError: function(error) {
-
+        console.log('onConnectionError:', error);
     },
 
     onConnectionSuccess: function(result) {
@@ -189,13 +202,14 @@ deluge.ui = {
                 ' U: ' + fsize_short(data['stats'].upload_rate, true) + ' - ' +
                 this.originalTitle;
         }
+
         if (Ext.areObjectsEqual(this.filters, this.oldFilters)) {
-            deluge.torrents.update(data['torrents']);
+            deluge.torrents.update(data['torrents'], false);
         } else {
             deluge.torrents.update(data['torrents'], true);
         }
         deluge.statusbar.update(data['stats']);
-        deluge.sidebar.update(data['filters']);
+        deluge.filterbar.update(data['filters']);
         this.errorCount = 0;
     },
 
@@ -206,7 +220,7 @@ deluge.ui = {
      */
     onConnect: function() {
         if (!this.running) {
-            this.running = setInterval(this.update, 2000);
+            this.running = setInterval(this.update, 6000);
             this.update();
         }
         deluge.client.web.get_plugins({

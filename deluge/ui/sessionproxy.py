@@ -6,15 +6,58 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-import logging
-from time import time
 
-from twisted.internet.defer import maybeDeferred, succeed
+import logging
+
+from twisted.internet import reactor, task
 
 import deluge.component as component
+from deluge.event import SessionProxyUpdateEvent
 from deluge.ui.client import client
 
+from .torrentfilter import FilterTree, TorrentFilter
+
 log = logging.getLogger(__name__)
+
+
+class TorrrentsState(object):
+
+    def __init__(self):
+        self.status = None
+        self.filter = {}
+        self.filter_changed = False
+        self.visible_torrents = set()
+
+    def update_status(self, update):
+        self.visible_torrents -= update.not_matching
+        self.visible_torrents |= update.new_matching
+        if self.status is not None:
+            self.status.update(update.status)
+        self.filter_changed = False
+
+    def set_filter(self, filter_dict):
+        """
+        Sets the filters for the torrent state
+
+        """
+        for k in filter_dict:
+            if filter_dict[k] is None:
+                if self.filter.pop(k, -1) == -1:
+                    self.filter_changed = True
+            else:
+                if self.filter.get(k, None) != filter_dict[k]:
+                    self.filter_changed = True
+                self.filter[k] = filter_dict[k]
+
+
+class StateUpdate(object):
+
+    def __init__(self, keys):
+        self.keys = keys
+        self.status = {}
+        self.updated_ids = set()
+        self.not_matching = set()
+        self.new_matching = set()
 
 
 class SessionProxy(component.Component):
@@ -22,7 +65,7 @@ class SessionProxy(component.Component):
     The SessionProxy component is used to cache session information client-side
     to reduce the number of RPCs needed to provide a rich user interface.
 
-    It will query the Core for only changes in the status of the torrents
+    It may query the Core for only the torrents that have been changed
     and will try to satisfy client requests from the cache.
 
     """
@@ -30,15 +73,11 @@ class SessionProxy(component.Component):
         log.debug('SessionProxy init..')
         component.Component.__init__(self, 'SessionProxy', interval=5)
 
-        # Set the cache time in seconds
-        # This is how long data will be valid before re-fetching from the core
-        self.cache_time = 1.5
-
-        # Hold the torrents' status.. {torrent_id: [time, {status_dict}], ...}
-        self.torrents = {}
-
-        # Holds the time of the last key update.. {torrent_id: {key1, time, ...}, ...}
-        self.cache_times = {}
+        # The torrent ids that have been updated from core
+        self.updated_ids = set()
+        self.torrentfilter = TorrentFilter()
+        self.torrents = self.torrentfilter.torrents
+        self.filtertree = FilterTree(self.torrentfilter)
 
     def start(self):
         client.register_event_handler('TorrentStateChangedEvent', self.on_torrent_state_changed)
@@ -49,8 +88,7 @@ class SessionProxy(component.Component):
             for torrent_id in torrent_ids:
                 # Let's at least store the torrent ids with empty statuses
                 # so that upcoming queries or status updates don't throw errors.
-                self.torrents.setdefault(torrent_id, [time(), {}])
-                self.cache_times.setdefault(torrent_id, {})
+                self.torrents.setdefault(torrent_id, {})
             return torrent_ids
         return client.core.get_session_state().addCallback(on_get_session_state)
 
@@ -58,202 +96,140 @@ class SessionProxy(component.Component):
         client.deregister_event_handler('TorrentStateChangedEvent', self.on_torrent_state_changed)
         client.deregister_event_handler('TorrentRemovedEvent', self.on_torrent_removed)
         client.deregister_event_handler('TorrentAddedEvent', self.on_torrent_added)
-        self.torrents = {}
-
-    def create_status_dict(self, torrent_ids, keys):
-        """
-        Creates a status dict from the cache.
-
-        :param torrent_ids: the torrent_ids
-        :type torrent_ids: list of strings
-        :param keys: the status keys
-        :type keys: list of strings
-
-        :returns: a dict with the status information for the *torrent_ids*
-        :rtype: dict
-
-        """
-        sd = {}
-        keys = set(keys)
-        keys_len = -1  # The number of keys for the current cache (not the len of keys_diff_cached)
-        keys_diff_cached = []
-
-        for torrent_id in torrent_ids:
-            try:
-                if keys:
-                    sd[torrent_id] = self.torrents[torrent_id][1].copy()
-
-                    # Have to remove the keys that weren't requested
-                    if len(sd[torrent_id]) == keys_len:
-                        # If the number of keys are equal they are the same keys
-                        # so we use the cached diff of the keys we need to remove
-                        keys_to_remove = keys_diff_cached
-                    else:
-                        # Not the same keys so create a new diff
-                        keys_to_remove = set(sd[torrent_id].iterkeys()) - keys
-                        # Update the cached diff
-                        keys_diff_cached = keys_to_remove
-                        keys_len = len(sd[torrent_id])
-
-                    # Usually there are no keys to remove, so it's cheaper with
-                    # this if-test than a for-loop with no iterations.
-                    if keys_to_remove:
-                        for k in keys_to_remove:
-                            del sd[torrent_id][k]
-                else:
-                    sd[torrent_id] = dict(self.torrents[torrent_id][1])
-            except KeyError:
-                continue
-        return sd
+        self.torrentfilter.reset()
 
     def get_torrent_status(self, torrent_id, keys):
         """
-        Get a status dict for one torrent.
+        Get the status dict for a torrent
 
-        :param torrent_id: the torrent_id
-        :type torrent_id: string
-        :param keys: the status keys
-        :type keys: list of strings
+        Args:
+            torrent_id (str): the torrent ID to create fetch
+            keys      (list): the keys to include in the dict
 
-        :returns: a dict of status information
-        :rtype: dict
+        Returns:
+            dict: The status for the torrent
 
         """
-        if torrent_id in self.torrents:
-            # Keep track of keys we need to request from the core
-            keys_to_get = []
-            if not keys:
-                keys = self.torrents[torrent_id][1].keys()
+        if not keys and torrent_id in self.torrents:
+            keys = self.torrents[torrent_id].keys()
+        d = client.core.get_torrent_status(torrent_id, keys)
 
-            for key in keys:
-                if time() - self.cache_times[torrent_id].get(key, 0.0) > self.cache_time:
-                    keys_to_get.append(key)
-            if not keys_to_get:
-                return succeed(
-                    self.create_status_dict([torrent_id], keys)[torrent_id]
-                )
-            else:
-                d = client.core.get_torrent_status(torrent_id, keys_to_get, True)
+        def on_status(status):
+            # torrent_id could have been removed from self.torrents in the meanwhile
+            if torrent_id not in self.torrents:
+                return {}
+            self.torrentfilter.update_torrent(torrent_id, status)
+            if keys:
+                keys_to_use = set(keys) & set(self.torrents[torrent_id].keys())
+                status = {k: self.torrents[torrent_id][k] for k in keys_to_use}
+            return status
+        return d.addCallback(on_status)
 
-                def on_status(result, torrent_id):
-                    t = time()
-                    self.torrents[torrent_id][0] = t
-                    self.torrents[torrent_id][1].update(result)
-                    for key in keys_to_get:
-                        self.cache_times[torrent_id][key] = t
-                    return self.create_status_dict([torrent_id], keys)[torrent_id]
-                return d.addCallback(on_status, torrent_id)
-        else:
-            d = client.core.get_torrent_status(torrent_id, keys, True)
-
-            def on_status(result):
-                if result:
-                    t = time()
-                    self.torrents[torrent_id] = (t, result)
-                    self.cache_times[torrent_id] = {}
-                    for key in result:
-                        self.cache_times[torrent_id][key] = t
-
-                return result
-            return d.addCallback(on_status)
-
-    def get_torrents_status(self, filter_dict, keys):
-        """
-        Get a dict of torrent statuses.
+    def get_torrents_status(self, torrents_state, keys, only_updated=False, from_cache=False):
+        """Get a dict of torrent statuses.
 
         The filter can take 2 keys, *state* and *id*.  The state filter can be
         one of the torrent states or the special one *Active*.  The *id* key is
         simply a list of torrent_ids.
+        With from_cache=False, only_updated will in practice be ignored because all torrents will
+        be returned from core and hence be updated, so all torrents will then be returned no matter
+        the value of only_updated.
 
-        :param filter_dict: the filter used for this query
-        :type filter_dict: dict
-        :param keys: the status keys
-        :type keys: list of strings
+        Args:
+            filter_dict (dict): the filter used for the query
+            keys (list): the status keys to retrieve for each torrent
+            only_updated (bool): If only the torrents that have been updated since last call should be returned
+            from_cache (bool): if the results should be returned after requesting an update from core
+            current_ids (set): The ids of the torrents currently displayed.
 
-        :returns: a dict of torrent_ids and their status dicts
-        :rtype: dict
+        Returns:
+            dict: The status for the torrents
 
         """
-        # Helper functions and callbacks ---------------------------------------
-        def on_status(result, torrent_ids, keys):
-            # Update the internal torrent status dict with the update values
-            t = time()
-            for key, value in result.iteritems():
-                try:
-                    self.torrents[key][0] = t
-                    self.torrents[key][1].update(value)
-                    for k in value:
-                        self.cache_times[key][k] = t
-                except KeyError:
-                    # The torrent was removed
-                    continue
+        def on_status(result, torrent_ids, keys, only_updated):
+            # Update the internal torrent status dict with the updated values
+            for torrent_id, value in result.iteritems():
+                self.torrentfilter.update_torrent(torrent_id, value)
+                self.updated_ids.add(torrent_id)
 
-            # Create the status dict
-            if not torrent_ids:
-                torrent_ids = result.keys()
+        # Remove duplicates
+        keys_to_update = list(set(list(keys)))
 
-            return self.create_status_dict(torrent_ids, keys)
+        def get_filtered_torrents(*args, **kw):
+            only_updated = kw.get('only_updated', False)
+            visible_torrents = kw.get('visible_torrents', None)
+            # Only updated torrents were requested, so pass the updated torrents to create_status_dict
+            if only_updated:
+                only_updated = self.updated_ids
+            torrents_filter = self.torrentfilter.filter_torrents(torrents_state.filter)
+            update = StateUpdate(keys)
+            try:
+                self.torrentfilter.create_status_dict(update, torrents_filter, keys,
+                                                      only_updated, visible_torrents)
+            except ValueError as ve:
+                log.warning('Failed to create status dict!')
+                log.exception(ve)
+                import traceback
+                traceback.print_exc()
+            return update
 
-        def find_torrents_to_fetch(torrent_ids):
-            to_fetch = []
-            t = time()
-            for torrent_id in torrent_ids:
-                torrent = self.torrents[torrent_id]
-                if t - torrent[0] > self.cache_time:
-                    to_fetch.append(torrent_id)
-                else:
-                    # We need to check if a key is expired
-                    for key in keys:
-                        if t - self.cache_times[torrent_id].get(key, 0.0) > self.cache_time:
-                            to_fetch.append(torrent_id)
-                            break
-
-            return to_fetch
-        # -----------------------------------------------------------------------
-
-        if not filter_dict:
-            # This means we want all the torrents status
-            # We get a list of any torrent_ids with expired status dicts
-            to_fetch = find_torrents_to_fetch(self.torrents.keys())
-            if to_fetch:
-                d = client.core.get_torrents_status({'id': to_fetch}, keys, True)
-                return d.addCallback(on_status, self.torrents.keys(), keys)
-
-            # Don't need to fetch anything
-            return maybeDeferred(self.create_status_dict, self.torrents.keys(), keys)
-
-        if len(filter_dict) == 1 and 'id' in filter_dict:
-            # At this point we should have a filter with just "id" in it
-            to_fetch = find_torrents_to_fetch(filter_dict['id'])
-            if to_fetch:
-                d = client.core.get_torrents_status({'id': to_fetch}, keys, True)
-                return d.addCallback(on_status, filter_dict['id'], keys)
-            else:
-                # Don't need to fetch anything, so just return data from the cache
-                return maybeDeferred(self.create_status_dict, filter_dict['id'], keys)
+        # Waiting for all the torrents from core
+        if from_cache is False:
+            # issue update from server
+            # We ask only for the updated torrents if from_cache is True
+            update_d = client.core.get_torrents_status(keys_to_update, only_updated=only_updated)
+            update_d.addCallback(on_status, None, keys_to_update, only_updated)
+            update_d.addCallback(get_filtered_torrents, only_updated=only_updated,
+                                 visible_torrents=torrents_state.visible_torrents)
+            return update_d
         else:
-            # This is a keyworded filter so lets just pass it onto the core
-            # XXX: Add more caching here.
-            d = client.core.get_torrents_status(filter_dict, keys, True)
-            return d.addCallback(on_status, None, keys)
+            status_d = task.deferLater(reactor, 0, get_filtered_torrents, only_updated=only_updated,
+                                       visible_torrents=torrents_state.visible_torrents)
+            # We request updates from core, but we will return results from the cache
+            update_d = task.deferLater(reactor, 0, client.core.get_torrents_status, keys_to_update,
+                                       only_updated=only_updated)
+            update_d.addCallback(on_status, None, keys_to_update, only_updated)
+            return status_d
+
+    def get_filter_tree(self, show_zero_hits=True, hide_cat=None):
+        """
+        Get the filter treeview for the sidebar
+
+        Args:
+            show_zero_hits (bool): if categories with zero entries should be included
+            hide_cat       (list): categories to exclude from the result
+
+        Returns:
+            dict: containing elements of 'field: [(value, count), (value, count)]'
+
+        """
+        def fetch_filter_tree():
+            return self.filtertree.get_filter_tree(show_zero_hits=show_zero_hits, hide_cat=hide_cat)
+        return task.deferLater(reactor, 0, fetch_filter_tree)
+
+    def register_tree_field(self, field, func=lambda: {}):
+        self.filtertree.register_tree_field(field, func)
+
+    def deregister_tree_field(self, field):
+        self.filtertree.deregister_tree_field(field)
 
     def on_torrent_state_changed(self, torrent_id, state):
         if torrent_id in self.torrents:
-            self.torrents[torrent_id][1].setdefault('state', state)
-            self.cache_times.setdefault(torrent_id, {}).update(state=time())
+            self.torrentfilter.update_torrent(torrent_id, {'state': state})
+            self.updated_ids.add(torrent_id)
+            client.emit(SessionProxyUpdateEvent(torrent_id, type='state_change', state=state))
 
     def on_torrent_added(self, torrent_id, from_state):
-        self.torrents[torrent_id] = [time() - self.cache_time - 1, {}]
-        self.cache_times[torrent_id] = {}
+        self.torrentfilter.add_torrent(torrent_id)
 
         def on_status(status):
-            self.torrents[torrent_id][1].update(status)
-            t = time()
-            for key in status:
-                self.cache_times[torrent_id][key] = t
-        client.core.get_torrent_status(torrent_id, []).addCallback(on_status)
+            self.torrentfilter.update_torrent(torrent_id, status)
+            self.updated_ids.add(torrent_id)
+            client.emit(SessionProxyUpdateEvent(torrent_id, type='added'))
+        if not from_state:
+            client.core.get_torrent_status(torrent_id, []).addCallback(on_status)
 
     def on_torrent_removed(self, torrent_id):
         if torrent_id in self.torrents:
-            del self.torrents[torrent_id]
-            del self.cache_times[torrent_id]
+            self.torrentfilter.remove_torrent(torrent_id)
+            client.emit(SessionProxyUpdateEvent(torrent_id, type='removed'))

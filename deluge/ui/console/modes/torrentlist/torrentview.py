@@ -9,6 +9,7 @@ from deluge.ui.console.modes.torrentlist.torrentactions import torrent_actions_p
 from deluge.ui.console.utils import curses_util as util
 from deluge.ui.console.utils import format_utils
 from deluge.ui.console.utils.column import get_column_value, get_required_fields, torrent_data_fields
+from deluge.ui.sessionproxy import TorrrentsState
 
 from . import ACTION
 
@@ -93,7 +94,6 @@ class TorrentView(InputKeyHandler):
         InputKeyHandler.__init__(self)
         self.torrentlist = torrentlist
         self.config = config
-        self.filter_dict = {}
         self.curr_filter = None
         self.cached_rows = {}
         self.sorted_ids = None
@@ -103,6 +103,8 @@ class TorrentView(InputKeyHandler):
         self.curoff = 0
         self.marked = []
         self.cursel = 0
+        # The state of the torrents in the view
+        self.torrents_state = TorrrentsState()
 
     @property
     def rows(self):
@@ -116,29 +118,21 @@ class TorrentView(InputKeyHandler):
     def torrentlist_offset(self):
         return 2
 
-    def update_state(self, state, refresh=False):
-        self.curstate = state  # cache in case we change sort order
-        self.cached_rows.clear()
-        self.numtorrents = len(state)
-        self.sorted_ids = self._sort_torrents(state)
-        self.torrent_names = []
-        for torrent_id in self.sorted_ids:
-            ts = self.curstate[torrent_id]
-            self.torrent_names.append(ts['name'])
-
-        if refresh:
-            self.torrentlist.refresh()
-
     def set_torrent_filter(self, state):
+        """Set the state to filter on
+
+        Args:
+            state (str): The state to filter on
+
+        """
         self.curr_filter = state
         filter_dict = {'state': [state]}
         if state == 'All':
             self.curr_filter = None
             filter_dict = {}
-        self.filter_dict = filter_dict
+        self.torrents_state.set_filter(filter_dict)
         self.torrentlist.go_top = True
         self.torrentlist.update()
-        return True
 
     def _scroll_up(self, by):
         cursel = self.cursel
@@ -207,16 +201,22 @@ class TorrentView(InputKeyHandler):
             return True
         return False
 
-    def _sort_torrents(self, state):
-        'sorts by primary and secondary sort fields'
+    def _sort_torrents(self, state, torrent_ids):
+        """Sorts by primary and secondary sort fields
 
+        Args:
+            state (dict): The torrents state dict
+            torrent_ids (list or str): Torrent IDs to sort
+
+        Returns:
+            list: The sorted torrent IDs
+
+        """
         if not state:
             return {}
 
         s_primary = self.config['torrentview']['sort_primary']
         s_secondary = self.config['torrentview']['sort_secondary']
-
-        result = state
 
         # Sort first by secondary sort field and then primary sort field
         # so it all works out
@@ -250,15 +250,15 @@ class TorrentView(InputKeyHandler):
         # Just in case primary and secondary fields are empty and/or
         # both are too ambiguous, also sort by queue position first
         if 'queue' not in [s_secondary, s_primary]:
-            result = sort_by_field(state, result, 'queue')
+            torrent_ids = sort_by_field(state, torrent_ids, 'queue')
         if s_secondary != s_primary:
-            result = sort_by_field(state, result, s_secondary)
-        result = sort_by_field(state, result, s_primary)
+            torrent_ids = sort_by_field(state, torrent_ids, s_secondary)
+        torrent_ids = sort_by_field(state, torrent_ids, s_primary)
 
         if self.config['torrentview']['separate_complete']:
-            result = sorted(result, _queue_sort, lambda s: state.get(s).get('progress', 0) == 100.0)
+            torrent_ids = sorted(torrent_ids, _queue_sort, lambda s: state.get(s).get('progress', 0) == 100.0)
 
-        return result
+        return torrent_ids
 
     def _get_colors(self, row, tidx):
         # default style
@@ -326,9 +326,47 @@ class TorrentView(InputKeyHandler):
                                         trim=False, scr=self.torrentlist.torrentview_panel)
 
     def update(self, refresh=False):
-        d = component.get('SessionProxy').get_torrents_status(self.filter_dict,
-                                                              self.status_fields)
-        d.addCallback(self.update_state, refresh=refresh)
+        if self.torrents_state.status is None:
+            self.send_status_request(self.on_session_state, from_cache=False, only_updated=False)
+        else:
+            self.send_status_request(self.on_get_torrents_status, from_cache=True,
+                                     only_updated=not self.torrents_state.filter_changed)
+        self.torrents_state.filter_changed = False
+
+    def send_status_request(self, callback, only_updated=True, from_cache=True):
+        d = component.get('SessionProxy').get_torrents_status(self.torrents_state, self.status_fields,
+                                                              only_updated=only_updated, from_cache=from_cache)
+        # Request the statuses for all these torrent_ids, this is async so we
+        # will deal with the return in a signal callback.
+        d.addCallback(callback)
+        self.torrents_state.filter_changed = False
+
+    def on_session_state(self, update):
+        self.torrents_state.status = update.status
+        self.set_state()
+
+    def on_get_torrents_status(self, state_update):
+        """
+        Callback function for get_torrents_status().  'status' should be a
+        dictionary of {torrent_id: {key, value}}.
+
+        """
+        self.torrents_state.update_status(state_update)
+        self.set_state(refresh=True)
+
+    def set_state(self, refresh=False):
+        newnames = []
+        self.cached_rows = {}
+        self.sorted_ids = self._sort_torrents(self.torrents_state.status, list(self.torrents_state.visible_torrents))
+        for torrent_id in self.sorted_ids:
+            ts = self.torrents_state.status[torrent_id]
+            newnames.append(ts['name'])
+
+        self.numtorrents = len(self.torrents_state.visible_torrents)
+        self.torrent_names = newnames
+
+        if refresh:
+            self.torrentlist.refresh()
 
     def on_config_changed(self):
         s_primary = self.config['torrentview']['sort_primary']

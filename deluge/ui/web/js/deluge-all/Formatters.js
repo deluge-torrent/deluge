@@ -97,7 +97,7 @@ Deluge.Formatters = {
      * @return {String} a formatted time string. will return '' if seconds == 0
      */
     timeRemaining: function(time) {
-        if (time == 0) { return '&infin;' }
+        if (time == 0 || time == undefined) { return '&infin;' }
         time = time.toFixed(0);
         if (time < 60) { return time + 's'; }
         else { time = time / 60; }

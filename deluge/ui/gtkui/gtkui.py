@@ -129,6 +129,7 @@ DEFAULT_PREFS = {
     'pieces_color_completed': [4883, 26985, 56540],
     'focus_main_window_on_add': True,
     'language': None,
+    'update_interval': 1,
 }
 
 
@@ -188,7 +189,7 @@ class GtkUI(object):
         self.mainwindow = MainWindow()
         self.menubar = MenuBar()
         self.toolbar = ToolBar()
-        self.torrentview = TorrentView()
+        self.torrentview = TorrentView(update_interval=self.config['update_interval'])
         self.torrentdetails = TorrentDetails()
         self.sidebar = SideBar()
         self.filtertreeview = FilterTreeView()

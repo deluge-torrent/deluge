@@ -26,16 +26,24 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
     selected: null,
 
     constructor: function(config) {
+
+        deluge.filterbar = new Deluge.Filterbar();
+        deluge.searchbar = new Deluge.Searchbar();
+
         config = Ext.apply({
             id: 'sidebar',
             region: 'west',
             cls: 'deluge-sidebar',
-            title: _('Filters'),
+            title: _('Sidebar'),
             layout: 'accordion',
             split: true,
             width: 200,
             minSize: 100,
-            collapsible: true
+            collapsible: true,
+            border: false,
+            items: [ deluge.filterbar, deluge.searchbar ],
+            margins: '5 0 0 5',
+            cmargins: '5 0 0 5'
         }, config);
         Deluge.Sidebar.superclass.constructor.call(this, config);
     },
@@ -77,30 +85,22 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
     },
 
     getFilterStates: function() {
-        var states = {}
-
-        if (deluge.config.sidebar_multiple_filters) {
-            // Grab the filters from each of the filter panels
-            this.items.each(function(panel) {
-                var state = panel.getState();
-                if (state == null) return;
-                states[panel.filterType] = state;
-            }, this);
-        } else {
-            var panel = this.getLayout().activeItem;
-            if (panel) {
-                var state = panel.getState();
-                if (!state == null) return;
-                states[panel.filterType] = state;
-            }
+        var filters = deluge.filterbar.getFilterStates();
+        var search = deluge.searchbar.getFilter();
+        var searchFilter = null;
+        if (search.length > 0) {
+            searchFilter = {};
+            searchFilter['expression'] = search;
+            searchFilter['match_case'] = false;
         }
-
-        return states;
+        filters['search'] = searchFilter;
+        return filters;
     },
 
     hasFilter: function(filter) {
-        return (this.panels[filter]) ? true : false;
+        return deluge.filterbar.hasFilter(filter);
     },
+
 
     // private
     onDisconnect: function() {
@@ -125,7 +125,7 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
             }
         }
 
-        // Perform a cleanup of fitlers that are not enabled any more.
+        // Perform a cleanup of filters that are not enabled any more.
         Ext.each(Ext.keys(this.panels), function(filter) {
             if (Ext.keys(filters).indexOf(filter) == -1) {
                 // We need to remove the panel

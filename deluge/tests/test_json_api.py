@@ -10,7 +10,7 @@
 import json as json_lib
 
 from mock import MagicMock
-from twisted.internet import defer
+from twisted.internet import base, defer
 from twisted.web import server
 from twisted.web.http import Request
 
@@ -29,6 +29,8 @@ from .common_web import WebServerMockBase
 from .daemon_base import DaemonBase
 
 common.disable_new_release_check()
+
+base.DelayedCall.debug = True
 
 
 class JSONBase(BaseTestCase, DaemonBase):

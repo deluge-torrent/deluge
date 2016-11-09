@@ -194,9 +194,6 @@ class Torrent(object):
         torrent_info: store the torrent info.
         has_metadata (bool): True if the metadata for the torrent is available, False otherwise.
         status_funcs (dict): The function mappings to get torrent status
-        prev_status (dict): Previous status dicts returned for this torrent. We use this to return
-            dicts that only contain changes from the previous.
-            {session_id: status_dict, ...}
         waiting_on_folder_rename (list of dict): A list of Deferreds for file indexes we're waiting for file_rename
             alerts on. This is so we can send one folder_renamed signal instead of multiple file_renamed signals.
             [{index: Deferred, ...}, ...]
@@ -221,6 +218,7 @@ class Torrent(object):
         # Get the core config
         self.config = ConfigManager('core.conf')
         self.rpcserver = component.get('RPCServer')
+        self.core = component.get('Core')
 
         self.handle = handle
         self.handle.resolve_countries(True)
@@ -258,7 +256,6 @@ class Torrent(object):
         self.forcing_recheck = False
         self.forcing_recheck_paused = False
         self.status_funcs = None
-        self.prev_status = {}
         self.waiting_on_folder_rename = []
 
         self.update_status(self.handle.status())
@@ -620,7 +617,7 @@ class Torrent(object):
     def update_state(self):
         """Updates the state, based on libtorrent's torrent state"""
         status = self.handle.status()
-        session_paused = component.get('Core').session.is_paused()
+        session_paused = self.core.session.is_paused()
         old_state = self.state
         self.set_status_message()
         try:
@@ -917,13 +914,11 @@ class Torrent(object):
 
         return progress
 
-    def get_status(self, keys, diff=False, update=False, all_keys=False):
+    def get_status(self, keys, update=False, all_keys=False):
         """Returns the status of the torrent based on the keys provided
 
         Args:
             keys (list of str): the keys to get the status on
-            diff (bool): Will return a diff of the changes since the last
-                call to get_status based on the session_id
             update (bool): If True the status will be updated from libtorrent
                 if False, the cached values will be returned
 
@@ -940,24 +935,6 @@ class Torrent(object):
 
         for key in keys:
             status_dict[key] = self.status_funcs[key]()
-
-        if diff:
-            session_id = self.rpcserver.get_session_id()
-            if session_id in self.prev_status:
-                # We have a previous status dict, so lets make a diff
-                status_diff = {}
-                for key, value in status_dict.items():
-                    if key in self.prev_status[session_id]:
-                        if value != self.prev_status[session_id][key]:
-                            status_diff[key] = value
-                    else:
-                        status_diff[key] = value
-
-                self.prev_status[session_id] = status_dict
-                return status_diff
-
-            self.prev_status[session_id] = status_dict
-            return status_dict
 
         return status_dict
 
@@ -1348,16 +1325,6 @@ class Torrent(object):
 
         except OSError as ex:
             log.debug('Cannot Remove Folder: %s', ex)
-
-    def cleanup_prev_status(self):
-        """Checks the validity of the keys in the prev_status dict.
-
-        If the key is no longer valid, the dict will be deleted.
-        """
-        # Dict will be modified so iterate over generated list
-        for key in list(self.prev_status):
-            if not self.rpcserver.is_session_valid(key):
-                del self.prev_status[key]
 
     def _get_pieces_info(self):
         """Get the pieces for this torrent."""

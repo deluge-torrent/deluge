@@ -17,6 +17,7 @@ from twisted.internet.protocol import ClientFactory
 
 import deluge.common
 from deluge import error
+from deluge.core.eventmanager import EventManagerClient
 from deluge.transfer import DelugeTransferProtocol
 from deluge.ui.common import get_localhost_auth
 
@@ -71,6 +72,15 @@ class DelugeRPCRequest(object):
         return (self.request_id, self.method, self.args, self.kwargs)
 
 
+class RPCEvent(object):
+    """
+    Wraps RPC events which is passed to the clients event manager.
+    """
+    def __init__(self, name, args):
+        self.name = name
+        self.args = args
+
+
 class DelugeRPCProtocol(DelugeTransferProtocol):
 
     def connectionMade(self):  # NOQA: N802
@@ -107,9 +117,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
             # log.debug("Received RPCEvent: %s", event)
             # A RPCEvent was received from the daemon so run any handlers
             # associated with it.
-            if event in self.factory.event_handlers:
-                for handler in self.factory.event_handlers[event]:
-                    reactor.callLater(0, handler, *request[2])
+            self.factory.event_manager.handle_event(RPCEvent(event, request[2]))
             return
 
         request_id = request[1]
@@ -188,9 +196,9 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
 class DelugeRPCClientFactory(ClientFactory):
     protocol = DelugeRPCProtocol
 
-    def __init__(self, daemon, event_handlers):
+    def __init__(self, daemon, event_manager):
         self.daemon = daemon
-        self.event_handlers = event_handlers
+        self.event_manager = event_manager
 
     def startedConnecting(self, connector):  # NOQA: N802
         log.debug('Connecting to daemon at "%s:%s"...',
@@ -222,10 +230,9 @@ class DaemonProxy(object):
 
 
 class DaemonSSLProxy(DaemonProxy):
-    def __init__(self, event_handlers=None):
-        if event_handlers is None:
-            event_handlers = {}
-        self.__factory = DelugeRPCClientFactory(self, event_handlers)
+
+    def __init__(self, event_manager):
+        self.__factory = DelugeRPCClientFactory(self, event_manager)
         self.__factory.noisy = False
         self.__request_counter = 0
         self.__deferred = {}
@@ -324,27 +331,13 @@ class DaemonSSLProxy(DaemonProxy):
         return self.__deferred.pop(request_id)
 
     def register_event_handler(self, event, handler):
-        """
-        Registers a handler function to be called when `:param:event` is received
-        from the daemon.
-
-        :param event: the name of the event to handle
-        :type event: str
-        :param handler: the function to be called when `:param:event`
-            is emitted from the daemon
-        :type handler: function
-
-        """
-        if event not in self.__factory.event_handlers:
+        if not self.__factory.event_manager.has_handler(event):
             # This is a new event to handle, so we need to tell the daemon
             # that we're interested in receiving this type of event
-            self.__factory.event_handlers[event] = []
             if self.connected:
                 self.call('daemon.set_event_interest', [event])
 
-        # Only add the handler if it's not already registered
-        if handler not in self.__factory.event_handlers[event]:
-            self.__factory.event_handlers[event].append(handler)
+        self.__factory.event_manager.register_event_handler(event, handler)
 
     def deregister_event_handler(self, event, handler):
         """
@@ -356,8 +349,7 @@ class DaemonSSLProxy(DaemonProxy):
         :type handler: function
 
         """
-        if event in self.__factory.event_handlers and handler in self.__factory.event_handlers[event]:
-            self.__factory.event_handlers[event].remove(handler)
+        self.__factory.event_manager.deregister_event_handler(event, handler)
 
     def __on_connect(self, result):
         log.debug('__on_connect called')
@@ -392,9 +384,9 @@ class DaemonSSLProxy(DaemonProxy):
         self.username = username
         self.authentication_level = result
         # We need to tell the daemon what events we're interested in receiving
-        if self.__factory.event_handlers:
+        if self.__factory.event_manager.event_handlers:
             self.call('daemon.set_event_interest',
-                      self.__factory.event_handlers.keys())
+                      self.__factory.event_manager.event_handlers.keys())
 
             self.call('core.get_auth_levels_mappings').addCallback(
                 self.__on_auth_levels_mappings
@@ -425,9 +417,7 @@ class DaemonSSLProxy(DaemonProxy):
 
 
 class DaemonStandaloneProxy(DaemonProxy):
-    def __init__(self, event_handlers=None):
-        if event_handlers is None:
-            event_handlers = {}
+    def __init__(self, event_manager):
         from deluge.core import daemon
         self.__daemon = daemon.Daemon(standalone=True)
         self.__daemon.start()
@@ -444,8 +434,8 @@ class DaemonStandaloneProxy(DaemonProxy):
         self.auth_levels_mapping = AUTH_LEVELS_MAPPING
         self.auth_levels_mapping_reverse = AUTH_LEVELS_MAPPING_REVERSE
         # Register the event handlers
-        for event in event_handlers:
-            for handler in event_handlers[event]:
+        for event in event_manager.event_handlers:
+            for handler in event_manager.event_handlers[event]:
                 self.__daemon.core.eventmanager.register_event_handler(event, handler)
 
     def disconnect(self):
@@ -522,11 +512,9 @@ class Client(object):
     This class is used to connect to a daemon process and issue RPC requests.
     """
 
-    __event_handlers = {
-    }
-
     def __init__(self):
         self._daemon_proxy = None
+        self.event_manager = EventManagerClient()
         self.disconnect_callback = None
         self.__started_standalone = False
 
@@ -544,7 +532,7 @@ class Client(object):
             has been established or fails
         """
 
-        self._daemon_proxy = DaemonSSLProxy(dict(self.__event_handlers))
+        self._daemon_proxy = DaemonSSLProxy(self.event_manager.copy())
         self._daemon_proxy.set_disconnect_callback(self.__on_disconnect)
 
         d = self._daemon_proxy.connect(host, port)
@@ -598,7 +586,7 @@ class Client(object):
         """
         Starts a daemon in the same process as the client.
         """
-        self._daemon_proxy = DaemonStandaloneProxy(self.__event_handlers)
+        self._daemon_proxy = DaemonStandaloneProxy(self.event_manager)
         self.__started_standalone = True
 
     def stop_standalone(self):
@@ -701,9 +689,7 @@ that you forgot to install the deluged package or it's not in your PATH."))
         :params event: str, the event to handle
         :params handler: func, the handler function, f(args)
         """
-        if event not in self.__event_handlers:
-            self.__event_handlers[event] = []
-        self.__event_handlers[event].append(handler)
+        self.event_manager.register_event_handler(event, handler)
         # We need to replicate this in the daemon proxy
         if self._daemon_proxy:
             self._daemon_proxy.register_event_handler(event, handler)
@@ -716,10 +702,15 @@ that you forgot to install the deluged package or it's not in your PATH."))
         :param handler: function, the function registered
 
         """
-        if event in self.__event_handlers and handler in self.__event_handlers[event]:
-            self.__event_handlers[event].remove(handler)
+        self.event_manager.deregister_event_handler(event, handler)
         if self._daemon_proxy:
             self._daemon_proxy.deregister_event_handler(event, handler)
+
+    def emit(self, event):
+        """
+        Only the handlers registered locally on this client will receive the emitted event.
+        """
+        self.event_manager.emit(event)
 
     def force_call(self, block=False):
         # no-op for now.. we'll see if we need this in the future

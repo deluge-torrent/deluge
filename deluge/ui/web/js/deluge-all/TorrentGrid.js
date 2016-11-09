@@ -28,8 +28,17 @@
     function torrentProgressRenderer(value, p, r) {
         value = new Number(value);
         var progress = value;
-        var text = _(r.data['state']) + ' ' + value.toFixed(2) + '%';
-        if ( this.style ) {
+        var text = _(r.data['state']);
+        /* Do not show percent with 100 */
+        if (value != 100) {
+            text = text.concat(' ' + value.toFixed(2) + '%');
+        }
+        else {
+            /* Add whitespace to make the text aligned */
+            text = text.concat('    ');
+        }
+
+        if (this.style) {
             var style = this.style
         } else {
             var style = p.style
@@ -382,46 +391,74 @@
         return ids;
     },
 
-    update: function(torrents, wipe) {
+    update: function(torrents_status, wipe) {
         var store = this.getStore();
-
-        // Need to perform a complete reload of the torrent grid.
-        if (wipe) {
-            store.removeAll();
-            this.torrents = {};
-        }
-
+        var torrents = torrents_status['status'];
+        var updated_ids = torrents_status['updated_ids'];
+        var not_matching = torrents_status['not_matching'];
+        var new_matching = torrents_status['new_matching'];
         var newTorrents = [];
 
-        // Update and add any new torrents.
-        for (var t in torrents) {
-            var torrent = torrents[t];
-
-            if (this.torrents[t]) {
-                var record = store.getById(t);
-                record.beginEdit();
-                for (var k in torrent) {
-                    if (record.get(k) != torrent[k]) {
-                        record.set(k, torrent[k]);
-                    }
-                }
-                record.endEdit();
-            } else {
+        // Add any new torrents.
+        if (new_matching.length > 0) {
+            for (var i = 0; i < new_matching.length; i++) {
+                var t_id = new_matching[i]
+                var torrent = torrents[t_id];
                 var record = new Deluge.data.Torrent(torrent);
-                record.id = t;
-                this.torrents[t] = 1;
+                record.id = t_id;
+                this.torrents[t_id] = 1;
                 newTorrents.push(record);
             }
         }
-        store.add(newTorrents);
 
-        // Remove any torrents that should not be in the store.
-        store.each(function(record) {
-            if (!torrents[record.id]) {
+        // Remove torrents.
+        if (not_matching.length > 0) {
+            for (var i = 0; i < not_matching.length; i++) {
+                var record = store.getById(not_matching[i]);
                 store.remove(record);
                 delete this.torrents[record.id];
             }
-        }, this);
+        }
+
+        if (newTorrents.length > 0) {
+            store.add(newTorrents);
+            store.commitChanges();
+            newTorrents = [];
+        }
+
+        // Update changed torrents
+        if (updated_ids.length > 0) {
+
+            for (var i = 0; i < updated_ids.length; i++) {
+                var t_id = updated_ids[i];
+
+                if (!this.torrents[t_id]) {
+                    var torrent = torrents[t_id];
+                    var record = new Deluge.data.Torrent(torrent);
+                    record.id = t_id;
+                    this.torrents[t_id] = 1;
+                    newTorrents.push(record);
+                }
+                else {
+                    var torrent = torrents[t_id];
+                    var record = store.getById(t_id);
+
+                    if (record != undefined) {
+                        record.beginEdit();
+                        keys = Object.keys(torrent)
+                        for (var u = 0; u < keys.length; u++) {
+                            k = keys[u]
+                            if (record.get(k) != torrent[k]) {
+                                record.set(k, torrent[k]);
+                            }
+                        }
+                        record.endEdit();
+                    }
+                }
+            }
+            store.add(newTorrents);
+            store.commitChanges();
+        }
         store.commitChanges();
 
         var sortState = store.getSortState()

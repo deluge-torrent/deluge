@@ -339,7 +339,6 @@ class Core(component.Component):
 
         """
         log.debug('Attempting to add by magnet uri: %s', uri)
-
         return self.torrentmanager.add(magnet=uri, options=options)
 
     @export
@@ -491,12 +490,10 @@ class Core(component.Component):
         for torrent_id in torrent_ids:
             self.torrentmanager[torrent_id].resume()
 
-    def create_torrent_status(self, torrent_id, torrent_keys, plugin_keys, diff=False, update=False, all_keys=False):
+    def create_torrent_status(self, torrent_id, torrent_keys, plugin_keys, update=False, all_keys=False):
         try:
-            status = self.torrentmanager[torrent_id].get_status(torrent_keys, diff, update=update, all_keys=all_keys)
+            status = self.torrentmanager[torrent_id].get_status(torrent_keys, update=update, all_keys=all_keys)
         except KeyError:
-            import traceback
-            traceback.print_exc()
             # Torrent was probaly removed meanwhile
             return {}
 
@@ -506,18 +503,25 @@ class Core(component.Component):
         return status
 
     @export
-    def get_torrent_status(self, torrent_id, keys, diff=False):
-        torrent_keys, plugin_keys = self.torrentmanager.separate_keys(keys, [torrent_id])
-        return self.create_torrent_status(torrent_id, torrent_keys, plugin_keys, diff=diff, update=True,
-                                          all_keys=not keys)
+    def get_torrent_status(self, torrent_id, keys):
+        torrent_keys, plugin_keys = self.torrentmanager.separate_torrent_keys(keys, [torrent_id])
+        return self.create_torrent_status(torrent_id, torrent_keys, plugin_keys,
+                                          update=True, all_keys=not keys)
 
     @export
-    def get_torrents_status(self, filter_dict, keys, diff=False):
+    def get_torrents_status(self, keys, only_updated=False):
+        """Get the status for all the torrents
+
+        Args:
+            keys (list): the keys we want retrived
+            only_updated (bool): If only the torrents that have been updated since last call should be returned
+
+        Returns:
+            dict: The status for the torrents
+
         """
-        returns all torrents , optionally filtered by filter_dict.
-        """
-        torrent_ids = self.filtermanager.filter_torrent_ids(filter_dict)
-        d = self.torrentmanager.torrents_status_update(torrent_ids, keys, diff=diff)
+        torrent_ids = self.filtermanager.get_torrent_list()
+        d = self.torrentmanager.torrents_status_update(torrent_ids, keys, only_updated=only_updated)
 
         def add_plugin_fields(args):
             status_dict, plugin_keys = args
@@ -528,14 +532,6 @@ class Core(component.Component):
             return status_dict
         d.addCallback(add_plugin_fields)
         return d
-
-    @export
-    def get_filter_tree(self, show_zero_hits=True, hide_cat=None):
-        """
-        returns {field: [(value,count)] }
-        for use in sidebar(s)
-        """
-        return self.filtermanager.get_filter_tree(show_zero_hits, hide_cat)
 
     @export
     def get_session_state(self):

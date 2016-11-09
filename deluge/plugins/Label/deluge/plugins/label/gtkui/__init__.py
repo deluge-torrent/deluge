@@ -13,6 +13,7 @@ from deluge import component  # for systray
 from deluge.plugins.pluginbase import GtkPluginBase
 
 from . import label_config, sidebar_menu, submenu
+from ..client_base import LabelClientBase
 
 log = logging.getLogger(__name__)
 
@@ -23,7 +24,8 @@ def cell_data_label(column, cell, model, row, data):
     cell.set_property('text', str(model.get_value(row, data)))
 
 
-class GtkUI(GtkPluginBase):
+class GtkUI(GtkPluginBase, LabelClientBase):
+
     def start(self):
         if self.label_menu:
             self.label_menu.on_show()
@@ -35,6 +37,7 @@ class GtkUI(GtkPluginBase):
         self.labelcfg = None
         self.sidebar_menu = None
         self.load_interface()
+        super(GtkUI, self).setup_label_filter()
 
     def disable(self):
         if self.label_menu in self.torrentmenu.get_children():
@@ -45,6 +48,7 @@ class GtkUI(GtkPluginBase):
         del self.sidebar_menu
 
         component.get('TorrentView').remove_column(_('Label'))
+        super(GtkUI, self).disable_label_filter()
 
     def load_interface(self):
         # sidebar
