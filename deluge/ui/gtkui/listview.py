@@ -386,12 +386,12 @@ class ListView(object):
 
         if column.column_type == 'text':
             if add:
-                tree_column.pack_start(column.renderer)
+                tree_column.pack_start(column.renderer, True)
             tree_column.set_col_attributes(column.renderer, add=add,
                                            text=column.column_indices[column.text_index])
         elif column.column_type == 'bool':
             if add:
-                tree_column.pack_start(column.renderer)
+                tree_column.pack_start(column.renderer, True)
             tree_column.set_col_attributes(column.renderer, active=column.column_indices[0])
         elif column.column_type == 'func':
             if add:
@@ -402,7 +402,7 @@ class ListView(object):
             tree_column.set_cell_data_func(column.renderer, column.data_func, indice_arg)
         elif column.column_type == 'progress':
             if add:
-                tree_column.pack_start(column.renderer)
+                tree_column.pack_start(column.renderer, True)
             if column.data_func is None:
                 tree_column.set_col_attributes(column.renderer, add=add,
                                                text=column.column_indices[column.text_index],

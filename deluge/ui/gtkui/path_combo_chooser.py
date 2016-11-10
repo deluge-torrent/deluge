@@ -16,6 +16,7 @@ import gtk
 from gobject import SIGNAL_RUN_FIRST, TYPE_NONE, GObject, type_register
 from gtk import gdk, keysyms
 
+import deluge.component as component
 from deluge.common import resource_filename
 from deluge.path_chooser_common import get_completion_paths
 
@@ -189,7 +190,7 @@ class ValueList(object):
         Enter or Return : Select
         """
         keyval = event.keyval
-        state = event.state & gtk.accelerator_get_default_mod_mask()
+        state = event.get_state() & gtk.accelerator_get_default_mod_mask()
 
         if keyval == keysyms.Escape or\
                 (key_is_up(keyval) and
@@ -412,7 +413,7 @@ class StoredValuesList(ValueList):
 
         """
         keyval = event.keyval
-        ctrl = event.state & gtk.gdk.CONTROL_MASK
+        ctrl = event.get_state() & gtk.gdk.CONTROL_MASK
 
         # Edit selected row
         if (keyval in [keysyms.Left, keysyms.Right, keysyms.space]):
@@ -421,7 +422,7 @@ class StoredValuesList(ValueList):
                 self.on_edit_path(path, self.tree_column)
         elif key_is_up_or_down(keyval):
             # Swap the row value
-            if event.state & gtk.gdk.CONTROL_MASK:
+            if event.get_state() & gtk.gdk.CONTROL_MASK:
                 self.handle_list_scroll(_next=key_is_down(keyval),
                                         swap=True)
             else:
@@ -482,7 +483,7 @@ class CompletionList(ValueList):
         if ret:
             return ret
         keyval = event.keyval
-        ctrl = event.state & gtk.gdk.CONTROL_MASK
+        ctrl = event.get_state() & gtk.gdk.CONTROL_MASK
         if key_is_up_or_down(keyval):
             self.handle_list_scroll(_next=key_is_down(keyval))
             return True
@@ -561,8 +562,8 @@ class PathChooserPopup(object):
         x, y = self.path_entry.get_window().get_origin()
 
         # Add the position of the alignment_widget relative to the parent window.
-        x += self.alignment_widget.allocation.x
-        y += self.alignment_widget.allocation.y
+        x += self.alignment_widget.get_allocation().x
+        y += self.alignment_widget.get_allocation().y
 
         height_extra = 8
         buttonbox_width = 0
@@ -570,8 +571,8 @@ class PathChooserPopup(object):
         width = self.popup_window.size_request()[0]
 
         if self.popup_buttonbox:
-            buttonbox_height = max(self.popup_buttonbox.size_request()[1], self.popup_buttonbox.allocation.height)
-            buttonbox_width = max(self.popup_buttonbox.size_request()[0], self.popup_buttonbox.allocation.width)
+            buttonbox_height = max(self.popup_buttonbox.size_request()[1], self.popup_buttonbox.get_allocation().height)
+            buttonbox_width = max(self.popup_buttonbox.size_request()[0], self.popup_buttonbox.get_allocation().width)
             treeview_width = self.treeview.size_request()[0]
             # After removing an element from the tree store, self.treeview.size_request()[0]
             # returns -1 for some reason, so the requested width cannot be used until the treeview
@@ -583,8 +584,8 @@ class PathChooserPopup(object):
             elif len(self.tree_store) == 0:
                 width = 0
 
-        if width < self.alignment_widget.allocation.width:
-            width = self.alignment_widget.allocation.width
+        if width < self.alignment_widget.get_allocation().width:
+            width = self.alignment_widget.get_allocation().width
 
         # 10 is extra spacing
         content_width = self.treeview.size_request()[0] + buttonbox_width + 10
@@ -622,14 +623,14 @@ class PathChooserPopup(object):
             x = monitor.x + monitor.width - width
 
         # Set the position
-        if y + self.path_entry.allocation.height + height <= monitor.y + monitor.height:
-            y += self.path_entry.allocation.height
+        if y + self.path_entry.get_allocation().height + height <= monitor.y + monitor.height:
+            y += self.path_entry.get_allocation().height
         # Not enough space downwards on the screen
         elif y - height >= monitor.y:
             y -= height
-        elif (monitor.y + monitor.height - (y + self.path_entry.allocation.height) >
+        elif (monitor.y + monitor.height - (y + self.path_entry.get_allocation().height) >
               y - monitor.y):
-            y += self.path_entry.allocation.height
+            y += self.path_entry.get_allocation().height
             height = monitor.y + monitor.height - y
         else:
             height = y - monitor.y
@@ -680,7 +681,7 @@ class PathChooserPopup(object):
         hide = False
         # Also if the intersection of self and the event is empty, hide
         # the path_list
-        if (tuple(self.popup_window.allocation.intersect(
+        if (tuple(self.popup_window.get_allocation().intersect(
                 gdk.Rectangle(x=int(event.x), y=int(event.y),
                               width=1, height=1))) == (0, 0, 0, 0)):
             hide = True
@@ -773,8 +774,8 @@ class StoredValuesPopup(StoredValuesList, PathChooserPopup):
         Handles scroll events from text entry, toggle button and treeview
 
         """
-        swap = event.state & gtk.gdk.CONTROL_MASK
-        scroll_window = event.state & gtk.gdk.SHIFT_MASK
+        swap = event.get_state() & gtk.gdk.CONTROL_MASK
+        scroll_window = event.get_state() & gtk.gdk.SHIFT_MASK
         self.handle_list_scroll(_next=event.direction == gdk.SCROLL_DOWN,
                                 set_entry=widget != self.treeview, swap=swap, scroll_window=scroll_window)
         return True
@@ -785,7 +786,7 @@ class StoredValuesPopup(StoredValuesList, PathChooserPopup):
         is on any of the buttons in the popup
         """
         keyval = event.keyval
-        state = event.state & gtk.accelerator_get_default_mod_mask()
+        state = event.get_state() & gtk.accelerator_get_default_mod_mask()
         if keyval == keysyms.Escape or (key_is_up(keyval) and state == gdk.MOD1_MASK):
             self.popdown()
             return True
@@ -954,7 +955,7 @@ class PathAutoCompleter(object):
         if ret:
             return ret
         keyval = event.keyval
-        state = event.state & gtk.accelerator_get_default_mod_mask()
+        state = event.get_state() & gtk.accelerator_get_default_mod_mask()
         if self.is_auto_completion_accelerator(keyval, state)\
                 and self.auto_complete_enabled:
             values_count = self.completion_popup.get_values_count()
@@ -1037,6 +1038,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, GObject):
         self.open_filechooser_dialog_button = self.builder.get_object('button_open_dialog')
         self.filechooser_button = self.open_filechooser_dialog_button
         self.filechooserdialog = self.builder.get_object('filechooserdialog')
+        self.filechooserdialog.set_transient_for(component.get('MainWindow').get_window())
         self.folder_name_label = self.builder.get_object('folder_name_label')
         self.default_text = None
         self.button_properties = self.builder.get_object('button_properties')
@@ -1291,8 +1293,8 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, GObject):
 
         """
         keyval = event.keyval
-        state = event.state & gtk.accelerator_get_default_mod_mask()
-        ctrl = event.state & gtk.gdk.CONTROL_MASK
+        state = event.get_state() & gtk.accelerator_get_default_mod_mask()
+        ctrl = event.get_state() & gtk.gdk.CONTROL_MASK
 
         # Select new row with arrow up/down is pressed
         if key_is_up_or_down(keyval):
@@ -1385,7 +1387,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, GObject):
         self.visible_rows_label = self.builder.get_object('visible_rows_label')
         self.show_hidden_files_checkbutton = self.builder.get_object('show_hidden_files_checkbutton')
         self.show_folder_name_on_button_checkbutton = self.builder.get_object('show_folder_name_on_button_checkbutton')
-        self.config_dialog.set_transient_for(self.popup_window)
+        self.config_dialog.set_transient_for(component.get('MainWindow').get_window())
 
         def on_close(widget, event=None):
             if not self.setting_accelerator_key:
@@ -1444,7 +1446,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, GObject):
         def on_completion_config_dialog_key_release_event(widget, event):
             # We are listening for a new key
             if set_key_button.get_active():
-                state = event.state & gtk.accelerator_get_default_mod_mask()
+                state = event.get_state() & gtk.accelerator_get_default_mod_mask()
                 accelerator_mask = state.numerator
                 # If e.g. only CTRL key is pressed.
                 if not gtk.accelerator_valid(event.keyval, accelerator_mask):
@@ -1456,7 +1458,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, GObject):
                 return True
             else:
                 keyval = event.keyval
-                ctrl = event.state & gtk.gdk.CONTROL_MASK
+                ctrl = event.get_state() & gtk.gdk.CONTROL_MASK
                 if ctrl:
                     # Set show/hide hidden files
                     if is_ascii_value(keyval, 'h'):

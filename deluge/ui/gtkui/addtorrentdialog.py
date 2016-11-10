@@ -106,7 +106,7 @@ class AddTorrentDialog(component.Component):
 
         render = gtk.CellRendererText()
         column = gtk.TreeViewColumn(_('Size'))
-        column.pack_start(render)
+        column.pack_start(render, True)
         column.set_cell_data_func(render, cell_data_size, 2)
         self.listview_files.append_column(column)
 
@@ -610,7 +610,7 @@ class AddTorrentDialog(component.Component):
         dialog.set_transient_for(self.dialog)
 
         pb = gtk.ProgressBar()
-        dialog.vbox.pack_start(pb, True, True)
+        dialog.vbox.pack_start(pb, True, True, 0)
         dialog.show_all()
 
         # Create a tmp file path

@@ -55,15 +55,15 @@ class BaseDialog(gtk.Dialog):
         else:
             image.set_from_stock(icon, gtk.ICON_SIZE_DIALOG)
         image.set_alignment(0.5, 0.0)
-        hbox.pack_start(image, False, False)
+        hbox.pack_start(image, False, False, 0)
         vbox = gtk.VBox(spacing=5)
         tlabel = gtk.Label(text)
         tlabel.set_use_markup(True)
         tlabel.set_line_wrap(True)
         tlabel.set_alignment(0.0, 0.5)
-        vbox.pack_start(tlabel, False, False)
-        hbox.pack_start(vbox, False, False)
-        self.vbox.pack_start(hbox, False, False)
+        vbox.pack_start(tlabel, False, False, 0)
+        hbox.pack_start(vbox, False, False, 0)
+        self.vbox.pack_start(hbox, False, False, 0)
         self.vbox.set_spacing(5)
         self.vbox.show_all()
 
@@ -171,8 +171,8 @@ class ErrorDialog(BaseDialog):
             sw.add(textview)
             label = gtk.Label(_('Details:'))
             label.set_alignment(0.0, 0.5)
-            self.vbox.pack_start(label, False, False)
-            self.vbox.pack_start(sw)
+            self.vbox.pack_start(label, False, False, 0)
+            self.vbox.pack_start(sw, True, True, 0)
             self.vbox.show_all()
 
 
@@ -341,7 +341,7 @@ class OtherDialog(BaseDialog):
 
         hbox = gtk.HBox(spacing=5)
         alignment_spacer = gtk.Alignment()
-        hbox.pack_start(alignment_spacer)
+        hbox.pack_start(alignment_spacer, True, True, 0)
         alignment_spin = gtk.Alignment(1, 0.5, 1, 1)
         adjustment_spin = gtk.Adjustment(value=-1, lower=-1, upper=2097151, step_incr=1, page_incr=10)
         self.spinbutton = gtk.SpinButton(adjustment_spin)
@@ -353,11 +353,11 @@ class OtherDialog(BaseDialog):
         if self.value_type is float:
             self.spinbutton.set_digits(1)
         alignment_spin.add(self.spinbutton)
-        hbox.pack_start(alignment_spin, expand=False)
+        hbox.pack_start(alignment_spin, False, True, 0)
         label_type = gtk.Label()
         label_type.set_text(unit_text)
         label_type.set_alignment(0.0, 0.5)
-        hbox.pack_start(label_type)
+        hbox.pack_start(label_type, True, True, 0)
 
         self.vbox.pack_start(hbox, False, False, padding=5)
         self.vbox.show_all()

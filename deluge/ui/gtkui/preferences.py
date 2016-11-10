@@ -81,7 +81,7 @@ class Preferences(component.Component):
         def set_separator(model, _iter, data=None):
             if model.get_value(_iter, 1) == '_separator_':
                 return True
-        self.treeview.set_row_separator_func(set_separator)
+        self.treeview.set_row_separator_func(set_separator, None)
 
         # Setup accounts tab lisview
         self.accounts_levels_mapping = None
@@ -232,7 +232,7 @@ class Preferences(component.Component):
         scrolled.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
         scrolled.show_all()
         # Add this page to the notebook
-        index = self.notebook.append_page(scrolled)
+        index = self.notebook.append_page(scrolled, None)
         self.liststore.append([index, name])
         return name
 

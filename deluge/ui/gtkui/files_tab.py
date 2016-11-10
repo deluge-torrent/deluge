@@ -141,7 +141,7 @@ class FilesTab(Tab):
         # Progress column
         column = gtk.TreeViewColumn(_('Progress'))
         render = gtk.CellRendererProgress()
-        column.pack_start(render)
+        column.pack_start(render, True)
         column.set_cell_data_func(render, cell_progress, (2, 3))
         column.set_sort_column_id(3)
         column.set_clickable(True)

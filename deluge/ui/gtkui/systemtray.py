@@ -162,7 +162,7 @@ class SystemTray(component.Component):
             except Exception as ex:
                 log.debug('Unable to hide system tray menu widgets: %s', ex)
 
-            self.tray.set_tooltip(_('Deluge') + '\n' + _('Not Connected...'))
+            self.tray.set_tooltip_text(_('Deluge') + '\n' + _('Not Connected...'))
 
     def shutdown(self):
         if self.config['enable_system_tray']:
@@ -227,7 +227,7 @@ class SystemTray(component.Component):
         )
 
         # Set the tooltip
-        self.tray.set_tooltip(msg)
+        self.tray.set_tooltip_text(msg)
 
         self.send_status_request()
 

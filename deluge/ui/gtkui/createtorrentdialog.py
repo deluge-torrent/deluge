@@ -83,7 +83,7 @@ class CreateTorrentDialog(object):
 
         column = gtk.TreeViewColumn(_('Size'))
         render = gtk.CellRendererText()
-        column.pack_start(render)
+        column.pack_start(render, True)
         column.set_cell_data_func(render, cell_data_size, 2)
         self.builder.get_object('treeview_files').append_column(column)
 
