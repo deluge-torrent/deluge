@@ -93,7 +93,12 @@ def setup_translations(setup_gettext=True, setup_pygtk=False):
 
             if deluge.common.windows_check():
                 import ctypes
-                libintl = ctypes.cdll.intl
+                try:
+                    libintl = ctypes.cdll.intl
+                except WindowsError:
+                    # Fallback to named dll.
+                    libintl = ctypes.cdll.LoadLibrary('libintl-8.dll')
+
                 libintl.bindtextdomain(domain, translations_path.encode(sys.getfilesystemencoding()))
                 libintl.textdomain(domain)
                 libintl.bind_textdomain_codeset(domain, 'UTF-8')
@@ -105,8 +110,7 @@ def setup_translations(setup_gettext=True, setup_pygtk=False):
             gtk.glade.bindtextdomain(domain, translations_path)
             gtk.glade.textdomain(domain)
         except Exception as ex:
-            log.error('Unable to initialize glade translation!')
-            log.exception(ex)
+            log.error('Unable to initialize glade translation: %s', ex)
     if setup_gettext:
         try:
             if hasattr(locale, 'bindtextdomain'):
