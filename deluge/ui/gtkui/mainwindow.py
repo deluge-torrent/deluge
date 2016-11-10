@@ -112,7 +112,7 @@ class MainWindow(component.Component):
         self.window.connect('delete-event', self.on_window_delete_event)
         self.window.connect('drag-data-received', self.on_drag_data_received_event)
         self.vpaned.connect('notify::position', self.on_vpaned_position_event)
-        self.window.connect('expose-event', self.on_expose_event)
+        self.window.connect('draw', self.on_draw_event)
 
         self.config.register_set_function('show_rate_in_title', self._on_set_show_rate_in_title, apply_now=False)
 
@@ -293,7 +293,7 @@ class MainWindow(component.Component):
             process_args(selection_data.get_text().split())
         drag_context.finish(True, True, timestamp)
 
-    def on_expose_event(self, widget, event):
+    def on_draw_event(self, widget, event):
         component.get('SystemTray').blink(False)
 
     def stop(self):
