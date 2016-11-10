@@ -505,11 +505,7 @@ class CompletionList(ValueList):
 
 
 class PathChooserPopup(object):
-    """
-
-    This creates the popop window for the ComboEntry
-
-    """
+    """This creates the popop window for the ComboEntry."""
     def __init__(self, min_visible_rows, max_visible_rows, popup_alignment_widget):
         self.min_visible_rows = min_visible_rows
         # Maximum number of rows to display without scrolling
@@ -519,28 +515,28 @@ class PathChooserPopup(object):
         self.popup_buttonbox = None  # If set, the height of this widget is the minimum height
 
     def popup(self):
-        """
-        Makes the popup visible.
-
-        """
+        """Make the popup visible."""
         # Entry is not yet visible
-        if not self.path_entry.flags() & gtk.REALIZED:
+        if not self.path_entry.get_realized():
             return
         self.set_window_position_and_size()
 
     def popdown(self):
         if not self.is_popped_up():
             return
-        if not self.path_entry.flags() & gtk.REALIZED:
+        if not self.path_entry.get_realized():
             return
         self.popup_window.grab_remove()
         self.popup_window.hide_all()
 
     def is_popped_up(self):
+        """Check if window is popped up.
+
+        Returns:
+            bool: True if popped up, False otherwise.
+
         """
-        Return True if the window is popped up.
-        """
-        return bool(self.popup_window.flags() & gtk.MAPPED)
+        return self.popup_window.get_mapped()
 
     def set_window_position_and_size(self):
         if len(self.tree_store) < self.min_visible_rows:
@@ -562,7 +558,7 @@ class PathChooserPopup(object):
         self.treeview.realize()
 
         # We start with the coordinates of the parent window
-        x, y = self.path_entry.window.get_origin()
+        x, y = self.path_entry.get_window().get_origin()
 
         # Add the position of the alignment_widget relative to the parent window.
         x += self.alignment_widget.allocation.x
@@ -617,7 +613,7 @@ class PathChooserPopup(object):
             width = content_width
 
         screen = self.path_entry.get_screen()
-        monitor_num = screen.get_monitor_at_window(self.path_entry.window)
+        monitor_num = screen.get_monitor_at_window(self.path_entry.get_window())
         monitor = screen.get_monitor_geometry(monitor_num)
 
         if x < monitor.x:
@@ -643,15 +639,15 @@ class PathChooserPopup(object):
 
     def popup_grab_window(self):
         activate_time = 0
-        if gdk.pointer_grab(self.popup_window.window, True,
+        if gdk.pointer_grab(self.popup_window.get_window(), True,
                             (gdk.BUTTON_PRESS_MASK |
                              gdk.BUTTON_RELEASE_MASK |
                              gdk.POINTER_MOTION_MASK),
                             None, None, activate_time) == 0:
-            if gdk.keyboard_grab(self.popup_window.window, True, activate_time) == 0:
+            if gdk.keyboard_grab(self.popup_window.get_window(), True, activate_time) == 0:
                 return True
             else:
-                self.popup_window.window.get_display().pointer_ungrab(activate_time)
+                self.popup_window.get_window().get_display().pointer_ungrab(activate_time)
                 return False
         return False
 
@@ -693,7 +689,7 @@ class PathChooserPopup(object):
         # be hidden. This is necessary for when the event happens on another
         # widget
         toplevel = event.window.get_toplevel()
-        parent = self.popup_window.window
+        parent = self.popup_window.get_window()
 
         if toplevel != parent:
             hide = True
@@ -750,7 +746,7 @@ class StoredValuesPopup(StoredValuesList, PathChooserPopup):
         PathChooserPopup.popup(self)
         self.popup_window.grab_focus()
 
-        if not self.treeview.flags() & gtk.HAS_FOCUS:
+        if not self.treeview.has_focus():
             self.treeview.grab_focus()
         if not self.popup_grab_window():
             self.popup_window.hide()
@@ -871,7 +867,7 @@ class PathCompletionPopup(CompletionList, PathChooserPopup):
         PathChooserPopup.popup(self)
         self.popup_window.grab_focus()
 
-        if not self.treeview.flags() & gtk.HAS_FOCUS:
+        if not self.treeview.has_focus():
             self.treeview.grab_focus()
 
         if not self.popup_grab_window():
@@ -926,7 +922,7 @@ class PathAutoCompleter(object):
         self.accelerator_string = gtk.accelerator_name(keysyms.Tab, 0)
 
     def on_entry_text_insert_text(self, entry, new_text, new_text_length, position):
-        if self.path_entry.flags() & gtk.REALIZED:
+        if self.path_entry.get_realized():
             cur_text = self.path_entry.get_text()
             pos = entry.get_position()
             new_complete_text = cur_text[:pos] + new_text + cur_text[pos:]

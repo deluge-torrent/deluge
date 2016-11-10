@@ -130,7 +130,7 @@ class MainWindow(component.Component):
             self.vpaned.set_position(self.initial_vpaned_position)
             self.show()
             while gtk.events_pending():
-                gtk.main_iteration(False)
+                gtk.main_iteration()
 
     def show(self):
         try:
