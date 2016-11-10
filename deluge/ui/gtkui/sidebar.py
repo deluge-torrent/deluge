@@ -25,10 +25,9 @@ class SideBar(component.Component):
     """
     def __init__(self):
         component.Component.__init__(self, 'SideBar')
-        self.window = component.get('MainWindow')
-        builder = self.window.get_builder()
-        self.notebook = builder.get_object('sidebar_notebook')
-        self.hpaned = builder.get_object('main_window_hpaned')
+        main_builder = component.get('MainWindow').get_builder()
+        self.notebook = main_builder.get_object('sidebar_notebook')
+        self.hpaned = main_builder.get_object('main_window_hpaned')
         self.config = ConfigManager('gtkui.conf')
         # self.hpaned_position = self.hpaned.get_position()
 

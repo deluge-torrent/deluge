@@ -31,7 +31,7 @@ log = logging.getLogger(__name__)
 class SystemTray(component.Component):
     def __init__(self):
         component.Component.__init__(self, 'SystemTray', interval=4)
-        self.window = component.get('MainWindow')
+        self.mainwindow = component.get('MainWindow')
         self.config = ConfigManager('gtkui.conf')
         # List of widgets that need to be hidden when not connected to a host
         self.hide_widget_list = [
@@ -91,9 +91,9 @@ class SystemTray(component.Component):
             self.indicator.set_menu(self.tray_menu)
 
             # Make sure the status of the Show Window MenuItem is correct
-            self._sig_win_hide = self.window.window.connect('hide', self._on_window_hide)
-            self._sig_win_show = self.window.window.connect('show', self._on_window_show)
-            if self.window.visible():
+            self._sig_win_hide = self.mainwindow.window.connect('hide', self._on_window_hide)
+            self._sig_win_show = self.mainwindow.window.connect('show', self._on_window_show)
+            if self.mainwindow.visible():
                 self.builder.get_object('menuitem_show_deluge').set_active(True)
             else:
                 self.builder.get_object('menuitem_show_deluge').set_active(False)
@@ -202,7 +202,7 @@ class SystemTray(component.Component):
 
         # Tool tip text not available for appindicator
         if appindicator and self.config['enable_appindicator']:
-            if self.window.visible():
+            if self.mainwindow.visible():
                 self.builder.get_object('menuitem_show_deluge').set_active(True)
             else:
                 self.builder.get_object('menuitem_show_deluge').set_active(False)
@@ -264,8 +264,8 @@ class SystemTray(component.Component):
                 app_ind_conf = self.config['enable_appindicator']
             if appindicator and app_ind_conf:
                 if hasattr(self, '_sig_win_hide'):
-                    self.window.window.disconnect(self._sig_win_hide)
-                    self.window.window.disconnect(self._sig_win_show)
+                    self.mainwindow.window.disconnect(self._sig_win_hide)
+                    self.mainwindow.window.disconnect(self._sig_win_show)
                     log.debug('Disabling the application indicator..')
 
                 self.indicator.set_status(appindicator.STATUS_PASSIVE)
@@ -305,16 +305,16 @@ class SystemTray(component.Component):
         """Called when the tray icon is left clicked."""
         self.blink(False)
 
-        if self.window.active():
-            self.window.hide()
+        if self.mainwindow.active():
+            self.mainwindow.hide()
         else:
-            self.window.present()
+            self.mainwindow.present()
 
     def on_tray_popup(self, status_icon, button, activate_time):
         """Called when the tray icon is right clicked."""
         self.blink(False)
 
-        if self.window.visible():
+        if self.mainwindow.visible():
             self.builder.get_object('menuitem_show_deluge').set_active(True)
         else:
             self.builder.get_object('menuitem_show_deluge').set_active(False)
@@ -327,10 +327,10 @@ class SystemTray(component.Component):
 
     def on_menuitem_show_deluge_activate(self, menuitem):
         log.debug('on_menuitem_show_deluge_activate')
-        if menuitem.get_active() and not self.window.visible():
-            self.window.present()
-        elif not menuitem.get_active() and self.window.visible():
-            self.window.hide()
+        if menuitem.get_active() and not self.mainwindow.visible():
+            self.mainwindow.present()
+        elif not menuitem.get_active() and self.mainwindow.visible():
+            self.mainwindow.hide()
 
     def on_menuitem_add_torrent_activate(self, menuitem):
         log.debug('on_menuitem_add_torrent_activate')
@@ -346,11 +346,11 @@ class SystemTray(component.Component):
 
     def on_menuitem_quit_activate(self, menuitem):
         log.debug('on_menuitem_quit_activate')
-        self.window.quit()
+        self.mainwindow.quit()
 
     def on_menuitem_quitdaemon_activate(self, menuitem):
         log.debug('on_menuitem_quitdaemon_activate')
-        self.window.quit(shutdown=True)
+        self.mainwindow.quit(shutdown=True)
 
     def on_tray_setbwdown(self, widget, data=None):
         if isinstance(widget, gtk.RadioMenuItem):

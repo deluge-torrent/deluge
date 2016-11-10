@@ -33,17 +33,17 @@ def cell_data_progress(column, cell, model, row, data):
 class PeersTab(Tab):
     def __init__(self):
         Tab.__init__(self)
-        builder = component.get('MainWindow').get_builder()
+        main_builder = component.get('MainWindow').get_builder()
 
         self._name = 'Peers'
-        self._child_widget = builder.get_object('peers_tab')
-        self._tab_label = builder.get_object('peers_tab_label')
-        self.peer_menu = builder.get_object('menu_peer_tab')
+        self._child_widget = main_builder.get_object('peers_tab')
+        self._tab_label = main_builder.get_object('peers_tab_label')
+        self.peer_menu = main_builder.get_object('menu_peer_tab')
         component.get('MainWindow').connect_signals({
             'on_menuitem_add_peer_activate': self._on_menuitem_add_peer_activate,
         })
 
-        self.listview = builder.get_object('peers_listview')
+        self.listview = main_builder.get_object('peers_listview')
         self.listview.props.has_tooltip = True
         self.listview.connect('button-press-event', self._on_button_press_event)
         self.listview.connect('query-tooltip', self._on_query_tooltip)

@@ -23,22 +23,22 @@ class DetailsTab(Tab):
         Tab.__init__(self)
         # Get the labels we need to update.
         # widget name, modifier function, status keys
-        builder = component.get('MainWindow').get_builder()
+        main_builder = component.get('MainWindow').get_builder()
 
         self._name = 'Details'
-        self._child_widget = builder.get_object('details_tab')
-        self._tab_label = builder.get_object('details_tab_label')
+        self._child_widget = main_builder.get_object('details_tab')
+        self._tab_label = main_builder.get_object('details_tab_label')
 
         self.label_widgets = [
-            (builder.get_object('summary_name'), None, ('name',)),
-            (builder.get_object('summary_total_size'), fsize, ('total_size',)),
-            (builder.get_object('summary_num_files'), str, ('num_files',)),
-            (builder.get_object('summary_completed'), fdate_or_dash, ('completed_time',)),
-            (builder.get_object('summary_date_added'), fdate, ('time_added',)),
-            (builder.get_object('summary_torrent_path'), None, ('download_location',)),
-            (builder.get_object('summary_hash'), str, ('hash',)),
-            (builder.get_object('summary_comments'), str, ('comment',)),
-            (builder.get_object('summary_pieces'), fpieces_num_size, ('num_pieces', 'piece_length')),
+            (main_builder.get_object('summary_name'), None, ('name',)),
+            (main_builder.get_object('summary_total_size'), fsize, ('total_size',)),
+            (main_builder.get_object('summary_num_files'), str, ('num_files',)),
+            (main_builder.get_object('summary_completed'), fdate_or_dash, ('completed_time',)),
+            (main_builder.get_object('summary_date_added'), fdate, ('time_added',)),
+            (main_builder.get_object('summary_torrent_path'), None, ('download_location',)),
+            (main_builder.get_object('summary_hash'), str, ('hash',)),
+            (main_builder.get_object('summary_comments'), str, ('comment',)),
+            (main_builder.get_object('summary_pieces'), fpieces_num_size, ('num_pieces', 'piece_length')),
         ]
 
         self.status_keys = [status for widget in self.label_widgets for status in widget[2]]

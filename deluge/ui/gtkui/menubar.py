@@ -29,8 +29,8 @@ class MenuBar(component.Component):
     def __init__(self):
         log.debug('MenuBar init..')
         component.Component.__init__(self, 'MenuBar')
-        self.window = component.get('MainWindow')
-        self.main_builder = self.window.get_builder()
+        self.mainwindow = component.get('MainWindow')
+        self.main_builder = self.mainwindow.get_builder()
         self.config = ConfigManager('gtkui.conf')
 
         self.builder = gtk.Builder()
@@ -107,7 +107,7 @@ class MenuBar(component.Component):
         self.main_builder.get_object('sidebar_show_owners').set_active(self.config['sidebar_show_owners'])
 
         # Connect main window Signals #
-        component.get('MainWindow').connect_signals({
+        self.mainwindow.connect_signals({
             # File Menu
             'on_menuitem_addtorrent_activate': self.on_menuitem_addtorrent_activate,
             'on_menuitem_createtorrent_activate': self.on_menuitem_createtorrent_activate,
@@ -249,11 +249,11 @@ class MenuBar(component.Component):
 
     def on_menuitem_quitdaemon_activate(self, data=None):
         log.debug('on_menuitem_quitdaemon_activate')
-        self.window.quit(shutdown=True)
+        self.mainwindow.quit(shutdown=True)
 
     def on_menuitem_quit_activate(self, data=None):
         log.debug('on_menuitem_quit_activate')
-        self.window.quit()
+        self.mainwindow.quit()
 
     # Edit Menu #
     def on_menuitem_preferences_activate(self, data=None):
@@ -285,7 +285,7 @@ class MenuBar(component.Component):
         from deluge.ui.gtkui.edittrackersdialog import EditTrackersDialog
         dialog = EditTrackersDialog(
             component.get('TorrentView').get_selected_torrent(),
-            component.get('MainWindow').window)
+            self.mainwindow.window)
         dialog.run()
 
     def on_menuitem_remove_activate(self, data=None):
@@ -326,7 +326,7 @@ class MenuBar(component.Component):
         # Keep it referenced:
         #  https://bugzilla.gnome.org/show_bug.cgi?id=546802
         self.move_storage_dialog = builder.get_object('move_storage_dialog')
-        self.move_storage_dialog.set_transient_for(self.window.window)
+        self.move_storage_dialog.set_transient_for(self.mainwindow.window)
         self.move_storage_dialog_hbox = builder.get_object('hbox_entry')
         self.move_storage_path_chooser = PathChooser('move_completed_paths_list')
         self.move_storage_dialog_hbox.add(self.move_storage_path_chooser)
@@ -554,7 +554,7 @@ class MenuBar(component.Component):
                 ErrorDialog(
                     _('Ownership Change Error'),
                     _('There was an error while trying changing ownership.'),
-                    self.window.window, details=failure.value.logable()
+                    self.mainwindow.window, details=failure.value.logable()
                 ).run()
             client.core.set_owner(
                 update_torrents, username).addErrback(failed_change_owner)

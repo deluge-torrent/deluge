@@ -22,18 +22,18 @@ class TrackersTab(Tab):
         Tab.__init__(self)
         # Get the labels we need to update.
         # widget name, modifier function, status keys
-        builder = component.get('MainWindow').get_builder()
+        main_builder = component.get('MainWindow').get_builder()
 
         self._name = 'Trackers'
-        self._child_widget = builder.get_object('trackers_tab')
-        self._tab_label = builder.get_object('trackers_tab_label')
+        self._child_widget = main_builder.get_object('trackers_tab')
+        self._tab_label = main_builder.get_object('trackers_tab_label')
 
         self.label_widgets = [
-            (builder.get_object('summary_next_announce'), ftime, ('next_announce',)),
-            (builder.get_object('summary_tracker'), None, ('tracker_host',)),
-            (builder.get_object('summary_tracker_status'), ftranslate, ('tracker_status',)),
-            (builder.get_object('summary_tracker_total'), fcount, ('trackers',)),
-            (builder.get_object('summary_private'), fyes_no, ('private',)),
+            (main_builder.get_object('summary_next_announce'), ftime, ('next_announce',)),
+            (main_builder.get_object('summary_tracker'), None, ('tracker_host',)),
+            (main_builder.get_object('summary_tracker_status'), ftranslate, ('tracker_status',)),
+            (main_builder.get_object('summary_tracker_total'), fcount, ('trackers',)),
+            (main_builder.get_object('summary_private'), fyes_no, ('private',)),
         ]
 
         self.status_keys = [status for widget in self.label_widgets for status in widget[2]]

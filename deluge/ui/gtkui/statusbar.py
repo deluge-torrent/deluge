@@ -101,8 +101,8 @@ class StatusBarItem(object):
 class StatusBar(component.Component):
     def __init__(self):
         component.Component.__init__(self, 'StatusBar', interval=3)
-        self.window = component.get('MainWindow')
-        self.statusbar = self.window.get_builder().get_object('statusbar')
+        main_builder = component.get('MainWindow').get_builder()
+        self.statusbar = main_builder.get_object('statusbar')
         self.config = ConfigManager('gtkui.conf')
 
         # Status variables that are updated via callback

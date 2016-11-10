@@ -20,31 +20,31 @@ class NewReleaseDialog(object):
 
     def show(self, available_version):
         self.config = ConfigManager('gtkui.conf')
-        builder = component.get('MainWindow').get_builder()
-        self.dialog = builder.get_object('new_release_dialog')
+        main_builder = component.get('MainWindow').get_builder()
+        self.dialog = main_builder.get_object('new_release_dialog')
         # Set the version labels
         if deluge.common.windows_check() or deluge.common.osx_check():
-            builder.get_object('image_new_release').set_from_file(
+            main_builder.get_object('image_new_release').set_from_file(
                 deluge.common.get_pixmap('deluge16.png'))
         else:
-            builder.get_object('image_new_release').set_from_icon_name('deluge', 4)
-        builder.get_object('label_available_version').set_text(available_version)
-        builder.get_object('label_client_version').set_text(
+            main_builder.get_object('image_new_release').set_from_icon_name('deluge', 4)
+        main_builder.get_object('label_available_version').set_text(available_version)
+        main_builder.get_object('label_client_version').set_text(
             deluge.common.get_version())
-        self.chk_not_show_dialog = builder.get_object('chk_do_not_show_new_release')
-        builder.get_object('button_goto_downloads').connect(
+        self.chk_not_show_dialog = main_builder.get_object('chk_do_not_show_new_release')
+        main_builder.get_object('button_goto_downloads').connect(
             'clicked', self._on_button_goto_downloads)
-        builder.get_object('button_close_new_release').connect(
+        main_builder.get_object('button_close_new_release').connect(
             'clicked', self._on_button_close_new_release)
 
         if client.connected():
             def on_info(version):
-                builder.get_object('label_server_version').set_text(version)
-                builder.get_object('label_server_version').show()
-                builder.get_object('label_server_version_text').show()
+                main_builder.get_object('label_server_version').set_text(version)
+                main_builder.get_object('label_server_version').show()
+                main_builder.get_object('label_server_version_text').show()
 
             if not client.is_standalone():
-                builder.get_object('label_client_version_text').set_label(_('<i>Client Version</i>'))
+                main_builder.get_object('label_client_version_text').set_label(_('<i>Client Version</i>'))
                 client.daemon.info().addCallback(on_info)
 
         self.dialog.show()

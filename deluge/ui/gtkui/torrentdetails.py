@@ -61,13 +61,12 @@ class Tab(object):
 class TorrentDetails(component.Component):
     def __init__(self):
         component.Component.__init__(self, 'TorrentDetails', interval=2)
-        self.window = component.get('MainWindow')
-        builder = self.window.get_builder()
+        main_builder = component.get('MainWindow').get_builder()
 
-        self.notebook = builder.get_object('torrent_info')
+        self.notebook = main_builder.get_object('torrent_info')
 
         # This is the menu item we'll attach the tabs checklist menu to
-        self.menu_tabs = builder.get_object('menu_tabs')
+        self.menu_tabs = main_builder.get_object('menu_tabs')
 
         self.notebook.connect('switch-page', self._on_switch_page)
 
@@ -306,7 +305,7 @@ class TorrentDetails(component.Component):
             self.notebook.show()
         else:
             self.notebook.hide()
-            self.window.vpaned.set_position(-1)
+            component.get('MainWindow').vpaned.set_position(-1)
 
     def set_tab_visible(self, tab_name, visible):
         """Sets the tab to visible"""

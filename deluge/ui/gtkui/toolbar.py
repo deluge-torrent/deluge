@@ -21,11 +21,12 @@ class ToolBar(component.Component):
     def __init__(self):
         component.Component.__init__(self, 'ToolBar')
         log.debug('ToolBar Init..')
-        self.window = component.get('MainWindow')
-        self.toolbar = self.window.get_builder().get_object('toolbar')
+        mainwindow = component.get('MainWindow')
+        self.main_builder = mainwindow.get_builder()
+        self.toolbar = self.main_builder.get_object('toolbar')
         self.config = ConfigManager('gtkui.conf')
         # Connect main window Signals #
-        self.window.connect_signals({
+        mainwindow.connect_signals({
             'on_toolbutton_add_clicked': self.on_toolbutton_add_clicked,
             'on_toolbutton_remove_clicked': self.on_toolbutton_remove_clicked,
             'on_toolbutton_pause_clicked': self.on_toolbutton_pause_clicked,
@@ -50,15 +51,15 @@ class ToolBar(component.Component):
         self.visible(self.config['show_toolbar'])
 
     def start(self):
-        self.window.get_builder().get_object('toolbutton_connectionmanager').set_visible(
+        self.main_builder.get_object('toolbutton_connectionmanager').set_visible(
             not self.config['standalone'])
 
         for widget in self.change_sensitivity:
-            self.window.get_builder().get_object(widget).set_sensitive(True)
+            self.main_builder.get_object(widget).set_sensitive(True)
 
     def stop(self):
         for widget in self.change_sensitivity:
-            self.window.get_builder().get_object(widget).set_sensitive(False)
+            self.main_builder.get_object(widget).set_sensitive(False)
 
     def visible(self, visible):
         if visible:
