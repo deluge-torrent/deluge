@@ -10,8 +10,8 @@
 import logging
 import os.path
 
-import gobject
 import gtk
+from gobject import timeout_add
 
 import deluge.common
 import deluge.component as component
@@ -107,7 +107,7 @@ class QueuedTorrents(component.Component):
         except Exception:
             # The statusbar hasn't been loaded yet, so we'll add a timer to
             # update it later.
-            gobject.timeout_add(100, self.update_status_bar)
+            timeout_add(100, self.update_status_bar)
             return False
 
         # Set the label text for statusbar

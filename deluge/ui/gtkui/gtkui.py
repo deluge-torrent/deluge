@@ -19,8 +19,8 @@ import pygtk  # isort:skip (Required before gtk import).
 pygtk.require('2.0')  # NOQA: E402
 
 # isort:imports-thirdparty
-import gobject
 import gtk
+from gobject import set_prgname
 from twisted.internet import defer, gtk2reactor
 from twisted.internet.error import ReactorAlreadyInstalledError
 from twisted.internet.task import LoopingCall
@@ -59,9 +59,7 @@ from deluge.ui.sessionproxy import SessionProxy
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.util import lang
 
-
-gobject.set_prgname('deluge')
-
+set_prgname('deluge')
 log = logging.getLogger(__name__)
 
 try:

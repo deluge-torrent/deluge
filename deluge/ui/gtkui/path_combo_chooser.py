@@ -12,8 +12,8 @@ from __future__ import division, print_function
 
 import os
 
-import gobject
 import gtk
+from gobject import SIGNAL_RUN_FIRST, TYPE_NONE, GObject, type_register
 from gtk import gdk, keysyms
 
 from deluge.common import resource_filename
@@ -1004,26 +1004,26 @@ class PathAutoCompleter(object):
             self.completion_popup.popdown()
 
 
-class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
+class PathChooserComboBox(gtk.HBox, StoredValuesPopup, GObject):
 
     __gsignals__ = {
-        'list-value-added': (gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (object, )),
-        'list-value-removed': (gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (object, )),
-        'list-values-reordered': (gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (object, )),
-        'list-values-changed': (gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (object, )),
-        'auto-complete-enabled-toggled': (gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (object, )),
-        'show-filechooser-toggled': (gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (object, )),
-        'show-path-entry-toggled': (gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (object, )),
-        'show-folder-name-on-button': (gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (object, )),
-        'show-hidden-files-toggled': (gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (object, )),
-        'accelerator-set': (gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (object, )),
-        'max-rows-changed': (gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (object, )),
-        'text-changed': (gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (object, )),
+        'list-value-added': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        'list-value-removed': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        'list-values-reordered': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        'list-values-changed': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        'auto-complete-enabled-toggled': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        'show-filechooser-toggled': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        'show-path-entry-toggled': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        'show-folder-name-on-button': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        'show-hidden-files-toggled': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        'accelerator-set': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        'max-rows-changed': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        'text-changed': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
     }
 
     def __init__(self, max_visible_rows=20, auto_complete=True, use_completer_popup=True):
         gtk.HBox.__init__(self)
-        gobject.GObject.__init__(self)
+        GObject.__init__(self)
         self._stored_values_popping_down = False
         self.filechooser_visible = True
         self.filechooser_enabled = True
@@ -1486,7 +1486,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, gobject.GObject):
             'on_show_hidden_files_checkbutton_toggled': on_show_hidden_files_toggled,
         }
 
-gobject.type_register(PathChooserComboBox)
+type_register(PathChooserComboBox)
 
 if __name__ == '__main__':
     import sys

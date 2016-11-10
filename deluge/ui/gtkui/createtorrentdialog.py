@@ -13,8 +13,8 @@ import base64
 import logging
 import os.path
 
-import gobject
 import gtk
+from gobject import TYPE_UINT64, idle_add
 from twisted.internet.threads import deferToThread
 
 import deluge.component as component
@@ -69,7 +69,7 @@ class CreateTorrentDialog(object):
         })
 
         # path, icon, size
-        self.files_treestore = gtk.TreeStore(str, str, gobject.TYPE_UINT64)
+        self.files_treestore = gtk.TreeStore(str, str, TYPE_UINT64)
 
         column = gtk.TreeViewColumn(_('Filename'))
         render = gtk.CellRendererPixbuf()
@@ -389,7 +389,7 @@ class CreateTorrentDialog(object):
         if percent >= 0 and percent <= 1.0:
             # Make sure there are no threads race conditions that can
             # crash the UI while updating it.
-            gobject.idle_add(update_pbar_with_gobject, percent)
+            idle_add(update_pbar_with_gobject, percent)
 
     def _on_button_up_clicked(self, widget):
         log.debug('_on_button_up_clicked')

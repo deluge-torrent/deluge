@@ -12,8 +12,8 @@ from __future__ import print_function
 import warnings
 from functools import partial
 
-import gobject
 import gtk
+from gobject import GError
 
 import deluge.common as common
 import deluge.component as component
@@ -96,7 +96,7 @@ def set_icon(icon, cell):
         if pixbuf is None:
             try:
                 pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(icon.get_filename(), 16, 16)
-            except gobject.GError:
+            except GError:
                 # Failed to load the pixbuf (Bad image file), so set a blank pixbuf
                 pixbuf = create_blank_pixbuf()
             finally:

@@ -14,8 +14,8 @@ import logging
 import os
 from xml.sax.saxutils import escape as xml_escape
 
-import gobject
 import gtk
+from gobject import TYPE_INT64, TYPE_UINT64
 
 import deluge.common
 import deluge.component as component
@@ -67,7 +67,7 @@ class AddTorrentDialog(component.Component):
 
         # download?, path, filesize, sequence number, inconsistent?
         self.files_treestore = gtk.TreeStore(
-            bool, str, gobject.TYPE_UINT64, gobject.TYPE_INT64, bool, str)
+            bool, str, TYPE_UINT64, TYPE_INT64, bool, str)
         self.files_treestore.set_sort_column_id(1, gtk.SORT_ASCENDING)
 
         # Holds the files info

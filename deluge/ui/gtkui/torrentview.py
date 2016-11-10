@@ -12,8 +12,8 @@
 import logging
 from locale import strcoll
 
-import gobject
 import gtk
+from gobject import TYPE_UINT64, idle_add
 from twisted.internet import reactor
 
 import deluge.component as component
@@ -250,15 +250,15 @@ class TorrentView(ListView, component.Component):
                                  function=funcs.cell_data_statusicon,
                                  default_sort=True)
         self.add_func_column(_('Size'), funcs.cell_data_size,
-                             [gobject.TYPE_UINT64],
+                             [TYPE_UINT64],
                              status_field=['total_wanted'])
         self.add_func_column(_('Downloaded'), funcs.cell_data_size,
-                             [gobject.TYPE_UINT64],
+                             [TYPE_UINT64],
                              status_field=['all_time_download'], default=False)
         self.add_func_column(_('Uploaded'), funcs.cell_data_size,
-                             [gobject.TYPE_UINT64],
+                             [TYPE_UINT64],
                              status_field=['total_uploaded'], default=False)
-        self.add_func_column(_('Remaining'), funcs.cell_data_size, [gobject.TYPE_UINT64],
+        self.add_func_column(_('Remaining'), funcs.cell_data_size, [TYPE_UINT64],
                              status_field=['total_remaining'], default=False)
         self.add_progress_column(_('Progress'),
                                  status_field=['progress', 'state'],
@@ -465,7 +465,7 @@ class TorrentView(ListView, component.Component):
                 # An update request is scheduled, let's wait for that one
                 return
             # Send a status request
-            gobject.idle_add(self.send_status_request, None, select_row)
+            idle_add(self.send_status_request, None, select_row)
 
     def update_view(self, load_new_list=False):
         """Update the torrent view model with data we've received."""

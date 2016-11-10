@@ -11,8 +11,8 @@ from __future__ import division
 
 import logging
 
-import gobject
 import gtk
+from gobject import timeout_add
 
 import deluge.component as component
 from deluge.common import fsize, fspeed, get_pixmap
@@ -250,7 +250,7 @@ class StatusBar(component.Component):
         """Adds an item to the StatusBar for seconds"""
         item = self.add_item(image, stock, text, callback)
         # Start a timer to remove this item in seconds
-        gobject.timeout_add(seconds * 1000, self.remove_item, item)
+        timeout_add(seconds * 1000, self.remove_item, item)
 
     def display_warning(self, text, callback=None):
         """Displays a warning to the user in the status bar"""
@@ -258,7 +258,7 @@ class StatusBar(component.Component):
             item = self.add_item(
                 stock=gtk.STOCK_DIALOG_WARNING, text=text, callback=callback)
             self.current_warnings.append(text)
-            gobject.timeout_add(3000, self.remove_warning, item)
+            timeout_add(3000, self.remove_warning, item)
 
     def remove_warning(self, item):
         self.current_warnings.remove(item.get_text())
