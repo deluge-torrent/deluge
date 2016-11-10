@@ -129,7 +129,7 @@ class ConnectionManager(component.Component):
 
         # Setup the ConnectionManager dialog
         self.connection_manager = self.builder.get_object('connection_manager')
-        self.connection_manager.set_transient_for(component.get('MainWindow').window)
+        self.connection_manager.set_transient_for(component.get('MainWindow').get_window())
 
         self.connection_manager.set_icon(get_deluge_icon())
 

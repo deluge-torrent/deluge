@@ -262,7 +262,7 @@ class GtkUI(object):
         # The gtk modal dialogs (e.g. Preferences) can prevent the application
         # quitting, so force exiting by destroying MainWindow. Must be done here
         # to avoid hanging when quitting with SIGINT (CTRL-C).
-        self.mainwindow.window.destroy()
+        self.mainwindow.get_window().destroy()
 
         reactor.stop()
 

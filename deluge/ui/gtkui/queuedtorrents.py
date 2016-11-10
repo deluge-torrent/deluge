@@ -53,7 +53,7 @@ class QueuedTorrents(component.Component):
         self.treeview.set_tooltip_column(1)
 
     def run(self):
-        self.dialog.set_transient_for(component.get('MainWindow').window)
+        self.dialog.set_transient_for(component.get('MainWindow').get_window())
         self.dialog.show()
 
     def start(self):

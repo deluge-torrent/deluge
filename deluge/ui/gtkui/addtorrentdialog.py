@@ -148,7 +148,7 @@ class AddTorrentDialog(component.Component):
 
     def _show(self, focus=False):
         if component.get('MainWindow').is_on_active_workspace():
-            self.dialog.set_transient_for(component.get('MainWindow').window)
+            self.dialog.set_transient_for(component.get('MainWindow').get_window())
         else:
             self.dialog.set_transient_for(None)
 
@@ -166,7 +166,7 @@ class AddTorrentDialog(component.Component):
         self.previous_selected_torrent = None
         self.torrent_liststore.clear()
         self.files_treestore.clear()
-        self.dialog.set_transient_for(component.get('MainWindow').window)
+        self.dialog.set_transient_for(component.get('MainWindow').get_window())
         return None
 
     def update_core_config(self, show=False, focus=False):

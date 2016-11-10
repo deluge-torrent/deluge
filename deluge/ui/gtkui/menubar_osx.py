@@ -24,7 +24,7 @@ def accel_meta(item, group, key):
 def menubar_osx(gtkui, osxapp):
     main_builder = gtkui.mainwindow.get_builder()
     menubar = main_builder.get_object('menubar')
-    group = gtk.accel_groups_from_object(gtkui.mainwindow.window)[0]
+    group = gtk.accel_groups_from_object(gtkui.mainwindow.get_window())[0]
 
     config = ConfigManager('gtkui.conf')
 

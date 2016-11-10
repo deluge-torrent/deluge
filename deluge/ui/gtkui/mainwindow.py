@@ -196,6 +196,9 @@ class MainWindow(component.Component):
         """Returns a reference to the main window GTK builder object."""
         return self.main_builder
 
+    def get_window(self):
+        return self.window
+
     def quit(self, shutdown=False, restart=False):
         """Quits the GtkUI application.
 
@@ -326,7 +329,7 @@ class MainWindow(component.Component):
         """
         if wnck:
             self.screen.force_update()
-            win = wnck.window_get(self.window.window.xid)
+            win = wnck.window_get(self.get_window().xid)
             if win:
                 active_wksp = win.get_screen().get_active_workspace()
                 if active_wksp:

@@ -75,5 +75,5 @@ class TrackersTab(Tab):
         torrent_id = component.get('TorrentView').get_selected_torrent()
         if torrent_id:
             from deluge.ui.gtkui.edittrackersdialog import EditTrackersDialog
-            dialog = EditTrackersDialog(torrent_id, component.get('MainWindow').window)
+            dialog = EditTrackersDialog(torrent_id, component.get('MainWindow').get_window())
             dialog.run()
