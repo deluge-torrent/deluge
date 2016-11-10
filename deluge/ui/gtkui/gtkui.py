@@ -15,6 +15,10 @@ import signal
 import sys
 import time
 
+import pygtk  # isort:skip (Required before gtk import).
+pygtk.require('2.0')  # NOQA: E402
+
+# isort:imports-thirdparty
 import gobject
 import gtk
 from twisted.internet import defer, gtk2reactor

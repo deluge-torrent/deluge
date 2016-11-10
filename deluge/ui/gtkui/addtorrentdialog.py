@@ -16,7 +16,6 @@ from xml.sax.saxutils import escape as xml_escape
 
 import gobject
 import gtk
-import pygtk
 
 import deluge.common
 import deluge.component as component
@@ -28,8 +27,6 @@ from deluge.ui.gtkui.common import listview_replace_treestore, reparent_iter
 from deluge.ui.gtkui.dialogs import ErrorDialog
 from deluge.ui.gtkui.path_chooser import PathChooser
 from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
-
-pygtk.require('2.0')
 
 log = logging.getLogger(__name__)
 

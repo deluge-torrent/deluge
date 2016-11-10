@@ -14,7 +14,6 @@ from locale import strcoll
 
 import gobject
 import gtk
-import pygtk
 from twisted.internet import reactor
 
 import deluge.component as component
@@ -22,8 +21,6 @@ from deluge.ui.client import client
 from deluge.ui.gtkui import torrentview_data_funcs as funcs
 from deluge.ui.gtkui.listview import ListView
 from deluge.ui.gtkui.removetorrentdialog import RemoveTorrentDialog
-
-pygtk.require('2.0')
 
 log = logging.getLogger(__name__)
 

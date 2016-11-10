@@ -13,7 +13,6 @@ import logging
 import os.path
 
 import gtk
-import pygtk
 
 import deluge.common
 import deluge.component as component
@@ -21,9 +20,6 @@ from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 from deluge.ui.gtkui.dialogs import ErrorDialog, OtherDialog
 from deluge.ui.gtkui.path_chooser import PathChooser
-
-pygtk.require('2.0')
-
 
 log = logging.getLogger(__name__)
 

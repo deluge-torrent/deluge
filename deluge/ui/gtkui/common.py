@@ -16,13 +16,9 @@ import shutil
 import sys
 
 import gtk
-import pygtk
 from gobject import GError
 
 import deluge.common
-
-pygtk.require('2.0')
-
 
 log = logging.getLogger(__name__)
 

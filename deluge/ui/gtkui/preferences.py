@@ -13,7 +13,6 @@ import os
 from hashlib import sha1 as sha
 
 import gtk
-import pygtk
 
 import deluge.common
 import deluge.component as component
@@ -29,9 +28,6 @@ try:
     import appindicator
 except ImportError:
     appindicator = False
-
-pygtk.require('2.0')
-
 
 log = logging.getLogger(__name__)
 

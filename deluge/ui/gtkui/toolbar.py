@@ -10,13 +10,9 @@
 import logging
 
 import gtk
-import pygtk
 
 import deluge.component as component
 from deluge.configmanager import ConfigManager
-
-pygtk.require('2.0')
-
 
 log = logging.getLogger(__name__)
 

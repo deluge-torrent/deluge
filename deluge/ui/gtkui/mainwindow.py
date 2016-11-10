@@ -13,7 +13,6 @@ import os.path
 from hashlib import sha1 as sha
 
 import gtk
-import pygtk
 from twisted.internet import reactor
 from twisted.internet.error import ReactorNotRunning
 
@@ -25,14 +24,10 @@ from deluge.ui.client import client
 from deluge.ui.gtkui.dialogs import PasswordDialog
 from deluge.ui.gtkui.ipcinterface import process_args
 
-pygtk.require('2.0')
-
-
 try:
     import wnck
 except ImportError:
     wnck = None
-
 
 log = logging.getLogger(__name__)
 

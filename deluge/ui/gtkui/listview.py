@@ -10,13 +10,9 @@
 import logging
 
 import gtk
-import pygtk
 from gobject import SIGNAL_RUN_LAST, TYPE_NONE, signal_new
 
 from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_file
-
-pygtk.require('2.0')
-
 
 signal_new('button-press-event', gtk.TreeViewColumn, SIGNAL_RUN_LAST, TYPE_NONE, (gtk.gdk.Event,))
 
