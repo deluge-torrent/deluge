@@ -110,7 +110,7 @@ def setup_translations(setup_gettext=True, setup_pygtk=False):
             gtk.glade.bindtextdomain(domain, translations_path)
             gtk.glade.textdomain(domain)
         except Exception as ex:
-            log.error('Unable to initialize glade translation: %s', ex)
+            log.warning('Unable to initialize glade translations: %s', ex)
     if setup_gettext:
         try:
             if hasattr(locale, 'bindtextdomain'):

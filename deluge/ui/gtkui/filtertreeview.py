@@ -16,11 +16,14 @@ import warnings
 import gtk
 import pango
 from gobject import GError
+from gtk.gdk import Pixbuf, pixbuf_new_from_file, pixbuf_new_from_file_at_size
 
 import deluge.component as component
 from deluge.common import TORRENT_STATE, get_pixmap, resource_filename
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
+from deluge.ui.gtkui.common import is_pygi_gtk3
+from deluge.ui.gtkui.torrentview_data_funcs import create_blank_pixbuf
 
 log = logging.getLogger(__name__)
 
@@ -61,7 +64,7 @@ class FilterTreeView(component.Component):
 
         # Create the treestore
         # cat, value, label, count, pixmap, visible
-        self.treestore = gtk.TreeStore(str, str, str, int, gtk.gdk.Pixbuf, bool)
+        self.treestore = gtk.TreeStore(str, str, str, int, Pixbuf, bool)
 
         # Create the column and cells
         column = gtk.TreeViewColumn('Filters')
@@ -98,9 +101,15 @@ class FilterTreeView(component.Component):
         self.treeview.connect('button-press-event', self.on_button_press_event)
 
         # colors using current theme.
-        style = component.get('MainWindow').get_window().get_style()
-        self.colour_background = style.bg[gtk.STATE_NORMAL]
-        self.colour_foreground = style.fg[gtk.STATE_NORMAL]
+        if is_pygi_gtk3():
+            style_ctx = component.get('MainWindow').get_window().get_style_context()
+            self.colour_background = style_ctx.get_background_color(gtk.STATE_NORMAL)
+            self.colour_foreground = style_ctx.get_color(gtk.STATE_NORMAL)
+        else:
+            # Fallback to PyGTK
+            style = component.get('MainWindow').get_window().get_style()
+            self.colour_background = style.bg[gtk.STATE_NORMAL]
+            self.colour_foreground = style.fg[gtk.STATE_NORMAL]
 
         # filtertree menu
         builder = gtk.Builder()
@@ -243,25 +252,20 @@ class FilterTreeView(component.Component):
 
         if pix:
             try:
-                return gtk.gdk.pixbuf_new_from_file(get_pixmap('%s16.png' % pix))
+                return pixbuf_new_from_file(get_pixmap('%s16.png' % pix))
             except GError as ex:
                 log.warning(ex)
-        return self.get_transparent_pix(16, 16)
-
-    def get_transparent_pix(self, width, height):
-        pix = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, width, height)
-        pix.fill(0x0000000)
-        return pix
+        return create_blank_pixbuf()
 
     def set_row_image(self, cat, value, filename):
         pix = None
         try:  # assume we could get trashed images here..
-            pix = gtk.gdk.pixbuf_new_from_file_at_size(filename, 16, 16)
+            pix = pixbuf_new_from_file_at_size(filename, 16, 16)
         except Exception as ex:
             log.debug(ex)
 
         if not pix:
-            pix = self.get_transparent_pix(16, 16)
+            pix = create_blank_pixbuf()
         row = self.filters[(cat, value)]
         self.treestore.set_value(row, 4, pix)
         return False

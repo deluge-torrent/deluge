@@ -43,7 +43,6 @@
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="tab_pos">left</property>
-        <property name="tab_hborder">8</property>
         <child>
           <object class="GtkScrolledWindow" id="status_tab">
             <property name="visible">True</property>

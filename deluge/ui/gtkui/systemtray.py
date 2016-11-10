@@ -104,9 +104,17 @@ class SystemTray(component.Component):
         else:
             log.debug('Enabling the system tray icon..')
             if deluge.common.windows_check() or deluge.common.osx_check():
-                self.tray = gtk.status_icon_new_from_pixbuf(get_logo(32))
+                if is_pygi_gtk3():
+                    self.tray = gtk.StatusIcon.new_from_pixbuf(get_logo(32))
+                else:
+                    # Fallback to PyGTK
+                    self.tray = gtk.status_icon_new_from_pixbuf(get_logo(32))
             else:
-                self.tray = gtk.status_icon_new_from_icon_name('deluge')
+                if is_pygi_gtk3():
+                    self.tray = gtk.StatusIcon.new_from_icon_name('deluge')
+                else:
+                    # Fallback to PyGTK
+                    self.tray = gtk.status_icon_new_from_icon_name('deluge')
 
             self.tray.connect('activate', self.on_tray_clicked)
             self.tray.connect('popup-menu', self.on_tray_popup)

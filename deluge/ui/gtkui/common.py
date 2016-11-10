@@ -23,6 +23,10 @@ import deluge.common
 log = logging.getLogger(__name__)
 
 
+def is_pygi_gtk3():
+    return gtk.gtk_version[0] == 3
+
+
 def get_logo(size):
     """A Deluge logo.
 
