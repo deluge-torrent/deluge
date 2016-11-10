@@ -29,13 +29,19 @@ import pkg_resources
 
 from deluge.error import InvalidPathError
 
-try:
-    import dbus
-    bus = dbus.SessionBus()
-    dbus_fileman = bus.get_object('org.freedesktop.FileManager1', '/org/freedesktop/FileManager1')
-except Exception:
-    dbus_fileman = None
-
+DBUS_FILEMAN = None
+# gi makes dbus available on Window but don't import it as unused.
+if platform.system() not in ('Windows', 'Microsoft', 'Darwin'):
+    try:
+        import dbus
+    except ImportError:
+        pass
+    else:
+        try:
+            bus = dbus.SessionBus()
+            DBUS_FILEMAN = bus.get_object('org.freedesktop.FileManager1', '/org/freedesktop/FileManager1')
+        except dbus.DBusException:
+            pass
 
 log = logging.getLogger(__name__)
 
@@ -249,9 +255,9 @@ def show_file(path, timestamp=None):
         if timestamp is None:
             timestamp = int(time.time())
         startup_id = '%s_%u_%s-dbus_TIME%d' % (os.path.basename(sys.argv[0]), os.getpid(), os.uname()[1], timestamp)
-        if dbus_fileman:
+        if DBUS_FILEMAN:
             paths = [urlparse.urljoin('file:', urllib.pathname2url(utf8_encoded(path)))]
-            dbus_fileman.ShowItems(paths, startup_id, dbus_interface='org.freedesktop.FileManager1')
+            DBUS_FILEMAN.ShowItems(paths, startup_id, dbus_interface='org.freedesktop.FileManager1')
         else:
             env = os.environ.copy()
             env['DESKTOP_STARTUP_ID'] = startup_id.replace('dbus', 'xdg-open')
