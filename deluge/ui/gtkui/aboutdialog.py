@@ -9,16 +9,13 @@
 
 import gtk
 
-from deluge.common import get_pixmap, get_version, open_url_in_browser
+from deluge.common import get_pixmap, get_version
 from deluge.ui.client import client
 from deluge.ui.gtkui.common import get_deluge_icon
 
 
 class AboutDialog(object):
     def __init__(self):
-        def url_hook(dialog, url):
-            open_url_in_browser(url)
-        gtk.about_dialog_set_url_hook(url_hook)
         self.about = gtk.AboutDialog()
         self.about.set_position(gtk.WIN_POS_CENTER)
         self.about.set_name('Deluge')
