@@ -18,6 +18,7 @@ from gtk.gdk import Event  # pylint: disable=ungrouped-imports
 from deluge.common import decode_bytes
 from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_file
 
+# FIXME: ?
 signal_new(
     'button-press-event', gtk.TreeViewColumn, SIGNAL_RUN_LAST, TYPE_NONE, (Event,)
 )
@@ -39,6 +40,12 @@ class ListViewColumnState:  # pylint: disable=old-style-class
         self.visible = visible
         self.sort = sort
         self.sort_order = sort_order
+
+
+# FIXME: Why is this needed?
+class TreeModel(GObject.Object, Gtk.TreeModel):
+    def __init__(self, filter):
+        Gtk.TreeModel.__init__(self, filter)
 
 
 class ListView(object):
@@ -220,7 +227,11 @@ class ListView(object):
             self.last_sort_order = {}
 
             def record_position(model, path, _iter, data):
-                self.last_sort_order[model[_iter][self.unique_column_id]] = path[0]
+                # FIXME: TypeError: 'TreePath' object does not support indexing
+                # Verify (old code: ` = path[0]`)
+                self.last_sort_order[model[_iter][self.unique_column_id]] = int(
+                    str(model.get_path(iter))
+                )
 
             model.foreach(record_position, None)
 
@@ -575,6 +586,7 @@ class ListView(object):
         column.set_min_width(20)
         column.set_reorderable(True)
         column.set_visible(not hidden)
+        # FIXME: Check for errors with button press, related new signal
         column.connect('button-press-event', self.on_treeview_header_right_clicked)
 
         if tooltip:
