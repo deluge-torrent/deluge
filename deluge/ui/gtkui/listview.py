@@ -13,6 +13,7 @@ import gtk
 from gobject import SIGNAL_RUN_LAST, TYPE_NONE, signal_new
 from gtk.gdk import Event  # pylint: disable=ungrouped-imports
 
+from deluge.common import decode_string
 from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_file
 
 signal_new('button-press-event', gtk.TreeViewColumn, SIGNAL_RUN_LAST, TYPE_NONE, (Event,))
@@ -530,7 +531,7 @@ class ListView(object):
         column_in_state = False
         if self.state is not None:
             for column_state in self.state:
-                if header == column_state.name:
+                if header == decode_string(column_state.name):
                     # We found a loaded state
                     column_in_state = True
                     if column_state.width > 0:
