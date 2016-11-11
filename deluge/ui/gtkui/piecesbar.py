@@ -11,12 +11,16 @@ from __future__ import division, unicode_literals
 
 from math import pi
 
-from cairo import FORMAT_ARGB32, Context, ImageSurface
-from gtk import DrawingArea, ProgressBar
-from gtk.gdk import colormap_get_system
-from pango import SCALE, WEIGHT_BOLD
-from pangocairo import CairoContext
+import gi  # isort:skip (Version check required before import).
 
+gi.require_version('PangoCairo', '1.0')  # NOQA: E402
+
+# isort:imports-thirdparty
+from gi.repository import PangoCairo, cairo
+from gi.repository.Gtk import DrawingArea, ProgressBar
+from gi.repository.Pango import SCALE, Weight
+
+# isort:imports-firstparty
 from deluge.configmanager import ConfigManager
 
 COLOR_STATES = ['missing', 'waiting', 'downloading', 'completed']
@@ -24,7 +28,7 @@ COLOR_STATES = ['missing', 'waiting', 'downloading', 'completed']
 
 class PiecesBar(DrawingArea):
     # Draw in response to an expose-event
-    __gsignals__ = {b'expose-event': b'override'}
+    __gsignals__ = {b'draw': b'override'}
 
     def __init__(self):
         super(PiecesBar, self).__init__()
@@ -32,7 +36,7 @@ class PiecesBar(DrawingArea):
         pb = ProgressBar()
         pb_style = pb.get_style()
         self.text_font = pb_style.font_desc
-        self.text_font.set_weight(WEIGHT_BOLD)
+        self.text_font.set_weight(Weight.BOLD)
         # Done with the ProgressBar styles, don't keep refs of it
         del pb, pb_style
 
@@ -49,7 +53,6 @@ class PiecesBar(DrawingArea):
         self.cr = None
 
         self.connect('size-allocate', self.do_size_allocate_event)
-        self.set_colormap(colormap_get_system())
         self.show()
 
     def do_size_allocate_event(self, widget, size):
@@ -59,7 +62,7 @@ class PiecesBar(DrawingArea):
         self.height = size.height
 
     # Handle the expose-event by drawing
-    def do_expose_event(self, event):
+    def do_draw(self, event):
         # Create cairo context
         self.cr = self.window.cairo_create()
         self.cr.set_line_width(max(self.cr.device_to_user_distance(0.5, 0.5)))
@@ -115,8 +118,10 @@ class PiecesBar(DrawingArea):
             or self.pieces_overlay is None
         ):
             # Need to recreate the cache drawing
-            self.pieces_overlay = ImageSurface(FORMAT_ARGB32, self.width, self.height)
-            ctx = Context(self.pieces_overlay)
+            self.pieces_overlay = cairo.ImageSurface(
+                cairo.FORMAT_ARGB32, self.width, self.height
+            )
+            ctx = cairo.Context(self.pieces_overlay)
 
             if self.pieces:
                 pieces = self.pieces
@@ -152,8 +157,10 @@ class PiecesBar(DrawingArea):
             or self.progress_overlay is None
         ):
             # Need to recreate the cache drawing
-            self.progress_overlay = ImageSurface(FORMAT_ARGB32, self.width, self.height)
-            ctx = Context(self.progress_overlay)
+            self.progress_overlay = cairo.ImageSurface(
+                cairo.FORMAT_ARGB32, self.width, self.height
+            )
+            ctx = cairo.Context(self.progress_overlay)
             ctx.set_source_rgba(0.1, 0.1, 0.1, 0.3)  # Transparent
             ctx.rectangle(0, 0, self.width * self.fraction, self.height)
             ctx.fill()
@@ -167,9 +174,11 @@ class PiecesBar(DrawingArea):
 
         if self.resized() or self.text != self.prev_text or self.text_overlay is None:
             # Need to recreate the cache drawing
-            self.text_overlay = ImageSurface(FORMAT_ARGB32, self.width, self.height)
-            ctx = Context(self.text_overlay)
-            pg = CairoContext(ctx)
+            self.text_overlay = cairo.ImageSurface(
+                cairo.FORMAT_ARGB32, self.width, self.height
+            )
+            ctx = cairo.Context(self.text_overlay)
+            pg = PangoCairo.create_context(ctx)
             pl = pg.create_layout()
             pl.set_font_description(self.text_font)
             pl.set_width(-1)  # No text wrapping

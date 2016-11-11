@@ -12,15 +12,10 @@ from __future__ import division, unicode_literals
 import logging
 import os.path
 
-import gtk
 import six.moves.cPickle as pickle
-from gobject import TYPE_UINT64
-from gtk.gdk import (  # pylint: disable=ungrouped-imports
-    ACTION_DEFAULT,
-    ACTION_MOVE,
-    BUTTON1_MASK,
-    keyval_name,
-)
+from gi.repository import Gtk
+from gi.repository.Gdk import DragAction, ModifierType, keyval_name
+from gi.repository.GObject import TYPE_UINT64
 
 import deluge.component as component
 from deluge.common import open_file, show_file
@@ -38,10 +33,10 @@ from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
 log = logging.getLogger(__name__)
 
 CELL_PRIORITY_ICONS = {
-    'Ignore': gtk.STOCK_NO,
-    'Low': gtk.STOCK_GO_DOWN,
-    'Normal': gtk.STOCK_OK,
-    'High': gtk.STOCK_GO_UP,
+    'Ignore': Gtk.STOCK_NO,
+    'Low': Gtk.STOCK_GO_DOWN,
+    'Normal': Gtk.STOCK_OK,
+    'High': Gtk.STOCK_GO_UP,
 }
 
 
@@ -83,8 +78,8 @@ class FilesTab(Tab):
 
         self.listview = self.main_builder.get_object('files_listview')
         # filename, size, progress string, progress value, priority, file index, icon id
-        self.treestore = gtk.TreeStore(str, TYPE_UINT64, str, float, int, int, str)
-        self.treestore.set_sort_column_id(0, gtk.SORT_ASCENDING)
+        self.treestore = Gtk.TreeStore(str, TYPE_UINT64, str, float, int, int, str)
+        self.treestore.set_sort_column_id(0, Gtk.SortType.ASCENDING)
 
         # We need to store the row that's being edited to prevent updating it until
         # it's been done editing
@@ -92,11 +87,11 @@ class FilesTab(Tab):
 
         # Filename column
         self.filename_column_name = _('Filename')
-        column = gtk.TreeViewColumn(self.filename_column_name)
-        render = gtk.CellRendererPixbuf()
+        column = Gtk.TreeViewColumn(self.filename_column_name)
+        render = Gtk.CellRendererPixbuf()
         column.pack_start(render, False)
         column.add_attribute(render, 'stock-id', 6)
-        render = gtk.CellRendererText()
+        render = Gtk.CellRendererText()
         render.set_property('editable', True)
         render.connect('edited', self._on_filename_edited)
         render.connect('editing-started', self._on_filename_editing_start)
@@ -112,8 +107,8 @@ class FilesTab(Tab):
         self.listview.append_column(column)
 
         # Size column
-        column = gtk.TreeViewColumn(_('Size'))
-        render = gtk.CellRendererText()
+        column = Gtk.TreeViewColumn(_('Size'))
+        render = Gtk.CellRendererText()
         column.pack_start(render, False)
         column.set_cell_data_func(render, cell_data_size, 1)
         column.set_sort_column_id(1)
@@ -125,8 +120,8 @@ class FilesTab(Tab):
         self.listview.append_column(column)
 
         # Progress column
-        column = gtk.TreeViewColumn(_('Progress'))
-        render = gtk.CellRendererProgress()
+        column = Gtk.TreeViewColumn(_('Progress'))
+        render = Gtk.CellRendererProgress()
         column.pack_start(render, True)
         column.set_cell_data_func(render, cell_progress, (2, 3))
         column.set_sort_column_id(3)
@@ -138,11 +133,11 @@ class FilesTab(Tab):
         self.listview.append_column(column)
 
         # Priority column
-        column = gtk.TreeViewColumn(_('Priority'))
-        render = gtk.CellRendererPixbuf()
+        column = Gtk.TreeViewColumn(_('Priority'))
+        render = Gtk.CellRendererPixbuf()
         column.pack_start(render, False)
         column.set_cell_data_func(render, cell_priority_icon, 4)
-        render = gtk.CellRendererText()
+        render = Gtk.CellRendererText()
         column.pack_start(render, False)
         column.set_cell_data_func(render, cell_priority, 4)
         column.set_sort_column_id(4)
@@ -157,7 +152,7 @@ class FilesTab(Tab):
 
         self.listview.set_model(self.treestore)
 
-        self.listview.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
+        self.listview.get_selection().set_mode(Gtk.SelectionMode.MULTIPLE)
 
         self.file_menu = self.main_builder.get_object('menu_file_tab')
         self.file_menu_priority_items = [
@@ -179,9 +174,11 @@ class FilesTab(Tab):
         self.listview.connect('button-press-event', self._on_button_press_event)
 
         self.listview.enable_model_drag_source(
-            BUTTON1_MASK, [('text/plain', 0, 0)], ACTION_DEFAULT | ACTION_MOVE
+            ModifierType.BUTTON1_MASK,
+            [('text/plain', 0, 0)],
+            DragAction.DEFAULT | DragAction.MOVE,
         )
-        self.listview.enable_model_drag_dest([('text/plain', 0, 0)], ACTION_DEFAULT)
+        self.listview.enable_model_drag_dest([('text/plain', 0, 0)], DragAction.DEFAULT)
 
         self.listview.connect('drag_data_get', self._on_drag_data_get_data)
         self.listview.connect('drag_data_received', self._on_drag_data_received_data)
@@ -244,7 +241,7 @@ class FilesTab(Tab):
             cname = column.get_title()
             if cname in state['columns']:
                 cstate = state['columns'][cname]
-                column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
+                column.set_sizing(Gtk.TreeViewColumnSizing.FIXED)
                 column.set_fixed_width(cstate['width'] if cstate['width'] > 0 else 10)
                 if state['sort_id'] == index and state['sort_order'] is not None:
                     column.set_sort_indicator(True)
@@ -320,7 +317,7 @@ class FilesTab(Tab):
             path = self.get_file_path(select).split('/')
             filepath = os.path.join(status['download_location'], *path)
             log.debug('Open file: %s', filepath)
-            timestamp = gtk.get_current_event_time()
+            timestamp = Gtk.get_current_event_time()
             open_file(filepath, timestamp=timestamp)
 
     def _on_show_file(self, status):
@@ -333,7 +330,7 @@ class FilesTab(Tab):
             path = self.get_file_path(select).split('/')
             filepath = os.path.join(status['download_location'], *path)
             log.debug('Show file: %s', filepath)
-            timestamp = gtk.get_current_event_time()
+            timestamp = Gtk.get_current_event_time()
             show_file(filepath, timestamp=timestamp)
 
     # The following 3 methods create the folder/file view in the treeview
@@ -363,7 +360,7 @@ class FilesTab(Tab):
         for key, value in split_files.items():
             if key.endswith('/'):
                 chunk_iter = self.treestore.append(
-                    parent_iter, [key, 0, '', 0, 0, -1, gtk.STOCK_DIRECTORY]
+                    parent_iter, [key, 0, '', 0, 0, -1, Gtk.STOCK_DIRECTORY]
                 )
                 chunk_size = self.add_files(chunk_iter, value)
                 self.treestore.set(chunk_iter, 1, chunk_size)
@@ -371,7 +368,7 @@ class FilesTab(Tab):
             else:
                 self.treestore.append(
                     parent_iter,
-                    [key, value[1]['size'], '', 0, 0, value[0], gtk.STOCK_FILE],
+                    [key, value[1]['size'], '', 0, 0, value[0], Gtk.STOCK_FILE],
                 )
                 chunk_size_total += value[1]['size']
         return chunk_size_total
@@ -502,7 +499,7 @@ class FilesTab(Tab):
             for widget in self.file_menu_priority_items:
                 widget.set_sensitive(not self.__is_seed)
 
-            self.file_menu.popup(None, None, None, event.button, event.time)
+            self.file_menu.popup(None, None, None, None, event.button, event.time)
             return True
 
     def _on_key_press_event(self, widget, event):
@@ -663,7 +660,7 @@ class FilesTab(Tab):
                                 0,
                                 0,
                                 -1,
-                                gtk.STOCK_DIRECTORY,
+                                Gtk.STOCK_DIRECTORY,
                             ],
                         )
                 p_itr = self.get_iter_at_path('/'.join(parent_path) + '/')
@@ -684,7 +681,7 @@ class FilesTab(Tab):
                 parent_iter = None
                 for f in new_folders:
                     parent_iter = self.treestore.append(
-                        parent_iter, [f + '/', 0, '', 0, 0, -1, gtk.STOCK_DIRECTORY]
+                        parent_iter, [f + '/', 0, '', 0, 0, -1, Gtk.STOCK_DIRECTORY]
                     )
                 child = self.get_iter_at_path(old_name)
                 self.treestore.append(
@@ -793,7 +790,7 @@ class FilesTab(Tab):
                 if new_split:
                     for ns in new_split[:-1]:
                         parent = self.treestore.append(
-                            parent, [ns + '/', 0, '', 0, 0, -1, gtk.STOCK_DIRECTORY]
+                            parent, [ns + '/', 0, '', 0, 0, -1, Gtk.STOCK_DIRECTORY]
                         )
 
                     self.treestore[old_folder_iter][0] = new_split[-1] + '/'

@@ -12,16 +12,16 @@ from __future__ import unicode_literals
 import logging
 import os.path
 
-from gtk import (
-    TREE_VIEW_COLUMN_FIXED,
+from gi.repository.GdkPixbuf import Pixbuf
+from gi.repository.Gtk import (
     Builder,
     CellRendererPixbuf,
     CellRendererProgress,
     CellRendererText,
     ListStore,
     TreeViewColumn,
+    TreeViewColumnSizing,
 )
-from gtk.gdk import Pixbuf, pixbuf_new_from_file
 
 import deluge.common
 import deluge.component as component
@@ -197,7 +197,7 @@ class PeersTab(Tab):
             cname = column.get_title()
             if cname in state['columns']:
                 cstate = state['columns'][cname]
-                column.set_sizing(TREE_VIEW_COLUMN_FIXED)
+                column.set_sizing(TreeViewColumnSizing.FIXED)
                 column.set_fixed_width(cstate['width'] if cstate['width'] > 0 else 10)
                 if state['sort_id'] == index and state['sort_order'] is not None:
                     column.set_sort_indicator(True)
@@ -243,7 +243,7 @@ class PeersTab(Tab):
         if country not in self.cached_flag_pixbufs:
             # We haven't created a pixbuf for this country yet
             try:
-                self.cached_flag_pixbufs[country] = pixbuf_new_from_file(
+                self.cached_flag_pixbufs[country] = Pixbuf.new_from_file(
                     deluge.common.resource_filename(
                         'deluge',
                         os.path.join(
@@ -351,19 +351,17 @@ class PeersTab(Tab):
             return True
 
     def _on_query_tooltip(self, widget, x, y, keyboard_tip, tooltip):
-        if not widget.get_tooltip_context(x, y, keyboard_tip):
-            return False
-        else:
-            model, path, _iter = widget.get_tooltip_context(x, y, keyboard_tip)
-
+        tooltip, x, y, model, path, _iter = widget.get_tooltip_context(
+            x, y, keyboard_tip
+        )
+        if tooltip:
             country_code = model.get(_iter, 5)[0]
             if country_code != '  ' and country_code in COUNTRIES:
                 tooltip.set_text(COUNTRIES[country_code])
                 # widget here is self.listview
                 widget.set_tooltip_cell(tooltip, path, widget.get_column(0), None)
                 return True
-            else:
-                return False
+        return False
 
     def on_menuitem_add_peer_activate(self, menuitem):
         """This is a callback for manually adding a peer"""

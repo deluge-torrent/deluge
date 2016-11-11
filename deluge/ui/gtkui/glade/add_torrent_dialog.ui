@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.1 -->
 <interface>
-  <requires lib="gtk+" version="2.24"/>
-  <!-- interface-naming-policy toplevel-contextual -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="adjustment1">
     <property name="lower">-1</property>
     <property name="upper">9999</property>
@@ -32,11 +32,59 @@
     <property name="window_position">center-on-parent</property>
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox1">
+      <object class="GtkBox" id="dialog-vbox1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="dialog-action_area1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="button_cancel">
+                <property name="label">gtk-cancel</property>
+                <property name="use_action_appearance">False</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+                <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="button_add">
+                <property name="label">gtk-add</property>
+                <property name="use_action_appearance">False</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+                <signal name="clicked" handler="on_button_add_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack_type">end</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
         <child>
           <object class="GtkVPaned" id="vpaned1">
             <property name="visible">True</property>
@@ -57,8 +105,6 @@
                       <object class="GtkScrolledWindow" id="scrolledwindow1">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="hscrollbar_policy">automatic</property>
-                        <property name="vscrollbar_policy">automatic</property>
                         <property name="shadow_type">in</property>
                         <child>
                           <object class="GtkTreeView" id="listview_torrents">
@@ -66,6 +112,9 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="headers_visible">False</property>
+                            <child internal-child="selection">
+                              <object class="GtkTreeSelection"/>
+                            </child>
                           </object>
                         </child>
                       </object>
@@ -96,7 +145,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="stock">gtk-open</property>
-                                    <property name="icon-size">1</property>
+                                    <property name="icon_size">1</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -142,7 +191,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="stock">gtk-network</property>
-                                    <property name="icon-size">1</property>
+                                    <property name="icon_size">1</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -188,7 +237,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="stock">gtk-revert-to-saved</property>
-                                    <property name="icon-size">1</property>
+                                    <property name="icon_size">1</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -289,7 +338,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="show_border">False</property>
-                    <property name="tab_vborder">1</property>
                     <child>
                       <object class="GtkVBox" id="vbox1">
                         <property name="visible">True</property>
@@ -346,8 +394,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="border_width">2</property>
-                            <property name="hscrollbar_policy">automatic</property>
-                            <property name="vscrollbar_policy">automatic</property>
                             <property name="shadow_type">in</property>
                             <child>
                               <object class="GtkTreeView" id="listview_files">
@@ -356,7 +402,10 @@
                                 <property name="border_width">1</property>
                                 <property name="headers_visible">False</property>
                                 <property name="enable_tree_lines">True</property>
-                              </object>
+                                <child internal-child="selection">
+                                  <object class="GtkTreeSelection"/>
+                                </child>
+                            </object>
                             </child>
                           </object>
                           <packing>
@@ -504,7 +553,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkHSeparator" id="separator1">
+                          <object class="GtkSeparator" id="separator1">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                           </object>
@@ -607,6 +656,7 @@ used sparingly.</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
                                             <property name="tooltip_markup">Useful if adding a complete torrent for seeding.</property>
+                                            <property name="halign">start</property>
                                             <property name="xalign">0</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
@@ -671,8 +721,6 @@ used sparingly.</property>
                                             <property name="xalign">1</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
-                                            <property name="primary_icon_sensitive">True</property>
-                                            <property name="secondary_icon_sensitive">True</property>
                                             <property name="adjustment">adjustment1</property>
                                           </object>
                                           <packing>
@@ -687,8 +735,8 @@ used sparingly.</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="tooltip_text" translatable="yes">Maximum torrent download speed</property>
-                                            <property name="xalign">0</property>
                                             <property name="label" translatable="yes">Down Speed:</property>
+                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="x_options">GTK_FILL</property>
@@ -700,8 +748,8 @@ used sparingly.</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="tooltip_text" translatable="yes">Maximum torrent upload speed</property>
-                                            <property name="xalign">0</property>
                                             <property name="label" translatable="yes">Up Speed:</property>
+                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="top_attach">1</property>
@@ -715,8 +763,8 @@ used sparingly.</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="tooltip_text" translatable="yes">Maximum torrent connections</property>
-                                            <property name="xalign">0</property>
                                             <property name="label" translatable="yes">Connections:</property>
+                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="top_attach">2</property>
@@ -730,8 +778,8 @@ used sparingly.</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="tooltip_text" translatable="yes">Maximum torrent upload slots</property>
-                                            <property name="xalign">0</property>
                                             <property name="label" translatable="yes">Upload Slots:</property>
+                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="top_attach">3</property>
@@ -747,8 +795,6 @@ used sparingly.</property>
                                             <property name="xalign">1</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
-                                            <property name="primary_icon_sensitive">True</property>
-                                            <property name="secondary_icon_sensitive">True</property>
                                             <property name="adjustment">adjustment2</property>
                                             <property name="update_policy">if-valid</property>
                                           </object>
@@ -768,8 +814,6 @@ used sparingly.</property>
                                             <property name="xalign">1</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
-                                            <property name="primary_icon_sensitive">True</property>
-                                            <property name="secondary_icon_sensitive">True</property>
                                             <property name="adjustment">adjustment3</property>
                                           </object>
                                           <packing>
@@ -788,8 +832,6 @@ used sparingly.</property>
                                             <property name="xalign">1</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
-                                            <property name="primary_icon_sensitive">True</property>
-                                            <property name="secondary_icon_sensitive">True</property>
                                             <property name="adjustment">adjustment4</property>
                                           </object>
                                           <packing>
@@ -866,8 +908,8 @@ used sparingly.</property>
                                           <object class="GtkLabel" id="label18">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
                                             <property name="label" translatable="yes">Apply To All</property>
+                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1000,49 +1042,6 @@ used sparingly.</property>
             <property name="expand">True</property>
             <property name="fill">True</property>
             <property name="position">0</property>
-          </packing>
-        </child>
-        <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area1">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton" id="button_cancel">
-                <property name="label">gtk-cancel</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-                <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button_add">
-                <property name="label">gtk-add</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-                <signal name="clicked" handler="on_button_add_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="pack_type">end</property>
-            <property name="position">1</property>
           </packing>
         </child>
       </object>

@@ -106,7 +106,7 @@ class StatusTab(Tab):
         # Update all the label widgets
         for widget in self.tab_widgets.values():
             txt = self.widget_status_as_fstr(widget, status)
-            if widget[0].get_text() != txt:
+            if widget[0].get_text().decode('utf-8') != txt:
                 widget[0].set_text(txt)
 
         # Update progress bar seperately as it's a special case (not a label).

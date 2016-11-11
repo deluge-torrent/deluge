@@ -16,21 +16,22 @@ import signal
 import sys
 import time
 
-import pygtk  # isort:skip (Required before gtk import).
+import gi  # isort:skip (Required before Gtk import).
 
-pygtk.require('2.0')  # NOQA: E402
+gi.require_version('Gtk', '3.0')  # NOQA: E402
+gi.require_version('Gdk', '3.0')  # NOQA: E402
 
 # isort:imports-thirdparty
-from gobject import set_prgname
-from gtk import RESPONSE_YES
-from gtk.gdk import WINDOWING, threads_enter, threads_init, threads_leave
-from twisted.internet import defer, gtk2reactor
+from gi.repository.Gdk import threads_enter, threads_init, threads_leave
+from gi.repository.GObject import set_prgname
+from gi.repository.Gtk import ResponseType
+from twisted.internet import defer, gtk3reactor
 from twisted.internet.error import ReactorAlreadyInstalledError
 from twisted.internet.task import LoopingCall
 
 try:
     # Install twisted reactor, before any other modules import reactor.
-    reactor = gtk2reactor.install()
+    reactor = gtk3reactor.install()
 except ReactorAlreadyInstalledError:
     # Running unit tests so trial already installed a rector
     from twisted.internet import reactor
@@ -69,7 +70,7 @@ from deluge.ui.sessionproxy import SessionProxy
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.translations_util import set_language, setup_translations
 
-set_prgname('deluge'.encode('utf8'))
+set_prgname('deluge')
 log = logging.getLogger(__name__)
 
 try:
@@ -160,7 +161,7 @@ class GtkUI(object):
 
             SetConsoleCtrlHandler(on_die, True)
             log.debug('Win32 "die" handler registered')
-        elif osx_check() and WINDOWING == 'quartz':
+        elif osx_check():  # TODO: Add this back: `and WINDOWING == 'quartz':`
             import gtkosx_application
 
             self.osxapp = gtkosx_application.gtkosx_application_get()
@@ -190,11 +191,9 @@ class GtkUI(object):
         self.queuedtorrents = QueuedTorrents()
         self.ipcinterface = IPCInterface(args.torrents)
 
-        # FIXME: Verify that removing gdk threading has no adverse effects.
-        # There are the two commits [64a94ec] [1f3e930] that added gdk threading
-        # and my thinking is there is no need for the code anymore.
         # Since PyGObject 3.10.2, calling GObject.threads_init() this is no longer needed.
-        # threads_init()
+        # For details on need for threading, see: https://wiki.gnome.org/Projects/PyGObject/Threading
+        threads_init()
 
         # We make sure that the UI components start once we get a core URI
         client.set_disconnect_callback(self.__on_disconnect)
@@ -214,7 +213,7 @@ class GtkUI(object):
         self.statusbar = StatusBar()
         self.addtorrentdialog = AddTorrentDialog()
 
-        if osx_check() and WINDOWING == 'quartz':
+        if osx_check():  # TODO: Add this back: `and WINDOWING == 'quartz':`
 
             def nsapp_open_file(osxapp, filename):
                 # Ignore command name which is raised at app launch (python opening main script).
@@ -255,8 +254,8 @@ class GtkUI(object):
         # Initialize gdk threading
         threads_enter()
         reactor.run()
-        # Reactor no longer running so async callbacks (Deferreds) cannot be
-        # processed after this point.
+        # Reactor is not running. Any async callbacks (Deferreds) can no longer
+        # be processed from this point on.
         threads_leave()
 
     def shutdown(self, *args, **kwargs):
@@ -349,7 +348,7 @@ class GtkUI(object):
 
         def on_dialog_response(response):
             """User response to switching mode dialog."""
-            if response == RESPONSE_YES:
+            if response == ResponseType.Yes:
                 # Turning off standalone
                 self.config['standalone'] = False
                 self._start_thinclient()

@@ -9,8 +9,9 @@
 
 from __future__ import unicode_literals
 
-from gtk import ACCEL_VISIBLE, SeparatorMenuItem, accel_groups_from_object
-from gtk.gdk import CONTROL_MASK, META_MASK, SHIFT_MASK
+from gi.repository.Gdk import ModifierType
+from gi.repository.Gtk import SeparatorMenuItem, accel_groups_from_object
+from gi.repository.Gtk.AccelFlags import VISIBLE
 
 from deluge.configmanager import ConfigManager
 
@@ -18,11 +19,11 @@ from deluge.configmanager import ConfigManager
 def accel_swap(item, group, skey, smod, dkey, dmod):
     # Accel map hack broken, see ticket #3078
     # item.remove_accelerator(group, ord(skey), smod)
-    item.add_accelerator('activate', group, ord(dkey), dmod, ACCEL_VISIBLE)
+    item.add_accelerator('activate', group, ord(dkey), dmod, VISIBLE)
 
 
 def accel_meta(item, group, key):
-    accel_swap(item, group, key, CONTROL_MASK, key, META_MASK)
+    accel_swap(item, group, key, ModifierType.CONTROL_MASK, key, ModifierType.META_MASK)
 
 
 def menubar_osx(gtkui, osxapp):
@@ -45,9 +46,9 @@ def menubar_osx(gtkui, osxapp):
         quit_all_item,
         group,
         'q',
-        SHIFT_MASK | CONTROL_MASK,
+        ModifierType.SHIFT_MASK | ModifierType.CONTROL_MASK,
         'q',
-        SHIFT_MASK | META_MASK,
+        ModifierType.SHIFT_MASK | ModifierType.META_MASK,
     )
     for item in range(2, len(file_items)):  # remove quits
         file_menu.remove(file_items[item])
@@ -56,7 +57,9 @@ def menubar_osx(gtkui, osxapp):
     edit_menu = menu_widget.get_submenu()
     edit_items = edit_menu.get_children()
     pref_item = edit_items[0]
-    accel_swap(pref_item, group, 'p', CONTROL_MASK, ',', META_MASK)
+    accel_swap(
+        pref_item, group, 'p', ModifierType.CONTROL_MASK, ',', ModifierType.META_MASK
+    )
     edit_menu.remove(pref_item)
 
     conn_item = edit_items[1]

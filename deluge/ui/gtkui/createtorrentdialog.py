@@ -13,8 +13,8 @@ import logging
 import os.path
 from base64 import b64encode
 
-import gtk
-from gobject import TYPE_UINT64, idle_add
+from gi.repository import Gtk
+from gi.repository.GObject import TYPE_UINT64, idle_add
 from twisted.internet.threads import deferToThread
 
 import deluge.component as component
@@ -35,7 +35,7 @@ class CreateTorrentDialog(object):
         pass
 
     def show(self):
-        self.builder = gtk.Builder()
+        self.builder = Gtk.Builder()
 
         # The main dialog
         self.builder.add_from_file(
@@ -73,20 +73,20 @@ class CreateTorrentDialog(object):
         self.builder.connect_signals(self)
 
         # path, icon, size
-        self.files_treestore = gtk.TreeStore(str, str, TYPE_UINT64)
+        self.files_treestore = Gtk.TreeStore(str, str, TYPE_UINT64)
 
-        column = gtk.TreeViewColumn(_('Filename'))
-        render = gtk.CellRendererPixbuf()
+        column = Gtk.TreeViewColumn(_('Filename'))
+        render = Gtk.CellRendererPixbuf()
         column.pack_start(render, False)
         column.add_attribute(render, 'stock-id', 1)
-        render = gtk.CellRendererText()
+        render = Gtk.CellRendererText()
         column.pack_start(render, True)
         column.add_attribute(render, 'text', 0)
         column.set_expand(True)
         self.builder.get_object('treeview_files').append_column(column)
 
-        column = gtk.TreeViewColumn(_('Size'))
-        render = gtk.CellRendererText()
+        column = Gtk.TreeViewColumn(_('Size'))
+        render = Gtk.CellRendererText()
         column.pack_start(render, True)
         column.set_cell_data_func(render, cell_data_size, 2)
         self.builder.get_object('treeview_files').append_column(column)
@@ -95,17 +95,17 @@ class CreateTorrentDialog(object):
         self.builder.get_object('treeview_files').set_show_expanders(False)
 
         # tier, url
-        self.trackers_liststore = gtk.ListStore(int, str)
+        self.trackers_liststore = Gtk.ListStore(int, str)
 
         self.builder.get_object('tracker_treeview').append_column(
-            gtk.TreeViewColumn(_('Tier'), gtk.CellRendererText(), text=0)
+            Gtk.TreeViewColumn(_('Tier'), Gtk.CellRendererText(), text=0)
         )
         self.builder.get_object('tracker_treeview').append_column(
-            gtk.TreeViewColumn(_('Tracker'), gtk.CellRendererText(), text=1)
+            Gtk.TreeViewColumn(_('Tracker'), Gtk.CellRendererText(), text=1)
         )
 
         self.builder.get_object('tracker_treeview').set_model(self.trackers_liststore)
-        self.trackers_liststore.set_sort_column_id(0, gtk.SORT_ASCENDING)
+        self.trackers_liststore.set_sort_column_id(0, Gtk.SortType.ASCENDING)
 
         if not client.is_localhost() and client.connected():
             self.builder.get_object('button_remote_path').show()
@@ -140,15 +140,15 @@ class CreateTorrentDialog(object):
     def on_button_file_clicked(self, widget):
         log.debug('on_button_file_clicked')
         # Setup the filechooserdialog
-        chooser = gtk.FileChooserDialog(
+        chooser = Gtk.FileChooserDialog(
             _('Choose a file'),
             self.dialog,
-            gtk.FILE_CHOOSER_ACTION_OPEN,
+            Gtk.FileChooserAction.OPEN,
             buttons=(
-                gtk.STOCK_CANCEL,
-                gtk.RESPONSE_CANCEL,
-                gtk.STOCK_OPEN,
-                gtk.RESPONSE_OK,
+                Gtk.STOCK_CANCEL,
+                Gtk.ResponseType.CANCEL,
+                Gtk.STOCK_OPEN,
+                Gtk.ResponseType.OK,
             ),
         )
 
@@ -159,7 +159,7 @@ class CreateTorrentDialog(object):
         # Run the dialog
         response = chooser.run()
 
-        if response == gtk.RESPONSE_OK:
+        if response == Gtk.ResponseType.OK:
             result = chooser.get_filename()
         else:
             chooser.destroy()
@@ -168,22 +168,22 @@ class CreateTorrentDialog(object):
         path = result.decode('utf-8')
 
         self.files_treestore.clear()
-        self.files_treestore.append(None, [result, gtk.STOCK_FILE, get_path_size(path)])
+        self.files_treestore.append(None, [result, Gtk.STOCK_FILE, get_path_size(path)])
         self.adjust_piece_size()
         chooser.destroy()
 
     def on_button_folder_clicked(self, widget):
         log.debug('on_button_folder_clicked')
         # Setup the filechooserdialog
-        chooser = gtk.FileChooserDialog(
+        chooser = Gtk.FileChooserDialog(
             _('Choose a folder'),
             self.dialog,
-            gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
+            Gtk.FileChooserAction.SELECT_FOLDER,
             buttons=(
-                gtk.STOCK_CANCEL,
-                gtk.RESPONSE_CANCEL,
-                gtk.STOCK_OPEN,
-                gtk.RESPONSE_OK,
+                Gtk.STOCK_CANCEL,
+                Gtk.ResponseType.CANCEL,
+                Gtk.STOCK_OPEN,
+                Gtk.ResponseType.OK,
             ),
         )
 
@@ -193,7 +193,7 @@ class CreateTorrentDialog(object):
         # Run the dialog
         response = chooser.run()
 
-        if response == gtk.RESPONSE_OK:
+        if response == Gtk.ResponseType.OK:
             result = chooser.get_filename()
         else:
             chooser.destroy()
@@ -202,7 +202,7 @@ class CreateTorrentDialog(object):
         path = result.decode('utf-8')
 
         self.files_treestore.clear()
-        self.files_treestore.append(None, [result, gtk.STOCK_OPEN, get_path_size(path)])
+        self.files_treestore.append(None, [result, Gtk.STOCK_OPEN, get_path_size(path)])
         self.adjust_piece_size()
         chooser.destroy()
 
@@ -215,14 +215,14 @@ class CreateTorrentDialog(object):
         entry.grab_focus()
         response = dialog.run()
 
-        if response == gtk.RESPONSE_OK:
+        if response == Gtk.ResponseType.OK:
             result = entry.get_text()
 
             def _on_get_path_size(size):
                 log.debug('size: %s', size)
                 if size > 0:
                     self.files_treestore.clear()
-                    self.files_treestore.append(None, [result, gtk.STOCK_NETWORK, size])
+                    self.files_treestore.append(None, [result, Gtk.STOCK_NETWORK, size])
                     self.adjust_piece_size()
 
             client.core.get_path_size(result).addCallback(_on_get_path_size)
@@ -243,7 +243,7 @@ class CreateTorrentDialog(object):
         path = self.files_treestore[0][0].rstrip('\\/')
         torrent_filename = '%s.torrent' % os.path.split(path)[-1]
 
-        is_remote = self.files_treestore[0][1] == gtk.STOCK_NETWORK
+        is_remote = self.files_treestore[0][1] == Gtk.STOCK_NETWORK
 
         if is_remote:
             # This is a remote path
@@ -252,7 +252,7 @@ class CreateTorrentDialog(object):
             dialog_save_path = self.builder.get_object('entry_save_path')
             dialog_save_path.set_text(path + '.torrent')
             response = dialog.run()
-            if response == gtk.RESPONSE_OK:
+            if response == Gtk.ResponseType.OK:
                 result = dialog_save_path.get_text()
             else:
                 dialog.hide()
@@ -260,15 +260,15 @@ class CreateTorrentDialog(object):
             dialog.hide()
         else:
             # Setup the filechooserdialog
-            chooser = gtk.FileChooserDialog(
+            chooser = Gtk.FileChooserDialog(
                 _('Save .torrent file'),
                 self.dialog,
-                gtk.FILE_CHOOSER_ACTION_SAVE,
+                Gtk.FileChooserAction.SAVE,
                 buttons=(
-                    gtk.STOCK_CANCEL,
-                    gtk.RESPONSE_CANCEL,
-                    gtk.STOCK_SAVE,
-                    gtk.RESPONSE_OK,
+                    Gtk.STOCK_CANCEL,
+                    Gtk.ResponseType.CANCEL,
+                    Gtk.STOCK_SAVE,
+                    Gtk.ResponseType.OK,
                 ),
             )
 
@@ -277,11 +277,11 @@ class CreateTorrentDialog(object):
             chooser.set_property('skip-taskbar-hint', True)
 
             # Add .torrent and * file filters
-            file_filter = gtk.FileFilter()
+            file_filter = Gtk.FileFilter()
             file_filter.set_name(_('Torrent files'))
             file_filter.add_pattern('*.' + 'torrent')
             chooser.add_filter(file_filter)
-            file_filter = gtk.FileFilter()
+            file_filter = Gtk.FileFilter()
             file_filter.set_name(_('All files'))
             file_filter.add_pattern('*')
             chooser.add_filter(file_filter)
@@ -290,7 +290,7 @@ class CreateTorrentDialog(object):
             # Run the dialog
             response = chooser.run()
 
-            if response == gtk.RESPONSE_OK:
+            if response == Gtk.ResponseType.OK:
                 result = chooser.get_filename()
             else:
                 chooser.destroy()
@@ -339,7 +339,7 @@ class CreateTorrentDialog(object):
         if is_remote:
 
             def torrent_created():
-                self.builder.get_object('progress_dialog').hide_all()
+                self.builder.get_object('progress_dialog').hide()
                 client.deregister_event_handler(
                     'CreateTorrentProgressEvent', on_create_torrent_progress_event
                 )
@@ -371,7 +371,7 @@ class CreateTorrentDialog(object):
         else:
 
             def hide_progress(result):
-                self.builder.get_object('progress_dialog').hide_all()
+                self.builder.get_object('progress_dialog').hide()
 
             deferToThread(
                 self.create_torrent,
@@ -475,7 +475,7 @@ class CreateTorrentDialog(object):
 
     def on_button_add_clicked(self, widget):
         log.debug('on_button_add_clicked')
-        builder = gtk.Builder()
+        builder = Gtk.Builder()
         builder.add_from_file(
             resource_filename(
                 'deluge.ui.gtkui', os.path.join('glade', 'edit_trackers.add.ui')
@@ -493,7 +493,7 @@ class CreateTorrentDialog(object):
         textview.grab_focus()
         response = dialog.run()
 
-        if response == gtk.RESPONSE_OK:
+        if response == Gtk.ResponseType.OK:
             # Create a list of trackers from the textview buffer
             textview_buf = textview.get_buffer()
             trackers_text = textview_buf.get_text(*textview_buf.get_bounds())

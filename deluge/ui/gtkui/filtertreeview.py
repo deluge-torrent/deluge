@@ -15,9 +15,9 @@ import logging
 import os
 import warnings
 
-import gtk
-from gtk.gdk import Pixbuf
-from pango import ELLIPSIZE_END
+from gi.repository import Gtk
+from gi.repository.GdkPixbuf import Pixbuf
+from gi.repository.Pango import EllipsizeMode
 
 import deluge.component as component
 from deluge.common import TORRENT_STATE, resource_filename
@@ -53,7 +53,7 @@ class FilterTreeView(component.Component):
         self.tracker_icons = component.get('TrackerIcons')
 
         self.sidebar = component.get('SideBar')
-        self.treeview = gtk.TreeView()
+        self.treeview = Gtk.TreeView()
         self.sidebar.add_tab(self.treeview, 'filters', 'Filters')
 
         # set filter to all when hidden:
@@ -61,22 +61,22 @@ class FilterTreeView(component.Component):
 
         # Create the treestore
         # cat, value, label, count, pixmap, visible
-        self.treestore = gtk.TreeStore(str, str, str, int, Pixbuf, bool)
+        self.treestore = Gtk.TreeStore(str, str, str, int, Pixbuf, bool)
 
         # Create the column and cells
-        column = gtk.TreeViewColumn('Filters')
-        column.set_sizing(gtk.TREE_VIEW_COLUMN_AUTOSIZE)
+        column = Gtk.TreeViewColumn('Filters')
+        column.set_sizing(Gtk.TreeViewColumnSizing.AUTOSIZE)
         # icon cell
-        self.cell_pix = gtk.CellRendererPixbuf()
+        self.cell_pix = Gtk.CellRendererPixbuf()
         column.pack_start(self.cell_pix, expand=False)
         column.add_attribute(self.cell_pix, 'pixbuf', 4)
         # label cell
-        cell_label = gtk.CellRendererText()
-        cell_label.set_property('ellipsize', ELLIPSIZE_END)
+        cell_label = Gtk.CellRendererText()
+        cell_label.set_property('ellipsize', EllipsizeMode.END)
         column.pack_start(cell_label, expand=True)
         column.set_cell_data_func(cell_label, self.render_cell_data, None)
         # count cell
-        self.cell_count = gtk.CellRendererText()
+        self.cell_count = Gtk.CellRendererText()
         self.cell_count.set_property('xalign', 1.0)
         self.cell_count.set_padding(3, 0)
         column.pack_start(self.cell_count, expand=False)
@@ -88,7 +88,7 @@ class FilterTreeView(component.Component):
         self.treeview.set_headers_visible(False)
         self.treeview.set_level_indentation(-21)
         # Force theme to use expander-size so we don't cut out entries due to indentation hack.
-        gtk.rc_parse_string(
+        Gtk.rc_parse_string(
             """style "treeview-style" {GtkTreeView::expander-size = 7}
                             class "GtkTreeView" style "treeview-style" """
         )
@@ -100,12 +100,12 @@ class FilterTreeView(component.Component):
         self.treeview.connect('button-press-event', self.on_button_press_event)
 
         # colors using current theme.
-        style = component.get('MainWindow').window.get_style()
-        self.colour_background = style.bg[gtk.STATE_NORMAL]
-        self.colour_foreground = style.fg[gtk.STATE_NORMAL]
+        style_ctx = component.get('MainWindow').window.get_style_context()
+        self.colour_background = style_ctx.get_background_color(Gtk.StateFlags.NORMAL)
+        self.colour_foreground = style_ctx.get_color(Gtk.StateFlags.NORMAL)
 
         # filtertree menu
-        builder = gtk.Builder()
+        builder = Gtk.Builder()
         builder.add_from_file(
             resource_filename(
                 'deluge.ui.gtkui', os.path.join('glade', 'filtertree_menu.ui')
@@ -338,7 +338,7 @@ class FilterTreeView(component.Component):
             # Show the pop-up menu
             self.set_menu_sensitivity()
             self.menu.hide()
-            self.menu.popup(None, None, None, event.button, event.time)
+            self.menu.popup(None, None, None, None, event.button, event.time)
             self.menu.show()
 
             if cat == 'cat':

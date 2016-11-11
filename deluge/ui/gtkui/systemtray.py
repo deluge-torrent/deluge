@@ -12,13 +12,7 @@ from __future__ import unicode_literals
 import logging
 import os
 
-from gtk import (
-    Builder,
-    RadioMenuItem,
-    status_icon_new_from_icon_name,
-    status_icon_new_from_pixbuf,
-    status_icon_position_menu,
-)
+from gi.repository.Gtk import Builder, RadioMenuItem, StatusIcon
 
 import deluge.component as component
 from deluge.common import (
@@ -120,9 +114,9 @@ class SystemTray(component.Component):
         else:
             log.debug('Enabling the system tray icon..')
             if windows_check() or osx_check():
-                self.tray = status_icon_new_from_pixbuf(get_logo(32))
+                self.tray = StatusIcon.new_from_pixbuf(get_logo(32))
             else:
-                self.tray = status_icon_new_from_icon_name('deluge-panel')
+                self.tray = StatusIcon.new_from_icon_name('deluge-panel')
 
             self.tray.connect('activate', self.on_tray_clicked)
             self.tray.connect('popup-menu', self.on_tray_popup)
@@ -353,7 +347,7 @@ class SystemTray(component.Component):
         else:
             self.builder.get_object('menuitem_show_deluge').set_active(False)
 
-        popup_function = status_icon_position_menu
+        popup_function = StatusIcon.position_menu
         if windows_check() or osx_check():
             popup_function = None
             button = 0

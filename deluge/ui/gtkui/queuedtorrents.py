@@ -12,8 +12,8 @@ from __future__ import unicode_literals
 import logging
 import os.path
 
-from gobject import timeout_add
-from gtk import (
+from gi.repository.GObject import timeout_add
+from gi.repository.Gtk import (
     STOCK_SORT_DESCENDING,
     Builder,
     CellRendererText,
