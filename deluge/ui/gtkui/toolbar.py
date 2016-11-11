@@ -11,7 +11,7 @@ from __future__ import unicode_literals
 
 import logging
 
-from gtk import SeparatorToolItem, ToolButton
+from gi.repository.Gtk import SeparatorToolItem, ToolButton
 
 import deluge.component as component
 from deluge.configmanager import ConfigManager

@@ -12,9 +12,9 @@ from __future__ import unicode_literals
 import logging
 import os.path
 
-from gtk import (TREE_VIEW_COLUMN_FIXED, Builder, CellRendererPixbuf, CellRendererProgress, CellRendererText, ListStore,
+from gi.repository.Gtk import (TreeViewColumnSizing, Builder, CellRendererPixbuf, CellRendererProgress, CellRendererText, ListStore,
                  TreeViewColumn)
-from gtk.gdk import Pixbuf, pixbuf_new_from_file
+from gi.repository.GdkPixbuf import Pixbuf
 
 import deluge.common
 import deluge.component as component
@@ -179,7 +179,7 @@ class PeersTab(Tab):
             cname = column.get_title()
             if cname in state['columns']:
                 cstate = state['columns'][cname]
-                column.set_sizing(TREE_VIEW_COLUMN_FIXED)
+                column.set_sizing(TreeViewColumnSizing.FIXED)
                 column.set_fixed_width(cstate['width'] if cstate['width'] > 0 else 10)
                 if state['sort_id'] == index and state['sort_order'] is not None:
                     column.set_sort_indicator(True)
@@ -218,7 +218,7 @@ class PeersTab(Tab):
         if country not in self.cached_flag_pixbufs:
             # We haven't created a pixbuf for this country yet
             try:
-                self.cached_flag_pixbufs[country] = pixbuf_new_from_file(
+                self.cached_flag_pixbufs[country] = Pixbuf.new_from_file(
                     deluge.common.resource_filename(
                         'deluge',
                         os.path.join('ui', 'data', 'pixmaps', 'flags', country.lower() + '.png'),

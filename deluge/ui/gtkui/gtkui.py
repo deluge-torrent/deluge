@@ -16,20 +16,20 @@ import signal
 import sys
 import time
 
-import pygtk  # isort:skip (Required before gtk import).
-pygtk.require('2.0')  # NOQA: E402
+import gi  # isort:skip (Required before Gtk import).
+gi.require_version('Gtk', '3.0')  # NOQA: E402
 
 # isort:imports-thirdparty
-from gobject import set_prgname
-from gtk import RESPONSE_YES
-from gtk.gdk import WINDOWING, threads_enter, threads_init, threads_leave
-from twisted.internet import defer, gtk2reactor
+from gi.repository.Gdk import WINDOWING, threads_enter, threads_init, threads_leave
+from gi.repository.Gtk import RESPONSE_YES
+from gi.repository.GObject import set_prgname
+from twisted.internet import defer, gtk3reactor
 from twisted.internet.error import ReactorAlreadyInstalledError
 from twisted.internet.task import LoopingCall
 
 try:
     # Install twisted reactor, before any other modules import reactor.
-    reactor = gtk2reactor.install()
+    reactor = gtk3reactor.install()
 except ReactorAlreadyInstalledError as ex:
     # Running unit tests so trial already installed a rector
     from twisted.internet import reactor

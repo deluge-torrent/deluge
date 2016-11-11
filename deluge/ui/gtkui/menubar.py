@@ -14,7 +14,7 @@ from __future__ import unicode_literals
 import logging
 import os.path
 
-import gtk
+from gi.repository import Gtk
 
 import deluge.common
 import deluge.component as component
@@ -35,7 +35,7 @@ class MenuBar(component.Component):
         self.main_builder = self.mainwindow.get_builder()
         self.config = ConfigManager('gtkui.conf')
 
-        self.builder = gtk.Builder()
+        self.builder = Gtk.Builder()
         # Get the torrent menu from the gtk builder file
         self.builder.add_from_file(deluge.common.resource_filename(
             'deluge.ui.gtkui', os.path.join('glade', 'torrent_menu.ui'),
@@ -63,33 +63,33 @@ class MenuBar(component.Component):
             'menuitem_down_speed', 'menuitem_up_speed',
             'menuitem_max_connections', 'menuitem_upload_slots',
         ):
-            submenu = gtk.Menu()
-            item = gtk.MenuItem(_('Set Unlimited'))
+            submenu = Gtk.Menu()
+            item = Gtk.MenuItem(_('Set Unlimited'))
             item.set_name(menuitem)
             item.connect('activate', self.on_menuitem_set_unlimited)
             submenu.append(item)
-            item = gtk.MenuItem(_('Other...'))
+            item = Gtk.MenuItem(_('Other...'))
             item.set_name(menuitem)
             item.connect('activate', self.on_menuitem_set_other)
             submenu.append(item)
             submenu.show_all()
             self.builder.get_object(menuitem).set_submenu(submenu)
 
-        submenu = gtk.Menu()
-        item = gtk.MenuItem(_('On'))
+        submenu = Gtk.Menu()
+        item = Gtk.MenuItem(_('On'))
         item.connect('activate', self.on_menuitem_set_automanaged_on)
         submenu.append(item)
-        item = gtk.MenuItem(_('Off'))
+        item = Gtk.MenuItem(_('Off'))
         item.connect('activate', self.on_menuitem_set_automanaged_off)
         submenu.append(item)
         submenu.show_all()
         self.builder.get_object('menuitem_auto_managed').set_submenu(submenu)
 
-        submenu = gtk.Menu()
-        item = gtk.MenuItem(_('Disable'))
+        submenu = Gtk.Menu()
+        item = Gtk.MenuItem(_('Disable'))
         item.connect('activate', self.on_menuitem_set_stop_seed_at_ratio_disable)
         submenu.append(item)
-        item = gtk.MenuItem(_('Enable...'))
+        item = Gtk.MenuItem(_('Enable...'))
         item.set_name('menuitem_stop_seed_at_ratio')
         item.connect('activate', self.on_menuitem_set_other)
         submenu.append(item)
@@ -185,7 +185,7 @@ class MenuBar(component.Component):
         # Any better way than duplicating toolbar.py:update_buttons in here?
 
     def add_torrentmenu_separator(self):
-        sep = gtk.SeparatorMenuItem()
+        sep = Gtk.SeparatorMenuItem()
         self.torrentmenu.append(sep)
         sep.show()
         return sep
@@ -276,7 +276,7 @@ class MenuBar(component.Component):
         log.debug('on_menuitem_open_folder')
 
         def _on_torrent_status(status):
-            timestamp = gtk.get_current_event_time()
+            timestamp = Gtk.get_current_event_time()
             path = os.path.join(status['download_location'], status['files'][0]['path'].split('/')[0])
             deluge.common.show_file(path, timestamp=timestamp)
         for torrent_id in component.get('TorrentView').get_selected_torrents():
@@ -293,7 +293,7 @@ class MenuBar(component.Component):
 
     def show_move_storage_dialog(self, status):
         log.debug('show_move_storage_dialog')
-        builder = gtk.Builder()
+        builder = Gtk.Builder()
         builder.add_from_file(deluge.common.resource_filename(
             'deluge.ui.gtkui', os.path.join('glade', 'move_storage_dialog.ui'),
         ))
@@ -314,10 +314,10 @@ class MenuBar(component.Component):
                 del self.move_storage_dialog
                 del self.move_storage_dialog_hbox
 
-            if response_id == gtk.RESPONSE_CANCEL:
+            if response_id == Gtk.ResponseType.CANCEL:
                 on_core_result(None)
 
-            if response_id == gtk.RESPONSE_OK:
+            if response_id == Gtk.ResponseType.OK:
                 log.debug(
                     'Moving torrents to %s',
                     self.move_storage_path_chooser.get_text(),
@@ -410,11 +410,11 @@ class MenuBar(component.Component):
             ],
             'menuitem_max_connections': [
                 _('Incoming Connections'), _('Set the maximum incoming connections'),
-                '', gtk.STOCK_NETWORK,
+                '', Gtk.STOCK_NETWORK,
             ],
             'menuitem_upload_slots': [
                 _('Peer Upload Slots'), _('Set the maximum upload slots'),
-                '', gtk.STOCK_SORT_ASCENDING,
+                '', Gtk.STOCK_SORT_ASCENDING,
             ],
             'menuitem_stop_seed_at_ratio': [_('Stop Seed At Ratio'), 'Stop torrent seeding at ratio', '', None],
         }
@@ -493,15 +493,15 @@ class MenuBar(component.Component):
 
         self.builder.get_object('menuitem_change_owner').set_visible(True)
 
-        self.change_owner_submenu = gtk.Menu()
+        self.change_owner_submenu = Gtk.Menu()
         self.change_owner_submenu_items = {}
-        maingroup = gtk.RadioMenuItem(None, None)
+        maingroup = Gtk.RadioMenuItem(None, None)
 
-        self.change_owner_submenu_items[None] = gtk.RadioMenuItem(group=maingroup)
+        self.change_owner_submenu_items[None] = Gtk.RadioMenuItem(group=maingroup)
 
         for account in known_accounts:
             username = account['username']
-            item = gtk.RadioMenuItem(group=maingroup, label=username)
+            item = Gtk.RadioMenuItem(group=maingroup, label=username)
             self.change_owner_submenu_items[username] = item
             self.change_owner_submenu.append(item)
             item.connect('toggled', self._on_change_owner_toggled, username)

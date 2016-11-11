@@ -11,7 +11,7 @@
 
 from __future__ import unicode_literals
 
-import gtk
+from gi.repository import GdkPixbuf, Gtk
 from twisted.internet import defer
 
 import deluge.component as component
@@ -19,7 +19,7 @@ from deluge.common import windows_check
 from deluge.ui.gtkui.common import get_deluge_icon, get_pixbuf_at_size
 
 
-class BaseDialog(gtk.Dialog):
+class BaseDialog(Gtk.Dialog):
     """
     Base dialog class that should be used with all dialogs.
     """
@@ -35,7 +35,7 @@ class BaseDialog(gtk.Dialog):
         super(BaseDialog, self).__init__(
             title=header,
             parent=parent if parent else component.get('MainWindow').window,
-            flags=gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT | gtk.DIALOG_NO_SEPARATOR,
+            flags=Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
             buttons=buttons,
         )
 
@@ -47,19 +47,19 @@ class BaseDialog(gtk.Dialog):
         # Setup all the formatting and such to make our dialog look pretty
         self.set_border_width(5)
         self.set_default_size(200, 100)
-        hbox = gtk.HBox(spacing=5)
-        image = gtk.Image()
-        if not gtk.stock_lookup(icon) and (icon.endswith('.svg') or icon.endswith('.png')):
+        hbox = Gtk.HBox(spacing=5)
+        image = Gtk.Image()
+        if not Gtk.stock_lookup(icon) and (icon.endswith('.svg') or icon.endswith('.png')):
             # Hack for Windows since it doesn't support svg
             if icon.endswith('.svg') and windows_check():
                 icon = icon.rpartition('.svg')[0] + '16.png'
             image.set_from_pixbuf(get_pixbuf_at_size(icon, 32))
         else:
-            image.set_from_stock(icon, gtk.ICON_SIZE_DIALOG)
+            image.set_from_stock(icon, Gtk.IconSize.DIALOG)
         image.set_alignment(0.5, 0.0)
         hbox.pack_start(image, False, False, 0)
-        vbox = gtk.VBox(spacing=5)
-        tlabel = gtk.Label(text)
+        vbox = Gtk.VBox(spacing=5)
+        tlabel = Gtk.Label(label=text)
         tlabel.set_use_markup(True)
         tlabel.set_line_wrap(True)
         tlabel.set_alignment(0.0, 0.5)
@@ -70,7 +70,7 @@ class BaseDialog(gtk.Dialog):
         self.vbox.show_all()
 
     def _on_delete_event(self, widget, event):
-        self.deferred.callback(gtk.RESPONSE_DELETE_EVENT)
+        self.deferred.callback(Gtk.ResponseType.DELETE_EVENT)
         self.destroy()
 
     def _on_response(self, widget, response):
@@ -91,7 +91,7 @@ class YesNoDialog(BaseDialog):
     """
     Displays a dialog asking the user to select Yes or No to a question.
 
-    When run(), it will return either a gtk.RESPONSE_YES or a gtk.RESPONSE_NO.
+    When run(), it will return either a Gtk.ResponseType.YES or a Gtk.ResponseType.NO.
 
     """
     def __init__(self, header, text, parent=None):
@@ -103,8 +103,13 @@ class YesNoDialog(BaseDialog):
         super(YesNoDialog, self).__init__(
             header,
             text,
-            gtk.STOCK_DIALOG_QUESTION,
-            (gtk.STOCK_NO, gtk.RESPONSE_NO, gtk.STOCK_YES, gtk.RESPONSE_YES),
+            Gtk.STOCK_DIALOG_QUESTION,
+            (
+                Gtk.STOCK_NO,
+                Gtk.ResponseType.NO,
+                Gtk.STOCK_YES,
+                Gtk.ResponseType.YES,
+            ),
             parent,
         )
 
@@ -113,7 +118,7 @@ class InformationDialog(BaseDialog):
     """
     Displays an information dialog.
 
-    When run(), it will return a gtk.RESPONSE_CLOSE.
+    When run(), it will return a Gtk.ResponseType.CLOSE.
     """
     def __init__(self, header, text, parent=None):
         """
@@ -124,8 +129,8 @@ class InformationDialog(BaseDialog):
         super(InformationDialog, self).__init__(
             header,
             text,
-            gtk.STOCK_DIALOG_INFO,
-            (gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE),
+            Gtk.STOCK_DIALOG_INFO,
+            (Gtk.STOCK_CLOSE, Gtk.ResponseType.CLOSE),
             parent,
         )
 
@@ -134,7 +139,7 @@ class ErrorDialog(BaseDialog):
     """
     Displays an error dialog with optional details text for more information.
 
-    When run(), it will return a gtk.RESPONSE_CLOSE.
+    When run(), it will return a Gtk.ResponseType.CLOSE.
     """
     def __init__(self, header, text, parent=None, details=None, traceback=False):
         """
@@ -150,8 +155,8 @@ class ErrorDialog(BaseDialog):
         super(ErrorDialog, self).__init__(
             header,
             text,
-            gtk.STOCK_DIALOG_ERROR,
-            (gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE),
+            Gtk.STOCK_DIALOG_ERROR,
+            (Gtk.STOCK_CLOSE, Gtk.ResponseType.CLOSE),
             parent,
         )
 
@@ -167,14 +172,14 @@ class ErrorDialog(BaseDialog):
 
         if details:
             self.set_default_size(600, 400)
-            textview = gtk.TextView()
+            textview = Gtk.TextView()
             textview.set_editable(False)
             textview.get_buffer().set_text(details)
-            sw = gtk.ScrolledWindow()
-            sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-            sw.set_shadow_type(gtk.SHADOW_IN)
+            sw = Gtk.ScrolledWindow()
+            sw.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+            sw.set_shadow_type(Gtk.ShadowType.IN)
             sw.add(textview)
-            label = gtk.Label(_('Details:'))
+            label = Gtk.Label(label=_('Details:'))
             label.set_alignment(0.0, 0.5)
             self.vbox.pack_start(label, False, False, 0)
             self.vbox.pack_start(sw, True, True, 0)
@@ -185,8 +190,8 @@ class AuthenticationDialog(BaseDialog):
     """
     Displays a dialog with entry fields asking for username and password.
 
-    When run(), it will return either a gtk.RESPONSE_CANCEL or a
-    gtk.RESPONSE_OK.
+    When run(), it will return either a Gtk.ResponseType.CANCEL or a
+    Gtk.ResponseType.OK.
     """
     def __init__(self, err_msg='', username=None, parent=None):
         """
@@ -195,25 +200,30 @@ class AuthenticationDialog(BaseDialog):
         """
         super(AuthenticationDialog, self).__init__(
             _('Authenticate'), err_msg,
-            gtk.STOCK_DIALOG_AUTHENTICATION,
-            (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_CONNECT, gtk.RESPONSE_OK),
+            Gtk.STOCK_DIALOG_AUTHENTICATION,
+            (
+                Gtk.STOCK_CANCEL,
+                Gtk.ResponseType.CANCEL,
+                Gtk.STOCK_CONNECT,
+                Gtk.ResponseType.OK
+            ),
             parent,
         )
 
-        table = gtk.Table(2, 2, False)
-        self.username_label = gtk.Label()
+        table = Gtk.Table(2, 2, False)
+        self.username_label = Gtk.Label()
         self.username_label.set_markup('<b>' + _('Username:') + '</b>')
         self.username_label.set_alignment(1.0, 0.5)
         self.username_label.set_padding(5, 5)
-        self.username_entry = gtk.Entry()
+        self.username_entry = Gtk.Entry()
         table.attach(self.username_label, 0, 1, 0, 1)
         table.attach(self.username_entry, 1, 2, 0, 1)
 
-        self.password_label = gtk.Label()
+        self.password_label = Gtk.Label()
         self.password_label.set_markup('<b>' + _('Password:') + '</b>')
         self.password_label.set_alignment(1.0, 0.5)
         self.password_label.set_padding(5, 5)
-        self.password_entry = gtk.Entry()
+        self.password_entry = Gtk.Entry()
         self.password_entry.set_visibility(False)
         self.password_entry.connect('activate', self.on_password_activate)
         table.attach(self.password_label, 0, 1, 1, 2)
@@ -236,7 +246,7 @@ class AuthenticationDialog(BaseDialog):
         return self.password_entry.get_text()
 
     def on_password_activate(self, widget):
-        self.response(gtk.RESPONSE_OK)
+        self.response(Gtk.ResponseType.OK)
 
 
 class AccountDialog(BaseDialog):
@@ -248,10 +258,12 @@ class AccountDialog(BaseDialog):
             super(AccountDialog, self).__init__(
                 _('Edit Account'),
                 _('Edit existing account'),
-                gtk.STOCK_DIALOG_INFO,
+                Gtk.STOCK_DIALOG_INFO,
                 (
-                    gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                    gtk.STOCK_APPLY, gtk.RESPONSE_OK,
+                    Gtk.STOCK_CANCEL,
+                    Gtk.ResponseType.CANCEL,
+                    Gtk.STOCK_APPLY,
+                    Gtk.ResponseType.OK
                 ),
                 parent,
             )
@@ -259,32 +271,34 @@ class AccountDialog(BaseDialog):
             super(AccountDialog, self).__init__(
                 _('New Account'),
                 _('Create a new account'),
-                gtk.STOCK_DIALOG_INFO,
+                Gtk.STOCK_DIALOG_INFO,
                 (
-                    gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                    gtk.STOCK_ADD, gtk.RESPONSE_OK,
+                    Gtk.STOCK_CANCEL,
+                    Gtk.ResponseType.CANCEL,
+                    Gtk.STOCK_ADD,
+                    Gtk.ResponseType.OK,
                 ),
                 parent,
             )
 
         self.levels_mapping = levels_mapping
 
-        table = gtk.Table(2, 3, False)
-        self.username_label = gtk.Label()
+        table = Gtk.Table(2, 3, False)
+        self.username_label = Gtk.Label()
         self.username_label.set_markup('<b>' + _('Username:') + '</b>')
         self.username_label.set_alignment(1.0, 0.5)
         self.username_label.set_padding(5, 5)
-        self.username_entry = gtk.Entry()
+        self.username_entry = Gtk.Entry()
         table.attach(self.username_label, 0, 1, 0, 1)
         table.attach(self.username_entry, 1, 2, 0, 1)
 
-        self.authlevel_label = gtk.Label()
+        self.authlevel_label = Gtk.Label()
         self.authlevel_label.set_markup('<b>' + _('Authentication Level:') + '</b>')
         self.authlevel_label.set_alignment(1.0, 0.5)
         self.authlevel_label.set_padding(5, 5)
 
         # combo_box_new_text is deprecated but no other pygtk alternative.
-        self.authlevel_combo = gtk.combo_box_new_text()
+        self.authlevel_combo = Gtk.ComboBoxText()
         active_idx = None
         for idx, level in enumerate(levels_mapping):
             self.authlevel_combo.append_text(level)
@@ -299,11 +313,11 @@ class AccountDialog(BaseDialog):
         table.attach(self.authlevel_label, 0, 1, 1, 2)
         table.attach(self.authlevel_combo, 1, 2, 1, 2)
 
-        self.password_label = gtk.Label()
+        self.password_label = Gtk.Label()
         self.password_label.set_markup('<b>' + _('Password:') + '</b>')
         self.password_label.set_alignment(1.0, 0.5)
         self.password_label.set_padding(5, 5)
-        self.password_entry = gtk.Entry()
+        self.password_entry = Gtk.Entry()
         self.password_entry.set_visibility(False)
         table.attach(self.password_label, 0, 1, 2, 3)
         table.attach(self.password_entry, 1, 2, 2, 3)
@@ -345,22 +359,27 @@ class OtherDialog(BaseDialog):
             raise TypeError('default value needs to be an int or float')
 
         if not icon:
-            icon = gtk.STOCK_DIALOG_INFO
+            icon = Gtk.STOCK_DIALOG_INFO
 
         super(OtherDialog, self).__init__(
             header,
             text,
             icon,
-            (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_APPLY, gtk.RESPONSE_OK),
+            (
+                Gtk.STOCK_CANCEL,
+                Gtk.ResponseType.CANCEL,
+                Gtk.STOCK_APPLY,
+                Gtk.ResponseType.OK,
+            ),
             parent,
         )
 
-        hbox = gtk.HBox(spacing=5)
-        alignment_spacer = gtk.Alignment()
+        hbox = Gtk.HBox(spacing=5)
+        alignment_spacer = Gtk.Alignment.new(0, 0, 0, 0)
         hbox.pack_start(alignment_spacer, True, True, 0)
-        alignment_spin = gtk.Alignment(1, 0.5, 1, 1)
-        adjustment_spin = gtk.Adjustment(value=-1, lower=-1, upper=2097151, step_incr=1, page_incr=10)
-        self.spinbutton = gtk.SpinButton(adjustment_spin)
+        alignment_spin = Gtk.Alignment.new(1, 0.5, 1, 1)
+        adjustment_spin = Gtk.Adjustment(value=-1, lower=-1, upper=2097151, step_increment=1, page_increment=10)
+        self.spinbutton = Gtk.SpinButton.new(adjustment_spin, 0, 0)
         self.spinbutton.set_value(default)
         self.spinbutton.select_region(0, -1)
         self.spinbutton.set_width_chars(6)
@@ -370,7 +389,7 @@ class OtherDialog(BaseDialog):
             self.spinbutton.set_digits(1)
         alignment_spin.add(self.spinbutton)
         hbox.pack_start(alignment_spin, False, True, 0)
-        label_type = gtk.Label()
+        label_type = Gtk.Label()
         label_type.set_text(unit_text)
         label_type.set_alignment(0.0, 0.5)
         hbox.pack_start(label_type, True, True, 0)
@@ -384,7 +403,7 @@ class OtherDialog(BaseDialog):
 
     def _on_response(self, widget, response):
         value = None
-        if response == gtk.RESPONSE_OK:
+        if response == Gtk.ResponseType.OK:
             if self.value_type is int:
                 value = self.spinbutton.get_value_as_int()
             else:
@@ -397,7 +416,7 @@ class PasswordDialog(BaseDialog):
     """
     Displays a dialog with an entry field asking for a password.
 
-    When run(), it will return either a gtk.RESPONSE_CANCEL or a gtk.RESPONSE_OK.
+    When run(), it will return either a Gtk.ResponseType.CANCEL or a Gtk.ResponseType.OK.
     """
     def __init__(self, password_msg='', parent=None):
         """
@@ -406,17 +425,22 @@ class PasswordDialog(BaseDialog):
         """
         super(PasswordDialog, self).__init__(
             _('Password Protected'), password_msg,
-            gtk.STOCK_DIALOG_AUTHENTICATION,
-            (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_CONNECT, gtk.RESPONSE_OK),
+            Gtk.STOCK_DIALOG_AUTHENTICATION,
+            (
+                Gtk.STOCK_CANCEL,
+                Gtk.ResponseType.CANCEL,
+                Gtk.STOCK_CONNECT,
+                Gtk.ResponseType.OK
+            ),
             parent,
         )
 
-        table = gtk.Table(1, 2, False)
-        self.password_label = gtk.Label()
+        table = Gtk.Table(1, 2, False)
+        self.password_label = Gtk.Label()
         self.password_label.set_markup('<b>' + _('Password:') + '</b>')
         self.password_label.set_alignment(1.0, 0.5)
         self.password_label.set_padding(5, 5)
-        self.password_entry = gtk.Entry()
+        self.password_entry = Gtk.Entry()
         self.password_entry.set_visibility(False)
         self.password_entry.connect('activate', self.on_password_activate)
         table.attach(self.password_label, 0, 1, 1, 2)
@@ -431,4 +455,4 @@ class PasswordDialog(BaseDialog):
         return self.password_entry.get_text()
 
     def on_password_activate(self, widget):
-        self.response(gtk.RESPONSE_OK)
+        self.response(Gtk.ResponseType.OK)

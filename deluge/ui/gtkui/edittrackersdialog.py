@@ -12,7 +12,7 @@ from __future__ import unicode_literals
 import logging
 import os.path
 
-import gtk
+from gi.repository import Gtk
 from twisted.internet import defer
 
 import deluge.component as component
@@ -79,7 +79,7 @@ def trackers_tiers_from_text(text_str=''):
 class EditTrackersDialog(object):
     def __init__(self, torrent_id, parent=None):
         self.torrent_id = torrent_id
-        self.builder = gtk.Builder()
+        self.builder = Gtk.Builder()
         self.gtkui_config = ConfigManager('gtkui.conf')
 
         # Main dialog
@@ -112,18 +112,18 @@ class EditTrackersDialog(object):
         self.builder.connect_signals(self)
 
         # Create a liststore for tier, url
-        self.liststore = gtk.ListStore(int, str)
+        self.liststore = Gtk.ListStore(int, str)
 
         # Create the columns
         self.treeview.append_column(
-            gtk.TreeViewColumn(_('Tier'), gtk.CellRendererText(), text=0),
+            Gtk.TreeViewColumn(_('Tier'), Gtk.CellRendererText(), text=0),
         )
         self.treeview.append_column(
-            gtk.TreeViewColumn(_('Tracker'), gtk.CellRendererText(), text=1),
+            Gtk.TreeViewColumn(_('Tracker'), Gtk.CellRendererText(), text=1),
         )
 
         self.treeview.set_model(self.liststore)
-        self.liststore.set_sort_column_id(0, gtk.SORT_ASCENDING)
+        self.liststore.set_sort_column_id(0, Gtk.SortType.ASCENDING)
 
         self.dialog.connect('delete-event', self._on_delete_event)
         self.dialog.connect('response', self._on_response)
@@ -157,7 +157,7 @@ class EditTrackersDialog(object):
         self.gtkui_config['edit_trackers_dialog_height'] = event.height
 
     def _on_delete_event(self, widget, event):
-        self.deferred.callback(gtk.RESPONSE_DELETE_EVENT)
+        self.deferred.callback(Gtk.ResponseType.DELETE_EVENT)
         self.dialog.destroy()
 
     def _on_response(self, widget, response):
@@ -173,11 +173,11 @@ class EditTrackersDialog(object):
             if self.old_trackers != self.trackers:
                 # Set the torrens trackers
                 client.core.set_torrent_trackers(self.torrent_id, self.trackers)
-                self.deferred.callback(gtk.RESPONSE_OK)
+                self.deferred.callback(Gtk.ResponseType.OK)
             else:
-                self.deferred.callback(gtk.RESPONSE_CANCEL)
+                self.deferred.callback(Gtk.ResponseType.CANCEL)
         else:
-            self.deferred.callback(gtk.RESPONSE_CANCEL)
+            self.deferred.callback(Gtk.ResponseType.CANCEL)
         self.dialog.destroy()
 
     def _on_get_torrent_status(self, status):
@@ -287,6 +287,6 @@ class EditTrackersDialog(object):
     def on_button_add_cancel_clicked(self, widget):
         log.debug('on_button_add_cancel_clicked')
         # Clear the entry widget and hide the dialog
-        b = gtk.TextBuffer()
+        b = Gtk.TextBuffer()
         self.builder.get_object('textview_trackers').set_buffer(b)
         self.add_tracker_dialog.hide()

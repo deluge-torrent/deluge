@@ -14,7 +14,7 @@ from __future__ import unicode_literals
 import logging
 from collections import namedtuple
 
-from gtk import CheckMenuItem, Menu, SeparatorMenuItem
+from gi.repository.Gtk import CheckMenuItem, Menu, SeparatorMenuItem
 
 import deluge.component as component
 from deluge.ui.client import client
@@ -310,7 +310,7 @@ class TorrentDetails(component.Component):
         """Generates the checklist menu for all the tabs and attaches it"""
         menu = Menu()
         # Create 'All' menuitem and a separator
-        menuitem = CheckMenuItem(self.translate_tabs['All'], True)
+        menuitem = CheckMenuItem.new_with_mnemonic(self.translate_tabs['All'])
         menuitem.set_name('All')
 
         all_tabs = True
@@ -333,7 +333,7 @@ class TorrentDetails(component.Component):
         menuitem_list.sort()
 
         for pos, name in menuitem_list:
-            menuitem = CheckMenuItem(self.translate_tabs[name], True)
+            menuitem = CheckMenuItem.new_with_mnemonic(self.translate_tabs[name])
             menuitem.set_name(name)
             menuitem.set_active(self.tabs[name].is_visible)
             menuitem.connect('toggled', self._on_menuitem_toggled)

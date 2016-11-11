@@ -13,7 +13,7 @@ import logging
 import os
 from socket import gaierror, gethostbyname
 
-import gtk
+from gi.repository import Gtk
 from twisted.internet import defer, reactor
 
 import deluge.component as component
@@ -83,7 +83,7 @@ class ConnectionManager(component.Component):
     def stop(self):
         # Close this dialog when we are shutting down
         if self.running:
-            self.connection_manager.response(gtk.RESPONSE_CLOSE)
+            self.connection_manager.response(Gtk.ResponseType.CLOSE)
 
     def shutdown(self):
         pass
@@ -91,7 +91,7 @@ class ConnectionManager(component.Component):
     # Public methods
     def show(self):
         """Show the ConnectionManager dialog."""
-        self.builder = gtk.Builder()
+        self.builder = Gtk.Builder()
         self.builder.add_from_file(resource_filename(
             'deluge.ui.gtkui', os.path.join('glade', 'connection_manager.ui'),
         ))
@@ -100,22 +100,22 @@ class ConnectionManager(component.Component):
 
         # Create status pixbufs
         if not HOSTLIST_PIXBUFS:
-            for stock_id in (gtk.STOCK_NO, gtk.STOCK_YES, gtk.STOCK_CONNECT):
+            for stock_id in (Gtk.STOCK_NO, Gtk.STOCK_YES, Gtk.STOCK_CONNECT):
                 HOSTLIST_PIXBUFS.append(
-                    self.connection_manager.render_icon(stock_id, gtk.ICON_SIZE_MENU),
+                    self.connection_manager.render_icon(stock_id, Gtk.ICON_SIZE_MENU),
                 )
 
         # Setup the hostlist liststore and treeview
         self.treeview = self.builder.get_object('treeview_hostlist')
         self.liststore = self.builder.get_object('liststore_hostlist')
 
-        render = gtk.CellRendererPixbuf()
-        column = gtk.TreeViewColumn(_('Status'), render)
+        render = Gtk.CellRendererPixbuf()
+        column = Gtk.TreeViewColumn(_('Status'), render)
         column.set_cell_data_func(render, cell_render_status, HOSTLIST_COL_STATUS)
         self.treeview.append_column(column)
 
-        render = gtk.CellRendererText()
-        column = gtk.TreeViewColumn(_('Host'), render, text=HOSTLIST_COL_HOST)
+        render = Gtk.CellRendererText()
+        column = Gtk.TreeViewColumn(_('Host'), render, text=HOSTLIST_COL_HOST)
         host_data = (HOSTLIST_COL_HOST, HOSTLIST_COL_PORT, HOSTLIST_COL_USER)
         column.set_cell_data_func(render, cell_render_host, host_data)
         column.set_expand(True)
@@ -236,7 +236,7 @@ class ConnectionManager(component.Component):
         if status == 'Connected' or status == 'Online':
             self.builder.get_object('button_connect').set_sensitive(True)
             self.builder.get_object('image_startdaemon').set_from_stock(
-                gtk.STOCK_STOP, gtk.ICON_SIZE_MENU,
+                Gtk.STOCK_STOP, Gtk.ICON_SIZE_MENU,
             )
             self.builder.get_object('label_startdaemon').set_text_with_mnemonic(_('_Stop Daemon'))
             self.builder.get_object('button_startdaemon').set_sensitive(False)
@@ -302,7 +302,7 @@ class ConnectionManager(component.Component):
             # this component will be stopped(while the connect deferred is
             # running), so, self.connection_manager will be deleted.
             # If that's not the case, close the dialog.
-            self.connection_manager.response(gtk.RESPONSE_OK)
+            self.connection_manager.response(Gtk.ResponseType.OK)
         component.start()
 
     def _on_connect_fail(self, reason, host_id, try_counter):
@@ -313,7 +313,7 @@ class ConnectionManager(component.Component):
             dialog = AuthenticationDialog(reason.value.message, reason.value.username)
 
             def dialog_finished(response_id):
-                if response_id == gtk.RESPONSE_OK:
+                if response_id == Gtk.RESPONSE_OK:
                     self._connect(host_id, dialog.get_username(), dialog.get_password())
             return dialog.run().addCallback(dialog_finished)
 
@@ -358,7 +358,7 @@ class ConnectionManager(component.Component):
         self._connect(host_id, try_counter=try_counter)
 
     def on_button_close_clicked(self, widget):
-        self.connection_manager.response(gtk.RESPONSE_CLOSE)
+        self.connection_manager.response(Gtk.ResponseType.CLOSE)
 
     def _run_addhost_dialog(self, edit_host_info=None):
         """Create and runs the add host dialog.

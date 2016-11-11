@@ -9,7 +9,7 @@
 
 from __future__ import unicode_literals
 
-import gtk
+from gi.repository import GdkPixbuf, Gtk
 
 import deluge.component as component
 from deluge.common import get_version, open_url_in_browser, windows_check
@@ -19,9 +19,10 @@ from deluge.ui.gtkui.common import get_deluge_icon, get_pixbuf
 
 class AboutDialog(object):
     def __init__(self):
-        self.about = gtk.AboutDialog()
-        self.about.set_transient_for(component.get('MainWindow').window)
-        self.about.set_position(gtk.WIN_POS_CENTER)
+        self.about = Gtk.AboutDialog()
+        self.about.set_transient_for(component.get('MainWindow').get_window())
+        self.about.set_position(Gtk.WindowPosition.CENTER)
+        self.about.set_name(_('Deluge'))
         self.about.set_program_name(_('Deluge'))
         if windows_check():
             def url_hook(dialog, url):

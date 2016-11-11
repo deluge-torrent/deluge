@@ -10,7 +10,7 @@
 
 from __future__ import unicode_literals
 
-from gtk.gdk import keyval_name
+from gi.repository.Gdk import keyval_name
 
 import deluge.component as component
 from deluge.ui.client import client

@@ -11,11 +11,12 @@ from __future__ import division, unicode_literals
 
 from math import pi
 
-from cairo import FORMAT_ARGB32, Context, ImageSurface
-from gtk import DrawingArea, ProgressBar
-from gtk.gdk import colormap_get_system
-from pango import SCALE, WEIGHT_BOLD
-from pangocairo import CairoContext
+from gi.repository.Gtk import DrawingArea, ProgressBar
+from gi.repository.Gdk import colormap_get_system
+from gi.repository.cairo import FORMAT_ARGB32, Context, ImageSurface
+from gi.repository.Pango import SCALE
+from gi.repository.Pango.Weight import BOLD
+from gi.repository.PangoCairo import CairoContext
 
 from deluge.configmanager import ConfigManager
 
@@ -32,7 +33,7 @@ class PiecesBar(DrawingArea):
         pb = ProgressBar()
         pb_style = pb.get_style()
         self.text_font = pb_style.font_desc
-        self.text_font.set_weight(WEIGHT_BOLD)
+        self.text_font.set_weight(BOLD)
         # Done with the ProgressBar styles, don't keep refs of it
         del pb, pb_style
 

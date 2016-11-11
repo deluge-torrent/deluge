@@ -12,8 +12,8 @@ from __future__ import unicode_literals
 import logging
 import os.path
 
-from gobject import timeout_add
-from gtk import STOCK_SORT_DESCENDING, Builder, CellRendererText, ListStore, TreeViewColumn
+from gi.repository.GObject import timeout_add
+from gi.repository.Gtk import STOCK_SORT_DESCENDING, Builder, CellRendererText, ListStore, TreeViewColumn
 
 import deluge.common
 import deluge.component as component

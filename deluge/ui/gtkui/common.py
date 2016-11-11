@@ -16,9 +16,9 @@ import shutil
 import sys
 
 import six.moves.cPickle as pickle
-from gobject import GError
-from gtk import SORT_ASCENDING, Menu, MenuItem, RadioMenuItem, SeparatorMenuItem, clipboard_get, icon_theme_get_default
-from gtk.gdk import COLORSPACE_RGB, SELECTION_PRIMARY, Pixbuf, pixbuf_new_from_file, pixbuf_new_from_file_at_size
+from gi.repository.GdkPixbuf import ColorSpace, Pixbuf
+from gi.repository.Gtk import SORT_ASCENDING, Menu, MenuItem, RadioMenuItem, SeparatorMenuItem, clipboard_get, IconTheme
+from gi.repository.GLib import GError
 
 from deluge.common import get_pixmap, osx_check, windows_check
 
@@ -26,14 +26,14 @@ log = logging.getLogger(__name__)
 
 
 def create_blank_pixbuf(size=16):
-    pix = Pixbuf(COLORSPACE_RGB, True, 8, size, size)
+    pix = Pixbuf(ColorSpace.RGB, True, 8, size, size)
     pix.fill(0x0)
     return pix
 
 
 def get_pixbuf(filename):
     try:
-        return pixbuf_new_from_file(get_pixmap(filename))
+        return Pixbuf.new_from_file(get_pixmap(filename))
     except GError as ex:
         log.warning(ex)
         return create_blank_pixbuf()
@@ -50,7 +50,7 @@ icon_checking = get_pixbuf('checking16.png')
 
 def get_pixbuf_at_size(filename, size):
     try:
-        return pixbuf_new_from_file_at_size(get_pixmap(filename), size, size)
+        return Pixbuf.new_from_file_at_size(get_pixmap(filename), size, size)
     except GError as ex:
         # Failed to load the pixbuf (Bad image file), so return a blank pixbuf.
         log.warning(ex)
@@ -64,7 +64,7 @@ def get_logo(size):
         size (int): Size of logo in pixels
 
     Returns:
-        gtk.gdk.Pixbuf: deluge logo
+        Pixbuf: deluge logo
     """
     filename = 'deluge.svg'
     if windows_check():
@@ -91,7 +91,7 @@ def build_menu_radio_list(
     The pref_value is what you would like to test for the default active radio item.
 
     Returns:
-        gtk.Menu: The menu radio
+        Menu: The menu radio
     """
     menu = Menu()
     group = None
@@ -166,7 +166,7 @@ def get_deluge_icon():
     that is distributed with the package.
 
     Returns:
-        gtk.gdk.Pixbuf: the deluge icon
+        Pixbuf: the deluge icon
     """
     if windows_check():
         return get_logo(32)
@@ -221,13 +221,13 @@ def associate_magnet_links(overwrite=False):
     elif not osx_check():
         # gconf method is only available in a GNOME environment
         try:
-            import gconf
+            from gi.repository import GConf
         except ImportError:
             log.debug('gconf not available, so will not attempt to register magnet uri handler')
             return False
         else:
             key = '/desktop/gnome/url-handlers/magnet/command'
-            gconf_client = gconf.client_get_default()
+            gconf_client = GConf.Client.get_default()
             if (gconf_client.get(key) and overwrite) or not gconf_client.get(key):
                 # We are either going to overwrite the key, or do it if it hasn't been set yet
                 if gconf_client.set_string(key, 'deluge "%s"'):
@@ -316,7 +316,7 @@ def listview_replace_treestore(listview):
     treestore.clear()
     treestore.set_default_sort_func(lambda *args: 0)
     original_sort = treestore.get_sort_column_id()
-    treestore.set_sort_column_id(-1, SORT_ASCENDING)
+    treestore.set_sort_column_id(-1, SortType.ASCENDING)
 
     yield
 

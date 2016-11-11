@@ -152,7 +152,7 @@ class IPCInterface(component.Component):
                 reactor.run()
                 if self.factory.stop:
                     log.info('Success sending arguments to running Deluge.')
-                    from gtk.gdk import notify_startup_complete
+                    from gi.repository.Gdk import notify_startup_complete
                     notify_startup_complete()
                     sys.exit(0)
                 else:

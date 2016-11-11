@@ -9,13 +9,13 @@
 
 from __future__ import unicode_literals
 
-import copy
 import logging
 import os.path
 from hashlib import sha1 as sha
 
-import gtk
-from gtk.gdk import ACTION_COPY, WINDOW_STATE_ICONIFIED, WINDOW_STATE_MAXIMIZED, WINDOW_STATE_WITHDRAWN
+from gi.repository import Gdk, Gtk
+from gi.repository.Gdk import DragAction.COPY
+from gi.repostiory.Gdk.WindowState import ICONIFIED, MAXIMIZED, WITHDRAWN
 from twisted.internet import reactor
 from twisted.internet.error import ReactorNotRunning
 
@@ -28,9 +28,10 @@ from deluge.ui.gtkui.dialogs import PasswordDialog
 from deluge.ui.gtkui.ipcinterface import process_args
 
 try:
-    import wnck
+    from gi.repository import Wnck
 except ImportError:
-    wnck = None
+    Wnck = None
+
 
 log = logging.getLogger(__name__)
 
@@ -58,11 +59,11 @@ class _GtkBuilderSignalsHolder(object):
 
 class MainWindow(component.Component):
     def __init__(self):
-        if wnck:
-            self.screen = wnck.screen_get_default()
+        if Wnck:
+            self.screen = Wnck.Screen.get_default()
         component.Component.__init__(self, 'MainWindow', interval=2)
         self.config = ConfigManager('gtkui.conf')
-        self.main_builder = gtk.Builder()
+        self.main_builder = Gtk.Builder()
 
         # Patch this GtkBuilder to avoid connecting signals from elsewhere
         #
@@ -103,7 +104,8 @@ class MainWindow(component.Component):
         self.is_minimized = False
         self.restart = False
 
-        self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL, [('text/uri-list', 0, 80)], ACTION_COPY)
+        self.window.drag_dest_set(
+            Gtk.DestDefaults.ALL, [Gtk.TargetEntry.new('text/uri-list', 0, 80)], DragAction.COPY)
 
         # Connect events
         self.window.connect('window-state-event', self.on_window_state_event)
@@ -129,8 +131,8 @@ class MainWindow(component.Component):
             log.debug('Showing window')
             self.show()
 
-        while gtk.events_pending():
-            gtk.main_iteration()
+        while Gtk.events_pending():
+            Gtk.main_iteration()
 
     def show(self):
         component.resume(self.child_components)
@@ -155,7 +157,7 @@ class MainWindow(component.Component):
             dialog = PasswordDialog(_('Enter your password to show Deluge...'))
 
             def on_dialog_response(response_id):
-                if response_id == gtk.RESPONSE_OK:
+                if response_id == Gtk.ResponseType.OK:
                     if self.config['tray_password'] == sha(dialog.get_password()).hexdigest():
                         restore()
             dialog.run().addCallback(on_dialog_response)
@@ -202,7 +204,7 @@ class MainWindow(component.Component):
             dialog = PasswordDialog(_('Enter your password to Quit Deluge...'))
 
             def on_dialog_response(response_id):
-                if response_id == gtk.RESPONSE_OK:
+                if response_id == Gtk.ResponseType.OK:
                     if self.config['tray_password'] == sha(dialog.get_password()).hexdigest():
                         quit_gtkui()
             dialog.run().addCallback(on_dialog_response)
@@ -225,14 +227,14 @@ class MainWindow(component.Component):
             self.config['window_height'] = event.height
 
     def on_window_state_event(self, widget, event):
-        if event.changed_mask & WINDOW_STATE_MAXIMIZED:
-            if event.new_window_state & WINDOW_STATE_MAXIMIZED:
+        if event.changed_mask & MAXIMIZED:
+            if event.new_window_state & MAXIMIZED:
                 log.debug('pos: %s', self.window.get_position())
                 self.config['window_maximized'] = True
-            elif not event.new_window_state & WINDOW_STATE_WITHDRAWN:
+            elif not event.new_window_state & WITHDRAWN:
                 self.config['window_maximized'] = False
-        if event.changed_mask & WINDOW_STATE_ICONIFIED:
-            if event.new_window_state & WINDOW_STATE_ICONIFIED:
+        if event.changed_mask & ICONIFIED:
+            if event.new_window_state & ICONIFIED:
                 log.debug('MainWindow is minimized..')
                 component.get('TorrentView').save_state()
                 component.pause(self.child_components)

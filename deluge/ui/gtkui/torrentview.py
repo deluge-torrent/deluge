@@ -13,9 +13,10 @@ from __future__ import unicode_literals
 import logging
 from locale import strcoll
 
-from gobject import TYPE_UINT64, idle_add
-from gtk import ENTRY_ICON_SECONDARY
-from gtk.gdk import CONTROL_MASK, MOD1_MASK, SHIFT_MASK, keyval_name
+from gi.repository.Gtk import EntryIconPosition
+from gi.repository.Gdk import keyval_name
+from gi.repository.Gdk.ModifierType import CONTROL_MASK, MOD1_MASK, SHIFT_MASK
+from gi.repository.GObject import TYPE_UINT64, idle_add
 from twisted.internet import reactor
 
 import deluge.component as component
@@ -223,7 +224,7 @@ class SearchBox(object):
             self.search_pending = reactor.callLater(0.7, self.torrentview.update)
 
     def on_search_torrents_entry_icon_press(self, entry, icon, event):
-        if icon != ENTRY_ICON_SECONDARY:
+        if icon != EntryIconPosition.SECONDARY:
             return
         self.clear_search()
 

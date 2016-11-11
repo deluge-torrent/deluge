@@ -9,8 +9,11 @@
 
 from __future__ import unicode_literals
 
-from gtk import ACCEL_VISIBLE, SeparatorMenuItem, accel_groups_from_object
-from gtk.gdk import CONTROL_MASK, META_MASK, SHIFT_MASK
+from gi.repository import Gdk, Gtk
+from gi.repository.Gdk.ModifierType import CONTROL_MASK, SHIFT_MASK
+from gi.repository.Gdk.EventMask import META_MASK
+from gi.repository.Gtk import SeparatorMenuItem, accel_groups_from_object
+from gi.repository.Gtk.AccelFlags import VISIBLE
 
 from deluge.configmanager import ConfigManager
 
@@ -18,7 +21,7 @@ from deluge.configmanager import ConfigManager
 def accel_swap(item, group, skey, smod, dkey, dmod):
     # Accel map hack broken, see ticket #3078
     # item.remove_accelerator(group, ord(skey), smod)
-    item.add_accelerator('activate', group, ord(dkey), dmod, ACCEL_VISIBLE)
+    item.add_accelerator('activate', group, ord(dkey), dmod, VISIBLE)
 
 
 def accel_meta(item, group, key):

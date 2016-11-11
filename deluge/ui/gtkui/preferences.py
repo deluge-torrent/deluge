@@ -14,8 +14,8 @@ import logging
 import os
 from hashlib import sha1 as sha
 
-import gtk
-from gtk.gdk import Color
+from gi.repository import Gtk
+from gi.repository.Gdk import Color
 
 import deluge.common
 import deluge.component as component
@@ -55,7 +55,7 @@ COLOR_STATES = {
 class Preferences(component.Component):
     def __init__(self):
         component.Component.__init__(self, 'Preferences')
-        self.builder = gtk.Builder()
+        self.builder = Gtk.Builder()
         self.builder.add_from_file(deluge.common.resource_filename(
             'deluge.ui.gtkui', os.path.join('glade', 'preferences_dialog.ui'),
         ))
@@ -78,10 +78,10 @@ class Preferences(component.Component):
             self.builder.get_object('button_associate_magnet').hide()
 
         # Setup the liststore for the categories (tab pages)
-        self.liststore = gtk.ListStore(int, str, str)
+        self.liststore = Gtk.ListStore(int, str, str)
         self.treeview.set_model(self.liststore)
-        render = gtk.CellRendererText()
-        column = gtk.TreeViewColumn(None, render, text=2)
+        render = Gtk.CellRendererText()
+        column = Gtk.TreeViewColumn(None, render, text=2)
         self.treeview.append_column(column)
 
         # Add the default categories
@@ -104,16 +104,16 @@ class Preferences(component.Component):
         # Setup accounts tab lisview
         self.accounts_levels_mapping = None
         self.accounts_authlevel = self.builder.get_object('accounts_authlevel')
-        self.accounts_liststore = gtk.ListStore(str, str, str, int)
-        self.accounts_liststore.set_sort_column_id(ACCOUNTS_USERNAME, gtk.SORT_ASCENDING)
+        self.accounts_liststore = Gtk.ListStore(str, str, str, int)
+        self.accounts_liststore.set_sort_column_id(ACCOUNTS_USERNAME, Gtk.SortType.ASCENDING)
         self.accounts_listview = self.builder.get_object('accounts_listview')
         self.accounts_listview.append_column(
-            gtk.TreeViewColumn(_('Username'), gtk.CellRendererText(), text=ACCOUNTS_USERNAME),
+            Gtk.TreeViewColumn(_('Username'), Gtk.CellRendererText(), text=ACCOUNTS_USERNAME),
         )
         self.accounts_listview.append_column(
-            gtk.TreeViewColumn(_('Level'), gtk.CellRendererText(), text=ACCOUNTS_LEVEL),
+            Gtk.TreeViewColumn(_('Level'), Gtk.CellRendererText(), text=ACCOUNTS_LEVEL),
         )
-        password_column = gtk.TreeViewColumn('password', gtk.CellRendererText(), text=ACCOUNTS_PASSWORD)
+        password_column = Gtk.TreeViewColumn('password', Gtk.CellRendererText(), text=ACCOUNTS_PASSWORD)
         self.accounts_listview.append_column(password_column)
         password_column.set_visible(False)
         self.accounts_listview.set_model(self.accounts_liststore)
@@ -123,11 +123,11 @@ class Preferences(component.Component):
 
         # Setup plugin tab listview
         # The third entry is for holding translated plugin names
-        self.plugin_liststore = gtk.ListStore(str, bool, str)
-        self.plugin_liststore.set_sort_column_id(0, gtk.SORT_ASCENDING)
+        self.plugin_liststore = Gtk.ListStore(str, bool, str)
+        self.plugin_liststore.set_sort_column_id(0, Gtk.SortType.ASCENDING)
         self.plugin_listview = self.builder.get_object('plugin_listview')
         self.plugin_listview.set_model(self.plugin_liststore)
-        render = gtk.CellRendererToggle()
+        render = Gtk.CellRendererToggle()
         render.connect('toggled', self.on_plugin_toggled)
         render.set_property('activatable', True)
         self.plugin_listview.append_column(gtk.TreeViewColumn(_('Enabled'), render, active=1))
@@ -202,26 +202,26 @@ class Preferences(component.Component):
         parent = widget.get_parent()
         if parent:
             parent.remove(widget)
-        vbox = gtk.VBox()
-        label = gtk.Label()
+        vbox = Gtk.VBox()
+        label = Gtk.Label()
         label.set_use_markup(True)
         label.set_markup('<b><i><big>' + name + '</big></i></b>')
         label.set_alignment(0.00, 0.50)
         label.set_padding(10, 10)
         vbox.pack_start(label, False, True, 0)
-        sep = gtk.HSeparator()
+        sep = Gtk.HSeparator()
         vbox.pack_start(sep, False, True, 0)
-        align = gtk.Alignment()
+        align = Gtk.Alignment.new(0, 0, 0, 0)
         align.set_padding(5, 0, 0, 0)
         align.set(0, 0, 1, 1)
         align.add(widget)
         vbox.pack_start(align, True, True, 0)
-        scrolled = gtk.ScrolledWindow()
-        viewport = gtk.Viewport()
-        viewport.set_shadow_type(gtk.SHADOW_NONE)
+        scrolled = Gtk.ScrolledWindow()
+        viewport = Gtk.Viewport()
+        viewport.set_shadow_type(Gtk.ShadowType.NONE)
         viewport.add(vbox)
         scrolled.add(viewport)
-        scrolled.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+        scrolled.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
         scrolled.show_all()
         # Add this page to the notebook
         index = self.notebook.append_page(scrolled, None)
@@ -719,7 +719,7 @@ class Preferences(component.Component):
 
         if was_standalone != new_gtkui_standalone:
             def on_response(response):
-                if response == gtk.RESPONSE_YES:
+                if response == Gtk.ResponseType.YES:
                     shutdown_daemon = (not client.is_standalone() and
                                        client.connected() and
                                        client.is_localhost())
@@ -884,10 +884,10 @@ class Preferences(component.Component):
 
         def on_get_test(status):
             if status:
-                self.builder.get_object('port_img').set_from_stock(gtk.STOCK_YES, 4)
+                self.builder.get_object('port_img').set_from_stock(Gtk.STOCK_YES, 4)
                 self.builder.get_object('port_img').show()
             else:
-                self.builder.get_object('port_img').set_from_stock(gtk.STOCK_DIALOG_WARNING, 4)
+                self.builder.get_object('port_img').set_from_stock(Gtk.STOCK_DIALOG_WARNING, 4)
                 self.builder.get_object('port_img').show()
         client.core.test_listen_port().addCallback(on_get_test)
         # XXX: Consider using gtk.Spinner() instead of the loading gif
@@ -929,18 +929,23 @@ class Preferences(component.Component):
 
     def on_button_plugin_install_clicked(self, widget):
         log.debug('on_button_plugin_install_clicked')
-        chooser = gtk.FileChooserDialog(
+        chooser = Gtk.FileChooserDialog(
             _('Select the Plugin'),
             self.pref_dialog,
-            gtk.FILE_CHOOSER_ACTION_OPEN,
-            buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK),
+            Gtk.FileChooserAction.OPEN,
+            buttons=(
+                Gtk.STOCK_CANCEL,
+                Gtk.ResponseType.CANCEL,
+                Gtk.STOCK_OPEN,
+                Gtk.ResponseType.OK,
+            ),
         )
 
         chooser.set_transient_for(self.pref_dialog)
         chooser.set_select_multiple(False)
         chooser.set_property('skip-taskbar-hint', True)
 
-        file_filter = gtk.FileFilter()
+        file_filter = Gtk.FileFilter()
         file_filter.set_name(_('Plugin Eggs'))
         file_filter.add_pattern('*.' + 'egg')
         chooser.add_filter(file_filter)
@@ -948,7 +953,7 @@ class Preferences(component.Component):
         # Run the dialog
         response = chooser.run()
 
-        if response == gtk.RESPONSE_OK:
+        if response == Gtk.ResponseType.OK:
             filepath = deluge.common.decode_bytes(chooser.get_filename())
         else:
             chooser.destroy()
@@ -1117,7 +1122,7 @@ class Preferences(component.Component):
                         parent=self.pref_dialog, details=failure.getErrorMessage(),
                     ).run()
 
-            if response_id == gtk.RESPONSE_OK:
+            if response_id == Gtk.ResponseType.OK:
                 client.core.create_account(
                     username, password, authlevel,
                 ).addCallback(add_ok).addErrback(add_fail)
@@ -1150,7 +1155,7 @@ class Preferences(component.Component):
                     parent=self.pref_dialog, details=failure.getErrorMessage(),
                 ).run()
 
-            if response_id == gtk.RESPONSE_OK:
+            if response_id == Gtk.ResponseType.OK:
                 client.core.update_account(
                     dialog.get_username(),
                     dialog.get_password(),
@@ -1187,7 +1192,7 @@ class Preferences(component.Component):
                         _('An error occurred while removing account'),
                         parent=self.pref_dialog, details=failure.getErrorMessage(),
                     ).run()
-            if response_id == gtk.RESPONSE_YES:
+            if response_id == Gtk.ResponseType.YES:
                 client.core.remove_account(
                     username,
                 ).addCallback(remove_ok).addErrback(remove_fail)
