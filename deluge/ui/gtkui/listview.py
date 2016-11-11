@@ -12,7 +12,7 @@ import logging
 import gtk
 from gobject import SIGNAL_RUN_LAST, TYPE_NONE, signal_new
 
-from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_file
+from deluge.ui.gtkui.common import is_pygi_gtk3, load_pickled_state_file, save_pickled_state_file
 
 signal_new('button-press-event', gtk.TreeViewColumn, SIGNAL_RUN_LAST, TYPE_NONE, (gtk.gdk.Event,))
 
@@ -322,7 +322,11 @@ class ListView(object):
 
     def on_treeview_header_right_clicked(self, column, event):
         if event.button == 3:
-            self.menu.popup(None, None, None, event.button, event.get_time())
+            popup_args = [None, None, None, event.button, event.time, None]
+            if is_pygi_gtk3():
+                # Move func data from end to index 3.
+                popup_args.insert(3, popup_args.pop())
+            self.menu.popup(*popup_args)
 
     def register_checklist_menu(self, menu):
         """Register a checklist menu with the listview.  It will automatically

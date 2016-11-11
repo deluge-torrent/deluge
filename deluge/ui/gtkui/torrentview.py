@@ -19,6 +19,7 @@ from twisted.internet import reactor
 import deluge.component as component
 from deluge.ui.client import client
 from deluge.ui.gtkui import torrentview_data_funcs as funcs
+from deluge.ui.gtkui.common import is_pygi_gtk3
 from deluge.ui.gtkui.listview import ListView
 from deluge.ui.gtkui.removetorrentdialog import RemoveTorrentDialog
 
@@ -641,7 +642,11 @@ class TorrentView(ListView, component.Component):
             else:
                 self.treeview.get_selection().select_iter(row)
             torrentmenu = component.get('MenuBar').torrentmenu
-            torrentmenu.popup(None, None, None, event.button, event.time)
+            popup_args = [None, None, None, event.button, event.time, None]
+            if is_pygi_gtk3():
+                # Move func data from end to index 3.
+                popup_args.insert(3, popup_args.pop())
+            torrentmenu.popup(*popup_args)
             return True
 
     def on_selection_changed(self, treeselection):
@@ -726,5 +731,9 @@ class TorrentView(ListView, component.Component):
             return
 
         torrentmenu = component.get('MenuBar').torrentmenu
-        torrentmenu.popup(None, None, None, 3, event.time)
+        popup_args = [None, None, None, 3, event.time, None]
+        if is_pygi_gtk3():
+            # Move func data from end to index 3.
+            popup_args.insert(3, popup_args.pop())
+        torrentmenu.popup(*popup_args)
         return True

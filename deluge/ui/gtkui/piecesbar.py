@@ -17,13 +17,18 @@ import pangocairo
 from cairo import FORMAT_ARGB32, Context, ImageSurface
 
 from deluge.configmanager import ConfigManager
+from deluge.ui.gtkui.common import is_pygi_gtk3
 
 COLOR_STATES = ['missing', 'waiting', 'downloading', 'completed']
 
 
 class PiecesBar(gtk.DrawingArea):
-    # Draw in response to an expose-event
-    __gsignals__ = {'expose-event': 'override'}
+    # Draw in response to an draw event
+    if is_pygi_gtk3():
+        __gsignals__ = {'draw': 'override'}
+    else:
+        # Fallback to PyGTK
+        __gsignals__ = {'expose-event': 'override'}
 
     def __init__(self):
         gtk.DrawingArea.__init__(self)
@@ -48,7 +53,12 @@ class PiecesBar(gtk.DrawingArea):
         self.cr = None
 
         self.connect('size-allocate', self.do_size_allocate_event)
-        self.set_colormap(gtk.gdk.colormap_get_system())
+        if is_pygi_gtk3():
+            from gi.repository import Gdk
+            self.set_visual(Gdk.Screen.get_system_visual(self.get_screen()))
+        else:
+            # Fallback to PyGTK
+            self.set_colormap(gtk.gdk.colormap_get_system())
         self.show()
 
     def do_size_allocate_event(self, widget, size):
@@ -57,10 +67,10 @@ class PiecesBar(gtk.DrawingArea):
         self.prev_height = self.height
         self.height = size.height
 
-    # Handle the expose-event by drawing
-    def do_expose_event(self, event):
+    def do_draw(self, event):
+        """Handle the draw event by drawing"""
         # Create cairo context
-        self.cr = self.window.cairo_create()
+        self.cr = self.get_window().cairo_create()
         self.cr.set_line_width(max(self.cr.device_to_user_distance(0.5, 0.5)))
 
         # Restrict Cairo to the exposed area; avoid extra work
@@ -75,6 +85,10 @@ class PiecesBar(gtk.DrawingArea):
         if self.resized():
             self.prev_width = self.width
             self.prev_height = self.height
+
+    def do_expose_event(self, event):
+        """PyGTK compatible expose-event func"""
+        self.do_draw(event)
 
     def roundcorners_clipping(self):
         self.create_roundcorners_subpath(self.cr, 0, 0, self.width, self.height)

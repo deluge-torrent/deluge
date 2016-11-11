@@ -18,9 +18,9 @@ from twisted.internet.error import ReactorNotRunning
 
 import deluge.common
 import deluge.component as component
-import deluge.ui.gtkui.common
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
+from deluge.ui.gtkui.common import get_deluge_icon, is_pygi_gtk3
 from deluge.ui.gtkui.dialogs import PasswordDialog
 from deluge.ui.gtkui.ipcinterface import process_args
 
@@ -66,7 +66,14 @@ class MainWindow(component.Component):
         # Think about splitting up the main window gtkbuilder file into the necessary parts
         # in order not to have to monkey patch GtkBuilder. Those parts would then need to
         # be added to the main window "by hand".
-        self.main_builder.prev_connect_signals = copy.deepcopy(self.main_builder.connect_signals)
+        if is_pygi_gtk3():
+            # FIXME: The deepcopy is not an option with GTK3
+            # and raises "GObject descendants' instances are non-copyable"
+            # If signals are added correctly is this still needed?
+            self.main_builder.prev_connect_signals = self.main_builder.connect_signals
+        else:
+            # Fallback to PyGTK
+            self.main_builder.prev_connect_signals = copy.deepcopy(self.main_builder.connect_signals)
 
         def patched_connect_signals(*a, **k):
             raise RuntimeError('In order to connect signals to this GtkBuilder instance please use '
@@ -91,7 +98,7 @@ class MainWindow(component.Component):
 
         self.window = self.main_builder.get_object('main_window')
 
-        self.window.set_icon(deluge.ui.gtkui.common.get_deluge_icon())
+        self.window.set_icon(get_deluge_icon())
         self.vpaned = self.main_builder.get_object('vpaned')
 
         self.initial_vpaned_position = self.config['window_pane_position']
@@ -104,7 +111,8 @@ class MainWindow(component.Component):
         self.is_minimized = False
         self.restart = False
 
-        self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL, [('text/uri-list', 0, 80)], gtk.gdk.ACTION_COPY)
+        self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL, [], gtk.gdk.ACTION_COPY)
+        self.window.drag_dest_add_text_targets()
 
         # Connect events
         self.window.connect('window-state-event', self.on_window_state_event)
@@ -112,7 +120,12 @@ class MainWindow(component.Component):
         self.window.connect('delete-event', self.on_window_delete_event)
         self.window.connect('drag-data-received', self.on_drag_data_received_event)
         self.vpaned.connect('notify::position', self.on_vpaned_position_event)
-        self.window.connect('expose-event', self.on_expose_event)
+
+        if is_pygi_gtk3():
+            self.window.connect('draw', self.on_draw_event)
+        else:
+            # Fallback to PyGTK
+            self.window.connect('expose-event', self.on_expose_event)
 
         self.config.register_set_function('show_rate_in_title', self._on_set_show_rate_in_title, apply_now=False)
 
@@ -293,8 +306,12 @@ class MainWindow(component.Component):
             process_args(selection_data.get_text().split())
         drag_context.finish(True, True, timestamp)
 
-    def on_expose_event(self, widget, event):
+    def on_draw_event(self, widget, event):
         component.get('SystemTray').blink(False)
+
+    def on_expose_event(self, widget, event):
+        """PyGTK compatible expose-event func"""
+        self.on_draw_event(widget, event)
 
     def stop(self):
         self.window.set_title('Deluge')

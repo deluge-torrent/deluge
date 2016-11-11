@@ -42,6 +42,9 @@ class Mock(object):
     def __call__(self, *args, **kwargs):
         return Mock()
 
+    def __getitem__(self, key):
+        return None
+
     @classmethod
     def __getattr__(cls, name):
         if name in ('__file__', '__path__'):

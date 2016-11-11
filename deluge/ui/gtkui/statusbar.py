@@ -18,7 +18,8 @@ import deluge.component as component
 from deluge.common import fsize, fspeed, get_pixmap
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
-from deluge.ui.gtkui import common, dialogs
+from deluge.ui.gtkui import dialogs
+from deluge.ui.gtkui.common import build_menu_radio_list, is_pygi_gtk3
 
 log = logging.getLogger(__name__)
 
@@ -414,38 +415,44 @@ class StatusBar(component.Component):
             set_value(value)
 
     def _on_download_item_clicked(self, widget, event):
-        menu = common.build_menu_radio_list(
+        menu = build_menu_radio_list(
             self.config['tray_download_speed_list'],
             self._on_set_download_speed,
             self.max_download_speed,
             _('K/s'), show_notset=True, show_other=True)
-        menu.show_all()
-        menu.popup(None, None, None, event.button, event.time)
+        self._menu_popup(menu, event)
 
     def _on_set_download_speed(self, widget):
         log.debug('_on_set_download_speed')
         self.set_limit_value(widget, 'max_download_speed')
 
     def _on_upload_item_clicked(self, widget, event):
-        menu = common.build_menu_radio_list(
+        menu = build_menu_radio_list(
             self.config['tray_upload_speed_list'],
             self._on_set_upload_speed,
             self.max_upload_speed,
             _('K/s'), show_notset=True, show_other=True)
-        menu.show_all()
-        menu.popup(None, None, None, event.button, event.time)
+        self._menu_popup(menu, event)
 
     def _on_set_upload_speed(self, widget):
         log.debug('_on_set_upload_speed')
         self.set_limit_value(widget, 'max_upload_speed')
 
     def _on_connection_item_clicked(self, widget, event):
-        menu = common.build_menu_radio_list(
+        menu = build_menu_radio_list(
             self.config['connection_limit_list'],
             self._on_set_connection_limit,
             self.max_connections_global, show_notset=True, show_other=True)
+        self._menu_popup(menu, event)
+
+    @staticmethod
+    def _menu_popup(menu, event):
         menu.show_all()
-        menu.popup(None, None, None, event.button, event.time)
+        popup_args = [None, None, None, event.button, event.time, None]
+        if is_pygi_gtk3():
+            # Move func data from end to index 3.
+            popup_args.insert(3, popup_args.pop())
+        menu.popup(*popup_args)
 
     def _on_set_connection_limit(self, widget):
         log.debug('_on_set_connection_limit')

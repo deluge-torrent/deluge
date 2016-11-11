@@ -14,9 +14,11 @@ from functools import partial
 
 import gtk
 from gobject import GError
+from gtk.gdk import COLORSPACE_RGB, Pixbuf
 
 import deluge.common as common
 import deluge.component as component
+from deluge.ui.gtkui.common import is_pygi_gtk3
 
 # Status icons.. Create them from file only once to avoid constantly
 # re-creating them.
@@ -84,10 +86,15 @@ def cell_data_statusicon(column, cell, model, row, data):
         pass
 
 
-def create_blank_pixbuf():
-    i = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, 16, 16)
-    i.fill(0x00000000)
-    return i
+def create_blank_pixbuf(width=16, height=16):
+    if is_pygi_gtk3():
+        from gi.repository.GdkPixbuf import Colorspace
+        pix = Pixbuf.new(Colorspace.RGB, True, 8, width, height)
+    else:
+        # Fallback to PyGTK
+        pix = Pixbuf(COLORSPACE_RGB, True, 8, width, height)
+    pix.fill(0x0)
+    return pix
 
 
 def set_icon(icon, cell):
