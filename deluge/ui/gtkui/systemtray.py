@@ -324,7 +324,8 @@ class SystemTray(component.Component):
         if windows_check() or osx_check():
             popup_function = None
             button = 0
-        self.tray_menu.popup(None, None, popup_function, button, activate_time, status_icon)
+        # FIXME why was status_icon removed??
+        self.tray_menu.popup(None, None, None, popup_function, button, activate_time)
 
     def on_menuitem_show_deluge_activate(self, menuitem):
         log.debug('on_menuitem_show_deluge_activate')

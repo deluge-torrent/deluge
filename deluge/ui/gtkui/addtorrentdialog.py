@@ -276,7 +276,9 @@ class AddTorrentDialog(component.Component):
                     _file, _file['path'], i, _file['download'], split_files,
                 )
             self.add_files(None, split_files)
-        self.listview_files.expand_row(b'0', False)
+        # FIXME add back expand_row
+        # self.listview_files.expand_row(b'0', False)
+        self.listview_files.expand_all()
 
     def prepare_file(self, _file, file_name, file_num, download, files_storage):
         first_slash_index = file_name.find(os.path.sep)
@@ -916,7 +918,15 @@ class AddTorrentDialog(component.Component):
 
                 # We need to re-expand the view because it might contracted
                 # if we change the root iter
+<<<<<<< HEAD
                 self.listview_files.expand_row(b'0', False)
+||||||| merged common ancestors
+                self.listview_files.expand_row('0', False)
+=======
+                # FIXME add back expand_row
+                # self.listview_files.expand_row('0', False)
+                self.listview_files.expand_all()
+>>>>>>> [GTKUI] Marked FIXME code changes for GTK3 (need reviewed)
             else:
                 # This was a simple folder rename without any splits, so just
                 # change the path for itr

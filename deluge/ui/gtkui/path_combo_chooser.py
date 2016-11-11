@@ -12,9 +12,10 @@ from __future__ import division, print_function, unicode_literals
 
 import os
 
-import gtk
-from gobject import SIGNAL_RUN_FIRST, TYPE_NONE, GObject, type_register
-from gtk import gdk, keysyms  # pylint: disable=ungrouped-imports
+# FIXME: use this as fallback to get_introspection_module?
+from gi.importer import modules
+# from gi.module import get_introspection_module
+from gi.repository import Gdk, GObject, Gtk
 
 import deluge.component as component
 from deluge.common import resource_filename

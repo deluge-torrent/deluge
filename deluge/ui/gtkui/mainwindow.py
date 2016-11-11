@@ -69,7 +69,8 @@ class MainWindow(component.Component):
         # Think about splitting up  mainwindow gtkbuilder file into the necessary parts
         # to avoid GtkBuilder monkey patch. Those parts would then need adding to mainwindow 'by hand'.
         self.gtk_builder_signals_holder = _GtkBuilderSignalsHolder()
-        self.main_builder.prev_connect_signals = copy.deepcopy(self.main_builder.connect_signals)
+        # FIXME: The deepcopy has been removed: copy.deepcopy(self.main_builder.connect_signals)
+        self.main_builder.prev_connect_signals = self.main_builder.connect_signals
 
         def patched_connect_signals(*a, **k):
             raise RuntimeError(

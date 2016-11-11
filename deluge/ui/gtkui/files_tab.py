@@ -355,7 +355,8 @@ class FilesTab(Tab):
     def update_files(self):
         with listview_replace_treestore(self.listview):
             self.prepare_file_store(self.files_list[self.torrent_id])
-        self.listview.expand_row(b'0', False)
+        # FIXME
+        # self.listview.expand_row(b'0', False)
 
     def get_selected_files(self):
         """Returns a list of file indexes that are selected."""
@@ -389,7 +390,8 @@ class FilesTab(Tab):
 
     def update_folder_percentages(self):
         """Go through the tree and update the folder complete percentages."""
-        root = self.treestore.get_iter_root()
+        # FIXME Why changed? Was: self.treestore.get_iter_root()
+        root = self.treestore.get_iter_first()
         if root is None or self.treestore[root][5] != -1:
             return
 
