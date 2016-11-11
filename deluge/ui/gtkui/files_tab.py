@@ -14,8 +14,8 @@ import logging
 import os.path
 
 import gtk
-import gtk.gdk
 from gobject import TYPE_UINT64
+from gtk.gdk import ACTION_DEFAULT, ACTION_MOVE, BUTTON1_MASK, keyval_name  # pylint: disable=ungrouped-imports
 
 import deluge.component as component
 from deluge.common import FILE_PRIORITY, open_file, show_file
@@ -193,10 +193,8 @@ class FilesTab(Tab):
         self.listview.connect('button-press-event', self._on_button_press_event)
 
         self.listview.enable_model_drag_source(
-            gtk.gdk.BUTTON1_MASK,
-            [('text/plain', 0, 0)],
-            gtk.gdk.ACTION_DEFAULT | gtk.gdk.ACTION_MOVE)
-        self.listview.enable_model_drag_dest([('text/plain', 0, 0)], gtk.gdk.ACTION_DEFAULT)
+            BUTTON1_MASK, [('text/plain', 0, 0)], ACTION_DEFAULT | ACTION_MOVE)
+        self.listview.enable_model_drag_dest([('text/plain', 0, 0)], ACTION_DEFAULT)
 
         self.listview.connect('drag_data_get', self._on_drag_data_get_data)
         self.listview.connect('drag_data_received', self._on_drag_data_received_data)
@@ -500,7 +498,7 @@ class FilesTab(Tab):
             return True
 
     def _on_key_press_event(self, widget, event):
-        keyname = gtk.gdk.keyval_name(event.keyval)
+        keyname = keyval_name(event.keyval)
         if keyname is not None:
             func = getattr(self, 'keypress_' + keyname.lower(), None)
             selected_rows = self.listview.get_selection().get_selected_rows()[1]

@@ -12,20 +12,10 @@ from __future__ import print_function
 import warnings
 from functools import partial
 
-import gtk
-from gobject import GError
-
 import deluge.common as common
 import deluge.component as component
-
-# Status icons.. Create them from file only once to avoid constantly
-# re-creating them.
-icon_downloading = gtk.gdk.pixbuf_new_from_file(common.get_pixmap('downloading16.png'))
-icon_seeding = gtk.gdk.pixbuf_new_from_file(common.get_pixmap('seeding16.png'))
-icon_inactive = gtk.gdk.pixbuf_new_from_file(common.get_pixmap('inactive16.png'))
-icon_alert = gtk.gdk.pixbuf_new_from_file(common.get_pixmap('alert16.png'))
-icon_queued = gtk.gdk.pixbuf_new_from_file(common.get_pixmap('queued16.png'))
-icon_checking = gtk.gdk.pixbuf_new_from_file(common.get_pixmap('checking16.png'))
+from deluge.ui.gtkui.common import (create_blank_pixbuf, get_pixbuf_at_size, icon_alert, icon_checking,
+                                    icon_downloading, icon_inactive, icon_queued, icon_seeding)
 
 # Holds the info for which status icon to display based on TORRENT_STATE
 ICON_STATE = {
@@ -58,6 +48,7 @@ func_last_value = {
     'cell_data_statusicon': None,
     'cell_data_queue': None,
     'cell_data_progress': [None, None],
+    'cell_data_peer_progress': None
 }
 
 
@@ -84,23 +75,12 @@ def cell_data_statusicon(column, cell, model, row, data):
         pass
 
 
-def create_blank_pixbuf():
-    i = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, 16, 16)
-    i.fill(0x00000000)
-    return i
-
-
-def set_icon(icon, cell):
-    if icon:
-        pixbuf = icon.get_cached_icon()
+def set_tracker_icon(tracker_icon, cell):
+    if tracker_icon:
+        pixbuf = tracker_icon.get_cached_icon()
         if pixbuf is None:
-            try:
-                pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(icon.get_filename(), 16, 16)
-            except GError:
-                # Failed to load the pixbuf (Bad image file), so set a blank pixbuf
-                pixbuf = create_blank_pixbuf()
-            finally:
-                icon.set_cached_icon(pixbuf)
+            pixbuf = get_pixbuf_at_size(tracker_icon.get_filename(), 16)
+            tracker_icon.set_cached_icon(pixbuf)
     else:
         pixbuf = create_blank_pixbuf()
 
@@ -118,15 +98,15 @@ def cell_data_trackericon(column, cell, model, row, data):
     if host:
         if not component.get('TrackerIcons').has(host):
             # Set blank icon while waiting for the icon to be loaded
-            set_icon(None, cell)
+            set_tracker_icon(None, cell)
             component.get('TrackerIcons').fetch(host)
             func_last_value['cell_data_trackericon'] = None
         else:
-            set_icon(component.get('TrackerIcons').get(host), cell)
+            set_tracker_icon(component.get('TrackerIcons').get(host), cell)
             # Only set the last value when we have found the icon
             func_last_value['cell_data_trackericon'] = host
     else:
-        set_icon(None, cell)
+        set_tracker_icon(None, cell)
         func_last_value['cell_data_trackericon'] = None
 
 
@@ -145,6 +125,14 @@ def cell_data_progress(column, cell, model, row, data):
     if func_last_value['cell_data_progress'][1] != textstr:
         func_last_value['cell_data_progress'][1] = textstr
         cell.set_property('text', textstr)
+
+
+def cell_data_peer_progress(column, cell, model, row, data):
+    value = model.get_value(row, data) * 100
+    if func_last_value['cell_data_peer_progress'] != value:
+        func_last_value['cell_data_peer_progress'] = value
+        cell.set_property('value', value)
+        cell.set_property('text', '%i%%' % value)
 
 
 def cell_data_queue(column, cell, model, row, data):

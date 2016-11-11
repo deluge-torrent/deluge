@@ -10,11 +10,11 @@
 import logging
 import os
 
-import gtk
+from gtk import (Builder, RadioMenuItem, status_icon_new_from_icon_name, status_icon_new_from_pixbuf,
+                 status_icon_position_menu)
 
-import deluge.common
 import deluge.component as component
-from deluge.common import fspeed
+from deluge.common import fspeed, get_pixmap, osx_check, resource_filename, windows_check
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 from deluge.ui.gtkui import dialogs
@@ -63,9 +63,9 @@ class SystemTray(component.Component):
 
     def enable(self):
         """Enables the system tray icon."""
-        self.builder = gtk.Builder()
-        self.builder.add_from_file(deluge.common.resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'tray_menu.ui')))
+        self.builder = Builder()
+        self.builder.add_from_file(resource_filename('deluge.ui.gtkui', os.path.join(
+            'glade', 'tray_menu.ui')))
 
         self.builder.connect_signals({
             'on_menuitem_show_deluge_activate': self.on_menuitem_show_deluge_activate,
@@ -103,18 +103,16 @@ class SystemTray(component.Component):
 
         else:
             log.debug('Enabling the system tray icon..')
-            if deluge.common.windows_check() or deluge.common.osx_check():
-                self.tray = gtk.status_icon_new_from_pixbuf(get_logo(32))
+            if windows_check():
+                self.tray = status_icon_new_from_pixbuf(get_logo(32))
             else:
-                self.tray = gtk.status_icon_new_from_icon_name('deluge')
+                self.tray = status_icon_new_from_icon_name('deluge')
 
             self.tray.connect('activate', self.on_tray_clicked)
             self.tray.connect('popup-menu', self.on_tray_popup)
 
-        self.builder.get_object('download-limit-image').set_from_file(
-            deluge.common.get_pixmap('downloading16.png'))
-        self.builder.get_object('upload-limit-image').set_from_file(
-            deluge.common.get_pixmap('seeding16.png'))
+        self.builder.get_object('download-limit-image').set_from_file(get_pixmap('downloading16.png'))
+        self.builder.get_object('upload-limit-image').set_from_file(get_pixmap('seeding16.png'))
 
         client.register_event_handler('ConfigValueChangedEvent', self.config_value_changed)
         if client.connected():
@@ -319,8 +317,8 @@ class SystemTray(component.Component):
         else:
             self.builder.get_object('menuitem_show_deluge').set_active(False)
 
-        popup_function = gtk.status_icon_position_menu
-        if deluge.common.windows_check() or deluge.common.osx_check():
+        popup_function = status_icon_position_menu
+        if windows_check() or osx_check():
             popup_function = None
             button = 0
         self.tray_menu.popup(None, None, popup_function, button, activate_time, status_icon)
@@ -353,7 +351,7 @@ class SystemTray(component.Component):
         self.mainwindow.quit(shutdown=True)
 
     def on_tray_setbwdown(self, widget, data=None):
-        if isinstance(widget, gtk.RadioMenuItem):
+        if isinstance(widget, RadioMenuItem):
             # ignore previous radiomenuitem value
             if not widget.get_active():
                 return
@@ -362,7 +360,7 @@ class SystemTray(component.Component):
                         'downloading.svg')
 
     def on_tray_setbwup(self, widget, data=None):
-        if isinstance(widget, gtk.RadioMenuItem):
+        if isinstance(widget, RadioMenuItem):
             # ignore previous radiomenuitem value
             if not widget.get_active():
                 return

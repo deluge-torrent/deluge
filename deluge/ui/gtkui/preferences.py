@@ -13,6 +13,7 @@ import os
 from hashlib import sha1 as sha
 
 import gtk
+from gtk.gdk import Color
 
 import deluge.common
 import deluge.component as component
@@ -1163,7 +1164,7 @@ class Preferences(component.Component):
 
     def __set_color(self, state, from_config=False):
         if from_config:
-            color = gtk.gdk.Color(*self.gtkui_config['pieces_color_%s' % state])
+            color = Color(*self.gtkui_config['pieces_color_%s' % state])
             log.debug('Setting %r color state from config to %s', state, (color.red, color.green, color.blue))
             self.builder.get_object('%s_color' % state).set_color(color)
         else:
@@ -1178,6 +1179,6 @@ class Preferences(component.Component):
 
     def __revert_color(self, state, from_config=False):
         log.debug('Reverting %r color state', state)
-        self.builder.get_object('%s_color' % state).set_color(gtk.gdk.Color(*self.COLOR_DEFAULTS[state]))
+        self.builder.get_object('%s_color' % state).set_color(Color(*self.COLOR_DEFAULTS[state]))
         self.builder.get_object('revert_color_%s' % state).set_sensitive(False)
         self.gtkui_config.apply_set_functions('pieces_colors')

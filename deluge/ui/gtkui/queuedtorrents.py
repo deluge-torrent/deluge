@@ -10,8 +10,8 @@
 import logging
 import os.path
 
-import gtk
 from gobject import timeout_add
+from gtk import STOCK_SORT_DESCENDING, Builder, CellRendererText, ListStore, TreeViewColumn
 
 import deluge.common
 import deluge.component as component
@@ -29,7 +29,7 @@ class QueuedTorrents(component.Component):
         self.status_item = None
 
         self.config = ConfigManager('gtkui.conf')
-        self.builder = gtk.Builder()
+        self.builder = Builder()
         self.builder.add_from_file(deluge.common.resource_filename(
             'deluge.ui.gtkui', os.path.join('glade', 'queuedtorrents.ui')))
         self.builder.get_object('chk_autoadd').set_active(self.config['autoadd_queued'])
@@ -45,10 +45,9 @@ class QueuedTorrents(component.Component):
         })
 
         self.treeview = self.builder.get_object('treeview')
-        self.treeview.append_column(
-            gtk.TreeViewColumn(_('Torrent'), gtk.CellRendererText(), text=0))
+        self.treeview.append_column(TreeViewColumn(_('Torrent'), CellRendererText(), text=0))
 
-        self.liststore = gtk.ListStore(str, str)
+        self.liststore = ListStore(str, str)
         self.treeview.set_model(self.liststore)
         self.treeview.set_tooltip_column(1)
 
@@ -120,7 +119,7 @@ class QueuedTorrents(component.Component):
         # have already been added.
         if self.status_item is None:
             self.status_item = component.get('StatusBar').add_item(
-                stock=gtk.STOCK_SORT_DESCENDING,
+                stock=STOCK_SORT_DESCENDING,
                 text=label,
                 callback=self.on_statusbar_click)
         else:

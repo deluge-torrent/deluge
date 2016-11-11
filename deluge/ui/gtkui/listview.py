@@ -11,10 +11,11 @@ import logging
 
 import gtk
 from gobject import SIGNAL_RUN_LAST, TYPE_NONE, signal_new
+from gtk.gdk import Event  # pylint: disable=ungrouped-imports
 
 from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_file
 
-signal_new('button-press-event', gtk.TreeViewColumn, SIGNAL_RUN_LAST, TYPE_NONE, (gtk.gdk.Event,))
+signal_new('button-press-event', gtk.TreeViewColumn, SIGNAL_RUN_LAST, TYPE_NONE, (Event,))
 
 log = logging.getLogger(__name__)
 

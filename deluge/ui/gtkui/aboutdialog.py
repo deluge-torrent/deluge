@@ -10,9 +10,9 @@
 import gtk
 
 import deluge.component as component
-from deluge.common import get_pixmap, get_version
+from deluge.common import get_version
 from deluge.ui.client import client
-from deluge.ui.gtkui.common import get_deluge_icon
+from deluge.ui.gtkui.common import get_deluge_icon, get_pixbuf
 
 
 class AboutDialog(object):
@@ -247,7 +247,7 @@ class AboutDialog(object):
         self.about.set_website_label('deluge-torrent.org')
 
         self.about.set_icon(get_deluge_icon())
-        self.about.set_logo(gtk.gdk.pixbuf_new_from_file(get_pixmap('deluge-about.png')))
+        self.about.set_logo(get_pixbuf('deluge-about.png'))
 
         if client.connected():
             if not client.is_standalone():

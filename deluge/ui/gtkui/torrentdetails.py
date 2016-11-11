@@ -12,7 +12,7 @@
 
 import logging
 
-import gtk
+from gtk import CheckMenuItem, Menu, SeparatorMenuItem
 
 import deluge.component as component
 from deluge.ui.client import client
@@ -266,9 +266,9 @@ class TorrentDetails(component.Component):
 
     def generate_menu(self):
         """Generates the checklist menu for all the tabs and attaches it"""
-        menu = gtk.Menu()
+        menu = Menu()
         # Create 'All' menuitem and a separator
-        menuitem = gtk.CheckMenuItem(self.translate_tabs['All'], True)
+        menuitem = CheckMenuItem(self.translate_tabs['All'], True)
         menuitem.set_name('All')
 
         all_tabs = True
@@ -281,7 +281,7 @@ class TorrentDetails(component.Component):
 
         menu.append(menuitem)
 
-        menuitem = gtk.SeparatorMenuItem()
+        menuitem = SeparatorMenuItem()
         menu.append(menuitem)
 
         # Create a list in order of tabs to create menu
@@ -291,7 +291,7 @@ class TorrentDetails(component.Component):
         menuitem_list.sort()
 
         for pos, name in menuitem_list:
-            menuitem = gtk.CheckMenuItem(self.translate_tabs[name], True)
+            menuitem = CheckMenuItem(self.translate_tabs[name], True)
             menuitem.set_name(name)
             menuitem.set_active(self.tabs[name].is_visible)
             menuitem.connect('toggled', self._on_menuitem_toggled)

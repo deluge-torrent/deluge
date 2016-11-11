@@ -15,12 +15,44 @@ import os
 import shutil
 import sys
 
-import gtk
 from gobject import GError
+from gtk import SORT_ASCENDING, Menu, MenuItem, RadioMenuItem, SeparatorMenuItem, icon_theme_get_default
+from gtk.gdk import COLORSPACE_RGB, Pixbuf, pixbuf_new_from_file, pixbuf_new_from_file_at_size
 
-import deluge.common
+from deluge.common import get_pixmap, osx_check, windows_check
 
 log = logging.getLogger(__name__)
+
+
+def create_blank_pixbuf(size=16):
+    pix = Pixbuf(COLORSPACE_RGB, True, 8, size, size)
+    pix.fill(0x0)
+    return pix
+
+
+def get_pixbuf(filename):
+    try:
+        return pixbuf_new_from_file(get_pixmap(filename))
+    except GError as ex:
+        log.warning(ex)
+        return create_blank_pixbuf()
+
+# Status icons.. Create them from file only once to avoid constantly re-creating them.
+icon_downloading = get_pixbuf('downloading16.png')
+icon_seeding = get_pixbuf('seeding16.png')
+icon_inactive = get_pixbuf('inactive16.png')
+icon_alert = get_pixbuf('alert16.png')
+icon_queued = get_pixbuf('queued16.png')
+icon_checking = get_pixbuf('checking16.png')
+
+
+def get_pixbuf_at_size(filename, size):
+    try:
+        return pixbuf_new_from_file_at_size(get_pixmap(filename), size, size)
+    except GError as ex:
+        # Failed to load the pixbuf (Bad image file), so return a blank pixbuf.
+        log.warning(ex)
+        return create_blank_pixbuf(size)
 
 
 def get_logo(size):
@@ -33,12 +65,9 @@ def get_logo(size):
         gtk.gdk.Pixbuf: deluge logo
     """
     filename = 'deluge.svg'
-    if deluge.common.windows_check() or deluge.common.osx_check():
+    if windows_check():
         filename = 'deluge.png'
-    try:
-        return gtk.gdk.pixbuf_new_from_file_at_size(deluge.common.get_pixmap(filename), size, size)
-    except GError as ex:
-        log.warning(ex)
+    return get_pixbuf_at_size(filename, size)
 
 
 def build_menu_radio_list(value_list, callback, pref_value=None, suffix=None, show_notset=False,
@@ -60,7 +89,7 @@ def build_menu_radio_list(value_list, callback, pref_value=None, suffix=None, sh
     Returns:
         gtk.Menu: The menu radio
     """
-    menu = gtk.Menu()
+    menu = Menu()
     group = None
 
     if pref_value > -1 and pref_value not in value_list:
@@ -71,7 +100,7 @@ def build_menu_radio_list(value_list, callback, pref_value=None, suffix=None, sh
         item_text = str(value)
         if suffix:
             item_text += ' ' + suffix
-        menuitem = gtk.RadioMenuItem(group=group, label=item_text)
+        menuitem = RadioMenuItem(group=group, label=item_text)
         group = menuitem
         if pref_value and value == pref_value:
             menuitem.set_active(True)
@@ -80,7 +109,7 @@ def build_menu_radio_list(value_list, callback, pref_value=None, suffix=None, sh
         menu.append(menuitem)
 
     if show_notset:
-        menuitem = gtk.RadioMenuItem(group=group, label=notset_label)
+        menuitem = RadioMenuItem(group=group, label=notset_label)
         menuitem.set_name('unlimited')
         if pref_value and pref_value < notset_lessthan:
             menuitem.set_active(True)
@@ -88,9 +117,9 @@ def build_menu_radio_list(value_list, callback, pref_value=None, suffix=None, sh
         menu.append(menuitem)
 
     if show_other:
-        menuitem = gtk.SeparatorMenuItem()
+        menuitem = SeparatorMenuItem()
         menu.append(menuitem)
-        menuitem = gtk.MenuItem(_('Other...'))
+        menuitem = MenuItem(_('Other...'))
         menuitem.set_name('other')
         menuitem.connect('activate', callback)
         menu.append(menuitem)
@@ -135,11 +164,11 @@ def get_deluge_icon():
     Returns:
         gtk.gdk.Pixbuf: the deluge icon
     """
-    if deluge.common.windows_check():
+    if windows_check():
         return get_logo(32)
     else:
         try:
-            icon_theme = gtk.icon_theme_get_default()
+            icon_theme = icon_theme_get_default()
             return icon_theme.load_icon('deluge', 64, 0)
         except GError:
             return get_logo(64)
@@ -156,12 +185,12 @@ def associate_magnet_links(overwrite=False):
         bool: True if association was set
     """
 
-    if deluge.common.windows_check():
+    if windows_check():
         import _winreg
 
         try:
             hkey = _winreg.OpenKey(_winreg.HKEY_CLASSES_ROOT, 'Magnet')
-        except WindowsError:  # pylint: disable=undefined-variable
+        except WindowsError:
             overwrite = True
         else:
             _winreg.CloseKey(hkey)
@@ -170,7 +199,7 @@ def associate_magnet_links(overwrite=False):
             deluge_exe = os.path.join(os.path.dirname(sys.executable), 'deluge.exe')
             try:
                 magnet_key = _winreg.CreateKey(_winreg.HKEY_CLASSES_ROOT, 'Magnet')
-            except WindowsError:  # pylint: disable=undefined-variable
+            except WindowsError:
                 # Could not create for all users, falling back to current user
                 magnet_key = _winreg.CreateKey(_winreg.HKEY_CURRENT_USER, 'Software\\Classes\\Magnet')
 
@@ -182,7 +211,7 @@ def associate_magnet_links(overwrite=False):
             _winreg.CloseKey(magnet_key)
 
     # Don't try associate magnet on OSX see: #2420
-    elif not deluge.common.osx_check():
+    elif not osx_check():
         # gconf method is only available in a GNOME environment
         try:
             import gconf
@@ -280,7 +309,7 @@ def listview_replace_treestore(listview):
     treestore.clear()
     treestore.set_default_sort_func(lambda *args: 0)
     original_sort = treestore.get_sort_column_id()
-    treestore.set_sort_column_id(-1, gtk.SORT_ASCENDING)
+    treestore.set_sort_column_id(-1, SORT_ASCENDING)
 
     yield
 

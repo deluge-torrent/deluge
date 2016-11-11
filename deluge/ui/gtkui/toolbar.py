@@ -9,7 +9,7 @@
 
 import logging
 
-import gtk
+from gtk import SeparatorToolItem, ToolButton
 
 import deluge.component as component
 from deluge.configmanager import ConfigManager
@@ -71,7 +71,7 @@ class ToolBar(component.Component):
 
     def add_toolbutton(self, callback, label=None, image=None, stock=None, tooltip=None):
         """Adds a toolbutton to the toolbar"""
-        toolbutton = gtk.ToolButton()
+        toolbutton = ToolButton()
         if stock is not None:
             toolbutton.set_stock_id(stock)
         if label is not None:
@@ -89,7 +89,7 @@ class ToolBar(component.Component):
 
     def add_separator(self, position=None):
         """Adds a separator toolitem"""
-        sep = gtk.SeparatorToolItem()
+        sep = SeparatorToolItem()
         if position is not None:
             self.toolbar.insert(sep, position)
         else:

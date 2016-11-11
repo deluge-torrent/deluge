@@ -7,7 +7,7 @@
 # See LICENSE for more details.
 #
 
-import gtk.gdk
+from gtk.gdk import keyval_name
 
 import deluge.component as component
 from deluge.ui.client import client
@@ -220,7 +220,7 @@ class OptionsTab(Tab):
             self.button_apply.set_sensitive(True)
 
     def _on_key_press_event(self, widget, event):
-        keyname = gtk.gdk.keyval_name(event.keyval).lstrip('KP_').lower()
+        keyname = keyval_name(event.keyval).lstrip('KP_').lower()
         if keyname.isdigit() or keyname in ['period', 'minus', 'delete', 'backspace']:
             if not self.button_apply.is_sensitive():
                 self.button_apply.set_sensitive(True)

@@ -14,7 +14,7 @@ import os
 
 import gtk
 from gobject import SIGNAL_RUN_FIRST, TYPE_NONE, GObject, type_register
-from gtk import gdk, keysyms
+from gtk import gdk, keysyms  # pylint: disable=ungrouped-imports
 
 import deluge.component as component
 from deluge.common import resource_filename
@@ -215,8 +215,8 @@ class ValueList(object):
         if event.button != 3:
             # Double clicked a row, set this as the entry value
             # and close the popup
-            if (double_click and event.type == gtk.gdk._2BUTTON_PRESS) or\
-                    (not double_click and event.type == gtk.gdk.BUTTON_PRESS):
+            if (double_click and event.type == gdk._2BUTTON_PRESS) or\
+                    (not double_click and event.type == gdk.BUTTON_PRESS):
                 path = self.get_selection_path()
                 if path:
                     self.set_entry_value(path, popdown=True)
@@ -413,7 +413,7 @@ class StoredValuesList(ValueList):
 
         """
         keyval = event.keyval
-        ctrl = event.get_state() & gtk.gdk.CONTROL_MASK
+        ctrl = event.get_state() & gdk.CONTROL_MASK
 
         # Edit selected row
         if (keyval in [keysyms.Left, keysyms.Right, keysyms.space]):
@@ -422,7 +422,7 @@ class StoredValuesList(ValueList):
                 self.on_edit_path(path, self.tree_column)
         elif key_is_up_or_down(keyval):
             # Swap the row value
-            if event.get_state() & gtk.gdk.CONTROL_MASK:
+            if event.get_state() & gdk.CONTROL_MASK:
                 self.handle_list_scroll(_next=key_is_down(keyval),
                                         swap=True)
             else:
@@ -483,7 +483,7 @@ class CompletionList(ValueList):
         if ret:
             return ret
         keyval = event.keyval
-        ctrl = event.get_state() & gtk.gdk.CONTROL_MASK
+        ctrl = event.get_state() & gdk.CONTROL_MASK
         if key_is_up_or_down(keyval):
             self.handle_list_scroll(_next=key_is_down(keyval))
             return True
@@ -774,8 +774,8 @@ class StoredValuesPopup(StoredValuesList, PathChooserPopup):
         Handles scroll events from text entry, toggle button and treeview
 
         """
-        swap = event.get_state() & gtk.gdk.CONTROL_MASK
-        scroll_window = event.get_state() & gtk.gdk.SHIFT_MASK
+        swap = event.get_state() & gdk.CONTROL_MASK
+        scroll_window = event.get_state() & gdk.SHIFT_MASK
         self.handle_list_scroll(_next=event.direction == gdk.SCROLL_DOWN,
                                 set_entry=widget != self.treeview, swap=swap, scroll_window=scroll_window)
         return True
@@ -1294,7 +1294,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, GObject):
         """
         keyval = event.keyval
         state = event.get_state() & gtk.accelerator_get_default_mod_mask()
-        ctrl = event.get_state() & gtk.gdk.CONTROL_MASK
+        ctrl = event.get_state() & gdk.CONTROL_MASK
 
         # Select new row with arrow up/down is pressed
         if key_is_up_or_down(keyval):
@@ -1458,7 +1458,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, GObject):
                 return True
             else:
                 keyval = event.keyval
-                ctrl = event.get_state() & gtk.gdk.CONTROL_MASK
+                ctrl = event.get_state() & gdk.CONTROL_MASK
                 if ctrl:
                     # Set show/hide hidden files
                     if is_ascii_value(keyval, 'h'):
