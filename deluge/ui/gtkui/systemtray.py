@@ -18,7 +18,7 @@ from deluge.common import fspeed
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 from deluge.ui.gtkui import dialogs
-from deluge.ui.gtkui.common import build_menu_radio_list, get_logo
+from deluge.ui.gtkui.common import build_menu_radio_list, get_logo, is_pygi_gtk3
 
 try:
     import appindicator
@@ -331,7 +331,12 @@ class SystemTray(component.Component):
         if deluge.common.windows_check() or deluge.common.osx_check():
             popup_function = None
             button = 0
-        self.tray_menu.popup(None, None, popup_function, button, activate_time, status_icon)
+
+        popup_args = [None, None, popup_function, button, activate_time, status_icon]
+        if is_pygi_gtk3():
+            # Move func data to index 3.
+            popup_args.insert(3, popup_args.pop())
+        self.tray_menu.popup(*popup_args)
 
     def on_menuitem_show_deluge_activate(self, menuitem):
         log.debug('on_menuitem_show_deluge_activate')

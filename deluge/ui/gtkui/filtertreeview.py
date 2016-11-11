@@ -342,7 +342,11 @@ class FilterTreeView(component.Component):
             # Show the pop-up menu
             self.set_menu_sensitivity()
             self.menu.hide()
-            self.menu.popup(None, None, None, event.button, event.time)
+            popup_args = [None, None, None, event.button, event.time, None]
+            if is_pygi_gtk3():
+                # Move func data from end to index 3.
+                popup_args.insert(3, popup_args.pop())
+            self.menu.popup(*popup_args)
             self.menu.show()
 
             if cat == 'cat':

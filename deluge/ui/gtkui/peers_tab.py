@@ -17,7 +17,7 @@ import deluge.common
 import deluge.component as component
 from deluge.ui.client import client
 from deluge.ui.countries import COUNTRIES
-from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_file
+from deluge.ui.gtkui.common import is_pygi_gtk3, load_pickled_state_file, save_pickled_state_file
 from deluge.ui.gtkui.torrentdetails import Tab
 from deluge.ui.gtkui.torrentview_data_funcs import cell_data_speed_down, cell_data_speed_up
 
@@ -308,7 +308,11 @@ class PeersTab(Tab):
         log.debug('on_button_press_event')
         # We only care about right-clicks
         if self.torrent_id and event.button == 3:
-            self.peer_menu.popup(None, None, None, event.button, event.time)
+            popup_args = [None, None, None, event.button, event.time, None]
+            if is_pygi_gtk3():
+                # Move func data from end to index 3.
+                popup_args.insert(3, popup_args.pop())
+            self.peer_menu.popup(*popup_args)
             return True
 
     def _on_query_tooltip(self, widget, x, y, keyboard_tip, tooltip):

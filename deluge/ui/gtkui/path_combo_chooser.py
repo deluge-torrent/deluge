@@ -19,6 +19,7 @@ from gtk import gdk, keysyms
 import deluge.component as component
 from deluge.common import resource_filename
 from deluge.path_chooser_common import get_completion_paths
+from deluge.ui.gtkui.common import is_pygi_gtk3
 
 
 def is_ascii_value(keyval, ascii_key):
@@ -390,7 +391,11 @@ class StoredValuesList(ValueList):
 
             menuitem_edit.connect('activate', on_edit_clicked, path)
             menuitem_remove.connect('activate', on_remove_clicked, path)
-            self.path_list_popup.popup(None, None, None, event.button, time, data=path)
+            popup_args = [None, None, None, event.button, time, path]
+            if is_pygi_gtk3():
+                # Move func data from end to index 3.
+                popup_args.insert(3, popup_args.pop())
+            self.path_list_popup.popup(*popup_args)
             self.path_list_popup.show_all()
 
     def remove_selected_path(self):
@@ -1081,6 +1086,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, GObject):
         old_text = self.text_entry.get_text()
         # We must block the "delete-text" signal to avoid the signal handler being called
         self.text_entry.handler_block_by_func(self.auto_completer.on_entry_text_delete_text)
+        # FIXME for pygtkcompat: "Warning: g_value_get_int: assertion 'G_VALUE_HOLDS_INT (value)' failed"
         self.text_entry.set_text(text)
         self.text_entry.handler_unblock_by_func(self.auto_completer.on_entry_text_delete_text)
 

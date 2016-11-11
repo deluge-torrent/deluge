@@ -20,7 +20,7 @@ from gobject import TYPE_UINT64
 import deluge.component as component
 from deluge.common import FILE_PRIORITY, open_file, show_file
 from deluge.ui.client import client
-from deluge.ui.gtkui.common import (listview_replace_treestore, load_pickled_state_file, reparent_iter,
+from deluge.ui.gtkui.common import (is_pygi_gtk3, listview_replace_treestore, load_pickled_state_file, reparent_iter,
                                     save_pickled_state_file)
 from deluge.ui.gtkui.torrentdetails import Tab
 from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
@@ -496,7 +496,11 @@ class FilesTab(Tab):
             for widget in self.file_menu_priority_items:
                 widget.set_sensitive(not self.__is_seed)
 
-            self.file_menu.popup(None, None, None, event.button, event.time)
+            popup_args = [None, None, None, event.button, event.time, None]
+            if is_pygi_gtk3():
+                # Move func data from end to index 3.
+                popup_args.insert(3, popup_args.pop())
+            self.file_menu.popup(*popup_args)
             return True
 
     def _on_key_press_event(self, widget, event):
@@ -508,7 +512,11 @@ class FilesTab(Tab):
                 return func(event)
 
     def keypress_menu(self, event):
-        self.file_menu.popup(None, None, None, 3, event.time)
+        popup_args = [None, None, None, 3, event.time, None]
+        if is_pygi_gtk3():
+            # Move func data from end to index 3.
+            popup_args.insert(3, popup_args.pop())
+        self.file_menu.popup(*popup_args)
         return True
 
     def keypress_f2(self, event):
