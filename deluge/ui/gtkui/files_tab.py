@@ -475,7 +475,7 @@ class FilesTab(Tab):
             for widget in self.file_menu_priority_items:
                 widget.set_sensitive(not self.__is_seed)
 
-            self.file_menu.popup(None, None, None, event.button, event.time)
+            self.file_menu.popup(None, None, None, None, event.button, event.time)
             return True
 
     def _on_key_press_event(self, widget, event):

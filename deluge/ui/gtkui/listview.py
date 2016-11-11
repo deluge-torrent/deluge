@@ -140,7 +140,7 @@ class ListView(object):
             self.treeview = Gtk.TreeView()
 
         self.treeview.set_enable_search(True)
-        self.treeview.set_search_equal_func(self.on_keypress_search_by_name)
+        self.treeview.set_search_equal_func(self.on_keypress_search_by_name, None)
 
         if state_file:
             self.load_state(state_file)
@@ -187,7 +187,7 @@ class ListView(object):
         model_filter.set_visible_column(
             self.columns['filter'].column_indices[0],
         )
-        self.model_filter = gtk.TreeModelSort(model_filter)
+        self.model_filter = Gtk.TreeModelSort(model=model_filter)
         self.model_filter.connect('sort-column-changed', self.on_model_sort_changed)
         self.model_filter.connect('row-inserted', self.on_model_row_inserted)
         self.treeview.set_model(self.model_filter)
@@ -345,7 +345,7 @@ class ListView(object):
 
     def on_treeview_header_right_clicked(self, column, event):
         if event.button == 3:
-            self.menu.popup(None, None, None, event.button, event.get_time())
+            self.menu.popup(None, None, None, None, event.button, event.get_time())
 
     def register_checklist_menu(self, menu):
         """Register a checklist menu with the listview.  It will automatically

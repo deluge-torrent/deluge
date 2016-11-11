@@ -328,6 +328,9 @@ def listview_replace_treestore(listview):
 
 
 def get_clipboard_text():
-    text = clipboard_get(selection=SELECTION_PRIMARY).wait_for_text() or clipboard_get().wait_for_text()
+    text = (
+        Gdk.Clipboard.Get(selection=Gdk.SELECTION_CLIPBOARD).wait_for_text()
+        or Gdk.Clipboard.Get().wait_for_text()
+    )
     if text:
         return text.strip()

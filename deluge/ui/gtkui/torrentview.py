@@ -127,7 +127,7 @@ class SearchBox(object):
     def hide(self):
         self.visible = False
         self.clear_search()
-        self.search_box.hide_all()
+        self.search_box.hide()
         self.search_pending = self.prefiltered = None
 
     def clear_search(self):
@@ -662,7 +662,7 @@ class TorrentView(ListView, component.Component):
                     log.debug('Unable to get iter from path: %s', ex)
                     continue
 
-                child_row = self.treeview.get_model().convert_iter_to_child_iter(None, row)
+                child_row = self.treeview.get_model().convert_iter_to_child_iter(row)
                 child_row = self.treeview.get_model().get_model().convert_iter_to_child_iter(child_row)
                 if self.liststore.iter_is_valid(child_row):
                     try:
@@ -708,7 +708,7 @@ class TorrentView(ListView, component.Component):
             else:
                 self.treeview.get_selection().select_iter(row)
             torrentmenu = component.get('MenuBar').torrentmenu
-            torrentmenu.popup(None, None, None, event.button, event.time)
+            torrentmenu.popup(None, None, None, None, event.button, event.time)
             return True
 
     def on_selection_changed(self, treeselection):

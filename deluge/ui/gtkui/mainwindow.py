@@ -113,7 +113,7 @@ class MainWindow(component.Component):
         self.window.connect('delete-event', self.on_window_delete_event)
         self.window.connect('drag-data-received', self.on_drag_data_received_event)
         self.vpaned.connect('notify::position', self.on_vpaned_position_event)
-        self.window.connect('expose-event', self.on_expose_event)
+        self.window.connect('draw', self.on_expose_event)
 
         self.config.register_set_function('show_rate_in_title', self._on_set_show_rate_in_title, apply_now=False)
 
@@ -299,9 +299,11 @@ class MainWindow(component.Component):
             bool: True if on active workspace (or wnck module not available), otherwise False.
 
         """
-        if wnck:
+
+        if Wnck:
             self.screen.force_update()
-            win = wnck.window_get(self.window.get_window().xid)
+            from gi.repository import GdkX11  # NOQA
+            win = Wnck.Window.get(self.window.get_window().get_xid())
             if win:
                 active_wksp = win.get_screen().get_active_workspace()
                 if active_wksp:

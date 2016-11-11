@@ -102,9 +102,9 @@ class FilterTreeView(component.Component):
         self.treeview.connect('button-press-event', self.on_button_press_event)
 
         # colors using current theme.
-        style = component.get('MainWindow').window.get_style()
-        self.colour_background = style.bg[gtk.STATE_NORMAL]
-        self.colour_foreground = style.fg[gtk.STATE_NORMAL]
+        style_ctx = component.get('MainWindow').window.get_style_context()
+        self.colour_background = style_ctx.get_background_color(Gtk.StateFlags.NORMAL)
+        self.colour_foreground = style_ctx.get_color(Gtk.StateFlags.NORMAL)
 
         # filtertree menu
         builder = Gtk.Builder()
@@ -328,7 +328,7 @@ class FilterTreeView(component.Component):
             # Show the pop-up menu
             self.set_menu_sensitivity()
             self.menu.hide()
-            self.menu.popup(None, None, None, event.button, event.time)
+            self.menu.popup(None, None, None, None, event.button, event.time)
             self.menu.show()
 
             if cat == 'cat':

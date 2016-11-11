@@ -130,8 +130,10 @@ class Preferences(component.Component):
         render = Gtk.CellRendererToggle()
         render.connect('toggled', self.on_plugin_toggled)
         render.set_property('activatable', True)
-        self.plugin_listview.append_column(gtk.TreeViewColumn(_('Enabled'), render, active=1))
-        self.plugin_listview.append_column(gtk.TreeViewColumn(_('Plugin'), gtk.CellRendererText(), text=2))
+        self.plugin_listview.append_column(
+            Gtk.TreeViewColumn(_('Enabled'), render, active=1))
+        self.plugin_listview.append_column(
+            Gtk.TreeViewColumn(_('Plugin'), Gtk.CellRendererText(), text=2))
 
         # Connect to the 'changed' event of TreeViewSelection to get selection
         # changes.

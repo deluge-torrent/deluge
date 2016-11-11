@@ -533,7 +533,7 @@ class PathChooserPopup(object):
         if not self.path_entry.get_realized():
             return
         self.popup_window.grab_remove()
-        self.popup_window.hide_all()
+        self.popup_window.hide()
 
     def is_popped_up(self):
         """Check if window is popped up.
@@ -694,26 +694,12 @@ class PathChooserPopup(object):
 
     def on_popup_window_button_press_event(self, window, event):
         # If we're clicking outside of the window close the popup
-        hide = False
-        # Also if the intersection of self and the event is empty, hide
-        # the path_list
-        if (tuple(self.popup_window.get_allocation().intersect(
-                gdk.Rectangle(
-                    x=int(event.x), y=int(event.y),
-                    width=1, height=1,
-                ),
-        )) == (0, 0, 0, 0)):
-            hide = True
-        # Toplevel is the window that received the event, and parent is the
-        # path_list window. If they are not the same, means the popup should
-        # be hidden. This is necessary for when the event happens on another
-        # widget
-        toplevel = event.window.get_toplevel()
-        parent = self.popup_window.get_window()
+        allocation = self.popup_window.get_allocation()
 
-        if toplevel != parent:
-            hide = True
-        if hide:
+        if (
+            (event.x < allocation.x or event.x > allocation.width)
+            or (event.y < allocation.y or event.y > allocation.height)
+        ):
             self.popdown()
 
 
@@ -993,10 +979,23 @@ class PathAutoCompleter(object):
             else:
                 self.completion_popup.handle_list_scroll(_next=True)
             return True
-        self.path_entry.text_entry.emit('key-press-event', event)
+        # Buggy stuff (in pygobject?) causing type mismatch between EventKey and GdkEvent. Convert manually...
+        n = Gdk.Event()
+        n.type = event.type
+        n.window = event.window
+        n.send_event = event.send_event
+        n.time = event.time
+        n.state = event.state
+        n.keyval = event.keyval
+        n.length = event.length
+        n.string = event.string
+        n.hardware_keycode = event.hardware_keycode
+        n.group = event.group
+        n.is_modifier = event.is_modifier
+        self.path_entry.text_entry.emit('key-press-event', n)
 
     def is_auto_completion_accelerator(self, keyval, state):
-        return gtk.accelerator_name(keyval, state.numerator) == self.accelerator_string
+        return Gtk.accelerator_name(keyval, state) == self.accelerator_string
 
     def do_completion(self, value=None, forward_completion=True):
         if not value:
@@ -1085,6 +1084,7 @@ class PathChooserComboBox(GtkGI.Box, StoredValuesPopup, GObject.GObject):
         self.add(self.combo_hbox)
         StoredValuesPopup.__init__(self, self.builder, self, max_visible_rows, self.combo_hbox)
 
+        self.tooltips = Gtk.Tooltip()
         self.auto_completer = PathAutoCompleter(self.builder, self, max_visible_rows)
         self.auto_completer.set_use_popup(use_completer_popup)
         self.auto_completer.auto_complete_enabled = auto_complete
@@ -1539,7 +1539,7 @@ if __name__ == '__main__':
     w.set_title('ComboEntry example')
     w.connect('delete-event', Gtk.main_quit)
 
-    box1 = gtk.VBox(gtk.FALSE, 0)
+    box1 = Gtk.VBox(False, 0)
 
     def get_resource2(filename):
         return '%s/glade/%s' % (os.path.abspath(os.path.dirname(sys.argv[0])), filename)
