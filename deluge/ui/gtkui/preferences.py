@@ -213,7 +213,7 @@ class Preferences(component.Component):
         vbox.pack_start(label, False, True, 0)
         sep = Gtk.HSeparator()
         vbox.pack_start(sep, False, True, 0)
-        align = Gtk.Alignment.new(0, 0, 0, 0)
+        align = Gtk.Alignment()
         align.set_padding(5, 0, 0, 0)
         align.set(0, 0, 1, 1)
         align.add(widget)
