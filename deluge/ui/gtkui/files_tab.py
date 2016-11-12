@@ -13,7 +13,7 @@ import logging
 import os.path
 
 import six.moves.cPickle as pickle
-from gi.repository import Gdk, Gtk
+from gi.repository import Gtk
 from gi.repository.Gdk import keyval_name
 from gi.repository.Gdk import DragAction
 from gi.repository.Gdk.ModifierType import BUTTON1_MASK
@@ -172,7 +172,9 @@ class FilesTab(Tab):
         self.listview.connect('button-press-event', self._on_button_press_event)
 
         self.listview.enable_model_drag_source(
-            BUTTON1_MASK, [('text/plain', 0, 0)], DragAction.DEFAULT | DragAction.MOVE,
+            BUTTON1_MASK,
+            [('text/plain', 0, 0)],
+            DragAction.DEFAULT | DragAction.MOVE,
         )
         self.listview.enable_model_drag_dest([('text/plain', 0, 0)], DragAction.DEFAULT)
 

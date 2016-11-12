@@ -12,14 +12,14 @@ from __future__ import unicode_literals
 import logging
 
 from gi.repository import Gtk
-from gi.repostiory.Gdk import Event
+from gi.repository.Gdk import Event  # pylint: disable=ungrouped-imports
 from gi.repository.GObject import SIGNAL_RUN_LAST, TYPE_NONE, signal_new
 
 from deluge.common import decode_bytes
 from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_file
 
 # FIXME: ?
-signal_new('button-press-event', gtk.TreeViewColumn, SIGNAL_RUN_LAST, TYPE_NONE, (Event,))
+signal_new('button-press-event', Gtk.TreeViewColumn, SIGNAL_RUN_LAST, TYPE_NONE, (Event,))
 
 log = logging.getLogger(__name__)
 

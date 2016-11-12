@@ -11,7 +11,7 @@
 
 from __future__ import unicode_literals
 
-from gi.repository import GdkPixbuf, Gtk
+from gi.repository import Gtk
 from twisted.internet import defer
 
 import deluge.component as component

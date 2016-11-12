@@ -18,7 +18,7 @@ import warnings
 from gi.repository import Gtk
 from gi.repository.GdkPixbuf import Pixbuf
 from gi.repository.GObject import GError
-from gi.repostiory.Pango import EllipsizeMode.END
+from gi.repostiory.Pango import EllipsizeMode
 
 import deluge.component as component
 from deluge.common import TORRENT_STATE, resource_filename
@@ -75,7 +75,7 @@ class FilterTreeView(component.Component):
         column.pack_start(self.cell_pix, expand=False)
         column.add_attribute(self.cell_pix, 'pixbuf', 4)
         # label cell
-        cell_label = gtk.CellRendererText()
+        cell_label = Gtk.CellRendererText()
         cell_label.set_property('ellipsize', EllipsizeMode.END)
         column.pack_start(cell_label, expand=True)
         column.set_cell_data_func(cell_label, self.render_cell_data, None)

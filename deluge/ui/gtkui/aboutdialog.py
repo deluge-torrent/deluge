@@ -9,7 +9,7 @@
 
 from __future__ import unicode_literals
 
-from gi.repository import GdkPixbuf, Gtk
+from gi.repository import Gtk
 
 import deluge.component as component
 from deluge.common import get_version, open_url_in_browser, windows_check

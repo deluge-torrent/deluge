@@ -10,8 +10,7 @@
 from __future__ import unicode_literals
 
 from gi.repository import Gdk, Gtk
-from gi.repository.Gdk.ModifierType import CONTROL_MASK, SHIFT_MASK
-from gi.repository.Gdk.EventMask import META_MASK
+from gi.repository.Gdk.ModifierType import CONTROL_MASK, META_MASK, SHIFT_MASK
 from gi.repository.Gtk import SeparatorMenuItem, accel_groups_from_object
 from gi.repository.Gtk.AccelFlags import VISIBLE
 

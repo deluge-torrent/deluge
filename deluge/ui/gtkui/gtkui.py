@@ -21,8 +21,8 @@ gi.require_version('Gtk', '3.0')  # NOQA: E402
 
 # isort:imports-thirdparty
 from gi.repository.Gdk import WINDOWING, threads_enter, threads_init, threads_leave
-from gi.repository.Gtk import RESPONSE_YES
 from gi.repository.GObject import set_prgname
+from gi.repository.Gtk import RESPONSE_OK, RESPONSE_YES
 from twisted.internet import defer, gtk3reactor
 from twisted.internet.error import ReactorAlreadyInstalledError
 from twisted.internet.task import LoopingCall

@@ -16,9 +16,9 @@ import shutil
 import sys
 
 import six.moves.cPickle as pickle
-from gi.repository.GdkPixbuf import ColorSpace, Pixbuf
-from gi.repository.Gtk import SORT_ASCENDING, Menu, MenuItem, RadioMenuItem, SeparatorMenuItem, clipboard_get, IconTheme
-from gi.repository.GLib import GError
+from gi.repository.GdkPixbuf import Colorspace, Pixbuf
+from gi.repository.GObject import GError
+from gi.repository.Gtk import IconTheme, Menu, MenuItem, RadioMenuItem, SeparatorMenuItem, SortType
 
 from deluge.common import get_pixmap, osx_check, windows_check
 
@@ -26,7 +26,7 @@ log = logging.getLogger(__name__)
 
 
 def create_blank_pixbuf(size=16):
-    pix = Pixbuf(ColorSpace.RGB, True, 8, size, size)
+    pix = Pixbuf(Colorspace.RGB, True, 8, size, size)
     pix.fill(0x0)
     return pix
 
@@ -172,7 +172,7 @@ def get_deluge_icon():
         return get_logo(32)
     else:
         try:
-            icon_theme = icon_theme_get_default()
+            icon_theme = IconTheme.get_default()
             return icon_theme.load_icon('deluge', 64, 0)
         except GError:
             return get_logo(64)

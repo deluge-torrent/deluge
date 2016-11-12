@@ -55,7 +55,7 @@ class CreateTorrentDialog(object):
         self.config = ConfigManager('gtkui.conf')
 
         self.dialog = self.builder.get_object('create_torrent_dialog')
-        self.dialog.set_transient_for(component.get('MainWindow').window)
+        self.dialog.set_transient_for(component.get('MainWindow').get_window())
 
         self.builder.connect_signals(self)
 

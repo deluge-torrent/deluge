@@ -303,7 +303,7 @@ class MainWindow(component.Component):
         if Wnck:
             self.screen.force_update()
             from gi.repository import GdkX11  # NOQA
-            win = Wnck.Window.get(self.window.get_window().get_xid())
+            win = Wnck.Window.get(self.get_window().get_xid())
             if win:
                 active_wksp = win.get_screen().get_active_workspace()
                 if active_wksp:
