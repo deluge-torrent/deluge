@@ -268,7 +268,7 @@ class AccountDialog(BaseDialog):
         self.authlevel_label.set_alignment(1.0, 0.5)
         self.authlevel_label.set_padding(5, 5)
 
-        self.authlevel_combo = gtk.combo_box_new_text()
+        self.authlevel_combo = gtk.ComboBoxText()
         active_idx = None
         for idx, level in enumerate(levels_mapping.keys()):
             self.authlevel_combo.append_text(level)

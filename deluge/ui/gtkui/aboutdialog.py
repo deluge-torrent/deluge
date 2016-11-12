@@ -10,7 +10,7 @@
 import gtk
 
 import deluge.component as component
-from deluge.common import get_version
+from deluge.common import get_version, open_url_in_browser, windows_check
 from deluge.ui.client import client
 from deluge.ui.gtkui.common import get_deluge_icon, get_pixbuf
 
@@ -20,8 +20,13 @@ class AboutDialog(object):
         self.about = gtk.AboutDialog()
         self.about.set_transient_for(component.get('MainWindow').get_window())
         self.about.set_position(gtk.WIN_POS_CENTER)
-        self.about.set_name('Deluge')
         self.about.set_program_name(_('Deluge'))
+        if windows_check:
+            def url_hook(dialog, url):
+                """Url hook for Windows OS which has no default browser."""
+                open_url_in_browser(url)
+                return True
+            self.about.connect('activate-link', url_hook)
 
         version = get_version()
 
