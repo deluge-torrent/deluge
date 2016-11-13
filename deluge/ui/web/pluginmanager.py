@@ -59,7 +59,7 @@ class PluginManager(PluginManagerBase, component.Component):
         try:
             plugin = component.get('WebPlugin.' + name)
         except KeyError:
-            log.debug("'%s' plugin contains no WebUI code, ignoring WebUI disable call.", name)
+            log.debug('%s plugin contains no WebUI code, ignoring WebUI disable call.', name)
             return
 
         info = gather_info(plugin)
@@ -81,7 +81,7 @@ class PluginManager(PluginManagerBase, component.Component):
         try:
             plugin = component.get('WebPlugin.' + name)
         except KeyError:
-            log.info("'%s' plugin contains no WebUI code, ignoring WebUI enable call.", name)
+            log.info('%s plugin contains no WebUI code, ignoring WebUI enable call.', name)
             return
 
         info = gather_info(plugin)

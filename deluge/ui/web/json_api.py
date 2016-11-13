@@ -798,7 +798,7 @@ class WebApi(JSONComponent):
         main_deferred = Deferred()
         host = self._get_host(host_id)
         if not host:
-            main_deferred.callback((False, _("Daemon doesn't exist")))
+            main_deferred.callback((False, _('Daemon does not exist')))
             return main_deferred
 
         try:
@@ -895,7 +895,7 @@ class WebApi(JSONComponent):
         web_config = component.get('DelugeWeb').config
         for key in config.keys():
             if key in ['sessions', 'pwd_salt', 'pwd_sha1']:
-                log.warn("Ignored attempt to overwrite web config key '%s'", key)
+                log.warn('Ignored attempt to overwrite web config key: %s', key)
                 continue
             if isinstance(config[key], basestring):
                 config[key] = config[key].encode('utf8')

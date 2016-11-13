@@ -102,15 +102,15 @@ def _overrides(stack, method, explicit_base_classes=None):
             if issubclass(classes[bc], classes[cc]):
                 break
         else:
-            raise Exception("Excplicit override class '%s' is not a super class of '%s'"
+            raise Exception('Excplicit override class "%s" is not a super class of: %s'
                             % (explicit_base_classes, class_name))
         if not all(hasattr(classes[cls], method.__name__) for cls in check_classes):
             for cls in check_classes:
                 if not hasattr(classes[cls], method.__name__):
-                    raise Exception("Function override '%s' not found in superclass: '%s'\n%s"
+                    raise Exception('Function override "%s" not found in superclass: %s\n%s'
                                     % (method.__name__, cls, 'File: %s:%s' % (stack[1][1], stack[1][2])))
 
     if not any(hasattr(classes[cls], method.__name__) for cls in check_classes):
-        raise Exception("Function override '%s' not found in any superclass: '%s'\n%s"
+        raise Exception('Function override "%s" not found in any superclass: %s\n%s'
                         % (method.__name__, check_classes, 'File: %s:%s' % (stack[1][1], stack[1][2])))
     return method

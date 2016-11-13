@@ -483,7 +483,7 @@ class TorrentManager(component.Component):
         try:
             torrent = self.torrents[torrent_id]
         except KeyError:
-            raise InvalidTorrentError("torrent_id '%s' not in session." % torrent_id)
+            raise InvalidTorrentError('torrent_id %s not in session.' % torrent_id)
 
         torrent_name = torrent.get_status(['name'])['name']
 
@@ -508,8 +508,8 @@ class TorrentManager(component.Component):
             try:
                 self.queued_torrents.remove(torrent_id)
             except KeyError:
-                log.debug("%s isn't in queued torrents set?", torrent_id)
-                raise InvalidTorrentError("%s isn't in queued torrents set?" % torrent_id)
+                log.debug('%s is not in queued torrents set.', torrent_id)
+                raise InvalidTorrentError('%s is not in queued torrents set.' % torrent_id)
 
         # Remove the torrent from deluge's session
         del self.torrents[torrent_id]
@@ -607,7 +607,7 @@ class TorrentManager(component.Component):
                 d = self.add(torrent_info=torrent_info, state=t_state, options=options, save_state=False,
                              magnet=magnet, resume_data=resume_data.get(t_state.torrent_id))
             except AddTorrentError as ex:
-                log.warn("Error when adding torrent '%s' to session: %s", t_state.torrent_id, ex)
+                log.warn('Error when adding torrent "%s" to session: %s', t_state.torrent_id, ex)
             else:
                 deferreds.append(d)
 
@@ -981,7 +981,7 @@ class TorrentManager(component.Component):
         except KeyError:
             # Sometimes libtorrent fires a TorrentFinishedEvent twice
             if log.isEnabledFor(logging.DEBUG):
-                log.debug("%s isn't in queued torrents set?", torrent_id)
+                log.debug('%s is not in queued torrents set.', torrent_id)
 
         # Only save resume data if it was actually downloaded something. Helps
         # on startup with big queues with lots of seeding torrents. Libtorrent

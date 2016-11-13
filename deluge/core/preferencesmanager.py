@@ -124,7 +124,7 @@ class PreferencesManager(component.Component):
         component.Component.__init__(self, 'PreferencesManager')
         self.config = deluge.configmanager.ConfigManager('core.conf', DEFAULT_PREFS)
         if 'proxies' in self.config:
-            log.warning("Updating config file for proxy, using 'peer' values to fill new 'proxy' setting")
+            log.warning('Updating config file for proxy, using "peer" values to fill new "proxy" setting')
             self.config['proxy'].update(self.config['proxies']['peer'])
             log.warning('New proxy config is: %s', self.config['proxy'])
             del self.config['proxies']

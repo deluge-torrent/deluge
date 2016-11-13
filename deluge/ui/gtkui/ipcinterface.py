@@ -117,7 +117,7 @@ class IPCInterface(component.Component):
             log.debug('Checking if lockfile exists: %s', lockfile)
             if os.path.lexists(lockfile):
                 def delete_lockfile():
-                    log.debug("Removing lockfile since it's stale.")
+                    log.debug('Delete stale lockfile.')
                     try:
                         os.remove(lockfile)
                         os.remove(socket)

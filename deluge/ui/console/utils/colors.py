@@ -191,7 +191,7 @@ def parse_color_string(s, encoding='UTF-8'):
 
         end = s.find('!}')
         if end == -1:
-            raise BadColorString("Missing closing '!}'")
+            raise BadColorString('Missing closing "!}"')
 
         # Get a list of attributes in the bracketed section
         attrs = s[begin + 2:end].split(',')
@@ -218,7 +218,7 @@ def parse_color_string(s, encoding='UTF-8'):
         if attrs[0] in schemes:
             pair = (schemes[attrs[0]][0], schemes[attrs[0]][1])
             if pair not in color_pairs:
-                log.debug("Color pair doesn't exist: %s, attrs: %s", pair, attrs)
+                log.debug('Color pair does not exist: %s, attrs: %s', pair, attrs)
                 pair = ('white', 'black')
             # Get the color pair number
             color_pair = curses.color_pair(color_pairs[pair])
@@ -248,7 +248,7 @@ def parse_color_string(s, encoding='UTF-8'):
                         # terminal settings allows no colors. If background is white, we
                         # assume this means selection, and use "white", "black" + reverse
                         # To have white background and black foreground
-                        log.debug("Color pair doesn't exist: %s", pair)
+                        log.debug('Color pair does not exist: %s', pair)
                         if pair[1] == 'white':
                             if attrs[2] == 'ignore':
                                 attrs[2] = 'reverse'

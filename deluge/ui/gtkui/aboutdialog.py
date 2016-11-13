@@ -163,7 +163,7 @@ class AboutDialog(object):
             'Pål-Eivind Johnsen', 'pano', 'Paolo Naldini', 'Paracelsus',
             'Patryk13_03', 'Patryk Skorupa', 'PattogoTehen', 'Paul Lange',
             'Pavcio', 'Paweł Wysocki', 'Pedro Brites Moita',
-            'Pedro Clemente Pereira Neto', 'Pekka \"PEXI\" Niemistö', 'Penegal',
+            'Pedro Clemente Pereira Neto', 'Pekka "PEXI" Niemistö', 'Penegal',
             'Penzo', 'perdido', 'Peter Kotrcka', 'Peter Skov',
             'Peter Van den Bosch', 'Petter Eklund', 'Petter Viklund',
             'phatsphere', 'Phenomen', 'Philipi', 'Philippides Homer', 'phoenix',

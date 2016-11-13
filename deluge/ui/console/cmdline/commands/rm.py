@@ -23,7 +23,8 @@ class Command(BaseCommand):
     aliases = ['del']
 
     def add_arguments(self, parser):
-        parser.add_argument('--remove_data', action='store_true', default=False, help=_("remove the torrent's data"))
+        parser.add_argument('--remove_data', action='store_true', default=False,
+                            help=_('Also removes the torrent data'))
         parser.add_argument('-c', '--confirm', action='store_true', default=False,
                             help=_('List the matching torrents without removing.'))
         parser.add_argument('torrent_ids', metavar='<torrent-id>', nargs='+', help=_('One or more torrent ids'))

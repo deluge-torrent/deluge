@@ -86,7 +86,7 @@ class _ConfigManager(object):
 
     def get_config(self, config_file, defaults=None, file_version=1):
         """Get a reference to the Config object for this filename"""
-        log.debug("Getting config '%s'", config_file)
+        log.debug('Getting config: %s', config_file)
         # Create the config object if not already created
         if config_file not in self.config_files.keys():
             self.config_files[config_file] = Config(config_file, defaults,

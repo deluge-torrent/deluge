@@ -128,13 +128,13 @@ class ConnectionManager(BaseMode, PopupsHandler):
         try:
             port = int(result['port']['value'])
         except ValueError:
-            self.report_message("Can't add host", 'Invalid port.  Must be an integer')
+            self.report_message('Cannot add host', 'Invalid port.  Must be an integer')
             return
         username = result['username']['value']
         password = result['password']['value']
         for host in self.config['hosts']:
             if (host[1], host[2], host[3]) == (hostname, port, username):
-                self.report_message("Can't add host", 'Host already in list')
+                self.report_message('Cannot add host', 'Host already in list')
                 return
         newid = hashlib.sha1(str(time.time())).hexdigest()
         self.config['hosts'].append((newid, hostname, port, username, password))

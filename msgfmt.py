@@ -209,7 +209,7 @@ def main():
     # do it
     if not args:
         print('No input file given', file=sys.stderr)
-        print("Try `msgfmt --help' for more information.", file=sys.stderr)
+        print('Try `msgfmt --help` for more information.', file=sys.stderr)
         return
 
     for filename in args:

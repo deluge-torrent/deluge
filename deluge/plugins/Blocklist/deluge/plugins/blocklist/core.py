@@ -225,7 +225,7 @@ class Core(CorePluginBase):
 
         if needs_blocklist_import:
             log.debug('IP addresses were removed from the whitelist. Since we '
-                      "don't know if they were blocked before. Re-import "
+                      'do not know if they were blocked before. Re-import '
                       'current blocklist and re-add whitelisted.')
             self.has_imported = False
             d = self.import_list(deluge.configmanager.get_config_dir('blocklist.cache'))
@@ -360,7 +360,8 @@ class Core(CorePluginBase):
             else:
                 log.warning('Blocklist download failed: %s', error_msg)
                 if self.failed_attempts < self.config['try_times']:
-                    log.debug("Let's try again")
+                    log.debug('Try downloading blocklist again... (%s/%s)',
+                              self.failed_attempts, self.config['try_times'])
                     self.failed_attempts += 1
                     d = self.download_list()
                     d.addCallbacks(self.on_download_complete, self.on_download_error)
@@ -380,7 +381,7 @@ class Core(CorePluginBase):
 
         def on_read_ip_range(start, end):
             """Add ip range to blocklist"""
-            # log.trace("Adding ip range %s - %s to ipfilter as blocked", start, end)
+            # log.trace('Adding ip range %s - %s to ipfilter as blocked', start, end)
             self.blocklist.add_rule(start.address, end.address, BLOCK_RANGE)
             self.num_blocked += 1
 
@@ -422,7 +423,7 @@ class Core(CorePluginBase):
         log.debug('Importing using reader: %s', self.reader)
         log.debug('Reader type: %s compression: %s', self.config['list_type'], self.config['list_compression'])
         log.debug('Clearing current ip filtering')
-        # self.blocklist.add_rule("0.0.0.0", "255.255.255.255", ALLOW_RANGE)
+        # self.blocklist.add_rule('0.0.0.0', '255.255.255.255', ALLOW_RANGE)
         d = threads.deferToThread(self.reader(blocklist).read, on_read_ip_range)
         d.addCallback(on_finish_read).addErrback(on_reader_failure)
 

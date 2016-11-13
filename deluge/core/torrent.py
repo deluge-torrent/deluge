@@ -495,7 +495,7 @@ class Torrent(object):
             return
 
         if log.isEnabledFor(logging.DEBUG):
-            log.debug("Setting %s's file priorities: %s", self.torrent_id, file_priorities)
+            log.debug('Setting %s file priorities to: %s', self.torrent_id, file_priorities)
 
         self.handle.prioritize_files(file_priorities)
 
@@ -650,7 +650,7 @@ class Torrent(object):
             component.get('EventManager').emit(TorrentStateChangedEvent(self.torrent_id, self.state))
 
         if log.isEnabledFor(logging.DEBUG):
-            log.debug("State from lt was: %s | Session is paused: %s\nTorrent state set from '%s' to '%s' (%s)",
+            log.debug('State from lt was: %s | Session is paused: %s\nTorrent state set from "%s" to "%s" (%s)',
                       'error' if status_error else status.state, session_paused, old_state, self.state, self.torrent_id)
             if self.forced_error:
                 log.debug('Torrent Error state message: %s', self.forced_error.error_message)
@@ -1080,10 +1080,10 @@ class Torrent(object):
         if self.status.paused and self.status.auto_managed:
             log.debug('Resume not possible for auto-managed torrent!')
         elif self.forced_error and self.forced_error.was_paused:
-            log.debug("Resume skipped for error'd torrent as it was originally paused.")
+            log.debug('Resume skipped for forced_error torrent as it was originally paused.')
         elif (self.status.is_finished and self.options['stop_at_ratio'] and
               self.get_ratio() >= self.options['stop_ratio']):
-            log.debug("Resume skipped for torrent as it has reached 'stop_seed_ratio'.")
+            log.debug('Resume skipped for torrent as it has reached "stop_seed_ratio".')
         else:
             # Check if torrent was originally being auto-managed.
             if self.options['auto_managed']:

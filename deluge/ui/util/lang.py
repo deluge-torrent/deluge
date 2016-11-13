@@ -24,7 +24,7 @@ def set_dummy_trans(warn_msg=None):
 
     def _func(*txt):
         if warn_msg:
-            log.warn("'%s' has been marked for translation, but translation is unavailable.", txt[0])
+            log.warn('"%s" has been marked for translation, but translation is unavailable.', txt[0])
         return txt[0]
     __builtin__.__dict__['_'] = _func
     __builtin__.__dict__['_n'] = _func

@@ -145,7 +145,7 @@ class GtkUiNotifications(CustomNotifications):
     def handle_custom_blink_notification(self, result, eventtype):
         if result:
             return defer.maybeDeferred(self.__blink)
-        return defer.succeed("Won't blink. The returned value from the custom "
+        return defer.succeed('Will not blink. The returned value from the custom '
                              'handler was: %s' % result)
 
     def handle_custom_sound_notification(self, result, eventtype):
@@ -154,7 +154,7 @@ class GtkUiNotifications(CustomNotifications):
                 return defer.maybeDeferred(
                     self.__play_sound, self.config['custom_sounds'][eventtype])
             return defer.maybeDeferred(self.__play_sound, result)
-        return defer.succeed("Won't play sound. The returned value from the "
+        return defer.succeed('Will not play sound. The returned value from the '
                              'custom handler was: %s' % result)
 
     def __blink(self):
@@ -222,7 +222,7 @@ class GtkUiNotifications(CustomNotifications):
                   'Got Torrent Status')
         title = _('Finished Torrent')
         torrent_status['num_files'] = torrent_status['file_progress'].count(1.0)
-        message = _('The torrent \"%(name)s\" including %(num_files)i file(s) '
+        message = _('The torrent "%(name)s" including %(num_files)i file(s) '
                     'has finished downloading.') % torrent_status
         return title, message
 

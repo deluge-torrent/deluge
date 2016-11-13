@@ -53,13 +53,11 @@ class CustomNotifications(object):
                 self._deregister_custom_provider(kind, eventtype)
 
     def _handle_custom_providers(self, kind, eventtype, *args, **kwargs):
-        log.debug("Calling CORE's custom %s providers for %s: %s %s",
-                  kind, eventtype, args, kwargs)
+        log.debug('Calling CORE custom %s providers for %s: %s %s', kind, eventtype, args, kwargs)
         if eventtype in self.config['subscriptions'][kind]:
             wrapper, handler = self.custom_notifications[kind][eventtype]
             log.debug('Found handler for kind %s: %s', kind, handler)
-            custom_notif_func = getattr(self,
-                                        'handle_custom_%s_notification' % kind)
+            custom_notif_func = getattr(self, 'handle_custom_%s_notification' % kind)
             d = defer.maybeDeferred(handler, *args, **kwargs)
             d.addCallback(custom_notif_func, eventtype)
             d.addCallback(self._on_notify_sucess, kind)

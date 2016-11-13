@@ -334,7 +334,7 @@ class ConnectionManager(component.Component):
                     self.__update_buttons()
 
                 row[HOSTLIST_COL_STATUS] = 'Connected'
-                log.debug("Query daemon's info")
+                log.debug('Query daemon info')
                 client.daemon.info().addCallback(on_info, row)
                 continue
 
@@ -455,9 +455,9 @@ class ConnectionManager(component.Component):
             if ex.errno == ENOENT:
                 ErrorDialog(
                     _('Unable to start daemon!'),
-                    _("Deluge cannot find the 'deluged' executable, it is "
-                      'likely that you forgot to install the deluged package '
-                      "or it's not in your PATH.")).run()
+                    _('Deluge cannot find the `deluged` executable, check that '
+                      'the deluged package is installed, or added to your PATH.')).run()
+
                 return False
             else:
                 raise ex

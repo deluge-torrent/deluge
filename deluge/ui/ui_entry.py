@@ -99,16 +99,16 @@ def start_ui():
     try:
         ui = ui_entrypoints[selected_ui](prog='%s %s' % (os.path.basename(sys.argv[0]), selected_ui), ui_args=ui_args)
     except KeyError as ex:
-        log.error("Unable to find chosen UI: '%s'. Please choose a different UI "
-                  "or use '--set-default-ui' to change default UI.", selected_ui)
+        log.error('Unable to find chosen UI: "%s". Please choose a different UI '
+                  'or use "--set-default-ui" to change default UI.', selected_ui)
     except ImportError as ex:
         import traceback
         error_type, error_value, tb = sys.exc_info()
         stack = traceback.extract_tb(tb)
         last_frame = stack[-1]
         if last_frame[0] == __file__:
-            log.error("Unable to find chosen UI: '%s'. Please choose a different UI "
-                      "or use '--set-default-ui' to change default UI.", selected_ui)
+            log.error('Unable to find chosen UI: "%s". Please choose a different UI '
+                      'or use "--set-default-ui" to change default UI.', selected_ui)
         else:
             log.exception(ex)
             log.error('Encountered an error launching the request UI: %s', selected_ui)

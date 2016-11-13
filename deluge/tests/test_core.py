@@ -244,8 +244,8 @@ class CoreTestCase(BaseTestCase):
             torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
         val = yield self.core.remove_torrents(['invalidid1', 'invalidid2', torrent_id], False)
         self.assertEqual(len(val), 2)
-        self.assertEqual(val[0], ('invalidid1', "torrent_id 'invalidid1' not in session."))
-        self.assertEqual(val[1], ('invalidid2', "torrent_id 'invalidid2' not in session."))
+        self.assertEqual(val[0], ('invalidid1', 'torrent_id invalidid1 not in session.'))
+        self.assertEqual(val[1], ('invalidid2', 'torrent_id invalidid2 not in session.'))
 
     def test_get_session_status(self):
         status = self.core.get_session_status(['upload_rate', 'download_rate'])

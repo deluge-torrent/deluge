@@ -208,7 +208,7 @@ def get_pixmap(fname):
 
 def resource_filename(module, path):
     # While developing, if there's a second deluge package, installed globally
-    # and another in develop mode somewhere else, while pkg_resources.require("Deluge")
+    # and another in develop mode somewhere else, while pkg_resources.require('Deluge')
     # returns the proper deluge instance, pkg_resources.resource_filename does
     # not, it returns the first found on the python path, which is not good
     # enough.
@@ -556,7 +556,7 @@ def is_url(url):
 
     **Usage**
 
-    >>> is_url("http://deluge-torrent.org")
+    >>> is_url('http://deluge-torrent.org')
     True
 
     """
@@ -588,7 +588,7 @@ def is_magnet(uri):
 
     **Usage**
 
-    >>> is_magnet("magnet:?xt=urn:btih:SU5225URMTUEQLDXQWRB2EQWN6KLTYKN")
+    >>> is_magnet('magnet:?xt=urn:btih:SU5225URMTUEQLDXQWRB2EQWN6KLTYKN')
     True
 
     """
@@ -732,7 +732,7 @@ def is_ip(ip):
 
     ** Usage **
 
-    >>> is_ip("127.0.0.1")
+    >>> is_ip('127.0.0.1')
     True
 
     """

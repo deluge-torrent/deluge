@@ -149,7 +149,7 @@ class RPCRaiseDelugeErrorJSONTestCase(JSONBase):
     class TestClass(object):
         @export()
         def test(self):
-            raise DelugeError("DelugeERROR")
+            raise DelugeError('DelugeERROR')
 
     test = TestClass()
     daemon.rpcserver.register_object(test)
@@ -199,7 +199,7 @@ class JSONRequestFailedTestCase(JSONBase, WebServerMockBase):
         @export()
         def test(self):
             def test_raise_error():
-                raise DelugeError("DelugeERROR")
+                raise DelugeError('DelugeERROR')
 
             return task.deferLater(reactor, 1, test_raise_error)
 

@@ -116,7 +116,7 @@ class IP(object):
 #            if q3 >= 255:
 #                if q2 >= 255:
 #                    if q1 >= 255:
-#                        raise BadIP(_("There ain't a next IP address"))
+#                        raise BadIP(_('There is not a next IP address'))
 #                    q1 += 1
 #                else:
 #                    q2 += 1
@@ -132,7 +132,7 @@ class IP(object):
 #            if q3 <= 1:
 #                if q2 <= 1:
 #                    if q1 <= 1:
-#                        raise BadIP(_("There ain't a previous IP address"))
+#                        raise BadIP(_('There is not a previous IP address'))
 #                    q1 -= 1
 #                else:
 #                    q2 -= 1

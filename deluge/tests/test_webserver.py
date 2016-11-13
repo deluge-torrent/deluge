@@ -47,7 +47,7 @@ class WebServerTestCase(WebServerTestBase, WebServerMockBase):
         try:
             body = yield twisted.web.client.readBody(d)
         except AttributeError:
-            raise SkipTest("This test requires 't.w.c.readBody()' in Twisted version >= 13.2")
+            raise SkipTest('This test requires "t.w.c.readBody()" in Twisted version >= 13.2')
 
         json = json_lib.loads(body)
         self.assertEqual(None, json['error'])

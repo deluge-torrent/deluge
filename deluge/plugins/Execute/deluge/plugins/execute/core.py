@@ -106,7 +106,7 @@ class Core(CorePluginBase):
         def log_error(result, command):
             (stdout, stderr, exit_code) = result
             if exit_code:
-                log.warn("Command '%s' failed with exit code %d", command, exit_code)
+                log.warn('Command "%s" failed with exit code %d', command, exit_code)
                 if stdout:
                     log.warn('stdout: %s', stdout)
                 if stderr:

@@ -109,7 +109,7 @@ class Commander(object):
             return
         except OptionParserError as ex:
             import traceback
-            log.warn("Error parsing command '%s':  %s", args, ex)
+            log.warn('Error parsing command "%s":  %s', args, ex)
             self.write('{!error!} %s' % ex)
             parser.print_help()
             return

@@ -221,8 +221,8 @@ class ComponentTestClass(BaseTestCase):
         result = yield component.start()
         self.failUnlessEqual([(result[0][0], result[0][1].value)],
                              [(defer.FAILURE,
-                               component.ComponentException("Trying to start a component ('%s') not in "
-                                                            "stopped state. Current state: '%s'" %
+                               component.ComponentException('Trying to start component "%s" but it is '
+                                                            'not in a stopped state. Current state: %s' %
                                                             ('test_pause_c1', 'Paused'), ''))])
 
     def test_shutdown(self):

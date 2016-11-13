@@ -189,7 +189,7 @@ class BaseMode(CursesStdIO, component.Component):
         self.draw_statusbars()
         # Update the status bars
 
-        self.add_string(1, "{!info!}Base Mode (or subclass hasn't overridden refresh)")
+        self.add_string(1, '{!info!}Base Mode (or subclass has not overridden refresh)')
 
         self.stdscr.redrawwin()
         self.stdscr.refresh()
@@ -287,8 +287,8 @@ def add_string(row, string, screen, encoding, col=0, pad=True, pad_char=' ', tri
                 screen.addstr(row, col, s, color)
             except curses.error as ex:
                 import traceback
-                log.warn("FAILED on call screen.addstr(%s, %s, '%s', %s) - max_y: %s, max_x: %s, "
-                         "curses.LINES: %s, curses.COLS: %s, Error: '%s', trace:\n%s",
+                log.warn('FAILED on call screen.addstr(%s, %s, "%s", %s) - max_y: %s, max_x: %s, '
+                         'curses.LINES: %s, curses.COLS: %s, Error: %s, trace:\n%s',
                          row, col, s, color, max_y, max_x, curses.LINES, curses.COLS, ex,
                          ''.join(traceback.format_stack(limit=5)))
 
@@ -333,5 +333,5 @@ def move_cursor(screen, row, col):
         screen.move(row, col)
     except curses.error as ex:
         import traceback
-        log.warn("Error on screen.move(%s, %s): (curses.LINES: %s, curses.COLS: %s) Error: '%s'\nStack: %s",
+        log.warn('Error on screen.move(%s, %s): (curses.LINES: %s, curses.COLS: %s) Error: %s\nStack: %s',
                  row, col, curses.LINES, curses.COLS, ex, ''.join(traceback.format_stack()))

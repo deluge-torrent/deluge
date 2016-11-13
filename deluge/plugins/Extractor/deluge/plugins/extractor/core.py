@@ -121,7 +121,7 @@ class Core(CorePluginBase):
             if file_ext_sec and file_ext_sec + file_ext in EXTRACT_COMMANDS:
                 file_ext = file_ext_sec + file_ext
             elif file_ext not in EXTRACT_COMMANDS or file_ext_sec == '.tar':
-                log.debug("Can't extract file with unknown file type: %s", f['path'])
+                log.debug('Cannot extract file with unknown file type: %s', f['path'])
                 continue
             elif file_ext == '.rar' and 'part' in file_ext_sec:
                 part_num = file_ext_sec.split('part')[1]

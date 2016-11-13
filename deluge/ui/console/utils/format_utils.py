@@ -257,7 +257,7 @@ def pad_string(string, length, character=' ', side='right'):
         return '%s%s' % (string, character * diff)
 
 
-def delete_alt_backspace(input_text, input_cursor, sep_chars=" *?!._~-#$^;'\"/"):
+def delete_alt_backspace(input_text, input_cursor, sep_chars=' *?!._~-#$^;\'"/'):
     """
     Remove text from input_text on ALT+backspace
     Stop removing when countering any of the sep chars

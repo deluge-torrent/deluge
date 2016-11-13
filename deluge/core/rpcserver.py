@@ -130,7 +130,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                 log.debug('Received invalid rpc request: number of items '
                           'in request is %s', len(call))
                 continue
-            # log.debug("RPCRequest: %s", format_request(call))
+            # log.debug('RPCRequest: %s', format_request(call))
             reactor.callLater(0, self.dispatch, *call)
 
     def sendData(self, data):  # NOQA: N802
@@ -273,7 +273,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
         if method not in self.factory.methods:
             try:
                 # Raise exception to be sent back to client
-                raise AttributeError("RPC call on invalid function '%s'." % method)
+                raise AttributeError('RPC call on invalid function: %s' % method)
             except AttributeError:
                 send_error()
                 return

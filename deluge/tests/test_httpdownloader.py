@@ -67,7 +67,7 @@ class PartialDownloadResource(Resource):
         self.render_count = 0
 
     def render(self, request):
-        # encoding = request.requestHeaders._rawHeaders.get("accept-encoding", None)
+        # encoding = request.requestHeaders._rawHeaders.get('accept-encoding', None)
         if self.render_count == 0:
             request.setHeader('content-length', '5')
         else:

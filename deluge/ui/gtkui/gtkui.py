@@ -143,18 +143,18 @@ class GtkUI(object):
 
         # Setup signals
         def on_die(*args):
-            log.debug("OS signal 'die' caught with args: %s", args)
+            log.debug('OS signal "die" caught with args: %s', args)
             reactor.stop()
 
         if windows_check():
             from win32api import SetConsoleCtrlHandler
             SetConsoleCtrlHandler(on_die, True)
-            log.debug("Win32 'die' handler registered")
+            log.debug('Win32 "die" handler registered')
         elif osx_check() and WINDOWING == 'quartz':
             import gtkosx_application
             self.osxapp = gtkosx_application.gtkosx_application_get()
             self.osxapp.connect('NSApplicationWillTerminate', on_die)
-            log.debug("OSX quartz 'die' handler registered")
+            log.debug('OSX quartz "die" handler registered')
 
         # Set process name again to fix gtk issue
         setproctitle(getproctitle())
@@ -227,7 +227,7 @@ class GtkUI(object):
         reactor.addSystemEventTrigger('before', 'gtkui_close', self.close)
 
         def gtkui_sigint_handler(num, frame):
-            log.debug("SIGINT signal caught - firing event: 'gtkui_close'")
+            log.debug('SIGINT signal caught, firing event: gtkui_close')
             reactor.callLater(0, reactor.fireSystemEvent, 'gtkui_close')
 
         signal.signal(signal.SIGINT, gtkui_sigint_handler)

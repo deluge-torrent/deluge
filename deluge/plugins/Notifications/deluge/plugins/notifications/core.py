@@ -135,13 +135,11 @@ Date: %(date)s
             try:
                 server.login(self.config['smtp_user'], self.config['smtp_pass'])
             except smtplib.SMTPHeloError as ex:
-                err_msg = _("The server didn't reply properly to the helo "
-                            'greeting: %s') % ex
+                err_msg = _('Server did not reply properly to HELO greeting: %s') % ex
                 log.error(err_msg)
                 return ex
             except smtplib.SMTPAuthenticationError as ex:
-                err_msg = _("The server didn't accept the username/password "
-                            'combination: %s') % ex
+                err_msg = _('Server refused username/password combination: %s') % ex
                 log.error(err_msg)
                 return ex
 
@@ -149,8 +147,7 @@ Date: %(date)s
             try:
                 server.sendmail(self.config['smtp_from'], to_addrs, message)
             except smtplib.SMTPException as ex:
-                err_msg = _('There was an error sending the notification email:'
-                            ' %s') % ex
+                err_msg = _('There was an error sending the notification email: %s') % ex
                 log.error(err_msg)
                 return ex
         finally:
@@ -174,7 +171,7 @@ Date: %(date)s
         subject = _('Finished Torrent "%(name)s"') % torrent_status
         message = _(
             'This email is to inform you that Deluge has finished '
-            'downloading \"%(name)s\", which includes %(num_files)i files.'
+            'downloading "%(name)s", which includes %(num_files)i files.'
             '\nTo stop receiving these alerts, simply turn off email '
             "notification in Deluge's preferences.\n\n"
             'Thank you,\nDeluge.'
@@ -183,7 +180,7 @@ Date: %(date)s
 
         # d = defer.maybeDeferred(self.handle_custom_email_notification,
         #                        [subject, message],
-        #                        "TorrentFinishedEvent")
+        #                        'TorrentFinishedEvent')
         # d.addCallback(self._on_notify_sucess, 'email')
         # d.addErrback(self._on_notify_failure, 'email')
         # return d

@@ -237,7 +237,7 @@ class Build(_build):
 
 
 class InstallData(_install_data):
-    """Custom class to fix 'setup install' copying data files to incorrect location. (Bug #1389)"""
+    """Custom class to fix `setup install` copying data files to incorrect location. (Bug #1389)"""
 
     def finalize_options(self):
         self.install_dir = None
@@ -274,12 +274,12 @@ class CleanPlugins(cmd.Command):
 
             # Delete the .eggs
             if path[-4:] == '.egg':
-                print("Deleting egg file '%s'" % path)
+                print('Deleting egg file "%s"' % path)
                 os.remove(path)
 
             # Delete the .egg-link
             if path[-9:] == '.egg-link':
-                print("Deleting egg link '%s'" % path)
+                print('Deleting egg link "%s"' % path)
                 os.remove(path)
 
         egg_info_dir_path = 'deluge/plugins/*/*.egg-info'

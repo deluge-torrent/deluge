@@ -77,7 +77,7 @@ class Core(CorePluginBase):
 
         self.length = self.config['length']
 
-        # self.stats = get_key(self.saved_stats, "stats") or {}
+        # self.stats = get_key(self.saved_stats, 'stats') or {}
         self.stats_keys = []
         self.add_stats(
             'upload_rate',

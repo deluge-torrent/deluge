@@ -28,7 +28,7 @@ def _bracket_fixup(path):
     while path.find(unichr(sentinal)) != -1:
         sentinal += 1
         if sentinal > 65535:
-            log.error("Can't fix brackets in path, path contains all possible sentinal characters")
+            log.error('Cannot fix brackets in path, path contains all possible sentinal characters')
             return path
     newpath = path.replace(']', unichr(sentinal))
     newpath = newpath.replace('[', '[[]')
@@ -53,7 +53,7 @@ def add_torrent(t_file, options, success_cb, fail_cb, ress):
     ress['total'] = num_files
 
     if num_files <= 0:
-        fail_cb("Doesn't exist", t_file, ress)
+        fail_cb('Does not exist', t_file, ress)
 
     for f in files:
         if is_url:
@@ -62,7 +62,7 @@ def add_torrent(t_file, options, success_cb, fail_cb, ress):
             client.core.add_torrent_magnet(f, t_options).addCallback(success_cb, f, ress).addErrback(fail_cb, f, ress)
         else:
             if not os.path.exists(f):
-                fail_cb("Doesn't exist", f, ress)
+                fail_cb('Does not exist', f, ress)
                 continue
             if not os.path.isfile(f):
                 fail_cb('Is a directory', f, ress)

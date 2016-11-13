@@ -91,7 +91,7 @@ class TransferTestClass(DelugeTransferProtocol):
                       (len(data), len(data) - len(dobj.unused_data), len(dobj.unused_data)))
                 print('Packet count:', self.packet_count)
             except Exception as ex:
-                # log.debug("Received possible invalid message (%r): %s", data, e)
+                # log.debug('Received possible invalid message (%r): %s', data, e)
                 # This could be cut-off data, so we'll save this in the buffer
                 # and try to prepend it on the next dataReceived()
                 self._buffer = data
@@ -307,9 +307,9 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
 
     # Needs file containing big data structure e.g. like thetorrent list as it is transfered by the daemon
     # def test_simulate_big_transfer(self):
-    #    filename = "../deluge.torrentlist"
+    #    filename = '../deluge.torrentlist'
     #
-    #    f = open(filename, "r")
+    #    f = open(filename, 'r')
     #    data = f.read()
     #    message_to_send = eval(data)
     #    self.transfer.transfer_message(message_to_send)
@@ -331,7 +331,7 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
     # self.assertTrue(transfered_message == message_to_send)
     #
     # f.close()
-    # f = open("rencode.torrentlist", "w")
+    # f = open('rencode.torrentlist', 'w')
     # f.write(str(transfered_message))
     # f.close()
 

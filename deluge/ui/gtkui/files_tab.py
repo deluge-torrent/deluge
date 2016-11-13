@@ -325,7 +325,7 @@ class FilesTab(Tab):
         for select in selected:
             path = self.get_file_path(select).split('/')
             filepath = os.path.join(status['download_location'], *path)
-            log.debug("Open file '%s'", filepath)
+            log.debug('Open file: %s', filepath)
             timestamp = gtk.get_current_event_time()
             open_file(filepath, timestamp=timestamp)
 
@@ -338,7 +338,7 @@ class FilesTab(Tab):
         for select in selected:
             path = self.get_file_path(select).split('/')
             filepath = os.path.join(status['download_location'], *path)
-            log.debug("Show file '%s'", filepath)
+            log.debug('Show file: %s', filepath)
             timestamp = gtk.get_current_event_time()
             show_file(filepath, timestamp=timestamp)
 

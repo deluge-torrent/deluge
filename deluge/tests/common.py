@@ -174,7 +174,7 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
                     if 'cb' in trigger:
                         trigger['cb'](self, c['deferred'], data, self.log_output)
                     elif 'value' not in trigger:
-                        raise Exception("Trigger must specify either 'cb' or 'value'")
+                        raise Exception('Trigger must specify either "cb" or "value"')
                     else:
                         val = trigger['value'](self, data, self.log_output)
                         if trigger.get('type', 'callback') == 'errback':
@@ -237,7 +237,7 @@ try:
     daemon.start()
 except:
     import traceback
-    sys.stderr.write("Exception raised:\\n %%s" %% traceback.format_exc())
+    sys.stderr.write('Exception raised:\\n %%s' %% traceback.format_exc())
 """ % (config_directory, listen_port, custom_script)
     callbacks = []
     default_core_cb = {'deferred': Deferred(), 'types': 'stdout'}
@@ -247,7 +247,7 @@ except:
     # Specify the triggers for daemon log output
     default_core_cb['triggers'] = [
         {'expr': 'Finished loading ', 'value': lambda reader, data, data_all: reader},
-        {'expr': "Couldn't listen on localhost:%d" % (listen_port), 'type': 'errback',  # Error from libtorrent
+        {'expr': 'Could not listen on localhost:%d' % (listen_port), 'type': 'errback',  # Error from libtorrent
          'value': lambda reader, data, data_all: CannotListenError('localhost', listen_port,
                                                                    'Could not start deluge test client!\n%s' % data)},
         {'expr': 'Traceback', 'type': 'errback',

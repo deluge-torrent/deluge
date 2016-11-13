@@ -219,7 +219,7 @@ class LookupResource(resource.Resource, component.Component):
         return self
 
     def render(self, request):
-        log.debug("Requested path: '%s'", request.lookup_path)
+        log.debug('Requested path: %s', request.lookup_path)
         path = os.path.dirname(request.lookup_path)
 
         if path not in self.__paths:
@@ -230,7 +230,7 @@ class LookupResource(resource.Resource, component.Component):
         for directory in self.__paths[path]:
             if os.path.join(directory, filename):
                 path = os.path.join(directory, filename)
-                log.debug("Serving path: '%s'", path)
+                log.debug('Serving path: %s', path)
                 mime_type = mimetypes.guess_type(path)
                 request.setHeader('content-type', mime_type[0])
                 with open(path, 'rb') as _file:
@@ -373,7 +373,7 @@ class ScriptResource(resource.Resource, component.Component):
         return self
 
     def render(self, request):
-        log.debug("Requested path: '%s'", request.lookup_path)
+        log.debug('Requested path: %s', request.lookup_path)
 
         for script_type in ('dev', 'debug', 'normal'):
             scripts = self.__scripts[script_type]['scripts']
@@ -390,7 +390,7 @@ class ScriptResource(resource.Resource, component.Component):
                 if not os.path.isfile(path):
                     continue
 
-                log.debug("Serving path: '%s'", path)
+                log.debug('Serving path: %s', path)
                 mime_type = mimetypes.guess_type(path)
                 request.setHeader('content-type', mime_type[0])
                 with open(path, 'rb') as _file:
@@ -517,13 +517,13 @@ class TopLevel(resource.Resource):
 
         if not self.js.has_script_type_files(script_type):
             if not dev_ver:
-                log.warning("Failed to enable WebUI '%s' mode, script files are missing!", script_type)
+                log.warning('Failed to enable WebUI "%s" mode, script files are missing!', script_type)
             # Fallback to checking other types in order and selecting first with files available.
             for alt_script_type in [x for x in ['normal', 'debug', 'dev'] if x != script_type]:
                 if self.js.has_script_type_files(alt_script_type):
                     script_type = alt_script_type
                     if not dev_ver:
-                        log.warning("WebUI falling back to '%s' mode.", script_type)
+                        log.warning('WebUI falling back to "%s" mode.', script_type)
                     break
 
         scripts = component.get('Scripts').get_scripts(script_type)
@@ -592,7 +592,7 @@ class DelugeWeb(component.Component):
         self.plugins = PluginManager()
 
     def _on_language_changed(self, key, value):
-        log.debug("Setting UI language '%s'", value)
+        log.debug('Setting UI language %s', value)
         lang.set_language(value)
 
     def install_signal_handlers(self):

@@ -65,7 +65,7 @@ class Command(BaseCommand):
                     torrent = url2pathname(urlparse(torrent).path)
                 path = os.path.abspath(os.path.expanduser(torrent))
                 if not os.path.exists(path):
-                    self.console.write("{!error!}%s doesn't exist!" % path)
+                    self.console.write('{!error!}%s does not exist!' % path)
                     continue
                 if not os.path.isfile(path):
                     self.console.write('{!error!}This is a directory!')

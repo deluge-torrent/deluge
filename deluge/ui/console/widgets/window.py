@@ -148,5 +148,5 @@ class BaseWindow(object):
             self.screen.noutrefresh(pminrow, pmincol, sminrow, smincol, smaxrow, smaxcol)
         except curses.error as ex:
             import traceback
-            log.warn("Error on screen.noutrefresh(%s, %s, %s, %s, %s, %s) Error: '%s'\nStack: %s",
+            log.warn('Error on screen.noutrefresh(%s, %s, %s, %s, %s, %s) Error: %s\nStack: %s',
                      pminrow, pmincol, sminrow, smincol, smaxrow, smaxcol, ex, ''.join(traceback.format_stack()))

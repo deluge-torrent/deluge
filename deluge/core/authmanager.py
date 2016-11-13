@@ -128,7 +128,7 @@ class AuthManager(component.Component):
         if username in self.__auth:
             raise AuthManagerError('Username in use.', username)
         if authlevel not in AUTH_LEVELS_MAPPING:
-            raise AuthManagerError("Invalid auth level: '%s'" % authlevel)
+            raise AuthManagerError('Invalid auth level: %s' % authlevel)
         try:
             self.__auth[username] = Account(username, password,
                                             AUTH_LEVELS_MAPPING[authlevel])
@@ -142,7 +142,7 @@ class AuthManager(component.Component):
         if username not in self.__auth:
             raise AuthManagerError('Username not known', username)
         if authlevel not in AUTH_LEVELS_MAPPING:
-            raise AuthManagerError("Invalid auth level: '%s'" % authlevel)
+            raise AuthManagerError('Invalid auth level: %s' % authlevel)
         try:
             self.__auth[username].username = username
             self.__auth[username].password = password

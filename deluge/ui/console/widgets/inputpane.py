@@ -48,7 +48,7 @@ class BaseInputPane(InputKeyHandler):
         self.last_lineoff_move = 0
 
         if not hasattr(self, 'visible_content_pane_height'):
-            log.error("The class '%s' does not have the attribute '%s' required by super class '%s'",
+            log.error('The class "%s" does not have the attribute "%s" required by super class "%s"',
                       self.__class__.__name__, 'visible_content_pane_height', BaseInputPane.__name__)
             raise AttributeError('visible_content_pane_height')
 
@@ -81,7 +81,7 @@ class BaseInputPane(InputKeyHandler):
                 continue
             if e.name == input_element.name:
                 import traceback
-                log.warn("Input element with name '%s' already exists in input pane (%s):\n%s",
+                log.warn('Input element with name "%s" already exists in input pane (%s):\n%s',
                          input_element.name, e, ''.join(traceback.format_stack(limit=5)))
                 return
 

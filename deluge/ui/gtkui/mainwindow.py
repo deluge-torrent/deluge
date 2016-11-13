@@ -71,7 +71,7 @@ class MainWindow(component.Component):
 
         def patched_connect_signals(*a, **k):
             raise RuntimeError('In order to connect signals to this GtkBuilder instance please use '
-                               "'component.get(\"MainWindow\").connect_signals()'")
+                               '"component.get(\'MainWindow\').connect_signals()"')
         self.main_builder.connect_signals = patched_connect_signals
 
         # Get Gtk Builder files Main Window, New release dialog, and Tabs.

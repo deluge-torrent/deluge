@@ -38,7 +38,7 @@ sys_stdout = sys.stdout
 # the file descriptors in sys and argparse._sys with StringFileDescriptor.
 # Regular print statements from such tests will therefore write to the
 # StringFileDescriptor object instead of the terminal.
-# To print to terminal from the tests, use: print("Message...", file=sys_stdout)
+# To print to terminal from the tests, use: print('Message...', file=sys_stdout)
 
 
 class StringFileDescriptor(object):
@@ -71,7 +71,7 @@ class UIBaseTestCase(object):
 
     def exec_command(self):
         if DEBUG_COMMAND:
-            print("Executing: '%s'\n" % sys.argv, file=sys_stdout)
+            print('Executing: %s\n' % sys.argv, file=sys_stdout)
         return self.var['start_cmd']()
 
 

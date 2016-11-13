@@ -107,4 +107,4 @@ class CommonTestCase(unittest.TestCase):
 
         for human_size, byte_size in sizes:
             parsed = parse_human_size(human_size)
-            self.assertEquals(parsed, byte_size, "Mismatch when converting '%s'" % human_size)
+            self.assertEquals(parsed, byte_size, 'Mismatch when converting: %s' % human_size)

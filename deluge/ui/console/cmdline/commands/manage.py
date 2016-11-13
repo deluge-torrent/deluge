@@ -94,7 +94,7 @@ class Command(BaseCommand):
         torrent_ids = self.console.match_torrent(options.torrent)
 
         if key not in torrent_options:
-            self.console.write("{!error!}The key '%s' is invalid!" % key)
+            self.console.write('{!error!}Invalid key: %s' % key)
             return
 
         val = torrent_options[key](val)

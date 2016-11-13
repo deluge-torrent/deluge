@@ -40,7 +40,7 @@ class TestEmailNotifications(component.Component):
         log.debug('\n\nEnabling %s', self.__class__.__name__)
         for event in self.events:
             if self.__imp == 'core':
-                # component.get("CorePlugin.Notifications").register_custom_email_notification(
+                # component.get('CorePlugin.Notifications').register_custom_email_notification(
                 component.get('Notifications').register_custom_email_notification(
                     event.__class__.__name__,
                     self.custom_email_message_provider

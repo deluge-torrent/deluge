@@ -124,18 +124,18 @@ def sanitise_filename(filename):
     """
 
     # Remove any quotes
-    filename = filename.strip("'\"")
+    filename = filename.strip('\'"')
 
     if os.path.basename(filename) != filename:
         # Dodgy server, log it
-        log.warning("Potentially malicious server: trying to write to file '%s'", filename)
+        log.warning('Potentially malicious server: trying to write to file: %s', filename)
         # Only use the basename
         filename = os.path.basename(filename)
 
     filename = filename.strip()
     if filename.startswith('.') or ';' in filename or '|' in filename:
         # Dodgy server, log it
-        log.warning("Potentially malicious server: trying to write to file '%s'", filename)
+        log.warning('Potentially malicious server: trying to write to file: %s', filename)
 
     return filename
 
@@ -253,7 +253,7 @@ def download_file(url, filename, callback=None, headers=None, force_filename=Fal
             result.addCallbacks(on_download_success, on_download_fail)
         else:
             # Log the failure and pass to the caller
-            log.warning("Error occurred downloading file from '%s': %s",
+            log.warning('Error occurred downloading file from "%s": %s',
                         url, failure.getErrorMessage())
             result = failure
         return result

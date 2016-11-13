@@ -281,7 +281,7 @@ class Core(component.Component):
                     yield self._add_torrent_file(torrent[0], torrent[1],
                                                  torrent[2], save_state=idx == last_index)
                 except AddTorrentError as ex:
-                    log.warn("Error when adding torrent: '%s'", ex)
+                    log.warn('Error when adding torrent: %s', ex)
                     errors.append(ex)
             defer.returnValue(errors)
         return task.deferLater(reactor, 0, add_torrents)
@@ -310,7 +310,7 @@ class Core(component.Component):
             try:
                 os.remove(filename)
             except OSError as ex:
-                log.warning("Couldn't remove temp file: %s", ex)
+                log.warning('Could not remove temp file: %s', ex)
             return self.add_torrent_file(filename, base64.encodestring(data), options)
 
         def on_download_fail(failure):
@@ -372,7 +372,7 @@ class Core(component.Component):
             list: An empty list if no errors occurred otherwise the list contains
                 tuples of strings, a torrent ID and an error message. For example:
 
-                [("<torrent_id>", "Error removing torrent")]
+                [('<torrent_id>', 'Error removing torrent')]
 
         """
         log.info('Removing %d torrents from core.', len(torrent_ids))

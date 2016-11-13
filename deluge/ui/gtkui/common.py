@@ -223,7 +223,7 @@ def associate_magnet_links(overwrite=False):
             gconf_client = gconf.client_get_default()
             if (gconf_client.get(key) and overwrite) or not gconf_client.get(key):
                 # We are either going to overwrite the key, or do it if it hasn't been set yet
-                if gconf_client.set_string(key, "deluge '%s'"):
+                if gconf_client.set_string(key, 'deluge "%s"'):
                     gconf_client.set_bool('/desktop/gnome/url-handlers/magnet/needs_terminal', False)
                     gconf_client.set_bool('/desktop/gnome/url-handlers/magnet/enabled', True)
                     log.info('Deluge registered as default magnet uri handler!')

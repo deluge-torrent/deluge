@@ -114,7 +114,7 @@ def setup_logger(level='error', filename=None, filemode='w', logrotate=None,
     to that file instead of stdout.
 
     Args:
-        level (str): The log level to use (Default: "error")
+        level (str): The log level to use (Default: 'error')
         filename (str, optional): The log filename. Default is None meaning log
                                   to terminal
         filemode (str): The filemode to use when opening the log file

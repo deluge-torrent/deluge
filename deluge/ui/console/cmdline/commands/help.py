@@ -54,7 +54,7 @@ class Command(BaseCommand):
                 cmds_doc += parser.formatter.format_colors(cmd_doc)
             self.console.write(cmds_doc)
             self.console.write(' ')
-            self.console.write("For help on a specific command, use '<command> --help'")
+            self.console.write('For help on a specific command, use `<command> --help`')
             self.console.set_batch_write(False)
 
         return deferred

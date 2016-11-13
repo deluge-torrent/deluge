@@ -69,7 +69,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, component.Compon
         try:
             self.enable_plugin(name)
         except Exception as ex:
-            log.warn("Failed to enable plugin '%s': ex: %s", name, ex)
+            log.warn('Failed to enable plugin "%s": ex: %s', name, ex)
 
         self.run_on_show_prefs()
 

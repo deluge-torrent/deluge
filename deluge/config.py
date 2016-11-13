@@ -101,15 +101,15 @@ def find_json_objects(s):
 
 
 class Config(object):
-    """This class is used to access/create/modify config files
+    """This class is used to access/create/modify config files.
 
     Args:
         filename (str): The config filename.
-        defaults (dict): The default config values to insert before loading the config file
-        config_dir (str): the path to the config directory
+        defaults (dict): The default config values to insert before loading the config file.
+        config_dir (str): the path to the config directory.
         file_version (int): The file format for the default config values when creating
             a fresh config. This value should be increased whenever a new migration function is
-            setup to convert old config files. Default value is 1.
+            setup to convert old config files. (default: 1)
 
     """
     def __init__(self, filename, defaults=None, config_dir=None, file_version=1):
@@ -148,25 +148,28 @@ class Config(object):
         return self.set_item(key, value)
 
     def set_item(self, key, value):
-        """Sets item 'key' to 'value' in the config dictionary, but does not allow
-        changing the item's type unless it is None.  If the types do not match,
-        it will attempt to convert it to the set type before raising a ValueError.
+        """Sets item 'key' to 'value' in the config dictionary.
+
+        Does not allow changing the item's type unless it is None.
+
+        If the types do not match, it will attempt to convert it to the
+        set type before raising a ValueError.
 
         Args:
-            key (str): item to change to change
-            value (any): the value to change item to, must be same type as what is
-                currently in the config
+            key (str): Item to change to change.
+            value (any): The value to change item to, must be same type as what is
+                currently in the config.
 
         Raises:
-            ValueError: raised when the type of value is not the same as what is
-                currently in the config and it could not convert the value
+            ValueError: Raised when the type of value is not the same as what is
+                currently in the config and it could not convert the value.
 
-        **Usage**
+        Examples:
 
-        >>> config = Config("test.conf")
-        >>> config["test"] = 5
-        >>> config["test"]
-        5
+            >>> config = Config('test.conf')
+            >>> config['test'] = 5
+            >>> config['test']
+            5
 
         """
         if isinstance(value, basestring):
@@ -174,7 +177,7 @@ class Config(object):
 
         if key not in self.__config:
             self.__config[key] = value
-            log.debug("Setting '%s' to %s of %s", key, value, type(value))
+            log.debug('Setting key "%s" to: %s (of type: %s)', key, value, type(value))
             return
 
         if self.__config[key] == value:
@@ -190,10 +193,10 @@ class Config(object):
                 else:
                     value = oldtype(value)
             except ValueError:
-                log.warning("Type '%s' invalid for '%s'", type(value), key)
+                log.warning('Value Type "%s" invalid for key: %s', type(value), key)
                 raise
 
-        log.debug("Setting '%s' to %s of %s", key, value, type(value))
+        log.debug('Setting key "%s" to: %s (of type: %s)', key, value, type(value))
 
         self.__config[key] = value
 
@@ -224,22 +227,22 @@ class Config(object):
         return self.get_item(key)
 
     def get_item(self, key):
-        """Gets the value of item 'key'
+        """Gets the value of item 'key'.
 
         Args:
-            key (str): the item for which you want it's value
+            key (str): The item for which you want it's value.
 
         Returns:
-            the value of item 'key'
+            any: The value of item 'key'.
 
         Raises:
-            ValueError: if 'key' is not in the config dictionary
+            ValueError: If 'key' is not in the config dictionary.
 
-        **Usage**
+        Examples:
 
-        >>> config = Config("test.conf", defaults={"test": 5})
-        >>> config["test"]
-        5
+            >>> config = Config('test.conf', defaults={'test': 5})
+            >>> config['test']
+            5
 
         """
         if isinstance(self.__config[key], str):
@@ -252,6 +255,7 @@ class Config(object):
 
     def get(self, key, default=None):
         """Gets the value of item 'key' if key is in the config, else default.
+
         If default is not given, it defaults to None, so that this method
         never raises a KeyError.
 
@@ -260,15 +264,15 @@ class Config(object):
             default (any): the default value if key is missing
 
         Returns:
-            the value of item 'key' or default
+            any: The value of item 'key' or default.
 
-        **Usage**
+        Examples:
 
-        >>> config = Config("test.conf", defaults={"test": 5})
-        >>> config.get("test", 10)
-        5
-        >>> config.get("bad_key", 10)
-        10
+            >>> config = Config('test.conf', defaults={'test': 5})
+            >>> config.get('test', 10)
+            5
+            >>> config.get('bad_key', 10)
+            10
 
         """
         try:
@@ -287,15 +291,18 @@ class Config(object):
         """Deletes item with a specific key from the configuration.
 
         Args:
-            key (str): the item which you wish to delete.
+            key (str): The item which you wish to delete.
 
         Raises:
-            ValueError: if 'key' is not in the config dictionary
+            ValueError: If 'key' is not in the config dictionary.
 
-        **Usage**
-        >>> config = Config("test.conf", defaults={"test": 5})
-        >>> del config["test"]
+        Examples:
+
+            >>> config = Config('test.conf', defaults={'test': 5})
+            >>> del config['test']
+
         """
+
         del self.__config[key]
 
         global callLater
@@ -308,38 +315,40 @@ class Config(object):
             self._save_timer = callLater(5, self.save)
 
     def register_change_callback(self, callback):
-        """Registers a callback function that will be called when a value is changed in the config dictionary
+        """Registers a callback function for any changed value.
+
+        Will be called when any value is changed in the config dictionary.
 
         Args:
-            callback (func): the function, callback(key, value)
+            callback (func): The function to call with parameters: f(key, value).
 
-        **Usage**
+        Examples:
 
-        >>> config = Config("test.conf", defaults={"test": 5})
-        >>> def cb(key, value):
-        ...     print key, value
-        ...
-        >>> config.register_change_callback(cb)
+            >>> config = Config('test.conf', defaults={'test': 5})
+            >>> def cb(key, value):
+            ...     print key, value
+            ...
+            >>> config.register_change_callback(cb)
 
         """
         self.__change_callbacks.append(callback)
 
     def register_set_function(self, key, function, apply_now=True):
-        """Register a function to be called when a config value changes
+        """Register a function to be called when a config value changes.
 
         Args:
-            key (str): the item to monitor for change
-            function (func): the function to call when the value changes, f(key, value)
-            apply_now (bool): if True, the function will be called after it's registered
+            key (str): The item to monitor for change.
+            function (func): The function to call when the value changes, f(key, value).
+            apply_now (bool): If True, the function will be called immediately after it's registered.
 
-        **Usage**
+        Examples:
 
-        >>> config = Config("test.conf", defaults={"test": 5})
-        >>> def cb(key, value):
-        ...     print key, value
-        ...
-        >>> config.register_set_function("test", cb, apply_now=True)
-        test 5
+            >>> config = Config('test.conf', defaults={'test': 5})
+            >>> def cb(key, value):
+            ...     print key, value
+            ...
+            >>> config.register_set_function('test', cb, apply_now=True)
+            test 5
 
         """
         log.debug('Registering function for %s key..', key)
@@ -354,17 +363,17 @@ class Config(object):
         return
 
     def apply_all(self):
-        """Calls all set functions
+        """Calls all set functions.
 
-        **Usage**
+        Examples:
 
-        >>> config = Config("test.conf", defaults={"test": 5})
-        >>> def cb(key, value):
-        ...     print key, value
-        ...
-        >>> config.register_set_function("test", cb, apply_now=False)
-        >>> config.apply_all()
-        test 5
+            >>> config = Config('test.conf', defaults={'test': 5})
+            >>> def cb(key, value):
+            ...     print key, value
+            ...
+            >>> config.register_set_function('test', cb, apply_now=False)
+            >>> config.apply_all()
+            test 5
 
         """
         log.debug('Calling all set functions..')
@@ -385,10 +394,10 @@ class Config(object):
                 func(key, self.__config[key])
 
     def load(self, filename=None):
-        """Load a config file
+        """Load a config file.
 
         Args:
-            filename (str): if None, uses filename set in object initialization
+            filename (str): If None, uses filename set in object initialization
 
         """
         if not filename:
@@ -431,13 +440,13 @@ class Config(object):
                   self.__version['format'], self.__version['file'], self.__config)
 
     def save(self, filename=None):
-        """Save configuration to disk
+        """Save configuration to disk.
 
         Args:
-            filename (str): if None, uses filename set in object initialization
+            filename (str): If None, uses filename set in object initialization
 
         Returns:
-            bool: whether or not the save succeeded.
+            bool: Whether or not the save succeeded.
 
         """
         if not filename:
@@ -494,17 +503,16 @@ class Config(object):
                 self._save_timer.cancel()
 
     def run_converter(self, input_range, output_version, func):
-        """Runs a function that will convert file versions in the `:param:input_range`
-        to the `:param:output_version`.
+        """Runs a function that will convert file versions.
 
         Args:
-            input_range (tuple): (int, int) the range of input versions this function will accept
-            output_version (int): the version this function will return
-            func (func): the function that will do the conversion, it will take the config
-                dict as an argument and return the augmented dict
+            input_range (tuple): (int, int) The range of input versions this function will accept.
+            output_version (int): The version this function will convert to.
+            func (func): The function that will do the conversion, it will take the config
+                dict as an argument and return the augmented dict.
 
         Raises:
-            ValueError: if the output_version is less than the input_range
+            ValueError: If output_version is less than the input_range.
 
         """
         if output_version in input_range or output_version <= max(input_range):

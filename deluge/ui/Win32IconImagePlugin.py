@@ -21,7 +21,7 @@ parts.
 
 >>> import PIL.Image
 >>> import Win32IconImagePlugin
->>> ico = PIL.Image.open("down.ico")
+>>> ico = PIL.Image.open('down.ico')
 >>> print ico.info['sizes']
 set([(16, 16), (48, 48), (256, 256), (32, 32)])
 >>> ico.size = (16, 16)

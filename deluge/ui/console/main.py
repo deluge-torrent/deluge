@@ -249,10 +249,10 @@ Please use commands from the command line, e.g.:\n
         return mode
 
     def set_mode(self, mode_name, refresh=False):
-        log.debug("Setting console mode '%s'", mode_name)
+        log.debug('Setting console mode: %s', mode_name)
         mode = self.modes.get(mode_name, None)
         if mode is None:
-            log.error("Non-existent mode requested: '%s'", mode_name)
+            log.error('Non-existent mode requested: %s', mode_name)
             return
         self.stdscr.erase()
 
@@ -268,7 +268,7 @@ Please use commands from the command line, e.g.:\n
                         # which can cause issues as the popup's screen will not be destroyed.
                         # This can lead to the popup border being visible for short periods
                         # while the current modes' screen is repainted.
-                        log.error("Mode '%s' still has popups available after being paused."
+                        log.error('Mode "%s" still has popups available after being paused.'
                                   ' Ensure all popups are removed on pause!', mode.popup.title)
             d.addCallback(on_mode_paused, self.active_mode)
             reactor.removeReader(self.active_mode)

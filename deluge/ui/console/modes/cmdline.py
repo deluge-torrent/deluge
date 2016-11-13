@@ -788,7 +788,7 @@ class CmdLine(BaseMode, Commander):
                 # Let's avoid listing all torrents twice if there's no pattern
                 if not empty and torrent_id.startswith(line):
                     # Highlight the matching part
-                    text = "{!info!}%s{!input!}%s - '%s'" % (torrent_id[:l], torrent_id[l:], torrent_name)
+                    text = '{!info!}%s{!input!}%s - "%s"' % (torrent_id[:l], torrent_id[l:], torrent_name)
                     possible_matches.append(text)
                 if torrent_name.startswith(line):
                     text = '{!info!}%s{!input!}%s ({!cyan!}%s{!input!})' % (

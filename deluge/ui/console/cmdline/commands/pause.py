@@ -20,7 +20,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('torrent_ids', metavar='<torrent-id>', nargs='+',
-                            help=_("One or more torrent ids. '*' pauses all torrents"))
+                            help=_('One or more torrent ids. Use "*" to pause all torrents'))
 
     def handle(self, options):
         self.console = component.get('ConsoleUI')

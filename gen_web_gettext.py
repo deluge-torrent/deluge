@@ -58,7 +58,7 @@ def check_missing_markup(js_dir):
                 for match in string_re.finditer(line):
                     for string in match.groups():
                         # Ignore string that contains only digits or specificied strings in skip.
-                        if not string or string.split("'")[1].isdigit() or any(x in string for x in skip):
+                        if not string or string.split('\'')[1].isdigit() or any(x in string for x in skip):
                             continue
                         locations = strings.get(string, [])
                         locations.append((os.path.join(root, filename), str(lineno + 1)))
@@ -97,7 +97,7 @@ def create_gettext_js(js_dir):
 
 if __name__ == '__main__':
     gettext_fname = create_gettext_js(WEBUI_JS_DIR)
-    print("Created '%s'" % gettext_fname)
+    print('Created: %s' % gettext_fname)
     missed_markup = check_missing_markup(WEBUI_JS_DIR)
     if missed_markup:
         print('Possible missed text for translation markup:')

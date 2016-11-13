@@ -152,7 +152,7 @@ class PluginManagerBase(object):
             try:
                 return_d = defer.maybeDeferred(instance.enable)
             except Exception as ex:
-                log.error("Unable to enable plugin '%s'!", name)
+                log.error('Unable to enable plugin: %s', name)
                 log.exception(ex)
                 return_d = defer.fail(False)
 
@@ -174,11 +174,11 @@ class PluginManagerBase(object):
                 if plugin_name_space not in self.config['enabled_plugins']:
                     log.debug('Adding %s to enabled_plugins list in config', plugin_name_space)
                     self.config['enabled_plugins'].append(plugin_name_space)
-                log.info('Plugin %s enabled..', plugin_name_space)
+                log.info('Plugin %s enabled...', plugin_name_space)
                 return True
 
             def on_started_error(result, instance):
-                log.warn("Failed to start plugin '%s': %s", plugin_name, result.getTraceback())
+                log.warn('Failed to start plugin: %s\n%s', plugin_name, result.getTraceback())
                 component.deregister(instance.plugin)
                 return False
 
@@ -199,20 +199,20 @@ class PluginManagerBase(object):
 
         """
         if name not in self.plugins:
-            log.warning("Plugin '%s' is not enabled..", name)
+            log.warning('Plugin "%s" is not enabled...', name)
             return defer.succeed(True)
 
         try:
             d = defer.maybeDeferred(self.plugins[name].disable)
         except Exception as ex:
-            log.error("Error when disabling plugin '%s'", self.plugin._component_name)
+            log.error('Error when disabling plugin: %s', self.plugin._component_name)
             log.exception(ex)
             d = defer.succeed(False)
 
         def on_disabled(result):
             ret = True
             if isinstance(result, Failure):
-                log.error("Error when disabling plugin '%s'", name)
+                log.error('Error when disabling plugin: %s', name)
                 log.exception(result.getTraceback())
                 ret = False
             try:
@@ -220,11 +220,11 @@ class PluginManagerBase(object):
                 del self.plugins[name]
                 self.config['enabled_plugins'].remove(name)
             except Exception as ex:
-                log.error("Unable to disable plugin '%s'!", name)
+                log.error('Unable to disable plugin: %s', name)
                 log.exception(ex)
                 ret = False
             else:
-                log.info('Plugin %s disabled..', name)
+                log.info('Plugin %s disabled...', name)
             return ret
 
         d.addBoth(on_disabled)
@@ -237,7 +237,7 @@ class PluginManagerBase(object):
         cont_lines = []
         # Missing plugin info
         if not self.pkg_env[name]:
-            log.warn("Failed to retrive info for plugin '%s'", name)
+            log.warn('Failed to retrive info for plugin: %s', name)
             for k in info:
                 info[k] = 'not available'
             return info

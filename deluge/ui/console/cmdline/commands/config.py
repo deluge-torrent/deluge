@@ -122,7 +122,7 @@ class Command(BaseCommand):
             return
 
         if key not in config.keys():
-            self.console.write("{!error!}The key '%s' is invalid!" % key)
+            self.console.write('{!error!}Invalid key: %s' % key)
             return
 
         if not isinstance(config[key], type(val)):
@@ -135,7 +135,7 @@ class Command(BaseCommand):
         def on_set_config(result):
             self.console.write('{!success!}Configuration value successfully updated.')
 
-        self.console.write("Setting '%s' to '%s'" % (key, val))
+        self.console.write('Setting "%s" to: %s' % (key, val))
         return client.core.set_config({key: val}).addCallback(on_set_config)
 
     def complete(self, text):

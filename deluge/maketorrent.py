@@ -37,10 +37,10 @@ class TorrentMetadata(object):
     Examples:
 
         >>> t = TorrentMetadata()
-        >>> t.data_path = "/tmp/torrent"
-        >>> t.comment = "My Test Torrent"
-        >>> t.trackers = [["http://tracker.openbittorent.com"]]
-        >>> t.save("/tmp/test.torrent")
+        >>> t.data_path = '/tmp/torrent'
+        >>> t.comment = 'My Test Torrent'
+        >>> t.trackers = [['http://tracker.openbittorent.com']]
+        >>> t.save('/tmp/test.torrent')
 
     """
     def __init__(self):

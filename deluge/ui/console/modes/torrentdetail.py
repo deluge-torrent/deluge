@@ -286,7 +286,7 @@ class TorrentDetail(BaseMode, PopupsHandler):
                 fl = s[3]
             fe[0] = new_folder.strip('/').rpartition('/')[-1]
 
-            # self.__get_file_by_name(old_folder, self.file_list)[0] = new_folder.strip("/")
+            # self.__get_file_by_name(old_folder, self.file_list)[0] = new_folder.strip('/')
             component.get('SessionProxy').get_torrent_status(
                 self.torrentid, self._status_keys).addCallback(self.set_state)
 
@@ -763,8 +763,8 @@ class TorrentDetail(BaseMode, PopupsHandler):
         # Perhaps in the future: Renaming multiple files
         if self.marked:
             self.report_message('Error (Enter to close)',
-                                "Sorry, you can't rename multiple files, please clear "
-                                "selection with {!info!}'c'{!normal!} key")
+                                'Sorry, you cannot rename multiple files, please clear '
+                                'selection with {!info!}"c"{!normal!} key')
         else:
             _file = self.__get_file_by_num(self.current_file_idx, self.file_list)
             old_filename = _file[0]

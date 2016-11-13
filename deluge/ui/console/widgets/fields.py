@@ -885,7 +885,7 @@ class ComboInput(InputField):
                 msg = c[1]
                 break
         if msg is None:
-            log.warn("Setting a value '%s' found found in choices: %s", val, self.choices)
+            log.warn('Setting value "%s" found nothing in choices: %s', val, self.choices)
         self.fmt_keys.update({'msg': msg})
 
 

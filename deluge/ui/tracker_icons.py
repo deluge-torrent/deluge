@@ -289,7 +289,7 @@ class TrackerIcons(Component):
         try:
             os.remove(page)
         except OSError as ex:
-            log.warning("Couldn't remove temp file: %s", ex)
+            log.warning('Could not remove temp file: %s', ex)
 
         return parser.get_icons()
 
