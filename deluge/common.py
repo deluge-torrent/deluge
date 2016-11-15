@@ -317,7 +317,6 @@ def fsize(fsize_b, precision=1, shortform=False):
         str: A formatted string in KiB, MiB or GiB units.
 
     Examples:
-
         >>> fsize(112245)
         '109.6 KiB'
         >>> fsize(112245, precision=0)
@@ -554,7 +553,7 @@ def is_url(url):
     :returns: True or False
     :rtype: bool
 
-    **Usage**
+    :Example:
 
     >>> is_url('http://deluge-torrent.org')
     True
@@ -586,7 +585,7 @@ def is_magnet(uri):
     :returns: True or False
     :rtype: bool
 
-    **Usage**
+    :Example:
 
     >>> is_magnet('magnet:?xt=urn:btih:SU5225URMTUEQLDXQWRB2EQWN6KLTYKN')
     True
@@ -730,7 +729,7 @@ def is_ip(ip):
     :returns: True or False
     :rtype: bool
 
-    ** Usage **
+    :Example:
 
     >>> is_ip('127.0.0.1')
     True
@@ -769,7 +768,7 @@ def decode_string(s, encoding='utf8'):
 
     :param s: string to decode
     :type s: string
-    :keyword encoding: the encoding to use in the decoding
+    :param encoding: the encoding to use in the decoding
     :type encoding: string
     :returns: s converted to unicode
     :rtype: unicode
@@ -802,7 +801,7 @@ def utf8_encoded(s, encoding='utf8'):
 
     :param s: (unicode) string to (re-)encode
     :type s: basestring
-    :keyword encoding: the encoding to use in the decoding
+    :param encoding: the encoding to use in the decoding
     :type encoding: string
     :returns: a utf8 encoded string of s
     :rtype: str

@@ -270,7 +270,7 @@ class ScriptResource(resource.Resource, component.Component):
         :type path: string
         :param filepath: The physical location of the script
         :type filepath: string
-        :keyword script_type: The type of script to add (normal, debug, dev)
+        :param script_type: The type of script to add (normal, debug, dev)
         :param script_type: string
         """
         if script_type not in ('dev', 'debug', 'normal'):
@@ -289,9 +289,9 @@ class ScriptResource(resource.Resource, component.Component):
         :type path: string
         :param filepath: The physical location of the script
         :type filepath: string
-        :keyword script_type: The type of script to add (normal, debug, dev)
+        :param script_type: The type of script to add (normal, debug, dev)
         :param script_type: string
-        :keyword recurse: Whether or not to recurse into other folders
+        :param recurse: Whether or not to recurse into other folders
         :param recurse: bool
         """
         if script_type not in ('dev', 'debug', 'normal'):
@@ -308,7 +308,7 @@ class ScriptResource(resource.Resource, component.Component):
 
         :param path: The path of the folder
         :type path: string
-        :keyword script_type: The type of script to add (normal, debug, dev)
+        :param script_type: The type of script to add (normal, debug, dev)
         :param script_type: string
         """
         if script_type not in ('dev', 'debug', 'normal'):
@@ -322,7 +322,7 @@ class ScriptResource(resource.Resource, component.Component):
         Returns a list of the scripts that can be used for producing
         script tags.
 
-        :keyword script_type: The type of scripts to get (normal, debug, dev)
+        :param script_type: The type of scripts to get (normal, debug, dev)
         :param script_type: string
         """
         if script_type not in ('dev', 'debug', 'normal'):

@@ -165,7 +165,6 @@ class Config(object):
                 currently in the config and it could not convert the value.
 
         Examples:
-
             >>> config = Config('test.conf')
             >>> config['test'] = 5
             >>> config['test']
@@ -239,7 +238,6 @@ class Config(object):
             ValueError: If 'key' is not in the config dictionary.
 
         Examples:
-
             >>> config = Config('test.conf', defaults={'test': 5})
             >>> config['test']
             5
@@ -267,7 +265,6 @@ class Config(object):
             any: The value of item 'key' or default.
 
         Examples:
-
             >>> config = Config('test.conf', defaults={'test': 5})
             >>> config.get('test', 10)
             5
@@ -297,7 +294,6 @@ class Config(object):
             ValueError: If 'key' is not in the config dictionary.
 
         Examples:
-
             >>> config = Config('test.conf', defaults={'test': 5})
             >>> del config['test']
 
@@ -323,7 +319,6 @@ class Config(object):
             callback (func): The function to call with parameters: f(key, value).
 
         Examples:
-
             >>> config = Config('test.conf', defaults={'test': 5})
             >>> def cb(key, value):
             ...     print key, value
@@ -342,7 +337,6 @@ class Config(object):
             apply_now (bool): If True, the function will be called immediately after it's registered.
 
         Examples:
-
             >>> config = Config('test.conf', defaults={'test': 5})
             >>> def cb(key, value):
             ...     print key, value
@@ -366,7 +360,6 @@ class Config(object):
         """Calls all set functions.
 
         Examples:
-
             >>> config = Config('test.conf', defaults={'test': 5})
             >>> def cb(key, value):
             ...     print key, value

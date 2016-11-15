@@ -108,7 +108,7 @@ class Auth(JSONComponent):
         """
         Creates a new session.
 
-        :keyword login: the username of the user logging in, currently \
+        :param login: the username of the user logging in, currently \
         only for future use currently.
         :type login: string
         """
@@ -194,9 +194,9 @@ class Auth(JSONComponent):
 
         :param request: The HTTP request in question
         :type request: twisted.web.http.Request
-        :keyword method: Check the specified method
+        :param method: Check the specified method
         :type method: function
-        :keyword level: Check the specified auth level
+        :param level: Check the specified auth level
         :type level: integer
 
         :raises: Exception

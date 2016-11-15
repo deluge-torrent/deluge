@@ -52,7 +52,7 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
 
     :param func: the function to export
     :type func: function
-    :keyword auth_level: the auth level required to call this method
+    :param auth_level: the auth level required to call this method
     :type auth_level: int
 
     """
@@ -830,9 +830,9 @@ class WebApi(JSONComponent):
         :type host: string
         :param port: the port
         :type port: int
-        :keyword username: the username to login as
+        :param username: the username to login as
         :type username: string
-        :keyword password: the password to login with
+        :param password: the password to login with
         :type password: string
 
         """
