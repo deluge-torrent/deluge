@@ -37,6 +37,7 @@ def get_pixbuf(filename):
         log.warning(ex)
         return create_blank_pixbuf()
 
+
 # Status icons.. Create them from file only once to avoid constantly re-creating them.
 icon_downloading = get_pixbuf('downloading16.png')
 icon_seeding = get_pixbuf('seeding16.png')

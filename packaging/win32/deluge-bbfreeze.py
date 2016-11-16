@@ -47,6 +47,7 @@ class VersionInfo(object):
         self.debug = debug
         self.verbose = verbose
 
+
 DEBUG = False
 if len(sys.argv) == 2 and sys.argv[1].lower() == 'debug':
     DEBUG = True
@@ -79,6 +80,8 @@ def recipe_gtk_override(mf):
     # Override bbfreeze function so that it includes all gtk libraries
     # in the installer so users don't require a separate GTK+ installation.
     return True
+
+
 bbfreeze.recipes.recipe_gtk_and_friends = recipe_gtk_override
 
 # Workaround for "ImportError: The 'packaging' package is required" with setuptools > 18.8.
@@ -147,6 +150,8 @@ def ignored_files(adir, ignore_filenames):
         if not os.path.isdir(os.path.join(adir, ignore_file)) and
         ignore_file not in locale_include_list
     ]
+
+
 shutil.copytree(gtk_locale, os.path.join(build_dir, 'share/locale'), ignore=ignored_files)
 
 # Copy gtk theme files.

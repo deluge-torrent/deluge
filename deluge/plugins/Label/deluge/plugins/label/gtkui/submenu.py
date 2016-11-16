@@ -21,6 +21,8 @@ log = logging.getLogger(__name__)
 # Deferred Translation
 def _(message):
     return message
+
+
 NO_LABEL = _('No Label')
 del _
 

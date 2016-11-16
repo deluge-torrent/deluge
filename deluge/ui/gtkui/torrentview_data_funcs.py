@@ -263,6 +263,7 @@ def cell_data_date(column, cell, model, row, data, key):
     date_str = common.fdate(date, date_only=True) if date > 0 else ''
     cell.set_property('text', date_str)
 
+
 cell_data_date_added = partial(cell_data_date, key='cell_data_date_added')
 cell_data_date_completed = partial(cell_data_date, key='cell_data_date_completed')
 

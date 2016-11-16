@@ -95,6 +95,7 @@ class _ConfigManager(object):
 
         return self.config_files[config_file]
 
+
 # Singleton functions
 _configmanager = _ConfigManager()
 

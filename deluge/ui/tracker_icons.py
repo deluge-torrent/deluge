@@ -562,6 +562,7 @@ def icon_name_to_host(icon):
     """
     return icon.rpartition('.')[0]
 
+
 MIME_MAP = {
     'image/gif': 'gif',
     'image/jpeg': 'jpg',

@@ -26,6 +26,7 @@ def is_float_digit(string):
         except ValueError:
             return False
 
+
 # set up command-line options
 parser = OptionParser()
 parser.add_option('--port', help='port for deluge backend host (default: 58846)', default='58846', dest='port')

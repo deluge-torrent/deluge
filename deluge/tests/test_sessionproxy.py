@@ -94,6 +94,7 @@ class Client(object):
     def __getattr__(self, *args, **kwargs):
         return self.__noop__
 
+
 client = Client()
 
 

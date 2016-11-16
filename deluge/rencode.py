@@ -214,6 +214,7 @@ def decode_false(x, f):
 def decode_none(x, f):
     return (None, f + 1)
 
+
 decode_func = {}
 decode_func[b'0'] = decode_string
 decode_func[b'1'] = decode_string
@@ -250,6 +251,7 @@ def make_fixed_length_string_decoders():
     for i in range(STR_FIXED_COUNT):
         decode_func[int2byte(STR_FIXED_START + i)] = make_decoder(i)
 
+
 make_fixed_length_string_decoders()
 
 
@@ -265,6 +267,7 @@ def make_fixed_length_list_decoders():
     for i in range(LIST_FIXED_COUNT):
         decode_func[int2byte(LIST_FIXED_START + i)] = make_decoder(i)
 
+
 make_fixed_length_list_decoders()
 
 
@@ -277,6 +280,7 @@ def make_fixed_length_int_decoders():
         decode_func[int2byte(INT_POS_FIXED_START + i)] = make_decoder(i)
     for i in range(INT_NEG_FIXED_COUNT):
         decode_func[int2byte(INT_NEG_FIXED_START + i)] = make_decoder(-1 - i)
+
 
 make_fixed_length_int_decoders()
 
@@ -292,6 +296,7 @@ def make_fixed_length_dict_decoders():
         return f
     for i in range(DICT_FIXED_COUNT):
         decode_func[int2byte(DICT_FIXED_START + i)] = make_decoder(i)
+
 
 make_fixed_length_dict_decoders()
 
@@ -386,6 +391,7 @@ def encode_dict(x, r):
             encode_func[type(v)](v, r)
         r.append(CHR_TERM)
 
+
 encode_func = {}
 encode_func[int] = encode_int
 encode_func[long] = encode_int
@@ -448,6 +454,8 @@ def test():
     assert 1e-10 < abs(loads(dumps(1.1, 32)) - 1.1) < 1e-6
     assert abs(loads(dumps(1.1, 64)) - 1.1) < 1e-12
     assert loads(dumps('Hello World!!'), decode_utf8=True)
+
+
 try:
     import psyco
     psyco.bind(dumps)

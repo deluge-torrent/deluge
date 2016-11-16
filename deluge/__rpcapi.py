@@ -28,5 +28,6 @@ def scan_for_methods(obj):
     cobj = classobj(obj.__name__.lower(), (object,), methods)
     setattr(RpcApi, obj.__name__.lower(), cobj)
 
+
 scan_for_methods(Core)
 scan_for_methods(Daemon)

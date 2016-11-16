@@ -31,6 +31,7 @@ def module_exists(module_name):
     else:
         return True
 
+
 # Imports sorted by resulting file size.
 if module_exists('closure'):
     def minify_closure(file_in, file_out):
@@ -108,6 +109,7 @@ def minify_js_dir(source_dir):
         print('Minified %s' % source_dir)
     else:
         print('Error minifying %s' % source_dir)
+
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:

@@ -276,8 +276,8 @@ def open_url_in_browser(url):
     import webbrowser
     webbrowser.open(url)
 
-# Formatting text functions
 
+# Formatting text functions
 byte_txt = 'B'
 kib_txt = 'KiB'
 mib_txt = 'MiB'

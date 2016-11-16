@@ -95,6 +95,7 @@ def create_gettext_js(js_dir):
             fp.write('''GetText.add('%(key)s','${escape(_("%(key)s"))}')\n''' % locals())
     return gettext_file
 
+
 if __name__ == '__main__':
     gettext_fname = create_gettext_js(WEBUI_JS_DIR)
     print('Created: %s' % gettext_fname)

@@ -55,6 +55,7 @@ def decode_dict(x, f):
         r[k], f = decode_func[x[f]](x, f)
     return (r, f + 1)
 
+
 decode_func = {}
 decode_func['l'] = decode_list
 decode_func['d'] = decode_dict
@@ -121,6 +122,7 @@ def encode_dict(x, r):
         r.extend((str(len(k)), ':', k))
         encode_func[type(v)](v, r)
     r.append('e')
+
 
 encode_func = {}
 encode_func[Bencached] = encode_bencached

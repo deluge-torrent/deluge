@@ -95,6 +95,7 @@ class Logging(LoggingLoggerClass):
             break
         return rv
 
+
 levels = {
     'info': logging.INFO,
     'warn': logging.WARNING,
@@ -309,5 +310,6 @@ class _BackwardsCompatibleLOG(object):
                 'You should really update and rebuild your plugins...'
             )
         return getattr(logging.getLogger(logger_name), name)
+
 
 LOG = _BackwardsCompatibleLOG()

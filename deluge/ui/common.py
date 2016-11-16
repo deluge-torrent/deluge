@@ -32,6 +32,7 @@ log = logging.getLogger(__name__)
 def _(message):
     return message
 
+
 STATE_TRANSLATION = {
     'All': _('All'),
     'Active': _('Active'),

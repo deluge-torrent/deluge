@@ -1484,7 +1484,9 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, GObject):
             'on_show_hidden_files_checkbutton_toggled': on_show_hidden_files_toggled,
         }
 
+
 type_register(PathChooserComboBox)
+
 
 if __name__ == '__main__':
     import sys

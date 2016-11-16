@@ -784,5 +784,6 @@ class Client(object):
     def auth_levels_mapping_reverse(self):
         return self._daemon_proxy.auth_levels_mapping_reverse
 
+
 # This is the object clients will use
 client = Client()

@@ -31,13 +31,13 @@ log = logging.getLogger(__name__)
 def _(message):
     return message
 
+
 TRANSLATE = {
     'Do Not Download': _('Do Not Download'),
     'Normal Priority': _('Normal Priority'),
     'High Priority': _('High Priority'),
     'Highest Priority': _('Highest Priority'),
 }
-
 del _
 
 

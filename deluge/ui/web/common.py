@@ -36,6 +36,7 @@ def compress(contents, request):
     contents += compress_zlib.flush()
     return contents
 
+
 try:
     # This is beeing done like this in order to allow tests to use the above
     # `compress` without requiring Mako to be instaled

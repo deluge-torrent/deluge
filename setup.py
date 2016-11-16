@@ -40,6 +40,7 @@ def windows_check():
 def osx_check():
     return platform.system() == 'Darwin'
 
+
 desktop_data = 'deluge/ui/data/share/applications/deluge.desktop'
 
 
@@ -313,6 +314,7 @@ class Clean(_clean):
         if os.path.exists(desktop_data):
             print('Deleting %s' % desktop_data)
             os.remove(desktop_data)
+
 
 cmdclass = {
     'build': Build,

@@ -53,6 +53,7 @@ class Mock(object):
         else:
             return Mock()
 
+
 MOCK_MODULES = ['deluge.ui.gtkui.gtkui', 'deluge._libtorrent',
                 'libtorrent', 'psyco',
                 'pygtk', 'gtk', 'gobject', 'gtk.gdk', 'pango', 'cairo', 'pangocairo', 'chardet']

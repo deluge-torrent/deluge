@@ -18,6 +18,7 @@ class _Reporter(object):
         self.shortOpt = shortOpt
         self.klass = klass
 
+
 deluge = _Reporter('Deluge reporter that suppresses Stacktrace from TODO tests',
                    'twisted.plugins.delugereporter',
                    description='Deluge Reporter',
