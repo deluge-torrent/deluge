@@ -285,16 +285,15 @@ class Torrent(object):
         Args:
             options (dict): Torrent options, see TorrentOptions class for valid keys.
         """
-        # set_prioritize_first_last is called by set_file_priorities so only run if not in options
-        skip_func = []
-        if 'file_priorities' in options:
-            self.options['prioritize_first_last_pieces'] = options['prioritize_first_last_pieces']
-            skip_func.append('prioritize_first_last_pieces')
+
+        # Skip set_prioritize_first_last if set_file_priorities is in options as it also calls the method.
+        if 'file_priorities' in options and 'prioritize_first_last_pieces' in options:
+            self.options['prioritize_first_last_pieces'] = options.pop('prioritize_first_last_pieces')
 
         for key, value in options.items():
             if key in self.options:
                 options_set_func = getattr(self, 'set_' + key, None)
-                if options_set_func and key not in skip_func:
+                if options_set_func:
                     options_set_func(value)
                 else:
                     # Update config options that do not have funcs
