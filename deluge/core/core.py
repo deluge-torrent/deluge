@@ -48,34 +48,21 @@ class Core(component.Component):
         log.debug('Core init...')
         component.Component.__init__(self, 'Core')
 
-        # These keys will be dropped from the set_config() RPC and are
-        # configurable from the command-line.
-        self.read_only_config_keys = read_only_config_keys
-        log.debug('read_only_config_keys: %s', read_only_config_keys)
+        deluge_version = deluge.common.get_version()
+        split_version = deluge.common.VersionSplit(deluge_version).version
+        while len(split_version) < 4:
+            split_version.append(0)
 
-        # Create the client fingerprint
-        client_id = 'DE'
-        client_version = deluge.common.VersionSplit(deluge.common.get_version()).version
-        while len(client_version) < 4:
-            client_version.append(0)
+        deluge_fingerprint = lt.generate_fingerprint('DE', *split_version)
+        user_agent = 'Deluge/{} libtorrent/{}'.format(deluge_version, self.get_libtorrent_version())
 
-        # Start the libtorrent session
-        log.info('Starting libtorrent %s (%s, %s) session...', lt.__version__, client_id, client_version)
-        self.session = lt.session(lt.fingerprint(client_id, *client_version), flags=0)
+        # Start the libtorrent session.
+        log.debug('Starting session (fingerprint: %s, user_agent: %s)', deluge_fingerprint, user_agent)
+        settings_pack = {'peer_fingerprint': deluge_fingerprint, 'user_agent': user_agent}
+        self.session = lt.session(settings_pack, flags=0)
 
-        # Load the session state if available
-        self.__load_session_state()
-
-        # Apply session settings
-        self.apply_session_setting(
-            'user_agent',
-            'Deluge/%(deluge_version)s libtorrent/%(lt_version)s' % {
-                'deluge_version': deluge.common.get_version(),
-                'lt_version': self.get_libtorrent_version().rpartition('.')[0]}
-        )
-
-        # No SSL torrent support in code so disable the listen port.
-        self.apply_session_setting('ssl_listen', 0)
+        # Load the settings, if available.
+        self._load_session_state()
 
         # Enable libtorrent extensions
         # Allows peers to download the metadata from the swarm directly
@@ -179,13 +166,18 @@ class Core(component.Component):
                     shutil.move(filepath_bak, filepath)
 
     def __load_session_state(self):
-        """Loads the libtorrent session state"""
+        """Loads the libtorrent session state
+
+        Returns:
+            dict: A libtorrent sesion state, empty dict if unable to load it.
+
+        """
         filename = 'session.state'
         filepath = get_config_dir(filename)
         filepath_bak = filepath + '.bak'
 
         for _filepath in (filepath, filepath_bak):
-            log.info('Opening %s for load: %s', filename, _filepath)
+            log.debug('Opening %s for load: %s', filename, _filepath)
             try:
                 with open(_filepath, 'rb') as _file:
                     state = lt.bdecode(_file.read())
@@ -194,7 +186,6 @@ class Core(component.Component):
             else:
                 log.info('Successfully loaded %s: %s', filename, _filepath)
                 self.session.load_state(state)
-                return
 
     def get_new_release(self):
         log.debug('get_new_release')
