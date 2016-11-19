@@ -321,7 +321,7 @@ class MainWindow(component.Component):
         """
         if wnck:
             self.screen.force_update()
-            win = wnck.window_get(self.window.window.xid)
+            win = wnck.window_get(self.window.get_window().xid)
             if win:
                 active_wksp = win.get_screen().get_active_workspace()
                 if active_wksp:
