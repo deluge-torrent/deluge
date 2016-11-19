@@ -21,7 +21,7 @@ class AboutDialog(object):
         self.about.set_transient_for(component.get('MainWindow').window)
         self.about.set_position(gtk.WIN_POS_CENTER)
         self.about.set_program_name(_('Deluge'))
-        if windows_check:
+        if windows_check():
             def url_hook(dialog, url):
                 """Url hook for Windows OS which has no default browser."""
                 open_url_in_browser(url)
