@@ -54,7 +54,7 @@ class CreateTorrentDialog(object):
         self.config = ConfigManager('gtkui.conf')
 
         self.dialog = self.builder.get_object('create_torrent_dialog')
-        self.dialog.set_transient_for(component.get('MainWindow').get_window())
+        self.dialog.set_transient_for(component.get('MainWindow').window)
 
         self.builder.connect_signals({
             'on_button_file_clicked': self._on_button_file_clicked,
@@ -351,7 +351,7 @@ class CreateTorrentDialog(object):
                           add_to_session).addCallback(hide_progress)
 
         # Setup progress dialog
-        self.builder.get_object('progress_dialog').set_transient_for(component.get('MainWindow').get_window())
+        self.builder.get_object('progress_dialog').set_transient_for(component.get('MainWindow').window)
         self.builder.get_object('progress_dialog').show_all()
 
         self.dialog.destroy()

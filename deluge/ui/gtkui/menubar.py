@@ -285,7 +285,7 @@ class MenuBar(component.Component):
         from deluge.ui.gtkui.edittrackersdialog import EditTrackersDialog
         dialog = EditTrackersDialog(
             component.get('TorrentView').get_selected_torrent(),
-            self.mainwindow.get_window())
+            self.mainwindow.window)
         dialog.run()
 
     def on_menuitem_remove_activate(self, data=None):
@@ -326,7 +326,7 @@ class MenuBar(component.Component):
         # Keep it referenced:
         #  https://bugzilla.gnome.org/show_bug.cgi?id=546802
         self.move_storage_dialog = builder.get_object('move_storage_dialog')
-        self.move_storage_dialog.set_transient_for(self.mainwindow.get_window())
+        self.move_storage_dialog.set_transient_for(self.mainwindow.window)
         self.move_storage_dialog_hbox = builder.get_object('hbox_entry')
         self.move_storage_path_chooser = PathChooser('move_completed_paths_list')
         self.move_storage_dialog_hbox.add(self.move_storage_path_chooser)
@@ -554,7 +554,7 @@ class MenuBar(component.Component):
                 ErrorDialog(
                     _('Ownership Change Error'),
                     _('There was an error while trying changing ownership.'),
-                    self.mainwindow.get_window(), details=failure.value.logable()
+                    self.mainwindow.window, details=failure.value.logable()
                 ).run()
             client.core.set_owner(
                 update_torrents, username).addErrback(failed_change_owner)

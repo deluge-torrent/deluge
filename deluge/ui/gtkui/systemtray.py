@@ -91,8 +91,8 @@ class SystemTray(component.Component):
             self.indicator.set_menu(self.tray_menu)
 
             # Make sure the status of the Show Window MenuItem is correct
-            self._sig_win_hide = self.mainwindow.get_window().connect('hide', self._on_window_hide)
-            self._sig_win_show = self.mainwindow.get_window().connect('show', self._on_window_show)
+            self._sig_win_hide = self.mainwindow.window.connect('hide', self._on_window_hide)
+            self._sig_win_show = self.mainwindow.window.connect('show', self._on_window_show)
             if self.mainwindow.visible():
                 self.builder.get_object('menuitem_show_deluge').set_active(True)
             else:
@@ -262,8 +262,8 @@ class SystemTray(component.Component):
                 app_ind_conf = self.config['enable_appindicator']
             if appindicator and app_ind_conf:
                 if hasattr(self, '_sig_win_hide'):
-                    self.mainwindow.get_window().disconnect(self._sig_win_hide)
-                    self.mainwindow.get_window().disconnect(self._sig_win_show)
+                    self.mainwindow.window.disconnect(self._sig_win_hide)
+                    self.mainwindow.window.disconnect(self._sig_win_show)
                     log.debug('Disabling the application indicator..')
 
                 self.indicator.set_status(appindicator.STATUS_PASSIVE)

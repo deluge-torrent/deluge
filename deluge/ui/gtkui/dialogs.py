@@ -32,7 +32,7 @@ class BaseDialog(gtk.Dialog):
         """
         super(BaseDialog, self).__init__(
             title=header,
-            parent=parent if parent else component.get('MainWindow').get_window(),
+            parent=parent if parent else component.get('MainWindow').window,
             flags=gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT | gtk.DIALOG_NO_SEPARATOR,
             buttons=buttons)
 
