@@ -1038,7 +1038,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, GObject):
         self.open_filechooser_dialog_button = self.builder.get_object('button_open_dialog')
         self.filechooser_button = self.open_filechooser_dialog_button
         self.filechooserdialog = self.builder.get_object('filechooserdialog')
-        self.filechooserdialog.set_transient_for(component.get('MainWindow').get_window())
+        self.filechooserdialog.set_transient_for(component.get('MainWindow').window)
         self.folder_name_label = self.builder.get_object('folder_name_label')
         self.default_text = None
         self.button_properties = self.builder.get_object('button_properties')
@@ -1387,7 +1387,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, GObject):
         self.visible_rows_label = self.builder.get_object('visible_rows_label')
         self.show_hidden_files_checkbutton = self.builder.get_object('show_hidden_files_checkbutton')
         self.show_folder_name_on_button_checkbutton = self.builder.get_object('show_folder_name_on_button_checkbutton')
-        self.config_dialog.set_transient_for(component.get('MainWindow').get_window())
+        self.config_dialog.set_transient_for(component.get('MainWindow').window)
 
         def on_close(widget, event=None):
             if not self.setting_accelerator_key:
