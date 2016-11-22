@@ -129,14 +129,13 @@ class TorrentOptions(dict):
         owner (str): The user this torrent belongs to.
         pre_allocate_storage (bool): When adding the torrent should all files be pre-allocated.
         prioritize_first_last_pieces (bool): Prioritize the first and last pieces in the torrent.
-        priority (int): Torrent bandwidth priority with a range [0..255], 0 is lowest and default priority.
+        remove_at_ratio (bool): Remove the torrent when it has reached the stop_ratio.
         seed_mode (bool): Assume that all files are present for this torrent (Only used when adding a torent).
         sequential_download (bool): Download the pieces of the torrent in order.
         shared (bool): Enable the torrent to be seen by other Deluge users.
         stop_at_ratio (bool): Stop the torrent when it has reached stop_ratio.
         stop_ratio (float): The seeding ratio to stop (or remove) the torrent at.
         super_seeding (bool): Enable super seeding/initial seeding.
-        remove_at_ratio (bool): Remove the torrent when it has reached the stop_ratio.
     """
     def __init__(self):
         super(TorrentOptions, self).__init__()
@@ -152,7 +151,6 @@ class TorrentOptions(dict):
             'move_completed': 'move_completed',
             'move_completed_path': 'move_completed_path',
             'pre_allocate_storage': 'pre_allocate_storage',
-            'priority': 'priority',
             'prioritize_first_last_pieces': 'prioritize_first_last_pieces',
             'remove_at_ratio': 'remove_seed_at_ratio',
             'sequential_download': 'sequential_download',
@@ -519,23 +517,6 @@ class Torrent(object):
     def set_download_location(self, download_location):
         """The location for downloading torrent data."""
         self.options['download_location'] = download_location
-
-    def set_priority(self, priority):
-        """Sets the bandwidth priority of this torrent.
-
-        Bandwidth is not distributed strictly in order of priority, but the priority is used as a weight.
-        Accepted priority range is [0..255] where 0 is lowest (and default) priority.
-
-        priority (int): the torrent priority
-
-        Raises:
-            ValueError: If value of priority is not in range [0..255]
-        """
-        if 0 <= priority <= 255:
-            self.options['priority'] = priority
-            return self.handle.set_priority(priority)
-        else:
-            raise ValueError('Torrent priority, %s, is invalid, should be [0..255]', priority)
 
     def set_owner(self, account):
         """Sets the owner of this torrent.
@@ -1045,7 +1026,6 @@ class Torrent(object):
             'super_seeding': lambda: self.status.super_seeding,
             'time_since_download': lambda: self.status.time_since_download,
             'time_since_upload': lambda: self.status.time_since_upload,
-            'priority': lambda: self.status.priority,
         }
 
     def pause(self):

@@ -114,8 +114,7 @@ DEFAULT_PREFS = {
     'cache_expiry': 60,
     'auto_manage_prefer_seeds': False,
     'shared': False,
-    'super_seeding': False,
-    'priority': 0
+    'super_seeding': False
 }
 
 
