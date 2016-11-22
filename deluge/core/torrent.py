@@ -1006,6 +1006,8 @@ class Torrent(object):
             'owner': lambda: self.options['owner'],
             'paused': lambda: self.status.paused,
             'prioritize_first_last': lambda: self.options['prioritize_first_last_pieces'],
+            # Deprecated: Use prioritize_first_last_pieces
+            'prioritize_first_last_pieces': lambda: self.options['prioritize_first_last_pieces'],
             'sequential_download': lambda: self.options['sequential_download'],
             'progress': self.get_progress,
             'shared': lambda: self.options['shared'],
