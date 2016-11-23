@@ -792,7 +792,7 @@ def is_ipv6(ip):
                 return True
     else:
         try:
-            return ipaddress.IPv6Address(ip)
+            return ipaddress.IPv6Address(decode_string(ip))
         except ipaddress.AddressValueError:
             pass
 

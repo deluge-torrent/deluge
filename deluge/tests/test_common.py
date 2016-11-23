@@ -3,7 +3,7 @@ import os
 from twisted.trial import unittest
 
 from deluge.common import (VersionSplit, fdate, fpcnt, fpeer, fsize, fspeed, ftime, get_path_size, is_infohash, is_ip,
-                           is_magnet, is_url)
+                           is_ipv4, is_ipv6, is_magnet, is_url)
 from deluge.ui.util import lang
 
 
@@ -74,12 +74,12 @@ class CommonTestCase(unittest.TestCase):
         self.failIf(is_ip('2001:db8:'))
 
     def test_is_ipv4(self):
-        self.failUnless(is_ip('192.0.2.0'))
-        self.failIf(is_ip('192..0.0'))
+        self.failUnless(is_ipv4('192.0.2.0'))
+        self.failIf(is_ipv4('192..0.0'))
 
     def test_is_ipv6(self):
-        self.failUnless(is_ip('2001:db8::'))
-        self.failIf(is_ip('2001:db8:'))
+        self.failUnless(is_ipv6('2001:db8::'))
+        self.failIf(is_ipv6('2001:db8:'))
 
     def test_version_split(self):
         self.failUnless(VersionSplit('1.2.2') == VersionSplit('1.2.2'))
