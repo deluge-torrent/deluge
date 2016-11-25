@@ -25,7 +25,6 @@ env:
     - TOX_ENV=pydef
     - TOX_ENV=flake8
 #    - TOX_ENV=flake8-complexity
-    - TOX_ENV=isort
     - TOX_ENV=docs
 #    - TOX_ENV=todo
     - TOX_ENV=trial              APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
