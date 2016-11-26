@@ -24,7 +24,7 @@ from setuptools import find_packages, setup
 from setuptools.command.test import test as _test
 
 import msgfmt
-from version import get_version
+from .version import get_version
 
 try:
     from sphinx.setup_command import BuildDoc
