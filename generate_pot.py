@@ -19,7 +19,7 @@ from datetime import datetime
 from subprocess import call
 
 from gen_web_gettext import create_gettext_js
-from version import get_version
+from calc_version import get_version
 
 # Paths to exclude
 EXCLUSIONS = [

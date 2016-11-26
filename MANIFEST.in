@@ -1,4 +1,4 @@
-include AUTHORS ChangeLog DEPENDS LICENSE  msgfmt.py RELEASE-VERSION version.py README.rst
+include AUTHORS ChangeLog DEPENDS LICENSE  msgfmt.py RELEASE-VERSION calc_version.py README.rst
 
 graft docs/man
 
