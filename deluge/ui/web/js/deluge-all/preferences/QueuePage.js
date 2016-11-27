@@ -39,7 +39,7 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
             labelSeparator: '',
             height: 22,
             boxLabel: _('Queue to top'),
-            name: 'queue_new_to_top',
+            name: 'queue_new_to_top'
         }));
 
         fieldset = this.add({

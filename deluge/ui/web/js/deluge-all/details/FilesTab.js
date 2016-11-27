@@ -183,7 +183,7 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
                     priorities[index] = indexes[index];
                 }
 
-                deluge.client.core.set_torrent_options([this.torrentId], {'file_priorities': priorities})
+                deluge.client.core.set_torrent_options([this.torrentId], {'file_priorities': priorities}, {
                     success: function() {
                         Ext.each(nodes, function(node) {
                             node.setColumnValue(3, baseItem.filePriority);
