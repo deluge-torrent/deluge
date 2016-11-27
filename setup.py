@@ -100,42 +100,60 @@ class CleanDocs(cmd.Command):
 
 class BuildWebUI(cmd.Command):
     description = 'Minify WebUI files'
+    user_options = []
 
-    user_options = [
-        ('build-lib', None, 'build folder containing javascript files'),
-        ('develop', 'D', 'build javascript files in develop mode')
-    ]
-    boolean_options = ['develop']
+    JS_DIR = os.path.join('deluge', 'ui', 'web', 'js')
+    JS_SRC_DIRS = ('deluge-all', os.path.join('extjs', 'ext-extensions'))
 
     def initialize_options(self):
-        self.build_lib = None
-        self.develop = False
+        pass
 
     def finalize_options(self):
-        self.set_undefined_options('build', ('build_lib', 'build_lib'))
+        pass
 
     def run(self):
-        if self.develop:
-            js_basedir = os.path.join(os.path.dirname(__file__), 'deluge', 'ui', 'web', 'js')
-        else:
-            js_basedir = os.path.join(self.build_lib, 'deluge', 'ui', 'web', 'js')
+        js_basedir = os.path.join(os.path.dirname(__file__), self.JS_DIR)
 
-        js_source_dirs = [os.path.join(js_basedir, 'deluge-all'),
-                          os.path.join(js_basedir, 'extjs', 'ext-extensions')]
-
-        import_error = ''
         try:
             from minify_web_js import minify_js_dir
+            import_error = ''
         except ImportError as err:
             import_error = err
 
-        for source_dir in js_source_dirs:
-            # If unable to import minify script and there is no existing minified file, raise error.
-            if import_error:
-                js_file = os.path.join(os.path.dirname(source_dir), os.path.basename(source_dir)) + '.js'
-                if not os.path.exists(js_file):
-                    raise ImportError(import_error)
-            minify_js_dir(source_dir)
+        for js_src_dir in self.JS_SRC_DIRS:
+            source_dir = os.path.join(js_basedir, js_src_dir)
+            try:
+                minify_js_dir(source_dir)
+            except NameError:
+                js_file = source_dir + '.js'
+                if os.path.is_file(js_file):
+                    print('Unable to minify but found existing minified: {}'.format(js_file))
+                else:
+                    # Unable to minify and no existing minified file found so exiting.
+                    print('Import error: %s' % import_error)
+                    sys.exit(1)
+
+
+class CleanWebUI(cmd.Command):
+    description = 'Clean the documentation build and rst files'
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        js_basedir = os.path.join(os.path.dirname(__file__), BuildWebUI.JS_DIR)
+        for js_src_dir in BuildWebUI.JS_SRC_DIRS:
+            for file_type in ('.js', '-debug.js'):
+                js_file = os.path.join(js_basedir, js_src_dir + file_type)
+                print('Deleting {}'.format(js_file))
+                try:
+                    os.remove(js_file)
+                except OSError:
+                    pass
 
 
 class BuildTranslations(cmd.Command):
@@ -347,7 +365,7 @@ class Clean(_clean):
     sub_commands = _clean.sub_commands + [
         ('clean_plugins', None),
         ('clean_trans', None),
-    ]
+        ('clean_webui', None)]
 
     def run(self):
         # Remove deluge egg-info.
@@ -374,6 +392,7 @@ cmdclass = {
     'clean_plugins': CleanPlugins,
     'clean_trans': CleanTranslations,
     'clean_docs': CleanDocs,
+    'clean_webui': CleanWebUI,
     'clean': Clean,
     'egg_info_plugins': EggInfoPlugins,
     'test': PyTest,
