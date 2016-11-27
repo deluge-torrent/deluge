@@ -3,7 +3,7 @@ from twisted.trial import unittest
 
 import deluge.component as component
 from deluge.configmanager import ConfigManager
-from deluge.ui.util import lang
+from deluge.ui.translations_util import setup_translations
 
 from . import common
 from .basetest import BaseTestCase
@@ -24,7 +24,7 @@ else:
     from deluge.ui.gtkui.torrentview import TorrentView
     from deluge.ui.gtkui.gtkui import DEFAULT_PREFS
 
-lang.setup_translations()
+setup_translations()
 
 
 @pytest.mark.gtkui

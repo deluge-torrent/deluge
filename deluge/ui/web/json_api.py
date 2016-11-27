@@ -29,7 +29,7 @@ from deluge.ui import common as uicommon
 from deluge.ui.client import Client, client
 from deluge.ui.coreconfig import CoreConfig
 from deluge.ui.sessionproxy import SessionProxy
-from deluge.ui.util import lang
+from deluge.ui.translations_util import get_languages
 from deluge.ui.web.common import _, compress
 
 log = logging.getLogger(__name__)
@@ -995,4 +995,4 @@ class WebUtils(JSONComponent):
         Returns:
              list: of tuples [(lang-id, language-name), ...]
         """
-        return lang.get_languages()
+        return get_languages()

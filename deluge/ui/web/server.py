@@ -24,7 +24,7 @@ from deluge import common, component, configmanager
 from deluge.common import is_ipv6
 from deluge.core.rpcserver import check_ssl_keys
 from deluge.ui.tracker_icons import TrackerIcons
-from deluge.ui.util import lang
+from deluge.ui.translations_util import set_language, setup_translations
 from deluge.ui.web.auth import Auth
 from deluge.ui.web.common import Template, compress
 from deluge.ui.web.json_api import JSON, WebApi, WebUtils
@@ -581,7 +581,7 @@ class DelugeWeb(component.Component):
             # Strip away slashes and serve on the base path as well as root path
             self.top_level.putChild(self.base.strip('/'), self.top_level)
 
-        lang.setup_translations(setup_gettext=True, setup_pygtk=False)
+        setup_translations(setup_gettext=True, setup_pygtk=False)
 
         self.site = server.Site(self.top_level)
         self.web_api = WebApi()
@@ -594,7 +594,7 @@ class DelugeWeb(component.Component):
 
     def _on_language_changed(self, key, value):
         log.debug('Setting UI language %s', value)
-        lang.set_language(value)
+        set_language(value)
 
     def install_signal_handlers(self):
         # Since twisted assigns itself all the signals may as well make

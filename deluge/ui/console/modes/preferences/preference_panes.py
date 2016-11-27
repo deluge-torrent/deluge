@@ -159,8 +159,8 @@ class InterfacePane(BasePreferencePane):
                                console_config['torrentview']['separate_complete'])
         self.add_checked_input('move_selection', _('Move selection when moving torrents in the queue'),
                                console_config['torrentview']['move_selection'])
-        from deluge.ui.util import lang
-        langs = lang.get_languages()
+        from deluge.ui.translations_util import get_languages
+        langs = get_languages()
         langs.insert(0, ('', 'System Default'))
         self.add_combo_input('language', _('Language'),
                              langs, default=console_config['language'])

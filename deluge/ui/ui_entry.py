@@ -23,7 +23,7 @@ import pkg_resources
 import deluge.common
 import deluge.configmanager
 from deluge.ui.baseargparser import BaseArgParser
-from deluge.ui.util import lang
+from deluge.ui.translations_util import setup_translations
 
 DEFAULT_PREFS = {
     'default_ui': 'gtk'
@@ -34,7 +34,7 @@ AMBIGUOUS_CMD_ARGS = ('-h', '--help', '-v', '-V', '--version')
 
 def start_ui():
     """Entry point for ui script"""
-    lang.setup_translations()
+    setup_translations()
 
     # Get the registered UI entry points
     ui_entrypoints = dict([(entrypoint.name, entrypoint.load())

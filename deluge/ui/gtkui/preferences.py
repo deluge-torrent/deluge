@@ -23,7 +23,7 @@ from deluge.ui.client import client
 from deluge.ui.gtkui.common import associate_magnet_links, get_deluge_icon
 from deluge.ui.gtkui.dialogs import AccountDialog, ErrorDialog, InformationDialog, YesNoDialog
 from deluge.ui.gtkui.path_chooser import PathChooser
-from deluge.ui.util import lang
+from deluge.ui.translations_util import get_languages
 
 try:
     import appindicator
@@ -186,7 +186,7 @@ class Preferences(component.Component):
         self.language_combo = self.builder.get_object('combobox_language')
         self.language_checkbox = self.builder.get_object('checkbutton_language')
         lang_model = self.language_combo.get_model()
-        langs = lang.get_languages()
+        langs = get_languages()
         index = -1
         for i, l in enumerate(langs):
             lang_code, name = l

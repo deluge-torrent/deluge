@@ -16,7 +16,7 @@ from logging import FileHandler, getLogger
 from deluge.common import run_profiled
 from deluge.configmanager import get_config_dir
 from deluge.ui.baseargparser import BaseArgParser
-from deluge.ui.util import lang
+from deluge.ui.translations_util import set_dummy_trans
 
 
 def add_daemon_options(parser):
@@ -43,7 +43,7 @@ def start_daemon(skip_start=False):
         deluge.core.daemon.Daemon: A new daemon object
 
     """
-    lang.set_dummy_trans(warn_msg=True)
+    set_dummy_trans(warn_msg=True)
 
     # Setup the argument parser
     parser = BaseArgParser()

@@ -23,7 +23,7 @@ import deluge.configmanager
 import deluge.core.preferencesmanager
 import deluge.log
 from deluge.error import DelugeError
-from deluge.ui.util import lang
+from deluge.ui.translations_util import setup_translations
 
 # This sets log level to critical, so use log.critical() to debug while running unit tests
 deluge.log.setup_logger('none')
@@ -76,7 +76,7 @@ def add_watchdog(deferred, timeout=0.05, message=None):
 
 
 # Initialize gettext
-lang.setup_translations()
+setup_translations()
 
 
 class ReactorOverride(object):

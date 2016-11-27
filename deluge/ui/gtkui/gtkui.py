@@ -59,7 +59,7 @@ from deluge.ui.gtkui.torrentdetails import TorrentDetails
 from deluge.ui.gtkui.torrentview import TorrentView
 from deluge.ui.sessionproxy import SessionProxy
 from deluge.ui.tracker_icons import TrackerIcons
-from deluge.ui.util import lang
+from deluge.ui.translations_util import set_language, setup_translations
 
 set_prgname('deluge')
 log = logging.getLogger(__name__)
@@ -139,7 +139,7 @@ DEFAULT_PREFS = {
 class GtkUI(object):
     def __init__(self, args):
         # Setup gtkbuilder/glade translation
-        lang.setup_translations(setup_gettext=False, setup_pygtk=True)
+        setup_translations(setup_gettext=False, setup_pygtk=True)
 
         # Setup signals
         def on_die(*args):
@@ -172,7 +172,7 @@ class GtkUI(object):
 
         # Set language
         if self.config['language'] is not None:
-            lang.set_language(self.config['language'])
+            set_language(self.config['language'])
 
         # Start the IPC Interface before anything else.. Just in case we are
         # already running.

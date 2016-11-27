@@ -12,11 +12,11 @@ import logging
 
 import deluge.common
 from deluge.ui.common import TORRENT_DATA_FIELD
-from deluge.ui.util import lang
+from deluge.ui.translations_util import setup_translations
 
 from . import format_utils
 
-lang.setup_translations()
+setup_translations()
 
 log = logging.getLogger(__name__)
 

@@ -5,7 +5,7 @@ from twisted.trial import unittest
 
 import deluge.component as component
 from deluge.configmanager import ConfigManager
-from deluge.ui.util import lang
+from deluge.ui.translations_util import setup_translations
 
 from . import common
 from .basetest import BaseTestCase
@@ -22,7 +22,7 @@ except ImportError as err:
     import traceback
     traceback.print_exc()
 
-lang.setup_translations()
+setup_translations()
 
 
 @pytest.mark.gtkui

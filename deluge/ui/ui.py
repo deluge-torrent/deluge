@@ -13,7 +13,7 @@ import deluge.common
 import deluge.configmanager
 import deluge.log
 from deluge.ui.baseargparser import BaseArgParser
-from deluge.ui.util import lang
+from deluge.ui.translations_util import setup_translations
 
 log = logging.getLogger(__name__)
 
@@ -34,7 +34,7 @@ class UI(object):
     def __init__(self, name, **kwargs):
         self.__name = name
         self.ui_args = kwargs.pop('ui_args', None)
-        lang.setup_translations()
+        setup_translations()
         self.__parser = BaseArgParser(**kwargs)
 
     def parse_args(self, parser, args=None):

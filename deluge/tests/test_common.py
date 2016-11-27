@@ -4,12 +4,12 @@ from twisted.trial import unittest
 
 from deluge.common import (VersionSplit, fdate, fpcnt, fpeer, fsize, fspeed, ftime, get_path_size, is_infohash, is_ip,
                            is_ipv4, is_ipv6, is_magnet, is_url)
-from deluge.ui.util import lang
+from deluge.ui.translations_util import setup_translations
 
 
 class CommonTestCase(unittest.TestCase):
     def setUp(self):  # NOQA
-        lang.setup_translations()
+        setup_translations()
 
     def tearDown(self):  # NOQA
         pass
