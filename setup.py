@@ -241,51 +241,6 @@ class BuildPlugins(cmd.Command):
                     os.system('cd ' + path + '&& ' + sys.executable + ' setup.py bdist_egg -d ..')
 
 
-class EggInfoPlugins(cmd.Command):
-    description = 'Create .egg-info directories for plugins'
-
-    user_options = []
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    def run(self):
-        # Build the plugin eggs
-        plugin_path = 'deluge/plugins/*'
-
-        for path in glob.glob(plugin_path):
-            if os.path.exists(os.path.join(path, 'setup.py')):
-                os.system('cd ' + path + '&& ' + sys.executable + ' setup.py egg_info')
-
-
-class Build(_build):
-    sub_commands = [('build_webui', None), ('build_trans', None), ('build_plugins', None)] + _build.sub_commands
-
-    def run(self):
-        # Run all sub-commands (at least those that need to be run).
-        _build.run(self)
-        try:
-            from deluge._libtorrent import lt
-            print('Found libtorrent version: %s' % lt.__version__)
-        except ImportError as ex:
-            print('Warning libtorrent not found: %s' % ex)
-
-
-class InstallData(_install_data):
-    """Custom class to fix `setup install` copying data files to incorrect location. (Bug #1389)"""
-
-    def finalize_options(self):
-        self.install_dir = None
-        self.set_undefined_options('install', ('install_data', 'install_dir'),
-                                   ('root', 'root'), ('force', 'force'),)
-
-    def run(self):
-        _install_data.run(self)
-
-
 class CleanPlugins(cmd.Command):
     description = 'Cleans the plugin folders'
     user_options = [('all', 'a', 'Remove all build output, not just temporary by-products')]
@@ -329,6 +284,55 @@ class CleanPlugins(cmd.Command):
                 for fpath in os.listdir(path):
                     os.remove(os.path.join(path, fpath))
                 os.removedirs(path)
+
+
+class EggInfoPlugins(cmd.Command):
+    description = 'Create .egg-info directories for plugins'
+
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        # Build the plugin eggs
+        plugin_path = 'deluge/plugins/*'
+
+        for path in glob.glob(plugin_path):
+            if os.path.exists(os.path.join(path, 'setup.py')):
+                os.system('cd ' + path + '&& ' + sys.executable + ' setup.py egg_info')
+
+
+class Build(_build):
+    sub_commands = [
+        ('build_webui', None),
+        ('build_trans', None),
+        ('build_plugins', None)
+    ] + _build.sub_commands
+
+    def run(self):
+        # Run all sub-commands (at least those that need to be run).
+        _build.run(self)
+        try:
+            from deluge._libtorrent import lt
+            print('Info: Found libtorrent ({}) installed.'.format(lt.__version__))
+        except ImportError as ex:
+            print('Warning: libtorrent (libtorrent-rasterbar) not found: %s' % ex)
+
+
+class InstallData(_install_data):
+    """Custom class to fix `setup install` copying data files to incorrect location. (Bug #1389)"""
+
+    def finalize_options(self):
+        self.install_dir = None
+        self.set_undefined_options('install', ('install_data', 'install_dir'),
+                                   ('root', 'root'), ('force', 'force'),)
+
+    def run(self):
+        _install_data.run(self)
 
 
 class Clean(_clean):
