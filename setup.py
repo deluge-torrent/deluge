@@ -44,6 +44,14 @@ def osx_check():
 
 desktop_data = 'deluge/ui/data/share/applications/deluge.desktop'
 
+# Variables for setuptools.setup
+_packages = find_packages(exclude=['plugins', 'docs', 'tests'])
+_package_data = {}
+_exclude_package_data = {}
+_entry_points = {'console_scripts': [], 'gui_scripts': [], 'deluge.ui': []}
+_data_files = []
+_version = get_version(prefix='deluge-', suffix='.dev0')
+
 
 class PyTest(_test):
 
@@ -371,59 +379,42 @@ cmdclass = {
     'test': PyTest,
 }
 
-# Data files to be installed to the system.
-_data_files = []
+
 if not windows_check() and not osx_check():
-    _data_files = [
+    for path in glob.glob('deluge/ui/data/icons/hicolor/*x*'):
+        size = os.path.basename(path)
+        _data_files.append(
+            ('share/icons/hicolor/{}/apps'.format(size), ['{}/apps/deluge.png'.format(path)]))
+    _data_files.extend([
         ('share/icons/hicolor/scalable/apps', ['deluge/ui/data/icons/hicolor/scalable/apps/deluge.svg']),
-        ('share/icons/hicolor/128x128/apps', ['deluge/ui/data/icons/hicolor/128x128/apps/deluge.png']),
-        ('share/icons/hicolor/16x16/apps', ['deluge/ui/data/icons/hicolor/16x16/apps/deluge.png']),
-        ('share/icons/hicolor/192x192/apps', ['deluge/ui/data/icons/hicolor/192x192/apps/deluge.png']),
-        ('share/icons/hicolor/22x22/apps', ['deluge/ui/data/icons/hicolor/22x22/apps/deluge.png']),
-        ('share/icons/hicolor/24x24/apps', ['deluge/ui/data/icons/hicolor/24x24/apps/deluge.png']),
-        ('share/icons/hicolor/256x256/apps', ['deluge/ui/data/icons/hicolor/256x256/apps/deluge.png']),
-        ('share/icons/hicolor/32x32/apps', ['deluge/ui/data/icons/hicolor/32x32/apps/deluge.png']),
-        ('share/icons/hicolor/36x36/apps', ['deluge/ui/data/icons/hicolor/36x36/apps/deluge.png']),
-        ('share/icons/hicolor/48x48/apps', ['deluge/ui/data/icons/hicolor/48x48/apps/deluge.png']),
-        ('share/icons/hicolor/64x64/apps', ['deluge/ui/data/icons/hicolor/64x64/apps/deluge.png']),
-        ('share/icons/hicolor/72x72/apps', ['deluge/ui/data/icons/hicolor/72x72/apps/deluge.png']),
-        ('share/icons/hicolor/96x96/apps', ['deluge/ui/data/icons/hicolor/96x96/apps/deluge.png']),
         ('share/pixmaps', ['deluge/ui/data/pixmaps/deluge.png', 'deluge/ui/data/pixmaps/deluge.xpm']),
         ('share/man/man1', [
             'docs/man/deluge.1',
             'docs/man/deluged.1',
             'docs/man/deluge-gtk.1',
             'docs/man/deluge-web.1',
-            'docs/man/deluge-console.1'])
-    ]
-
-    if os.path.exists(desktop_data):
+            'docs/man/deluge-console.1'])])
+    if os.path.isfile(desktop_data):
         _data_files.append(('share/applications', [desktop_data]))
 
-entry_points = {
-    'console_scripts': [
+_entry_points['console_scripts'] = [
         'deluge-console = deluge.ui.console:start',
         'deluge-web = deluge.ui.web:start',
-        'deluged = deluge.core.daemon_entry:start_daemon'
-    ],
-    'gui_scripts': [
-        'deluge = deluge.ui.ui_entry:start_ui',
-        'deluge-gtk = deluge.ui.gtkui:start'
-    ],
-    'deluge.ui': [
-        'console = deluge.ui.console:Console',
-        'web = deluge.ui.web:Web',
-        'gtk = deluge.ui.gtkui:Gtk',
-    ],
-}
-
+        'deluged = deluge.core.daemon_entry:start_daemon']
 if windows_check():
-    entry_points['console_scripts'].extend([
+    _entry_points['console_scripts'].extend([
         'deluge-debug = deluge.ui.ui_entry:start_ui',
         'deluge-web-debug = deluge.ui.web:start',
         'deluged-debug = deluge.core.daemon_entry:start_daemon'])
+_entry_points['gui_scripts'] = [
+        'deluge = deluge.ui.ui_entry:start_ui',
+        'deluge-gtk = deluge.ui.gtkui:start']
+_entry_points['deluge.ui'] = [
+        'console = deluge.ui.console:Console',
+        'web = deluge.ui.web:Web',
+        'gtk = deluge.ui.gtkui:Gtk']
 
-_package_data = {}
+
 _package_data['deluge'] = [
     'ui/data/pixmaps/*.png',
     'ui/data/pixmaps/*.svg',
@@ -448,12 +439,8 @@ _package_data['deluge.ui.web'] = [
     'themes/images/*/*/*.png']
 _package_data['deluge.ui.gtkui'] = ['glade/*.ui']
 
-_version = get_version(prefix='deluge-', suffix='.dev0')
-
-if 'dev' in _version:
-    _exclude_package_data = {}
-else:
-    _exclude_package_data = {'deluge.ui.web': ['*-debug.js', '*-debug.css']}
+if 'dev' not in _version:
+    _exclude_package_data['deluge.ui.web'] = ['*-debug.js', '*-debug.css']
 
 # Main setup
 setup(
@@ -475,7 +462,7 @@ setup(
     data_files=_data_files,
     package_data=_package_data,
     exclude_package_data=_exclude_package_data,
-    packages=find_packages(exclude=['plugins', 'docs', 'tests']),
+    packages=_packages,
     namespace_packages=['deluge', 'deluge.plugins'],
-    entry_points=entry_points
+    entry_points=_entry_points
 )
