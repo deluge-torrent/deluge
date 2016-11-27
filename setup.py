@@ -19,6 +19,7 @@ from distutils import cmd
 from distutils.command.build import build as _build
 from distutils.command.clean import clean as _clean
 from distutils.command.install_data import install_data as _install_data
+from shutil import rmtree
 
 from setuptools import find_packages, setup
 from setuptools.command.test import test as _test
@@ -68,6 +69,25 @@ class BuildDocs(BuildDoc):
         print('Generating module documentation...')
         os.system('sphinx-apidoc --force -o docs/source/modules/ deluge deluge/plugins')
         BuildDoc.run(self)
+
+
+class CleanDocs(cmd.Command):
+    description = 'Clean the documentation build and rst files'
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        for docs_dir in ('docs/build', 'docs/source/modules'):
+            try:
+                print('Deleting {}'.format(docs_dir))
+                rmtree(docs_dir)
+            except OSError:
+                pass
 
 
 class BuildWebUI(cmd.Command):
@@ -324,6 +344,7 @@ cmdclass = {
     'build_docs': BuildDocs,
     'install_data': InstallData,
     'clean_plugins': CleanPlugins,
+    'clean_docs': CleanDocs,
     'clean': Clean,
     'egg_info_plugins': EggInfoPlugins,
     'test': PyTest,
