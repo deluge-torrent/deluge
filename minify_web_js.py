@@ -20,6 +20,7 @@ from __future__ import print_function
 import fileinput
 import fnmatch
 import os
+import subprocess
 import sys
 
 
@@ -35,21 +36,16 @@ def module_exists(module_name):
 # Imports sorted by resulting file size.
 if module_exists('closure'):
     def minify_closure(file_in, file_out):
-        import subprocess
         try:
             subprocess.check_call(['closure', '-W', 'QUIET',
                                    '--js', file_in, '--js_output_file', file_out])
             return True
         except subprocess.CalledProcessError:
             return False
-elif module_exists('slimit'):
+elif module_exists('sslimit'):
     from slimit import minify
-elif module_exists('jsmin'):
-    from jsmin import jsmin as minify
-elif module_exists('rjsmin'):
-    from rjsmin import jsmin as minify
 else:
-    raise ImportError('Minifying WebUI JS requires slimit, jsmin or rjsmin')
+    raise ImportError('Requires "slimit" package for minifying WebUI files.')
 
 
 def source_files_list(source_dir):
@@ -105,9 +101,8 @@ def minify_js_dir(source_dir):
         return
 
     concat_src_files(source_files, file_debug_js)
-    if minify_file(file_debug_js, file_minified_js):
-        print('Minified %s' % source_dir)
-    else:
+    print('Minifying %s' % source_dir)
+    if not minify_file(file_debug_js, file_minified_js):
         print('Error minifying %s' % source_dir)
 
 
