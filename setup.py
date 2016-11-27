@@ -193,6 +193,23 @@ class BuildTranslations(cmd.Command):
         sys.stdout.write('\b\b \nFinished compiling translation files. \n')
 
 
+class CleanTranslations(cmd.Command):
+    description = 'Cleans translations files.'
+    user_options = [('all', 'a', 'Remove all build output, not just temporary by-products')]
+    boolean_options = ['all']
+
+    def initialize_options(self):
+        self.all = None
+
+    def finalize_options(self):
+        self.set_undefined_options('clean', ('all', 'all'))
+
+    def run(self):
+        if os.path.isfile(desktop_data):
+            print('Deleting %s' % desktop_data)
+            os.remove(desktop_data)
+
+
 class BuildPlugins(cmd.Command):
     description = 'Build plugins into .eggs'
 
@@ -315,7 +332,10 @@ class CleanPlugins(cmd.Command):
 
 
 class Clean(_clean):
-    sub_commands = _clean.sub_commands + [('clean_plugins', None)]
+    sub_commands = _clean.sub_commands + [
+        ('clean_plugins', None),
+        ('clean_trans', None),
+    ]
 
     def run(self):
         # Remove deluge egg-info.
@@ -331,10 +351,6 @@ class Clean(_clean):
             self.run_command(cmd_name)
         _clean.run(self)
 
-        if os.path.exists(desktop_data):
-            print('Deleting %s' % desktop_data)
-            os.remove(desktop_data)
-
 
 cmdclass = {
     'build': Build,
@@ -344,6 +360,7 @@ cmdclass = {
     'build_docs': BuildDocs,
     'install_data': InstallData,
     'clean_plugins': CleanPlugins,
+    'clean_trans': CleanTranslations,
     'clean_docs': CleanDocs,
     'clean': Clean,
     'egg_info_plugins': EggInfoPlugins,
