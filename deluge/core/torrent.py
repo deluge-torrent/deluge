@@ -492,7 +492,11 @@ class Torrent(object):
             return
         if len(file_priorities) != self.torrent_info.num_files():
             log.debug('file_priorities len != num_files')
-            self.options['file_priorities'] = self.handle.file_priorities()
+            torrent_fprios = self.handle.file_priorities()
+            # Workaround for libtorrent 1.1 changing default priorities from 1 to 4.
+            if 4 in torrent_fprios:
+                torrent_fprios = [1 if x == 4 else x for x in torrent_fprios]
+            self.options['file_priorities'] = torrent_fprios
             return
 
         if log.isEnabledFor(logging.DEBUG):
