@@ -313,19 +313,19 @@ class CleanPlugins(cmd.Command):
                     os.remove(os.path.join(path, fpath))
                 os.removedirs(path)
 
-        root_egg_info_dir_path = 'deluge*.egg-info'
 
+class Clean(_clean):
+    sub_commands = _clean.sub_commands + [('clean_plugins', None)]
+
+    def run(self):
+        # Remove deluge egg-info.
+        root_egg_info_dir_path = 'deluge*.egg-info'
         for path in glob.glob(root_egg_info_dir_path):
             print('Deleting %s' % path)
             for fpath in os.listdir(path):
                 os.remove(os.path.join(path, fpath))
             os.removedirs(path)
 
-
-class Clean(_clean):
-    sub_commands = _clean.sub_commands + [('clean_plugins', None)]
-
-    def run(self):
         # Run all sub-commands (at least those that need to be run)
         for cmd_name in self.get_sub_commands():
             self.run_command(cmd_name)
