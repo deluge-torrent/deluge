@@ -42,7 +42,7 @@ if module_exists('closure'):
             return True
         except subprocess.CalledProcessError:
             return False
-elif module_exists('sslimit'):
+elif module_exists('slimit'):
     from slimit import minify
 else:
     raise ImportError('Requires "slimit" package for minifying WebUI files.')
