@@ -64,9 +64,8 @@ class TorrentTestCase(BaseTestCase):
         return atp
 
     def test_set_prioritize_first_last_pieces(self):
-        piece_indexes = [(0, 1), (0, 1), (0, 1), (0, 1), (0, 2), (50, 52),
-                         (51, 53), (110, 112), (111, 114), (200, 203),
-                         (202, 203), (212, 213), (212, 218), (457, 463)]
+        piece_indexes = [0, 1, 50, 51, 52, 110, 111, 112, 113, 200, 201, 202, 212,
+                         213, 214, 215, 216, 217, 457, 458, 459, 460, 461, 462]
         self.run_test_set_prioritize_first_last_pieces('dir_with_6_files.torrent', piece_indexes)
 
     def run_test_set_prioritize_first_last_pieces(self, torrent_file, prioritized_piece_indexes):
@@ -75,26 +74,18 @@ class TorrentTestCase(BaseTestCase):
 
         self.torrent = Torrent(handle, {})
         priorities_original = handle.piece_priorities()
-        prioritized_pieces, new_priorites = self.torrent.set_prioritize_first_last_pieces(True)
+        self.torrent.set_prioritize_first_last_pieces(True)
         priorities = handle.piece_priorities()
-        non_prioritized_pieces = list(range(len(priorities)))
-
-        # The prioritized indexes are the same as we expect
-        self.assertEquals(prioritized_pieces, prioritized_piece_indexes)
-
-        # Test the priority of the prioritized pieces
-        for first, last in prioritized_pieces:
-            for i in range(first, last):
-                if i in non_prioritized_pieces:
-                    non_prioritized_pieces.remove(i)
-                self.assertEquals(priorities[i], 7)
-
-        # Test the priority of all the non-prioritized pieces
-        for i in non_prioritized_pieces:
-            self.assertEquals(priorities[i], 1)
 
         # The length of the list of new priorites is the same as the original
-        self.assertEquals(len(priorities_original), len(new_priorites))
+        self.assertEquals(len(priorities_original), len(priorities))
+
+        # Test the priority of all the pieces against the calculated indexes.
+        for idx, priority in enumerate(priorities):
+            if idx in prioritized_piece_indexes:
+                self.assertEquals(priorities[idx], 7)
+            else:
+                self.assertEquals(priorities[idx], 1)
 
         # self.print_priority_list(priorities)
 

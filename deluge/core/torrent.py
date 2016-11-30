@@ -232,6 +232,7 @@ class Torrent(object):
         try:
             self.torrent_info = self.handle.get_torrent_info()
         except RuntimeError:
+            # Deprecated in libtorrent 1.1 (i.e. exception check is not needed)
             self.torrent_info = None
 
         self.has_metadata = self.status.has_metadata
@@ -372,42 +373,44 @@ class Torrent(object):
         Args:
             prioritize (bool): Prioritize the first and last pieces.
 
-        Returns:
-            tuple of lists: The prioritized pieces and the torrent piece priorities.
         """
+        if not self.has_metadata:
+            return
+
         self.options['prioritize_first_last_pieces'] = prioritize
         if not prioritize:
             # If we are turning off this option, call set_file_priorities to
             # reset all the piece priorities
             self.set_file_priorities(self.options['file_priorities'])
-            return None, None
-        if not self.has_metadata:
-            return None, None
+            return
+
         # A list of priorities for each piece in the torrent
         priorities = self.handle.piece_priorities()
-        prioritized_pieces = []
-        t_info = self.torrent_info
-        for i in range(t_info.num_files()):
-            _file = t_info.file_at(i)
-            two_percent_bytes = int(0.02 * _file.size)
+
+        def get_file_piece(idx, byte_offset):
+            return self.torrent_info.map_file(idx, byte_offset, 0).piece
+
+        for idx in range(self.torrent_info.num_files()):
+            try:
+                file_size = self.torrent_info.files().file_size(idx)
+            except AttributeError:
+                # Deprecated in libtorrent 1.1
+                file_size = self.torrent_info.file_at(idx).size
+
+            two_percent_bytes = int(0.02 * file_size)
             # Get the pieces for the byte offsets
-            first_start = t_info.map_file(i, 0, 0).piece
-            first_end = t_info.map_file(i, two_percent_bytes, 0).piece
-            last_start = t_info.map_file(i, _file.size - two_percent_bytes, 0).piece
-            last_end = t_info.map_file(i, max(_file.size - 1, 0), 0).piece
+            first_start = get_file_piece(idx, 0)
+            first_end = get_file_piece(idx, two_percent_bytes) + 1
+            last_start = get_file_piece(idx, file_size - two_percent_bytes)
+            last_end = get_file_piece(idx, max(file_size - 1, 0)) + 1
 
-            first_end += 1
-            last_end += 1
-            prioritized_pieces.append((first_start, first_end))
-            prioritized_pieces.append((last_start, last_end))
-
-            # Set the pieces in our first and last ranges to priority 7
+            # Set the pieces in first and last ranges to priority 7
             # if they are not marked as do not download
             priorities[first_start:first_end] = [p and 7 for p in priorities[first_start:first_end]]
             priorities[last_start:last_end] = [p and 7 for p in priorities[last_start:last_end]]
+
         # Setting the priorites for all the pieces of this torrent
         self.handle.prioritize_pieces(priorities)
-        return prioritized_pieces, priorities
 
     def set_sequential_download(self, set_sequencial):
         """Sets whether to download the pieces of the torrent in order.
@@ -830,10 +833,10 @@ class Torrent(object):
         """Calculates the file progress as a percentage.
 
         Returns:
-            list of floats: The file progress (0.0 -> 1.0)
+            list of floats: The file progress (0.0 -> 1.0), empty list if n/a.
         """
         if not self.has_metadata:
-            return 0.0
+            return []
         return [progress / _file.size if _file.size else 0.0 for progress, _file in
                 zip(self.handle.file_progress(), self.torrent_info.files())]
 
