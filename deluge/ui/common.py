@@ -91,12 +91,12 @@ TORRENT_DATA_FIELD = {
 }
 
 
-TRACKER_STATUS_TRANSLATION = {
-    'Error': _('Error'),
-    'Warning': _('Warning'),
-    'Announce OK': _('Announce OK'),
-    'Announce Sent': _('Announce Sent')
-}
+TRACKER_STATUS_TRANSLATION = [
+    _('Error'),
+    _('Warning'),
+    _('Announce OK'),
+    _('Announce Sent')
+]
 del _
 
 DEFAULT_HOST = '127.0.0.1'

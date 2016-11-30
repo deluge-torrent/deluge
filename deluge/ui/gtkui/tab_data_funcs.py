@@ -8,6 +8,7 @@
 #
 
 from deluge.common import fdate, fsize, fspeed, ftime
+from deluge.ui.common import TRACKER_STATUS_TRANSLATION
 
 
 def ftotal_sized(first, second):
@@ -82,8 +83,13 @@ def fcount(value):
 
 
 def ftranslate(text):
-    if text:
+    if text in TRACKER_STATUS_TRANSLATION:
         text = _(text)
+    elif text:
+        for status in TRACKER_STATUS_TRANSLATION:
+            if status in text:
+                text = text.replace(status, _(status))
+                break
     return text
 
 
