@@ -8,7 +8,7 @@
  * See LICENSE for more details.
  */
 
-/** Dummy translation arrays so Torrent and Tracker states are available for Translators.
+/** Dummy translation arrays so Torrent states are available for gettext.js and Translators.
 *
 * All entries in deluge.common.TORRENT_STATE should be added here.
 *
@@ -25,12 +25,6 @@ var TORRENT_STATE_TRANSLATION = [
     _('Checking'),
     _('Queued'),
     _('Error')];
-
-var TRACKER_STATUS_TRANSLATION = [
-    _('Error'),
-    _('Warning'),
-    _('Announce OK'),
-    _('Announce Sent')];
 
 /**
  * @static
