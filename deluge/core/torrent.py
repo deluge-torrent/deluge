@@ -592,6 +592,8 @@ class Torrent(object):
                 ret.append(float(file_progress[i]) / float(f["size"]))
             except ZeroDivisionError:
                 ret.append(0.0)
+            except IndexError:
+                return []
 
         return ret
 
