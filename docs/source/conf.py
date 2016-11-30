@@ -53,6 +53,9 @@ class Mock(object):
         else:
             return Mock()
 
+    def __or__(self, __):
+        return Mock()
+
 
 MOCK_MODULES = ['deluge.ui.gtkui.gtkui', 'deluge._libtorrent',
                 'libtorrent', 'psyco',

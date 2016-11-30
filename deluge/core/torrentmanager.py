@@ -34,6 +34,12 @@ from deluge.event import (ExternalIPEvent, PreTorrentRemovedEvent, SessionStarte
 
 log = logging.getLogger(__name__)
 
+LT_DEFAULT_ADD_TORRENT_FLAGS = (
+    lt.add_torrent_params_flags_t.flag_paused |
+    lt.add_torrent_params_flags_t.flag_auto_managed |
+    lt.add_torrent_params_flags_t.flag_update_subscribe |
+    lt.add_torrent_params_flags_t.flag_apply_ip_filter)
+
 
 class TorrentState:  # pylint: disable=old-style-class
     """Create a torrent state.
@@ -353,7 +359,8 @@ class TorrentManager(component.Component):
         if options['mapped_files'] and torrent_info:
             for index, fname in options['mapped_files'].items():
                 fname = sanitize_filepath(decode_string(fname))
-                log.debug('renaming file index %s to %s', index, fname)
+                if log.isEnabledFor(logging.DEBUG):
+                    log.debug('renaming file index %s to %s', index, fname)
                 try:
                     torrent_info.rename_file(index, fname)
                 except TypeError:
@@ -377,12 +384,8 @@ class TorrentManager(component.Component):
         if resume_data:
             add_torrent_params['resume_data'] = resume_data
 
-        default_flags = (lt.add_torrent_params_flags_t.flag_paused |
-                         lt.add_torrent_params_flags_t.flag_auto_managed |
-                         lt.add_torrent_params_flags_t.flag_update_subscribe |
-                         lt.add_torrent_params_flags_t.flag_apply_ip_filter)
         # Set flags: enable duplicate_is_error & override_resume_data, disable auto_managed.
-        add_torrent_params['flags'] = ((default_flags |
+        add_torrent_params['flags'] = ((LT_DEFAULT_ADD_TORRENT_FLAGS |
                                         lt.add_torrent_params_flags_t.flag_duplicate_is_error |
                                         lt.add_torrent_params_flags_t.flag_override_resume_data) ^
                                        lt.add_torrent_params_flags_t.flag_auto_managed)
