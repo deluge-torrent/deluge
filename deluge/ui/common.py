@@ -56,6 +56,21 @@ from deluge.common import utf8_encoded, path_join
 from deluge.log import LOG as log
 import deluge.configmanager
 
+
+# Dummy translation list so tracker status is translatable.
+def _(message):
+    return message
+
+
+TRACKER_STATUS_TRANSLATION = [
+    _('Error'),
+    _('Warning'),
+    _('Announce OK'),
+    _('Announce Sent')
+]
+del _
+
+
 class TorrentInfo(object):
     """
     Collects information about a torrent file.

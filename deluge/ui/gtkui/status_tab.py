@@ -40,8 +40,10 @@ import gtk, gtk.glade
 from deluge.ui.client import client
 import deluge.component as component
 import deluge.common
+from deluge.ui.common import TRACKER_STATUS_TRANSLATION
 from deluge.ui.gtkui.torrentdetails import Tab
 from deluge.log import LOG as log
+
 
 def fpeer_sized(first, second):
     return "%s (%s)" % (deluge.common.fsize(first), deluge.common.fsize(second))
@@ -62,6 +64,17 @@ def fspeed(value, max_value=-1):
         return "%s (%s %s)" % (deluge.common.fspeed(value), max_value, _("KiB/s"))
     else:
         return deluge.common.fspeed(value)
+
+def ftranslate(text):
+    if text in TRACKER_STATUS_TRANSLATION:
+        text = _(text)
+    elif text:
+        for status in TRACKER_STATUS_TRANSLATION:
+            if status in text:
+                text = text.replace(status, _(status))
+                break
+    return text
+
 
 class StatusTab(Tab):
     def __init__(self):
@@ -85,7 +98,7 @@ class StatusTab(Tab):
             (glade.get_widget("summary_peers"), deluge.common.fpeer, ("num_peers", "total_peers")),
             (glade.get_widget("summary_eta"), deluge.common.ftime, ("eta",)),
             (glade.get_widget("summary_share_ratio"), fratio, ("ratio",)),
-            (glade.get_widget("summary_tracker_status"), None, ("tracker_status",)),
+            (glade.get_widget("summary_tracker_status"), ftranslate, ("tracker_status",)),
             (glade.get_widget("summary_next_announce"), deluge.common.ftime, ("next_announce",)),
             (glade.get_widget("summary_active_time"), deluge.common.ftime, ("active_time",)),
             (glade.get_widget("summary_seed_time"), deluge.common.ftime, ("seeding_time",)),

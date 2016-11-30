@@ -119,6 +119,12 @@ GetText.add('Allow Remote Connections', '${escape(_("Allow Remote Connections"))
 // InterfacePage.js:78
 GetText.add('Allow the use of multiple filters at once', '${escape(_("Allow the use of multiple filters at once"))}')
 
+// StatusTab.js:119
+GetText.add('Announce OK', '${escape(_("Announce OK"))}')
+
+// StatusTab.js:120
+GetText.add('Announce Sent', '${escape(_("Announce Sent"))}')
+
 // OptionsTab.js:347, PreferencesWindow.js:107
 GetText.add('Apply', '${escape(_("Apply"))}')
 
@@ -296,7 +302,7 @@ GetText.add('Encrypt entire stream', '${escape(_("Encrypt entire stream"))}')
 // EncryptionPage.js:41
 GetText.add('Encryption', '${escape(_("Encryption"))}')
 
-// ConnectionManager.js:316, ConnectionManager.js:372, AddConnectionWindow.js:103, UrlWindow.js:116, FileWindow.js:103, AddWindow.js:211
+// ConnectionManager.js:316, ConnectionManager.js:372, AddConnectionWindow.js:103, StatusTab.js:117, UrlWindow.js:116, FileWindow.js:103, AddWindow.js:211
 GetText.add('Error', '${escape(_("Error"))}')
 
 // Menus.js:323
@@ -829,6 +835,9 @@ GetText.add('Username', '${escape(_("Username"))}')
 
 // ConnectionManager.js:90
 GetText.add('Version', '${escape(_("Version"))}')
+
+// StatusTab.js:118
+GetText.add('Warning', '${escape(_("Warning"))}')
 
 // ConnectionManager.js:285
 GetText.add('We recommend changing the default password.<br><br>Would you like to change it now?', '${escape(_("We recommend changing the default password.<br><br>Would you like to change it now?"))}')
