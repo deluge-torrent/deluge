@@ -91,7 +91,7 @@ def tracker_error_filter(torrent_ids, values):
     # Check all the torrent's tracker_status for 'Error:' and only return torrent_ids
     # that have this substring in their tracker_status
     for torrent_id in torrent_ids:
-        if _("Error") + ":" in tm[torrent_id].get_status(["tracker_status"])["tracker_status"]:
+        if "Error:" in tm[torrent_id].get_status(["tracker_status"])["tracker_status"]:
             filtered_torrent_ids.append(torrent_id)
 
     return filtered_torrent_ids

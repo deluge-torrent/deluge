@@ -1014,7 +1014,7 @@ class TorrentManager(component.Component):
 
         # Set the tracker status for the torrent
         if alert.message() != "Got peers from DHT":
-            torrent.set_tracker_status(_("Announce OK"))
+            torrent.set_tracker_status("Announce OK")
 
         # Check to see if we got any peer information from the tracker
         if alert.handle.status().num_complete == -1 or \
@@ -1030,7 +1030,7 @@ class TorrentManager(component.Component):
             return
 
         # Set the tracker status for the torrent
-        torrent.set_tracker_status(_("Announce Sent"))
+        torrent.set_tracker_status("Announce Sent")
 
     def on_alert_tracker_warning(self, alert):
         log.debug("on_alert_tracker_warning")
@@ -1038,7 +1038,7 @@ class TorrentManager(component.Component):
             torrent = self.torrents[str(alert.handle.info_hash())]
         except:
             return
-        tracker_status = '%s: %s' % (_("Warning"), decode_string(alert.message()))
+        tracker_status = '%s: %s' % ("Warning", decode_string(alert.message()))
         # Set the tracker status for the torrent
         torrent.set_tracker_status(tracker_status)
 
@@ -1055,7 +1055,7 @@ class TorrentManager(component.Component):
         except (RuntimeError, KeyError):
             return
 
-        torrent.set_tracker_status("%s: %s" % (_("Error"), error_message))
+        torrent.set_tracker_status("Error: %s" % error_message)
 
     def on_alert_storage_moved(self, alert):
         log.debug("on_alert_storage_moved")
