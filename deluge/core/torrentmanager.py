@@ -400,60 +400,6 @@ class TorrentManager(component.Component):
             raise AddTorrentError('Unable to add torrent to session: %s' % ex)
         return d
 
-    def on_alert_add_torrent(self, alert):
-        """Alert handler for libtorrent add_torrent_alert"""
-        if not alert.handle.is_valid():
-            log.warn('Torrent handle is invalid!')
-            return
-
-        try:
-            torrent_id = str(alert.handle.info_hash())
-        except RuntimeError as ex:
-            log.warn('Failed to get torrent id from handle: %s', ex)
-            return
-
-        d, options, state, filename, magnet, resume_data, filedump, save_state = self.torrents_loading.pop(torrent_id)
-
-        # Create a Torrent object and add to the dictionary.
-        torrent = Torrent(alert.handle, options, state, filename, magnet)
-        self.torrents[torrent.torrent_id] = torrent
-
-        # Store the orignal resume_data, in case of errors.
-        if resume_data:
-            self.resume_data[torrent.torrent_id] = resume_data
-
-        # Add to queued torrents set.
-        self.queued_torrents.add(torrent.torrent_id)
-        if self.config['queue_new_to_top']:
-            self.queue_top(torrent.torrent_id)
-
-        # Resume the torrent if needed.
-        if not options['add_paused']:
-            torrent.resume()
-
-        # Emit torrent_added signal.
-        from_state = state is not None
-        component.get('EventManager').emit(TorrentAddedEvent(torrent.torrent_id, from_state))
-
-        if log.isEnabledFor(logging.DEBUG):
-            log.debug('Torrent added: %s', str(alert.handle.info_hash()))
-        if log.isEnabledFor(logging.INFO):
-            name_and_owner = torrent.get_status(['name', 'owner'])
-            log.info('Torrent %s from user "%s" %s',
-                     name_and_owner['name'],
-                     name_and_owner['owner'],
-                     from_state and 'loaded' or 'added')
-
-        # Write the .torrent file to the state directory.
-        if filedump:
-            torrent.write_torrentfile(filedump)
-
-        # Save the session state.
-        if save_state:
-            self.save_state()
-
-        d.callback(torrent.torrent_id)
-
     def remove(self, torrent_id, remove_data=False, save_state=True):
         """Remove a torrent from the session.
 
@@ -936,6 +882,60 @@ class TorrentManager(component.Component):
             self.torrents[key].set_max_download_speed(value)
 
     # --- Alert handlers ---
+    def on_alert_add_torrent(self, alert):
+        """Alert handler for libtorrent add_torrent_alert"""
+        if not alert.handle.is_valid():
+            log.warn('Torrent handle is invalid!')
+            return
+
+        try:
+            torrent_id = str(alert.handle.info_hash())
+        except RuntimeError as ex:
+            log.warn('Failed to get torrent id from handle: %s', ex)
+            return
+
+        d, options, state, filename, magnet, resume_data, filedump, save_state = self.torrents_loading.pop(torrent_id)
+
+        # Create a Torrent object and add to the dictionary.
+        torrent = Torrent(alert.handle, options, state, filename, magnet)
+        self.torrents[torrent.torrent_id] = torrent
+
+        # Store the orignal resume_data, in case of errors.
+        if resume_data:
+            self.resume_data[torrent.torrent_id] = resume_data
+
+        # Add to queued torrents set.
+        self.queued_torrents.add(torrent.torrent_id)
+        if self.config['queue_new_to_top']:
+            self.queue_top(torrent.torrent_id)
+
+        # Resume the torrent if needed.
+        if not options['add_paused']:
+            torrent.resume()
+
+        # Emit torrent_added signal.
+        from_state = state is not None
+        component.get('EventManager').emit(TorrentAddedEvent(torrent.torrent_id, from_state))
+
+        if log.isEnabledFor(logging.DEBUG):
+            log.debug('Torrent added: %s', str(alert.handle.info_hash()))
+        if log.isEnabledFor(logging.INFO):
+            name_and_owner = torrent.get_status(['name', 'owner'])
+            log.info('Torrent %s from user "%s" %s',
+                     name_and_owner['name'],
+                     name_and_owner['owner'],
+                     from_state and 'loaded' or 'added')
+
+        # Write the .torrent file to the state directory.
+        if filedump:
+            torrent.write_torrentfile(filedump)
+
+        # Save the session state.
+        if save_state:
+            self.save_state()
+
+        d.callback(torrent.torrent_id)
+
     def on_alert_torrent_finished(self, alert):
         """Alert handler for libtorrent torrent_finished_alert"""
         try:
