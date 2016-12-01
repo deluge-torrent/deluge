@@ -1,5 +1,5 @@
 === Core ===
- * libtorrent (rasterbar) >= 1.0.7
+ * libtorrent (rasterbar) >= 1.1.1
  * python >= 2.6
  * setuptools
  * twisted >= 11.1
