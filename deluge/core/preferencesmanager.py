@@ -159,23 +159,6 @@ class PreferencesManager(component.Component):
                 log.debug('Config key: %s set to %s..', key, value)
             on_set_func(key, value)
 
-    def session_set_setting(self, key, value):
-        try:
-            self.session.apply_settings({key: value})
-        except AttributeError:
-            # Deprecated in libtorrent 1.1
-            if key in ('enable_lsd', 'enable_upnp', 'enable_natpmp', 'enable_dht'):
-                start_stop = key.replace('enable', 'start') if value else key.replace('enable', 'stop')
-                getattr(self.session, start_stop)()
-            elif key == 'dht_bootstrap_nodes':
-                self.session.add_dht_router('router.bittorrent.com', 6881)
-                self.session.add_dht_router('router.utorrent.com', 6881)
-                self.session.add_dht_router('router.bitcomet.com', 6881)
-            elif key == 'peer_tos':
-                self.session.set_settings({key: chr(value)})
-            else:
-                self.session.set_settings({key: value})
-
     def _on_config_value_change(self, key, value):
         if self.get_state() == 'Started':
             self.do_config_set_func(key, value)
@@ -213,23 +196,9 @@ class PreferencesManager(component.Component):
         log.debug('Listen Interface: %s, Ports: %s with use_sys_port: %s',
                   interface, listen_ports, self.config['listen_use_sys_port'])
         interfaces = ['%s:%s' % (interface, port) for port in range(listen_ports[0], listen_ports[1]+1)]
-        try:
-            self.session.apply_settings({'listen_system_port_fallback': self.config['listen_use_sys_port'],
-                                         'listen_interfaces': ''.join(interfaces)})
-        except AttributeError:
-            # Deprecated in libtorrent 1.1
-            # If a single port range then always enable re-use port flag.
-            reuse_port = True if listen_ports[0] == listen_ports[1] else self.config['listen_reuse_port']
-            flags = ((lt.listen_on_flags_t.listen_no_system_port
-                      if not self.config['listen_use_sys_port'] else 0) |
-                     (lt.listen_on_flags_t.listen_reuse_address
-                      if reuse_port else 0))
-            try:
-                self.session.listen_on(listen_ports[0], listen_ports[1], interface, flags)
-            except RuntimeError as ex:
-                if ex.message == 'Invalid Argument':
-                    log.error('Error setting listen interface (must be IP Address): %s %s-%s',
-                              interface, listen_ports[0], listen_ports[1])
+        self.core.apply_session_settings(
+            {'listen_system_port_fallback': self.config['listen_use_sys_port'],
+             'listen_interfaces': ''.join(interfaces)})
 
     def _on_set_outgoing_ports(self, key, value):
         self.__set_outgoing_ports()
@@ -245,33 +214,26 @@ class PreferencesManager(component.Component):
         else:
             num_ports = 0
         log.debug('Outgoing port set to %s with range: %s', port, num_ports)
-        try:
-            self.session.apply_settings({'outgoing_port': port, 'num_outgoing_ports': num_ports})
-        except AttributeError:
-            # Deprecated in libtorrent 1.1
-            ports = [0, 0] if self.config['random_outgoing_ports'] else self.config['outgoing_ports']
-            log.debug('Outgoing port set to %s', ports)
-            self.session_set_setting('outgoing_ports', (ports[0], ports[1]))
+        self.core.apply_session_settings({'outgoing_port': port, 'num_outgoing_ports': num_ports})
 
     def _on_set_peer_tos(self, key, value):
         try:
-            self.session_set_setting('peer_tos', int(value, 16))
+            self.core.apply_session_setting('peer_tos', int(value, 16))
         except ValueError as ex:
             log.error('Invalid tos byte: %s', ex)
 
     def _on_set_dht(self, key, value):
         dht_bootstraps = 'router.bittorrent.com:6881,router.utorrent.com:6881,router.bitcomet.com:6881'
-        self.session_set_setting('dht_bootstrap_nodes', dht_bootstraps)
-        self.session_set_setting('enable_dht', value)
+        self.core.apply_session_settings({'dht_bootstrap_nodes': dht_bootstraps, 'enable_dht': value})
 
     def _on_set_upnp(self, key, value):
-        self.session_set_setting('enable_upnp', value)
+        self.core.apply_session_setting('enable_upnp', value)
 
     def _on_set_natpmp(self, key, value):
-        self.session_set_setting('enable_natpmp', value)
+        self.core.apply_session_setting('enable_natpmp', value)
 
     def _on_set_lsd(self, key, value):
-        self.session_set_setting('enable_lsd', value)
+        self.core.apply_session_setting('enable_lsd', value)
 
     def _on_set_utpex(self, key, value):
         if value:
@@ -289,73 +251,60 @@ class PreferencesManager(component.Component):
     def _on_set_encryption(self, key, value):
         # Convert Deluge enc_level values to libtorrent enc_level values.
         pe_enc_level = {0: lt.enc_level.plaintext, 1: lt.enc_level.rc4, 2: lt.enc_level.both}
-        try:
-            self.session.apply_settings({'out_enc_policy': lt.enc_policy(self.config['enc_out_policy']),
-                                         'in_enc_policy': lt.enc_policy(self.config['enc_in_policy']),
-                                         'allowed_enc_level': lt.enc_level(pe_enc_level[self.config['enc_level']]),
-                                         'prefer_rc4': True})
-        except AttributeError:
-            # Deprecated in libtorrent 1.1
-            pe_settings = lt.pe_settings()
-            pe_settings.out_enc_policy = lt.enc_policy(self.config['enc_out_policy'])
-            pe_settings.in_enc_policy = lt.enc_policy(self.config['enc_in_policy'])
-            pe_settings.allowed_enc_level = lt.enc_level(pe_enc_level[self.config['enc_level']])
-            pe_settings.prefer_rc4 = True
-            self.session.set_pe_settings(pe_settings)
-            pe_sess_settings = self.session.get_pe_settings()
-            log.debug('encryption settings:\n\t\t\tout_policy: %s\n\t\t\
-            in_policy: %s\n\t\t\tlevel: %s\n\t\t\tprefer_rc4: %s',
-                      pe_sess_settings.out_enc_policy,
-                      pe_sess_settings.in_enc_policy,
-                      pe_sess_settings.allowed_enc_level,
-                      pe_sess_settings.prefer_rc4)
+        self.core.apply_session_settings(
+            {'out_enc_policy': lt.enc_policy(self.config['enc_out_policy']),
+             'in_enc_policy': lt.enc_policy(self.config['enc_in_policy']),
+             'allowed_enc_level': lt.enc_level(pe_enc_level[self.config['enc_level']]),
+             'prefer_rc4': True})
 
     def _on_set_max_connections_global(self, key, value):
-        self.session_set_setting('connections_limit', value)
+        self.core.apply_session_setting('connections_limit', value)
 
     def _on_set_max_upload_speed(self, key, value):
         # We need to convert Kb/s to B/s
         value = -1 if value < 0 else int(value * 1024)
-        self.session_set_setting('upload_rate_limit', value)
+        self.core.apply_session_setting('upload_rate_limit', value)
 
     def _on_set_max_download_speed(self, key, value):
         # We need to convert Kb/s to B/s
         value = -1 if value < 0 else int(value * 1024)
-        self.session_set_setting('download_rate_limit', value)
+        self.core.apply_session_setting('download_rate_limit', value)
 
     def _on_set_max_upload_slots_global(self, key, value):
-        self.session_set_setting('unchoke_slots_limit', value)
+        self.core.apply_session_setting('unchoke_slots_limit', value)
 
     def _on_set_max_half_open_connections(self, key, value):
-        self.session_set_setting('half_open_limit', value)
+        self.core.apply_session_setting('half_open_limit', value)
 
     def _on_set_max_connections_per_second(self, key, value):
-        self.session_set_setting('connection_speed', value)
+        self.core.apply_session_setting('connection_speed', value)
 
     def _on_set_ignore_limits_on_local_network(self, key, value):
-        self.session_set_setting('ignore_limits_on_local_network', value)
+        self.core.apply_session_setting('ignore_limits_on_local_network', value)
 
     def _on_set_share_ratio_limit(self, key, value):
-        self.session_set_setting('share_ratio_limit', value)
+        # This value is a float percentage in deluge, but libtorrent needs int percentage.
+        self.core.apply_session_setting('share_ratio_limit', int(value * 100))
 
     def _on_set_seed_time_ratio_limit(self, key, value):
-        self.session_set_setting('seed_time_ratio_limit', value)
+        # This value is a float percentage in deluge, but libtorrent needs int percentage.
+        self.core.apply_session_setting('seed_time_ratio_limit', int(value * 100))
 
     def _on_set_seed_time_limit(self, key, value):
         # This value is stored in minutes in deluge, but libtorrent wants seconds
-        self.session_set_setting('seed_time_limit', int(value * 60))
+        self.core.apply_session_setting('seed_time_limit', int(value * 60))
 
     def _on_set_max_active_downloading(self, key, value):
-        self.session_set_setting('active_downloads', value)
+        self.core.apply_session_setting('active_downloads', value)
 
     def _on_set_max_active_seeding(self, key, value):
-        self.session_set_setting('active_seeds', value)
+        self.core.apply_session_setting('active_seeds', value)
 
     def _on_set_max_active_limit(self, key, value):
-        self.session_set_setting('active_limit', value)
+        self.core.apply_session_setting('active_limit', value)
 
     def _on_set_dont_count_slow_torrents(self, key, value):
-        self.session_set_setting('dont_count_slow_torrents', value)
+        self.core.apply_session_setting('dont_count_slow_torrents', value)
 
     def _on_set_send_info(self, key, value):
         """sends anonymous stats home"""
@@ -403,51 +352,32 @@ class PreferencesManager(component.Component):
                 self.new_release_timer.stop()
 
     def _on_set_proxy(self, key, value):
-        try:
-            if key == 'i2p_proxy' or value['type'] == 6:
-                proxy_settings = {
-                    'proxy_type': lt.proxy_type.i2p_proxy,
-                    'i2p_hostname': value['hostname'],
-                    'i2p_port': value['port']
-                }
-            else:
-                proxy_settings = {
-                    'proxy_type': value['type'],
-                    'proxy_hostname': value['hostname'],
-                    'proxy_port': value['port'],
-                    'proxy_username': value['username'],
-                    'proxy_password': value['password'],
-                    'proxy_hostnames': value['proxy_hostnames'],
-                    'proxy_peer_connections': value['proxy_peer_connections'],
-                }
-            self.session.apply_settings(proxy_settings)
-        except AttributeError:
-            proxy_settings = lt.proxy_settings()
-            proxy_settings.hostname = value['hostname']
-            proxy_settings.port = value['port']
-            if key == 'i2p_proxy':
-                try:
-                    self.session.set_i2p_proxy(proxy_settings)
-                except RuntimeError as ex:
-                    log.error('Unable to set I2P Proxy: %s', ex)
-            else:
-                proxy_settings.type = lt.proxy_type(value['type'])
-                proxy_settings.username = value['username']
-                proxy_settings.password = value['password']
-                proxy_settings.hostname = value['hostname']
-                proxy_settings.port = value['port']
-                proxy_settings.proxy_hostnames = value['proxy_hostnames']
-                proxy_settings.proxy_peer_connections = value['proxy_peer_connections']
-                self.session.set_proxy(proxy_settings)
+        if key == 'i2p_proxy' or value['type'] == 6:
+            proxy_settings = {
+                'proxy_type': lt.proxy_type.i2p_proxy,
+                'i2p_hostname': value['hostname'],
+                'i2p_port': value['port']
+            }
+        else:
+            proxy_settings = {
+                'proxy_type': value['type'],
+                'proxy_hostname': value['hostname'],
+                'proxy_port': value['port'],
+                'proxy_username': value['username'],
+                'proxy_password': value['password'],
+                'proxy_hostnames': value['proxy_hostnames'],
+                'proxy_peer_connections': value['proxy_peer_connections'],
+            }
+        self.core.apply_session_settings(proxy_settings)
 
     def _on_set_i2p_proxy(self, key, value):
         self._on_set_proxy(key, value)
 
     def _on_set_rate_limit_ip_overhead(self, key, value):
-        self.session_set_setting('rate_limit_ip_overhead', value)
+        self.core.apply_session_setting('rate_limit_ip_overhead', value)
 
     def _on_set_anonymous_mode(self, key, value):
-        self.session_set_setting('anonymous_mode', value)
+        self.core.apply_session_setting('anonymous_mode', value)
 
     def _on_set_geoip_db_location(self, key, geoipdb_path):
         # Load the GeoIP DB for country look-ups if available
@@ -460,10 +390,10 @@ class PreferencesManager(component.Component):
             log.warning('Unable to find GeoIP database file: %s', geoipdb_path)
 
     def _on_set_cache_size(self, key, value):
-        self.session_set_setting('cache_size', value)
+        self.core.apply_session_setting('cache_size', value)
 
     def _on_set_cache_expiry(self, key, value):
-        self.session_set_setting('cache_expiry', value)
+        self.core.apply_session_setting('cache_expiry', value)
 
     def _on_auto_manage_prefer_seeds(self, key, value):
-        self.session_set_setting('auto_manage_prefer_seeds', value)
+        self.core.apply_session_setting('auto_manage_prefer_seeds', value)

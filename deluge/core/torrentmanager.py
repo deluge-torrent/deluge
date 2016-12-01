@@ -1050,15 +1050,7 @@ class TorrentManager(component.Component):
         except (RuntimeError, KeyError):
             return
 
-        try:
-            error_message = decode_string(alert.error_message)
-        except AttributeError:
-            # Deprecated in libtorrent 1.1
-            error_message = decode_string(alert.msg)
-        # If alert.msg is empty then it's a '-1' code so fallback to a.e.message. Note that alert.msg
-        # cannot be replaced by a.e.message because the code is included in the string (for non-'-1').
-        if not error_message:
-            error_message = decode_string(alert.error.message())
+        error_message = decode_string(alert.error_message())
         log.debug('Tracker Error Alert: %s [%s]', decode_string(alert.message()), error_message)
         torrent.set_tracker_status('Error: ' + error_message)
 
@@ -1069,12 +1061,8 @@ class TorrentManager(component.Component):
             torrent = self.torrents[torrent_id]
         except (RuntimeError, KeyError):
             return
-        try:
-            storage_path = os.path.normpath(alert.storage_path)
-        except AttributeError:
-            # Deprecated in libtorrent 1.1
-            storage_path = os.path.normpath(alert.handle.save_path())
-        torrent.set_download_location(storage_path)
+
+        torrent.set_download_location(os.path.normpath(alert.storage_path))
         torrent.set_move_completed(False)
         torrent.moving_storage = False
         torrent.update_state()
@@ -1086,12 +1074,13 @@ class TorrentManager(component.Component):
 
     def on_alert_storage_moved_failed(self, alert):
         """Alert handler for libtorrent storage_moved_failed_alert"""
-        log.warning('on_alert_storage_moved_failed: %s', decode_string(alert.message()))
         try:
             torrent_id = str(alert.handle.info_hash())
             torrent = self.torrents[torrent_id]
         except (RuntimeError, KeyError):
             return
+
+        log.warning('on_alert_storage_moved_failed: %s', decode_string(alert.message()))
         # Set an Error message and pause the torrent
         alert_msg = decode_string(alert.message()).split(':', 1)[1].strip()
         torrent.moving_storage = False
@@ -1186,11 +1175,7 @@ class TorrentManager(component.Component):
         except (RuntimeError, KeyError):
             return
 
-        try:
-            new_name = decode_string(alert.new_name)
-        except AttributeError:
-            # Deprecated in libtorrent 1.1
-            new_name = decode_string(alert.name)
+        new_name = decode_string(alert.new_name)
         log.debug('index: %s name: %s', alert.index, new_name)
 
         # We need to see if this file index is in a waiting_on_folder dict

@@ -46,10 +46,7 @@ class AlertManager(component.Component):
                       lt.alert.category_t.ip_block_notification |
                       lt.alert.category_t.performance_warning)
 
-        try:
-            self.session.apply_settings({'alert_mask': alert_mask})
-        except AttributeError:
-            self.session.set_alert_mask(alert_mask)
+        self.session.apply_settings({'alert_mask': alert_mask})
 
         # handlers is a dictionary of lists {"alert_type": [handler1,h2,..]}
         self.handlers = {}

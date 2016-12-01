@@ -142,7 +142,7 @@ class WebAPITestCase(WebServerTestBase):
         ret = yield self.deluge_web.web_api.get_torrent_files('ab570cdd5a17ea1b61e970bb72047de141bce173')
         self.assertEquals(ret['type'], 'dir')
         self.assertEquals(ret['contents'], {u'azcvsupdater_2.6.2.jar':
-                                            {'priority': 1, u'index': 0, u'offset': 0, 'progress': 0.0, u'path':
+                                            {'priority': 4, u'index': 0, u'offset': 0, 'progress': 0.0, u'path':
                                              u'azcvsupdater_2.6.2.jar', 'type': 'file', u'size': 307949}})
 
     @defer.inlineCallbacks

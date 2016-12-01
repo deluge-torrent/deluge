@@ -149,11 +149,7 @@ class Core(component.Component):
             settings (dict): A dict of lt session settings to apply.
 
         """
-
-        try:
-            self.session.apply_settings(settings)
-        except AttributeError:
-            self.session.set_settings(settings)
+        self.session.apply_settings(settings)
 
     def __save_session_state(self):
         """Saves the libtorrent session state"""

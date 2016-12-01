@@ -85,7 +85,7 @@ class TorrentTestCase(BaseTestCase):
             if idx in prioritized_piece_indexes:
                 self.assertEquals(priorities[idx], 7)
             else:
-                self.assertEquals(priorities[idx], 1)
+                self.assertEquals(priorities[idx], 4)
 
         # self.print_priority_list(priorities)
 
@@ -101,7 +101,7 @@ class TorrentTestCase(BaseTestCase):
 
         # Test the priority of the prioritized pieces
         for i in priorities:
-            self.assertEquals(priorities[i], 1)
+            self.assertEquals(priorities[i], 4)
 
         # self.print_priority_list(priorities)
 

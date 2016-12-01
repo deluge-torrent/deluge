@@ -229,12 +229,7 @@ class Torrent(object):
         self.magnet = magnet
         self.status = self.handle.status()
 
-        try:
-            self.torrent_info = self.handle.get_torrent_info()
-        except RuntimeError:
-            # Deprecated in libtorrent 1.1 (i.e. exception check is not needed)
-            self.torrent_info = None
-
+        self.torrent_info = self.handle.get_torrent_info()
         self.has_metadata = self.status.has_metadata
 
         self.options = TorrentOptions()
@@ -391,12 +386,7 @@ class Torrent(object):
             return self.torrent_info.map_file(idx, byte_offset, 0).piece
 
         for idx in range(self.torrent_info.num_files()):
-            try:
-                file_size = self.torrent_info.files().file_size(idx)
-            except AttributeError:
-                # Deprecated in libtorrent 1.1
-                file_size = self.torrent_info.file_at(idx).size
-
+            file_size = self.torrent_info.files().file_size(idx)
             two_percent_bytes = int(0.02 * file_size)
             # Get the pieces for the byte offsets
             first_start = get_file_piece(idx, 0)
@@ -495,11 +485,7 @@ class Torrent(object):
             return
         if len(file_priorities) != self.torrent_info.num_files():
             log.debug('file_priorities len != num_files')
-            torrent_fprios = self.handle.file_priorities()
-            # Workaround for libtorrent 1.1 changing default priorities from 1 to 4.
-            if 4 in torrent_fprios:
-                torrent_fprios = [1 if x == 4 else x for x in torrent_fprios]
-            self.options['file_priorities'] = torrent_fprios
+            self.options['file_priorities'] = self.handle.file_priorities()
             return
 
         if log.isEnabledFor(logging.DEBUG):
@@ -638,11 +624,7 @@ class Torrent(object):
         session_paused = component.get('Core').session.is_paused()
         old_state = self.state
         self.set_status_message()
-        try:
-            status_error = status.errc.message() if status.errc.value() else ''
-        except AttributeError:
-            # Deprecated in libtorrent 1.1
-            status_error = status.error
+        status_error = status.errc.message() if status.errc.value() else ''
 
         if self.forced_error:
             self.state = 'Error'

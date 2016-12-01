@@ -14,6 +14,8 @@ class ErrorTestCase(unittest.TestCase):
         msg = 'Some message'
         e = deluge.error.DelugeError(msg)
         self.assertEquals(str(e), msg)
+        from twisted.internet.defer import DebugInfo
+        del DebugInfo.__del__  # Hides all errors
         self.assertEquals(e._args, (msg,))
         self.assertEquals(e._kwargs, {})
 
