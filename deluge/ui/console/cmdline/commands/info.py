@@ -16,6 +16,7 @@ import deluge.common as common
 import deluge.component as component
 import deluge.ui.console.utils.colors as colors
 from deluge.ui.client import client
+from deluge.ui.common import FILE_PRIORITY
 from deluge.ui.console.utils import format_utils
 
 from . import BaseCommand
@@ -198,7 +199,7 @@ class Command(BaseCommand):
 
             col_priority = ' {!info!}Priority: '
 
-            file_priority = common.FILE_PRIORITY[status['file_priorities'][index]].replace('Priority', '')
+            file_priority = FILE_PRIORITY[status['file_priorities'][index]].replace('Priority', '')
             if status['file_progress'][index] != 1.0:
                 if file_priority == 'Do Not Download':
                     col_priority += '{!error!}'

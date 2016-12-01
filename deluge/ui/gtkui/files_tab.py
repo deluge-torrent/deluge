@@ -18,8 +18,9 @@ from gobject import TYPE_UINT64
 from gtk.gdk import ACTION_DEFAULT, ACTION_MOVE, BUTTON1_MASK, keyval_name  # pylint: disable=ungrouped-imports
 
 import deluge.component as component
-from deluge.common import FILE_PRIORITY, open_file, show_file
+from deluge.common import open_file, show_file
 from deluge.ui.client import client
+from deluge.ui.common import FILE_PRIORITY
 from deluge.ui.gtkui.common import (listview_replace_treestore, load_pickled_state_file, reparent_iter,
                                     save_pickled_state_file)
 from deluge.ui.gtkui.torrentdetails import Tab
@@ -27,24 +28,12 @@ from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
 
 log = logging.getLogger(__name__)
 
-
-def _(message):
-    return message
-
-
-TRANSLATE = {
-    'Do Not Download': _('Do Not Download'),
-    'Normal Priority': _('Normal Priority'),
-    'High Priority': _('High Priority'),
-    'Highest Priority': _('Highest Priority'),
+CELL_PRIORITY_ICONS = {
+    'Ignore': gtk.STOCK_NO,
+    'Low': gtk.STOCK_GO_DOWN,
+    'Normal': gtk.STOCK_OK,
+    'High': gtk.STOCK_GO_UP
 }
-del _
-
-
-def _t(text):
-    if text in TRANSLATE:
-        text = TRANSLATE[text]
-    return _(text)
 
 
 def cell_priority(column, cell, model, row, data):
@@ -53,7 +42,7 @@ def cell_priority(column, cell, model, row, data):
         cell.set_property('text', '')
         return
     priority = model.get_value(row, data)
-    cell.set_property('text', _t(FILE_PRIORITY[priority]))
+    cell.set_property('text', _(FILE_PRIORITY[priority]))
 
 
 def cell_priority_icon(column, cell, model, row, data):
@@ -62,14 +51,7 @@ def cell_priority_icon(column, cell, model, row, data):
         cell.set_property('stock-id', None)
         return
     priority = model.get_value(row, data)
-    if FILE_PRIORITY[priority] == 'Do Not Download':
-        cell.set_property('stock-id', gtk.STOCK_NO)
-    elif FILE_PRIORITY[priority] == 'Normal Priority':
-        cell.set_property('stock-id', gtk.STOCK_YES)
-    elif FILE_PRIORITY[priority] == 'High Priority':
-        cell.set_property('stock-id', gtk.STOCK_GO_UP)
-    elif FILE_PRIORITY[priority] == 'Highest Priority':
-        cell.set_property('stock-id', gtk.STOCK_GOTO_TOP)
+    cell.set_property('stock-id', CELL_PRIORITY_ICONS[FILE_PRIORITY[priority]])
 
 
 def cell_filename(column, cell, model, row, data):
@@ -175,10 +157,10 @@ class FilesTab(Tab):
 
         self.file_menu = main_builder.get_object('menu_file_tab')
         self.file_menu_priority_items = [
-            main_builder.get_object('menuitem_donotdownload'),
+            main_builder.get_object('menuitem_ignore'),
+            main_builder.get_object('menuitem_low'),
             main_builder.get_object('menuitem_normal'),
             main_builder.get_object('menuitem_high'),
-            main_builder.get_object('menuitem_highest'),
             main_builder.get_object('menuitem_priority_sep')
         ]
 
@@ -202,10 +184,10 @@ class FilesTab(Tab):
         component.get('MainWindow').connect_signals({
             'on_menuitem_open_file_activate': self._on_menuitem_open_file_activate,
             'on_menuitem_show_file_activate': self._on_menuitem_show_file_activate,
-            'on_menuitem_donotdownload_activate': self._on_menuitem_donotdownload_activate,
+            'on_menuitem_ignore_activate': self._on_menuitem_ignore_activate,
+            'on_menuitem_low_activate': self._on_menuitem_low_activate,
             'on_menuitem_normal_activate': self._on_menuitem_normal_activate,
             'on_menuitem_high_activate': self._on_menuitem_high_activate,
-            'on_menuitem_highest_activate': self._on_menuitem_highest_activate,
             'on_menuitem_expand_all_activate': self._on_menuitem_expand_all_activate
         })
 
@@ -543,25 +525,21 @@ class FilesTab(Tab):
         log.debug('priorities: %s', priorities)
         client.core.set_torrent_options([self.torrent_id], {'file_priorities': priorities})
 
-    def _on_menuitem_donotdownload_activate(self, menuitem):
+    def _on_menuitem_ignore_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
-            self.get_selected_files(),
-            FILE_PRIORITY['Do Not Download'])
+            self.get_selected_files(), FILE_PRIORITY['Ignore'])
+
+    def _on_menuitem_low_activate(self, menuitem):
+        self._set_file_priorities_on_user_change(
+            self.get_selected_files(), FILE_PRIORITY['Low'])
 
     def _on_menuitem_normal_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
-            self.get_selected_files(),
-            FILE_PRIORITY['Normal Priority'])
+            self.get_selected_files(), FILE_PRIORITY['Normal'])
 
     def _on_menuitem_high_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
-            self.get_selected_files(),
-            FILE_PRIORITY['High Priority'])
-
-    def _on_menuitem_highest_activate(self, menuitem):
-        self._set_file_priorities_on_user_change(
-            self.get_selected_files(),
-            FILE_PRIORITY['Highest Priority'])
+            self.get_selected_files(), FILE_PRIORITY['High'])
 
     def _on_menuitem_expand_all_activate(self, menuitem):
         self.listview.expand_all()

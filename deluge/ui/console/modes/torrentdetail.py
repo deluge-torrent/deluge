@@ -12,9 +12,10 @@ from __future__ import division
 import logging
 
 import deluge.component as component
-from deluge.common import FILE_PRIORITY, fsize
+from deluge.common import fsize
 from deluge.decorators import overrides
 from deluge.ui.client import client
+from deluge.ui.common import FILE_PRIORITY
 from deluge.ui.console.modes.basemode import BaseMode
 from deluge.ui.console.modes.torrentlist.torrentactions import ACTION, torrent_actions_popup
 from deluge.ui.console.utils import curses_util as util
@@ -308,16 +309,19 @@ class TorrentDetail(BaseMode, PopupsHandler):
             bg = 'black'
             attr = ''
 
-            if fl[6] == -2:
-                pass  # Mixed
-            elif fl[6] == 0:
-                fg = 'red'  # Do Not Download
-            elif fl[6] == 1:
-                pass  # Normal
-            elif fl[6] <= 6:
-                fg = 'yellow'  # High
-            elif fl[6] == 7:
-                fg = 'green'  # Highest
+            priority_fg_color = {
+                -2: 'white',  # Mixed
+                0: 'red',  # Ignore
+                1: 'yellow',  # Low
+                2: 'yellow',
+                3: 'yellow',
+                4: 'white',  # Normal
+                5: 'green',
+                6: 'green',
+                7: 'green'   # High
+            }
+
+            fg = priority_fg_color[fl[6]]
 
             if idx >= self.file_off:
                 # set fg/bg colors based on whether the file is selected/marked or not
@@ -581,13 +585,14 @@ class TorrentDetail(BaseMode, PopupsHandler):
 
         if self.marked:
             popup = SelectablePopup(self, 'Set File Priority', popup_func, border_off_north=1)
-            popup.add_line('do_not_download', '_Do Not Download',
-                           cb_arg=FILE_PRIORITY['Do Not Download'], foreground='red')
-            popup.add_line('normal_priority', '_Normal Priority', cb_arg=FILE_PRIORITY['Normal Priority'])
+            popup.add_line('ignore_priority', '_Ignore',
+                           cb_arg=FILE_PRIORITY['Ignore'], foreground='red')
+            popup.add_line('low_priority', '_Low Priority',
+                           cb_arg=FILE_PRIORITY['Low Priority'], foreground='yellow')
+            popup.add_line('normal_priority', '_Normal Priority',
+                           cb_arg=FILE_PRIORITY['Normal Priority'])
             popup.add_line('high_priority', '_High Priority',
-                           cb_arg=FILE_PRIORITY['High Priority'], foreground='yellow')
-            popup.add_line('highest_priority', 'H_ighest Priority',
-                           cb_arg=FILE_PRIORITY['Highest Priority'], foreground='green')
+                           cb_arg=FILE_PRIORITY['High Priority'], foreground='green')
             popup._selected = 1
             self.push_popup(popup)
 

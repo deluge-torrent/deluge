@@ -29,7 +29,7 @@
   <object class="GtkImage" id="image5">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-goto-top</property>
+    <property name="stock">gtk-go-down</property>
     <property name="icon-size">1</property>
   </object>
   <object class="GtkMenu" id="menu_file_tab">
@@ -82,15 +82,27 @@
       </object>
     </child>
     <child>
-      <object class="GtkImageMenuItem" id="menuitem_donotdownload">
-        <property name="label" translatable="yes">_Do Not Download</property>
+      <object class="GtkImageMenuItem" id="menuitem_ignore">
+        <property name="label" translatable="yes">_Ignore</property>
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">image2</property>
         <property name="use_stock">False</property>
-        <signal name="activate" handler="on_menuitem_donotdownload_activate" swapped="no"/>
+        <signal name="activate" handler="on_menuitem_ignore_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="menuitem_low">
+        <property name="label" translatable="yes">_Low Priority</property>
+        <property name="use_action_appearance">False</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
+        <property name="image">image5</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="on_menuitem_low_activate" swapped="no"/>
       </object>
     </child>
     <child>
@@ -114,19 +126,7 @@
         <property name="use_underline">True</property>
         <property name="image">image4</property>
         <property name="use_stock">False</property>
-        <signal name="activate" handler="on_menuitem_high_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkImageMenuItem" id="menuitem_highest">
-        <property name="label" translatable="yes">Hi_ghest Priority</property>
-        <property name="use_action_appearance">False</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="use_underline">True</property>
-        <property name="image">image5</property>
-        <property name="use_stock">False</property>
-        <signal name="activate" handler="on_menuitem_highest_activate" swapped="no"/>
+        <signal name="activate" handler="on_menuitem_normal_activate" swapped="no"/>
       </object>
     </child>
   </object>

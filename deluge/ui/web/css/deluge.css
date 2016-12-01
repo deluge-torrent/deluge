@@ -346,7 +346,7 @@ dl.singleline dd {
 }
 
 /* Filepriority styles */
-.x-no-download, .x-normal-download, .x-high-download, .x-highest-download, .x-mixed-download {
+.x-no-download, .x-low-download, .x-normal-download, .x-high-download, .x-mixed-download {
     padding-left: 20px;
     background-repeat: no-repeat;
     line-height: 16px;
@@ -356,16 +356,16 @@ dl.singleline dd {
     background-image: url(../icons/no_download.png);
 }
 
+.x-low-download {
+    background-image: url(../icons/low.png);
+}
+
 .x-normal-download {
     background-image: url(../icons/normal.png);
 }
 
 .x-high-download {
     background-image: url(../icons/high.png);
-}
-
-.x-highest-download {
-    background-image: url(../icons/highest.png);
 }
 
 .x-mixed-download {
@@ -485,14 +485,14 @@ dl.singleline dd {
     background-image: url('../icons/no_download.png') !important;
 }
 
+.icon-low {
+    background-image: url('../icons/low.png') !important;
+}
+
 .icon-normal {
     background-image: url('../icons/normal.png') !important;
 }
 
 .icon-high {
     background-image: url('../icons/high.png') !important;
-}
-
-.icon-highest {
-    background-image: url('../icons/highest.png') !important;
 }

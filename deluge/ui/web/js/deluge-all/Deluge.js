@@ -1,6 +1,6 @@
 /*!
  * Deluge.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
@@ -41,7 +41,7 @@ Ext.apply(Ext, {
         }
         return equal;
     },
-    
+
     keys: function(obj) {
         var keys = [];
         for (var i in obj) if (obj.hasOwnProperty(i))
@@ -60,7 +60,7 @@ Ext.apply(Ext, {
         }
         return values;
     },
-        
+
     splat: function(obj) {
         var type = Ext.type(obj);
         return (type) ? ((type != 'array') ? [obj] : obj) : [];
@@ -75,7 +75,7 @@ Ext.apply(Deluge, {
 
     // private
     pluginStore: {},
-    
+
     // private
     progressTpl:    '<div class="x-progress-wrap x-progress-renderered">' +
                         '<div class="x-progress-inner">' +
@@ -90,7 +90,7 @@ Ext.apply(Deluge, {
                         '</div>' +
                     '</div>',
 
-    
+
     /**
      * A method to create a progress bar that can be used by renderers
      * to display a bar within a grid or tree.
@@ -131,36 +131,42 @@ Ext.apply(Deluge, {
     registerPlugin: function(name, plugin) {
         Deluge.pluginStore[name] = plugin;
     }
-    
+
 });
 
 // Setup a space for plugins to insert themselves
 deluge.plugins = {};
 
 // Hinting for gettext_gen.py
-// _('Do Not Download')
-// _('Normal Priority')
-// _('High Priority')
-// _('Highest Priority')
+// _('Ignore')
+// _('Low')
+// _('Normal')
+// _('High')
 FILE_PRIORITY = {
+    0: 'Ignore',
+    1: 'Low',
+    2: 'Low',
+    3: 'Low',
+    4: 'Normal',
+    5: 'High',
+    6: 'High',
+    7: 'High',
     9: 'Mixed',
-    0: 'Do Not Download',
-    1: 'Normal Priority',
-    2: 'High Priority',
-    5: 'High Priority',
-    7: 'Highest Priority',
-    'Mixed': 9,
-    'Do Not Download': 0,
-    'Normal Priority': 1,
-    'High Priority': 5,
-    'Highest Priority': 7
+    'Ignore': 0,
+    'Low': 1,
+    'Normal': 4,
+    'High': 7,
+    'Mixed': 9
 }
 
 FILE_PRIORITY_CSS = {
-    9: 'x-mixed-download',
     0: 'x-no-download',
-    1: 'x-normal-download',
-    2: 'x-high-download',
+    1: 'x-low-download',
+    2: 'x-low-download',
+    3: 'x-low-download',
+    4: 'x-normal-download',
     5: 'x-high-download',
-    7: 'x-highest-download'
+    6: 'x-high-download',
+    7: 'x-high-download',
+    9: 'x-mixed-download'
 }

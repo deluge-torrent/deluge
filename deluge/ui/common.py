@@ -24,7 +24,7 @@ from deluge.common import utf8_encoded
 log = logging.getLogger(__name__)
 
 
-# Dummy translation dicts so Torrent and Tracker states are available for Translators.
+# Dummy translation dicts so the text is available for Translators.
 #
 # All entries in deluge.common.TORRENT_STATE should be added here.
 #
@@ -90,13 +90,28 @@ TORRENT_DATA_FIELD = {
     'owner':                     {'name': _('Owner'), 'status': ['owner']}
 }
 
-
 TRACKER_STATUS_TRANSLATION = [
     _('Error'),
     _('Warning'),
     _('Announce OK'),
     _('Announce Sent')
 ]
+
+FILE_PRIORITY = {
+    0: 'Ignore',
+    1: 'Low',
+    2: 'Low',
+    3: 'Low',
+    4: 'Normal',
+    5: 'High',
+    6: 'High',
+    7: 'High',
+    _('Ignore'): 0,
+    _('Low'): 1,
+    _('Normal'): 4,
+    _('High'): 7,
+}
+
 del _
 
 DEFAULT_HOST = '127.0.0.1'
