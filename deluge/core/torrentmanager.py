@@ -943,13 +943,13 @@ class TorrentManager(component.Component):
             torrent = self.torrents[torrent_id]
         except (RuntimeError, KeyError):
             return
-        log.debug('Finished %s ', torrent_id)
 
         # If total_download is 0, do not move, it's likely the torrent wasn't downloaded, but just added.
         # Get fresh data from libtorrent, the cache isn't always up to date
         total_download = torrent.get_status(['total_payload_download'], update=True)['total_payload_download']
 
         if log.isEnabledFor(logging.DEBUG):
+            log.debug('Finished %s ', torrent_id)
             log.debug('Torrent settings: is_finished: %s, total_download: %s, move_completed: %s, move_path: %s',
                       torrent.is_finished, total_download, torrent.options['move_completed'],
                       torrent.options['move_completed_path'])
@@ -1046,6 +1046,11 @@ class TorrentManager(component.Component):
     def on_alert_tracker_error(self, alert):
         """Alert handler for libtorrent tracker_error_alert"""
         try:
+            torrent = self.torrents[str(alert.handle.info_hash())]
+        except (RuntimeError, KeyError):
+            return
+
+        try:
             error_message = decode_string(alert.error_message)
         except AttributeError:
             # Deprecated in libtorrent 1.1
@@ -1055,11 +1060,6 @@ class TorrentManager(component.Component):
         if not error_message:
             error_message = decode_string(alert.error.message())
         log.debug('Tracker Error Alert: %s [%s]', decode_string(alert.message()), error_message)
-        try:
-            torrent = self.torrents[str(alert.handle.info_hash())]
-        except (RuntimeError, KeyError):
-            return
-
         torrent.set_tracker_status('Error: ' + error_message)
 
     def on_alert_storage_moved(self, alert):
@@ -1156,14 +1156,14 @@ class TorrentManager(component.Component):
 
     def on_alert_fastresume_rejected(self, alert):
         """Alert handler for libtorrent fastresume_rejected_alert"""
-        alert_msg = decode_string(alert.message())
-        log.error('on_alert_fastresume_rejected: %s', alert_msg)
         try:
             torrent_id = str(alert.handle.info_hash())
             torrent = self.torrents[torrent_id]
         except (RuntimeError, KeyError):
             return
 
+        alert_msg = decode_string(alert.message())
+        log.error('on_alert_fastresume_rejected: %s', alert_msg)
         if alert.error.value() == 134:
             if not os.path.isdir(torrent.options['download_location']):
                 error_msg = 'Unable to locate Download Folder!'
@@ -1181,16 +1181,17 @@ class TorrentManager(component.Component):
 
         """
         try:
+            torrent_id = str(alert.handle.info_hash())
+            torrent = self.torrents[torrent_id]
+        except (RuntimeError, KeyError):
+            return
+
+        try:
             new_name = decode_string(alert.new_name)
         except AttributeError:
             # Deprecated in libtorrent 1.1
             new_name = decode_string(alert.name)
         log.debug('index: %s name: %s', alert.index, new_name)
-        try:
-            torrent_id = str(alert.handle.info_hash())
-            torrent = self.torrents[torrent_id]
-        except (RuntimeError, KeyError):
-            return
 
         # We need to see if this file index is in a waiting_on_folder dict
         for wait_on_folder in torrent.waiting_on_folder_rename:
