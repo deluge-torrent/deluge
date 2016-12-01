@@ -400,10 +400,10 @@ cmdclass = {
 
 
 if not windows_check() and not osx_check():
-    for path in glob.glob('deluge/ui/data/icons/hicolor/*x*'):
-        size = os.path.basename(path)
+    for icon_path in glob.glob('deluge/ui/data/icons/hicolor/*x*'):
+        size = os.path.basename(icon_path)
         _data_files.append(
-            ('share/icons/hicolor/{}/apps'.format(size), ['{}/apps/deluge.png'.format(path)]))
+            ('share/icons/hicolor/{}/apps'.format(size), ['{}/apps/deluge.png'.format(icon_path)]))
     _data_files.extend([
         ('share/icons/hicolor/scalable/apps', ['deluge/ui/data/icons/hicolor/scalable/apps/deluge.svg']),
         ('share/pixmaps', ['deluge/ui/data/pixmaps/deluge.png', 'deluge/ui/data/pixmaps/deluge.xpm']),
@@ -417,21 +417,21 @@ if not windows_check() and not osx_check():
         _data_files.append(('share/applications', [desktop_data]))
 
 _entry_points['console_scripts'] = [
-        'deluge-console = deluge.ui.console:start',
-        'deluge-web = deluge.ui.web:start',
-        'deluged = deluge.core.daemon_entry:start_daemon']
+    'deluge-console = deluge.ui.console:start',
+    'deluge-web = deluge.ui.web:start',
+    'deluged = deluge.core.daemon_entry:start_daemon']
 if windows_check():
     _entry_points['console_scripts'].extend([
         'deluge-debug = deluge.ui.ui_entry:start_ui',
         'deluge-web-debug = deluge.ui.web:start',
         'deluged-debug = deluge.core.daemon_entry:start_daemon'])
 _entry_points['gui_scripts'] = [
-        'deluge = deluge.ui.ui_entry:start_ui',
-        'deluge-gtk = deluge.ui.gtkui:start']
+    'deluge = deluge.ui.ui_entry:start_ui',
+    'deluge-gtk = deluge.ui.gtkui:start']
 _entry_points['deluge.ui'] = [
-        'console = deluge.ui.console:Console',
-        'web = deluge.ui.web:Web',
-        'gtk = deluge.ui.gtkui:Gtk']
+    'console = deluge.ui.console:Console',
+    'web = deluge.ui.web:Web',
+    'gtk = deluge.ui.gtkui:Gtk']
 
 
 _package_data['deluge'] = [
