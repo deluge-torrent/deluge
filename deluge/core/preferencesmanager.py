@@ -129,19 +129,11 @@ class PreferencesManager(component.Component):
             del self.config['proxies']
 
         self.core = component.get('Core')
-        self.session = component.get('Core').session
         self.new_release_timer = None
 
     def start(self):
-        # Setup listen port followed by dht to ensure both use same port.
-        self.__set_listen_on()
-        self._on_set_dht('dht', self.config['dht'])
-
         # Set the initial preferences on start-up
         for key in DEFAULT_PREFS:
-            # Listen port and dht already setup in correct order so skip running again.
-            if key in ('dht', 'random_port') or key.startswith('listen_'):
-                continue
             self.do_config_set_func(key, self.config[key])
 
         self.config.register_change_callback(self._on_config_value_change)
@@ -236,7 +228,7 @@ class PreferencesManager(component.Component):
 
     def _on_set_utpex(self, key, value):
         if value:
-            self.session.add_extension('ut_pex')
+            self.core.session.add_extension('ut_pex')
 
     def _on_set_enc_in_policy(self, key, value):
         self._on_set_encryption(key, value)
