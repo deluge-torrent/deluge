@@ -9,6 +9,7 @@
 
 import deluge.component as component
 from deluge.ui.client import client
+from deluge.ui.common import DISK_CACHE_KEYS
 
 from . import BaseCommand
 
@@ -20,9 +21,7 @@ class Command(BaseCommand):
         self.console = component.get('ConsoleUI')
 
         def on_cache_status(status):
-            for key, value in status.items():
+            for key, value in sorted(status.items()):
                 self.console.write('{!info!}%s: {!input!}%s' % (key, value))
 
-        d = client.core.get_cache_status()
-        d.addCallback(on_cache_status)
-        return d
+        return client.core.get_session_status(DISK_CACHE_KEYS).addCallback(on_cache_status)

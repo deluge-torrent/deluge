@@ -252,8 +252,8 @@ class CoreTestCase(BaseTestCase):
         self.assertEquals(type(status), dict)
         self.assertEquals(status['upload_rate'], 0.0)
 
-    def test_get_cache_status(self):
-        status = self.core.get_cache_status()
+    def test_get_session_status_ratio(self):
+        status = self.core.get_session_status(['write_hit_ratio', 'read_hit_ratio'])
         self.assertEquals(type(status), dict)
         self.assertEquals(status['write_hit_ratio'], 0.0)
         self.assertEquals(status['read_hit_ratio'], 0.0)

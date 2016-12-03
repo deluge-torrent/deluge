@@ -12,6 +12,7 @@ import logging
 from deluge.common import is_ip
 from deluge.decorators import overrides
 from deluge.ui.client import client
+from deluge.ui.common import DISK_CACHE_KEYS
 from deluge.ui.console.widgets import BaseInputPane, BaseWindow
 from deluge.ui.console.widgets.fields import FloatSpinInput, TextInput
 from deluge.ui.console.widgets.popup import PopupsHandler
@@ -412,29 +413,29 @@ class CachePane(BasePreferencePane):
                                 '%s:' % _('Cache Expiry (seconds)'), core_conf['cache_expiry'],
                                 min_val=1, max_val=32000)
         self.add_header(' %s' % _('Write'), space_above=True)
-        self.add_info_field('blocks_written', '  %s:' % _('Blocks Written'), status['blocks_written'])
-        self.add_info_field('writes', '  %s:' % _('Writes'), status['writes'])
+        self.add_info_field('blocks_written', '  %s:' % _('Blocks Written'), status['disk.num_blocks_written'])
+        self.add_info_field('writes', '  %s:' % _('Writes'), status['disk.num_write_ops'])
         self.add_info_field('write_hit_ratio',
                             '  %s:' % _('Write Cache Hit Ratio'), '%.2f' % status['write_hit_ratio'])
         self.add_header(' %s' % _('Read'))
         self.add_info_field('blocks_read',
-                            '  %s:' % _('Blocks Read'), status['blocks_read'])
+                            '  %s:' % _('Blocks Read'), status['disk.num_blocks_read'])
         self.add_info_field('blocks_read_hit',
-                            '  %s:' % _('Blocks Read hit'), status['blocks_read_hit'])
+                            '  %s:' % _('Blocks Read hit'), status['disk.num_blocks_cache_hits'])
         self.add_info_field('reads',
-                            '  %s:' % _('Reads'), status['reads'])
+                            '  %s:' % _('Reads'), status['disk.num_read_ops'])
         self.add_info_field('read_hit_ratio',
                             '  %s:' % _('Read Cache Hit Ratio'), '%.2f' % status['read_hit_ratio'])
         self.add_header(' %s' % _('Size'))
         self.add_info_field('cache_size_info',
-                            '  %s:' % _('Cache Size'), status['cache_size'])
+                            '  %s:' % _('Cache Size'), status['disk.disk_blocks_in_use'])
         self.add_info_field('read_cache_size',
-                            '  %s:' % _('Read Cache Size'), status['read_cache_size'])
+                            '  %s:' % _('Read Cache Size'), status['disk.read_cache_blocks'])
 
     @overrides(BasePreferencePane)
     def update(self, active):
         if active:
-            client.core.get_cache_status().addCallback(self.update_cache_status_fields)
+            client.core.get_session_status(DISK_CACHE_KEYS).addCallback(self.update_cache_status_fields)
 
     def update_cache_status_fields(self, status):
         if not self.created:

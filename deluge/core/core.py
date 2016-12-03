@@ -42,6 +42,54 @@ from deluge.httpdownloader import download_file
 
 log = logging.getLogger(__name__)
 
+OLD_SESSION_STATUS_KEYS = {
+    # 'active_requests': None, # In dht_stats_alert, if required.
+    'allowed_upload_slots': 'ses.num_unchoke_slots',
+    # 'dht_global_nodes': None,
+    'dht_node_cache': 'dht.dht_node_cache',
+    'dht_nodes': 'dht.dht_nodes',
+    'dht_torrents': 'dht.dht_torrents',
+    # 'dht_total_allocations': None,
+    'down_bandwidth_bytes_queue': 'net.limiter_down_bytes',
+    'down_bandwidth_queue': 'net.limiter_down_queue',
+    'has_incoming_connections': 'net.has_incoming_connections',
+    'num_peers': 'peer.num_peers_connected',
+    'num_unchoked': 'peer.num_peers_up_unchoked',
+    # 'optimistic_unchoke_counter': None, # lt.settings_pack
+    'total_dht_download': 'dht.dht_bytes_in',
+    'total_dht_upload': 'dht.dht_bytes_out',
+    'total_download': 'net.recv_bytes',
+    'total_failed_bytes': 'net.recv_failed_bytes',
+    'total_ip_overhead_download': 'net.recv_ip_overhead_bytes',
+    'total_ip_overhead_upload': 'net.sent_ip_overhead_bytes',
+    'total_payload_download': 'net.recv_payload_bytes',
+    'total_payload_upload': 'net.sent_payload_bytes',
+    'total_redundant_bytes': 'net.recv_redundant_bytes',
+    'total_tracker_download': 'net.recv_tracker_bytes',
+    'total_tracker_upload': 'net.sent_tracker_bytes',
+    'total_upload': 'net.sent_bytes',
+    # 'unchoke_counter': None, # lt.settings_pack
+    'up_bandwidth_bytes_queue': 'net.limiter_up_bytes',
+    'up_bandwidth_queue': 'net.limiter_up_queue',
+    # 'utp_stats': None
+}
+
+# TODO: replace with dynamic rate e.g.
+# 'dht.dht_bytes_in'.replace('_bytes', '') + '_rate'
+# would become 'dht.dht_in_rate'
+SESSION_RATES_MAPPING = {
+    'dht_download_rate': 'dht.dht_bytes_in',
+    'dht_upload_rate': 'dht.dht_bytes_out',
+    'ip_overhead_download_rate': 'net.recv_ip_overhead_bytes',
+    'ip_overhead_upload_rate': 'net.sent_ip_overhead_bytes',
+    'payload_download_rate': 'net.recv_payload_bytes',
+    'payload_upload_rate': 'net.sent_payload_bytes',
+    'tracker_download_rate': 'net.recv_tracker_bytes',
+    'tracker_upload_rate': 'net.sent_tracker_bytes',
+    'download_rate': 'net.recv_bytes',
+    'upload_rate': 'net.sent_bytes',
+}
+
 
 class Core(component.Component):
     def __init__(self, listen_interface=None, read_only_config_keys=None):
@@ -106,12 +154,28 @@ class Core(component.Component):
         # New release check information
         self.__new_release = None
 
+        # Session status timer
+        self.session_status = {}
+        self.session_status_timer_interval = 0.5
+        self.session_status_timer = task.LoopingCall(self.session.post_session_stats)
+        self.alertmanager.register_handler('session_stats_alert', self._on_alert_session_stats)
+        self._session_rates = {(k_rate, k_bytes): 0 for k_rate, k_bytes in SESSION_RATES_MAPPING.items()}
+        self.session_rates_timer_interval = 2
+        self.session_rates_timer = task.LoopingCall(self._update_session_rates)
+
     def start(self):
         """Starts the core"""
-        pass
+        self.session_status_timer.start(self.session_status_timer_interval)
+        self.session_rates_timer.start(self.session_rates_timer_interval, now=False)
 
     def stop(self):
         log.debug('Core stopping...')
+
+        if self.session_status_timer.running:
+            self.session_status_timer.stop()
+
+        if self.session_rates_timer.running:
+            self.session_rates_timer.stop()
 
         # Save the libtorrent session state
         self.__save_session_state()
@@ -186,6 +250,41 @@ class Core(component.Component):
             else:
                 log.info('Successfully loaded %s: %s', filename, _filepath)
                 self.session.load_state(state)
+
+    def _on_alert_session_stats(self, alert):
+        """The handler for libtorrent session stats alert"""
+        if not self.session_status:
+            # Empty dict on startup so needs populated with session rate keys and default value.
+            self.session_status.update({key: 0 for key in list(SESSION_RATES_MAPPING)})
+        self.session_status.update(alert.values)
+        self._update_session_cache_hit_ratio()
+
+    def _update_session_cache_hit_ratio(self):
+        """Calculates the cache read/write hit ratios and updates session_status"""
+        try:
+            self.session_status['write_hit_ratio'] = ((self.session_status['disk.num_blocks_written'] -
+                                                       self.session_status['disk.num_write_ops']) /
+                                                      self.session_status['disk.num_blocks_written'])
+        except ZeroDivisionError:
+            self.session_status['write_hit_ratio'] = 0.0
+
+        try:
+            self.session_status['read_hit_ratio'] = (self.session_status['disk.num_blocks_cache_hits'] /
+                                                     self.session_status['disk.num_blocks_read'])
+        except ZeroDivisionError:
+            self.session_status['read_hit_ratio'] = 0.0
+
+    def _update_session_rates(self):
+        """Calculates status rates based on interval and value difference for session_status"""
+        if not self.session_status:
+            return
+
+        for (rate_key, status_key), prev_bytes in list(self._session_rates.items()):
+            new_bytes = self.session_status[status_key]
+            byte_rate = (new_bytes - prev_bytes) / self.session_rates_timer_interval
+            self.session_status[rate_key] = byte_rate
+            # Store current value for next update.
+            self._session_rates[(rate_key, status_key)] = new_bytes
 
     def get_new_release(self):
         log.debug('get_new_release')
@@ -381,8 +480,7 @@ class Core(component.Component):
 
     @export
     def get_session_status(self, keys):
-        """
-        Gets the session status values for 'keys', these keys are taking
+        """Gets the session status values for 'keys', these keys are taking
         from libtorrent's session status.
 
         See: http://www.rasterbar.com/products/libtorrent/manual.html#status
@@ -393,43 +491,25 @@ class Core(component.Component):
         :rtype: dict
 
         """
+
+        if not self.session_status:
+            return {key: 0 for key in keys}
+
+        if not keys:
+            return self.session_status
+
         status = {}
-        # TODO: libtorrent DEPRECATED for session_stats http://libtorrent.org/manual-ref.html#session-statistics
-        session_status = self.session.status()
         for key in keys:
-            status[key] = getattr(session_status, key)
-
+            if key in OLD_SESSION_STATUS_KEYS:
+                new_key = OLD_SESSION_STATUS_KEYS[key]
+                log.warning('Using deprecated session status key %s, please use %s', key, new_key)
+                status[key] = self.session_status[new_key]
+            else:
+                try:
+                    status[key] = self.session_status[key]
+                except KeyError:
+                    log.warning('Session status key does not exist: %s', key)
         return status
-
-    @export
-    def get_cache_status(self):
-        """
-        Returns a dictionary of the session's cache status.
-
-        :returns: the cache status
-        :rtype: dict
-
-        """
-        # TODO: libtorrent DEPRECATED for session_stats: disk.num_blocks_cache_hits etc...
-        status = self.session.get_cache_status()
-        cache = {}
-        for attr in dir(status):
-            if attr.startswith('_'):
-                continue
-            cache[attr] = getattr(status, attr)
-
-        # Add in a couple ratios
-        try:
-            cache['write_hit_ratio'] = (cache['blocks_written'] - cache['writes']) / cache['blocks_written']
-        except ZeroDivisionError:
-            cache['write_hit_ratio'] = 0.0
-
-        try:
-            cache['read_hit_ratio'] = cache['blocks_read_hit'] / cache['blocks_read']
-        except ZeroDivisionError:
-            cache['read_hit_ratio'] = 0.0
-
-        return cache
 
     @export
     def force_reannounce(self, torrent_ids):

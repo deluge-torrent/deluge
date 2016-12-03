@@ -204,13 +204,8 @@ class Core(CorePluginBase):
 
     @export
     def get_session_totals(self):
-        status = self.core.session.status()
-        return {
-            'total_upload': status.total_upload,
-            'total_download': status.total_download,
-            'total_payload_upload': status.total_payload_upload,
-            'total_payload_download': status.total_payload_download
-        }
+        return self.core.get_session_status(
+            ['total_upload', 'total_download', 'total_payload_upload', 'total_payload_download'])
 
     @export
     def set_config(self, config):

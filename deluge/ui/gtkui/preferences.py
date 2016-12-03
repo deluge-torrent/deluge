@@ -20,6 +20,7 @@ import deluge.component as component
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.error import AuthManagerError, NotAuthorizedError
 from deluge.ui.client import client
+from deluge.ui.common import DISK_CACHE_KEYS
 from deluge.ui.gtkui.common import associate_magnet_links, get_deluge_icon
 from deluge.ui.gtkui.dialogs import AccountDialog, ErrorDialog, InformationDialog, YesNoDialog
 from deluge.ui.gtkui.path_chooser import PathChooser
@@ -292,9 +293,9 @@ class Preferences(component.Component):
 
             def _on_get_listen_port(port):
                 self.active_port = port
-                client.core.get_cache_status().addCallback(_on_get_cache_status)
+                client.core.get_session_status(DISK_CACHE_KEYS).addCallback(_on_get_session_status)
 
-            def _on_get_cache_status(status):
+            def _on_get_session_status(status):
                 self.cache_status = status
                 self._show()
 
@@ -719,12 +720,16 @@ class Preferences(component.Component):
 
     def __update_cache_status(self):
         # Updates the cache status labels with the info in the dict
-        for widget_name in ('label_cache_blocks_written', 'label_cache_writes', 'label_cache_write_hit_ratio',
-                            'label_cache_blocks_read', 'label_cache_blocks_read_hit', 'label_cache_read_hit_ratio',
-                            'label_cache_reads', 'label_cache_cache_size', 'label_cache_read_cache_size'):
+        cache_labels = ('label_cache_read_ops', 'label_cache_write_ops',
+                        'label_cache_num_blocks_read', 'label_cache_num_blocks_written',
+                        'label_cache_read_hit_ratio', 'label_cache_write_hit_ratio',
+                        'label_cache_num_blocks_cache_hits', 'label_cache_disk_blocks_in_use',
+                        'label_cache_read_cache_blocks')
+
+        for widget_name in cache_labels:
             widget = self.builder.get_object(widget_name)
-            key = widget_name[len('label_cache_'):]
-            value = self.cache_status[key]
+            key = 'disk.' + widget_name[len('label_cache_'):]
+            value = self.cache_status.get(key, 0)
             if isinstance(value, float):
                 value = '%.2f' % value
             else:
@@ -733,11 +738,11 @@ class Preferences(component.Component):
             widget.set_text(value)
 
     def _on_button_cache_refresh_clicked(self, widget):
-        def on_get_cache_status(status):
+        def on_get_session_status(status):
             self.cache_status = status
             self.__update_cache_status()
 
-        client.core.get_cache_status().addCallback(on_get_cache_status)
+        client.core.get_session_status(DISK_CACHE_KEYS).addCallback(on_get_session_status)
 
     def on_pref_dialog_delete_event(self, widget, event):
         self.hide()

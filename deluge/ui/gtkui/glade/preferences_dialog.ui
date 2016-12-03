@@ -4058,7 +4058,7 @@ the proxy instead of using the local DNS service</property>
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <object class="GtkLabel" id="label_cache_blocks_written">
+                                                      <object class="GtkLabel" id="label_cache_num_blocks_written">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="xalign">1</property>
@@ -4070,7 +4070,7 @@ the proxy instead of using the local DNS service</property>
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <object class="GtkLabel" id="label_cache_writes">
+                                                      <object class="GtkLabel" id="label_cache_write_ops">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="xalign">1</property>
@@ -4177,7 +4177,7 @@ the proxy instead of using the local DNS service</property>
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <object class="GtkLabel" id="label_cache_blocks_read">
+                                                      <object class="GtkLabel" id="label_cache_num_blocks_read">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="xalign">1</property>
@@ -4189,7 +4189,7 @@ the proxy instead of using the local DNS service</property>
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <object class="GtkLabel" id="label_cache_blocks_read_hit">
+                                                      <object class="GtkLabel" id="label_cache_num_blocks_cache_hits">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="xalign">1</property>
@@ -4232,7 +4232,7 @@ the proxy instead of using the local DNS service</property>
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <object class="GtkLabel" id="label_cache_reads">
+                                                      <object class="GtkLabel" id="label_cache_read_ops">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                       </object>
@@ -4309,7 +4309,7 @@ the proxy instead of using the local DNS service</property>
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <object class="GtkLabel" id="label_cache_cache_size">
+                                                      <object class="GtkLabel" id="label_cache_disk_blocks_in_use">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="xalign">1</property>
@@ -4321,7 +4321,7 @@ the proxy instead of using the local DNS service</property>
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <object class="GtkLabel" id="label_cache_read_cache_size">
+                                                      <object class="GtkLabel" id="label_cache_read_cache_blocks">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="xalign">1</property>
