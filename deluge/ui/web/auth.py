@@ -132,7 +132,7 @@ class Auth(JSONComponent):
             'level': AUTH_LEVEL_ADMIN,
             'expires': expires
         }
-        return True
+        return {'success': True, 'session_token': session_id + checksum}
 
     def check_password(self, password):
         config = self.config
@@ -187,6 +187,19 @@ class Auth(JSONComponent):
             log.debug('Failed to detect the login method')
             return False
 
+    def _get_request_session_id(self, request):
+        """
+        Retrieves session ID from either X-Deluge-Session HTTP header, or
+        _session_id cookie.
+
+        :param request: The HTTP request in question
+        :type request: twisted.web.http.Request
+        :rtype: string or None
+        """
+
+        return request.getHeader('X-Deluge-Session') or \
+               request.getCookie('_session_id')
+
     def check_request(self, request, method=None, level=None):
         """
         Check to ensure that a request is authorised to call the specified
@@ -202,7 +215,7 @@ class Auth(JSONComponent):
         :raises: Exception
         """
 
-        session_id = get_session_id(request.getCookie('_session_id'))
+        session_id = get_session_id(self._get_request_session_id(request))
 
         if session_id not in self.config['sessions']:
             auth_level = AUTH_LEVEL_NONE
@@ -213,7 +226,7 @@ class Auth(JSONComponent):
             expires, expires_str = make_expires(self.config['session_timeout'])
             session['expires'] = expires
 
-            _session_id = request.getCookie('_session_id')
+            _session_id = self._get_request_session_id(request)
             request.addCookie('_session_id', _session_id,
                               path=request.base + 'json', expires=expires_str)
 
