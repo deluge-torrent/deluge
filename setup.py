@@ -126,7 +126,7 @@ class BuildWebUI(cmd.Command):
                 minify_js_dir(source_dir)
             except NameError:
                 js_file = source_dir + '.js'
-                if os.path.is_file(js_file):
+                if os.path.isfile(js_file):
                     print('Unable to minify but found existing minified: {}'.format(js_file))
                 else:
                     # Unable to minify and no existing minified file found so exiting.
