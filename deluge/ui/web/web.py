@@ -47,11 +47,11 @@ class WebUI(UI):
 class Web(_UI):
 
     help = """Starts the Deluge web interface"""
-    
+
     def __init__(self):
         super(Web, self).__init__("web")
         self.__server =  None
-        
+
         group = OptionGroup(self.parser, "Web Options")
         group.add_option("-b", "--base", dest="base",
             help="Set the base path that the ui is running on (proxying)",
@@ -59,6 +59,9 @@ class Web(_UI):
         group.add_option("-f", "--fork", dest="fork",
             help="Fork the web interface process into the background",
             action="store_true", default=False)
+        group.add_option("-i", "--interface", dest="interface", type="str",
+            help="Binds the webserver to a specific IP address",
+            action="store", default=None)
         group.add_option("-p", "--port", dest="port", type="int",
             help="Sets the port to be used for the webserver",
             action="store", default=None)
@@ -75,14 +78,14 @@ class Web(_UI):
             group.add_option("--ssl", dest="ssl", action="store_true",
                     help="Forces the webserver to use ssl", default=False)
         self.parser.add_option_group(group)
-    
+
     @property
     def server(self):
         return self.__server
-    
+
     def start(self):
         super(Web, self).start()
-        
+
         import deluge.common
         # Steps taken from http://www.faqs.org/faqs/unix-faq/programmer/faq/
         # Section 1.7
@@ -91,28 +94,31 @@ class Web(_UI):
             # or shell invoking the program.
             if os.fork():
                 os._exit(0)
-            
+
             # setsid() to become a process group and session group leader.
             os.setsid()
-            
+
             # fork() again so the parent, (the session group leader), can exit.
             if os.fork():
                 os._exit(0)
-            
+
             # chdir() to esnure that our process doesn't keep any directory in
             # use that may prevent a filesystem unmount.
             import deluge.configmanager
             os.chdir(deluge.configmanager.get_config_dir())
-        
+
         import server
         self.__server = server.DelugeWeb()
 
         if self.options.base:
             self.server.base = self.options.base
-        
+
+        if self.options.interface:
+            self.server.interface = self.options.interface
+
         if self.options.port:
             self.server.port = self.options.port
-        
+
         if self.options.ssl:
             self.server.https = self.options.ssl
 

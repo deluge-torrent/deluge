@@ -102,6 +102,7 @@ CONFIG_DEFAULTS = {
 
     # Server Settings
     "base": "/",
+    "interface": "0.0.0.0",
     "port": 8112,
     "https": False,
     "pkey": "ssl/daemon.pkey",
@@ -665,9 +666,8 @@ class DelugeWeb(component.Component):
             reactor.run()
 
     def start_normal(self):
-        self.socket = reactor.listenTCP(self.port, self.site)
-        log.info("serving on %s:%s view at http://127.0.0.1:%s", "0.0.0.0",
-            self.port, self.port)
+        self.socket = reactor.listenTCP(self.port, self.site, interface=self.interface)
+        log.info("Serving on %s:%s view at http://%s:%s", self.interface, self.port, self.interface, self.port)
 
     def start_ssl(self):
         log.debug("Enabling SSL with PKey: %s, Cert: %s", self.pkey, self.cert)
@@ -680,8 +680,8 @@ class DelugeWeb(component.Component):
         options = CertificateOptions(privateKey=private_key, certificate=certificate, method=SSL.SSLv23_METHOD)
         options.getContext().set_options(SSL.OP_NO_SSLv2 | SSL.OP_NO_SSLv3)
 
-        self.socket = reactor.listenSSL(self.port, self.site, options)
-        log.info("Serving on %s:%s view at https://127.0.0.1:%s", "0.0.0.0", self.port, self.port)
+        self.socket = reactor.listenSSL(self.port, self.site, options, interface=self.interface)
+        log.info("Serving on %s:%s view at https://%s:%s", self.interface, self.port, self.interface, self.port)
 
     def stop(self):
         log.info("Shutting down webserver")
