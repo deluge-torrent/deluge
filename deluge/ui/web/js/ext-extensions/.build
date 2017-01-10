@@ -1,6 +1,7 @@
 #!/bin/sh
 
 add_file "layout/FormLayoutFix.js"
+add_file "tree/MultiSelectionModelFix.js"
 add_file "tree/TreeGrid.js"
 add_file "tree/TreeGridColumnResizer.js"
 add_file "tree/TreeGridColumns.js"
