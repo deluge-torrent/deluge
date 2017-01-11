@@ -359,13 +359,12 @@ class TrackerIcons(Component):
 
         if PIL_INSTALLED:
             try:
-                with Image.open(icon_name):
-                    pass
+                Image.open(icon_name)
             except IOError, e:
                 raise InvalidIconError(e)
         else:
             if os.stat(icon_name).st_size == 0L:
-                raise InvalidIconError, "empty icon"
+                raise InvalidIconError("empty icon")
 
         return icon_name
 
@@ -434,14 +433,14 @@ class TrackerIcons(Component):
         """
         if icon:
             filename = icon.get_filename()
-            with Image.open(filename) as img:
-                if img.size > (16, 16):
-                    new_filename = filename.rpartition('.')[0]+".png"
-                    img = img.resize((16, 16), Image.ANTIALIAS)
-                    img.save(new_filename)
-                    if new_filename != filename:
-                        os.remove(filename)
-                        icon = TrackerIcon(new_filename)
+            img = Image.open(filename)
+            if img.size > (16, 16):
+                new_filename = filename.rpartition('.')[0]+".png"
+                img = img.resize((16, 16), Image.ANTIALIAS)
+                img.save(new_filename)
+                if new_filename != filename:
+                    os.remove(filename)
+                    icon = TrackerIcon(new_filename)
         return icon
 
     def store_icon(self, icon, host):
