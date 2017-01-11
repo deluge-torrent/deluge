@@ -624,6 +624,7 @@ class DelugeWeb(component.Component):
         self.socket = None
         self.top_level = TopLevel()
         self.site = server.Site(self.top_level)
+        self.interface = self.config["interface"]
         self.port = self.config["port"]
         self.https = self.config["https"]
         self.pkey = self.config["pkey"]
