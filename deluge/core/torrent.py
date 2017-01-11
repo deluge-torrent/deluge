@@ -310,19 +310,19 @@ class Torrent(object):
         self.options["move_completed_path"] = move_completed_path
 
     def set_file_priorities(self, file_priorities):
-        if len(file_priorities) != len(self.get_files()):
-            log.debug("file_priorities len != num_files")
-            self.options["file_priorities"] = self.handle.file_priorities()
-            return
-
-        if self.options["compact_allocation"]:
-            log.debug("setting file priority with compact allocation does not work!")
-            self.options["file_priorities"] = self.handle.file_priorities()
-            return
+        handle_file_priorities = self.handle.file_priorities()
+        # Workaround for libtorrent 1.1 changing default priorities from 1 to 4.
+        if 4 in handle_file_priorities:
+           handle_file_priorities = [1 if x == 4 else x for x in handle_file_priorities]
 
         log.debug("setting %s's file priorities: %s", self.torrent_id, file_priorities)
 
-        self.handle.prioritize_files(file_priorities)
+        if (self.handle.has_metadata() and not self.options["compact_allocation"] and
+                file_priorities and len(file_priorities) == len(self.get_files())):
+            self.handle.prioritize_files(file_priorities)
+        else:
+            log.debug("Unable to set new file priorities.")
+            file_priorities = handle_file_priorities
 
         if 0 in self.options["file_priorities"]:
             # We have previously marked a file 'Do Not Download'
@@ -334,7 +334,7 @@ class Torrent(object):
                     self.update_state()
                     break
 
-        self.options["file_priorities"] = self.handle.file_priorities()
+        self.options["file_priorities"] = handle_file_priorities
         if self.options["file_priorities"] != list(file_priorities):
             log.warning("File priorities were not set for this torrent")
 
