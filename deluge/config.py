@@ -76,8 +76,8 @@ def find_json_objects(s):
         s (str): the string to find json objects in
 
     Returns:
-        list ([(start, end), ...]): a list of tuples containing start and
-            end locations of json objects in the string `s`
+        list: A list of tuples containing start and end locations of json
+            objects in string `s`. e.g. [(start, end), ...]
 
     """
     objects = []
