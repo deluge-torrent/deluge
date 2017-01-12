@@ -477,35 +477,34 @@ class Torrent(object):
         """Sets the file priotities.
 
         Args:
-            file_priorities (list of int): List of file priorities
+            file_priorities (list of int): List of file priorities.
         """
-        if not self.has_metadata:
-            return
-        if len(file_priorities) != self.torrent_info.num_files():
-            log.debug('file_priorities len != num_files')
-            self.options['file_priorities'] = self.handle.file_priorities()
-            return
+
+        torrent_fprios = self.handle.file_priorities()
 
         if log.isEnabledFor(logging.DEBUG):
             log.debug('Setting %s file priorities to: %s', self.torrent_id, file_priorities)
 
-        self.handle.prioritize_files(file_priorities)
+        if (self.handle.has_metadata() and file_priorities and
+                len(file_priorities) == len(self.get_files())):
+            self.handle.prioritize_files(file_priorities)
+        else:
+            log.debug('Unable to set new file priorities.')
+            file_priorities = torrent_fprios
 
         if 0 in self.options['file_priorities']:
-            # We have previously marked a file 'Do Not Download'
-            # Check to see if we have changed any 0's to >0 and change state accordingly
+            # Previously marked a file 'Do Not Download' so check if changed any 0's to >0.
             for index, priority in enumerate(self.options['file_priorities']):
                 if priority == 0 and file_priorities[index] > 0:
-                    # We have a changed 'Do Not Download' to a download priority
+                    # Changed 'Do Not Download' to a download priority so update state.
                     self.is_finished = False
                     self.update_state()
                     break
 
-        # In case values in file_priorities were faulty (old state?)
-        # we make sure the stored options are in sync
-        self.options['file_priorities'] = self.handle.file_priorities()
+        # Ensure stored options are in sync in case file_priorities were faulty (old state?).
+        self.options['file_priorities'] = torrent_fprios
 
-        # Set the first/last priorities if needed
+        # Set the first/last priorities if needed.
         if self.options['prioritize_first_last_pieces']:
             self.set_prioritize_first_last_pieces(self.options['prioritize_first_last_pieces'])
 
