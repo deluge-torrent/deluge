@@ -178,7 +178,7 @@ class Core(component.Component):
             self.session_rates_timer.stop()
 
         # Save the libtorrent session state
-        self.__save_session_state()
+        self._save_session_state()
 
         # We stored a copy of the old interface value
         if self.__old_interface:
@@ -202,7 +202,7 @@ class Core(component.Component):
         """
         self.session.apply_settings(settings)
 
-    def __save_session_state(self):
+    def _save_session_state(self):
         """Saves the libtorrent session state"""
         filename = 'session.state'
         filepath = get_config_dir(filename)
@@ -229,7 +229,7 @@ class Core(component.Component):
                     log.info('Restoring backup of %s from: %s', filename, filepath_bak)
                     shutil.move(filepath_bak, filepath)
 
-    def __load_session_state(self):
+    def _load_session_state(self):
         """Loads the libtorrent session state
 
         Returns:
