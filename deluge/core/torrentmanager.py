@@ -1062,7 +1062,6 @@ class TorrentManager(component.Component):
 
         torrent.set_download_location(os.path.normpath(alert.storage_path))
         torrent.set_move_completed(False)
-        torrent.moving_storage = False
         torrent.update_state()
 
         if torrent_id in self.waiting_on_finish_moving:
@@ -1081,7 +1080,6 @@ class TorrentManager(component.Component):
         log.warning('on_alert_storage_moved_failed: %s', decode_string(alert.message()))
         # Set an Error message and pause the torrent
         alert_msg = decode_string(alert.message()).split(':', 1)[1].strip()
-        torrent.moving_storage = False
         torrent.force_error_state('Failed to move download folder: %s' % alert_msg)
 
         if torrent_id in self.waiting_on_finish_moving:

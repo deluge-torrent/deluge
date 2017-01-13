@@ -246,7 +246,6 @@ class Torrent(object):
         self.forced_error = None
         self.statusmsg = None
         self.state = None
-        self.moving_storage = False
         self.moving_storage_dest_path = None
         self.tracker_status = ''
         self.tracker_host = None
@@ -614,7 +613,7 @@ class Torrent(object):
             # auto-manage status will be reverted upon resuming.
             self.handle.auto_managed(False)
             self.set_status_message(decode_string(status_error))
-        elif self.moving_storage:
+        elif status.moving_storage:
             self.state = 'Moving'
         elif not session_paused and status.paused and status.auto_managed:
             self.state = 'Queued'
@@ -881,7 +880,7 @@ class Torrent(object):
 
         if self.state == 'Error':
             progress = 100.0
-        elif self.moving_storage:
+        elif self.state == 'Moving':
             # Check if torrent has downloaded any data yet.
             if self.status.total_done:
                 torrent_files = [f['path'] for f in self.get_files()]
@@ -1125,7 +1124,6 @@ class Torrent(object):
         except RuntimeError as ex:
             log.error('Error calling libtorrent move_storage: %s', ex)
             return False
-        self.moving_storage = True
         self.moving_storage_dest_path = dest
         self.update_state()
         return True
