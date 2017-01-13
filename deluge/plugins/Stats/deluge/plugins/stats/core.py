@@ -82,9 +82,8 @@ class Core(CorePluginBase):
         self.add_stats(
             'upload_rate',
             'download_rate',
-            'num_connections',
             'dht_nodes',
-            'dht_cache_nodes',
+            'dht_node_cache',
             'dht_torrents',
             'num_peers',
         )
