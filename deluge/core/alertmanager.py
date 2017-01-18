@@ -116,7 +116,7 @@ class AlertManager(component.Component):
             if alert_type in self.handlers:
                 for handler in self.handlers[alert_type]:
                     if log.isEnabledFor(logging.DEBUG):
-                        log.debug('alert %s: %s', alert_type, decode_string(alert.message()))
+                        log.debug('Handling alert: %s', alert_type)
                     self.delayed_calls.append(reactor.callLater(0, handler, alert))
 
     def set_alert_queue_size(self, queue_size):
