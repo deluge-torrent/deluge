@@ -425,6 +425,7 @@ Please use commands from the command line, eg:\n
         for torrent_id, torrent_name in self.torrents:
             if torrent_id.startswith(line):
                 possible_matches.append(torrent_id)
+            torrent_name = deluge.common.decode_string(torrent_name)
             if torrent_name.startswith(line):
                 possible_matches.append(torrent_name)
 
@@ -459,6 +460,7 @@ Please use commands from the command line, eg:\n
         ret = []
         string = string.decode(self.encoding)
         for tid, name in self.torrents:
+            name = deluge.common.decode_string(name)
             if tid.startswith(string) or name.startswith(string):
                 ret.append(tid)
 
