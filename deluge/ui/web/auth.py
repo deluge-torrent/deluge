@@ -188,17 +188,19 @@ class Auth(JSONComponent):
             return False
 
     def _get_request_session_id(self, request):
-        """
-        Retrieves session ID from either X-Deluge-Session HTTP header, or
+        """Extract session ID from request.
+
+        Extracts session ID from either X-Deluge-Session HTTP header, or
         _session_id cookie.
 
-        :param request: The HTTP request in question
-        :type request: twisted.web.http.Request
-        :rtype: string or None
+        Args:
+            request (twisted.web.http.Request): The HTTP request in question
+        Returns:
+            string: The session ID.
+            None: No session ID was sent with the request.
         """
 
-        return request.getHeader('X-Deluge-Session') or \
-               request.getCookie('_session_id')
+        return request.getHeader('X-Deluge-Session') or request.getCookie('_session_id')
 
     def check_request(self, request, method=None, level=None):
         """
