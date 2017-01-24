@@ -25,5 +25,10 @@ except ImportError:
 
 REQUIRED_VERSION = '1.1.1.0'
 
+# XXX: Remove and update required when 1.1.2 is released!
+if not hasattr(lt, 'generate_fingerprint'):
+    raise ImportError('Deluge %s requires lastest github code from libtorrent RC_1_1 branch.\n'
+                      'Ubuntu users can add the develop PPA: ppa:deluge-team/develop' % get_version())
+
 if VersionSplit(lt.__version__) < VersionSplit(REQUIRED_VERSION):
     raise ImportError('Deluge %s requires libtorrent >= %s' % (get_version(), REQUIRED_VERSION))
