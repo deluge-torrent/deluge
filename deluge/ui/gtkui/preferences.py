@@ -727,7 +727,9 @@ class Preferences(component.Component):
 
         for widget_name in cache_labels:
             widget = self.builder.get_object(widget_name)
-            key = 'disk.' + widget_name[len('label_cache_'):]
+            key = widget_name[len('label_cache_'):]
+            if not widget_name.endswith('ratio'):
+                key = 'disk.' + key
             value = self.cache_status.get(key, 0)
             if isinstance(value, float):
                 value = '%.2f' % value
