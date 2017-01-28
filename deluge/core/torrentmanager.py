@@ -1060,7 +1060,7 @@ class TorrentManager(component.Component):
         except (RuntimeError, KeyError):
             return
 
-        torrent.set_download_location(os.path.normpath(alert.storage_path))
+        torrent.set_download_location(os.path.normpath(alert.storage_path()))
         torrent.set_move_completed(False)
         torrent.update_state()
 
