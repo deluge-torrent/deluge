@@ -1049,6 +1049,8 @@ class TorrentManager(component.Component):
             return
 
         error_message = decode_string(alert.error_message())
+        if not error_message:
+            error_message = alert.error.message()
         log.debug('Tracker Error Alert: %s [%s]', decode_string(alert.message()), error_message)
         torrent.set_tracker_status('Error: ' + error_message)
 
