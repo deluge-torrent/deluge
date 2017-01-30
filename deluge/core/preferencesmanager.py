@@ -478,14 +478,22 @@ class PreferencesManager(component.Component):
                 self.new_release_timer.stop()
 
     def _on_set_proxies(self, key, value):
+        lt_single_proxy = deluge.common.VersionSplit(lt.version) >= deluge.common.VersionSplit("0.16.0.0")
         for k, v in value.items():
+            if k != "peer" and lt_single_proxy:
+                # Only set peer proxy to stop overwriting proxy setting in libtorrent >= 0.16.
+                if v["hostname"]:
+                    log.warning("Using libtorrent >= 0.16 ignores proxy settings for %s", k)
+                self.config["proxies"][k] = DEFAULT_PREFS["proxies"][k]
+                continue
+
             proxy_settings = lt.proxy_settings()
             proxy_settings.type = lt.proxy_type(v["type"])
             proxy_settings.username = str(v["username"])
             proxy_settings.password = str(v["password"])
             proxy_settings.hostname = str(v["hostname"])
             proxy_settings.port = v["port"]
-            log.debug("setting %s proxy settings", k)
+            log.debug("Setting %s proxy settings: %s", k, v)
             getattr(self.session, "set_%s_proxy" % k)(proxy_settings)
 
     def _on_rate_limit_ip_overhead(self, key, value):
