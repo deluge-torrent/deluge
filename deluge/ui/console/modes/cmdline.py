@@ -13,6 +13,7 @@ from __future__ import unicode_literals
 import logging
 import os
 import re
+from io import open
 
 import deluge.component as component
 import deluge.configmanager
@@ -131,7 +132,7 @@ class CmdLine(BaseMode, Commander):
         self._hf_lines = [0, 0]
         if self.console_config['cmdline']['save_command_history']:
             try:
-                with open(self.history_file[0], 'r') as _file:
+                with open(self.history_file[0], 'r', encoding='utf8') as _file:
                     lines1 = _file.read().splitlines()
                 self._hf_lines[0] = len(lines1)
             except IOError:
@@ -139,7 +140,7 @@ class CmdLine(BaseMode, Commander):
                 self._hf_lines[0] = 0
 
             try:
-                with open(self.history_file[1], 'r') as _file:
+                with open(self.history_file[1], 'r', encoding='utf8') as _file:
                     lines2 = _file.read().splitlines()
                 self._hf_lines[1] = len(lines2)
             except IOError:
@@ -158,9 +159,6 @@ class CmdLine(BaseMode, Commander):
             # Instead of having additional input history file, we can
             # simply scan for lines beginning with ">>> "
             for i, line in enumerate(self.lines):
-                # if not isinstance(line, unicode):
-                    # line = line.encode(self.encoding)
-                    # self.lines[i] = line
                 line = remove_formatting(line)
                 if line.startswith('>>> '):
                     console_input = line[4:]
@@ -418,7 +416,7 @@ class CmdLine(BaseMode, Commander):
                 active_file = 0
 
             # Write the line
-            with open(self.history_file[active_file], 'a') as _file:
+            with open(self.history_file[active_file], 'a', encoding='utf8') as _file:
                 if isinstance(text, unicode):
                     text = text.encode(self.encoding)
                 _file.write(text)
@@ -431,7 +429,7 @@ class CmdLine(BaseMode, Commander):
             # therefore swapping the currently active file
             if self._hf_lines[active_file] == MAX_HISTFILE_SIZE:
                 self._hf_lines[1 - active_file] = 0
-                with open(self.history_file[1 - active_file], 'w') as _file:
+                with open(self.history_file[1 - active_file], 'w', encoding='utf8') as _file:
                     _file.truncate(0)
 
         def get_line_chunks(line):
