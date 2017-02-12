@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import unicode_literals
+
 from deluge.pluginmanagerbase import PluginManagerBase
 
 from . import common

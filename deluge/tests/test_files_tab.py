@@ -1,4 +1,4 @@
-from __future__ import print_function
+from __future__ import print_function, unicode_literals
 
 import pytest
 from twisted.trial import unittest
@@ -78,8 +78,8 @@ class FilesTabTestCase(BaseTestCase):
         return _verify_treestore(treestore.get_iter_root(), tree)
 
     def test_files_tab(self):
-        self.filestab.files_list[self.t_id] = ({u'index': 0, u'path': u'1/test_10.txt', u'offset': 0, u'size': 13},
-                                               {u'index': 1, u'path': u'test_100.txt', u'offset': 13, u'size': 14})
+        self.filestab.files_list[self.t_id] = ({'index': 0, 'path': '1/test_10.txt', 'offset': 0, 'size': 13},
+                                               {'index': 1, 'path': 'test_100.txt', 'offset': 13, 'size': 14})
         self.filestab.update_files()
         self.filestab._on_torrentfilerenamed_event(self.t_id, self.index, '2/test_100.txt')
 
@@ -89,8 +89,8 @@ class FilesTabTestCase(BaseTestCase):
         self.assertTrue(ret)
 
     def test_files_tab2(self):
-        self.filestab.files_list[self.t_id] = ({u'index': 0, u'path': u'1/1/test_10.txt', u'offset': 0, u'size': 13},
-                                               {u'index': 1, u'path': u'test_100.txt', u'offset': 13, u'size': 14})
+        self.filestab.files_list[self.t_id] = ({'index': 0, 'path': '1/1/test_10.txt', 'offset': 0, 'size': 13},
+                                               {'index': 1, 'path': 'test_100.txt', 'offset': 13, 'size': 14})
         self.filestab.update_files()
         self.filestab._on_torrentfilerenamed_event(self.t_id, self.index, '1/1/test_100.txt')
 
@@ -100,8 +100,8 @@ class FilesTabTestCase(BaseTestCase):
         self.assertTrue(ret)
 
     def test_files_tab3(self):
-        self.filestab.files_list[self.t_id] = ({u'index': 0, u'path': u'1/test_10.txt', u'offset': 0, u'size': 13},
-                                               {u'index': 1, u'path': u'test_100.txt', u'offset': 13, u'size': 14})
+        self.filestab.files_list[self.t_id] = ({'index': 0, 'path': '1/test_10.txt', 'offset': 0, 'size': 13},
+                                               {'index': 1, 'path': 'test_100.txt', 'offset': 13, 'size': 14})
         self.filestab.update_files()
         self.filestab._on_torrentfilerenamed_event(self.t_id, self.index, '1/test_100.txt')
 
@@ -111,8 +111,8 @@ class FilesTabTestCase(BaseTestCase):
         self.assertTrue(ret)
 
     def test_files_tab4(self):
-        self.filestab.files_list[self.t_id] = ({u'index': 0, u'path': u'1/test_10.txt', u'offset': 0, u'size': 13},
-                                               {u'index': 1, u'path': u'1/test_100.txt', u'offset': 13, u'size': 14})
+        self.filestab.files_list[self.t_id] = ({'index': 0, 'path': '1/test_10.txt', 'offset': 0, 'size': 13},
+                                               {'index': 1, 'path': '1/test_100.txt', 'offset': 13, 'size': 14})
         self.filestab.update_files()
         self.filestab._on_torrentfilerenamed_event(self.t_id, self.index, '1/2/test_100.txt')
 
@@ -123,8 +123,8 @@ class FilesTabTestCase(BaseTestCase):
         self.assertTrue(ret)
 
     def test_files_tab5(self):
-        self.filestab.files_list[self.t_id] = ({u'index': 0, u'path': u'1/test_10.txt', u'offset': 0, u'size': 13},
-                                               {u'index': 1, u'path': u'2/test_100.txt', u'offset': 13, u'size': 14})
+        self.filestab.files_list[self.t_id] = ({'index': 0, 'path': '1/test_10.txt', 'offset': 0, 'size': 13},
+                                               {'index': 1, 'path': '2/test_100.txt', 'offset': 13, 'size': 14})
         self.filestab.update_files()
         self.filestab._on_torrentfilerenamed_event(self.t_id, self.index, '1/test_100.txt')
 

@@ -7,7 +7,7 @@
 # See LICENSE for more details.
 #
 
-from __future__ import print_function
+from __future__ import print_function, unicode_literals
 
 import base64
 
@@ -117,9 +117,9 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
 
         """
         self.transfer = TransferTestClass()
-        self.msg1 = (0, 1, {'key_int': 1242429423}, {'key_str': 'some string'}, {'key_bool': True})
+        self.msg1 = (0, 1, {'key_int': 1242429423}, {'key_str': b'some string'}, {'key_bool': True})
         self.msg2 = (2, 3, {'key_float': 12424.29423},
-                     {'key_unicode': u'some string'},
+                     {'key_unicode': 'some string'},
                      {'key_dict_with_tuple': {'key_tuple': (1, 2, 3)}},
                      {'keylist': [4, '5', 6.7]})
 

@@ -8,6 +8,7 @@
 #
 
 """TorrentManager handles Torrent objects"""
+from __future__ import unicode_literals
 
 import cPickle
 import datetime

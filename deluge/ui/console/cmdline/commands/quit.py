@@ -8,6 +8,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import unicode_literals
+
 from twisted.internet import error, reactor
 
 from deluge.ui.client import client

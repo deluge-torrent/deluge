@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import unicode_literals
+
 import re
 from collections import deque
 from unicodedata import normalize as ud_normalize
@@ -81,7 +83,7 @@ def trim_string(string, w, have_dbls):
     if w <= 0:
         return ''
     elif w == 1:
-        return u' '
+        return ' '
     elif have_dbls:
         # have to do this the slow way
         chrs = []
@@ -97,9 +99,9 @@ def trim_string(string, w, have_dbls):
         if width != w:
             chrs.pop()
             chrs.append('.')
-        return u'%s ' % (''.join(chrs))
+        return '%s ' % (''.join(chrs))
     else:
-        return u'%s ' % (string[0:w - 1])
+        return '%s ' % (string[0:w - 1])
 
 
 def format_column(col, lim):

@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import unicode_literals
+
 import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager

@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import unicode_literals
+
 from deluge.decorators import overrides
 from deluge.ui.console.utils import curses_util as util
 from deluge.ui.console.utils.column import torrent_data_fields

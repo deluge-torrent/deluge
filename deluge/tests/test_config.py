@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+
 import os
 
 from twisted.internet import task
@@ -10,7 +12,7 @@ from deluge.config import Config
 
 from .common import set_tmp_config_dir
 
-DEFAULTS = {'string': 'foobar', 'int': 1, 'float': 0.435, 'bool': True, 'unicode': u'foobar'}
+DEFAULTS = {'string': b'foobar', 'int': 1, 'float': 0.435, 'bool': True, 'unicode': 'foobar'}
 
 
 class ConfigTestCase(unittest.TestCase):
@@ -36,10 +38,10 @@ class ConfigTestCase(unittest.TestCase):
         config['foo'] = '3'
         self.assertEquals(config.get_item('foo'), 3)
 
-        config['unicode'] = u'ВИДЕОФИЛЬМЫ'
-        self.assertEquals(config['unicode'], u'ВИДЕОФИЛЬМЫ')
+        config['unicode'] = 'ВИДЕОФИЛЬМЫ'
+        self.assertEquals(config['unicode'], 'ВИДЕОФИЛЬМЫ')
 
-        config['unicode'] = 'foostring'
+        config['unicode'] = b'foostring'
         self.assertTrue(isinstance(config.get_item('unicode'), unicode))
 
         config._save_timer.cancel()

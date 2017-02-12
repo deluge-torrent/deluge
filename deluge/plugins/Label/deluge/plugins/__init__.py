@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 # this is a namespace package
 import pkg_resources
 

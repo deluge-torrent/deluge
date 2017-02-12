@@ -7,10 +7,7 @@
 # See LICENSE for more details.
 #
 
-try:
-    import curses
-except ImportError:
-    pass
+from __future__ import unicode_literals
 
 import logging
 
@@ -19,6 +16,11 @@ from deluge.ui.console.modes.basemode import InputKeyHandler
 from deluge.ui.console.utils import curses_util as util
 from deluge.ui.console.utils import format_utils
 from deluge.ui.console.widgets import BaseInputPane, BaseWindow
+
+try:
+    import curses
+except ImportError:
+    pass
 
 log = logging.getLogger(__name__)
 

@@ -9,6 +9,8 @@
 
 # pylint: disable=super-on-old-class
 
+from __future__ import unicode_literals
+
 import gtk
 from twisted.internet import defer
 

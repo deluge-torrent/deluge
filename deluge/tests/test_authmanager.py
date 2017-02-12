@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import deluge.component as component
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN, AuthManager
 

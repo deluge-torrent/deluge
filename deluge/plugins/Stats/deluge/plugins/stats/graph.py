@@ -1,4 +1,3 @@
-#
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Ian Martin <ianmartin@cantab.net>
@@ -15,7 +14,7 @@
 port of old plugin by markybob.
 """
 
-from __future__ import division
+from __future__ import division, unicode_literals
 
 import logging
 import math

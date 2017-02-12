@@ -11,6 +11,7 @@
 """
 The ui common module contains methods and classes that are deemed useful for all the interfaces.
 """
+from __future__ import unicode_literals
 
 import logging
 import os

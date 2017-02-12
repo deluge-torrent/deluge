@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from deluge.ui.web.web import Web
 
 

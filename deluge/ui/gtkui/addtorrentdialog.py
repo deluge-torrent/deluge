@@ -7,7 +7,7 @@
 # See LICENSE for more details.
 #
 
-from __future__ import division
+from __future__ import division, unicode_literals
 
 import base64
 import logging
@@ -284,7 +284,7 @@ class AddTorrentDialog(component.Component):
                     _file, _file['path'], i, _file['download'], split_files
                 )
             self.add_files(None, split_files)
-        self.listview_files.expand_row('0', False)
+        self.listview_files.expand_row(b'0', False)
 
     def prepare_file(self, _file, file_name, file_num, download, files_storage):
         first_slash_index = file_name.find(os.path.sep)
@@ -892,7 +892,7 @@ class AddTorrentDialog(component.Component):
 
                 # We need to re-expand the view because it might contracted
                 # if we change the root iter
-                self.listview_files.expand_row('0', False)
+                self.listview_files.expand_row(b'0', False)
             else:
                 # This was a simple folder rename without any splits, so just
                 # change the path for itr

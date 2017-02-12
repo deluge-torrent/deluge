@@ -11,7 +11,7 @@
 # See LICENSE for more details.
 #
 
-from __future__ import division
+from __future__ import division, unicode_literals
 
 import logging
 

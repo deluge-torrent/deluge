@@ -8,6 +8,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import unicode_literals
+
 import logging
 import os
 from hashlib import sha1 as sha
@@ -399,7 +401,7 @@ class Preferences(component.Component):
         # Update the widgets accordingly
         for key in core_widgets:
             modifier = core_widgets[key][0]
-            if isinstance(key, str):
+            if isinstance(key, basestring):
                 widget = self.builder.get_object(key)
             else:
                 widget = key
@@ -411,7 +413,7 @@ class Preferences(component.Component):
                 from types import FunctionType
                 if isinstance(value, FunctionType):
                     value = value()
-                elif isinstance(value, str):
+                elif isinstance(value, basestring):
                     value = self.core_config[value]
             elif modifier:
                 value = {'active': False, 'not_active': False, 'value': 0, 'text': '', 'path_chooser': ''}[modifier]
@@ -431,7 +433,7 @@ class Preferences(component.Component):
 
         if self.is_connected:
             for key in core_widgets:
-                if isinstance(key, str):
+                if isinstance(key, basestring):
                     widget = self.builder.get_object(key)
                 else:
                     widget = key

@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import unicode_literals
+
 try:
     import curses
 except ImportError:

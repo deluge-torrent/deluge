@@ -7,10 +7,7 @@
 # See LICENSE for more details.
 #
 
-try:
-    import curses
-except ImportError:
-    pass
+from __future__ import unicode_literals
 
 import logging
 
@@ -19,9 +16,12 @@ from deluge.ui.console.modes.basemode import InputKeyHandler, move_cursor
 from deluge.ui.console.modes.torrentlist.torrentactions import torrent_actions_popup
 from deluge.ui.console.utils import curses_util as util
 
+try:
+    import curses
+except ImportError:
+    pass
+
 log = logging.getLogger(__name__)
-
-
 QUEUE_MODE_HELP_STR = """
 Change queue position of selected torrents
 
@@ -32,13 +32,11 @@ Change queue position of selected torrents
 {!info!}'End'{!normal!} - {|indent_pos:|}Move to bottom
 
 """
-
 SEARCH_EMPTY = 0
 SEARCH_FAILING = 1
 SEARCH_SUCCESS = 2
 SEARCH_START_REACHED = 3
 SEARCH_END_REACHED = 4
-
 SEARCH_FORMAT = {
     SEARCH_EMPTY: '{!black,white!}Search torrents: %s{!black,white!}',
     SEARCH_SUCCESS: '{!black,white!}Search torrents: {!black,green!}%s{!black,white!}',

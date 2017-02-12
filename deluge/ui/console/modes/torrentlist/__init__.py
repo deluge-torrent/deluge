@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 
 class ACTION(object):
     PAUSE = 'pause'

@@ -9,6 +9,9 @@
 #
 
 
+from __future__ import unicode_literals
+
+
 class DelugeError(Exception):
 
     def __new__(cls, *args, **kwargs):

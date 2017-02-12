@@ -9,15 +9,17 @@
 # See LICENSE for more details.
 #
 
-try:
-    import curses
-except ImportError:
-    pass
+from __future__ import unicode_literals
 
 import logging
 
 from deluge.ui.console.modes.basemode import add_string, mkpad, mkpanel
 from deluge.ui.console.utils.colors import get_color_pair
+
+try:
+    import curses
+except ImportError:
+    pass
 
 log = logging.getLogger(__name__)
 

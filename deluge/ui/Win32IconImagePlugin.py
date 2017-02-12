@@ -44,7 +44,7 @@ Example icon to test with `down.ico`_
 .. _down.ico: http://www.axialis.com/tutorials/iw/down.ico
 """
 
-from __future__ import division
+from __future__ import division, unicode_literals
 
 import logging
 import struct

@@ -39,6 +39,7 @@ this can only be done for the 'config file version' and not for the 'format'
 version as this will be done internally.
 
 """
+from __future__ import unicode_literals
 
 import cPickle as pickle
 import json
@@ -46,7 +47,7 @@ import logging
 import os
 import shutil
 
-from deluge.common import get_default_config_dir, utf8_encoded
+from deluge.common import decode_string, get_default_config_dir, utf8_encoded
 
 log = logging.getLogger(__name__)
 callLater = None  # Necessary for the config tests
@@ -243,11 +244,8 @@ class Config(object):
             5
 
         """
-        if isinstance(self.__config[key], str):
-            try:
-                return self.__config[key].decode('utf8')
-            except UnicodeDecodeError:
-                return self.__config[key]
+        if isinstance(self.__config[key], basestring):
+            return decode_string(self.__config[key])
         else:
             return self.__config[key]
 

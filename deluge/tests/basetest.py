@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import warnings
 
 from twisted.internet.defer import maybeDeferred

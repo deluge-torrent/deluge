@@ -13,6 +13,9 @@
 #
 
 
+from __future__ import unicode_literals
+
+
 def get_resource(filename):
     import os.path
     import pkg_resources

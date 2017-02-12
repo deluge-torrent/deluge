@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import unicode_literals
+
 from deluge.common import fdate, fsize, fspeed, ftime
 from deluge.ui.common import TRACKER_STATUS_TRANSLATION
 

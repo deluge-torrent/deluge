@@ -8,6 +8,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import unicode_literals
+
 import base64
 import os
 from urllib import url2pathname

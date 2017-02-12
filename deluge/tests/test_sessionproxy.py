@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import unicode_literals
+
 from twisted.internet.defer import maybeDeferred, succeed
 from twisted.internet.task import Clock
 

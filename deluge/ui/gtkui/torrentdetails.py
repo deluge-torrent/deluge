@@ -9,6 +9,7 @@
 
 
 """The torrent details component shows info about the selected torrent."""
+from __future__ import unicode_literals
 
 import logging
 

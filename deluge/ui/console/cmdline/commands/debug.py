@@ -8,6 +8,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import unicode_literals
+
 from twisted.internet import defer
 
 import deluge.component as component

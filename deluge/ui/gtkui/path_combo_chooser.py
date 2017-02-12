@@ -8,7 +8,7 @@
 # See LICENSE for more details.
 #
 
-from __future__ import division, print_function
+from __future__ import division, print_function, unicode_literals
 
 import os
 
@@ -1004,18 +1004,18 @@ class PathAutoCompleter(object):
 class PathChooserComboBox(gtk.HBox, StoredValuesPopup, GObject):
 
     __gsignals__ = {
-        'list-value-added': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
-        'list-value-removed': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
-        'list-values-reordered': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
-        'list-values-changed': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
-        'auto-complete-enabled-toggled': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
-        'show-filechooser-toggled': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
-        'show-path-entry-toggled': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
-        'show-folder-name-on-button': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
-        'show-hidden-files-toggled': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
-        'accelerator-set': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
-        'max-rows-changed': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
-        'text-changed': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        b'list-value-added': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        b'list-value-removed': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        b'list-values-reordered': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        b'list-values-changed': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        b'auto-complete-enabled-toggled': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        b'show-filechooser-toggled': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        b'show-path-entry-toggled': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        b'show-folder-name-on-button': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        b'show-hidden-files-toggled': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        b'accelerator-set': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        b'max-rows-changed': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
+        b'text-changed': (SIGNAL_RUN_FIRST, TYPE_NONE, (object, )),
     }
 
     def __init__(self, max_visible_rows=20, auto_complete=True, use_completer_popup=True):

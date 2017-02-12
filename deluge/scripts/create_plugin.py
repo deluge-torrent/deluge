@@ -6,7 +6,7 @@ example:
 python create_plugin.py --name MyPlugin2 --basepath . --author-name "Your Name" --author-email "yourname@example.com"
 
 """
-from __future__ import print_function
+from __future__ import print_function, unicode_literals
 
 import os
 import sys

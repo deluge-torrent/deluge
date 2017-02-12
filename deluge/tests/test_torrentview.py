@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import pytest
 from twisted.trial import unittest
 
@@ -31,14 +33,14 @@ setup_translations()
 class TorrentviewTestCase(BaseTestCase):
 
     default_column_index = ['filter', 'torrent_id', 'dirty', '#',
-                            u'Name',
-                            u'Size', u'Downloaded', u'Uploaded', u'Remaining',
-                            u'Progress',
-                            u'Seeds', u'Peers', u'Seeds:Peers',
-                            u'Down Speed', u'Up Speed', u'Down Limit', u'Up Limit',
-                            u'ETA', u'Ratio', u'Avail',
-                            u'Added', u'Completed', u'Complete Seen',
-                            u'Tracker', u'Download Folder', u'Owner', u'Shared']
+                            'Name',
+                            'Size', 'Downloaded', 'Uploaded', 'Remaining',
+                            'Progress',
+                            'Seeds', 'Peers', 'Seeds:Peers',
+                            'Down Speed', 'Up Speed', 'Down Limit', 'Up Limit',
+                            'ETA', 'Ratio', 'Avail',
+                            'Added', 'Completed', 'Complete Seen',
+                            'Tracker', 'Download Folder', 'Owner', 'Shared']
     default_liststore_columns = [bool, str, bool, int,
                                  str, str,  # Name
                                  TYPE_UINT64, TYPE_UINT64, TYPE_UINT64, TYPE_UINT64,

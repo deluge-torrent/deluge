@@ -8,7 +8,7 @@
 #
 
 """Common functions for various parts of Deluge to use."""
-from __future__ import division, print_function
+from __future__ import division, print_function, unicode_literals
 
 import base64
 import functools
@@ -800,7 +800,7 @@ def decode_string(s, encoding='utf8'):
 
     """
     if not s:
-        return u''
+        return ''
     elif isinstance(s, unicode):
         return s
 
@@ -817,7 +817,7 @@ def decode_string(s, encoding='utf8'):
             return s.decode(*l())
         except UnicodeDecodeError:
             pass
-    return u''
+    return ''
 
 
 def utf8_encoded(s, encoding='utf8'):
@@ -871,6 +871,7 @@ class VersionSplit(object):
             vs = ver.replace('_', '-').split('-')
 
         self.version = [int(x) for x in vs[0].split('.') if x.isdigit()]
+        self.version_string = ''.join(str(x) for x in vs[0].split('.') if x.isdigit())
         self.suffix = None
         self.dev = False
         if len(vs) > 1:

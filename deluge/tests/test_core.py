@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import base64
 import sys
 from hashlib import sha1 as sha

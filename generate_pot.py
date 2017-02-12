@@ -11,7 +11,7 @@
 
 """Parses Python and Javascript code for translation strings to create the 'deluge.pot' template for translators"""
 
-from __future__ import print_function
+from __future__ import print_function, unicode_literals
 
 import os
 import re

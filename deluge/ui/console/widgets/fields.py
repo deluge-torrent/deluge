@@ -9,10 +9,7 @@
 # See LICENSE for more details.
 #
 
-try:
-    import curses
-except ImportError:
-    pass
+from __future__ import unicode_literals
 
 import logging
 import os
@@ -22,6 +19,11 @@ from deluge.ui.console.modes.basemode import InputKeyHandler
 from deluge.ui.console.utils import curses_util as util
 from deluge.ui.console.utils import colors
 from deluge.ui.console.utils.format_utils import delete_alt_backspace, remove_formatting, wrap_string
+
+try:
+    import curses
+except ImportError:
+    pass
 
 log = logging.getLogger(__name__)
 

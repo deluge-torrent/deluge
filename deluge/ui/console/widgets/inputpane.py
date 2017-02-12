@@ -9,10 +9,7 @@
 # See LICENSE for more details.
 #
 
-try:
-    import curses
-except ImportError:
-    pass
+from __future__ import unicode_literals
 
 import logging
 
@@ -22,6 +19,11 @@ from deluge.ui.console.utils import curses_util as util
 from deluge.ui.console.widgets.fields import (CheckedInput, CheckedPlusInput, ComboInput, DividerField, FloatSpinInput,
                                               Header, InfoField, IntSpinInput, NoInputField, SelectInput, TextArea,
                                               TextField, TextInput)
+
+try:
+    import curses
+except ImportError:
+    pass
 
 log = logging.getLogger(__name__)
 

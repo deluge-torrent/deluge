@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from twisted.trial import unittest
 
 import deluge.error

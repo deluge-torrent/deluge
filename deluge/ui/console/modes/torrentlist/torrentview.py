@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 
 import logging
 
@@ -341,7 +342,7 @@ class TorrentView(InputKeyHandler):
             self.config.save()
 
         self.cols_to_show = [col for col in sorted(self.config['torrentview']['columns'],
-                                                   key=lambda (k): self.config['torrentview']['columns'][k]['order'])
+                                                   key=lambda k: self.config['torrentview']['columns'][k]['order'])
                              if self.config['torrentview']['columns'][col]['visible']]
         self.status_fields = get_required_fields(self.cols_to_show)
 

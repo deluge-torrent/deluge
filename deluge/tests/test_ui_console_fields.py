@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+
 from twisted.trial import unittest
 
 from deluge.ui.console.widgets.fields import TextInput

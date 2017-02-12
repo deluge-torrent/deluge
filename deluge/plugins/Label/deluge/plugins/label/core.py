@@ -15,6 +15,7 @@
 torrent-label core plugin.
 adds a status field for tracker.
 """
+from __future__ import unicode_literals
 
 import logging
 import re

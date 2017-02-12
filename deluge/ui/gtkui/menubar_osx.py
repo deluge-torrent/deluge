@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import unicode_literals
+
 from gtk import ACCEL_VISIBLE, SeparatorMenuItem, accel_groups_from_object
 from gtk.gdk import CONTROL_MASK, META_MASK, SHIFT_MASK
 

@@ -1,4 +1,3 @@
-#
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Ian Martin <ianmartin@cantab.net>
@@ -11,7 +10,7 @@
 # See LICENSE for more details.
 #
 
-from __future__ import division
+from __future__ import division, unicode_literals
 
 import logging
 import time

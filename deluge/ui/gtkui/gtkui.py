@@ -8,7 +8,7 @@
 #
 # pylint: disable=wrong-import-position
 
-from __future__ import division
+from __future__ import division, unicode_literals
 
 import logging
 import os
@@ -61,7 +61,7 @@ from deluge.ui.sessionproxy import SessionProxy
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.translations_util import set_language, setup_translations
 
-set_prgname('deluge')
+set_prgname(b'deluge')
 log = logging.getLogger(__name__)
 
 try:

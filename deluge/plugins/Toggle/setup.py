@@ -12,6 +12,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import unicode_literals
+
 from setuptools import find_packages, setup
 
 __plugin_name__ = 'Toggle'

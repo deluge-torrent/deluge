@@ -8,10 +8,7 @@
 # See LICENSE for more details.
 #
 
-try:
-    import curses
-except ImportError:
-    pass
+from __future__ import unicode_literals
 
 import logging
 import os
@@ -26,12 +23,14 @@ from deluge.ui.console.utils import curses_util as util
 from deluge.ui.console.utils import colors
 from deluge.ui.console.utils.format_utils import delete_alt_backspace, remove_formatting, strwidth
 
+try:
+    import curses
+except ImportError:
+    pass
+
 log = logging.getLogger(__name__)
-
-
 LINES_BUFFER_SIZE = 5000
 INPUT_HISTORY_SIZE = 500
-
 MAX_HISTFILE_SIZE = 2000
 
 
@@ -106,8 +105,8 @@ class CmdLine(BaseMode, Commander):
         self.display_lines_offset = 0
 
         # Holds the user input and is cleared on 'enter'
-        self.input = u''
-        self.input_incomplete = u''
+        self.input = ''
+        self.input_incomplete = ''
 
         # Keep track of where the cursor is
         self.input_cursor = 0
@@ -233,8 +232,8 @@ class CmdLine(BaseMode, Commander):
                 else:
                     self.input_history.append(self.input)
                 self.input_history_index = len(self.input_history)
-                self.input = u''
-                self.input_incomplete = u''
+                self.input = ''
+                self.input_incomplete = ''
                 self.input_cursor = 0
                 self.stdscr.refresh()
 

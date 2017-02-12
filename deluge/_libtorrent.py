@@ -15,6 +15,7 @@ Example:
     >>> from deluge._libtorrent import lt
 
 """
+from __future__ import unicode_literals
 
 from deluge.common import VersionSplit, get_version
 

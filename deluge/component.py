@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import unicode_literals
+
 import logging
 import traceback
 from collections import defaultdict
@@ -305,7 +307,7 @@ class ComponentRegistry(object):
         # Start all the components if names is empty
         if not names:
             names = self.components.keys()
-        elif isinstance(names, str):
+        elif isinstance(names, basestring):
             names = [names]
 
         def on_depends_started(result, name):
@@ -339,7 +341,7 @@ class ComponentRegistry(object):
         """
         if not names:
             names = self.components.keys()
-        elif isinstance(names, str):
+        elif isinstance(names, basestring):
             names = [names]
 
         def on_dependents_stopped(result, name):
@@ -377,7 +379,7 @@ class ComponentRegistry(object):
         """
         if not names:
             names = self.components.keys()
-        elif isinstance(names, str):
+        elif isinstance(names, basestring):
             names = [names]
 
         deferreds = []
@@ -403,7 +405,7 @@ class ComponentRegistry(object):
         """
         if not names:
             names = self.components.keys()
-        elif isinstance(names, str):
+        elif isinstance(names, basestring):
             names = [names]
 
         deferreds = []

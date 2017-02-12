@@ -7,7 +7,7 @@
 # See LICENSE for more details.
 #
 
-from __future__ import division
+from __future__ import division, unicode_literals
 
 import cPickle
 import logging
@@ -360,7 +360,7 @@ class FilesTab(Tab):
     def update_files(self):
         with listview_replace_treestore(self.listview):
             self.prepare_file_store(self.files_list[self.torrent_id])
-        self.listview.expand_row('0', False)
+        self.listview.expand_row(b'0', False)
 
     def get_selected_files(self):
         """Returns a list of file indexes that are selected."""

@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import unicode_literals
+
 import os.path
 from functools import wraps
 from sys import exc_info

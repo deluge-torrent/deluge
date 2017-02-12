@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import unicode_literals
+
 from .decompressers import BZipped2, GZipped, Zipped
 from .readers import EmuleReader, PeerGuardianReader, SafePeerReader
 

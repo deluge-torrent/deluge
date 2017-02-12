@@ -8,6 +8,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import unicode_literals
+
 import deluge.component as component
 from deluge.ui.client import client
 

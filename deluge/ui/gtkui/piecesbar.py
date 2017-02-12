@@ -7,7 +7,7 @@
 # See LICENSE for more details.
 #
 
-from __future__ import division
+from __future__ import division, unicode_literals
 
 from math import pi
 
@@ -24,7 +24,7 @@ COLOR_STATES = ['missing', 'waiting', 'downloading', 'completed']
 
 class PiecesBar(DrawingArea):
     # Draw in response to an expose-event
-    __gsignals__ = {'expose-event': 'override'}
+    __gsignals__ = {b'expose-event': b'override'}
 
     def __init__(self):
         DrawingArea.__init__(self)

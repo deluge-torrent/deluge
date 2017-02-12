@@ -7,16 +7,18 @@
 # See LICENSE for more details.
 #
 
-try:
-    import rencode  # pylint: disable=useless-suppression,relative-import
-except ImportError:
-    import deluge.rencode as rencode
+from __future__ import unicode_literals
 
 import logging
 import struct
 import zlib
 
 from twisted.internet.protocol import Protocol
+
+try:
+    import rencode  # pylint: disable=useless-suppression,relative-import
+except ImportError:
+    import deluge.rencode as rencode
 
 log = logging.getLogger(__name__)
 

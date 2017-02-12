@@ -12,6 +12,7 @@
 # user runs the command 'deluge'.
 
 """Main starting point for Deluge"""
+from __future__ import unicode_literals
 
 import argparse
 import logging

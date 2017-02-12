@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from __future__ import unicode_literals
+
 from StringIO import StringIO
 
 from twisted.internet import defer, reactor
@@ -83,7 +85,7 @@ class WebAPITestCase(WebServerTestBase):
     def get_host_status(self):
         host = list(self.deluge_web.web_api._get_host(self.host_id))
         host[3] = 'Online'
-        host[4] = u'2.0.0.dev562'
+        host[4] = '2.0.0.dev562'
         status = yield self.deluge_web.web_api.get_host_status(self.host_id)
         self.assertEquals(status, tuple(status))
 
@@ -141,9 +143,9 @@ class WebAPITestCase(WebServerTestBase):
         yield self.deluge_web.web_api.add_torrents(torrents)
         ret = yield self.deluge_web.web_api.get_torrent_files('ab570cdd5a17ea1b61e970bb72047de141bce173')
         self.assertEquals(ret['type'], 'dir')
-        self.assertEquals(ret['contents'], {u'azcvsupdater_2.6.2.jar':
-                                            {'priority': 4, u'index': 0, u'offset': 0, 'progress': 0.0, u'path':
-                                             u'azcvsupdater_2.6.2.jar', 'type': 'file', u'size': 307949}})
+        self.assertEquals(ret['contents'], {'azcvsupdater_2.6.2.jar':
+                                            {'priority': 4, 'index': 0, 'offset': 0, 'progress': 0.0, 'path':
+                                             'azcvsupdater_2.6.2.jar', 'type': 'file', 'size': 307949}})
 
     @defer.inlineCallbacks
     def test_download_torrent_from_url(self):
