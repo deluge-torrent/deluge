@@ -839,6 +839,29 @@ def utf8_encoded(s, encoding='utf8'):
     return s
 
 
+def convert_to_utf8(data):
+    """Recursively convert all unicode keys and values in a data structure to utf8.
+
+    e.g. converting keys and values for a dict with nested dicts and lists etc.
+
+    Args:
+        data (any): This can be any structure, dict, list or tuple.
+
+    Returns:
+        input type: The data with unicode keys and values converted to utf8.
+
+    """
+
+    if isinstance(data, unicode):
+        return data.encode('utf8')
+    elif isinstance(data, (list, tuple)):
+        return type(data)(map(convert_to_utf8, data))
+    elif isinstance(data, dict):
+        return dict(map(convert_to_utf8, data.items()))
+    else:
+        return data
+
+
 @functools.total_ordering
 class VersionSplit(object):
     """

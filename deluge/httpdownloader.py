@@ -19,7 +19,7 @@ from twisted.python.failure import Failure
 from twisted.web import client, http
 from twisted.web.error import PageRedirect
 
-from deluge.common import get_version
+from deluge.common import convert_to_utf8, get_version
 
 log = logging.getLogger(__name__)
 
@@ -175,8 +175,8 @@ def _download_file(url, filename, callback=None, headers=None, force_filename=Fa
 
     url = url.encode('utf8')
     filename = filename.encode('utf8')
-    if headers:
-        headers = {k.encode('utf8'): v.encode('utf8') for k, v in headers.items()}
+    headers = convert_to_utf8(headers) if headers else headers
+    factory = HTTPDownloader(url, filename, callback, headers, force_filename, allow_compression)
 
     # In Twisted 13.1.0 _parse() function replaced by _URI class.
     # In Twisted 15.0.0 _URI class renamed to URI.
@@ -187,13 +187,12 @@ def _download_file(url, filename, callback=None, headers=None, force_filename=Fa
             from twisted.web.client import _URI as URI
         except ImportError:
             from twisted.web.client import URI
+        finally:
+            uri = URI.fromBytes(url)
+            scheme = uri.scheme
+            host = uri.host
+            port = uri.port
 
-        uri = URI.fromBytes(url)
-        scheme = uri.scheme
-        host = uri.host
-        port = uri.port
-
-    factory = HTTPDownloader(url, filename, callback, headers, force_filename, allow_compression)
     if scheme == 'https':
         from twisted.internet import ssl
         # ClientTLSOptions in Twisted >= 14, see ticket #2765 for details on this addition.

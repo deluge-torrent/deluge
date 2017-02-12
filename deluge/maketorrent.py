@@ -14,7 +14,7 @@ import sys
 from hashlib import sha1 as sha
 
 from deluge.bencode import bencode
-from deluge.common import get_path_size
+from deluge.common import convert_to_utf8, get_path_size
 
 
 class InvalidPath(Exception):
@@ -72,7 +72,7 @@ class TorrentMetadata(object):
         }
 
         if self.comment:
-            torrent['comment'] = self.comment.encode('UTF-8')
+            torrent['comment'] = self.comment
 
         if self.private:
             torrent['info']['private'] = True
@@ -113,10 +113,10 @@ class TorrentMetadata(object):
             num_pieces += 1
 
         torrent['info']['piece length'] = piece_size
+        torrent['info']['name'] = os.path.split(self.data_path)[1]
 
         # Create the info
         if os.path.isdir(self.data_path):
-            torrent['info']['name'] = os.path.split(self.data_path)[1]
             files = []
             padding_count = 0
             # Collect a list of file paths and add padding files if necessary
@@ -170,18 +170,14 @@ class TorrentMetadata(object):
                             else:
                                 break
                             r = _file.read(piece_size - len(buf))
-
+            torrent['info']['files'] = fs
             if buf:
                 pieces.append(sha(buf).digest())
                 if progress:
                     progress(len(pieces), num_pieces)
                 buf = ''
 
-            torrent['info']['pieces'] = ''.join(pieces)
-            torrent['info']['files'] = fs
-
         elif os.path.isfile(self.data_path):
-            torrent['info']['name'] = os.path.split(self.data_path)[1]
             torrent['info']['length'] = get_path_size(self.data_path)
             pieces = []
 
@@ -194,11 +190,11 @@ class TorrentMetadata(object):
 
                     r = _file.read(piece_size)
 
-            torrent['info']['pieces'] = ''.join(pieces)
+        torrent['info']['pieces'] = b''.join(pieces)
 
         # Write out the torrent file
         with open(torrent_path, 'wb') as _file:
-            _file.write(bencode(torrent))
+            _file.write(bencode(convert_to_utf8(torrent)))
 
     def get_data_path(self):
         """Get the path to the files that the torrent will contain.
