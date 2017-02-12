@@ -43,6 +43,7 @@ class HTTPDownloader(client.HTTPDownloader):
         :param headers: any optional headers to send
         :type headers: dictionary
         """
+
         self.part_callback = part_callback
         self.current_length = 0
         self.total_length = 0
@@ -51,7 +52,8 @@ class HTTPDownloader(client.HTTPDownloader):
         self.force_filename = force_filename
         self.allow_compression = allow_compression
         self.code = None
-        agent = 'Deluge/%s (http://deluge-torrent.org)' % get_version()
+        agent = b'Deluge/%s (http://deluge-torrent.org)' % get_version()
+
         client.HTTPDownloader.__init__(self, url, filename, headers=headers, agent=agent)
 
     def gotStatus(self, version, status, message):  # NOQA: N802
@@ -165,16 +167,16 @@ def _download_file(url, filename, callback=None, headers=None, force_filename=Fa
         t.w.e.Error: for all other HTTP response errors
 
     """
-    url = str(url)
-    filename = str(filename)
-    if headers:
-        for key, value in headers.items():
-            headers[str(key)] = str(value)
 
     if allow_compression:
         if not headers:
             headers = {}
         headers['accept-encoding'] = 'deflate, gzip, x-gzip'
+
+    url = url.encode('utf8')
+    filename = filename.encode('utf8')
+    if headers:
+        headers = {k.encode('utf8'): v.encode('utf8') for k, v in headers.items()}
 
     # In Twisted 13.1.0 _parse() function replaced by _URI class.
     # In Twisted 15.0.0 _URI class renamed to URI.

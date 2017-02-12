@@ -33,7 +33,7 @@ class DelugeTransferProtocol(Protocol, object):
 
     """
     def __init__(self):
-        self._buffer = ''
+        self._buffer = b''  # TODO: Look into using bytearray instead of byte string.
         self._message_length = 0
         self._bytes_received = 0
         self._bytes_sent = 0
@@ -53,7 +53,7 @@ class DelugeTransferProtocol(Protocol, object):
         size_data = len(compressed)
         # Store length as a signed integer (using 4 bytes). "!" denotes network byte order.
         payload_len = struct.pack('!i', size_data)
-        header = 'D' + payload_len
+        header = b'D' + payload_len
         self._bytes_sent += len(header) + len(compressed)
         self.transport.write(header)
         self.transport.write(compressed)
@@ -95,7 +95,7 @@ class DelugeTransferProtocol(Protocol, object):
             # Read the first bytes of the message (MESSAGE_HEADER_SIZE bytes)
             header = self._buffer[:MESSAGE_HEADER_SIZE]
             payload_len = header[1:MESSAGE_HEADER_SIZE]
-            if header[0] != 'D':
+            if header[0] != b'D':
                 raise Exception('Invalid header format. First byte is %d' % ord(header[0]))
             # Extract the length stored as a signed integer (using 4 bytes)
             self._message_length = struct.unpack('!i', payload_len)[0]
@@ -107,7 +107,7 @@ class DelugeTransferProtocol(Protocol, object):
             log.warn('Error occurred when parsing message header: %s.', ex)
             log.warn('This version of Deluge cannot communicate with the sender of this data.')
             self._message_length = 0
-            self._buffer = ''
+            self._buffer = b''
 
     def _handle_complete_message(self, data):
         """

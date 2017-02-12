@@ -556,7 +556,7 @@ def generate_ssl_keys():
     """
     This method generates a new SSL key/cert.
     """
-    digest = 'sha256'
+    digest = b'sha256'
     # Generate key pair
     pkey = crypto.PKey()
     pkey.generate_key(crypto.TYPE_RSA, 2048)

@@ -985,7 +985,7 @@ class Core(component.Component):
         :rtype: bool
 
         """
-        d = getPage('http://deluge-torrent.org/test_port.php?port=%s' %
+        d = getPage(b'http://deluge-torrent.org/test_port.php?port=%s' %
                     self.get_listen_port(), timeout=30)
 
         def on_get_page(result):

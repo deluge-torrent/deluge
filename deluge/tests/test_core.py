@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
+#
+
 from __future__ import unicode_literals
 
 import base64
@@ -34,7 +41,7 @@ class CookieResource(Resource):
             request.setResponseCode(FORBIDDEN)
             return
 
-        request.setHeader('Content-Type', 'application/x-bittorrent')
+        request.setHeader(b'Content-Type', b'application/x-bittorrent')
         with open(common.get_test_data_file('ubuntu-9.04-desktop-i386.iso.torrent')) as _file:
             data = _file.read()
         return data
@@ -45,8 +52,8 @@ class PartialDownload(Resource):
     def render(self, request):
         with open(common.get_test_data_file('ubuntu-9.04-desktop-i386.iso.torrent')) as _file:
             data = _file.read()
-        request.setHeader('Content-Type', len(data))
-        request.setHeader('Content-Type', 'application/x-bittorrent')
+        request.setHeader(b'Content-Type', len(data))
+        request.setHeader(b'Content-Type', b'application/x-bittorrent')
         if request.requestHeaders.hasHeader('accept-encoding'):
             return compress(data, request)
         return data
@@ -55,8 +62,8 @@ class PartialDownload(Resource):
 class RedirectResource(Resource):
 
     def render(self, request):
-        request.redirect('/ubuntu-9.04-desktop-i386.iso.torrent')
-        return ''
+        request.redirect(b'/ubuntu-9.04-desktop-i386.iso.torrent')
+        return b''
 
 
 class TopLevelResource(Resource):

@@ -287,7 +287,7 @@ def start_process(script, callbacks, logfile=None, print_stderr=True):
 
     """
     cwd = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-    process_protocol = ProcessOutputHandler(script, callbacks, logfile, print_stderr)
+    process_protocol = ProcessOutputHandler(script.encode('utf8'), callbacks, logfile, print_stderr)
 
     # Add timeouts to deferreds
     for c in callbacks:

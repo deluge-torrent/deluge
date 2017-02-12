@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+#
+# This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
+# the additional special exception to link portions of this program with the OpenSSL library.
+# See LICENSE for more details.
+#
+
 from __future__ import unicode_literals
 
 import tempfile
@@ -27,7 +34,7 @@ def fname(name):
 class RedirectResource(Resource):
 
     def render(self, request):
-        url = self.get_url()
+        url = self.get_url().encode('utf8')
         return redirectTo(url, request)
 
 
@@ -35,21 +42,21 @@ class RenameResource(Resource):
 
     def render(self, request):
         filename = request.args.get('filename', ['renamed_file'])[0]
-        request.setHeader('Content-Type', 'text/plain')
-        request.setHeader('Content-Disposition', 'attachment; filename=' +
+        request.setHeader(b'Content-Type', b'text/plain')
+        request.setHeader(b'Content-Disposition', b'attachment; filename=' +
                           filename)
-        return 'This file should be called ' + filename
+        return b'This file should be called ' + filename
 
 
 class CookieResource(Resource):
 
     def render(self, request):
-        request.setHeader('Content-Type', 'text/plain')
+        request.setHeader(b'Content-Type', b'text/plain')
         if request.getCookie('password') is None:
-            return 'Password cookie not set!'
+            return b'Password cookie not set!'
 
         if request.getCookie('password') == 'deluge':
-            return 'COOKIE MONSTER!'
+            return b'COOKIE MONSTER!'
 
         return request.getCookie('password')
 
@@ -58,7 +65,7 @@ class GzipResource(Resource):
 
     def render(self, request):
         message = request.args.get('msg', ['EFFICIENCY!'])[0]
-        request.setHeader('Content-Type', 'text/plain')
+        request.setHeader(b'Content-Type', b'text/plain')
         return compress(message, request)
 
 
@@ -71,9 +78,9 @@ class PartialDownloadResource(Resource):
     def render(self, request):
         # encoding = request.requestHeaders._rawHeaders.get('accept-encoding', None)
         if self.render_count == 0:
-            request.setHeader('content-length', '5')
+            request.setHeader(b'content-length', b'5')
         else:
-            request.setHeader('content-length', '3')
+            request.setHeader(b'content-length', b'3')
 
         # if encoding == "deflate, gzip, x-gzip":
         request.write('abc')
@@ -103,7 +110,7 @@ class TopLevelResource(Resource):
     def render(self, request):
         if request.getHeader('If-Modified-Since'):
             request.setResponseCode(NOT_MODIFIED)
-        return '<h1>Deluge HTTP Downloader tests webserver here</h1>'
+        return b'<h1>Deluge HTTP Downloader tests webserver here</h1>'
 
 
 class DownloadFileTestCase(unittest.TestCase):
@@ -198,13 +205,13 @@ class DownloadFileTestCase(unittest.TestCase):
     def test_download_with_gzip_encoding(self):
         url = self.get_url('gzip?msg=success')
         d = download_file(url, fname('gzip_encoded'))
-        d.addCallback(self.assertContains, 'success')
+        d.addCallback(self.assertContains, b'success')
         return d
 
     def test_download_with_gzip_encoding_disabled(self):
         url = self.get_url('gzip?msg=fail')
         d = download_file(url, fname('gzip_encoded'), allow_compression=False)
-        d.addCallback(self.failIfContains, 'fail')
+        d.addCallback(self.failIfContains, b'fail')
         return d
 
     def test_page_redirect_unhandled(self):
