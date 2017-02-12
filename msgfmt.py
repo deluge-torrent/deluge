@@ -25,7 +25,7 @@ Options:
     --version
         Display version information and exit.
 """
-from __future__ import print_function
+from __future__ import print_function, unicode_literals
 
 import array
 import ast
@@ -34,7 +34,7 @@ import os
 import struct
 import sys
 
-__version__ = '1.1'
+__version__ = '1.2'
 
 MESSAGES = {}
 
@@ -61,9 +61,8 @@ def generate():
     """
     Return the generated output.
     """
-    keys = MESSAGES.keys()
     # the keys are sorted in the .mo file
-    keys.sort()
+    keys = sorted(MESSAGES.keys())
     offsets = []
     ids = strs = ''
     for _id in keys:
@@ -72,7 +71,7 @@ def generate():
         offsets.append((len(ids), len(_id), len(strs), len(MESSAGES[_id])))
         ids += _id + '\0'
         strs += MESSAGES[_id] + '\0'
-    output = ''
+
     # The header is 7 32-bit unsigned integers.  We don't use hash tables, so
     # the keys start right after the index tables.
     # translated string.
@@ -94,9 +93,12 @@ def generate():
                          7 * 4,             # start of key index
                          7 * 4 + len(keys) * 8,   # start of value index
                          0, 0)              # size and offset of hash table
-    output += array.array('i', offsets).tostring()
-    output += ids
-    output += strs
+    if sys.version_info.major == 2:
+        output += array.array(b'i', offsets).tostring()
+    else:
+        output += array.array('i', offsets).tobytes()
+    output += ids.encode('utf-8')
+    output += strs.encode('utf-8')
     return output
 
 
@@ -115,7 +117,8 @@ def make(filename, outfile):
         outfile = os.path.splitext(infile)[0] + '.mo'
 
     try:
-        with open(infile) as _file:
+        import io
+        with io.open(infile, encoding='utf-8') as _file:
             lines = _file.readlines()
     except IOError as msg:
         print(msg, file=sys.stderr)
@@ -167,6 +170,9 @@ def make(filename, outfile):
         if not l:
             continue
         l = ast.literal_eval(l)
+        # Python 2 ast.literal_eval returns bytes.
+        if isinstance(l, bytes):
+            l = l.decode('utf-8')
         if section == section_id:
             msgid += l
         elif section == section_str:
