@@ -386,7 +386,7 @@ class AddTorrents(BaseMode):
                 filename = m
                 directory = os.path.join(*self.path_stack[:self.path_stack_pos])
                 path = os.path.join(directory, filename)
-                with open(path) as _file:
+                with open(path, 'rb') as _file:
                     filedump = base64.encodestring(_file.read())
                 t_options = {}
                 if result['location']['value']:

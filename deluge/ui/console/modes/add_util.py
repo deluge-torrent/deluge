@@ -77,7 +77,7 @@ def add_torrent(t_file, options, success_cb, fail_cb, ress):
                 continue
 
             filename = os.path.split(f)[-1]
-            with open(f) as _file:
+            with open(f, 'rb') as _file:
                 filedump = base64.encodestring(_file.read())
 
             client.core.add_torrent_file(
