@@ -188,7 +188,7 @@ class ConnectionManager(component.Component):
         # if possible
         self.hostlist.get_selection().unselect_all()
         if len(self.liststore) > 0:
-            self.hostlist.get_selection().select_path('0')
+            self.hostlist.get_selection().select_path(0)
 
         # Run the dialog
         self.connection_manager.run()
