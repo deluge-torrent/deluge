@@ -18,6 +18,8 @@ from twisted.trial.unittest import SkipTest
 from twisted.web.client import Agent, FileBodyProducer
 from twisted.web.http_headers import Headers
 
+from deluge.common import convert_to_utf8
+
 from . import common
 from .common import get_test_data_file
 from .common_web import WebServerMockBase, WebServerTestBase
@@ -39,13 +41,13 @@ class WebServerTestCase(WebServerTestBase, WebServerMockBase):
         # encoded to allow dumping the torrent info to json. Otherwise it will fail with:
         # UnicodeDecodeError: 'utf8' codec can't decode byte 0xe5 in position 0: invalid continuation byte
         filename = get_test_data_file('filehash_field.torrent')
+        input_file = '{"params": ["%s"], "method": "web.get_torrent_info", "id": 22}' % filename
+        headers = {'User-Agent': ['Twisted Web Client Example'],
+                   'Content-Type': ['application/json']}
+        url = 'http://127.0.0.1:%s/json' % self.webserver_listen_port
 
-        d = yield agent.request(
-            'POST',
-            'http://127.0.0.1:%s/json' % self.webserver_listen_port,
-            Headers({'User-Agent': ['Twisted Web Client Example'],
-                     'Content-Type': ['application/json']}),
-            FileBodyProducer(StringIO('{"params": ["%s"], "method": "web.get_torrent_info", "id": 22}' % filename)))
+        d = yield agent.request(b'POST', url.encode('utf-8'), Headers(convert_to_utf8(headers)),
+                                FileBodyProducer(StringIO(input_file.encode('utf-8'))))
         try:
             body = yield twisted.web.client.readBody(d)
         except AttributeError:

@@ -213,7 +213,7 @@ class JSON(resource.Resource, component.Component):
         if request._disconnected:
             return ''
         response = json.dumps(response)
-        request.setHeader('content-type', 'application/x-json')
+        request.setHeader(b'content-type', b'application/x-json')
         request.write(compress(response, request))
         request.finish()
         return server.NOT_DONE_YET

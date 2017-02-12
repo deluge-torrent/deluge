@@ -164,11 +164,11 @@ class WebAPITestCase(WebServerTestBase):
 
         """
         agent = Agent(reactor)
-        bad_body = '{ method": "auth.login" }'
+        bad_body = b'{ method": "auth.login" }'
         d = yield agent.request(
-            'POST',
-            'http://127.0.0.1:%s/json' % self.webserver_listen_port,
-            Headers({'User-Agent': ['Twisted Web Client Example'],
-                     'Content-Type': ['application/json']}),
+            b'POST',
+            b'http://127.0.0.1:%s/json' % self.webserver_listen_port,
+            Headers({b'User-Agent': [b'Twisted Web Client Example'],
+                     b'Content-Type': [b'application/json']}),
             FileBodyProducer(StringIO(bad_body)))
         yield d

@@ -78,7 +78,7 @@ def rpath(*paths):
 
 class GetText(resource.Resource):
     def render(self, request):
-        request.setHeader('content-type', 'text/javascript; encoding=utf-8')
+        request.setHeader(b'content-type', b'text/javascript; encoding=utf-8')
         template = Template(filename=rpath('js', 'gettext.js'))
         return compress(template.render(), request)
 
@@ -117,7 +117,7 @@ class Upload(resource.Resource):
             filenames.append(fn)
         log.debug('uploaded %d file(s)', len(filenames))
 
-        request.setHeader('content-type', 'text/html')
+        request.setHeader(b'content-type', b'text/html')
         request.setResponseCode(http.OK)
         return compress(json.dumps({
             'success': True,
@@ -138,7 +138,7 @@ class Render(resource.Resource):
 
         filename = os.path.join('render', request.render_file)
         template = Template(filename=rpath(filename))
-        request.setHeader('content-type', 'text/html')
+        request.setHeader(b'content-type', b'text/html')
         request.setResponseCode(http.OK)
         return compress(template.render(), request)
 
@@ -158,9 +158,9 @@ class Tracker(resource.Resource):
 
     def on_got_icon(self, icon, request):
         if icon:
-            request.setHeader('cache-control',
-                              'public, must-revalidate, max-age=86400')
-            request.setHeader('content-type', icon.get_mimetype())
+            request.setHeader(b'cache-control',
+                              b'public, must-revalidate, max-age=86400')
+            request.setHeader(b'content-type', icon.get_mimetype())
             request.setResponseCode(http.OK)
             request.write(icon.get_data())
             request.finish()
@@ -235,7 +235,7 @@ class LookupResource(resource.Resource, component.Component):
                 path = os.path.join(directory, filename)
                 log.debug('Serving path: %s', path)
                 mime_type = mimetypes.guess_type(path)
-                request.setHeader('content-type', mime_type[0])
+                request.setHeader(b'content-type', mime_type[0])
                 with open(path, 'rb') as _file:
                     data = _file.read()
                 return compress(data, request)
@@ -395,7 +395,7 @@ class ScriptResource(resource.Resource, component.Component):
 
                 log.debug('Serving path: %s', path)
                 mime_type = mimetypes.guess_type(path)
-                request.setHeader('content-type', mime_type[0])
+                request.setHeader(b'content-type', mime_type[0])
                 with open(path, 'rb') as _file:
                     data = _file.read()
                 return compress(data, request)
@@ -533,7 +533,7 @@ class TopLevel(resource.Resource):
         scripts.insert(0, 'gettext.js')
 
         template = Template(filename=rpath('index.html'))
-        request.setHeader('content-type', 'text/html; charset=utf-8')
+        request.setHeader(b'content-type', b'text/html; charset=utf-8')
 
         web_config = component.get('Web').get_config()
         web_config['base'] = request.base
