@@ -109,6 +109,6 @@ class StatsTestCase(BaseTestCase):
         surface = g.draw(900, 150)
         file_like = FakeFile()
         surface.write_to_png(file_like)
-        data = ''.join(file_like.data)
+        data = b''.join(file_like.data)
         with open('file_like.png', 'wb') as _file:
             _file.write(data)
