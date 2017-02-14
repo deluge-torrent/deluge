@@ -39,6 +39,7 @@
 
 from deluge._libtorrent import lt
 import os
+from deluge.common import is_magnet
 from deluge.log import LOG as log
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
@@ -184,20 +185,23 @@ class Core(CorePluginBase):
             log.warning("Unable to open %s: %s", filename, e)
             raise e
         else:
-            magnets = list(filter(len, _file.readlines()))
+            magnets = list(filter(len, _file.read().splitlines()))
             _file.close()
             if len(magnets) < 2:
                 return
-            n = 0
             path = filename.rsplit(os.sep, 1)[0]
             for magnet in magnets:
+                if not is_magnet(magnet):
+                    log.warning("Found line which is not a magnet: %s", magnet)
+                    continue
+
                 for part in magnet.split('&'):
                     if part.startswith("dn="):
                         mname = os.sep.join([path, part[3:] + ".magnet"])
                         break
                 else:
-                    mname = '.'.join([filename, str(n), "magnet"])
-                    n += 1
+                    short_hash = magnet.split("btih:")[1][:8]
+                    mname = '.'.join([filename, short_hash, "magnet"])
                 try:
                     _mfile = open(mname, "w")
                 except IOError, e:
