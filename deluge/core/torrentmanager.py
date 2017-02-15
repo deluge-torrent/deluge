@@ -471,7 +471,8 @@ class TorrentManager(component.Component):
         handle = None
         try:
             if magnet:
-                handle = lt.add_magnet_uri(self.session, utf8_encoded(magnet), add_torrent_params)
+                magnet_uri = utf8_encoded(magnet.strip())
+                handle = lt.add_magnet_uri(self.session, magnet_uri, add_torrent_params)
             else:
                 handle = self.session.add_torrent(add_torrent_params)
         except RuntimeError, e:

@@ -163,7 +163,7 @@ class Core(CorePluginBase):
                 _file = open(filename, "rb")
             elif magnet == True:
                 _file = open(filename, "r")
-            filedump = _file.read()
+            filedump = _file.read().strip()
             if not filedump:
                 raise RuntimeError, "Torrent is 0 bytes!"
             _file.close()
@@ -197,8 +197,10 @@ class Core(CorePluginBase):
 
                 for part in magnet.split('&'):
                     if part.startswith("dn="):
-                        mname = os.sep.join([path, part[3:] + ".magnet"])
-                        break
+                        name = part[3:].strip()
+                        if name:
+                            mname = os.sep.join([path, name + ".magnet"])
+                            break
                 else:
                     short_hash = magnet.split("btih:")[1][:8]
                     mname = '.'.join([filename, short_hash, "magnet"])
