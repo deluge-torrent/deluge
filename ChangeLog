@@ -1,3 +1,29 @@
+=== Deluge 1.3.14 (6 March 2017) ===
+
+==== Core ====
+	* #2889: Fixed 'Too many files open' errors.
+	* #2861: Added support for python-geoip for use with libtorrent 1.1.
+	* #2149: Fixed a single proxy entry being overwritten resulting in no proxy set.
+
+==== UI ====
+	* Added tracker_status translation to UIs.
+
+==== GtkUI ====
+	* #2901: Strip whitespace from infohash before checks.
+	* Add missed feature autofill infohash entry from clipboard.
+
+==== WebUI ====
+	 * #1908: Backport bind interface option for server.
+	 * Security: Fixed WebUI CSRF Vulnerability.
+
+==== ConsoleUI ====
+	*  [#2948] [Console] Fix decode error comparing non-ascii (str) torrent name.
+
+==== AutoAdd Plugin ====
+	 * Fixes for splitting magnets from file.
+	 * Remove duplicate magnet extension when splitting.
+
+
 === Deluge 1.3.13 (20 July 2016) ===
 ==== Core ====
 	* Increase RSA key size from 1024 to 2048 and use SHA256 digest.
