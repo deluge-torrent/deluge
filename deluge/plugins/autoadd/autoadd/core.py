@@ -203,7 +203,7 @@ class Core(CorePluginBase):
                             break
                 else:
                     short_hash = magnet.split("btih:")[1][:8]
-                    mname = '.'.join([filename, short_hash, "magnet"])
+                    mname = '.'.join([os.path.splitext(filename)[0], short_hash, "magnet"])
                 try:
                     _mfile = open(mname, "w")
                 except IOError, e:
