@@ -835,7 +835,8 @@ class Core(component.Component):
             options = {}
             options['download_location'] = os.path.split(path)[0]
             with open(target, 'rb') as _file:
-                self.add_torrent_file(os.path.split(target)[1], _file.read(), options)
+                filedump = base64.encodestring(_file.read())
+                self.add_torrent_file(os.path.split(target)[1], filedump, options)
 
     @export
     def upload_plugin(self, filename, filedump):
