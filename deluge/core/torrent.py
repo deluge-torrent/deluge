@@ -790,6 +790,17 @@ class Torrent(object):
         """
         return self.handle.queue_position()
 
+    def get_file_priorities(self):
+        """Return the file priorities"""
+        if not self.handle.has_metadata():
+            return []
+
+        if not self.options['file_priorities']:
+            # Ensure file_priorities option is populated.
+            self.set_file_priorities([])
+
+        return self.options['file_priorities']
+
     def get_file_progress(self):
         """Calculates the file progress as a percentage.
 
@@ -955,7 +966,7 @@ class Torrent(object):
             'storage_mode': lambda: self.status.storage_mode.name.split('_')[2],  # sparse or allocate
             'distributed_copies': lambda: max(0.0, self.status.distributed_copies),
             'download_payload_rate': lambda: self.status.download_payload_rate,
-            'file_priorities': lambda: self.options['file_priorities'],
+            'file_priorities': self.get_file_priorities,
             'hash': lambda: self.torrent_id,
             'is_auto_managed': lambda: self.options['auto_managed'],
             'is_finished': lambda: self.is_finished,
