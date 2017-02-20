@@ -204,8 +204,8 @@ class DelugeRPCProtocol(Protocol):
         """
         peer = self.transport.getPeer()
         log.info("Deluge Client connection made from: %s:%s", peer.host, peer.port)
-        # Set the initial auth level of this session to AUTH_LEVEL_NONE
-        self.factory.authorized_sessions[self.transport.sessionno] = AUTH_LEVEL_NONE
+        # Set the initial auth level of this session to AUTH_LEVEL_NONE and empty username.
+        self.factory.authorized_sessions[self.transport.sessionno] = (AUTH_LEVEL_NONE, "")
 
     def connectionLost(self, reason):
         """
