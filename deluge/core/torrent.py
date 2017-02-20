@@ -1116,11 +1116,11 @@ class Torrent(object):
 
         try:
             # libtorrent needs unicode object if wstrings are enabled, utf8 bytestring otherwise
-            # Keyword argument flags=1 (fail_if_exist) stops overwriting of target files.
+            # Keyword argument flags=2 (dont_replace) dont overwrite target files but delete source.
             try:
-                self.handle.move_storage(dest, flags=1)
+                self.handle.move_storage(dest, flags=2)
             except TypeError:
-                self.handle.move_storage(utf8_encoded(dest), flags=1)
+                self.handle.move_storage(utf8_encoded(dest), flags=2)
         except RuntimeError as ex:
             log.error('Error calling libtorrent move_storage: %s', ex)
             return False
