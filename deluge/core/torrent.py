@@ -579,6 +579,17 @@ class Torrent(object):
         """Returns the torrents queue position"""
         return self.handle.queue_position()
 
+    def get_file_priorities(self):
+        """Return the file priorities"""
+        if not self.handle.has_metadata():
+            return []
+
+        if not self.options["file_priorities"]:
+            # Ensure file_priorities option is populated.
+            set_file_priorities([])
+
+        return self.options["file_priorities"]
+
     def get_file_progress(self):
         """Returns the file progress as a list of floats.. 0.0 -> 1.0"""
         if not self.handle.has_metadata():
@@ -675,7 +686,7 @@ class Torrent(object):
             "compact": self.options["compact_allocation"],
             "distributed_copies": distributed_copies,
             "download_payload_rate": self.status.download_payload_rate,
-            "file_priorities": self.options["file_priorities"],
+            "file_priorities": self.get_file_priorities,
             "hash": self.torrent_id,
             "is_auto_managed": self.options["auto_managed"],
             "is_finished": self.is_finished,
