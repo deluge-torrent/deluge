@@ -929,7 +929,7 @@ class Torrent(object):
 
         kwargs = {}
         if deluge.common.VersionSplit(lt.version) >= deluge.common.VersionSplit("1.0.0.0"):
-            kwargs['flags'] = 1  # fail_if_exist
+            kwargs['flags'] = 2  # dont_replace
         dest_bytes = dest.encode('utf-8')
         try:
             # libtorrent needs unicode object if wstrings are enabled, utf8 bytestring otherwise
