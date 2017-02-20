@@ -298,6 +298,7 @@ class Auth(JSONComponent):
         :rtype: string or False
         """
         if self.check_password(password):
+            log.info('Login success (ClientIP %s)', __request__.getClientIP())
             return self._create_session(__request__)
         else:
             log.error('Login failed (ClientIP %s)', __request__.getClientIP())
