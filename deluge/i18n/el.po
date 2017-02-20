@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-09 13:37+0100\n"
-"PO-Revision-Date: 2015-07-18 00:15+0000\n"
-"Last-Translator: Fotis Tsamis <ftsamis@gmail.com>\n"
+"PO-Revision-Date: 2016-12-10 18:16+0000\n"
+"Last-Translator: ntelos <Unknown>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-06-19 11:21+0000\n"
-"X-Generator: Launchpad (build 18097)\n"
+"X-Launchpad-Export-Date: 2017-02-20 16:49+0000\n"
+"X-Generator: Launchpad (build 18326)\n"
 
 #: deluge/pluginmanagerbase.py:173
 msgid "Not available"
-msgstr ""
+msgstr "Μη διαθέσιμο"
 
 #: deluge/common.py:260
 msgid "KiB"
@@ -150,11 +150,11 @@ msgstr ""
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:159
 msgid "Notification Blink shown"
-msgstr ""
+msgstr "Εμφάνιση ειδοποίησης που αναβοσβήνει"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:164
 msgid "Popup notification is not enabled."
-msgstr ""
+msgstr "Δεν έχουν ενεργοποιηθεί αναδυόμενες ειδοποιήσεις."
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:166
 msgid "pynotify is not installed"
@@ -166,7 +166,7 @@ msgstr "Το pynotify απέτυχε να εμφανίσει την ενημέρ
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:176
 msgid "Notification popup shown"
-msgstr ""
+msgstr "Εμφάνιση αναδυόμενης ειδοποίησης"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:180
 msgid "Sound notification not enabled"
@@ -213,11 +213,11 @@ msgstr "<b><i><big>Ειδοποιήσεις</big></i></b>"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:81
 msgid "Tray icon blinks enabled"
-msgstr ""
+msgstr "Ενεργοποιήθηκε εικονίδιο που αναβοσβήνει"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:93
 msgid "Popups enabled"
-msgstr ""
+msgstr "Ενεργοποίηση αναδυόμενων παραθύρων"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:108
 msgid "Sound enabled"
@@ -317,7 +317,7 @@ msgstr "Προσαρμογή Ήχου"
 #: deluge/plugins/Extractor/deluge/plugins/extractor/gtkui.py:32
 #: deluge/plugins/Extractor/deluge/plugins/extractor/gtkui.py:38
 msgid "Extractor"
-msgstr ""
+msgstr "Αποσυμπιεστής"
 
 #: deluge/plugins/Extractor/deluge/plugins/extractor/data/extractor_prefs.glade:27
 msgid "Extract to:"
@@ -360,7 +360,7 @@ msgstr "Το torrent προστέθηκε"
 
 #: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:32
 msgid "Torrent Removed"
-msgstr ""
+msgstr "Το torrent αφαιρέθηκε"
 
 #: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:58
 #: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:68
@@ -486,13 +486,15 @@ msgstr "<b>Πληροφορίες</b>"
 #: deluge/plugins/WebUi/deluge/plugins/webui/gtkui.py:32
 #: deluge/plugins/WebUi/deluge/plugins/webui/gtkui.py:39
 msgid "WebUi"
-msgstr ""
+msgstr "WebUi"
 
 #: deluge/plugins/WebUi/deluge/plugins/webui/gtkui.py:76
 msgid ""
 "The Deluge web interface is not installed, please install the\n"
 "interface and try again"
 msgstr ""
+"Η διασύνδεση ιστοχώρου (Web) του Deluge δεν είναι εγκατεστημένη, \n"
+"παρακαλούμε εγκαταστήστε την και ξαναπροσπαθήστε"
 
 #: deluge/plugins/WebUi/deluge/plugins/webui/data/config.glade:27
 msgid "Enable web interface"
@@ -518,7 +520,7 @@ msgstr "Η διαδρομή δεν υπάρχει."
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:387
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:391
 msgid "AutoAdd"
-msgstr ""
+msgstr "Αυτόματη προσθήκη"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/config.glade:41
 msgid "<b>Watch Folders:</b>"
@@ -534,11 +536,11 @@ msgstr "Ιδιότητες φακέλου υπό παρακολούθηση"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:151
 msgid "Enable this watch folder"
-msgstr ""
+msgstr "Ενεργοποίηση αυτού του φακέλου προς παρακολούθηση"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:173
 msgid "<b>Watch Folder</b>"
-msgstr ""
+msgstr "<b>Φάκελος προς παρακολούθηση</b>"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:211
 msgid "Delete .torrent after adding"
@@ -626,7 +628,7 @@ msgstr "Αφαίρεση σε αναλογία"
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:992
 #: deluge/ui/web/render/tab_status.html:18
 msgid "Auto Managed:"
-msgstr ""
+msgstr "Αυτόματα διαχειριζόμενο:"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:1131
 msgid "Add Paused:"
@@ -725,7 +727,7 @@ msgstr "<b>Επιλογές ετικέτας</b>"
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:73
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:30
 msgid "Upload Slots:"
-msgstr ""
+msgstr "Θέσεις για αποστολές:"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:382
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:32
@@ -1880,7 +1882,7 @@ msgstr "Ολοκλήρωση torrent"
 
 #: deluge/ui/gtkui/notification.py:59
 msgid "Including"
-msgstr ""
+msgstr "συμπεριλαμβανομένου"
 
 #: deluge/ui/gtkui/notification.py:59
 msgid "files"
@@ -2175,6 +2177,8 @@ msgid ""
 "File prioritization is unavailable when using Compact allocation.  Would you "
 "like to switch to Full allocation?"
 msgstr ""
+"Ο Καθορισμός προτεραιότητας αρχείου δεν είναι διαθέσιμος όταν γίνεται χρήση "
+"της Συμπαγούς κατανομής μνήμης. Θα θέλατε να μεταβείτε σε Πλήρη κατανομή;"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:534
 msgid "Choose a .torrent file"
@@ -2279,6 +2283,8 @@ msgstr "Πρόσθετο"
 #: deluge/ui/gtkui/preferences.py:769
 msgid "You must restart the deluge UI to change classic mode. Quit now?"
 msgstr ""
+"Πρέπει να επανεκκινήσετε το γραφικό περιβάλλον του Deluge για να αλλάξετε "
+"τον κλασικό τρόπο λειτουργίας. Έξοδος τώρα;"
 
 #: deluge/ui/gtkui/preferences.py:955
 msgid "Select the Plugin"
@@ -2290,7 +2296,7 @@ msgstr "Πρόσθετο Eggs"
 
 #: deluge/ui/gtkui/torrentdetails.py:93
 msgid "_All"
-msgstr ""
+msgstr "_Όλα"
 
 #: deluge/ui/gtkui/torrentdetails.py:94
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:15
@@ -2368,6 +2374,11 @@ msgid ""
 "\n"
 "To use Deluge standalone (Classic mode) please install libtorrent."
 msgstr ""
+"Μόνο η συνοπτική κατάσταση (thin mode) του πελάτη είναι διαθέσιμη, επειδή "
+"δεν έχει εγκατασταθεί το πακέτο libtorrent.\n"
+"\n"
+"Για να χρησιμοποιήσετε την πλήρη έκδοση του Deluge (Classic mode), "
+"παρακαλούμε εγκαταστήσετε το πακέτο libtorrent."
 
 #: deluge/ui/gtkui/gtkui.py:348
 msgid "Error Starting Core"
@@ -2455,15 +2466,15 @@ msgstr "Λεπτομέρειες:"
 
 #: deluge/ui/gtkui/dialogs.py:390
 msgid "Password Protected"
-msgstr ""
+msgstr "Προστατευμένο με κωδικό"
 
 #: deluge/ui/gtkui/mainwindow.py:191
 msgid "Enter your password to show Deluge..."
-msgstr ""
+msgstr "Εισάγετε τον κωδικό σας για εκκίνηση του Deluge..."
 
 #: deluge/ui/gtkui/mainwindow.py:235
 msgid "Enter your password to Quit Deluge..."
-msgstr ""
+msgstr "Εισάγετε τον κωδικό σας για Έξοδο από το Deluge..."
 
 #: deluge/ui/gtkui/mainwindow.py:315
 msgid "D:"
@@ -2476,13 +2487,15 @@ msgstr "U:"
 #: deluge/ui/gtkui/aboutdialog.py:33
 #, python-format
 msgid "Copyright %(year_start)s-%(year_end)s Deluge Team"
-msgstr ""
+msgstr "Πνευματική ιδιοκτησία %(year_start)s-%(year_end)s Ομάδα του Deluge"
 
 #: deluge/ui/gtkui/aboutdialog.py:35
 msgid ""
 "A peer-to-peer file sharing program\n"
 "utilizing the BitTorrent protocol."
 msgstr ""
+"Ένα πρόγραμμα ανταλλαγής αρχείων μεταξύ ομοτίμων χρηστών \n"
+"με χρήση του πρωτοκόλλου BitTorrent."
 
 #: deluge/ui/gtkui/aboutdialog.py:36
 msgid "Client:"
@@ -2522,6 +2535,31 @@ msgid ""
 "delete this exception statement from all source files in the program, then "
 "also delete it here."
 msgstr ""
+"Αυτό το πρόγραμμα είναι ελεύθερο λογισμικό. Επιτρέπεται η αναδιανομή  και/ή  "
+"τροποποίησή του υπό τους όρους της GNU General Public License, όπως αυτή "
+"δημοσιεύεται από το Ίδρυμα Ελεύθερου Λογισμικού, είτε της έκδοσης 3 της "
+"Άδειας, είτε (κατ' επιλογή σας) οποιασδήποτε μεταγενέστερης έκδοσης.\n"
+"\n"
+"Αυτό το πρόγραμμα διανέμεται με την ελπίδα ότι θα είναι χρήσιμο, αλλά ΧΩΡΙΣ "
+"ΟΠΟΙΑΔΗΠΟΤΕ ΕΓΓΥΗΣΗ, χωρίς καν την σιωπηρή εγγύηση ΕΜΠΟΡΕΥΣΙΜΟΤΗΤΑΣ ή "
+"ΚΑΤΑΛΛΗΛΟΤΗΤΑΣ ΓΙΑ ΕΝΑ ΣΥΓΚΕΚΡΙΜΕΝΟ ΣΚΟΠΟ. Δείτε την GNU General Public "
+"License για περισσότερες λεπτομέρειες.\n"
+"\n"
+"Θα πρέπει να έχετε λάβει ένα αντίγραφο της GNU General Public License μαζί "
+"με αυτό το πρόγραμμα. Αν όχι, δείτε <http://www.gnu.org/licenses>.\n"
+"\n"
+"Επιπλέον, ως ειδική εξαίρεση, οι κάτοχοι των πνευματικών δικαιωμάτων δίνουν "
+"την άδεια σύνδεσης του κώδικα τμημάτων του προγράμματος αυτού, με τη "
+"βιβλιοθήκη OpenSSL. Θα πρέπει να υπακούσει το GNU General Public License από "
+"όλες τις απόψεις για το σύνολο του κώδικα που χρησιμοποιείται εκτός από "
+"OpenSSL.\n"
+"\n"
+"Εάν τροποποιήσετε το αρχείο(α) μ' αυτή την εξαίρεση, μπορεί να επεκταθεί η "
+"εξαίρεση αυτή στη δική σας έκδοση του(των) αρχείου(ων), αλλά δεν είναι "
+"υποχρεωτικό να γίνει. Εάν δεν θέλετε να το κάνετε αυτό, διαγράψτε αυτή τη "
+"δήλωση εξαίρεσης από την έκδοση σας. Εάν διαγράψετε αυτή τη δήλωση εξαίρεσης "
+"από όλα τα πηγαία αρχεία στο πρόγραμμα, στη συνέχεια, διαγράψτε την και από "
+"εδώ."
 
 #: deluge/ui/gtkui/aboutdialog.py:259
 msgid "Server:"
@@ -2735,6 +2773,7 @@ msgstr "Διαγραφή αντιγράφου αρχείου torrent στην α
 msgid ""
 "Delete the copy of the torrent file created when the torrent is removed"
 msgstr ""
+"Διαγραφή του αντιγράφου του αρχείου torrent όταν το torrent αφαιρείται"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:339
 msgid "<b>Folders</b>"
@@ -3065,7 +3104,7 @@ msgstr "Εμφάνιση της ταχύτητας της συνεδρίας σ�
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:20
 msgid "Focus window when adding torrent"
-msgstr ""
+msgstr "Εστίαση στο παράθυρο κατά την προσθήκη torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1923
 msgid "<b>Main Window</b>"
@@ -3097,7 +3136,7 @@ msgstr "Εκκίνηση στην μπάρα συστήματος"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2082
 msgid "Enable Application Indicator"
-msgstr ""
+msgstr "Ενεργοποίηση του δείκτη εφαρμογής"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:37
 msgid "Password protect system tray"
@@ -3351,10 +3390,14 @@ msgid ""
 "of saved write operations per total write operations, i.e. a kind of cache "
 "hit ratio for the write cache."
 msgstr ""
+"Το πηλίκο (εγγεγραμμένα_μπλοκς - εγγραφές) / εγγεγραμμένα_μπλοκς συμβολίζει "
+"τον αριθμό των αποθηκευμένων λειτουργιών εγγραφής ανά μονάδα εγγραφής "
+"(μπλοκ), δηλ. ένα είδος λόγου προσωρινής μνήμης εγγραφής ώς προς την "
+"εγγράψιμη μνήμη."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:153
 msgid "Write Cache Hit Ratio:"
-msgstr ""
+msgstr "Δείκτης προσωρινής μνήμης εγγραφής:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4300
 msgid "<b>Write</b>"
@@ -3379,15 +3422,15 @@ msgstr "Ο αριθμός των μπλοκ που εξυπηρετήθηκαν 
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:158
 msgid "Blocks Read Hit:"
-msgstr ""
+msgstr "Ανάγνωση μπλοκ δεδομένων:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:159
 msgid "The cache hit ratio for the read cache."
-msgstr ""
+msgstr "Η αναλογία προσωρινής μνήμης ανάγνωσης."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:160
 msgid "Read Cache Hit Ratio:"
-msgstr ""
+msgstr "Αναλογία προσωρινής μνήμης ανάγνωσης:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:161
 msgid ""
@@ -3617,7 +3660,7 @@ msgstr "_Δημιουργία Torrent"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:4
 msgid "Quit & _Shutdown Daemon"
-msgstr ""
+msgstr "Έξοδος & _Κλείσιμο υπηρεσίας"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:5
 msgid "_Edit"
@@ -3934,7 +3977,7 @@ msgstr "_Μετάβαση στην ιστοσελίδα"
 
 #: deluge/ui/gtkui/glade/main_window.tabs.menu_peer.ui.h:1
 msgid "_Add Peer"
-msgstr ""
+msgstr "_Προσθήκη ομοτίμων"
 
 #: deluge/ui/gtkui/glade/main_window.tabs.menu_peer.ui.h:2
 msgid "Add a peer by its IP"

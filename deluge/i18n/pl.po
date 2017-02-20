@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-09 13:37+0100\n"
-"PO-Revision-Date: 2015-05-21 12:26+0000\n"
-"Last-Translator: Dominik Kozaczko <Unknown>\n"
+"PO-Revision-Date: 2017-01-14 18:47+0000\n"
+"Last-Translator: Adam Czabara <kolofaza@o2.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-06-19 11:21+0000\n"
-"X-Generator: Launchpad (build 18097)\n"
+"X-Launchpad-Export-Date: 2017-02-20 16:49+0000\n"
+"X-Generator: Launchpad (build 18326)\n"
 
 #: deluge/pluginmanagerbase.py:173
 msgid "Not available"
@@ -310,7 +310,7 @@ msgstr "Subskrypcje"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:594
 msgid "Sound Customization"
-msgstr ""
+msgstr "Preferencje Dźwięku"
 
 #: deluge/plugins/Extractor/deluge/plugins/extractor/gtkui.py:32
 #: deluge/plugins/Extractor/deluge/plugins/extractor/gtkui.py:38
@@ -357,7 +357,7 @@ msgstr "Torrent dodany"
 
 #: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:32
 msgid "Torrent Removed"
-msgstr ""
+msgstr "Torrent został usunięty"
 
 #: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:58
 #: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:68
@@ -482,13 +482,15 @@ msgstr "<b>Informacje</b>"
 #: deluge/plugins/WebUi/deluge/plugins/webui/gtkui.py:32
 #: deluge/plugins/WebUi/deluge/plugins/webui/gtkui.py:39
 msgid "WebUi"
-msgstr ""
+msgstr "WebUi"
 
 #: deluge/plugins/WebUi/deluge/plugins/webui/gtkui.py:76
 msgid ""
 "The Deluge web interface is not installed, please install the\n"
 "interface and try again"
 msgstr ""
+"Interfejs sieciowy Deluge nie jest zainstalowany, zainstaluj go \n"
+"i spróbuj ponownie"
 
 #: deluge/plugins/WebUi/deluge/plugins/webui/data/config.glade:27
 msgid "Enable web interface"
@@ -504,7 +506,7 @@ msgstr "Port nasłuchujący:"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/core.py:124
 msgid "Watch folder does not exist."
-msgstr ""
+msgstr "Obserwowany folder nie istnieje"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/core.py:129
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/core.py:404
@@ -514,7 +516,7 @@ msgstr "Ścieżka nie istnieje."
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:387
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:391
 msgid "AutoAdd"
-msgstr ""
+msgstr "Dodaj automatycznie"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/config.glade:41
 msgid "<b>Watch Folders:</b>"
@@ -526,7 +528,7 @@ msgstr ""
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:7
 msgid "Watch Folder Properties"
-msgstr ""
+msgstr "Preferncje obserwowanego folderu"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:151
 msgid "Enable this watch folder"
@@ -542,11 +544,11 @@ msgstr "Usuń plik .torrent po dodaniu"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:232
 msgid "Append extension after adding:"
-msgstr ""
+msgstr "Dołącz rozszerzenie po dodaniu:"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:254
 msgid ".added"
-msgstr ""
+msgstr ".dodano"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:367
 msgid "<b>Torrent File Action</b>"

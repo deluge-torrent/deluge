@@ -1,49 +1,50 @@
 # Swedish translation for deluge
 # Copyright (c) 2012 Rosetta Contributors and Canonical Ltd 2012
 # This file is distributed under the same license as the deluge package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+# Josef Andersson <l18l10nsweja@gmail.com>, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-09 13:37+0100\n"
-"PO-Revision-Date: 2012-10-21 18:22+0000\n"
-"Last-Translator: Fredrik Ekdahl <Unknown>\n"
-"Language-Team: Swedish <sv@li.org>\n"
+"PO-Revision-Date: 2017-02-08 00:41+0000\n"
+"Last-Translator: Johan Forsberg <nightwing.launchpad@mailnull.com>\n"
+"Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-06-19 11:20+0000\n"
-"X-Generator: Launchpad (build 18097)\n"
+"X-Launchpad-Export-Date: 2017-02-20 16:49+0000\n"
+"X-Generator: Launchpad (build 18326)\n"
+"Language: sv\n"
 
 #: deluge/pluginmanagerbase.py:173
 msgid "Not available"
-msgstr ""
+msgstr "Ej tillgänglig"
 
 #: deluge/common.py:260
 msgid "KiB"
-msgstr "Kb"
+msgstr "KiB"
 
 #: deluge/common.py:261
 msgid "MiB"
-msgstr "Mb"
+msgstr "MiB"
 
 #: deluge/common.py:262
 msgid "GiB"
-msgstr "Gb"
+msgstr "GiB"
 
 #: deluge/common.py:310
 msgid "K"
-msgstr ""
+msgstr "K"
 
 #: deluge/common.py:313
 msgid "M"
-msgstr ""
+msgstr "M"
 
 #: deluge/common.py:315
 msgid "G"
-msgstr ""
+msgstr "G"
 
 #: deluge/common.py:353
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:857
@@ -97,7 +98,7 @@ msgstr "Annonsering OK"
 #: deluge/ui/common.py:50 deluge/ui/web/js/deluge-all/UI.js:55
 #: deluge/ui/web/js/deluge-all/details/StatusTab.js:124
 msgid "Announce Sent"
-msgstr "Påminnelse skickad"
+msgstr "Annonsering skickad"
 
 #: deluge/ui/common.py:48 deluge/ui/web/js/deluge-all/UI.js:53
 #: deluge/ui/web/js/deluge-all/details/StatusTab.js:122
@@ -108,26 +109,26 @@ msgstr "Varning"
 #: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:156
 #, python-format
 msgid "There was an error sending the notification email: %s"
-msgstr ""
+msgstr "Det uppstod ett fel vid skickande av aviseringsmeddelandet: %s"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:142
 #, python-format
 msgid "The server didn't reply properly to the helo greeting: %s"
-msgstr ""
+msgstr "Servern gav inte ett ordentligt svar på helo-hälsningen: %s"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:147
 #, python-format
 msgid "The server didn't accept the username/password combination: %s"
-msgstr ""
+msgstr "Servern accepterade inte användarnamn-/lösenordskombinationen: %s"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:171
 msgid "Notification email sent."
-msgstr ""
+msgstr "Aviseringsmeddelandet skickat."
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:178
 #, python-format
 msgid "Finished Torrent \"%(name)s\""
-msgstr ""
+msgstr "Slutförde torrent ”%(name)s”"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/core.py:180
 #, python-format
@@ -140,18 +141,25 @@ msgid ""
 "Thank you,\n"
 "Deluge."
 msgstr ""
+"Detta e-postbrev är till för att informera dig om att Deluge har slutfört "
+"hämtning ”%(name)s”, vilket inkluderar %(num_files)i filer.\n"
+"För att sluta få dessa meddelanden, stäng av e-postaviseringar i Deluges "
+"inställningar.\n"
+"\n"
+"Tack,\n"
+"Deluge."
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:159
 msgid "Notification Blink shown"
-msgstr ""
+msgstr "Aviseringsblinkning visas"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:164
 msgid "Popup notification is not enabled."
-msgstr ""
+msgstr "Popupp-avisering ej aktiverat."
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:166
 msgid "pynotify is not installed"
-msgstr "pynotify är inte installerat"
+msgstr "pynotify är inte installerad"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:173
 msgid "pynotify failed to show notification"
@@ -159,28 +167,28 @@ msgstr "pynotify misslyckades med att visa meddelandet"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:176
 msgid "Notification popup shown"
-msgstr ""
+msgstr "Popupp-avisering visas"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:180
 msgid "Sound notification not enabled"
-msgstr ""
+msgstr "Ljudavisering ej aktiverad"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:182
 msgid "pygame is not installed"
-msgstr "pygame är inte installerat"
+msgstr "pygame är inte installerad"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:194
 #, python-format
 msgid "Sound notification failed %s"
-msgstr ""
+msgstr "Misslyckades med ljudavisering %s"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:198
 msgid "Sound notification Success"
-msgstr ""
+msgstr "Ljudavisering lyckades"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:221
 msgid "Finished Torrent"
-msgstr ""
+msgstr "Slutförde torrent"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:222
 #, python-format
@@ -188,11 +196,12 @@ msgid ""
 "The torrent \"%(name)s\" including %(num_files)i file(s) has finished "
 "downloading."
 msgstr ""
+"Torrenten ”%(name)s” omfattande %(num_files)i fil(er) har laddats ner."
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:266
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:297
 msgid "Notifications"
-msgstr ""
+msgstr "Aviseringar"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/gtkui.py:616
 msgid "Choose Sound File"
@@ -200,15 +209,15 @@ msgstr "Välj ljudfil"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:29
 msgid "<b><i><big>Notifications</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Aviseringar</big></i></b>"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:81
 msgid "Tray icon blinks enabled"
-msgstr ""
+msgstr "Blinkningar för aktivitetfältsikon aktiverad"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:93
 msgid "Popups enabled"
-msgstr ""
+msgstr "Popupper aktiverade"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:108
 msgid "Sound enabled"
@@ -216,7 +225,7 @@ msgstr "Ljud aktiverat"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:144
 msgid "<b>UI Notifications</b>"
-msgstr ""
+msgstr "<b>UI-aviseringar</b>"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:175
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:131
@@ -280,7 +289,7 @@ msgstr "Aktiverad"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:443
 msgid "<b>Email Notifications</b>"
-msgstr ""
+msgstr "<b>E-postaviseringar</b>"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:460
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:147
@@ -294,6 +303,8 @@ msgid ""
 "This configuration does not mean that you'll actually receive notifications "
 "for all these events."
 msgstr ""
+"Denna konfiguration innebär inte att du faktiskt kommer få aviseringar för "
+"alla dessa händelser."
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:513
 msgid "Subscriptions"
@@ -301,16 +312,16 @@ msgstr "Prenumerationer"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:594
 msgid "Sound Customization"
-msgstr ""
+msgstr "Ljudanpassning"
 
 #: deluge/plugins/Extractor/deluge/plugins/extractor/gtkui.py:32
 #: deluge/plugins/Extractor/deluge/plugins/extractor/gtkui.py:38
 msgid "Extractor"
-msgstr ""
+msgstr "Extraherare"
 
 #: deluge/plugins/Extractor/deluge/plugins/extractor/data/extractor_prefs.glade:27
 msgid "Extract to:"
-msgstr "Packa upp till:"
+msgstr "Extrahera till:"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:134
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:318
@@ -329,8 +340,8 @@ msgid ""
 "This option will create a sub-folder using the torrent's name within the "
 "selected extract folder and put the extracted files there."
 msgstr ""
-"Detta alternativ kommer att skapa en undermapp döpt efter torrenten i den "
-"valda uppackningsmappen och lägga de uppackade filerna där."
+"Detta alternativ kommer att skapa en undermapp namngiven efter torrenten i "
+"den valda extraheringsmappen och lägga de uppackade filerna där."
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:65
 #: deluge/plugins/Extractor/deluge/plugins/extractor/data/extractor_prefs.glade:87
@@ -340,7 +351,7 @@ msgstr "<b>Allmänt</b>"
 
 #: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:30
 msgid "Torrent Complete"
-msgstr "Torrenten är färdig"
+msgstr "Torrent slutförd"
 
 #: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:31
 msgid "Torrent Added"
@@ -348,7 +359,7 @@ msgstr "Torrent tillagd"
 
 #: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:32
 msgid "Torrent Removed"
-msgstr ""
+msgstr "Torrent borttagen"
 
 #: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:58
 #: deluge/plugins/Execute/deluge/plugins/execute/gtkui.py:68
@@ -365,7 +376,7 @@ msgstr "Kommando"
 
 #: deluge/plugins/Execute/deluge/plugins/execute/data/execute_prefs.glade:112
 msgid "<b>Add Command</b>"
-msgstr "<b>Lägg till Kommando</b>"
+msgstr "<b>Lägg till kommando</b>"
 
 #: deluge/plugins/Execute/deluge/plugins/execute/data/execute_prefs.glade:151
 msgid "<b>Commands</b>"
@@ -381,7 +392,7 @@ msgstr "SafePeer-text (zippad)"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/webui.py:21
 msgid "PeerGuardian Text (Uncompressed)"
-msgstr "PeerGuardian-text (Okomprimerad)"
+msgstr "PeerGuardian-text (okomprimerad)"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/webui.py:22
 msgid "PeerGuardian P2B (GZip)"
@@ -413,7 +424,7 @@ msgstr "URL:"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:107
 msgid "Days"
-msgstr "Dagar"
+msgstr "dagar"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:138
 msgid "Check for new list every:"
@@ -421,7 +432,7 @@ msgstr "Kolla efter ny lista varje:"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:154
 msgid "Import blocklist on startup"
-msgstr "Importera blocklista vid uppstart"
+msgstr "Importera blockeringslista vid uppstart"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:176
 #: deluge/plugins/WebUi/deluge/plugins/webui/data/config.glade:94
@@ -430,7 +441,7 @@ msgstr "<b>Inställningar</b>"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:216
 msgid "Download the blocklist file if necessary and import the file."
-msgstr "Hämta blockeringslistan, om nödvändigt, och importera filen."
+msgstr "Hämta blockeringslistan om nödvändigt, och importera filen."
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:240
 msgid "Check Download and Import"
@@ -446,7 +457,7 @@ msgstr "Tvinga hämtning och import"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:313
 msgid "Blocklist is up to date"
-msgstr "Blocklistan är uppdaterad"
+msgstr "Blockeringslistan är uppdaterad"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:333
 msgid "<b>Options</b>"
@@ -472,17 +483,19 @@ msgstr "<b>Info</b>"
 #: deluge/plugins/WebUi/deluge/plugins/webui/gtkui.py:32
 #: deluge/plugins/WebUi/deluge/plugins/webui/gtkui.py:39
 msgid "WebUi"
-msgstr ""
+msgstr "Webb-UI"
 
 #: deluge/plugins/WebUi/deluge/plugins/webui/gtkui.py:76
 msgid ""
 "The Deluge web interface is not installed, please install the\n"
 "interface and try again"
 msgstr ""
+"Deluge webbgränssnittet är inte installerat, vänligen installera\n"
+"gränssnittet och försök igen"
 
 #: deluge/plugins/WebUi/deluge/plugins/webui/data/config.glade:27
 msgid "Enable web interface"
-msgstr "Aktivera webgränssnitt"
+msgstr "Aktivera webbgränssnitt"
 
 #: deluge/plugins/WebUi/deluge/plugins/webui/data/config.glade:41
 msgid "Enable SSL"
@@ -494,7 +507,7 @@ msgstr "Lyssningsport:"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/core.py:124
 msgid "Watch folder does not exist."
-msgstr ""
+msgstr "Bevakad mapp finns ej."
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/core.py:129
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/core.py:404
@@ -504,47 +517,47 @@ msgstr "Sökvägen finns inte."
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:387
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/gtkui.py:391
 msgid "AutoAdd"
-msgstr ""
+msgstr "Auto. tilläggning"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/config.glade:41
 msgid "<b>Watch Folders:</b>"
-msgstr ""
+msgstr "<b>Bevakade Mappar:</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
 msgid "AutoAdd Error"
-msgstr ""
+msgstr "Fel i Auto. tilläggning"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:7
 msgid "Watch Folder Properties"
-msgstr ""
+msgstr "Inställningar för bevakade mappar"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:151
 msgid "Enable this watch folder"
-msgstr ""
+msgstr "Aktivera denna bevakade mapp"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:173
 msgid "<b>Watch Folder</b>"
-msgstr ""
+msgstr "<b>Bevakad mapp</b>"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:211
 msgid "Delete .torrent after adding"
-msgstr ""
+msgstr "Radera .torrent efter att den lagts till"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:232
 msgid "Append extension after adding:"
-msgstr ""
+msgstr "Bifoga tillägg efter att den lagts till:"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:254
 msgid ".added"
-msgstr ""
+msgstr ".tillagd"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:367
 msgid "<b>Torrent File Action</b>"
-msgstr ""
+msgstr "<b>Torrentfilåtgärd</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:269
 msgid "Set download location"
-msgstr ""
+msgstr "Ange hämtningsplats"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:319
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:393
@@ -553,11 +566,11 @@ msgstr "<b>Hämtningsplats</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:346
 msgid "Set move completed location"
-msgstr ""
+msgstr "Ange plats att flytta slutförda till"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:569
 msgid "<b>Move Completed</b>"
-msgstr ""
+msgstr "<b>Flytt slutförd</b>"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:599
 msgid "Label: "
@@ -569,7 +582,7 @@ msgstr "<b>Etikett</b>"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:652
 msgid "Main"
-msgstr ""
+msgstr "Övergripande"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:726
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:123
@@ -579,7 +592,7 @@ msgstr "Max sändningshastighet:"
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:743
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:150
 msgid "Max Connections:"
-msgstr "Maximala Anslutningar"
+msgstr "Maximala anslutningar:"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:760
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:173
@@ -612,15 +625,15 @@ msgstr "Ta bort vid ratio"
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:992
 #: deluge/ui/web/render/tab_status.html:18
 msgid "Auto Managed:"
-msgstr ""
+msgstr "Auto. hanterad:"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:1131
 msgid "Add Paused:"
-msgstr ""
+msgstr "Lägg till pausad:"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:1184
 msgid "Queue to:"
-msgstr ""
+msgstr "Köa till:"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:1203
 #: deluge/ui/web/js/deluge-all/Menus.js:192
@@ -649,31 +662,31 @@ msgstr "Inställningar"
 #: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:162
 #: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:285
 msgid "Scheduler"
-msgstr ""
+msgstr "Schemaläggare"
 
 #: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:227
 msgid "Download Limit:"
-msgstr "Nedladdningsgräns:"
+msgstr "Hämtningsgräns:"
 
 #: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:236
 msgid "Upload Limit:"
-msgstr "Uppladdningsgräns:"
+msgstr "Sändningsgräns:"
 
 #: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:245
 msgid "Active Torrents:"
-msgstr "Aktiva torrents:"
+msgstr "Aktiva torrentar:"
 
 #: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:254
 msgid "Active Downloading:"
-msgstr ""
+msgstr "Aktiv hämtning:"
 
 #: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:263
 msgid "Active Seeding:"
-msgstr ""
+msgstr "Aktiv distribuering:"
 
 #: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:277
 msgid "<b>Slow Settings</b>"
-msgstr "<b>Långsamma Inställningar</b>"
+msgstr "<b>Långsamma inställningar</b>"
 
 #: deluge/plugins/Label/deluge/plugins/label/core.py:171
 msgid "Invalid label, valid characters:[a-z0-9_-]"
@@ -681,21 +694,21 @@ msgstr "Ogiltig etikett, giltiga tecken är:[a-z0-9_-]"
 
 #: deluge/plugins/Label/deluge/plugins/label/core.py:172
 msgid "Empty Label"
-msgstr "Tom Etikett"
+msgstr "Tom etikett"
 
 #: deluge/plugins/Label/deluge/plugins/label/core.py:173
 msgid "Label already exists"
-msgstr "Ettiketten existerar redan"
+msgstr "Etiketten existerar redan"
 
 #: deluge/plugins/Label/deluge/plugins/label/core.py:181
 #: deluge/plugins/Label/deluge/plugins/label/core.py:261
 #: deluge/plugins/Label/deluge/plugins/label/core.py:296
 msgid "Unknown Label"
-msgstr "Okänd Etikett"
+msgstr "Okänd etikett"
 
 #: deluge/plugins/Label/deluge/plugins/label/core.py:297
 msgid "Unknown Torrent"
-msgstr "Okänd Torrent"
+msgstr "Okänd torrent"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:174
 #: deluge/plugins/Label/deluge/plugins/label/gtkui/sidebar_menu.py:164
@@ -711,7 +724,7 @@ msgstr "<b>Etikettalternativ</b>"
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:73
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:30
 msgid "Upload Slots:"
-msgstr ""
+msgstr "Sändningsplatser:"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:382
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:32
@@ -735,7 +748,7 @@ msgstr "Anslutningar:"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:512
 msgid "Apply per torrent max settings:"
-msgstr "Verkställ maxinställningar per torrent"
+msgstr "Verkställ max.inställningar per torrent:"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:529
 msgid "Maximum"
@@ -746,7 +759,7 @@ msgstr "Maximalt"
 #: deluge/ui/web/js/deluge-all/Menus.js:181
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:215
 msgid "Auto Managed"
-msgstr "Automatiskt hanterad"
+msgstr "Auto. hanterad"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:666
 msgid "Apply Queue settings:"
@@ -768,7 +781,7 @@ msgstr "Flytta slutförda till:"
 
 #: deluge/plugins/label/label/data/label_options.glade:504
 msgid "Apply location settings:"
-msgstr "Verkställ platsinställningar:"
+msgstr "Tillämpa platsinställningar:"
 
 #: deluge/plugins/label/label/data/label_options.glade:520
 msgid "Location"
@@ -776,7 +789,7 @@ msgstr "Plats"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:841
 msgid "<i>(1 line per tracker)</i>"
-msgstr "<i>(en rad per bevakare)</i>"
+msgstr "<i>(en rad per tracker)</i>"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:856
 msgid "Automatically apply label:"
@@ -787,7 +800,7 @@ msgstr "Lägg till etikett automatiskt:"
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:9
 #: deluge/ui/web/js/deluge-all/FilterPanel.js:53
 msgid "Trackers"
-msgstr "Bevakare"
+msgstr "Trackers"
 
 #: deluge/plugins/Label/deluge/plugins/label/data/label_options.glade:8
 msgid "Add Label"
@@ -823,7 +836,7 @@ msgstr "Etikett"
 
 #: deluge/plugins/Label/deluge/plugins/label/gtkui/sidebar_menu.py:45
 msgid "Label _Options"
-msgstr "Etikett _Inställningar"
+msgstr "Etikett_alternativ"
 
 #: deluge/plugins/Label/deluge/plugins/label/gtkui/sidebar_menu.py:46
 msgid "_Remove Label"
@@ -1080,7 +1093,7 @@ msgstr "Djibouti"
 
 #: deluge/ui/countries.py:69
 msgid "Dominica"
-msgstr "Dominikanska republiken"
+msgstr "Samväldet Dominica"
 
 #: deluge/ui/countries.py:70
 msgid "Dominican Republic"
@@ -1827,6 +1840,8 @@ msgid ""
 "Deluge cannot find the 'deluged' executable, it is likely that you forgot to "
 "install the deluged package or it's not in your PATH."
 msgstr ""
+"Deluge kan inte hitta den exekverbara filen ”deluged”, det är sannolikt att "
+"du glömt installera paketet deluged eller så finns den inte i din SÖKVÄG."
 
 #: deluge/ui/web/server.py:623
 msgid "Starting server in PID"
@@ -1834,7 +1849,7 @@ msgstr "Startar server i PID"
 
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:76
 msgid "Offline"
-msgstr "Nerkopplad"
+msgstr "Frånkopplad"
 
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:73
 msgid "Online"
@@ -1846,11 +1861,11 @@ msgstr "Ansluten"
 
 #: deluge/ui/web/json_api.py:829
 msgid "Daemon doesn't exist"
-msgstr "Daemon existerar inte"
+msgstr "Demon existerar inte"
 
 #: deluge/ui/web/json_api.py:835
 msgid "Daemon not running"
-msgstr "Demonen är inte igång"
+msgstr "Demon är inte igång"
 
 #: deluge/ui/console/statusbars.py:107
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:125
@@ -1860,11 +1875,11 @@ msgstr "DHT"
 
 #: deluge/ui/gtkui/notification.py:57
 msgid "Torrent complete"
-msgstr "Torrent-fil färdig"
+msgstr "Torrent slutförd"
 
 #: deluge/ui/gtkui/notification.py:59
 msgid "Including"
-msgstr ""
+msgstr "Omfattar"
 
 #: deluge/ui/gtkui/notification.py:59
 msgid "files"
@@ -1881,12 +1896,12 @@ msgid ""
 "Thank you,\n"
 "Deluge"
 msgstr ""
-"Detta mail vill informera dig om att Deluge har laddat klart %(name)s , "
+"Detta e-postbrev vill informera dig om att Deluge har slutfört %(name)s, "
 "vilket inkluderar %(num_files)i filer.\n"
-"För att sluta få dessa påminnelser, stäng av mail-påminnelser i Deluges "
+"För att sluta få dessa påminnelser, stäng av e-postpåminnelser i Deluges "
 "inställningar.\n"
 "\n"
-"Hälsningar,\n"
+"Tack,\n"
 "Deluge"
 
 #: deluge/ui/common.py:38 deluge/ui/web/js/deluge-all/UI.js:44
@@ -1935,7 +1950,7 @@ msgstr "Hämtad"
 #: deluge/ui/gtkui/torrentview.py:239
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:242
 msgid "Uploaded"
-msgstr "Uppskickad"
+msgstr "Skickad"
 
 #: deluge/ui/gtkui/torrentview.py:244 deluge/ui/gtkui/peers_tab.py:103
 #: deluge/ui/gtkui/files_tab.py:140
@@ -1967,12 +1982,12 @@ msgstr "Sändningshastighet"
 #: deluge/ui/gtkui/torrentview.py:260
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:256
 msgid "Down Limit"
-msgstr ""
+msgstr "Hämtningsgräns"
 
 #: deluge/ui/gtkui/torrentview.py:262
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:263
 msgid "Up Limit"
-msgstr ""
+msgstr "Sändningsgräns"
 
 #: deluge/ui/gtkui/torrentview.py:264
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:160
@@ -2004,7 +2019,7 @@ msgstr "Tracker"
 
 #: deluge/ui/gtkui/torrentview.py:288
 msgid "Save Path"
-msgstr ""
+msgstr "Spara sökväg"
 
 #: deluge/ui/gtkui/peers_tab.py:74
 msgid "Address"
@@ -2027,7 +2042,7 @@ msgstr "Deluge"
 
 #: deluge/ui/gtkui/systemtray.py:169
 msgid "Not Connected..."
-msgstr "Inte ansluten..."
+msgstr "Inte ansluten…"
 
 #: deluge/ui/gtkui/systemtray.py:220 deluge/ui/gtkui/systemtray.py:224
 #: deluge/ui/web/js/deluge-all/Statusbar.js:85
@@ -2063,7 +2078,7 @@ msgstr "Ställ in maximal hämtningshastighet"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:191
 msgid "Set Maximum Upload Speed"
-msgstr "Ställ in maximal uppladdningshastighet"
+msgstr "Ställ in maximal sändningshastighet"
 
 #: deluge/ui/gtkui/common.py:73
 msgid "Activated"
@@ -2071,7 +2086,7 @@ msgstr "Aktiverad"
 
 #: deluge/ui/gtkui/common.py:97 deluge/ui/gtkui/menubar.py:71
 msgid "Other..."
-msgstr "Annan..."
+msgstr "Annan…"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:68 deluge/ui/gtkui/files_tab.py:106
 #: deluge/ui/gtkui/addtorrentdialog.py:97
@@ -2102,7 +2117,7 @@ msgstr "Spara .torrent-fil"
 #: deluge/ui/gtkui/createtorrentdialog.py:249
 #: deluge/ui/gtkui/addtorrentdialog.py:548
 msgid "Torrent files"
-msgstr "Torrent-filer"
+msgstr "Torrentfiler"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:253
 #: deluge/ui/gtkui/addtorrentdialog.py:552
@@ -2112,7 +2127,7 @@ msgstr "Alla filer"
 #: deluge/ui/gtkui/files_tab.py:33 deluge/ui/web/js/deluge-all/Menus.js:257
 #: deluge/ui/web/js/deluge-all/Deluge.js:163
 msgid "Do Not Download"
-msgstr "Ladda inte ner"
+msgstr "Hämta inte"
 
 #: deluge/ui/gtkui/files_tab.py:34 deluge/ui/web/js/deluge-all/Menus.js:262
 #: deluge/ui/web/js/deluge-all/Deluge.js:164
@@ -2144,7 +2159,7 @@ msgstr "Ogiltig fil"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:231
 msgid "Duplicate Torrent"
-msgstr "Dublett-torrent"
+msgstr "Dubblerad torrent"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:231
 msgid "You cannot add the same torrent twice."
@@ -2159,10 +2174,12 @@ msgid ""
 "File prioritization is unavailable when using Compact allocation.  Would you "
 "like to switch to Full allocation?"
 msgstr ""
+"Filprioritering är ej tillgängligt när du använder kompakt fördelning. Vill "
+"du byta till hel fördelning?"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:534
 msgid "Choose a .torrent file"
-msgstr "Välj en torrent-fil"
+msgstr "Välj en torrentfil"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:611
 msgid "Invalid URL"
@@ -2170,11 +2187,11 @@ msgstr "Ogiltig URL"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:612
 msgid "is not a valid URL."
-msgstr "är inte en giltig URL"
+msgstr "är inte en giltig URL."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:618
 msgid "Downloading..."
-msgstr "Hämtar..."
+msgstr "Hämtar…"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:660
 msgid "Download Failed"
@@ -2186,7 +2203,7 @@ msgstr "Hämtningen misslyckades:"
 
 #: deluge/ui/gtkui/queuedtorrents.py:111
 msgid " Torrents Queued"
-msgstr " Köade torrents"
+msgstr " Köade torrentar"
 
 #: deluge/ui/gtkui/queuedtorrents.py:113
 msgid " Torrent Queued"
@@ -2236,7 +2253,7 @@ msgstr "Övriga"
 #: deluge/ui/gtkui/preferences.py:901
 #: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:41
 msgid "Daemon"
-msgstr "Daemon"
+msgstr "Demon"
 
 #: deluge/ui/console/modes/preferences.py:83 deluge/ui/gtkui/preferences.py:76
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:139
@@ -2263,6 +2280,8 @@ msgstr "Insticksmodul"
 #: deluge/ui/gtkui/preferences.py:769
 msgid "You must restart the deluge UI to change classic mode. Quit now?"
 msgstr ""
+"Du måste starta om Deluges gränssnitt för att byta till klassiskt läge. "
+"Avsluta nu?"
 
 #: deluge/ui/gtkui/preferences.py:955
 msgid "Select the Plugin"
@@ -2274,7 +2293,7 @@ msgstr "Plugin Eggs"
 
 #: deluge/ui/gtkui/torrentdetails.py:93
 msgid "_All"
-msgstr ""
+msgstr "_Alla"
 
 #: deluge/ui/gtkui/torrentdetails.py:94
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:15
@@ -2324,11 +2343,11 @@ msgstr "Ange maximalt antal anslutningar"
 
 #: deluge/ui/gtkui/menubar.py:440
 msgid "Set Maximum Upload Slots"
-msgstr "Ställ in maximalt antal samtidiga sändningar"
+msgstr "Ställ in högsta antal samtidiga sändningar"
 
 #: deluge/ui/gtkui/gtkui.py:352 deluge/ui/gtkui/gtkui.py:379
 msgid "Turn off Classic Mode?"
-msgstr "Stänga av Klassiskt Läge?"
+msgstr "Stänga av klassiskt läge?"
 
 #: deluge/ui/gtkui/gtkui.py:353
 msgid ""
@@ -2336,13 +2355,14 @@ msgid ""
 "\n"
 "You will either need to stop the daemon or turn off Classic Mode to continue."
 msgstr ""
-"Det verkar som att daemonen för Deluge redan körs.\n"
-"För att fortsätta måste du antingen stoppa daemonen eller avbryta Klassiskt "
-"Läge."
+"Det verkar som att demonprocessen (deluged) för Deluge redan körs.\n"
+"\n"
+"För att fortsätta måste du antingen stoppa demonen eller avbryta klassiskt "
+"läge."
 
 #: deluge/ui/gtkui/gtkui.py:360
 msgid "Enable Thin Client Mode?"
-msgstr ""
+msgstr "Aktiva tunn klient-läge?"
 
 #: deluge/ui/gtkui/gtkui.py:361
 msgid ""
@@ -2350,6 +2370,11 @@ msgid ""
 "\n"
 "To use Deluge standalone (Classic mode) please install libtorrent."
 msgstr ""
+"Tunn klient-läge är endast tillgängligt eftersom libtorrent inte är "
+"installerad.\n"
+"\n"
+"För att använda en självständig Deluge (klassiskt läge), installera "
+"libtorrent."
 
 #: deluge/ui/gtkui/gtkui.py:348
 msgid "Error Starting Core"
@@ -2362,27 +2387,27 @@ msgid ""
 "\n"
 "Please see the details below for more information."
 msgstr ""
-"Ett fel uppstod när kärnkomponenten, som krävs för att köra Deluge i "
-"Klassiskt Läge, skulle startas."
+"Ett fel uppstod när kärnkomponenten som krävs för att köra Deluge i "
+"klassiskt läge skulle startas."
 
 #: deluge/ui/gtkui/gtkui.py:380
 msgid ""
 "Since there was an error starting in Classic Mode would you like to continue "
 "by turning it off?"
 msgstr ""
-"Ett fel uppstod vid start i Klassiskt Läge. Vill du fortsätta genom att "
+"Ett fel uppstod vid start i klassiskt läge. Vill du fortsätta genom att "
 "stänga av det?"
 
 #: deluge/ui/gtkui/gtkui.py:391
 msgid "Error Starting Daemon"
-msgstr "Fel vid uppstart av daemon"
+msgstr "Fel vid uppstart av demon"
 
 #: deluge/ui/gtkui/gtkui.py:392
 msgid ""
 "There was an error starting the daemon process.  Try running it from a "
 "console to see if there is an error."
 msgstr ""
-"Ett fel uppstod när daemon-processen skulle starta. Försök köra den från "
+"Ett fel uppstod när demon-processen skulle starta. Försök köra den från "
 "terminalen för att läsa eventuella felmeddelanden."
 
 #: deluge/ui/gtkui/connectionmanager.py:161
@@ -2404,20 +2429,20 @@ msgstr "Version"
 
 #: deluge/ui/gtkui/connectionmanager.py:424
 msgid "_Stop Daemon"
-msgstr ""
+msgstr "_Stoppa demon"
 
 #: deluge/ui/gtkui/connectionmanager.py:432
 msgid "_Start Daemon"
-msgstr ""
+msgstr "_Starta demon"
 
 #: deluge/ui/gtkui/connectionmanager.py:458
 #: deluge/ui/gtkui/connectionmanager.py:470
 msgid "Unable to start daemon!"
-msgstr ""
+msgstr "Kunde inte starta demon!"
 
 #: deluge/ui/gtkui/connectionmanager.py:471
 msgid "Please examine the details for more information."
-msgstr ""
+msgstr "Se detaljerna för mer information."
 
 #: deluge/ui/gtkui/connectionmanager.py:592
 msgid "Error Adding Host"
@@ -2425,7 +2450,7 @@ msgstr "Fel vid tillägg av värd"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:6
 msgid "Torrents"
-msgstr "Torrents"
+msgstr "Torrentar"
 
 #: deluge/ui/gtkui/dialogs.py:170
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:183
@@ -2435,46 +2460,48 @@ msgstr "Detaljer:"
 
 #: deluge/ui/gtkui/dialogs.py:390
 msgid "Password Protected"
-msgstr ""
+msgstr "Lösenordsskyddad"
 
 #: deluge/ui/gtkui/mainwindow.py:191
 msgid "Enter your password to show Deluge..."
-msgstr ""
+msgstr "Ange ditt lösenord för att visa Deluge…"
 
 #: deluge/ui/gtkui/mainwindow.py:235
 msgid "Enter your password to Quit Deluge..."
-msgstr ""
+msgstr "Ange ditt lösenord för att avsluta Deluge…"
 
 #: deluge/ui/gtkui/mainwindow.py:315
 msgid "D:"
-msgstr ""
+msgstr "N:"
 
 #: deluge/ui/gtkui/mainwindow.py:315
 msgid "U:"
-msgstr ""
+msgstr "U:"
 
 #: deluge/ui/gtkui/aboutdialog.py:33
 #, python-format
 msgid "Copyright %(year_start)s-%(year_end)s Deluge Team"
-msgstr ""
+msgstr "Upphovsrätt %(year_start)s-%(year_end)s Deluge Team"
 
 #: deluge/ui/gtkui/aboutdialog.py:35
 msgid ""
 "A peer-to-peer file sharing program\n"
 "utilizing the BitTorrent protocol."
 msgstr ""
+"Ett peer-till-peer-fildelningsprogram\n"
+"som använder bittorrentprotokollet."
 
 #: deluge/ui/gtkui/aboutdialog.py:36
 msgid "Client:"
-msgstr ""
+msgstr "Klient:"
 
 #: deluge/ui/gtkui/aboutdialog.py:39
 msgid "Current Developers:"
-msgstr ""
+msgstr "Nuvarande utvecklare:"
 
 #: deluge/ui/gtkui/aboutdialog.py:41
 msgid "Past Developers or Contributors:"
-msgstr ""
+msgstr "Tidigare utvecklare eller medarbetare:"
 
 #: deluge/ui/gtkui/aboutdialog.py:226
 msgid ""
@@ -2502,6 +2529,28 @@ msgid ""
 "delete this exception statement from all source files in the program, then "
 "also delete it here."
 msgstr ""
+"Detta program är fri programvara; du kan ge ut det eller ändra programmet "
+"under villkoren i GNU General Public License som getts ut av Free Software "
+"Foundation; antingen version 3 av licensen, eller (på eget bevåg) en senare "
+"version. \n"
+"\n"
+"Detta program ges ut i hopp om att det ska vara användbart, men UTAN NÅGON "
+"GARANTI; utan ens den indirekta garantin om SÄLJBARHET eller LÄMPLIGHET FÖR "
+"ETT VISST ÄNDAMÅL. Se GNU General Public License för mer detaljer \n"
+"\n"
+"Du ska ha fått en kopia av GNU General Public License med detta program; om "
+"inte, var god se <http://www.gnu.org/licenses> \n"
+"\n"
+"Dessutom, som ett speciellt undantag, ger upphovsrättsägarna tillstånd att "
+"länka koden för delar av det här programmets OpenSSL-bibliotek. Du måste "
+"lyda GNU General Public License på alla sätt för all kod som använts förutom "
+"koden för OpenSSL. \n"
+"\n"
+"Om du modifierar filer med detta undantag, kan du utvidga undantaget till "
+"dina versioner av av filerna, men du är inte tvungen att göra detta. Om du "
+"känner att du inte vill göra det, radera detta meddelande från din version. "
+"Om du raderar detta meddelande från alla källkodsfiler i programmet, kan du "
+"också radera det här."
 
 #: deluge/ui/gtkui/aboutdialog.py:259
 msgid "Server:"
@@ -2509,7 +2558,7 @@ msgstr "Server:"
 
 #: deluge/ui/gtkui/aboutdialog.py:262
 msgid "libtorrent:"
-msgstr ""
+msgstr "libtorrent:"
 
 #: deluge/ui/gtkui/statusbar.py:128
 #: deluge/ui/web/js/deluge-all/Statusbar.js:39
@@ -2542,7 +2591,7 @@ msgstr "Protokoll trafik hämtning/sändning"
 #: deluge/ui/gtkui/statusbar.py:163
 #: deluge/ui/web/js/deluge-all/Statusbar.js:210
 msgid "DHT Nodes"
-msgstr "DHT noder"
+msgstr "DHT-noder"
 
 #: deluge/ui/gtkui/statusbar.py:168
 msgid "Free Disk Space"
@@ -2581,7 +2630,7 @@ msgstr "Ingen"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
 msgid "<big><b>Remove the selected torrent?</b></big>"
-msgstr "<big><b>Ta bort vald torrent?</b></big>"
+msgstr "<big><b>Ta bort valda torrenten?</b></big>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
 msgid "If you remove the data, it will be lost permanently."
@@ -2589,52 +2638,52 @@ msgstr "Om du tar bort denna data kan den ej återskapas."
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
 msgid "Remove With _Data"
-msgstr "Ta bort med _Data"
+msgstr "Ta bort med _data"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
 msgid "Remove _Torrent"
-msgstr "Ta bort _Torrent"
+msgstr "Ta bort _torrent"
 
 #: deluge/ui/gtkui/glade/edit_trackers.ui.h:1
 #: deluge/ui/web/js/deluge-all/EditTrackersWindow.js:40
 #: deluge/ui/web/js/deluge-all/Menus.js:224
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:332
 msgid "Edit Trackers"
-msgstr "Redigera bevakare"
+msgstr "Redigera trackers"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:47
 msgid "<big><b>Edit Trackers</b></big>"
-msgstr "<big><b>Redigera Trackers</b></big>"
+msgstr "<big><b>Redigera trackers</b></big>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.add.ui.h:1
 #: deluge/ui/web/js/deluge-all/AddTrackerWindow.js:40
 msgid "Add Tracker"
-msgstr "Lägg till bevakare"
+msgstr "Lägg till tracker"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:260
 msgid "<b>Add Trackers</b>"
-msgstr "<b>Lägg till spårare</b>"
+msgstr "<b>Lägg till tracker</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.infohash.ui.h:4
 #: deluge/ui/gtkui/glade/edit_trackers.add.ui.h:3
 #: deluge/ui/web/js/deluge-all/AddTrackerWindow.js:66
 msgid "Trackers:"
-msgstr "Spårare:"
+msgstr "Trackers:"
 
 #: deluge/ui/gtkui/glade/edit_trackers.edit.ui.h:1
 #: deluge/ui/web/js/deluge-all/EditTrackerWindow.js:40
 msgid "Edit Tracker"
-msgstr "Redigera bevakare"
+msgstr "Redigera tracker"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:416
 msgid "<b>Edit Tracker</b>"
-msgstr "<b>Redigera bevakare</b>"
+msgstr "<b>Redigera tracker</b>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.edit.ui.h:2
 #: deluge/ui/web/js/deluge-all/EditTrackerWindow.js:66
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:54
 msgid "Tracker:"
-msgstr "Bevakare:"
+msgstr "Tracker:"
 
 #: deluge/ui/gtkui/glade/tray_menu.ui.h:1
 msgid "_Show Deluge"
@@ -2665,7 +2714,7 @@ msgstr "Hastighetsgräns för _sändning"
 
 #: deluge/ui/gtkui/glade/tray_menu.ui.h:7
 msgid "Quit & Shutdown Daemon"
-msgstr "Avsluta & Stäng Daemon"
+msgstr "Avsluta & Stäng demon"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.ui.h:1
 msgid "_Select All"
@@ -2674,7 +2723,7 @@ msgstr "Markera _alla"
 #: deluge/ui/gtkui/glade/filtertree_menu.ui.h:4
 #: deluge/ui/gtkui/glade/torrent_menu.ui.h:4
 msgid "Resume selected torrents."
-msgstr "Återuppta markerade torrents."
+msgstr "Återuppta valda torrentar."
 
 #: deluge/ui/gtkui/glade/filtertree_menu.ui.h:3
 msgid "Resu_me All"
@@ -2693,12 +2742,12 @@ msgstr "<b><i><big>Hämtningar</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:188
 msgid "Auto add .torrents from:"
-msgstr "Lägg automatiskt till .torrents ifrån:"
+msgstr "Lägg automatiskt till .torrentar från:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:48
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:69
 msgid "Download to:"
-msgstr "Hämta ner till:"
+msgstr "Hämta till:"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:281
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:45
@@ -2709,12 +2758,12 @@ msgstr "Kopiering av .torrent-filer till:"
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:334
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:46
 msgid "Delete copy of torrent file on remove"
-msgstr ""
+msgstr "Radera kopia av torrentfilen vid borttagning"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:47
 msgid ""
 "Delete the copy of the torrent file created when the torrent is removed"
-msgstr ""
+msgstr "Radera kopian av torrentfilen som skapades när torrenten tas bort"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:339
 msgid "<b>Folders</b>"
@@ -2722,14 +2771,14 @@ msgstr "<b>Kataloger</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:372
 msgid "Use Full Allocation"
-msgstr "Använd full allokering"
+msgstr "Använd hel allokering"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:377
 msgid ""
 "Full allocation preallocates all of the space that is needed for the torrent "
 "and prevents disk fragmentation"
 msgstr ""
-"Full allokering förallokerar allt utrymme som behövs för torrenten och "
+"Hel allokering förallokerar allt utrymme som behövs för torrenten och "
 "förhindrar därigenom datafragmentering på disken"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:389
@@ -2748,7 +2797,7 @@ msgstr "<b>Allokering</b>"
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:50
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:106
 msgid "Prioritize first and last pieces of torrent"
-msgstr "Prioritera de första och sista delarna av torrent-filen"
+msgstr "Prioritera de första och sista delarna av torrenten"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:51
 msgid "Prioritize first and last pieces of files in torrent"
@@ -2757,7 +2806,7 @@ msgstr "Prioritera första och sista delarna av filer i torrent"
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:59
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:118
 msgid "Add torrents in Paused state"
-msgstr "Lägg till torrents som pausade"
+msgstr "Lägg till torrentar pausade"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:530
 msgid "<b><i><big>Network</big></i></b>"
@@ -2770,7 +2819,7 @@ msgstr "Använd slumpmässiga portar"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:574
 msgid "Deluge will automatically choose a different port to use every time."
-msgstr "Deluge kommer automatiskt att välja en ny port varje gång"
+msgstr "Deluge kommer automatiskt att välja en annan port varje gång."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:106
 msgid "Active Port:"
@@ -2799,7 +2848,7 @@ msgid ""
 "Enter the IP address of the interface to listen for incoming bittorrent "
 "connections on.  Leave this empty if you want to use the default."
 msgstr ""
-"Skriv in IP adressen till det gränssnitt som ska lyssna efter inkommande "
+"Skriv in IP-adressen till det gränssnitt som ska lyssna efter inkommande "
 "bittorrentanslutningar. Lämna fältet blankt för att använda standardvärdet."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:903
@@ -2811,13 +2860,13 @@ msgid ""
 "The TOS byte set in the IP header of every packet sent to peers (including "
 "web seeds).  Expects a Hex value."
 msgstr ""
-"TOS byte inställd i IP-huvudet för varje paket skickat till klienter "
+"TOS-byte inställd i IP-huvudet för varje paket skickat till klienter "
 "(inklusive webbdistributörer).  Förväntar ett hex-värde."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:129
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:247
 msgid "Peer TOS Byte:"
-msgstr "Peer TOS byte:"
+msgstr "Klient-TOS-byte:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:973
 msgid "<b>TOS</b>"
@@ -2844,7 +2893,7 @@ msgstr "NAT portmappningsprotokoll"
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:119
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:211
 msgid "Peer Exchange"
-msgstr "Distributörs utbyte"
+msgstr "Distributörsutbyte"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:123
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:218
@@ -2881,7 +2930,7 @@ msgid ""
 msgstr ""
 "Tvingad\n"
 "Aktiverad\n"
-"Avaktiverad"
+"Inaktiverad"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1176
 msgid ""
@@ -2911,58 +2960,55 @@ msgstr "<b><i><big>Bandbredd</big></i></b>"
 
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:108
 msgid "Maximum Connection Attempts per Second:"
-msgstr "Max antal uppkopplingsförsök per sekund:"
+msgstr "Högsta antal uppkopplingsförsök per sekund:"
 
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:100
 msgid "Maximum Half-Open Connections:"
-msgstr "Maximalt antal halvt öppna anslutningar:"
+msgstr "Högsta antal halvöppna anslutningar:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:68
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr ""
-"Maximal sändningshastighet för alla torrent-filer.  Ställ in till -1 för "
-"obegränsad."
+"Högsta sändningshastigheten för alla torrentar.  Ange -1 för obegränsad."
 
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:92
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:177
 msgid "Maximum Upload Speed (KiB/s):"
-msgstr "Maximal sändningshastighet (Kibyte/s)"
+msgstr "Högsta sändningshastighet (KiB/s):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:70
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
 msgstr ""
-"Maximalt antal tillåtna anslutningar.  Ställ in till -1 för obegränsat antal."
+"Högsta antalet tillåtna anslutningar.  Ställ in till -1 för obegränsat antal."
 
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:68
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:153
 msgid "Maximum Connections:"
-msgstr "Maximalt antal anslutningar:"
+msgstr "Högsta antal anslutningar:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:72
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
 msgstr ""
-"Maximalt antal sändningsplatser för alla torrent-filer. Ställ in till -1 för "
-"obegränsat."
+"Högsta antalet sändningsplatser för alla torrentar. Ange -1 för obegränsat."
 
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:161
 msgid "Maximum Upload Slots:"
-msgstr "Maximalt antal sändningsplatser:"
+msgstr "Högsta antal sändningsplatser:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:74
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
 msgstr ""
-"Maximal hämtningshastighet för alla torrent-filer. Ställ in till -1 för "
-"obegränsad."
+"Högsta hämtningshastigheten för alla torrentar. Ange -1 för obegränsad."
 
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:84
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:169
 msgid "Maximum Download Speed (KiB/s):"
-msgstr "Maximal hämtningshastighet (KiB/s)"
+msgstr "Högsta hämtningshastighet (KiB/s):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:77
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:128
 msgid "Ignore limits on local network"
-msgstr "Igonera begränsningar i lokalt nätverk"
+msgstr "Ignorera begränsningar i lokalt nätverk"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:78
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:135
@@ -2979,30 +3025,33 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1589
 msgid "<b>Global Bandwidth Usage</b>"
-msgstr "<b>Allmän bredbandsanvändning</b>"
+msgstr "<b>Global bredbandsanvändning</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:81
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
 msgstr ""
-"Maximalt antal sändningsplatser per torrent-fil. Ställ in till -1 för "
+"Högsta antal sändningsplatser per torrentfil. Ställ in till -1 för "
 "obegränsat antal."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:82
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
 msgstr ""
-"Maximalt antal anslutningar per torrent-fil. Ange -1 för obegränsat antal."
+"Högsta antal anslutningar per torrentfil. Ange -1 för obegränsat antal."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1713
 msgid "The maximum download speed per torrent.  Set -1 for unlimited."
 msgstr ""
+"Den Högsta hämtningshastigheten per torrent. Ställ in som -1 för obegränsad."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:84
 msgid "The maximum upload speed per torrent.  Set -1 for unlimited."
 msgstr ""
+"Den maximala sändningshastigheten per torrent. Ställ in som -1 för "
+"obegränsad."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1753
 msgid "<b>Per Torrent Bandwidth Usage</b>"
-msgstr "<b>Bredbandsanvändning per torrent-fil</b>"
+msgstr "<b>Bredbandsanvändning per torrentfil</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1812
 msgid "<i><b><big>Interface</big></b></i>"
@@ -3019,23 +3068,23 @@ msgid ""
 "advantage of running Deluge as a daemon. You need to restart Deluge for this "
 "setting to take effect."
 msgstr ""
-"Klassiskt Läge kommer att dölja det mesta av daemon-funktionaliteten och ge "
+"Klassiskt läge kommer att dölja det mesta av demon-funktionaliteten och ge "
 "sken av att Deluge körs som ett enskilt program. Använd den inställningen om "
-"du inte vill dra nytta av att köra Deluge som en daemon. Du måste starta om "
+"du inte vill dra nytta av att köra Deluge som en demon. Du måste starta om "
 "Deluge för att verkställa ändringen."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1860
 msgid "<b>Classic Mode</b>"
-msgstr "<b>Klassiskt Läge</b>"
+msgstr "<b>Klassiskt läge</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:19
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:64
 msgid "Show session speed in titlebar"
-msgstr "Visa sessionshastighet i titellisten"
+msgstr "Visa sessionshastighet i namnlisten"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:20
 msgid "Focus window when adding torrent"
-msgstr ""
+msgstr "Fokusera fönster när torrenter läggs till"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1923
 msgid "<b>Main Window</b>"
@@ -3047,35 +3096,35 @@ msgstr "Alltid synlig"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:64
 msgid "Bring the dialog to focus"
-msgstr "Ta fram dialog till fokus"
+msgstr "Låt dialog få fokus"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1993
 msgid "<b>Add Torrents Dialog</b>"
-msgstr "<b>Lägg till torrents dialog</b>"
+msgstr "<b>Dialogen lägg till torrentar</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:32
 msgid "Enable system tray icon"
-msgstr "Visa ikon i notifieringsyta"
+msgstr "Visa ikon i aktivitetsfältet"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:35
 msgid "Minimize to tray on close"
-msgstr "Minimera till systembrickan vid stängning"
+msgstr "Minimera till aktivitetsfältet vid stängning"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:36
 msgid "Start in tray"
-msgstr "Starta minimerat till systembricka"
+msgstr "Starta minimerat till aktivitetsfält"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2082
 msgid "Enable Application Indicator"
-msgstr ""
+msgstr "Aktivera programindikator"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:37
 msgid "Password protect system tray"
-msgstr "Lösenordsskydda systembrickan"
+msgstr "Lösenordsskydda aktivitetsfält"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2170
 msgid "<b>System Tray</b>"
-msgstr "<b>Systembricka</b>"
+msgstr "<b>Aktivitetsfältet</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2228
 msgid "<i><b><big>Other</big></b></i>"
@@ -3090,8 +3139,8 @@ msgid ""
 "Deluge will check our servers and will tell you if a newer version has been "
 "released"
 msgstr ""
-"Deluge kommer att kolla med våra servrar och notifiera dig om det finns en "
-"nyare version tillgänglig"
+"Deluge kommer att kontrollera mot våra servrar och avisera dig om det finns "
+"en nyare version tillgänglig"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2292
 msgid "<b>Updates</b>"
@@ -3102,8 +3151,8 @@ msgid ""
 "Help us improve Deluge by sending us your Python version, PyGTK version, OS "
 "and processor types.  Absolutely no other information is sent."
 msgstr ""
-"Hjälp oss att förbättra Deluge igenom att skicka oss info om din "
-"Pythonversion, PyGTK-version, OS och processortyper. Absolut ingen annan "
+"Hjälp oss att förbättra Deluge genom att skicka oss information om din "
+"Pythonversion, PyGTK-version, OS- och processortyp. Absolut ingen annan "
 "information sänds."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:170
@@ -3124,7 +3173,7 @@ msgid ""
 "If Deluge cannot find the database file at this location it will fallback to "
 "using DNS to resolve the peer's country."
 msgstr ""
-"Om Deluge inte kan hitta databasfilen på denna sökväg, kommer Deluge att "
+"Om Deluge inte kan hitta databasfilen på denna plats kommer Deluge att "
 "återgå till att använda DNS för att matcha klienternas land."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2446
@@ -3133,16 +3182,16 @@ msgstr "<b>GeoIP Databas</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:175
 msgid "Associate Magnet links with Deluge"
-msgstr "Associera Magnet-länkar med Deluge"
+msgstr "Associera magnetlänkar med Deluge"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2559
 msgid "<i><b><big>Daemon</big></b></i>"
-msgstr "<i><b><big>Daemon</big></b></i>"
+msgstr "<i><b><big>Demon</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:176
 #: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:57
 msgid "Daemon port:"
-msgstr "Daemon port:"
+msgstr "Demon-port:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2639
 msgid "<b>Port</b>"
@@ -3151,7 +3200,7 @@ msgstr "<b>Port</b>"
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:178
 #: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:78
 msgid "Allow Remote Connections"
-msgstr "Tillåt Fjärranslutningar"
+msgstr "Tillåt fjärranslutningar"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2682
 msgid "<b>Connections</b>"
@@ -3160,7 +3209,7 @@ msgstr "<b>Anslutningar</b>"
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:180
 #: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:94
 msgid "Periodically check the website for new releases"
-msgstr "Kontrollera regelbundet hemsidan efter uppdateringar"
+msgstr "Kontrollera regelbundet webbplatsen efter nya utgåvor"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2725
 msgid "<b>Other</b>"
@@ -3173,11 +3222,11 @@ msgstr "<i><b><big>Köad</big></b></i>"
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:86
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:62
 msgid "Queue new torrents to top"
-msgstr "Köa nya torrenter överst"
+msgstr "Köa nya torrentar överst"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:88
 msgid "Total active seeding:"
-msgstr "Totalt antal aktiva distribueringar"
+msgstr "Totalt antal aktiva distributioner:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:89
 msgid "Total active:"
@@ -3194,7 +3243,7 @@ msgstr "Låt inte långsamma torrentar ingå"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2994
 msgid "<b>Active Torrents</b>"
-msgstr "<b>Aktiva Torrentar</b>"
+msgstr "<b>Aktiva torrentar</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:94
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:130
@@ -3203,17 +3252,17 @@ msgstr "Sätt en övre gräns på förhållandet:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:95
 msgid "Seed Time Ratio:"
-msgstr "Utdelningsförhållande för utdelad tid"
+msgstr "Utdelningstid-förhållande:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:96
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:154
 msgid "Seed Time (m):"
-msgstr "Seedningstid (m):"
+msgstr "Distribueringstid (m):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:97
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:181
 msgid "Stop seeding when share ratio reaches:"
-msgstr "Sluta att seeda efter att förhållandet har nått:"
+msgstr "Sluta att distribuera efter att förhållandet har nått:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:98
 msgid "Remove torrent when share ratio reached"
@@ -3231,7 +3280,7 @@ msgstr "<i><b><big>Proxy</big></b></i>"
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:75
 #: deluge/ui/web/js/deluge-all/preferences/ProxyI2PField.js:49
 msgid "Host:"
-msgstr "Värddator:"
+msgstr "Värd:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3403
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3590
@@ -3254,11 +3303,11 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3450
 msgid "<b>Peer</b>"
-msgstr "<b>Reciprokör</b>"
+msgstr "<b>Klient</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3637
 msgid "<b>Web Seed</b>"
-msgstr "<b>Web-reciprokör</b>"
+msgstr "<b>Web-distributör</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3824
 msgid "<b>Tracker</b>"
@@ -3274,7 +3323,7 @@ msgstr "<b><i><big>Buffert</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:144
 msgid "Cache Size (16 KiB blocks):"
-msgstr "Buffertstorlek (16 KiB block)"
+msgstr "Buffertstorlek (16 KiB block):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:145
 msgid ""
@@ -3282,13 +3331,12 @@ msgid ""
 "cache, to when it's forcefully flushed to disk. Default is 60 seconds."
 msgstr ""
 "Antal sekunder från den senast sparade skrivningen till en del i "
-"skrivcachen, tills det då den skrivs till hårddisken. Standard är 60 "
-"sekunder."
+"skrivcachen, tills då den skrivs till hårddisken. Standard är 60 sekunder."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:146
 #: deluge/ui/web/js/deluge-all/preferences/CachePage.js:70
 msgid "Cache Expiry (seconds):"
-msgstr "Buffertförfall (sekunder)"
+msgstr "Buffertförfall (sekunder):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:148
 msgid ""
@@ -3300,7 +3348,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:149
 msgid "Blocks Written:"
-msgstr "Block skrivna"
+msgstr "Block skrivna:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:150
 msgid ""
@@ -3319,10 +3367,13 @@ msgid ""
 "of saved write operations per total write operations, i.e. a kind of cache "
 "hit ratio for the write cache."
 msgstr ""
+"Ration (block_skrivna- skrivningar) / block_skrivna representerar antalet "
+"sparade skrivoperationer per totala skrivoperationer, det vill säga, en typ "
+"av förhållande för cacheuppslagning av skrivcachen."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:153
 msgid "Write Cache Hit Ratio:"
-msgstr "Träffratio för skrivbuffert"
+msgstr "Träfförhållande för skrivbuffert:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4300
 msgid "<b>Write</b>"
@@ -3342,7 +3393,7 @@ msgstr "Block lästa:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:157
 msgid "The number of blocks that were served from cache."
-msgstr "Antal block som hämtades från bufferten."
+msgstr "Antalet block som hämtades från buffert."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:158
 msgid "Blocks Read Hit:"
@@ -3350,11 +3401,11 @@ msgstr "Lästräffar för block:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:159
 msgid "The cache hit ratio for the read cache."
-msgstr "Träffratio för läsbuffert."
+msgstr "Träfförhållande för läsbuffert."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:160
 msgid "Read Cache Hit Ratio:"
-msgstr "Träffratio för Läsbuffert:"
+msgstr "Träfförhållande för läsbuffert:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:161
 msgid ""
@@ -3396,7 +3447,7 @@ msgstr "<b>Status</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4619
 msgid "<i><b><big>Plugins</big></b></i>"
-msgstr "<i><b><big>Plugins</big></b></i>"
+msgstr "<i><b><big>Insticksmoduler</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:184
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:49
@@ -3412,7 +3463,7 @@ msgstr "Upphovsman:"
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:186
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:51
 msgid "Homepage:"
-msgstr "Hemsida:"
+msgstr "Webbplats:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:187
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:50
@@ -3425,23 +3476,23 @@ msgstr "_Installera insticksmodul"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4915
 msgid "_Rescan Plugins"
-msgstr "Detektera insticksmoduler"
+msgstr "Identifiera insticksmoduler"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4968
 msgid "_Find More Plugins"
-msgstr "_Hitta fler plugin"
+msgstr "_Hitta fler instick"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.ui.h:1
 msgid "Queued Torrents"
-msgstr "Köade Torrents"
+msgstr "Köade torrentar"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:47
 msgid "<big><b>Add Queued Torrents</b></big>"
-msgstr "<big><b>Lägg till köade Torrents</b></big>"
+msgstr "<big><b>Lägg till köade torrentar</b></big>"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.ui.h:3
 msgid "Automatically add torrents on connect"
-msgstr "Lägg automatiskt till torrents vid uppkoppling"
+msgstr "Lägg automatiskt till torrentar vid uppkoppling"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:1
 msgid "Create Torrent"
@@ -3449,7 +3500,7 @@ msgstr "Skapa torrent"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:34
 msgid "<big><b>Create Torrent</b></big>"
-msgstr "<big><b>Skapa Torrent</b></big>"
+msgstr "<big><b>Skapa torrent</b></big>"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:1
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:2
@@ -3459,11 +3510,11 @@ msgstr "_Arkiv"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:3
 msgid "Fol_der"
-msgstr "Fol_der"
+msgstr "Ma_pp"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:4
 msgid "_Remote Path"
-msgstr "_Avlägsen sökväg"
+msgstr "_Fjärrsökväg"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:230
 msgid "<b>Files</b>"
@@ -3482,7 +3533,7 @@ msgstr "Info"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:10
 msgid "Webseeds"
-msgstr "Webberbjudanden"
+msgstr "Webbdistributioner"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:11
 msgid "Piece Size:"
@@ -3501,10 +3552,20 @@ msgid ""
 "8 MiB\n"
 "16 MiB\n"
 msgstr ""
+"32 KiB\n"
+"64 KiB\n"
+"128 KiB\n"
+"256 KiB\n"
+"512 KiB\n"
+"1 MiB\n"
+"2 MiB\n"
+"4 MiB\n"
+"8 MiB\n"
+"16 MiB\n"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:12
 msgid "Set Private Flag"
-msgstr "Sätt Privat Flagga"
+msgstr "Sätt privat flagga"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:13
 msgid "Add this torrent to the session"
@@ -3516,7 +3577,7 @@ msgstr "Ange fjärrsökväg"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:730
 msgid "<b>Remote Path</b>"
-msgstr "Fjärrplatsens sökväg"
+msgstr "<b>Fjärrplatsens sökväg</b>"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.remote_save.ui.h:3
 #: deluge/ui/gtkui/glade/create_torrent_dialog.remote_path.ui.h:3
@@ -3526,7 +3587,7 @@ msgstr "Sökväg:"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.progress.ui.h:1
 msgid "Creating Torrent"
-msgstr "Skapar Torrent"
+msgstr "Skapar torrent"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.remote_save.ui.h:1
 msgid "Save .torrent as"
@@ -3553,7 +3614,7 @@ msgstr "<big><b>Uppkopplingshanterare</b></big>"
 
 #: deluge/ui/gtkui/glade/connection_manager.ui.h:2
 msgid "_Start local daemon"
-msgstr "_Starta lokal daemon"
+msgstr "_Starta lokal demon"
 
 #: deluge/ui/gtkui/glade/connection_manager.ui.h:3
 msgid "Automatically connect to selected host on start-up"
@@ -3561,7 +3622,7 @@ msgstr "Koppla automatiskt upp till vald värd under uppstart"
 
 #: deluge/ui/gtkui/glade/connection_manager.ui.h:4
 msgid "Automatically start localhost if needed"
-msgstr "Starta lokalhost atomatiskt vid behov"
+msgstr "Starta vid behov localhost atomatiskt"
 
 #: deluge/ui/gtkui/glade/connection_manager.ui.h:5
 msgid "Do not show this dialog on start-up"
@@ -3569,11 +3630,11 @@ msgstr "Visa inte denna dialog vid uppstart"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:3
 msgid "_Create Torrent"
-msgstr "_Skapa Torrent"
+msgstr "_Skapa torrent"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:4
 msgid "Quit & _Shutdown Daemon"
-msgstr ""
+msgstr "Stäng & _avsluta demon"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:5
 msgid "_Edit"
@@ -3593,7 +3654,7 @@ msgstr "_Visa"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:9
 msgid "_Toolbar"
-msgstr "_Verktygsrad"
+msgstr "_Verktygsfält"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:10
 msgid "_Sidebar"
@@ -3617,11 +3678,11 @@ msgstr "S_idopanel"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:16
 msgid "Show _Zero Hits"
-msgstr "Visa _Noll träffar"
+msgstr "Visa _noll träffar"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:17
 msgid "Show _Trackers"
-msgstr "Visa _Spårare"
+msgstr "Visa _tracker"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:18
 msgid "_Help"
@@ -3629,11 +3690,11 @@ msgstr "_Hjälp"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:19
 msgid "_Homepage"
-msgstr "_Hemsida"
+msgstr "_Webbplats"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:20
 msgid "_FAQ"
-msgstr "_FAQ"
+msgstr "_Frågor och svar"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:21
 msgid "Frequently Asked Questions"
@@ -3641,7 +3702,7 @@ msgstr "Vanliga frågor"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:22
 msgid "_Community"
-msgstr ""
+msgstr "_Gemenskap"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:23
 msgid "Add torrent"
@@ -3665,7 +3726,7 @@ msgstr "Ta bort torrent"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:30
 msgid "Pause the selected torrents"
-msgstr "Pausa markerade torrents"
+msgstr "Pausa valda torrentar"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:31
 #: deluge/ui/web/js/deluge-all/Menus.js:88
@@ -3675,7 +3736,7 @@ msgstr "Pausa"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:32
 msgid "Resume the selected torrents"
-msgstr "Återuppta markerade torrents"
+msgstr "Återuppta valda torrentar"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:33
 #: deluge/ui/web/js/deluge-all/Menus.js:94
@@ -3685,7 +3746,7 @@ msgstr "Återuppta"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:34
 msgid "Queue Torrent Up"
-msgstr "Flytta torrent-fil uppåt i kön"
+msgstr "Flytta torrent uppåt i kön"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:35
 msgid "Queue Up"
@@ -3693,7 +3754,7 @@ msgstr "Kö upp"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:36
 msgid "Queue Torrent Down"
-msgstr "Flytta torrent-fil nedåt i kön"
+msgstr "Flytta torrentfil nedåt i kön"
 
 #: deluge/ui/gtkui/glade/main_window.ui.h:37
 msgid "Queue Down"
@@ -3701,11 +3762,11 @@ msgstr "Kö ner"
 
 #: deluge/ui/gtkui/glade/main_window.tabs.menu_file.ui.h:2
 msgid "_Expand All"
-msgstr "_Fäll ut allt"
+msgstr "_Expandera alla"
 
 #: deluge/ui/gtkui/glade/main_window.tabs.menu_file.ui.h:3
 msgid "_Do Not Download"
-msgstr "Hämta _inte ner"
+msgstr "_Hämta inte"
 
 #: deluge/ui/gtkui/glade/main_window.tabs.menu_file.ui.h:4
 msgid "_Normal Priority"
@@ -3725,15 +3786,15 @@ msgstr "<b>Auto. Hanterad:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:759
 msgid "<b>Seed Rank:</b>"
-msgstr "<b>Seed Rank:</b>"
+msgstr "<b>Distributionsrankning:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:774
 msgid "<b>Seeding Time:</b>"
-msgstr "<b>Seeding Tid:</b>"
+msgstr "<b>Distributionstid:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:800
 msgid "<b>Active Time:</b>"
-msgstr "<b>Aktiv Tid:</b>"
+msgstr "<b>Aktiv tid:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:857
 msgid "<b>Tracker Status:</b>"
@@ -3761,11 +3822,11 @@ msgstr "<b>Färdig om:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1029
 msgid "<b>Up Speed:</b>"
-msgstr ""
+msgstr "<b>Upphastighet:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1051
 msgid "<b>Down Speed:</b>"
-msgstr ""
+msgstr "<b>Nedhastighet:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1070
 msgid "<b>Next Announce:</b>"
@@ -3801,7 +3862,7 @@ msgstr "<b>Hash:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1398
 msgid "<b>Tracker:</b>"
-msgstr "<b>Bevakare:</b>"
+msgstr "<b>Tracker:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1418
 msgid "<b>Total Size:</b>"
@@ -3821,7 +3882,7 @@ msgstr "<b>Status:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:40
 msgid "Move completed:"
-msgstr "Flytta slutförda"
+msgstr "Flytta slutförda:"
 
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:300
 msgid "Private"
@@ -3830,12 +3891,12 @@ msgstr "Privat"
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:38
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:308
 msgid "Prioritize First/Last"
-msgstr "Prioritera Första/Sista"
+msgstr "Prioritera första/sista"
 
 #: deluge/ui/gtkui/glade/main_window.tabs.ui.h:48
 #: deluge/ui/gtkui/glade/torrent_menu.ui.h:8
 msgid "_Edit Trackers"
-msgstr "_Redigera bevakare"
+msgstr "_Redigera trackers"
 
 #: deluge/ui/gtkui/glade/main_window.move_storage.ui.h:1
 msgid "Remove Torrent?"
@@ -3845,7 +3906,7 @@ msgstr "Ta bort torrent?"
 msgid ""
 "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
 msgstr ""
-"<big><b>Är du säker på att du vill ta bort markerad torrent?</b></big>"
+"<big><b>Är du säker på att du vill ta bort den valda torrenten?</b></big>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2368
 msgid "<i>The associated .torrent will be deleted!</i>"
@@ -3853,23 +3914,23 @@ msgstr "<i>Den associerade .torrent-filen kommer att tas bort!</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2408
 msgid "<i>The downloaded data will be deleted!</i>"
-msgstr "<i>Hämtat data kommer att tas bort!</i>"
+msgstr "<i>Hämtad data kommer att tas bort!</i>"
 
 #: deluge/ui/gtkui/glade/main_window.move_storage.ui.h:2
 msgid "Remove Selected Torrent"
-msgstr "Ta bort markerade Torrent"
+msgstr "Ta bort vald torrent"
 
 #: deluge/ui/gtkui/glade/main_window.new_release.ui.h:1
 msgid "New Release"
-msgstr "Ny release"
+msgstr "Ny utgåva"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2508
 msgid "<b><big>New Release Available!</big></b>"
-msgstr "<b><big>Ny Release Finns Tillgänglig!</big></b>"
+msgstr "<b><big>Ny utgåva finns tillgänglig!</big></b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2560
 msgid "<i>Available Version:</i>"
-msgstr "<i>Tillgänglig Version;</i>"
+msgstr "<i>Tillgänglig version;</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2583
 msgid "<i>Current Version:</i>"
@@ -3885,15 +3946,15 @@ msgstr "Visa inte denna dialog i framtiden"
 
 #: deluge/ui/gtkui/glade/main_window.new_release.ui.h:2
 msgid "_Goto Website"
-msgstr "_Gå till Webbplats"
+msgstr "_Gå till webbplats"
 
 #: deluge/ui/gtkui/glade/main_window.tabs.menu_peer.ui.h:1
 msgid "_Add Peer"
-msgstr ""
+msgstr "_Lägg till peer"
 
 #: deluge/ui/gtkui/glade/main_window.tabs.menu_peer.ui.h:2
 msgid "Add a peer by its IP"
-msgstr "Lägg till reciprokör efter IP-nummer"
+msgstr "Lägg till klient efter IP-nummer"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:11
 msgid "_Open Folder"
@@ -3901,7 +3962,7 @@ msgstr "_Öppna katalog"
 
 #: deluge/ui/gtkui/glade/torrent_menu.ui.h:2
 msgid "_Pause"
-msgstr ""
+msgstr "_Pausa"
 
 #: deluge/ui/gtkui/glade/torrent_menu.ui.h:3
 msgid "Resu_me"
@@ -3917,11 +3978,11 @@ msgstr "_Kö"
 
 #: deluge/ui/gtkui/glade/torrent_menu.ui.h:7
 msgid "_Update Tracker"
-msgstr "_Uppdatera bevakare"
+msgstr "_Uppdatera tracker"
 
 #: deluge/ui/gtkui/glade/torrent_menu.ui.h:9
 msgid "_Remove Torrent"
-msgstr "_Ta bort torrent-fil"
+msgstr "_Ta bort torrent"
 
 #: deluge/ui/gtkui/glade/torrent_menu.ui.h:10
 msgid "_Force Re-check"
@@ -3958,7 +4019,7 @@ msgstr "Mål:"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:1
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:37
 msgid "Add Torrents"
-msgstr "Lägg till torrents"
+msgstr "Lägg till torrentar"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:3
 msgid "_URL"
@@ -3974,7 +4035,7 @@ msgstr "_Ta bort"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:271
 msgid "<b>Torrents</b>"
-msgstr "<b>Torrents</b>"
+msgstr "<b>Torrentar</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:7
 msgid "Fi_les"
@@ -3982,11 +4043,11 @@ msgstr "Fi_ler"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:469
 msgid "<b>Move Completed Location</b>"
-msgstr ""
+msgstr "<b>Flytta plats för färdiga</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:506
 msgid "Full"
-msgstr "Full"
+msgstr "Hel"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:522
 msgid "Compact"
@@ -3994,15 +4055,15 @@ msgstr "Kompakt"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:597
 msgid "Max Down Speed:"
-msgstr "Max hämtningshastighet:"
+msgstr "Högsta hämtningshastighet:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:609
 msgid "Max Up Speed:"
-msgstr "Max sändningshastighet:"
+msgstr "Högsta sändningshastighet:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:10
 msgid "Add In _Paused State"
-msgstr "Lägg till i _Pausad status"
+msgstr "Lägg till i _pausat tillstånd"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:11
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:137
@@ -4015,7 +4076,7 @@ msgstr "Gå tillbaka till grundinställningar"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.ui.h:32
 msgid "Apply To All"
-msgstr "Verkställ till alla."
+msgstr "Tillämpa till alla"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.url.ui.h:1
 msgid "Add URL"
@@ -4043,11 +4104,11 @@ msgstr "etikett"
 
 #: deluge/ui/gtkui/glade/connect_peer_dialog.ui.h:1
 msgid "Add Peer"
-msgstr "Lägg till reciprokör"
+msgstr "Lägg till klient"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:187
 msgid "<b>Add Peer</b>"
-msgstr "<b>Lägg till reciprokör</b>"
+msgstr "<b>Lägg till klient</b>"
 
 #: deluge/ui/gtkui/glade/connect_peer_dialog.ui.h:2
 msgid "hostname:port"
@@ -4059,11 +4120,11 @@ msgstr "BitTorrent-klient"
 
 #: deluge/ui/data/share/applications/deluge.desktop.in.h:3
 msgid "Deluge BitTorrent Client"
-msgstr "BitTorrent-klienten Deluge"
+msgstr "Deluge bittorrentklient"
 
 #: deluge/ui/data/share/applications/deluge.desktop.in.h:4
 msgid "Download and share files over BitTorrent"
-msgstr "Hämta och dela ut filer över BitTorrent"
+msgstr "Hämta och dela filer över BitTorrent"
 
 #~ msgid "Up:"
 #~ msgstr "Upp:"

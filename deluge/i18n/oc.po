@@ -14,12 +14,12 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-06-19 11:21+0000\n"
-"X-Generator: Launchpad (build 18097)\n"
+"X-Launchpad-Export-Date: 2017-02-20 16:49+0000\n"
+"X-Generator: Launchpad (build 18326)\n"
 
 #: deluge/pluginmanagerbase.py:173
 msgid "Not available"
-msgstr ""
+msgstr "Pas disponible"
 
 #: deluge/common.py:260
 msgid "KiB"
@@ -35,15 +35,15 @@ msgstr "Gio"
 
 #: deluge/common.py:310
 msgid "K"
-msgstr ""
+msgstr "K"
 
 #: deluge/common.py:313
 msgid "M"
-msgstr ""
+msgstr "M"
 
 #: deluge/common.py:315
 msgid "G"
-msgstr ""
+msgstr "G"
 
 #: deluge/common.py:353
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:857
@@ -222,7 +222,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:131
 #: deluge/ui/gtkui/glade/connection_manager.addhost.ui.h:2
 msgid "Hostname:"
-msgstr "Nom d'òste:"
+msgstr "Nom d'òste :"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:199
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:132
@@ -232,7 +232,7 @@ msgstr "Nom d'òste:"
 #: deluge/ui/web/js/deluge-all/preferences/ProxyI2PField.js:58
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:151
 msgid "Port:"
-msgstr "Pòrt:"
+msgstr "Pòrt :"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:231
 #: deluge/ui/gtkui/dialogs.py:197 deluge/ui/gtkui/dialogs.py:258
@@ -241,7 +241,7 @@ msgstr "Pòrt:"
 #: deluge/ui/web/js/deluge-all/AddConnectionWindow.js:85
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:96
 msgid "Username:"
-msgstr "Nom d'utilizaire:"
+msgstr "Nom d'utilizaire :"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:255
 #: deluge/ui/gtkui/dialogs.py:205 deluge/ui/gtkui/dialogs.py:286
@@ -252,7 +252,7 @@ msgstr "Nom d'utilizaire:"
 #: deluge/ui/web/js/deluge-all/LoginWindow.js:70
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:105
 msgid "Password:"
-msgstr "Senhal:"
+msgstr "Senhal :"
 
 #: deluge/plugins/Notifications/deluge/plugins/notifications/data/config.glade:360
 msgid "<b>Recipients</b>"
@@ -306,11 +306,11 @@ msgstr ""
 #: deluge/plugins/Extractor/deluge/plugins/extractor/gtkui.py:32
 #: deluge/plugins/Extractor/deluge/plugins/extractor/gtkui.py:38
 msgid "Extractor"
-msgstr ""
+msgstr "Extractor"
 
 #: deluge/plugins/Extractor/deluge/plugins/extractor/data/extractor_prefs.glade:27
 msgid "Extract to:"
-msgstr "Extraire cap a:"
+msgstr "Extraire cap a :"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:134
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/data/autoadd_options.glade:318
@@ -394,7 +394,7 @@ msgstr "Leader invalid"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/peerguardian.py:43
 msgid "Invalid magic code"
-msgstr "Còde magic invalid"
+msgstr "Còdi magic invalid"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/peerguardian.py:48
 msgid "Invalid version"
@@ -410,7 +410,7 @@ msgstr "Filtre d'exclusion"
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:436
 #: deluge/ui/gtkui/glade/add_torrent_dialog.url.ui.h:3
 msgid "URL:"
-msgstr "URL:"
+msgstr "URL :"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:107
 msgid "Days"
@@ -458,15 +458,15 @@ msgstr "<b>Opcions</b>"
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:449
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:48
 msgid "Type:"
-msgstr "Tipe:"
+msgstr "Tipe :"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:462
 msgid "Date:"
-msgstr "Data:"
+msgstr "Data :"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:475
 msgid "File Size:"
-msgstr "Talha del fichièr:"
+msgstr "Talha del fichièr :"
 
 #: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/blocklist_pref.glade:496
 msgid "<b>Info</b>"
@@ -493,7 +493,7 @@ msgstr "Activar lo SSL"
 
 #: deluge/plugins/WebUi/deluge/plugins/webui/data/config.glade:60
 msgid "Listening port:"
-msgstr "Pòrt d'escota:"
+msgstr "Pòrt d'escota :"
 
 #: deluge/plugins/AutoAdd/deluge/plugins/autoadd/core.py:124
 msgid "Watch folder does not exist."
@@ -656,11 +656,11 @@ msgstr ""
 
 #: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:227
 msgid "Download Limit:"
-msgstr "Limit de telecargament:"
+msgstr "Limit de telecargament :"
 
 #: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:236
 msgid "Upload Limit:"
-msgstr "Limit de telecargament:"
+msgstr "Limit de cargament :"
 
 #: deluge/plugins/Scheduler/deluge/plugins/scheduler/gtkui.py:245
 msgid "Active Torrents:"
@@ -3074,7 +3074,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:172
 msgid "Location:"
-msgstr "Emplaçament:"
+msgstr "Emplaçament :"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:173
 msgid ""
@@ -3351,12 +3351,12 @@ msgstr "Version:"
 #: deluge/ui/gtkui/glade/create_torrent_dialog.ui.h:6
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:48
 msgid "Author:"
-msgstr "Autor:"
+msgstr "Autor :"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:186
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:51
 msgid "Homepage:"
-msgstr "Site Web:"
+msgstr "Site Web :"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.ui.h:187
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:50
