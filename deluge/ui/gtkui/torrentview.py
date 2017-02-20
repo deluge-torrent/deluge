@@ -176,8 +176,13 @@ def str_nocase_sort(model, iter1, iter2, data):
     uses ISO 14651.
 
     """
-    v1 = model[iter1][data].lower()
-    v2 = model[iter2][data].lower()
+    try:
+        v1 = model[iter1][data].lower()
+        v2 = model[iter2][data].lower()
+    except AttributeError:
+        # Catch None type for value.
+        v1 = model[iter1][data]
+        v2 = model[iter2][data]
     return strcoll(v1, v2)
 
 def queue_peer_seed_sort_function(v1, v2):
