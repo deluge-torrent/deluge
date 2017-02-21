@@ -586,7 +586,7 @@ class Torrent(object):
 
         if not self.options["file_priorities"]:
             # Ensure file_priorities option is populated.
-            set_file_priorities([])
+            self.set_file_priorities([])
 
         return self.options["file_priorities"]
 
@@ -686,7 +686,6 @@ class Torrent(object):
             "compact": self.options["compact_allocation"],
             "distributed_copies": distributed_copies,
             "download_payload_rate": self.status.download_payload_rate,
-            "file_priorities": self.get_file_priorities,
             "hash": self.torrent_id,
             "is_auto_managed": self.options["auto_managed"],
             "is_finished": self.is_finished,
@@ -785,6 +784,7 @@ class Torrent(object):
         fns = {
             "comment": ti_comment,
             "eta": self.get_eta,
+            "file_priorities": self.get_file_priorities,
             "file_progress": self.get_file_progress,
             "files": self.get_files,
             "is_seed": self.handle.is_seed,
