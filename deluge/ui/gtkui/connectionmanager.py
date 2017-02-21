@@ -12,6 +12,7 @@ import logging
 import os
 import time
 from socket import gethostbyname
+from urlparse import urlparse
 
 import gtk
 from twisted.internet import reactor
@@ -232,6 +233,21 @@ class ConnectionManager(component.Component):
 
         # Update the status of the hosts
         self.__update_list()
+
+    def on_entry_host_paste_clipboard(self, widget):
+        text = gtk.clipboard_get().wait_for_text().strip()
+        log.debug('on_entry_proxy_host_paste-clipboard: got paste: %s', text)
+        text = text if '//' in text else '//' + text
+        parsed = urlparse(text)
+        if parsed.hostname:
+            widget.set_text(parsed.hostname)
+            widget.emit_stop_by_name('paste-clipboard')
+        if parsed.port:
+            self.builder.get_object('spinbutton_port').set_value(parsed.port)
+        if parsed.username:
+            self.builder.get_object('entry_username').set_text(parsed.username)
+        if parsed.password:
+            self.builder.get_object('entry_password').set_text(parsed.password)
 
     # Private methods
     def __save_hostlist(self):

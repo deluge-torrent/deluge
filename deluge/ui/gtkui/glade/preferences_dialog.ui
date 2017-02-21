@@ -3524,6 +3524,7 @@ used sparingly.</property>
                                             <property name="secondary_icon_activatable">False</property>
                                             <property name="primary_icon_sensitive">True</property>
                                             <property name="secondary_icon_sensitive">True</property>
+                                            <signal name="paste-clipboard" handler="on_entry_proxy_host_paste_clipboard" />
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>

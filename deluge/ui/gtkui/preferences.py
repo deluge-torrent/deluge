@@ -11,6 +11,7 @@
 import logging
 import os
 from hashlib import sha1 as sha
+from urlparse import urlparse
 
 import gtk
 from gtk.gdk import Color
@@ -134,6 +135,7 @@ class Preferences(component.Component):
             'on_button_cache_refresh_clicked': self._on_button_cache_refresh_clicked,
             'on_combo_encryption_changed': self._on_combo_encryption_changed,
             'on_combo_proxy_type_changed': self._on_combo_proxy_type_changed,
+            'on_entry_proxy_host_paste_clipboard': self._on_entry_proxy_host_paste_clipboard,
             'on_button_associate_magnet_clicked': self._on_button_associate_magnet_clicked,
             'on_accounts_add_clicked': self._on_accounts_add_clicked,
             'on_accounts_delete_clicked': self._on_accounts_delete_clicked,
@@ -977,6 +979,21 @@ class Preferences(component.Component):
                 self.builder.get_object(entry).show()
             else:
                 self.builder.get_object(entry).hide()
+
+    def _on_entry_proxy_host_paste_clipboard(self, widget):
+        text = gtk.clipboard_get().wait_for_text().strip()
+        log.debug('on_entry_proxy_host_paste-clipboard: got paste: %s', text)
+        text = text if '//' in text else '//' + text
+        parsed = urlparse(text)
+        if parsed.hostname:
+            widget.set_text(parsed.hostname)
+            widget.emit_stop_by_name('paste-clipboard')
+        if parsed.port:
+            self.builder.get_object('spin_proxy_port').set_value(parsed.port)
+        if parsed.username:
+            self.builder.get_object('entry_proxy_user').set_text(parsed.username)
+        if parsed.password:
+            self.builder.get_object('entry_proxy_pass').set_text(parsed.password)
 
     def _on_button_associate_magnet_clicked(self, widget):
         associate_magnet_links(True)
