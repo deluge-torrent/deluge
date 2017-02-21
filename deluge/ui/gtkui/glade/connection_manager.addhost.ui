@@ -114,6 +114,7 @@
                     <property name="secondary_icon_activatable">False</property>
                     <property name="primary_icon_sensitive">True</property>
                     <property name="secondary_icon_sensitive">True</property>
+                    <signal name="paste-clipboard" handler="on_entry_host_paste_clipboard" />
                   </object>
                 </child>
               </object>
