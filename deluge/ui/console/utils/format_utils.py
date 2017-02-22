@@ -15,6 +15,7 @@ from unicodedata import normalize as ud_normalize
 from unicodedata import east_asian_width
 
 import deluge.common
+from deluge.ui.common import FILE_PRIORITY
 
 
 def format_speed(speed):
@@ -68,15 +69,11 @@ def format_pieces(num, size):
 
 
 def format_priority(prio):
-    if prio == - 2:
+    if prio == -2:
         return '[Mixed]'
-    if prio < 0:
+    elif prio < 0:
         return '-'
-    pstring = deluge.common.FILE_PRIORITY[prio]
-    if prio > 0:
-        return pstring[:pstring.index('Priority') - 1]
-    else:
-        return pstring
+    return FILE_PRIORITY[prio]
 
 
 def trim_string(string, w, have_dbls):
