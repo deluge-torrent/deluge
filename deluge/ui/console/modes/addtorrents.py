@@ -181,7 +181,7 @@ class AddTorrents(BaseMode):
         self.formatted_rows = []
 
         for row in self.raw_rows:
-            filename = deluge.common.decode_string(row[0])
+            filename = deluge.common.decode_bytes(row[0])
             size = row[1]
             time = row[2]
 

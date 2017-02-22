@@ -24,7 +24,7 @@ from twisted.internet.task import LoopingCall
 
 import deluge.component as component
 from deluge._libtorrent import lt
-from deluge.common import decode_string, get_magnet_info, utf8_encoded
+from deluge.common import decode_bytes, get_magnet_info, utf8_encoded
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.core.torrent import Torrent, TorrentOptions, sanitize_filepath
@@ -358,7 +358,7 @@ class TorrentManager(component.Component):
         # Check for renamed files and if so, rename them in the torrent_info before adding.
         if options['mapped_files'] and torrent_info:
             for index, fname in options['mapped_files'].items():
-                fname = sanitize_filepath(decode_string(fname))
+                fname = sanitize_filepath(decode_bytes(fname))
                 if log.isEnabledFor(logging.DEBUG):
                     log.debug('renaming file index %s to %s', index, fname)
                 try:
@@ -1045,7 +1045,7 @@ class TorrentManager(component.Component):
         except (RuntimeError, KeyError):
             return
         # Set the tracker status for the torrent
-        torrent.set_tracker_status('Warning: %s' % decode_string(alert.message()))
+        torrent.set_tracker_status('Warning: %s' % decode_bytes(alert.message()))
 
     def on_alert_tracker_error(self, alert):
         """Alert handler for libtorrent tracker_error_alert"""
@@ -1054,10 +1054,10 @@ class TorrentManager(component.Component):
         except (RuntimeError, KeyError):
             return
 
-        error_message = decode_string(alert.error_message())
+        error_message = decode_bytes(alert.error_message())
         if not error_message:
             error_message = alert.error.message()
-        log.debug('Tracker Error Alert: %s [%s]', decode_string(alert.message()), error_message)
+        log.debug('Tracker Error Alert: %s [%s]', decode_bytes(alert.message()), error_message)
         torrent.set_tracker_status('Error: ' + error_message)
 
     def on_alert_storage_moved(self, alert):
@@ -1085,9 +1085,9 @@ class TorrentManager(component.Component):
         except (RuntimeError, KeyError):
             return
 
-        log.warning('on_alert_storage_moved_failed: %s', decode_string(alert.message()))
+        log.warning('on_alert_storage_moved_failed: %s', decode_bytes(alert.message()))
         # Set an Error message and pause the torrent
-        alert_msg = decode_string(alert.message()).split(':', 1)[1].strip()
+        alert_msg = decode_bytes(alert.message()).split(':', 1)[1].strip()
         torrent.force_error_state('Failed to move download folder: %s' % alert_msg)
 
         if torrent_id in self.waiting_on_finish_moving:
@@ -1145,7 +1145,7 @@ class TorrentManager(component.Component):
             return
 
         if torrent_id in self.waiting_on_resume_data:
-            self.waiting_on_resume_data[torrent_id].errback(Exception(decode_string(alert.message())))
+            self.waiting_on_resume_data[torrent_id].errback(Exception(decode_bytes(alert.message())))
 
     def on_alert_fastresume_rejected(self, alert):
         """Alert handler for libtorrent fastresume_rejected_alert"""
@@ -1155,7 +1155,7 @@ class TorrentManager(component.Component):
         except (RuntimeError, KeyError):
             return
 
-        alert_msg = decode_string(alert.message())
+        alert_msg = decode_bytes(alert.message())
         log.error('on_alert_fastresume_rejected: %s', alert_msg)
         if alert.error.value() == 134:
             if not os.path.isdir(torrent.options['download_location']):
@@ -1179,7 +1179,7 @@ class TorrentManager(component.Component):
         except (RuntimeError, KeyError):
             return
 
-        new_name = decode_string(alert.new_name)
+        new_name = decode_bytes(alert.new_name)
         log.debug('index: %s name: %s', alert.index, new_name)
 
         # We need to see if this file index is in a waiting_on_folder dict
@@ -1251,13 +1251,13 @@ class TorrentManager(component.Component):
                 'external IP received: 0:0:0:0:0:0:0:0'
         """
 
-        external_ip = decode_string(alert.message()).split(' ')[-1]
+        external_ip = decode_bytes(alert.message()).split(' ')[-1]
         log.info('on_alert_external_ip: %s', external_ip)
         component.get('EventManager').emit(ExternalIPEvent(external_ip))
 
     def on_alert_performance(self, alert):
         """Alert handler for libtorrent performance_alert"""
-        log.warning('on_alert_performance: %s, %s', decode_string(alert.message()), alert.warning_code)
+        log.warning('on_alert_performance: %s, %s', decode_bytes(alert.message()), alert.warning_code)
         if alert.warning_code == lt.performance_warning_t.send_buffer_watermark_too_low:
             max_send_buffer_watermark = 3 * 1024 * 1024  # 3MiB
             settings = self.session.get_settings()

@@ -18,7 +18,7 @@ import deluge.component as component
 import deluge.core.torrent
 import deluge.tests.common as common
 from deluge._libtorrent import lt
-from deluge.common import convert_to_utf8
+from deluge.common import utf8_encode_structure
 from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer
 from deluge.core.torrent import Torrent
@@ -180,7 +180,7 @@ class TorrentTestCase(BaseTestCase):
         filename = common.get_test_data_file('test_torrent.file.torrent')
         with open(filename) as _file:
             filedump = _file.read()
-        resume_data = convert_to_utf8(resume_data)
+        resume_data = utf8_encode_structure(resume_data)
         torrent_id = yield self.core.torrentmanager.add(state=torrent_state, filedump=filedump,
                                                         resume_data=lt.bencode(resume_data))
         torrent = self.core.torrentmanager.torrents[torrent_id]

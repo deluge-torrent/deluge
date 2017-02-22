@@ -20,7 +20,7 @@ from hashlib import sha1 as sha
 
 import deluge.configmanager
 from deluge import bencode
-from deluge.common import decode_string
+from deluge.common import decode_bytes
 
 log = logging.getLogger(__name__)
 
@@ -166,9 +166,9 @@ class TorrentInfo(object):
         # Check if 'name.utf-8' is in the torrent and if not try to decode the string
         # using the encoding found.
         if 'name.utf-8' in self.__m_metadata['info']:
-            self.__m_name = decode_string(self.__m_metadata['info']['name.utf-8'])
+            self.__m_name = decode_bytes(self.__m_metadata['info']['name.utf-8'])
         else:
-            self.__m_name = decode_string(self.__m_metadata['info']['name'], self.encoding)
+            self.__m_name = decode_bytes(self.__m_metadata['info']['name'], self.encoding)
 
         # Get list of files from torrent info
         paths = {}
@@ -180,10 +180,10 @@ class TorrentInfo(object):
 
             for index, f in enumerate(self.__m_metadata['info']['files']):
                 if 'path.utf-8' in f:
-                    path = decode_string(os.path.join(prefix, *f['path.utf-8']))
+                    path = decode_bytes(os.path.join(prefix, *f['path.utf-8']))
                     del f['path.utf-8']
                 else:
-                    path = os.path.join(prefix, decode_string(os.path.join(*f['path']), self.encoding))
+                    path = os.path.join(prefix, decode_bytes(os.path.join(*f['path']), self.encoding))
                 f['path'] = path
                 f['index'] = index
                 if 'sha1' in f and len(f['sha1']) == 20:

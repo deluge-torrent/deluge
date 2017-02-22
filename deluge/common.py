@@ -777,36 +777,36 @@ def is_ipv6(ip):
                 return True
     else:
         try:
-            return ipaddress.IPv6Address(decode_string(ip))
+            return ipaddress.IPv6Address(decode_bytes(ip))
         except ipaddress.AddressValueError:
             pass
 
     return False
 
 
-def decode_string(s, encoding='utf8'):
-    """
-    Decodes a string and return unicode. If it cannot decode using
-    `:param:encoding` then it will try latin1, and if that fails,
-    try to detect the string encoding. If that fails, decode with
-    ignore.
+def decode_bytes(byte_str, encoding='utf8'):
+    """Decodes a byte string and return unicode.
 
-    :param s: string to decode
-    :type s: string
-    :param encoding: the encoding to use in the decoding
-    :type encoding: string
-    :returns: s converted to unicode
-    :rtype: unicode
+    If it cannot decode using `encoding` then it will try latin1,
+    and if that fails, try to detect the string encoding. If that fails,
+    decode with ignore.
+
+    Args:
+        byte_str (bytes): The byte string to decode.
+        encoding (str): The encoding to try first when decoding.
+
+    Returns:
+        str: A unicode string.
 
     """
-    if not s:
+    if not byte_str:
         return ''
-    elif isinstance(s, unicode):
-        return s
+    elif isinstance(byte_str, unicode):
+        return byte_str
 
     encodings = [lambda: ('utf8', 'strict'),
                  lambda: ('iso-8859-1', 'strict'),
-                 lambda: (chardet.detect(s)['encoding'], 'strict'),
+                 lambda: (chardet.detect(byte_str)['encoding'], 'strict'),
                  lambda: (encoding, 'ignore')]
 
     if encoding is not 'utf8':
@@ -814,7 +814,7 @@ def decode_string(s, encoding='utf8'):
 
     for l in encodings:
         try:
-            return s.decode(*l())
+            return byte_str.decode(*l())
         except UnicodeDecodeError:
             pass
     return ''
@@ -833,13 +833,13 @@ def utf8_encoded(s, encoding='utf8'):
 
     """
     if isinstance(s, str):
-        s = decode_string(s, encoding).encode('utf8')
+        s = decode_bytes(s, encoding).encode('utf8')
     elif isinstance(s, unicode):
         s = s.encode('utf8')
     return s
 
 
-def convert_to_utf8(data):
+def utf8_encode_structure(data):
     """Recursively convert all unicode keys and values in a data structure to utf8.
 
     e.g. converting keys and values for a dict with nested dicts and lists etc.
@@ -851,13 +851,12 @@ def convert_to_utf8(data):
         input type: The data with unicode keys and values converted to utf8.
 
     """
-
     if isinstance(data, unicode):
         return data.encode('utf8')
     elif isinstance(data, (list, tuple)):
-        return type(data)(map(convert_to_utf8, data))
+        return type(data)(map(utf8_encode_structure, data))
     elif isinstance(data, dict):
-        return dict(map(convert_to_utf8, data.items()))
+        return dict(map(utf8_encode_structure, data.items()))
     else:
         return data
 

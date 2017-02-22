@@ -910,7 +910,7 @@ class Preferences(component.Component):
         response = chooser.run()
 
         if response == gtk.RESPONSE_OK:
-            filepath = deluge.common.decode_string(chooser.get_filename())
+            filepath = deluge.common.decode_bytes(chooser.get_filename())
         else:
             chooser.destroy()
             return

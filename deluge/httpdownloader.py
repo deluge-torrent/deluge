@@ -19,7 +19,7 @@ from twisted.python.failure import Failure
 from twisted.web import client, http
 from twisted.web.error import PageRedirect
 
-from deluge.common import convert_to_utf8, get_version
+from deluge.common import get_version, utf8_encode_structure
 
 log = logging.getLogger(__name__)
 
@@ -175,7 +175,7 @@ def _download_file(url, filename, callback=None, headers=None, force_filename=Fa
 
     url = url.encode('utf8')
     filename = filename.encode('utf8')
-    headers = convert_to_utf8(headers) if headers else headers
+    headers = utf8_encode_structure(headers) if headers else headers
     factory = HTTPDownloader(url, filename, callback, headers, force_filename, allow_compression)
 
     # In Twisted 13.1.0 _parse() function replaced by _URI class.

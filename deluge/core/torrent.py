@@ -26,7 +26,7 @@ from twisted.internet.defer import Deferred, DeferredList
 
 import deluge.component as component
 from deluge._libtorrent import lt
-from deluge.common import decode_string, utf8_encoded
+from deluge.common import decode_bytes, utf8_encoded
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.decorators import deprecated
@@ -612,7 +612,7 @@ class Torrent(object):
             self.state = 'Error'
             # auto-manage status will be reverted upon resuming.
             self.handle.auto_managed(False)
-            self.set_status_message(decode_string(status_error))
+            self.set_status_message(decode_bytes(status_error))
         elif status.moving_storage:
             self.state = 'Moving'
         elif not session_paused and status.paused and status.auto_managed:
@@ -761,7 +761,7 @@ class Torrent(object):
             if peer.flags & peer.connecting or peer.flags & peer.handshake:
                 continue
 
-            client = decode_string(peer.client)
+            client = decode_bytes(peer.client)
 
             try:
                 country = component.get('Core').geoip_instance.country_code_by_addr(peer.ip[0])
@@ -868,7 +868,7 @@ class Torrent(object):
         if not self.options['name']:
             handle_name = self.handle.name()
             if handle_name:
-                name = decode_string(handle_name)
+                name = decode_bytes(handle_name)
             else:
                 name = self.torrent_id
         else:
@@ -1013,7 +1013,7 @@ class Torrent(object):
             'trackers': lambda: self.trackers,
             'tracker_status': lambda: self.tracker_status,
             'upload_payload_rate': lambda: self.status.upload_payload_rate,
-            'comment': lambda: decode_string(self.torrent_info.comment()) if self.has_metadata else '',
+            'comment': lambda: decode_bytes(self.torrent_info.comment()) if self.has_metadata else '',
             'num_files': lambda: self.torrent_info.num_files() if self.has_metadata else 0,
             'num_pieces': lambda: self.torrent_info.num_pieces() if self.has_metadata else 0,
             'piece_length': lambda: self.torrent_info.piece_length() if self.has_metadata else 0,
@@ -1114,7 +1114,7 @@ class Torrent(object):
             bool: True if successful, otherwise False
 
         """
-        dest = decode_string(dest)
+        dest = decode_bytes(dest)
 
         if not os.path.exists(dest):
             try:
@@ -1253,7 +1253,7 @@ class Torrent(object):
         """
         for index, filename in filenames:
             # Make sure filename is a unicode object
-            filename = sanitize_filepath(decode_string(filename))
+            filename = sanitize_filepath(decode_bytes(filename))
             # libtorrent needs unicode object if wstrings are enabled, utf8 bytestring otherwise
             try:
                 self.handle.rename_file(index, filename)

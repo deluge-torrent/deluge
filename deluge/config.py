@@ -47,7 +47,7 @@ import logging
 import os
 import shutil
 
-from deluge.common import decode_string, get_default_config_dir, utf8_encoded
+from deluge.common import decode_bytes, get_default_config_dir, utf8_encoded
 
 log = logging.getLogger(__name__)
 callLater = None  # Necessary for the config tests
@@ -245,7 +245,7 @@ class Config(object):
 
         """
         if isinstance(self.__config[key], basestring):
-            return decode_string(self.__config[key])
+            return decode_bytes(self.__config[key])
         else:
             return self.__config[key]
 

@@ -18,7 +18,7 @@ from twisted.trial.unittest import SkipTest
 from twisted.web.client import Agent, FileBodyProducer
 from twisted.web.http_headers import Headers
 
-from deluge.common import convert_to_utf8
+from deluge.common import utf8_encode_structure
 
 from . import common
 from .common import get_test_data_file
@@ -46,7 +46,7 @@ class WebServerTestCase(WebServerTestBase, WebServerMockBase):
                    'Content-Type': ['application/json']}
         url = 'http://127.0.0.1:%s/json' % self.webserver_listen_port
 
-        d = yield agent.request(b'POST', url.encode('utf-8'), Headers(convert_to_utf8(headers)),
+        d = yield agent.request(b'POST', url.encode('utf-8'), Headers(utf8_encode_structure(headers)),
                                 FileBodyProducer(StringIO(input_file.encode('utf-8'))))
         try:
             body = yield twisted.web.client.readBody(d)

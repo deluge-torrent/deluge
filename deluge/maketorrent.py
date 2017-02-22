@@ -14,7 +14,7 @@ import sys
 from hashlib import sha1 as sha
 
 from deluge.bencode import bencode
-from deluge.common import convert_to_utf8, get_path_size
+from deluge.common import get_path_size, utf8_encode_structure
 
 
 class InvalidPath(Exception):
@@ -194,7 +194,7 @@ class TorrentMetadata(object):
 
         # Write out the torrent file
         with open(torrent_path, 'wb') as _file:
-            _file.write(bencode(convert_to_utf8(torrent)))
+            _file.write(bencode(utf8_encode_structure(torrent)))
 
     def get_data_path(self):
         """Get the path to the files that the torrent will contain.

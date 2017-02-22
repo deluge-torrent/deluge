@@ -24,7 +24,7 @@ import deluge.ui.console
 import deluge.ui.console.cmdline.commands.quit
 import deluge.ui.console.main
 import deluge.ui.web.server
-from deluge.common import convert_to_utf8
+from deluge.common import utf8_encode_structure
 from deluge.ui import ui_entry
 from deluge.ui.web.server import DelugeWeb
 
@@ -168,7 +168,7 @@ class GtkUIDelugeScriptEntryTestCase(BaseTestCase, GtkUIBaseTestCase):
 
         self.var['cmd_name'] = 'deluge gtk'
         self.var['start_cmd'] = ui_entry.start_ui
-        self.var['sys_arg_cmd'] = convert_to_utf8(['./deluge', 'gtk'])
+        self.var['sys_arg_cmd'] = utf8_encode_structure(['./deluge', 'gtk'])
 
     def set_up(self):
         return GtkUIBaseTestCase.set_up(self)
