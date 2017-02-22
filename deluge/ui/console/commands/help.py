@@ -50,7 +50,7 @@ class Command(BaseCommand):
         deferred = defer.succeed(True)
         if args:
             if len(args) > 1:
-                self.console.write(usage)
+                self.console.write(self.usage)
                 return deferred
             try:
                 cmd = self._commands[args[0]]
