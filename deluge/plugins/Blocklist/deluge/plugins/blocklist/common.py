@@ -145,17 +145,17 @@ class IP(object):
 #        return IP(q1, q2, q3, q4)
 
     def __lt__(self, other):
-        if isinstance(other, basestring):
+        if isinstance(other, ''.__class__):
             other = IP.parse(other)
         return self.long < other.long
 
     def __gt__(self, other):
-        if isinstance(other, basestring):
+        if isinstance(other, ''.__class__):
             other = IP.parse(other)
         return self.long > other.long
 
     def __eq__(self, other):
-        if isinstance(other, basestring):
+        if isinstance(other, ''.__class__):
             other = IP.parse(other)
         return self.long == other.long
 

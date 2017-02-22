@@ -371,8 +371,7 @@ Please use commands from the command line, e.g.:\n
             no matches are found.
 
         """
-        if not isinstance(string, unicode):
-            string = unicode(string, self.encoding)
+        deluge.common.decode_bytes(string, self.encoding)
 
         if string == '*' or string == '':
             return [tid for tid, name in self.torrents]
@@ -387,8 +386,7 @@ Please use commands from the command line, e.g.:\n
 
         matches = []
         for tid, name in self.torrents:
-            if not isinstance(name, unicode):
-                name = unicode(name, self.encoding)
+            deluge.common.decode_bytes(name, self.encoding)
             if getattr(tid, match_func, None)(string) or getattr(name, match_func, None)(string):
                 matches.append(tid)
         return matches
@@ -423,7 +421,7 @@ Please use commands from the command line, e.g.:\n
                 component.get('CmdLine').add_line(s, False)
                 self.events.append(s)
         else:
-            print(colors.strip_colors(deluge.common.utf8_encoded(s)))
+            print(colors.strip_colors(s.encode('utf8')))
 
     def write_event(self, s):
         if self.interactive:
@@ -434,7 +432,7 @@ Please use commands from the command line, e.g.:\n
                 component.get('CmdLine').add_line(s, False)
                 self.events.append(s)
         else:
-            print(colors.strip_colors(deluge.common.utf8_encoded(s)))
+            print(colors.strip_colors(s.encode('utf8')))
 
     def _migrate_config_1_to_2(self, config):
         """Create better structure by moving most settings out of dict root

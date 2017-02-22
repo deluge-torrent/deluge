@@ -151,7 +151,7 @@ class GtkUiNotifications(CustomNotifications):
                              'handler was: %s' % result)
 
     def handle_custom_sound_notification(self, result, eventtype):
-        if isinstance(result, basestring):
+        if isinstance(result, ''.__class__):
             if not result and eventtype in self.config['custom_sounds']:
                 return defer.maybeDeferred(
                     self.__play_sound, self.config['custom_sounds'][eventtype])

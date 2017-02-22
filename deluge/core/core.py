@@ -710,7 +710,7 @@ class Core(component.Component):
         if 'owner' in options and not self.core.authmanager.has_account(options['owner']):
             raise DelugeError('Username "%s" is not known.' % options['owner'])
 
-        if isinstance(torrent_ids, basestring):
+        if not isinstance(torrent_ids, (list, tuple)):
             torrent_ids = [torrent_ids]
 
         for torrent_id in torrent_ids:

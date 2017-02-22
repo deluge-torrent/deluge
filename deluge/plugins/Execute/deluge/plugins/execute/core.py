@@ -17,7 +17,7 @@ import time
 from twisted.internet.utils import getProcessOutputAndValue
 
 import deluge.component as component
-from deluge.common import utf8_encoded, windows_check
+from deluge.common import windows_check
 from deluge.configmanager import ConfigManager
 from deluge.core.rpcserver import export
 from deluge.event import DelugeEvent
@@ -85,8 +85,7 @@ class Core(CorePluginBase):
         # Get and store the torrent info before it is removed
         torrent = component.get('TorrentManager').torrents[torrent_id]
         info = torrent.get_status(['name', 'download_location'])
-        self.preremoved_cache[torrent_id] = [utf8_encoded(torrent_id), utf8_encoded(info['name']),
-                                             utf8_encoded(info['download_location'])]
+        self.preremoved_cache[torrent_id] = [torrent_id, info['name'], info['download_location']]
 
     def execute_commands(self, torrent_id, event, *arg):
         if event == 'added' and arg[0]:
@@ -99,9 +98,8 @@ class Core(CorePluginBase):
             info = torrent.get_status(['name', 'download_location'])
             # Grab the torrent name and download location
             # getProcessOutputAndValue requires args to be str
-            torrent_id = utf8_encoded(torrent_id)
-            torrent_name = utf8_encoded(info['name'])
-            download_location = utf8_encoded(info['download_location'])
+            torrent_name = info['name']
+            download_location = info['download_location']
 
         log.debug('Running commands for %s', event)
 
@@ -120,7 +118,8 @@ class Core(CorePluginBase):
                 command = os.path.expandvars(command[EXECUTE_COMMAND])
                 command = os.path.expanduser(command)
 
-                cmd_args = [torrent_id, torrent_name, download_location]
+                cmd_args = [torrent_id.encode('utf8'), torrent_name.encode('utf8'),
+                            download_location.encode('utf8')]
                 if windows_check():
                     # Escape ampersand on windows (see #2784)
                     cmd_args = [cmd_arg.replace('&', '^^^&') for cmd_arg in cmd_args]

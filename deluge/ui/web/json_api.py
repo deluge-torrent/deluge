@@ -897,8 +897,6 @@ class WebApi(JSONComponent):
             if key in ['sessions', 'pwd_salt', 'pwd_sha1']:
                 log.warn('Ignored attempt to overwrite web config key: %s', key)
                 continue
-            if isinstance(config[key], basestring):
-                config[key] = config[key].encode('utf8')
             web_config[key] = config[key]
 
     @export

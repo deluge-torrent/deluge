@@ -24,7 +24,7 @@ from twisted.internet.task import LoopingCall
 
 import deluge.component as component
 from deluge._libtorrent import lt
-from deluge.common import decode_bytes, get_magnet_info, utf8_encoded
+from deluge.common import decode_bytes, get_magnet_info
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.core.torrent import Torrent, TorrentOptions, sanitize_filepath
@@ -332,10 +332,9 @@ class TorrentManager(component.Component):
             add_torrent_params['name'] = name
             torrent_id = str(torrent_info.info_hash())
         elif magnet:
-            magnet = utf8_encoded(magnet)
             magnet_info = get_magnet_info(magnet)
             if magnet_info:
-                add_torrent_params['url'] = magnet
+                add_torrent_params['url'] = magnet.encode('utf8')
                 add_torrent_params['name'] = magnet_info['name']
                 torrent_id = magnet_info['info_hash']
             else:
@@ -362,9 +361,9 @@ class TorrentManager(component.Component):
                 if log.isEnabledFor(logging.DEBUG):
                     log.debug('renaming file index %s to %s', index, fname)
                 try:
-                    torrent_info.rename_file(index, fname)
+                    torrent_info.rename_file(index, fname.encode('utf8'))
                 except TypeError:
-                    torrent_info.rename_file(index, utf8_encoded(fname))
+                    torrent_info.rename_file(index, fname)
             add_torrent_params['ti'] = torrent_info
 
         if not options['owner']:
@@ -376,7 +375,7 @@ class TorrentManager(component.Component):
             log.debug('options: %s', options)
 
         # Fill in the rest of the add_torrent_params dictionary.
-        add_torrent_params['save_path'] = utf8_encoded(options['download_location'])
+        add_torrent_params['save_path'] = options['download_location'].encode('utf8')
         if options['name']:
             add_torrent_params['name'] = options['name']
         if options['pre_allocate_storage']:

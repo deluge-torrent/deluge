@@ -15,7 +15,6 @@ from __future__ import division, unicode_literals
 
 import logging
 import os.path
-import sys
 import time
 from hashlib import sha1 as sha
 
@@ -38,22 +37,6 @@ for i in (0xFFFE, 0xFFFF):
 
 def gmtime():
     return time.mktime(time.gmtime())
-
-
-def get_filesystem_encoding():
-    return sys.getfilesystemencoding()
-
-
-def decode_from_filesystem(path):
-    encoding = get_filesystem_encoding()
-    if encoding is None:
-        assert isinstance(path, unicode), 'Path should be unicode not %s' % type(path)
-        decoded_path = path
-    else:
-        assert isinstance(path, str), 'Path should be str not %s' % type(path)
-        decoded_path = path.decode(encoding)
-
-    return decoded_path
 
 
 def dummy(*v):
@@ -140,23 +123,6 @@ def calcsize(path):
 
 def makeinfo(path, piece_length, progress, name=None, content_type=None, private=False):
     # HEREDAVE. If path is directory, how do we assign content type?
-    def to_utf8(name):
-        if isinstance(name, unicode):
-            u = name
-        else:
-            try:
-                u = decode_from_filesystem(name)
-            except Exception:
-                raise Exception('Could not convert file/directory name %r to '
-                                'Unicode. Either the assumed filesystem '
-                                'encoding "%s" is wrong or the filename contains '
-                                'illegal bytes.' % (name, get_filesystem_encoding()))
-
-        if u.translate(noncharacter_translate) != u:
-            raise Exception('File/directory name "%s" contains reserved '
-                            'unicode values that do not correspond to '
-                            'characters.' % name)
-        return u.encode('utf-8')
     path = os.path.abspath(path)
     piece_count = 0
     if os.path.isdir(path):
@@ -178,7 +144,7 @@ def makeinfo(path, piece_length, progress, name=None, content_type=None, private
         for p, f in subs:
             pos = 0
             size = os.path.getsize(f)
-            p2 = [to_utf8(n) for n in p]
+            p2 = [n.encode('utf8') for n in p]
             if content_type:
                 fs.append({'length': size, 'path': p2,
                            'content_type': content_type})  # HEREDAVE. bad for batch!
@@ -204,16 +170,13 @@ def makeinfo(path, piece_length, progress, name=None, content_type=None, private
             piece_count += 1
             progress(piece_count, num_pieces)
 
-        if name is not None:
-            assert isinstance(name, unicode)
-            name = to_utf8(name)
-        else:
-            name = to_utf8(os.path.split(path)[1])
+        if not name:
+            name = os.path.split(path)[1]
 
         return {'pieces': ''.join(pieces),
                 'piece length': piece_length,
                 'files': fs,
-                'name': name,
+                'name': name.encode('utf8'),
                 'private': private}
     else:
         size = os.path.getsize(path)
@@ -234,15 +197,16 @@ def makeinfo(path, piece_length, progress, name=None, content_type=None, private
                 p = size
             progress(piece_count, num_pieces)
         h.close()
+        name = os.path.split(path)[1].encode('utf8')
         if content_type is not None:
             return {'pieces': ''.join(pieces),
                     'piece length': piece_length, 'length': size,
-                    'name': to_utf8(os.path.split(path)[1]),
+                    'name': name,
                     'content_type': content_type,
                     'private': private}
         return {'pieces': ''.join(pieces),
                 'piece length': piece_length, 'length': size,
-                'name': to_utf8(os.path.split(path)[1]),
+                'name': name,
                 'private': private}
 
 

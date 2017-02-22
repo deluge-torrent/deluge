@@ -299,7 +299,7 @@ class BaseInputPane(InputKeyHandler):
 
             if ipt.default_col != -1:
                 default_col = int(ipt.default_col)
-                if isinstance(ipt.default_col, basestring) and ipt.default_col[0] in ['+', '-']:
+                if isinstance(ipt.default_col, ''.__class__) and ipt.default_col[0] in ['+', '-']:
                     col += default_col
                     cursor_offset += default_col
                     field_width -= default_col  # Increase to col must be reflected here

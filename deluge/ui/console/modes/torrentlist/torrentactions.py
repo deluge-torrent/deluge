@@ -131,17 +131,14 @@ def action_torrent_info(mode=None, torrent_ids=None, **kwargs):
         for field in torrent_options:
             caption = '{!info!}' + TORRENT_DATA_FIELD[field]['name']
             value = options[field]
-            field_type = type(value)
-            if field_type in [str, unicode]:
-                if not isinstance(value, basestring):
-                    value = str(value)
+            if isinstance(value, ''.__class__):
                 option_popup.add_text_input(field, caption, value)
-            elif field_type == bool:
-                choices = (['Yes', 'No'], [True, False], [True, False].index(options[field]))
+            elif isinstance(value, bool):
+                choices = (['Yes', 'No'], [True, False], [True, False].index(value))
                 option_popup.add_select_input(field, caption, choices[0], choices[1], choices[2])
-            elif field_type == float:
+            elif isinstance(value, float):
                 option_popup.add_float_spin_input(field, caption, value=value, min_val=-1)
-            elif field_type == int:
+            elif isinstance(value, int):
                 option_popup.add_int_spin_input(field, caption, value=value, min_val=-1)
 
         mode.push_popup(option_popup)

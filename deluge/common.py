@@ -241,7 +241,7 @@ def show_file(path, timestamp=None):
             timestamp = int(time.time())
         startup_id = '%s_%u_%s-dbus_TIME%d' % (os.path.basename(sys.argv[0]), os.getpid(), os.uname()[1], timestamp)
         if DBUS_FILEMAN:
-            paths = [urlparse.urljoin('file:', urllib.pathname2url(utf8_encoded(path)))]
+            paths = [urlparse.urljoin('file:', urllib.pathname2url(path))]
             DBUS_FILEMAN.ShowItems(paths, startup_id, dbus_interface='org.freedesktop.FileManager1')
         else:
             env = os.environ.copy()
@@ -518,12 +518,16 @@ def parse_human_size(size):
         if len(tokens) == 1:
             return int(tokens[0])
         # Otherwise we expect to find two tokens: A number and a unit.
-        if len(tokens) == 2 and isinstance(tokens[1], basestring):
-            normalized_unit = tokens[1].lower()
-            # Try to match the first letter of the unit.
-            for unit in size_units:
-                if normalized_unit.startswith(unit['prefix'].lower()):
-                    return int(tokens[0] * unit['divider'])
+        if len(tokens) == 2:
+            try:
+                normalized_unit = tokens[1].lower()
+            except AttributeError:
+                pass
+            else:
+                # Try to match the first letter of the unit.
+                for unit in size_units:
+                    if normalized_unit.startswith(unit['prefix'].lower()):
+                        return int(tokens[0] * unit['divider'])
     # We failed to parse the size specification.
     msg = 'Failed to parse size! (input %r was tokenized as %r)'
     raise InvalidSize(msg % (size, tokens))
@@ -801,7 +805,7 @@ def decode_bytes(byte_str, encoding='utf8'):
     """
     if not byte_str:
         return ''
-    elif isinstance(byte_str, unicode):
+    elif not isinstance(byte_str, bytes):
         return byte_str
 
     encodings = [lambda: ('utf8', 'strict'),
@@ -820,25 +824,6 @@ def decode_bytes(byte_str, encoding='utf8'):
     return ''
 
 
-def utf8_encoded(s, encoding='utf8'):
-    """
-    Returns a utf8 encoded string of s
-
-    :param s: (unicode) string to (re-)encode
-    :type s: basestring
-    :param encoding: the encoding to use in the decoding
-    :type encoding: string
-    :returns: a utf8 encoded string of s
-    :rtype: str
-
-    """
-    if isinstance(s, str):
-        s = decode_bytes(s, encoding).encode('utf8')
-    elif isinstance(s, unicode):
-        s = s.encode('utf8')
-    return s
-
-
 def utf8_encode_structure(data):
     """Recursively convert all unicode keys and values in a data structure to utf8.
 
@@ -851,14 +836,16 @@ def utf8_encode_structure(data):
         input type: The data with unicode keys and values converted to utf8.
 
     """
-    if isinstance(data, unicode):
-        return data.encode('utf8')
-    elif isinstance(data, (list, tuple)):
+    if isinstance(data, (list, tuple)):
         return type(data)(map(utf8_encode_structure, data))
     elif isinstance(data, dict):
         return dict(map(utf8_encode_structure, data.items()))
-    else:
-        return data
+    elif not isinstance(data, bytes):
+        try:
+            return data.encode('utf8')
+        except AttributeError:
+            pass
+    return data
 
 
 @functools.total_ordering
@@ -993,7 +980,11 @@ def set_env_variable(name, value):
     http://sourceforge.net/p/gramps/code/HEAD/tree/branches/maintenance/gramps32/src/TransUtils.py
     '''
     # Update Python's copy of the environment variables
-    os.environ[name] = value
+    try:
+        os.environ[name] = value
+    except UnicodeEncodeError:
+        # Python 2
+        os.environ[name] = value.encode('utf8')
 
     if windows_check():
         from ctypes import windll

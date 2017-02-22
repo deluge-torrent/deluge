@@ -212,9 +212,6 @@ class Command(BaseCommand):
             def tlen(string):
                 return strwidth(format_utils.remove_formatting(string))
 
-            if not isinstance(col_filename, unicode):
-                col_filename = unicode(col_filename, 'utf-8')
-
             col_all_info = col_size + col_progress + col_priority
             # Check how much space we've got left after writing all the info
             space_left = cols - tlen(col_all_info)

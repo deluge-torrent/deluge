@@ -47,7 +47,7 @@ import logging
 import os
 import shutil
 
-from deluge.common import decode_bytes, get_default_config_dir, utf8_encoded
+from deluge.common import get_default_config_dir
 
 log = logging.getLogger(__name__)
 callLater = None  # Necessary for the config tests
@@ -172,8 +172,10 @@ class Config(object):
             5
 
         """
-        if isinstance(value, basestring):
-            value = utf8_encoded(value)
+        try:
+            value = value.encode('utf8')
+        except AttributeError:
+            pass
 
         if key not in self.__config:
             self.__config[key] = value
@@ -188,10 +190,7 @@ class Config(object):
                 self.__config[key], type(None)) and not isinstance(self.__config[key], type(value)):
             try:
                 oldtype = type(self.__config[key])
-                if isinstance(self.__config[key], unicode):
-                    value = oldtype(value, 'utf8')
-                else:
-                    value = oldtype(value)
+                value = oldtype(value)
             except ValueError:
                 log.warning('Value Type "%s" invalid for key: %s', type(value), key)
                 raise
@@ -244,9 +243,9 @@ class Config(object):
             5
 
         """
-        if isinstance(self.__config[key], basestring):
-            return decode_bytes(self.__config[key])
-        else:
+        try:
+            return self.__config[key].decode('utf8')
+        except AttributeError:
             return self.__config[key]
 
     def get(self, key, default=None):

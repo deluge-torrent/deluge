@@ -70,7 +70,6 @@ def set_language(lang):
     :param lang: the language, e.g. "en", "de" or "en_GB"
     :type lang: str
     """
-    lang = str(lang)
     # Necessary to set these environment variables for GtkBuilder
     deluge.common.set_env_variable('LANGUAGE', lang)  # Windows/Linux
     deluge.common.set_env_variable('LANG', lang)  # For OSX

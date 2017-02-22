@@ -47,7 +47,7 @@ class ConfigTestCase(unittest.TestCase):
         self.assertEquals(config['unicode'], 'ВИДЕОФИЛЬМЫ')
 
         config['unicode'] = b'foostring'
-        self.assertTrue(isinstance(config.get_item('unicode'), unicode))
+        self.assertFalse(isinstance(config.get_item('unicode'), bytes))
 
         config._save_timer.cancel()
 

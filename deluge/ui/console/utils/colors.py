@@ -131,16 +131,13 @@ def strip_colors(line):
     return line
 
 
-def get_line_length(line, encoding='UTF-8'):
+def get_line_length(line):
     """
     Returns the string length without the color formatting.
 
     """
     if line.count('{!') != line.count('!}'):
         raise BadColorString('Number of {! is not equal to number of !}')
-
-    if isinstance(line, unicode):
-        line = line.encode(encoding, 'replace')
 
     # Remove all the color tags
     line = strip_colors(line)
@@ -150,16 +147,13 @@ def get_line_length(line, encoding='UTF-8'):
     return len(line)
 
 
-def get_line_width(line, encoding='UTF-8'):
+def get_line_width(line):
     """
     Get width of string considering double width characters
 
     """
     if line.count('{!') != line.count('!}'):
         raise BadColorString('Number of {! is not equal to number of !}')
-
-    if isinstance(line, unicode):
-        line = line.encode(encoding, 'replace')
 
     # Remove all the color tags
     line = strip_colors(line)
@@ -179,9 +173,6 @@ def parse_color_string(s, encoding='UTF-8'):
     """
     if s.count('{!') != s.count('!}'):
         raise BadColorString('Number of {! is not equal to number of !}')
-
-    if isinstance(s, unicode):
-        s = s.encode(encoding, 'replace')
 
     ret = []
     last_color_attr = None

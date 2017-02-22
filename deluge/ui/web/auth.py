@@ -18,8 +18,6 @@ from email.utils import formatdate
 
 from twisted.internet.task import LoopingCall
 
-from deluge.common import utf8_encoded
-
 log = logging.getLogger(__name__)
 
 
@@ -143,7 +141,7 @@ class Auth(JSONComponent):
             log.debug('Received a password via the 1.2-dev auth method')
             m = hashlib.md5()
             m.update(config['pwd_salt'])
-            m.update(utf8_encoded(password))
+            m.update(password.encode('utf8'))
             if m.hexdigest() == config['pwd_md5']:
                 # We want to move the password over to sha1 and remove
                 # the old passwords from the config file.
@@ -163,7 +161,7 @@ class Auth(JSONComponent):
             from base64 import decodestring
             m = hashlib.md5()
             m.update(decodestring(config['old_pwd_salt']))
-            m.update(utf8_encoded(password))
+            m.update(password.encode('utf8'))
             if m.digest() == decodestring(config['old_pwd_md5']):
 
                 # We want to move the password over to sha1 and remove
@@ -179,7 +177,7 @@ class Auth(JSONComponent):
             log.debug('Received a password via the 1.2 auth method')
             s = hashlib.sha1()
             s.update(config['pwd_salt'])
-            s.update(utf8_encoded(password))
+            s.update(password.encode('utf8'))
             if s.hexdigest() == config['pwd_sha1']:
                 return True
 
@@ -249,7 +247,7 @@ class Auth(JSONComponent):
         log.debug('Changing password')
         salt = hashlib.sha1(os.urandom(32)).hexdigest()
         s = hashlib.sha1(salt)
-        s.update(utf8_encoded(new_password))
+        s.update(new_password.encode('utf8'))
         self.config['pwd_salt'] = salt
         self.config['pwd_sha1'] = s.hexdigest()
         return True

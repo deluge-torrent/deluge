@@ -24,7 +24,7 @@ class PluginManagerBaseTestCase(BaseTestCase):
         pm = PluginManagerBase('core.conf', 'deluge.plugin.core')
         for p in pm.get_available_plugins():
             for key, value in pm.get_plugin_info(p).items():
-                self.assertTrue(isinstance('%s: %s' % (key, value), basestring))
+                self.assertTrue(isinstance('%s: %s' % (key, value), ''.__class__))
 
     def test_get_plugin_info_invalid_name(self):
         pm = PluginManagerBase('core.conf', 'deluge.plugin.core')

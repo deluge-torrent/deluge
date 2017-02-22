@@ -401,20 +401,20 @@ class Preferences(component.Component):
         # Update the widgets accordingly
         for key in core_widgets:
             modifier = core_widgets[key][0]
-            if isinstance(key, basestring):
+            try:
                 widget = self.builder.get_object(key)
-            else:
+            except TypeError:
                 widget = key
 
             widget.set_sensitive(self.is_connected)
 
             if self.is_connected:
                 value = core_widgets[key][1]
-                from types import FunctionType
-                if isinstance(value, FunctionType):
-                    value = value()
-                elif isinstance(value, basestring):
+                try:
                     value = self.core_config[value]
+                except KeyError:
+                    if callable(value):
+                        value = value()
             elif modifier:
                 value = {'active': False, 'not_active': False, 'value': 0, 'text': '', 'path_chooser': ''}[modifier]
 
@@ -433,9 +433,9 @@ class Preferences(component.Component):
 
         if self.is_connected:
             for key in core_widgets:
-                if isinstance(key, basestring):
+                try:
                     widget = self.builder.get_object(key)
-                else:
+                except TypeError:
                     widget = key
                 # Update the toggle status if necessary
                 self.on_toggle(widget)

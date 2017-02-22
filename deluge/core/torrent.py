@@ -26,7 +26,7 @@ from twisted.internet.defer import Deferred, DeferredList
 
 import deluge.component as component
 from deluge._libtorrent import lt
-from deluge.common import decode_bytes, utf8_encoded
+from deluge.common import decode_bytes
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.decorators import deprecated
@@ -1126,12 +1126,12 @@ class Torrent(object):
                 return False
 
         try:
-            # libtorrent needs unicode object if wstrings are enabled, utf8 bytestring otherwise
+            # lt needs utf8 byte-string. Otherwise if wstrings enabled, unicode string.
             # Keyword argument flags=2 (dont_replace) dont overwrite target files but delete source.
             try:
-                self.handle.move_storage(dest, flags=2)
+                self.handle.move_storage(dest.encode('utf8'), flags=2)
             except TypeError:
-                self.handle.move_storage(utf8_encoded(dest), flags=2)
+                self.handle.move_storage(dest, flags=2)
         except RuntimeError as ex:
             log.error('Error calling libtorrent move_storage: %s', ex)
             return False
@@ -1252,13 +1252,13 @@ class Torrent(object):
             filenames (list): A list of (index, filename) pairs.
         """
         for index, filename in filenames:
-            # Make sure filename is a unicode object
+            # Make sure filename is a sanitized unicode string.
             filename = sanitize_filepath(decode_bytes(filename))
-            # libtorrent needs unicode object if wstrings are enabled, utf8 bytestring otherwise
+            # lt needs utf8 byte-string. Otherwise if wstrings enabled, unicode string.
             try:
-                self.handle.rename_file(index, filename)
+                self.handle.rename_file(index, filename.encode('utf8'))
             except TypeError:
-                self.handle.rename_file(index, utf8_encoded(filename))
+                self.handle.rename_file(index, filename)
 
     def rename_folder(self, folder, new_folder):
         """Renames a folder within a torrent.
@@ -1292,9 +1292,9 @@ class Torrent(object):
                 )
                 new_path = _file['path'].replace(folder, new_folder, 1)
                 try:
-                    self.handle.rename_file(_file['index'], new_path)
+                    self.handle.rename_file(_file['index'], new_path.encode('utf8'))
                 except TypeError:
-                    self.handle.rename_file(_file['index'], utf8_encoded(new_path))
+                    self.handle.rename_file(_file['index'], new_path)
 
         def on_folder_rename_complete(dummy_result, torrent, folder, new_folder):
             """Folder rename complete"""

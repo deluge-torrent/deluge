@@ -237,18 +237,15 @@ class TorrentView(InputKeyHandler):
             # and if it's a string
             first_element = state[state.keys()[0]]
             if field in first_element:
-                is_string = isinstance(first_element[field], basestring)
-
                 def sort_key(s):
-                    return state.get(s)[field]
+                    try:
+                        # Sort case-insensitively but preserve A>a order.
+                        return state.get(s)[field].lower()
+                    except AttributeError:
+                        # Not a string.
+                        return state.get(s)[field]
 
-                def sort_key2(s):
-                    return state.get(s)[field].lower()
-
-                # If it's a string, sort case-insensitively but preserve A>a order
                 to_sort = sorted(to_sort, _queue_sort, sort_key, reverse)
-                if is_string:
-                    to_sort = sorted(to_sort, _queue_sort, sort_key2, reverse)
 
             if field == 'eta':
                 to_sort = sorted(to_sort, key=lambda s: state.get(s)['eta'] == 0)

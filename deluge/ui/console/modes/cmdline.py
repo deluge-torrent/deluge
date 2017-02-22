@@ -417,10 +417,7 @@ class CmdLine(BaseMode, Commander):
 
             # Write the line
             with open(self.history_file[active_file], 'a', encoding='utf8') as _file:
-                if isinstance(text, unicode):
-                    text = text.encode(self.encoding)
-                _file.write(text)
-                _file.write(os.linesep)
+                _file.write(text + '\n')
 
             # And increment line counter
             self._hf_lines[active_file] += 1

@@ -307,7 +307,7 @@ class ComponentRegistry(object):
         # Start all the components if names is empty
         if not names:
             names = self.components.keys()
-        elif isinstance(names, basestring):
+        elif not isinstance(names, (list, tuple)):
             names = [names]
 
         def on_depends_started(result, name):
@@ -341,7 +341,7 @@ class ComponentRegistry(object):
         """
         if not names:
             names = self.components.keys()
-        elif isinstance(names, basestring):
+        elif not isinstance(names, (list, tuple)):
             names = [names]
 
         def on_dependents_stopped(result, name):
@@ -379,7 +379,7 @@ class ComponentRegistry(object):
         """
         if not names:
             names = self.components.keys()
-        elif isinstance(names, basestring):
+        elif not isinstance(names, (list, tuple)):
             names = [names]
 
         deferreds = []
@@ -405,7 +405,7 @@ class ComponentRegistry(object):
         """
         if not names:
             names = self.components.keys()
-        elif isinstance(names, basestring):
+        elif not isinstance(names, (list, tuple)):
             names = [names]
 
         deferreds = []

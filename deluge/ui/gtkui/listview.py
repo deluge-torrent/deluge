@@ -15,6 +15,7 @@ import gtk
 from gobject import SIGNAL_RUN_LAST, TYPE_NONE, signal_new
 from gtk.gdk import Event  # pylint: disable=ungrouped-imports
 
+from deluge.common import decode_bytes
 from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_file
 
 signal_new('button-press-event', gtk.TreeViewColumn, SIGNAL_RUN_LAST, TYPE_NONE, (Event,))
@@ -320,7 +321,7 @@ class ListView(object):
         try:
             self.columns[name].column.set_visible(widget.get_active())
         except KeyError:
-            self.columns[unicode(name)].column.set_visible(widget.get_active())
+            self.columns[decode_bytes(name)].column.set_visible(widget.get_active())
         return
 
     def on_treeview_header_right_clicked(self, column, event):

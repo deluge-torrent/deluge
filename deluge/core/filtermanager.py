@@ -133,7 +133,7 @@ class FilterManager(component.Component):
 
         # Sanitize input: filter-value must be a list of strings
         for key, value in filter_dict.items():
-            if isinstance(value, basestring):
+            if not isinstance(value, (list, tuple)):
                 filter_dict[key] = [value]
 
         # Optimized filter for id

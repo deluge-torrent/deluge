@@ -394,8 +394,8 @@ class Core(CorePluginBase):
     def _make_unicode(self, options):
         opts = {}
         for key in options:
-            if isinstance(options[key], str):
-                options[key] = unicode(options[key], 'utf8')
+            if isinstance(options[key], bytes):
+                options[key] = options[key].decode('utf8')
             opts[key] = options[key]
         return opts
 

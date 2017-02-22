@@ -11,8 +11,7 @@ from __future__ import unicode_literals
 
 import re
 from collections import deque
-from unicodedata import normalize as ud_normalize
-from unicodedata import east_asian_width
+from unicodedata import east_asian_width, normalize
 
 import deluge.common
 from deluge.ui.common import FILE_PRIORITY
@@ -88,7 +87,7 @@ def trim_string(string, w, have_dbls):
         idx = 0
         while width < w:
             chrs.append(string[idx])
-            if east_asian_width(string[idx]) in ['W', 'F']:
+            if east_asian_width(string[idx]) in 'WF':
                 width += 2
             else:
                 width += 1
@@ -102,14 +101,13 @@ def trim_string(string, w, have_dbls):
 
 
 def format_column(col, lim):
-    dbls = 0
-    # Chosen over isinstance(col, unicode) and col.__class__ == unicode
-    # for speed - it's ~3 times faster for non-unicode strings and ~1.5
-    # for unicode strings.
-    if col.__class__ is unicode:
+    try:
         # might have some double width chars
-        col = ud_normalize('NFC', col)
+        col = normalize('NFC', col)
         dbls = sum(east_asian_width(c) in 'WF' for c in col)
+    except TypeError:
+        dbls = 0
+
     size = len(col) + dbls
     if size >= lim - 1:
         return trim_string(col, lim, dbls > 0)
@@ -239,8 +237,6 @@ def strwidth(string):
     """
     Measure width of a string considering asian double width characters
     """
-    if not isinstance(string, unicode):
-        string = unicode(string, 'utf-8')
     return sum([1 + (east_asian_width(char) in ['W', 'F']) for char in string])
 
 
