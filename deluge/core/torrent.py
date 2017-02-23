@@ -768,7 +768,10 @@ class Torrent(object):
             except AttributeError:
                 country = ''
             else:
-                country = ''.join([char if char.isalpha() else ' ' for char in country])
+                try:
+                    country = ''.join([char if char.isalpha() else ' ' for char in country])
+                except TypeError:
+                    country = ''
 
             ret.append({
                 'client': client,
