@@ -130,7 +130,7 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
             labelSeparator: '',
             height: 20,
             name: 'force_proxy',
-            boxLabel: _('Force Use of Proxy'),
+            boxLabel: _('Force Use of Proxy')
 
         });
         this.force_proxy.on('change', this.onFieldChange, this);
