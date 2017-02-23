@@ -374,8 +374,7 @@ class RPCServer(component.Component):
         try:
             reactor.listenSSL(port, self.factory, ServerContextFactory(), interface=hostname)
         except Exception as ex:
-            log.info('Daemon already running or port not available.')
-            log.error(ex)
+            log.debug('Daemon already running or port not available.: %s', ex)
             raise
 
     def register_object(self, obj, name=None):

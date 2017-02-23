@@ -11,7 +11,9 @@ from __future__ import print_function, unicode_literals
 
 import os
 import sys
-from logging import FileHandler, getLogger
+from logging import DEBUG, FileHandler, getLogger
+
+from twisted.internet.error import CannotListenError
 
 from deluge.common import run_profiled
 from deluge.configmanager import get_config_dir
@@ -55,8 +57,8 @@ def start_daemon(skip_start=False):
     from deluge.core.daemon import is_daemon_running
     pid_file = get_config_dir('deluged.pid')
     if is_daemon_running(pid_file):
-        print('Cannot run multiple daemons using the same config directory.\n'
-              'If you believe this is an error, you can force a start by deleting: %s' % pid_file)
+        print('Cannot run multiple daemons with same config directory.\n'
+              'If you believe this is an error, force starting by deleting: %s' % pid_file)
         sys.exit(1)
 
     log = getLogger(__name__)
@@ -78,11 +80,18 @@ def start_daemon(skip_start=False):
                 return daemon
             else:
                 daemon.start()
-
+        except CannotListenError as ex:
+            log.error('Cannot start deluged, listen port in use.\n'
+                      ' Check for other running daemons or services using this port: %s:%s',
+                      ex.interface, ex.port)
+            sys.exit(1)
         except Exception as ex:
-            log.exception(ex)
+            log.error('Unable to start deluged: %s', ex)
+            if log.isEnabledFor(DEBUG):
+                log.exception(ex)
             sys.exit(1)
         finally:
+            log.info('Exiting...')
             if options.pidfile:
                 os.remove(options.pidfile)
 
