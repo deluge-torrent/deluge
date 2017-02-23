@@ -80,11 +80,11 @@ def create_gettext_js(js_dir):
                     locations.append((os.path.basename(filename), lineno + 1))
                     strings[string] = locations
 
-    gettext_tpl = '''GetText={maps:{},\
-    add:function(string,translation) {this.maps[string]=translation},\
-    get:function(string) {if (this.maps[string]) {string=this.maps[string]} return string}}
-    function _(string) {return GetText.get(string)}
-'''
+    gettext_tpl = (
+        'GetText={maps:{},'
+        'add:function(string,translation){this.maps[string]=translation},'
+        'get:function(string){if (this.maps[string]){string=this.maps[string]} return string}};'
+        'function _(string){return GetText.get(string)}')
 
     gettext_file = os.path.join(os.path.dirname(js_dir), 'gettext.js')
     with open(gettext_file, 'w') as fp:

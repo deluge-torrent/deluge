@@ -182,20 +182,19 @@ class BuildTranslations(cmd.Command):
             basedir = os.path.join(self.build_lib, 'deluge', 'i18n')
 
         if not windows_check():
-            # creates the translated desktop file
             intltool_merge = 'intltool-merge'
-            intltool_merge_opts = '--utf8 --quiet --desktop-style'
-            desktop_in = 'deluge/ui/data/share/applications/deluge.desktop.in'
-            print('Creating desktop file: %s' % desktop_data)
-            os.system('C_ALL=C ' + '%s ' * 5 % (intltool_merge, intltool_merge_opts,
-                                                po_dir, desktop_in, desktop_data))
+            intltool_merge_opts = '--utf8 --quiet'
+            for data_file in (desktop_data, appdata_data):
+                # creates the translated file from .in file.
+                in_file = data_file + '.in'
+                if 'xml' in data_file:
+                    intltool_merge_opts += ' --xml-style'
+                elif 'desktop' in data_file:
+                    intltool_merge_opts += ' --desktop-style'
 
-            # creates the translated appdata.xml file
-            intltool_merge_opts = '--utf8 --quiet --xml-style'
-            appdata_in = 'deluge/ui/data/share/appdata/deluge.appdata.xml.in'
-            print('Creating appdata.xml file: %s' % appdata_data)
-            os.system('C_ALL=C ' + '%s ' * 5 % (intltool_merge, intltool_merge_opts,
-                                                po_dir, appdata_in, appdata_data))
+                print('Creating file: %s' % data_file)
+                os.system('C_ALL=C ' + '%s ' * 5 % (
+                    intltool_merge, intltool_merge_opts, po_dir, in_file, data_file))
 
         print('Compiling po files from %s...' % po_dir)
         for path, names, filenames in os.walk(po_dir):
@@ -239,12 +238,10 @@ class CleanTranslations(cmd.Command):
         self.set_undefined_options('clean', ('all', 'all'))
 
     def run(self):
-        if os.path.isfile(desktop_data):
-            print('Deleting %s' % desktop_data)
-            os.remove(desktop_data)
-        if os.path.isfile(appdata_data):
-            print('Deleting %s' % appdata_data)
-            os.remove(appdata_data)
+        for path in (desktop_data, appdata_data):
+            if os.path.isfile(path):
+                print('Deleting %s' % path)
+                os.remove(path)
 
 
 class BuildPlugins(cmd.Command):

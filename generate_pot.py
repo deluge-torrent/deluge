@@ -53,12 +53,18 @@ for (dirpath, dirnames, filenames) in os.walk('deluge'):
             filepath = os.path.join(dirpath, filename)
             if os.path.splitext(filepath)[1] in ('.py', '.glade'):
                 to_translate.append(filepath)
-            elif filename.endswith('.in'):
-                call(['intltool-extract', '--quiet', '--type=gettext/ini', filepath])
-                to_translate.append(filepath + '.h')
-            elif filename.endswith('.ui'):
-                call(['intltool-extract', '--quiet', '--type=gettext/glade', filepath])
-                to_translate.append(filepath + '.h')
+            else:
+                if filename.endswith('.xml.in'):
+                    gtxt_type = 'gettext/xml'
+                elif filename.endswith('.in'):
+                    gtxt_type = 'gettext/ini'
+                elif filename.endswith('.ui'):
+                    gtxt_type = 'gettext/glade'
+                else:
+                    continue
+                call(['intltool-extract', '--quiet', '--type=%s' % gtxt_type, filepath])
+                filepath += '.h'
+            to_translate.append(filepath)
 
 with open(INFILES_LIST, 'w') as f:
     for line in to_translate:
