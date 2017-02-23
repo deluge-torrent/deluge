@@ -43,6 +43,7 @@ def osx_check():
 
 
 desktop_data = 'deluge/ui/data/share/applications/deluge.desktop'
+appdata_data = 'deluge/ui/data/share/appdata/deluge.appdata.xml'
 
 # Variables for setuptools.setup
 _packages = find_packages(exclude=['plugins', 'docs', 'tests'])
@@ -189,6 +190,13 @@ class BuildTranslations(cmd.Command):
             os.system('C_ALL=C ' + '%s ' * 5 % (intltool_merge, intltool_merge_opts,
                                                 po_dir, desktop_in, desktop_data))
 
+            # creates the translated appdata.xml file
+            intltool_merge_opts = '--utf8 --quiet --xml-style'
+            appdata_in = 'deluge/ui/data/share/appdata/deluge.appdata.xml.in'
+            print('Creating appdata.xml file: %s' % appdata_data)
+            os.system('C_ALL=C ' + '%s ' * 5 % (intltool_merge, intltool_merge_opts,
+                                                po_dir, appdata_in, appdata_data))
+
         print('Compiling po files from %s...' % po_dir)
         for path, names, filenames in os.walk(po_dir):
             for f in filenames:
@@ -234,6 +242,9 @@ class CleanTranslations(cmd.Command):
         if os.path.isfile(desktop_data):
             print('Deleting %s' % desktop_data)
             os.remove(desktop_data)
+        if os.path.isfile(appdata_data):
+            print('Deleting %s' % appdata_data)
+            os.remove(appdata_data)
 
 
 class BuildPlugins(cmd.Command):
@@ -415,6 +426,8 @@ if not windows_check() and not osx_check():
             'docs/man/deluge-console.1'])])
     if os.path.isfile(desktop_data):
         _data_files.append(('share/applications', [desktop_data]))
+    if os.path.isfile(appdata_data):
+        _data_files.append(('share/appdata', [appdata_data]))
 
 _entry_points['console_scripts'] = [
     'deluge-console = deluge.ui.console:start',
