@@ -90,7 +90,7 @@ class Auth(JSONComponent):
         self.worker.stop()
 
     def _clean_sessions(self):
-        session_ids = self.config['sessions'].keys()
+        session_ids = list(self.config['sessions'].keys())
 
         now = time.gmtime()
         for session_id in session_ids:

@@ -60,6 +60,7 @@ same rencode version throughout your project.
 
 import struct
 import sys
+from future_builtins import zip
 from threading import Lock
 
 __version__ = ('Python', 1, 0, 4)

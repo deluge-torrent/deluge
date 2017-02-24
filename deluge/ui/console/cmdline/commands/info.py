@@ -147,7 +147,7 @@ class Command(BaseCommand):
                 self.console.write('{!error!}Unknown sort key: ' + sort_key + ', will sort on name')
                 sort_key = 'name'
                 sort_reverse = False
-            for key, value in sorted(status.items(), key=lambda x: x[1].get(sort_key), reverse=sort_reverse):
+            for key, value in sorted(list(status.items()), key=lambda x: x[1].get(sort_key), reverse=sort_reverse):
                 self.show_info(key, status[key], options.verbose, options.detailed)
 
         def on_torrents_status_fail(reason):

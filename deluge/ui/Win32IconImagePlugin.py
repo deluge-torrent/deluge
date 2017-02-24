@@ -48,6 +48,7 @@ from __future__ import division, unicode_literals
 
 import logging
 import struct
+from future_builtins import zip
 
 import PIL.BmpImagePlugin
 import PIL.Image
@@ -77,9 +78,9 @@ class Win32IcoFile(object):
         self.nb_items = header[2]
 
         dir_fields = ('width', 'height', 'nb_color', 'reserved', 'planes', 'bpp', 'size', 'offset')
-        for i in xrange(self.nb_items):
+        for i in range(self.nb_items):
             directory = list(struct.unpack('<4B2H2I', buf.read(16)))
-            for j in xrange(3):
+            for j in range(3):
                 if not directory[j]:
                     directory[j] = 256
             icon_header = dict(zip(dir_fields, directory))

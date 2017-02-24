@@ -36,8 +36,8 @@ except ImportError:
 
 log = logging.getLogger(__name__)
 
-ACCOUNTS_USERNAME, ACCOUNTS_LEVEL, ACCOUNTS_PASSWORD = range(3)
-COLOR_MISSING, COLOR_WAITING, COLOR_DOWNLOADING, COLOR_COMPLETED = range(4)
+ACCOUNTS_USERNAME, ACCOUNTS_LEVEL, ACCOUNTS_PASSWORD = list(range(3))
+COLOR_MISSING, COLOR_WAITING, COLOR_DOWNLOADING, COLOR_COMPLETED = list(range(4))
 
 COLOR_STATES = {
     'missing': COLOR_MISSING,
@@ -1020,7 +1020,7 @@ class Preferences(component.Component):
         known_accounts_to_log = []
         for account in known_accounts:
             account_to_log = {}
-            for key, value in account.copy().iteritems():
+            for key, value in account.copy().items():
                 if key == 'password':
                     value = '*' * len(value)
                 account_to_log[key] = value

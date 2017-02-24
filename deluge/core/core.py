@@ -25,6 +25,7 @@ import deluge.common
 import deluge.component as component
 from deluge import path_chooser_common
 from deluge._libtorrent import lt
+from deluge.common import PY2
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.alertmanager import AlertManager
 from deluge.core.authmanager import (AUTH_LEVEL_ADMIN, AUTH_LEVEL_NONE, AUTH_LEVELS_MAPPING,
@@ -39,6 +40,12 @@ from deluge.decorators import deprecated
 from deluge.error import AddTorrentError, DelugeError, InvalidPathError, InvalidTorrentError
 from deluge.event import NewVersionAvailableEvent, SessionPausedEvent, SessionResumedEvent, TorrentQueueChangedEvent
 from deluge.httpdownloader import download_file
+
+try:
+    from urllib.request import urlopen, URLError
+except ImportError:
+    # PY2 fallback
+    from urllib2 import urlopen, URLError
 
 log = logging.getLogger(__name__)
 
@@ -293,7 +300,6 @@ class Core(component.Component):
 
     def get_new_release(self):
         log.debug('get_new_release')
-        from urllib2 import urlopen, URLError
         try:
             self.new_release = urlopen('http://download.deluge-torrent.org/version-1.0').read().strip()
         except URLError as ex:
@@ -596,7 +602,7 @@ class Core(component.Component):
             status_dict, plugin_keys = args
             # Ask the plugin manager to fill in the plugin keys
             if len(plugin_keys) > 0:
-                for key in status_dict.keys():
+                for key in status_dict:
                     status_dict[key].update(self.pluginmanager.get_status(key, plugin_keys))
             return status_dict
         d.addCallback(add_plugin_fields)
@@ -635,7 +641,7 @@ class Core(component.Component):
     def set_config(self, config):
         """Set the config with values from dictionary"""
         # Load all the values into the configuration
-        for key in config.keys():
+        for key in config:
             if self.read_only_config_keys and key in self.read_only_config_keys:
                 continue
             self.config[key] = config[key]
@@ -710,7 +716,7 @@ class Core(component.Component):
         if 'owner' in options and not self.core.authmanager.has_account(options['owner']):
             raise DelugeError('Username "%s" is not known.' % options['owner'])
 
-        if not isinstance(torrent_ids, (list, tuple)):
+        if isinstance(torrent_ids, str if not PY2 else basestring):
             torrent_ids = [torrent_ids]
 
         for torrent_id in torrent_ids:

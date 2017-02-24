@@ -43,7 +43,7 @@ class SchedulerSelectWidget(gtk.DrawingArea):
         self.colors = [[115 / 255, 210 / 255, 22 / 255],
                        [237 / 255, 212 / 255, 0 / 255],
                        [204 / 255, 0 / 255, 0 / 255]]
-        self.button_state = [[0] * 7 for dummy in xrange(24)]
+        self.button_state = [[0] * 7 for dummy in range(24)]
 
         self.start_point = [0, 0]
         self.hover_point = [-1, -1]
@@ -67,8 +67,8 @@ class SchedulerSelectWidget(gtk.DrawingArea):
         width = self.window.get_size()[0]
         height = self.window.get_size()[1]
 
-        for y in xrange(7):
-            for x in xrange(24):
+        for y in range(7):
+            for x in range(24):
                 context.set_source_rgba(self.colors[self.button_state[x][y]][0],
                                         self.colors[self.button_state[x][y]][1],
                                         self.colors[self.button_state[x][y]][2], 0.7)
@@ -130,8 +130,8 @@ class SchedulerSelectWidget(gtk.DrawingArea):
             if self.mouse_press:
                 points = [[self.hover_point[0], self.start_point[0]], [self.hover_point[1], self.start_point[1]]]
 
-                for x in xrange(min(points[0]), max(points[0]) + 1):
-                    for y in xrange(min(points[1]), max(points[1]) + 1):
+                for x in range(min(points[0]), max(points[0]) + 1):
+                    for y in range(min(points[1]), max(points[1]) + 1):
                         self.button_state[x][y] = self.button_state[self.start_point[0]][self.start_point[1]]
 
                 self.queue_draw()

@@ -21,13 +21,19 @@ import re
 import subprocess
 import sys
 import time
-import urllib
-import urlparse
 
 import chardet
 import pkg_resources
 
 from deluge.error import InvalidPathError
+
+try:
+    from urllib.parse import unquote_plus, urljoin
+    from urllib.request import pathname2url
+except ImportError:
+    # PY2 fallback
+    from urlparse import urljoin  # pylint: disable=ungrouped-imports
+    from urllib import pathname2url, unquote_plus  # pylint: disable=ungrouped-imports
 
 DBUS_FILEMAN = None
 # gi makes dbus available on Window but don't import it as unused.
@@ -56,6 +62,8 @@ TORRENT_STATE = [
     'Moving'
 ]
 
+PY2 = sys.version_info.major == 2
+
 
 def get_version():
     """
@@ -82,12 +90,16 @@ def get_default_config_dir(filename=None):
         def save_config_path(resource):
             app_data_path = os.environ.get('APPDATA')
             if not app_data_path:
-                import _winreg
-                hkey = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER,
-                                       'Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders')
-                app_data_reg = _winreg.QueryValueEx(hkey, 'AppData')
+                try:
+                    import winreg
+                except ImportError:
+                    import _winreg as winreg  # For Python 2.
+                hkey = winreg.OpenKey(
+                    winreg.HKEY_CURRENT_USER,
+                    'Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders')
+                app_data_reg = winreg.QueryValueEx(hkey, 'AppData')
                 app_data_path = app_data_reg[0]
-                _winreg.CloseKey(hkey)
+                winreg.CloseKey(hkey)
             return os.path.join(app_data_path, resource)
     else:
         from xdg.BaseDirectory import save_config_path
@@ -241,7 +253,7 @@ def show_file(path, timestamp=None):
             timestamp = int(time.time())
         startup_id = '%s_%u_%s-dbus_TIME%d' % (os.path.basename(sys.argv[0]), os.getpid(), os.uname()[1], timestamp)
         if DBUS_FILEMAN:
-            paths = [urlparse.urljoin('file:', urllib.pathname2url(path))]
+            paths = [urljoin('file:', pathname2url(path))]
             DBUS_FILEMAN.ShowItems(paths, startup_id, dbus_interface='org.freedesktop.FileManager1')
         else:
             env = os.environ.copy()
@@ -626,7 +638,7 @@ def get_magnet_info(uri):
                 else:
                     break
             elif param.startswith(dn_param):
-                name = urllib.unquote_plus(param[len(dn_param):])
+                name = unquote_plus(param[len(dn_param):])
 
         if info_hash:
             if not name:
@@ -837,9 +849,9 @@ def utf8_encode_structure(data):
 
     """
     if isinstance(data, (list, tuple)):
-        return type(data)(map(utf8_encode_structure, data))
+        return type(data)([utf8_encode_structure(d) for d in data])
     elif isinstance(data, dict):
-        return dict(map(utf8_encode_structure, data.items()))
+        return dict([utf8_encode_structure(d) for d in data.items()])
     elif not isinstance(data, bytes):
         try:
             return data.encode('utf8')
@@ -1048,7 +1060,7 @@ def unicode_argv():
             # Remove Python executable and commands if present
             start = argc.value - len(sys.argv)
             return [argv[i] for i in
-                    xrange(start, argc.value)]
+                    range(start, argc.value)]
     else:
         # On other platforms, we have to find the likely encoding of the args and decode
         # First check if sys.stdout or stdin have encoding set

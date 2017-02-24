@@ -12,8 +12,6 @@ from __future__ import unicode_literals
 
 import base64
 import os
-from urllib import url2pathname
-from urlparse import urlparse
 
 from twisted.internet import defer
 
@@ -22,6 +20,14 @@ import deluge.component as component
 from deluge.ui.client import client
 
 from . import BaseCommand
+
+try:
+    from urllib.parse import urlparse
+    from urllib.request import url2pathname
+except ImportError:
+    # PY2 fallback
+    from urlparse import urlparse  # pylint: disable=ungrouped-imports
+    from urllib import url2pathname  # pylint: disable=ungrouped-imports
 
 
 class Command(BaseCommand):

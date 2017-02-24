@@ -8,7 +8,6 @@
 from __future__ import unicode_literals
 
 import base64
-import sys
 from hashlib import sha1 as sha
 
 import pytest
@@ -23,6 +22,7 @@ from twisted.web.static import File
 import deluge.common
 import deluge.component as component
 import deluge.core.torrent
+from deluge.common import PY2
 from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer
 from deluge.error import AddTorrentError, InvalidTorrentError
@@ -270,10 +270,7 @@ class CoreTestCase(BaseTestCase):
     def test_get_free_space(self):
         space = self.core.get_free_space('.')
         # get_free_space returns long on Python 2 (32-bit).
-        if sys.version_info >= (3, 0):
-            self.assertTrue(isinstance(space, int))
-        else:
-            self.assertTrue(isinstance(space, (int, long)))
+        self.assertTrue(isinstance(space, int if not PY2 else (int, long)))
         self.assertTrue(space >= 0)
         self.assertEquals(self.core.get_free_space('/someinvalidpath'), -1)
 

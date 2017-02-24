@@ -19,14 +19,9 @@ import logging
 from twisted.internet import defer
 
 from deluge import component
+from deluge.event import known_events
 
 log = logging.getLogger(__name__)
-
-try:
-    from deluge.event import known_events
-except ImportError:
-    # Old deluge version
-    known_events = {}
 
 
 def get_resource(filename):
@@ -49,8 +44,8 @@ class CustomNotifications(object):
         pass
 
     def disable(self):
-        for kind in self.custom_notifications.iterkeys():
-            for eventtype in self.custom_notifications[kind].copy().iterkeys():
+        for kind in self.custom_notifications:
+            for eventtype in list(self.custom_notifications[kind]):
                 wrapper, handler = self.custom_notifications[kind][eventtype]
                 self._deregister_custom_provider(kind, eventtype)
 

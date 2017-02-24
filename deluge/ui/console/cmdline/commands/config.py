@@ -123,7 +123,7 @@ class Command(BaseCommand):
             self.console.write('{!error!}%s' % ex)
             return
 
-        if key not in config.keys():
+        if key not in list(config.keys()):
             self.console.write('{!error!}Invalid key: %s' % key)
             return
 

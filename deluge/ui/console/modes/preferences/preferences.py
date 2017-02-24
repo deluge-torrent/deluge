@@ -68,7 +68,7 @@ arrow to edit the other value, and escape to get back to the check box.
 
 class ZONE(object):
     length = 3
-    CATEGORIES, PREFRENCES, ACTIONS = range(length)
+    CATEGORIES, PREFRENCES, ACTIONS = list(range(length))
 
 
 class PreferenceSidebar(Sidebar):

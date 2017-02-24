@@ -235,7 +235,7 @@ class TorrentView(InputKeyHandler):
 
             # Get first element so we can check if it has given field
             # and if it's a string
-            first_element = state[state.keys()[0]]
+            first_element = state[list(state.keys())[0]]
             if field in first_element:
                 def sort_key(s):
                     try:
@@ -449,9 +449,9 @@ class TorrentView(InputKeyHandler):
         elif c == ord('M'):
             if self.last_mark >= 0:
                 if self.cursel > self.last_mark:
-                    mrange = range(self.last_mark, self.cursel + 1)
+                    mrange = list(range(self.last_mark, self.cursel + 1))
                 else:
-                    mrange = range(self.cursel, self.last_mark)
+                    mrange = list(range(self.cursel, self.last_mark))
                 self.add_marked(mrange, self.cursel)
                 affected_lines = mrange
             else:

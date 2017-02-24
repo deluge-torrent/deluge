@@ -12,6 +12,7 @@ from __future__ import unicode_literals
 
 import logging
 import os
+import platform
 import random
 import threading
 
@@ -27,6 +28,13 @@ try:
     import GeoIP
 except ImportError:
     GeoIP = None
+
+try:
+    from urllib.parse import quote_plus
+    from urllib.request import urlopen
+except ImportError:
+    from urllib import quote_plus
+    from urllib2 import urlopen
 
 log = logging.getLogger(__name__)
 
@@ -322,9 +330,6 @@ class PreferencesManager(component.Component):
                 now = time.time()
                 # check if we've done this within the last week or never
                 if (now - self.config['info_sent']) >= (60 * 60 * 24 * 7):
-                    from urllib import quote_plus
-                    from urllib2 import urlopen
-                    import platform
                     try:
                         url = 'http://deluge-torrent.org/stats_get.php?processor=' + \
                             platform.machine() + '&python=' + platform.python_version() \

@@ -9,7 +9,7 @@
 
 from __future__ import division, unicode_literals
 
-import cPickle
+import cPickle as pickle
 import logging
 import os.path
 
@@ -344,7 +344,7 @@ class FilesTab(Tab):
 
     def add_files(self, parent_iter, split_files):
         chunk_size_total = 0
-        for key, value in split_files.iteritems():
+        for key, value in split_files.items():
             if key.endswith('/'):
                 chunk_iter = self.treestore.append(parent_iter,
                                                    [key, 0, '', 0, 0, -1, gtk.STOCK_DIRECTORY])
@@ -623,7 +623,7 @@ class FilesTab(Tab):
                 p_itr = self.get_iter_at_path('/'.join(parent_path) + '/')
                 old_name_itr = self.get_iter_at_path(old_name)
                 self.treestore.append(p_itr,
-                                      self.treestore.get(old_name_itr, *xrange(self.treestore.get_n_columns())))
+                                      self.treestore.get(old_name_itr, *range(self.treestore.get_n_columns())))
                 self.treestore.remove(old_name_itr)
 
                 # Remove old parent path
@@ -637,7 +637,7 @@ class FilesTab(Tab):
                         parent_iter, [f + '/', 0, '', 0, 0, -1, gtk.STOCK_DIRECTORY])
                 child = self.get_iter_at_path(old_name)
                 self.treestore.append(parent_iter,
-                                      self.treestore.get(child, *xrange(self.treestore.get_n_columns())))
+                                      self.treestore.get(child, *range(self.treestore.get_n_columns())))
                 self.treestore.remove(child)
 
         else:
@@ -750,12 +750,12 @@ class FilesTab(Tab):
 
     def _on_drag_data_get_data(self, treeview, context, selection, target_id, etime):
         paths = self.listview.get_selection().get_selected_rows()[1]
-        selection.set_text(cPickle.dumps(paths))
+        selection.set_text(pickle.dumps(paths))
 
     def _on_drag_data_received_data(self, treeview, context, x, y, selection, info, etime):
         try:
-            selected = cPickle.loads(selection.data)
-        except cPickle.UnpicklingError:
+            selected = pickle.loads(selection.data)
+        except pickle.UnpicklingError:
             log.debug('Invalid selection data: %s', selection.data)
             return
         log.debug('selection.data: %s', selected)

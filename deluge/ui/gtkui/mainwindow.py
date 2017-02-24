@@ -39,7 +39,7 @@ class _GtkBuilderSignalsHolder(object):
     def connect_signals(self, mapping_or_class):
 
         if isinstance(mapping_or_class, dict):
-            for name, handler in mapping_or_class.iteritems():
+            for name, handler in mapping_or_class.items():
                 if hasattr(self, name):
                     raise RuntimeError(
                         'A handler for signal %r has already been registered: %s' %

@@ -207,7 +207,7 @@ class TorrentInfo(object):
                         item.update(paths[path])
                     item['download'] = True
 
-                file_tree = FileTree2(paths.keys())
+                file_tree = FileTree2(list(paths.keys()))
                 file_tree.walk(walk)
             else:
                 def walk(path, item):

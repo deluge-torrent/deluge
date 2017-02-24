@@ -79,7 +79,7 @@ class QueueMode(object):
                 self.torrentview.cursel = 1 + sorted(self.torrentview.marked).index(self.torrentview.cursel)
             else:
                 self.torrentview.cursel = 1
-            self.torrentview.marked = range(1, selected_num + 1)
+            self.torrentview.marked = list(range(1, selected_num + 1))
         elif qact == ACTION.QUEUE_UP:
             self.torrentview.cursel = max(1, self.torrentview.cursel - 1)
             self.torrentview.marked = [marked - 1 for marked in self.torrentview.marked]
@@ -94,7 +94,7 @@ class QueueMode(object):
                                            sorted(self.torrentview.marked).index(self.torrentview.cursel))
             else:
                 self.torrentview.cursel = queue_length
-            self.torrentview.marked = range(queue_length - selected_num + 1, queue_length + 1)
+            self.torrentview.marked = list(range(queue_length - selected_num + 1, queue_length + 1))
 
     def do_queue(self, qact, *args, **kwargs):
         if qact == ACTION.QUEUE_TOP:

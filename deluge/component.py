@@ -17,6 +17,8 @@ from twisted.internet import reactor
 from twisted.internet.defer import DeferredList, fail, maybeDeferred, succeed
 from twisted.internet.task import LoopingCall, deferLater
 
+from deluge.common import PY2
+
 log = logging.getLogger(__name__)
 
 
@@ -307,7 +309,7 @@ class ComponentRegistry(object):
         # Start all the components if names is empty
         if not names:
             names = self.components.keys()
-        elif not isinstance(names, (list, tuple)):
+        elif isinstance(names, str if not PY2 else basestring):
             names = [names]
 
         def on_depends_started(result, name):
@@ -341,7 +343,7 @@ class ComponentRegistry(object):
         """
         if not names:
             names = self.components.keys()
-        elif not isinstance(names, (list, tuple)):
+        elif isinstance(names, str if not PY2 else basestring):
             names = [names]
 
         def on_dependents_stopped(result, name):
@@ -379,7 +381,7 @@ class ComponentRegistry(object):
         """
         if not names:
             names = self.components.keys()
-        elif not isinstance(names, (list, tuple)):
+        elif isinstance(names, str if not PY2 else basestring):
             names = [names]
 
         deferreds = []
@@ -405,7 +407,7 @@ class ComponentRegistry(object):
         """
         if not names:
             names = self.components.keys()
-        elif not isinstance(names, (list, tuple)):
+        elif isinstance(names, str if not PY2 else basestring):
             names = [names]
 
         deferreds = []
@@ -429,7 +431,7 @@ class ComponentRegistry(object):
         def on_stopped(result):
             return DeferredList([comp._component_shutdown() for comp in self.components.values()])
 
-        return self.stop(self.components.keys()).addCallback(on_stopped)
+        return self.stop(list(self.components.keys())).addCallback(on_stopped)
 
     def update(self):
         """Update all Components that are in a Started state."""

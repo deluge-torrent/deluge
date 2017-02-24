@@ -134,7 +134,7 @@ class Core(CorePluginBase):
     def disable(self):
         self.config.save()
         event_manager = component.get('EventManager')
-        for event, handler in self.registered_events.iteritems():
+        for event, handler in self.registered_events.items():
             event_manager.deregister_event_handler(event, handler)
         log.debug('Execute core plugin disabled!')
 

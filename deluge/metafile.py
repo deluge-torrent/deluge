@@ -27,9 +27,9 @@ log = logging.getLogger(__name__)
 ignore = ['core', 'CVS', 'Thumbs.db', 'desktop.ini']
 
 noncharacter_translate = {}
-for i in xrange(0xD800, 0xE000):
+for i in range(0xD800, 0xE000):
     noncharacter_translate[i] = ord('-')
-for i in xrange(0xFDD0, 0xFDF0):
+for i in range(0xFDD0, 0xFDF0):
     noncharacter_translate[i] = ord('-')
 for i in (0xFFFE, 0xFFFF):
     noncharacter_translate[i] = ord('-')

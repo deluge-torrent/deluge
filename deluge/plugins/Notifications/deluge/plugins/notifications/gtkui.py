@@ -67,10 +67,10 @@ DEFAULT_PREFS = {
     },
 }
 
-RECIPIENT_FIELD, RECIPIENT_EDIT = range(2)
+RECIPIENT_FIELD, RECIPIENT_EDIT = list(range(2))
 (SUB_EVENT, SUB_EVENT_DOC, SUB_NOT_EMAIL, SUB_NOT_POPUP, SUB_NOT_BLINK,
- SUB_NOT_SOUND) = range(6)
-SND_EVENT, SND_EVENT_DOC, SND_NAME, SND_PATH = range(4)
+ SUB_NOT_SOUND) = list(range(6))
+SND_EVENT, SND_EVENT_DOC, SND_NAME, SND_PATH = list(range(4))
 
 
 class GtkUiNotifications(CustomNotifications):

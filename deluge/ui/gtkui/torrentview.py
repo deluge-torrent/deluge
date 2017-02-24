@@ -413,7 +413,7 @@ class TorrentView(ListView, component.Component):
 
         if columns is None:
             # We need to iterate through all columns
-            columns = self.columns.keys()
+            columns = list(self.columns.keys())
 
         # Iterate through supplied list of columns to update
         for column in columns:
@@ -486,7 +486,7 @@ class TorrentView(ListView, component.Component):
 
         # Get the columns to update from one of the torrents
         if status:
-            torrent_id = status.keys()[0]
+            torrent_id = list(status.keys())[0]
             fields_to_update = []
             for column in self.columns_to_update:
                 column_index = self.get_column_index(column)
@@ -626,7 +626,7 @@ class TorrentView(ListView, component.Component):
             return {}
 
     def get_visible_torrents(self):
-        return self.status.keys()
+        return list(self.status.keys())
 
     # Callbacks #
     def on_button_press_event(self, widget, event):

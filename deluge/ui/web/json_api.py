@@ -918,7 +918,7 @@ class WebApi(JSONComponent):
         """
 
         return {
-            'enabled_plugins': component.get('Web.PluginManager').plugins.keys(),
+            'enabled_plugins': list(component.get('Web.PluginManager').plugins.keys()),
             'available_plugins': component.get('Web.PluginManager').available_plugins
         }
 

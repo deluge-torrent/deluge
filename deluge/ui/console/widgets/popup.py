@@ -260,7 +260,7 @@ class SelectablePopup(BaseInputPane, Popup):
     @overrides(Popup, BaseInputPane)
     def handle_read(self, c):
         if c in [curses.KEY_ENTER, util.KEY_ENTER2]:
-            for k, v in self.get_values().iteritems():
+            for k, v in self.get_values().items():
                 if v['active']:
                     if self.selection_cb(k, **dict(self.cb_args, data=self.cb_arg)):
                         self.close(None)

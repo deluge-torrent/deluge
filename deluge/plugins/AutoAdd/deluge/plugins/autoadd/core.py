@@ -101,7 +101,7 @@ class Core(CorePluginBase):
 
     def enable_looping(self):
         # Enable all looping calls for enabled watchdirs here
-        for watchdir_id, watchdir in self.watchdirs.iteritems():
+        for watchdir_id, watchdir in self.watchdirs.items():
             if watchdir['enabled']:
                 self.enable_watchdir(watchdir_id)
 
@@ -110,7 +110,7 @@ class Core(CorePluginBase):
         component.get('EventManager').deregister_event_handler(
             'PreTorrentRemovedEvent', self.__on_pre_torrent_removed
         )
-        for loopingcall in self.update_timers.itervalues():
+        for loopingcall in self.update_timers.values():
             loopingcall.stop()
         self.config.save()
 
@@ -130,12 +130,12 @@ class Core(CorePluginBase):
             check_input(
                 os.path.isdir(options['abspath']), _('Path does not exist.')
             )
-            for w_id, w in self.watchdirs.iteritems():
+            for w_id, w in self.watchdirs.items():
                 if options['abspath'] == w['abspath'] and watchdir_id != w_id:
                     raise Exception('Path is already being watched.')
         for key in options:
             if key not in OPTIONS_AVAILABLE:
-                if key not in [key2 + '_toggle' for key2 in OPTIONS_AVAILABLE.iterkeys()]:
+                if key not in [key2 + '_toggle' for key2 in OPTIONS_AVAILABLE]:
                     raise Exception('autoadd: Invalid options key:%s' % key)
         # disable the watch loop if it was active
         if watchdir_id in self.update_timers:
@@ -225,7 +225,7 @@ class Core(CorePluginBase):
             watchdir['stop_ratio_toggle'] = watchdir['stop_at_ratio_toggle']
         # We default to True when reading _toggle values, so a config
         # without them is valid, and applies all its settings.
-        for option, value in watchdir.iteritems():
+        for option, value in watchdir.items():
             if OPTIONS_AVAILABLE.get(option):
                 if watchdir.get(option + '_toggle', True) or option in ['owner', 'seed_mode']:
                     opts[option] = value
@@ -383,12 +383,12 @@ class Core(CorePluginBase):
             return self.watchdirs
 
         watchdirs = {}
-        for watchdir_id, watchdir in self.watchdirs.iteritems():
+        for watchdir_id, watchdir in self.watchdirs.items():
             if watchdir.get('owner', 'localclient') == session_user:
                 watchdirs[watchdir_id] = watchdir
 
         log.debug('Current logged in user %s is not an ADMIN, send only '
-                  'his watchdirs: %s', session_user, watchdirs.keys())
+                  'his watchdirs: %s', session_user, list(watchdirs.keys()))
         return watchdirs
 
     def _make_unicode(self, options):
@@ -411,7 +411,7 @@ class Core(CorePluginBase):
             os.access(abswatchdir, os.R_OK | os.W_OK),
             'You must have read and write access to watch folder.'
         )
-        if abswatchdir in [wd['abspath'] for wd in self.watchdirs.itervalues()]:
+        if abswatchdir in [wd['abspath'] for wd in self.watchdirs.values()]:
             raise Exception('Path is already being watched.')
         options.setdefault('enabled', False)
         options['abspath'] = abswatchdir
@@ -436,7 +436,7 @@ class Core(CorePluginBase):
         component.get('EventManager').emit(AutoaddOptionsChangedEvent())
 
     def __migrate_config_1_to_2(self, config):
-        for watchdir_id in config['watchdirs'].iterkeys():
+        for watchdir_id in config['watchdirs']:
             config['watchdirs'][watchdir_id]['owner'] = 'localclient'
         return config
 
@@ -449,7 +449,7 @@ class Core(CorePluginBase):
                         torrent_id)
             return
         torrent_fname = torrent.filename
-        for watchdir in self.watchdirs.itervalues():
+        for watchdir in self.watchdirs.values():
             if not watchdir.get('copy_torrent_toggle', False):
                 # This watchlist does copy torrents
                 continue

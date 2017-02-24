@@ -12,7 +12,7 @@ from __future__ import unicode_literals
 import logging
 
 import deluge.component as component
-from deluge.common import TORRENT_STATE
+from deluge.common import PY2, TORRENT_STATE
 
 log = logging.getLogger(__name__)
 
@@ -133,7 +133,7 @@ class FilterManager(component.Component):
 
         # Sanitize input: filter-value must be a list of strings
         for key, value in filter_dict.items():
-            if not isinstance(value, (list, tuple)):
+            if isinstance(value, str if not PY2 else basestring):
                 filter_dict[key] = [value]
 
         # Optimized filter for id
@@ -171,11 +171,11 @@ class FilterManager(component.Component):
         if not filter_dict:
             return torrent_ids
 
-        torrent_keys, plugin_keys = self.torrents.separate_keys(filter_dict.keys(), torrent_ids)
+        torrent_keys, plugin_keys = self.torrents.separate_keys(list(filter_dict), torrent_ids)
         # Leftover filter arguments, default filter on status fields.
         for torrent_id in list(torrent_ids):
             status = self.core.create_torrent_status(torrent_id, torrent_keys, plugin_keys)
-            for field, values in filter_dict.iteritems():
+            for field, values in filter_dict.items():
                 if field in status and status[field] in values:
                     continue
                 elif torrent_id in torrent_ids:
@@ -212,9 +212,7 @@ class FilterManager(component.Component):
                     self._hide_state_items(items[cat])
 
         # Return a dict of tuples:
-        sorted_items = {}
-        for field in tree_keys:
-            sorted_items[field] = sorted(items[field].iteritems())
+        sorted_items = {field: sorted(items[field].items()) for field in tree_keys}
 
         if 'state' in tree_keys:
             sorted_items['state'].sort(self._sort_state_items)

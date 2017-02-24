@@ -15,8 +15,6 @@ import os
 import sys
 from glob import glob
 from tempfile import mkstemp
-from urllib import url2pathname
-from urlparse import urlparse
 
 import twisted.internet.error
 from twisted.internet import reactor
@@ -31,6 +29,14 @@ try:
     import rencode
 except ImportError:
     import deluge.rencode as rencode  # pylint: disable=ungrouped-imports
+
+try:
+    from urllib.parse import urlparse
+    from urllib.request import url2pathname
+except ImportError:
+    # PY2 fallback
+    from urlparse import urlparse  # pylint: disable=ungrouped-imports
+    from urllib import url2pathname  # pylint: disable=ungrouped-imports
 
 log = logging.getLogger(__name__)
 

@@ -135,7 +135,7 @@ class Graph(object):
         # this doesnt allow for dst and timezones...
         seconds_to_step = math.ceil(start / x_step) * x_step - start
 
-        for i in xrange(0, duration // x_step + 1):
+        for i in range(0, duration // x_step + 1):
             text = time.strftime('%H:%M', time.localtime(start + seconds_to_step + i * x_step))
             # + 0.5 to allign x to nearest pixel
             x = int(ratio * (seconds_to_step + i * x_step) + left) + 0.5
@@ -220,7 +220,7 @@ class Graph(object):
             else:
                 interval = interval * 2
 
-        intervals = [i * interval * scale for i in xrange(1 + int(math.ceil(x / interval)))]
+        intervals = [i * interval * scale for i in range(1 + int(math.ceil(x / interval)))]
         return intervals
 
     def draw_left_axis(self, bounds, y_ticks, y_tick_text):
@@ -244,7 +244,7 @@ class Graph(object):
             self.draw_y_text(y_tick_text[i], left, y)
         self.draw_line(gray, left, top, left, bottom)
 
-        for stat, info in stats.iteritems():
+        for stat, info in stats.items():
             if len(info['values']) > 0:
                 self.draw_value_poly(info['values'], info['color'], max_value, bounds)
                 self.draw_value_poly(info['values'], info['fill_color'], max_value, bounds, info['fill'])

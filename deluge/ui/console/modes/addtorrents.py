@@ -12,6 +12,7 @@ from __future__ import unicode_literals
 import base64
 import logging
 import os
+from future_builtins import zip
 
 import deluge.common
 import deluge.component as component
@@ -513,9 +514,9 @@ class AddTorrents(BaseMode):
                 elif chr(c) == 'M':
                     if self.last_mark != -1:
                         if self.last_mark > self.cursel:
-                            m = range(self.cursel, self.last_mark)
+                            m = list(range(self.cursel, self.last_mark))
                         else:
-                            m = range(self.last_mark, self.cursel + 1)
+                            m = list(range(self.last_mark, self.cursel + 1))
 
                         for i in m:
                             s = self.raw_rows[i][0]
