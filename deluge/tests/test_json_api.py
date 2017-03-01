@@ -94,6 +94,7 @@ class JSONTestCase(JSONBase):
         request.write = write
         request.write_was_called = False
         request._disconnected = False
+        request.getHeader.return_value = 'application/json'
         self.assertEquals(json.render(request), server.NOT_DONE_YET)
         self.assertTrue(request.write_was_called)
 
@@ -114,6 +115,15 @@ class JSONTestCase(JSONBase):
         self.assertRaises(JSONException, json._handle_request, request)
         request.json = json_lib.dumps({'method': 'some.method', 'id': 0})
         self.assertRaises(JSONException, json._handle_request, request)
+
+    def test_on_json_request_invalid_content_type(self):
+        """Test for exception with content type not application/json"""
+        json = JSON()
+        request = MagicMock()
+        request.getHeader.return_value = 'text/plain'
+        json_data = {'method': 'some.method', 'id': 0, 'params': []}
+        request.json = json_lib.dumps(json_data)
+        self.assertRaises(JSONException, json._on_json_request, request)
 
 
 class JSONCustomUserTestCase(JSONBase):
@@ -252,6 +262,7 @@ class JSONRequestFailedTestCase(JSONBase, WebServerMockBase):
         request.write = write
         request.write_was_called = False
         request._disconnected = False
+        request.getHeader.return_value = 'application/json'
         json_data = {'method': 'testclass.test', 'id': 0, 'params': []}
         request.json = json_lib.dumps(json_data)
         d = json._on_json_request(request)
