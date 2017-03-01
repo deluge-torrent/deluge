@@ -142,12 +142,15 @@ class JSON(resource.Resource, component.Component):
             request.json = json.loads(request.json)
         except (ValueError, TypeError):
             raise JSONException('JSON not decodable')
-        if 'method' not in request.json or 'id' not in request.json or \
-           'params' not in request.json:
-            raise JSONException('Invalid JSON request')
 
-        method, params = request.json['method'], request.json['params']
-        request_id = request.json['id']
+        try:
+            method = request.json['method']
+            params = request.json['params']
+            request_id = request.json['id']
+        except KeyError as ex:
+            message = 'Invalid JSON request, missing param %s in %s' % (ex, request.json)
+            raise JSONException(message)
+
         result = None
         error = None
 
@@ -162,7 +165,6 @@ class JSON(resource.Resource, component.Component):
             error = {'message': 'Not authenticated', 'code': 1}
         except Exception as ex:
             log.error('Error calling method `%s`', method)
-            log.exception(ex)
             error = {'message': '%s: %s' % (ex.__class__.__name__, str(ex)), 'code': 3}
 
         return request_id, result, error
@@ -178,7 +180,7 @@ class JSON(resource.Resource, component.Component):
         """
         Handles any failures that occurred while making an rpc call.
         """
-        log.exception(reason)
+        log.error(reason)
         response['error'] = {'message': '%s: %s' % (reason.__class__.__name__, str(reason)), 'code': 4}
         return self._send_response(request, response)
 
@@ -207,7 +209,7 @@ class JSON(resource.Resource, component.Component):
         """
         Returns the error in json response.
         """
-        log.exception(reason)
+        log.error(reason)
         response = {'result': None, 'id': None,
                     'error': {'code': 5,
                               'message': '%s: %s' % (reason.__class__.__name__, str(reason))}}
@@ -686,7 +688,7 @@ class WebApi(JSONComponent):
             torrent_info = uicommon.TorrentInfo(filename.strip(), 2)
             return torrent_info.as_dict('name', 'info_hash', 'files_tree')
         except Exception as ex:
-            log.exception(ex)
+            log.error(ex)
             return False
 
     @export
