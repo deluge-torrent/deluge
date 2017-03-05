@@ -46,8 +46,10 @@ import json
 import logging
 import os
 import shutil
+from codecs import getwriter
+from io import open
 
-from deluge.common import get_default_config_dir
+from deluge.common import JSON_FORMAT, get_default_config_dir
 
 log = logging.getLogger(__name__)
 callLater = None  # Necessary for the config tests
@@ -172,11 +174,6 @@ class Config(object):
             5
 
         """
-        try:
-            value = value.encode('utf8')
-        except AttributeError:
-            pass
-
         if key not in self.__config:
             self.__config[key] = value
             log.debug('Setting key "%s" to: %s (of type: %s)', key, value, type(value))
@@ -195,8 +192,10 @@ class Config(object):
                 log.warning('Value Type "%s" invalid for key: %s', type(value), key)
                 raise
 
-        log.debug('Setting key "%s" to: %s (of type: %s)', key, value, type(value))
+        if isinstance(value, bytes):
+            value.decode('utf8')
 
+        log.debug('Setting key "%s" to: %s (of type: %s)', key, value, type(value))
         self.__config[key] = value
 
         global callLater
@@ -243,10 +242,7 @@ class Config(object):
             5
 
         """
-        try:
-            return self.__config[key].decode('utf8')
-        except AttributeError:
-            return self.__config[key]
+        return self.__config[key]
 
     def get(self, key, default=None):
         """Gets the value of item 'key' if key is in the config, else default.
@@ -394,7 +390,7 @@ class Config(object):
             filename = self.__config_file
 
         try:
-            with open(filename, 'rb') as _file:
+            with open(filename, 'r', encoding='utf8') as _file:
                 data = _file.read()
         except IOError as ex:
             log.warning('Unable to open config file %s: %s', filename, ex)
@@ -444,7 +440,7 @@ class Config(object):
         # Check to see if the current config differs from the one on disk
         # We will only write a new config file if there is a difference
         try:
-            with open(filename, 'rb') as _file:
+            with open(filename, 'r', encoding='utf8') as _file:
                 data = _file.read()
             objects = find_json_objects(data)
             start, end = objects[0]
@@ -463,8 +459,8 @@ class Config(object):
         try:
             log.debug('Saving new config file %s', filename + '.new')
             with open(filename + '.new', 'wb') as _file:
-                json.dump(self.__version, _file, indent=2)
-                json.dump(self.__config, _file, indent=2, sort_keys=True)
+                json.dump(self.__version, getwriter('utf8')(_file), **JSON_FORMAT)
+                json.dump(self.__config, getwriter('utf8')(_file), **JSON_FORMAT)
                 _file.flush()
                 os.fsync(_file.fileno())
         except IOError as ex:

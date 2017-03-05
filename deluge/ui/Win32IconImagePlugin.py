@@ -48,13 +48,18 @@ from __future__ import division, unicode_literals
 
 import logging
 import struct
-from future_builtins import zip
 
 import PIL.BmpImagePlugin
 import PIL.Image
 import PIL.ImageChops
 import PIL.ImageFile
 import PIL.PngImagePlugin
+
+try:
+    from future_builtins import zip
+except ImportError:
+    # Ignore on Py3.
+    pass
 
 _MAGIC = '\0\0\1\0'
 log = logging.getLogger(__name__)

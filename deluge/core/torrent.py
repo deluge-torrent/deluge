@@ -19,8 +19,6 @@ from __future__ import division, unicode_literals
 import logging
 import os
 import socket
-from future_builtins import zip
-from urlparse import urlparse
 
 from twisted.internet.defer import Deferred, DeferredList
 
@@ -31,6 +29,18 @@ from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.decorators import deprecated
 from deluge.event import TorrentFolderRenamedEvent, TorrentStateChangedEvent, TorrentTrackerStatusEvent
+
+try:
+    from urllib.parse import urlparse
+except ImportError:
+    # PY2 fallback
+    from urlparse import urlparse  # pylint: disable=ungrouped-imports
+
+try:
+    from future_builtins import zip
+except ImportError:
+    # Ignore on Py3.
+    pass
 
 log = logging.getLogger(__name__)
 
@@ -95,9 +105,14 @@ def convert_lt_files(files):
     """
     filelist = []
     for index, _file in enumerate(files):
+        try:
+            file_path = _file.path.decode('utf8')
+        except AttributeError:
+            file_path = _file.path
+
         filelist.append({
             'index': index,
-            'path': _file.path.decode('utf8').replace('\\', '/'),
+            'path': file_path.replace('\\', '/'),
             'size': _file.size,
             'offset': _file.offset
         })

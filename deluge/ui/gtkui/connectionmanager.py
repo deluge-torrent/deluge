@@ -14,7 +14,6 @@ import logging
 import os
 import time
 from socket import gaierror, gethostbyname
-from urlparse import urlparse
 
 import gtk
 from twisted.internet import reactor
@@ -27,6 +26,12 @@ from deluge.ui.client import Client, client
 from deluge.ui.common import get_localhost_auth
 from deluge.ui.gtkui.common import get_clipboard_text, get_deluge_icon, get_logo
 from deluge.ui.gtkui.dialogs import AuthenticationDialog, ErrorDialog
+
+try:
+    from urllib.parse import urlparse
+except ImportError:
+    # PY2 fallback
+    from urlparse import urlparse  # pylint: disable=ungrouped-imports
 
 log = logging.getLogger(__name__)
 

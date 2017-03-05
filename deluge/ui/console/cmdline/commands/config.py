@@ -10,9 +10,9 @@
 
 from __future__ import unicode_literals
 
-import cStringIO
 import logging
 import tokenize
+from io import StringIO
 
 import deluge.component as component
 import deluge.ui.console.utils.colors as colors
@@ -58,7 +58,7 @@ def atom(src, token):
 def simple_eval(source):
     """ evaluates the 'source' string into a combination of primitive python objects
     taken from http://effbot.org/zone/simple-iterator-parser.htm"""
-    src = cStringIO.StringIO(source).readline
+    src = StringIO(source).readline
     src = tokenize.generate_tokens(src)
     src = (token for token in src if token[0] is not tokenize.NL)
     res = atom(src, next(src))

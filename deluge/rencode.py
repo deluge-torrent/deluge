@@ -60,8 +60,13 @@ same rencode version throughout your project.
 
 import struct
 import sys
-from future_builtins import zip
 from threading import Lock
+
+try:
+    from future_builtins import zip
+except ImportError:
+    # Ignore on Py3.
+    pass
 
 __version__ = ('Python', 1, 0, 4)
 __all__ = ['dumps', 'loads']

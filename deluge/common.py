@@ -62,6 +62,9 @@ TORRENT_STATE = [
     'Moving'
 ]
 
+# The output formatting for json.dump
+JSON_FORMAT = {'indent': 4, 'sort_keys': True, 'ensure_ascii': False}
+
 PY2 = sys.version_info.major == 2
 
 
@@ -678,8 +681,12 @@ def create_magnet_uri(infohash, name=None, trackers=None):
         str: A magnet uri string.
 
     """
+    try:
+        infohash = infohash.decode('hex')
+    except AttributeError:
+        pass
 
-    uri = [MAGNET_SCHEME, XT_BTIH_PARAM, base64.b32encode(infohash.decode('hex'))]
+    uri = [MAGNET_SCHEME, XT_BTIH_PARAM, base64.b32encode(infohash)]
     if name:
         uri.extend(['&', DN_PARAM, name])
     if trackers:
@@ -983,7 +990,7 @@ def create_localclient_account(append=False):
     with open(auth_file, 'a' if append else 'w') as _file:
         _file.write(':'.join([
             'localclient',
-            sha(str(random.random())).hexdigest(),
+            sha(str(random.random()).encode('utf8')).hexdigest(),
             str(AUTH_LEVEL_ADMIN)
         ]) + '\n')
         _file.flush()
@@ -1090,7 +1097,14 @@ def unicode_argv():
         # As a last resort, just default to utf-8
         encoding = encoding or 'utf-8'
 
-        return [arg.decode(encoding) for arg in sys.argv]
+        arg_list = []
+        for arg in sys.argv:
+            try:
+                arg_list.append(arg.decode(encoding))
+            except AttributeError:
+                arg_list.append(arg)
+
+        return arg_list
 
 
 def run_profiled(func, *args, **kwargs):
@@ -1116,8 +1130,8 @@ def run_profiled(func, *args, **kwargs):
                 print('Profile stats saved to %s' % output_file)
             else:
                 import pstats
-                import StringIO
-                strio = StringIO.StringIO()
+                from io import StringIO
+                strio = StringIO()
                 ps = pstats.Stats(profiler, stream=strio).sort_stats('cumulative')
                 ps.print_stats()
                 print(strio.getvalue())

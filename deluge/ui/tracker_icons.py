@@ -11,9 +11,7 @@ from __future__ import unicode_literals
 
 import logging
 import os
-from HTMLParser import HTMLParseError, HTMLParser
 from tempfile import mkstemp
-from urlparse import urljoin, urlparse
 
 from twisted.internet import defer, threads
 from twisted.web.error import PageRedirect
@@ -23,6 +21,14 @@ from deluge.component import Component
 from deluge.configmanager import get_config_dir
 from deluge.decorators import proxy
 from deluge.httpdownloader import download_file
+
+try:
+    from html.parser import HTMLParser
+    from urllib.parse import urljoin, urlparse
+except ImportError:
+    # PY2 fallback
+    from HTMLParser import HTMLParser
+    from urlparse import urljoin, urlparse  # pylint: disable=ungrouped-imports
 
 try:
     import PIL.Image as Image
@@ -411,7 +417,7 @@ class TrackerIcons(Component):
                                callbackArgs=(host,), errbackArgs=(host,))
         elif f.check(NoResource, ForbiddenResource) and icons:
             d = self.download_icon(icons, host)
-        elif f.check(NoIconsError, HTMLParseError):
+        elif f.check(NoIconsError):
             # No icons, try favicon.ico as an act of desperation
             d = self.download_icon([(urljoin(self.host_to_url(host), 'favicon.ico'),
                                      extension_to_mimetype('ico'))], host)

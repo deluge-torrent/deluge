@@ -13,6 +13,7 @@ from __future__ import unicode_literals
 import logging
 import os
 import shutil
+from io import open
 
 import deluge.component as component
 import deluge.configmanager as configmanager
@@ -178,7 +179,7 @@ class AuthManager(component.Component):
         else:
             log.info('Saving the %s at: %s', filename, filepath)
             try:
-                with open(filepath_tmp, 'wb') as _file:
+                with open(filepath_tmp, 'w', encoding='utf8') as _file:
                     for account in self.__auth.values():
                         _file.write('%(username)s:%(password)s:%(authlevel_int)s\n' % account.data())
                     _file.flush()
@@ -213,7 +214,7 @@ class AuthManager(component.Component):
         for _filepath in (auth_file, auth_file_bak):
             log.info('Opening %s for load: %s', filename, _filepath)
             try:
-                with open(_filepath, 'rb') as _file:
+                with open(_filepath, 'r', encoding='utf8') as _file:
                     file_data = _file.readlines()
             except IOError as ex:
                 log.warning('Unable to load %s: %s', _filepath, ex)

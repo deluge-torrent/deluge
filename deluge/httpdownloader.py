@@ -12,7 +12,6 @@ from __future__ import unicode_literals
 import logging
 import os.path
 import zlib
-from urlparse import urljoin
 
 from twisted.internet import reactor
 from twisted.python.failure import Failure
@@ -20,6 +19,12 @@ from twisted.web import client, http
 from twisted.web.error import PageRedirect
 
 from deluge.common import get_version, utf8_encode_structure
+
+try:
+    from urllib.parse import urljoin
+except ImportError:
+    # PY2 fallback
+    from urlparse import urljoin  # pylint: disable=ungrouped-imports
 
 log = logging.getLogger(__name__)
 
@@ -52,7 +57,7 @@ class HTTPDownloader(client.HTTPDownloader):
         self.force_filename = force_filename
         self.allow_compression = allow_compression
         self.code = None
-        agent = b'Deluge/%s (http://deluge-torrent.org)' % get_version()
+        agent = b'Deluge/%s (http://deluge-torrent.org)' % get_version().encode('utf8')
 
         client.HTTPDownloader.__init__(self, url, filename, headers=headers, agent=agent)
 

@@ -9,7 +9,7 @@
 
 from __future__ import unicode_literals
 
-from StringIO import StringIO
+from io import BytesIO
 
 from twisted.internet import defer, reactor
 from twisted.python.failure import Failure
@@ -172,5 +172,5 @@ class WebAPITestCase(WebServerTestBase):
             b'http://127.0.0.1:%s/json' % self.webserver_listen_port,
             Headers({b'User-Agent': [b'Twisted Web Client Example'],
                      b'Content-Type': [b'application/json']}),
-            FileBodyProducer(StringIO(bad_body)))
+            FileBodyProducer(BytesIO(bad_body)))
         yield d

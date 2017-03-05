@@ -563,7 +563,9 @@ def generate_ssl_keys():
     """
     This method generates a new SSL key/cert.
     """
-    digest = b'sha256'
+    from deluge.common import PY2
+    digest = 'sha256' if not PY2 else b'sha256'
+
     # Generate key pair
     pkey = crypto.PKey()
     pkey.generate_key(crypto.TYPE_RSA, 2048)
@@ -587,9 +589,9 @@ def generate_ssl_keys():
 
     # Write out files
     ssl_dir = deluge.configmanager.get_config_dir('ssl')
-    with open(os.path.join(ssl_dir, 'daemon.pkey'), 'w') as _file:
+    with open(os.path.join(ssl_dir, 'daemon.pkey'), 'wb') as _file:
         _file.write(crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey))
-    with open(os.path.join(ssl_dir, 'daemon.cert'), 'w') as _file:
+    with open(os.path.join(ssl_dir, 'daemon.cert'), 'wb') as _file:
         _file.write(crypto.dump_certificate(crypto.FILETYPE_PEM, cert))
     # Make the files only readable by this user
     for f in ('daemon.pkey', 'daemon.cert'):

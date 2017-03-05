@@ -8,11 +8,13 @@
 from __future__ import unicode_literals
 
 import os
+from codecs import getwriter
 
 from twisted.internet import task
 from twisted.trial import unittest
 
 import deluge.config
+from deluge.common import JSON_FORMAT
 from deluge.config import Config
 
 from .common import set_tmp_config_dir
@@ -88,17 +90,10 @@ class ConfigTestCase(unittest.TestCase):
             self.assertEqual(config['string'], 'foobar')
             self.assertEqual(config['float'], 0.435)
 
-        # Test loading an old config from 1.1.x
-        import pickle
-        with open(os.path.join(self.config_dir, 'test.conf'), 'wb') as _file:
-            pickle.dump(DEFAULTS, _file)
-
-        check_config()
-
         # Test opening a previous 1.2 config file of just a json object
         import json
         with open(os.path.join(self.config_dir, 'test.conf'), 'wb') as _file:
-            json.dump(DEFAULTS, _file, indent=2)
+            json.dump(DEFAULTS, getwriter('utf8')(_file), **JSON_FORMAT)
 
         check_config()
 
@@ -107,15 +102,15 @@ class ConfigTestCase(unittest.TestCase):
         with open(os.path.join(self.config_dir, 'test.conf'), 'wb') as _file:
             _file.write(str(1) + '\n')
             _file.write(str(1) + '\n')
-            json.dump(DEFAULTS, _file, indent=2)
+            json.dump(DEFAULTS, getwriter('utf8')(_file), **JSON_FORMAT)
 
         check_config()
 
         # Test the 1.2 config format
         version = {'format': 1, 'file': 1}
         with open(os.path.join(self.config_dir, 'test.conf'), 'wb') as _file:
-            json.dump(version, _file, indent=2)
-            json.dump(DEFAULTS, _file, indent=2)
+            json.dump(version, getwriter('utf8')(_file), **JSON_FORMAT)
+            json.dump(DEFAULTS, getwriter('utf8')(_file), **JSON_FORMAT)
 
         check_config()
 

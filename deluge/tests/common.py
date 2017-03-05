@@ -185,6 +185,7 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
 
     def outReceived(self, data):  # NOQA: N802
         """Process output from stdout"""
+        data = data.decode('utf8')
         self.log_output += data
         if self.check_callbacks(data):
             pass
@@ -193,6 +194,7 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
 
     def errReceived(self, data):  # NOQA: N802
         """Process output from stderr"""
+        data = data.decode('utf8')
         self.log_output += data
         self.stderr_out += data
         self.check_callbacks(data, cb_type='stderr')

@@ -10,7 +10,7 @@
 from __future__ import unicode_literals
 
 import json as json_lib
-from StringIO import StringIO
+from io import BytesIO
 
 import twisted.web.client
 from twisted.internet import defer, reactor
@@ -47,7 +47,7 @@ class WebServerTestCase(WebServerTestBase, WebServerMockBase):
         url = 'http://127.0.0.1:%s/json' % self.webserver_listen_port
 
         d = yield agent.request(b'POST', url.encode('utf-8'), Headers(utf8_encode_structure(headers)),
-                                FileBodyProducer(StringIO(input_file.encode('utf-8'))))
+                                FileBodyProducer(BytesIO(input_file.encode('utf-8'))))
         try:
             body = yield twisted.web.client.readBody(d)
         except AttributeError:

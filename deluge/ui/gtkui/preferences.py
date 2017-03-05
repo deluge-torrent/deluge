@@ -13,7 +13,6 @@ from __future__ import unicode_literals
 import logging
 import os
 from hashlib import sha1 as sha
-from urlparse import urlparse
 
 import gtk
 from gtk.gdk import Color
@@ -28,6 +27,12 @@ from deluge.ui.gtkui.common import associate_magnet_links, get_clipboard_text, g
 from deluge.ui.gtkui.dialogs import AccountDialog, ErrorDialog, InformationDialog, YesNoDialog
 from deluge.ui.gtkui.path_chooser import PathChooser
 from deluge.ui.translations_util import get_languages
+
+try:
+    from urllib.parse import urlparse
+except ImportError:
+    # PY2 fallback
+    from urlparse import urlparse  # pylint: disable=ungrouped-imports
 
 try:
     import appindicator

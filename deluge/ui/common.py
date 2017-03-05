@@ -166,7 +166,7 @@ del _
 DEFAULT_HOST = '127.0.0.1'
 DEFAULT_PORT = 58846
 DEFAULT_HOSTS = {
-    'hosts': [(sha(str(time.time())).hexdigest(), DEFAULT_HOST, DEFAULT_PORT, '', '')]
+    'hosts': [(sha(str(time.time()).encode('utf8')).hexdigest(), DEFAULT_HOST, DEFAULT_PORT, '', '')]
 }
 
 # The keys from session statistics for cache status.

@@ -82,7 +82,7 @@ class Logging(LoggingLoggerClass):
     def exception(self, msg, *args, **kwargs):
         yield LoggingLoggerClass.exception(self, msg, *args, **kwargs)
 
-    def findCaller(self):  # NOQA: N802
+    def findCaller(self, stack_info=False):  # NOQA: N802
         f = logging.currentframe().f_back
         rv = '(unknown file)', 0, '(unknown function)'
         while hasattr(f, 'f_code'):

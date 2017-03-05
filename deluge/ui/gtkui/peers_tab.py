@@ -11,7 +11,6 @@ from __future__ import unicode_literals
 
 import logging
 import os.path
-from future_builtins import zip
 
 from gtk import (TREE_VIEW_COLUMN_FIXED, Builder, CellRendererPixbuf, CellRendererProgress, CellRendererText, ListStore,
                  TreeViewColumn)
@@ -24,6 +23,12 @@ from deluge.ui.countries import COUNTRIES
 from deluge.ui.gtkui.common import icon_downloading, icon_seeding, load_pickled_state_file, save_pickled_state_file
 from deluge.ui.gtkui.torrentdetails import Tab
 from deluge.ui.gtkui.torrentview_data_funcs import cell_data_peer_progress, cell_data_speed_down, cell_data_speed_up
+
+try:
+    from future_builtins import zip
+except ImportError:
+    # Ignore on Py3.
+    pass
 
 log = logging.getLogger(__name__)
 

@@ -10,9 +10,8 @@
 from __future__ import print_function, unicode_literals
 
 import argparse
-import exceptions
-import StringIO
 import sys
+from io import StringIO
 
 import mock
 import pytest
@@ -45,13 +44,14 @@ sys_stdout = sys.stdout
 class StringFileDescriptor(object):
     """File descriptor that writes to string buffer"""
     def __init__(self, fd):
-        self.out = StringIO.StringIO()
+        self.out = StringIO()
         self.fd = fd
         for a in ['encoding']:
             setattr(self, a, getattr(sys_stdout, a))
 
     def write(self, *data, **kwargs):
-        print(*data, file=self.out, end='')
+        # io.StringIO requires unicode strings.
+        print(unicode(*data), file=self.out, end='')
 
     def flush(self):
         self.out.flush()
@@ -113,7 +113,7 @@ class DelugeEntryTestCase(BaseTestCase):
         self.patch(argparse._sys, 'stdout', fd)
 
         with mock.patch('deluge.ui.console.main.ConsoleUI'):
-            self.assertRaises(exceptions.SystemExit, ui_entry.start_ui)
+            self.assertRaises(SystemExit, ui_entry.start_ui)
             self.assertTrue('usage: deluge' in fd.out.getvalue())
             self.assertTrue('UI Options:' in fd.out.getvalue())
             self.assertTrue('* console' in fd.out.getvalue())
@@ -292,7 +292,7 @@ class ConsoleUIBaseTestCase(UIBaseTestCase):
         self.patch(argparse._sys, 'stdout', fd)
 
         with mock.patch('deluge.ui.console.main.ConsoleUI'):
-            self.assertRaises(exceptions.SystemExit, self.exec_command)
+            self.assertRaises(SystemExit, self.exec_command)
             std_output = fd.out.getvalue()
             self.assertTrue(('usage: %s' % self.var['cmd_name']) in std_output)  # Check command name
             self.assertTrue('Common Options:' in std_output)
@@ -314,7 +314,7 @@ class ConsoleUIBaseTestCase(UIBaseTestCase):
         self.patch(argparse._sys, 'stdout', fd)
 
         with mock.patch('deluge.ui.console.main.ConsoleUI'):
-            self.assertRaises(exceptions.SystemExit, self.exec_command)
+            self.assertRaises(SystemExit, self.exec_command)
             std_output = fd.out.getvalue()
             self.assertTrue('usage: info' in std_output)
             self.assertTrue('Show information about the torrents' in std_output)
@@ -324,7 +324,7 @@ class ConsoleUIBaseTestCase(UIBaseTestCase):
         fd = StringFileDescriptor(sys.stdout)
         self.patch(argparse._sys, 'stderr', fd)
         with mock.patch('deluge.ui.console.main.ConsoleUI'):
-            self.assertRaises(exceptions.SystemExit, self.exec_command)
+            self.assertRaises(SystemExit, self.exec_command)
             self.assertTrue('unrecognized arguments: --ui' in fd.out.getvalue())
 
 

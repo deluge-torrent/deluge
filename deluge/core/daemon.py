@@ -45,7 +45,7 @@ def is_daemon_running(pid_file):
     try:
         with open(pid_file) as _file:
             pid, port = [int(x) for x in _file.readline().strip().split(';')]
-    except EnvironmentError:
+    except (EnvironmentError, ValueError):
         return False
 
     if is_process_running(pid):
@@ -130,7 +130,7 @@ class Daemon(object):
             # Create pid file to track if deluged is running, also includes the port number.
             pid = os.getpid()
             log.debug('Storing pid %s & port %s in: %s', pid, self.port, self.pid_file)
-            with open(self.pid_file, 'wb') as _file:
+            with open(self.pid_file, 'w') as _file:
                 _file.write('%s;%s\n' % (pid, self.port))
 
             component.start()

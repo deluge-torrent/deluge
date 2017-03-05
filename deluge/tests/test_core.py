@@ -42,7 +42,7 @@ class CookieResource(Resource):
             return
 
         request.setHeader(b'Content-Type', b'application/x-bittorrent')
-        with open(common.get_test_data_file('ubuntu-9.04-desktop-i386.iso.torrent')) as _file:
+        with open(common.get_test_data_file('ubuntu-9.04-desktop-i386.iso.torrent'), 'rb') as _file:
             data = _file.read()
         return data
 
@@ -50,7 +50,7 @@ class CookieResource(Resource):
 class PartialDownload(Resource):
 
     def render(self, request):
-        with open(common.get_test_data_file('ubuntu-9.04-desktop-i386.iso.torrent')) as _file:
+        with open(common.get_test_data_file('ubuntu-9.04-desktop-i386.iso.torrent'), 'rb') as _file:
             data = _file.read()
         request.setHeader(b'Content-Type', len(data))
         request.setHeader(b'Content-Type', b'application/x-bittorrent')
@@ -119,7 +119,7 @@ class CoreTestCase(BaseTestCase):
         files_to_add = []
         for f in filenames:
             filename = common.get_test_data_file(f)
-            with open(filename) as _file:
+            with open(filename, 'rb') as _file:
                 filedump = base64.encodestring(_file.read())
             files_to_add.append((filename, filedump, options))
         errors = yield self.core.add_torrent_files(files_to_add)
@@ -132,7 +132,7 @@ class CoreTestCase(BaseTestCase):
         files_to_add = []
         for f in filenames:
             filename = common.get_test_data_file(f)
-            with open(filename) as _file:
+            with open(filename, 'rb') as _file:
                 filedump = base64.encodestring(_file.read())
             files_to_add.append((filename, filedump, options))
         errors = yield self.core.add_torrent_files(files_to_add)
@@ -143,15 +143,15 @@ class CoreTestCase(BaseTestCase):
     def test_add_torrent_file(self):
         options = {}
         filename = common.get_test_data_file('test.torrent')
-        with open(filename) as _file:
+        with open(filename, 'rb') as _file:
             filedump = base64.encodestring(_file.read())
         torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
 
         # Get the info hash from the test.torrent
         from deluge.bencode import bdecode, bencode
-        with open(filename) as _file:
-            info_hash = sha(bencode(bdecode(_file.read())['info'])).hexdigest()
-        self.assertEqual(torrent_id, info_hash)
+        with open(filename, 'rb') as _file:
+            info_hash = sha(bencode(bdecode(_file.read())[b'info'])).hexdigest()
+        self.assertEquals(torrent_id, info_hash)
 
     def test_add_torrent_file_invalid_filedump(self):
         options = {}
@@ -211,7 +211,7 @@ class CoreTestCase(BaseTestCase):
     def test_remove_torrent(self):
         options = {}
         filename = common.get_test_data_file('test.torrent')
-        with open(filename) as _file:
+        with open(filename, 'rb') as _file:
             filedump = base64.encodestring(_file.read())
         torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
         removed = self.core.remove_torrent(torrent_id, True)
@@ -225,12 +225,12 @@ class CoreTestCase(BaseTestCase):
     def test_remove_torrents(self):
         options = {}
         filename = common.get_test_data_file('test.torrent')
-        with open(filename) as _file:
+        with open(filename, 'rb') as _file:
             filedump = base64.encodestring(_file.read())
         torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
 
         filename2 = common.get_test_data_file('unicode_filenames.torrent')
-        with open(filename2) as _file:
+        with open(filename2, 'rb') as _file:
             filedump = base64.encodestring(_file.read())
         torrent_id2 = yield self.core.add_torrent_file(filename2, filedump, options)
         d = self.core.remove_torrents([torrent_id, torrent_id2], True)
@@ -248,7 +248,7 @@ class CoreTestCase(BaseTestCase):
     def test_remove_torrents_invalid(self):
         options = {}
         filename = common.get_test_data_file('test.torrent')
-        with open(filename) as _file:
+        with open(filename, 'rb') as _file:
             filedump = base64.encodestring(_file.read())
             torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
         val = yield self.core.remove_torrents(['invalidid1', 'invalidid2', torrent_id], False)
