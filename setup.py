@@ -487,6 +487,7 @@ setup(
     url='http://deluge-torrent.org',
     license='GPLv3',
     cmdclass=cmdclass,
+    setup_requires=['slimit'],
     tests_require=['pytest'],
     data_files=_data_files,
     package_data=_package_data,
