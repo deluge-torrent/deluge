@@ -174,6 +174,10 @@ class Upload(resource.Resource):
         }), request)
 
 class Render(resource.Resource):
+    def __init__(self):
+        resource.Resource.__init__(self)
+        # Make a list of all the template files to check requests against.
+        self.template_files = fnmatch.filter(os.listdir(rpath('render')), '*.html')
 
     def getChild(self, path, request):
         request.render_file = path
@@ -183,6 +187,10 @@ class Render(resource.Resource):
         if not hasattr(request, "render_file"):
             request.setResponseCode(http.INTERNAL_SERVER_ERROR)
             return ""
+
+        if request.render_file not in self.template_files:
+            request.setResponseCode(http.NOT_FOUND)
+            return "<h1>404 - Not Found</h1>"
 
         filename = os.path.join("render", request.render_file)
         template = Template(filename=rpath(filename))
