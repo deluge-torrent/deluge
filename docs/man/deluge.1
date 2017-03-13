@@ -1,58 +1,63 @@
-.TH DELUGE 1 "January 2099" "2.0-dev"
+.TH DELUGE 1 "January 2017" "2.0-dev"
 
 .SH NAME
-deluge - a bittorrent client
+deluge - A BitTorrent client
 
 .SH SYNOPSIS
 .B deluge [options]
 .RI [ torrent-file\fR]
 
 .SH DESCRIPTION
-Deluge utilizes a client/server model, with 'deluged' being the daemon process and 'deluge' being used to launch a user-interface.
+Deluge utilizes a client/server model, with \fBdeluged\fR being the daemon process and \fBdeluge\fR being used to launch a user-interface.
 .P
-By default, Deluge will run in 'Classic' mode where the daemon functionality will be hidden and the GtkUI will automatically launch a 'deluged' process.  You can turn this off in the Preferences dialog.
+By default, Deluge will run in \fIStandalone\fR mode where the daemon functionality will be hidden.
+You can switch to \fIThinclient\fR mode in the Preferences dialog.
 
 .SH OPTIONS
-.SS General Options
+.SS Config Options
 .TP
-.BI -c\  path \fR,\ \fB--config= path
+.BI \-c\  path \fR,\ \fB\-\-config= path
 Set the config directory location.
 
 .SS UI Options
+See \fBdeluge -h\fR for available user interfaces.
 .TP
-.BI -u\  ui \fR,\ \fB--ui= ui
-The UI that you wish to launch, current options include: gtk, web or console
+.I user_interface \fR[\fIui-args\fR] Alternative UI to launch, with optional ui args
 .TP
 .BI -s\  default_ui \fR,\ \fB--set-default-ui= default_ui
 Sets the default UI to be run when no UI is specified
-.TP
-.BI -a\  args \fR,\ \fB--args= args
-Arguments to pass to a UI, -a '--option args'
 
 .SS Logging Options
 .TP
-.BI -l\  file \fR,\ \fB--logfile= file
-Output to designated logfile instead of stdout
+.BI \-l\  file \fR,\ \fB\-\-logfile= file
+Output to specified logfile instead of stdout
 .TP
-.BI -L\  loglevel \fR,\ \fB--loglevel= loglevel
+.BI \-L\  loglevel \fR,\ \fB\-\-loglevel= loglevel
 Set the log level (default is error):
-.B none, info, warning, error, critical, debug
+.B none, info, warning, error, debug
 .TP
-.B -q, --quiet
-Sets the log level to 'none', same as `\-L none`
+.B \-q\fR,\ \fB\-\-quiet
+Sets the log level to \fBnone\fR, same as \fB\-L none
+.TP
+.BI \-\-logrotate\fR[\fB=\fImax-size\fR]
+Enable logfile rotation, with optional maximum logfile
+size, default: 2M (Logfile rotation count is 5)
+.TP
+.BI \-\-profile\fR[\fB=\fIfile\fR]
+Profile with cProfile. Outputs to stdout unless a filename is specified
 
 .SS Help Options
 .TP
-.B -v, --version
+.B \-V\fR,\ \fB\-\-version
 Show program's version number and exit.
 .TP
-.B -h, --help
+.B \-h\fR,\ \fB\-\-help
 Show help message and exit.
 
 .SH SEE ALSO
-.BR deluged(1),
-.BR deluge-web(1),
-.BR deluge-console(1)
+.BR deluged (1),
+.BR deluge-web (1)
+.BR deluge-console (1),
 
 .SH AUTHORS
 .B Deluge Team: http://www.deluge-torrent.org

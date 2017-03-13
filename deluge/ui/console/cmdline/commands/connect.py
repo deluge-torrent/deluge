@@ -21,7 +21,7 @@ log = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-    """Connect to a new deluge server."""
+    """Connect to a new deluge server"""
 
     usage = _('Usage: connect <host[:port]> [<username>] [<password>]')
 

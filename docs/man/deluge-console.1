@@ -1,48 +1,100 @@
-.TH DELUGE-CONSOLE 1 "January 2099" "2.0-dev"
+.TH DELUGE-CONSOLE 1 "January 2017" "2.0-dev"
 
 .SH NAME
-deluge-console - a bittorrent client curses interface
+deluge-console - A BitTorrent client console interface
 
 .SH SYNOPSIS
 .B deluge-console [options]
 
 .SH DESCRIPTION
-Deluge utilizes a client/server model, with 'deluged' being the daemon process and 'deluge-console' being used to launch a console user-interface.
+Deluge utilizes a client/server model, with \fBdeluged\fR being the daemon process and \fBdeluge-console\fR being used to launch a curses console user-interface.
 .P
-You can pass console commands directly from the command line and run multiple commands by separating them with a semi-colon (;).
 .SS Console Commands:
-    info quit pause help resume del plugin cache add exit connect debug rm config recheck halt
+You can pass console commands directly from the command line and use semi-colon (\fB;\fR) seperator to run multiple commands. Enclosing the commands with quotes may also be required
+for example:
+
+    \fBdeluge-console 'add <torrent>; info <torrent_id>'\fR
+
+The following console commands are available:
+.TS
+tab (@);
+lB lx.
+add@Add torrents
+cache@Show information about the disk cache
+config@Show and set configuration values
+connect@Connect to a new deluge server
+debug@Enable and disable debugging
+del@Alias for \fBrm\fR
+exit@Alias for \fBquit\fR
+gui@Enable interactive mode
+halt@Shutdown the deluge server
+help@Displays help on other commands
+info@Show information about the torrents
+manage@Show and manage per-torrent options
+move@Move torrents' storage location
+pause@Pause torrents
+plugin@Manage plugins
+quit@Exit the client
+reannounce@Alias for \fBupdate_tracker\fR
+recheck@Forces a recheck of the torrent data
+resume@Resume torrents
+rm@Remove a torrent
+status@Shows a various status information from the daemon
+update_tracker@Update tracker for torrent(s)
+.TE
 
 .SH OPTIONS
-.SS General Options
+.SS Config Options
 .TP
-.BI -c\  path \fR,\ \fB--config= path
+.BI \-c\  path \fR,\ \fB\-\-config= path
 Set the config directory location.
+
+.SS Console Options
+These daemon connect options will be used for commands, or if console ui autoconnect is enabled.
+.TP
+.BI \-d\  ip_addr \fR,\ \fB\-\-daemon= ip_addr
+Deluge daemon IP address to connect to (default 127.0.0.1)
+.TP
+.BI \-p\  port \fR,\ \fB\-\-port= port
+Deluge daemon port to connect to (default 58846)
+.TP
+.BI \-U\  user \fR,\ \fB\-\-username= user
+Deluge daemon username to use when connecting
+.TP
+.BI \-P\  pass \fR,\ \fB\-\-password= pass
+Deluge daemon password to use when connecting
 
 .SS Logging Options
 .TP
-.BI -l\  file \fR,\ \fB--logfile= file
-Output to designated logfile instead of stdout
+.BI \-l\  file \fR,\ \fB\-\-logfile= file
+Output to specified logfile instead of stdout
 .TP
-.BI -L\  loglevel \fR,\ \fB--loglevel= loglevel
+.BI \-L\  loglevel \fR,\ \fB\-\-loglevel= loglevel
 Set the log level (default is error):
-.B none, info, warning, error, critical, debug
+.B none, info, warning, error, debug
 .TP
-.B -q, --quiet
-Sets the log level to 'none', same as `\-L none`
+.B \-q\fR,\ \fB\-\-quiet
+Sets the log level to \fBnone\fR, same as \fB\-L none
+.TP
+.BI \-\-logrotate\fR[\fB=\fImax-size\fR]
+Enable logfile rotation, with optional maximum logfile
+size, default: 2M (Logfile rotation count is 5)
+.TP
+.BI \-\-profile\fR[\fB=\fIfile\fR]
+Profile with cProfile. Outputs to stdout unless a filename is specified
 
 .SS Help Options
 .TP
-.B -v, --version
+.B \-V\fR,\ \fB\-\-version
 Show program's version number and exit.
 .TP
-.B -h, --help
+.B \-h\fR,\ \fB\-\-help
 Show help message and exit.
 
 .SH SEE ALSO
-.BR deluge(1),
-.BR deluged(1),
-.BR deluge-web(1)
+.BR deluge (1),
+.BR deluged (1),
+.BR deluge-web (1)
 
 .SH AUTHORS
 .B Deluge Team: http://www.deluge-torrent.org

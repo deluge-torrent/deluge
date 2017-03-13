@@ -23,7 +23,7 @@ log = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-    """Shows a various status information from the daemon."""
+    """Shows various status information from the daemon"""
 
     def add_arguments(self, parser):
         parser.add_argument('-r', '--raw', action='store_true', default=False, dest='raw',

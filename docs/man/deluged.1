@@ -1,20 +1,20 @@
 .TH DELUGED 1 ""January 2099" "2.0-dev"
 
 .SH NAME
-deluged - a bittorrent client daemon
+deluged - A BitTorrent client daemon
 
 .SH SYNOPSIS
 .B deluged [options]
 
 .SH DESCRIPTION
-Deluge utilizes a client/server model, with 'deluged' being the daemon process and 'deluge' being used to launch a user-interface.
+Deluge utilizes a client/server model, with \fBdeluged\fR being the daemon process and \fBdeluge\fR being used to launch a user-interface.
 .P
-By default, 'deluged' will run as a daemon, to prevent this you can run deluged with the \-d option.  This option is useful for running deluged with the start-stop-daemon.
+By default \fBdeluged\fR will run as a background daemon, use the \fB\-d\fR option to run process in foreground.
 
 .SH OPTIONS
-.SS General Options
+.SS Config Options
 .TP
-.BI -c\  path \fR,\ \fB--config= path
+.BI \-c\  path ,\ \fB\-\-config= path
 Set the config directory location.
 
 .SS Daemon Options
@@ -27,37 +27,52 @@ Interface daemon will listen for bittorrent connections on, this should be an IP
 .TP
 .BI -u\  ip_address \fR,\ \fB--ui-interface= ip_address
 Interface daemon will listen for UI connections on, this should be an IP address
-.TP
-.B -d, --do-not-daemonize
-Do not daemonize
-.TP
-.BI -P\  file \fR,\ \fB--pidfile= file
-Use pidfile to store process id
 
 .SS Logging Options
 .TP
-.BI -l\  file \fR,\ \fB--logfile= file
-Output to designated logfile instead of stdout
+.BI \-l\  file \fR,\ \fB\-\-logfile= file
+Output to specified logfile instead of stdout
 .TP
-.BI -L\  loglevel \fR,\ \fB--loglevel= loglevel
+.BI \-L\  loglevel \fR,\ \fB\-\-loglevel= loglevel
 Set the log level (default is error):
-.B none, info, warning, error, critical, debug
+.B none, info, warning, error, debug
 .TP
-.B -q, --quiet
-Sets the log level to 'none', same as `\-L none`
+.B \-q\fR,\ \fB\-\-quiet
+Sets the log level to \fBnone\fR, same as \fB\-L none
+.TP
+.BI \-\-logrotate\fR[\fB=\fImax-size\fR]
+Enable logfile rotation, with optional maximum logfile
+size, default: 2M (Logfile rotation count is 5)
+.TP
+.BI \-\-profile\fR[\fB=\fIfile\fR]
+Profile with cProfile. Outputs to stdout unless a filename is specified
+
+.SS Process Control Options:
+.TP
+.BI \-P\  file \fR,\ \fB\-\-pidfile= file
+Pidfile to store the process id
+.TP
+.B -d\fR,\ \fB\-\-do-not-daemonize
+Do not daemonize (fork) this process
+.TP
+.BI \-U\fR,\ \fB\-\-user= user
+Change to this user on startup (Requires root)
+.TP
+.BI \-g\fR,\ \fB\-\-group= group
+Change to this group on startup (Requires root)
 
 .SS Help Options
 .TP
-.B -v, --version
+.B \-V\fR,\ \fB\-\-version
 Show program's version number and exit.
 .TP
-.B -h, --help
+.B \-h\fR,\ \fB\-\-help
 Show help message and exit.
 
 .SH SEE ALSO
-.BR deluge(1),
-.BR deluge-web(1),
-.BR deluge-console(1)
+.BR deluge (1),
+.BR deluge-web (1),
+.BR deluge-console (1)
 
 .SH AUTHORS
 .B Deluge Team: http://www.deluge-torrent.org

@@ -22,7 +22,7 @@ log = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-    """displays help on other commands"""
+    """Displays help on other commands"""
 
     def add_arguments(self, parser):
         parser.add_argument('commands', metavar='<command>', nargs='*', help=_('One or more commands'))
