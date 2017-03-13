@@ -140,14 +140,15 @@ class Render(resource.Resource):
             request.setResponseCode(http.INTERNAL_SERVER_ERROR)
             return ''
 
-        if request.render_file not in self.template_files:
+        if request.render_file in self.template_files:
+            request.setResponseCode(http.OK)
+            filename = os.path.join('render', request.render_file)
+        else:
             request.setResponseCode(http.NOT_FOUND)
-            return '<h1>404 - Not Found</h1>'
+            filename = os.path.join('render', '404.html')
 
-        filename = os.path.join('render', request.render_file)
-        template = Template(filename=rpath(filename))
         request.setHeader(b'content-type', b'text/html')
-        request.setResponseCode(http.OK)
+        template = Template(filename=rpath(filename))
         return compress(template.render(), request)
 
 
@@ -233,23 +234,22 @@ class LookupResource(resource.Resource, component.Component):
         log.debug('Requested path: %s', request.lookup_path)
         path = os.path.dirname(request.lookup_path)
 
-        if path not in self.__paths:
-            request.setResponseCode(http.NOT_FOUND)
-            return '<h1>404 - Not Found</h1>'
-
-        filename = os.path.basename(request.path)
-        for directory in self.__paths[path]:
-            if os.path.join(directory, filename):
-                path = os.path.join(directory, filename)
-                log.debug('Serving path: %s', path)
-                mime_type = mimetypes.guess_type(path)
-                request.setHeader(b'content-type', mime_type[0])
-                with open(path, 'rb') as _file:
-                    data = _file.read()
-                return compress(data, request)
+        if path in self.__paths:
+            filename = os.path.basename(request.path)
+            for directory in self.__paths[path]:
+                if os.path.join(directory, filename):
+                    path = os.path.join(directory, filename)
+                    log.debug('Serving path: %s', path)
+                    mime_type = mimetypes.guess_type(path)
+                    request.setHeader(b'content-type', mime_type[0])
+                    with open(path, 'rb') as _file:
+                        data = _file.read()
+                    return compress(data, request)
 
         request.setResponseCode(http.NOT_FOUND)
-        return '<h1>404 - Not Found</h1>'
+        request.setHeader(b'content-type', b'text/html')
+        template = Template(filename=rpath(os.path.join('render', '404.html')))
+        return compress(template.render(), request)
 
 
 class ScriptResource(resource.Resource, component.Component):
@@ -409,7 +409,9 @@ class ScriptResource(resource.Resource, component.Component):
                 return compress(data, request)
 
         request.setResponseCode(http.NOT_FOUND)
-        return '<h1>404 - Not Found</h1>'
+        request.setHeader(b'content-type', b'text/html')
+        template = Template(filename=rpath(os.path.join('render', '404.html')))
+        return compress(template.render(), request)
 
 
 class TopLevel(resource.Resource):
