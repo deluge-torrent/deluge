@@ -9,6 +9,7 @@
 #
 from __future__ import print_function, unicode_literals
 
+import fnmatch
 import logging
 import os
 import sys
@@ -29,24 +30,24 @@ log = logging.getLogger(__name__)
 def load_commands(command_dir):
 
     def get_command(name):
-        return getattr(__import__('deluge.ui.console.cmdline.commands.%s' % name, {}, {}, ['Command']), 'Command')()
+        command = getattr(__import__('deluge.ui.console.cmdline.commands.%s' % name,
+                                     {}, {}, ['Command']), 'Command')()
+        command._name = name
+        return command
 
     try:
-        commands = []
-        for filename in os.listdir(command_dir):
-            if filename.startswith('_'):
-                continue
-            if not (filename.endswith('.py') or filename.endswith('.pyc')):
-                continue
-            cmd = get_command(filename.split('.')[len(filename.split('.')) - 2])
-            aliases = [filename.split('.')[len(filename.split('.')) - 2]]
-            cmd._name = aliases[0]
-            aliases.extend(cmd.aliases)
-            for a in aliases:
-                commands.append((a, cmd))
-        return dict(commands)
+        dir_list = fnmatch.filter(os.listdir(command_dir), '*.py')
     except OSError:
         return {}
+
+    commands = []
+    for filename in dir_list:
+        if filename.startswith('_'):
+            continue
+        cmd = get_command(os.path.splitext(filename)[0])
+        for cmd_name in [cmd._name] + cmd.aliases:
+            commands.append((cmd_name, cmd))
+    return dict(commands)
 
 
 class LogStream(object):
@@ -88,8 +89,8 @@ class Console(UI):
                                                         metavar=_('Command'), dest='command')
         from deluge.ui.console import UI_PATH  # Must import here
         self.console_cmds = load_commands(os.path.join(UI_PATH, 'cmdline', 'commands'))
-        for c in sorted(self.console_cmds):
-            self.console_cmds[c].add_subparser(subparsers)
+        for cmd in sorted(self.console_cmds):
+            self.console_cmds[cmd].add_subparser(subparsers)
 
     def start(self):
         if self.ui_args is None:

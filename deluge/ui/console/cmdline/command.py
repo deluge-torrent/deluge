@@ -189,7 +189,15 @@ class BaseCommand(object):
         opts = {'prog': self.name_with_alias, 'help': self.__doc__, 'description': self.__doc__}
         if self.usage:
             opts['usage'] = self.usage
-        parser = subparsers.add_parser(self.name, **opts)
+
+        # A workaround for aliases showing as duplicate command names in help output.
+        for cmd_name in sorted([self.name] + self.aliases):
+            if cmd_name not in subparsers._name_parser_map:
+                if cmd_name in self.aliases:
+                    opts['help'] = _('`%s` alias' % self.name)
+                parser = subparsers.add_parser(cmd_name, **opts)
+                break
+
         self.add_arguments(parser)
 
     def add_arguments(self, parser):
