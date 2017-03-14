@@ -15,6 +15,7 @@ import os
 import stat
 import sys
 import traceback
+from collections import namedtuple
 from types import FunctionType
 
 from OpenSSL import SSL, crypto
@@ -158,7 +159,9 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
         log.info('Deluge Client connection made from: %s:%s',
                  peer.host, peer.port)
         # Set the initial auth level of this session to AUTH_LEVEL_NONE
-        self.factory.authorized_sessions[self.transport.sessionno] = AUTH_LEVEL_NONE
+        self.AuthLevel = namedtuple('SessionAuthlevel', 'auth_level, username')
+        self.factory.authorized_sessions[
+            self.transport.sessionno] = self.AuthLevel(AUTH_LEVEL_NONE, '')
 
     def connectionLost(self, reason=connectionDone):  # NOQA: N802
         """
@@ -240,7 +243,8 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                     raise IncompatibleClient(deluge.common.get_version())
                 ret = component.get('AuthManager').authorize(*args, **kwargs)
                 if ret:
-                    self.factory.authorized_sessions[self.transport.sessionno] = (ret, args[0])
+                    self.factory.authorized_sessions[
+                        self.transport.sessionno] = self.AuthLevel(ret, args[0])
                     self.factory.session_protocols[self.transport.sessionno] = self
             except Exception as ex:
                 send_error()
@@ -282,7 +286,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
         log.debug('RPC dispatch %s', method)
         try:
             method_auth_requirement = self.factory.methods[method]._rpcserver_auth_level
-            auth_level = self.factory.authorized_sessions[self.transport.sessionno][0]
+            auth_level = self.factory.authorized_sessions[self.transport.sessionno].auth_level
             if auth_level < method_auth_requirement:
                 # This session is not allowed to call this method
                 log.debug('Session %s is attempting an unauthorized method call!',
@@ -453,7 +457,7 @@ class RPCServer(component.Component):
             return 'localclient'
         session_id = self.get_session_id()
         if session_id > -1 and session_id in self.factory.authorized_sessions:
-            return self.factory.authorized_sessions[session_id][1]
+            return self.factory.authorized_sessions[session_id].username
         else:
             # No connections made yet
             return ''
@@ -467,7 +471,7 @@ class RPCServer(component.Component):
         """
         if not self.listen or not self.is_session_valid(self.get_session_id()):
             return AUTH_LEVEL_ADMIN
-        return self.factory.authorized_sessions[self.get_session_id()][0]
+        return self.factory.authorized_sessions[self.get_session_id()].auth_level
 
     def get_rpc_auth_level(self, rpc):
         """
