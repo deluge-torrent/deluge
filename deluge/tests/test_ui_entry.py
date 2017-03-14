@@ -297,7 +297,7 @@ class ConsoleUIBaseTestCase(UIBaseTestCase):
             self.assertTrue(('usage: %s' % self.var['cmd_name']) in std_output)  # Check command name
             self.assertTrue('Common Options:' in std_output)
             self.assertTrue('Console Options:' in std_output)
-            self.assertTrue('Console commands:\n  The following console commands are available:' in std_output)
+            self.assertTrue('Console Commands:\n  The following console commands are available:' in std_output)
             self.assertTrue('The following console commands are available:' in std_output)
 
     def test_console_command_info(self):
