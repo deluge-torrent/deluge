@@ -38,9 +38,15 @@ def start_ui():
     setup_translations()
 
     # Get the registered UI entry points
-    ui_entrypoints = dict([(entrypoint.name, entrypoint.load())
-                           for entrypoint in pkg_resources.iter_entry_points('deluge.ui')])
-    ui_titles = sorted(ui_entrypoints.keys())
+    ui_entrypoints = {}
+    for entrypoint in pkg_resources.iter_entry_points('deluge.ui'):
+        try:
+            ui_entrypoints[entrypoint.name] = entrypoint.load()
+        except ImportError:
+            # Unable to load entrypoint so skip adding it.
+            pass
+
+    ui_titles = sorted(ui_entrypoints)
 
     def add_ui_options_group(_parser):
         """Function to enable reuse of UI Options group"""
