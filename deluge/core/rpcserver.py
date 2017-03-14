@@ -108,6 +108,11 @@ class ServerContextFactory(object):
 
 
 class DelugeRPCProtocol(DelugeTransferProtocol):
+    def __init__(self):
+        super(DelugeRPCProtocol, self).__init__()
+        # namedtuple subclass with auth_level, username for the connected session.
+        self.AuthLevel = namedtuple('SessionAuthlevel', 'auth_level, username')
+
     def message_received(self, request):
         """
         This method is called whenever a message is received from a client.  The
@@ -159,7 +164,6 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
         log.info('Deluge Client connection made from: %s:%s',
                  peer.host, peer.port)
         # Set the initial auth level of this session to AUTH_LEVEL_NONE
-        self.AuthLevel = namedtuple('SessionAuthlevel', 'auth_level, username')
         self.factory.authorized_sessions[
             self.transport.sessionno] = self.AuthLevel(AUTH_LEVEL_NONE, '')
 
