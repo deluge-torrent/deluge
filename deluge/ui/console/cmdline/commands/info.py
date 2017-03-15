@@ -12,17 +12,16 @@ from __future__ import division, unicode_literals
 
 from os.path import sep as dirsep
 
-import deluge.common as common
 import deluge.component as component
 import deluge.ui.console.utils.colors as colors
+from deluge.common import TORRENT_STATE, fsize, fspeed
 from deluge.ui.client import client
 from deluge.ui.common import FILE_PRIORITY
-from deluge.ui.console.utils import format_utils
+from deluge.ui.console.utils.format_utils import (f_progressbar, f_seedrank_dash, format_date_never, format_progress,
+                                                  format_time, ftotal_sized, pad_string, remove_formatting,
+                                                  shorten_hash, strwidth, trim_string)
 
 from . import BaseCommand
-
-strwidth = format_utils.strwidth
-
 
 STATUS_KEYS = [
     'state',
@@ -52,40 +51,18 @@ STATUS_KEYS = [
     'is_seed',
     'is_finished',
     'active_time',
-    'seeding_time'
+    'seeding_time',
+    'time_since_transfer',
+    'last_seen_complete',
+    'seed_rank',
+    'all_time_download',
+    'total_uploaded',
+    'total_payload_download',
+    'total_payload_upload'
 ]
 
 # Add filter specific state to torrent states
-STATES = ['Active'] + common.TORRENT_STATE
-
-
-def format_progressbar(progress, width):
-    """
-    Returns a string of a progress bar.
-
-    :param progress: float, a value between 0-100
-
-    :returns: str, a progress bar based on width
-
-    """
-
-    w = width - 2  # we use a [] for the beginning and end
-    s = '['
-    p = int(round((progress / 100) * w))
-    s += '#' * p
-    s += '-' * (w - p)
-    s += ']'
-    return s
-
-
-def format_time(seconds):
-    minutes = seconds // 60
-    seconds = seconds - minutes * 60
-    hours = minutes // 60
-    minutes = minutes - hours * 60
-    days = hours // 24
-    hours = hours - days * 24
-    return '%d days %02d:%02d:%02d' % (days, hours, minutes, seconds)
+STATES = ['Active'] + TORRENT_STATE
 
 
 class Command(BaseCommand):
@@ -194,7 +171,7 @@ class Command(BaseCommand):
             indent = ' ' * depth * spaces_per_level
 
             col_filename = indent + filename
-            col_size = ' ({!cyan!}%s{!input!})' % common.fsize(torrent_file['size'])
+            col_size = ' ({!cyan!}%s{!input!})' % fsize(torrent_file['size'])
             col_progress = ' {!input!}%.2f%%' % (status['file_progress'][index] * 100)
 
             col_priority = ' {!info!}Priority: '
@@ -210,7 +187,7 @@ class Command(BaseCommand):
             col_priority += file_priority
 
             def tlen(string):
-                return strwidth(format_utils.remove_formatting(string))
+                return strwidth(remove_formatting(string))
 
             col_all_info = col_size + col_progress + col_priority
             # Check how much space we've got left after writing all the info
@@ -231,13 +208,13 @@ class Command(BaseCommand):
                 col_all_info += col_priority
                 col_all_info += ' ' * spaces_to_add
                 # And remember to put it to the left!
-                col_filename = format_utils.pad_string(col_filename, maxlen_space_left - 2, side='right')
+                col_filename = pad_string(col_filename, maxlen_space_left - 2, side='right')
             elif space_left > tlen(col_filename) + 1:
                 # If there is enough space, put the info to the right
-                col_filename = format_utils.pad_string(col_filename, space_left - 2, side='right')
+                col_filename = pad_string(col_filename, space_left - 2, side='right')
             else:
                 # And if there is not, shorten the name
-                col_filename = format_utils.trim_string(col_filename, space_left, True)
+                col_filename = trim_string(col_filename, space_left, True)
             self.console.write(col_filename + col_all_info)
 
             prevpath = filepath
@@ -271,9 +248,9 @@ class Command(BaseCommand):
                     s += '\t'
                 s += '%s%s\t%s%s' % (
                     colors.state_color['Seeding'],
-                    common.fspeed(peer['up_speed']),
+                    fspeed(peer['up_speed']),
                     colors.state_color['Downloading'],
-                    common.fspeed(peer['down_speed']))
+                    fspeed(peer['down_speed']))
                 s += '\n'
 
             self.console.write(s[:-1])
@@ -291,40 +268,59 @@ class Command(BaseCommand):
         else:
             cols = 80
 
+        sep = ' '
+
         if verbose or detailed:
-            self.console.write(' ')
             self.console.write('{!info!}Name: {!input!}%s' % (status['name']))
             self.console.write('{!info!}ID: {!input!}%s' % (torrent_id))
             s = '{!info!}State: %s%s' % (colors.state_color[status['state']], status['state'])
             # Only show speed if active
             if status['state'] in ('Seeding', 'Downloading'):
                 if status['state'] != 'Seeding':
-                    s += ' {!info!}Down Speed: {!input!}%s' % common.fspeed(status['download_payload_rate'])
-                s += ' {!info!}Up Speed: {!input!}%s' % common.fspeed(status['upload_payload_rate'])
-
-                if common.ftime(status['eta']):
-                    s += ' {!info!}ETA: {!input!}%s' % common.ftime(status['eta'])
-
+                    s += sep
+                    s += '{!info!}Down Speed: {!input!}%s' % fspeed(
+                        status['download_payload_rate'], shortform=True)
+                s += sep
+                s += '{!info!}Up Speed: {!input!}%s' % fspeed(
+                    status['upload_payload_rate'], shortform=True)
             self.console.write(s)
 
             if status['state'] in ('Seeding', 'Downloading', 'Queued'):
                 s = '{!info!}Seeds: {!input!}%s (%s)' % (status['num_seeds'], status['total_seeds'])
-                s += ' {!info!}Peers: {!input!}%s (%s)' % (status['num_peers'], status['total_peers'])
-                s += ' {!info!}Availability: {!input!}%.2f' % status['distributed_copies']
+                s += sep
+                s += '{!info!}Peers: {!input!}%s (%s)' % (status['num_peers'], status['total_peers'])
+                s += sep
+                s += '{!info!}Availability: {!input!}%.2f' % status['distributed_copies']
+                s += sep
+                s += '{!info!}Seed Rank: {!input!}%s' % f_seedrank_dash(
+                    status['seed_rank'], status['seeding_time'])
                 self.console.write(s)
 
-            total_done = common.fsize(status['total_done'])
-            total_size = common.fsize(status['total_size'])
+            total_done = fsize(status['total_done'], shortform=True)
+            total_size = fsize(status['total_size'], shortform=True)
             if total_done == total_size:
                 s = '{!info!}Size: {!input!}%s' % (total_size)
             else:
                 s = '{!info!}Size: {!input!}%s/%s' % (total_done, total_size)
-            s += ' {!info!}Ratio: {!input!}%.3f' % status['ratio']
-            s += ' {!info!}Uploaded: {!input!}%s' % common.fsize(status['ratio'] * status['total_done'])
+            s += sep
+            s += '{!info!}Downloaded: {!input!}%s' % fsize(status['all_time_download'], shortform=True)
+            s += sep
+            s += '{!info!}Uploaded: {!input!}%s' % fsize(status['total_uploaded'], shortform=True)
+            s += sep
+            s += '{!info!}Share Ratio: {!input!}%.2f' % status['ratio']
             self.console.write(s)
 
-            s = '{!info!}Seed time: {!input!}%s' % format_time(status['seeding_time'])
-            s += ' {!info!}Active: {!input!}%s' % format_time(status['active_time'])
+            s = '{!info!}ETA: {!input!}%s' % format_time(status['eta'])
+            s += sep
+            s += '{!info!}Seeding: {!input!}%s' % format_time(status['seeding_time'])
+            s += sep
+            s += '{!info!}Active: {!input!}%s' % format_time(status['active_time'])
+            self.console.write(s)
+
+            s = '{!info!}Last Transfer: {!input!}%s' % format_time(status['time_since_transfer'])
+            s += sep
+            s += '{!info!}Complete Seen: {!input!}%s' % format_date_never(
+                status['last_seen_complete'])
             self.console.write(s)
 
             s = '{!info!}Tracker: {!input!}%s' % status['tracker_host']
@@ -333,12 +329,12 @@ class Command(BaseCommand):
             self.console.write('{!info!}Tracker status: {!input!}%s' % status['tracker_status'])
 
             if not status['is_finished']:
-                pbar = format_progressbar(status['progress'], cols - (13 + len('%.2f%%' % status['progress'])))
+                pbar = f_progressbar(status['progress'], cols - (13 + len('%.2f%%' % status['progress'])))
                 s = '{!info!}Progress: {!input!}%.2f%% %s' % (status['progress'], pbar)
                 self.console.write(s)
 
             s = '{!info!}Download Folder: {!input!}%s' % status['download_location']
-            self.console.write(s)
+            self.console.write(s + '\n')
 
             if detailed:
                 self.console.write('{!info!}Files in torrent')
@@ -346,57 +342,42 @@ class Command(BaseCommand):
                 self.console.write('{!info!}Connected peers')
                 self.show_peer_info(torrent_id, status)
         else:
-            self.console.write(' ')
             up_color = colors.state_color['Seeding']
             down_color = colors.state_color['Downloading']
 
             s = '%s%s' % (colors.state_color[status['state']], '[' + status['state'][0] + ']')
 
-            s += ' {!info!}' + ('%.2f%%' % status['progress']).ljust(7, ' ')
+            s += ' {!info!}' + format_progress(status['progress']).rjust(6, ' ')
             s += ' {!input!}%s' % (status['name'])
 
             # Shorten the ID if it's necessary. Pretty hacky
-            # I _REALLY_ should make a nice function for it that can partition and shorten stuff
-            space_left = cols - strwidth('[s] 100.00% ' + status['name'] + ' ' * 3) - 2
+            # XXX: should make a nice function for it that can partition and shorten stuff
+            space_left = cols - strwidth('[S] 99.99% ' + status['name'])
 
-            if space_left >= len(torrent_id) - 2:
-                # There's enough space, print it
-                s += ' {!cyan!}%s' % torrent_id
-            else:
-                # Shorten the ID
-                a = space_left * 2 // 3
-                b = space_left - a
-                if a < 8:
-                    b = b - (8 - a)
-                    a = 8
-                    if b < 0:
-                        a += b
-                        b = 0
-                if a > 8:
-                    # Print the shortened ID
-                    s += ' {!cyan!}%s' % (torrent_id[0:a] + '..' + torrent_id[-b - 1:-1])
-                else:
-                    # It has wrapped over to the second row anyway
-                    s += ' {!cyan!}%s' % torrent_id
+            if self.console.interactive and space_left >= len(sep + torrent_id):
+                # Not enough line space so shorten the hash (for interactive mode).
+                torrent_id = shorten_hash(torrent_id, space_left)
+            s += sep
+            s += '{!cyan!}%s' % torrent_id
             self.console.write(s)
 
             dl_info = '{!info!}DL: {!input!}'
-            dl_info += '%s' % common.fsize(status['total_done'])
-            if status['total_done'] != status['total_size']:
-                dl_info += '/%s' % common.fsize(status['total_size'])
+            dl_info += '%s' % ftotal_sized(status['all_time_download'], status['total_payload_download'])
+
             if status['download_payload_rate'] > 0:
-                dl_info += ' @ %s%s' % (down_color, common.fspeed(status['download_payload_rate']))
+                dl_info += ' @ %s%s' % (down_color, fspeed(
+                    status['download_payload_rate'], shortform=True))
 
             ul_info = ' {!info!}UL: {!input!}'
-            ul_info += '%s' % common.fsize(status['ratio'] * status['total_done'])
+            ul_info += '%s' % ftotal_sized(status['total_uploaded'], status['total_payload_upload'])
             if status['upload_payload_rate'] > 0:
-                ul_info += ' @ %s%s' % (up_color, common.fspeed(status['upload_payload_rate']))
+                ul_info += ' @ %s%s' % (up_color, fspeed(
+                    status['upload_payload_rate'], shortform=True))
 
-            eta = ''
-            if common.ftime(status['eta']):
-                eta = ' {!info!}ETA: {!magenta!}%s' % common.ftime(status['eta'])
+            eta = ' {!info!}ETA: {!magenta!}%s' % format_time(status['eta'])
 
-            self.console.write('    ' + dl_info + ul_info + eta)
+            self.console.write('    ' + dl_info + ul_info + eta + '\n')
+
         self.console.set_batch_write(False)
 
     def complete(self, line):

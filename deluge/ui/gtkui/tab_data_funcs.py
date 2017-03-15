@@ -65,17 +65,6 @@ def fseed_rank_or_dash(seed_rank, seeding_time):
         return '-'
 
 
-def flast_active(time_since_download, time_since_upload):
-    """The last time the torrent was active as time e.g. 2h 30m or dash"""
-
-    try:
-        last_time_since = min((x for x in (time_since_download, time_since_upload) if x != -1))
-    except ValueError:
-        return '-'
-    else:
-        return ftime(last_time_since)
-
-
 def fpieces_num_size(num_pieces, piece_size):
     return '%s (%s)' % (num_pieces, fsize(piece_size, precision=0))
 

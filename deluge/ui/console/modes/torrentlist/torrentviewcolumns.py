@@ -30,7 +30,7 @@ column_pref_names = ['queue', 'name', 'size', 'downloaded', 'uploaded', 'remaini
                      'download_speed', 'upload_speed', 'max_download_speed', 'max_upload_speed',
                      'eta', 'ratio', 'avail', 'time_added', 'completed_time', 'last_seen_complete',
                      'tracker', 'download_location', 'active_time', 'seeding_time', 'finished_time',
-                     'shared', 'owner']
+                     'time_since_transfer', 'shared', 'owner']
 
 
 class ColumnAndWidth(CheckedPlusInput):

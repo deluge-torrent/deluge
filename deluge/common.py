@@ -427,7 +427,7 @@ def ftime(secs):
 
     """
 
-    if secs == 0:
+    if secs <= 0:
         time_str = ''
     elif secs < 60:
         time_str = '{:d}s'.format(secs)

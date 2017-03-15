@@ -14,9 +14,8 @@ import logging
 
 import deluge.common
 from deluge.ui.common import TORRENT_DATA_FIELD
+from deluge.ui.console.utils import format_utils
 from deluge.ui.translations_util import setup_translations
-
-from . import format_utils
 
 setup_translations()
 
@@ -24,15 +23,8 @@ log = logging.getLogger(__name__)
 
 torrent_data_fields = copy.deepcopy(TORRENT_DATA_FIELD)
 
-
-def format_queue(qnum):
-    if qnum < 0:
-        return ''
-    return '%d' % (qnum + 1)
-
-
 formatters = {
-    'queue': format_queue,
+    'queue': format_utils.format_queue,
     'name': lambda a, b: b,
     'state': None,
     'tracker': None,
@@ -42,10 +34,10 @@ formatters = {
     'progress_state': format_utils.format_progress,
     'progress': format_utils.format_progress,
 
-    'size': deluge.common.fsize,
-    'downloaded': deluge.common.fsize,
-    'uploaded': deluge.common.fsize,
-    'remaining': deluge.common.fsize,
+    'size': format_utils.format_size,
+    'downloaded': format_utils.format_size,
+    'uploaded': format_utils.format_size,
+    'remaining': format_utils.format_size,
 
     'ratio': format_utils.format_float,
     'avail': format_utils.format_float,
@@ -60,18 +52,16 @@ formatters = {
     'seeds': format_utils.format_seeds_peers,
 
     'time_added': deluge.common.fdate,
-    'seeding_time': deluge.common.ftime,
-    'active_time': deluge.common.ftime,
+    'seeding_time': format_utils.format_time,
+    'active_time': format_utils.format_time,
+    'time_since_transfer': format_utils.format_date_dash,
     'finished_time': deluge.common.ftime,
 
     'last_seen_complete': format_utils.format_date_never,
-    'completed_time': format_utils.format_date,
+    'completed_time': format_utils.format_date_dash,
     'eta': format_utils.format_time,
     'pieces': format_utils.format_pieces,
 }
-
-torrent_data_fields['pieces'] = {'name': _('Pieces'), 'status': ['num_pieces', 'piece_length']}
-torrent_data_fields['seed_rank'] = {'name': _('Seed Rank'), 'status': ['seed_rank']}
 
 for data_field in torrent_data_fields:
     torrent_data_fields[data_field]['formatter'] = formatters.get(data_field, str)

@@ -251,6 +251,13 @@
             sortable: true,
             renderer: availRenderer,
             dataIndex: 'seeds_peers_ratio'
+        }, {
+            header: _('Last Transfer'),
+            hidden: true,
+            width: 75,
+            sortable: true,
+            renderer: ftime,
+            dataIndex: 'time_since_transfer'
         }],
 
 
@@ -280,7 +287,8 @@
                 {name: 'total_remaining', type: 'int'},
                 {name: 'max_download_speed', type: 'int'},
                 {name: 'max_upload_speed', type: 'int'},
-                {name: 'seeds_peers_ratio', type: 'float'}
+                {name: 'seeds_peers_ratio', type: 'float'},
+                {name: 'time_since_transfer', type: 'int'}
             ]
         },
 

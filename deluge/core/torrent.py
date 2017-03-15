@@ -907,6 +907,14 @@ class Torrent(object):
 
         return progress
 
+    def get_time_since_transfer(self):
+        """The time since either upload/download from peers"""
+        time_since = (self.status.time_since_download, self.status.time_since_upload)
+        try:
+            return min(x for x in time_since if x != -1)
+        except ValueError:
+            return -1
+
     def get_status(self, keys, diff=False, update=False, all_keys=False):
         """Returns the status of the torrent based on the keys provided
 
@@ -1038,6 +1046,7 @@ class Torrent(object):
             'super_seeding': lambda: self.status.super_seeding,
             'time_since_download': lambda: self.status.time_since_download,
             'time_since_upload': lambda: self.status.time_since_upload,
+            'time_since_transfer': self.get_time_since_transfer
         }
 
     def pause(self):

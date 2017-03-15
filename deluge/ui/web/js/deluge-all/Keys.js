@@ -22,7 +22,7 @@ Deluge.Keys = {
      * 'upload_payload_rate', 'eta', 'ratio', 'distributed_copies',
      * 'is_auto_managed', 'time_added', 'tracker_host', 'download_location', 'last_seen_complete',
      * 'total_done', 'total_uploaded', 'max_download_speed', 'max_upload_speed',
-     * 'seeds_peers_ratio', 'total_remaining', 'completed_time']</pre>
+     * 'seeds_peers_ratio', 'total_remaining', 'completed_time', 'time_since_transfer']</pre>
      */
     Grid: [
         'queue', 'name', 'total_wanted', 'state', 'progress', 'num_seeds',
@@ -30,7 +30,7 @@ Deluge.Keys = {
         'upload_payload_rate', 'eta', 'ratio', 'distributed_copies',
         'is_auto_managed', 'time_added', 'tracker_host', 'download_location', 'last_seen_complete',
         'total_done', 'total_uploaded', 'max_download_speed', 'max_upload_speed',
-        'seeds_peers_ratio', 'total_remaining', 'completed_time'
+        'seeds_peers_ratio', 'total_remaining', 'completed_time', 'time_since_transfer'
     ],
 
     /**
@@ -38,13 +38,13 @@ Deluge.Keys = {
      * These get updated to include the keys in {@link #Grid}.
      * <pre>['total_done', 'total_payload_download', 'total_uploaded',
      * 'total_payload_upload', 'next_announce', 'tracker_status', 'num_pieces',
-     * 'piece_length', 'is_auto_managed', 'active_time', 'seeding_time',
+     * 'piece_length', 'is_auto_managed', 'active_time', 'seeding_time', 'time_since_transfer',
      * 'seed_rank', 'last_seen_complete', 'completed_time', 'owner', 'public', 'shared']</pre>
      */
     Status: [
         'total_done', 'total_payload_download', 'total_uploaded',
         'total_payload_upload', 'next_announce', 'tracker_status', 'num_pieces',
-        'piece_length', 'is_auto_managed', 'active_time', 'seeding_time',
+        'piece_length', 'is_auto_managed', 'active_time', 'seeding_time', 'time_since_transfer',
         'seed_rank', 'last_seen_complete', 'completed_time', 'owner', 'public', 'shared'
     ],
 

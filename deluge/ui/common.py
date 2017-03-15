@@ -47,48 +47,96 @@ STATE_TRANSLATION = {
 }
 
 TORRENT_DATA_FIELD = {
-    'queue':                     {'name': '#', 'status': ['queue']},
-    'name':                      {'name': _('Name'), 'status': ['state', 'name']},
-    'progress_state':            {'name': _('Progress'), 'status': ['progress', 'state']},
-    'state':                     {'name': _('State'), 'status': ['state']},
-    'progress':                  {'name': _('Progress'), 'status': ['progress']},
-    'size':                      {'name': _('Size'), 'status': ['total_wanted']},
-    'downloaded':                {'name': _('Downloaded'), 'status': ['all_time_download']},
-    'uploaded':                  {'name': _('Uploaded'), 'status': ['total_uploaded']},
-    'remaining':                 {'name': _('Remaining'), 'status': ['total_remaining']},
-    'ratio':                     {'name': _('Ratio'), 'status': ['ratio']},
-    'download_speed':            {'name': _('Down Speed'), 'status': ['download_payload_rate']},
-    'upload_speed':              {'name': _('Up Speed'), 'status': ['upload_payload_rate']},
-    'max_download_speed':        {'name': _('Down Limit'), 'status': ['max_download_speed']},
-    'max_upload_speed':          {'name': _('Up Limit'), 'status': ['max_upload_speed']},
-    'max_connections':           {'name': _('Max Connections'), 'status': ['max_connections']},
-    'max_upload_slots':          {'name': _('Max Upload Slots'), 'status': ['max_upload_slots']},
-    'peers':                     {'name': _('Peers'), 'status': ['num_peers', 'total_peers']},
-    'seeds':                     {'name': _('Seeds'), 'status': ['num_seeds', 'total_seeds']},
-    'avail':                     {'name': _('Avail'), 'status': ['distributed_copies']},
-    'seeds_peers_ratio':         {'name': _('Seeds:Peers'), 'status': ['seeds_peers_ratio']},
-    'time_added':                {'name': _('Added'), 'status': ['time_added']},
-    'tracker':                   {'name': _('Tracker'), 'status': ['tracker_host']},
-    'download_location':         {'name': _('Download Folder'), 'status': ['download_location']},
-    'seeding_time':              {'name': _('Seeding Time'), 'status': ['seeding_time']},
-    'active_time':               {'name': _('Active Time'), 'status': ['active_time']},
-    'finished_time':             {'name': _('Finished Time'), 'status': ['finished_time']},
-    'last_seen_complete':        {'name': _('Complete Seen'), 'status': ['last_seen_complete']},
-    'completed_time':            {'name': _('Completed'), 'status': ['completed_time']},
-    'eta':                       {'name': _('ETA'), 'status': ['eta']},
-    'shared':                    {'name': _('Shared'), 'status': ['shared']},
-    'prioritize_first_last':     {'name': _('Prioritize First/Last'), 'status': ['prioritize_first_last']},
-    'sequential_download':       {'name': _('Sequential Download'), 'status': ['sequential_download']},
-    'is_auto_managed':           {'name': _('Auto Managed'), 'status': ['is_auto_managed']},
-    'auto_managed':              {'name': _('Auto Managed'), 'status': ['auto_managed']},
-    'stop_at_ratio':             {'name': _('Stop At Ratio'), 'status': ['stop_at_ratio']},
-    'stop_ratio':                {'name': _('Stop Ratio'), 'status': ['stop_ratio']},
-    'remove_at_ratio':           {'name': _('Remove At Ratio'), 'status': ['remove_at_ratio']},
-    'move_completed':            {'name': _('Move On Completed'), 'status': ['move_completed']},
-    'move_completed_path':       {'name': _('Move Completed Path'), 'status': ['move_completed_path']},
-    'move_on_completed':         {'name': _('Move On Completed'), 'status': ['move_on_completed']},
-    'move_on_completed_path':    {'name': _('Move On Completed Path'), 'status': ['move_on_completed_path']},
-    'owner':                     {'name': _('Owner'), 'status': ['owner']}
+    'queue':
+        {'name': '#', 'status': ['queue']},
+    'name':
+        {'name': _('Name'), 'status': ['state', 'name']},
+    'progress_state':
+        {'name': _('Progress'), 'status': ['progress', 'state']},
+    'state':
+        {'name': _('State'), 'status': ['state']},
+    'progress':
+        {'name': _('Progress'), 'status': ['progress']},
+    'size':
+        {'name': _('Size'), 'status': ['total_wanted']},
+    'downloaded':
+        {'name': _('Downloaded'), 'status': ['all_time_download']},
+    'uploaded':
+        {'name': _('Uploaded'), 'status': ['total_uploaded']},
+    'remaining':
+        {'name': _('Remaining'), 'status': ['total_remaining']},
+    'ratio':
+        {'name': _('Ratio'), 'status': ['ratio']},
+    'download_speed':
+        {'name': _('Down Speed'), 'status': ['download_payload_rate']},
+    'upload_speed':
+        {'name': _('Up Speed'), 'status': ['upload_payload_rate']},
+    'max_download_speed':
+        {'name': _('Down Limit'), 'status': ['max_download_speed']},
+    'max_upload_speed':
+        {'name': _('Up Limit'), 'status': ['max_upload_speed']},
+    'max_connections':
+        {'name': _('Max Connections'), 'status': ['max_connections']},
+    'max_upload_slots':
+        {'name': _('Max Upload Slots'), 'status': ['max_upload_slots']},
+    'peers':
+        {'name': _('Peers'), 'status': ['num_peers', 'total_peers']},
+    'seeds':
+        {'name': _('Seeds'), 'status': ['num_seeds', 'total_seeds']},
+    'avail':
+        {'name': _('Avail'), 'status': ['distributed_copies']},
+    'seeds_peers_ratio':
+        {'name': _('Seeds:Peers'), 'status': ['seeds_peers_ratio']},
+    'time_added':
+        {'name': _('Added'), 'status': ['time_added']},
+    'tracker':
+        {'name': _('Tracker'), 'status': ['tracker_host']},
+    'download_location':
+        {'name': _('Download Folder'), 'status': ['download_location']},
+    'seeding_time':
+        {'name': _('Seeding Time'), 'status': ['seeding_time']},
+    'active_time':
+        {'name': _('Active Time'), 'status': ['active_time']},
+    'time_since_transfer':
+        {'name': _('Last Activity'), 'status': ['time_since_transfer']},
+    'finished_time':
+        {'name': _('Finished Time'), 'status': ['finished_time']},
+    'last_seen_complete':
+        {'name': _('Complete Seen'), 'status': ['last_seen_complete']},
+    'completed_time':
+        {'name': _('Completed'), 'status': ['completed_time']},
+    'eta':
+        {'name': _('ETA'), 'status': ['eta']},
+    'shared':
+        {'name': _('Shared'), 'status': ['shared']},
+    'prioritize_first_last':
+        {'name': _('Prioritize First/Last'), 'status': ['prioritize_first_last']},
+    'sequential_download':
+        {'name': _('Sequential Download'), 'status': ['sequential_download']},
+    'is_auto_managed':
+        {'name': _('Auto Managed'), 'status': ['is_auto_managed']},
+    'auto_managed':
+        {'name': _('Auto Managed'), 'status': ['auto_managed']},
+    'stop_at_ratio':
+        {'name': _('Stop At Ratio'), 'status': ['stop_at_ratio']},
+    'stop_ratio':
+        {'name': _('Stop Ratio'), 'status': ['stop_ratio']},
+    'remove_at_ratio':
+        {'name': _('Remove At Ratio'), 'status': ['remove_at_ratio']},
+    'move_completed':
+        {'name': _('Move On Completed'), 'status': ['move_completed']},
+    'move_completed_path':
+        {'name': _('Move Completed Path'), 'status': ['move_completed_path']},
+    'move_on_completed':
+        {'name': _('Move On Completed'), 'status': ['move_on_completed']},
+    'move_on_completed_path':
+        {'name': _('Move On Completed Path'), 'status': ['move_on_completed_path']},
+    'owner':
+        {'name': _('Owner'), 'status': ['owner']},
+    'pieces':
+        {'name': _('Pieces'), 'status': ['num_pieces', 'piece_length']},
+    'seed_rank':
+        {'name': _('Seed Rank'), 'status': ['seed_rank']}
 }
 
 TRACKER_STATUS_TRANSLATION = [

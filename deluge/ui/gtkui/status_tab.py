@@ -15,7 +15,7 @@ import deluge.component as component
 from deluge.common import fpeer
 from deluge.configmanager import ConfigManager
 from deluge.ui.gtkui.piecesbar import PiecesBar
-from deluge.ui.gtkui.tab_data_funcs import (fdate_or_never, flast_active, fpcnt, fratio, fseed_rank_or_dash, fspeed_max,
+from deluge.ui.gtkui.tab_data_funcs import (fdate_or_never, fpcnt, fratio, fseed_rank_or_dash, fspeed_max,
                                             ftime_or_dash, ftotal_sized)
 from deluge.ui.gtkui.torrentdetails import Tab
 
@@ -57,8 +57,7 @@ class StatusTab(Tab):
             (main_builder.get_object('summary_seed_rank'), fseed_rank_or_dash, ('seed_rank', 'seeding_time')),
             (main_builder.get_object('progressbar'), fpcnt, ('progress', 'state', 'message')),
             (main_builder.get_object('summary_last_seen_complete'), fdate_or_never, ('last_seen_complete',)),
-            (main_builder.get_object('summary_last_active'), flast_active, ('time_since_download',
-                                                                            'time_since_upload')),
+            (main_builder.get_object('summary_last_transfer'), ftime_or_dash, ('time_since_transfer',)),
         ]
 
         self.status_keys = [status for widget in self.label_widgets for status in widget[2]]

@@ -17,9 +17,13 @@ import deluge.common
 from deluge.ui.common import FILE_PRIORITY
 
 
+def format_size(size):
+    return deluge.common.fsize(size, shortform=True)
+
+
 def format_speed(speed):
     if speed > 0:
-        return deluge.common.fspeed(speed)
+        return deluge.common.fspeed(speed, shortform=True)
     else:
         return '-'
 
@@ -31,16 +35,16 @@ def format_time(time):
         return '-'
 
 
-def format_date(time):
+def format_date_dash(time):
     if time > 0:
-        return deluge.common.fdate(time)
+        return deluge.common.fdate(time, date_only=True)
     else:
-        return ''
+        return '-'
 
 
 def format_date_never(time):
     if time > 0:
-        return deluge.common.fdate(time)
+        return deluge.common.fdate(time, date_only=True)
     else:
         return 'Never'
 
@@ -56,15 +60,48 @@ def format_seeds_peers(num, total):
     return '%d (%d)' % (num, total)
 
 
-def format_progress(perc):
-    if perc < 100:
-        return '%.2f%%' % perc
+def format_progress(value):
+    return ('%.2f' % value).rstrip('0').rstrip('.') + '%'
+
+
+def f_progressbar(progress, width):
+    """
+    Returns a string of a progress bar.
+
+    :param progress: float, a value between 0-100
+
+    :returns: str, a progress bar based on width
+
+    """
+
+    w = width - 2  # we use a [] for the beginning and end
+    s = '['
+    p = int(round((progress / 100) * w))
+    s += '#' * p
+    s += '-' * (w - p)
+    s += ']'
+    return s
+
+
+def f_seedrank_dash(seed_rank, seeding_time):
+    """Display value if seeding otherwise dash"""
+
+    if seeding_time > 0:
+        if seed_rank >= 1000:
+            return '%ik' % (seed_rank // 1000)
+        else:
+            return str(seed_rank)
     else:
-        return '100%'
+        return '-'
+
+
+def ftotal_sized(first, second):
+    return '%s (%s)' % (deluge.common.fsize(first, shortform=True),
+                        deluge.common.fsize(second, shortform=True))
 
 
 def format_pieces(num, size):
-    return '%d (%s)' % (num, deluge.common.fsize(size))
+    return '%d (%s)' % (num, deluge.common.fsize(size, shortform=True))
 
 
 def format_priority(prio):
@@ -73,6 +110,12 @@ def format_priority(prio):
     elif prio < 0:
         return '-'
     return FILE_PRIORITY[prio]
+
+
+def format_queue(qnum):
+    if qnum < 0:
+        return ''
+    return '%d' % (qnum + 1)
 
 
 def trim_string(string, w, have_dbls):
@@ -125,6 +168,23 @@ _format_code = re.compile(r'\{\|(.*)\|\}')
 
 def remove_formatting(string):
     return re.sub(_strip_re, '', string)
+
+
+def shorten_hash(tid, space_left, min_width=13, placeholder='...'):
+    """Shorten the supplied torrent infohash by removing chars from the middle.
+
+    Use a placeholder to indicate shortened.
+    If unable to shorten will justify so entire tid is on the next line.
+
+    """
+    tid = tid.strip()
+    if space_left >= min_width:
+        mid = len(tid) // 2
+        trim, remain = divmod(len(tid) + len(placeholder) - space_left, 2)
+        return tid[0: mid - trim] + placeholder + tid[mid + trim + remain:]
+    else:
+        # Justity the tid so it is completely on the next line.
+        return tid.rjust(len(tid) + space_left)
 
 
 def wrap_string(string, width, min_lines=0, strip_colors=True):

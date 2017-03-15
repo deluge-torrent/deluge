@@ -90,5 +90,8 @@ Deluge.data.Torrent = Ext.data.Record.create([{
     }, {
         name: 'seeds_peers_ratio',
         type: 'float'
+    }, {
+        name: 'time_since_transfer',
+        type: 'int'
     }
 ]);

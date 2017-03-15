@@ -79,7 +79,7 @@ class TorrentDetail(BaseMode, PopupsHandler):
                              'seeding_time', 'time_added', 'distributed_copies', 'num_pieces',
                              'piece_length', 'download_location', 'file_progress', 'file_priorities', 'message',
                              'total_wanted', 'tracker_host', 'owner', 'seed_rank', 'last_seen_complete',
-                             'completed_time']
+                             'completed_time', 'time_since_transfer']
         self.file_list = None
         self.current_file = None
         self.current_file_idx = 0
@@ -481,10 +481,13 @@ class TorrentDetail(BaseMode, PopupsHandler):
         row = add_field('seed_rank', row)
         # Last seen complete
         row = add_field('last_seen_complete', row)
+        # Last activity
+        row = add_field('time_since_transfer', row)
         # Owner
         if status['owner']:
             row = add_field('owner', row)
         return row
+        # Last act
 
     @overrides(BaseMode)
     def refresh(self, lines=None):
