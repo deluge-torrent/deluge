@@ -575,11 +575,6 @@ class TorrentManager(component.Component):
             else:
                 paused = False
 
-            # XXX: Temporary workaround for critical bug with RC_1_1 lt code.
-            # remove this code when lt 1.2 is released.
-            for tracker in torrent.trackers:
-                tracker.pop('last_error', None)
-
             torrent_state = TorrentState(
                 torrent.torrent_id,
                 torrent.filename,
