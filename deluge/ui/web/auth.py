@@ -90,10 +90,8 @@ class Auth(JSONComponent):
         self.worker.stop()
 
     def _clean_sessions(self):
-        session_ids = list(self.config['sessions'].keys())
-
         now = time.gmtime()
-        for session_id in session_ids:
+        for session_id in list(self.config['sessions']):
             session = self.config['sessions'][session_id]
 
             if 'expires' not in session:

@@ -396,12 +396,9 @@ class DaemonSSLProxy(DaemonProxy):
         self.authentication_level = result
         # We need to tell the daemon what events we're interested in receiving
         if self.__factory.event_handlers:
-            self.call('daemon.set_event_interest',
-                      list(self.__factory.event_handlers.keys()))
-
+            self.call('daemon.set_event_interest', list(self.__factory.event_handlers))
             self.call('core.get_auth_levels_mappings').addCallback(
-                self.__on_auth_levels_mappings
-            )
+                self.__on_auth_levels_mappings)
 
         login_deferred.callback(result)
 

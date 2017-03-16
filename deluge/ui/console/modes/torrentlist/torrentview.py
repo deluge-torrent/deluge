@@ -235,7 +235,7 @@ class TorrentView(InputKeyHandler):
 
             # Get first element so we can check if it has given field
             # and if it's a string
-            first_element = state[list(state.keys())[0]]
+            first_element = state[list(state)[0]]
             if field in first_element:
                 def sort_key(s):
                     try:

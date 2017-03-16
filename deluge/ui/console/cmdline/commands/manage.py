@@ -82,7 +82,7 @@ class Command(BaseCommand):
                 return
             request_options.append(opt)
         if not request_options:
-            request_options = [opt for opt in torrent_options.keys()]
+            request_options = list(torrent_options)
         request_options.append('name')
 
         d = client.core.get_torrents_status({'id': torrent_ids}, request_options)

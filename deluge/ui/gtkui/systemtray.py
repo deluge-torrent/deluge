@@ -179,7 +179,7 @@ class SystemTray(component.Component):
     def config_value_changed(self, key, value):
         """This is called when we received a config_value_changed signal from
         the core."""
-        if key in list(self.config_value_changed_dict.keys()):
+        if key in self.config_value_changed_dict:
             self.config_value_changed_dict[key](value)
 
     def _on_max_download_speed(self, max_download_speed):

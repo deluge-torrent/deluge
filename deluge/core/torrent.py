@@ -924,7 +924,7 @@ class Torrent(object):
             self.update_status(self.handle.status())
 
         if all_keys:
-            keys = self.status_funcs
+            keys = list(self.status_funcs)
 
         status_dict = {}
 

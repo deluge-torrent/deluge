@@ -137,7 +137,7 @@ class JSONCustomUserTestCase(JSONBase):
     def test_handle_request_auth_error(self):
         yield self.connect_client()
         json = JSON()
-        auth_conf = {'session_timeout': 10, 'sessions': []}
+        auth_conf = {'session_timeout': 10, 'sessions': {}}
         Auth(auth_conf)  # Must create the component
 
         # Must be called to update remote methods in json object
@@ -177,7 +177,7 @@ class RPCRaiseDelugeErrorJSONTestCase(JSONBase):
         def get_session_id(s_id):
             return s_id
         self.patch(deluge.ui.web.auth, 'get_session_id', get_session_id)
-        auth_conf = {'session_timeout': 10, 'sessions': []}
+        auth_conf = {'session_timeout': 10, 'sessions': {}}
         auth = Auth(auth_conf)
         request = Request(MagicMock(), False)
         request.base = ''
@@ -187,7 +187,7 @@ class RPCRaiseDelugeErrorJSONTestCase(JSONBase):
         self.assertTrue('testclass.test' in methods)
 
         request = MagicMock()
-        request.getCookie = MagicMock(return_value=list(auth.config['sessions'].keys())[0])
+        request.getCookie = MagicMock(return_value=list(auth.config['sessions'])[0])
         json_data = {'method': 'testclass.test', 'id': 0, 'params': []}
         request.json = json_lib.dumps(json_data)
         request_id, result, error = json._handle_request(request)

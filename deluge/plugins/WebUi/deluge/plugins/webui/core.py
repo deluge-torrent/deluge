@@ -107,7 +107,7 @@ class Core(CorePluginBase):
             if not action:
                 action = 'restart'
 
-        for key in config.keys():
+        for key in config:
             self.config[key] = config[key]
         self.config.save()
 

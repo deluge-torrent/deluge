@@ -272,7 +272,7 @@ class AccountDialog(BaseDialog):
 
         self.authlevel_combo = gtk.ComboBoxText()
         active_idx = None
-        for idx, level in enumerate(levels_mapping.keys()):
+        for idx, level in enumerate(levels_mapping):
             self.authlevel_combo.append_text(level)
             if authlevel and authlevel == level:
                 active_idx = idx

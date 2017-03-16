@@ -262,7 +262,7 @@ class TorrentManager(component.Component):
             list: A list of torrent_ids.
 
         """
-        torrent_ids = list(self.torrents.keys())
+        torrent_ids = list(self.torrents)
         if component.get('RPCServer').get_session_auth_level() == AUTH_LEVEL_ADMIN:
             return torrent_ids
 
@@ -1270,7 +1270,7 @@ class TorrentManager(component.Component):
         if self.torrents:
             for torrent_id in torrent_ids:
                 if torrent_id in self.torrents:
-                    status_keys = list(self.torrents[torrent_id].status_funcs.keys())
+                    status_keys = list(self.torrents[torrent_id].status_funcs)
                     leftover_keys = list(set(keys) - set(status_keys))
                     torrent_keys = list(set(keys) - set(leftover_keys))
                     return torrent_keys, leftover_keys

@@ -388,7 +388,7 @@ class Core(CorePluginBase):
                 watchdirs[watchdir_id] = watchdir
 
         log.debug('Current logged in user %s is not an ADMIN, send only '
-                  'his watchdirs: %s', session_user, list(watchdirs.keys()))
+                  'their watchdirs: %s', session_user, list(watchdirs))
         return watchdirs
 
     def _make_unicode(self, options):

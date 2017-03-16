@@ -129,7 +129,7 @@ class GraphsTab(Tab):
         return False
 
     def update(self):
-        d1 = client.stats.get_stats(list(self.graph.stat_info.keys()), self.selected_interval)
+        d1 = client.stats.get_stats(list(self.graph.stat_info), self.selected_interval)
         d1.addCallback(self.graph.set_stats)
 
         def _update_complete(result):

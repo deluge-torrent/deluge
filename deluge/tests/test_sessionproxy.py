@@ -35,7 +35,7 @@ class Core(object):
 
     def get_torrent_status(self, torrent_id, keys, diff=False):
         if not keys:
-            keys = list(self.torrents[torrent_id].keys())
+            keys = list(self.torrents[torrent_id])
 
         if not diff:
             ret = {}
@@ -57,9 +57,9 @@ class Core(object):
 
     def get_torrents_status(self, filter_dict, keys, diff=False):
         if not filter_dict:
-            filter_dict['id'] = list(self.torrents.keys())
+            filter_dict['id'] = list(self.torrents)
         if not keys:
-            keys = list(self.torrents['a'].keys())
+            keys = list(self.torrents['a'])
         if not diff:
             if 'id' in filter_dict:
                 torrents = filter_dict['id']

@@ -62,7 +62,7 @@ def generate():
     Return the generated output.
     """
     # the keys are sorted in the .mo file
-    keys = sorted(MESSAGES.keys())
+    keys = sorted(MESSAGES)
     offsets = []
     ids = strs = ''
     for _id in keys:

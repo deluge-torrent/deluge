@@ -801,7 +801,7 @@ class Preferences(component.Component):
 
         def update_dependent_widgets(name, value):
             dependency = dependents[name]
-            for dep in dependency.keys():
+            for dep in dependency:
                 if dep in path_choosers:
                     depwidget = path_choosers[dep]
                 else:

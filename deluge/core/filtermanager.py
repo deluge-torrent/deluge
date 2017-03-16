@@ -188,7 +188,7 @@ class FilterManager(component.Component):
         for use in sidebar.
         """
         torrent_ids = self.torrents.get_torrent_list()
-        tree_keys = list(self.tree_fields.keys())
+        tree_keys = list(self.tree_fields)
         if hide_cat:
             for cat in hide_cat:
                 tree_keys.remove(cat)

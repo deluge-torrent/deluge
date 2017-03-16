@@ -125,7 +125,7 @@ class SessionProxy(component.Component):
             # Keep track of keys we need to request from the core
             keys_to_get = []
             if not keys:
-                keys = self.torrents[torrent_id][1].keys()
+                keys = list(self.torrents[torrent_id][1])
 
             for key in keys:
                 if time() - self.cache_times[torrent_id].get(key, 0.0) > self.cache_time:
@@ -192,7 +192,7 @@ class SessionProxy(component.Component):
 
             # Create the status dict
             if not torrent_ids:
-                torrent_ids = list(result.keys())
+                torrent_ids = list(result)
 
             return self.create_status_dict(torrent_ids, keys)
 
@@ -216,13 +216,14 @@ class SessionProxy(component.Component):
         if not filter_dict:
             # This means we want all the torrents status
             # We get a list of any torrent_ids with expired status dicts
-            to_fetch = find_torrents_to_fetch(list(self.torrents.keys()))
+            torrents_list = list(self.torrents)
+            to_fetch = find_torrents_to_fetch(torrents_list)
             if to_fetch:
                 d = client.core.get_torrents_status({'id': to_fetch}, keys, True)
-                return d.addCallback(on_status, list(self.torrents.keys()), keys)
+                return d.addCallback(on_status, torrents_list, keys)
 
             # Don't need to fetch anything
-            return maybeDeferred(self.create_status_dict, list(self.torrents.keys()), keys)
+            return maybeDeferred(self.create_status_dict, torrents_list, keys)
 
         if len(filter_dict) == 1 and 'id' in filter_dict:
             # At this point we should have a filter with just "id" in it

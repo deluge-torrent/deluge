@@ -207,7 +207,7 @@ class TorrentInfo(object):
                         item.update(paths[path])
                     item['download'] = True
 
-                file_tree = FileTree2(list(paths.keys()))
+                file_tree = FileTree2(list(paths))
                 file_tree.walk(walk)
             else:
                 def walk(path, item):
@@ -386,7 +386,7 @@ class FileTree2(object):
         :type callback: function
         """
         def walk(directory, parent_path):
-            for path in directory['contents'].keys():
+            for path in list(directory['contents']):
                 full_path = os.path.join(parent_path, path).replace('\\', '/')
                 if directory['contents'][path]['type'] == 'dir':
                     directory['contents'][path] = callback(
@@ -466,7 +466,7 @@ class FileTree(object):
         :type callback: function
         """
         def walk(directory, parent_path):
-            for path in directory.keys():
+            for path in list(directory):
                 full_path = os.path.join(parent_path, path)
                 if isinstance(directory[path], dict):
                     directory[path] = callback(full_path, directory[path]) or directory[path]

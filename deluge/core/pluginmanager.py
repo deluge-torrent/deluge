@@ -83,7 +83,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, component.Compon
         """Return the value of status fields for the selected torrent_id."""
         status = {}
         if len(fields) == 0:
-            fields = self.status_fields.keys()
+            fields = list(self.status_fields)
         for field in fields:
             try:
                 status[field] = self.status_fields[field](torrent_id)
