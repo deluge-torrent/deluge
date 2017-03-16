@@ -98,7 +98,7 @@ for col_i, col_name in enumerate(torrentviewcolumns.column_pref_names):
 class TorrentView(InputKeyHandler):
 
     def __init__(self, torrentlist, config):
-        InputKeyHandler.__init__(self)
+        super(TorrentView, self).__init__()
         self.torrentlist = torrentlist
         self.config = config
         self.filter_dict = {}

@@ -30,7 +30,7 @@ log = logging.getLogger(__name__)
 
 class PeersTab(Tab):
     def __init__(self):
-        Tab.__init__(self)
+        super(PeersTab, self).__init__()
         main_builder = component.get('MainWindow').get_builder()
 
         self._name = 'Peers'

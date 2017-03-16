@@ -80,7 +80,7 @@ def gtk_to_graph_color(color):
 
 class GraphsTab(Tab):
     def __init__(self, glade, colors):
-        Tab.__init__(self)
+        super(GraphsTab, self).__init__()
         self.glade = glade
         self.window = self.glade.get_widget('graph_tab')
         self.notebook = self.glade.get_widget('graph_notebook')

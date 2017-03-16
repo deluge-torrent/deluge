@@ -22,7 +22,7 @@ log = logging.getLogger(__name__)
 
 class DetailsTab(Tab):
     def __init__(self):
-        Tab.__init__(self)
+        super(DetailsTab, self).__init__()
         # Get the labels we need to update.
         # widget name, modifier function, status keys
         main_builder = component.get('MainWindow').get_builder()

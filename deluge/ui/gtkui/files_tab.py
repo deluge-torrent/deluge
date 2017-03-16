@@ -70,7 +70,7 @@ def cell_progress(column, cell, model, row, data):
 
 class FilesTab(Tab):
     def __init__(self):
-        Tab.__init__(self)
+        super(FilesTab, self).__init__()
         main_builder = component.get('MainWindow').get_builder()
 
         self._name = 'Files'

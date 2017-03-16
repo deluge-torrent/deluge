@@ -30,7 +30,7 @@ DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 class SchedulerSelectWidget(gtk.DrawingArea):
     def __init__(self, hover):
-        gtk.DrawingArea.__init__(self)
+        super(SchedulerSelectWidget, self).__init__()
         self.set_events(gtk.gdk.BUTTON_PRESS_MASK | gtk.gdk.BUTTON_RELEASE_MASK |
                         gtk.gdk.POINTER_MOTION_MASK | gtk.gdk.LEAVE_NOTIFY_MASK)
 

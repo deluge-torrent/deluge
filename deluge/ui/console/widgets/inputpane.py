@@ -33,7 +33,7 @@ class BaseInputPane(InputKeyHandler):
     def __init__(self, mode, allow_rearrange=False, immediate_action=False, set_first_input_active=True,
                  border_off_west=0, border_off_north=0, border_off_east=0, border_off_south=0,
                  active_wrap=False, **kwargs):
-        InputKeyHandler.__init__(self)
+        super(BaseInputPane, self).__init__()
         self.inputs = []
         self.mode = mode
         self.active_input = 0

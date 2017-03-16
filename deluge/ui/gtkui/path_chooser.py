@@ -118,7 +118,7 @@ class PathChooser(PathChooserComboBox):
 
     def __init__(self, paths_config_key=None):
         self.paths_config_key = paths_config_key
-        PathChooserComboBox.__init__(self)
+        super(PathChooser, self).__init__()
         self.chooser_handler = PathChoosersHandler()
         self.chooser_handler.register_chooser(self)
         self.set_auto_completer_func(self.on_completion)

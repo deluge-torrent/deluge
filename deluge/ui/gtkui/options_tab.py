@@ -19,7 +19,7 @@ from deluge.ui.gtkui.torrentdetails import Tab
 
 class OptionsTab(Tab):
     def __init__(self):
-        Tab.__init__(self)
+        super(OptionsTab, self).__init__()
         main_builder = component.get('MainWindow').get_builder()
 
         self._name = 'Options'

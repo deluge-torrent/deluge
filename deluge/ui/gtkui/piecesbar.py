@@ -27,7 +27,7 @@ class PiecesBar(DrawingArea):
     __gsignals__ = {b'expose-event': b'override'}
 
     def __init__(self):
-        DrawingArea.__init__(self)
+        super(PiecesBar, self).__init__()
         # Get progress bar styles, in order to keep font consistency
         pb = ProgressBar()
         pb_style = pb.get_style()

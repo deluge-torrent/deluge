@@ -50,7 +50,7 @@ SEARCH_FORMAT = {
 class SearchMode(InputKeyHandler):
 
     def __init__(self, torrentlist):
-        InputKeyHandler.__init__(self)
+        super(SearchMode, self).__init__()
         self.torrentlist = torrentlist
         self.torrentview = torrentlist.torrentview
         self.search_state = SEARCH_EMPTY
