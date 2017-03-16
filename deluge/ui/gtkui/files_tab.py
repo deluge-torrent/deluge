@@ -9,11 +9,11 @@
 
 from __future__ import division, unicode_literals
 
-import cPickle as pickle
 import logging
 import os.path
 
 import gtk
+import six.moves.cPickle as pickle
 from gobject import TYPE_UINT64
 from gtk.gdk import ACTION_DEFAULT, ACTION_MOVE, BUTTON1_MASK, keyval_name  # pylint: disable=ungrouped-imports
 

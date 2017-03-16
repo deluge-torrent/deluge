@@ -10,12 +10,12 @@
 from __future__ import unicode_literals
 
 import contextlib
-import cPickle as pickle
 import logging
 import os
 import shutil
 import sys
 
+import six.moves.cPickle as pickle
 from gobject import GError
 from gtk import SORT_ASCENDING, Menu, MenuItem, RadioMenuItem, SeparatorMenuItem, clipboard_get, icon_theme_get_default
 from gtk.gdk import COLORSPACE_RGB, SELECTION_PRIMARY, Pixbuf, pixbuf_new_from_file, pixbuf_new_from_file_at_size

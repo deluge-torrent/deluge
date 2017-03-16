@@ -9,12 +9,13 @@
 
 from __future__ import unicode_literals
 
-import __builtin__
 import gettext
 import locale
 import logging
 import os
 import sys
+
+from six.moves import builtins
 
 import deluge.common
 
@@ -28,8 +29,8 @@ def set_dummy_trans(warn_msg=None):
         if warn_msg:
             log.warn('"%s" has been marked for translation, but translation is unavailable.', txt[0])
         return txt[0]
-    __builtin__.__dict__['_'] = _func
-    __builtin__.__dict__['ngettext'] = __builtin__.__dict__['_n'] = _func
+    builtins.__dict__['_'] = _func
+    builtins.__dict__['ngettext'] = builtins.__dict__['_n'] = _func
 
 
 def get_translations_path():
@@ -127,7 +128,7 @@ def setup_translations(setup_gettext=True, setup_pygtk=False):
             kwargs = {} if not deluge.common.PY2 else {'unicode': True}
 
             gettext.install(domain, translations_path, names='ngettext', **kwargs)
-            __builtin__.__dict__['_n'] = __builtin__.__dict__['ngettext']
+            builtins.__dict__['_n'] = builtins.__dict__['ngettext']
         except Exception as ex:
             log.error('Unable to initialize gettext/locale!')
             log.exception(ex)

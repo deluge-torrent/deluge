@@ -41,13 +41,14 @@ version as this will be done internally.
 """
 from __future__ import unicode_literals
 
-import cPickle as pickle
 import json
 import logging
 import os
 import shutil
 from codecs import getwriter
 from io import open
+
+import six.moves.cPickle as pickle
 
 from deluge.common import JSON_FORMAT, get_default_config_dir
 
