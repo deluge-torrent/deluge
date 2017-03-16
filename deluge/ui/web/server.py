@@ -169,7 +169,7 @@ class Tracker(resource.Resource):
         if icon:
             request.setHeader(b'cache-control',
                               b'public, must-revalidate, max-age=86400')
-            request.setHeader(b'content-type', icon.get_mimetype())
+            request.setHeader(b'content-type', icon.get_mimetype().encode('utf8'))
             request.setResponseCode(http.OK)
             request.write(icon.get_data())
             request.finish()
