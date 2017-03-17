@@ -12,9 +12,8 @@ from __future__ import unicode_literals
 import logging
 import os
 
-import gtk
-import gtk.glade
 import pkg_resources  # access plugin egg
+from gtk import Builder
 
 from deluge.ui.client import client
 
@@ -31,9 +30,10 @@ class LabelConfig(object):
 
     def load(self):
         log.debug('Adding Label Preferences page')
-        self.glade = gtk.glade.XML(self.get_resource('label_pref.glade'))
+        builder = Builder()
+        builder.add_from_file(self.get_resource('label_pref.glade'))
 
-        self.plugin.add_preferences_page(_('Label'), self.glade.get_widget('label_prefs_box'))
+        self.plugin.add_preferences_page(_('Label'), builder.get_object('label_prefs_box'))
         self.plugin.register_hook('on_show_prefs', self.load_settings)
         self.plugin.register_hook('on_apply_prefs', self.on_apply_prefs)
 

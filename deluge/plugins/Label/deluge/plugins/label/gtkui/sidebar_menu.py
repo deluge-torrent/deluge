@@ -13,7 +13,6 @@ from __future__ import unicode_literals
 import logging
 
 import gtk
-import gtk.glade
 
 import deluge.component as component
 from deluge.ui.client import client
@@ -114,22 +113,20 @@ class AddDialog(object):
         pass
 
     def show(self):
-        self.glade = gtk.glade.XML(get_resource('label_options.glade'))
-        self.dialog = self.glade.get_widget('dlg_label_add')
+        self.builder = gtk.Builder()
+        self.builder.add_from_file(get_resource('label_add.ui'))
+        self.dialog = self.builder.get_object('dlg_label_add')
         self.dialog.set_transient_for(component.get('MainWindow').window)
 
-        self.glade.signal_autoconnect({
-            'on_add_ok': self.on_ok,
-            'on_add_cancel': self.on_cancel,
-        })
+        self.builder.connect_signals(self)
         self.dialog.run()
 
-    def on_ok(self, event=None):
-        value = self.glade.get_widget('txt_add').get_text()
+    def on_add_ok(self, event=None):
+        value = self.builder.get_object('txt_add').get_text()
         client.label.add(value)
         self.dialog.destroy()
 
-    def on_cancel(self, event=None):
+    def on_add_cancel(self, event=None):
         self.dialog.destroy()
 
 
@@ -154,19 +151,16 @@ class OptionsDialog(object):
 
     def show(self, label):
         self.label = label
-        self.glade = gtk.glade.XML(get_resource('label_options.glade'))
-        self.dialog = self.glade.get_widget('dlg_label_options')
+        self.builder = gtk.Builder()
+        self.builder.add_from_file(get_resource('label_options.ui'))
+        self.dialog = self.builder.get_object('dlg_label_options')
         self.dialog.set_transient_for(component.get('MainWindow').window)
-        self.glade.signal_autoconnect({
-            'on_options_ok': self.on_ok,
-            'on_options_cancel': self.on_cancel,
-        })
-
+        self.builder.connect_signals(self)
         # Show the label name in the header label
-        self.glade.get_widget('label_header').set_markup('<b>%s:</b> %s' % (_('Label Options'), self.label))
+        self.builder.get_object('label_header').set_markup('<b>%s:</b> %s' % (_('Label Options'), self.label))
 
         for chk_id, group in self.sensitive_groups:
-            chk = self.glade.get_widget(chk_id)
+            chk = self.builder.get_object(chk_id)
             chk.connect('toggled', self.apply_sensitivity)
 
         client.label.get_options(self.label).addCallback(self.load_options)
@@ -177,40 +171,40 @@ class OptionsDialog(object):
         log.debug(list(options))
 
         for spin_id in self.spin_ids + self.spin_int_ids:
-            self.glade.get_widget(spin_id).set_value(options[spin_id])
+            self.builder.get_object(spin_id).set_value(options[spin_id])
         for chk_id in self.chk_ids:
-            self.glade.get_widget(chk_id).set_active(bool(options[chk_id]))
+            self.builder.get_object(chk_id).set_active(bool(options[chk_id]))
 
         if client.is_localhost():
-            self.glade.get_widget('move_completed_path').set_filename(options['move_completed_path'])
-            self.glade.get_widget('move_completed_path').show()
-            self.glade.get_widget('move_completed_path_entry').hide()
+            self.builder.get_object('move_completed_path').set_filename(options['move_completed_path'])
+            self.builder.get_object('move_completed_path').show()
+            self.builder.get_object('move_completed_path_entry').hide()
         else:
-            self.glade.get_widget('move_completed_path_entry').set_text(options['move_completed_path'])
-            self.glade.get_widget('move_completed_path_entry').show()
-            self.glade.get_widget('move_completed_path').hide()
+            self.builder.get_object('move_completed_path_entry').set_text(options['move_completed_path'])
+            self.builder.get_object('move_completed_path_entry').show()
+            self.builder.get_object('move_completed_path').hide()
 
-        self.glade.get_widget('auto_add_trackers').get_buffer().set_text('\n'.join(options['auto_add_trackers']))
+        self.builder.get_object('auto_add_trackers').get_buffer().set_text('\n'.join(options['auto_add_trackers']))
 
         self.apply_sensitivity()
 
-    def on_ok(self, event=None):
+    def on_options_ok(self, event=None):
         'save options..'
         options = {}
 
         for spin_id in self.spin_ids:
-            options[spin_id] = self.glade.get_widget(spin_id).get_value()
+            options[spin_id] = self.builder.get_object(spin_id).get_value()
         for spin_int_id in self.spin_int_ids:
-            options[spin_int_id] = self.glade.get_widget(spin_int_id).get_value_as_int()
+            options[spin_int_id] = self.builder.get_object(spin_int_id).get_value_as_int()
         for chk_id in self.chk_ids:
-            options[chk_id] = self.glade.get_widget(chk_id).get_active()
+            options[chk_id] = self.builder.get_object(chk_id).get_active()
 
         if client.is_localhost():
-            options['move_completed_path'] = self.glade.get_widget('move_completed_path').get_filename()
+            options['move_completed_path'] = self.builder.get_object('move_completed_path').get_filename()
         else:
-            options['move_completed_path'] = self.glade.get_widget('move_completed_path_entry').get_text()
+            options['move_completed_path'] = self.builder.get_object('move_completed_path_entry').get_text()
 
-        buff = self.glade.get_widget('auto_add_trackers').get_buffer()  # sometimes I hate gtk...
+        buff = self.builder.get_object('auto_add_trackers').get_buffer()  # sometimes I hate gtk...
         tracker_lst = buff.get_text(buff.get_start_iter(), buff.get_end_iter()).strip().split('\n')
         options['auto_add_trackers'] = [x for x in tracker_lst if x]  # filter out empty lines.
 
@@ -220,10 +214,10 @@ class OptionsDialog(object):
 
     def apply_sensitivity(self, event=None):
         for chk_id, sensitive_list in self.sensitive_groups:
-            chk = self.glade.get_widget(chk_id)
+            chk = self.builder.get_object(chk_id)
             sens = chk.get_active() and chk.get_property('sensitive')
             for widget_id in sensitive_list:
-                self.glade.get_widget(widget_id).set_sensitive(sens)
+                self.builder.get_object(widget_id).set_sensitive(sens)
 
-    def on_cancel(self, event=None):
+    def on_options_cancel(self, event=None):
         self.dialog.destroy()
