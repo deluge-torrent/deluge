@@ -77,14 +77,15 @@ class Core(CorePluginBase):
         self.length = self.config['length']
 
         # self.stats = get_key(self.saved_stats, 'stats') or {}
-        self.stats_keys = []
+        self.stats_keys = ['peer.num_peers_half_open', 'dht.dht_node_cache']
         self.add_stats(
             'upload_rate',
             'download_rate',
             'dht_nodes',
-            'dht_node_cache',
+            'dht_cache_nodes',
             'dht_torrents',
             'num_peers',
+            'num_connections'
         )
 
         self.update_stats()
@@ -122,7 +123,8 @@ class Core(CorePluginBase):
                     stats.update(self.core.get_session_status([key]))
                 except AttributeError:
                     pass
-            stats['num_connections'] = stats['num_peers']
+            stats['num_connections'] = stats['num_peers'] + stats['peer.num_peers_half_open']
+            stats['dht_cache_nodes'] = stats['dht.dht_node_cache']
             stats.update(self.core.get_config_values(['max_download',
                                                       'max_upload',
                                                       'max_num_connections']))
