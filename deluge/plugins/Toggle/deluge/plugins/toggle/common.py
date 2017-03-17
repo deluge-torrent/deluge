@@ -14,10 +14,12 @@
 
 from __future__ import unicode_literals
 
-from os.path import join
+import os.path
 
-from deluge.common import resource_filename
+from deluge.common import decode_bytes
+
+BASE_PATH = decode_bytes(os.path.abspath(os.path.dirname(__file__)))
 
 
 def get_resource(filename):
-    return resource_filename('deluge.plugins.toggle', join('data', filename))
+    return os.path.join(BASE_PATH, 'data', filename)

@@ -9,15 +9,17 @@
 
 from __future__ import unicode_literals
 
+import os.path
 from functools import wraps
-from os.path import join
 from sys import exc_info
 
-from deluge.common import resource_filename
+from deluge.common import decode_bytes
+
+BASE_PATH = decode_bytes(os.path.abspath(os.path.dirname(__file__)))
 
 
 def get_resource(filename):
-    return resource_filename('deluge.plugins.blocklist', join('data', filename))
+    return os.path.join(BASE_PATH, 'data', filename)
 
 
 def raises_errors_as(error):
