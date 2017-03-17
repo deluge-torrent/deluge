@@ -53,7 +53,7 @@ def add(msgid, transtr, fuzzy):
     """
     Add a non-fuzzy translation to the dictionary.
     """
-    if not fuzzy and transtr and not transtr.startswith('\0'):
+    if not fuzzy and transtr and not transtr.startswith('\x00'):
         MESSAGES[msgid] = transtr
 
 
@@ -66,11 +66,12 @@ def generate():
     offsets = []
     ids = strs = ''
     for _id in keys:
-        # For each string, we need size and file offset.  Each string is NUL
+        # For each string, we need size and file offset when encoded. Each string is NUL
         # terminated; the NUL does not count into the size.
-        offsets.append((len(ids), len(_id), len(strs), len(MESSAGES[_id])))
-        ids += _id + '\0'
-        strs += MESSAGES[_id] + '\0'
+        offsets.append((len(ids.encode('utf8')), len(_id.encode('utf8')),
+                        len(strs.encode('utf8')), len(MESSAGES[_id].encode('utf8'))))
+        ids += _id + '\x00'
+        strs += MESSAGES[_id] + '\x00'
 
     # The header is 7 32-bit unsigned integers.  We don't use hash tables, so
     # the keys start right after the index tables.
@@ -97,8 +98,8 @@ def generate():
         output += array.array(b'i', offsets).tostring()
     else:
         output += array.array('i', offsets).tobytes()
-    output += ids.encode('utf-8')
-    output += strs.encode('utf-8')
+    output += ids.encode('utf8')
+    output += strs.encode('utf8')
     return output
 
 
@@ -118,7 +119,7 @@ def make(filename, outfile):
 
     try:
         import io
-        with io.open(infile, encoding='utf-8') as _file:
+        with io.open(infile, encoding='utf8') as _file:
             lines = _file.readlines()
     except IOError as msg:
         print(msg, file=sys.stderr)
@@ -145,7 +146,7 @@ def make(filename, outfile):
             continue
         # Start of msgid_plural section, separate from singular form with \0
         if l.startswith('msgid_plural'):
-            msgid += '\0'
+            msgid += '\x00'
             l = l[12:]
         # Now we are in a msgid section, output previous section
         elif l.startswith('msgid'):
@@ -162,7 +163,7 @@ def make(filename, outfile):
             if l.startswith('['):
                 # Separate plural forms with \0
                 if not l.startswith('[0]'):
-                    msgstr += '\0'
+                    msgstr += '\x00'
                 # Ignore the index - must come in sequence
                 l = l[l.index(']') + 1:]
         # Skip empty lines
@@ -172,7 +173,7 @@ def make(filename, outfile):
         l = ast.literal_eval(l)
         # Python 2 ast.literal_eval returns bytes.
         if isinstance(l, bytes):
-            l = l.decode('utf-8')
+            l = l.decode('utf8')
         if section == section_id:
             msgid += l
         elif section == section_str:
