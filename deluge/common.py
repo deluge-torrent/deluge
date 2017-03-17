@@ -109,7 +109,7 @@ def get_default_config_dir(filename=None):
     if not filename:
         filename = ''
     try:
-        return os.path.join(save_config_path('deluge'), filename)
+        return decode_bytes(os.path.join(save_config_path('deluge'), filename))
     except OSError as ex:
         log.error('Unable to use default config directory, exiting... (%s)', ex)
         sys.exit(1)

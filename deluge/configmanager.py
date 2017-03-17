@@ -111,7 +111,7 @@ def ConfigManager(config, defaults=None, file_version=1):  # NOQA: N802
 
 def set_config_dir(directory):
     """Sets the config directory, else just uses default"""
-    return _configmanager.set_config_dir(directory)
+    return _configmanager.set_config_dir(deluge.common.decode_bytes(directory))
 
 
 def get_config_dir(filename=None):
