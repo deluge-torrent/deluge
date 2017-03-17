@@ -15,4 +15,4 @@ from deluge.common import resource_filename
 
 
 def get_resource(filename):
-    return resource_filename('deluge.plugins.stats', join('data', filename))
+    return resource_filename('deluge.plugins.label', join('data', filename))

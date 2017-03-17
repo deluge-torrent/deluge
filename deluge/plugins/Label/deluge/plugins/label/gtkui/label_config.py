@@ -10,12 +10,12 @@
 from __future__ import unicode_literals
 
 import logging
-import os
 
-import pkg_resources  # access plugin egg
 from gtk import Builder
 
 from deluge.ui.client import client
+
+from .common import get_resource
 
 log = logging.getLogger(__name__)
 
@@ -31,7 +31,7 @@ class LabelConfig(object):
     def load(self):
         log.debug('Adding Label Preferences page')
         builder = Builder()
-        builder.add_from_file(self.get_resource('label_pref.ui'))
+        builder.add_from_file(get_resource('label_pref.ui'))
 
         self.plugin.add_preferences_page(_('Label'), builder.get_object('label_prefs_box'))
         self.plugin.register_hook('on_show_prefs', self.load_settings)
@@ -43,11 +43,6 @@ class LabelConfig(object):
         self.plugin.remove_preferences_page(_('Label'))
         self.plugin.deregister_hook('on_apply_prefs', self.on_apply_prefs)
         self.plugin.deregister_hook('on_show_prefs', self.load_settings)
-
-    def get_resource(self, filename):
-        return pkg_resources.resource_filename(
-            'deluge.plugins.label', os.path.join('data', filename)
-        )
 
     def load_settings(self, widget=None, data=None):
         client.label.get_config().addCallback(self.cb_global_options)

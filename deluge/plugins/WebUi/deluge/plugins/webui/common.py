@@ -11,12 +11,12 @@
 # See LICENSE for more details.
 #
 
-
 from __future__ import unicode_literals
+
+from os.path import join
+
+from deluge.common import resource_filename
 
 
 def get_resource(filename):
-    import os.path
-    import pkg_resources
-    return pkg_resources.resource_filename('deluge.plugins.webui',
-                                           os.path.join('data', filename))
+    return resource_filename('deluge.plugins.webui', join('data', filename))

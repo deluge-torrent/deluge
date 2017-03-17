@@ -208,11 +208,14 @@ setup(
 
 COMMON = """
 
+from __future__ import unicode_literals
+
+from os.path import join
+
+from deluge.common import resource_filename
+
 def get_resource(filename):
-    import pkg_resources
-    import os
-    return pkg_resources.resource_filename('deluge.plugins.%(safe_name)s',
-                                           os.path.join('data', filename))
+    return resource_filename('deluge.plugins.%(safe_name)s', join('data', filename))
 """
 
 GTKUI = """
@@ -223,7 +226,7 @@ from deluge.ui.client import client
 from deluge.plugins.pluginbase import GtkPluginBase
 import deluge.component as component
 
-from common import get_resource
+from .common import get_resource
 
 log = logging.getLogger(__name__)
 
@@ -290,7 +293,7 @@ import logging
 from deluge.ui.client import client
 from deluge.plugins.pluginbase import WebPluginBase
 
-from common import get_resource
+from .common import get_resource
 
 log = logging.getLogger(__name__)
 

@@ -15,19 +15,19 @@
 from __future__ import unicode_literals
 
 import logging
+from os.path import join
 
 from twisted.internet import defer
 
 from deluge import component
+from deluge.common import resource_filename
 from deluge.event import known_events
 
 log = logging.getLogger(__name__)
 
 
 def get_resource(filename):
-    import os
-    import pkg_resources
-    return pkg_resources.resource_filename('deluge.plugins.notifications', os.path.join('data', filename))
+    return resource_filename('deluge.plugins.notifications', join('data', filename))
 
 
 class CustomNotifications(object):

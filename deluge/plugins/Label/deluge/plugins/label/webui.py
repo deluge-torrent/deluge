@@ -14,21 +14,14 @@
 from __future__ import unicode_literals
 
 import logging
-import os
-
-import pkg_resources
 
 from deluge.plugins.pluginbase import WebPluginBase
+
+from .common import get_resource
 
 log = logging.getLogger(__name__)
 
 
-def get_resource(filename):
-    return pkg_resources.resource_filename('deluge.plugins.label',
-                                           os.path.join('data', filename))
-
-
 class WebUI(WebPluginBase):
-
     scripts = [get_resource('label.js')]
     debug_scripts = scripts

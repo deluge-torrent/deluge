@@ -207,15 +207,27 @@ def get_pixmap(fname):
 
 
 def resource_filename(module, path):
-    # While developing, if there's a second deluge package, installed globally
-    # and another in develop mode somewhere else, while pkg_resources.require('Deluge')
-    # returns the proper deluge instance, pkg_resources.resource_filename does
-    # not, it returns the first found on the python path, which is not good
-    # enough.
-    # This is a work-around that.
-    return pkg_resources.require('Deluge>=%s' % get_version())[0].get_resource_filename(
-        pkg_resources._manager, os.path.join(*(module.split('.') + [path]))
-    )
+    """A workaround for pkg_resources.resource_filename finding wrong package when developing
+
+    When developing and there is a second deluge package (installed globally) and
+    another in develop mode elsewhere. While pkg_resources.require('Deluge')
+    returns the proper deluge instance, resource_filename does not, it returns
+    the first found on the python path, which is not what is wanted.
+
+    Also ensures the filename path is decoded from bytes.
+
+    Args:
+        module (str): The module name in dotted notation.
+        path (str): The relative path to resource.
+
+    Returns:
+        str: The absolute resource path.
+
+    """
+    filename = pkg_resources.require('Deluge>=%s' % get_version())[0].get_resource_filename(
+        pkg_resources._manager, os.path.join(*(module.split('.') + [path])))
+
+    return decode_bytes(filename)
 
 
 def open_file(path, timestamp=None):

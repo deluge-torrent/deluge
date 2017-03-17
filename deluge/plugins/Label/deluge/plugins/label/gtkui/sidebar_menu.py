@@ -17,18 +17,11 @@ import gtk
 import deluge.component as component
 from deluge.ui.client import client
 
+from .common import get_resource
+
 log = logging.getLogger(__name__)
 
 NO_LABEL = 'No Label'
-
-
-# helpers:
-def get_resource(filename):
-    import pkg_resources
-    import os
-    return pkg_resources.resource_filename(
-        'deluge.plugins.label', os.path.join('data', filename)
-    )
 
 
 # menu

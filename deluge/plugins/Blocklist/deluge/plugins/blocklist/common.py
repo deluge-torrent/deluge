@@ -9,16 +9,15 @@
 
 from __future__ import unicode_literals
 
-import os.path
 from functools import wraps
+from os.path import join
 from sys import exc_info
 
-import pkg_resources
+from deluge.common import resource_filename
 
 
 def get_resource(filename):
-    return pkg_resources.resource_filename('deluge.plugins.blocklist',
-                                           os.path.join('data', filename))
+    return resource_filename('deluge.plugins.blocklist', join('data', filename))
 
 
 def raises_errors_as(error):

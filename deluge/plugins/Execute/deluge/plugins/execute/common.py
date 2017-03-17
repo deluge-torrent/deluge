@@ -9,11 +9,10 @@
 
 from __future__ import unicode_literals
 
-import os.path
+from os.path import join
 
-import pkg_resources
+from deluge.common import resource_filename
 
 
 def get_resource(filename):
-    return pkg_resources.resource_filename('deluge.plugins.execute',
-                                           os.path.join('data', filename))
+    return resource_filename('deluge.plugins.execute', join('data', filename))
