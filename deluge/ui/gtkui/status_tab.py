@@ -17,50 +17,40 @@ from deluge.configmanager import ConfigManager
 from deluge.ui.gtkui.piecesbar import PiecesBar
 from deluge.ui.gtkui.tab_data_funcs import (fdate_or_never, fpcnt, fratio, fseed_rank_or_dash, fspeed_max,
                                             ftime_or_dash, ftotal_sized)
-from deluge.ui.gtkui.torrentdetails import Tab
+from deluge.ui.gtkui.torrentdetails import Tab, TabWidget
 
 log = logging.getLogger(__name__)
 
 
 class StatusTab(Tab):
     def __init__(self):
-        super(StatusTab, self).__init__()
-        # Get the labels we need to update.
-        # widget name, modifier function, status keys
-        main_builder = component.get('MainWindow').get_builder()
+        super(StatusTab, self).__init__('Status', 'status_tab', 'status_tab_label')
 
-        self._name = 'Status'
-        self._child_widget = main_builder.get_object('status_tab')
-        self._tab_label = main_builder.get_object('status_tab_label')
         self.config = ConfigManager('gtkui.conf')
 
-        self.progressbar = main_builder.get_object('progressbar')
+        self.progressbar = self.main_builder.get_object('progressbar')
         self.piecesbar = None
-        self.piecesbar_label_widget = None
 
-        self.label_widgets = [
-            (main_builder.get_object('summary_availability'), fratio, ('distributed_copies',)),
-            (main_builder.get_object('summary_total_downloaded'), ftotal_sized, ('all_time_download',
-                                                                                 'total_payload_download')),
-            (main_builder.get_object('summary_total_uploaded'), ftotal_sized, ('total_uploaded',
-                                                                               'total_payload_upload')),
-            (main_builder.get_object('summary_download_speed'), fspeed_max, ('download_payload_rate',
-                                                                             'max_download_speed')),
-            (main_builder.get_object('summary_upload_speed'), fspeed_max, ('upload_payload_rate',
-                                                                           'max_upload_speed')),
-            (main_builder.get_object('summary_seeds'), fpeer, ('num_seeds', 'total_seeds')),
-            (main_builder.get_object('summary_peers'), fpeer, ('num_peers', 'total_peers')),
-            (main_builder.get_object('summary_eta'), ftime_or_dash, ('eta',)),
-            (main_builder.get_object('summary_share_ratio'), fratio, ('ratio',)),
-            (main_builder.get_object('summary_active_time'), ftime_or_dash, ('active_time',)),
-            (main_builder.get_object('summary_seed_time'), ftime_or_dash, ('seeding_time',)),
-            (main_builder.get_object('summary_seed_rank'), fseed_rank_or_dash, ('seed_rank', 'seeding_time')),
-            (main_builder.get_object('progressbar'), fpcnt, ('progress', 'state', 'message')),
-            (main_builder.get_object('summary_last_seen_complete'), fdate_or_never, ('last_seen_complete',)),
-            (main_builder.get_object('summary_last_transfer'), ftime_or_dash, ('time_since_transfer',)),
-        ]
+        self.add_tab_widget('summary_availability', fratio, ('distributed_copies',))
+        self.add_tab_widget('summary_total_downloaded', ftotal_sized,
+                            ('all_time_download', 'total_payload_download'))
+        self.add_tab_widget('summary_total_uploaded', ftotal_sized,
+                            ('total_uploaded', 'total_payload_upload'))
+        self.add_tab_widget('summary_download_speed', fspeed_max,
+                            ('download_payload_rate', 'max_download_speed'))
+        self.add_tab_widget('summary_upload_speed', fspeed_max,
+                            ('upload_payload_rate', 'max_upload_speed'))
+        self.add_tab_widget('summary_seeds', fpeer, ('num_seeds', 'total_seeds'))
+        self.add_tab_widget('summary_peers', fpeer, ('num_peers', 'total_peers'))
+        self.add_tab_widget('summary_eta', ftime_or_dash, ('eta',))
+        self.add_tab_widget('summary_share_ratio', fratio, ('ratio',))
+        self.add_tab_widget('summary_active_time', ftime_or_dash, ('active_time',))
+        self.add_tab_widget('summary_seed_time', ftime_or_dash, ('seeding_time',))
+        self.add_tab_widget('summary_seed_rank', fseed_rank_or_dash, ('seed_rank', 'seeding_time'))
+        self.add_tab_widget('progressbar', fpcnt, ('progress', 'state', 'message'))
+        self.add_tab_widget('summary_last_seen_complete', fdate_or_never, ('last_seen_complete',))
+        self.add_tab_widget('summary_last_transfer', ftime_or_dash, ('time_since_transfer',))
 
-        self.status_keys = [status for widget in self.label_widgets for status in widget[2]]
         self.config.register_set_function('show_piecesbar', self.on_show_piecesbar_config_changed, apply_now=True)
 
     def update(self):
@@ -86,8 +76,8 @@ class StatusTab(Tab):
             return
 
         # Update all the label widgets
-        for widget in self.label_widgets:
-            txt = self.get_status_for_widget(widget, status)
+        for widget in self.tab_widgets.values():
+            txt = self.widget_status_as_fstr(widget, status)
             if widget[0].get_text() != txt:
                 widget[0].set_text(txt)
 
@@ -114,10 +104,9 @@ class StatusTab(Tab):
     def show_piecesbar(self):
         if self.piecesbar is None:
             self.piecesbar = PiecesBar()
-            main_builder = component.get('MainWindow').get_builder()
-            main_builder.get_object('status_progress_vbox').pack_start(self.piecesbar, False, False, 0)
-        self.piecesbar_label_widget = (self.piecesbar, fpcnt, ('progress', 'state', 'message'))
-        self.label_widgets.append(self.piecesbar_label_widget)
+            self.main_builder.get_object(
+                'status_progress_vbox').pack_start(self.piecesbar, False, False, 0)
+        self.tab_widgets['piecesbar'] = TabWidget(self.piecesbar, fpcnt, ('progress', 'state', 'message'))
         self.piecesbar.show()
         self.progressbar.hide()
 
@@ -125,11 +114,11 @@ class StatusTab(Tab):
         self.progressbar.show()
         if self.piecesbar:
             self.piecesbar.hide()
-            self.label_widgets.remove(self.piecesbar_label_widget)
-            self.piecesbar = self.piecesbar_label_widget = None
+            self.tab_widgets.pop('piecesbar', None)
+            self.piecesbar = None
 
     def clear(self):
-        for widget in self.label_widgets:
+        for widget in self.tab_widgets.values():
             widget[0].set_text('')
 
         if self.config['show_piecesbar']:

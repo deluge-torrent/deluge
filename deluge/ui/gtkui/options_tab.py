@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
+#               2017 Calum Lind <calumlind+deluge@gmail.com>
 #
 # This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
 # the additional special exception to link portions of this program with the OpenSSL library.
@@ -19,46 +20,45 @@ from deluge.ui.gtkui.torrentdetails import Tab
 
 class OptionsTab(Tab):
     def __init__(self):
-        super(OptionsTab, self).__init__()
-        main_builder = component.get('MainWindow').get_builder()
-
-        self._name = 'Options'
-        self._child_widget = main_builder.get_object('options_tab')
-        self._tab_label = main_builder.get_object('options_tab_label')
-
-        self.spin_max_download = main_builder.get_object('spin_max_download')
-        self.spin_max_upload = main_builder.get_object('spin_max_upload')
-        self.spin_max_connections = main_builder.get_object('spin_max_connections')
-        self.spin_max_upload_slots = main_builder.get_object('spin_max_upload_slots')
-        self.chk_prioritize_first_last = main_builder.get_object('chk_prioritize_first_last')
-        self.chk_sequential_download = main_builder.get_object('chk_sequential_download')
-        self.chk_auto_managed = main_builder.get_object('chk_auto_managed')
-        self.chk_stop_at_ratio = main_builder.get_object('chk_stop_at_ratio')
-        self.chk_remove_at_ratio = main_builder.get_object('chk_remove_at_ratio')
-        self.spin_stop_ratio = main_builder.get_object('spin_stop_ratio')
-        self.chk_move_completed = main_builder.get_object('chk_move_completed')
-        self.entry_move_completed = main_builder.get_object('entry_move_completed')
-        self.chk_shared = main_builder.get_object('chk_shared')
-        self.button_apply = main_builder.get_object('button_apply')
-        self.summary_owner = main_builder.get_object('summary_owner')
-
-        self.move_completed_hbox = main_builder.get_object('hbox_move_completed_path_chooser')
-        self.move_completed_path_chooser = PathChooser('move_completed_paths_list')
-        self.move_completed_path_chooser.set_sensitive(self.chk_move_completed.get_active())
-        self.move_completed_hbox.add(self.move_completed_path_chooser)
-        self.move_completed_hbox.show_all()
-        self.move_completed_path_chooser.connect('text-changed', self._on_path_chooser_text_changed_event)
+        super(OptionsTab, self).__init__('Options', 'options_tab', 'options_tab_label')
 
         self.prev_torrent_id = None
         self.prev_status = None
 
-        component.get('MainWindow').connect_signals(self)
+        # Create TabWidget items with widget id, get/set func name, status key.
+        self.add_tab_widget('spin_max_download', 'value', ['max_download_speed'])
+        self.add_tab_widget('spin_max_upload', 'value', ['max_upload_speed'])
+        self.add_tab_widget('spin_max_connections', 'value_as_int', ['max_connections'])
+        self.add_tab_widget('spin_max_upload_slots', 'value_as_int', ['max_upload_slots'])
+        self.add_tab_widget('chk_prioritize_first_last', 'active', ['prioritize_first_last_pieces'])
+        self.add_tab_widget('chk_sequential_download', 'active', ['sequential_download'])
+        self.add_tab_widget('chk_auto_managed', 'active', ['is_auto_managed'])
+        self.add_tab_widget('chk_stop_at_ratio', 'active', ['stop_at_ratio'])
+        self.add_tab_widget('chk_remove_at_ratio', 'active', ['remove_at_ratio'])
+        self.add_tab_widget('spin_stop_ratio', 'value', ['stop_ratio'])
+        self.add_tab_widget('chk_move_completed', 'active', ['move_completed'])
+        self.add_tab_widget('chk_shared', 'active', ['shared'])
+        self.add_tab_widget('summary_owner', 'text', ['owner'])
 
-        self.spin_max_download.connect('key-press-event', self._on_key_press_event)
-        self.spin_max_upload.connect('key-press-event', self._on_key_press_event)
-        self.spin_max_connections.connect('key-press-event', self._on_key_press_event)
-        self.spin_max_upload_slots.connect('key-press-event', self._on_key_press_event)
-        self.spin_stop_ratio.connect('key-press-event', self._on_key_press_event)
+        # Connect key press event for spin widgets.
+        for widget_id in self.tab_widgets:
+            if widget_id.startswith('spin_'):
+                self.tab_widgets[widget_id].obj.connect('key-press-event', self.on_key_press_event)
+
+        self.button_apply = self.main_builder.get_object('button_apply')
+
+        self.move_completed_path_chooser = PathChooser('move_completed_paths_list')
+        self.move_completed_path_chooser.set_sensitive(
+            self.tab_widgets['chk_move_completed'].obj.get_active())
+        self.move_completed_path_chooser.connect(
+            'text-changed', self.on_path_chooser_text_changed_event)
+        self.status_keys.append('move_completed_path')
+
+        self.move_completed_hbox = self.main_builder.get_object('hbox_move_completed_path_chooser')
+        self.move_completed_hbox.add(self.move_completed_path_chooser)
+        self.move_completed_hbox.show_all()
+
+        component.get('MainWindow').connect_signals(self)
 
     def start(self):
         pass
@@ -68,11 +68,11 @@ class OptionsTab(Tab):
 
     def update(self):
         # Get the first selected torrent
-        torrent_id = component.get('TorrentView').get_selected_torrents()
+        torrent_ids = component.get('TorrentView').get_selected_torrents()
 
         # Only use the first torrent in the list or return if None selected
-        if torrent_id:
-            torrent_id = torrent_id[0]
+        if torrent_ids:
+            torrent_id = torrent_ids[0]
             self._child_widget.set_sensitive(True)
         else:
             # No torrent is selected in the torrentview
@@ -82,147 +82,77 @@ class OptionsTab(Tab):
         if torrent_id != self.prev_torrent_id:
             self.prev_status = None
 
-        component.get('SessionProxy').get_torrent_status(torrent_id, [
-            'max_download_speed',
-            'max_upload_speed',
-            'max_connections',
-            'max_upload_slots',
-            'prioritize_first_last',
-            'is_auto_managed',
-            'stop_at_ratio',
-            'stop_ratio',
-            'remove_at_ratio',
-            'storage_mode',
-            'sequential_download',
-            'move_on_completed',
-            'move_on_completed_path',
-            'shared',
-            'owner'
-        ]).addCallback(self._on_get_torrent_status)
+        component.get('SessionProxy').get_torrent_status(
+            torrent_id, self.status_keys
+            ).addCallback(self.on_get_torrent_status)
+
         self.prev_torrent_id = torrent_id
 
     def clear(self):
         self.prev_torrent_id = None
         self.prev_status = None
 
-    def _on_get_torrent_status(self, status):
-        # We only want to update values that have been applied in the core.  This
-        # is so we don't overwrite the user changes that haven't been applied yet.
+    def on_get_torrent_status(self, status):
+        # So we don't overwrite the user's unapplied changes we only
+        # want to update values that have been applied in the core.
         if self.prev_status is None:
-            self.prev_status = {}.fromkeys(list(status), None)
+            self.prev_status = dict.fromkeys(status, None)
 
         if status != self.prev_status:
-            if status['max_download_speed'] != self.prev_status['max_download_speed']:
-                self.spin_max_download.set_value(status['max_download_speed'])
-            if status['max_upload_speed'] != self.prev_status['max_upload_speed']:
-                self.spin_max_upload.set_value(status['max_upload_speed'])
-            if status['max_connections'] != self.prev_status['max_connections']:
-                self.spin_max_connections.set_value(status['max_connections'])
-            if status['max_upload_slots'] != self.prev_status['max_upload_slots']:
-                self.spin_max_upload_slots.set_value(status['max_upload_slots'])
-            if status['prioritize_first_last'] != self.prev_status['prioritize_first_last']:
-                self.chk_prioritize_first_last.set_active(status['prioritize_first_last'])
-            if status['is_auto_managed'] != self.prev_status['is_auto_managed']:
-                self.chk_auto_managed.set_active(status['is_auto_managed'])
-            if status['stop_at_ratio'] != self.prev_status['stop_at_ratio']:
-                self.chk_stop_at_ratio.set_active(status['stop_at_ratio'])
-                self.spin_stop_ratio.set_sensitive(status['stop_at_ratio'])
-                self.chk_remove_at_ratio.set_sensitive(status['stop_at_ratio'])
-            if status['stop_ratio'] != self.prev_status['stop_ratio']:
-                self.spin_stop_ratio.set_value(status['stop_ratio'])
-            if status['remove_at_ratio'] != self.prev_status['remove_at_ratio']:
-                self.chk_remove_at_ratio.set_active(status['remove_at_ratio'])
-            if status['move_on_completed'] != self.prev_status['move_on_completed']:
-                self.chk_move_completed.set_active(status['move_on_completed'])
-            if status['move_on_completed_path'] != self.prev_status['move_on_completed_path']:
-                self.move_completed_path_chooser.set_text(status['move_on_completed_path'],
-                                                          cursor_end=False, default_text=True)
-            if status['shared'] != self.prev_status['shared']:
-                self.chk_shared.set_active(status['shared'])
-            if status['owner'] != self.prev_status['owner']:
-                self.summary_owner.set_text(status['owner'])
+            for widget in self.tab_widgets.values():
+                status_key = widget.status_keys[0]
+                if status[status_key] != self.prev_status[status_key]:
+                    set_func = 'set_' + widget.func.replace('_as_int', '')
+                    getattr(widget.obj, set_func)(status[status_key])
 
-            if status['prioritize_first_last'] != self.prev_status['prioritize_first_last']:
-                self.chk_prioritize_first_last.set_active(status['prioritize_first_last'])
-                if not self.chk_prioritize_first_last.get_property('visible'):
-                    self.chk_prioritize_first_last.show()
-            if status['sequential_download'] != self.prev_status['sequential_download']:
-                self.chk_sequential_download.set_active(status['sequential_download'])
-                if not self.chk_sequential_download.get_property('visible'):
-                    self.chk_sequential_download.show()
+            if status['move_completed_path'] != self.prev_status['move_completed_path']:
+                self.move_completed_path_chooser.set_text(
+                    status['move_completed_path'], cursor_end=False, default_text=True)
 
-            if self.button_apply.is_sensitive():
-                self.button_apply.set_sensitive(False)
+            # Update sensitivity of widgets.
+            self.tab_widgets['spin_stop_ratio'].obj.set_sensitive(status['stop_at_ratio'])
+            self.tab_widgets['chk_remove_at_ratio'].obj.set_sensitive(status['stop_at_ratio'])
 
+            # Ensure apply button sensitivity is set False.
+            self.button_apply.set_sensitive(False)
             self.prev_status = status
 
     def on_button_apply_clicked(self, button):
         options = {}
-        if self.spin_max_download.get_value() != self.prev_status['max_download_speed']:
-            options['max_download_speed'] = self.spin_max_download.get_value()
-        if self.spin_max_upload.get_value() != self.prev_status['max_upload_speed']:
-            options['max_upload_speed'] = self.spin_max_upload.get_value()
-        if self.spin_max_connections.get_value_as_int() != self.prev_status['max_connections']:
-            options['max_connections'] = self.spin_max_connections.get_value_as_int()
-        if self.spin_max_upload_slots.get_value_as_int() != self.prev_status['max_upload_slots']:
-            options['max_upload_slots'] = self.spin_max_upload_slots.get_value_as_int()
-        if self.chk_prioritize_first_last.get_active() != self.prev_status['prioritize_first_last']:
-            options['prioritize_first_last_pieces'] = self.chk_prioritize_first_last.get_active()
-        if self.chk_sequential_download.get_active() != self.prev_status['sequential_download']:
-            options['sequential_download'] = self.chk_sequential_download.get_active()
-        if self.chk_auto_managed.get_active() != self.prev_status['is_auto_managed']:
-            options['auto_managed'] = self.chk_auto_managed.get_active()
-        if self.chk_stop_at_ratio.get_active() != self.prev_status['stop_at_ratio']:
-            options['stop_at_ratio'] = self.chk_stop_at_ratio.get_active()
-        if self.spin_stop_ratio.get_value() != self.prev_status['stop_ratio']:
-            options['stop_ratio'] = self.spin_stop_ratio.get_value()
-        if self.chk_remove_at_ratio.get_active() != self.prev_status['remove_at_ratio']:
-            options['remove_at_ratio'] = self.chk_remove_at_ratio.get_active()
-        if self.chk_move_completed.get_active() != self.prev_status['move_on_completed']:
-            options['move_completed'] = self.chk_move_completed.get_active()
-        if self.chk_move_completed.get_active():
+        for widget in self.tab_widgets.values():
+            status_key = widget.status_keys[0]
+            if status_key == 'owner':
+                continue  # A label so read-only
+            widget_value = getattr(widget.obj, 'get_' + widget.func)()
+            if widget_value != self.prev_status[status_key]:
+                options[status_key] = widget_value
+
+        if options.get('move_completed', False):
             options['move_completed_path'] = self.move_completed_path_chooser.get_text()
-        if self.chk_shared.get_active() != self.prev_status['shared']:
-            options['shared'] = self.chk_shared.get_active()
+
         client.core.set_torrent_options([self.prev_torrent_id], options)
         self.button_apply.set_sensitive(False)
 
     def on_chk_move_completed_toggled(self, widget):
-        value = self.chk_move_completed.get_active()
-        self.move_completed_path_chooser.set_sensitive(value)
-        if not self.button_apply.is_sensitive():
-            self.button_apply.set_sensitive(True)
+        self.move_completed_path_chooser.set_sensitive(widget.get_active())
+        self.button_apply.set_sensitive(True)
 
     def on_chk_stop_at_ratio_toggled(self, widget):
-        value = widget.get_active()
-
-        self.spin_stop_ratio.set_sensitive(value)
-        self.chk_remove_at_ratio.set_sensitive(value)
-
-        if not self.button_apply.is_sensitive():
-            self.button_apply.set_sensitive(True)
+        is_active = widget.get_active()
+        self.tab_widgets['spin_stop_ratio'].obj.set_sensitive(is_active)
+        self.tab_widgets['chk_remove_at_ratio'].obj.set_sensitive(is_active)
+        self.button_apply.set_sensitive(True)
 
     def on_chk_toggled(self, widget):
-        if not self.button_apply.is_sensitive():
-            self.button_apply.set_sensitive(True)
+        self.button_apply.set_sensitive(True)
 
     def on_spin_value_changed(self, widget):
-        if not self.button_apply.is_sensitive():
-            self.button_apply.set_sensitive(True)
+        self.button_apply.set_sensitive(True)
 
-    def _on_key_press_event(self, widget, event):
+    def on_key_press_event(self, widget, event):
         keyname = keyval_name(event.keyval).lstrip('KP_').lower()
         if keyname.isdigit() or keyname in ['period', 'minus', 'delete', 'backspace']:
-            if not self.button_apply.is_sensitive():
-                self.button_apply.set_sensitive(True)
-
-    def on_move_completed_file_set(self, widget):
-        if not self.button_apply.is_sensitive():
             self.button_apply.set_sensitive(True)
 
-    def _on_entry_move_completed_changed(self, widget):
-        if not self.button_apply.is_sensitive():
-            self.button_apply.set_sensitive(True)
-
-    def _on_path_chooser_text_changed_event(self, widget, path):
+    def on_path_chooser_text_changed_event(self, widget, path):
         self.button_apply.set_sensitive(True)

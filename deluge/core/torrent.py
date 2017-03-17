@@ -977,6 +977,7 @@ class Torrent(object):
             'download_payload_rate': lambda: self.status.download_payload_rate,
             'file_priorities': self.get_file_priorities,
             'hash': lambda: self.torrent_id,
+            'auto_managed': lambda: self.options['auto_managed'],
             'is_auto_managed': lambda: self.options['auto_managed'],
             'is_finished': lambda: self.is_finished,
             'max_connections': lambda: self.options['max_connections'],

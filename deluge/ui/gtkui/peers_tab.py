@@ -30,20 +30,17 @@ log = logging.getLogger(__name__)
 
 class PeersTab(Tab):
     def __init__(self):
-        super(PeersTab, self).__init__()
-        main_builder = component.get('MainWindow').get_builder()
+        super(PeersTab, self).__init__('Peers', 'peers_tab', 'peers_tab_label')
 
-        self._name = 'Peers'
-        self._child_widget = main_builder.get_object('peers_tab')
-        self._tab_label = main_builder.get_object('peers_tab_label')
-        self.peer_menu = main_builder.get_object('menu_peer_tab')
+        self.peer_menu = self.main_builder.get_object('menu_peer_tab')
         component.get('MainWindow').connect_signals(self)
 
-        self.listview = main_builder.get_object('peers_listview')
+        self.listview = self.main_builder.get_object('peers_listview')
         self.listview.props.has_tooltip = True
         self.listview.connect('button-press-event', self._on_button_press_event)
         self.listview.connect('query-tooltip', self._on_query_tooltip)
-        # country pixbuf, ip, client, downspeed, upspeed, country code, int_ip, seed/peer icon, progress
+
+        # flag, ip, client, downspd, upspd, country code, int_ip, seed/peer icon, progress
         self.liststore = ListStore(Pixbuf, str, str, int, int, str, float, Pixbuf, float)
         self.cached_flag_pixbufs = {}
 

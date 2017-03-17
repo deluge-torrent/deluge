@@ -21,24 +21,13 @@ log = logging.getLogger(__name__)
 
 class TrackersTab(Tab):
     def __init__(self):
-        super(TrackersTab, self).__init__()
-        # Get the labels we need to update.
-        # widget name, modifier function, status keys
-        main_builder = component.get('MainWindow').get_builder()
+        super(TrackersTab, self).__init__('Trackers', 'trackers_tab', 'trackers_tab_label')
 
-        self._name = 'Trackers'
-        self._child_widget = main_builder.get_object('trackers_tab')
-        self._tab_label = main_builder.get_object('trackers_tab_label')
-
-        self.label_widgets = [
-            (main_builder.get_object('summary_next_announce'), ftime, ('next_announce',)),
-            (main_builder.get_object('summary_tracker'), None, ('tracker_host',)),
-            (main_builder.get_object('summary_tracker_status'), ftranslate, ('tracker_status',)),
-            (main_builder.get_object('summary_tracker_total'), fcount, ('trackers',)),
-            (main_builder.get_object('summary_private'), fyes_no, ('private',)),
-        ]
-
-        self.status_keys = [status for widget in self.label_widgets for status in widget[2]]
+        self.add_tab_widget('summary_next_announce', ftime, ('next_announce',))
+        self.add_tab_widget('summary_tracker', None, ('tracker_host',))
+        self.add_tab_widget('summary_tracker_status', ftranslate, ('tracker_status',))
+        self.add_tab_widget('summary_tracker_total', fcount, ('trackers',))
+        self.add_tab_widget('summary_private', fyes_no, ('private',))
 
         component.get('MainWindow').connect_signals(self)
 
@@ -61,15 +50,15 @@ class TrackersTab(Tab):
         if not status:
             return
 
-        # Update all the label widgets
-        for widget in self.label_widgets:
-            txt = self.get_status_for_widget(widget, status)
-            if widget[0].get_text() != txt:
-                widget[0].set_text(txt)
+        # Update all the tab label widgets
+        for widget in self.tab_widgets.values():
+            txt = self.widget_status_as_fstr(widget, status)
+            if widget.obj.get_text() != txt:
+                widget.obj.set_text(txt)
 
     def clear(self):
-        for widget in self.label_widgets:
-            widget[0].set_text('')
+        for widget in self.tab_widgets.values():
+            widget.obj.set_text('')
 
     def on_button_edit_trackers_clicked(self, button):
         torrent_id = component.get('TorrentView').get_selected_torrent()

@@ -12,6 +12,7 @@
 from __future__ import unicode_literals
 
 import logging
+from collections import namedtuple
 
 from gtk import CheckMenuItem, Menu, SeparatorMenuItem
 
@@ -21,12 +22,22 @@ from deluge.ui.gtkui.common import load_pickled_state_file, save_pickled_state_f
 
 log = logging.getLogger(__name__)
 
+TabWidget = namedtuple('TabWidget', ('obj', 'func', 'status_keys'))
+
 
 class Tab(object):
-    def __init__(self):
+    def __init__(self, name=None, child_widget=None, tab_label=None):
+        self._name = name
         self.is_visible = True
         self.position = -1
         self.weight = -1
+
+        self.main_builder = component.get('MainWindow').get_builder()
+        self._child_widget = self.main_builder.get_object(child_widget)if child_widget else None
+        self._tab_label = self.main_builder.get_object(tab_label) if tab_label else None
+
+        self.tab_widgets = {}
+        self.status_keys = []
 
     def get_name(self):
         return self._name
@@ -46,17 +57,40 @@ class Tab(object):
 
         return self._tab_label
 
-    def get_status_for_widget(self, widget, status):
+    def widget_status_as_fstr(self, widget, status):
+        """Use TabWidget status_key and func to format status string.
+
+        Args:
+            widget (TabWidget): A tuple of widget object, func and status_keys.
+            status (dict): Torrent status dict.
+
+        Returns:
+            str: The formatted status string.
+        """
         try:
-            if widget[1] is None:
-                txt = status[widget[2][0]]
+            if widget.func is None:
+                txt = status[widget.status_keys[0]]
             else:
-                args = [status[key] for key in widget[2]]
-                txt = widget[1](*args)
+                args = [status[key] for key in widget.status_keys]
+                txt = widget.func(*args)
         except KeyError as ex:
             log.warn('Unable to get status value: %s', ex)
             txt = ''
         return txt
+
+    def add_tab_widget(self, widget_id, format_func, status_keys):
+        """Create TabWidget item in tab_widgets dictionary.
+
+        Args:
+            widget_id (str): The widget id used to retrieve widget from mainwindow builder.
+            format_func (str): A func name related to widget e.g. string label formatter.
+            status_keys (list): List of status keys to lookup for the widget.
+
+        """
+        widget_obj = self.main_builder.get_object(widget_id)
+        self.status_keys.extend(status_keys)
+        # Store the widget in a tab_widgets dict with name as key for faster lookup.
+        self.tab_widgets[widget_id] = TabWidget(widget_obj, format_func, status_keys)
 
 
 class TorrentDetails(component.Component):

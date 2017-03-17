@@ -70,14 +70,9 @@ def cell_progress(column, cell, model, row, data):
 
 class FilesTab(Tab):
     def __init__(self):
-        super(FilesTab, self).__init__()
-        main_builder = component.get('MainWindow').get_builder()
+        super(FilesTab, self).__init__('Files', 'files_tab', 'files_tab_label')
 
-        self._name = 'Files'
-        self._child_widget = main_builder.get_object('files_tab')
-        self._tab_label = main_builder.get_object('files_tab_label')
-
-        self.listview = main_builder.get_object('files_listview')
+        self.listview = self.main_builder.get_object('files_listview')
         # filename, size, progress string, progress value, priority, file index, icon id
         self.treestore = gtk.TreeStore(str, TYPE_UINT64, str, float, int, int, str)
         self.treestore.set_sort_column_id(0, gtk.SORT_ASCENDING)
@@ -155,19 +150,19 @@ class FilesTab(Tab):
 
         self.listview.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
 
-        self.file_menu = main_builder.get_object('menu_file_tab')
+        self.file_menu = self.main_builder.get_object('menu_file_tab')
         self.file_menu_priority_items = [
-            main_builder.get_object('menuitem_ignore'),
-            main_builder.get_object('menuitem_low'),
-            main_builder.get_object('menuitem_normal'),
-            main_builder.get_object('menuitem_high'),
-            main_builder.get_object('menuitem_priority_sep')
+            self.main_builder.get_object('menuitem_ignore'),
+            self.main_builder.get_object('menuitem_low'),
+            self.main_builder.get_object('menuitem_normal'),
+            self.main_builder.get_object('menuitem_high'),
+            self.main_builder.get_object('menuitem_priority_sep')
         ]
 
         self.localhost_widgets = [
-            main_builder.get_object('menuitem_open_file'),
-            main_builder.get_object('menuitem_show_file'),
-            main_builder.get_object('menuitem3')
+            self.main_builder.get_object('menuitem_open_file'),
+            self.main_builder.get_object('menuitem_show_file'),
+            self.main_builder.get_object('menuitem3')
         ]
 
         self.listview.connect('row-activated', self._on_row_activated)

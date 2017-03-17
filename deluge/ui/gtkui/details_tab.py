@@ -22,28 +22,17 @@ log = logging.getLogger(__name__)
 
 class DetailsTab(Tab):
     def __init__(self):
-        super(DetailsTab, self).__init__()
-        # Get the labels we need to update.
-        # widget name, modifier function, status keys
-        main_builder = component.get('MainWindow').get_builder()
+        super(DetailsTab, self).__init__('Details', 'details_tab', 'details_tab_label')
 
-        self._name = 'Details'
-        self._child_widget = main_builder.get_object('details_tab')
-        self._tab_label = main_builder.get_object('details_tab_label')
-
-        self.label_widgets = [
-            (main_builder.get_object('summary_name'), None, ('name',)),
-            (main_builder.get_object('summary_total_size'), fsize, ('total_size',)),
-            (main_builder.get_object('summary_num_files'), str, ('num_files',)),
-            (main_builder.get_object('summary_completed'), fdate_or_dash, ('completed_time',)),
-            (main_builder.get_object('summary_date_added'), fdate, ('time_added',)),
-            (main_builder.get_object('summary_torrent_path'), None, ('download_location',)),
-            (main_builder.get_object('summary_hash'), str, ('hash',)),
-            (main_builder.get_object('summary_comments'), str, ('comment',)),
-            (main_builder.get_object('summary_pieces'), fpieces_num_size, ('num_pieces', 'piece_length')),
-        ]
-
-        self.status_keys = [status for widget in self.label_widgets for status in widget[2]]
+        self.add_tab_widget('summary_name', None, ('name',))
+        self.add_tab_widget('summary_total_size', fsize, ('total_size',))
+        self.add_tab_widget('summary_num_files', str, ('num_files',))
+        self.add_tab_widget('summary_completed', fdate_or_dash, ('completed_time',))
+        self.add_tab_widget('summary_date_added', fdate, ('time_added',))
+        self.add_tab_widget('summary_torrent_path', None, ('download_location',))
+        self.add_tab_widget('summary_hash', str, ('hash',))
+        self.add_tab_widget('summary_comments', str, ('comment',))
+        self.add_tab_widget('summary_pieces', fpieces_num_size, ('num_pieces', 'piece_length'))
 
     def update(self):
         # Get the first selected torrent
@@ -66,14 +55,14 @@ class DetailsTab(Tab):
             return
 
         # Update all the label widgets
-        for widget in self.label_widgets:
-            txt = xml_escape(self.get_status_for_widget(widget, status))
-            if widget[0].get_text() != txt:
-                if widget[2][0] == 'comment' and is_url(txt):
-                    widget[0].set_markup('<a href="%s">%s</a>' % (txt, txt))
+        for widget in self.tab_widgets.values():
+            txt = xml_escape(self.widget_status_as_fstr(widget, status))
+            if widget.obj.get_text() != txt:
+                if 'comment' in widget.status_keys and is_url(txt):
+                    widget.obj.set_markup('<a href="%s">%s</a>' % (txt, txt))
                 else:
-                    widget[0].set_markup(txt)
+                    widget.obj.set_markup(txt)
 
     def clear(self):
-        for widget in self.label_widgets:
-            widget[0].set_text('')
+        for widget in self.tab_widgets.values():
+            widget.obj.set_text('')
