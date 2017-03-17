@@ -103,7 +103,7 @@ class Preferences(component.Component):
         password_column.set_visible(False)
         self.accounts_listview.set_model(self.accounts_liststore)
 
-        self.accounts_listview.get_selection().connect('changed', self._on_accounts_selection_changed)
+        self.accounts_listview.get_selection().connect('changed', self.on_accounts_selection_changed)
         self.accounts_frame = self.builder.get_object('AccountsFrame')
 
         # Setup plugin tab listview
@@ -124,36 +124,7 @@ class Preferences(component.Component):
 
         self.plugin_listview.get_selection().connect('changed', self.on_plugin_selection_changed)
 
-        self.builder.connect_signals({
-            'on_pref_dialog_delete_event': self.on_pref_dialog_delete_event,
-            'on_button_ok_clicked': self.on_button_ok_clicked,
-            'on_button_apply_clicked': self.on_button_apply_clicked,
-            'on_button_cancel_clicked': self.on_button_cancel_clicked,
-            'on_toggle': self.on_toggle,
-            'on_test_port_clicked': self.on_test_port_clicked,
-            'on_button_plugin_install_clicked': self._on_button_plugin_install_clicked,
-            'on_button_rescan_plugins_clicked': self._on_button_rescan_plugins_clicked,
-            'on_button_find_plugins_clicked': self._on_button_find_plugins_clicked,
-            'on_button_cache_refresh_clicked': self._on_button_cache_refresh_clicked,
-            'on_combo_encryption_changed': self._on_combo_encryption_changed,
-            'on_combo_proxy_type_changed': self._on_combo_proxy_type_changed,
-            'on_entry_proxy_host_paste_clipboard': self._on_entry_proxy_host_paste_clipboard,
-            'on_button_associate_magnet_clicked': self._on_button_associate_magnet_clicked,
-            'on_accounts_add_clicked': self._on_accounts_add_clicked,
-            'on_accounts_delete_clicked': self._on_accounts_delete_clicked,
-            'on_accounts_edit_clicked': self._on_accounts_edit_clicked,
-            'on_piecesbar_toggle_toggled': self._on_piecesbar_toggle_toggled,
-            'on_completed_color_set': self._on_completed_color_set,
-            'on_revert_color_completed_clicked': self._on_revert_color_completed_clicked,
-            'on_downloading_color_set': self._on_downloading_color_set,
-            'on_revert_color_downloading_clicked': self._on_revert_color_downloading_clicked,
-            'on_waiting_color_set': self._on_waiting_color_set,
-            'on_revert_color_waiting_clicked': self._on_revert_color_waiting_clicked,
-            'on_missing_color_set': self._on_missing_color_set,
-            'on_revert_color_missing_clicked': self._on_revert_color_missing_clicked,
-            'on_pref_dialog_configure_event': self.on_pref_dialog_configure_event,
-            'on_checkbutton_language_toggled': self._on_checkbutton_language_toggled,
-        })
+        self.builder.connect_signals(self)
 
         # Radio buttons to choose between systray and appindicator
         self.builder.get_object('alignment_tray_type').set_visible(bool(appindicator))
@@ -283,28 +254,28 @@ class Preferences(component.Component):
         if client.connected():
             self._get_accounts_tab_data()
 
-            def _on_get_config(config):
+            def on_get_config(config):
                 self.core_config = config
-                client.core.get_available_plugins().addCallback(_on_get_available_plugins)
+                client.core.get_available_plugins().addCallback(on_get_available_plugins)
 
-            def _on_get_available_plugins(plugins):
+            def on_get_available_plugins(plugins):
                 self.all_plugins = plugins
-                client.core.get_enabled_plugins().addCallback(_on_get_enabled_plugins)
+                client.core.get_enabled_plugins().addCallback(on_get_enabled_plugins)
 
-            def _on_get_enabled_plugins(plugins):
+            def on_get_enabled_plugins(plugins):
                 self.enabled_plugins = plugins
-                client.core.get_listen_port().addCallback(_on_get_listen_port)
+                client.core.get_listen_port().addCallback(on_get_listen_port)
 
-            def _on_get_listen_port(port):
+            def on_get_listen_port(port):
                 self.active_port = port
-                client.core.get_session_status(DISK_CACHE_KEYS).addCallback(_on_get_session_status)
+                client.core.get_session_status(DISK_CACHE_KEYS).addCallback(on_get_session_status)
 
-            def _on_get_session_status(status):
+            def on_get_session_status(status):
                 self.cache_status = status
                 self._show()
 
             # This starts a series of client.core requests prior to showing the window
-            client.core.get_config().addCallback(_on_get_config)
+            client.core.get_config().addCallback(on_get_config)
         else:
             self._show()
 
@@ -742,7 +713,7 @@ class Preferences(component.Component):
 
             widget.set_text(value)
 
-    def _on_button_cache_refresh_clicked(self, widget):
+    def on_button_cache_refresh_clicked(self, widget):
         def on_get_session_status(status):
             self.cache_status = status
             self.__update_cache_status()
@@ -890,8 +861,8 @@ class Preferences(component.Component):
         self.builder.get_object('label_plugin_homepage').set_text(plugin_info['Home-page'])
         self.builder.get_object('label_plugin_details').set_text(plugin_info['Description'])
 
-    def _on_button_plugin_install_clicked(self, widget):
-        log.debug('_on_button_plugin_install_clicked')
+    def on_button_plugin_install_clicked(self, widget):
+        log.debug('on_button_plugin_install_clicked')
         chooser = gtk.FileChooserDialog(
             _('Select the Plugin'),
             self.pref_dialog,
@@ -937,16 +908,16 @@ class Preferences(component.Component):
         # We need to re-show the preferences dialog to show the new plugins
         self.show()
 
-    def _on_button_rescan_plugins_clicked(self, widget):
+    def on_button_rescan_plugins_clicked(self, widget):
         component.get('PluginManager').scan_for_plugins()
         if client.connected():
             client.core.rescan_plugins()
         self.show()
 
-    def _on_button_find_plugins_clicked(self, widget):
+    def on_button_find_plugins_clicked(self, widget):
         deluge.common.open_url_in_browser('http://dev.deluge-torrent.org/wiki/Plugins')
 
-    def _on_combo_encryption_changed(self, widget):
+    def on_combo_encryption_changed(self, widget):
         combo_encin = self.builder.get_object('combo_encin').get_active()
         combo_encout = self.builder.get_object('combo_encout').get_active()
         combo_enclevel = self.builder.get_object('combo_enclevel')
@@ -957,7 +928,7 @@ class Preferences(component.Component):
         elif self.is_connected:
             combo_enclevel.set_sensitive(True)
 
-    def _on_combo_proxy_type_changed(self, widget):
+    def on_combo_proxy_type_changed(self, widget):
         proxy_type = self.builder.get_object('combo_proxy_type').get_active()
         proxy_entries = [
             'label_proxy_host', 'entry_proxy_host', 'label_proxy_port', 'spin_proxy_port',
@@ -982,7 +953,7 @@ class Preferences(component.Component):
             else:
                 self.builder.get_object(entry).hide()
 
-    def _on_entry_proxy_host_paste_clipboard(self, widget):
+    def on_entry_proxy_host_paste_clipboard(self, widget):
         text = gtk.clipboard_get().wait_for_text().strip()
         log.debug('on_entry_proxy_host_paste-clipboard: got paste: %s', text)
         text = text if '//' in text else '//' + text
@@ -997,13 +968,13 @@ class Preferences(component.Component):
         if parsed.password:
             self.builder.get_object('entry_proxy_pass').set_text(parsed.password)
 
-    def _on_button_associate_magnet_clicked(self, widget):
+    def on_button_associate_magnet_clicked(self, widget):
         associate_magnet_links(True)
 
     def _get_accounts_tab_data(self):
         def on_ok(accounts):
             self.accounts_frame.show()
-            self._on_get_known_accounts(accounts)
+            self.on_get_known_accounts(accounts)
 
         def on_fail(failure):
             if failure.type == NotAuthorizedError:
@@ -1016,7 +987,7 @@ class Preferences(component.Component):
                 ).run()
         client.core.get_known_accounts().addCallback(on_ok).addErrback(on_fail)
 
-    def _on_get_known_accounts(self, known_accounts):
+    def on_get_known_accounts(self, known_accounts):
         known_accounts_to_log = []
         for account in known_accounts:
             account_to_log = {}
@@ -1025,7 +996,7 @@ class Preferences(component.Component):
                     value = '*' * len(value)
                 account_to_log[key] = value
             known_accounts_to_log.append(account_to_log)
-        log.debug('_on_known_accounts: %s', known_accounts_to_log)
+        log.debug('on_known_accounts: %s', known_accounts_to_log)
 
         self.accounts_liststore.clear()
 
@@ -1035,8 +1006,8 @@ class Preferences(component.Component):
             self.accounts_liststore.set_value(accounts_iter, ACCOUNTS_LEVEL, account['authlevel'])
             self.accounts_liststore.set_value(accounts_iter, ACCOUNTS_PASSWORD, account['password'])
 
-    def _on_accounts_selection_changed(self, treeselection):
-        log.debug('_on_accounts_selection_changed')
+    def on_accounts_selection_changed(self, treeselection):
+        log.debug('on_accounts_selection_changed')
         (model, itr) = treeselection.get_selected()
         if not itr:
             return
@@ -1048,7 +1019,7 @@ class Preferences(component.Component):
             self.builder.get_object('accounts_edit').set_sensitive(False)
             self.builder.get_object('accounts_delete').set_sensitive(False)
 
-    def _on_accounts_add_clicked(self, widget):
+    def on_accounts_add_clicked(self, widget):
         dialog = AccountDialog(levels_mapping=client.auth_levels_mapping, parent=self.pref_dialog)
 
         def dialog_finished(response_id):
@@ -1083,7 +1054,7 @@ class Preferences(component.Component):
 
         dialog.run().addCallback(dialog_finished)
 
-    def _on_accounts_edit_clicked(self, widget):
+    def on_accounts_edit_clicked(self, widget):
         (model, itr) = self.accounts_listview.get_selection().get_selected()
         if not itr:
             return
@@ -1118,7 +1089,7 @@ class Preferences(component.Component):
 
         dialog.run().addCallback(dialog_finished)
 
-    def _on_accounts_delete_clicked(self, widget):
+    def on_accounts_delete_clicked(self, widget):
         (model, itr) = self.accounts_listview.get_selection().get_selected()
         if not itr:
             return
@@ -1152,36 +1123,36 @@ class Preferences(component.Component):
                 ).addCallback(remove_ok).addErrback(remove_fail)
         dialog.run().addCallback(dialog_finished)
 
-    def _on_piecesbar_toggle_toggled(self, widget):
+    def on_piecesbar_toggle_toggled(self, widget):
         self.gtkui_config['show_piecesbar'] = widget.get_active()
         colors_widget = self.builder.get_object('piecebar_colors_expander')
         colors_widget.set_visible(widget.get_active())
 
-    def _on_checkbutton_language_toggled(self, widget):
+    def on_checkbutton_language_toggled(self, widget):
         self.language_combo.set_visible(not self.language_checkbox.get_active())
 
-    def _on_completed_color_set(self, widget):
+    def on_completed_color_set(self, widget):
         self.__set_color('completed')
 
-    def _on_revert_color_completed_clicked(self, widget):
+    def on_revert_color_completed_clicked(self, widget):
         self.__revert_color('completed')
 
-    def _on_downloading_color_set(self, widget):
+    def on_downloading_color_set(self, widget):
         self.__set_color('downloading')
 
-    def _on_revert_color_downloading_clicked(self, widget):
+    def on_revert_color_downloading_clicked(self, widget):
         self.__revert_color('downloading')
 
-    def _on_waiting_color_set(self, widget):
+    def on_waiting_color_set(self, widget):
         self.__set_color('waiting')
 
-    def _on_revert_color_waiting_clicked(self, widget):
+    def on_revert_color_waiting_clicked(self, widget):
         self.__revert_color('waiting')
 
-    def _on_missing_color_set(self, widget):
+    def on_missing_color_set(self, widget):
         self.__set_color('missing')
 
-    def _on_revert_color_missing_clicked(self, widget):
+    def on_revert_color_missing_clicked(self, widget):
         self.__revert_color('missing')
 
     def __set_color(self, state, from_config=False):

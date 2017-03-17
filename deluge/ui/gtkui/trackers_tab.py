@@ -40,9 +40,7 @@ class TrackersTab(Tab):
 
         self.status_keys = [status for widget in self.label_widgets for status in widget[2]]
 
-        component.get('MainWindow').connect_signals({
-            'on_button_edit_trackers_clicked': self._on_button_edit_trackers_clicked,
-        })
+        component.get('MainWindow').connect_signals(self)
 
     def update(self):
         # Get the first selected torrent
@@ -73,7 +71,7 @@ class TrackersTab(Tab):
         for widget in self.label_widgets:
             widget[0].set_text('')
 
-    def _on_button_edit_trackers_clicked(self, button):
+    def on_button_edit_trackers_clicked(self, button):
         torrent_id = component.get('TorrentView').get_selected_torrent()
         if torrent_id:
             from deluge.ui.gtkui.edittrackersdialog import EditTrackersDialog

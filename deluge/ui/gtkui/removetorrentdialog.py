@@ -48,9 +48,7 @@ class RemoveTorrentDialog(object):
         self.__dialog = self.builder.get_object('remove_torrent_dialog')
         self.__dialog.set_transient_for(component.get('MainWindow').window)
 
-        self.builder.connect_signals({
-            'on_delete_files_toggled': self.on_delete_files_toggled
-        })
+        self.builder.connect_signals(self)
         self.builder.get_object('delete_files').set_active(delete_files)
         label_title = self.builder.get_object('label_title')
         label_torrents = self.builder.get_object('label_torrents')

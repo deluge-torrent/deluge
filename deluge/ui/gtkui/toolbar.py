@@ -28,16 +28,7 @@ class ToolBar(component.Component):
         self.toolbar = self.main_builder.get_object('toolbar')
         self.config = ConfigManager('gtkui.conf')
         # Connect main window Signals #
-        mainwindow.connect_signals({
-            'on_toolbutton_add_clicked': self.on_toolbutton_add_clicked,
-            'on_toolbutton_remove_clicked': self.on_toolbutton_remove_clicked,
-            'on_toolbutton_pause_clicked': self.on_toolbutton_pause_clicked,
-            'on_toolbutton_resume_clicked': self.on_toolbutton_resume_clicked,
-            'on_toolbutton_preferences_clicked': self.on_toolbutton_preferences_clicked,
-            'on_toolbutton_connectionmanager_clicked': self.on_toolbutton_connectionmanager_clicked,
-            'on_toolbutton_queue_up_clicked': self.on_toolbutton_queue_up_clicked,
-            'on_toolbutton_queue_down_clicked': self.on_toolbutton_queue_down_clicked
-        })
+        mainwindow.connect_signals(self)
         self.change_sensitivity = [
             'toolbutton_add',
             'toolbutton_remove',

@@ -53,18 +53,7 @@ class AddTorrentDialog(component.Component):
 
         self.dialog.connect('delete-event', self._on_delete_event)
 
-        self.builder.connect_signals({
-            'on_button_file_clicked': self._on_button_file_clicked,
-            'on_button_url_clicked': self._on_button_url_clicked,
-            'on_button_hash_clicked': self._on_button_hash_clicked,
-            'on_button_remove_clicked': self._on_button_remove_clicked,
-            'on_button_trackers_clicked': self._on_button_trackers_clicked,
-            'on_button_cancel_clicked': self._on_button_cancel_clicked,
-            'on_button_add_clicked': self._on_button_add_clicked,
-            'on_button_apply_clicked': self._on_button_apply_clicked,
-            'on_button_revert_clicked': self._on_button_revert_clicked,
-            'on_chk_move_completed_toggled': self._on_chk_move_completed_toggled
-        })
+        self.builder.connect_signals(self)
 
         # download?, path, filesize, sequence number, inconsistent?
         self.files_treestore = gtk.TreeStore(
@@ -517,8 +506,8 @@ class AddTorrentDialog(component.Component):
             _iter = self.files_treestore.iter_next(_iter)
         return this_level_toggle
 
-    def _on_button_file_clicked(self, widget):
-        log.debug('_on_button_file_clicked')
+    def on_button_file_clicked(self, widget):
+        log.debug('on_button_file_clicked')
         # Setup the filechooserdialog
         chooser = gtk.FileChooserDialog(
             _('Choose a .torrent file'),
@@ -561,8 +550,8 @@ class AddTorrentDialog(component.Component):
         chooser.destroy()
         self.add_from_files(result)
 
-    def _on_button_url_clicked(self, widget):
-        log.debug('_on_button_url_clicked')
+    def on_button_url_clicked(self, widget):
+        log.debug('on_button_url_clicked')
         dialog = self.builder.get_object('url_dialog')
         entry = self.builder.get_object('entry_url')
 
@@ -647,8 +636,8 @@ class AddTorrentDialog(component.Component):
         os.close(tmp_fd)
         d.addCallbacks(on_download_success, on_download_fail)
 
-    def _on_button_hash_clicked(self, widget):
-        log.debug('_on_button_hash_clicked')
+    def on_button_hash_clicked(self, widget):
+        log.debug('on_button_hash_clicked')
         dialog = self.builder.get_object('dialog_infohash')
         entry = self.builder.get_object('entry_hash')
         textview = self.builder.get_object('text_trackers')
@@ -683,8 +672,8 @@ class AddTorrentDialog(component.Component):
         textview.get_buffer().set_text('')
         dialog.hide()
 
-    def _on_button_remove_clicked(self, widget):
-        log.debug('_on_button_remove_clicked')
+    def on_button_remove_clicked(self, widget):
+        log.debug('on_button_remove_clicked')
         (model, row) = self.listview_torrents.get_selection().get_selected()
         if row is None:
             return
@@ -695,15 +684,15 @@ class AddTorrentDialog(component.Component):
         del self.files[torrent_id]
         del self.infos[torrent_id]
 
-    def _on_button_trackers_clicked(self, widget):
-        log.debug('_on_button_trackers_clicked')
+    def on_button_trackers_clicked(self, widget):
+        log.debug('on_button_trackers_clicked')
 
-    def _on_button_cancel_clicked(self, widget):
-        log.debug('_on_button_cancel_clicked')
+    def on_button_cancel_clicked(self, widget):
+        log.debug('on_button_cancel_clicked')
         self.hide()
 
-    def _on_button_add_clicked(self, widget):
-        log.debug('_on_button_add_clicked')
+    def on_button_add_clicked(self, widget):
+        log.debug('on_button_add_clicked')
         self.add_torrents()
         self.hide()
 
@@ -745,8 +734,8 @@ class AddTorrentDialog(component.Component):
                 log.info('Successfully added %d torrents.', len(torrents_to_add))
         client.core.add_torrent_files(torrents_to_add).addCallback(on_torrents_added)
 
-    def _on_button_apply_clicked(self, widget):
-        log.debug('_on_button_apply_clicked')
+    def on_button_apply_clicked(self, widget):
+        log.debug('on_button_apply_clicked')
         (model, row) = self.listview_torrents.get_selection().get_selected()
         if row is None:
             return
@@ -764,8 +753,8 @@ class AddTorrentDialog(component.Component):
             self.options[torrent_id].update(options)
             row = model.iter_next(row)
 
-    def _on_button_revert_clicked(self, widget):
-        log.debug('_on_button_revert_clicked')
+    def on_button_revert_clicked(self, widget):
+        log.debug('on_button_revert_clicked')
         (model, row) = self.listview_torrents.get_selection().get_selected()
         if row is None:
             return
@@ -773,7 +762,7 @@ class AddTorrentDialog(component.Component):
         del self.options[model.get_value(row, 0)]
         self.set_default_options()
 
-    def _on_chk_move_completed_toggled(self, widget):
+    def on_chk_move_completed_toggled(self, widget):
         value = widget.get_active()
         self.move_completed_path_chooser.set_sensitive(value)
 

@@ -38,13 +38,7 @@ class QueuedTorrents(component.Component):
         self.dialog = self.builder.get_object('queued_torrents_dialog')
         self.dialog.set_icon(get_logo(32))
 
-        self.builder.connect_signals({
-            'on_button_remove_clicked': self.on_button_remove_clicked,
-            'on_button_clear_clicked': self.on_button_clear_clicked,
-            'on_button_close_clicked': self.on_button_close_clicked,
-            'on_button_add_clicked': self.on_button_add_clicked,
-            'on_chk_autoadd_toggled': self.on_chk_autoadd_toggled
-        })
+        self.builder.connect_signals(self)
 
         self.treeview = self.builder.get_object('treeview')
         self.treeview.append_column(TreeViewColumn(_('Torrent'), CellRendererText(), text=0))

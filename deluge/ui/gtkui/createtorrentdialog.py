@@ -57,17 +57,7 @@ class CreateTorrentDialog(object):
         self.dialog = self.builder.get_object('create_torrent_dialog')
         self.dialog.set_transient_for(component.get('MainWindow').window)
 
-        self.builder.connect_signals({
-            'on_button_file_clicked': self._on_button_file_clicked,
-            'on_button_folder_clicked': self._on_button_folder_clicked,
-            'on_button_remote_path_clicked': self._on_button_remote_path_clicked,
-            'on_button_cancel_clicked': self._on_button_cancel_clicked,
-            'on_button_save_clicked': self._on_button_save_clicked,
-            'on_button_up_clicked': self._on_button_up_clicked,
-            'on_button_add_clicked': self._on_button_add_clicked,
-            'on_button_remove_clicked': self._on_button_remove_clicked,
-            'on_button_down_clicked': self._on_button_down_clicked
-        })
+        self.builder.connect_signals(self)
 
         # path, icon, size
         self.files_treestore = gtk.TreeStore(str, str, TYPE_UINT64)
@@ -132,8 +122,8 @@ class CreateTorrentDialog(object):
                 self.builder.get_object('combo_piece_size').set_active(index)
                 break
 
-    def _on_button_file_clicked(self, widget):
-        log.debug('_on_button_file_clicked')
+    def on_button_file_clicked(self, widget):
+        log.debug('on_button_file_clicked')
         # Setup the filechooserdialog
         chooser = gtk.FileChooserDialog(_('Choose a file'),
                                         self.dialog,
@@ -161,8 +151,8 @@ class CreateTorrentDialog(object):
         self.adjust_piece_size()
         chooser.destroy()
 
-    def _on_button_folder_clicked(self, widget):
-        log.debug('_on_button_folder_clicked')
+    def on_button_folder_clicked(self, widget):
+        log.debug('on_button_folder_clicked')
         # Setup the filechooserdialog
         chooser = gtk.FileChooserDialog(_('Choose a folder'),
                                         self.dialog,
@@ -189,8 +179,8 @@ class CreateTorrentDialog(object):
         self.adjust_piece_size()
         chooser.destroy()
 
-    def _on_button_remote_path_clicked(self, widget):
-        log.debug('_on_button_remote_path_clicked')
+    def on_button_remote_path_clicked(self, widget):
+        log.debug('on_button_remote_path_clicked')
         dialog = self.builder.get_object('remote_path_dialog')
         entry = self.builder.get_object('entry_path')
         dialog.set_transient_for(self.dialog)
@@ -212,12 +202,12 @@ class CreateTorrentDialog(object):
 
         dialog.hide()
 
-    def _on_button_cancel_clicked(self, widget):
-        log.debug('_on_button_cancel_clicked')
+    def on_button_cancel_clicked(self, widget):
+        log.debug('on_button_cancel_clicked')
         self.dialog.destroy()
 
-    def _on_button_save_clicked(self, widget):
-        log.debug('_on_button_save_clicked')
+    def on_button_save_clicked(self, widget):
+        log.debug('on_button_save_clicked')
         if len(self.files_treestore) == 0:
             return
 
@@ -393,8 +383,8 @@ class CreateTorrentDialog(object):
             # crash the UI while updating it.
             idle_add(update_pbar_with_gobject, percent)
 
-    def _on_button_up_clicked(self, widget):
-        log.debug('_on_button_up_clicked')
+    def on_button_up_clicked(self, widget):
+        log.debug('on_button_up_clicked')
         row = self.builder.get_object('tracker_treeview').get_selection().get_selected()[1]
         if row is None:
             return
@@ -403,15 +393,15 @@ class CreateTorrentDialog(object):
         else:
             self.trackers_liststore[row][0] -= 1
 
-    def _on_button_down_clicked(self, widget):
-        log.debug('_on_button_down_clicked')
+    def on_button_down_clicked(self, widget):
+        log.debug('on_button_down_clicked')
         row = self.builder.get_object('tracker_treeview').get_selection().get_selected()[1]
         if row is None:
             return
         self.trackers_liststore[row][0] += 1
 
-    def _on_button_add_clicked(self, widget):
-        log.debug('_on_button_add_clicked')
+    def on_button_add_clicked(self, widget):
+        log.debug('on_button_add_clicked')
         builder = gtk.Builder()
         builder.add_from_file(resource_filename(
             'deluge.ui.gtkui', os.path.join('glade', 'edit_trackers.add.ui')
@@ -441,8 +431,8 @@ class CreateTorrentDialog(object):
 
         dialog.destroy()
 
-    def _on_button_remove_clicked(self, widget):
-        log.debug('_on_button_remove_clicked')
+    def on_button_remove_clicked(self, widget):
+        log.debug('on_button_remove_clicked')
         row = self.builder.get_object('tracker_treeview').get_selection().get_selected()[1]
         if row is None:
             return

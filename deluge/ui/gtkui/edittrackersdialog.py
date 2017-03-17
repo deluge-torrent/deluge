@@ -109,18 +109,7 @@ class EditTrackersDialog(object):
             self.dialog.set_transient_for(parent)
 
         # Connect the signals
-        self.builder.connect_signals({
-            'on_button_up_clicked': self.on_button_up_clicked,
-            'on_button_add_clicked': self.on_button_add_clicked,
-            'on_button_edit_clicked': self.on_button_edit_clicked,
-            'on_button_edit_cancel_clicked': self.on_button_edit_cancel_clicked,
-            'on_button_edit_ok_clicked': self.on_button_edit_ok_clicked,
-            'on_button_remove_clicked': self.on_button_remove_clicked,
-            'on_button_down_clicked': self.on_button_down_clicked,
-            'on_button_add_ok_clicked': self.on_button_add_ok_clicked,
-            'on_button_add_cancel_clicked': self.on_button_add_cancel_clicked,
-            'on_edit_trackers_dialog_configure_event': self.on_edit_trackers_dialog_configure_event
-        })
+        self.builder.connect_signals(self)
 
         # Create a liststore for tier, url
         self.liststore = gtk.ListStore(int, str)

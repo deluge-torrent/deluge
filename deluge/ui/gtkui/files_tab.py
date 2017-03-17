@@ -181,15 +181,7 @@ class FilesTab(Tab):
         self.listview.connect('drag_data_get', self._on_drag_data_get_data)
         self.listview.connect('drag_data_received', self._on_drag_data_received_data)
 
-        component.get('MainWindow').connect_signals({
-            'on_menuitem_open_file_activate': self._on_menuitem_open_file_activate,
-            'on_menuitem_show_file_activate': self._on_menuitem_show_file_activate,
-            'on_menuitem_ignore_activate': self._on_menuitem_ignore_activate,
-            'on_menuitem_low_activate': self._on_menuitem_low_activate,
-            'on_menuitem_normal_activate': self._on_menuitem_normal_activate,
-            'on_menuitem_high_activate': self._on_menuitem_high_activate,
-            'on_menuitem_expand_all_activate': self._on_menuitem_expand_all_activate
-        })
+        component.get('MainWindow').connect_signals(self)
 
         # Connect to various events from the daemon
         client.register_event_handler('TorrentFileRenamedEvent', self._on_torrentfilerenamed_event)
@@ -289,7 +281,7 @@ class FilesTab(Tab):
         self.torrent_id = None
 
     def _on_row_activated(self, tree, path, view_column):
-        self._on_menuitem_open_file_activate(None)
+        self.on_menuitem_open_file_activate(None)
 
     def get_file_path(self, row, path=''):
         if not row:
@@ -498,12 +490,12 @@ class FilesTab(Tab):
                 self.listview.set_cursor(path, column, True)
                 return True
 
-    def _on_menuitem_open_file_activate(self, menuitem):
+    def on_menuitem_open_file_activate(self, menuitem):
         if client.is_localhost:
             component.get('SessionProxy').get_torrent_status(
                 self.torrent_id, ['download_location']).addCallback(self._on_open_file)
 
-    def _on_menuitem_show_file_activate(self, menuitem):
+    def on_menuitem_show_file_activate(self, menuitem):
         if client.is_localhost:
             component.get('SessionProxy').get_torrent_status(
                 self.torrent_id, ['download_location']).addCallback(self._on_show_file)
@@ -525,23 +517,23 @@ class FilesTab(Tab):
         log.debug('priorities: %s', priorities)
         client.core.set_torrent_options([self.torrent_id], {'file_priorities': priorities})
 
-    def _on_menuitem_ignore_activate(self, menuitem):
+    def on_menuitem_ignore_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
             self.get_selected_files(), FILE_PRIORITY['Ignore'])
 
-    def _on_menuitem_low_activate(self, menuitem):
+    def on_menuitem_low_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
             self.get_selected_files(), FILE_PRIORITY['Low'])
 
-    def _on_menuitem_normal_activate(self, menuitem):
+    def on_menuitem_normal_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
             self.get_selected_files(), FILE_PRIORITY['Normal'])
 
-    def _on_menuitem_high_activate(self, menuitem):
+    def on_menuitem_high_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
             self.get_selected_files(), FILE_PRIORITY['High'])
 
-    def _on_menuitem_expand_all_activate(self, menuitem):
+    def on_menuitem_expand_all_activate(self, menuitem):
         self.listview.expand_all()
 
     def _on_filename_edited(self, renderer, path, new_text):

@@ -52,14 +52,7 @@ class OptionsTab(Tab):
         self.prev_torrent_id = None
         self.prev_status = None
 
-        component.get('MainWindow').connect_signals({
-            'on_button_apply_clicked': self._on_button_apply_clicked,
-            'on_chk_move_completed_toggled': self._on_chk_move_completed_toggled,
-            'on_chk_stop_at_ratio_toggled': self._on_chk_stop_at_ratio_toggled,
-            'on_chk_toggled': self._on_chk_toggled,
-            'on_spin_value_changed': self._on_spin_value_changed,
-            'on_move_completed_file_set': self._on_move_completed_file_set
-        })
+        component.get('MainWindow').connect_signals(self)
 
         self.spin_max_download.connect('key-press-event', self._on_key_press_event)
         self.spin_max_upload.connect('key-press-event', self._on_key_press_event)
@@ -163,7 +156,7 @@ class OptionsTab(Tab):
 
             self.prev_status = status
 
-    def _on_button_apply_clicked(self, button):
+    def on_button_apply_clicked(self, button):
         options = {}
         if self.spin_max_download.get_value() != self.prev_status['max_download_speed']:
             options['max_download_speed'] = self.spin_max_download.get_value()
@@ -194,13 +187,13 @@ class OptionsTab(Tab):
         client.core.set_torrent_options([self.prev_torrent_id], options)
         self.button_apply.set_sensitive(False)
 
-    def _on_chk_move_completed_toggled(self, widget):
+    def on_chk_move_completed_toggled(self, widget):
         value = self.chk_move_completed.get_active()
         self.move_completed_path_chooser.set_sensitive(value)
         if not self.button_apply.is_sensitive():
             self.button_apply.set_sensitive(True)
 
-    def _on_chk_stop_at_ratio_toggled(self, widget):
+    def on_chk_stop_at_ratio_toggled(self, widget):
         value = widget.get_active()
 
         self.spin_stop_ratio.set_sensitive(value)
@@ -209,11 +202,11 @@ class OptionsTab(Tab):
         if not self.button_apply.is_sensitive():
             self.button_apply.set_sensitive(True)
 
-    def _on_chk_toggled(self, widget):
+    def on_chk_toggled(self, widget):
         if not self.button_apply.is_sensitive():
             self.button_apply.set_sensitive(True)
 
-    def _on_spin_value_changed(self, widget):
+    def on_spin_value_changed(self, widget):
         if not self.button_apply.is_sensitive():
             self.button_apply.set_sensitive(True)
 
@@ -223,7 +216,7 @@ class OptionsTab(Tab):
             if not self.button_apply.is_sensitive():
                 self.button_apply.set_sensitive(True)
 
-    def _on_move_completed_file_set(self, widget):
+    def on_move_completed_file_set(self, widget):
         if not self.button_apply.is_sensitive():
             self.button_apply.set_sensitive(True)
 

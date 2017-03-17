@@ -109,11 +109,7 @@ class FilterTreeView(component.Component):
         builder = gtk.Builder()
         builder.add_from_file(resource_filename('deluge.ui.gtkui', os.path.join('glade', 'filtertree_menu.ui')))
         self.menu = builder.get_object('filtertree_menu')
-        builder.connect_signals({
-            'select_all': self.on_select_all,
-            'pause_all': self.on_pause_all,
-            'resume_all': self.on_resume_all
-        })
+        builder.connect_signals(self)
 
         self.default_menu_items = self.menu.get_children()
 

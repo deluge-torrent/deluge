@@ -69,14 +69,7 @@ class SystemTray(component.Component):
         self.builder.add_from_file(resource_filename('deluge.ui.gtkui', os.path.join(
             'glade', 'tray_menu.ui')))
 
-        self.builder.connect_signals({
-            'on_menuitem_show_deluge_activate': self.on_menuitem_show_deluge_activate,
-            'on_menuitem_add_torrent_activate': self.on_menuitem_add_torrent_activate,
-            'on_menuitem_pause_session_activate': self.on_menuitem_pause_session_activate,
-            'on_menuitem_resume_session_activate': self.on_menuitem_resume_session_activate,
-            'on_menuitem_quit_activate': self.on_menuitem_quit_activate,
-            'on_menuitem_quitdaemon_activate': self.on_menuitem_quitdaemon_activate
-        })
+        self.builder.connect_signals(self)
 
         self.tray_menu = self.builder.get_object('tray_menu')
 

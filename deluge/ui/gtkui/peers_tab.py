@@ -37,9 +37,7 @@ class PeersTab(Tab):
         self._child_widget = main_builder.get_object('peers_tab')
         self._tab_label = main_builder.get_object('peers_tab_label')
         self.peer_menu = main_builder.get_object('menu_peer_tab')
-        component.get('MainWindow').connect_signals({
-            'on_menuitem_add_peer_activate': self._on_menuitem_add_peer_activate,
-        })
+        component.get('MainWindow').connect_signals(self)
 
         self.listview = main_builder.get_object('peers_listview')
         self.listview.props.has_tooltip = True
@@ -325,7 +323,7 @@ class PeersTab(Tab):
             else:
                 return False
 
-    def _on_menuitem_add_peer_activate(self, menuitem):
+    def on_menuitem_add_peer_activate(self, menuitem):
         """This is a callback for manually adding a peer"""
         log.debug('on_menuitem_add_peer')
         builder = Builder()

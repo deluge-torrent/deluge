@@ -109,48 +109,10 @@ class MenuBar(component.Component):
         self.main_builder.get_object('sidebar_show_owners').set_active(self.config['sidebar_show_owners'])
 
         # Connect main window Signals #
-        self.mainwindow.connect_signals({
-            # File Menu
-            'on_menuitem_addtorrent_activate': self.on_menuitem_addtorrent_activate,
-            'on_menuitem_createtorrent_activate': self.on_menuitem_createtorrent_activate,
-            'on_menuitem_quitdaemon_activate': self.on_menuitem_quitdaemon_activate,
-            'on_menuitem_quit_activate': self.on_menuitem_quit_activate,
-
-            # Edit Menu
-            'on_menuitem_preferences_activate': self.on_menuitem_preferences_activate,
-            'on_menuitem_connectionmanager_activate': self.on_menuitem_connectionmanager_activate,
-
-            # View Menu
-            'on_menuitem_toolbar_toggled': self.on_menuitem_toolbar_toggled,
-            'on_menuitem_sidebar_toggled': self.on_menuitem_sidebar_toggled,
-            'on_menuitem_statusbar_toggled': self.on_menuitem_statusbar_toggled,
-
-            # Help Menu
-            'on_menuitem_homepage_activate': self.on_menuitem_homepage_activate,
-            'on_menuitem_faq_activate': self.on_menuitem_faq_activate,
-            'on_menuitem_community_activate': self.on_menuitem_community_activate,
-            'on_menuitem_about_activate': self.on_menuitem_about_activate,
-            'on_menuitem_sidebar_zero_toggled': self.on_menuitem_sidebar_zero_toggled,
-            'on_menuitem_sidebar_trackers_toggled': self.on_menuitem_sidebar_trackers_toggled,
-            'on_menuitem_sidebar_owners_toggled': self.on_menuitem_sidebar_owners_toggled
-        })
+        self.mainwindow.connect_signals(self)
 
         # Connect menubar signals
-        self.builder.connect_signals({
-            # Torrent Menu
-            'on_menuitem_pause_activate': self.on_menuitem_pause_activate,
-            'on_menuitem_resume_activate': self.on_menuitem_resume_activate,
-            'on_menuitem_updatetracker_activate': self.on_menuitem_updatetracker_activate,
-            'on_menuitem_edittrackers_activate': self.on_menuitem_edittrackers_activate,
-            'on_menuitem_remove_activate': self.on_menuitem_remove_activate,
-            'on_menuitem_recheck_activate': self.on_menuitem_recheck_activate,
-            'on_menuitem_open_folder_activate': self.on_menuitem_open_folder_activate,
-            'on_menuitem_move_activate': self.on_menuitem_move_activate,
-            'on_menuitem_queue_top_activate': self.on_menuitem_queue_top_activate,
-            'on_menuitem_queue_up_activate': self.on_menuitem_queue_up_activate,
-            'on_menuitem_queue_down_activate': self.on_menuitem_queue_down_activate,
-            'on_menuitem_queue_bottom_activate': self.on_menuitem_queue_bottom_activate
-        })
+        self.builder.connect_signals(self)
 
         self.change_sensitivity = [
             'menuitem_addtorrent'

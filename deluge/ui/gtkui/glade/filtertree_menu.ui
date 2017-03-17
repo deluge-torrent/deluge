@@ -31,7 +31,7 @@
         <property name="use_underline">True</property>
         <property name="image">image22</property>
         <property name="use_stock">False</property>
-        <signal name="activate" handler="select_all" swapped="no"/>
+        <signal name="activate" handler="on_select_all" swapped="no"/>
       </object>
     </child>
     <child>
@@ -43,7 +43,7 @@
         <property name="use_underline">True</property>
         <property name="image">menu-item-image22</property>
         <property name="use_stock">False</property>
-        <signal name="activate" handler="pause_all" swapped="no"/>
+        <signal name="activate" handler="on_pause_all" swapped="no"/>
       </object>
     </child>
     <child>
@@ -56,7 +56,7 @@
         <property name="use_underline">True</property>
         <property name="image">menu-item-image23</property>
         <property name="use_stock">False</property>
-        <signal name="activate" handler="resume_all" swapped="no"/>
+        <signal name="activate" handler="on_resume_all" swapped="no"/>
       </object>
     </child>
   </object>
