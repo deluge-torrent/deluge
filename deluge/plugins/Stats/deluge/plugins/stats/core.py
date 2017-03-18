@@ -97,12 +97,9 @@ class Core(CorePluginBase):
         self.save_timer.start(60)
 
     def disable(self):
+        self.update_timer.stop() if self.update_timer.running else None
+        self.save_timer.stop() if self.save_timer.running else None
         self.save_stats()
-        try:
-            self.update_timer.stop()
-            self.save_timer.stop()
-        except AssertionError:
-            pass
 
     def add_stats(self, *stats):
         for stat in stats:
@@ -113,70 +110,61 @@ class Core(CorePluginBase):
                     self.stats[i][stat] = []
 
     def update_stats(self):
-        try:
-            # Get all possible stats!
-            stats = {}
-            for key in self.stats_keys:
-                # try all keys we have, very inefficient but saves having to
-                # work out where a key comes from...
-                try:
-                    stats.update(self.core.get_session_status([key]))
-                except AttributeError:
-                    pass
-            stats['num_connections'] = stats['num_peers'] + stats['peer.num_peers_half_open']
-            stats['dht_cache_nodes'] = stats['dht.dht_node_cache']
-            stats.update(self.core.get_config_values(['max_download',
-                                                      'max_upload',
-                                                      'max_num_connections']))
-            # status = self.core.session.status()
-            # for stat in dir(status):
-            #     if not stat.startswith('_') and stat not in stats:
-            #         stats[stat] = getattr(status, stat, None)
+        # Get all possible stats!
+        stats = {}
+        for key in self.stats_keys:
+            # try all keys we have, very inefficient but saves having to
+            # work out where a key comes from...
+            try:
+                stats.update(self.core.get_session_status([key]))
+            except AttributeError:
+                pass
+        stats['num_connections'] = stats['num_peers'] + stats['peer.num_peers_half_open']
+        stats['dht_cache_nodes'] = stats['dht.dht_node_cache']
+        stats.update(self.core.get_config_values(['max_download',
+                                                  'max_upload',
+                                                  'max_num_connections']))
+        # status = self.core.session.status()
+        # for stat in dir(status):
+        #     if not stat.startswith('_') and stat not in stats:
+        #         stats[stat] = getattr(status, stat, None)
 
-            update_time = time.time()
-            self.last_update[1] = update_time
+        update_time = time.time()
+        self.last_update[1] = update_time
 
-            # extract the ones we are interested in
-            # adding them to the 1s array
-            for stat, stat_list in self.stats[1].items():
-                if stat in stats:
-                    stat_list.insert(0, int(stats[stat]))
-                else:
-                    stat_list.insert(0, 0)
-                if len(stat_list) > self.length:
-                    stat_list.pop()
+        # extract the ones we are interested in
+        # adding them to the 1s array
+        for stat, stat_list in self.stats[1].items():
+            if stat in stats:
+                stat_list.insert(0, int(stats[stat]))
+            else:
+                stat_list.insert(0, 0)
+            if len(stat_list) > self.length:
+                stat_list.pop()
 
-            def update_interval(interval, base, multiplier):
-                self.count[interval] = self.count[interval] + 1
-                if self.count[interval] >= interval:
-                    self.last_update[interval] = update_time
-                    self.count[interval] = 0
-                    current_stats = self.stats[interval]
-                    for stat, stat_list in self.stats[base].items():
-                        try:
-                            avg = mean(stat_list[0:multiplier])
-                        except ValueError:
-                            avg = 0
-                        current_stats[stat].insert(0, avg)
-                        if len(current_stats[stat]) > self.length:
-                            current_stats[stat].pop()
+        def update_interval(interval, base, multiplier):
+            self.count[interval] = self.count[interval] + 1
+            if self.count[interval] >= interval:
+                self.last_update[interval] = update_time
+                self.count[interval] = 0
+                current_stats = self.stats[interval]
+                for stat, stat_list in self.stats[base].items():
+                    try:
+                        avg = mean(stat_list[0:multiplier])
+                    except ValueError:
+                        avg = 0
+                    current_stats[stat].insert(0, avg)
+                    if len(current_stats[stat]) > self.length:
+                        current_stats[stat].pop()
 
-            update_interval(5, 1, 5)
-            update_interval(30, 5, 6)
-            update_interval(300, 30, 10)
-
-        except Exception as ex:
-            log.error('Stats update error %s', ex)
-        return True
+        update_interval(5, 1, 5)
+        update_interval(30, 5, 6)
+        update_interval(300, 30, 10)
 
     def save_stats(self):
-        try:
-            self.saved_stats['stats'] = self.stats
-            self.saved_stats.config.update(self.get_totals())
-            self.saved_stats.save()
-        except Exception as ex:
-            log.error('Stats save error %s', ex)
-        return True
+        self.saved_stats['stats'] = self.stats
+        self.saved_stats.config.update(self.get_totals())
+        self.saved_stats.save()
 
     # export:
     @export
