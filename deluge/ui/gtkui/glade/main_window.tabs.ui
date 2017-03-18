@@ -1597,13 +1597,13 @@
                                     <property name="xscale">0.69999998807907104</property>
                                     <child>
                                       <object class="GtkButton" id="button_apply">
-                                        <property name="label">gtk-apply</property>
+                                        <property name="label">_Apply</property>
                                         <property name="use_action_appearance">False</property>
                                         <property name="visible">True</property>
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
-                                        <property name="use_stock">True</property>
+                                        <property name="use_underline">True</property>
                                         <signal name="clicked" handler="on_button_apply_clicked" swapped="no"/>
                                       </object>
                                     </child>
