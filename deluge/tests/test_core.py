@@ -123,7 +123,7 @@ class CoreTestCase(BaseTestCase):
                 filedump = base64.encodestring(_file.read())
             files_to_add.append((filename, filedump, options))
         errors = yield self.core.add_torrent_files(files_to_add)
-        self.assertEquals(len(errors), 0)
+        self.assertEqual(len(errors), 0)
 
     @defer.inlineCallbacks
     def test_add_torrent_files_error_duplicate(self):
@@ -136,7 +136,7 @@ class CoreTestCase(BaseTestCase):
                 filedump = base64.encodestring(_file.read())
             files_to_add.append((filename, filedump, options))
         errors = yield self.core.add_torrent_files(files_to_add)
-        self.assertEquals(len(errors), 1)
+        self.assertEqual(len(errors), 1)
         self.assertTrue(str(errors[0]).startswith('Torrent already in session'))
 
     @defer.inlineCallbacks
@@ -151,7 +151,7 @@ class CoreTestCase(BaseTestCase):
         from deluge.bencode import bdecode, bencode
         with open(filename) as _file:
             info_hash = sha(bencode(bdecode(_file.read())['info'])).hexdigest()
-        self.assertEquals(torrent_id, info_hash)
+        self.assertEqual(torrent_id, info_hash)
 
     def test_add_torrent_file_invalid_filedump(self):
         options = {}
@@ -165,7 +165,7 @@ class CoreTestCase(BaseTestCase):
         info_hash = '60d5d82328b4547511fdeac9bf4d0112daa0ce00'
 
         torrent_id = yield self.core.add_torrent_url(url, options)
-        self.assertEquals(torrent_id, info_hash)
+        self.assertEqual(torrent_id, info_hash)
 
     def test_add_torrent_url_with_cookie(self):
         url = 'http://localhost:%d/cookie' % self.listen_port
@@ -177,7 +177,7 @@ class CoreTestCase(BaseTestCase):
         d.addCallbacks(self.fail, self.assertIsInstance, errbackArgs=(Failure,))
 
         d = self.core.add_torrent_url(url, options, headers)
-        d.addCallbacks(self.assertEquals, self.fail, callbackArgs=(info_hash,))
+        d.addCallbacks(self.assertEqual, self.fail, callbackArgs=(info_hash,))
 
         return d
 
@@ -187,7 +187,7 @@ class CoreTestCase(BaseTestCase):
         info_hash = '60d5d82328b4547511fdeac9bf4d0112daa0ce00'
 
         d = self.core.add_torrent_url(url, options)
-        d.addCallback(self.assertEquals, info_hash)
+        d.addCallback(self.assertEqual, info_hash)
         return d
 
     def test_add_torrent_url_with_partial_download(self):
@@ -196,7 +196,7 @@ class CoreTestCase(BaseTestCase):
         info_hash = '60d5d82328b4547511fdeac9bf4d0112daa0ce00'
 
         d = self.core.add_torrent_url(url, options)
-        d.addCallback(self.assertEquals, info_hash)
+        d.addCallback(self.assertEqual, info_hash)
         return d
 
     @defer.inlineCallbacks
@@ -205,7 +205,7 @@ class CoreTestCase(BaseTestCase):
         uri = deluge.common.create_magnet_uri(info_hash)
         options = {}
         torrent_id = yield self.core.add_torrent_magnet(uri, options)
-        self.assertEquals(torrent_id, info_hash)
+        self.assertEqual(torrent_id, info_hash)
 
     @defer.inlineCallbacks
     def test_remove_torrent(self):
@@ -216,7 +216,7 @@ class CoreTestCase(BaseTestCase):
         torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
         removed = self.core.remove_torrent(torrent_id, True)
         self.assertTrue(removed)
-        self.assertEquals(len(self.core.get_session_state()), 0)
+        self.assertEqual(len(self.core.get_session_state()), 0)
 
     def test_remove_torrent_invalid(self):
         self.assertRaises(InvalidTorrentError, self.core.remove_torrent, 'torrentidthatdoesntexist', True)
@@ -240,7 +240,7 @@ class CoreTestCase(BaseTestCase):
         d.addCallback(test_ret)
 
         def test_session_state(val):
-            self.assertEquals(len(self.core.get_session_state()), 0)
+            self.assertEqual(len(self.core.get_session_state()), 0)
         d.addCallback(test_session_state)
         yield d
 
@@ -258,21 +258,21 @@ class CoreTestCase(BaseTestCase):
 
     def test_get_session_status(self):
         status = self.core.get_session_status(['upload_rate', 'download_rate'])
-        self.assertEquals(type(status), dict)
-        self.assertEquals(status['upload_rate'], 0.0)
+        self.assertEqual(type(status), dict)
+        self.assertEqual(status['upload_rate'], 0.0)
 
     def test_get_session_status_ratio(self):
         status = self.core.get_session_status(['write_hit_ratio', 'read_hit_ratio'])
-        self.assertEquals(type(status), dict)
-        self.assertEquals(status['write_hit_ratio'], 0.0)
-        self.assertEquals(status['read_hit_ratio'], 0.0)
+        self.assertEqual(type(status), dict)
+        self.assertEqual(status['write_hit_ratio'], 0.0)
+        self.assertEqual(status['read_hit_ratio'], 0.0)
 
     def test_get_free_space(self):
         space = self.core.get_free_space('.')
         # get_free_space returns long on Python 2 (32-bit).
         self.assertTrue(isinstance(space, int if not PY2 else (int, long)))
         self.assertTrue(space >= 0)
-        self.assertEquals(self.core.get_free_space('/someinvalidpath'), -1)
+        self.assertEqual(self.core.get_free_space('/someinvalidpath'), -1)
 
     @pytest.mark.slow
     def test_test_listen_port(self):
@@ -297,15 +297,15 @@ class CoreTestCase(BaseTestCase):
         }
 
         for key in pathlist:
-            self.assertEquals(deluge.core.torrent.sanitize_filepath(key, folder=False), pathlist[key])
-            self.assertEquals(deluge.core.torrent.sanitize_filepath(key, folder=True), pathlist[key] + '/')
+            self.assertEqual(deluge.core.torrent.sanitize_filepath(key, folder=False), pathlist[key])
+            self.assertEqual(deluge.core.torrent.sanitize_filepath(key, folder=True), pathlist[key] + '/')
 
     def test_get_set_config_values(self):
-        self.assertEquals(self.core.get_config_values(['abc', 'foo']), {'foo': None, 'abc': None})
-        self.assertEquals(self.core.get_config_value('foobar'), None)
+        self.assertEqual(self.core.get_config_values(['abc', 'foo']), {'foo': None, 'abc': None})
+        self.assertEqual(self.core.get_config_value('foobar'), None)
         self.core.set_config({'abc': 'def', 'foo': 10, 'foobar': 'barfoo'})
-        self.assertEquals(self.core.get_config_values(['foo', 'abc']), {'foo': 10, 'abc': 'def'})
-        self.assertEquals(self.core.get_config_value('foobar'), 'barfoo')
+        self.assertEqual(self.core.get_config_values(['foo', 'abc']), {'foo': 10, 'abc': 'def'})
+        self.assertEqual(self.core.get_config_value('foobar'), 'barfoo')
 
     def test_read_only_config_keys(self):
         key = 'max_upload_speed'
@@ -314,6 +314,6 @@ class CoreTestCase(BaseTestCase):
         old_value = self.core.get_config_value(key)
         self.core.set_config({key: old_value + 10})
         new_value = self.core.get_config_value(key)
-        self.assertEquals(old_value, new_value)
+        self.assertEqual(old_value, new_value)
 
         self.core.read_only_config_keys = None

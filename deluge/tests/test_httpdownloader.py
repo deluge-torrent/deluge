@@ -145,10 +145,10 @@ class DownloadFileTestCase(unittest.TestCase):
                 self.fail(ex)
         return filename
 
-    def failIfContains(self, filename, contents):  # NOQA
+    def assertNotContains(self, filename, contents):  # NOQA
         with open(filename) as _file:
             try:
-                self.failIfEqual(_file.read(), contents)
+                self.assertNotEqual(_file.read(), contents)
             except Exception as ex:
                 self.fail(ex)
         return filename
@@ -211,7 +211,7 @@ class DownloadFileTestCase(unittest.TestCase):
     def test_download_with_gzip_encoding_disabled(self):
         url = self.get_url('gzip?msg=fail')
         d = download_file(url, fname('gzip_encoded'), allow_compression=False)
-        d.addCallback(self.failIfContains, b'fail')
+        d.addCallback(self.assertNotContains, b'fail')
         return d
 
     def test_page_redirect_unhandled(self):

@@ -57,7 +57,7 @@ class TorrentTestCase(BaseTestCase):
 
     def assert_state(self, torrent, state):
         torrent.update_state()
-        self.assertEquals(torrent.state, state)
+        self.assertEqual(torrent.state, state)
 
     def get_torrent_atp(self, filename):
         filename = common.get_test_data_file(filename)
@@ -86,14 +86,14 @@ class TorrentTestCase(BaseTestCase):
         priorities = handle.piece_priorities()
 
         # The length of the list of new priorites is the same as the original
-        self.assertEquals(len(priorities_original), len(priorities))
+        self.assertEqual(len(priorities_original), len(priorities))
 
         # Test the priority of all the pieces against the calculated indexes.
         for idx, priority in enumerate(priorities):
             if idx in prioritized_piece_indexes:
-                self.assertEquals(priorities[idx], 7)
+                self.assertEqual(priorities[idx], 7)
             else:
-                self.assertEquals(priorities[idx], 4)
+                self.assertEqual(priorities[idx], 4)
 
         # self.print_priority_list(priorities)
 
@@ -109,7 +109,7 @@ class TorrentTestCase(BaseTestCase):
 
         # Test the priority of the prioritized pieces
         for i in priorities:
-            self.assertEquals(priorities[i], 4)
+            self.assertEqual(priorities[i], 4)
 
         # self.print_priority_list(priorities)
 
@@ -188,7 +188,7 @@ class TorrentTestCase(BaseTestCase):
         def assert_resume_data():
             self.assert_state(torrent, 'Error')
             tm_resume_data = lt.bdecode(self.core.torrentmanager.resume_data[torrent.torrent_id])
-            self.assertEquals(tm_resume_data, resume_data)
+            self.assertEqual(tm_resume_data, resume_data)
 
         yield deferLater(reactor, 0.5, assert_resume_data)
         return

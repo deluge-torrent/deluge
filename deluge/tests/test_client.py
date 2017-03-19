@@ -118,7 +118,7 @@ class ClientTestCase(BaseTestCase, DaemonBase):
                 failure.trap(error.BadLoginError),
                 error.BadLoginError
             )
-            self.assertEquals(failure.value.message, 'Password does not match')
+            self.assertEqual(failure.value.message, 'Password does not match')
             self.addCleanup(client.disconnect)
 
         d.addCallbacks(self.fail, on_failure)
@@ -133,7 +133,7 @@ class ClientTestCase(BaseTestCase, DaemonBase):
                 failure.trap(error.BadLoginError),
                 error.BadLoginError
             )
-            self.assertEquals(failure.value.message, 'Username does not exist')
+            self.assertEqual(failure.value.message, 'Username does not exist')
             self.addCleanup(client.disconnect)
 
         d.addCallbacks(self.fail, on_failure)
@@ -161,7 +161,7 @@ class ClientTestCase(BaseTestCase, DaemonBase):
         yield client.core.create_account('testuser', 'testpw', 'DEFAULT')
         yield client.disconnect()
         ret = yield client.connect('localhost', self.listen_port, username='testuser', password='testpw')
-        self.assertEquals(ret, deluge.common.AUTH_LEVEL_NORMAL)
+        self.assertEqual(ret, deluge.common.AUTH_LEVEL_NORMAL)
         yield
 
     @defer.inlineCallbacks

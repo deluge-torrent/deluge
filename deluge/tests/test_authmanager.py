@@ -24,7 +24,7 @@ class AuthManagerTestCase(BaseTestCase):
 
     def test_authorize(self):
         from deluge.ui import common
-        self.assertEquals(
+        self.assertEqual(
             self.auth.authorize(*common.get_localhost_auth()),
             AUTH_LEVEL_ADMIN
         )

@@ -35,7 +35,7 @@ class TrackerIconsTestCase(BaseTestCase):
         icon = TrackerIcon(common.get_test_data_file('deluge.png'))
         d = self.icons.fetch('deluge-torrent.org')
         d.addCallback(self.assertNotIdentical, None)
-        d.addCallback(self.assertEquals, icon)
+        d.addCallback(self.assertEqual, icon)
         return d
 
     def test_get_google_ico(self):
@@ -44,7 +44,7 @@ class TrackerIconsTestCase(BaseTestCase):
         icon = TrackerIcon(common.get_test_data_file('google.ico'))
         d = self.icons.fetch('www.google.com')
         d.addCallback(self.assertNotIdentical, None)
-        d.addCallback(self.assertEquals, icon)
+        d.addCallback(self.assertEqual, icon)
         return d
 
     def test_get_google_ico_with_redirect(self):
@@ -52,7 +52,7 @@ class TrackerIconsTestCase(BaseTestCase):
         icon = TrackerIcon(common.get_test_data_file('google.ico'))
         d = self.icons.fetch('google.com')
         d.addCallback(self.assertNotIdentical, None)
-        d.addCallback(self.assertEquals, icon)
+        d.addCallback(self.assertEqual, icon)
         return d
 
     def test_get_ubuntu_ico(self):
@@ -60,7 +60,7 @@ class TrackerIconsTestCase(BaseTestCase):
         icon = TrackerIcon(common.get_test_data_file('ubuntu.png'))
         d = self.icons.fetch('www.ubuntu.com')
         d.addCallback(self.assertNotIdentical, None)
-        d.addCallback(self.assertEquals, icon)
+        d.addCallback(self.assertEqual, icon)
         return d
 
     def test_get_empty_string_tracker(self):

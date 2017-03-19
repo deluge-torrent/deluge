@@ -22,26 +22,26 @@ class ErrorTestCase(unittest.TestCase):
     def test_deluge_error(self):
         msg = 'Some message'
         e = deluge.error.DelugeError(msg)
-        self.assertEquals(str(e), msg)
+        self.assertEqual(str(e), msg)
         from twisted.internet.defer import DebugInfo
         del DebugInfo.__del__  # Hides all errors
-        self.assertEquals(e._args, (msg,))
-        self.assertEquals(e._kwargs, {})
+        self.assertEqual(e._args, (msg,))
+        self.assertEqual(e._kwargs, {})
 
     def test_incompatible_client(self):
         version = '1.3.6'
         e = deluge.error.IncompatibleClient(version)
-        self.assertEquals(str(e), 'Your deluge client is not compatible with the daemon. \
+        self.assertEqual(str(e), 'Your deluge client is not compatible with the daemon. \
 Please upgrade your client to %s' % version)
 
     def test_not_authorized_error(self):
         current_level = 5
         required_level = 10
         e = deluge.error.NotAuthorizedError(current_level, required_level)
-        self.assertEquals(str(e), 'Auth level too low: %d < %d' % (current_level, required_level))
+        self.assertEqual(str(e), 'Auth level too low: %d < %d' % (current_level, required_level))
 
     def test_bad_login_error(self):
         message = 'Login failed'
         username = 'deluge'
         e = deluge.error.BadLoginError(message, username)
-        self.assertEquals(str(e), message)
+        self.assertEqual(str(e), message)

@@ -78,8 +78,8 @@ class ComponentTestClass(BaseTestCase):
 
     def test_start_component(self):
         def on_start(result, c):
-            self.assertEquals(c._component_state, 'Started')
-            self.assertEquals(c.start_count, 1)
+            self.assertEqual(c._component_state, 'Started')
+            self.assertEqual(c.start_count, 1)
 
         c = ComponentTester('test_start_c1')
         d = component.start(['test_start_c1'])
@@ -88,16 +88,16 @@ class ComponentTestClass(BaseTestCase):
 
     def test_start_stop_depends(self):
         def on_stop(result, c1, c2):
-            self.assertEquals(c1._component_state, 'Stopped')
-            self.assertEquals(c2._component_state, 'Stopped')
-            self.assertEquals(c1.stop_count, 1)
-            self.assertEquals(c2.stop_count, 1)
+            self.assertEqual(c1._component_state, 'Stopped')
+            self.assertEqual(c2._component_state, 'Stopped')
+            self.assertEqual(c1.stop_count, 1)
+            self.assertEqual(c2.stop_count, 1)
 
         def on_start(result, c1, c2):
-            self.assertEquals(c1._component_state, 'Started')
-            self.assertEquals(c2._component_state, 'Started')
-            self.assertEquals(c1.start_count, 1)
-            self.assertEquals(c2.start_count, 1)
+            self.assertEqual(c1._component_state, 'Started')
+            self.assertEqual(c2._component_state, 'Started')
+            self.assertEqual(c1.start_count, 1)
+            self.assertEqual(c2.start_count, 1)
             return component.stop(['test_start_depends_c1']).addCallback(on_stop, c1, c2)
 
         c1 = ComponentTester('test_start_depends_c1')
@@ -124,8 +124,8 @@ class ComponentTestClass(BaseTestCase):
     def test_start_all(self):
         def on_start(*args):
             for c in args[1:]:
-                self.assertEquals(c._component_state, 'Started')
-                self.assertEquals(c.start_count, 1)
+                self.assertEqual(c._component_state, 'Started')
+                self.assertEqual(c.start_count, 1)
 
         ret = self.start_with_depends()
         ret[0].addCallback(on_start, *ret[1:])
@@ -141,12 +141,12 @@ class ComponentTestClass(BaseTestCase):
 
     def test_stop_component(self):
         def on_stop(result, c):
-            self.assertEquals(c._component_state, 'Stopped')
+            self.assertEqual(c._component_state, 'Stopped')
             self.assertFalse(c._component_timer.running)
-            self.assertEquals(c.stop_count, 1)
+            self.assertEqual(c.stop_count, 1)
 
         def on_start(result, c):
-            self.assertEquals(c._component_state, 'Started')
+            self.assertEqual(c._component_state, 'Started')
             return component.stop(['test_stop_component_c1']).addCallback(on_stop, c)
 
         c = ComponentTesterUpdate('test_stop_component_c1')
@@ -157,12 +157,12 @@ class ComponentTestClass(BaseTestCase):
     def test_stop_all(self):
         def on_stop(result, *args):
             for c in args:
-                self.assertEquals(c._component_state, 'Stopped')
-                self.assertEquals(c.stop_count, 1)
+                self.assertEqual(c._component_state, 'Stopped')
+                self.assertEqual(c.stop_count, 1)
 
         def on_start(result, *args):
             for c in args:
-                self.assertEquals(c._component_state, 'Started')
+                self.assertEqual(c._component_state, 'Started')
             return component.stop().addCallback(on_stop, *args)
 
         ret = self.start_with_depends()
@@ -228,17 +228,19 @@ class ComponentTestClass(BaseTestCase):
         self._observer._ignoreErrors(component.ComponentException)
 
         result = yield component.start()
-        self.failUnlessEqual([(result[0][0], result[0][1].value)],
-                             [(defer.FAILURE,
-                               component.ComponentException('Trying to start component "%s" but it is '
-                                                            'not in a stopped state. Current state: %s' %
-                                                            ('test_pause_c1', 'Paused'), ''))])
+        self.assertEqual(
+            [(result[0][0], result[0][1].value)],
+            [(defer.FAILURE,
+                component.ComponentException(
+                    'Trying to start component "%s" but it is '
+                    'not in a stopped state. Current state: %s' %
+                    ('test_pause_c1', 'Paused'), ''))])
 
     def test_shutdown(self):
         def on_shutdown(result, c1):
             self.assertTrue(c1.shutdowned)
-            self.assertEquals(c1._component_state, 'Stopped')
-            self.assertEquals(c1.stop_count, 1)
+            self.assertEqual(c1._component_state, 'Stopped')
+            self.assertEqual(c1.stop_count, 1)
 
         def on_start(result, c1):
             d = component.shutdown()

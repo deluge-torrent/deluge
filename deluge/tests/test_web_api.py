@@ -38,7 +38,7 @@ class WebAPITestCase(WebServerTestBase):
         d = self.deluge_web.web_api.connect(self.host_id)
 
         def on_connect(result):
-            self.assertEquals(type(result), tuple)
+            self.assertEqual(type(result), tuple)
             self.assertTrue(len(result) > 0)
             self.addCleanup(client.disconnect)
             return result
@@ -62,7 +62,7 @@ class WebAPITestCase(WebServerTestBase):
 
     def test_get_config(self):
         config = self.deluge_web.web_api.get_config()
-        self.assertEquals(self.webserver_listen_port, config['port'])
+        self.assertEqual(self.webserver_listen_port, config['port'])
 
     def test_set_config(self):
         config = self.deluge_web.web_api.get_config()
@@ -87,35 +87,35 @@ class WebAPITestCase(WebServerTestBase):
         host[3] = 'Online'
         host[4] = '2.0.0.dev562'
         status = yield self.deluge_web.web_api.get_host_status(self.host_id)
-        self.assertEquals(status, tuple(status))
+        self.assertEqual(status, tuple(status))
 
     def test_get_host(self):
         self.assertFalse(self.deluge_web.web_api._get_host('invalid_id'))
         conn = self.deluge_web.web_api.host_list['hosts'][0]
-        self.assertEquals(self.deluge_web.web_api._get_host(conn[0]), conn)
+        self.assertEqual(self.deluge_web.web_api._get_host(conn[0]), conn)
 
     def test_add_host(self):
         conn = [None, '', 0, '', '']
         self.assertFalse(self.deluge_web.web_api._get_host(conn[0]))
         # Add valid host
         ret = self.deluge_web.web_api.add_host(conn[1], conn[2], conn[3], conn[4])
-        self.assertEquals(ret[0], True)
+        self.assertEqual(ret[0], True)
         conn[0] = ret[1]
-        self.assertEquals(self.deluge_web.web_api._get_host(conn[0]), conn)
+        self.assertEqual(self.deluge_web.web_api._get_host(conn[0]), conn)
 
         # Add already existing host
         ret = self.deluge_web.web_api.add_host(conn[1], conn[2], conn[3], conn[4])
-        self.assertEquals(ret, (False, 'Host already in the list'))
+        self.assertEqual(ret, (False, 'Host already in the list'))
 
         # Add invalid port
         conn[2] = 'bad port'
         ret = self.deluge_web.web_api.add_host(conn[1], conn[2], conn[3], conn[4])
-        self.assertEquals(ret, (False, 'Port is invalid'))
+        self.assertEqual(ret, (False, 'Port is invalid'))
 
     def test_remove_host(self):
         conn = ['connection_id', '', 0, '', '']
         self.deluge_web.web_api.host_list['hosts'].append(conn)
-        self.assertEquals(self.deluge_web.web_api._get_host(conn[0]), conn)
+        self.assertEqual(self.deluge_web.web_api._get_host(conn[0]), conn)
         # Remove valid host
         self.assertTrue(self.deluge_web.web_api.remove_host(conn[0]))
         self.assertFalse(self.deluge_web.web_api._get_host(conn[0]))
@@ -125,14 +125,14 @@ class WebAPITestCase(WebServerTestBase):
     def test_get_torrent_info(self):
         filename = common.get_test_data_file('test.torrent')
         ret = self.deluge_web.web_api.get_torrent_info(filename)
-        self.assertEquals(ret['name'], 'azcvsupdater_2.6.2.jar')
-        self.assertEquals(ret['info_hash'], 'ab570cdd5a17ea1b61e970bb72047de141bce173')
+        self.assertEqual(ret['name'], 'azcvsupdater_2.6.2.jar')
+        self.assertEqual(ret['info_hash'], 'ab570cdd5a17ea1b61e970bb72047de141bce173')
         self.assertTrue('files_tree' in ret)
 
     def test_get_magnet_info(self):
         ret = self.deluge_web.web_api.get_magnet_info('magnet:?xt=urn:btih:SU5225URMTUEQLDXQWRB2EQWN6KLTYKN')
-        self.assertEquals(ret['name'], '953bad769164e8482c7785a21d12166f94b9e14d')
-        self.assertEquals(ret['info_hash'], '953bad769164e8482c7785a21d12166f94b9e14d')
+        self.assertEqual(ret['name'], '953bad769164e8482c7785a21d12166f94b9e14d')
+        self.assertEqual(ret['info_hash'], '953bad769164e8482c7785a21d12166f94b9e14d')
         self.assertTrue('files_tree' in ret)
 
     @defer.inlineCallbacks
@@ -142,10 +142,12 @@ class WebAPITestCase(WebServerTestBase):
         torrents = [{'path': filename, 'options': {'download_location': '/home/deluge/'}}]
         yield self.deluge_web.web_api.add_torrents(torrents)
         ret = yield self.deluge_web.web_api.get_torrent_files('ab570cdd5a17ea1b61e970bb72047de141bce173')
-        self.assertEquals(ret['type'], 'dir')
-        self.assertEquals(ret['contents'], {'azcvsupdater_2.6.2.jar':
-                                            {'priority': 4, 'index': 0, 'offset': 0, 'progress': 0.0, 'path':
-                                             'azcvsupdater_2.6.2.jar', 'type': 'file', 'size': 307949}})
+        self.assertEqual(ret['type'], 'dir')
+        self.assertEqual(
+            ret['contents'], {
+                'azcvsupdater_2.6.2.jar': {
+                    'priority': 4, 'index': 0, 'offset': 0, 'progress': 0.0, 'path':
+                    'azcvsupdater_2.6.2.jar', 'type': 'file', 'size': 307949}})
 
     @defer.inlineCallbacks
     def test_download_torrent_from_url(self):

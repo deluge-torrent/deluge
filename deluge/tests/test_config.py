@@ -26,25 +26,25 @@ class ConfigTestCase(unittest.TestCase):
 
     def test_init(self):
         config = Config('test.conf', defaults=DEFAULTS, config_dir=self.config_dir)
-        self.assertEquals(DEFAULTS, config.config)
+        self.assertEqual(DEFAULTS, config.config)
 
         config = Config('test.conf', config_dir=self.config_dir)
-        self.assertEquals({}, config.config)
+        self.assertEqual({}, config.config)
 
     def test_set_get_item(self):
         config = Config('test.conf', config_dir=self.config_dir)
         config['foo'] = 1
-        self.assertEquals(config['foo'], 1)
+        self.assertEqual(config['foo'], 1)
         self.assertRaises(ValueError, config.set_item, 'foo', 'bar')
 
         config['foo'] = 2
-        self.assertEquals(config.get_item('foo'), 2)
+        self.assertEqual(config.get_item('foo'), 2)
 
         config['foo'] = '3'
-        self.assertEquals(config.get_item('foo'), 3)
+        self.assertEqual(config.get_item('foo'), 3)
 
         config['unicode'] = 'ВИДЕОФИЛЬМЫ'
-        self.assertEquals(config['unicode'], 'ВИДЕОФИЛЬМЫ')
+        self.assertEqual(config['unicode'], 'ВИДЕОФИЛЬМЫ')
 
         config['unicode'] = b'foostring'
         self.assertFalse(isinstance(config.get_item('unicode'), bytes))
@@ -59,7 +59,7 @@ class ConfigTestCase(unittest.TestCase):
         self.assertIsInstance(config['foo'], type(None))
 
         config['foo'] = 1
-        self.assertEquals(config.get('foo'), 1)
+        self.assertEqual(config.get('foo'), 1)
 
         config['foo'] = None
         self.assertIsNone(config['foo'])
@@ -75,18 +75,18 @@ class ConfigTestCase(unittest.TestCase):
     def test_get(self):
         config = Config('test.conf', config_dir=self.config_dir)
         config['foo'] = 1
-        self.assertEquals(config.get('foo'), 1)
-        self.assertEquals(config.get('foobar'), None)
-        self.assertEquals(config.get('foobar', 2), 2)
+        self.assertEqual(config.get('foo'), 1)
+        self.assertEqual(config.get('foobar'), None)
+        self.assertEqual(config.get('foobar', 2), 2)
         config['foobar'] = 5
-        self.assertEquals(config.get('foobar', 2), 5)
+        self.assertEqual(config.get('foobar', 2), 5)
 
     def test_load(self):
         def check_config():
             config = Config('test.conf', config_dir=self.config_dir)
 
-            self.assertEquals(config['string'], 'foobar')
-            self.assertEquals(config['float'], 0.435)
+            self.assertEqual(config['string'], 'foobar')
+            self.assertEqual(config['float'], 0.435)
 
         # Test loading an old config from 1.1.x
         import pickle
@@ -135,8 +135,8 @@ class ConfigTestCase(unittest.TestCase):
         del config
 
         config = Config('test.conf', defaults=DEFAULTS, config_dir=self.config_dir)
-        self.assertEquals(config['string'], 'baz')
-        self.assertEquals(config['int'], 2)
+        self.assertEqual(config['string'], 'baz')
+        self.assertEqual(config['int'], 2)
 
     def test_save_timer(self):
         self.clock = task.Clock()
@@ -154,8 +154,8 @@ class ConfigTestCase(unittest.TestCase):
             self.assertTrue(not config._save_timer.active())
             del config
             config = Config('test.conf', defaults=DEFAULTS, config_dir=self.config_dir)
-            self.assertEquals(config['string'], 'baz')
-            self.assertEquals(config['int'], 2)
+            self.assertEqual(config['string'], 'baz')
+            self.assertEqual(config['int'], 2)
 
         check_config(config)
 
@@ -172,4 +172,4 @@ class ConfigTestCase(unittest.TestCase):
         from deluge.config import find_json_objects
 
         objects = find_json_objects(s)
-        self.assertEquals(len(objects), 2)
+        self.assertEqual(len(objects), 2)

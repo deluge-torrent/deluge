@@ -59,24 +59,24 @@ class RPCServerTestCase(BaseTestCase):
         e = TorrentFolderRenamedEvent(*data)
         self.rpcserver.emit_event_for_session_id(self.session_id, e)
         msg = self.protocol.messages.pop()
-        self.assertEquals(msg[0], rpcserver.RPC_EVENT, str(msg))
-        self.assertEquals(msg[1], 'TorrentFolderRenamedEvent', str(msg))
-        self.assertEquals(msg[2], data, str(msg))
+        self.assertEqual(msg[0], rpcserver.RPC_EVENT, str(msg))
+        self.assertEqual(msg[1], 'TorrentFolderRenamedEvent', str(msg))
+        self.assertEqual(msg[2], data, str(msg))
 
     def test_invalid_client_login(self):
         self.protocol.dispatch(self.request_id, 'daemon.login', [1], {})
         msg = self.protocol.messages.pop()
-        self.assertEquals(msg[0], rpcserver.RPC_ERROR)
-        self.assertEquals(msg[1], self.request_id)
+        self.assertEqual(msg[0], rpcserver.RPC_ERROR)
+        self.assertEqual(msg[1], self.request_id)
 
     def test_valid_client_login(self):
         self.authmanager = AuthManager()
         auth = get_localhost_auth()
         self.protocol.dispatch(self.request_id, 'daemon.login', auth, {'client_version': 'Test'})
         msg = self.protocol.messages.pop()
-        self.assertEquals(msg[0], rpcserver.RPC_RESPONSE, str(msg))
-        self.assertEquals(msg[1], self.request_id, str(msg))
-        self.assertEquals(msg[2], rpcserver.AUTH_LEVEL_ADMIN, str(msg))
+        self.assertEqual(msg[0], rpcserver.RPC_RESPONSE, str(msg))
+        self.assertEqual(msg[1], self.request_id, str(msg))
+        self.assertEqual(msg[2], rpcserver.AUTH_LEVEL_ADMIN, str(msg))
 
     def test_client_login_error(self):
         # This test causes error log prints while running the test...
@@ -85,24 +85,24 @@ class RPCServerTestCase(BaseTestCase):
         auth = get_localhost_auth()
         self.protocol.dispatch(self.request_id, 'daemon.login', auth, {'client_version': 'Test'})
         msg = self.protocol.messages.pop()
-        self.assertEquals(msg[0], rpcserver.RPC_ERROR)
-        self.assertEquals(msg[1], self.request_id)
-        self.assertEquals(msg[2], 'WrappedException')
-        self.assertEquals(msg[3][1], 'AttributeError')
+        self.assertEqual(msg[0], rpcserver.RPC_ERROR)
+        self.assertEqual(msg[1], self.request_id)
+        self.assertEqual(msg[2], 'WrappedException')
+        self.assertEqual(msg[3][1], 'AttributeError')
 
     def test_client_invalid_method_call(self):
         self.authmanager = AuthManager()
         auth = get_localhost_auth()
         self.protocol.dispatch(self.request_id, 'invalid_function', auth, {})
         msg = self.protocol.messages.pop()
-        self.assertEquals(msg[0], rpcserver.RPC_ERROR)
-        self.assertEquals(msg[1], self.request_id)
-        self.assertEquals(msg[2], 'WrappedException')
-        self.assertEquals(msg[3][1], 'AttributeError')
+        self.assertEqual(msg[0], rpcserver.RPC_ERROR)
+        self.assertEqual(msg[1], self.request_id)
+        self.assertEqual(msg[2], 'WrappedException')
+        self.assertEqual(msg[3][1], 'AttributeError')
 
     def test_daemon_info(self):
         self.protocol.dispatch(self.request_id, 'daemon.info', [], {})
         msg = self.protocol.messages.pop()
-        self.assertEquals(msg[0], rpcserver.RPC_RESPONSE, str(msg))
-        self.assertEquals(msg[1], self.request_id, str(msg))
-        self.assertEquals(msg[2], deluge.common.get_version(), str(msg))
+        self.assertEqual(msg[0], rpcserver.RPC_RESPONSE, str(msg))
+        self.assertEqual(msg[1], self.request_id, str(msg))
+        self.assertEqual(msg[2], deluge.common.get_version(), str(msg))

@@ -28,7 +28,7 @@ class AlertManagerTestCase(BaseTestCase):
             return
 
         self.am.register_handler('dummy_alert', handler)
-        self.assertEquals(self.am.handlers['dummy_alert'], [handler])
+        self.assertEqual(self.am.handlers['dummy_alert'], [handler])
 
     def test_deregister_handler(self):
         def handler(alert):
@@ -36,4 +36,4 @@ class AlertManagerTestCase(BaseTestCase):
 
         self.am.register_handler('dummy_alert', handler)
         self.am.deregister_handler(handler)
-        self.assertEquals(self.am.handlers['dummy_alert'], [])
+        self.assertEqual(self.am.handlers['dummy_alert'], [])
