@@ -62,13 +62,13 @@ class MainWindow(component.Component):
             self.screen = wnck.screen_get_default()
         component.Component.__init__(self, 'MainWindow', interval=2)
         self.config = ConfigManager('gtkui.conf')
-        self.gtk_builder_signals_holder = _GtkBuilderSignalsHolder()
         self.main_builder = gtk.Builder()
+
         # Patch this GtkBuilder to avoid connecting signals from elsewhere
         #
-        # Think about splitting up the main window gtkbuilder file into the necessary parts
-        # in order not to have to monkey patch GtkBuilder. Those parts would then need to
-        # be added to the main window "by hand".
+        # Think about splitting up  mainwindow gtkbuilder file into the necessary parts
+        # to avoid GtkBuilder monkey patch. Those parts would then need adding to mainwindow 'by hand'.
+        self.gtk_builder_signals_holder = _GtkBuilderSignalsHolder()
         self.main_builder.prev_connect_signals = copy.deepcopy(self.main_builder.connect_signals)
 
         def patched_connect_signals(*a, **k):
@@ -77,27 +77,23 @@ class MainWindow(component.Component):
         self.main_builder.connect_signals = patched_connect_signals
 
         # Get Gtk Builder files Main Window, New release dialog, and Tabs.
-        self.main_builder.add_from_file(resource_filename('deluge.ui.gtkui', os.path.join(
-            'glade', 'main_window.ui')))
-        self.main_builder.add_from_file(resource_filename('deluge.ui.gtkui', os.path.join(
-            'glade', 'main_window.new_release.ui')))
-        self.main_builder.add_from_file(resource_filename('deluge.ui.gtkui', os.path.join(
-            'glade', 'main_window.tabs.ui')))
-        self.main_builder.add_from_file(resource_filename('deluge.ui.gtkui', os.path.join(
-            'glade', 'main_window.tabs.menu_file.ui')))
-        self.main_builder.add_from_file(resource_filename('deluge.ui.gtkui', os.path.join(
-            'glade', 'main_window.tabs.menu_peer.ui')))
+        for filename in ('main_window.ui', 'main_window.new_release.ui', 'main_window.tabs.ui',
+                         'main_window.tabs.menu_file.ui', 'main_window.tabs.menu_peer.ui'):
+            self.main_builder.add_from_file(
+                resource_filename('deluge.ui.gtkui', os.path.join('glade', filename)))
 
         self.window = self.main_builder.get_object('main_window')
         self.window.set_icon(deluge.ui.gtkui.common.get_deluge_icon())
         self.vpaned = self.main_builder.get_object('vpaned')
         self.initial_vpaned_position = self.config['window_pane_position']
 
+        # Keep a list of components to pause and resume when changing window state.
+        self.child_components = ['TorrentView', 'StatusBar', 'TorrentDetails']
+
         # Load the window state
         self.load_window_state()
 
-        # Keep track of window's minimization state so that we don't update the
-        # UI when it is minimized.
+        # Keep track of window minimization state so we don't update UI when it is minimized.
         self.is_minimized = False
         self.restart = False
 
@@ -119,9 +115,8 @@ class MainWindow(component.Component):
         self.gtk_builder_signals_holder.connect_signals(mapping_or_class)
 
     def first_show(self):
-        if not(self.config['start_in_tray'] and
-               self.config['enable_system_tray']) and not \
-                self.window.get_property('visible'):
+        if not(self.config['start_in_tray'] and self.config['enable_system_tray']
+               ) and not self.window.get_property('visible'):
             log.debug('Showing window')
             self.main_builder.prev_connect_signals(self.gtk_builder_signals_holder)
             self.vpaned.set_position(self.initial_vpaned_position)
@@ -130,42 +125,27 @@ class MainWindow(component.Component):
                 gtk.main_iteration()
 
     def show(self):
-        try:
-            component.resume('TorrentView')
-            component.resume('StatusBar')
-            component.resume('TorrentDetails')
-        except Exception:
-            pass
+        component.resume(self.child_components)
         self.window.show()
 
     def hide(self):
-        component.pause('TorrentView')
         component.get('TorrentView').save_state()
-        component.pause('StatusBar')
-        component.pause('TorrentDetails')
+        component.pause(self.child_components)
+
         # Store the x, y positions for when we restore the window
-        self.window_x_pos = self.window.get_position()[0]
-        self.window_y_pos = self.window.get_position()[1]
+        self.window_x_pos, self.window_y_pos = self.window.get_position()
         self.window.hide()
 
     def present(self):
         def restore():
             # Restore the proper x,y coords for the window prior to showing it
-            try:
-                if self.window_x_pos == -32000 or self.window_y_pos == -32000:
-                    self.config['window_x_pos'] = 0
-                    self.config['window_y_pos'] = 0
-                else:
-                    self.config['window_x_pos'] = self.window_x_pos
-                    self.config['window_y_pos'] = self.window_y_pos
-            except Exception:
-                pass
-            try:
-                component.resume('TorrentView')
-                component.resume('StatusBar')
-                component.resume('TorrentDetails')
-            except Exception:
-                pass
+            if self.window_x_pos == -32000 or self.window_y_pos == -32000:
+                self.config['window_x_pos'] = self.config['window_y_pos'] = 0
+            else:
+                self.config['window_x_pos'] = self.window_x_pos
+                self.config['window_y_pos'] = self.window_y_pos
+
+            component.resume(self.child_components)
 
             self.window.present()
             self.load_window_state()
@@ -229,19 +209,14 @@ class MainWindow(component.Component):
             quit_gtkui()
 
     def load_window_state(self):
-        x = self.config['window_x_pos']
-        y = self.config['window_y_pos']
-        w = self.config['window_width']
-        h = self.config['window_height']
-        self.window.move(x, y)
-        self.window.resize(w, h)
+        self.window.move(self.config['window_x_pos'], self.config['window_y_pos'])
+        self.window.resize(self.config['window_width'], self.config['window_height'])
         if self.config['window_maximized']:
             self.window.maximize()
 
     def on_window_configure_event(self, widget, event):
         if not self.config['window_maximized'] and self.visible:
-            self.config['window_x_pos'] = self.window.get_position()[0]
-            self.config['window_y_pos'] = self.window.get_position()[1]
+            self.config['window_x_pos'], self.config['window_y_pos'] = self.window.get_position()
             self.config['window_width'] = event.width
             self.config['window_height'] = event.height
 
@@ -255,16 +230,12 @@ class MainWindow(component.Component):
         if event.changed_mask & WINDOW_STATE_ICONIFIED:
             if event.new_window_state & WINDOW_STATE_ICONIFIED:
                 log.debug('MainWindow is minimized..')
-                component.pause('TorrentView')
-                component.pause('StatusBar')
+                component.get('TorrentView').save_state()
+                component.pause(self.child_components)
                 self.is_minimized = True
             else:
                 log.debug('MainWindow is not minimized..')
-                try:
-                    component.resume('TorrentView')
-                    component.resume('StatusBar')
-                except Exception:
-                    pass
+                component.resume(self.child_components)
                 self.is_minimized = False
         return False
 
@@ -300,8 +271,9 @@ class MainWindow(component.Component):
             upload_rate = fspeed(status['payload_upload_rate'], precision=0, shortform=True)
             self.window.set_title(_('D: %s U: %s - Deluge' % (download_rate, upload_rate)))
         if self.config['show_rate_in_title']:
-            client.core.get_session_status(['payload_download_rate',
-                                            'payload_upload_rate']).addCallback(_on_get_session_status)
+            client.core.get_session_status(
+                ['payload_download_rate', 'payload_upload_rate']
+                ).addCallback(_on_get_session_status)
 
     def _on_set_show_rate_in_title(self, key, value):
         if value:
