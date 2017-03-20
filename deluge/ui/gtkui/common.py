@@ -17,8 +17,8 @@ import shutil
 import sys
 
 from gobject import GError
-from gtk import SORT_ASCENDING, Menu, MenuItem, RadioMenuItem, SeparatorMenuItem, icon_theme_get_default
-from gtk.gdk import COLORSPACE_RGB, Pixbuf, pixbuf_new_from_file, pixbuf_new_from_file_at_size
+from gtk import SORT_ASCENDING, Menu, MenuItem, RadioMenuItem, SeparatorMenuItem, clipboard_get, icon_theme_get_default
+from gtk.gdk import COLORSPACE_RGB, SELECTION_PRIMARY, Pixbuf, pixbuf_new_from_file, pixbuf_new_from_file_at_size
 
 from deluge.common import get_pixmap, osx_check, windows_check
 
@@ -323,3 +323,8 @@ def listview_replace_treestore(listview):
 
     listview.set_model(treestore)
     listview.thaw_child_notify()
+
+
+def get_clipboard_text():
+    text = clipboard_get(selection=SELECTION_PRIMARY).wait_for_text() or clipboard_get().wait_for_text()
+    return text.strip()

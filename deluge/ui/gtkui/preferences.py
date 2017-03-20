@@ -24,7 +24,7 @@ from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.error import AuthManagerError, NotAuthorizedError
 from deluge.ui.client import client
 from deluge.ui.common import DISK_CACHE_KEYS
-from deluge.ui.gtkui.common import associate_magnet_links, get_deluge_icon
+from deluge.ui.gtkui.common import associate_magnet_links, get_clipboard_text, get_deluge_icon
 from deluge.ui.gtkui.dialogs import AccountDialog, ErrorDialog, InformationDialog, YesNoDialog
 from deluge.ui.gtkui.path_chooser import PathChooser
 from deluge.ui.translations_util import get_languages
@@ -954,7 +954,7 @@ class Preferences(component.Component):
                 self.builder.get_object(entry).hide()
 
     def on_entry_proxy_host_paste_clipboard(self, widget):
-        text = gtk.clipboard_get().wait_for_text().strip()
+        text = get_clipboard_text()
         log.debug('on_entry_proxy_host_paste-clipboard: got paste: %s', text)
         text = text if '//' in text else '//' + text
         parsed = urlparse(text)

@@ -23,7 +23,7 @@ from deluge.configmanager import ConfigManager
 from deluge.httpdownloader import download_file
 from deluge.ui.client import client
 from deluge.ui.common import TorrentInfo
-from deluge.ui.gtkui.common import listview_replace_treestore, reparent_iter
+from deluge.ui.gtkui.common import get_clipboard_text, listview_replace_treestore, reparent_iter
 from deluge.ui.gtkui.dialogs import ErrorDialog
 from deluge.ui.gtkui.edittrackersdialog import trackers_tiers_from_text
 from deluge.ui.gtkui.path_chooser import PathChooser
@@ -559,12 +559,9 @@ class AddTorrentDialog(component.Component):
         dialog.set_transient_for(self.dialog)
         entry.grab_focus()
 
-        text = (gtk.clipboard_get(selection='PRIMARY').wait_for_text() or
-                gtk.clipboard_get().wait_for_text())
-        if text:
-            text = text.strip()
-            if deluge.common.is_url(text) or deluge.common.is_magnet(text):
-                entry.set_text(text)
+        text = get_clipboard_text()
+        if text and deluge.common.is_url(text) or deluge.common.is_magnet(text):
+            entry.set_text(text)
 
         dialog.show_all()
         response = dialog.run()
@@ -646,8 +643,7 @@ class AddTorrentDialog(component.Component):
         dialog.set_transient_for(self.dialog)
         entry.grab_focus()
 
-        text = (gtk.clipboard_get(selection='PRIMARY').wait_for_text() or
-                gtk.clipboard_get().wait_for_text()).strip()
+        text = get_clipboard_text()
         if deluge.common.is_infohash(text):
             entry.set_text(text)
 
