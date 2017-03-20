@@ -479,8 +479,6 @@ class Torrent(object):
             file_priorities (list of int): List of file priorities.
         """
 
-        torrent_fprios = self.handle.file_priorities()
-
         if log.isEnabledFor(logging.DEBUG):
             log.debug('Setting %s file priorities to: %s', self.torrent_id, file_priorities)
 
@@ -489,7 +487,7 @@ class Torrent(object):
             self.handle.prioritize_files(file_priorities)
         else:
             log.debug('Unable to set new file priorities.')
-            file_priorities = torrent_fprios
+            file_priorities = self.handle.file_priorities()
 
         if 0 in self.options['file_priorities']:
             # Previously marked a file 'Do Not Download' so check if changed any 0's to >0.
@@ -501,7 +499,7 @@ class Torrent(object):
                     break
 
         # Ensure stored options are in sync in case file_priorities were faulty (old state?).
-        self.options['file_priorities'] = torrent_fprios
+        self.options['file_priorities'] = self.handle.file_priorities()
 
         # Set the first/last priorities if needed.
         if self.options['prioritize_first_last_pieces']:
