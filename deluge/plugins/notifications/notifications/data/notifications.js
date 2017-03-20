@@ -380,7 +380,7 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
 
         config['smtp_enabled'] = this.chkEnableEmail.getValue();
         config['smtp_host'] = this.hBoxHost.getComponent(1).getValue();
-        config['smtp_port'] = this.hBoxPort.getComponent(1).getValue();
+        config['smtp_port'] = Number(this.hBoxPort.getComponent(1).getValue());
         config['smtp_user'] = this.hBoxUser.getComponent(1).getValue();
         config['smtp_pass'] = this.hBoxPassword.getComponent(1).getValue();
         config['smtp_from'] = this.hBoxFrom.getComponent(1).getValue();
