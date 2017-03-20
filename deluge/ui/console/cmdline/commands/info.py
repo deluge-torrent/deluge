@@ -58,7 +58,8 @@ STATUS_KEYS = [
     'all_time_download',
     'total_uploaded',
     'total_payload_download',
-    'total_payload_upload'
+    'total_payload_upload',
+    'time_added'
 ]
 
 # Add filter specific state to torrent states
