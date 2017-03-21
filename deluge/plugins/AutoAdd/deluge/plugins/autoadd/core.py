@@ -28,6 +28,7 @@ import deluge.configmanager
 from deluge._libtorrent import lt
 from deluge.common import AUTH_LEVEL_ADMIN, is_magnet
 from deluge.core.rpcserver import export
+from deluge.error import AddTorrentError
 from deluge.event import DelugeEvent
 from deluge.plugins.pluginbase import CorePluginBase
 
@@ -277,13 +278,18 @@ class Core(CorePluginBase):
                         self.invalid_torrents[filename] = 1
                     continue
 
-                # The torrent looks good, so lets add it to the session.
-                if magnet:
-                    torrent_id = component.get('Core').add_torrent_magnet(
-                        filedump.strip(), options)
-                else:
-                    torrent_id = component.get('Core').add_torrent_file(
-                        filename, base64.encodestring(filedump), options)
+                try:
+                    # The torrent looks good, so lets add it to the session.
+                    if magnet:
+                        torrent_id = component.get('Core').add_torrent_magnet(
+                            filedump.strip(), options)
+                    else:
+                        torrent_id = component.get('Core').add_torrent_file(
+                            filename, base64.encodestring(filedump), options)
+                except AddTorrentError as ex:
+                    log.error(ex)
+                    os.rename(filepath, filepath + '.invalid')
+                    continue
 
                 # If the torrent added successfully, set the extra options.
                 if torrent_id:
