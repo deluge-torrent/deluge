@@ -13,6 +13,7 @@ import base64
 import logging
 import os
 from xml.sax.saxutils import escape as xml_escape
+from xml.sax.saxutils import unescape as xml_unescape
 
 import gtk
 from gobject import TYPE_INT64, TYPE_UINT64
@@ -702,7 +703,7 @@ class AddTorrentDialog(component.Component):
         row = self.torrent_liststore.get_iter_first()
         while row is not None:
             torrent_id = self.torrent_liststore.get_value(row, 0)
-            filename = self.torrent_liststore.get_value(row, 2)
+            filename = xml_unescape(self.torrent_liststore.get_value(row, 2))
             try:
                 options = self.options[torrent_id]
             except KeyError:
