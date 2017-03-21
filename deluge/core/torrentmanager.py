@@ -392,8 +392,8 @@ class TorrentManager(component.Component):
             add_torrent_params['flags'] |= lt.add_torrent_params_flags_t.flag_seed_mode
 
         d = Deferred()
+        self.torrents_loading[torrent_id] = (d, options, state, filename, magnet, resume_data, filedump, save_state)
         try:
-            self.torrents_loading[torrent_id] = (d, options, state, filename, magnet, resume_data, filedump, save_state)
             self.session.async_add_torrent(add_torrent_params)
         except RuntimeError as ex:
             raise AddTorrentError('Unable to add torrent to session: %s' % ex)
@@ -892,7 +892,12 @@ class TorrentManager(component.Component):
             log.warn('Failed to get torrent id from handle: %s', ex)
             return
 
-        d, options, state, filename, magnet, resume_data, filedump, save_state = self.torrents_loading.pop(torrent_id)
+        try:
+            (d, options, state, filename, magnet, resume_data, filedump,
+                save_state) = self.torrents_loading.pop(torrent_id)
+        except KeyError as ex:
+            log.warn('Torrent id not in torrents loading list: %s', ex)
+            return
 
         # Create a Torrent object and add to the dictionary.
         torrent = Torrent(alert.handle, options, state, filename, magnet)
