@@ -1193,7 +1193,7 @@ class Torrent(object):
         self.set_file_priorities([])
         if filedump is None:
             metadata = lt.bdecode(self.torrent_info.metadata())
-            torrent_file = {'info': metadata}
+            torrent_file = {b'info': metadata}
             filedump = lt.bencode(torrent_file)
         write_file(filepath, filedump)
 
