@@ -149,26 +149,23 @@ class Core(CorePluginBase):
         component.get('EventManager').emit(AutoaddOptionsChangedEvent())
 
     def load_torrent(self, filename, magnet):
+        log.debug('Attempting to open %s for add.', filename)
+        file_mode = 'r' if magnet else 'rb'
         try:
-            log.debug('Attempting to open %s for add.', filename)
-            if magnet:
-                with open(filename, 'r') as _file:
-                    filedump = _file.read()
-            else:
-                with open(filename, 'rb') as _file:
-                    filedump = _file.read()
-
-            if not filedump:
-                raise RuntimeError('Torrent is 0 bytes!')
+            with open(filename, file_mode) as _file:
+                filedump = _file.read()
         except IOError as ex:
             log.warning('Unable to open %s: %s', filename, ex)
             raise ex
+
+        if not filedump:
+            raise EOFError('Torrent is 0 bytes!')
 
         # Get the info to see if any exceptions are raised
         if not magnet:
             lt.torrent_info(lt.bdecode(filedump))
 
-        return base64.encodestring(filedump)
+        return filedump
 
     def split_magnets(self, filename):
         log.debug('Attempting to open %s for splitting magnets.', filename)
@@ -220,7 +217,7 @@ class Core(CorePluginBase):
             return
 
         # Generate options dict for watchdir
-        opts = {}
+        options = {}
         if 'stop_at_ratio_toggle' in watchdir:
             watchdir['stop_ratio_toggle'] = watchdir['stop_at_ratio_toggle']
         # We default to True when reading _toggle values, so a config
@@ -228,7 +225,7 @@ class Core(CorePluginBase):
         for option, value in watchdir.items():
             if OPTIONS_AVAILABLE.get(option):
                 if watchdir.get(option + '_toggle', True) or option in ['owner', 'seed_mode']:
-                    opts[option] = value
+                    options[option] = value
 
         # Check for .magnet files containing multiple magnet links and
         # create a new .magnet file for each of them.
@@ -255,27 +252,22 @@ class Core(CorePluginBase):
                 continue
             else:
                 ext = os.path.splitext(filename)[1].lower()
-                if ext == '.torrent':
-                    magnet = False
-                elif ext == '.magnet':
-                    magnet = True
-                else:
+                magnet = ext == '.magnet'
+                if not magnet and not ext == '.torrent':
                     log.debug('File checked for auto-loading is invalid: %s', filename)
                     continue
+
                 try:
                     filedump = self.load_torrent(filepath, magnet)
-                except (RuntimeError, Exception) as ex:
-                    # If the torrent is invalid, we keep track of it so that we
-                    # can try again on the next pass.  This is because some
-                    # torrents may not be fully saved during the pass.
+                except (IOError, EOFError) as ex:
+                    # If torrent is invalid, keep track of it so can try again on the next pass.
+                    # This catches torrent files that may not be fully saved to disk at load time.
                     log.debug('Torrent is invalid: %s', ex)
                     if filename in self.invalid_torrents:
                         self.invalid_torrents[filename] += 1
                         if self.invalid_torrents[filename] >= MAX_NUM_ATTEMPTS:
-                            log.warning(
-                                'Maximum attempts reached while trying to add the '
-                                'torrent file with the path %s', filepath
-                            )
+                            log.warning('Maximum attempts reached while trying to add the '
+                                        'torrent file with the path %s', filepath)
                             os.rename(filepath, filepath + '.invalid')
                             del self.invalid_torrents[filename]
                     else:
@@ -284,9 +276,11 @@ class Core(CorePluginBase):
 
                 # The torrent looks good, so lets add it to the session.
                 if magnet:
-                    torrent_id = component.get('Core').add_torrent_magnet(filedump, opts)
+                    torrent_id = component.get('Core').add_torrent_magnet(
+                        filedump, options)
                 else:
-                    torrent_id = component.get('Core').add_torrent_file(filename, filedump, opts)
+                    torrent_id = component.get('Core').add_torrent_file(
+                        filename, base64.encodestring(filedump), options)
 
                 # If the torrent added successfully, set the extra options.
                 if torrent_id:
