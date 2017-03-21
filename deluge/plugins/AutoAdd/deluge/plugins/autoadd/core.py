@@ -26,7 +26,7 @@ from twisted.internet.task import LoopingCall, deferLater
 import deluge.component as component
 import deluge.configmanager
 from deluge._libtorrent import lt
-from deluge.common import AUTH_LEVEL_ADMIN
+from deluge.common import AUTH_LEVEL_ADMIN, is_magnet
 from deluge.core.rpcserver import export
 from deluge.event import DelugeEvent
 from deluge.plugins.pluginbase import CorePluginBase
@@ -172,26 +172,29 @@ class Core(CorePluginBase):
         magnets = []
         try:
             with open(filename, 'r') as _file:
-                for line in _file:
-                    line = line.strip()
-                    if line:
-                        magnets.append(line)
+                magnets = list(filter(len, _file.read().splitlines()))
         except IOError as ex:
             log.warning('Unable to open %s: %s', filename, ex)
 
         if len(magnets) < 2:
             return []
 
-        n = 0
         path = filename.rsplit(os.sep, 1)[0]
         for magnet in magnets:
+            if not is_magnet(magnet):
+                log.warning('Found line which is not a magnet: %s', magnet)
+                continue
+
             for part in magnet.split('&'):
                 if part.startswith('dn='):
-                    mname = os.sep.join([path, part[3:] + '.magnet'])
-                    break
+                    name = part[3:].strip()
+                    if name:
+                        mname = os.sep.join([path, name + '.magnet'])
+                        break
             else:
-                mname = '.'.join([filename, str(n), 'magnet'])
-                n += 1
+                short_hash = magnet.split('btih:')[1][:8]
+                mname = '.'.join([os.path.splitext(filename)[0], short_hash, 'magnet'])
+
             try:
                 with open(mname, 'w') as _mfile:
                     _mfile.write(magnet)
@@ -277,7 +280,7 @@ class Core(CorePluginBase):
                 # The torrent looks good, so lets add it to the session.
                 if magnet:
                     torrent_id = component.get('Core').add_torrent_magnet(
-                        filedump, options)
+                        filedump.strip(), options)
                 else:
                     torrent_id = component.get('Core').add_torrent_file(
                         filename, base64.encodestring(filedump), options)

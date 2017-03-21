@@ -334,7 +334,7 @@ class TorrentManager(component.Component):
         elif magnet:
             magnet_info = get_magnet_info(magnet)
             if magnet_info:
-                add_torrent_params['url'] = magnet.encode('utf8')
+                add_torrent_params['url'] = magnet.strip().encode('utf8')
                 add_torrent_params['name'] = magnet_info['name']
                 torrent_id = magnet_info['info_hash']
             else:
