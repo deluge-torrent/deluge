@@ -66,32 +66,34 @@ def check_missing_markup(js_dir):
     return strings
 
 
+GETTEXT_TPL = (
+    'GetText={maps:{},'
+    'add:function(string,translation){this.maps[string]=translation},'
+    'get:function(string){if (this.maps[string]){string=this.maps[string]} return string}};'
+    'function _(string){return GetText.get(string)}')
+
+
 def create_gettext_js(js_dir):
     string_re = re.compile('_\\(\'(.*?)\'\\)')
     strings = {}
     for root, dnames, files in os.walk(js_dir):
         for filename in files:
-            if os.path.splitext(filename)[1] != '.js':
-                continue
-            for lineno, line in enumerate(open(os.path.join(root, filename))):
-                for match in string_re.finditer(line):
-                    string = match.group(1)
-                    locations = strings.get(string, [])
-                    locations.append((os.path.basename(filename), lineno + 1))
-                    strings[string] = locations
-
-    gettext_tpl = (
-        'GetText={maps:{},'
-        'add:function(string,translation){this.maps[string]=translation},'
-        'get:function(string){if (this.maps[string]){string=this.maps[string]} return string}};'
-        'function _(string){return GetText.get(string)}')
+            if filename.endswith('.js'):
+                filepath = os.path.join(root, filename)
+                with open(os.path.join(root, filename)) as _file:
+                    for lineno, line in enumerate(_file, 1):
+                        for match in string_re.finditer(line):
+                            string = match.group(1)
+                            locations = strings.get(string, [])
+                            locations.append((filepath, lineno))
+                            strings[string] = locations
 
     gettext_file = os.path.join(os.path.dirname(js_dir), 'gettext.js')
     with open(gettext_file, 'w') as fp:
-        fp.write(gettext_tpl)
+        fp.write(GETTEXT_TPL)
         for key in sorted(strings):
             if DEBUG:
-                fp.write('\n// %s\n' % ', '.join(['%s:%s' % x for x in strings[key]]))
+                fp.write('\n//: %s' % '//: '.join(['%s:%s\n' % x for x in strings[key]]))
             fp.write('''GetText.add('%(key)s','${escape(_("%(key)s"))}')\n''' % locals())
     return gettext_file
 
