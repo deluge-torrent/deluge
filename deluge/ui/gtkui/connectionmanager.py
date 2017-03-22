@@ -21,7 +21,7 @@ from deluge.common import resource_filename
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.error import AuthenticationRequired, BadLoginError, IncompatibleClient
 from deluge.ui.client import Client, client
-from deluge.ui.gtkui.common import get_clipboard_text, get_deluge_icon, get_logo
+from deluge.ui.gtkui.common import get_clipboard_text, get_deluge_icon
 from deluge.ui.gtkui.dialogs import AuthenticationDialog, ErrorDialog
 from deluge.ui.hostlist import DEFAULT_PORT, HostList
 
@@ -111,8 +111,6 @@ class ConnectionManager(component.Component):
         # Setup the ConnectionManager dialog
         self.connection_manager = self.builder.get_object('connection_manager')
         self.connection_manager.set_transient_for(component.get('MainWindow').window)
-        self.connection_manager.set_icon(get_deluge_icon())
-        self.builder.get_object('image1').set_from_pixbuf(get_logo(32))
 
         self.askpassword_dialog = self.builder.get_object('askpassword_dialog')
         self.askpassword_dialog.set_transient_for(self.connection_manager)
