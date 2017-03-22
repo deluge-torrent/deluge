@@ -179,8 +179,10 @@ class PluginManagerBase(object):
                 return True
 
             def on_started_error(result, instance):
-                log.warn('Failed to start plugin: %s\n%s', plugin_name, result.getTraceback())
-                component.deregister(instance.plugin)
+                log.error('Failed to start plugin: %s\n%s', plugin_name,
+                          result.getTraceback(elideFrameworkCode=1, detail='brief'))
+                self.plugins[plugin_name.replace('-', ' ')] = instance
+                self.disable_plugin(plugin_name)
                 return False
 
             return_d.addCallbacks(on_started, on_started_error, callbackArgs=[instance], errbackArgs=[instance])
@@ -207,22 +209,21 @@ class PluginManagerBase(object):
             d = defer.maybeDeferred(self.plugins[name].disable)
         except Exception as ex:
             log.error('Error when disabling plugin: %s', self.plugin._component_name)
-            log.exception(ex)
+            log.debug(ex)
             d = defer.succeed(False)
 
         def on_disabled(result):
             ret = True
             if isinstance(result, Failure):
-                log.error('Error when disabling plugin: %s', name)
-                log.exception(result.getTraceback())
+                log.debug('Error when disabling plugin %s: %s', name, result.getTraceback())
                 ret = False
             try:
                 component.deregister(self.plugins[name].plugin)
                 del self.plugins[name]
                 self.config['enabled_plugins'].remove(name)
             except Exception as ex:
-                log.error('Unable to disable plugin: %s', name)
-                log.exception(ex)
+                log.warning('Problems occured disabling plugin: %s', name)
+                log.debug(ex)
                 ret = False
             else:
                 log.info('Plugin %s disabled...', name)

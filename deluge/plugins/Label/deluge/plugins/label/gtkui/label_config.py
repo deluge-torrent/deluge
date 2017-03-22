@@ -31,7 +31,7 @@ class LabelConfig(object):
     def load(self):
         log.debug('Adding Label Preferences page')
         builder = Builder()
-        builder.add_from_file(self.get_resource('label_pref.glade'))
+        builder.add_from_file(self.get_resource('label_pref.ui'))
 
         self.plugin.add_preferences_page(_('Label'), builder.get_object('label_prefs_box'))
         self.plugin.register_hook('on_show_prefs', self.load_settings)
