@@ -17,7 +17,7 @@ import re
 
 WEBUI_JS_DIR = 'deluge/ui/web/js/deluge-all'
 # Enabling Debug adds file and line number as comments to the gettext file.
-DEBUG = False
+DEBUG = True
 
 
 def check_missing_markup(js_dir):
@@ -71,6 +71,7 @@ GETTEXT_TPL = (
     'add:function(string,translation){this.maps[string]=translation},'
     'get:function(string){if (this.maps[string]){string=this.maps[string]} return string}};'
     'function _(string){return GetText.get(string)}')
+GETTEXT_SUBST_TPL = ("GetText.add('{key}','${{escape(_(\"{key}\"))}}')\n")
 
 
 def create_gettext_js(js_dir):
@@ -94,7 +95,7 @@ def create_gettext_js(js_dir):
         for key in sorted(strings):
             if DEBUG:
                 fp.write('\n//: %s' % '//: '.join(['%s:%s\n' % x for x in strings[key]]))
-            fp.write('''GetText.add('%(key)s','${escape(_("%(key)s"))}')\n''' % locals())
+            fp.write(GETTEXT_SUBST_TPL.format(key=key))
     return gettext_file
 
 
