@@ -143,6 +143,7 @@ class ListView(object):
 
         self.treeview.set_rules_hint(True)
         self.treeview.set_reorderable(False)
+        self.treeview.set_rubber_banding(True)  # Enable mouse multi-row selection.
         self.treeview.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
 
         # Dictionary of 'header' or 'name' to ListViewColumn object
