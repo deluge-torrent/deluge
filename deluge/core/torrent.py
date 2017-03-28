@@ -183,17 +183,8 @@ class Torrent(object):
             self.filename = state.filename
             self.is_finished = state.is_finished
         else:
-            # Tracker list
-            self.trackers = []
-            # Create a list of trackers
-            for value in self.handle.trackers():
-                if lt.version_major == 0 and lt.version_minor < 15:
-                    tracker = {}
-                    tracker["url"] = value.url
-                    tracker["tier"] = value.tier
-                else:
-                    tracker = value
-                self.trackers.append(tracker)
+            # Set trackers from libtorrent
+            self.set_trackers(None)
 
         # Various torrent options
         self.handle.resolve_countries(True)
@@ -352,6 +343,8 @@ class Torrent(object):
                     tracker["tier"] = value.tier
                 else:
                     tracker = value
+                    # These unused lt 1.1.2 tracker datetime entries need to be None for rencode.
+                    tracker["min_announce"] = tracker["next_announce"] = None
                 trackers.append(tracker)
             self.trackers = trackers
             self.tracker_host = None
@@ -360,10 +353,13 @@ class Torrent(object):
         log.debug("Setting trackers for %s: %s", self.torrent_id, trackers)
         tracker_list = []
 
-        for tracker in trackers:
+        for idx, tracker in enumerate(trackers):
             new_entry = lt.announce_entry(tracker["url"])
             new_entry.tier = tracker["tier"]
             tracker_list.append(new_entry)
+            # These unused lt 1.1.2 tracker datetime entries need to be None for rencode.
+            trackers[idx]["min_announce"] = trackers[idx]["next_announce"] = None
+
         self.handle.replace_trackers(tracker_list)
 
         # Print out the trackers
