@@ -317,7 +317,17 @@ class Preferences(component.Component):
                 "spin_cache_expiry": ("value", self.core_config["cache_expiry"])
             }
             # Add proxy stuff
+
+            # Display workaround for single proxy in libtorrent >v0.16
+            try:
+                lt_single_proxy = component.get("PreferencesManager").LT_SINGLE_PROXY
+            except AttributeError:
+                lt_single_proxy = False
+
             for t in ("peer", "web_seed", "tracker", "dht"):
+                if lt_single_proxy and not t == "peer":
+                    widget = self.glade.get_widget("frame_%s" % t)
+                    widget.set_sensitive(False)
                 core_widgets["spin_proxy_port_%s" % t] = ("value", self.core_config["proxies"][t]["port"])
                 core_widgets["combo_proxy_type_%s" % t] = ("active", self.core_config["proxies"][t]["type"])
                 core_widgets["txt_proxy_server_%s" % t] = ("text", self.core_config["proxies"][t]["hostname"])

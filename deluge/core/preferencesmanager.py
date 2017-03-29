@@ -151,6 +151,8 @@ DEFAULT_PREFS = {
 }
 
 class PreferencesManager(component.Component):
+    LT_SINGLE_PROXY = deluge.common.VersionSplit(lt.version) >= deluge.common.VersionSplit("0.16.0.0")
+
     def __init__(self):
         component.Component.__init__(self, "PreferencesManager")
 
@@ -478,23 +480,34 @@ class PreferencesManager(component.Component):
                 self.new_release_timer.stop()
 
     def _on_set_proxies(self, key, value):
-        lt_single_proxy = deluge.common.VersionSplit(lt.version) >= deluge.common.VersionSplit("0.16.0.0")
-        for k, v in value.items():
-            if k != "peer" and lt_single_proxy:
-                # Only set peer proxy to stop overwriting proxy setting in libtorrent >= 0.16.
-                if v["hostname"]:
-                    log.warning("Using libtorrent >= 0.16 ignores proxy settings for %s", k)
-                self.config["proxies"][k] = DEFAULT_PREFS["proxies"][k]
-                continue
+        # Test for single proxy with lt >= 0.16
+        if self.LT_SINGLE_PROXY:
+            for proxy_type in value:
+                if proxy_type == "peer":
+                    continue
+                if self.config["proxies"][proxy_type] != value["peer"]:
+                    log.warning("This version of libtorrent only supports a single proxy setting "
+                                "based upon 'peer' which will apply to all other other types.")
+                    self.config["proxies"][proxy_type] = value["peer"]
 
             proxy_settings = lt.proxy_settings()
-            proxy_settings.type = lt.proxy_type(v["type"])
-            proxy_settings.username = str(v["username"])
-            proxy_settings.password = str(v["password"])
-            proxy_settings.hostname = str(v["hostname"])
-            proxy_settings.port = v["port"]
-            log.debug("Setting %s proxy settings: %s", k, v)
-            getattr(self.session, "set_%s_proxy" % k)(proxy_settings)
+            proxy_settings.type = lt.proxy_type(value["peer"]["type"])
+            proxy_settings.username = str(value["peer"]["username"])
+            proxy_settings.password = str(value["peer"]["password"])
+            proxy_settings.hostname = str(value["peer"]["hostname"])
+            proxy_settings.port = value["peer"]["port"]
+            log.debug("Setting proxy settings: %s", value["peer"])
+            self.session.set_proxy(proxy_settings)
+        else:
+            for k, v in value.items():
+                proxy_settings = lt.proxy_settings()
+                proxy_settings.type = lt.proxy_type(v["type"])
+                proxy_settings.username = str(v["username"])
+                proxy_settings.password = str(v["password"])
+                proxy_settings.hostname = str(v["hostname"])
+                proxy_settings.port = v["port"]
+                log.debug("Setting %s proxy settings: %s", k, v)
+                getattr(self.session, "set_%s_proxy" % k)(proxy_settings)
 
     def _on_rate_limit_ip_overhead(self, key, value):
         log.debug("%s: %s", key, value)
