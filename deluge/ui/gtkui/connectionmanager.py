@@ -13,7 +13,7 @@ import hashlib
 import logging
 import os
 import time
-from socket import gethostbyname
+from socket import gaierror, gethostbyname
 from urlparse import urlparse
 
 import gtk
@@ -219,7 +219,12 @@ class ConnectionManager(component.Component):
         # if thats the case
         for entry in self.liststore:
             if [entry[HOSTLIST_COL_HOST], entry[HOSTLIST_COL_PORT], entry[HOSTLIST_COL_USER]] == [host, port, username]:
-                raise Exception('Host already in list!')
+                raise ValueError('Host already in list!')
+
+        try:
+            gethostbyname(host)
+        except gaierror as ex:
+            raise ValueError("Host '%s': %s" % (host, ex.args[1]))
 
         # Host isn't in the list, so lets add it
         row = self.liststore.append()
@@ -339,8 +344,14 @@ class ConnectionManager(component.Component):
             port = row[HOSTLIST_COL_PORT]
             user = row[HOSTLIST_COL_USER]
 
+            try:
+                ip = gethostbyname(host)
+            except gaierror as ex:
+                log.error('Error resolving host %s to ip: %s', row[HOSTLIST_COL_HOST], ex.args[1])
+                continue
+
             if client.connected() and (
-                    gethostbyname(host),
+                    ip,
                     port,
                     'localclient' if not user and host in ('127.0.0.1', 'localhost') else user
             ) == client.connection_info():
@@ -531,10 +542,7 @@ class ConnectionManager(component.Component):
             return d
 
         elif reason.trap(IncompatibleClient):
-            dialog = ErrorDialog(
-                _('Incompatible Client'), reason.value.message
-            )
-            return dialog.run()
+            return ErrorDialog(_('Incompatible Client'), reason.value.message).run()
 
         if try_counter:
             log.info('Retrying connection.. Retries left: %s', try_counter)
@@ -601,11 +609,9 @@ class ConnectionManager(component.Component):
             if (not password and not username or username == 'localclient') and hostname in ['127.0.0.1', 'localhost']:
                 username, password = get_localhost_auth()
 
-            # We add the host
             try:
-                self.add_host(hostname, port_spinbutton.get_value_as_int(),
-                              username, password)
-            except Exception as ex:
+                self.add_host(hostname, port_spinbutton.get_value_as_int(), username, password)
+            except ValueError as ex:
                 ErrorDialog(_('Error Adding Host'), ex).run()
 
         username_entry.set_text('')
