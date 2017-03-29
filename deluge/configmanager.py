@@ -46,6 +46,9 @@ class _ConfigManager(object):
         if not directory:
             return False
 
+        # Ensure absolute dirpath
+        directory = os.path.abspath(directory)
+
         log.info('Setting config directory to: %s', directory)
         if not os.path.exists(directory):
             # Try to create the config folder if it doesn't exist
