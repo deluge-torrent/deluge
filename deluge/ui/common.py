@@ -15,10 +15,8 @@ from __future__ import unicode_literals
 
 import logging
 import os
-import time
 from hashlib import sha1 as sha
 
-import deluge.configmanager
 from deluge import bencode
 from deluge.common import decode_bytes
 
@@ -162,12 +160,6 @@ FILE_PRIORITY = {
 }
 
 del _
-
-DEFAULT_HOST = '127.0.0.1'
-DEFAULT_PORT = 58846
-DEFAULT_HOSTS = {
-    'hosts': [(sha(str(time.time()).encode('utf8')).hexdigest(), DEFAULT_HOST, DEFAULT_PORT, '', '')]
-}
 
 # The keys from session statistics for cache status.
 DISK_CACHE_KEYS = [
@@ -533,36 +525,3 @@ class FileTree(object):
             lines.append('  ' * depth + path)
         self.walk(write)
         return '\n'.join(lines)
-
-
-def get_localhost_auth():
-    """
-    Grabs the localclient auth line from the 'auth' file and creates a localhost uri
-
-    :returns: with the username and password to login as
-    :rtype: tuple
-    """
-    auth_file = deluge.configmanager.get_config_dir('auth')
-    if not os.path.exists(auth_file):
-        from deluge.common import create_localclient_account
-        create_localclient_account()
-
-    with open(auth_file) as auth:
-        for line in auth:
-            line = line.strip()
-            if line.startswith('#') or not line:
-                # This is a comment or blank line
-                continue
-
-            lsplit = line.split(':')
-
-            if len(lsplit) == 2:
-                username, password = lsplit
-            elif len(lsplit) == 3:
-                username, password, level = lsplit
-            else:
-                log.error('Your auth file is malformed: Incorrect number of fields!')
-                continue
-
-            if username == 'localclient':
-                return (username, password)

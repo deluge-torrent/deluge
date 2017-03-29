@@ -91,11 +91,11 @@ class WebAPITestCase(WebServerTestBase):
 
     def test_get_host(self):
         self.assertFalse(self.deluge_web.web_api._get_host('invalid_id'))
-        conn = self.deluge_web.web_api.host_list['hosts'][0]
+        conn = list(self.deluge_web.web_api.hostlist.get_hosts_info2()[0])
         self.assertEqual(self.deluge_web.web_api._get_host(conn[0]), conn)
 
     def test_add_host(self):
-        conn = [None, '', 0, '', '']
+        conn = ['abcdef', '10.0.0.1', 0, 'user123', 'pass123']
         self.assertFalse(self.deluge_web.web_api._get_host(conn[0]))
         # Add valid host
         ret = self.deluge_web.web_api.add_host(conn[1], conn[2], conn[3], conn[4])
@@ -105,16 +105,16 @@ class WebAPITestCase(WebServerTestBase):
 
         # Add already existing host
         ret = self.deluge_web.web_api.add_host(conn[1], conn[2], conn[3], conn[4])
-        self.assertEqual(ret, (False, 'Host already in the list'))
+        self.assertEqual(ret, (False, 'Host details already in hostlist'))
 
         # Add invalid port
         conn[2] = 'bad port'
         ret = self.deluge_web.web_api.add_host(conn[1], conn[2], conn[3], conn[4])
-        self.assertEqual(ret, (False, 'Port is invalid'))
+        self.assertEqual(ret, (False, 'Invalid port. Must be an integer'))
 
     def test_remove_host(self):
         conn = ['connection_id', '', 0, '', '']
-        self.deluge_web.web_api.host_list['hosts'].append(conn)
+        self.deluge_web.web_api.hostlist.config['hosts'].append(conn)
         self.assertEqual(self.deluge_web.web_api._get_host(conn[0]), conn)
         # Remove valid host
         self.assertTrue(self.deluge_web.web_api.remove_host(conn[0]))

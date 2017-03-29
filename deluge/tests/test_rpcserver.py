@@ -15,7 +15,7 @@ from deluge.core import rpcserver
 from deluge.core.authmanager import AuthManager
 from deluge.core.rpcserver import DelugeRPCProtocol, RPCServer
 from deluge.log import setup_logger
-from deluge.ui.common import get_localhost_auth
+from deluge.ui.hostlist import get_localhost_auth
 
 from .basetest import BaseTestCase
 

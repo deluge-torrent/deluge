@@ -9,10 +9,8 @@
 
 from __future__ import unicode_literals
 
-import hashlib
 import logging
 import os
-import time
 from socket import gaierror, gethostbyname
 
 import gtk
@@ -23,9 +21,9 @@ from deluge.common import resource_filename
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.error import AuthenticationRequired, BadLoginError, IncompatibleClient
 from deluge.ui.client import Client, client
-from deluge.ui.common import get_localhost_auth
 from deluge.ui.gtkui.common import get_clipboard_text, get_deluge_icon, get_logo
 from deluge.ui.gtkui.dialogs import AuthenticationDialog, ErrorDialog
+from deluge.ui.hostlist import DEFAULT_PORT, HostList
 
 try:
     from urllib.parse import urlparse
@@ -35,17 +33,15 @@ except ImportError:
 
 log = logging.getLogger(__name__)
 
-DEFAULT_HOST = '127.0.0.1'
-DEFAULT_PORT = 58846
-
 HOSTLIST_COL_ID = 0
 HOSTLIST_COL_HOST = 1
 HOSTLIST_COL_PORT = 2
-HOSTLIST_COL_STATUS = 3
-HOSTLIST_COL_USER = 4
-HOSTLIST_COL_PASS = 5
+HOSTLIST_COL_USER = 3
+HOSTLIST_COL_PASS = 4
+HOSTLIST_COL_STATUS = 5
 HOSTLIST_COL_VERSION = 6
 
+LOCALHOST = ('127.0.0.1', 'localhost')
 
 HOSTLIST_PIXBUFS = [
     # This is populated in ConnectionManager.show
@@ -68,6 +64,7 @@ def cell_render_host(column, cell, model, row, data):
 
 def cell_render_status(column, cell, model, row, data):
     status = model[row][data]
+    status = status if status else 'Offline'
     pixbuf = None
     if status in HOSTLIST_STATUS:
         pixbuf = HOSTLIST_PIXBUFS[HOSTLIST_STATUS.index(status)]
@@ -79,7 +76,7 @@ class ConnectionManager(component.Component):
     def __init__(self):
         component.Component.__init__(self, 'ConnectionManager')
         self.gtkui_config = ConfigManager('gtkui.conf')
-        self.config = self.__load_config()
+
         self.running = False
 
     # Component overrides
@@ -94,53 +91,27 @@ class ConnectionManager(component.Component):
     def shutdown(self):
         pass
 
-    def __load_config(self):
-        auth_file = get_config_dir('auth')
-        if not os.path.exists(auth_file):
-            from deluge.common import create_localclient_account
-            create_localclient_account()
-
-        localclient_username, localclient_password = get_localhost_auth()
-        default_config = {
-            'hosts': [(
-                hashlib.sha1(str(time.time())).hexdigest(),
-                DEFAULT_HOST,
-                DEFAULT_PORT,
-                localclient_username,
-                localclient_password
-            )]
-        }
-        config = ConfigManager('hostlist.conf.1.2', defaults=default_config, file_version=2)
-        config.run_converter((0, 1), 2, self.__migrate_config_1_to_2)
-        return config
-
     # Public methods
     def show(self):
         """
         Show the ConnectionManager dialog.
         """
-        self.config = self.__load_config()
         # Get the gtk builder file for the connection manager
         self.builder = gtk.Builder()
         # The main dialog
         self.builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'connection_manager.ui')
-        ))
+            'deluge.ui.gtkui', os.path.join('glade', 'connection_manager.ui')))
         # The add host dialog
         self.builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'connection_manager.addhost.ui')
-        ))
+            'deluge.ui.gtkui', os.path.join('glade', 'connection_manager.addhost.ui')))
         # The ask password dialog
         self.builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'connection_manager.askpassword.ui')
-        ))
+            'deluge.ui.gtkui', os.path.join('glade', 'connection_manager.askpassword.ui')))
 
         # Setup the ConnectionManager dialog
         self.connection_manager = self.builder.get_object('connection_manager')
         self.connection_manager.set_transient_for(component.get('MainWindow').window)
-
         self.connection_manager.set_icon(get_deluge_icon())
-
         self.builder.get_object('image1').set_from_pixbuf(get_logo(32))
 
         self.askpassword_dialog = self.builder.get_object('askpassword_dialog')
@@ -148,6 +119,7 @@ class ConnectionManager(component.Component):
         self.askpassword_dialog.set_icon(get_deluge_icon())
         self.askpassword_dialog_entry = self.builder.get_object('askpassword_dialog_entry')
 
+        self.hostlist_config = HostList()
         self.hostlist = self.builder.get_object('hostlist')
 
         # Create status pixbufs
@@ -160,18 +132,19 @@ class ConnectionManager(component.Component):
                 )
 
         # Create the host list gtkliststore
-        # id-hash, hostname, port, status, username, password, version
+        # id-hash, hostname, port, username, password, status, version
         self.liststore = gtk.ListStore(str, str, int, str, str, str, str)
 
         # Setup host list treeview
         self.hostlist.set_model(self.liststore)
         render = gtk.CellRendererPixbuf()
         column = gtk.TreeViewColumn(_('Status'), render)
-        column.set_cell_data_func(render, cell_render_status, 3)
+        column.set_cell_data_func(render, cell_render_status, HOSTLIST_COL_STATUS)
         self.hostlist.append_column(column)
         render = gtk.CellRendererText()
         column = gtk.TreeViewColumn(_('Host'), render, text=HOSTLIST_COL_HOST)
-        column.set_cell_data_func(render, cell_render_host, (1, 2, 4))
+        column.set_cell_data_func(
+            render, cell_render_host, (HOSTLIST_COL_HOST, HOSTLIST_COL_PORT, HOSTLIST_COL_USER))
         column.set_expand(True)
         self.hostlist.append_column(column)
         render = gtk.CellRendererText()
@@ -202,49 +175,12 @@ class ConnectionManager(component.Component):
 
         # Save the toggle options
         self.__save_options()
-        self.__save_hostlist()
 
         self.connection_manager.destroy()
         del self.builder
         del self.connection_manager
         del self.liststore
         del self.hostlist
-
-    def add_host(self, host, port, username='', password=''):
-        """
-        Adds a host to the list.
-
-        :param host: str, the hostname
-        :param port: int, the port
-        :param username: str, the username to login as
-        :param password: str, the password to login with
-
-        """
-        # Check to see if there is already an entry for this host and return
-        # if thats the case
-        for entry in self.liststore:
-            if [entry[HOSTLIST_COL_HOST], entry[HOSTLIST_COL_PORT], entry[HOSTLIST_COL_USER]] == [host, port, username]:
-                raise ValueError('Host already in list!')
-
-        try:
-            gethostbyname(host)
-        except gaierror as ex:
-            raise ValueError("Host '%s': %s" % (host, ex.args[1]))
-
-        # Host isn't in the list, so lets add it
-        row = self.liststore.append()
-        self.liststore[row][HOSTLIST_COL_ID] = hashlib.sha1(str(time.time())).hexdigest()
-        self.liststore[row][HOSTLIST_COL_HOST] = host
-        self.liststore[row][HOSTLIST_COL_PORT] = port
-        self.liststore[row][HOSTLIST_COL_USER] = username
-        self.liststore[row][HOSTLIST_COL_PASS] = password
-        self.liststore[row][HOSTLIST_COL_STATUS] = 'Offline'
-
-        # Save the host list to file
-        self.__save_hostlist()
-
-        # Update the status of the hosts
-        self.__update_list()
 
     def on_entry_host_paste_clipboard(self, widget):
         text = get_clipboard_text()
@@ -261,39 +197,21 @@ class ConnectionManager(component.Component):
         if parsed.password:
             self.builder.get_object('entry_password').set_text(parsed.password)
 
-    # Private methods
-    def __save_hostlist(self):
-        """
-        Save the current hostlist to the config file.
-        """
-        # Grab the hosts from the liststore
-        self.config['hosts'] = []
-        for row in self.liststore:
-            self.config['hosts'].append((row[HOSTLIST_COL_ID],
-                                         row[HOSTLIST_COL_HOST],
-                                         row[HOSTLIST_COL_PORT],
-                                         row[HOSTLIST_COL_USER],
-                                         row[HOSTLIST_COL_PASS]))
-
-        self.config.save()
-
     def __load_hostlist(self):
-        """
-        Load saved host entries
-        """
-        for host in self.config['hosts']:
-            new_row = self.liststore.append()
-            self.liststore[new_row][HOSTLIST_COL_ID] = host[0]
-            self.liststore[new_row][HOSTLIST_COL_HOST] = host[1]
-            self.liststore[new_row][HOSTLIST_COL_PORT] = host[2]
-            self.liststore[new_row][HOSTLIST_COL_USER] = host[3]
-            self.liststore[new_row][HOSTLIST_COL_PASS] = host[4]
-            self.liststore[new_row][HOSTLIST_COL_STATUS] = 'Offline'
-            self.liststore[new_row][HOSTLIST_COL_VERSION] = ''
+        """Load saved host entries"""
+        status = version = ''
+        for host_entry in self.hostlist_config.get_hosts_info2():
+            host_id, host, port, username, password = host_entry
+            self.liststore.append([host_id, host, port, username, password, status, version])
 
     def __get_host_row(self, host_id):
-        """
-        Returns the row in the liststore for `:param:host_id` or None
+        """Get the row in the liststore for the host_id.
+
+        Args:
+            host_id (str): The host id.
+
+        Returns:
+            list: The listsrore row with host details.
 
         """
         for row in self.liststore:
@@ -352,14 +270,11 @@ class ConnectionManager(component.Component):
             try:
                 ip = gethostbyname(host)
             except gaierror as ex:
-                log.error('Error resolving host %s to ip: %s', row[HOSTLIST_COL_HOST], ex.args[1])
+                log.error('Error resolving host %s to ip: %s', host, ex.args[1])
                 continue
 
-            if client.connected() and (
-                    ip,
-                    port,
-                    'localclient' if not user and host in ('127.0.0.1', 'localhost') else user
-            ) == client.connection_info():
+            host_info = (ip, port, 'localclient' if not user and host in LOCALHOST else user)
+            if client.connected() and host_info == client.connection_info():
                 def on_info(info, row):
                     if not self.running:
                         return
@@ -383,14 +298,11 @@ class ConnectionManager(component.Component):
         Set the widgets to show the correct options from the config.
         """
         self.builder.get_object('chk_autoconnect').set_active(
-            self.gtkui_config['autoconnect']
-        )
+            self.gtkui_config['autoconnect'])
         self.builder.get_object('chk_autostart').set_active(
-            self.gtkui_config['autostart_localhost']
-        )
+            self.gtkui_config['autostart_localhost'])
         self.builder.get_object('chk_donotshow').set_active(
-            not self.gtkui_config['show_connection_manager_on_start']
-        )
+            not self.gtkui_config['show_connection_manager_on_start'])
 
     def __save_options(self):
         """
@@ -402,17 +314,15 @@ class ConnectionManager(component.Component):
             'chk_donotshow').get_active()
 
     def __update_buttons(self):
-        """
-        Updates the buttons states.
-        """
+        """Updates the buttons states."""
         if len(self.liststore) == 0:
             # There is nothing in the list
-            self.builder.get_object('button_startdaemon').set_sensitive(True)
+            self.builder.get_object('button_startdaemon').set_sensitive(False)
             self.builder.get_object('button_connect').set_sensitive(False)
             self.builder.get_object('button_removehost').set_sensitive(False)
             self.builder.get_object('image_startdaemon').set_from_stock(
                 gtk.STOCK_EXECUTE, gtk.ICON_SIZE_MENU)
-            self.builder.get_object('label_startdaemon').set_text('_Start Daemon')
+            self.builder.get_object('label_startdaemon').set_text_with_mnemonic('_Start Daemon')
 
         model, row = self.hostlist.get_selection().get_selected()
         if not row:
@@ -420,24 +330,22 @@ class ConnectionManager(component.Component):
             return
 
         self.builder.get_object('button_edithost').set_sensitive(True)
-
-        # Get some values about the selected host
-        status = model[row][HOSTLIST_COL_STATUS]
-        host = model[row][HOSTLIST_COL_HOST]
-        port = model[row][HOSTLIST_COL_PORT]
-        user = model[row][HOSTLIST_COL_USER]
-        passwd = model[row][HOSTLIST_COL_PASS]
-
-        log.debug('Status: %s', status)
-        # Check to see if we have a localhost entry selected
-        localhost = False
-        if host in ('127.0.0.1', 'localhost'):
-            localhost = True
-
-        # Make sure buttons are sensitive at start
         self.builder.get_object('button_startdaemon').set_sensitive(True)
         self.builder.get_object('button_connect').set_sensitive(True)
         self.builder.get_object('button_removehost').set_sensitive(True)
+
+        # Get some values about the selected host
+        __, host, port, user, password, status, __ = model[row]
+
+        try:
+            ip = gethostbyname(host)
+        except gaierror as ex:
+            log.error('Error resolving host %s to ip: %s', row[HOSTLIST_COL_HOST], ex.args[1])
+            return
+
+        log.debug('Status: %s', status)
+        # Check to see if we have a localhost entry selected
+        localhost = host in LOCALHOST
 
         # See if this is the currently connected host
         if status == 'Connected':
@@ -453,29 +361,24 @@ class ConnectionManager(component.Component):
         if status == 'Connected' or status == 'Online':
             self.builder.get_object('image_startdaemon').set_from_stock(
                 gtk.STOCK_STOP, gtk.ICON_SIZE_MENU)
-            self.builder.get_object('label_startdaemon').set_text(
-                _('_Stop Daemon'))
+            self.builder.get_object('label_startdaemon').set_text_with_mnemonic(_('_Stop Daemon'))
 
         # Update the start daemon button if the selected host is localhost
         if localhost and status == 'Offline':
             # The localhost is not online
             self.builder.get_object('image_startdaemon').set_from_stock(
                 gtk.STOCK_EXECUTE, gtk.ICON_SIZE_MENU)
-            self.builder.get_object('label_startdaemon').set_text(
-                _('_Start Daemon'))
+            self.builder.get_object('label_startdaemon').set_text_with_mnemonic(_('_Start Daemon'))
 
-        if client.connected() and (host, port, user) == client.connection_info():
+        if client.connected() and (ip, port, user) == client.connection_info():
             # If we're connected, we can stop the dameon
             self.builder.get_object('button_startdaemon').set_sensitive(True)
-        elif user and passwd:
+        elif user and password:
             # In this case we also have all the info to shutdown the daemon
             self.builder.get_object('button_startdaemon').set_sensitive(True)
         else:
             # Can't stop non localhost daemons, specially without the necessary info
             self.builder.get_object('button_startdaemon').set_sensitive(False)
-
-        # Make sure label is displayed correctly using mnemonics
-        self.builder.get_object('label_startdaemon').set_use_underline(True)
 
     def start_daemon(self, port, config):
         """
@@ -530,7 +433,7 @@ class ConnectionManager(component.Component):
             self.connection_manager.response(gtk.RESPONSE_OK)
         component.start()
 
-    def __on_connected_failed(self, reason, host_id, host, port, user, passwd,
+    def __on_connected_failed(self, reason, host_id, host, port, user, password,
                               try_counter):
         log.debug('Failed to connect: %s', reason.value)
 
@@ -552,9 +455,8 @@ class ConnectionManager(component.Component):
         if try_counter:
             log.info('Retrying connection.. Retries left: %s', try_counter)
             return reactor.callLater(
-                0.5, self.__connect, host_id, host, port, user, passwd,
-                try_counter=try_counter - 1
-            )
+                0.5, self.__connect, host_id, host, port, user, password,
+                try_counter=try_counter - 1)
 
         msg = str(reason.value)
         if not self.builder.get_object('chk_autostart').get_active():
@@ -566,28 +468,26 @@ class ConnectionManager(component.Component):
         model, row = self.hostlist.get_selection().get_selected()
         if not row:
             return
+
         status = model[row][HOSTLIST_COL_STATUS]
+
+        # If status is connected then connect button disconnects instead.
         if status == 'Connected':
             def on_disconnect(reason):
                 self.__update_list()
             client.disconnect().addCallback(on_disconnect)
             return
 
-        host_id = model[row][HOSTLIST_COL_ID]
-        host = model[row][HOSTLIST_COL_HOST]
-        port = model[row][HOSTLIST_COL_PORT]
-        user = model[row][HOSTLIST_COL_USER]
-        password = model[row][HOSTLIST_COL_PASS]
-
-        if (status == 'Offline' and self.builder.get_object('chk_autostart').get_active() and
-                host in ('127.0.0.1', 'localhost')):
+        host_id, host, port, user, password, __, __ = model[row]
+        try_counter = 0
+        auto_start = self.builder.get_object('chk_autostart').get_active()
+        if status == 'Offline' and auto_start and host in LOCALHOST:
             if not self.start_daemon(port, get_config_dir()):
                 log.debug('Failed to auto-start daemon')
                 return
-            return self.__connect(
-                host_id, host, port, user, password, try_counter=6
-            )
-        return self.__connect(host_id, host, port, user, password)
+            try_counter = 6
+
+        return self.__connect(host_id, host, port, user, password, try_counter=try_counter)
 
     def on_button_close_clicked(self, widget):
         self.connection_manager.response(gtk.RESPONSE_CLOSE)
@@ -610,25 +510,30 @@ class ConnectionManager(component.Component):
             username = username_entry.get_text()
             password = password_entry.get_text()
             hostname = hostname_entry.get_text()
-
-            if (not password and not username or username == 'localclient') and hostname in ['127.0.0.1', 'localhost']:
-                username, password = get_localhost_auth()
+            port = port_spinbutton.get_value_as_int()
 
             try:
-                self.add_host(hostname, port_spinbutton.get_value_as_int(), username, password)
+                host_id = self.hostlist_config.add_host(hostname, port, username, password)
             except ValueError as ex:
-                ErrorDialog(_('Error Adding Host'), ex).run()
+                ErrorDialog(_('Error Adding Host'), ex, parent=dialog).run()
+            else:
+                self.liststore.append([host_id, hostname, port, username, password, 'Offline', ''])
+
+        # Update the status of the hosts
+        self.__update_list()
 
         username_entry.set_text('')
         password_entry.set_text('')
         hostname_entry.set_text('')
-        port_spinbutton.set_value(58846)
+        port_spinbutton.set_value(DEFAULT_PORT)
         dialog.hide()
 
     def on_button_edithost_clicked(self, widget=None):
         log.debug('on_button_edithost_clicked')
         model, row = self.hostlist.get_selection().get_selected()
         status = model[row][HOSTLIST_COL_STATUS]
+        host_id = model[row][HOSTLIST_COL_ID]
+
         if status == 'Connected':
             def on_disconnect(reason):
                 self.__update_list()
@@ -658,18 +563,14 @@ class ConnectionManager(component.Component):
             username = username_entry.get_text()
             password = password_entry.get_text()
             hostname = hostname_entry.get_text()
+            port = port_spinbutton.get_value_as_int()
 
-            if (not password and not username or username == 'localclient') and hostname in ['127.0.0.1', 'localhost']:
-                username, password = get_localhost_auth()
-
-            self.liststore[row][HOSTLIST_COL_HOST] = hostname
-            self.liststore[row][HOSTLIST_COL_PORT] = port_spinbutton.get_value_as_int()
-            self.liststore[row][HOSTLIST_COL_USER] = username
-            self.liststore[row][HOSTLIST_COL_PASS] = password
-            self.liststore[row][HOSTLIST_COL_STATUS] = 'Offline'
-
-        # Save the host list to file
-        self.__save_hostlist()
+            try:
+                self.hostlist_config.update_host(host_id, hostname, port, username, password)
+            except ValueError as ex:
+                ErrorDialog(_('Error Updating Host'), ex, parent=dialog).run()
+            else:
+                self.liststore[row] = host_id, hostname, port, username, password, '', ''
 
         # Update the status of the hosts
         self.__update_list()
@@ -677,44 +578,38 @@ class ConnectionManager(component.Component):
         username_entry.set_text('')
         password_entry.set_text('')
         hostname_entry.set_text('')
-        port_spinbutton.set_value(58846)
+        port_spinbutton.set_value(DEFAULT_PORT)
         dialog.hide()
 
     def on_button_removehost_clicked(self, widget):
         log.debug('on_button_removehost_clicked')
         # Get the selected rows
-        paths = self.hostlist.get_selection().get_selected_rows()[1]
-        for path in paths:
-            self.liststore.remove(self.liststore.get_iter(path))
-
+        model, row = self.hostlist.get_selection().get_selected()
+        self.hostlist_config.remove_host(model[row][HOSTLIST_COL_ID])
+        self.liststore.remove(row)
         # Update the hostlist
         self.__update_list()
-
-        # Save the host list
-        self.__save_hostlist()
 
     def on_button_startdaemon_clicked(self, widget):
         log.debug('on_button_startdaemon_clicked')
         if self.liststore.iter_n_children(None) < 1:
             # There is nothing in the list, so lets create a localhost entry
-            self.add_host(DEFAULT_HOST, DEFAULT_PORT, *get_localhost_auth())
+            try:
+                self.hostlist_config.add_default_host()
+            except ValueError as ex:
+                log.error('Error adding default host: %s', ex)
+
             # ..and start the daemon.
-            self.start_daemon(
-                DEFAULT_PORT, get_config_dir()
-            )
+            self.start_daemon(DEFAULT_PORT, get_config_dir())
             return
 
         paths = self.hostlist.get_selection().get_selected_rows()[1]
         if len(paths) < 1:
             return
 
-        status = self.liststore[paths[0]][HOSTLIST_COL_STATUS]
-        host = self.liststore[paths[0]][HOSTLIST_COL_HOST]
-        port = self.liststore[paths[0]][HOSTLIST_COL_PORT]
-        user = self.liststore[paths[0]][HOSTLIST_COL_USER]
-        password = self.liststore[paths[0]][HOSTLIST_COL_PASS]
+        __, host, port, user, password, status, __ = self.liststore[paths[0]]
 
-        if host not in ('127.0.0.1', 'localhost'):
+        if host not in LOCALHOST:
             return
 
         if status in ('Online', 'Connected'):
@@ -754,15 +649,3 @@ class ConnectionManager(component.Component):
 
     def on_askpassword_dialog_entry_activate(self, entry):
         self.askpassword_dialog.response(gtk.RESPONSE_OK)
-
-    def __migrate_config_1_to_2(self, config):
-        localclient_username, localclient_password = get_localhost_auth()
-        if not localclient_username:
-            # Nothing to do here, there's no auth file
-            return
-        for idx, (_, host, _, username, _) in enumerate(config['hosts'][:]):
-            if host in ('127.0.0.1', 'localhost'):
-                if not username:
-                    config['hosts'][idx][3] = localclient_username
-                    config['hosts'][idx][4] = localclient_password
-        return config

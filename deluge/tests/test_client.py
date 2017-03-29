@@ -10,10 +10,11 @@ from __future__ import unicode_literals
 from twisted.internet import defer
 
 import deluge.component as component
-import deluge.ui.common
 from deluge import error
+from deluge.common import AUTH_LEVEL_NORMAL
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.ui.client import Client, DaemonSSLProxy, client
+from deluge.ui.hostlist import get_localhost_auth
 
 from .basetest import BaseTestCase
 from .daemon_base import DaemonBase
@@ -98,7 +99,7 @@ class ClientTestCase(BaseTestCase, DaemonBase):
         return d
 
     def test_connect_localclient(self):
-        username, password = deluge.ui.common.get_localhost_auth()
+        username, password = get_localhost_auth()
         d = client.connect('localhost', self.listen_port, username=username, password=password)
 
         def on_connect(result):
@@ -110,7 +111,7 @@ class ClientTestCase(BaseTestCase, DaemonBase):
         return d
 
     def test_connect_bad_password(self):
-        username, password = deluge.ui.common.get_localhost_auth()
+        username, password = get_localhost_auth()
         d = client.connect('localhost', self.listen_port, username=username, password=password + '1')
 
         def on_failure(failure):
@@ -125,7 +126,7 @@ class ClientTestCase(BaseTestCase, DaemonBase):
         return d
 
     def test_connect_invalid_user(self):
-        username, password = deluge.ui.common.get_localhost_auth()
+        username, password = get_localhost_auth()
         d = client.connect('localhost', self.listen_port, username='invalid-user')
 
         def on_failure(failure):
@@ -140,7 +141,7 @@ class ClientTestCase(BaseTestCase, DaemonBase):
         return d
 
     def test_connect_without_password(self):
-        username, password = deluge.ui.common.get_localhost_auth()
+        username, password = get_localhost_auth()
         d = client.connect('localhost', self.listen_port, username=username)
 
         def on_failure(failure):
@@ -156,12 +157,12 @@ class ClientTestCase(BaseTestCase, DaemonBase):
 
     @defer.inlineCallbacks
     def test_connect_with_password(self):
-        username, password = deluge.ui.common.get_localhost_auth()
+        username, password = get_localhost_auth()
         yield client.connect('localhost', self.listen_port, username=username, password=password)
         yield client.core.create_account('testuser', 'testpw', 'DEFAULT')
         yield client.disconnect()
         ret = yield client.connect('localhost', self.listen_port, username='testuser', password='testpw')
-        self.assertEqual(ret, deluge.common.AUTH_LEVEL_NORMAL)
+        self.assertEqual(ret, AUTH_LEVEL_NORMAL)
         yield
 
     @defer.inlineCallbacks
@@ -176,7 +177,7 @@ class ClientTestCase(BaseTestCase, DaemonBase):
         yield d
 
     def test_connect_without_sending_client_version_fails(self):
-        username, password = deluge.ui.common.get_localhost_auth()
+        username, password = get_localhost_auth()
         no_version_sending_client = NoVersionSendingClient()
         d = no_version_sending_client.connect(
             'localhost', self.listen_port, username=username, password=password

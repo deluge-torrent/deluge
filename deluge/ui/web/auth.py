@@ -18,15 +18,9 @@ from email.utils import formatdate
 
 from twisted.internet.task import LoopingCall
 
+from deluge.common import AUTH_LEVEL_ADMIN, AUTH_LEVEL_NONE
+
 log = logging.getLogger(__name__)
-
-
-AUTH_LEVEL_NONE = 0
-AUTH_LEVEL_READONLY = 1
-AUTH_LEVEL_NORMAL = 5
-AUTH_LEVEL_ADMIN = 10
-
-AUTH_LEVEL_DEFAULT = AUTH_LEVEL_NORMAL
 
 
 class AuthError(Exception):
@@ -36,7 +30,7 @@ class AuthError(Exception):
     """
     pass
 
-# Import after as json_api imports the above AuthError and AUTH_LEVEL_DEFAULT
+# Import after as json_api imports the above AuthError
 from deluge.ui.web.json_api import export, JSONComponent  # NOQA, isort:skip pylint: disable=wrong-import-position
 
 

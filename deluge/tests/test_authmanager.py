@@ -9,6 +9,7 @@ from __future__ import unicode_literals
 
 import deluge.component as component
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN, AuthManager
+from deluge.ui import hostlist
 
 from .basetest import BaseTestCase
 
@@ -23,8 +24,7 @@ class AuthManagerTestCase(BaseTestCase):
         return component.shutdown()
 
     def test_authorize(self):
-        from deluge.ui import common
         self.assertEqual(
-            self.auth.authorize(*common.get_localhost_auth()),
+            self.auth.authorize(*hostlist.get_localhost_auth()),
             AUTH_LEVEL_ADMIN
         )

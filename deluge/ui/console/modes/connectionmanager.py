@@ -9,17 +9,14 @@
 
 from __future__ import unicode_literals
 
-import hashlib
 import logging
-import time
 
 import deluge.component as component
-from deluge.configmanager import ConfigManager
 from deluge.decorators import overrides
-from deluge.ui import common as uicommon
 from deluge.ui.client import Client, client
 from deluge.ui.console.modes.basemode import BaseMode
 from deluge.ui.console.widgets.popup import InputPopup, PopupsHandler, SelectablePopup
+from deluge.ui.hostlist import HostList
 
 try:
     import curses
@@ -35,7 +32,7 @@ class ConnectionManager(BaseMode, PopupsHandler):
         PopupsHandler.__init__(self)
         self.statuses = {}
         self.all_torrents = None
-        self.config = ConfigManager('hostlist.conf.1.2', uicommon.DEFAULT_HOSTS)
+        self.hostlist = HostList()
         self.update_hosts_status()
         BaseMode.__init__(self, stdscr, encoding=encoding)
         self.update_select_host_popup()
@@ -47,18 +44,19 @@ class ConnectionManager(BaseMode, PopupsHandler):
 
         popup = SelectablePopup(self, _('Select Host'), self._host_selected, border_off_west=1, active_wrap=True)
         popup.add_header("{!white,black,bold!}'Q'=%s, 'a'=%s, 'D'=%s" %
-                         (_('quit'), _('add new host'), _('delete host')),
+                         (_('Quit'), _('Add New Host'), _('Delete Host')),
                          space_below=True)
         self.push_popup(popup, clear=True)
 
-        for host in self.config['hosts']:
-            args = {'data': host[0], 'foreground': 'red'}
+        for host_entry in self.hostlist.get_host_info():
+            host_id, hostname, port, user = host_entry
+            args = {'data': host_id, 'foreground': 'red'}
             state = 'Offline'
-            if host[0] in self.statuses:
+            if host_id in self.statuses:
                 state = 'Online'
-                args.update({'data': self.statuses[host[0]], 'foreground': 'green'})
-            host_str = '%s:%d [%s]' % (host[1], host[2], state)
-            self.popup.add_line(host[0], host_str, selectable=True, use_underline=True, **args)
+                args.update({'data': self.statuses[host_id], 'foreground': 'green'})
+            host_str = '%s:%d [%s]' % (hostname, port, state)
+            self.popup.add_line(host_id, host_str, selectable=True, use_underline=True, **args)
 
         if selected_index is not None:
             self.popup.set_selection(selected_index)
@@ -87,16 +85,13 @@ class ConnectionManager(BaseMode, PopupsHandler):
                 del self.statuses[host_id]
                 self.update_select_host_popup()
 
-        for host in self.config['hosts']:
+        for host_entry in self.hostlist.get_hosts_info2():
             c = Client()
-            hadr = host[1]
-            port = host[2]
-            user = host[3]
-            password = host[4]
-            log.debug('connect: hadr=%s, port=%s, user=%s, password=%s', hadr, port, user, password)
-            d = c.connect(hadr, port, user, password)
-            d.addCallback(on_connect, c, host[0])
-            d.addErrback(on_connect_failed, host[0])
+            host_id, host, port, user, password = host_entry
+            log.debug('Connect: host=%s, port=%s, user=%s, pass=%s', host, port, user, password)
+            d = c.connect(host, port, user, password)
+            d.addCallback(on_connect, c, host_id)
+            d.addErrback(on_connect_failed, host_id)
 
     def _on_connected(self, result):
         d = component.get('ConsoleUI').start_console()
@@ -112,57 +107,46 @@ class ConnectionManager(BaseMode, PopupsHandler):
             log.exception(result)
 
     def _host_selected(self, selected_host, *args, **kwargs):
-        if selected_host not in self.statuses:
-            return
-        for host in self.config['hosts']:
-            if host[0] == selected_host:
-                d = client.connect(host[1], host[2], host[3], host[4])
-                d.addCallback(self._on_connected)
-                d.addErrback(self._on_connect_fail)
-                return
-        return False
+        if selected_host in self.statuses:
+            for host_entry in self.hostlist.get_hosts_info():
+                if host_entry[0] == selected_host:
+                    __, host, port, user, password = host_entry
+                    d = client.connect(host, port, user, password)
+                    d.addCallback(self._on_connected)
+                    d.addErrback(self._on_connect_fail)
 
     def _do_add(self, result, **kwargs):
         if not result or kwargs.get('close', False):
             self.pop_popup()
-            return
-        hostname = result['hostname']['value']
-        try:
-            port = int(result['port']['value'])
-        except ValueError:
-            self.report_message('Cannot add host', 'Invalid port.  Must be an integer')
-            return
-        username = result['username']['value']
-        password = result['password']['value']
-        for host in self.config['hosts']:
-            if (host[1], host[2], host[3]) == (hostname, port, username):
-                self.report_message('Cannot add host', 'Host already in list')
-                return
-        newid = hashlib.sha1(str(time.time())).hexdigest()
-        self.config['hosts'].append((newid, hostname, port, username, password))
-        self.config.save()
-        self.update_select_host_popup()
+        else:
+            self.add_host(result['hostname']['value'], result['port']['value'],
+                          result['username']['value'], result['password']['value'])
 
     def add_popup(self):
         self.inlist = False
-        popup = InputPopup(self, 'Add Host (up & down arrows to navigate, esc to cancel)',
+        popup = InputPopup(self, _('Add Host (Up & Down arrows to navigate, Esc to cancel)'),
                            border_off_north=1, border_off_east=1,
                            close_cb=self._do_add)
-        popup.add_text_input('hostname', '%s:' % _('Hostname'))
-        popup.add_text_input('port', '%s:' % _('Port'))
-        popup.add_text_input('username', '%s:' % _('Username'))
-        popup.add_text_input('password', '%s:' % _('Password'))
+        popup.add_text_input('hostname', _('Hostname:'))
+        popup.add_text_input('port', _('Port:'))
+        popup.add_text_input('username', _('Username:'))
+        popup.add_text_input('password', _('Password:'))
         self.push_popup(popup, clear=True)
         self.refresh()
 
-    def delete_current_host(self):
-        idx, data = self.popup.current_selection()
-        log.debug('deleting host: %s', data)
-        for host in self.config['hosts']:
-            if host[0] == data:
-                self.config['hosts'].remove(host)
-                break
-        self.config.save()
+    def add_host(self, hostname, port, username, password):
+        try:
+            self.hostlist.add_host(hostname, port, username, password)
+        except ValueError as ex:
+            self.report_message(_('Error adding host'), '%s' % ex)
+            return
+        else:
+            self.update_select_host_popup()
+
+    def delete_host(self, host_id):
+        log.debug('deleting host: %s', host_id)
+        self.hostlist.remove_host(host_id)
+        self.update_select_host_popup()
 
     @overrides(component.Component)
     def start(self):
@@ -224,8 +208,8 @@ class ConnectionManager(BaseMode, PopupsHandler):
                     reactor.stop()
                 return
             if chr(c) == 'D' and self.inlist:
-                self.delete_current_host()
-                self.update_select_host_popup()
+                host_id = self.popup.current_selection()[1]
+                self.delete_host(host_id)
                 return
             if chr(c) == 'a' and self.inlist:
                 self.add_popup()

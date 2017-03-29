@@ -21,7 +21,7 @@ import deluge.common
 from deluge import error
 from deluge.decorators import deprecated
 from deluge.transfer import DelugeTransferProtocol
-from deluge.ui.common import get_localhost_auth
+from deluge.ui.hostlist import get_localhost_auth
 
 RPC_RESPONSE = 1
 RPC_ERROR = 2

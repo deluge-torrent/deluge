@@ -25,6 +25,7 @@ import deluge.ui.console.main
 import deluge.ui.web.server
 from deluge.common import utf8_encode_structure
 from deluge.ui import ui_entry
+from deluge.ui.hostlist import get_localhost_auth
 from deluge.ui.web.server import DelugeWeb
 
 from . import common
@@ -338,7 +339,7 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
 
     @defer.inlineCallbacks
     def test_console_command_status(self):
-        username, password = deluge.ui.common.get_localhost_auth()
+        username, password = get_localhost_auth()
         self.patch(sys, 'argv', self.var['sys_arg_cmd'] + ['--port'] + ['58900'] + ['--username'] +
                    [username] + ['--password'] + [password] + ['status'])
         fd = StringFileDescriptor(sys.stdout)

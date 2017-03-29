@@ -10,13 +10,11 @@
 from __future__ import division, unicode_literals
 
 import base64
-import hashlib
 import json
 import logging
 import os
 import shutil
 import tempfile
-import time
 from types import FunctionType
 
 from twisted.internet import defer, reactor
@@ -24,10 +22,11 @@ from twisted.internet.defer import Deferred, DeferredList
 from twisted.web import http, resource, server
 
 from deluge import common, component, httpdownloader
-from deluge.configmanager import ConfigManager, get_config_dir
-from deluge.ui import common as uicommon
+from deluge.configmanager import get_config_dir
 from deluge.ui.client import Client, client
+from deluge.ui.common import FileTree2, TorrentInfo
 from deluge.ui.coreconfig import CoreConfig
+from deluge.ui.hostlist import HostList
 from deluge.ui.sessionproxy import SessionProxy
 from deluge.ui.translations_util import get_languages
 from deluge.ui.web.common import _, compress
@@ -58,7 +57,8 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
     """
     global AUTH_LEVEL_DEFAULT, AuthError
     if AUTH_LEVEL_DEFAULT is None:
-        from deluge.ui.web.auth import AUTH_LEVEL_DEFAULT, AuthError  # NOQA pylint: disable=redefined-outer-name
+        from deluge.common import AUTH_LEVEL_DEFAULT
+        from deluge.ui.web.auth import AuthError  # NOQA pylint: disable=redefined-outer-name
 
     def wrap(func, *args, **kwargs):
         func._json_export = True
@@ -262,19 +262,6 @@ class JSON(resource.Resource, component.Component):
                 self._local_methods[name + '.' + d] = getattr(obj, d)
 
 
-HOSTLIST_ID = 0
-HOSTLIST_NAME = 1
-HOSTLIST_PORT = 2
-HOSTLIST_USER = 3
-HOSTLIST_PASS = 4
-
-HOSTS_ID = HOSTLIST_ID
-HOSTS_NAME = HOSTLIST_NAME
-HOSTS_PORT = HOSTLIST_PORT
-HOSTS_USER = HOSTLIST_USER
-HOSTS_STATUS = 3
-HOSTS_INFO = 4
-
 FILES_KEYS = ['files', 'file_progress', 'file_priorities']
 
 
@@ -370,9 +357,7 @@ class WebApi(JSONComponent):
 
     def __init__(self):
         super(WebApi, self).__init__('Web', depend=['SessionProxy'])
-        self.host_list = ConfigManager('hostlist.conf.1.2', uicommon.DEFAULT_HOSTS)
-        if not os.path.isfile(self.host_list.config_file):
-            self.host_list.save()
+        self.hostlist = HostList()
         self.core_config = CoreConfig()
         self.event_queue = EventQueue()
         try:
@@ -409,23 +394,6 @@ class WebApi(JSONComponent):
     def _on_client_disconnect(self, *args):
         component.get('Web.PluginManager').stop()
         return self.stop()
-
-    def _get_host(self, host_id):
-        """Information about a host from supplied host id.
-
-        Args:
-            host_id (str): The id of the host.
-
-        Returns:
-            list: The host information, empty list if not found.
-
-        """
-        host_info = []
-        for host_entry in self.host_list['hosts']:
-            if host_entry[0] == host_id:
-                host_info = host_entry
-                break
-        return host_info
 
     def start(self):
         self.core_config.start()
@@ -611,7 +579,7 @@ class WebApi(JSONComponent):
                 item.update(info[path])
                 return item
 
-        file_tree = uicommon.FileTree2(paths)
+        file_tree = FileTree2(paths)
         file_tree.walk(walk)
         d.callback(file_tree.get_tree())
 
@@ -685,7 +653,7 @@ class WebApi(JSONComponent):
         :rtype: dictionary
         """
         try:
-            torrent_info = uicommon.TorrentInfo(filename.strip(), 2)
+            torrent_info = TorrentInfo(filename.strip(), 2)
             return torrent_info.as_dict('name', 'info_hash', 'files_tree')
         except Exception as ex:
             log.error(ex)
@@ -730,13 +698,25 @@ class WebApi(JSONComponent):
                 deferreds.append(d)
         return DeferredList(deferreds, consumeErrors=False)
 
+    def _get_host(self, host_id):
+        """Information about a host from supplied host id.
+
+        Args:
+            host_id (str): The id of the host.
+
+        Returns:
+            list: The host information, empty list if not found.
+
+        """
+        return list(self.hostlist.get_host_info(host_id))
+
     @export
     def get_hosts(self):
         """
         Return the hosts in the hostlist.
         """
         log.debug('get_hosts called')
-        return [(tuple(host[HOSTS_ID:HOSTS_USER + 1]) + ('Offline',)) for host in self.host_list['hosts']]
+        return self.hostlist.get_hosts() + ['']
 
     @export
     def get_host_status(self, host_id):
@@ -787,6 +767,39 @@ class WebApi(JSONComponent):
             return d
 
     @export
+    def add_host(self, host, port, username='', password=''):
+        """Adds a host to the list.
+
+        Args:
+            host (str): The IP or hostname of the deluge daemon.
+            port (int): The port of the deluge daemon.
+            username (str): The username to login to the daemon with.
+            password (str): The password to login to the daemon with.
+
+        Returns:
+            tuple: A tuple of (bool, str). If True will contain the host_id, otherwise
+                if False will contain the error message.
+        """
+        try:
+            host_id = self.hostlist.add_host(host, port, username, password)
+        except ValueError as ex:
+            return False, str(ex)
+        else:
+            return True, host_id
+
+    @export
+    def remove_host(self, host_id):
+        """Removes a host from the list.
+
+        Args:
+            host_id (str): The host identifying hash.
+
+        Returns:
+            bool: True if succesful, False otherwise.
+        """
+        return self.hostlist.remove_host(host_id)
+
+    @export
     def start_daemon(self, port):
         """
         Starts a local daemon.
@@ -826,55 +839,6 @@ class WebApi(JSONComponent):
         except Exception:
             main_deferred.callback((False, 'An error occurred'))
         return main_deferred
-
-    @export
-    def add_host(self, host, port, username='', password=''):
-        """
-        Adds a host to the list.
-
-        :param host: the hostname
-        :type host: string
-        :param port: the port
-        :type port: int
-        :param username: the username to login as
-        :type username: string
-        :param password: the password to login with
-        :type password: string
-
-        """
-        # Check to see if there is already an entry for this host and return
-        # if thats the case
-        for entry in self.host_list['hosts']:
-            if (entry[1], entry[2], entry[3]) == (host, port, username):
-                return (False, 'Host already in the list')
-
-        try:
-            port = int(port)
-        except ValueError:
-            return (False, 'Port is invalid')
-
-        # Host isn't in the list, so lets add it
-        connection_id = hashlib.sha1(str(time.time())).hexdigest()
-        self.host_list['hosts'].append([connection_id, host, port, username,
-                                        password])
-        self.host_list.save()
-        return True, connection_id
-
-    @export
-    def remove_host(self, connection_id):
-        """
-        Removes a host for the list
-
-        :param host_id: the hash id of the host
-        :type host_id: string
-        """
-        host = self._get_host(connection_id)
-        if not host:
-            return False
-
-        self.host_list['hosts'].remove(host)
-        self.host_list.save()
-        return True
 
     @export
     def get_config(self):
