@@ -39,7 +39,7 @@ import urlparse
 import time
 import hashlib
 from twisted.internet import reactor
-from socket import gethostbyname
+from socket import gaierror, gethostbyname
 
 import deluge.component as component
 import deluge.common
@@ -204,6 +204,11 @@ class ConnectionManager(component.Component):
             if [entry[HOSTLIST_COL_HOST], entry[HOSTLIST_COL_PORT], entry[HOSTLIST_COL_USER]] == [host, port, username]:
                 raise Exception("Host already in list!")
 
+        try:
+            gethostbyname(host)
+        except gaierror as ex:
+            raise Exception("Host '%s': %s" % (host, ex.args[1]))
+
         # Host isn't in the list, so lets add it
         row = self.liststore.append()
         import time
@@ -304,8 +309,14 @@ class ConnectionManager(component.Component):
             user = row[HOSTLIST_COL_USER]
             password = row[HOSTLIST_COL_PASS]
 
+            try:
+                ip = gethostbyname(host)
+            except gaierror as ex:
+                log.error("Error resolving host %s to ip: %s", host, ex.args[1])
+                continue
+
             if client.connected() and (
-                gethostbyname(host),
+                ip,
                 port,
                 "localclient" if not user and host in ("127.0.0.1", "localhost") else user
                     ) == client.connection_info():
@@ -510,8 +521,7 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
             try:
                 self.add_host(hostname, port_spinbutton.get_value_as_int(), username, password)
             except Exception, e:
-                from deluge.ui.gtkui.dialogs import ErrorDialog
-                ErrorDialog(_("Error Adding Host"), e).run()
+                dialogs.ErrorDialog(_("Error Adding Host"), e, parent=dialog).run()
 
         username_entry.set_text("")
         password_entry.set_text("")

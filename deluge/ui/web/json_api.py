@@ -42,6 +42,7 @@ import shutil
 import logging
 import hashlib
 import tempfile
+from socket import gaierror, gethostbyname
 from urlparse import urljoin
 from urllib import unquote_plus
 
@@ -915,6 +916,11 @@ class WebApi(JSONComponent):
         for entry in self.host_list["hosts"]:
             if (entry[0], entry[1], entry[2]) == (host, port, username):
                 return (False, "Host already in the list")
+
+        try:
+            gethostbyname(host)
+        except gaierror as ex:
+            return (False, "Hostname error: %s" % ex.args[1])
 
         try:
             port = int(port)
