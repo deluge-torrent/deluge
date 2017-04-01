@@ -229,7 +229,7 @@ class JSONRequestFailedTestCase(JSONBase, WebServerMockBase):
             self.assertTrue('in test_raise_error' in self.core.stderr_out)
 
         extra_callback['deferred'].addCallback(on_test_raise)
-        d.addCallback(self.start_core, custom_script=custom_script, print_stderr=False,
+        d.addCallback(self.start_core, custom_script=custom_script, print_stdout=False, print_stderr=False,
                       timeout=5, extra_callbacks=[extra_callback])
         d.addCallbacks(self.connect_client, self.terminate_core)
         return d

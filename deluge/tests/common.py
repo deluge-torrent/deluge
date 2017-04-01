@@ -103,7 +103,7 @@ class ReactorOverride(object):
 
 class ProcessOutputHandler(protocol.ProcessProtocol):
 
-    def __init__(self, script, callbacks, logfile=None, print_stderr=True):
+    def __init__(self, script, callbacks, logfile=None, print_stdout=True, print_stderr=True):
         """Executes a script and handle the process' output to stdout and stderr.
 
         Args:
@@ -111,6 +111,7 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
             callbacks (list): Callbacks to trigger if the expected output if found.
             logfile (str, optional): Filename to wrote the process' output.
             print_stderr (bool): Print the process' stderr output to stdout.
+            print_stdout (bool): Print the process' stdout output to stdout.
 
         """
         self.callbacks = callbacks
@@ -118,6 +119,7 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
         self.log_output = ''
         self.stderr_out = ''
         self.logfile = logfile
+        self.print_stdout = print_stdout
         self.print_stderr = print_stderr
         self.quit_d = None
         self.killed = False
@@ -190,6 +192,8 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
         if self.check_callbacks(data):
             pass
         elif '[ERROR' in data:
+            if not self.print_stdout:
+                return
             print(data, end=' ')
 
     def errReceived(self, data):  # NOQA: N802
@@ -206,7 +210,7 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
 
 
 def start_core(listen_port=58846, logfile=None, timeout=10, timeout_msg=None,
-               custom_script='', print_stderr=True, extra_callbacks=None):
+               custom_script='', print_stdout=True, print_stderr=True, extra_callbacks=None):
     """Start the deluge core as a daemon.
 
     Args:
@@ -216,6 +220,7 @@ def start_core(listen_port=58846, logfile=None, timeout=10, timeout_msg=None,
         timeout_msg (str): The message to print when the timeout expires.
         custom_script (str): Extra python code to insert into the daemon process script.
         print_stderr (bool): If the output from the process' stderr should be printed to stdout.
+        print_stdout (bool): If the output from the process' stdout should be printed to stdout.
         extra_callbacks (list): A list of dictionaries specifying extra callbacks.
 
     Returns:
@@ -260,11 +265,11 @@ except:
     if extra_callbacks:
         callbacks.extend(extra_callbacks)
 
-    process_protocol = start_process(daemon_script, callbacks, logfile, print_stderr)
+    process_protocol = start_process(daemon_script, callbacks, logfile, print_stdout, print_stderr)
     return default_core_cb['deferred'], process_protocol
 
 
-def start_process(script, callbacks, logfile=None, print_stderr=True):
+def start_process(script, callbacks, logfile=None, print_stdout=True, print_stderr=True):
     """
     Starts an external python process which executes the given script.
 
@@ -273,6 +278,7 @@ def start_process(script, callbacks, logfile=None, print_stderr=True):
         callbacks (list): list of dictionaries specifying callbacks.
         logfile (str, optional): Logfile name to write the output from the process.
         print_stderr (bool): If the output from the process' stderr should be printed to stdout.
+        print_stdout (bool): If the output from the process' stdout should be printed to stdout.
 
     Returns:
         ProcessOutputHandler: The handler for the process's output.
@@ -289,7 +295,7 @@ def start_process(script, callbacks, logfile=None, print_stderr=True):
 
     """
     cwd = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-    process_protocol = ProcessOutputHandler(script.encode('utf8'), callbacks, logfile, print_stderr)
+    process_protocol = ProcessOutputHandler(script.encode('utf8'), callbacks, logfile, print_stdout, print_stderr)
 
     # Add timeouts to deferreds
     for c in callbacks:
