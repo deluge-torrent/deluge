@@ -919,7 +919,7 @@ class WebApi(JSONComponent):
 
         try:
             gethostbyname(host)
-        except gaierror as ex:
+        except gaierror, ex:
             return (False, "Hostname error: %s" % ex.args[1])
 
         try:

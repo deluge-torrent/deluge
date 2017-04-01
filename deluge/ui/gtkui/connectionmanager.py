@@ -206,7 +206,7 @@ class ConnectionManager(component.Component):
 
         try:
             gethostbyname(host)
-        except gaierror as ex:
+        except gaierror, ex:
             raise Exception("Host '%s': %s" % (host, ex.args[1]))
 
         # Host isn't in the list, so lets add it
@@ -311,7 +311,7 @@ class ConnectionManager(component.Component):
 
             try:
                 ip = gethostbyname(host)
-            except gaierror as ex:
+            except gaierror, ex:
                 log.error("Error resolving host %s to ip: %s", host, ex.args[1])
                 continue
 
