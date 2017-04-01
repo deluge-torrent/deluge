@@ -66,7 +66,7 @@ class WebServerTestBase(BaseTestCase, DaemonBase):
 
         self.deluge_web = DelugeWeb(daemon=False)
 
-        host = list(self.deluge_web.web_api.hostlist.get_hosts_info2()[0])
+        host = list(self.deluge_web.web_api.hostlist.config['hosts'][0])
         host[2] = self.listen_port
         self.deluge_web.web_api.hostlist.config['hosts'][0] = tuple(host)
         self.host_id = host[0]

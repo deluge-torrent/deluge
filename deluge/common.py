@@ -997,6 +997,40 @@ def create_localclient_account(append=False):
         os.fsync(_file.fileno())
 
 
+def get_localhost_auth():
+        """Grabs the localclient auth line from the 'auth' file and creates a localhost uri.
+
+        Returns:
+            tuple: With the username and password to login as.
+
+        """
+        from deluge.configmanager import get_config_dir
+        auth_file = get_config_dir('auth')
+        if not os.path.exists(auth_file):
+            from deluge.common import create_localclient_account
+            create_localclient_account()
+
+        with open(auth_file) as auth:
+            for line in auth:
+                line = line.strip()
+                if line.startswith('#') or not line:
+                    # This is a comment or blank line
+                    continue
+
+                lsplit = line.split(':')
+
+                if len(lsplit) == 2:
+                    username, password = lsplit
+                elif len(lsplit) == 3:
+                    username, password, level = lsplit
+                else:
+                    log.error('Your auth file is malformed: Incorrect number of fields!')
+                    continue
+
+                if username == 'localclient':
+                    return (username, password)
+
+
 def set_env_variable(name, value):
     """
     :param name: environment variable name

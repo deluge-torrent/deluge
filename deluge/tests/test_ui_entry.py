@@ -23,9 +23,8 @@ import deluge.ui.console
 import deluge.ui.console.cmdline.commands.quit
 import deluge.ui.console.main
 import deluge.ui.web.server
-from deluge.common import utf8_encode_structure
+from deluge.common import get_localhost_auth, utf8_encode_structure
 from deluge.ui import ui_entry
-from deluge.ui.hostlist import get_localhost_auth
 from deluge.ui.web.server import DelugeWeb
 
 from . import common
@@ -334,7 +333,7 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
 
     def set_up(self):
         # Avoid calling reactor.shutdown after commands are executed by main.exec_args()
-        self.patch(deluge.ui.console.cmdline.commands.quit, 'reactor', common.ReactorOverride())
+        deluge.ui.console.main.reactor = common.ReactorOverride()
         return UIWithDaemonBaseTestCase.set_up(self)
 
     @defer.inlineCallbacks
@@ -344,7 +343,6 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
                    [username] + ['--password'] + [password] + ['status'])
         fd = StringFileDescriptor(sys.stdout)
         self.patch(sys, 'stdout', fd)
-        self.patch(deluge.ui.console.main, 'reactor', common.ReactorOverride())
 
         yield self.exec_command()
 

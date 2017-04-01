@@ -11,10 +11,9 @@ from twisted.internet import defer
 
 import deluge.component as component
 from deluge import error
-from deluge.common import AUTH_LEVEL_NORMAL
+from deluge.common import AUTH_LEVEL_NORMAL, get_localhost_auth
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.ui.client import Client, DaemonSSLProxy, client
-from deluge.ui.hostlist import get_localhost_auth
 
 from .basetest import BaseTestCase
 from .daemon_base import DaemonBase

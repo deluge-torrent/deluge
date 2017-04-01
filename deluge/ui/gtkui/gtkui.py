@@ -21,7 +21,7 @@ pygtk.require('2.0')  # NOQA: E402
 
 # isort:imports-thirdparty
 from gobject import set_prgname
-from gtk import RESPONSE_OK, RESPONSE_YES
+from gtk import RESPONSE_YES
 from gtk.gdk import WINDOWING, threads_enter, threads_init, threads_leave
 from twisted.internet import defer, gtk2reactor
 from twisted.internet.error import ReactorAlreadyInstalledError
@@ -38,12 +38,12 @@ except ReactorAlreadyInstalledError as ex:
 import deluge.component as component
 from deluge.common import fsize, fspeed, get_default_download_dir, osx_check, windows_check
 from deluge.configmanager import ConfigManager, get_config_dir
-from deluge.error import AuthenticationRequired, BadLoginError, DaemonRunningError
+from deluge.error import DaemonRunningError
 from deluge.ui.client import client
 from deluge.ui.gtkui.addtorrentdialog import AddTorrentDialog
 from deluge.ui.gtkui.common import associate_magnet_links
 from deluge.ui.gtkui.connectionmanager import ConnectionManager
-from deluge.ui.gtkui.dialogs import AuthenticationDialog, ErrorDialog, YesNoDialog
+from deluge.ui.gtkui.dialogs import YesNoDialog
 from deluge.ui.gtkui.filtertreeview import FilterTreeView
 from deluge.ui.gtkui.ipcinterface import IPCInterface, process_args
 from deluge.ui.gtkui.mainwindow import MainWindow
@@ -61,7 +61,7 @@ from deluge.ui.sessionproxy import SessionProxy
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.translations_util import set_language, setup_translations
 
-set_prgname(b'deluge')
+set_prgname('deluge'.encode('utf8'))
 log = logging.getLogger(__name__)
 
 try:
@@ -220,7 +220,7 @@ class GtkUI(object):
         # Setup RPC stats logging
         # daemon_bps: time, bytes_sent, bytes_recv
         self.daemon_bps = (0, 0, 0)
-        self.rpc_stats = LoopingCall(self.print_rpc_stats)
+        self.rpc_stats = LoopingCall(self.log_rpc_stats)
         self.closing = False
 
         # Twisted catches signals to terminate, so have it call a pre_shutdown method.
@@ -238,8 +238,8 @@ class GtkUI(object):
         # Initialize gdk threading
         threads_enter()
         reactor.run()
-        # Reactor is not running. Any async callbacks (Deferreds) can no longer
-        # be processed from this point on.
+        # Reactor no longer running so async callbacks (Deferreds) cannot be
+        # processed after this point.
         threads_leave()
 
     def shutdown(self, *args, **kwargs):
@@ -267,11 +267,12 @@ class GtkUI(object):
 
         reactor.stop()
 
-        # Restart the application after closing if MainWindow attribute set.
+        # Restart the application after closing if MainWindow restart attribute set.
         if component.get('MainWindow').restart:
             os.execv(sys.argv[0], sys.argv)
 
-    def print_rpc_stats(self):
+    def log_rpc_stats(self):
+        """Log RPC statistics for thinclient mode."""
         if not client.connected():
             return
 
@@ -290,144 +291,73 @@ class GtkUI(object):
         log.debug('_on_reactor_start')
         self.mainwindow.first_show()
 
-        if self.config['standalone']:
-            def on_dialog_response(response):
-                if response != RESPONSE_YES:
-                    # The user does not want to turn Standalone Mode off, so just quit
-                    self.mainwindow.quit()
-                    return
+        if not self.config['standalone']:
+            return self._start_thinclient()
+
+        err_msg = ''
+        try:
+            client.start_standalone()
+        except DaemonRunningError:
+            err_msg = _('A Deluge daemon (deluged) is already running.\n'
+                        'To use Standalone mode, stop local daemon and restart Deluge.')
+        except ImportError as ex:
+            if 'No module named libtorrent' in ex.message:
+                err_msg = _('Only Thin Client mode is available because libtorrent is not installed.\n'
+                            'To use Standalone mode, please install libtorrent package.')
+            else:
+                log.exception(ex)
+                err_msg = _('Only Thin Client mode is available due to unknown Import Error.\n'
+                            'To use Standalone mode, please see logs for error details.')
+        except Exception as ex:
+            log.exception(ex)
+            err_msg = _('Only Thin Client mode is available due to unknown Import Error.\n'
+                        'To use Standalone mode, please see logs for error details.')
+        else:
+            component.start()
+            return
+
+        def on_dialog_response(response):
+            """User response to switching mode dialog."""
+            if response == RESPONSE_YES:
                 # Turning off standalone
                 self.config['standalone'] = False
-                self.__start_thinclient()
+                self._start_thinclient()
+            else:
+                # User want keep Standalone Mode so just quit.
+                self.mainwindow.quit()
 
-            try:
-                try:
-                    client.start_standalone()
-                except DaemonRunningError:
-                    d = YesNoDialog(
-                        _('Switch to Thin Client Mode?'),
-                        _('A Deluge daemon process (deluged) is already running. '
-                          'To use Standalone mode, stop this daemon and restart Deluge.'
-                          '\n\n'
-                          'Continue in Thin Client mode?')).run()
-                    d.addCallback(on_dialog_response)
-                except ImportError as ex:
-                    if 'No module named libtorrent' in ex.message:
-                        d = YesNoDialog(
-                            _('Switch to Thin Client Mode?'),
-                            _('Only Thin Client mode is available because libtorrent is not installed.'
-                              '\n\n'
-                              'To use Deluge Standalone mode, please install libtorrent.')).run()
-                        d.addCallback(on_dialog_response)
-                    else:
-                        raise ex
-                else:
-                    component.start()
-                    return
-            except Exception:
-                import traceback
-                tb = sys.exc_info()
-                ed = ErrorDialog(
-                    _('Error Starting Core'),
-                    _('An error occurred starting the core component required to run Deluge in Standalone mode.'
-                      '\n\n'
-                      'Please see the details below for more information.'), details=traceback.format_exc(tb[2])).run()
+        # An error occurred so ask user to switch from Standalone to Thin Client mode.
+        err_msg += '\n\n' + _('Continue in Thin Client mode?')
+        d = YesNoDialog(_('Change User Interface Mode'), err_msg).run()
+        d.addCallback(on_dialog_response)
 
-                def on_ed_response(response):
-                    d = YesNoDialog(
-                        _('Switch to Thin Client Mode?'),
-                        _('Unable to start Standalone mode would you like to continue in Thin Client mode?')
-                    ).run()
-                    d.addCallback(on_dialog_response)
-                ed.addCallback(on_ed_response)
-        else:
+    def _start_thinclient(self):
+        """Start the gtkui in thinclient mode"""
+        if log.isEnabledFor(logging.DEBUG):
             self.rpc_stats.start(10)
-            self.__start_thinclient()
 
-    def __start_thinclient(self):
+        # Check to see if we need to start the localhost daemon
+        if self.config['autostart_localhost']:
+            port = 0
+            for host_config in self.connectionmanager.hostlist.config['hosts']:
+                if host_config[1] in self.connectionmanager.LOCALHOST:
+                    port = host_config[2]
+                    log.debug('Autostarting localhost: %s', host_config[0:3])
+
+            if port:
+                self.connectionmanager.start_daemon(port, get_config_dir())
+
         # Autoconnect to a host
         if self.config['autoconnect']:
-
-            def update_connection_manager():
-                if not self.connectionmanager.running:
-                    return
-                self.connectionmanager.builder.get_object('button_refresh').emit('clicked')
-
-            def close_connection_manager():
-                if not self.connectionmanager.running:
-                    return
-                self.connectionmanager.builder.get_object('button_close').emit('clicked')
-
-            for host_config in self.connectionmanager.config['hosts']:
-                hostid, host, port, user, passwd = host_config
-                if hostid == self.config['autoconnect_host_id']:
-                    try_connect = True
-                    # Check to see if we need to start the localhost daemon
-                    if self.config['autostart_localhost'] and host in ('localhost', '127.0.0.1'):
-                        log.debug('Autostarting localhost:%s', host)
-                        try_connect = client.start_daemon(
-                            port, get_config_dir()
-                        )
-                        log.debug('Localhost started: %s', try_connect)
-                        if not try_connect:
-                            ErrorDialog(
-                                _('Error Starting Daemon'),
-                                _('There was an error starting the daemon '
-                                  'process.  Try running it from a console '
-                                  'to see if there is an error.')
-                            ).run()
-
-                        # Daemon Started, let's update it's info
-                        reactor.callLater(0.5, update_connection_manager)
-
-                    def on_connect(connector):
-                        component.start()
-                        reactor.callLater(0.2, update_connection_manager)
-                        reactor.callLater(0.5, close_connection_manager)
-
-                    def on_connect_fail(reason, try_counter,
-                                        host, port, user, passwd):
-                        if not try_counter:
-                            return
-
-                        if reason.check(AuthenticationRequired, BadLoginError):
-                            log.debug('PasswordRequired exception')
-                            dialog = AuthenticationDialog(reason.value.message, reason.value.username)
-
-                            def dialog_finished(response_id, host, port):
-                                if response_id == RESPONSE_OK:
-                                    reactor.callLater(
-                                        0.5, do_connect, try_counter - 1,
-                                        host, port, dialog.get_username(),
-                                        dialog.get_password())
-                            dialog.run().addCallback(dialog_finished, host, port)
-                            return
-
-                        log.info('Connection to host failed..')
-                        log.info('Retrying connection.. Retries left: '
-                                 '%s', try_counter)
-                        reactor.callLater(0.5, update_connection_manager)
-                        reactor.callLater(0.5, do_connect, try_counter - 1,
-                                          host, port, user, passwd)
-
-                    def do_connect(try_counter, host, port, user, passwd):
-                        log.debug('Trying to connect to %s@%s:%s',
-                                  user, host, port)
-                        d = client.connect(host, port, user, passwd)
-                        d.addCallback(on_connect)
-                        d.addErrback(on_connect_fail, try_counter,
-                                     host, port, user, passwd)
-
-                    if try_connect:
-                        reactor.callLater(
-                            0.5, do_connect, 6, host, port, user, passwd
-                        )
+            for host_config in self.connectionmanager.hostlist.config['hosts']:
+                host_id, host, port, user, __ = host_config
+                if host_id == self.config['autoconnect_host_id']:
+                    log.debug('Trying to connect to %s@%s:%s', user, host, port)
+                    reactor.callLater(0.3, self.connectionmanager._connect, host_id, try_counter=6)
                     break
 
         if self.config['show_connection_manager_on_start']:
-            if windows_check():
-                # Call to simulate() required to workaround showing daemon status (see #2813)
-                reactor.simulate()
+            # Dialog is blocking so call last.
             self.connectionmanager.show()
 
     def __on_disconnect(self):

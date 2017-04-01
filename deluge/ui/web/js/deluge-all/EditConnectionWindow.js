@@ -1,5 +1,5 @@
 /*!
- * Deluge.AddConnectionWindow.js
+ * Deluge.EditConnectionWindow.js
  *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
@@ -10,12 +10,12 @@
 Ext.ns('Deluge');
 
 /**
- * @class Deluge.AddConnectionWindow
+ * @class Deluge.EditConnectionWindow
  * @extends Ext.Window
  */
-Deluge.AddConnectionWindow = Ext.extend(Ext.Window, {
+Deluge.EditConnectionWindow = Ext.extend(Ext.Window, {
 
-    title: _('Add Connection'),
+    title: _('Edit Connection'),
     iconCls: 'x-deluge-add-window-icon',
 
     layout: 'fit',
@@ -26,12 +26,12 @@ Deluge.AddConnectionWindow = Ext.extend(Ext.Window, {
     closeAction: 'hide',
 
     initComponent: function() {
-        Deluge.AddConnectionWindow.superclass.initComponent.call(this);
+        Deluge.EditConnectionWindow.superclass.initComponent.call(this);
 
-        this.addEvents('hostadded');
+        this.addEvents('hostedited');
 
         this.addButton(_('Close'), this.hide, this);
-        this.addButton(_('Add'), this.onAddClick, this);
+        this.addButton(_('Edit'), this.onEditClick, this);
 
         this.on('hide', this.onHide, this);
 
@@ -54,11 +54,11 @@ Deluge.AddConnectionWindow = Ext.extend(Ext.Window, {
                 strategy: {
                     xtype: 'number',
                     decimalPrecision: 0,
-                    minValue: -1,
+                    minValue: 0,
                     maxValue: 65535
                 },
-                value: '58846',
-                anchor: '40%'
+                anchor: '40%',
+                value: 58846
             }, {
                 fieldLabel: _('Username:'),
                 labelSeparator : '',
@@ -76,21 +76,31 @@ Deluge.AddConnectionWindow = Ext.extend(Ext.Window, {
         });
     },
 
-    onAddClick: function() {
+    show: function(connection) {
+        Deluge.EditConnectionWindow.superclass.show.call(this);
+
+        this.form.getForm().findField('host').setValue(connection.get('host'));
+        this.form.getForm().findField('port').setValue(connection.get('port'));
+        this.form.getForm().findField('username').setValue(connection.get('user'));
+        this.host_id = connection.id
+    },
+
+    onEditClick: function() {
         var values = this.form.getForm().getValues();
-        deluge.client.web.add_host(values.host, Number(values.port), values.username, values.password, {
+        deluge.client.web.edit_host(this.host_id, values.host, Number(values.port), values.username, values.password, {
             success: function(result) {
-                if (!result[0]) {
+                if (!result) {
+                    console.log(result)
                     Ext.MessageBox.show({
                         title: _('Error'),
-                        msg: String.format(_('Unable to add host: {0}'), result[1]),
+                        msg: String.format(_('Unable to edit host')),
                         buttons: Ext.MessageBox.OK,
                         modal: false,
                         icon: Ext.MessageBox.ERROR,
                         iconCls: 'x-deluge-icon-error'
                     });
                 } else {
-                    this.fireEvent('hostadded');
+                    this.fireEvent('hostedited');
                 }
                 this.hide();
             },

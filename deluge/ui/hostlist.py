@@ -7,19 +7,19 @@
 # See LICENSE for more details.
 #
 
-"""
-The UI hostlist module contains methods useful for adding, removing and lookingup host in hostlist.conf.
-"""
 from __future__ import unicode_literals
 
 import logging
-import os
 import time
 from hashlib import sha1
 from socket import gaierror, gethostbyname
 
+from twisted.internet import defer
+
+from deluge.common import get_localhost_auth
 from deluge.config import Config
 from deluge.configmanager import get_config_dir
+from deluge.ui.client import Client, client
 
 log = logging.getLogger(__name__)
 
@@ -29,43 +29,10 @@ LOCALHOST = ('127.0.0.1', 'localhost')
 
 
 def default_hostlist():
-    """Create a new hosts for hostlist with a localhost entry"""
+    """Create a new hosts key for hostlist with a localhost entry"""
     host_id = sha1(str(time.time()).encode('utf8')).hexdigest()
     username, password = get_localhost_auth()
     return {'hosts': [(host_id, DEFAULT_HOST, DEFAULT_PORT, username, password)]}
-
-
-def get_localhost_auth():
-        """Grabs the localclient auth line from the 'auth' file and creates a localhost uri.
-
-        Returns:
-            tuple: With the username and password to login as.
-
-        """
-        auth_file = get_config_dir('auth')
-        if not os.path.exists(auth_file):
-            from deluge.common import create_localclient_account
-            create_localclient_account()
-
-        with open(auth_file) as auth:
-            for line in auth:
-                line = line.strip()
-                if line.startswith('#') or not line:
-                    # This is a comment or blank line
-                    continue
-
-                lsplit = line.split(':')
-
-                if len(lsplit) == 2:
-                    username, password = lsplit
-                elif len(lsplit) == 3:
-                    username, password, level = lsplit
-                else:
-                    log.error('Your auth file is malformed: Incorrect number of fields!')
-                    continue
-
-                if username == 'localclient':
-                    return (username, password)
 
 
 def validate_host_info(hostname, port):
@@ -84,25 +51,25 @@ def validate_host_info(hostname, port):
     except gaierror as ex:
         raise ValueError('Host %s: %s', hostname, ex.args[1])
 
-    try:
-        int(port)
-    except ValueError:
+    if not isinstance(port, int):
         raise ValueError('Invalid port. Must be an integer')
 
 
 def _migrate_config_1_to_2(config):
-        localclient_username, localclient_password = get_localhost_auth()
-        if not localclient_username:
-            # Nothing to do here, there's no auth file
-            return
-        for idx, (__, host, __, username, __) in enumerate(config['hosts'][:]):
-            if host in LOCALHOST and not username:
-                config['hosts'][idx][3] = localclient_username
-                config['hosts'][idx][4] = localclient_password
-        return config
+    """Mirgrates old hostlist config files to new format"""
+    localclient_username, localclient_password = get_localhost_auth()
+    if not localclient_username:
+        # Nothing to do here, there's no auth file
+        return
+    for idx, (__, host, __, username, __) in enumerate(config['hosts'][:]):
+        if host in LOCALHOST and not username:
+            config['hosts'][idx][3] = localclient_username
+            config['hosts'][idx][4] = localclient_password
+    return config
 
 
 class HostList(object):
+    """This class contains methods for adding, removing and looking up hosts in hostlist.conf."""
     def __init__(self):
         self.config = Config('hostlist.conf', default_hostlist(), config_dir=get_config_dir(), file_version=2)
         self.config.run_converter((0, 1), 2, _migrate_config_1_to_2)
@@ -152,31 +119,87 @@ class HostList(object):
     def get_host_info(self, host_id):
         """Get the host details for host_id.
 
-        Includes password details!
+        Args:
+            host_id (str): The host id to get info on.
+
+        Returns:
+            list: A list of (host_id, hostname, port, username).
 
         """
         for host_entry in self.config['hosts']:
             if host_entry[0] == host_id:
-                return host_entry
+                return host_entry[0:4]
         else:
             return []
 
     def get_hosts_info(self):
-        """Get all the hosts in the hostlist
+        """Get information of all the hosts in the hostlist.
 
-        Excluding password details.
+        Returns:
+            list of lists: Host information in the format [(host_id, hostname, port, username)].
+
         """
-        return [host[0:4 + 1] for host in self.config['hosts']]
+        return [host_entry[0:4] for host_entry in self.config['hosts']]
 
-    def get_hosts_info2(self):
-        """Get all the hosts in the hostlist
+    def get_host_status(self, host_id):
+        """Gets the current status (online/offline) of the host
 
-        Excluding password details.
+        Args:
+            host_id (str): The host id to check status of.
+
+        Returns:
+            tuple: A tuple of strings (host_id, status, version).
+
         """
-        return [host for host in self.config['hosts']]
+        status_offline = (host_id, 'Offline', '')
+
+        def on_connect(result, c, host_id):
+            """Successfully connected to a daemon"""
+            def on_info(info, c):
+                c.disconnect()
+                return host_id, 'Online', info
+
+            def on_info_fail(reason, c):
+                c.disconnect()
+                return status_offline
+
+            return c.daemon.info().addCallback(on_info, c).addErrback(on_info_fail, c)
+
+        def on_connect_failed(reason, host_id):
+            """Connection to daemon failed"""
+            log.debug('Host status failed for %s: %s', host_id, reason)
+            return status_offline
+
+        try:
+            host_id, host, port, user = self.get_host_info(host_id)
+        except ValueError:
+            log.warning('Problem getting host_id info from hostlist')
+            return status_offline
+
+        try:
+            ip = gethostbyname(host)
+        except gaierror as ex:
+            log.error('Error resolving host %s to ip: %s', host, ex.args[1])
+            return status_offline
+
+        host_conn_info = (ip, port, 'localclient' if not user and host in LOCALHOST else user)
+        if client.connected() and host_conn_info == client.connection_info():
+            # Currently connected to host_id daemon.
+            def on_info(info, host_id):
+                log.debug('Client connected, query info: %s', info)
+                return host_id, 'Connected', info
+
+            return client.daemon.info().addCallback(on_info, host_id)
+        else:
+            # Attempt to connect to daemon with host_id details.
+            c = Client()
+            d = c.connect(host, port, skip_authentication=True)
+            d.addCallback(on_connect, c, host_id)
+            d.addErrback(on_connect_failed, host_id)
+            return d
 
     def update_host(self, host_id, hostname, port, username, password):
-        """Update the host with new details.
+        """Update the supplied host id with new connection details.
 
         Args:
             host_id (str): The host id to update.
@@ -192,13 +215,23 @@ class HostList(object):
         if (not password and not username or username == 'localclient') and hostname in LOCALHOST:
             username, password = get_localhost_auth()
 
-        for host_entry in self.config['hosts']:
+        for idx, host_entry in enumerate(self.config['hosts']):
             if host_id == host_entry[0]:
-                host_entry = host_id, hostname, port, username, password
+                self.config['hosts'][idx] = host_id, hostname, port, username, password
+                self.config.save()
                 return True
         return False
 
     def remove_host(self, host_id):
+        """Removes the host entry from hostlist config.
+
+        Args:
+            host_id (str): The host id to remove.
+
+        Returns:
+            bool: True is successfully removed, False otherwise.
+
+        """
         for host_entry in self.config['hosts']:
             if host_id == host_entry[0]:
                 self.config['hosts'].remove(host_entry)
@@ -209,3 +242,12 @@ class HostList(object):
 
     def add_default_host(self):
         self.add_host(DEFAULT_HOST, DEFAULT_PORT, *get_localhost_auth())
+
+    def connect_host(self, host_id):
+        """Connect to host daemon"""
+        for host_entry in self.config['hosts']:
+            if host_entry[0] == host_id:
+                __, host, port, username, password = host_entry
+                return client.connect(host, port, username, password)
+
+        return defer.fail(Exception('Bad host id'))

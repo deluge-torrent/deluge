@@ -13,7 +13,7 @@ import logging
 
 import deluge.component as component
 from deluge.decorators import overrides
-from deluge.ui.client import Client, client
+from deluge.ui.client import client
 from deluge.ui.console.modes.basemode import BaseMode
 from deluge.ui.console.widgets.popup import InputPopup, PopupsHandler, SelectablePopup
 from deluge.ui.hostlist import HostList
@@ -48,7 +48,7 @@ class ConnectionManager(BaseMode, PopupsHandler):
                          space_below=True)
         self.push_popup(popup, clear=True)
 
-        for host_entry in self.hostlist.get_host_info():
+        for host_entry in self.hostlist.get_hosts_info():
             host_id, hostname, port, user = host_entry
             args = {'data': host_id, 'foreground': 'red'}
             state = 'Offline'
@@ -64,34 +64,13 @@ class ConnectionManager(BaseMode, PopupsHandler):
         self.refresh()
 
     def update_hosts_status(self):
-        """Updates the host status"""
-        def on_connect(result, c, host_id):
-            def on_info(info, c):
-                self.statuses[host_id] = info
-                self.update_select_host_popup()
-                c.disconnect()
 
-            def on_info_fail(reason, c):
-                if host_id in self.statuses:
-                    del self.statuses[host_id]
-                c.disconnect()
-
-            d = c.daemon.info()
-            d.addCallback(on_info, c)
-            d.addErrback(on_info_fail, c)
-
-        def on_connect_failed(reason, host_id):
-            if host_id in self.statuses:
-                del self.statuses[host_id]
+        for host_entry in self.hostlist.get_hosts_info():
+            def on_host_status(status_info):
+                self.statuses[status_info[0]] = status_info
                 self.update_select_host_popup()
 
-        for host_entry in self.hostlist.get_hosts_info2():
-            c = Client()
-            host_id, host, port, user, password = host_entry
-            log.debug('Connect: host=%s, port=%s, user=%s, pass=%s', host, port, user, password)
-            d = c.connect(host, port, user, password)
-            d.addCallback(on_connect, c, host_id)
-            d.addErrback(on_connect_failed, host_id)
+            self.hostlist.get_host_status(host_entry[0]).addCallback(on_host_status)
 
     def _on_connected(self, result):
         d = component.get('ConsoleUI').start_console()
@@ -108,12 +87,9 @@ class ConnectionManager(BaseMode, PopupsHandler):
 
     def _host_selected(self, selected_host, *args, **kwargs):
         if selected_host in self.statuses:
-            for host_entry in self.hostlist.get_hosts_info():
-                if host_entry[0] == selected_host:
-                    __, host, port, user, password = host_entry
-                    d = client.connect(host, port, user, password)
-                    d.addCallback(self._on_connected)
-                    d.addErrback(self._on_connect_fail)
+            d = self.hostlist.connect_host(selected_host)
+            d.addCallback(self._on_connected)
+            d.addErrback(self._on_connect_fail)
 
     def _do_add(self, result, **kwargs):
         if not result or kwargs.get('close', False):

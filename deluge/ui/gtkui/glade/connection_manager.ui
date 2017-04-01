@@ -46,10 +46,11 @@
                             <property name="hscrollbar_policy">automatic</property>
                             <property name="vscrollbar_policy">automatic</property>
                             <child>
-                              <object class="GtkTreeView" id="hostlist">
+                              <object class="GtkTreeView" id="treeview_hostlist">
                                 <property name="height_request">80</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="model">liststore_hostlist</property>
                                 <signal name="row-activated" handler="on_hostlist_row_activated" swapped="no"/>
                               </object>
                             </child>
@@ -242,12 +243,12 @@
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="button_close">
-                <property name="label">gtk-close</property>
+                <property name="label">_Close</property>
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="use_underline">True</property>
                 <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
               </object>
               <packing>
@@ -258,12 +259,12 @@
             </child>
             <child>
               <object class="GtkButton" id="button_connect">
-                <property name="label">gtk-connect</property>
+                <property name="label">C_onnect</property>
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="use_underline">True</property>
                 <signal name="clicked" handler="on_button_connect_clicked" swapped="no"/>
               </object>
               <packing>
@@ -303,6 +304,7 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="draw_indicator">True</property>
+                        <signal name="toggled" handler="on_chk_toggled" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -318,6 +320,7 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="draw_indicator">True</property>
+                        <signal name="toggled" handler="on_chk_toggled" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -333,6 +336,7 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="draw_indicator">True</property>
+                        <signal name="toggled" handler="on_chk_toggled" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -367,5 +371,23 @@
       <action-widget response="0">button_close</action-widget>
       <action-widget response="0">button_connect</action-widget>
     </action-widgets>
+  </object>
+  <object class="GtkListStore" id="liststore_hostlist">
+    <columns>
+      <!-- column-name host_id -->
+      <column type="gchararray"/>
+      <!-- column-name hostname -->
+      <column type="gchararray"/>
+      <!-- column-name port -->
+      <column type="gint"/>
+      <!-- column-name username -->
+      <column type="gchararray"/>
+      <!-- column-name password -->
+      <column type="gchararray"/>
+      <!-- column-name status -->
+      <column type="gchararray"/>
+      <!-- column-name version -->
+      <column type="gchararray"/>
+    </columns>
   </object>
 </interface>

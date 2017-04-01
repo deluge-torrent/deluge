@@ -164,7 +164,8 @@ class JSON(resource.Resource, component.Component):
         except AuthError:
             error = {'message': 'Not authenticated', 'code': 1}
         except Exception as ex:
-            log.error('Error calling method `%s`', method)
+            log.error('Error calling method `%s`: %s', method, ex)
+            log.exception(ex)
             error = {'message': '%s: %s' % (ex.__class__.__name__, str(ex)), 'code': 3}
 
         return request_id, result, error
@@ -404,11 +405,10 @@ class WebApi(JSONComponent):
         self.sessionproxy.stop()
         return defer.succeed(True)
 
-    def _connect_daemon(self, host='localhost', port=58846, username='', password=''):
+    def _connect_daemon(self, host_id):
         """
         Connects the client to a daemon
         """
-        d = client.connect(host, port, username, password)
 
         def on_client_connected(connection_id):
             """
@@ -420,7 +420,7 @@ class WebApi(JSONComponent):
             self.start()
             return d
 
-        return d.addCallback(on_client_connected)
+        return self.hostlist.connect_host(host_id).addCallback(on_client_connected)
 
     @export
     def connect(self, host_id):
@@ -432,10 +432,7 @@ class WebApi(JSONComponent):
         :returns: the methods the daemon supports
         :rtype: list
         """
-        host = self._get_host(host_id)
-        if host:
-            return self._connect_daemon(*host[1:])
-        return defer.fail(Exception('Bad host id'))
+        return self._connect_daemon(host_id)
 
     @export
     def connected(self):
@@ -716,7 +713,7 @@ class WebApi(JSONComponent):
         Return the hosts in the hostlist.
         """
         log.debug('get_hosts called')
-        return self.hostlist.get_hosts() + ['']
+        return self.hostlist.get_hosts_info()
 
     @export
     def get_host_status(self, host_id):
@@ -725,46 +722,13 @@ class WebApi(JSONComponent):
 
         :param host_id: the hash id of the host
         :type host_id: string
+
         """
-        def response(status, info=None):
-            return host_id, host, port, status, info
+        def response(result):
+            log.critical('%s', result)
+            return result
 
-        try:
-            host_id, host, port, user, password = self._get_host(host_id)
-        except TypeError:
-            host = None
-            port = None
-            return response('Offline')
-
-        def on_connect(connected, c, host_id):
-            def on_info(info, c):
-                c.disconnect()
-                return response('Online', info)
-
-            def on_info_fail(reason, c):
-                c.disconnect()
-                return response('Offline')
-
-            if not connected:
-                return response('Offline')
-
-            return c.daemon.info().addCallback(on_info, c).addErrback(on_info_fail, c)
-
-        def on_connect_failed(reason, host_id):
-            return response('Offline')
-
-        if client.connected() and (host, port, 'localclient' if not
-                                   user and host in ('127.0.0.1', 'localhost') else
-                                   user) == client.connection_info():
-            def on_info(info):
-                return response('Connected', info)
-
-            return client.daemon.info().addCallback(on_info)
-        else:
-            c = Client()
-            d = c.connect(host, port, user, password)
-            d.addCallback(on_connect, c, host_id).addErrback(on_connect_failed, host_id)
-            return d
+        return self.hostlist.get_host_status(host_id).addCallback(response)
 
     @export
     def add_host(self, host, port, username='', password=''):
@@ -788,14 +752,32 @@ class WebApi(JSONComponent):
             return True, host_id
 
     @export
+    def edit_host(self, host_id, host, port, username='', password=''):
+        """Edit host details in the hostlist.
+
+        Args:
+            host_id (str): The host identifying hash.
+            host (str): The IP or hostname of the deluge daemon.
+            port (int): The port of the deluge daemon.
+            username (str): The username to login to the daemon with.
+            password (str): The password to login to the daemon with.
+
+        Returns:
+            bool: True if succesful, False otherwise.
+
+        """
+        return self.hostlist.update_host(host_id, host, port, username, password)
+
+    @export
     def remove_host(self, host_id):
-        """Removes a host from the list.
+        """Removes a host from the hostlist.
 
         Args:
             host_id (str): The host identifying hash.
 
         Returns:
             bool: True if succesful, False otherwise.
+
         """
         return self.hostlist.remove_host(host_id)
 

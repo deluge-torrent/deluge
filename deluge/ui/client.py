@@ -17,11 +17,10 @@ import sys
 from twisted.internet import defer, reactor, ssl
 from twisted.internet.protocol import ClientFactory
 
-import deluge.common
 from deluge import error
+from deluge.common import get_localhost_auth, get_version
 from deluge.decorators import deprecated
 from deluge.transfer import DelugeTransferProtocol
-from deluge.ui.hostlist import get_localhost_auth
 
 RPC_RESPONSE = 1
 RPC_ERROR = 2
@@ -384,8 +383,7 @@ class DaemonSSLProxy(DaemonProxy):
     def authenticate(self, username, password):
         log.debug('%s.authenticate: %s', self.__class__.__name__, username)
         login_deferred = defer.Deferred()
-        d = self.call('daemon.login', username, password,
-                      client_version=deluge.common.get_version())
+        d = self.call('daemon.login', username, password, client_version=get_version())
         d.addCallbacks(self.__on_login, self.__on_login_fail, callbackArgs=[username, login_deferred],
                        errbackArgs=[login_deferred])
         return login_deferred
@@ -619,17 +617,14 @@ class Client(object):
         self.stop_standalone()
 
     def start_daemon(self, port, config):
-        """
-        Starts a daemon process.
+        """Starts a daemon process.
 
-        :param port: the port for the daemon to listen on
-        :type port: int
-        :param config: the path to the current config folder
-        :type config: str
-        :returns: True if started, False if not
-        :rtype: bool
+        Args:
+            port (int): Port for the daemon to listen on.
+            config (str): Config path to pass to daemon.
 
-        :raises OSError: received from subprocess.call()
+        Returns:
+            bool: True is successfully started the daemon, False otherwise.
 
         """
         # subprocess.popen does not work with unicode args (with non-ascii characters) on windows
@@ -644,13 +639,12 @@ class Client(object):
                       'the deluged package is installed, or added to your PATH.'))
             else:
                 log.exception(ex)
-            raise ex
         except Exception as ex:
             log.error('Unable to start daemon!')
             log.exception(ex)
-            return False
         else:
             return True
+        return False
 
     def is_localhost(self):
         """

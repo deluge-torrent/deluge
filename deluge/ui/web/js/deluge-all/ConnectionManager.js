@@ -92,6 +92,13 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
                         handler: this.onAddClick,
                         scope: this
                     }, {
+                        id: 'cm-edit',
+                        cls: 'x-btn-text-icon',
+                        text: _('Edit'),
+                        iconCls: 'icon-edit',
+                        handler: this.onEditClick,
+                        scope: this
+                    }, {
                         id: 'cm-remove',
                         cls: 'x-btn-text-icon',
                         text: _('Remove'),
@@ -164,27 +171,25 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
         var button = this.buttons[1], status = record.get('status');
 
         // Update the Connect/Disconnect button
-        if (status == 'Connected') {
-            button.enable();
+        button.enable();
+        if (status.toLowerCase() == 'connected') {
             button.setText(_('Disconnect'));
-        } else if (status == 'Offline') {
-            button.disable();
         } else {
-            button.enable();
             button.setText(_('Connect'));
+            if (status.toLowerCase() != 'online') button.disable();
         }
 
         // Update the Stop/Start Daemon button
-        if (status == 'Offline') {
+        if (status.toLowerCase() == 'connected' || status.toLowerCase() == 'online') {
+            this.stopHostButton.enable();
+            this.stopHostButton.setText(_('Stop Daemon'));
+        } else {
             if (record.get('host') == '127.0.0.1' || record.get('host') == 'localhost') {
                 this.stopHostButton.enable();
                 this.stopHostButton.setText(_('Start Daemon'));
             } else {
                 this.stopHostButton.disable();
             }
-        } else {
-            this.stopHostButton.enable();
-            this.stopHostButton.setText(_('Stop Daemon'));
         }
     },
 
@@ -192,13 +197,25 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
     onAddClick: function(button, e) {
         if (!this.addWindow) {
             this.addWindow = new Deluge.AddConnectionWindow();
-            this.addWindow.on('hostadded', this.onHostAdded, this);
+            this.addWindow.on('hostadded', this.onHostChange, this);
         }
         this.addWindow.show();
     },
 
     // private
-    onHostAdded: function() {
+    onEditClick: function(button, e) {
+        var connection = this.list.getSelectedRecords()[0];
+        if (!connection) return;
+
+        if (!this.editWindow) {
+            this.editWindow = new Deluge.EditConnectionWindow();
+            this.editWindow.on('hostedited', this.onHostChange, this);
+        }
+        this.editWindow.show(connection);
+    },
+
+    // private
+    onHostChange: function() {
         this.loadHosts();
     },
 
@@ -212,7 +229,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
         var selected = this.list.getSelectedRecords()[0];
         if (!selected) return;
 
-        if (selected.get('status') == 'Connected') {
+        if (selected.get('status').toLowerCase() == 'connected') {
             deluge.client.web.disconnect({
                 success: function(result) {
                     this.update(this);
@@ -248,8 +265,8 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
     // private
     onGetHostStatus: function(host) {
         var record = this.list.getStore().getById(host[0]);
-        record.set('status', host[3])
-        record.set('version', host[4])
+        record.set('status', host[1])
+        record.set('version', host[2])
         record.commit();
         if (this.list.getSelectedRecords()[0] == record) this.updateButtons(record);
     },
@@ -312,11 +329,13 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
     // private
     onSelectionChanged: function(list, selections) {
         if (selections[0]) {
+            this.editHostButton.enable();
             this.removeHostButton.enable();
             this.stopHostButton.enable();
             this.stopHostButton.setText(_('Stop Daemon'));
             this.updateButtons(this.list.getRecord(selections[0]));
         } else {
+            this.editHostButton.disable();
             this.removeHostButton.disable();
             this.stopHostButton.disable();
         }
@@ -328,6 +347,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
         if (!this.addHostButton) {
             var bbar = this.panel.getBottomToolbar();
             this.addHostButton = bbar.items.get('cm-add');
+            this.editHostButton = bbar.items.get('cm-edit');
             this.removeHostButton = bbar.items.get('cm-remove');
             this.stopHostButton = bbar.items.get('cm-stop');
         }
