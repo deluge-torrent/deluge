@@ -9,8 +9,6 @@
 
 from __future__ import unicode_literals
 
-from twisted.internet import reactor
-
 import deluge.common
 import deluge.component as component
 import deluge.ui.web.auth
@@ -19,29 +17,8 @@ from deluge import configmanager
 from deluge.ui.web.server import DelugeWeb
 
 from .basetest import BaseTestCase
+from .common import ReactorOverride
 from .daemon_base import DaemonBase
-
-
-class ReactorOverride(object):
-    """
-    Class used to to mock the reactor
-
-    During unit tests, the reactor must not be touched, so for code that
-    explicitly calls the reactor, we use a mock.
-
-    """
-    def __getattr__(self, attr):
-        if attr == 'run':
-            return self._run
-        if attr == 'stop':
-            return self._stop
-        return getattr(reactor, attr)
-
-    def _run(self):
-        pass
-
-    def _stop(self):
-        pass
 
 
 class WebServerTestBase(BaseTestCase, DaemonBase):
