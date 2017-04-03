@@ -292,17 +292,11 @@ class Preferences(BaseMode, PopupsHandler):
             self.refresh()
             return
 
-        if util.is_printable_char(c):
-            if chr(c) == 'Q':
-                from twisted.internet import reactor
-                if client.connected():
-                    def on_disconnect(result):
-                        reactor.stop()
-                    client.disconnect().addCallback(on_disconnect)
-                else:
-                    reactor.stop()
-                return
-            elif chr(c) == 'h':
+        if util.is_printable_chr(c):
+            char = chr(c)
+            if char == 'Q':
+                component.get('ConsoleUI').quit()
+            elif char == 'h':
                 self.push_popup(MessagePopup(self, 'Preferences Help', HELP_STR))
 
         if self.sidebar.has_focus() and c == util.KEY_ESC:

@@ -16,7 +16,7 @@ import os
 import sys
 import time
 
-from twisted.internet import defer, reactor
+from twisted.internet import defer, error, reactor
 
 import deluge.common
 import deluge.component as component
@@ -154,6 +154,17 @@ Please use commands from the command line, e.g.:\n
                 # messed up if an uncaught exception is experienced.
                 import curses.wrapper
                 curses.wrapper(self.run)
+
+    def quit(self):
+        if client.connected():
+            def on_disconnect(result):
+                reactor.stop()
+            return client.disconnect().addCallback(on_disconnect)
+        else:
+            try:
+                reactor.stop()
+            except error.ReactorNotRunning:
+                pass
 
     def exec_args(self, options):
         """Execute console commands from command line."""

@@ -259,16 +259,9 @@ class TorrentList(BaseMode, PopupsHandler):
                 self.pop_popup()
             self.refresh()
             return ret
-        if util.is_printable_char(c):
+        if util.is_printable_chr(c):
             if chr(c) == 'Q':
-                from twisted.internet import reactor
-                if client.connected():
-                    def on_disconnect(result):
-                        reactor.stop()
-                    client.disconnect().addCallback(on_disconnect)
-                else:
-                    reactor.stop()
-                return
+                component.get('ConsoleUI').quit()
             elif chr(c) == 'C':
                 self.consoleui.set_mode('ConnectionManager')
                 return
@@ -312,7 +305,7 @@ class TorrentList(BaseMode, PopupsHandler):
                 self.show_torrent_details(tid)
                 return
 
-        elif util.is_printable_char(c):
+        elif util.is_printable_chr(c):
             if chr(c) == 'a':
                 show_torrent_add_popup(self)
             elif chr(c) == 'v':

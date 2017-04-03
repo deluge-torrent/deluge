@@ -10,9 +10,7 @@
 
 from __future__ import unicode_literals
 
-from twisted.internet import error, reactor
-
-from deluge.ui.client import client
+import deluge.component as component
 
 from . import BaseCommand
 
@@ -23,12 +21,4 @@ class Command(BaseCommand):
     interactive_only = True
 
     def handle(self, options):
-        if client.connected():
-            def on_disconnect(result):
-                reactor.stop()
-            return client.disconnect().addCallback(on_disconnect)
-        else:
-            try:
-                reactor.stop()
-            except error.ReactorNotRunning:
-                pass
+        component.get('ConsoleUI').quit()

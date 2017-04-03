@@ -450,16 +450,9 @@ class AddTorrents(BaseMode):
             self.refresh()
             return
 
-        if util.is_printable_char(c):
+        if util.is_printable_chr(c):
             if chr(c) == 'Q':
-                from twisted.internet import reactor
-                if client.connected():
-                    def on_disconnect(result):
-                        reactor.stop()
-                    client.disconnect().addCallback(on_disconnect)
-                else:
-                    reactor.stop()
-                return
+                component.get('ConsoleUI').quit()
             elif chr(c) == 'q':
                 self.back_to_overview()
                 return
@@ -487,7 +480,7 @@ class AddTorrents(BaseMode):
         elif c == util.KEY_ESC:
             self.back_to_overview()
         else:
-            if util.is_printable_char(c):
+            if util.is_printable_chr(c):
                 if chr(c) == 'h':
                     self.popup = MessagePopup(self, 'Help', HELP_STR, width_req=0.75)
                 elif chr(c) == '>':

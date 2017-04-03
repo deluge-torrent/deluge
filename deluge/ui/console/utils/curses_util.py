@@ -31,7 +31,7 @@ KEY_CTRL_AND_ARROW_UP = 566
 KEY_CTRL_AND_ARROW_DOWN = 525
 
 
-def is_printable_char(c):
+def is_printable_chr(c):
     return c >= 32 and c <= 126
 
 

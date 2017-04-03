@@ -849,7 +849,7 @@ class ComboInput(InputField):
 
             def search_handler(key):
                 """Handle keyboard input to seach the list"""
-                if not util.is_printable_char(key):
+                if not util.is_printable_chr(key):
                     return
                 selected = select_popup.current_selection()
 
