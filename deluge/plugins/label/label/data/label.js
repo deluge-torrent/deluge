@@ -29,7 +29,8 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.ns('Deluge.ux');
+
+Ext.ns('Deluge.ux.preferences');
 
 /**
  * @class Deluge.ux.preferences.LabelPage
@@ -64,6 +65,8 @@ Deluge.ux.preferences.LabelPage = Ext.extend(Ext.Panel, {
     },
 
 });
+
+Ext.ns('Deluge.ux');
 
 /**
  * @class Deluge.ux.AddLabelWindow
