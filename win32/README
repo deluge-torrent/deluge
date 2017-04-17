@@ -1,0 +1,47 @@
+=  Deluge Installer for Windows =
+
+Instructions for building the Deluge NSIS Installer for Windows XP/Vista/7.
+
+== Dependencies ==
+Python 2.7 https://www.python.org/downloads/
+pip http://www.pip-installer.org/en/latest/installing.html
+python-libtorrent http://sourceforge.net/projects/libtorrent/files/py-libtorrent/
+Win32OpenSSL Light (select copy OpenSSL DLLs to "The Windows system directory") http://www.slproweb.com/products/Win32OpenSSL.html
+PyGTK All-in-one http://ftp.gnome.org/pub/GNOME/binaries/win32/pygtk/2.24/pygtk-all-in-one-2.24.2.win32-py2.7.msi
+PyWin32 http://sourceforge.net/projects/pywin32/
+PyGame http://pygame.org/download.shtml
+
+C:\Python27\Scripts\pip.exe install wheel twisted cryptography pyopenssl service_identity chardet mako pyxdg slimit
+
+== Build Steps ==
+Note: With both options they assume you installed the above to default dir/drives.
+    And that you choose to add python to your path environment variable during install.
+    If you did not, then adjust accordingly.
+Option A:
+1. Install all of the above dependencies and run the pip command.
+2. Extract the source tarball in this example well use "C:\Deluge" then run the following commands:
+    cd C:\Deluge
+    python setup.py build
+    python setup.py install
+    cd win32
+    python deluge-bbfreeze.py
+    CD ..
+    "C:\Program Files (x86)\NSIS\makensis" deluge-win32-installer.nsi
+3. Your installer will be in build-win32.
+
+Option B:
+1. Run makeinstaller.bat.(might need to run as admin)
+2. Your installer will be in build-win32.
+
+== Automate Steps ==
+Note: The build proccess will run once everyday at 8:00AM till 31/12/2100.
+    Also this will clean build directory's before each build so remember to copy your installer after
+    or add a "copy *source* *destination*" line to the bat file to automate this.
+    This process assumes you not only meet the build steps requirments but also
+    have git installed and in your system "path" environment variable.
+1. Run once in cmd:
+    cd C:\
+    git clone https://github.com/deluge-torrent/deluge
+2. Run once in cmd:
+    schtasks /create /tn DailyDelugeBuilds /tr c:\deluge\win32\makenightlyinstaller.bat /sc daily /st 08:00 /ed 31/12/2100
+3. From now all builds will be made automatically(until year 2100) no need to re-run above commands.
