@@ -308,6 +308,10 @@ class ConnectionManager(component.Component):
             port = row[HOSTLIST_COL_PORT]
             user = row[HOSTLIST_COL_USER]
             password = row[HOSTLIST_COL_PASS]
+            try:
+                ip = gethostbyname(host)
+            except gaierror as ex:
+                ip = ex.message
 
             try:
                 ip = gethostbyname(host)
