@@ -8,14 +8,15 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-07-10 16:58+0100\n"
-"PO-Revision-Date: 2009-11-19 20:22+0000\n"
+"PO-Revision-Date: 2015-07-15 18:52-0400\n"
 "Last-Translator: Александар Андевски <Unknown>\n"
 "Language-Team: Macedonian <mk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-07-11 13:01+0000\n"
-"X-Generator: Launchpad (build 13388)\n"
+"X-Generator: Poedit 1.8.2\n"
+"Language: mk\n"
 
 #: deluge/common.py:274
 msgid "KiB"
@@ -57,61 +58,70 @@ msgid "GiB/s"
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
+#, fuzzy
 msgid "Notification Blink shown"
-msgstr ""
+msgstr "Прикажи известување за нови пораки"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:183
+#, fuzzy
 msgid "Popup notification is not enabled."
-msgstr ""
+msgstr "Официјалната потврда се очекува наскоро."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:185
+#, fuzzy
 msgid "pynotify is not installed"
-msgstr ""
+msgstr "Не е инсталирано"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:193
+#, fuzzy
 msgid "pynotify failed to show notification"
-msgstr ""
+msgstr "Прикажи известување за нови пораки"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:196
+#, fuzzy
 msgid "Notification popup shown"
-msgstr ""
+msgstr "Прикажи известување за нови пораки"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:200
+#, fuzzy
 msgid "Sound notification not enabled"
-msgstr ""
+msgstr "Звучи"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:202
+#, fuzzy
 msgid "pygame is not installed"
-msgstr ""
+msgstr "Не е инсталирано"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:214
-#, python-format
+#, fuzzy, python-format
 msgid "Sound notification failed %s"
-msgstr ""
+msgstr "Звучи"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:218
+#, fuzzy
 msgid "Sound notification Success"
-msgstr ""
+msgstr "Звучи"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:241
+#, fuzzy
 msgid "Finished Torrent"
-msgstr ""
+msgstr "Завршен увоз."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:242
 #, python-format
-msgid ""
-"The torrent \"%(name)s\" including %(num_files)i has finished downloading."
+msgid "The torrent \"%(name)s\" including %(num_files)i has finished downloading."
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:646
+#, fuzzy
 msgid "Choose Sound File"
-msgstr ""
+msgstr "Избери Датотека"
 
 #: deluge/plugins/notifications/notifications/core.py:138
 #: deluge/plugins/notifications/notifications/core.py:171
-#, python-format
+#, fuzzy, python-format
 msgid "There was an error sending the notification email: %s"
-msgstr ""
+msgstr "Грешка при праќање електронска пошта"
 
 #: deluge/plugins/notifications/notifications/core.py:157
 #, python-format
@@ -119,50 +129,55 @@ msgid "The server didn't reply properly to the helo greeting: %s"
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/core.py:162
-#, python-format
+#, fuzzy, python-format
 msgid "The server didn't accept the username/password combination: %s"
-msgstr ""
+msgstr "За врска со овој FTP сервер се потребни корисничко име и лозинка"
 
 #: deluge/plugins/notifications/notifications/core.py:186
+#, fuzzy
 msgid "Notification email sent."
-msgstr ""
+msgstr "Е-Пошта"
 
 #: deluge/plugins/notifications/notifications/core.py:194
-#, python-format
+#, fuzzy, python-format
 msgid "Finished Torrent \"%(name)s\""
-msgstr ""
+msgstr "Завршен увоз."
 
 #: deluge/plugins/notifications/notifications/core.py:196
 #, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading "
-"\"%(name)s\", which includes %(num_files)i files.\n"
-"To stop receiving these alerts, simply turn off email notification in "
-"Deluge's preferences.\n"
+"This email is to inform you that Deluge has finished downloading \"%(name)s\", "
+"which includes %(num_files)i files.\n"
+"To stop receiving these alerts, simply turn off email notification in Deluge's "
+"preferences.\n"
 "\n"
 "Thank you,\n"
 "Deluge."
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/data/config.glade:29
+#, fuzzy
 msgid "<b><i><big>Notifications</big></i></b>"
-msgstr ""
+msgstr "Известувања"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:81
 msgid "Tray icon blinks enabled"
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/data/config.glade:93
+#, fuzzy
 msgid "Popups enabled"
-msgstr ""
+msgstr "Opera Link овозможен"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:108
+#, fuzzy
 msgid "Sound enabled"
-msgstr ""
+msgstr "Звучи"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:144
+#, fuzzy
 msgid "<b>UI Notifications</b>"
-msgstr ""
+msgstr "Известувања"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:175
 #: deluge/ui/gtkui/glade/connection_manager.glade:28
@@ -198,12 +213,14 @@ msgid "Password:"
 msgstr "Лозинка:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:360
+#, fuzzy
 msgid "<b>Recipients</b>"
-msgstr ""
+msgstr "примателите %s"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:383
+#, fuzzy
 msgid "Server requires TLS/SSL"
-msgstr ""
+msgstr "сервер"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:398
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:633
@@ -217,43 +234,49 @@ msgid "Enabled"
 msgstr "Овозможено"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:443
+#, fuzzy
 msgid "<b>Email Notifications</b>"
-msgstr ""
+msgstr "Е-Пошта"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:460
 msgid "Settings"
-msgstr ""
+msgstr "Поставки"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:495
 msgid ""
-"This configuration does not mean that you'll actually receive notifications "
-"for all these events."
+"This configuration does not mean that you'll actually receive notifications for "
+"all these events."
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/data/config.glade:513
 msgid "Subscriptions"
-msgstr ""
+msgstr "Членства"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:594
+#, fuzzy
 msgid "Sound Customization"
-msgstr ""
+msgstr "Звучи"
 
 #: deluge/plugins/autoadd/autoadd/core.py:136
+#, fuzzy
 msgid "Watch folder does not exist."
-msgstr ""
+msgstr "Датотеката не постои"
 
 #: deluge/plugins/autoadd/autoadd/core.py:139
 #: deluge/plugins/autoadd/autoadd/core.py:308
+#, fuzzy
 msgid "Path does not exist."
-msgstr ""
+msgstr "Датотеката не постои"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
+#, fuzzy
 msgid "AutoAdd Error"
-msgstr ""
+msgstr "Грешка"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:78
+#, fuzzy
 msgid "Watch Folder Properties"
-msgstr ""
+msgstr "Својства на папка"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
@@ -268,32 +291,39 @@ msgid "Select A Folder"
 msgstr "Одбери папка"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:143
+#, fuzzy
 msgid "Enable this watch folder"
-msgstr ""
+msgstr "папка"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:164
+#, fuzzy
 msgid "<b>Watch Folder</b>"
-msgstr ""
+msgstr "папка"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:195
+#, fuzzy
 msgid "Delete .torrent after adding"
-msgstr ""
+msgstr "Избриши"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:211
+#, fuzzy
 msgid "Append extension after adding:"
-msgstr ""
+msgstr "Превземање на надградба"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:228
+#, fuzzy
 msgid ".added"
-msgstr ""
+msgstr "Додадени"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:248
+#, fuzzy
 msgid "<b>Torrent File Action</b>"
-msgstr ""
+msgstr "Акција"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:275
+#, fuzzy
 msgid "Set download location"
-msgstr ""
+msgstr "Преземи"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:325
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:396
@@ -301,24 +331,29 @@ msgid "<b>Download Location</b>"
 msgstr "<b>Локација за Преземања</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:353
+#, fuzzy
 msgid "Set move completed location"
-msgstr ""
+msgstr "Локација"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:418
+#, fuzzy
 msgid "<b>Move Completed</b>"
-msgstr ""
+msgstr "Помести"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:444
+#, fuzzy
 msgid "Label: "
-msgstr ""
+msgstr "Ознака"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:475
+#, fuzzy
 msgid "<b>Label</b>"
-msgstr ""
+msgstr "Ознака"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:492
+#, fuzzy
 msgid "Main"
-msgstr ""
+msgstr "Главна лента"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:524
 #: deluge/ui/gtkui/glade/main_window.glade:1811
@@ -361,24 +396,27 @@ msgid "Remove at ratio"
 msgstr "Избриши на ратио"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:762
+#, fuzzy
 msgid "Auto Managed:"
-msgstr ""
+msgstr "Авто"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:890
+#, fuzzy
 msgid "Add Paused:"
-msgstr ""
+msgstr "додај"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:936
+#, fuzzy
 msgid "Queue to:"
-msgstr ""
+msgstr "До:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:954
 msgid "Top"
-msgstr ""
+msgstr "Врв"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:967
 msgid "Bottom"
-msgstr ""
+msgstr "Дно"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:1017
 #: deluge/ui/gtkui/glade/main_window.glade:2069
@@ -392,8 +430,9 @@ msgid "Options"
 msgstr "Опции"
 
 #: deluge/plugins/autoadd/autoadd/data/config.glade:41
+#, fuzzy
 msgid "<b>Watch Folders:</b>"
-msgstr ""
+msgstr "часовник"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:238
 msgid "Download Limit:"
@@ -408,12 +447,14 @@ msgid "Active Torrents:"
 msgstr "Активни торенти:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:265
+#, fuzzy
 msgid "Active Downloading:"
-msgstr ""
+msgstr "Се презема"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:274
+#, fuzzy
 msgid "Active Seeding:"
-msgstr ""
+msgstr "Активни"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:288
 msgid "<b>Slow Settings</b>"
@@ -431,8 +472,7 @@ msgstr "Празна етикета"
 msgid "Label already exists"
 msgstr "Етикетата веќе постои"
 
-#: deluge/plugins/label/label/core.py:199
-#: deluge/plugins/label/label/core.py:279
+#: deluge/plugins/label/label/core.py:199 deluge/plugins/label/label/core.py:279
 #: deluge/plugins/label/label/core.py:314
 msgid "Unknown Label"
 msgstr "Непозната етикета"
@@ -549,8 +589,8 @@ msgstr "Име:"
 #: deluge/plugins/label/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
 msgstr ""
-"<i>Користете ја страничната лента да додавате, изменувате и бришете етикети. "
-"</i>\n"
+"<i>Користете ја страничната лента да додавате, изменувате и бришете етикети. </"
+"i>\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:32
 msgid "<b>Labels</b>"
@@ -581,10 +621,11 @@ msgid "<b>General</b>"
 msgstr "<b>Општо</b>"
 
 #: deluge/plugins/webui/webui/gtkui.py:97
+#, fuzzy
 msgid ""
 "The Deluge web interface is not installed, please install the\n"
 "interface and try again"
-msgstr ""
+msgstr "Инсталацијата не успеа. Ве молиме обидете се повторно покасно."
 
 #: deluge/plugins/webui/webui/data/config.glade:27
 msgid "Enable web interface"
@@ -1795,8 +1836,7 @@ msgstr "Брзина на симнување"
 msgid "Up Speed"
 msgstr "Брзина на качување"
 
-#: deluge/ui/gtkui/queuedtorrents.py:75
-#: deluge/ui/gtkui/addtorrentdialog.py:103
+#: deluge/ui/gtkui/queuedtorrents.py:75 deluge/ui/gtkui/addtorrentdialog.py:103
 msgid "Torrent"
 msgstr "Торент"
 
@@ -1839,8 +1879,9 @@ msgid "Deluge"
 msgstr "Deluge"
 
 #: deluge/ui/gtkui/systemtray.py:201
+#, fuzzy
 msgid "Not Connected..."
-msgstr ""
+msgstr "Поврзан"
 
 #: deluge/ui/gtkui/systemtray.py:258
 msgid "Down"
@@ -1861,51 +1902,56 @@ msgid "Set Maximum Upload Speed"
 msgstr "Постави максимална брзина за качување"
 
 #: deluge/ui/gtkui/systemtray.py:470
+#, fuzzy
 msgid "Deluge is password protected!"
-msgstr ""
+msgstr "Заштита на лозинка"
 
 #: deluge/ui/gtkui/systemtray.py:476
+#, fuzzy
 msgid "Enter your password to continue"
-msgstr ""
+msgstr "Внесете Лозинка"
 
 #: deluge/ui/gtkui/notification.py:79
 msgid "Torrent complete"
 msgstr "Завршен торент"
 
 #: deluge/ui/gtkui/notification.py:80
+#, fuzzy
 msgid "Including"
-msgstr ""
+msgstr "Секогаш максимизирај, исто и за појавници"
 
 #: deluge/ui/gtkui/notification.py:80
+#, fuzzy
 msgid "files"
-msgstr ""
+msgstr "Датотеки"
 
 #: deluge/ui/gtkui/notification.py:109
 #, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading %(name)s ,  "
-"           which includes %(num_files)i files.\n"
-"To stop receiving these alerts, simply turn off             email "
-"notification in Deluge's preferences.\n"
+"This email is to inform you that Deluge has finished downloading "
+"%(name)s ,             which includes %(num_files)i files.\n"
+"To stop receiving these alerts, simply turn off             email notification "
+"in Deluge's preferences.\n"
 "\n"
 "Thank you,\n"
 "Deluge"
 msgstr ""
-"Овој емаил ви е испратен со цел да ве информира дека Deluge заврши со "
-"симнување на %(name)s, \t\tкој вклучуваше %(num_files)i датотеки.\n"
-"За да ги исклучите овие известувања, едноставно исклучете\t\tемаил "
-"известувања во подесувањето на Deluge.\n"
+"Овој емаил ви е испратен со цел да ве информира дека Deluge заврши со симнување "
+"на %(name)s, \t\tкој вклучуваше %(num_files)i датотеки.\n"
+"За да ги исклучите овие известувања, едноставно исклучете\t\tемаил известувања "
+"во подесувањето на Deluge.\n"
 "\n"
 "Благодариме,\n"
 "Deluge"
 
 #: deluge/ui/gtkui/new_release_dialog.py:72
+#, fuzzy
 msgid "<i>Client Version</i>"
-msgstr ""
+msgstr "Верзија"
 
 #: deluge/ui/gtkui/preferences.py:72
 msgid "Categories"
-msgstr ""
+msgstr "Категории"
 
 #: deluge/ui/gtkui/preferences.py:76
 msgid "Downloads"
@@ -2007,20 +2053,22 @@ msgid "Invalid URL"
 msgstr "Невалиден URL"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:622
+#, fuzzy
 msgid "is not a valid URL."
-msgstr ""
+msgstr "Невалидна датотека"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:626
 msgid "Downloading..."
-msgstr ""
+msgstr "Превземање..."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
 msgid "Download Failed"
 msgstr "Симнувањето е неуспешно"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
+#, fuzzy
 msgid "Failed to download:"
-msgstr ""
+msgstr "Превземање:"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:103
 #: deluge/ui/gtkui/edittrackersdialog.py:84
@@ -2085,87 +2133,92 @@ msgid "Torrents"
 msgstr "Торенти"
 
 #: deluge/ui/gtkui/filtertreeview.py:69
+#, fuzzy
 msgid "States"
-msgstr ""
+msgstr "држава"
 
 #: deluge/ui/gtkui/filtertreeview.py:71
 msgid "Labels"
-msgstr ""
+msgstr "Ознаки"
 
 #: deluge/ui/gtkui/filtertreeview.py:72
 msgid "All"
-msgstr ""
+msgstr "Сите"
 
 #: deluge/ui/gtkui/filtertreeview.py:73
 msgid "Downloading"
-msgstr ""
+msgstr "Се презема"
 
 #: deluge/ui/gtkui/filtertreeview.py:74
+#, fuzzy
 msgid "Seeding"
-msgstr ""
+msgstr "Семе"
 
 #: deluge/ui/gtkui/filtertreeview.py:75
+#, fuzzy
 msgid "Paused"
-msgstr ""
+msgstr "Пауза"
 
 #: deluge/ui/gtkui/filtertreeview.py:76
+#, fuzzy
 msgid "Checking"
-msgstr ""
+msgstr "Проверување датотеки"
 
 #: deluge/ui/gtkui/filtertreeview.py:77
+#, fuzzy
 msgid "Queued"
-msgstr ""
+msgstr "Прати насобрани"
 
 #: deluge/ui/gtkui/filtertreeview.py:79
 msgid "Active"
-msgstr ""
+msgstr "Активни"
 
 #: deluge/ui/gtkui/filtertreeview.py:80
 msgid "None"
 msgstr "Никој"
 
 #: deluge/ui/gtkui/filtertreeview.py:81
+#, fuzzy
 msgid "No Label"
-msgstr ""
+msgstr "Без ознака"
 
 #: deluge/ui/gtkui/aboutdialog.py:253
 msgid ""
-"This program is free software; you can redistribute it and/or modify it "
-"under the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 3 of the License, or (at your option) "
-"any later version. \n"
+"This program is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free Software "
+"Foundation; either version 3 of the License, or (at your option) any later "
+"version. \n"
 "\n"
-"This program is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
-"more details. \n"
+"This program is distributed in the hope that it will be useful, but WITHOUT ANY "
+"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A "
+"PARTICULAR PURPOSE. See the GNU General Public License for more details. \n"
 "\n"
 "You should have received a copy of the GNU General Public License along with "
 "this program; if not, see <http://www.gnu.org/licenses>. \n"
 "\n"
-"In addition, as a special exception, the copyright holders give permission "
-"to link the code of portions of this program with the OpenSSL library. You "
-"must obey the GNU General Public License in all respects for all of the code "
-"used other than OpenSSL. \n"
+"In addition, as a special exception, the copyright holders give permission to "
+"link the code of portions of this program with the OpenSSL library. You must "
+"obey the GNU General Public License in all respects for all of the code used "
+"other than OpenSSL. \n"
 "\n"
 "If you modify file(s) with this exception, you may extend this exception to "
-"your version of the file(s), but you are not obligated to do so. If you do "
-"not wish to do so, delete this exception statement from your version. If you "
-"delete this exception statement from all source files in the program, then "
-"also delete it here."
+"your version of the file(s), but you are not obligated to do so. If you do not "
+"wish to do so, delete this exception statement from your version. If you delete "
+"this exception statement from all source files in the program, then also delete "
+"it here."
 msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:149
 msgid "Status"
-msgstr ""
+msgstr "Состојба"
 
 #: deluge/ui/gtkui/connectionmanager.py:153
 msgid "Host"
-msgstr ""
+msgstr "Име на сервер"
 
 #: deluge/ui/gtkui/connectionmanager.py:158
 msgid "Version"
-msgstr ""
+msgstr "Верзија"
 
 #: deluge/ui/gtkui/connectionmanager.py:386
 msgid "_Stop Daemon"
@@ -2177,8 +2230,9 @@ msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:414
 #: deluge/ui/gtkui/connectionmanager.py:424
+#, fuzzy
 msgid "Unable to start daemon!"
-msgstr ""
+msgstr "Не може да се отвори надворешната апликација за пошта"
 
 #: deluge/ui/gtkui/connectionmanager.py:415
 msgid ""
@@ -2187,8 +2241,9 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:425
+#, fuzzy
 msgid "Please examine the details for more information."
-msgstr ""
+msgstr "За повеќе информации:"
 
 #: deluge/ui/gtkui/connectionmanager.py:509
 msgid "Error Adding Host"
@@ -2215,23 +2270,23 @@ msgstr "Грешка при стартување на јадрото"
 
 #: deluge/ui/gtkui/gtkui.py:313
 msgid ""
-"There was an error starting the core component which is required to run "
-"Deluge in Classic Mode.\n"
+"There was an error starting the core component which is required to run Deluge "
+"in Classic Mode.\n"
 "\n"
 "Please see the details below for more information."
 msgstr ""
-"Се јави грешка при стартување на битна компонента која мора да биде вклучена "
-"за да работи Deluge во Класичен мод.\n"
+"Се јави грешка при стартување на битна компонента која мора да биде вклучена за "
+"да работи Deluge во Класичен мод.\n"
 "\n"
 "Ве молиме погледнете ги деталите подолу за повеќе информации."
 
 #: deluge/ui/gtkui/gtkui.py:318
 msgid ""
-"Since there was an error starting in Classic Mode would you like to continue "
-"by turning it off?"
+"Since there was an error starting in Classic Mode would you like to continue by "
+"turning it off?"
 msgstr ""
-"Поради грешка при стартување во Класичен мод, би сакале да продолжите со "
-"негово исклучување?"
+"Поради грешка при стартување во Класичен мод, би сакале да продолжите со негово "
+"исклучување?"
 
 #: deluge/ui/gtkui/gtkui.py:342
 msgid "Error Starting Daemon"
@@ -2239,8 +2294,8 @@ msgstr "Грешка при стартување на даемонот"
 
 #: deluge/ui/gtkui/gtkui.py:343
 msgid ""
-"There was an error starting the daemon process.  Try running it from a "
-"console to see if there is an error."
+"There was an error starting the daemon process.  Try running it from a console "
+"to see if there is an error."
 msgstr ""
 "Имаше грешка при старување на даемон процесот. Пробајте со стартување од "
 "конзола за да видите дали има некоја грешка."
@@ -2266,20 +2321,24 @@ msgid "Set Maximum Upload Slots"
 msgstr "Постави максимум места за Upload"
 
 #: deluge/ui/gtkui/files_tab.py:56
+#, fuzzy
 msgid "Do Not Download"
-msgstr ""
+msgstr "Преземи"
 
 #: deluge/ui/gtkui/files_tab.py:57
+#, fuzzy
 msgid "Normal Priority"
-msgstr ""
+msgstr "Нормален приоритет"
 
 #: deluge/ui/gtkui/files_tab.py:58
+#, fuzzy
 msgid "High Priority"
-msgstr ""
+msgstr "Висок приоритет"
 
 #: deluge/ui/gtkui/files_tab.py:59
+#, fuzzy
 msgid "Highest Priority"
-msgstr ""
+msgstr "Највисок приоритет"
 
 #: deluge/ui/gtkui/files_tab.py:169
 msgid "Priority"
@@ -2311,12 +2370,14 @@ msgid "Peers"
 msgstr "Пријатели"
 
 #: deluge/ui/gtkui/torrentview.py:241
+#, fuzzy
 msgid "Down Limit"
-msgstr ""
+msgstr "Лимит на редови"
 
 #: deluge/ui/gtkui/torrentview.py:243
+#, fuzzy
 msgid "Up Limit"
-msgstr ""
+msgstr "Лимит на редови"
 
 #: deluge/ui/gtkui/torrentview.py:245
 msgid "ETA"
@@ -2335,8 +2396,9 @@ msgid "Added"
 msgstr "Додадено"
 
 #: deluge/ui/gtkui/torrentview.py:257
+#, fuzzy
 msgid "Save Path"
-msgstr ""
+msgstr "зачувај"
 
 #: deluge/ui/gtkui/glade/main_window.glade:21
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:99
@@ -2648,10 +2710,8 @@ msgid "Remove Torrent?"
 msgstr "Избриши торент?"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2324
-msgid ""
-"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
-msgstr ""
-"<big><b>Дали навистина сакате да го избришате избраниот торент?</b></big>"
+msgid "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
+msgstr "<big><b>Дали навистина сакате да го избришате избраниот торент?</b></big>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2376
 msgid "<i>The associated .torrent will be deleted!</i>"
@@ -2962,12 +3022,12 @@ msgid "Copy of .torrent files to:"
 msgstr "Копии од .torrent датотеки во:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:316
+#, fuzzy
 msgid "Delete copy of torrent file on remove"
-msgstr ""
+msgstr "Избриши тип на датотека"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:320
-msgid ""
-"Delete the copy of the torrent file created when the torrent is removed"
+msgid "Delete the copy of the torrent file created when the torrent is removed"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:337
@@ -2983,8 +3043,8 @@ msgid ""
 "Full allocation preallocates all of the space that is needed for the torrent "
 "and prevents disk fragmentation"
 msgstr ""
-"Целосна алокација предвреме го алоцира просторот кој е потребен за торентот "
-"и спречува фрагментација на дискот"
+"Целосна алокација предвреме го алоцира просторот кој е потребен за торентот и "
+"спречува фрагментација на дискот"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:387
 msgid "Use Compact Allocation"
@@ -3046,8 +3106,7 @@ msgid ""
 "connections on.  Leave this empty if you want to use the default."
 msgstr ""
 "Внесете ја IP адресата на интерфејсот кој ќе служи за примање на дојдовни "
-"bittorrent врски. Оставете го ова празно за користење на стандардната IP "
-"адреса."
+"bittorrent врски. Оставете го ова празно за користење на стандардната IP адреса."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:903
 msgid "<b>Interface</b>"
@@ -3055,8 +3114,8 @@ msgstr "<b>Интерфејс</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:939
 msgid ""
-"The TOS byte set in the IP header of every packet sent to peers (including "
-"web seeds).  Expects a Hex value."
+"The TOS byte set in the IP header of every packet sent to peers (including web "
+"seeds).  Expects a Hex value."
 msgstr ""
 "TOS бајтот поставен во IP заглавјето на секој пакет пратен до пријателите "
 "(вклучувајки web сејачи).  Потребна е Hex вредност."
@@ -3167,8 +3226,7 @@ msgstr "Максимум полуотворени врски:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1419
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1509
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
-msgstr ""
-"Максимум брзина за качување за сите торенти. Постави -1 за неограничено."
+msgstr "Максимум брзина за качување за сите торенти. Постави -1 за неограничено."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1421
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1706
@@ -3188,8 +3246,7 @@ msgstr "Максимум врски:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1443
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1528
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
-msgstr ""
-"Максимум позиции за качување за сите торенти. Постави -1 за неограничено."
+msgstr "Максимум позиции за качување за сите торенти. Постави -1 за неограничено."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1445
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1680
@@ -3199,8 +3256,7 @@ msgstr "Максимум Позиции за Качување:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1475
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1490
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
-msgstr ""
-"максимум брзина за преземање за сите торенти. Постави -1 за неограничено."
+msgstr "максимум брзина за преземање за сите торенти. Постави -1 за неограничено."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1477
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1693
@@ -3217,8 +3273,8 @@ msgstr "Оцени лимити на IP overhead"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1577
 msgid ""
-"If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
-"to avoid exceeding the limits with the total traffic"
+"If checked, the estimated TCP/IP overhead is drained from the rate limiters, to "
+"avoid exceeding the limits with the total traffic"
 msgstr ""
 "Ако е штиклирано, пресметаниот TCP/IP overhead е исцеден од лимитерите на "
 "стапка, за избегнување на надминување на лимитот на целосниот сообраќај"
@@ -3256,10 +3312,10 @@ msgid ""
 "advantage of running Deluge as a daemon. You need to restart Deluge for this "
 "setting to take effect."
 msgstr ""
-"Класичниот мод делумно ќе ја скрие функционалноста на даемонот и ќе го "
-"направи Deluge да изгледа како единечна апликација.  Употребете го ова ако "
-"не сакате да ја  искористите предноста на Deluge како даемон. Мора да го "
-"рестартирате Deluge за ова да дојде во ефект."
+"Класичниот мод делумно ќе ја скрие функционалноста на даемонот и ќе го направи "
+"Deluge да изгледа како единечна апликација.  Употребете го ова ако не сакате да "
+"ја  искористите предноста на Deluge како даемон. Мора да го рестартирате Deluge "
+"за ова да дојде во ефект."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1866
 msgid "<b>Classic Mode</b>"
@@ -3330,8 +3386,8 @@ msgstr "<b>Надградби</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2326
 msgid ""
-"Help us improve Deluge by sending us your Python version, PyGTK version, OS "
-"and processor types.  Absolutely no other information is sent."
+"Help us improve Deluge by sending us your Python version, PyGTK version, OS and "
+"processor types.  Absolutely no other information is sent."
 msgstr ""
 "Помогнете ни да го подобриме Deluge со испраќање на вашата Python верзија, "
 "PyGTK верзија, ОС и тип на процесор.  Никаква друга информација нема да биде "
@@ -3354,8 +3410,8 @@ msgid ""
 "If Deluge cannot find the database file at this location it will fallback to "
 "using DNS to resolve the peer's country."
 msgstr ""
-"Ако Deluge не успее да пронајде датотека со база на податоци на оваа локациј "
-"ќе побара информација користејќи DNS за пронаоѓање на земјата на пријателот."
+"Ако Deluge не успее да пронајде датотека со база на податоци на оваа локациј ќе "
+"побара информација користејќи DNS за пронаоѓање на земјата на пријателот."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2444
 msgid "<b>GeoIP Database</b>"
@@ -3501,11 +3557,11 @@ msgstr "Големина на кеш (16KiB-ни блокови):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4122
 msgid ""
-"The number of seconds from the last cached write to a piece in the write "
-"cache, to when it's forcefully flushed to disk. Default is 60 seconds."
+"The number of seconds from the last cached write to a piece in the write cache, "
+"to when it's forcefully flushed to disk. Default is 60 seconds."
 msgstr ""
-"Време во секунди од последното кеширано запишување во дел од запишуваниот "
-"кеш до присилното пишување на диск. Стандардно е 60 секунди."
+"Време во секунди од последното кеширано запишување во дел од запишуваниот кеш "
+"до присилното пишување на диск. Стандардно е 60 секунди."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4124
 msgid "Cache Expiry (seconds):"
@@ -3516,8 +3572,7 @@ msgid ""
 "The total number of 16 KiB blocks written to disk since this session was "
 "started."
 msgstr ""
-"Вкупниот број на 16 KiB блокови запишани на диск од самиот почеток на "
-"сесијата."
+"Вкупниот број на 16 KiB блокови запишани на диск од самиот почеток на сесијата."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4222
 msgid "Blocks Written:"
@@ -3525,11 +3580,9 @@ msgstr "Блокови запишани:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4231
 msgid ""
-"The total number of write operations performed since this session was "
-"started."
+"The total number of write operations performed since this session was started."
 msgstr ""
-"Вкупниот број на извршени операции за запишување од самиот почеток на "
-"сесијата."
+"Вкупниот број на извршени операции за запишување од самиот почеток на сесијата."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4233
 msgid "Writes:"
@@ -3537,9 +3590,9 @@ msgstr "Запишувања:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4244
 msgid ""
-"The ratio (blocks_written - writes) / blocks_written represents the number "
-"of saved write operations per total write operations, i.e. a kind of cache "
-"hit ratio for the write cache."
+"The ratio (blocks_written - writes) / blocks_written represents the number of "
+"saved write operations per total write operations, i.e. a kind of cache hit "
+"ratio for the write cache."
 msgstr ""
 "Ратио (блокови запишани - записи) / блокови запишани претставува број на "
 "зачувани операции за запишување по вкупно операции за запишување, пр. вид на "
@@ -3723,8 +3776,9 @@ msgid "If you remove the data, it will be lost permanently."
 msgstr "Ако ги избришате податоците, ќе бидат трајно изгубени."
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:127
+#, fuzzy
 msgid "action"
-msgstr ""
+msgstr "Акција"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:129
 msgid "Remove Files"
@@ -3930,14 +3984,12 @@ msgstr "Дестинација:"
 #~ "tracker2.com\n"
 #~ "ова сеуште не е имплементирано..\n"
 
-#, python-format
 #~ msgid "%s is not a valid URL."
 #~ msgstr "%s не е валиден URL"
 
 #~ msgid "Downloading.."
 #~ msgstr "Симнување..."
 
-#, python-format
 #~ msgid "Failed to download : %s"
 #~ msgstr "Неуспешно симнување на: %s"
 
@@ -3954,7 +4006,6 @@ msgstr "Дестинација:"
 #~ msgid "<i>Enter your password to continue</i>"
 #~ msgstr "<i>Внесете ја вашата лозинка за да продолжите</i>"
 
-#, python-format
 #~ msgid "Including %i files"
 #~ msgstr "Вклучува %i датотеки"
 
@@ -3966,16 +4017,16 @@ msgstr "Дестинација:"
 #~ "useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
 #~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
 #~ "Public License for more details. You should have received a copy of the GNU "
-#~ "General Public License along with this program; if not, see "
-#~ "<http://www.gnu.org/licenses>. In addition, as a special exception, the "
-#~ "copyright holders give permission to link the code of portions of this "
-#~ "program with the OpenSSL library. You must obey the GNU General Public "
-#~ "License in all respects for all of the code used other than OpenSSL. If you "
-#~ "modify file(s) with this exception, you may extend this exception to your "
-#~ "version of the file(s), but you are not obligated to do so. If you do not "
-#~ "wish to do so, delete this exception statement from your version. If you "
-#~ "delete this exception statement from all source files in the program, then "
-#~ "also delete it here."
+#~ "General Public License along with this program; if not, see <http://www.gnu."
+#~ "org/licenses>. In addition, as a special exception, the copyright holders "
+#~ "give permission to link the code of portions of this program with the "
+#~ "OpenSSL library. You must obey the GNU General Public License in all "
+#~ "respects for all of the code used other than OpenSSL. If you modify file(s) "
+#~ "with this exception, you may extend this exception to your version of the "
+#~ "file(s), but you are not obligated to do so. If you do not wish to do so, "
+#~ "delete this exception statement from your version. If you delete this "
+#~ "exception statement from all source files in the program, then also delete "
+#~ "it here."
 #~ msgstr ""
 #~ "Оваа програма е слободен софтвер; можете да ја редистрибуирате и/или "
 #~ "модификувате под условите на GNU General Public лиценцата публикувана од "
@@ -3983,18 +4034,17 @@ msgstr "Дестинација:"
 #~ "избор) секоја подоцна верзија. Оваа програма се дистрибуира со цел да биде "
 #~ "корисна, но БЕЗ НИКАКВА ГАРАНЦИЈА; ниту ни без имплицираната гаранција за "
 #~ "ТРГУВАНОСТ или КВАЛИФИКУВАНОСТ ЗА ОДРЕДЕНА ЦЕЛ. Погледнете ја GNU General "
-#~ "Public лиценцата за оваа програма; ако не погледнете "
-#~ "<http://www.gnu.org/licenses>. Додатно, како посебен исклучок, носителите на "
-#~ "авторски права дозволуваат поврзување на делови од оваа програма со OpenSSL "
-#~ "библиотеката. Мора да се придржувате кон GNU General Public лиценцата во "
-#~ "сите случаи на користење на кодот освен со OpenSSL. Ако модифицирате "
-#~ "датотеки со овој исклучок, може да го продолжите исклучокот со вашата "
-#~ "верзија на датотеките, но не сте приморани на тоа. Ако не сакате да го "
-#~ "продолжите овој исклучок, тогаш избришете го делот каде тоа е наведено во "
-#~ "вашата верзија. Ако го избришете овој исклучок од изворниот код на "
-#~ "програмата, исто така избришете го и во оваа датотека."
+#~ "Public лиценцата за оваа програма; ако не погледнете <http://www.gnu.org/"
+#~ "licenses>. Додатно, како посебен исклучок, носителите на авторски права "
+#~ "дозволуваат поврзување на делови од оваа програма со OpenSSL библиотеката. "
+#~ "Мора да се придржувате кон GNU General Public лиценцата во сите случаи на "
+#~ "користење на кодот освен со OpenSSL. Ако модифицирате датотеки со овој "
+#~ "исклучок, може да го продолжите исклучокот со вашата верзија на датотеките, "
+#~ "но не сте приморани на тоа. Ако не сакате да го продолжите овој исклучок, "
+#~ "тогаш избришете го делот каде тоа е наведено во вашата верзија. Ако го "
+#~ "избришете овој исклучок од изворниот код на програмата, исто така избришете "
+#~ "го и во оваа датотека."
 
-#, python-format
 #~ msgid "%.2f%%"
 #~ msgstr "%.2f%%"
 

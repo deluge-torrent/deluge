@@ -8,14 +8,15 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-07-10 16:58+0100\n"
-"PO-Revision-Date: 2009-08-31 23:23+0000\n"
+"PO-Revision-Date: 2015-07-15 17:25-0400\n"
 "Last-Translator: Xosé <Unknown>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-07-11 13:01+0000\n"
-"X-Generator: Launchpad (build 13388)\n"
+"X-Generator: Poedit 1.8.2\n"
+"Language: gl\n"
 
 #: deluge/common.py:274
 msgid "KiB"
@@ -57,32 +58,38 @@ msgid "GiB/s"
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
+#, fuzzy
 msgid "Notification Blink shown"
-msgstr ""
+msgstr "A área de notificación"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:183
+#, fuzzy
 msgid "Popup notification is not enabled."
-msgstr ""
+msgstr "A área de notificación"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:185
+#, fuzzy
 msgid "pynotify is not installed"
-msgstr ""
+msgstr "Está instalada a versión %s de lxml."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:193
+#, fuzzy
 msgid "pynotify failed to show notification"
-msgstr ""
+msgstr "Houbo un erro ao abrir «%s» para escritura"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:196
+#, fuzzy
 msgid "Notification popup shown"
-msgstr ""
+msgstr "Mostrar a xanela emerxente de notificación ao cambiar de pista"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:200
 msgid "Sound notification not enabled"
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:202
+#, fuzzy
 msgid "pygame is not installed"
-msgstr ""
+msgstr "Está instalada a versión %s de lxml."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:214
 #, python-format
@@ -99,24 +106,24 @@ msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:242
 #, python-format
-msgid ""
-"The torrent \"%(name)s\" including %(num_files)i has finished downloading."
+msgid "The torrent \"%(name)s\" including %(num_files)i has finished downloading."
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:646
+#, fuzzy
 msgid "Choose Sound File"
-msgstr ""
+msgstr "Seleccione un ficheiro"
 
 #: deluge/plugins/notifications/notifications/core.py:138
 #: deluge/plugins/notifications/notifications/core.py:171
-#, python-format
+#, fuzzy, python-format
 msgid "There was an error sending the notification email: %s"
-msgstr ""
+msgstr "Houbo un erro ao enviar o informe de erros"
 
 #: deluge/plugins/notifications/notifications/core.py:157
-#, python-format
+#, fuzzy, python-format
 msgid "The server didn't reply properly to the helo greeting: %s"
-msgstr ""
+msgstr "Deixa unha resposta a %s"
 
 #: deluge/plugins/notifications/notifications/core.py:162
 #, python-format
@@ -135,10 +142,10 @@ msgstr ""
 #: deluge/plugins/notifications/notifications/core.py:196
 #, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading "
-"\"%(name)s\", which includes %(num_files)i files.\n"
-"To stop receiving these alerts, simply turn off email notification in "
-"Deluge's preferences.\n"
+"This email is to inform you that Deluge has finished downloading \"%(name)s\", "
+"which includes %(num_files)i files.\n"
+"To stop receiving these alerts, simply turn off email notification in Deluge's "
+"preferences.\n"
 "\n"
 "Thank you,\n"
 "Deluge."
@@ -221,13 +228,14 @@ msgid "<b>Email Notifications</b>"
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/data/config.glade:460
+#, fuzzy
 msgid "Settings"
-msgstr ""
+msgstr "Axustes"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:495
 msgid ""
-"This configuration does not mean that you'll actually receive notifications "
-"for all these events."
+"This configuration does not mean that you'll actually receive notifications for "
+"all these events."
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/data/config.glade:513
@@ -361,24 +369,28 @@ msgid "Remove at ratio"
 msgstr "Eliminar coa taxa"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:762
+#, fuzzy
 msgid "Auto Managed:"
-msgstr ""
+msgstr "Automático"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:890
+#, fuzzy
 msgid "Add Paused:"
-msgstr ""
+msgstr "En pausa"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:936
 msgid "Queue to:"
 msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:954
+#, fuzzy
 msgid "Top"
-msgstr ""
+msgstr "Arriba"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:967
+#, fuzzy
 msgid "Bottom"
-msgstr ""
+msgstr "Abaixo"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:1017
 #: deluge/ui/gtkui/glade/main_window.glade:2069
@@ -392,8 +404,9 @@ msgid "Options"
 msgstr "Opcións"
 
 #: deluge/plugins/autoadd/autoadd/data/config.glade:41
+#, fuzzy
 msgid "<b>Watch Folders:</b>"
-msgstr ""
+msgstr "Xestionar os cartafoles"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:238
 msgid "Download Limit:"
@@ -431,8 +444,7 @@ msgstr "Etiqueta baleira"
 msgid "Label already exists"
 msgstr "A etiqueta xa existe"
 
-#: deluge/plugins/label/label/core.py:199
-#: deluge/plugins/label/label/core.py:279
+#: deluge/plugins/label/label/core.py:199 deluge/plugins/label/label/core.py:279
 #: deluge/plugins/label/label/core.py:314
 msgid "Unknown Label"
 msgstr "Etiqueta descoñecida"
@@ -548,8 +560,7 @@ msgstr "Nome:"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
-msgstr ""
-"<i>Usar a barra lateral para engadir, editar e eliminar etiquetas. </I>\n"
+msgstr "<i>Usar a barra lateral para engadir, editar e eliminar etiquetas. </I>\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:32
 msgid "<b>Labels</b>"
@@ -1795,8 +1806,7 @@ msgstr "Velocidade de descarga"
 msgid "Up Speed"
 msgstr "Velocidade de envío"
 
-#: deluge/ui/gtkui/queuedtorrents.py:75
-#: deluge/ui/gtkui/addtorrentdialog.py:103
+#: deluge/ui/gtkui/queuedtorrents.py:75 deluge/ui/gtkui/addtorrentdialog.py:103
 msgid "Torrent"
 msgstr "Torrent"
 
@@ -1865,28 +1875,31 @@ msgid "Deluge is password protected!"
 msgstr ""
 
 #: deluge/ui/gtkui/systemtray.py:476
+#, fuzzy
 msgid "Enter your password to continue"
-msgstr ""
+msgstr "Introducir un novo contrasinal."
 
 #: deluge/ui/gtkui/notification.py:79
 msgid "Torrent complete"
 msgstr "Torrent completado"
 
 #: deluge/ui/gtkui/notification.py:80
+#, fuzzy
 msgid "Including"
-msgstr ""
+msgstr "Mostrar todo, incluídas as mensaxes de depuración"
 
 #: deluge/ui/gtkui/notification.py:80
+#, fuzzy
 msgid "files"
-msgstr ""
+msgstr "Ficheiros"
 
 #: deluge/ui/gtkui/notification.py:109
 #, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading %(name)s ,  "
-"           which includes %(num_files)i files.\n"
-"To stop receiving these alerts, simply turn off             email "
-"notification in Deluge's preferences.\n"
+"This email is to inform you that Deluge has finished downloading "
+"%(name)s ,             which includes %(num_files)i files.\n"
+"To stop receiving these alerts, simply turn off             email notification "
+"in Deluge's preferences.\n"
 "\n"
 "Thank you,\n"
 "Deluge"
@@ -1900,12 +1913,14 @@ msgstr ""
 "Deluge"
 
 #: deluge/ui/gtkui/new_release_dialog.py:72
+#, fuzzy
 msgid "<i>Client Version</i>"
-msgstr ""
+msgstr "Versión"
 
 #: deluge/ui/gtkui/preferences.py:72
+#, fuzzy
 msgid "Categories"
-msgstr ""
+msgstr "Todas as Categorías"
 
 #: deluge/ui/gtkui/preferences.py:76
 msgid "Downloads"
@@ -2007,20 +2022,23 @@ msgid "Invalid URL"
 msgstr "URL incorrecto"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:622
+#, fuzzy
 msgid "is not a valid URL."
-msgstr ""
+msgstr "Introduza un enderezo de correo válido."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:626
+#, fuzzy
 msgid "Downloading..."
-msgstr ""
+msgstr "Descargando..."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
 msgid "Download Failed"
 msgstr "Produciuse un fallo na descarga"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
+#, fuzzy
 msgid "Failed to download:"
-msgstr ""
+msgstr "Descarga"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:103
 #: deluge/ui/gtkui/edittrackersdialog.py:84
@@ -2069,8 +2087,9 @@ msgid "DHT Nodes"
 msgstr "Nodos DHT"
 
 #: deluge/ui/gtkui/statusbar.py:186
+#, fuzzy
 msgid "Free Disk Space"
-msgstr ""
+msgstr "Preparar o espazo do disco"
 
 #: deluge/ui/gtkui/statusbar.py:190
 msgid "No Incoming Connections!"
@@ -2085,8 +2104,9 @@ msgid "Torrents"
 msgstr "Torrents"
 
 #: deluge/ui/gtkui/filtertreeview.py:69
+#, fuzzy
 msgid "States"
-msgstr ""
+msgstr "Estadounidense"
 
 #: deluge/ui/gtkui/filtertreeview.py:71
 msgid "Labels"
@@ -2101,12 +2121,14 @@ msgid "Downloading"
 msgstr ""
 
 #: deluge/ui/gtkui/filtertreeview.py:74
+#, fuzzy
 msgid "Seeding"
-msgstr ""
+msgstr "Semente"
 
 #: deluge/ui/gtkui/filtertreeview.py:75
+#, fuzzy
 msgid "Paused"
-msgstr ""
+msgstr "En pausa"
 
 #: deluge/ui/gtkui/filtertreeview.py:76
 msgid "Checking"
@@ -2117,8 +2139,9 @@ msgid "Queued"
 msgstr ""
 
 #: deluge/ui/gtkui/filtertreeview.py:79
+#, fuzzy
 msgid "Active"
-msgstr ""
+msgstr "activo"
 
 #: deluge/ui/gtkui/filtertreeview.py:80
 msgid "None"
@@ -2130,55 +2153,59 @@ msgstr ""
 
 #: deluge/ui/gtkui/aboutdialog.py:253
 msgid ""
-"This program is free software; you can redistribute it and/or modify it "
-"under the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 3 of the License, or (at your option) "
-"any later version. \n"
+"This program is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free Software "
+"Foundation; either version 3 of the License, or (at your option) any later "
+"version. \n"
 "\n"
-"This program is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
-"more details. \n"
+"This program is distributed in the hope that it will be useful, but WITHOUT ANY "
+"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A "
+"PARTICULAR PURPOSE. See the GNU General Public License for more details. \n"
 "\n"
 "You should have received a copy of the GNU General Public License along with "
 "this program; if not, see <http://www.gnu.org/licenses>. \n"
 "\n"
-"In addition, as a special exception, the copyright holders give permission "
-"to link the code of portions of this program with the OpenSSL library. You "
-"must obey the GNU General Public License in all respects for all of the code "
-"used other than OpenSSL. \n"
+"In addition, as a special exception, the copyright holders give permission to "
+"link the code of portions of this program with the OpenSSL library. You must "
+"obey the GNU General Public License in all respects for all of the code used "
+"other than OpenSSL. \n"
 "\n"
 "If you modify file(s) with this exception, you may extend this exception to "
-"your version of the file(s), but you are not obligated to do so. If you do "
-"not wish to do so, delete this exception statement from your version. If you "
-"delete this exception statement from all source files in the program, then "
-"also delete it here."
+"your version of the file(s), but you are not obligated to do so. If you do not "
+"wish to do so, delete this exception statement from your version. If you delete "
+"this exception statement from all source files in the program, then also delete "
+"it here."
 msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:149
+#, fuzzy
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
 #: deluge/ui/gtkui/connectionmanager.py:153
 msgid "Host"
 msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:158
+#, fuzzy
 msgid "Version"
-msgstr ""
+msgstr "Versión"
 
 #: deluge/ui/gtkui/connectionmanager.py:386
+#, fuzzy
 msgid "_Stop Daemon"
-msgstr ""
+msgstr "Executar como un proceso daemon"
 
 #: deluge/ui/gtkui/connectionmanager.py:394
+#, fuzzy
 msgid "_Start Daemon"
-msgstr ""
+msgstr "Executar como un proceso daemon"
 
 #: deluge/ui/gtkui/connectionmanager.py:414
 #: deluge/ui/gtkui/connectionmanager.py:424
+#, fuzzy
 msgid "Unable to start daemon!"
-msgstr ""
+msgstr "Inicio"
 
 #: deluge/ui/gtkui/connectionmanager.py:415
 msgid ""
@@ -2187,8 +2214,9 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:425
+#, fuzzy
 msgid "Please examine the details for more information."
-msgstr ""
+msgstr "Máis información"
 
 #: deluge/ui/gtkui/connectionmanager.py:509
 msgid "Error Adding Host"
@@ -2214,21 +2242,20 @@ msgstr "Atopouse un erro iniciando o núcleo"
 
 #: deluge/ui/gtkui/gtkui.py:313
 msgid ""
-"There was an error starting the core component which is required to run "
-"Deluge in Classic Mode.\n"
+"There was an error starting the core component which is required to run Deluge "
+"in Classic Mode.\n"
 "\n"
 "Please see the details below for more information."
 msgstr ""
-"Produciuse un erro ao iniciar o compoñente básico que se require para "
-"executar Deluge no modo clásico.\n"
+"Produciuse un erro ao iniciar o compoñente básico que se require para executar "
+"Deluge no modo clásico.\n"
 "Consulte a información seguinte para obter máis detalles."
 
 #: deluge/ui/gtkui/gtkui.py:318
 msgid ""
-"Since there was an error starting in Classic Mode would you like to continue "
-"by turning it off?"
-msgstr ""
-"Produciu un erro de inicio no modo clásico, desexa continuar apagándoo?"
+"Since there was an error starting in Classic Mode would you like to continue by "
+"turning it off?"
+msgstr "Produciu un erro de inicio no modo clásico, desexa continuar apagándoo?"
 
 #: deluge/ui/gtkui/gtkui.py:342
 msgid "Error Starting Daemon"
@@ -2236,8 +2263,8 @@ msgstr "Produciuse un erro iniciando o daemon"
 
 #: deluge/ui/gtkui/gtkui.py:343
 msgid ""
-"There was an error starting the daemon process.  Try running it from a "
-"console to see if there is an error."
+"There was an error starting the daemon process.  Try running it from a console "
+"to see if there is an error."
 msgstr ""
 "Produciuse un erro ao iniciar o proceso do daemon. Tente executar desde unha "
 "consola para ver se hai un erro."
@@ -2271,12 +2298,14 @@ msgid "Normal Priority"
 msgstr ""
 
 #: deluge/ui/gtkui/files_tab.py:58
+#, fuzzy
 msgid "High Priority"
-msgstr ""
+msgstr "Prioridade alta"
 
 #: deluge/ui/gtkui/files_tab.py:59
+#, fuzzy
 msgid "Highest Priority"
-msgstr ""
+msgstr "O máis alto"
 
 #: deluge/ui/gtkui/files_tab.py:169
 msgid "Priority"
@@ -2292,12 +2321,14 @@ msgid "Name"
 msgstr "Nome"
 
 #: deluge/ui/gtkui/torrentview.py:219
+#, fuzzy
 msgid "Downloaded"
-msgstr ""
+msgstr "Descarga"
 
 #: deluge/ui/gtkui/torrentview.py:222
+#, fuzzy
 msgid "Uploaded"
-msgstr ""
+msgstr "Cargar"
 
 #: deluge/ui/gtkui/torrentview.py:229 deluge/ui/gtkui/torrentview.py:235
 msgid "Seeders"
@@ -2351,8 +2382,9 @@ msgid "_Create Torrent"
 msgstr "_Crear torrent"
 
 #: deluge/ui/gtkui/glade/main_window.glade:65
+#, fuzzy
 msgid "Quit & _Shutdown Daemon"
-msgstr ""
+msgstr "Executar como un proceso daemon"
 
 #: deluge/ui/gtkui/glade/main_window.glade:101
 msgid "_Edit"
@@ -2645,8 +2677,7 @@ msgid "Remove Torrent?"
 msgstr "Eliminar torrent?"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2324
-msgid ""
-"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
+msgid "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
 msgstr ""
 "<big><b>Ten certeza de que desexa eliminar o torrent seleccionado?</b></big>"
 
@@ -2963,8 +2994,7 @@ msgid "Delete copy of torrent file on remove"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:320
-msgid ""
-"Delete the copy of the torrent file created when the torrent is removed"
+msgid "Delete the copy of the torrent file created when the torrent is removed"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:337
@@ -3052,11 +3082,11 @@ msgstr "<b>Interface</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:939
 msgid ""
-"The TOS byte set in the IP header of every packet sent to peers (including "
-"web seeds).  Expects a Hex value."
+"The TOS byte set in the IP header of every packet sent to peers (including web "
+"seeds).  Expects a Hex value."
 msgstr ""
-"O byte TOS no cabezallo IP de cada paquete enviado aos seus pares (incluindo "
-"as sementes web). Agarda por un valor hexadecimal."
+"O byte TOS no cabezallo IP de cada paquete enviado aos seus pares (incluindo as "
+"sementes web). Agarda por un valor hexadecimal."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:940
 msgid "Peer TOS Byte:"
@@ -3102,8 +3132,7 @@ msgstr "DHT"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1075
 msgid "Distributed hash table may improve the amount of active connections."
-msgstr ""
-"A Táboa Hash Distribuída pode mellorar a cantidade de conexións activas."
+msgstr "A Táboa Hash Distribuída pode mellorar a cantidade de conexións activas."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1097
 msgid "<b>Network Extras</b>"
@@ -3216,12 +3245,11 @@ msgstr "Taxa límite de campos de cabeceira IP"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1577
 msgid ""
-"If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
-"to avoid exceeding the limits with the total traffic"
+"If checked, the estimated TCP/IP overhead is drained from the rate limiters, to "
+"avoid exceeding the limits with the total traffic"
 msgstr ""
-"Se se selecciona, a estimación de campos de cabeceira de TCP/IP obtense "
-"desde os limitadores da taxa, para evitar que se excedan os límites co "
-"tráfico total"
+"Se se selecciona, a estimación de campos de cabeceira de TCP/IP obtense desde "
+"os limitadores da taxa, para evitar que se excedan os límites co tráfico total"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1594
 msgid "<b>Global Bandwidth Usage</b>"
@@ -3256,10 +3284,10 @@ msgid ""
 "advantage of running Deluge as a daemon. You need to restart Deluge for this "
 "setting to take effect."
 msgstr ""
-"En modo clásico, agochase a maior parte da funcionalidade do daemon e fará "
-"que Deluge semelle un aplicativo sinxelo. Use esta opción se non desexa "
-"aproveitar as vantaxes de executar Deluge como un daemon. É preciso "
-"reiniciar Deluge para que esta configuración teña efecto."
+"En modo clásico, agochase a maior parte da funcionalidade do daemon e fará que "
+"Deluge semelle un aplicativo sinxelo. Use esta opción se non desexa aproveitar "
+"as vantaxes de executar Deluge como un daemon. É preciso reiniciar Deluge para "
+"que esta configuración teña efecto."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1866
 msgid "<b>Classic Mode</b>"
@@ -3322,8 +3350,7 @@ msgid ""
 "Deluge will check our servers and will tell you if a newer version has been "
 "released"
 msgstr ""
-"Deluge comprobará os nosos servidores e diralle se foi editada unha nova "
-"versión"
+"Deluge comprobará os nosos servidores e diralle se foi editada unha nova versión"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2289
 msgid "<b>Updates</b>"
@@ -3331,12 +3358,12 @@ msgstr "<b>Actualizacións</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2326
 msgid ""
-"Help us improve Deluge by sending us your Python version, PyGTK version, OS "
-"and processor types.  Absolutely no other information is sent."
+"Help us improve Deluge by sending us your Python version, PyGTK version, OS and "
+"processor types.  Absolutely no other information is sent."
 msgstr ""
-"Axúdenos a mellorar Deluge enviándonos a súa versión de Python, PyGTK, "
-"sistema operativo e o tipo de procesador. Non se envía, absolutamente, "
-"ningunha outra información."
+"Axúdenos a mellorar Deluge enviándonos a súa versión de Python, PyGTK, sistema "
+"operativo e o tipo de procesador. Non se envía, absolutamente, ningunha outra "
+"información."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2343
 msgid "Yes, please send anonymous statistics"
@@ -3355,8 +3382,8 @@ msgid ""
 "If Deluge cannot find the database file at this location it will fallback to "
 "using DNS to resolve the peer's country."
 msgstr ""
-"Se Deluge non e quen de atopar o ficheiro da base de datos nese lugar "
-"recurrirá a utilizar DNS para atopar o país do outro par."
+"Se Deluge non e quen de atopar o ficheiro da base de datos nese lugar recurrirá "
+"a utilizar DNS para atopar o país do outro par."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2444
 msgid "<b>GeoIP Database</b>"
@@ -3502,8 +3529,8 @@ msgstr "Tamaño da caché (bloques de 16 KiB):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4122
 msgid ""
-"The number of seconds from the last cached write to a piece in the write "
-"cache, to when it's forcefully flushed to disk. Default is 60 seconds."
+"The number of seconds from the last cached write to a piece in the write cache, "
+"to when it's forcefully flushed to disk. Default is 60 seconds."
 msgstr ""
 "O número de segundos desde a última escritura na caché dunha parte até a "
 "escritura da caché , cando é forzada a envorcar ao disco. O valor "
@@ -3518,8 +3545,8 @@ msgid ""
 "The total number of 16 KiB blocks written to disk since this session was "
 "started."
 msgstr ""
-"Número total de bloques de 16 KiB escritos no disco desde que se iniciou "
-"esta sesión."
+"Número total de bloques de 16 KiB escritos no disco desde que se iniciou esta "
+"sesión."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4222
 msgid "Blocks Written:"
@@ -3527,8 +3554,7 @@ msgstr "Bloques escritos:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4231
 msgid ""
-"The total number of write operations performed since this session was "
-"started."
+"The total number of write operations performed since this session was started."
 msgstr ""
 "Número total de operacións de escritura realizadas desde que se iniciou esta "
 "sesión."
@@ -3539,14 +3565,13 @@ msgstr "Escrituras:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4244
 msgid ""
-"The ratio (blocks_written - writes) / blocks_written represents the number "
-"of saved write operations per total write operations, i.e. a kind of cache "
-"hit ratio for the write cache."
+"The ratio (blocks_written - writes) / blocks_written represents the number of "
+"saved write operations per total write operations, i.e. a kind of cache hit "
+"ratio for the write cache."
 msgstr ""
 "A relación (bloques_escritos - escrituras) / bloques_escritos representa o "
 "número de operacións de escritura de gardado para o total das operacións de "
-"escritura, é decir, unha especie de éxitos de caché para a caché de "
-"escritura."
+"escritura, é decir, unha especie de éxitos de caché para a caché de escritura."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4246
 msgid "Write Cache Hit Ratio:"
@@ -3604,8 +3629,8 @@ msgid ""
 "The number of 16 KiB blocks currently in the disk cache. This includes both "
 "read and write cache."
 msgstr ""
-"Número de bloques de 16 KiB actualmente na caché de disco. Esto inclúe tanto "
-"a lectura como a escritura na caché."
+"Número de bloques de 16 KiB actualmente na caché de disco. Esto inclúe tanto a "
+"lectura como a escritura na caché."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4464
 msgid "Cache Size:"
@@ -3728,8 +3753,9 @@ msgid "If you remove the data, it will be lost permanently."
 msgstr "Se elimina os datos, perderanse permanentemente."
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:127
+#, fuzzy
 msgid "action"
-msgstr ""
+msgstr "Acción"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:129
 msgid "Remove Files"
@@ -3910,8 +3936,8 @@ msgstr "Destino:"
 #~ "useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
 #~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
 #~ "Public License for more details. You should have received a copy of the GNU "
-#~ "General Public License along with this program; if not, see "
-#~ "<http://www.gnu.org/licenses>."
+#~ "General Public License along with this program; if not, see <http://www.gnu."
+#~ "org/licenses>."
 #~ msgstr ""
 #~ "Este programa é software libre; vostede pode redistribuílo e/ou modificalo "
 #~ "baixo os termos da GNU General Public Licence tal e como é publicada pola "
@@ -3947,15 +3973,12 @@ msgstr "Destino:"
 #~ msgid "Times to attempt download"
 #~ msgstr "Número de tentativas de descarga"
 
-#, python-format
 #~ msgid "Blocked Ranges: %s"
 #~ msgstr "Rangos bloqueados: %s"
 
-#, python-format
 #~ msgid "Importing %s"
 #~ msgstr "A importar %s"
 
-#, python-format
 #~ msgid "Downloading %.2f%%"
 #~ msgstr "A descargar %.2f%%"
 
@@ -3972,7 +3995,6 @@ msgstr "Destino:"
 #~ "Deluge\n"
 #~ "Desconectado..."
 
-#, python-format
 #~ msgid "%.2f%%"
 #~ msgstr "%.2f%%"
 
@@ -4030,11 +4052,9 @@ msgstr "Destino:"
 #~ "tracker2.com\n"
 #~ "isto non fai nada aínda ...\n"
 
-#, python-format
 #~ msgid "%s is not a valid URL."
 #~ msgstr "%s non é unha URL correcta"
 
-#, python-format
 #~ msgid "Failed to download : %s"
 #~ msgstr "Produciuse un fallo descargando: %s"
 
@@ -4044,7 +4064,6 @@ msgstr "Destino:"
 #~ msgid "<i>Enter your password to continue</i>"
 #~ msgstr "<i>Introducir o contrasinal para continuar</i>"
 
-#, python-format
 #~ msgid "Including %i files"
 #~ msgstr "Incluíndo %i ficheiros"
 
@@ -4056,16 +4075,16 @@ msgstr "Destino:"
 #~ "useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
 #~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
 #~ "Public License for more details. You should have received a copy of the GNU "
-#~ "General Public License along with this program; if not, see "
-#~ "<http://www.gnu.org/licenses>. In addition, as a special exception, the "
-#~ "copyright holders give permission to link the code of portions of this "
-#~ "program with the OpenSSL library. You must obey the GNU General Public "
-#~ "License in all respects for all of the code used other than OpenSSL. If you "
-#~ "modify file(s) with this exception, you may extend this exception to your "
-#~ "version of the file(s), but you are not obligated to do so. If you do not "
-#~ "wish to do so, delete this exception statement from your version. If you "
-#~ "delete this exception statement from all source files in the program, then "
-#~ "also delete it here."
+#~ "General Public License along with this program; if not, see <http://www.gnu."
+#~ "org/licenses>. In addition, as a special exception, the copyright holders "
+#~ "give permission to link the code of portions of this program with the "
+#~ "OpenSSL library. You must obey the GNU General Public License in all "
+#~ "respects for all of the code used other than OpenSSL. If you modify file(s) "
+#~ "with this exception, you may extend this exception to your version of the "
+#~ "file(s), but you are not obligated to do so. If you do not wish to do so, "
+#~ "delete this exception statement from your version. If you delete this "
+#~ "exception statement from all source files in the program, then also delete "
+#~ "it here."
 #~ msgstr ""
 #~ "Este programa é software libre, pode redistribuílo e/ou modificalo baixo os "
 #~ "termos da Licenza Pública Xeral GNU publicada pola Free Software Foundation, "

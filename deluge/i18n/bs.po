@@ -8,14 +8,15 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-07-10 16:58+0100\n"
-"PO-Revision-Date: 2008-04-12 10:26+0000\n"
+"PO-Revision-Date: 2015-07-15 13:59-0400\n"
 "Last-Translator: Sanel <Unknown>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-07-11 13:01+0000\n"
-"X-Generator: Launchpad (build 13388)\n"
+"X-Generator: Poedit 1.8.2\n"
+"Language: bs\n"
 
 #: deluge/common.py:274
 msgid "KiB"
@@ -57,41 +58,47 @@ msgid "GiB/s"
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
+#, fuzzy
 msgid "Notification Blink shown"
-msgstr ""
+msgstr "Pošalji obavijest"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:183
+#, fuzzy
 msgid "Popup notification is not enabled."
-msgstr ""
+msgstr "Omogućeno"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:185
 msgid "pynotify is not installed"
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:193
+#, fuzzy
 msgid "pynotify failed to show notification"
-msgstr ""
+msgstr "Nije moguće spremiti obavijest"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:196
+#, fuzzy
 msgid "Notification popup shown"
-msgstr ""
+msgstr "Pošalji obavijest"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:200
+#, fuzzy
 msgid "Sound notification not enabled"
-msgstr ""
+msgstr "Omogućeno"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:202
 msgid "pygame is not installed"
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:214
-#, python-format
+#, fuzzy, python-format
 msgid "Sound notification failed %s"
-msgstr ""
+msgstr "Zvuk"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:218
+#, fuzzy
 msgid "Sound notification Success"
-msgstr ""
+msgstr "Zvuk"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:241
 msgid "Finished Torrent"
@@ -104,8 +111,9 @@ msgid ""
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:646
+#, fuzzy
 msgid "Choose Sound File"
-msgstr ""
+msgstr "Zvuk"
 
 #: deluge/plugins/notifications/notifications/core.py:138
 #: deluge/plugins/notifications/notifications/core.py:171
@@ -114,9 +122,9 @@ msgid "There was an error sending the notification email: %s"
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/core.py:157
-#, python-format
+#, fuzzy, python-format
 msgid "The server didn't reply properly to the helo greeting: %s"
-msgstr ""
+msgstr "Ostavi komentar na %s"
 
 #: deluge/plugins/notifications/notifications/core.py:162
 #, python-format
@@ -124,8 +132,9 @@ msgid "The server didn't accept the username/password combination: %s"
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/core.py:186
+#, fuzzy
 msgid "Notification email sent."
-msgstr ""
+msgstr "Epošta"
 
 #: deluge/plugins/notifications/notifications/core.py:194
 #, python-format
@@ -135,8 +144,8 @@ msgstr ""
 #: deluge/plugins/notifications/notifications/core.py:196
 #, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading "
-"\"%(name)s\", which includes %(num_files)i files.\n"
+"This email is to inform you that Deluge has finished downloading \"%(name)s"
+"\", which includes %(num_files)i files.\n"
 "To stop receiving these alerts, simply turn off email notification in "
 "Deluge's preferences.\n"
 "\n"
@@ -145,24 +154,29 @@ msgid ""
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/data/config.glade:29
+#, fuzzy
 msgid "<b><i><big>Notifications</big></i></b>"
-msgstr ""
+msgstr "Vaše obavijesti"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:81
+#, fuzzy
 msgid "Tray icon blinks enabled"
-msgstr ""
+msgstr "Omogućeno"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:93
+#, fuzzy
 msgid "Popups enabled"
-msgstr ""
+msgstr "Omogućeno"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:108
+#, fuzzy
 msgid "Sound enabled"
-msgstr ""
+msgstr "Omogućeno"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:144
+#, fuzzy
 msgid "<b>UI Notifications</b>"
-msgstr ""
+msgstr "Vaše obavijesti"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:175
 #: deluge/ui/gtkui/glade/connection_manager.glade:28
@@ -175,8 +189,9 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3542
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3726
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3912
+#, fuzzy
 msgid "Port:"
-msgstr ""
+msgstr "Luka"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:231
 #: deluge/ui/gtkui/glade/connection_manager.glade:143
@@ -213,16 +228,19 @@ msgstr "Od:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:421
 #: deluge/ui/gtkui/preferences.py:91
+#, fuzzy
 msgid "Enabled"
-msgstr ""
+msgstr "Omogućeno"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:443
+#, fuzzy
 msgid "<b>Email Notifications</b>"
-msgstr ""
+msgstr "Epošta"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:460
+#, fuzzy
 msgid "Settings"
-msgstr ""
+msgstr "Postavke"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:495
 msgid ""
@@ -231,12 +249,14 @@ msgid ""
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/data/config.glade:513
+#, fuzzy
 msgid "Subscriptions"
-msgstr ""
+msgstr "Lista kodova pretplate"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:594
+#, fuzzy
 msgid "Sound Customization"
-msgstr ""
+msgstr "Zvuk"
 
 #: deluge/plugins/autoadd/autoadd/core.py:136
 msgid "Watch folder does not exist."
@@ -248,8 +268,9 @@ msgid "Path does not exist."
 msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
+#, fuzzy
 msgid "AutoAdd Error"
-msgstr ""
+msgstr "Greška pri konekciji"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:78
 msgid "Watch Folder Properties"
@@ -264,36 +285,41 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:162
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:228
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:288
+#, fuzzy
 msgid "Select A Folder"
-msgstr ""
+msgstr "Odaberite"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:143
+#, fuzzy
 msgid "Enable this watch folder"
-msgstr ""
+msgstr "Omogući"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:164
 msgid "<b>Watch Folder</b>"
 msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:195
+#, fuzzy
 msgid "Delete .torrent after adding"
-msgstr ""
+msgstr "Brisanje"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:211
 msgid "Append extension after adding:"
 msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:228
+#, fuzzy
 msgid ".added"
-msgstr ""
+msgstr "Porez na dodatu vrijednost"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:248
 msgid "<b>Torrent File Action</b>"
 msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:275
+#, fuzzy
 msgid "Set download location"
-msgstr ""
+msgstr "Naziv lokacije"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:325
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:396
@@ -301,29 +327,35 @@ msgid "<b>Download Location</b>"
 msgstr "<b>Lokacija Preuzimanja</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:353
+#, fuzzy
 msgid "Set move completed location"
-msgstr ""
+msgstr "ZAVRŠENO"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:418
+#, fuzzy
 msgid "<b>Move Completed</b>"
-msgstr ""
+msgstr "ZAVRŠENO"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:444
+#, fuzzy
 msgid "Label: "
-msgstr ""
+msgstr "Pretpregled oznake"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:475
+#, fuzzy
 msgid "<b>Label</b>"
-msgstr ""
+msgstr "Pretpregled oznake"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:492
+#, fuzzy
 msgid "Main"
-msgstr ""
+msgstr "Glavni"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:524
 #: deluge/ui/gtkui/glade/main_window.glade:1811
+#, fuzzy
 msgid "Max Upload Speed:"
-msgstr ""
+msgstr "Brzina"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:541
 #: deluge/ui/gtkui/glade/main_window.glade:1798
@@ -334,13 +366,15 @@ msgstr ""
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:558
 #: deluge/ui/gtkui/glade/main_window.glade:1861
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:565
+#, fuzzy
 msgid "Max Upload Slots:"
-msgstr ""
+msgstr "Prenesi odabrane datoteke"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:665
 #: deluge/ui/gtkui/glade/main_window.glade:1824
+#, fuzzy
 msgid "Max Download Speed:"
-msgstr ""
+msgstr "Brzina"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:691
 #: deluge/ui/gtkui/glade/main_window.glade:1900
@@ -351,45 +385,53 @@ msgstr ""
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:722
 #: deluge/plugins/label/label/data/label_options.glade:349
 #: deluge/ui/gtkui/glade/main_window.glade:1952
+#, fuzzy
 msgid "Stop seed at ratio:"
-msgstr ""
+msgstr "Zlatni rez"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:746
 #: deluge/plugins/label/label/data/label_options.glade:364
 #: deluge/ui/gtkui/glade/main_window.glade:1993
+#, fuzzy
 msgid "Remove at ratio"
-msgstr ""
+msgstr "Ukloni"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:762
+#, fuzzy
 msgid "Auto Managed:"
-msgstr ""
+msgstr "Kontrolisani korisnici"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:890
+#, fuzzy
 msgid "Add Paused:"
-msgstr ""
+msgstr "pauzirano"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:936
 msgid "Queue to:"
 msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:954
+#, fuzzy
 msgid "Top"
-msgstr ""
+msgstr "Vrh"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:967
+#, fuzzy
 msgid "Bottom"
-msgstr ""
+msgstr "Dno"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:1017
 #: deluge/ui/gtkui/glade/main_window.glade:2069
+#, fuzzy
 msgid "<b>Queue</b>"
-msgstr ""
+msgstr "{n} u redu za čekanje"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:1037
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:624
 #: deluge/ui/gtkui/glade/connection_manager.glade:457
+#, fuzzy
 msgid "Options"
-msgstr ""
+msgstr "Opcije"
 
 #: deluge/plugins/autoadd/autoadd/data/config.glade:41
 msgid "<b>Watch Folders:</b>"
@@ -408,12 +450,14 @@ msgid "Active Torrents:"
 msgstr "Aktivni torrenti:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:265
+#, fuzzy
 msgid "Active Downloading:"
-msgstr ""
+msgstr "Aktivni planovi učenja"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:274
+#, fuzzy
 msgid "Active Seeding:"
-msgstr ""
+msgstr "Aktivni planovi učenja"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:288
 msgid "<b>Slow Settings</b>"
@@ -446,20 +490,24 @@ msgstr "Nepoznat Torrent"
 #: deluge/plugins/label/label/gtkui/__init__.py:111
 #: deluge/plugins/label/label/gtkui/label_config.py:59
 #: deluge/plugins/label/label/gtkui/label_config.py:66
+#, fuzzy
 msgid "Label"
-msgstr ""
+msgstr "Oznaka"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:66
+#, fuzzy
 msgid "Label _Options"
-msgstr ""
+msgstr "Pretpregled oznake"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:67
+#, fuzzy
 msgid "_Remove Label"
-msgstr ""
+msgstr "Pretpregled oznake"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:68
+#, fuzzy
 msgid "_Add Label"
-msgstr ""
+msgstr "Pretpregled oznake"
 
 #: deluge/plugins/label/label/data/label_options.glade:7
 msgid "Label Options"
@@ -486,8 +534,9 @@ msgid "Connections:"
 msgstr "Veze:"
 
 #: deluge/plugins/label/label/data/label_options.glade:270
+#, fuzzy
 msgid "Apply per torrent max settings:"
-msgstr ""
+msgstr "Primijeni"
 
 #: deluge/plugins/label/label/data/label_options.glade:283
 msgid "Maximum"
@@ -495,12 +544,14 @@ msgstr "Maksimum"
 
 #: deluge/plugins/label/label/data/label_options.glade:336
 #: deluge/ui/gtkui/glade/main_window.glade:1930
+#, fuzzy
 msgid "Auto Managed"
-msgstr ""
+msgstr "Kontrolisani korisnici"
 
 #: deluge/plugins/label/label/data/label_options.glade:410
+#, fuzzy
 msgid "Apply Queue settings:"
-msgstr ""
+msgstr "Primijeni"
 
 #: deluge/plugins/label/label/data/label_options.glade:426
 #: deluge/ui/gtkui/preferences.py:77
@@ -509,8 +560,9 @@ msgstr "Red"
 
 #: deluge/plugins/label/label/data/label_options.glade:453
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:204
+#, fuzzy
 msgid "Move completed to:"
-msgstr ""
+msgstr "ZAVRŠENO"
 
 #: deluge/plugins/label/label/data/label_options.glade:504
 msgid "Apply location settings:"
@@ -579,10 +631,13 @@ msgid "<b>General</b>"
 msgstr "<b>Općenito</b>"
 
 #: deluge/plugins/webui/webui/gtkui.py:97
+#, fuzzy
 msgid ""
 "The Deluge web interface is not installed, please install the\n"
 "interface and try again"
 msgstr ""
+"Transakciju nije moguće dovršiti. Provjerite svoj izvor finansiranja i "
+"pokušajte ponovo."
 
 #: deluge/plugins/webui/webui/data/config.glade:27
 msgid "Enable web interface"
@@ -619,16 +674,19 @@ msgid "PeerGuardian P2B (GZip)"
 msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:31
+#, fuzzy
 msgid "Invalid leader"
-msgstr ""
+msgstr "Nevažeći odabir"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:35
+#, fuzzy
 msgid "Invalid magic code"
-msgstr ""
+msgstr "Nevažeći odabir"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:40
+#, fuzzy
 msgid "Invalid version"
-msgstr ""
+msgstr "Nevažeći odabir"
 
 #: deluge/plugins/blocklist/blocklist/gtkui.py:67
 #: deluge/plugins/blocklist/blocklist/gtkui.py:155
@@ -640,35 +698,42 @@ msgstr ""
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:385
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1018
 msgid "URL:"
-msgstr "URL:"
+msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:91
+#, fuzzy
 msgid "Days"
-msgstr ""
+msgstr "Dani"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:117
+#, fuzzy
 msgid "Check for new list every:"
-msgstr ""
+msgstr "Pogledajte našu"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:133
+#, fuzzy
 msgid "Import blocklist on startup"
-msgstr ""
+msgstr "Uvezi"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:190
+#, fuzzy
 msgid "Download the blocklist file if necessary and import the file."
-msgstr ""
+msgstr "Preuzmite KEY datoteku"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:210
+#, fuzzy
 msgid "Check Download and Import"
-msgstr ""
+msgstr "Uvezi"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:232
+#, fuzzy
 msgid "Download a new blocklist file and import it."
-msgstr ""
+msgstr "Preuzmite KEY datoteku"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:252
+#, fuzzy
 msgid "Force Download and Import"
-msgstr ""
+msgstr "Uvezi"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:276
 msgid "Blocklist is up to date"
@@ -688,12 +753,14 @@ msgid "Type:"
 msgstr "Vrsta:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:409
+#, fuzzy
 msgid "Date:"
-msgstr ""
+msgstr "Datum:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:421
+#, fuzzy
 msgid "File Size:"
-msgstr ""
+msgstr "Datoteka:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:441
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4822
@@ -730,1005 +797,1242 @@ msgid "<b>Commands</b>"
 msgstr "<b>Komande</b>"
 
 #: deluge/core/torrentmanager.py:937
+#, fuzzy
 msgid "Announce OK"
-msgstr ""
+msgstr "Uredu"
 
 #: deluge/core/torrentmanager.py:953
+#, fuzzy
 msgid "Announce Sent"
-msgstr ""
+msgstr "Bilten poslan"
 
 #: deluge/core/torrentmanager.py:961
+#, fuzzy
 msgid "Warning"
-msgstr ""
+msgstr "Upozorenje"
 
 #: deluge/core/torrentmanager.py:971 deluge/core/filtermanager.py:94
 #: deluge/ui/gtkui/filtertreeview.py:78
+#, fuzzy
 msgid "Error"
-msgstr ""
+msgstr "Greška"
 
 #: deluge/ui/countries.py:9
+#, fuzzy
 msgid "Afghanistan"
-msgstr ""
+msgstr "Afganistan"
 
 #: deluge/ui/countries.py:10
+#, fuzzy
 msgid "Aland Islands"
-msgstr ""
+msgstr "Cookova Ostrva"
 
 #: deluge/ui/countries.py:11
+#, fuzzy
 msgid "Albania"
-msgstr ""
+msgstr "Albanija"
 
 #: deluge/ui/countries.py:12
+#, fuzzy
 msgid "Algeria"
-msgstr ""
+msgstr "Alžir"
 
 #: deluge/ui/countries.py:13
+#, fuzzy
 msgid "American Samoa"
-msgstr ""
+msgstr "Američka Samoa"
 
 #: deluge/ui/countries.py:14
+#, fuzzy
 msgid "Andorra"
-msgstr ""
+msgstr "Andora"
 
 #: deluge/ui/countries.py:15
+#, fuzzy
 msgid "Angola"
-msgstr ""
+msgstr "Angola"
 
 #: deluge/ui/countries.py:16
+#, fuzzy
 msgid "Anguilla"
-msgstr ""
+msgstr "Angvila"
 
 #: deluge/ui/countries.py:17
+#, fuzzy
 msgid "Antarctica"
-msgstr ""
+msgstr "Antarktik"
 
 #: deluge/ui/countries.py:18
+#, fuzzy
 msgid "Antigua and Barbuda"
-msgstr ""
+msgstr "Antigva i Barbuda"
 
 #: deluge/ui/countries.py:19
+#, fuzzy
 msgid "Argentina"
-msgstr ""
+msgstr "Argentina"
 
 #: deluge/ui/countries.py:20
+#, fuzzy
 msgid "Armenia"
-msgstr ""
+msgstr "Ermenija"
 
 #: deluge/ui/countries.py:21
+#, fuzzy
 msgid "Aruba"
-msgstr ""
+msgstr "Aruba"
 
 #: deluge/ui/countries.py:22
+#, fuzzy
 msgid "Australia"
-msgstr ""
+msgstr "Australija"
 
 #: deluge/ui/countries.py:23
+#, fuzzy
 msgid "Austria"
-msgstr ""
+msgstr "Austrija"
 
 #: deluge/ui/countries.py:24
+#, fuzzy
 msgid "Azerbaijan"
-msgstr ""
+msgstr "Azerbejdžan"
 
 #: deluge/ui/countries.py:25
+#, fuzzy
 msgid "Bahamas"
-msgstr ""
+msgstr "Bahami"
 
 #: deluge/ui/countries.py:26
+#, fuzzy
 msgid "Bahrain"
-msgstr ""
+msgstr "Bahrein"
 
 #: deluge/ui/countries.py:27
+#, fuzzy
 msgid "Bangladesh"
-msgstr ""
+msgstr "Bangladeš"
 
 #: deluge/ui/countries.py:28
+#, fuzzy
 msgid "Barbados"
-msgstr ""
+msgstr "Barbados"
 
 #: deluge/ui/countries.py:29
+#, fuzzy
 msgid "Belarus"
-msgstr ""
+msgstr "Bjelorusija"
 
 #: deluge/ui/countries.py:30
+#, fuzzy
 msgid "Belgium"
-msgstr ""
+msgstr "Belgija"
 
 #: deluge/ui/countries.py:31
+#, fuzzy
 msgid "Belize"
-msgstr ""
+msgstr "Beliz"
 
 #: deluge/ui/countries.py:32
+#, fuzzy
 msgid "Benin"
-msgstr ""
+msgstr "Benin"
 
 #: deluge/ui/countries.py:33
+#, fuzzy
 msgid "Bermuda"
-msgstr ""
+msgstr "Bermudi"
 
 #: deluge/ui/countries.py:34
+#, fuzzy
 msgid "Bhutan"
-msgstr ""
+msgstr "Butan"
 
 #: deluge/ui/countries.py:35
+#, fuzzy
 msgid "Bolivia"
-msgstr ""
+msgstr "Bolivija"
 
 #: deluge/ui/countries.py:36
+#, fuzzy
 msgid "Bosnia and Herzegovina"
-msgstr ""
+msgstr "Bosna i Hercegovina"
 
 #: deluge/ui/countries.py:37
+#, fuzzy
 msgid "Botswana"
-msgstr ""
+msgstr "Bocvana"
 
 #: deluge/ui/countries.py:38
+#, fuzzy
 msgid "Bouvet Island"
-msgstr ""
+msgstr "Bouvet Island"
 
 #: deluge/ui/countries.py:39
+#, fuzzy
 msgid "Brazil"
-msgstr ""
+msgstr "Brazil"
 
 #: deluge/ui/countries.py:40
+#, fuzzy
 msgid "British Indian Ocean Territory"
-msgstr ""
+msgstr "British Indian Ocean Territory"
 
 #: deluge/ui/countries.py:41
+#, fuzzy
 msgid "Brunei Darussalam"
-msgstr ""
+msgstr "Brunej"
 
 #: deluge/ui/countries.py:42
+#, fuzzy
 msgid "Bulgaria"
-msgstr ""
+msgstr "Bugarska"
 
 #: deluge/ui/countries.py:43
+#, fuzzy
 msgid "Burkina Faso"
-msgstr ""
+msgstr "Burkina Faso"
 
 #: deluge/ui/countries.py:44
+#, fuzzy
 msgid "Burundi"
-msgstr ""
+msgstr "Burundi"
 
 #: deluge/ui/countries.py:45
+#, fuzzy
 msgid "Cambodia"
-msgstr ""
+msgstr "Kambodža"
 
 #: deluge/ui/countries.py:46
+#, fuzzy
 msgid "Cameroon"
-msgstr ""
+msgstr "Kamerun"
 
 #: deluge/ui/countries.py:47
+#, fuzzy
 msgid "Canada"
-msgstr ""
+msgstr "Kanada"
 
 #: deluge/ui/countries.py:48
+#, fuzzy
 msgid "Cape Verde"
-msgstr ""
+msgstr "Zelenortska Ostrva"
 
 #: deluge/ui/countries.py:49
+#, fuzzy
 msgid "Cayman Islands"
-msgstr ""
+msgstr "Kajmanska ostrva"
 
 #: deluge/ui/countries.py:50
+#, fuzzy
 msgid "Central African Republic"
-msgstr ""
+msgstr "Centralna Afrička Republika"
 
 #: deluge/ui/countries.py:51
+#, fuzzy
 msgid "Chad"
-msgstr ""
+msgstr "Čad"
 
 #: deluge/ui/countries.py:52
+#, fuzzy
 msgid "Chile"
-msgstr ""
+msgstr "Čile"
 
 #: deluge/ui/countries.py:53
+#, fuzzy
 msgid "China"
-msgstr ""
+msgstr "Narodna Republika Kina"
 
 #: deluge/ui/countries.py:54
+#, fuzzy
 msgid "Christmas Island"
-msgstr ""
+msgstr "Božićno ostrvo"
 
 #: deluge/ui/countries.py:55
+#, fuzzy
 msgid "Cocos (Keeling) Islands"
-msgstr ""
+msgstr "Cocos (Keeling) Islands"
 
 #: deluge/ui/countries.py:56
+#, fuzzy
 msgid "Colombia"
-msgstr ""
+msgstr "Kolumbija"
 
 #: deluge/ui/countries.py:57
+#, fuzzy
 msgid "Comoros"
-msgstr ""
+msgstr "Komori"
 
 #: deluge/ui/countries.py:58
 msgid "Congo"
 msgstr ""
 
 #: deluge/ui/countries.py:59
+#, fuzzy
 msgid "Congo, The Democratic Republic of the"
-msgstr ""
+msgstr "Republika"
 
 #: deluge/ui/countries.py:60
+#, fuzzy
 msgid "Cook Islands"
-msgstr ""
+msgstr "Cookova Ostrva"
 
 #: deluge/ui/countries.py:61
+#, fuzzy
 msgid "Costa Rica"
-msgstr ""
+msgstr "Kostarika"
 
 #: deluge/ui/countries.py:62
 msgid "Cote d'Ivoire"
 msgstr ""
 
 #: deluge/ui/countries.py:63
+#, fuzzy
 msgid "Croatia"
-msgstr ""
+msgstr "Hrvatska"
 
 #: deluge/ui/countries.py:64
+#, fuzzy
 msgid "Cuba"
-msgstr ""
+msgstr "Kuba"
 
 #: deluge/ui/countries.py:65
+#, fuzzy
 msgid "Cyprus"
-msgstr ""
+msgstr "Kipar"
 
 #: deluge/ui/countries.py:66
+#, fuzzy
 msgid "Czech Republic"
-msgstr ""
+msgstr "Češka"
 
 #: deluge/ui/countries.py:67
+#, fuzzy
 msgid "Denmark"
-msgstr ""
+msgstr "Danska"
 
 #: deluge/ui/countries.py:68
+#, fuzzy
 msgid "Djibouti"
-msgstr ""
+msgstr "Džibuti"
 
 #: deluge/ui/countries.py:69
+#, fuzzy
 msgid "Dominica"
-msgstr ""
+msgstr "Dominika"
 
 #: deluge/ui/countries.py:70
+#, fuzzy
 msgid "Dominican Republic"
-msgstr ""
+msgstr "Dominikanska Republika"
 
 #: deluge/ui/countries.py:71
+#, fuzzy
 msgid "Ecuador"
-msgstr ""
+msgstr "Ekvador"
 
 #: deluge/ui/countries.py:72
+#, fuzzy
 msgid "Egypt"
-msgstr ""
+msgstr "Egipat"
 
 #: deluge/ui/countries.py:73
+#, fuzzy
 msgid "El Salvador"
-msgstr ""
+msgstr "El Salvador"
 
 #: deluge/ui/countries.py:74
+#, fuzzy
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "Ekvatorijalna Gvineja"
 
 #: deluge/ui/countries.py:75
+#, fuzzy
 msgid "Eritrea"
-msgstr ""
+msgstr "Eritreja"
 
 #: deluge/ui/countries.py:76
+#, fuzzy
 msgid "Estonia"
-msgstr ""
+msgstr "Estonija"
 
 #: deluge/ui/countries.py:77
+#, fuzzy
 msgid "Ethiopia"
-msgstr ""
+msgstr "Etiopija"
 
 #: deluge/ui/countries.py:78
+#, fuzzy
 msgid "Falkland Islands (Malvinas)"
-msgstr ""
+msgstr "Folklandska ostrva"
 
 #: deluge/ui/countries.py:79
+#, fuzzy
 msgid "Faroe Islands"
-msgstr ""
+msgstr "Farska ostrva"
 
 #: deluge/ui/countries.py:80
+#, fuzzy
 msgid "Fiji"
-msgstr ""
+msgstr "Fidži"
 
 #: deluge/ui/countries.py:81
+#, fuzzy
 msgid "Finland"
-msgstr ""
+msgstr "Finska"
 
 #: deluge/ui/countries.py:82
+#, fuzzy
 msgid "France"
-msgstr ""
+msgstr "Francuska"
 
 #: deluge/ui/countries.py:83
+#, fuzzy
 msgid "French Guiana"
-msgstr ""
+msgstr "Francuska Gvajana"
 
 #: deluge/ui/countries.py:84
+#, fuzzy
 msgid "French Polynesia"
-msgstr ""
+msgstr "Francuska Polinezija"
 
 #: deluge/ui/countries.py:85
+#, fuzzy
 msgid "French Southern Territories"
-msgstr ""
+msgstr "Francuski južni teritoriji"
 
 #: deluge/ui/countries.py:86
+#, fuzzy
 msgid "Gabon"
-msgstr ""
+msgstr "Gabon"
 
 #: deluge/ui/countries.py:87
+#, fuzzy
 msgid "Gambia"
-msgstr ""
+msgstr "Gambija"
 
 #: deluge/ui/countries.py:88
+#, fuzzy
 msgid "Georgia"
-msgstr ""
+msgstr "Gruzija"
 
 #: deluge/ui/countries.py:89
+#, fuzzy
 msgid "Germany"
-msgstr ""
+msgstr "Njemačka"
 
 #: deluge/ui/countries.py:90 deluge/ui/countries.py:241
+#, fuzzy
 msgid "United Kingdom"
-msgstr ""
+msgstr "Ujedinjeno Kraljevstvo Velike Britanije i Sjeverne Irske"
 
 #: deluge/ui/countries.py:91
+#, fuzzy
 msgid "Ghana"
-msgstr ""
+msgstr "Gana"
 
 #: deluge/ui/countries.py:92
+#, fuzzy
 msgid "Gibraltar"
-msgstr ""
+msgstr "Gibraltar"
 
 #: deluge/ui/countries.py:93
+#, fuzzy
 msgid "Greece"
-msgstr ""
+msgstr "Grčka"
 
 #: deluge/ui/countries.py:94
+#, fuzzy
 msgid "Greenland"
-msgstr ""
+msgstr "Grenland"
 
 #: deluge/ui/countries.py:95
+#, fuzzy
 msgid "Grenada"
-msgstr ""
+msgstr "Grenada"
 
 #: deluge/ui/countries.py:96
+#, fuzzy
 msgid "Guadeloupe"
-msgstr ""
+msgstr "Guadeloupe"
 
 #: deluge/ui/countries.py:97
+#, fuzzy
 msgid "Guam"
-msgstr ""
+msgstr "Guam"
 
 #: deluge/ui/countries.py:98
+#, fuzzy
 msgid "Guatemala"
-msgstr ""
+msgstr "Gvatemala"
 
 #: deluge/ui/countries.py:99
+#, fuzzy
 msgid "Guernsey"
-msgstr ""
+msgstr "Guernsey"
 
 #: deluge/ui/countries.py:100
+#, fuzzy
 msgid "Guinea"
-msgstr ""
+msgstr "Gvineja"
 
 #: deluge/ui/countries.py:101
+#, fuzzy
 msgid "Guinea-Bissau"
-msgstr ""
+msgstr "Gvineja-Bisau"
 
 #: deluge/ui/countries.py:102
+#, fuzzy
 msgid "Guyana"
-msgstr ""
+msgstr "Gvajana"
 
 #: deluge/ui/countries.py:103
+#, fuzzy
 msgid "Haiti"
-msgstr ""
+msgstr "Haiti"
 
 #: deluge/ui/countries.py:104
+#, fuzzy
 msgid "Heard Island and McDonald Islands"
-msgstr ""
+msgstr "Otok Heard i otočje McDonald"
 
 #: deluge/ui/countries.py:105
+#, fuzzy
 msgid "Holy See (Vatican City State)"
-msgstr ""
+msgstr "Država"
 
 #: deluge/ui/countries.py:106
+#, fuzzy
 msgid "Honduras"
-msgstr ""
+msgstr "Honduras"
 
 #: deluge/ui/countries.py:107
+#, fuzzy
 msgid "Hong Kong"
-msgstr ""
+msgstr "Hong Kong"
 
 #: deluge/ui/countries.py:108
+#, fuzzy
 msgid "Hungary"
-msgstr ""
+msgstr "Mađarska"
 
 #: deluge/ui/countries.py:109
+#, fuzzy
 msgid "Iceland"
-msgstr ""
+msgstr "Island"
 
 #: deluge/ui/countries.py:110
+#, fuzzy
 msgid "India"
-msgstr ""
+msgstr "Indija"
 
 #: deluge/ui/countries.py:111
+#, fuzzy
 msgid "Indonesia"
-msgstr ""
+msgstr "Indonezija"
 
 #: deluge/ui/countries.py:112
+#, fuzzy
 msgid "Iran, Islamic Republic of"
-msgstr ""
+msgstr "Republika"
 
 #: deluge/ui/countries.py:113
+#, fuzzy
 msgid "Iraq"
-msgstr ""
+msgstr "Irak"
 
 #: deluge/ui/countries.py:114
 msgid "Ireland"
 msgstr ""
 
 #: deluge/ui/countries.py:115
+#, fuzzy
 msgid "Isle of Man"
-msgstr ""
+msgstr "Mana ostrvo"
 
 #: deluge/ui/countries.py:116
+#, fuzzy
 msgid "Israel"
-msgstr ""
+msgstr "Izrael"
 
 #: deluge/ui/countries.py:117
+#, fuzzy
 msgid "Italy"
-msgstr ""
+msgstr "Italija"
 
 #: deluge/ui/countries.py:118
+#, fuzzy
 msgid "Jamaica"
-msgstr ""
+msgstr "Jamajka"
 
 #: deluge/ui/countries.py:119
+#, fuzzy
 msgid "Japan"
-msgstr ""
+msgstr "Japan"
 
 #: deluge/ui/countries.py:120
+#, fuzzy
 msgid "Jersey"
-msgstr ""
+msgstr "Jersey"
 
 #: deluge/ui/countries.py:121
+#, fuzzy
 msgid "Jordan"
-msgstr ""
+msgstr "Jordan"
 
 #: deluge/ui/countries.py:122
+#, fuzzy
 msgid "Kazakhstan"
-msgstr ""
+msgstr "Kazahstan"
 
 #: deluge/ui/countries.py:123
+#, fuzzy
 msgid "Kenya"
-msgstr ""
+msgstr "Kenija"
 
 #: deluge/ui/countries.py:124
+#, fuzzy
 msgid "Kiribati"
-msgstr ""
+msgstr "Kiribati"
 
 #: deluge/ui/countries.py:125
 msgid "Korea, Democratic People's Republic of"
 msgstr ""
 
 #: deluge/ui/countries.py:126
+#, fuzzy
 msgid "Korea, Republic of"
-msgstr ""
+msgstr "Republika"
 
 #: deluge/ui/countries.py:127
+#, fuzzy
 msgid "Kuwait"
-msgstr ""
+msgstr "Kuvajt"
 
 #: deluge/ui/countries.py:128
+#, fuzzy
 msgid "Kyrgyzstan"
-msgstr ""
+msgstr "Kirgistan"
 
 #: deluge/ui/countries.py:129
+#, fuzzy
 msgid "Lao People's Democratic Republic"
-msgstr ""
+msgstr "Narod"
 
 #: deluge/ui/countries.py:130
+#, fuzzy
 msgid "Latvia"
-msgstr ""
+msgstr "Latvija"
 
 #: deluge/ui/countries.py:131
+#, fuzzy
 msgid "Lebanon"
-msgstr ""
+msgstr "Liban"
 
 #: deluge/ui/countries.py:132
+#, fuzzy
 msgid "Lesotho"
-msgstr ""
+msgstr "Lesoto"
 
 #: deluge/ui/countries.py:133
+#, fuzzy
 msgid "Liberia"
-msgstr ""
+msgstr "Liberija"
 
 #: deluge/ui/countries.py:134
 msgid "Libyan Arab Jamahiriya"
 msgstr ""
 
 #: deluge/ui/countries.py:135
+#, fuzzy
 msgid "Liechtenstein"
-msgstr ""
+msgstr "Lihtenštajn"
 
 #: deluge/ui/countries.py:136
+#, fuzzy
 msgid "Lithuania"
-msgstr ""
+msgstr "Litvanija"
 
 #: deluge/ui/countries.py:137
+#, fuzzy
 msgid "Luxembourg"
-msgstr ""
+msgstr "Luksemburg"
 
 #: deluge/ui/countries.py:138
 msgid "Macao"
 msgstr ""
 
 #: deluge/ui/countries.py:139
+#, fuzzy
 msgid "Macedonia, The Former Yugoslav Republic of"
-msgstr ""
+msgstr "Makedonija"
 
 #: deluge/ui/countries.py:140
+#, fuzzy
 msgid "Madagascar"
-msgstr ""
+msgstr "Madagaskar"
 
 #: deluge/ui/countries.py:141
+#, fuzzy
 msgid "Malawi"
-msgstr ""
+msgstr "Malavi"
 
 #: deluge/ui/countries.py:142
+#, fuzzy
 msgid "Malaysia"
-msgstr ""
+msgstr "Malezija"
 
 #: deluge/ui/countries.py:143
+#, fuzzy
 msgid "Maldives"
-msgstr ""
+msgstr "Maldivi"
 
 #: deluge/ui/countries.py:144
+#, fuzzy
 msgid "Mali"
-msgstr ""
+msgstr "Mali"
 
 #: deluge/ui/countries.py:145
+#, fuzzy
 msgid "Malta"
-msgstr ""
+msgstr "Malta"
 
 #: deluge/ui/countries.py:146
+#, fuzzy
 msgid "Marshall Islands"
-msgstr ""
+msgstr "Maršalska Ostrva"
 
 #: deluge/ui/countries.py:147
+#, fuzzy
 msgid "Martinique"
-msgstr ""
+msgstr "Martinique"
 
 #: deluge/ui/countries.py:148
+#, fuzzy
 msgid "Mauritania"
-msgstr ""
+msgstr "Mauritanija"
 
 #: deluge/ui/countries.py:149
+#, fuzzy
 msgid "Mauritius"
-msgstr ""
+msgstr "Mauricijus"
 
 #: deluge/ui/countries.py:150
+#, fuzzy
 msgid "Mayotte"
-msgstr ""
+msgstr "Mayotte"
 
 #: deluge/ui/countries.py:151
+#, fuzzy
 msgid "Mexico"
-msgstr ""
+msgstr "Meksiko"
 
 #: deluge/ui/countries.py:152
+#, fuzzy
 msgid "Micronesia, Federated States of"
-msgstr ""
+msgstr "Mikronezija"
 
 #: deluge/ui/countries.py:153
+#, fuzzy
 msgid "Moldova"
-msgstr ""
+msgstr "Moldavija"
 
 #: deluge/ui/countries.py:154
+#, fuzzy
 msgid "Monaco"
-msgstr ""
+msgstr "Monako"
 
 #: deluge/ui/countries.py:155
+#, fuzzy
 msgid "Mongolia"
-msgstr ""
+msgstr "Mongolija"
 
 #: deluge/ui/countries.py:156
+#, fuzzy
 msgid "Montenegro"
-msgstr ""
+msgstr "Crna Gora"
 
 #: deluge/ui/countries.py:157
+#, fuzzy
 msgid "Montserrat"
-msgstr ""
+msgstr "Montserrat"
 
 #: deluge/ui/countries.py:158
+#, fuzzy
 msgid "Morocco"
-msgstr ""
+msgstr "Maroko"
 
 #: deluge/ui/countries.py:159
+#, fuzzy
 msgid "Mozambique"
-msgstr ""
+msgstr "Mozambik"
 
 #: deluge/ui/countries.py:160
+#, fuzzy
 msgid "Myanmar"
-msgstr ""
+msgstr "Myanmar"
 
 #: deluge/ui/countries.py:161
+#, fuzzy
 msgid "Namibia"
-msgstr ""
+msgstr "Namibija"
 
 #: deluge/ui/countries.py:162
+#, fuzzy
 msgid "Nauru"
-msgstr ""
+msgstr "Nauru"
 
 #: deluge/ui/countries.py:163
+#, fuzzy
 msgid "Nepal"
-msgstr ""
+msgstr "Nepal"
 
 #: deluge/ui/countries.py:164
+#, fuzzy
 msgid "Netherlands"
-msgstr ""
+msgstr "Holandija"
 
 #: deluge/ui/countries.py:165
+#, fuzzy
 msgid "Netherlands Antilles"
-msgstr ""
+msgstr "Nizozemski Antili"
 
 #: deluge/ui/countries.py:166
+#, fuzzy
 msgid "New Caledonia"
-msgstr ""
+msgstr "Nova Kaledonija"
 
 #: deluge/ui/countries.py:167
+#, fuzzy
 msgid "New Zealand"
-msgstr ""
+msgstr "Novi Zeland"
 
 #: deluge/ui/countries.py:168
+#, fuzzy
 msgid "Nicaragua"
-msgstr ""
+msgstr "Nikaragva"
 
 #: deluge/ui/countries.py:169
+#, fuzzy
 msgid "Niger"
-msgstr ""
+msgstr "Niger"
 
 #: deluge/ui/countries.py:170
+#, fuzzy
 msgid "Nigeria"
-msgstr ""
+msgstr "Nigerija"
 
 #: deluge/ui/countries.py:171
+#, fuzzy
 msgid "Niue"
-msgstr ""
+msgstr "Niue"
 
 #: deluge/ui/countries.py:172
+#, fuzzy
 msgid "Norfolk Island"
-msgstr ""
+msgstr "Norfolk Island"
 
 #: deluge/ui/countries.py:173
+#, fuzzy
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "Northern Mariana Islands"
 
 #: deluge/ui/countries.py:174
+#, fuzzy
 msgid "Norway"
-msgstr ""
+msgstr "Norveška"
 
 #: deluge/ui/countries.py:175
+#, fuzzy
 msgid "Oman"
-msgstr ""
+msgstr "Oman"
 
 #: deluge/ui/countries.py:176
+#, fuzzy
 msgid "Pakistan"
-msgstr ""
+msgstr "Pakistan"
 
 #: deluge/ui/countries.py:177
 msgid "Palau"
 msgstr ""
 
 #: deluge/ui/countries.py:178
+#, fuzzy
 msgid "Palestinian Territory, Occupied"
-msgstr ""
+msgstr "Sjeverna teritorija"
 
 #: deluge/ui/countries.py:179
+#, fuzzy
 msgid "Panama"
-msgstr ""
+msgstr "Panama"
 
 #: deluge/ui/countries.py:180
+#, fuzzy
 msgid "Papua New Guinea"
-msgstr ""
+msgstr "Papua Nova Gvineja"
 
 #: deluge/ui/countries.py:181
+#, fuzzy
 msgid "Paraguay"
-msgstr ""
+msgstr "Paragvaj"
 
 #: deluge/ui/countries.py:182
+#, fuzzy
 msgid "Peru"
-msgstr ""
+msgstr "Peru"
 
 #: deluge/ui/countries.py:183
+#, fuzzy
 msgid "Philippines"
-msgstr ""
+msgstr "Filipini"
 
 #: deluge/ui/countries.py:184
+#, fuzzy
 msgid "Pitcairn"
-msgstr ""
+msgstr "Pitcairn"
 
 #: deluge/ui/countries.py:185
+#, fuzzy
 msgid "Poland"
-msgstr ""
+msgstr "Poljska"
 
 #: deluge/ui/countries.py:186
+#, fuzzy
 msgid "Portugal"
-msgstr ""
+msgstr "Portugal"
 
 #: deluge/ui/countries.py:187
+#, fuzzy
 msgid "Puerto Rico"
-msgstr ""
+msgstr "Portoriko"
 
 #: deluge/ui/countries.py:188
+#, fuzzy
 msgid "Qatar"
-msgstr ""
+msgstr "Katar"
 
 #: deluge/ui/countries.py:189
+#, fuzzy
 msgid "Reunion"
-msgstr ""
+msgstr "Ponovni sastanak"
 
 #: deluge/ui/countries.py:190
+#, fuzzy
 msgid "Romania"
-msgstr ""
+msgstr "Rumunija"
 
 #: deluge/ui/countries.py:191
 msgid "Russian Federation"
 msgstr ""
 
 #: deluge/ui/countries.py:192
+#, fuzzy
 msgid "Rwanda"
-msgstr ""
+msgstr "Ruanda"
 
 #: deluge/ui/countries.py:193
 msgid "Saint Barthelemy"
 msgstr ""
 
 #: deluge/ui/countries.py:194
+#, fuzzy
 msgid "Saint Helena"
-msgstr ""
+msgstr "Saint Helena"
 
 #: deluge/ui/countries.py:195
+#, fuzzy
 msgid "Saint Kitts and Nevis"
-msgstr ""
+msgstr "Sveti Kristofor i Nevis"
 
 #: deluge/ui/countries.py:196
+#, fuzzy
 msgid "Saint Lucia"
-msgstr ""
+msgstr "Saint Lucia"
 
 #: deluge/ui/countries.py:197
 msgid "Saint Martin"
 msgstr ""
 
 #: deluge/ui/countries.py:198
+#, fuzzy
 msgid "Saint Pierre and Miquelon"
-msgstr ""
+msgstr "Saint Pierre i Miquelon"
 
 #: deluge/ui/countries.py:199
+#, fuzzy
 msgid "Saint Vincent and the Grenadines"
-msgstr ""
+msgstr "Sveti Vincent i Grenadini"
 
 #: deluge/ui/countries.py:200
+#, fuzzy
 msgid "Samoa"
-msgstr ""
+msgstr "Američka Samoa"
 
 #: deluge/ui/countries.py:201
+#, fuzzy
 msgid "San Marino"
-msgstr ""
+msgstr "San Marino"
 
 #: deluge/ui/countries.py:202
 msgid "Sao Tome and Principe"
 msgstr ""
 
 #: deluge/ui/countries.py:203
+#, fuzzy
 msgid "Saudi Arabia"
-msgstr ""
+msgstr "Saudijska Arabija"
 
 #: deluge/ui/countries.py:204
+#, fuzzy
 msgid "Senegal"
-msgstr ""
+msgstr "Senegal"
 
 #: deluge/ui/countries.py:205
+#, fuzzy
 msgid "Serbia"
-msgstr ""
+msgstr "Srbija"
 
 #: deluge/ui/countries.py:206
+#, fuzzy
 msgid "Seychelles"
-msgstr ""
+msgstr "Sejšeli"
 
 #: deluge/ui/countries.py:207
+#, fuzzy
 msgid "Sierra Leone"
-msgstr ""
+msgstr "Sijera Leone"
 
 #: deluge/ui/countries.py:208
+#, fuzzy
 msgid "Singapore"
-msgstr ""
+msgstr "Singapur"
 
 #: deluge/ui/countries.py:209
+#, fuzzy
 msgid "Slovakia"
-msgstr ""
+msgstr "Slovačka"
 
 #: deluge/ui/countries.py:210
+#, fuzzy
 msgid "Slovenia"
-msgstr ""
+msgstr "Slovenija"
 
 #: deluge/ui/countries.py:211
+#, fuzzy
 msgid "Solomon Islands"
-msgstr ""
+msgstr "Solomonska Ostrva"
 
 #: deluge/ui/countries.py:212
+#, fuzzy
 msgid "Somalia"
-msgstr ""
+msgstr "Somalija"
 
 #: deluge/ui/countries.py:213
+#, fuzzy
 msgid "South Africa"
-msgstr ""
+msgstr "Južnoafrička Republika"
 
 #: deluge/ui/countries.py:214
 msgid "South Georgia and the South Sandwich Islands"
 msgstr ""
 
 #: deluge/ui/countries.py:215
+#, fuzzy
 msgid "Spain"
-msgstr ""
+msgstr "Španija"
 
 #: deluge/ui/countries.py:216
+#, fuzzy
 msgid "Sri Lanka"
-msgstr ""
+msgstr "Šri Lanka"
 
 #: deluge/ui/countries.py:217
+#, fuzzy
 msgid "Sudan"
-msgstr ""
+msgstr "Sudan"
 
 #: deluge/ui/countries.py:218
+#, fuzzy
 msgid "Suriname"
-msgstr ""
+msgstr "Surinam"
 
 #: deluge/ui/countries.py:219
+#, fuzzy
 msgid "Svalbard and Jan Mayen"
-msgstr ""
+msgstr "Svalbard i Jan Mayen"
 
 #: deluge/ui/countries.py:220
+#, fuzzy
 msgid "Swaziland"
-msgstr ""
+msgstr "Svazilend"
 
 #: deluge/ui/countries.py:221
+#, fuzzy
 msgid "Sweden"
-msgstr ""
+msgstr "Švedska"
 
 #: deluge/ui/countries.py:222
+#, fuzzy
 msgid "Switzerland"
-msgstr ""
+msgstr "Švicarska"
 
 #: deluge/ui/countries.py:223
+#, fuzzy
 msgid "Syrian Arab Republic"
-msgstr ""
+msgstr "Republika"
 
 #: deluge/ui/countries.py:224
+#, fuzzy
 msgid "Taiwan, Province of China"
-msgstr ""
+msgstr "Tajvan"
 
 #: deluge/ui/countries.py:225
+#, fuzzy
 msgid "Tajikistan"
-msgstr ""
+msgstr "Tadžikistan"
 
 #: deluge/ui/countries.py:226
+#, fuzzy
 msgid "Tanzania, United Republic of"
-msgstr ""
+msgstr "Tanzanija"
 
 #: deluge/ui/countries.py:227
+#, fuzzy
 msgid "Thailand"
-msgstr ""
+msgstr "Tajland"
 
 #: deluge/ui/countries.py:228
+#, fuzzy
 msgid "Timor-Leste"
-msgstr ""
+msgstr "Istočni Timor"
 
 #: deluge/ui/countries.py:229
+#, fuzzy
 msgid "Togo"
-msgstr ""
+msgstr "Togo"
 
 #: deluge/ui/countries.py:230
+#, fuzzy
 msgid "Tokelau"
-msgstr ""
+msgstr "Tokelau"
 
 #: deluge/ui/countries.py:231
+#, fuzzy
 msgid "Tonga"
-msgstr ""
+msgstr "Tonga"
 
 #: deluge/ui/countries.py:232
+#, fuzzy
 msgid "Trinidad and Tobago"
-msgstr ""
+msgstr "Trinidad i Tobago"
 
 #: deluge/ui/countries.py:233
+#, fuzzy
 msgid "Tunisia"
-msgstr ""
+msgstr "Republika Tunis"
 
 #: deluge/ui/countries.py:234
+#, fuzzy
 msgid "Turkey"
-msgstr ""
+msgstr "Turska"
 
 #: deluge/ui/countries.py:235
+#, fuzzy
 msgid "Turkmenistan"
-msgstr ""
+msgstr "Turkmenistan"
 
 #: deluge/ui/countries.py:236
+#, fuzzy
 msgid "Turks and Caicos Islands"
-msgstr ""
+msgstr "Otoci Turks i Caicos"
 
 #: deluge/ui/countries.py:237
+#, fuzzy
 msgid "Tuvalu"
-msgstr ""
+msgstr "Tuvalu"
 
 #: deluge/ui/countries.py:238
+#, fuzzy
 msgid "Uganda"
-msgstr ""
+msgstr "Uganda"
 
 #: deluge/ui/countries.py:239
+#, fuzzy
 msgid "Ukraine"
-msgstr ""
+msgstr "Ukrajina"
 
 #: deluge/ui/countries.py:240
+#, fuzzy
 msgid "United Arab Emirates"
-msgstr ""
+msgstr "Ujedinjeni Arapski Emirati"
 
 #: deluge/ui/countries.py:242
+#, fuzzy
 msgid "United States"
-msgstr ""
+msgstr "Sjedinjene Američke Države"
 
 #: deluge/ui/countries.py:243
+#, fuzzy
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "Sjedinjene Američke Države"
 
 #: deluge/ui/countries.py:244
+#, fuzzy
 msgid "Uruguay"
-msgstr ""
+msgstr "Urugvaj"
 
 #: deluge/ui/countries.py:245
+#, fuzzy
 msgid "Uzbekistan"
-msgstr ""
+msgstr "Uzbekistan"
 
 #: deluge/ui/countries.py:246
+#, fuzzy
 msgid "Vanuatu"
-msgstr ""
+msgstr "Vanuatu"
 
 #: deluge/ui/countries.py:247
+#, fuzzy
 msgid "Venezuela"
-msgstr ""
+msgstr "Venecuela"
 
 #: deluge/ui/countries.py:248
 msgid "Viet Nam"
 msgstr ""
 
 #: deluge/ui/countries.py:249
+#, fuzzy
 msgid "Virgin Islands, British"
-msgstr ""
+msgstr "Cookova Ostrva"
 
 #: deluge/ui/countries.py:250
+#, fuzzy
 msgid "Virgin Islands, U.S."
-msgstr ""
+msgstr "Cookova Ostrva"
 
 #: deluge/ui/countries.py:251
+#, fuzzy
 msgid "Wallis and Futuna"
-msgstr ""
+msgstr "Wallis i Futuna"
 
 #: deluge/ui/countries.py:252
+#, fuzzy
 msgid "Western Sahara"
-msgstr ""
+msgstr "Zapadna Sahara"
 
 #: deluge/ui/countries.py:253
+#, fuzzy
 msgid "Yemen"
-msgstr ""
+msgstr "Jemen"
 
 #: deluge/ui/countries.py:254
+#, fuzzy
 msgid "Zambia"
-msgstr ""
+msgstr "Zambija"
 
 #: deluge/ui/countries.py:255
+#, fuzzy
 msgid "Zimbabwe"
-msgstr ""
+msgstr "Zimbabve"
 
 #: deluge/ui/web/json_api.py:733 deluge/ui/web/json_api.py:750
 #: deluge/ui/web/json_api.py:759 deluge/ui/web/json_api.py:762
@@ -1741,15 +2045,17 @@ msgstr ""
 #: deluge/ui/gtkui/connectionmanager.py:389
 #: deluge/ui/gtkui/connectionmanager.py:452
 #: deluge/ui/gtkui/connectionmanager.py:569
+#, fuzzy
 msgid "Offline"
-msgstr ""
+msgstr "Offline"
 
 #: deluge/ui/web/json_api.py:755 deluge/ui/gtkui/connectionmanager.py:76
 #: deluge/ui/gtkui/connectionmanager.py:274
 #: deluge/ui/gtkui/connectionmanager.py:382
 #: deluge/ui/gtkui/connectionmanager.py:552
+#, fuzzy
 msgid "Online"
-msgstr ""
+msgstr "Mrežni test"
 
 #: deluge/ui/web/json_api.py:775 deluge/ui/gtkui/connectionmanager.py:77
 #: deluge/ui/gtkui/connectionmanager.py:313
@@ -1769,29 +2075,35 @@ msgid "Daemon not running"
 msgstr ""
 
 #: deluge/ui/web/server.py:661
+#, fuzzy
 msgid "Starting server in PID"
-msgstr ""
+msgstr "Polazeći od"
 
 #: deluge/ui/gtkui/peers_tab.py:100
+#, fuzzy
 msgid "Address"
-msgstr ""
+msgstr "Adresa:"
 
 #: deluge/ui/gtkui/peers_tab.py:116
+#, fuzzy
 msgid "Client"
-msgstr ""
+msgstr "Novi klijent"
 
 #: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/files_tab.py:156
 #: deluge/ui/gtkui/torrentview.py:225 deluge/ui/gtkui/torrentview.py:555
+#, fuzzy
 msgid "Progress"
-msgstr ""
+msgstr "Kursevi u toku"
 
 #: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:237
+#, fuzzy
 msgid "Down Speed"
-msgstr ""
+msgstr "Brzina"
 
 #: deluge/ui/gtkui/peers_tab.py:155 deluge/ui/gtkui/torrentview.py:239
+#, fuzzy
 msgid "Up Speed"
-msgstr ""
+msgstr "Brzina"
 
 #: deluge/ui/gtkui/queuedtorrents.py:75
 #: deluge/ui/gtkui/addtorrentdialog.py:103
@@ -1810,8 +2122,9 @@ msgstr ""
 #: deluge/ui/gtkui/systemtray.py:253 deluge/ui/gtkui/systemtray.py:423
 #: deluge/ui/gtkui/statusbar.py:397 deluge/ui/gtkui/statusbar.py:425
 #: deluge/ui/gtkui/statusbar.py:452
+#, fuzzy
 msgid "Unlimited"
-msgstr ""
+msgstr "Koristite \"0\" za Neograničeno"
 
 #: deluge/ui/gtkui/common.py:70
 msgid "Activated"
@@ -1821,68 +2134,80 @@ msgstr ""
 #: deluge/ui/gtkui/systemtray.py:426 deluge/ui/gtkui/statusbar.py:399
 #: deluge/ui/gtkui/statusbar.py:427 deluge/ui/gtkui/statusbar.py:454
 #: deluge/ui/gtkui/menubar.py:81
+#, fuzzy
 msgid "Other..."
-msgstr ""
+msgstr "Ostali detalji"
 
 #: deluge/ui/gtkui/mainwindow.py:235
+#, fuzzy
 msgid "Down:"
-msgstr ""
+msgstr "Downov sindrom"
 
 #: deluge/ui/gtkui/mainwindow.py:235
+#, fuzzy
 msgid "Up:"
-msgstr ""
+msgstr "Postavljanje"
 
 #: deluge/ui/gtkui/systemtray.py:201 deluge/ui/gtkui/systemtray.py:258
 msgid "Deluge"
 msgstr ""
 
 #: deluge/ui/gtkui/systemtray.py:201
+#, fuzzy
 msgid "Not Connected..."
-msgstr ""
+msgstr "NIJE DOSTUPNO"
 
 #: deluge/ui/gtkui/systemtray.py:258
+#, fuzzy
 msgid "Down"
-msgstr ""
+msgstr "Downov sindrom"
 
 #: deluge/ui/gtkui/systemtray.py:259
+#, fuzzy
 msgid "Up"
-msgstr ""
+msgstr "Postavljanje"
 
 #: deluge/ui/gtkui/systemtray.py:403 deluge/ui/gtkui/statusbar.py:401
 #: deluge/ui/gtkui/menubar.py:436
+#, fuzzy
 msgid "Set Maximum Download Speed"
-msgstr ""
+msgstr "Brzina"
 
 #: deluge/ui/gtkui/systemtray.py:417 deluge/ui/gtkui/statusbar.py:429
 #: deluge/ui/gtkui/menubar.py:437
+#, fuzzy
 msgid "Set Maximum Upload Speed"
-msgstr ""
+msgstr "Brzina"
 
 #: deluge/ui/gtkui/systemtray.py:470
+#, fuzzy
 msgid "Deluge is password protected!"
-msgstr ""
+msgstr "Novi pasvord"
 
 #: deluge/ui/gtkui/systemtray.py:476
+#, fuzzy
 msgid "Enter your password to continue"
-msgstr ""
+msgstr "Unesite PIN kod"
 
 #: deluge/ui/gtkui/notification.py:79
+#, fuzzy
 msgid "Torrent complete"
-msgstr ""
+msgstr "Završeno"
 
 #: deluge/ui/gtkui/notification.py:80
 msgid "Including"
 msgstr ""
 
 #: deluge/ui/gtkui/notification.py:80
+#, fuzzy
 msgid "files"
-msgstr ""
+msgstr "Prenesi odabrane datoteke"
 
 #: deluge/ui/gtkui/notification.py:109
 #, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading %(name)s ,  "
-"           which includes %(num_files)i files.\n"
+"This email is to inform you that Deluge has finished downloading "
+"%(name)s ,             which includes %(num_files)i files.\n"
 "To stop receiving these alerts, simply turn off             email "
 "notification in Deluge's preferences.\n"
 "\n"
@@ -1891,32 +2216,37 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/new_release_dialog.py:72
+#, fuzzy
 msgid "<i>Client Version</i>"
-msgstr ""
+msgstr "Novi klijent"
 
 #: deluge/ui/gtkui/preferences.py:72
+#, fuzzy
 msgid "Categories"
-msgstr ""
+msgstr "Kategorije"
 
 #: deluge/ui/gtkui/preferences.py:76
 msgid "Downloads"
 msgstr ""
 
 #: deluge/ui/gtkui/preferences.py:76
+#, fuzzy
 msgid "Network"
-msgstr ""
+msgstr "Računarske mreže"
 
 #: deluge/ui/gtkui/preferences.py:76
 msgid "Bandwidth"
 msgstr ""
 
 #: deluge/ui/gtkui/preferences.py:77
+#, fuzzy
 msgid "Interface"
-msgstr ""
+msgstr "Interakcija čovjek-računar"
 
 #: deluge/ui/gtkui/preferences.py:77
+#, fuzzy
 msgid "Other"
-msgstr ""
+msgstr "Drugi"
 
 #: deluge/ui/gtkui/preferences.py:77
 msgid "Daemon"
@@ -1939,8 +2269,9 @@ msgid "Plugin"
 msgstr ""
 
 #: deluge/ui/gtkui/preferences.py:891
+#, fuzzy
 msgid "Select the Plugin"
-msgstr ""
+msgstr "Odaberite"
 
 #: deluge/ui/gtkui/preferences.py:902
 msgid "Plugin Eggs"
@@ -1958,20 +2289,23 @@ msgid "Size"
 msgstr ""
 
 #: deluge/ui/gtkui/addtorrentdialog.py:206
+#, fuzzy
 msgid "Invalid File"
-msgstr ""
+msgstr "Datoteka:"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:211
 msgid "Duplicate Torrent"
 msgstr ""
 
 #: deluge/ui/gtkui/addtorrentdialog.py:211
+#, fuzzy
 msgid "You cannot add the same torrent twice."
-msgstr ""
+msgstr "Ne možete pristupiti kursu prije nego što počne."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:492
+#, fuzzy
 msgid "Unable to set file priority!"
-msgstr ""
+msgstr "Nije moguće spremiti obavijest"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:492
 msgid ""
@@ -1980,38 +2314,46 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/addtorrentdialog.py:541
+#, fuzzy
 msgid "Choose a .torrent file"
-msgstr ""
+msgstr "Molimo odaberite vrstu obavijesti"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:553
 #: deluge/ui/gtkui/createtorrentdialog.py:253
+#, fuzzy
 msgid "Torrent files"
-msgstr ""
+msgstr "Prenesi odabrane datoteke"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:557
 #: deluge/ui/gtkui/createtorrentdialog.py:257
+#, fuzzy
 msgid "All files"
-msgstr ""
+msgstr "Prikaži sve"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:622
+#, fuzzy
 msgid "Invalid URL"
-msgstr ""
+msgstr "Nevažeći odabir"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:622
+#, fuzzy
 msgid "is not a valid URL."
-msgstr ""
+msgstr "Ciljni jezik nije važeći"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:626
+#, fuzzy
 msgid "Downloading..."
-msgstr ""
+msgstr "Preuzimam najnovije prijevode..."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
+#, fuzzy
 msgid "Download Failed"
-msgstr ""
+msgstr "Zadatak nije položen"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
+#, fuzzy
 msgid "Failed to download:"
-msgstr ""
+msgstr "Zadatak nije položen"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:103
 #: deluge/ui/gtkui/edittrackersdialog.py:84
@@ -2024,80 +2366,95 @@ msgid "Tracker"
 msgstr ""
 
 #: deluge/ui/gtkui/createtorrentdialog.py:143
+#, fuzzy
 msgid "Choose a file"
-msgstr ""
+msgstr "Odaberite separator"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:172
+#, fuzzy
 msgid "Choose a folder"
-msgstr ""
+msgstr "Molimo odaberite vrstu obavijesti"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:241
+#, fuzzy
 msgid "Save .torrent file"
-msgstr ""
+msgstr "Sačuvaj"
 
 #: deluge/ui/gtkui/statusbar.py:146
+#, fuzzy
 msgid "Not Connected"
-msgstr ""
+msgstr "NIJE DOSTUPNO"
 
 #: deluge/ui/gtkui/statusbar.py:163
+#, fuzzy
 msgid "Connections"
-msgstr ""
+msgstr "Connections"
 
 #: deluge/ui/gtkui/statusbar.py:168
+#, fuzzy
 msgid "Download Speed"
-msgstr ""
+msgstr "Brzina"
 
 #: deluge/ui/gtkui/statusbar.py:173
+#, fuzzy
 msgid "Upload Speed"
-msgstr ""
+msgstr "Brzina"
 
 #: deluge/ui/gtkui/statusbar.py:178
+#, fuzzy
 msgid "Protocol Traffic Download/Upload"
-msgstr ""
+msgstr "Saobraćaj"
 
 #: deluge/ui/gtkui/statusbar.py:181
 msgid "DHT Nodes"
 msgstr ""
 
 #: deluge/ui/gtkui/statusbar.py:186
+#, fuzzy
 msgid "Free Disk Space"
-msgstr ""
+msgstr "Prostor"
 
 #: deluge/ui/gtkui/statusbar.py:190
 msgid "No Incoming Connections!"
 msgstr ""
 
 #: deluge/ui/gtkui/statusbar.py:456 deluge/ui/gtkui/menubar.py:438
+#, fuzzy
 msgid "Set Maximum Connections"
-msgstr ""
+msgstr "Prikaz popisa"
 
 #: deluge/ui/gtkui/removetorrentdialog.py:78
 msgid "Torrents"
 msgstr ""
 
 #: deluge/ui/gtkui/filtertreeview.py:69
+#, fuzzy
 msgid "States"
-msgstr ""
+msgstr "Sjedinjene Američke Države"
 
 #: deluge/ui/gtkui/filtertreeview.py:71
+#, fuzzy
 msgid "Labels"
-msgstr ""
+msgstr "Koristite oznake u grupne kurseve"
 
 #: deluge/ui/gtkui/filtertreeview.py:72
+#, fuzzy
 msgid "All"
-msgstr ""
+msgstr "Sve"
 
 #: deluge/ui/gtkui/filtertreeview.py:73
+#, fuzzy
 msgid "Downloading"
-msgstr ""
+msgstr "Preuzimam najnovije prijevode..."
 
 #: deluge/ui/gtkui/filtertreeview.py:74
 msgid "Seeding"
 msgstr ""
 
 #: deluge/ui/gtkui/filtertreeview.py:75
+#, fuzzy
 msgid "Paused"
-msgstr ""
+msgstr "pauzirano"
 
 #: deluge/ui/gtkui/filtertreeview.py:76
 msgid "Checking"
@@ -2108,8 +2465,9 @@ msgid "Queued"
 msgstr ""
 
 #: deluge/ui/gtkui/filtertreeview.py:79
+#, fuzzy
 msgid "Active"
-msgstr ""
+msgstr "Aktivan"
 
 #: deluge/ui/gtkui/filtertreeview.py:80
 msgid "None"
@@ -2155,8 +2513,9 @@ msgid "Host"
 msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:158
+#, fuzzy
 msgid "Version"
-msgstr ""
+msgstr "Verzija"
 
 #: deluge/ui/gtkui/connectionmanager.py:386
 msgid "_Stop Daemon"
@@ -2168,8 +2527,9 @@ msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:414
 #: deluge/ui/gtkui/connectionmanager.py:424
+#, fuzzy
 msgid "Unable to start daemon!"
-msgstr ""
+msgstr "Nije moguće spremiti obavijest"
 
 #: deluge/ui/gtkui/connectionmanager.py:415
 msgid ""
@@ -2178,12 +2538,14 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:425
+#, fuzzy
 msgid "Please examine the details for more information."
-msgstr ""
+msgstr "Za više informacija:"
 
 #: deluge/ui/gtkui/connectionmanager.py:509
+#, fuzzy
 msgid "Error Adding Host"
-msgstr ""
+msgstr "Greška pri konekciji"
 
 #: deluge/ui/gtkui/gtkui.py:302 deluge/ui/gtkui/gtkui.py:317
 msgid "Turn off Classic Mode?"
@@ -2197,8 +2559,9 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/gtkui.py:312
+#, fuzzy
 msgid "Error Starting Core"
-msgstr ""
+msgstr "Polazeći od"
 
 #: deluge/ui/gtkui/gtkui.py:313
 msgid ""
@@ -2215,8 +2578,9 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/gtkui.py:342
+#, fuzzy
 msgid "Error Starting Daemon"
-msgstr ""
+msgstr "Polazeći od"
 
 #: deluge/ui/gtkui/gtkui.py:343
 msgid ""
@@ -2225,28 +2589,33 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/status_tab.py:128 deluge/ui/gtkui/menubar.py:89
+#, fuzzy
 msgid "On"
-msgstr ""
+msgstr "Na"
 
 #: deluge/ui/gtkui/status_tab.py:130 deluge/ui/gtkui/menubar.py:92
 msgid "Off"
 msgstr ""
 
 #: deluge/ui/gtkui/menubar.py:77
+#, fuzzy
 msgid "Set Unlimited"
-msgstr ""
+msgstr "Set"
 
 #: deluge/ui/gtkui/menubar.py:319
+#, fuzzy
 msgid "Choose a directory to move files to"
-msgstr ""
+msgstr "Molimo odaberite vrstu obavijesti"
 
 #: deluge/ui/gtkui/menubar.py:439
+#, fuzzy
 msgid "Set Maximum Upload Slots"
-msgstr ""
+msgstr "Prikaz popisa"
 
 #: deluge/ui/gtkui/files_tab.py:56
+#, fuzzy
 msgid "Do Not Download"
-msgstr ""
+msgstr "Preuzmite KEY datoteku"
 
 #: deluge/ui/gtkui/files_tab.py:57
 msgid "Normal Priority"
@@ -2270,16 +2639,19 @@ msgid "Details:"
 msgstr "Detalji:"
 
 #: deluge/ui/gtkui/torrentview.py:213
+#, fuzzy
 msgid "Name"
-msgstr ""
+msgstr "Ime"
 
 #: deluge/ui/gtkui/torrentview.py:219
+#, fuzzy
 msgid "Downloaded"
-msgstr ""
+msgstr "Preuzeta datoteka iz elementa Preuzimanje datoteke"
 
 #: deluge/ui/gtkui/torrentview.py:222
+#, fuzzy
 msgid "Uploaded"
-msgstr ""
+msgstr "Učitana datoteka u element Preuzimanje datoteke"
 
 #: deluge/ui/gtkui/torrentview.py:229 deluge/ui/gtkui/torrentview.py:235
 msgid "Seeders"
@@ -2290,32 +2662,38 @@ msgid "Peers"
 msgstr ""
 
 #: deluge/ui/gtkui/torrentview.py:241
+#, fuzzy
 msgid "Down Limit"
-msgstr ""
+msgstr "Downov sindrom"
 
 #: deluge/ui/gtkui/torrentview.py:243
+#, fuzzy
 msgid "Up Limit"
-msgstr ""
+msgstr "Postavljanje"
 
 #: deluge/ui/gtkui/torrentview.py:245
 msgid "ETA"
 msgstr ""
 
 #: deluge/ui/gtkui/torrentview.py:247
+#, fuzzy
 msgid "Ratio"
-msgstr ""
+msgstr "Zlatni rez"
 
 #: deluge/ui/gtkui/torrentview.py:249
+#, fuzzy
 msgid "Avail"
-msgstr ""
+msgstr "DOSTUPNOST"
 
 #: deluge/ui/gtkui/torrentview.py:251
+#, fuzzy
 msgid "Added"
-msgstr ""
+msgstr "Porez na dodatu vrijednost"
 
 #: deluge/ui/gtkui/torrentview.py:257
+#, fuzzy
 msgid "Save Path"
-msgstr ""
+msgstr "Sačuvaj"
 
 #: deluge/ui/gtkui/glade/main_window.glade:21
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:99
@@ -2341,12 +2719,13 @@ msgid "_Edit"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:118
+#, fuzzy
 msgid "_Connection Manager"
-msgstr ""
+msgstr "Direktor Fabrike"
 
 #: deluge/ui/gtkui/glade/main_window.glade:140
 msgid "_Torrent"
-msgstr "_Torrent"
+msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:147
 msgid "_View"
@@ -2377,12 +2756,14 @@ msgid "S_idebar"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:212
+#, fuzzy
 msgid "Show _Zero Hits"
-msgstr ""
+msgstr "Prikaži maks."
 
 #: deluge/ui/gtkui/glade/main_window.glade:221
+#, fuzzy
 msgid "Show _Trackers"
-msgstr ""
+msgstr "Prikaži maks."
 
 #: deluge/ui/gtkui/glade/main_window.glade:238
 msgid "_Help"
@@ -2397,60 +2778,70 @@ msgid "_FAQ"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:264
+#, fuzzy
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "Arhiva pitanja"
 
 #: deluge/ui/gtkui/glade/main_window.glade:280
 msgid "_Community"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:327
+#, fuzzy
 msgid "Add torrent"
-msgstr ""
+msgstr "Unos"
 
 #: deluge/ui/gtkui/glade/main_window.glade:328
 msgid "Add Torrent"
 msgstr "Dodaj Torrent"
 
 #: deluge/ui/gtkui/glade/main_window.glade:342
+#, fuzzy
 msgid "Remove torrent"
-msgstr ""
+msgstr "Ukloni"
 
 #: deluge/ui/gtkui/glade/main_window.glade:343
 msgid "Remove Torrent"
 msgstr "Ukloni Torrent"
 
 #: deluge/ui/gtkui/glade/main_window.glade:364
+#, fuzzy
 msgid "Pause the selected torrents"
-msgstr ""
+msgstr "Nema referenci za odabranu stavku."
 
 #: deluge/ui/gtkui/glade/main_window.glade:365
+#, fuzzy
 msgid "Pause"
-msgstr ""
+msgstr "pauzirano"
 
 #: deluge/ui/gtkui/glade/main_window.glade:380
+#, fuzzy
 msgid "Resume the selected torrents"
-msgstr ""
+msgstr "Nema referenci za odabranu stavku."
 
 #: deluge/ui/gtkui/glade/main_window.glade:381
 msgid "Resume"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:403
+#, fuzzy
 msgid "Queue Torrent Up"
-msgstr ""
+msgstr "{n} u redu za čekanje"
 
 #: deluge/ui/gtkui/glade/main_window.glade:404
+#, fuzzy
 msgid "Queue Up"
-msgstr ""
+msgstr "Postavljanje"
 
 #: deluge/ui/gtkui/glade/main_window.glade:418
+#, fuzzy
 msgid "Queue Torrent Down"
-msgstr ""
+msgstr "{n} u redu za čekanje"
 
 #: deluge/ui/gtkui/glade/main_window.glade:419
+#, fuzzy
 msgid "Queue Down"
-msgstr ""
+msgstr "{n} u redu za čekanje"
 
 #: deluge/ui/gtkui/glade/main_window.glade:440
 #: deluge/ui/gtkui/glade/main_window.glade:441
@@ -2461,16 +2852,19 @@ msgstr "Postavke"
 #: deluge/ui/gtkui/glade/main_window.glade:455
 #: deluge/ui/gtkui/glade/main_window.glade:456
 #: deluge/ui/gtkui/glade/connection_manager.glade:204
+#, fuzzy
 msgid "Connection Manager"
-msgstr ""
+msgstr "Greška pri konekciji"
 
 #: deluge/ui/gtkui/glade/main_window.glade:570
+#, fuzzy
 msgid "_Expand All"
-msgstr ""
+msgstr "Prikaži sve"
 
 #: deluge/ui/gtkui/glade/main_window.glade:591
+#, fuzzy
 msgid "_Do Not Download"
-msgstr ""
+msgstr "Preuzmite KEY datoteku"
 
 #: deluge/ui/gtkui/glade/main_window.glade:607
 msgid "_Normal Priority"
@@ -2485,28 +2879,34 @@ msgid "Hi_ghest Priority"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:721
+#, fuzzy
 msgid "<b>Auto Managed:</b>"
-msgstr ""
+msgstr "Kontrolisani korisnici"
 
 #: deluge/ui/gtkui/glade/main_window.glade:762
+#, fuzzy
 msgid "<b>Seed Rank:</b>"
-msgstr ""
+msgstr "Komorač"
 
 #: deluge/ui/gtkui/glade/main_window.glade:777
+#, fuzzy
 msgid "<b>Seeding Time:</b>"
-msgstr ""
+msgstr "Vrijeme"
 
 #: deluge/ui/gtkui/glade/main_window.glade:803
+#, fuzzy
 msgid "<b>Active Time:</b>"
-msgstr ""
+msgstr "Vrijeme"
 
 #: deluge/ui/gtkui/glade/main_window.glade:860
+#, fuzzy
 msgid "<b>Tracker Status:</b>"
-msgstr ""
+msgstr "Status"
 
 #: deluge/ui/gtkui/glade/main_window.glade:890
+#, fuzzy
 msgid "<b>Availability:</b>"
-msgstr ""
+msgstr "DOSTUPNOST"
 
 #: deluge/ui/gtkui/glade/main_window.glade:944
 msgid "<b>Peers:</b>"
@@ -2525,20 +2925,24 @@ msgid "<b>ETA:</b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1032
+#, fuzzy
 msgid "<b>Up Speed:</b>"
-msgstr ""
+msgstr "Brzina"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1054
+#, fuzzy
 msgid "<b>Down Speed:</b>"
-msgstr ""
+msgstr "Brzina"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1073
+#, fuzzy
 msgid "<b>Next Announce:</b>"
-msgstr ""
+msgstr "Dalje"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1092
+#, fuzzy
 msgid "<b>Share Ratio:</b>"
-msgstr ""
+msgstr "Podijeli na:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1111
 msgid "<b>Uploaded:</b>"
@@ -2549,36 +2953,42 @@ msgid "<b>Downloaded:</b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1191
+#, fuzzy
 msgid "<b>Date Added:</b>"
-msgstr ""
+msgstr "Datum:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1249
 msgid "_Status"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1310
+#, fuzzy
 msgid "<b>Comments:</b>"
-msgstr ""
+msgstr "Bez komentara"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1339
+#, fuzzy
 msgid "<b># of files:</b>"
-msgstr ""
+msgstr "od 2"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1371
+#, fuzzy
 msgid "<b>Hash:</b>"
-msgstr ""
+msgstr "MD5 Hash"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1401
 msgid "<b>Tracker:</b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1421
+#, fuzzy
 msgid "<b>Total Size:</b>"
-msgstr ""
+msgstr "Ukupno"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1459
+#, fuzzy
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "Ime i prezime:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1479
 msgid "<b>Path:</b>"
@@ -2601,16 +3011,19 @@ msgid "_Peers"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:2009
+#, fuzzy
 msgid "Move completed:"
-msgstr ""
+msgstr "ZAVRŠENO"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2105
+#, fuzzy
 msgid "Private"
-msgstr ""
+msgstr "Privatan"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2120
+#, fuzzy
 msgid "Prioritize First/Last"
-msgstr ""
+msgstr "Prva stranica"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2158
 #: deluge/ui/gtkui/glade/torrent_menu.glade:130
@@ -2623,13 +3036,14 @@ msgid "_Options"
 msgstr "_Opcije"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2285
+#, fuzzy
 msgid "Remove Torrent?"
-msgstr ""
+msgstr "Ukloni"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2324
-msgid ""
-"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
-msgstr ""
+#, fuzzy
+msgid "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
+msgstr "Jeste li sigurni da želite ukloniti ovu stavku iz certifikata?"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2376
 msgid "<i>The associated .torrent will be deleted!</i>"
@@ -2640,20 +3054,24 @@ msgid "<i>The downloaded data will be deleted!</i>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:2460
+#, fuzzy
 msgid "Remove Selected Torrent"
-msgstr ""
+msgstr "Ukloni"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2484
+#, fuzzy
 msgid "New Release"
-msgstr ""
+msgstr "Novi izlet"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2518
+#, fuzzy
 msgid "<b><big>New Release Available!</big></b>"
-msgstr ""
+msgstr "DOSTUPNO"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2570
+#, fuzzy
 msgid "<i>Available Version:</i>"
-msgstr ""
+msgstr "DOSTUPNO"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2593
 msgid "<i>Current Version:</i>"
@@ -2664,12 +3082,14 @@ msgid "<i>Server Version</i>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:2637
+#, fuzzy
 msgid "Do not show this dialog in the future"
-msgstr ""
+msgstr "Prikaži ovaj plan učenja u katalogu kurseva"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2676
+#, fuzzy
 msgid "_Goto Website"
-msgstr ""
+msgstr "Web-sajt"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2704
 msgid "_Add Peer"
@@ -2685,17 +3105,20 @@ msgstr "_Izaberi Sve"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:26
 #: deluge/ui/gtkui/glade/tray_menu.glade:48
+#, fuzzy
 msgid "_Pause All"
-msgstr ""
+msgstr "Prikaži sve"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:41
 #: deluge/ui/gtkui/glade/torrent_menu.glade:48
+#, fuzzy
 msgid "Resume selected torrents."
-msgstr ""
+msgstr "Odabrali ste"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:42
+#, fuzzy
 msgid "Resu_me All"
-msgstr ""
+msgstr "Prikaži sve"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:8
 msgid "Add Torrents"
@@ -2703,7 +3126,7 @@ msgstr "Dodaj Torente"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:147
 msgid "_URL"
-msgstr "_URL"
+msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:195
 msgid "Info_hash"
@@ -2735,20 +3158,24 @@ msgid "<b>Allocation</b>"
 msgstr "<b>Alokacija</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:525
+#, fuzzy
 msgid "Max Down Speed:"
-msgstr ""
+msgstr "Brzina"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:537
+#, fuzzy
 msgid "Max Up Speed:"
-msgstr ""
+msgstr "Brzina"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:668
+#, fuzzy
 msgid "Add In _Paused State"
-msgstr ""
+msgstr "Država"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:684
+#, fuzzy
 msgid "Prioritize First/Last Pieces"
-msgstr ""
+msgstr "Prva stranica"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:762
 msgid "Revert To Defaults"
@@ -2767,8 +3194,9 @@ msgid "<b>From URL</b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1104
+#, fuzzy
 msgid "Add Infohash"
-msgstr ""
+msgstr "Unos"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1143
 msgid "<b>From Infohash</b>"
@@ -2784,12 +3212,14 @@ msgid "Trackers:"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:7
+#, fuzzy
 msgid "Create Torrent"
-msgstr ""
+msgstr "Kreiraj grupu"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:34
+#, fuzzy
 msgid "<big><b>Create Torrent</b></big>"
-msgstr ""
+msgstr "Kreiraj grupu"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:159
 msgid "Fol_der"
@@ -2800,17 +3230,19 @@ msgid "_Remote Path"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
+#, fuzzy
 msgid "<b>Files</b>"
-msgstr ""
+msgstr "Prenesi odabrane datoteke"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:263
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4756
 msgid "Author:"
-msgstr "Autor:"
+msgstr ""
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:292
+#, fuzzy
 msgid "Comments:"
-msgstr ""
+msgstr "Komentari:"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:331
 msgid "Info"
@@ -2839,16 +3271,19 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:580
+#, fuzzy
 msgid "Set Private Flag"
-msgstr ""
+msgstr "Zastava"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:594
+#, fuzzy
 msgid "Add this torrent to the session"
-msgstr ""
+msgstr "Upiši korisnike na sesiju"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:692
+#, fuzzy
 msgid "Enter Remote Path"
-msgstr ""
+msgstr "Unesite ime fonta"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:728
 msgid "<b>Remote Path</b>"
@@ -2864,12 +3299,14 @@ msgid "Creating Torrent"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:874
+#, fuzzy
 msgid "Save .torrent as"
-msgstr ""
+msgstr "Sačuvaj"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:910
+#, fuzzy
 msgid "<b>Save .torrent file</b>"
-msgstr ""
+msgstr "Sačuvaj"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:8
 msgid "Queued Torrents"
@@ -2884,32 +3321,39 @@ msgid "Automatically add torrents on connect"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:98
+#, fuzzy
 msgid "label"
-msgstr ""
+msgstr "Pretpregled oznake"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:154
+#, fuzzy
 msgid "Add Peer"
-msgstr ""
+msgstr "Unos"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:187
+#, fuzzy
 msgid "<b>Add Peer</b>"
-msgstr ""
+msgstr "Unos"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:211
+#, fuzzy
 msgid "hostname:port"
-msgstr ""
+msgstr "Luka"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:8
+#, fuzzy
 msgid "Add Host"
-msgstr ""
+msgstr "Unos"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:237
+#, fuzzy
 msgid "<big><b>Connection Manager</b></big>"
-msgstr ""
+msgstr "Greška pri konekciji"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:363
+#, fuzzy
 msgid "_Start local daemon"
-msgstr ""
+msgstr "Vremenska zona"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:415
 msgid "Automatically connect to selected host on start-up"
@@ -2936,16 +3380,17 @@ msgid "Download to:"
 msgstr "Preuzmi u:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:261
+#, fuzzy
 msgid "Copy of .torrent files to:"
-msgstr ""
+msgstr "Dopusti prenošenje više datoteka"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:316
+#, fuzzy
 msgid "Delete copy of torrent file on remove"
-msgstr ""
+msgstr "Brisanje"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:320
-msgid ""
-"Delete the copy of the torrent file created when the torrent is removed"
+msgid "Delete the copy of the torrent file created when the torrent is removed"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:337
@@ -2979,8 +3424,9 @@ msgid "Prioritize first and last pieces of files in torrent"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:455
+#, fuzzy
 msgid "Add torrents in Paused state"
-msgstr ""
+msgstr "pauzirano"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:529
 msgid "<b><i><big>Network</big></i></b>"
@@ -2996,17 +3442,19 @@ msgid "Deluge will automatically choose a different port to use every time."
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:592
+#, fuzzy
 msgid "Active Port:"
-msgstr ""
+msgstr "Luka"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:662
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:812
 msgid "To:"
-msgstr "Do:"
+msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:690
+#, fuzzy
 msgid "Test Active Port"
-msgstr ""
+msgstr "Aktivni planovi učenja"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:732
 msgid "<b>Incoming Ports</b>"
@@ -3023,8 +3471,9 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:903
+#, fuzzy
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "Interakcija čovjek-računar"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:939
 msgid ""
@@ -3033,16 +3482,17 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:940
+#, fuzzy
 msgid "Peer TOS Byte:"
-msgstr ""
+msgstr "Bajt"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:973
 msgid "<b>TOS</b>"
-msgstr "<b>TOS</b>"
+msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1006
 msgid "UPnP"
-msgstr "UPnP"
+msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1010
 msgid "Universal Plug and Play"
@@ -3050,7 +3500,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1021
 msgid "NAT-PMP"
-msgstr "NAT-PMP"
+msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1025
 msgid "NAT Port Mapping Protocol"
@@ -3063,7 +3513,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1055
 msgid "LSD"
-msgstr "LSD"
+msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1060
 msgid "Local Service Discovery finds local peers on your network."
@@ -3072,15 +3522,16 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1071
 #: deluge/ui/console/statusbars.py:104
 msgid "DHT"
-msgstr "DHT"
+msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1075
 msgid "Distributed hash table may improve the amount of active connections."
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1097
+#, fuzzy
 msgid "<b>Network Extras</b>"
-msgstr ""
+msgstr "Dodaci list"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1136
 msgid "Inbound:"
@@ -3092,11 +3543,12 @@ msgstr "Nivo:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1167
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1217
+#, fuzzy
 msgid ""
 "Forced\n"
 "Enabled\n"
 "Disabled"
-msgstr ""
+msgstr "Omogućeno"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1178
 msgid ""
@@ -3114,20 +3566,23 @@ msgid "Encrypt entire stream"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1258
+#, fuzzy
 msgid "<b>Encryption</b>"
-msgstr ""
+msgstr "Enkripcija"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1319
 msgid "<b><i><big>Bandwidth</big></i></b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1396
+#, fuzzy
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "sekunda"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1408
+#, fuzzy
 msgid "Maximum Half-Open Connections:"
-msgstr ""
+msgstr "Prikaz popisa"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1419
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1509
@@ -3146,8 +3601,9 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1434
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1669
+#, fuzzy
 msgid "Maximum Connections:"
-msgstr ""
+msgstr "Prikaz popisa"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1443
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1528
@@ -3156,8 +3612,9 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1445
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1680
+#, fuzzy
 msgid "Maximum Upload Slots:"
-msgstr ""
+msgstr "Prikaz popisa"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1475
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1490
@@ -3170,8 +3627,9 @@ msgid "Maximum Download Speed (KiB/s):"
 msgstr "Maksimalna rzina Preuzimanja (KiB/s):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1554
+#, fuzzy
 msgid "Ignore limits on local network"
-msgstr ""
+msgstr "Zanemari velika/mala slova"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1573
 msgid "Rate limit IP overhead"
@@ -3184,8 +3642,9 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1594
+#, fuzzy
 msgid "<b>Global Bandwidth Usage</b>"
-msgstr ""
+msgstr "Upotreba pitanja"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1633
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
@@ -3198,12 +3657,14 @@ msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1758
+#, fuzzy
 msgid "<b>Per Torrent Bandwidth Usage</b>"
-msgstr ""
+msgstr "Upotreba pitanja"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1818
+#, fuzzy
 msgid "<i><b><big>Interface</big></b></i>"
-msgstr ""
+msgstr "Interakcija čovjek-računar"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1851
 msgid "Enable"
@@ -3222,8 +3683,9 @@ msgid "<b>Classic Mode</b>"
 msgstr "<b>Klasičan Način</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1899
+#, fuzzy
 msgid "Show session speed in titlebar"
-msgstr ""
+msgstr "Brzina"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1917
 msgid "<b>Main Window</b>"
@@ -3238,24 +3700,29 @@ msgid "Bring the dialog to focus"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1988
+#, fuzzy
 msgid "<b>Add Torrents Dialog</b>"
-msgstr ""
+msgstr "Unos"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2020
+#, fuzzy
 msgid "Enable system tray icon"
-msgstr ""
+msgstr "Omogući"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2038
+#, fuzzy
 msgid "Minimize to tray on close"
-msgstr ""
+msgstr "Zatvori"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2058
+#, fuzzy
 msgid "Start in tray"
-msgstr ""
+msgstr "Kategorija"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2078
+#, fuzzy
 msgid "Enable Application Indicator"
-msgstr ""
+msgstr "Omogući"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2099
 msgid "Password protect system tray"
@@ -3270,8 +3737,9 @@ msgid "<i><b><big>Other</big></b></i>"
 msgstr "<i><b><big>Ostalo</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2265
+#, fuzzy
 msgid "Be alerted about new releases"
-msgstr ""
+msgstr "Budite tihi o tome što sam učinio;"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2270
 msgid ""
@@ -3290,16 +3758,19 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2343
+#, fuzzy
 msgid "Yes, please send anonymous statistics"
-msgstr ""
+msgstr "Molimo da se"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2365
+#, fuzzy
 msgid "<b>System Information</b>"
-msgstr ""
+msgstr "Sistem"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2408
+#, fuzzy
 msgid "Location:"
-msgstr ""
+msgstr "Lokacija:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2420
 msgid ""
@@ -3308,8 +3779,9 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2444
+#, fuzzy
 msgid "<b>GeoIP Database</b>"
-msgstr ""
+msgstr "Baza podataka"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2489
 msgid "Associate Magnet links with Deluge"
@@ -3344,52 +3816,63 @@ msgid "<b>Other</b>"
 msgstr "<b>Ostalo</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2785
+#, fuzzy
 msgid "<i><b><big>Queue</big></b></i>"
-msgstr ""
+msgstr "{n} u redu za čekanje"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2828
+#, fuzzy
 msgid "Queue new torrents to top"
-msgstr ""
+msgstr "{n} u redu za čekanje"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2923
+#, fuzzy
 msgid "Total active seeding:"
-msgstr ""
+msgstr "Ukupno"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2936
+#, fuzzy
 msgid "Total active:"
-msgstr ""
+msgstr "Ukupno"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2965
+#, fuzzy
 msgid "Total active downloading:"
-msgstr ""
+msgstr "Ukupno"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2980
+#, fuzzy
 msgid "Do not count slow torrents"
-msgstr ""
+msgstr "{count} korisnike"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2998
 msgid "<b>Active Torrents</b>"
 msgstr "<b>Aktivni Torenti</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3040
+#, fuzzy
 msgid "Share Ratio Limit:"
-msgstr ""
+msgstr "Podijeli na:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3050
+#, fuzzy
 msgid "Seed Time Ratio:"
-msgstr ""
+msgstr "Zlatni rez"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3062
+#, fuzzy
 msgid "Seed Time (m):"
-msgstr ""
+msgstr "Vrijeme"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3130
+#, fuzzy
 msgid "Stop seeding when share ratio reaches:"
-msgstr ""
+msgstr "Podijeli na:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3175
+#, fuzzy
 msgid "Remove torrent when share ratio reached"
-msgstr ""
+msgstr "Ukloni"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3197
 msgid "<b>Seeding</b>"
@@ -3404,7 +3887,7 @@ msgstr "<i><b><big>Proksi</big></b></i>"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3701
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3886
 msgid "Host:"
-msgstr "Server:"
+msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3407
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3591
@@ -3433,7 +3916,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4010
 msgid "<b>DHT</b>"
-msgstr "<b>DHT</b>"
+msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4067
 msgid "<b><i><big>Cache</big></i></b>"
@@ -3454,24 +3937,27 @@ msgid "Cache Expiry (seconds):"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4220
+#, fuzzy
 msgid ""
 "The total number of 16 KiB blocks written to disk since this session was "
 "started."
-msgstr ""
+msgstr "Ukupan broj kurseva"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4222
 msgid "Blocks Written:"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4231
+#, fuzzy
 msgid ""
 "The total number of write operations performed since this session was "
 "started."
-msgstr ""
+msgstr "Ukupan broj kurseva"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4233
+#, fuzzy
 msgid "Writes:"
-msgstr ""
+msgstr "Pisanje"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4244
 msgid ""
@@ -3481,12 +3967,14 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4246
+#, fuzzy
 msgid "Write Cache Hit Ratio:"
-msgstr ""
+msgstr "Cache"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4298
+#, fuzzy
 msgid "<b>Write</b>"
-msgstr ""
+msgstr "Pisanje"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4328
 msgid ""
@@ -3495,16 +3983,18 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4330
+#, fuzzy
 msgid "Blocks Read:"
-msgstr ""
+msgstr "Čitaj"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4339
 msgid "The number of blocks that were served from cache."
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4341
+#, fuzzy
 msgid "Blocks Read Hit:"
-msgstr ""
+msgstr "Čitaj"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4352
 msgid "The cache hit ratio for the read cache."
@@ -3515,17 +4005,20 @@ msgid "Read Cache Hit Ratio:"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4403
+#, fuzzy
 msgid ""
 "The total number of read operations performed since this session was started."
-msgstr ""
+msgstr "Ukupan broj kurseva"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4405
+#, fuzzy
 msgid "Reads:"
-msgstr ""
+msgstr "Čitaj"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4432
+#, fuzzy
 msgid "<b>Read</b>"
-msgstr ""
+msgstr "Čitaj"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4462
 msgid ""
@@ -3562,8 +4055,9 @@ msgid "Homepage:"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4780
+#, fuzzy
 msgid "Author Email:"
-msgstr ""
+msgstr "Epošta"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4872
 msgid "_Install Plugin"
@@ -3574,16 +4068,18 @@ msgid "_Rescan Plugins"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4968
+#, fuzzy
 msgid "_Find More Plugins"
-msgstr ""
+msgstr "More"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:12
 msgid "_Show Deluge"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:65
+#, fuzzy
 msgid "_Resume All"
-msgstr ""
+msgstr "Prikaži sve"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:87
 #: deluge/ui/gtkui/glade/torrent_menu.glade:212
@@ -3624,8 +4120,9 @@ msgid "_Remove Torrent"
 msgstr "_Ukloni Torent"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:174
+#, fuzzy
 msgid "_Force Re-check"
-msgstr ""
+msgstr "Pogledajte našu"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:191
 msgid "Move _Storage"
@@ -3636,17 +4133,20 @@ msgid "_Connection Limit"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:258
+#, fuzzy
 msgid "Upload _Slot Limit"
-msgstr ""
+msgstr "Prenesi odabrane datoteke"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:273
+#, fuzzy
 msgid "_Auto Managed"
-msgstr ""
+msgstr "Kontrolisani korisnici"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:51
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
+#, fuzzy
 msgid "<big><b>Remove the selected torrent?</b></big>"
-msgstr ""
+msgstr "Ukloni"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:66
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
@@ -3654,60 +4154,72 @@ msgid "If you remove the data, it will be lost permanently."
 msgstr ""
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:127
+#, fuzzy
 msgid "action"
-msgstr ""
+msgstr "Mpst  FP: poziv na akciju"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:129
+#, fuzzy
 msgid "Remove Files"
-msgstr ""
+msgstr "Ukloni"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:198
+#, fuzzy
 msgid "Keep Files"
-msgstr ""
+msgstr "Prenesi odabrane datoteke"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:9
+#, fuzzy
 msgid "Edit Trackers"
-msgstr ""
+msgstr "Izmjena"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:47
+#, fuzzy
 msgid "<big><b>Edit Trackers</b></big>"
-msgstr ""
+msgstr "Izmjena"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:224
+#, fuzzy
 msgid "Add Tracker"
-msgstr ""
+msgstr "Unos"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:260
+#, fuzzy
 msgid "<b>Add Trackers</b>"
-msgstr ""
+msgstr "Unos"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:380
+#, fuzzy
 msgid "Edit Tracker"
-msgstr ""
+msgstr "Izmjena"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:416
+#, fuzzy
 msgid "<b>Edit Tracker</b>"
-msgstr ""
+msgstr "Izmjena"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:450
 msgid "Tracker:"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
+#, fuzzy
 msgid "Remove With _Data"
-msgstr ""
+msgstr "Ukloni"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
 msgid "Remove _Torrent"
-msgstr "Ukloni _Torent"
+msgstr ""
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:9
+#, fuzzy
 msgid "Move Storage"
-msgstr ""
+msgstr "Uređaji za pohranjivanje podataka"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:44
+#, fuzzy
 msgid "<b>Move Storage</b>"
-msgstr ""
+msgstr "Uređaji za pohranjivanje podataka"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:78
 msgid "Destination:"

@@ -8,14 +8,15 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-07-10 16:58+0100\n"
-"PO-Revision-Date: 2010-04-02 13:00+0000\n"
+"PO-Revision-Date: 2015-07-15 15:00-0400\n"
 "Last-Translator: Spiros Georgaras <sng@hellug.gr>\n"
 "Language-Team: Greek, Modern (1453-) <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-07-11 13:01+0000\n"
-"X-Generator: Launchpad (build 13388)\n"
+"X-Generator: Poedit 1.8.2\n"
+"Language: el\n"
 
 #: deluge/common.py:274
 msgid "KiB"
@@ -57,112 +58,137 @@ msgid "GiB/s"
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
+#, fuzzy
 msgid "Notification Blink shown"
-msgstr ""
+msgstr "Κοινοποίηση αναβοσβήνει εμφανίζεται"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:183
+#, fuzzy
 msgid "Popup notification is not enabled."
-msgstr ""
+msgstr "Popup κοινοποίηση δεν είναι ενεργοποιημένη."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:185
+#, fuzzy
 msgid "pynotify is not installed"
-msgstr ""
+msgstr "pynotify δεν έχει εγκατασταθεί"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:193
+#, fuzzy
 msgid "pynotify failed to show notification"
-msgstr ""
+msgstr "pynotify απέτυχε να δείξει την κοινοποίηση"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:196
+#, fuzzy
 msgid "Notification popup shown"
-msgstr ""
+msgstr "Αναδυόμενη ειδοποίηση που εμφανίζεται"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:200
+#, fuzzy
 msgid "Sound notification not enabled"
-msgstr ""
+msgstr "Ήχου γνωστοποίηση δεν είναι ενεργοποιημένη"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:202
+#, fuzzy
 msgid "pygame is not installed"
-msgstr ""
+msgstr "PyGame δεν έχει εγκατασταθεί"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:214
-#, python-format
+#, fuzzy, python-format
 msgid "Sound notification failed %s"
-msgstr ""
+msgstr "Ήχου γνωστοποίηση απέτυχε %s"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:218
+#, fuzzy
 msgid "Sound notification Success"
-msgstr ""
+msgstr "Η υγιής ανακοίνωση επιτυχία"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:241
+#, fuzzy
 msgid "Finished Torrent"
-msgstr ""
+msgstr "Τελικού Torrent"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:242
-#, python-format
-msgid ""
-"The torrent \"%(name)s\" including %(num_files)i has finished downloading."
+#, fuzzy, python-format
+msgid "The torrent \"%(name)s\" including %(num_files)i has finished downloading."
 msgstr ""
+"Ο χείμαρρος \"(όνομα) %s\" συμπεριλαμβανομένων % (num_files) έχει τελείωσα "
+"κατεβάζω."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:646
+#, fuzzy
 msgid "Choose Sound File"
-msgstr ""
+msgstr "Επιλέξτε το αρχείο ήχου"
 
 #: deluge/plugins/notifications/notifications/core.py:138
 #: deluge/plugins/notifications/notifications/core.py:171
-#, python-format
+#, fuzzy, python-format
 msgid "There was an error sending the notification email: %s"
 msgstr ""
+"Παρουσιάστηκε σφάλμα που στέλνει ειδοποίηση μέσω ηλεκτρονικού ταχυδρομείου: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:157
-#, python-format
+#, fuzzy, python-format
 msgid "The server didn't reply properly to the helo greeting: %s"
-msgstr ""
+msgstr "Ο διακομιστής δεν απάντησαν σωστά για να το χαιρετισμό helo: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:162
-#, python-format
+#, fuzzy, python-format
 msgid "The server didn't accept the username/password combination: %s"
 msgstr ""
+"Ο διακομιστής δεν αποδέχεται ο συνδυασμός ονόματος χρήστη/κωδικού πρόσβασης: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:186
+#, fuzzy
 msgid "Notification email sent."
-msgstr ""
+msgstr "Ειδοποίηση μέσω ηλεκτρονικού ταχυδρομείου αποστέλλονται."
 
 #: deluge/plugins/notifications/notifications/core.py:194
-#, python-format
+#, fuzzy, python-format
 msgid "Finished Torrent \"%(name)s\""
-msgstr ""
+msgstr "Τελικού Torrent \"(όνομα) %s\""
 
 #: deluge/plugins/notifications/notifications/core.py:196
-#, python-format
+#, fuzzy, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading "
-"\"%(name)s\", which includes %(num_files)i files.\n"
-"To stop receiving these alerts, simply turn off email notification in "
-"Deluge's preferences.\n"
+"This email is to inform you that Deluge has finished downloading \"%(name)s\", "
+"which includes %(num_files)i files.\n"
+"To stop receiving these alerts, simply turn off email notification in Deluge's "
+"preferences.\n"
 "\n"
 "Thank you,\n"
 "Deluge."
 msgstr ""
+"Αυτό το ηλεκτρονικό μήνυμα είναι να σας ενημερώσω ότι κατακλυσμού έχει τελείωσα "
+"κατεβάζω αρχεία \"(όνομα) %s\", το οποίο περιλαμβάνει % (num_files).\n"
+"Για να σταματήσετε να λαμβάνετε αυτές τις ειδοποιήσεις, απλά απενεργοποιήστε "
+"ειδοποίηση μέσω ηλεκτρονικού ταχυδρομείου στις προτιμήσεις του Κατακλυσμού.\n"
+"\n"
+"Σας ευχαριστώ, κατακλυσμό."
 
 #: deluge/plugins/notifications/notifications/data/config.glade:29
+#, fuzzy
 msgid "<b><i><big>Notifications</big></i></b>"
-msgstr ""
+msgstr "Ειδοποιήσεις"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:81
+#, fuzzy
 msgid "Tray icon blinks enabled"
-msgstr ""
+msgstr "Δίσκο εικονίδιο αναβοσβήνει ενεργοποιημένη"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:93
+#, fuzzy
 msgid "Popups enabled"
-msgstr ""
+msgstr "Αναδυόμενα παράθυρα ενεργοποιημένη"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:108
+#, fuzzy
 msgid "Sound enabled"
-msgstr ""
+msgstr "Ήχος ενεργοποιημένη"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:144
+#, fuzzy
 msgid "<b>UI Notifications</b>"
-msgstr ""
+msgstr "<b>Κοινοποιήσεις UI</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:175
 #: deluge/ui/gtkui/glade/connection_manager.glade:28
@@ -198,12 +224,14 @@ msgid "Password:"
 msgstr "Κωδικός πρόσβασης:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:360
+#, fuzzy
 msgid "<b>Recipients</b>"
-msgstr ""
+msgstr "<b>Παραλήπτες</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:383
+#, fuzzy
 msgid "Server requires TLS/SSL"
-msgstr ""
+msgstr "Ο διακομιστής απαιτεί TLS/SSL"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:398
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:633
@@ -217,43 +245,53 @@ msgid "Enabled"
 msgstr "Ενεργό"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:443
+#, fuzzy
 msgid "<b>Email Notifications</b>"
-msgstr ""
+msgstr "<b>Ανακοινώσεις ηλεκτρονικού ταχυδρομείου</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:460
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:495
+#, fuzzy
 msgid ""
-"This configuration does not mean that you'll actually receive notifications "
-"for all these events."
+"This configuration does not mean that you'll actually receive notifications for "
+"all these events."
 msgstr ""
+"Αυτή η ρύθμιση δεν σημαίνει ότι στην πραγματικότητα θα λάβετε ειδοποιήσεις για "
+"όλα αυτά τα γεγονότα."
 
 #: deluge/plugins/notifications/notifications/data/config.glade:513
+#, fuzzy
 msgid "Subscriptions"
-msgstr ""
+msgstr "Αιτήσεις"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:594
+#, fuzzy
 msgid "Sound Customization"
-msgstr ""
+msgstr "Προσαρμογή του ήχου"
 
 #: deluge/plugins/autoadd/autoadd/core.py:136
+#, fuzzy
 msgid "Watch folder does not exist."
-msgstr ""
+msgstr "Παρακολουθήστε φάκελος δεν υπάρχει."
 
 #: deluge/plugins/autoadd/autoadd/core.py:139
 #: deluge/plugins/autoadd/autoadd/core.py:308
+#, fuzzy
 msgid "Path does not exist."
-msgstr ""
+msgstr "δεν υπάρχει"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
+#, fuzzy
 msgid "AutoAdd Error"
-msgstr ""
+msgstr "AutoAdd σφάλμα"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:78
+#, fuzzy
 msgid "Watch Folder Properties"
-msgstr ""
+msgstr "Παρακολουθήστε ιδιότητες φακέλου"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
@@ -268,32 +306,39 @@ msgid "Select A Folder"
 msgstr "Επιλογή φακέλου"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:143
+#, fuzzy
 msgid "Enable this watch folder"
-msgstr ""
+msgstr "Ενεργοποίηση αυτού του φακέλου ρολόι"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:164
+#, fuzzy
 msgid "<b>Watch Folder</b>"
-msgstr ""
+msgstr "<b>Παρακολουθήστε φάκελο</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:195
+#, fuzzy
 msgid "Delete .torrent after adding"
-msgstr ""
+msgstr "Διαγραφή .torrent μετά την προσθήκη"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:211
+#, fuzzy
 msgid "Append extension after adding:"
-msgstr ""
+msgstr "Προσάρτηση επέκτασης μετά την προσθήκη:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:228
+#, fuzzy
 msgid ".added"
-msgstr ""
+msgstr "προστέθηκε"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:248
+#, fuzzy
 msgid "<b>Torrent File Action</b>"
-msgstr ""
+msgstr "<b>Ενέργεια αρχείου torrent</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:275
+#, fuzzy
 msgid "Set download location"
-msgstr ""
+msgstr "Ορισμός κατεβάζω τοποθετώ"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:325
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:396
@@ -301,24 +346,29 @@ msgid "<b>Download Location</b>"
 msgstr "<b>Τοποθεσία αποθήκευσης λήψεων</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:353
+#, fuzzy
 msgid "Set move completed location"
-msgstr ""
+msgstr "Ορισμός κίνηση ολοκληρωθεί τοποθεσία"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:418
+#, fuzzy
 msgid "<b>Move Completed</b>"
-msgstr ""
+msgstr "<b>Κίνηση ολοκληρωθεί</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:444
+#, fuzzy
 msgid "Label: "
-msgstr ""
+msgstr "Ετικέτα"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:475
+#, fuzzy
 msgid "<b>Label</b>"
-msgstr ""
+msgstr "Ετικέτα"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:492
+#, fuzzy
 msgid "Main"
-msgstr ""
+msgstr "Κύριος"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:524
 #: deluge/ui/gtkui/glade/main_window.glade:1811
@@ -361,16 +411,19 @@ msgid "Remove at ratio"
 msgstr "Αφαίρεση σε αναλογία"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:762
+#, fuzzy
 msgid "Auto Managed:"
-msgstr ""
+msgstr "Αυτόματη διαχείριση:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:890
+#, fuzzy
 msgid "Add Paused:"
-msgstr ""
+msgstr "Προσθήκη παύσης:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:936
+#, fuzzy
 msgid "Queue to:"
-msgstr ""
+msgstr "Ουρά για να:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:954
 msgid "Top"
@@ -392,8 +445,9 @@ msgid "Options"
 msgstr "Επιλογές"
 
 #: deluge/plugins/autoadd/autoadd/data/config.glade:41
+#, fuzzy
 msgid "<b>Watch Folders:</b>"
-msgstr ""
+msgstr "<b>Παρακολουθήστε τους φακέλους:</b>"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:238
 msgid "Download Limit:"
@@ -408,12 +462,14 @@ msgid "Active Torrents:"
 msgstr "Ενεργά torrent:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:265
+#, fuzzy
 msgid "Active Downloading:"
-msgstr ""
+msgstr "Λήψη ενεργό:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:274
+#, fuzzy
 msgid "Active Seeding:"
-msgstr ""
+msgstr "Ενεργό σπορά:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:288
 msgid "<b>Slow Settings</b>"
@@ -431,8 +487,7 @@ msgstr "Κενή ετικέτα"
 msgid "Label already exists"
 msgstr "Η ετικέτα υπάρχει ήδη"
 
-#: deluge/plugins/label/label/core.py:199
-#: deluge/plugins/label/label/core.py:279
+#: deluge/plugins/label/label/core.py:199 deluge/plugins/label/label/core.py:279
 #: deluge/plugins/label/label/core.py:314
 msgid "Unknown Label"
 msgstr "Άγνωστη ετικέτα"
@@ -549,8 +604,8 @@ msgstr "Όνομα:"
 #: deluge/plugins/label/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
 msgstr ""
-"<i>Χρησιμοποιήστε την πλευρική μπάρα για να προσθέσετε, επεξεργαστείτε και "
-"να αφαιρέσετε ετικέτες. <i>\n"
+"<i>Χρησιμοποιήστε την πλευρική μπάρα για να προσθέσετε, επεξεργαστείτε και να "
+"αφαιρέσετε ετικέτες. <i>\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:32
 msgid "<b>Labels</b>"
@@ -569,8 +624,8 @@ msgid ""
 "This option will create a sub-folder using the torrent's name within the "
 "selected extract folder and put the extracted files there."
 msgstr ""
-"Η επιλογή αυτή θα δημιουργήσει έναν υποφάκελο με το όνομα του Torrent μέσα "
-"από τον επιλεγμένο φάκελο εξαγωγής και θα τοποθετήσει εκεί τα αρχεία που θα "
+"Η επιλογή αυτή θα δημιουργήσει έναν υποφάκελο με το όνομα του Torrent μέσα από "
+"τον επιλεγμένο φάκελο εξαγωγής και θα τοποθετήσει εκεί τα αρχεία που θα "
 "εξαχθούν."
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
@@ -582,10 +637,13 @@ msgid "<b>General</b>"
 msgstr "<b>Γενικά</b>"
 
 #: deluge/plugins/webui/webui/gtkui.py:97
+#, fuzzy
 msgid ""
 "The Deluge web interface is not installed, please install the\n"
 "interface and try again"
 msgstr ""
+"Το web interface του κατακλυσμού δεν είναι εγκατεστημένο, παρακαλούμε να "
+"εγκαταστήσετε το περιβάλλον εργασίας και προσπαθήστε ξανά"
 
 #: deluge/plugins/webui/webui/data/config.glade:27
 msgid "Enable web interface"
@@ -660,8 +718,8 @@ msgstr "Εισαγωγή λίστας αποκλεισμένων κατά την
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:190
 msgid "Download the blocklist file if necessary and import the file."
 msgstr ""
-"Λήψη του αρχείου με τη λίστα αποκλεισμένων αν είναι απαραίτητο και εισαγωγή "
-"του αρχείου."
+"Λήψη του αρχείου με τη λίστα αποκλεισμένων αν είναι απαραίτητο και εισαγωγή του "
+"αρχείου."
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:210
 msgid "Check Download and Import"
@@ -1798,8 +1856,7 @@ msgstr "Ταχύτητα λήψης"
 msgid "Up Speed"
 msgstr "Ταχύτητα αποστολής"
 
-#: deluge/ui/gtkui/queuedtorrents.py:75
-#: deluge/ui/gtkui/addtorrentdialog.py:103
+#: deluge/ui/gtkui/queuedtorrents.py:75 deluge/ui/gtkui/addtorrentdialog.py:103
 msgid "Torrent"
 msgstr "Torrent"
 
@@ -1842,8 +1899,9 @@ msgid "Deluge"
 msgstr "Deluge"
 
 #: deluge/ui/gtkui/systemtray.py:201
+#, fuzzy
 msgid "Not Connected..."
-msgstr ""
+msgstr "Δεν συνδέεται..."
 
 #: deluge/ui/gtkui/systemtray.py:258
 msgid "Down"
@@ -1864,32 +1922,36 @@ msgid "Set Maximum Upload Speed"
 msgstr "Ορισμός της μέγιστης ταχύτητας αποστολής"
 
 #: deluge/ui/gtkui/systemtray.py:470
+#, fuzzy
 msgid "Deluge is password protected!"
-msgstr ""
+msgstr "Κατακλυσμός είναι προστατευμένη με κωδικό πρόσβασης!"
 
 #: deluge/ui/gtkui/systemtray.py:476
+#, fuzzy
 msgid "Enter your password to continue"
-msgstr ""
+msgstr "Εισάγετε τον κωδικό σας για να συνεχίσετε"
 
 #: deluge/ui/gtkui/notification.py:79
 msgid "Torrent complete"
 msgstr "Ολοκλήρωση torrent"
 
 #: deluge/ui/gtkui/notification.py:80
+#, fuzzy
 msgid "Including"
-msgstr ""
+msgstr "Συμπεριλαμβανομένου"
 
 #: deluge/ui/gtkui/notification.py:80
+#, fuzzy
 msgid "files"
-msgstr ""
+msgstr "Αρχεία"
 
 #: deluge/ui/gtkui/notification.py:109
 #, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading %(name)s ,  "
-"           which includes %(num_files)i files.\n"
-"To stop receiving these alerts, simply turn off             email "
-"notification in Deluge's preferences.\n"
+"This email is to inform you that Deluge has finished downloading "
+"%(name)s ,             which includes %(num_files)i files.\n"
+"To stop receiving these alerts, simply turn off             email notification "
+"in Deluge's preferences.\n"
 "\n"
 "Thank you,\n"
 "Deluge"
@@ -1903,12 +1965,14 @@ msgstr ""
 "Deluge"
 
 #: deluge/ui/gtkui/new_release_dialog.py:72
+#, fuzzy
 msgid "<i>Client Version</i>"
-msgstr ""
+msgstr "<i>Έκδοση προγράμματος-πελάτη</i>"
 
 #: deluge/ui/gtkui/preferences.py:72
+#, fuzzy
 msgid "Categories"
-msgstr ""
+msgstr "Κατηγορίες"
 
 #: deluge/ui/gtkui/preferences.py:76
 msgid "Downloads"
@@ -1986,10 +2050,13 @@ msgid "Unable to set file priority!"
 msgstr "Αποτυχία ορισμού προτεραιότητας αρχείου!"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:492
+#, fuzzy
 msgid ""
 "File prioritization is unavailable when using Compact allocation.  Would you "
 "like to switch to Full allocation?"
 msgstr ""
+"Αρχείο προτεραιότητας δεν είναι διαθέσιμη όταν χρησιμοποιείτε συμπαγές "
+"κατανομή.  Θα θέλατε να στραφούν σε πλήρης ανάθεση;"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:541
 msgid "Choose a .torrent file"
@@ -2010,20 +2077,23 @@ msgid "Invalid URL"
 msgstr "Μη έγκυρη διεύθυνση"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:622
+#, fuzzy
 msgid "is not a valid URL."
-msgstr ""
+msgstr "δεν είναι μια έγκυρη διεύθυνση URL."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:626
+#, fuzzy
 msgid "Downloading..."
-msgstr ""
+msgstr "Κατέβασμα..."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
 msgid "Download Failed"
 msgstr "Η λήψη απέτυχε"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
+#, fuzzy
 msgid "Failed to download:"
-msgstr ""
+msgstr "Απέτυχε να κατεβάσετε:"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:103
 #: deluge/ui/gtkui/edittrackersdialog.py:84
@@ -2072,8 +2142,9 @@ msgid "DHT Nodes"
 msgstr "Κόμβοι DHT"
 
 #: deluge/ui/gtkui/statusbar.py:186
+#, fuzzy
 msgid "Free Disk Space"
-msgstr ""
+msgstr "Ελεύθερου χώρου στο δίσκο"
 
 #: deluge/ui/gtkui/statusbar.py:190
 msgid "No Incoming Connections!"
@@ -2088,8 +2159,9 @@ msgid "Torrents"
 msgstr "Torrent"
 
 #: deluge/ui/gtkui/filtertreeview.py:69
+#, fuzzy
 msgid "States"
-msgstr ""
+msgstr "Μελών"
 
 #: deluge/ui/gtkui/filtertreeview.py:71
 msgid "Labels"
@@ -2120,8 +2192,9 @@ msgid "Queued"
 msgstr "Στην ουρά"
 
 #: deluge/ui/gtkui/filtertreeview.py:79
+#, fuzzy
 msgid "Active"
-msgstr ""
+msgstr "Ενεργά"
 
 #: deluge/ui/gtkui/filtertreeview.py:80
 msgid "None"
@@ -2133,65 +2206,73 @@ msgstr "Χωρίς ετικέτα"
 
 #: deluge/ui/gtkui/aboutdialog.py:253
 msgid ""
-"This program is free software; you can redistribute it and/or modify it "
-"under the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 3 of the License, or (at your option) "
-"any later version. \n"
+"This program is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free Software "
+"Foundation; either version 3 of the License, or (at your option) any later "
+"version. \n"
 "\n"
-"This program is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
-"more details. \n"
+"This program is distributed in the hope that it will be useful, but WITHOUT ANY "
+"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A "
+"PARTICULAR PURPOSE. See the GNU General Public License for more details. \n"
 "\n"
 "You should have received a copy of the GNU General Public License along with "
 "this program; if not, see <http://www.gnu.org/licenses>. \n"
 "\n"
-"In addition, as a special exception, the copyright holders give permission "
-"to link the code of portions of this program with the OpenSSL library. You "
-"must obey the GNU General Public License in all respects for all of the code "
-"used other than OpenSSL. \n"
+"In addition, as a special exception, the copyright holders give permission to "
+"link the code of portions of this program with the OpenSSL library. You must "
+"obey the GNU General Public License in all respects for all of the code used "
+"other than OpenSSL. \n"
 "\n"
 "If you modify file(s) with this exception, you may extend this exception to "
-"your version of the file(s), but you are not obligated to do so. If you do "
-"not wish to do so, delete this exception statement from your version. If you "
-"delete this exception statement from all source files in the program, then "
-"also delete it here."
+"your version of the file(s), but you are not obligated to do so. If you do not "
+"wish to do so, delete this exception statement from your version. If you delete "
+"this exception statement from all source files in the program, then also delete "
+"it here."
 msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:149
+#, fuzzy
 msgid "Status"
-msgstr ""
+msgstr "Κατάσταση"
 
 #: deluge/ui/gtkui/connectionmanager.py:153
 msgid "Host"
 msgstr "Υπολογιστής"
 
 #: deluge/ui/gtkui/connectionmanager.py:158
+#, fuzzy
 msgid "Version"
-msgstr ""
+msgstr "Έκδοση"
 
 #: deluge/ui/gtkui/connectionmanager.py:386
+#, fuzzy
 msgid "_Stop Daemon"
-msgstr ""
+msgstr "_Stop δαίμονα"
 
 #: deluge/ui/gtkui/connectionmanager.py:394
+#, fuzzy
 msgid "_Start Daemon"
-msgstr ""
+msgstr "_Start δαίμονα"
 
 #: deluge/ui/gtkui/connectionmanager.py:414
 #: deluge/ui/gtkui/connectionmanager.py:424
+#, fuzzy
 msgid "Unable to start daemon!"
-msgstr ""
+msgstr "Ανίκανος να αρχίσει δαίμονας!"
 
 #: deluge/ui/gtkui/connectionmanager.py:415
+#, fuzzy
 msgid ""
 "Deluge cannot find the 'deluged' executable, it is likely that you forgot to "
 "install the deluged package or it's not in your PATH."
 msgstr ""
+"Κατακλυσμός δεν μπορεί να βρει το εκτελέσιμο \"deluged\", είναι πιθανό ότι "
+"έχετε ξεχάσει να εγκαταστήσετε το deluged πακέτο ή δεν είναι στο ΠΈΡΑΣΜΆ σας."
 
 #: deluge/ui/gtkui/connectionmanager.py:425
+#, fuzzy
 msgid "Please examine the details for more information."
-msgstr ""
+msgstr "Παρακαλούμε να εξετάσει τις λεπτομέρειες για περισσότερες πληροφορίες."
 
 #: deluge/ui/gtkui/connectionmanager.py:509
 msgid "Error Adding Host"
@@ -2207,8 +2288,7 @@ msgid ""
 "\n"
 "You will either need to stop the daemon or turn off Classic Mode to continue."
 msgstr ""
-"Απ' ό,τι φαίνεται, εκτελείται ήδη μια διεργασία του δαίμονα Deluge "
-"(deluged).\n"
+"Απ' ό,τι φαίνεται, εκτελείται ήδη μια διεργασία του δαίμονα Deluge (deluged).\n"
 "\n"
 "Θα χρειαστεί να σταματήσετε τον δαίμονα ή να απενεργοποιήσετε την Κλασική "
 "Λειτουργία για να συνεχίσετε."
@@ -2219,8 +2299,8 @@ msgstr "Σφάλμα στην εκκίνηση του πυρήνα"
 
 #: deluge/ui/gtkui/gtkui.py:313
 msgid ""
-"There was an error starting the core component which is required to run "
-"Deluge in Classic Mode.\n"
+"There was an error starting the core component which is required to run Deluge "
+"in Classic Mode.\n"
 "\n"
 "Please see the details below for more information."
 msgstr ""
@@ -2231,11 +2311,11 @@ msgstr ""
 
 #: deluge/ui/gtkui/gtkui.py:318
 msgid ""
-"Since there was an error starting in Classic Mode would you like to continue "
-"by turning it off?"
+"Since there was an error starting in Classic Mode would you like to continue by "
+"turning it off?"
 msgstr ""
-"Καθώς προέκυψε ένα σφάλμα κατά την εκκίνηση στην κλασική λειτουργία. "
-"Επιθυμείτε να συνεχίσετε απενεργοποιώντας την;"
+"Καθώς προέκυψε ένα σφάλμα κατά την εκκίνηση στην κλασική λειτουργία. Επιθυμείτε "
+"να συνεχίσετε απενεργοποιώντας την;"
 
 #: deluge/ui/gtkui/gtkui.py:342
 msgid "Error Starting Daemon"
@@ -2243,8 +2323,8 @@ msgstr "Σφάλμα εκκίνησης διεργασίας"
 
 #: deluge/ui/gtkui/gtkui.py:343
 msgid ""
-"There was an error starting the daemon process.  Try running it from a "
-"console to see if there is an error."
+"There was an error starting the daemon process.  Try running it from a console "
+"to see if there is an error."
 msgstr ""
 "Παρουσιάστηκε σφάλμα κατά την εκκίνηση του δαίμονα. Προσπαθήστε να τον "
 "εκτελέσετε από τη γραμμή εντολών για να δείτε αν υπάρχει κάποιο σφάλμα."
@@ -2270,20 +2350,24 @@ msgid "Set Maximum Upload Slots"
 msgstr "Ορισμός Μέγιστών Θυρών Αποστολής"
 
 #: deluge/ui/gtkui/files_tab.py:56
+#, fuzzy
 msgid "Do Not Download"
-msgstr ""
+msgstr "Μην κατεβάσετε"
 
 #: deluge/ui/gtkui/files_tab.py:57
+#, fuzzy
 msgid "Normal Priority"
-msgstr ""
+msgstr "Κανονική Προτεραιότητα"
 
 #: deluge/ui/gtkui/files_tab.py:58
+#, fuzzy
 msgid "High Priority"
-msgstr ""
+msgstr "Υψηλή προτεραιότητα"
 
 #: deluge/ui/gtkui/files_tab.py:59
+#, fuzzy
 msgid "Highest Priority"
-msgstr ""
+msgstr "Ύψιστη προτεραιότητα"
 
 #: deluge/ui/gtkui/files_tab.py:169
 msgid "Priority"
@@ -2315,12 +2399,14 @@ msgid "Peers"
 msgstr "Ομότιμοι χρήστες"
 
 #: deluge/ui/gtkui/torrentview.py:241
+#, fuzzy
 msgid "Down Limit"
-msgstr ""
+msgstr "Κάτω όριο"
 
 #: deluge/ui/gtkui/torrentview.py:243
+#, fuzzy
 msgid "Up Limit"
-msgstr ""
+msgstr "Μέχρι όριο"
 
 #: deluge/ui/gtkui/torrentview.py:245
 msgid "ETA"
@@ -2339,8 +2425,9 @@ msgid "Added"
 msgstr "Προστέθηκε"
 
 #: deluge/ui/gtkui/torrentview.py:257
+#, fuzzy
 msgid "Save Path"
-msgstr ""
+msgstr "Αποθηκεύστε διαδρομή"
 
 #: deluge/ui/gtkui/glade/main_window.glade:21
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:99
@@ -2358,8 +2445,9 @@ msgid "_Create Torrent"
 msgstr "_Δημιουργία Torrent"
 
 #: deluge/ui/gtkui/glade/main_window.glade:65
+#, fuzzy
 msgid "Quit & _Shutdown Daemon"
-msgstr ""
+msgstr "Κλείστε & _Shutdown δαίμονα"
 
 #: deluge/ui/gtkui/glade/main_window.glade:101
 msgid "_Edit"
@@ -2550,12 +2638,14 @@ msgid "<b>ETA:</b>"
 msgstr "<b>Υπολειπόμενος χρόνος:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1032
+#, fuzzy
 msgid "<b>Up Speed:</b>"
-msgstr ""
+msgstr "<b>Ταχύτητα:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1054
+#, fuzzy
 msgid "<b>Down Speed:</b>"
-msgstr ""
+msgstr "<b>Κάτω ταχύτητα:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1073
 msgid "<b>Next Announce:</b>"
@@ -2652,11 +2742,10 @@ msgid "Remove Torrent?"
 msgstr "Διαγραφή Torrent;"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2324
-msgid ""
-"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
+msgid "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
 msgstr ""
-"<big><b>Είστε σίγουρος ότι θέλετε να διαγράψετε το επιλεγμένο Torrent "
-";</b></big>"
+"<big><b>Είστε σίγουρος ότι θέλετε να διαγράψετε το επιλεγμένο Torrent ;</b></"
+"big>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2376
 msgid "<i>The associated .torrent will be deleted!</i>"
@@ -2687,8 +2776,9 @@ msgid "<i>Current Version:</i>"
 msgstr "<i>Τρέχουσα έκδοση:</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2604
+#, fuzzy
 msgid "<i>Server Version</i>"
-msgstr ""
+msgstr "<i>Έκδοση διακομιστή</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2637
 msgid "Do not show this dialog in the future"
@@ -2852,6 +2942,7 @@ msgid "Piece Size:"
 msgstr "Μέγεθος κοματιού:"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
+#, fuzzy
 msgid ""
 "32 KiB\n"
 "64 KiB\n"
@@ -2863,7 +2954,7 @@ msgid ""
 "4 MiB\n"
 "8 MiB\n"
 "16 MiB\n"
-msgstr ""
+msgstr "32 KiB 64 KiB 128 KiB 256 KiB 512 KiB 1 MiB 2 MiB 4 MiB 8 MiB 16 MiB"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:580
 msgid "Set Private Flag"
@@ -2967,13 +3058,16 @@ msgid "Copy of .torrent files to:"
 msgstr "Αντιγραφή των αρχείων .torrent  σε:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:316
+#, fuzzy
 msgid "Delete copy of torrent file on remove"
-msgstr ""
+msgstr "Διαγράψετε το αντίγραφο του αρχείου torrent κατάργηση"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:320
-msgid ""
-"Delete the copy of the torrent file created when the torrent is removed"
+#, fuzzy
+msgid "Delete the copy of the torrent file created when the torrent is removed"
 msgstr ""
+"Διαγράψετε το αντίγραφο του αρχείου torrent δημιουργήθηκε όταν αφαιρείται το "
+"χείμαρρο"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:337
 msgid "<b>Folders</b>"
@@ -2998,8 +3092,8 @@ msgstr "Χρήση συμπαγούς ανάθεσης χώρου"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:392
 msgid "Compact allocation only allocates space as needed"
 msgstr ""
-"Η συμπαγής ανάθεση χώρου στο δίσκου αναθέτει στο torrent μόνο τον απαραίτητο "
-"σε κάθε στιγμή χώρο."
+"Η συμπαγής ανάθεση χώρου στο δίσκου αναθέτει στο torrent μόνο τον απαραίτητο σε "
+"κάθε στιγμή χώρο."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:440
 msgid "Prioritize first and last pieces of torrent"
@@ -3064,8 +3158,8 @@ msgstr "Διεπαφή"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:939
 msgid ""
-"The TOS byte set in the IP header of every packet sent to peers (including "
-"web seeds).  Expects a Hex value."
+"The TOS byte set in the IP header of every packet sent to peers (including web "
+"seeds).  Expects a Hex value."
 msgstr ""
 "Το TOS byte που βρίσκεται στην κεφαλίδα IP του κάθε πακέτου στέλνεται στους "
 "διαμοιραστές (συμπεριλαμβανομένων και των διαμοιραστών web).  Αναμένεται μια "
@@ -3107,8 +3201,8 @@ msgstr "LSD"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1060
 msgid "Local Service Discovery finds local peers on your network."
 msgstr ""
-"Η υπηρεσία αναζήτησης τοπικών υπηρεσιών βρίσκει τοπικούς υπολογιστές στο "
-"δίκτυό σας."
+"Η υπηρεσία αναζήτησης τοπικών υπηρεσιών βρίσκει τοπικούς υπολογιστές στο δίκτυό "
+"σας."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1071
 #: deluge/ui/console/statusbars.py:104
@@ -3118,8 +3212,8 @@ msgstr "DHT"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1075
 msgid "Distributed hash table may improve the amount of active connections."
 msgstr ""
-"Ο κατανεμημένος πίνακας κατακερματισμού (DHT) πιθανώς να βελτιώσει τον "
-"αριθμό των ενεργών συνδέσεων."
+"Ο κατανεμημένος πίνακας κατακερματισμού (DHT) πιθανώς να βελτιώσει τον αριθμό "
+"των ενεργών συνδέσεων."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1097
 msgid "<b>Network Extras</b>"
@@ -3192,8 +3286,7 @@ msgstr "Μέγιστη ταχύτητα αποστολής (KiB/s):"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1432
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1457
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr ""
-"Ο μέγιστος επιτρεπτός αριθμός συνδέσεων. Εισάγετε -1 για απεριόριστο."
+msgstr "Ο μέγιστος επιτρεπτός αριθμός συνδέσεων. Εισάγετε -1 για απεριόριστο."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1434
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1669
@@ -3215,8 +3308,7 @@ msgstr "Μέγιστος αριθμός θυρίδων αποστολής:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1475
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1490
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
-msgstr ""
-"Η μέγιστη ταχύτητα λήψης για όλα τα Torrent. Εισάγετε -1 για απεριόριστη."
+msgstr "Η μέγιστη ταχύτητα λήψης για όλα τα Torrent. Εισάγετε -1 για απεριόριστη."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1477
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1693
@@ -3233,8 +3325,8 @@ msgstr "Καθορισμός ορίου επίβαρου IP"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1577
 msgid ""
-"If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
-"to avoid exceeding the limits with the total traffic"
+"If checked, the estimated TCP/IP overhead is drained from the rate limiters, to "
+"avoid exceeding the limits with the total traffic"
 msgstr ""
 "Αν επιλεγεί, το εκτιμώμενο επίβαρο TCP/IP δε συμπεριλαμβάνεται στην τιμή του "
 "περιορισμού, για να αποφευχθεί η υπέρβαση του ορίου με τη συνολική κίνηση."
@@ -3246,15 +3338,13 @@ msgstr "<b>Καθολική χρήση εύρους ζώνης</b>"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1633
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
 msgstr ""
-"Ο μέγιστος αριθμός θυρίδων αποστολής ανά torrent. Εισάγετε -1 για "
-"απεριόριστες."
+"Ο μέγιστος αριθμός θυρίδων αποστολής ανά torrent. Εισάγετε -1 για απεριόριστες."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1652
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1718
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1736
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
-msgstr ""
-"Ο μέγιστος αριθμός συνδέσεων ανά Torrent. Εισάγετε -1 για απεριόριστες."
+msgstr "Ο μέγιστος αριθμός συνδέσεων ανά Torrent. Εισάγετε -1 για απεριόριστες."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1758
 msgid "<b>Per Torrent Bandwidth Usage</b>"
@@ -3276,9 +3366,9 @@ msgid ""
 "setting to take effect."
 msgstr ""
 "Η κλασσική λειτουργία θα κρύψει τις περισσότερες υθμίσεις του δαίμονα και θα "
-"κάνει το Deluge να φαίνεται ότι είναι μια απλή εφαρμογή. Χρησιμοποιήστε το "
-"αν δεν θέλετε να τρέχετε το Deluge σαν δαίμονα. Πρέπει να επανεκκινήσετε το "
-"Deluge για να εφαρμοσθεί αυτή η ρύθμιση."
+"κάνει το Deluge να φαίνεται ότι είναι μια απλή εφαρμογή. Χρησιμοποιήστε το αν "
+"δεν θέλετε να τρέχετε το Deluge σαν δαίμονα. Πρέπει να επανεκκινήσετε το Deluge "
+"για να εφαρμοσθεί αυτή η ρύθμιση."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1866
 msgid "<b>Classic Mode</b>"
@@ -3317,8 +3407,9 @@ msgid "Start in tray"
 msgstr "Εκκίνηση στην μπάρα συστήματος"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2078
+#, fuzzy
 msgid "Enable Application Indicator"
-msgstr ""
+msgstr "Ενεργοποίηση δείκτη αίτησης"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2099
 msgid "Password protect system tray"
@@ -3350,8 +3441,8 @@ msgstr "<b>Ενημερώσεις</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2326
 msgid ""
-"Help us improve Deluge by sending us your Python version, PyGTK version, OS "
-"and processor types.  Absolutely no other information is sent."
+"Help us improve Deluge by sending us your Python version, PyGTK version, OS and "
+"processor types.  Absolutely no other information is sent."
 msgstr ""
 "Βοηθήστε μας να βελτιώσουμε το Deluge στέλνοντας μας την έκδοση Python, την "
 "έκδοση PyGTK, το λειτουργικό σύστημα και τον τύπο επεξεργαστή. Σε καμία "
@@ -3375,8 +3466,8 @@ msgid ""
 "using DNS to resolve the peer's country."
 msgstr ""
 "Αν το Deluge δεν μπορεί να βρει το αρχείο της βάσης δεδομένων σε αυτή την "
-"τοποθεσία, θα προσπαθήσει  να εντοπίσει την τοποθεσία (κράτος) του "
-"υπολογιστή μέσω του DNS."
+"τοποθεσία, θα προσπαθήσει  να εντοπίσει την τοποθεσία (κράτος) του υπολογιστή "
+"μέσω του DNS."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2444
 msgid "<b>GeoIP Database</b>"
@@ -3522,8 +3613,8 @@ msgstr "Μέγεθος προσωρινής μνήμης (μπλοκ των 16 K
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4122
 msgid ""
-"The number of seconds from the last cached write to a piece in the write "
-"cache, to when it's forcefully flushed to disk. Default is 60 seconds."
+"The number of seconds from the last cached write to a piece in the write cache, "
+"to when it's forcefully flushed to disk. Default is 60 seconds."
 msgstr ""
 "Ο αριθμός των δευτερολέπτων που πρέπει να περάσει μετά την τελευταία εγγραφή "
 "στην προσωρινή μνήμη, για να γίνει εγγραφή στο δίσκο. Η προκαθορισμένη τιμή "
@@ -3547,26 +3638,30 @@ msgstr "Γραμμένα μπλοκ:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4231
 msgid ""
-"The total number of write operations performed since this session was "
-"started."
+"The total number of write operations performed since this session was started."
 msgstr ""
-"Ο συνολικός αριθμός εκτελεσθέντων λειτουργιών εγγραφής από την έναρξη αυτής "
-"της συνεδρίας."
+"Ο συνολικός αριθμός εκτελεσθέντων λειτουργιών εγγραφής από την έναρξη αυτής της "
+"συνεδρίας."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4233
 msgid "Writes:"
 msgstr "Εγγραφές:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4244
+#, fuzzy
 msgid ""
-"The ratio (blocks_written - writes) / blocks_written represents the number "
-"of saved write operations per total write operations, i.e. a kind of cache "
-"hit ratio for the write cache."
+"The ratio (blocks_written - writes) / blocks_written represents the number of "
+"saved write operations per total write operations, i.e. a kind of cache hit "
+"ratio for the write cache."
 msgstr ""
+"Η αναλογία (blocks_written - γράφει) / blocks_written αντιπροσωπεύει τον αριθμό "
+"των λειτουργιών αποθηκευμένα εγγραφής ανά συνολικό λειτουργιά, δηλαδή ένα είδος "
+"cache λόγος για τη μνήμη cache εγγραφής επιτυχιών."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4246
+#, fuzzy
 msgid "Write Cache Hit Ratio:"
-msgstr ""
+msgstr "Γράψτε λόγος επιτυχιών Cache:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4298
 msgid "<b>Write</b>"
@@ -3577,9 +3672,8 @@ msgid ""
 "The number of blocks that were requested from the bittorrent engine (from "
 "peers), that were served from disk or cache."
 msgstr ""
-"Ο αριθμός των μπλοκ που ζητήθηκαν από τη μηχανή bittorrent (από "
-"απομακρυσμένους υπολογιτές), και που εξυπηρετήθηκαν από το δίσκο ή την "
-"λανθάνουσα μνήμη."
+"Ο αριθμός των μπλοκ που ζητήθηκαν από τη μηχανή bittorrent (από απομακρυσμένους "
+"υπολογιτές), και που εξυπηρετήθηκαν από το δίσκο ή την λανθάνουσα μνήμη."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4330
 msgid "Blocks Read:"
@@ -3590,23 +3684,26 @@ msgid "The number of blocks that were served from cache."
 msgstr "Ο αριθμός των μπλοκ που εξυπηρετήθηκαν από την λανθάνιυσα μνήμη."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4341
+#, fuzzy
 msgid "Blocks Read Hit:"
-msgstr ""
+msgstr "Ανάγνωση μπλοκ να χτυπήσει:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4352
+#, fuzzy
 msgid "The cache hit ratio for the read cache."
-msgstr ""
+msgstr "Η στο cache αναλογία για το cache ανάγνωσης."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4354
+#, fuzzy
 msgid "Read Cache Hit Ratio:"
-msgstr ""
+msgstr "Λόγος επιτυχιών Cache ανάγνωσης:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4403
 msgid ""
 "The total number of read operations performed since this session was started."
 msgstr ""
-"Ο συνολικός αριθμός λοευτουργιών ανάγνωσης που εκτελέστηκαν μέχρι την "
-"εκκίνηση αυτής της συνεδρίας."
+"Ο συνολικός αριθμός λοευτουργιών ανάγνωσης που εκτελέστηκαν μέχρι την εκκίνηση "
+"αυτής της συνεδρίας."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4405
 msgid "Reads:"
@@ -3745,16 +3842,19 @@ msgid "If you remove the data, it will be lost permanently."
 msgstr "Αν διαγράψετε τα δεδομένα, θα χαθούν για πάντα."
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:127
+#, fuzzy
 msgid "action"
-msgstr ""
+msgstr "Ενέργεια"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:129
+#, fuzzy
 msgid "Remove Files"
-msgstr ""
+msgstr "Καταργήσετε αρχεία"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:198
+#, fuzzy
 msgid "Keep Files"
-msgstr ""
+msgstr "Διατηρήσετε αρχεία"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:9
 msgid "Edit Trackers"
@@ -4171,15 +4271,13 @@ msgstr "Προορισμός:"
 #~ msgid "This field is required."
 #~ msgstr "Αυτό το πεδίο είναι απαραίτητο."
 
-#, python-format
 #~ msgid "Select a valid choice. %s is not one of the available choices."
 #~ msgstr "Επιλέξτε μια έγκυρη επιλογή. Η %s δεν ανήκει στις διαθέσιμες."
 
 #~ msgid "Enter a list of values."
 #~ msgstr "Εισαγωγή λίστας τιμών"
 
-#~ msgid ""
-#~ "Select a valid choice. That choice is not one of the available choices."
+#~ msgid "Select a valid choice. That choice is not one of the available choices."
 #~ msgstr ""
 #~ "Επιλέξτε μια έγκυρη επιλογή. Αυτή η επιλογή δεν ανήκει στις διαθέσιμες."
 
@@ -4189,43 +4287,34 @@ msgstr "Προορισμός:"
 #~ msgid "Enter a valid date."
 #~ msgstr "Εισάγετε μια έγκυρη ημερομηνία."
 
-#, python-format
 #~ msgid "Ensure that there are no more than %s decimal places."
 #~ msgstr "Επιβεβαιώστε ότι δεν υπάρχουν περισσότερα από %s δεκαδικά ψηφία."
 
-#, python-format
 #~ msgid "Ensure that there are no more than %s digits in total."
 #~ msgstr "Επιβεβαιώστε ότι δεν υπάρχουν συνολικά περισσότερα από %s ψηφία."
 
 #~ msgid "Enter a number."
 #~ msgstr "Εισάγετε αριθμό."
 
-#, python-format
 #~ msgid "Ensure this value is greater than or equal to %s."
 #~ msgstr "Επιβεβαιώστε ότι η τιμή είναι μεγαλύτερη ή ίση του %s."
 
-#, python-format
 #~ msgid "Ensure this value is less than or equal to %s."
 #~ msgstr "Επιβεβαιώστε ότι η τιμή είναι μικρότερη ή ίση του %s."
 
 #~ msgid "Enter a whole number."
 #~ msgstr "Εισάγετε ολόκληρο αριθμό."
 
-#, python-format
-#~ msgid ""
-#~ "Ensure this value has at least %(min)d characters (it has %(length)d)."
+#~ msgid "Ensure this value has at least %(min)d characters (it has %(length)d)."
 #~ msgstr ""
 #~ "Επιβεβαιώστε ότι η τιμή έχει τουλάχιστον %(min)d χαρακτήσες (έχει "
 #~ "%(length)d)."
 
-#, python-format
 #~ msgid "Ensure this value has at most %(max)d characters (it has %(length)d)."
 #~ msgstr ""
 #~ "Επιβεβαιώστε ότι η τιμή έχει το πολύ %(max)d χαρακτήσες (έχει %(length)d)."
 
-#, python-format
-#~ msgid ""
-#~ "Ensure that there are no more than %s digits before the decimal point."
+#~ msgid "Ensure that there are no more than %s digits before the decimal point."
 #~ msgstr ""
 #~ "Επιβεβαιώστε ότι δεν υπάρχουν περισσότερα από %s ψηφία πριν την υποδιαστολή."
 
@@ -4261,7 +4350,6 @@ msgstr "Προορισμός:"
 #~ msgid "This URL appears to be a broken link."
 #~ msgstr "Ο σύνδεσμος φαίνεται να είναι μη έγκυρος."
 
-#, python-format
 #~ msgid "Select a valid choice. %(value)s is not one of the available choices."
 #~ msgstr ""
 #~ "Επιλέξτε μια έγκυρη επιλογή. %(value)s δεν ανήκει στις διαθέσιμες επιλογές."
@@ -4307,11 +4395,11 @@ msgstr "Προορισμός:"
 #~ "useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
 #~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
 #~ "Public License for more details. You should have received a copy of the GNU "
-#~ "General Public License along with this program; if not, see "
-#~ "<http://www.gnu.org/licenses>."
+#~ "General Public License along with this program; if not, see <http://www.gnu."
+#~ "org/licenses>."
 #~ msgstr ""
-#~ "Το πρόγραμμα αυτό είναι ελεύθερο λογισμικό, μπορείτε να το αναδιανείμετε "
-#~ "ή/και να το τροποποιήσετε κάτω από τους όρους της Γενικής Άδειας Χρήσης GNU "
+#~ "Το πρόγραμμα αυτό είναι ελεύθερο λογισμικό, μπορείτε να το αναδιανείμετε ή/"
+#~ "και να το τροποποιήσετε κάτω από τους όρους της Γενικής Άδειας Χρήσης GNU "
 #~ "(GNU General Public License) όπως δημοσιεύεται από το Ίδρυμα Ελεύθερου "
 #~ "Λογισμικού (Free Software Foundation), είτε την έκδοση 3 της Άδειας είτε "
 #~ "(στην επιλογή σας) οποιαδήποτε μετέπειτα έκδοση. Το πρόγραμμα διανείμεται με "
@@ -4328,11 +4416,9 @@ msgstr "Προορισμός:"
 #~ msgid "Check for every (days)"
 #~ msgstr "Ελέγχος κάθε (μέρες)"
 
-#, python-format
 #~ msgid "Downloading %.2f%%"
 #~ msgstr "Γίνεται λήψη %.2f%%"
 
-#, python-format
 #~ msgid "Importing %s"
 #~ msgstr "Εισαγωγή %s"
 
@@ -4345,7 +4431,6 @@ msgstr "Προορισμός:"
 #~ msgid "Import on daemon startup"
 #~ msgstr "Εισαγωγή στην εκκίνηση του δαίμονα"
 
-#, python-format
 #~ msgid "Blocked Ranges: %s"
 #~ msgstr "Μπλοκαρισμένα Διαστήματα: %s"
 
@@ -4485,14 +4570,12 @@ msgstr "Προορισμός:"
 #~ msgid "State"
 #~ msgstr "Κατάσταση"
 
-#, python-format
 #~ msgid "Including %i files"
 #~ msgstr "Συμπεριλαμβάνω %i αρχεία"
 
-#, python-format
 #~ msgid ""
-#~ "This email is to inform you that Deluge has finished downloading %s ,        "
-#~ "     which includes %i files.\n"
+#~ "This email is to inform you that Deluge has finished downloading "
+#~ "%s ,             which includes %i files.\n"
 #~ "To stop receiving these alerts, simply turn off             email "
 #~ "notification in Deluge's preferences.\n"
 #~ "\n"
@@ -4529,11 +4612,9 @@ msgstr "Προορισμός:"
 #~ msgstr ""
 #~ "Χειροκίνητα επανεκκινήστε την διεπαφή web για να εφαρμοστούν οι ρυθμίσεις."
 
-#, python-format
 #~ msgid "Key not found at '%s'"
 #~ msgstr "Το κλειδί δεν βρέθηκε στο '%s'"
 
-#, python-format
 #~ msgid "Certificate not found at '%s'"
 #~ msgstr "Το πιστοποιητικό δεν βρέθηκε στο '%s'"
 
@@ -4657,7 +4738,6 @@ msgstr "Προορισμός:"
 #~ msgid "Upload Slot Limit"
 #~ msgstr "Όριο Θυρών Αποστολής"
 
-#, python-format
 #~ msgid "%.2f%%"
 #~ msgstr "%.2f%%"
 
@@ -4676,7 +4756,6 @@ msgstr "Προορισμός:"
 #~ msgid "Downloading.."
 #~ msgstr "Λήψη..."
 
-#, python-format
 #~ msgid "%s is not a valid URL."
 #~ msgstr "Το %s δεν είναι έγκυρο URL."
 
@@ -4687,7 +4766,6 @@ msgstr "Προορισμός:"
 #~ "Deluge\n"
 #~ "Αποσυνδεδεμένο"
 
-#, python-format
 #~ msgid "Failed to download : %s"
 #~ msgstr "Αποτυχία λήψης του: %s"
 

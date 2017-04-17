@@ -8,14 +8,15 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-07-10 16:58+0100\n"
-"PO-Revision-Date: 2010-09-19 14:58+0000\n"
+"PO-Revision-Date: 2015-07-15 14:17-0400\n"
 "Last-Translator: Kabi <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-07-11 13:02+0000\n"
-"X-Generator: Launchpad (build 13388)\n"
+"X-Generator: Poedit 1.8.2\n"
+"Language: cs\n"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:175
 #: deluge/ui/gtkui/glade/connection_manager.glade:28
@@ -223,8 +224,7 @@ msgstr "Šifrovat celý datový tok"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1443
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1528
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
-msgstr ""
-"Maximum odesílacích slotů pro všechny torrenty. Zadejte -1 pro neomezené."
+msgstr "Maximum odesílacích slotů pro všechny torrenty. Zadejte -1 pro neomezené."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1445
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1680
@@ -237,16 +237,15 @@ msgstr "Ignorovat limity pro lokální síť"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1577
 msgid ""
-"If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
-"to avoid exceeding the limits with the total traffic"
+"If checked, the estimated TCP/IP overhead is drained from the rate limiters, to "
+"avoid exceeding the limits with the total traffic"
 msgstr ""
-"Je-li zaškrtnuto, nebude TCP/IP režie přenosu započítána do celkových "
-"limitů, může dojít k jejich překročení."
+"Je-li zaškrtnuto, nebude TCP/IP režie přenosu započítána do celkových limitů, "
+"může dojít k jejich překročení."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1633
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
-msgstr ""
-"Maximální počet odesílacích slotů na torrent.  Zadejte -1 pro neomezené."
+msgstr "Maximální počet odesílacích slotů na torrent.  Zadejte -1 pro neomezené."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2711
 msgid "Periodically check the website for new releases"
@@ -283,231 +282,6 @@ msgstr "<big><b>Upravit trackery</b></big>"
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
 msgid "Remove With _Data"
 msgstr "Odstranit včetně _dat"
-
-#~ msgid "page 11"
-#~ msgstr "strana 11"
-
-#~ msgid "Homepage"
-#~ msgstr "Domácí stránka"
-
-#~ msgid "max_connections"
-#~ msgstr "max_spojení"
-
-#~ msgid "move_completed"
-#~ msgstr "přesun_kompletní"
-
-#~ msgid "stop_ratio"
-#~ msgstr "stop_poměr"
-
-#~ msgid "stop_at_ratio"
-#~ msgstr "zastav_při_poměru"
-
-#~ msgid "is_auto_managed"
-#~ msgstr "je_automaticky_řízen"
-
-#~ msgid "move_completed_path"
-#~ msgstr "přesun_kompletních_cesta"
-
-#~ msgid "remove_at_ratio"
-#~ msgstr "smaž_při_poměru"
-
-#~ msgid "BlockList"
-#~ msgstr "BlockList"
-
-#~ msgid "Timeout (seconds)"
-#~ msgstr "Timeout (sekundy)"
-
-#~ msgid "Other.."
-#~ msgstr "Ostatní.."
-
-#~ msgid "Connect"
-#~ msgstr "Připojit se"
-
-#~ msgid "Statistics"
-#~ msgstr "Statistiky"
-
-#~ msgid "To"
-#~ msgstr "Do"
-
-#~ msgid "Forced"
-#~ msgstr "Vynucené"
-
-#~ msgid "Maximum Connections"
-#~ msgstr "Maximální počet spojení"
-
-#~ msgid "This field is required."
-#~ msgstr "Toto políčko je požadováno."
-
-#, python-format
-#~ msgid "Ensure this value is greater than or equal to %s."
-#~ msgstr "Zajisti aby hodnota byla více než nebo rovna %s."
-
-#~ msgid "Enter a whole number."
-#~ msgstr "Zadej celé číslo."
-
-#, python-format
-#~ msgid "Ensure this value is less than or equal to %s."
-#~ msgstr "Zajisti aby hodnota byla méně než nebo rovna %s."
-
-#~ msgid "Enter a valid e-mail address."
-#~ msgstr "Zadej platnou emailovou adresu."
-
-#~ msgid "Enter a valid time."
-#~ msgstr "Zadej platný čas."
-
-#~ msgid "Enter a valid date/time."
-#~ msgstr "Zadej platnýé datum/čas."
-
-#~ msgid "Enter a number."
-#~ msgstr "Zadej číslo."
-
-#~ msgid "Enter a valid date."
-#~ msgstr "Zadej platné datum."
-
-#~ msgid "Enter a valid URL."
-#~ msgstr "Zadej platnou URL."
-
-#~ msgid "Error in Path."
-#~ msgstr "Chybně nastavená cesta."
-
-#~ msgid "Download Location"
-#~ msgstr "Umístění stahování"
-
-#~ msgid "Disk Space"
-#~ msgstr "Volné místo na disku"
-
-#~ msgid "Label torrent"
-#~ msgstr "Torrent se štítkem"
-
-#~ msgid "From Url"
-#~ msgstr "Z URL"
-
-#~ msgid "Restart"
-#~ msgstr "Restart"
-
-#~ msgid "No Incoming Connections"
-#~ msgstr "Žádná přichozí spojení"
-
-#~ msgid "Ok"
-#~ msgstr "Ok"
-
-#~ msgid "Times to attempt download"
-#~ msgstr "Počet pokusů o stažení"
-
-#~ msgid "Inactive"
-#~ msgstr "Neaktivní"
-
-#~ msgid ""
-#~ "This program is free software; you can redistribute it and/or modify it "
-#~ "under the terms of the GNU General Public License as published by the Free "
-#~ "Software Foundation; either version 3 of the License, or (at your option) "
-#~ "any later version. This program is distributed in the hope that it will be "
-#~ "useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
-#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
-#~ "Public License for more details. You should have received a copy of the GNU "
-#~ "General Public License along with this program; if not, see "
-#~ "<http://www.gnu.org/licenses>."
-#~ msgstr ""
-#~ "Tento program je volný software; můžete jej šířit a modifikovat podle "
-#~ "ustanovení Obecné veřejné licence GNU, vydávané Free Software Foundation; a "
-#~ "to buď verze 3 této licence anebo (podle vašeho uvážení) kterékoli pozdější "
-#~ "verze. Tento program je šířen v naději, že bude užitečný, avšak BEZ JAKÉKOLI "
-#~ "ZÁRUKY; neposkytují se ani odvozené záruky PRODEJNOSTI anebo VHODNOSTI PRO "
-#~ "URČITÝ ÚČEL. Další podrobnosti hledejte v Obecné veřejné licenci GNU. Kopii "
-#~ "Obecné veřejné licence GNU by jste měli obdržet spolu s tímto programem; "
-#~ "pokud se tak nestalo, navštivte <http://www.gnu.org/licenses>. Tento překlad "
-#~ "neni závazný, GNU General Public License platí pouze v originále, proto "
-#~ "tento překlad berte pouze jako orientační."
-
-#~ msgid "Enter a valid IPv4 address."
-#~ msgstr "Zadej platnou IPv4 adresu"
-
-#~ msgid "These changes were saved"
-#~ msgstr "Změny byly uloženy"
-
-#~ msgid "Stop seed at ratio"
-#~ msgstr "Zastavit sdílení při poměru"
-
-#~ msgid "auto_add_trackers"
-#~ msgstr "auto_přidat_trakař"
-
-#, python-format
-#~ msgid "Importing %s"
-#~ msgstr "Importování %s"
-
-#, python-format
-#~ msgid "Downloading %.2f%%"
-#~ msgstr "Stahování %.2f%%"
-
-#~ msgid "Check for every (days)"
-#~ msgstr "Kontrolovat každých (dní)"
-
-#~ msgid "Refresh status"
-#~ msgstr "Obnovit stav"
-
-#~ msgid ""
-#~ "Deluge is password protected.\n"
-#~ "To show the Deluge window, please enter your password"
-#~ msgstr ""
-#~ "Deluge je chráněn heslem.\n"
-#~ "Pro zobrazení okna Deluge prosím zadejte své heslo"
-
-#~ msgid "Delete"
-#~ msgstr "Smazat"
-
-#~ msgid "Queue Top"
-#~ msgstr "Přesunout nahoru"
-
-#~ msgid "Start"
-#~ msgstr "Spustitit"
-
-#~ msgid "Queue Bottom"
-#~ msgstr "Přesunout dolů"
-
-#~ msgid "Maximum Download Speed (Kib/s)"
-#~ msgstr "Maximální rychlost stahování (KiB/s)"
-
-#~ msgid "Maximum Upload Speed (Kib/s)"
-#~ msgstr "Maximální rychlost odesílání (KiB/s)"
-
-#~ msgid "Download"
-#~ msgstr "Stahování"
-
-#~ msgid "Save .torrent files to"
-#~ msgstr "Uložit .torrent soubory do"
-
-#~ msgid "Total active torrents"
-#~ msgstr "Celkový počet aktivních torrentů"
-
-#~ msgid "-1 = unlimited"
-#~ msgstr "-1 = neomezeno"
-
-#~ msgid "Total active downloading"
-#~ msgstr "Celkový počet aktivních stahování"
-
-#~ msgid "Global"
-#~ msgstr "Celková"
-
-#~ msgid "Store all downoads in"
-#~ msgstr "Ukládat veškerá stahování do"
-
-#~ msgid "Total active seeding"
-#~ msgstr "Celkový počet sdílení jako zdroj"
-
-#~ msgid "Sidebar"
-#~ msgstr "Postranní panel"
-
-#~ msgid "... and delete Downloaded files"
-#~ msgstr "... a smazat stažené soubory"
-
-#~ msgid "Connect to Daemon"
-#~ msgstr "Připojit se k démonu"
-
-#~ msgid "Upload"
-#~ msgstr "Odesílání"
-
-#~ msgid "General"
-#~ msgstr "Všeobecné"
 
 #: deluge/common.py:274
 msgid "KiB"
@@ -549,112 +323,133 @@ msgid "GiB/s"
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
+#, fuzzy
 msgid "Notification Blink shown"
-msgstr ""
+msgstr "Blikání oznámení zobrazeno"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:183
+#, fuzzy
 msgid "Popup notification is not enabled."
-msgstr ""
+msgstr "Místní oznámení není povolen."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:185
+#, fuzzy
 msgid "pynotify is not installed"
-msgstr ""
+msgstr "pynotify není nainstalována"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:193
+#, fuzzy
 msgid "pynotify failed to show notification"
-msgstr ""
+msgstr "pynotify se nepodařilo zobrazit upozornění"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:196
+#, fuzzy
 msgid "Notification popup shown"
-msgstr ""
+msgstr "Zobrazí informační okno"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:200
+#, fuzzy
 msgid "Sound notification not enabled"
-msgstr ""
+msgstr "Zvukové upozornění není povolen"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:202
+#, fuzzy
 msgid "pygame is not installed"
-msgstr ""
+msgstr "PyGame není nainstalována"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:214
-#, python-format
+#, fuzzy, python-format
 msgid "Sound notification failed %s"
-msgstr ""
+msgstr "Zvukové upozornění %s se nezdařilo."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:218
+#, fuzzy
 msgid "Sound notification Success"
-msgstr ""
+msgstr "Zvukové upozornění úspěch"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:241
+#, fuzzy
 msgid "Finished Torrent"
-msgstr ""
+msgstr "Hotové Torrent"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:242
-#, python-format
-msgid ""
-"The torrent \"%(name)s\" including %(num_files)i has finished downloading."
-msgstr ""
+#, fuzzy, python-format
+msgid "The torrent \"%(name)s\" including %(num_files)i has finished downloading."
+msgstr "Torrent \"% (name) s\" včetně % (num_files) jsem dokončil stahování."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:646
+#, fuzzy
 msgid "Choose Sound File"
-msgstr ""
+msgstr "Vybrat zvukový soubor"
 
 #: deluge/plugins/notifications/notifications/core.py:138
 #: deluge/plugins/notifications/notifications/core.py:171
-#, python-format
+#, fuzzy, python-format
 msgid "There was an error sending the notification email: %s"
-msgstr ""
+msgstr "Došlo k chybě při odesílání e-mailem oznámení: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:157
-#, python-format
+#, fuzzy, python-format
 msgid "The server didn't reply properly to the helo greeting: %s"
-msgstr ""
+msgstr "Server nebyl správně odpovědět na pozdrav helo: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:162
-#, python-format
+#, fuzzy, python-format
 msgid "The server didn't accept the username/password combination: %s"
-msgstr ""
+msgstr "Server nepřijal kombinace uživatelského jména a hesla: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:186
+#, fuzzy
 msgid "Notification email sent."
-msgstr ""
+msgstr "E-mailem oznámení odesláno."
 
 #: deluge/plugins/notifications/notifications/core.py:194
-#, python-format
+#, fuzzy, python-format
 msgid "Finished Torrent \"%(name)s\""
-msgstr ""
+msgstr "Dokončené Torrent \"% (name) s\""
 
 #: deluge/plugins/notifications/notifications/core.py:196
-#, python-format
+#, fuzzy, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading "
-"\"%(name)s\", which includes %(num_files)i files.\n"
-"To stop receiving these alerts, simply turn off email notification in "
-"Deluge's preferences.\n"
+"This email is to inform you that Deluge has finished downloading \"%(name)s\", "
+"which includes %(num_files)i files.\n"
+"To stop receiving these alerts, simply turn off email notification in Deluge's "
+"preferences.\n"
 "\n"
 "Thank you,\n"
 "Deluge."
 msgstr ""
+"Tento email je vás informovat, že povodeň je dokončeno stahování \"% (name) s"
+"\", který zahrnuje % (num_files) jsem soubory.\n"
+"Nechcete-li zobrazovat tyto výstrahy, jednoduše vypnete oznámení e-mailem v "
+"předvolbách si potopa.\n"
+"\n"
+"Děkuji, Potopa."
 
 #: deluge/plugins/notifications/notifications/data/config.glade:29
+#, fuzzy
 msgid "<b><i><big>Notifications</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Oznámení</big></i></b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:81
+#, fuzzy
 msgid "Tray icon blinks enabled"
-msgstr ""
+msgstr "Podnos ikona bliká povoleno"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:93
+#, fuzzy
 msgid "Popups enabled"
-msgstr ""
+msgstr "Povolit vyskakovací okna"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:108
+#, fuzzy
 msgid "Sound enabled"
-msgstr ""
+msgstr "Povolit zvuk"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:144
+#, fuzzy
 msgid "<b>UI Notifications</b>"
-msgstr ""
+msgstr "<b>UI oznámení</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:199
 #: deluge/ui/gtkui/glade/connection_manager.glade:56
@@ -663,7 +458,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3726
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3912
 msgid "Port:"
-msgstr "Port:"
+msgstr ""
 
 #: deluge/plugins/notifications/notifications/data/config.glade:231
 #: deluge/ui/gtkui/glade/connection_manager.glade:143
@@ -685,12 +480,14 @@ msgid "Password:"
 msgstr "Heslo:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:360
+#, fuzzy
 msgid "<b>Recipients</b>"
-msgstr ""
+msgstr "<b>Příjemci:</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:383
+#, fuzzy
 msgid "Server requires TLS/SSL"
-msgstr ""
+msgstr "Server vyžaduje TLS/SSL"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:398
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:633
@@ -704,43 +501,54 @@ msgid "Enabled"
 msgstr "Povolen"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:443
+#, fuzzy
 msgid "<b>Email Notifications</b>"
-msgstr ""
+msgstr "Oznámení e-mailů:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:460
+#, fuzzy
 msgid "Settings"
-msgstr ""
+msgstr "Nastavení"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:495
+#, fuzzy
 msgid ""
-"This configuration does not mean that you'll actually receive notifications "
-"for all these events."
+"This configuration does not mean that you'll actually receive notifications for "
+"all these events."
 msgstr ""
+"Tato konfigurace však neznamená, že skutečně obdržíte oznámení pro všechny tyto "
+"události."
 
 #: deluge/plugins/notifications/notifications/data/config.glade:513
+#, fuzzy
 msgid "Subscriptions"
-msgstr ""
+msgstr "Odběry"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:594
+#, fuzzy
 msgid "Sound Customization"
-msgstr ""
+msgstr "Zvukové úpravy"
 
 #: deluge/plugins/autoadd/autoadd/core.py:136
+#, fuzzy
 msgid "Watch folder does not exist."
-msgstr ""
+msgstr "Sledujte složka neexistuje."
 
 #: deluge/plugins/autoadd/autoadd/core.py:139
 #: deluge/plugins/autoadd/autoadd/core.py:308
+#, fuzzy
 msgid "Path does not exist."
-msgstr ""
+msgstr "Cesta neexistuje."
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
+#, fuzzy
 msgid "AutoAdd Error"
-msgstr ""
+msgstr "AutoAdd chyba"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:78
+#, fuzzy
 msgid "Watch Folder Properties"
-msgstr ""
+msgstr "Sledovat vlastnosti složky"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
@@ -755,32 +563,39 @@ msgid "Select A Folder"
 msgstr "Vyberte složku"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:143
+#, fuzzy
 msgid "Enable this watch folder"
-msgstr ""
+msgstr "Povolit tuto sledované složky"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:164
+#, fuzzy
 msgid "<b>Watch Folder</b>"
-msgstr ""
+msgstr "<b>Sledované složky</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:195
+#, fuzzy
 msgid "Delete .torrent after adding"
-msgstr ""
+msgstr "Po přidání odstranit .torrent"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:211
+#, fuzzy
 msgid "Append extension after adding:"
-msgstr ""
+msgstr "Po přidání příponu:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:228
+#, fuzzy
 msgid ".added"
-msgstr ""
+msgstr "Přidáno"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:248
+#, fuzzy
 msgid "<b>Torrent File Action</b>"
-msgstr ""
+msgstr "<b>Torrent souboru akce</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:275
+#, fuzzy
 msgid "Set download location"
-msgstr ""
+msgstr "Nastavit umístění"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:325
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:396
@@ -788,24 +603,29 @@ msgid "<b>Download Location</b>"
 msgstr "<b>Cílová složka</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:353
+#, fuzzy
 msgid "Set move completed location"
-msgstr ""
+msgstr "Umístění nastavení přesunout dokončená"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:418
+#, fuzzy
 msgid "<b>Move Completed</b>"
-msgstr ""
+msgstr "<b>Přesun dokončen</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:444
+#, fuzzy
 msgid "Label: "
-msgstr ""
+msgstr "Značka:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:475
+#, fuzzy
 msgid "<b>Label</b>"
-msgstr ""
+msgstr "Etiketa"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:492
+#, fuzzy
 msgid "Main"
-msgstr ""
+msgstr "Hlavní"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:524
 #: deluge/ui/gtkui/glade/main_window.glade:1811
@@ -842,16 +662,19 @@ msgid "Remove at ratio"
 msgstr "Odstranit při poměru"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:762
+#, fuzzy
 msgid "Auto Managed:"
-msgstr ""
+msgstr "Auto se podařilo:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:890
+#, fuzzy
 msgid "Add Paused:"
-msgstr ""
+msgstr "Přidáte pozastaveno:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:936
+#, fuzzy
 msgid "Queue to:"
-msgstr ""
+msgstr "Fronty na:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:954
 msgid "Top"
@@ -867,8 +690,9 @@ msgid "<b>Queue</b>"
 msgstr "<b>Fronta</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/config.glade:41
+#, fuzzy
 msgid "<b>Watch Folders:</b>"
-msgstr ""
+msgstr "<b>Sledované složky:</b>"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:238
 msgid "Download Limit:"
@@ -883,12 +707,14 @@ msgid "Active Torrents:"
 msgstr "Aktivní torrenty:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:265
+#, fuzzy
 msgid "Active Downloading:"
-msgstr ""
+msgstr "Aktivní stahování:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:274
+#, fuzzy
 msgid "Active Seeding:"
-msgstr ""
+msgstr "Aktivní setí:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:288
 msgid "<b>Slow Settings</b>"
@@ -902,8 +728,7 @@ msgstr "Prázdný štítek"
 msgid "Label already exists"
 msgstr "Štítek již existuje"
 
-#: deluge/plugins/label/label/core.py:199
-#: deluge/plugins/label/label/core.py:279
+#: deluge/plugins/label/label/core.py:199 deluge/plugins/label/label/core.py:279
 #: deluge/plugins/label/label/core.py:314
 msgid "Unknown Label"
 msgstr "Neznámý štítek"
@@ -1011,8 +836,7 @@ msgstr "Název:"
 #: deluge/plugins/label/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
 msgstr ""
-"<i>Použijte postranní panel pro přidávání, úpravu a odstraňování "
-"štítků.</i>\n"
+"<i>Použijte postranní panel pro přidávání, úpravu a odstraňování štítků.</i>\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:32
 msgid "<b>Labels</b>"
@@ -1031,8 +855,8 @@ msgid ""
 "This option will create a sub-folder using the torrent's name within the "
 "selected extract folder and put the extracted files there."
 msgstr ""
-"Tato volba vytvoří ve zvolené složce podsložku s názvem torrentu a umístí do "
-"ní rozbalené soubory."
+"Tato volba vytvoří ve zvolené složce podsložku s názvem torrentu a umístí do ní "
+"rozbalené soubory."
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:53
@@ -1043,10 +867,12 @@ msgid "<b>General</b>"
 msgstr "<b>Všeobecné</b>"
 
 #: deluge/plugins/webui/webui/gtkui.py:97
+#, fuzzy
 msgid ""
 "The Deluge web interface is not installed, please install the\n"
 "interface and try again"
 msgstr ""
+"Záplava webové rozhraní není nainstalován, nainstalujte rozhraní a opakujte akci"
 
 #: deluge/plugins/webui/webui/data/config.glade:27
 msgid "Enable web interface"
@@ -2244,8 +2070,7 @@ msgstr "Rychl. stah."
 msgid "Up Speed"
 msgstr "Rychl. odes."
 
-#: deluge/ui/gtkui/queuedtorrents.py:75
-#: deluge/ui/gtkui/addtorrentdialog.py:103
+#: deluge/ui/gtkui/queuedtorrents.py:75 deluge/ui/gtkui/addtorrentdialog.py:103
 msgid "Torrent"
 msgstr "Torrent"
 
@@ -2280,8 +2105,9 @@ msgid "Deluge"
 msgstr "Deluge"
 
 #: deluge/ui/gtkui/systemtray.py:201
+#, fuzzy
 msgid "Not Connected..."
-msgstr ""
+msgstr "Není připojen..."
 
 #: deluge/ui/gtkui/systemtray.py:403 deluge/ui/gtkui/statusbar.py:401
 #: deluge/ui/gtkui/menubar.py:436
@@ -2294,49 +2120,55 @@ msgid "Set Maximum Upload Speed"
 msgstr "Nastavit maximální rychlost odesílání"
 
 #: deluge/ui/gtkui/systemtray.py:470
+#, fuzzy
 msgid "Deluge is password protected!"
-msgstr ""
+msgstr "Povodeň je chráněn heslem."
 
 #: deluge/ui/gtkui/systemtray.py:476
+#, fuzzy
 msgid "Enter your password to continue"
-msgstr ""
+msgstr "Zadejte heslo pro pokračování"
 
 #: deluge/ui/gtkui/notification.py:79
 msgid "Torrent complete"
 msgstr "Torrent dokončen"
 
 #: deluge/ui/gtkui/notification.py:80
+#, fuzzy
 msgid "Including"
-msgstr ""
+msgstr "Inkluze"
 
 #: deluge/ui/gtkui/notification.py:80
+#, fuzzy
 msgid "files"
-msgstr ""
+msgstr "Soubory"
 
 #: deluge/ui/gtkui/notification.py:109
 #, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading %(name)s ,  "
-"           which includes %(num_files)i files.\n"
-"To stop receiving these alerts, simply turn off             email "
-"notification in Deluge's preferences.\n"
+"This email is to inform you that Deluge has finished downloading "
+"%(name)s ,             which includes %(num_files)i files.\n"
+"To stop receiving these alerts, simply turn off             email notification "
+"in Deluge's preferences.\n"
 "\n"
 "Thank you,\n"
 "Deluge"
 msgstr ""
-"Tento email vás informuje, že Deluge dokončil stahování %(name)s , jež "
-"obsahuje %(num_files)i souborů. Pokud si již nepřejete dostávat tato "
-"upozornění, jednoduše vypněte emailové oznamovaní v nastavení Deluge.\n"
+"Tento email vás informuje, že Deluge dokončil stahování %(name)s , jež obsahuje "
+"%(num_files)i souborů. Pokud si již nepřejete dostávat tato upozornění, "
+"jednoduše vypněte emailové oznamovaní v nastavení Deluge.\n"
 "Děkuji,\n"
 "Deluge"
 
 #: deluge/ui/gtkui/new_release_dialog.py:72
+#, fuzzy
 msgid "<i>Client Version</i>"
-msgstr ""
+msgstr "<i>Klientská verze</i>"
 
 #: deluge/ui/gtkui/preferences.py:72
+#, fuzzy
 msgid "Categories"
-msgstr ""
+msgstr "Kategorie"
 
 #: deluge/ui/gtkui/preferences.py:76
 msgid "Downloads"
@@ -2414,10 +2246,13 @@ msgid "Unable to set file priority!"
 msgstr "Nelze nastavit prioritu souboru!"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:492
+#, fuzzy
 msgid ""
 "File prioritization is unavailable when using Compact allocation.  Would you "
 "like to switch to Full allocation?"
 msgstr ""
+"Stanovení priority souborů není k dispozici při použití kompaktní přidělení.  "
+"Chcete přepnout na úplné rozdělení?"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:541
 msgid "Choose a .torrent file"
@@ -2438,20 +2273,23 @@ msgid "Invalid URL"
 msgstr "Neplatná URL"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:622
+#, fuzzy
 msgid "is not a valid URL."
-msgstr ""
+msgstr "není platná adresa URL."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:626
+#, fuzzy
 msgid "Downloading..."
-msgstr ""
+msgstr "Stahuji..."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
 msgid "Download Failed"
 msgstr "Stahování selhalo"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
+#, fuzzy
 msgid "Failed to download:"
-msgstr ""
+msgstr "Nepodařilo se stáhnout:"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:103
 #: deluge/ui/gtkui/edittrackersdialog.py:84
@@ -2496,8 +2334,9 @@ msgid "Protocol Traffic Download/Upload"
 msgstr "Režie přenosu stahování/odesílání"
 
 #: deluge/ui/gtkui/statusbar.py:186
+#, fuzzy
 msgid "Free Disk Space"
-msgstr ""
+msgstr "Volný prostor"
 
 #: deluge/ui/gtkui/statusbar.py:190
 msgid "No Incoming Connections!"
@@ -2512,8 +2351,9 @@ msgid "Torrents"
 msgstr "Torrenty"
 
 #: deluge/ui/gtkui/filtertreeview.py:69
+#, fuzzy
 msgid "States"
-msgstr ""
+msgstr "Stavy:"
 
 #: deluge/ui/gtkui/filtertreeview.py:71
 msgid "Labels"
@@ -2544,70 +2384,79 @@ msgid "Queued"
 msgstr "Ve frontě"
 
 #: deluge/ui/gtkui/filtertreeview.py:79
+#, fuzzy
 msgid "Active"
-msgstr ""
+msgstr "Aktivní"
 
 #: deluge/ui/gtkui/aboutdialog.py:253
 msgid ""
-"This program is free software; you can redistribute it and/or modify it "
-"under the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 3 of the License, or (at your option) "
-"any later version. \n"
+"This program is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free Software "
+"Foundation; either version 3 of the License, or (at your option) any later "
+"version. \n"
 "\n"
-"This program is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
-"more details. \n"
+"This program is distributed in the hope that it will be useful, but WITHOUT ANY "
+"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A "
+"PARTICULAR PURPOSE. See the GNU General Public License for more details. \n"
 "\n"
 "You should have received a copy of the GNU General Public License along with "
 "this program; if not, see <http://www.gnu.org/licenses>. \n"
 "\n"
-"In addition, as a special exception, the copyright holders give permission "
-"to link the code of portions of this program with the OpenSSL library. You "
-"must obey the GNU General Public License in all respects for all of the code "
-"used other than OpenSSL. \n"
+"In addition, as a special exception, the copyright holders give permission to "
+"link the code of portions of this program with the OpenSSL library. You must "
+"obey the GNU General Public License in all respects for all of the code used "
+"other than OpenSSL. \n"
 "\n"
 "If you modify file(s) with this exception, you may extend this exception to "
-"your version of the file(s), but you are not obligated to do so. If you do "
-"not wish to do so, delete this exception statement from your version. If you "
-"delete this exception statement from all source files in the program, then "
-"also delete it here."
+"your version of the file(s), but you are not obligated to do so. If you do not "
+"wish to do so, delete this exception statement from your version. If you delete "
+"this exception statement from all source files in the program, then also delete "
+"it here."
 msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:149
+#, fuzzy
 msgid "Status"
-msgstr ""
+msgstr "Stav"
 
 #: deluge/ui/gtkui/connectionmanager.py:153
 msgid "Host"
 msgstr "Hostitel"
 
 #: deluge/ui/gtkui/connectionmanager.py:158
+#, fuzzy
 msgid "Version"
-msgstr ""
+msgstr "Verzia"
 
 #: deluge/ui/gtkui/connectionmanager.py:386
+#, fuzzy
 msgid "_Stop Daemon"
-msgstr ""
+msgstr "_Stop démon"
 
 #: deluge/ui/gtkui/connectionmanager.py:394
+#, fuzzy
 msgid "_Start Daemon"
-msgstr ""
+msgstr "_Start démon"
 
 #: deluge/ui/gtkui/connectionmanager.py:414
 #: deluge/ui/gtkui/connectionmanager.py:424
+#, fuzzy
 msgid "Unable to start daemon!"
-msgstr ""
+msgstr "Nelze spustit démona!"
 
 #: deluge/ui/gtkui/connectionmanager.py:415
+#, fuzzy
 msgid ""
 "Deluge cannot find the 'deluged' executable, it is likely that you forgot to "
 "install the deluged package or it's not in your PATH."
 msgstr ""
+"Záplava nemůže najít spustitelný soubor \"deluged\", je pravděpodobné, že jste "
+"zapomněli nainstalovat balíček deluged, nebo to není ve vaší PATH."
 
 #: deluge/ui/gtkui/connectionmanager.py:425
+#, fuzzy
 msgid "Please examine the details for more information."
-msgstr ""
+msgstr "Podívejte se na podrobnosti další informace."
 
 #: deluge/ui/gtkui/connectionmanager.py:509
 msgid "Error Adding Host"
@@ -2634,8 +2483,8 @@ msgstr "Chyba při spouštění jádra"
 
 #: deluge/ui/gtkui/gtkui.py:313
 msgid ""
-"There was an error starting the core component which is required to run "
-"Deluge in Classic Mode.\n"
+"There was an error starting the core component which is required to run Deluge "
+"in Classic Mode.\n"
 "\n"
 "Please see the details below for more information."
 msgstr ""
@@ -2646,8 +2495,8 @@ msgstr ""
 
 #: deluge/ui/gtkui/gtkui.py:318
 msgid ""
-"Since there was an error starting in Classic Mode would you like to continue "
-"by turning it off?"
+"Since there was an error starting in Classic Mode would you like to continue by "
+"turning it off?"
 msgstr ""
 "Protože nastala chyba při spouštění v klasickém režimu, chcete pokračovat s "
 "jeho vypnutím?"
@@ -2658,11 +2507,11 @@ msgstr "Chyba při spouštění démona"
 
 #: deluge/ui/gtkui/gtkui.py:343
 msgid ""
-"There was an error starting the daemon process.  Try running it from a "
-"console to see if there is an error."
+"There was an error starting the daemon process.  Try running it from a console "
+"to see if there is an error."
 msgstr ""
-"Při startu démona došlo k problému. Zkuste ho spustit z konzole, zda dojde "
-"ke stejnému problému."
+"Při startu démona došlo k problému. Zkuste ho spustit z konzole, zda dojde ke "
+"stejnému problému."
 
 #: deluge/ui/gtkui/status_tab.py:130 deluge/ui/gtkui/menubar.py:92
 msgid "Off"
@@ -2681,20 +2530,24 @@ msgid "Set Maximum Upload Slots"
 msgstr "Nastavit maximální počet slotů k odesílání"
 
 #: deluge/ui/gtkui/files_tab.py:56
+#, fuzzy
 msgid "Do Not Download"
-msgstr ""
+msgstr "Nestahujte"
 
 #: deluge/ui/gtkui/files_tab.py:57
+#, fuzzy
 msgid "Normal Priority"
-msgstr ""
+msgstr "Střední priorita"
 
 #: deluge/ui/gtkui/files_tab.py:58
+#, fuzzy
 msgid "High Priority"
-msgstr ""
+msgstr "Vysoká priorita"
 
 #: deluge/ui/gtkui/files_tab.py:59
+#, fuzzy
 msgid "Highest Priority"
-msgstr ""
+msgstr "Nejvyšší důležitost"
 
 #: deluge/ui/gtkui/files_tab.py:169
 msgid "Priority"
@@ -2713,12 +2566,14 @@ msgid "Uploaded"
 msgstr "Odesláno"
 
 #: deluge/ui/gtkui/torrentview.py:241
+#, fuzzy
 msgid "Down Limit"
-msgstr ""
+msgstr "Po limitu"
 
 #: deluge/ui/gtkui/torrentview.py:243
+#, fuzzy
 msgid "Up Limit"
-msgstr ""
+msgstr "Do limitu"
 
 #: deluge/ui/gtkui/torrentview.py:247
 msgid "Ratio"
@@ -2729,8 +2584,9 @@ msgid "Added"
 msgstr "Přidáno"
 
 #: deluge/ui/gtkui/torrentview.py:257
+#, fuzzy
 msgid "Save Path"
-msgstr ""
+msgstr "Ušetřit cestu"
 
 #: deluge/ui/gtkui/glade/main_window.glade:21
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:99
@@ -2748,8 +2604,9 @@ msgid "_Create Torrent"
 msgstr "_Vytvořit torrent"
 
 #: deluge/ui/gtkui/glade/main_window.glade:65
+#, fuzzy
 msgid "Quit & _Shutdown Daemon"
-msgstr ""
+msgstr "Ukončete & _Shutdown démona"
 
 #: deluge/ui/gtkui/glade/main_window.glade:101
 msgid "_Edit"
@@ -2920,12 +2777,14 @@ msgid "<b>ETA:</b>"
 msgstr "<b>Zbývající čas:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1032
+#, fuzzy
 msgid "<b>Up Speed:</b>"
-msgstr ""
+msgstr "<b>Rychlost odesílání:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1054
+#, fuzzy
 msgid "<b>Down Speed:</b>"
-msgstr ""
+msgstr "<b>Rychlost:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1073
 msgid "<b>Next Announce:</b>"
@@ -3010,8 +2869,7 @@ msgid "Remove Torrent?"
 msgstr "Odstranit torrent?"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2324
-msgid ""
-"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
+msgid "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
 msgstr "<big><b>Opravdu chcete odstranit vybraný torrent?</b></big>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2460
@@ -3027,8 +2885,9 @@ msgid "<i>Current Version:</i>"
 msgstr "<i>Současná verze:</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2604
+#, fuzzy
 msgid "<i>Server Version</i>"
-msgstr ""
+msgstr "<i>Verze serveru</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2637
 msgid "Do not show this dialog in the future"
@@ -3039,8 +2898,9 @@ msgid "_Goto Website"
 msgstr "_Přejít na webové stránky"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2704
+#, fuzzy
 msgid "_Add Peer"
-msgstr ""
+msgstr "Přidat peer"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2706
 msgid "Add a peer by its IP"
@@ -3172,6 +3032,7 @@ msgid "Piece Size:"
 msgstr "Velikost dílku:"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
+#, fuzzy
 msgid ""
 "32 KiB\n"
 "64 KiB\n"
@@ -3183,7 +3044,7 @@ msgid ""
 "4 MiB\n"
 "8 MiB\n"
 "16 MiB\n"
-msgstr ""
+msgstr "32 KB 64 KiB 128 KiB 256 KiB 512 KiB 1 MiB 2 MiB 4 MiB 8 MiB 16 MiB"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:580
 msgid "Set Private Flag"
@@ -3263,13 +3124,14 @@ msgid "Copy of .torrent files to:"
 msgstr "Kopírovat .torrent soubory do:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:316
+#, fuzzy
 msgid "Delete copy of torrent file on remove"
-msgstr ""
+msgstr "Odstranit kopii souboru torrent na chod"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:320
-msgid ""
-"Delete the copy of the torrent file created when the torrent is removed"
-msgstr ""
+#, fuzzy
+msgid "Delete the copy of the torrent file created when the torrent is removed"
+msgstr "Odstranit kopii torrent souboru vytvořeného při odebrání torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:337
 msgid "<b>Folders</b>"
@@ -3355,11 +3217,11 @@ msgstr "<b>Rozhraní</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:939
 msgid ""
-"The TOS byte set in the IP header of every packet sent to peers (including "
-"web seeds).  Expects a Hex value."
+"The TOS byte set in the IP header of every packet sent to peers (including web "
+"seeds).  Expects a Hex value."
 msgstr ""
-"TOS bajt nastavený v IP hlavičce každého paketu odeslaného protějškům "
-"(včetně webových zdrojů). Očekává HEX hodnotu."
+"TOS bajt nastavený v IP hlavičce každého paketu odeslaného protějškům (včetně "
+"webových zdrojů). Očekává HEX hodnotu."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:940
 msgid "Peer TOS Byte:"
@@ -3556,8 +3418,9 @@ msgid "Start in tray"
 msgstr "Při spuštění skrýt do oznamovací oblasti"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2078
+#, fuzzy
 msgid "Enable Application Indicator"
-msgstr ""
+msgstr "Povolit aplikaci indikátor"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2099
 msgid "Password protect system tray"
@@ -3587,8 +3450,8 @@ msgstr "<b>Aktualizace</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2326
 msgid ""
-"Help us improve Deluge by sending us your Python version, PyGTK version, OS "
-"and processor types.  Absolutely no other information is sent."
+"Help us improve Deluge by sending us your Python version, PyGTK version, OS and "
+"processor types.  Absolutely no other information is sent."
 msgstr ""
 "Pomozte nám vylepšit Deluge zasláním své verze Pythonu, PyGTK, OS a typu "
 "procesoru. Žádná další informace nebude odeslána."
@@ -3737,11 +3600,11 @@ msgstr "Velikost mezipaměti (16 KiB bloky):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4122
 msgid ""
-"The number of seconds from the last cached write to a piece in the write "
-"cache, to when it's forcefully flushed to disk. Default is 60 seconds."
+"The number of seconds from the last cached write to a piece in the write cache, "
+"to when it's forcefully flushed to disk. Default is 60 seconds."
 msgstr ""
-"Počet vteřin od posledního zapsání dat do paměti předtím, než jsou data "
-"zapsána na HDD. Standard je 60 vteřin."
+"Počet vteřin od posledního zapsání dat do paměti předtím, než jsou data zapsána "
+"na HDD. Standard je 60 vteřin."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4124
 msgid "Cache Expiry (seconds):"
@@ -3759,8 +3622,7 @@ msgstr "Zapsaných bloků:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4231
 msgid ""
-"The total number of write operations performed since this session was "
-"started."
+"The total number of write operations performed since this session was started."
 msgstr "Celkový počet zapisovacích operací od začátku sezení."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4233
@@ -3769,13 +3631,13 @@ msgstr "Zápisů:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4244
 msgid ""
-"The ratio (blocks_written - writes) / blocks_written represents the number "
-"of saved write operations per total write operations, i.e. a kind of cache "
-"hit ratio for the write cache."
+"The ratio (blocks_written - writes) / blocks_written represents the number of "
+"saved write operations per total write operations, i.e. a kind of cache hit "
+"ratio for the write cache."
 msgstr ""
-"Poměr (zapsaných_bloků - zápisů) / zapsaných_bloků představuje počet "
-"ušetřených zapisovacích operací ze všech zapisovacích operací, čili zásahů "
-"mezipaměti pro zápis."
+"Poměr (zapsaných_bloků - zápisů) / zapsaných_bloků představuje počet ušetřených "
+"zapisovacích operací ze všech zapisovacích operací, čili zásahů mezipaměti pro "
+"zápis."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4246
 msgid "Write Cache Hit Ratio:"
@@ -3831,8 +3693,7 @@ msgid ""
 "The number of 16 KiB blocks currently in the disk cache. This includes both "
 "read and write cache."
 msgstr ""
-"Počet 16 kiB bloků v diskové mezipaměti. Zahrnuje mezipaměť pro čtení i "
-"zápis."
+"Počet 16 kiB bloků v diskové mezipaměti. Zahrnuje mezipaměť pro čtení i zápis."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4464
 msgid "Cache Size:"
@@ -3947,16 +3808,19 @@ msgid "If you remove the data, it will be lost permanently."
 msgstr "Pokud data odstraníte, budou nenávratně ztracena."
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:127
+#, fuzzy
 msgid "action"
-msgstr ""
+msgstr "právní opatření (žaloba, ...)"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:129
+#, fuzzy
 msgid "Remove Files"
-msgstr ""
+msgstr "&Odebrat soubory"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:198
+#, fuzzy
 msgid "Keep Files"
-msgstr ""
+msgstr "Ponechat soubory"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:9
 msgid "Edit Trackers"
@@ -3997,6 +3861,227 @@ msgstr "<b>Přesunout úložiště</b>"
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:78
 msgid "Destination:"
 msgstr "Cíl:"
+
+#~ msgid "page 11"
+#~ msgstr "strana 11"
+
+#~ msgid "Homepage"
+#~ msgstr "Domácí stránka"
+
+#~ msgid "max_connections"
+#~ msgstr "max_spojení"
+
+#~ msgid "move_completed"
+#~ msgstr "přesun_kompletní"
+
+#~ msgid "stop_ratio"
+#~ msgstr "stop_poměr"
+
+#~ msgid "stop_at_ratio"
+#~ msgstr "zastav_při_poměru"
+
+#~ msgid "is_auto_managed"
+#~ msgstr "je_automaticky_řízen"
+
+#~ msgid "move_completed_path"
+#~ msgstr "přesun_kompletních_cesta"
+
+#~ msgid "remove_at_ratio"
+#~ msgstr "smaž_při_poměru"
+
+#~ msgid "BlockList"
+#~ msgstr "BlockList"
+
+#~ msgid "Timeout (seconds)"
+#~ msgstr "Timeout (sekundy)"
+
+#~ msgid "Other.."
+#~ msgstr "Ostatní.."
+
+#~ msgid "Connect"
+#~ msgstr "Připojit se"
+
+#~ msgid "Statistics"
+#~ msgstr "Statistiky"
+
+#~ msgid "To"
+#~ msgstr "Do"
+
+#~ msgid "Forced"
+#~ msgstr "Vynucené"
+
+#~ msgid "Maximum Connections"
+#~ msgstr "Maximální počet spojení"
+
+#~ msgid "This field is required."
+#~ msgstr "Toto políčko je požadováno."
+
+#~ msgid "Ensure this value is greater than or equal to %s."
+#~ msgstr "Zajisti aby hodnota byla více než nebo rovna %s."
+
+#~ msgid "Enter a whole number."
+#~ msgstr "Zadej celé číslo."
+
+#~ msgid "Ensure this value is less than or equal to %s."
+#~ msgstr "Zajisti aby hodnota byla méně než nebo rovna %s."
+
+#~ msgid "Enter a valid e-mail address."
+#~ msgstr "Zadej platnou emailovou adresu."
+
+#~ msgid "Enter a valid time."
+#~ msgstr "Zadej platný čas."
+
+#~ msgid "Enter a valid date/time."
+#~ msgstr "Zadej platnýé datum/čas."
+
+#~ msgid "Enter a number."
+#~ msgstr "Zadej číslo."
+
+#~ msgid "Enter a valid date."
+#~ msgstr "Zadej platné datum."
+
+#~ msgid "Enter a valid URL."
+#~ msgstr "Zadej platnou URL."
+
+#~ msgid "Error in Path."
+#~ msgstr "Chybně nastavená cesta."
+
+#~ msgid "Download Location"
+#~ msgstr "Umístění stahování"
+
+#~ msgid "Disk Space"
+#~ msgstr "Volné místo na disku"
+
+#~ msgid "Label torrent"
+#~ msgstr "Torrent se štítkem"
+
+#~ msgid "From Url"
+#~ msgstr "Z URL"
+
+#~ msgid "Restart"
+#~ msgstr "Restart"
+
+#~ msgid "No Incoming Connections"
+#~ msgstr "Žádná přichozí spojení"
+
+#~ msgid "Ok"
+#~ msgstr "Ok"
+
+#~ msgid "Times to attempt download"
+#~ msgstr "Počet pokusů o stažení"
+
+#~ msgid "Inactive"
+#~ msgstr "Neaktivní"
+
+#~ msgid ""
+#~ "This program is free software; you can redistribute it and/or modify it "
+#~ "under the terms of the GNU General Public License as published by the Free "
+#~ "Software Foundation; either version 3 of the License, or (at your option) "
+#~ "any later version. This program is distributed in the hope that it will be "
+#~ "useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
+#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
+#~ "Public License for more details. You should have received a copy of the GNU "
+#~ "General Public License along with this program; if not, see <http://www.gnu."
+#~ "org/licenses>."
+#~ msgstr ""
+#~ "Tento program je volný software; můžete jej šířit a modifikovat podle "
+#~ "ustanovení Obecné veřejné licence GNU, vydávané Free Software Foundation; a "
+#~ "to buď verze 3 této licence anebo (podle vašeho uvážení) kterékoli pozdější "
+#~ "verze. Tento program je šířen v naději, že bude užitečný, avšak BEZ JAKÉKOLI "
+#~ "ZÁRUKY; neposkytují se ani odvozené záruky PRODEJNOSTI anebo VHODNOSTI PRO "
+#~ "URČITÝ ÚČEL. Další podrobnosti hledejte v Obecné veřejné licenci GNU. Kopii "
+#~ "Obecné veřejné licence GNU by jste měli obdržet spolu s tímto programem; "
+#~ "pokud se tak nestalo, navštivte <http://www.gnu.org/licenses>. Tento překlad "
+#~ "neni závazný, GNU General Public License platí pouze v originále, proto "
+#~ "tento překlad berte pouze jako orientační."
+
+#~ msgid "Enter a valid IPv4 address."
+#~ msgstr "Zadej platnou IPv4 adresu"
+
+#~ msgid "These changes were saved"
+#~ msgstr "Změny byly uloženy"
+
+#~ msgid "Stop seed at ratio"
+#~ msgstr "Zastavit sdílení při poměru"
+
+#~ msgid "auto_add_trackers"
+#~ msgstr "auto_přidat_trakař"
+
+#~ msgid "Importing %s"
+#~ msgstr "Importování %s"
+
+#~ msgid "Downloading %.2f%%"
+#~ msgstr "Stahování %.2f%%"
+
+#~ msgid "Check for every (days)"
+#~ msgstr "Kontrolovat každých (dní)"
+
+#~ msgid "Refresh status"
+#~ msgstr "Obnovit stav"
+
+#~ msgid ""
+#~ "Deluge is password protected.\n"
+#~ "To show the Deluge window, please enter your password"
+#~ msgstr ""
+#~ "Deluge je chráněn heslem.\n"
+#~ "Pro zobrazení okna Deluge prosím zadejte své heslo"
+
+#~ msgid "Delete"
+#~ msgstr "Smazat"
+
+#~ msgid "Queue Top"
+#~ msgstr "Přesunout nahoru"
+
+#~ msgid "Start"
+#~ msgstr "Spustitit"
+
+#~ msgid "Queue Bottom"
+#~ msgstr "Přesunout dolů"
+
+#~ msgid "Maximum Download Speed (Kib/s)"
+#~ msgstr "Maximální rychlost stahování (KiB/s)"
+
+#~ msgid "Maximum Upload Speed (Kib/s)"
+#~ msgstr "Maximální rychlost odesílání (KiB/s)"
+
+#~ msgid "Download"
+#~ msgstr "Stahování"
+
+#~ msgid "Save .torrent files to"
+#~ msgstr "Uložit .torrent soubory do"
+
+#~ msgid "Total active torrents"
+#~ msgstr "Celkový počet aktivních torrentů"
+
+#~ msgid "-1 = unlimited"
+#~ msgstr "-1 = neomezeno"
+
+#~ msgid "Total active downloading"
+#~ msgstr "Celkový počet aktivních stahování"
+
+#~ msgid "Global"
+#~ msgstr "Celková"
+
+#~ msgid "Store all downoads in"
+#~ msgstr "Ukládat veškerá stahování do"
+
+#~ msgid "Total active seeding"
+#~ msgstr "Celkový počet sdílení jako zdroj"
+
+#~ msgid "Sidebar"
+#~ msgstr "Postranní panel"
+
+#~ msgid "... and delete Downloaded files"
+#~ msgstr "... a smazat stažené soubory"
+
+#~ msgid "Connect to Daemon"
+#~ msgstr "Připojit se k démonu"
+
+#~ msgid "Upload"
+#~ msgstr "Odesílání"
+
+#~ msgid "General"
+#~ msgstr "Všeobecné"
 
 #~ msgid "seconds"
 #~ msgstr "sekundy"
@@ -4166,7 +4251,6 @@ msgstr "Cíl:"
 #~ msgid "Import on daemon startup"
 #~ msgstr "Importovat při startu démona"
 
-#, python-format
 #~ msgid "Blocked Ranges: %s"
 #~ msgstr "Blokované rozsahy: %s"
 
@@ -4240,11 +4324,9 @@ msgstr "Cíl:"
 #~ msgid "State"
 #~ msgstr "Stav"
 
-#, python-format
 #~ msgid "Including %i files"
 #~ msgstr "Obsahuje %i souborů"
 
-#, python-format
 #~ msgid "%.2f%%"
 #~ msgstr "%.2f%%"
 
@@ -4362,14 +4444,12 @@ msgstr "Cíl:"
 #~ msgid "This folder does not exist."
 #~ msgstr "Tato složka neexistuje."
 
-#~ msgid ""
-#~ "Select a valid choice. That choice is not one of the available choices."
+#~ msgid "Select a valid choice. That choice is not one of the available choices."
 #~ msgstr "Vyber platnou volbu. Tato volba není jedna z dostupných možností."
 
 #~ msgid "Enter a list of values."
 #~ msgstr "Vlož seznam hodnot."
 
-#, python-format
 #~ msgid "Select a valid choice. %s is not one of the available choices."
 #~ msgstr "Vyber platnou volbu. %s není jedna z dostupných možností."
 
@@ -4440,24 +4520,18 @@ msgstr "Cíl:"
 #~ msgid "No file was submitted. Check the encoding type on the form."
 #~ msgstr "Žádný soubor nebyl nahrán. Zkontroluj znakovou sadu stránky."
 
-#, python-format
 #~ msgid "Select a valid choice. %(value)s is not one of the available choices."
 #~ msgstr "Vyber správnou volbu. %(value)s není ve výběru."
 
-#, python-format
 #~ msgid "Ensure this value has at most %(max)d characters (it has %(length)d)."
 #~ msgstr "Zajisti, aby měla hodnota nejvíce %(max)d znaků (má %(length)d)."
 
-#, python-format
 #~ msgid "Certificate not found at '%s'"
 #~ msgstr "Certifikát nenalezen na '%s'"
 
-#, python-format
-#~ msgid ""
-#~ "Ensure this value has at least %(min)d characters (it has %(length)d)."
+#~ msgid "Ensure this value has at least %(min)d characters (it has %(length)d)."
 #~ msgstr "Zajisti, aby měla hodnota nejméně %(min)d znaků (má %(length)d)."
 
-#, python-format
 #~ msgid "Key not found at '%s'"
 #~ msgstr "Klíč nenalezen na '%s'"
 
@@ -4500,16 +4574,12 @@ msgstr "Cíl:"
 #~ msgid "Enter a valid value."
 #~ msgstr "Zadej platnou hodnotu."
 
-#, python-format
-#~ msgid ""
-#~ "Ensure that there are no more than %s digits before the decimal point."
+#~ msgid "Ensure that there are no more than %s digits before the decimal point."
 #~ msgstr "Zajisti aby zde nebylo víc jak %s číslic před desetinou čárkou."
 
-#, python-format
 #~ msgid "Ensure that there are no more than %s decimal places."
 #~ msgstr "Zajisti aby zde nebylo víc jak %s desetiných míst."
 
-#, python-format
 #~ msgid "Ensure that there are no more than %s digits in total."
 #~ msgstr "Zajisti aby zde nebylo víc jak %s číslic."
 
@@ -4645,10 +4715,9 @@ msgstr "Cíl:"
 #~ msgid "Ava"
 #~ msgstr "Dostup."
 
-#, python-format
 #~ msgid ""
-#~ "This email is to inform you that Deluge has finished downloading %s ,        "
-#~ "     which includes %i files.\n"
+#~ "This email is to inform you that Deluge has finished downloading "
+#~ "%s ,             which includes %i files.\n"
 #~ "To stop receiving these alerts, simply turn off             email "
 #~ "notification in Deluge's preferences.\n"
 #~ "\n"
@@ -4666,11 +4735,9 @@ msgstr "Cíl:"
 #~ msgid "Show sidebar"
 #~ msgstr "Zobrazit postranní panel"
 
-#, python-format
 #~ msgid "Failed to download : %s"
 #~ msgstr "Nepodařilo se stáhnout : %s"
 
-#, python-format
 #~ msgid "%s is not a valid URL."
 #~ msgstr "%s není platná URL."
 
@@ -4698,16 +4765,16 @@ msgstr "Cíl:"
 #~ "useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
 #~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
 #~ "Public License for more details. You should have received a copy of the GNU "
-#~ "General Public License along with this program; if not, see "
-#~ "<http://www.gnu.org/licenses>. In addition, as a special exception, the "
-#~ "copyright holders give permission to link the code of portions of this "
-#~ "program with the OpenSSL library. You must obey the GNU General Public "
-#~ "License in all respects for all of the code used other than OpenSSL. If you "
-#~ "modify file(s) with this exception, you may extend this exception to your "
-#~ "version of the file(s), but you are not obligated to do so. If you do not "
-#~ "wish to do so, delete this exception statement from your version. If you "
-#~ "delete this exception statement from all source files in the program, then "
-#~ "also delete it here."
+#~ "General Public License along with this program; if not, see <http://www.gnu."
+#~ "org/licenses>. In addition, as a special exception, the copyright holders "
+#~ "give permission to link the code of portions of this program with the "
+#~ "OpenSSL library. You must obey the GNU General Public License in all "
+#~ "respects for all of the code used other than OpenSSL. If you modify file(s) "
+#~ "with this exception, you may extend this exception to your version of the "
+#~ "file(s), but you are not obligated to do so. If you do not wish to do so, "
+#~ "delete this exception statement from your version. If you delete this "
+#~ "exception statement from all source files in the program, then also delete "
+#~ "it here."
 #~ msgstr ""
 #~ "Tento program je svobodný software; můžete jej šířit a / nebo modifikovat "
 #~ "podle podmínek GNU General Public License, vydávané Free Software "
@@ -4716,11 +4783,11 @@ msgstr "Cíl:"
 #~ "užitečný, avšak BEZ JAKÉKOLI ZÁRUKY; neposkytují se ani odvozené záruky "
 #~ "PRODEJNOSTI anebo VHODNOSTI PRO URČITÝ ÚČEL. Podívejte se na GNU General "
 #~ "Public License pro bližší informace. Byste měli obdržet kopii GNU General "
-#~ "Public License spolu s tímto programem, pokud ne, viz "
-#~ "<http://www.gnu.org/licenses>. Kromě toho, jak zvláštní výjimka, držitelé "
-#~ "autorských práv dávají povolení linkovat kód části tohoto programu s "
-#~ "knihovnou OpenSSL. Musíte poslouchat GNU General Public License ve všech "
-#~ "ohledech pro všechny kodexy použité k jiným účelům, než OpenSSL. Máte-li "
-#~ "upravit soubor (y) s touto výjimkou, můžete rozšířit tuto výjimku na verzi "
-#~ "soubor (y), ale nejsou povinni, aby tak učinily. Pokud si nepřejete, aby tak "
-#~ "učinily, smažte tuto výjimku z vaší verze."
+#~ "Public License spolu s tímto programem, pokud ne, viz <http://www.gnu.org/"
+#~ "licenses>. Kromě toho, jak zvláštní výjimka, držitelé autorských práv dávají "
+#~ "povolení linkovat kód části tohoto programu s knihovnou OpenSSL. Musíte "
+#~ "poslouchat GNU General Public License ve všech ohledech pro všechny kodexy "
+#~ "použité k jiným účelům, než OpenSSL. Máte-li upravit soubor (y) s touto "
+#~ "výjimkou, můžete rozšířit tuto výjimku na verzi soubor (y), ale nejsou "
+#~ "povinni, aby tak učinily. Pokud si nepřejete, aby tak učinily, smažte tuto "
+#~ "výjimku z vaší verze."

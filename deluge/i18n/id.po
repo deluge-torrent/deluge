@@ -8,14 +8,15 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-07-10 16:58+0100\n"
-"PO-Revision-Date: 2008-12-14 12:15+0000\n"
+"PO-Revision-Date: 2015-07-15 18:03-0400\n"
 "Last-Translator: Daya Adianto <Unknown>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-07-11 13:01+0000\n"
-"X-Generator: Launchpad (build 13388)\n"
+"X-Generator: Poedit 1.8.2\n"
+"Language: id\n"
 
 #: deluge/ui/gtkui/statusbar.py:163
 msgid "Connections"
@@ -61,112 +62,136 @@ msgid "GiB/s"
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
+#, fuzzy
 msgid "Notification Blink shown"
-msgstr ""
+msgstr "Pemberitahuan Blink menunjukkan"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:183
+#, fuzzy
 msgid "Popup notification is not enabled."
-msgstr ""
+msgstr "Popup notifikasi tidak diaktifkan."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:185
+#, fuzzy
 msgid "pynotify is not installed"
-msgstr ""
+msgstr "pynotify tidak diinstal"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:193
+#, fuzzy
 msgid "pynotify failed to show notification"
-msgstr ""
+msgstr "pynotify gagal untuk menunjukkan pemberitahuan"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:196
+#, fuzzy
 msgid "Notification popup shown"
-msgstr ""
+msgstr "Pemberitahuan popup ditampilkan"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:200
+#, fuzzy
 msgid "Sound notification not enabled"
-msgstr ""
+msgstr "Suara notifikasi tidak diaktifkan"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:202
+#, fuzzy
 msgid "pygame is not installed"
-msgstr ""
+msgstr "Pygame tidak diinstal"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:214
-#, python-format
+#, fuzzy, python-format
 msgid "Sound notification failed %s"
-msgstr ""
+msgstr "Pemberitahuan suara gagal %s"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:218
+#, fuzzy
 msgid "Sound notification Success"
-msgstr ""
+msgstr "Suara pemberitahuan sukses"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:241
+#, fuzzy
 msgid "Finished Torrent"
-msgstr ""
+msgstr "Selesai Torrent"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:242
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "The torrent \"%(name)s\" including %(num_files)i has finished downloading."
 msgstr ""
+"Torrent \"s % (nama)\" termasuk % (num_files) saya telah selesai men-"
+"download."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:646
+#, fuzzy
 msgid "Choose Sound File"
-msgstr ""
+msgstr "Pilih File suara"
 
 #: deluge/plugins/notifications/notifications/core.py:138
 #: deluge/plugins/notifications/notifications/core.py:171
-#, python-format
+#, fuzzy, python-format
 msgid "There was an error sending the notification email: %s"
-msgstr ""
+msgstr "Ada kesalahan mengirim email pemberitahuan: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:157
-#, python-format
+#, fuzzy, python-format
 msgid "The server didn't reply properly to the helo greeting: %s"
-msgstr ""
+msgstr "Server tidak benar membalas ucapan helo: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:162
-#, python-format
+#, fuzzy, python-format
 msgid "The server didn't accept the username/password combination: %s"
-msgstr ""
+msgstr "Server tidak menerima kombinasi nama pengguna/sandi: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:186
+#, fuzzy
 msgid "Notification email sent."
-msgstr ""
+msgstr "Email pemberitahuan dikirim."
 
 #: deluge/plugins/notifications/notifications/core.py:194
-#, python-format
+#, fuzzy, python-format
 msgid "Finished Torrent \"%(name)s\""
-msgstr ""
+msgstr "Selesai Torrent \"(nama) %s\""
 
 #: deluge/plugins/notifications/notifications/core.py:196
-#, python-format
+#, fuzzy, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading "
-"\"%(name)s\", which includes %(num_files)i files.\n"
+"This email is to inform you that Deluge has finished downloading \"%(name)s"
+"\", which includes %(num_files)i files.\n"
 "To stop receiving these alerts, simply turn off email notification in "
 "Deluge's preferences.\n"
 "\n"
 "Thank you,\n"
 "Deluge."
 msgstr ""
+"Email ini adalah untuk memberitahukan Anda bahwa banjir telah selesai men-"
+"download \"s % (nama)\", yang meliputi % (num_files) saya file.\n"
+"Untuk berhenti menerima lansiran ini, hanya mematikan notifikasi email dalam "
+"banjir di preferensi.\n"
+"\n"
+"Terima kasih, banjir."
 
 #: deluge/plugins/notifications/notifications/data/config.glade:29
+#, fuzzy
 msgid "<b><i><big>Notifications</big></i></b>"
-msgstr ""
+msgstr "Pemberitahuan"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:81
+#, fuzzy
 msgid "Tray icon blinks enabled"
-msgstr ""
+msgstr "Berkedip ikon tray yang diaktifkan"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:93
+#, fuzzy
 msgid "Popups enabled"
-msgstr ""
+msgstr "Popup diaktifkan"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:108
+#, fuzzy
 msgid "Sound enabled"
-msgstr ""
+msgstr "Suara diaktifkan"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:144
+#, fuzzy
 msgid "<b>UI Notifications</b>"
-msgstr ""
+msgstr "<b>Pemberitahuan UI</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:175
 #: deluge/ui/gtkui/glade/connection_manager.glade:28
@@ -188,8 +213,9 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3623
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3807
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3994
+#, fuzzy
 msgid "Username:"
-msgstr ""
+msgstr "Nama Pengguna:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:255
 #: deluge/ui/gtkui/glade/connection_manager.glade:132
@@ -202,12 +228,14 @@ msgid "Password:"
 msgstr "Kata Sandi:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:360
+#, fuzzy
 msgid "<b>Recipients</b>"
-msgstr ""
+msgstr "<b>Penerima</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:383
+#, fuzzy
 msgid "Server requires TLS/SSL"
-msgstr ""
+msgstr "Server memerlukan TLS/SSL"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:398
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:633
@@ -221,43 +249,54 @@ msgid "Enabled"
 msgstr "Aktif"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:443
+#, fuzzy
 msgid "<b>Email Notifications</b>"
-msgstr ""
+msgstr "<b>Email pemberitahuan</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:460
+#, fuzzy
 msgid "Settings"
-msgstr ""
+msgstr "Pengaturan"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:495
+#, fuzzy
 msgid ""
 "This configuration does not mean that you'll actually receive notifications "
 "for all these events."
 msgstr ""
+"Konfigurasi ini tidak berarti bahwa Anda benar-benar akan menerima "
+"pemberitahuan untuk semua peristiwa ini."
 
 #: deluge/plugins/notifications/notifications/data/config.glade:513
+#, fuzzy
 msgid "Subscriptions"
-msgstr ""
+msgstr "Langganan"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:594
+#, fuzzy
 msgid "Sound Customization"
-msgstr ""
+msgstr "Kustomisasi suara"
 
 #: deluge/plugins/autoadd/autoadd/core.py:136
+#, fuzzy
 msgid "Watch folder does not exist."
-msgstr ""
+msgstr "Menonton folder tidak ada."
 
 #: deluge/plugins/autoadd/autoadd/core.py:139
 #: deluge/plugins/autoadd/autoadd/core.py:308
+#, fuzzy
 msgid "Path does not exist."
-msgstr ""
+msgstr "Jalan tidak ada."
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
+#, fuzzy
 msgid "AutoAdd Error"
-msgstr ""
+msgstr "Kesalahan AutoAdd"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:78
+#, fuzzy
 msgid "Watch Folder Properties"
-msgstr ""
+msgstr "Menonton properti Folder"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
@@ -268,36 +307,44 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:162
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:228
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:288
+#, fuzzy
 msgid "Select A Folder"
-msgstr ""
+msgstr "Pilih Folder"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:143
+#, fuzzy
 msgid "Enable this watch folder"
-msgstr ""
+msgstr "Mengaktifkan folder menonton ini"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:164
+#, fuzzy
 msgid "<b>Watch Folder</b>"
-msgstr ""
+msgstr "<b>Menonton Folder</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:195
+#, fuzzy
 msgid "Delete .torrent after adding"
-msgstr ""
+msgstr "Menghapus .torrent setelah menambahkan"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:211
+#, fuzzy
 msgid "Append extension after adding:"
-msgstr ""
+msgstr "Tambahkan ekstensi setelah menambahkan:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:228
+#, fuzzy
 msgid ".added"
-msgstr ""
+msgstr "tambah:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:248
+#, fuzzy
 msgid "<b>Torrent File Action</b>"
-msgstr ""
+msgstr "<b>Tindakan File torrent</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:275
+#, fuzzy
 msgid "Set download location"
-msgstr ""
+msgstr "Mengatur lokasi download"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:325
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:396
@@ -305,52 +352,62 @@ msgid "<b>Download Location</b>"
 msgstr "<b>Lokasi Unduhan</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:353
+#, fuzzy
 msgid "Set move completed location"
-msgstr ""
+msgstr "Lokasi set bergerak selesai"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:418
+#, fuzzy
 msgid "<b>Move Completed</b>"
-msgstr ""
+msgstr "<b>Memindahkan selesai</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:444
+#, fuzzy
 msgid "Label: "
-msgstr ""
+msgstr "Label"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:475
+#, fuzzy
 msgid "<b>Label</b>"
-msgstr ""
+msgstr "Label"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:492
+#, fuzzy
 msgid "Main"
-msgstr ""
+msgstr "utama"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:524
 #: deluge/ui/gtkui/glade/main_window.glade:1811
+#, fuzzy
 msgid "Max Upload Speed:"
-msgstr ""
+msgstr "Kecepatan upload:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:541
 #: deluge/ui/gtkui/glade/main_window.glade:1798
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:551
+#, fuzzy
 msgid "Max Connections:"
-msgstr ""
+msgstr "Max Connections:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:558
 #: deluge/ui/gtkui/glade/main_window.glade:1861
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:565
+#, fuzzy
 msgid "Max Upload Slots:"
-msgstr ""
+msgstr "Max Upload slot:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:665
 #: deluge/ui/gtkui/glade/main_window.glade:1824
+#, fuzzy
 msgid "Max Download Speed:"
-msgstr ""
+msgstr "Kecepatan Download maksimum:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:691
 #: deluge/ui/gtkui/glade/main_window.glade:1900
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:634
+#, fuzzy
 msgid "<b>Bandwidth</b>"
-msgstr ""
+msgstr "Bandwidth"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:722
 #: deluge/plugins/label/label/data/label_options.glade:349
@@ -365,63 +422,77 @@ msgid "Remove at ratio"
 msgstr "Singkirkan pada rasio"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:762
+#, fuzzy
 msgid "Auto Managed:"
-msgstr ""
+msgstr "Auto dikelola:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:890
+#, fuzzy
 msgid "Add Paused:"
-msgstr ""
+msgstr "Tambahkan dijeda:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:936
+#, fuzzy
 msgid "Queue to:"
-msgstr ""
+msgstr "Antrian untuk:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:954
+#, fuzzy
 msgid "Top"
-msgstr ""
+msgstr "Atas"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:967
+#, fuzzy
 msgid "Bottom"
-msgstr ""
+msgstr "Bawah"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:1017
 #: deluge/ui/gtkui/glade/main_window.glade:2069
+#, fuzzy
 msgid "<b>Queue</b>"
-msgstr ""
+msgstr "Antrean"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:1037
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:624
 #: deluge/ui/gtkui/glade/connection_manager.glade:457
+#, fuzzy
 msgid "Options"
-msgstr ""
+msgstr "Opsi"
 
 #: deluge/plugins/autoadd/autoadd/data/config.glade:41
+#, fuzzy
 msgid "<b>Watch Folders:</b>"
-msgstr ""
+msgstr "<b>Menonton folder:</b>"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:238
+#, fuzzy
 msgid "Download Limit:"
-msgstr ""
+msgstr "Batas download:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:247
+#, fuzzy
 msgid "Upload Limit:"
-msgstr ""
+msgstr "Meng-upload batas:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:256
+#, fuzzy
 msgid "Active Torrents:"
-msgstr ""
+msgstr "Torrents aktif:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:265
+#, fuzzy
 msgid "Active Downloading:"
-msgstr ""
+msgstr "Aktif men-download:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:274
+#, fuzzy
 msgid "Active Seeding:"
-msgstr ""
+msgstr "Penyemaian aktif:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:288
+#, fuzzy
 msgid "<b>Slow Settings</b>"
-msgstr ""
+msgstr "<b>Pengaturan lambat</b>"
 
 #: deluge/plugins/label/label/core.py:189
 msgid "Invalid label, valid characters:[a-z0-9_-]"
@@ -432,8 +503,9 @@ msgid "Empty Label"
 msgstr "Label Kosong"
 
 #: deluge/plugins/label/label/core.py:191
+#, fuzzy
 msgid "Label already exists"
-msgstr ""
+msgstr "Label sudah ada"
 
 #: deluge/plugins/label/label/core.py:199
 #: deluge/plugins/label/label/core.py:279
@@ -454,16 +526,19 @@ msgid "Label"
 msgstr "Label"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:66
+#, fuzzy
 msgid "Label _Options"
-msgstr ""
+msgstr "Label _Options"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:67
+#, fuzzy
 msgid "_Remove Label"
-msgstr ""
+msgstr "_Remove label"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:68
+#, fuzzy
 msgid "_Add Label"
-msgstr ""
+msgstr "Tambahkan Label"
 
 #: deluge/plugins/label/label/data/label_options.glade:7
 msgid "Label Options"
@@ -474,8 +549,9 @@ msgid "<b>Label Options</b>"
 msgstr "<b>Pengaturan Label</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:158
+#, fuzzy
 msgid "Upload Slots:\t"
-msgstr ""
+msgstr "Meng-upload slot:"
 
 #: deluge/plugins/label/label/data/label_options.glade:171
 msgid "Upload Speed:"
@@ -499,8 +575,9 @@ msgstr "Maksimal"
 
 #: deluge/plugins/label/label/data/label_options.glade:336
 #: deluge/ui/gtkui/glade/main_window.glade:1930
+#, fuzzy
 msgid "Auto Managed"
-msgstr ""
+msgstr "Auto dikelola"
 
 #: deluge/plugins/label/label/data/label_options.glade:410
 msgid "Apply Queue settings:"
@@ -517,8 +594,9 @@ msgid "Move completed to:"
 msgstr "Pindahkan yang telah selesai ke:"
 
 #: deluge/plugins/label/label/data/label_options.glade:504
+#, fuzzy
 msgid "Apply location settings:"
-msgstr ""
+msgstr "Menerapkan pengaturan Lokasi:"
 
 #: deluge/plugins/label/label/data/label_options.glade:520
 msgid "Location"
@@ -535,8 +613,9 @@ msgstr "Otomatis pasang label:"
 #: deluge/plugins/label/label/data/label_options.glade:593
 #: deluge/ui/gtkui/filtertreeview.py:70
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
+#, fuzzy
 msgid "Trackers"
-msgstr ""
+msgstr "Pelacak"
 
 #: deluge/plugins/label/label/data/label_options.glade:646
 msgid "Add Label"
@@ -551,26 +630,33 @@ msgid "Name:"
 msgstr "Nama:"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
+#, fuzzy
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
 msgstr ""
+"<i>Gunakan sidebar untuk menambahkan, mengedit dan menghapus label.</i>"
 
 #: deluge/plugins/label/label/data/label_pref.glade:32
 msgid "<b>Labels</b>"
 msgstr "<b>Label</b>"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:27
+#, fuzzy
 msgid "Extract to:"
-msgstr ""
+msgstr "Ekstrak ke:"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:69
+#, fuzzy
 msgid "Create torrent name sub-folder"
-msgstr ""
+msgstr "Membuat torrent nama sub folder"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:73
+#, fuzzy
 msgid ""
 "This option will create a sub-folder using the torrent's name within the "
 "selected extract folder and put the extracted files there."
 msgstr ""
+"Pilihan ini akan membuat sub-folder menggunakan torrent nama dalam folder "
+"dipilih ekstrak dan menempatkan file diekstrak di sana."
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:53
@@ -581,22 +667,28 @@ msgid "<b>General</b>"
 msgstr "<b>Umum</b>"
 
 #: deluge/plugins/webui/webui/gtkui.py:97
+#, fuzzy
 msgid ""
 "The Deluge web interface is not installed, please install the\n"
 "interface and try again"
 msgstr ""
+"Antarmuka web banjir tidak diinstal, silahkan menginstal antarmuka dan coba "
+"lagi"
 
 #: deluge/plugins/webui/webui/data/config.glade:27
+#, fuzzy
 msgid "Enable web interface"
-msgstr ""
+msgstr "Mengaktifkan antarmuka web"
 
 #: deluge/plugins/webui/webui/data/config.glade:41
+#, fuzzy
 msgid "Enable SSL"
-msgstr ""
+msgstr "Mengaktifkan SSL"
 
 #: deluge/plugins/webui/webui/data/config.glade:60
+#, fuzzy
 msgid "Listening port:"
-msgstr ""
+msgstr "Port Yang Didengar"
 
 #: deluge/plugins/webui/webui/data/config.glade:94
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:153
@@ -605,8 +697,9 @@ msgid "<b>Settings</b>"
 msgstr "<b>Pengaturan</b>"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:49
+#, fuzzy
 msgid "Emule IP list (GZip)"
-msgstr ""
+msgstr "Daftar eMule IP (GZip)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:50
 msgid "SafePeer Text (Zipped)"
@@ -621,12 +714,14 @@ msgid "PeerGuardian P2B (GZip)"
 msgstr "PeerGuardian P2B (GZip)"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:31
+#, fuzzy
 msgid "Invalid leader"
-msgstr ""
+msgstr "Pemimpin tidak valid"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:35
+#, fuzzy
 msgid "Invalid magic code"
-msgstr ""
+msgstr "Kode sihir tidak valid"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:40
 msgid "Invalid version"
@@ -635,8 +730,9 @@ msgstr "Versi Tidak Sah"
 #: deluge/plugins/blocklist/blocklist/gtkui.py:67
 #: deluge/plugins/blocklist/blocklist/gtkui.py:155
 #: deluge/plugins/blocklist/blocklist/gtkui.py:186
+#, fuzzy
 msgid "Blocklist"
-msgstr ""
+msgstr "Blocklist"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:27
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:385
@@ -645,49 +741,58 @@ msgid "URL:"
 msgstr "URL:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:91
+#, fuzzy
 msgid "Days"
-msgstr ""
+msgstr "Hari"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:117
 msgid "Check for new list every:"
 msgstr "Cek daftar terbaru setiap:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:133
+#, fuzzy
 msgid "Import blocklist on startup"
-msgstr ""
+msgstr "Blocklist impor pada startup"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:190
+#, fuzzy
 msgid "Download the blocklist file if necessary and import the file."
-msgstr ""
+msgstr "Download blocklist file jika diperlukan dan impor file."
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:210
+#, fuzzy
 msgid "Check Download and Import"
-msgstr ""
+msgstr "Periksa Download dan impor"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:232
+#, fuzzy
 msgid "Download a new blocklist file and import it."
-msgstr ""
+msgstr "Download file blocklist baru dan impor."
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:252
+#, fuzzy
 msgid "Force Download and Import"
-msgstr ""
+msgstr "Angkatan Download dan impor"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:276
+#, fuzzy
 msgid "Blocklist is up to date"
-msgstr ""
+msgstr "Blocklist up-to-date"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:293
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:472
+#, fuzzy
 msgid "<b>Options</b>"
-msgstr ""
+msgstr "Opsi"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:397
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3427
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3611
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3795
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3982
+#, fuzzy
 msgid "Type:"
-msgstr ""
+msgstr "Tipe:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:409
 msgid "Date:"
@@ -703,41 +808,62 @@ msgid "<b>Info</b>"
 msgstr "<b>Info</b>"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
+#, fuzzy
 msgid "Torrent Complete"
-msgstr ""
+msgstr "Torrent lengkap"
 
 #: deluge/plugins/execute/execute/gtkui.py:52
+#, fuzzy
 msgid "Torrent Added"
-msgstr ""
+msgstr "Torrent ditambahkan"
 
 #: deluge/plugins/execute/execute/gtkui.py:77
 #: deluge/plugins/execute/execute/gtkui.py:88
+#, fuzzy
 msgid "Execute"
-msgstr ""
+msgstr "Hukuman mati"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:29
+#, fuzzy
 msgid "Event"
-msgstr ""
+msgstr "Acara"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:41
+#, fuzzy
 msgid "Command"
-msgstr ""
+msgstr "Perintah"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:112
+#, fuzzy
 msgid "<b>Add Command</b>"
-msgstr ""
+msgstr "<b>Tambahkan perintah</b>"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:151
+#, fuzzy
 msgid "<b>Commands</b>"
 msgstr ""
+"Several difficulties are encountered in providing a\n"
+"successful , single complete denture treatment. This\n"
+"case report deals with successful rehabilitation of\n"
+"edentulous maxillary ridge opposing a full complement\n"
+"of natural teeth prosthetically incorporating metal\n"
+"denture base in place of the conventional Poly Methyl\n"
+"Methacrylate material to combat the masticatory forces\n"
+"from natural dentition and improve the longevity of the\n"
+"prosthetic rehabilitation, at the same time improving\n"
+"the strength of the maxillary denture base.\n"
+"Keywords: residual ridge resorption, metal denture\n"
+"base, single complete denture"
 
 #: deluge/core/torrentmanager.py:937
+#, fuzzy
 msgid "Announce OK"
-msgstr ""
+msgstr "Mengumumkan OK"
 
 #: deluge/core/torrentmanager.py:953
+#, fuzzy
 msgid "Announce Sent"
-msgstr ""
+msgstr "Mengumumkan dikirim"
 
 #: deluge/core/torrentmanager.py:961
 msgid "Warning"
@@ -749,988 +875,1234 @@ msgid "Error"
 msgstr "Kesalahan"
 
 #: deluge/ui/countries.py:9
+#, fuzzy
 msgid "Afghanistan"
-msgstr ""
+msgstr "Afganistan"
 
 #: deluge/ui/countries.py:10
+#, fuzzy
 msgid "Aland Islands"
-msgstr ""
+msgstr "Åland"
 
 #: deluge/ui/countries.py:11
+#, fuzzy
 msgid "Albania"
-msgstr ""
+msgstr "Albania"
 
 #: deluge/ui/countries.py:12
+#, fuzzy
 msgid "Algeria"
-msgstr ""
+msgstr "Aljazair"
 
 #: deluge/ui/countries.py:13
+#, fuzzy
 msgid "American Samoa"
-msgstr ""
+msgstr "Samoa Amerika"
 
 #: deluge/ui/countries.py:14
+#, fuzzy
 msgid "Andorra"
-msgstr ""
+msgstr "Andorra"
 
 #: deluge/ui/countries.py:15
+#, fuzzy
 msgid "Angola"
-msgstr ""
+msgstr "Angola"
 
 #: deluge/ui/countries.py:16
+#, fuzzy
 msgid "Anguilla"
-msgstr ""
+msgstr "Anguilla"
 
 #: deluge/ui/countries.py:17
+#, fuzzy
 msgid "Antarctica"
-msgstr ""
+msgstr "Antarktika"
 
 #: deluge/ui/countries.py:18
+#, fuzzy
 msgid "Antigua and Barbuda"
-msgstr ""
+msgstr "Antigua dan Barbuda"
 
 #: deluge/ui/countries.py:19
+#, fuzzy
 msgid "Argentina"
-msgstr ""
+msgstr "Argentina"
 
 #: deluge/ui/countries.py:20
+#, fuzzy
 msgid "Armenia"
-msgstr ""
+msgstr "Armenia"
 
 #: deluge/ui/countries.py:21
+#, fuzzy
 msgid "Aruba"
-msgstr ""
+msgstr "Aruba"
 
 #: deluge/ui/countries.py:22
+#, fuzzy
 msgid "Australia"
-msgstr ""
+msgstr "Australia"
 
 #: deluge/ui/countries.py:23
+#, fuzzy
 msgid "Austria"
-msgstr ""
+msgstr "Austria"
 
 #: deluge/ui/countries.py:24
+#, fuzzy
 msgid "Azerbaijan"
-msgstr ""
+msgstr "Azerbaijan"
 
 #: deluge/ui/countries.py:25
+#, fuzzy
 msgid "Bahamas"
-msgstr ""
+msgstr "Bahama"
 
 #: deluge/ui/countries.py:26
+#, fuzzy
 msgid "Bahrain"
-msgstr ""
+msgstr "Bahrain"
 
 #: deluge/ui/countries.py:27
+#, fuzzy
 msgid "Bangladesh"
-msgstr ""
+msgstr "Bangladesh"
 
 #: deluge/ui/countries.py:28
+#, fuzzy
 msgid "Barbados"
-msgstr ""
+msgstr "Barbados"
 
 #: deluge/ui/countries.py:29
+#, fuzzy
 msgid "Belarus"
-msgstr ""
+msgstr "Belarus"
 
 #: deluge/ui/countries.py:30
+#, fuzzy
 msgid "Belgium"
-msgstr ""
+msgstr "Belgia"
 
 #: deluge/ui/countries.py:31
+#, fuzzy
 msgid "Belize"
-msgstr ""
+msgstr "Belize"
 
 #: deluge/ui/countries.py:32
+#, fuzzy
 msgid "Benin"
-msgstr ""
+msgstr "Benin"
 
 #: deluge/ui/countries.py:33
+#, fuzzy
 msgid "Bermuda"
-msgstr ""
+msgstr "Bermuda"
 
 #: deluge/ui/countries.py:34
+#, fuzzy
 msgid "Bhutan"
-msgstr ""
+msgstr "Bhutan"
 
 #: deluge/ui/countries.py:35
+#, fuzzy
 msgid "Bolivia"
-msgstr ""
+msgstr "Bolivia"
 
 #: deluge/ui/countries.py:36
+#, fuzzy
 msgid "Bosnia and Herzegovina"
-msgstr ""
+msgstr "Bosnia dan Herzegovina"
 
 #: deluge/ui/countries.py:37
+#, fuzzy
 msgid "Botswana"
-msgstr ""
+msgstr "Botswana"
 
 #: deluge/ui/countries.py:38
+#, fuzzy
 msgid "Bouvet Island"
-msgstr ""
+msgstr "Pulau Bouvet"
 
 #: deluge/ui/countries.py:39
+#, fuzzy
 msgid "Brazil"
-msgstr ""
+msgstr "Brasil"
 
 #: deluge/ui/countries.py:40
+#, fuzzy
 msgid "British Indian Ocean Territory"
-msgstr ""
+msgstr "Teritorial Britania di Samudra Hindia"
 
 #: deluge/ui/countries.py:41
+#, fuzzy
 msgid "Brunei Darussalam"
-msgstr ""
+msgstr "Brunei Darussalam"
 
 #: deluge/ui/countries.py:42
+#, fuzzy
 msgid "Bulgaria"
-msgstr ""
+msgstr "Bulgaria"
 
 #: deluge/ui/countries.py:43
+#, fuzzy
 msgid "Burkina Faso"
-msgstr ""
+msgstr "Burkina Faso"
 
 #: deluge/ui/countries.py:44
+#, fuzzy
 msgid "Burundi"
-msgstr ""
+msgstr "Burundi"
 
 #: deluge/ui/countries.py:45
+#, fuzzy
 msgid "Cambodia"
-msgstr ""
+msgstr "Kamboja"
 
 #: deluge/ui/countries.py:46
+#, fuzzy
 msgid "Cameroon"
-msgstr ""
+msgstr "Kamerun"
 
 #: deluge/ui/countries.py:47
+#, fuzzy
 msgid "Canada"
-msgstr ""
+msgstr "Kanada"
 
 #: deluge/ui/countries.py:48
+#, fuzzy
 msgid "Cape Verde"
-msgstr ""
+msgstr "Tanjung Verde"
 
 #: deluge/ui/countries.py:49
+#, fuzzy
 msgid "Cayman Islands"
-msgstr ""
+msgstr "Kepulauan Cayman"
 
 #: deluge/ui/countries.py:50
+#, fuzzy
 msgid "Central African Republic"
-msgstr ""
+msgstr "Republik Afrika Tengah"
 
 #: deluge/ui/countries.py:51
+#, fuzzy
 msgid "Chad"
-msgstr ""
+msgstr "Chad"
 
 #: deluge/ui/countries.py:52
+#, fuzzy
 msgid "Chile"
-msgstr ""
+msgstr "Chili"
 
 #: deluge/ui/countries.py:53
+#, fuzzy
 msgid "China"
-msgstr ""
+msgstr "Cina"
 
 #: deluge/ui/countries.py:54
+#, fuzzy
 msgid "Christmas Island"
-msgstr ""
+msgstr "Pulau Natal"
 
 #: deluge/ui/countries.py:55
+#, fuzzy
 msgid "Cocos (Keeling) Islands"
-msgstr ""
+msgstr "Cocos (Keeling)"
 
 #: deluge/ui/countries.py:56
+#, fuzzy
 msgid "Colombia"
-msgstr ""
+msgstr "Kolombia"
 
 #: deluge/ui/countries.py:57
+#, fuzzy
 msgid "Comoros"
-msgstr ""
+msgstr "Komoro"
 
 #: deluge/ui/countries.py:58
+#, fuzzy
 msgid "Congo"
-msgstr ""
+msgstr "Kongo"
 
 #: deluge/ui/countries.py:59
+#, fuzzy
 msgid "Congo, The Democratic Republic of the"
-msgstr ""
+msgstr "Kongo, Republik Demokratik"
 
 #: deluge/ui/countries.py:60
+#, fuzzy
 msgid "Cook Islands"
-msgstr ""
+msgstr "Kepulauan Cook"
 
 #: deluge/ui/countries.py:61
+#, fuzzy
 msgid "Costa Rica"
-msgstr ""
+msgstr "Kostarika"
 
 #: deluge/ui/countries.py:62
+#, fuzzy
 msgid "Cote d'Ivoire"
-msgstr ""
+msgstr "Pantai Gading"
 
 #: deluge/ui/countries.py:63
+#, fuzzy
 msgid "Croatia"
-msgstr ""
+msgstr "Kroasia"
 
 #: deluge/ui/countries.py:64
+#, fuzzy
 msgid "Cuba"
-msgstr ""
+msgstr "Kuba"
 
 #: deluge/ui/countries.py:65
+#, fuzzy
 msgid "Cyprus"
-msgstr ""
+msgstr "Siprus"
 
 #: deluge/ui/countries.py:66
+#, fuzzy
 msgid "Czech Republic"
-msgstr ""
+msgstr "Republik Ceko"
 
 #: deluge/ui/countries.py:67
+#, fuzzy
 msgid "Denmark"
-msgstr ""
+msgstr "Denmark"
 
 #: deluge/ui/countries.py:68
+#, fuzzy
 msgid "Djibouti"
-msgstr ""
+msgstr "Djibouti"
 
 #: deluge/ui/countries.py:69
+#, fuzzy
 msgid "Dominica"
-msgstr ""
+msgstr "Dominika"
 
 #: deluge/ui/countries.py:70
+#, fuzzy
 msgid "Dominican Republic"
-msgstr ""
+msgstr "Republik Dominika"
 
 #: deluge/ui/countries.py:71
+#, fuzzy
 msgid "Ecuador"
-msgstr ""
+msgstr "Ekuador"
 
 #: deluge/ui/countries.py:72
+#, fuzzy
 msgid "Egypt"
-msgstr ""
+msgstr "Mesir"
 
 #: deluge/ui/countries.py:73
+#, fuzzy
 msgid "El Salvador"
-msgstr ""
+msgstr "El Salvador"
 
 #: deluge/ui/countries.py:74
+#, fuzzy
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "Guinea Khatulistiwa"
 
 #: deluge/ui/countries.py:75
+#, fuzzy
 msgid "Eritrea"
-msgstr ""
+msgstr "Eritrea"
 
 #: deluge/ui/countries.py:76
+#, fuzzy
 msgid "Estonia"
-msgstr ""
+msgstr "Estonia"
 
 #: deluge/ui/countries.py:77
+#, fuzzy
 msgid "Ethiopia"
-msgstr ""
+msgstr "Ethiopia"
 
 #: deluge/ui/countries.py:78
+#, fuzzy
 msgid "Falkland Islands (Malvinas)"
-msgstr ""
+msgstr "Kepulauan Falkland (Malvinas)"
 
 #: deluge/ui/countries.py:79
+#, fuzzy
 msgid "Faroe Islands"
-msgstr ""
+msgstr "Kepulauan Faroe"
 
 #: deluge/ui/countries.py:80
+#, fuzzy
 msgid "Fiji"
-msgstr ""
+msgstr "Fiji"
 
 #: deluge/ui/countries.py:81
+#, fuzzy
 msgid "Finland"
-msgstr ""
+msgstr "Finlandia"
 
 #: deluge/ui/countries.py:82
+#, fuzzy
 msgid "France"
-msgstr ""
+msgstr "Prancis"
 
 #: deluge/ui/countries.py:83
+#, fuzzy
 msgid "French Guiana"
-msgstr ""
+msgstr "Guyana Prancis"
 
 #: deluge/ui/countries.py:84
+#, fuzzy
 msgid "French Polynesia"
-msgstr ""
+msgstr "Polinesia Prancis"
 
 #: deluge/ui/countries.py:85
+#, fuzzy
 msgid "French Southern Territories"
-msgstr ""
+msgstr "Perancis Wilayah selatan"
 
 #: deluge/ui/countries.py:86
+#, fuzzy
 msgid "Gabon"
-msgstr ""
+msgstr "Gabon"
 
 #: deluge/ui/countries.py:87
+#, fuzzy
 msgid "Gambia"
-msgstr ""
+msgstr "Gambia"
 
 #: deluge/ui/countries.py:88
+#, fuzzy
 msgid "Georgia"
-msgstr ""
+msgstr "Georgia"
 
 #: deluge/ui/countries.py:89
+#, fuzzy
 msgid "Germany"
-msgstr ""
+msgstr "Jerman"
 
 #: deluge/ui/countries.py:90 deluge/ui/countries.py:241
+#, fuzzy
 msgid "United Kingdom"
-msgstr ""
+msgstr "Britania Raya"
 
 #: deluge/ui/countries.py:91
+#, fuzzy
 msgid "Ghana"
-msgstr ""
+msgstr "Ghana"
 
 #: deluge/ui/countries.py:92
+#, fuzzy
 msgid "Gibraltar"
-msgstr ""
+msgstr "Gibraltar"
 
 #: deluge/ui/countries.py:93
+#, fuzzy
 msgid "Greece"
-msgstr ""
+msgstr "Yunani"
 
 #: deluge/ui/countries.py:94
+#, fuzzy
 msgid "Greenland"
-msgstr ""
+msgstr "Greenland"
 
 #: deluge/ui/countries.py:95
+#, fuzzy
 msgid "Grenada"
-msgstr ""
+msgstr "Grenada"
 
 #: deluge/ui/countries.py:96
+#, fuzzy
 msgid "Guadeloupe"
-msgstr ""
+msgstr "Guadeloupe"
 
 #: deluge/ui/countries.py:97
+#, fuzzy
 msgid "Guam"
-msgstr ""
+msgstr "Guam"
 
 #: deluge/ui/countries.py:98
+#, fuzzy
 msgid "Guatemala"
-msgstr ""
+msgstr "Guatemala"
 
 #: deluge/ui/countries.py:99
+#, fuzzy
 msgid "Guernsey"
-msgstr ""
+msgstr "Guernsey"
 
 #: deluge/ui/countries.py:100
+#, fuzzy
 msgid "Guinea"
-msgstr ""
+msgstr "Guinea"
 
 #: deluge/ui/countries.py:101
+#, fuzzy
 msgid "Guinea-Bissau"
-msgstr ""
+msgstr "Guinea-Bissau"
 
 #: deluge/ui/countries.py:102
+#, fuzzy
 msgid "Guyana"
-msgstr ""
+msgstr "Guyana"
 
 #: deluge/ui/countries.py:103
+#, fuzzy
 msgid "Haiti"
-msgstr ""
+msgstr "Haiti"
 
 #: deluge/ui/countries.py:104
+#, fuzzy
 msgid "Heard Island and McDonald Islands"
-msgstr ""
+msgstr "Pulau Heard dan Kepulauan McDonald"
 
 #: deluge/ui/countries.py:105
+#, fuzzy
 msgid "Holy See (Vatican City State)"
-msgstr ""
+msgstr "Tahta Suci (Vatikan City State)"
 
 #: deluge/ui/countries.py:106
+#, fuzzy
 msgid "Honduras"
-msgstr ""
+msgstr "Honduras"
 
 #: deluge/ui/countries.py:107
+#, fuzzy
 msgid "Hong Kong"
-msgstr ""
+msgstr "Hong Kong"
 
 #: deluge/ui/countries.py:108
+#, fuzzy
 msgid "Hungary"
-msgstr ""
+msgstr "Hongaria"
 
 #: deluge/ui/countries.py:109
+#, fuzzy
 msgid "Iceland"
-msgstr ""
+msgstr "Islandia"
 
 #: deluge/ui/countries.py:110
+#, fuzzy
 msgid "India"
-msgstr ""
+msgstr "India"
 
 #: deluge/ui/countries.py:111
+#, fuzzy
 msgid "Indonesia"
-msgstr ""
+msgstr "Indonesia"
 
 #: deluge/ui/countries.py:112
+#, fuzzy
 msgid "Iran, Islamic Republic of"
-msgstr ""
+msgstr "Iran, Republik Islam"
 
 #: deluge/ui/countries.py:113
+#, fuzzy
 msgid "Iraq"
-msgstr ""
+msgstr "Irak"
 
 #: deluge/ui/countries.py:114
+#, fuzzy
 msgid "Ireland"
-msgstr ""
+msgstr "Irlandia"
 
 #: deluge/ui/countries.py:115
+#, fuzzy
 msgid "Isle of Man"
-msgstr ""
+msgstr "Isle of Man"
 
 #: deluge/ui/countries.py:116
+#, fuzzy
 msgid "Israel"
-msgstr ""
+msgstr "Israel"
 
 #: deluge/ui/countries.py:117
+#, fuzzy
 msgid "Italy"
-msgstr ""
+msgstr "Italia"
 
 #: deluge/ui/countries.py:118
+#, fuzzy
 msgid "Jamaica"
-msgstr ""
+msgstr "Jamaika"
 
 #: deluge/ui/countries.py:119
+#, fuzzy
 msgid "Japan"
-msgstr ""
+msgstr "Jepang"
 
 #: deluge/ui/countries.py:120
+#, fuzzy
 msgid "Jersey"
-msgstr ""
+msgstr "Jersey"
 
 #: deluge/ui/countries.py:121
+#, fuzzy
 msgid "Jordan"
-msgstr ""
+msgstr "Yordania"
 
 #: deluge/ui/countries.py:122
+#, fuzzy
 msgid "Kazakhstan"
-msgstr ""
+msgstr "Kazakhstan"
 
 #: deluge/ui/countries.py:123
+#, fuzzy
 msgid "Kenya"
-msgstr ""
+msgstr "Kenya"
 
 #: deluge/ui/countries.py:124
+#, fuzzy
 msgid "Kiribati"
-msgstr ""
+msgstr "Kiribati"
 
 #: deluge/ui/countries.py:125
+#, fuzzy
 msgid "Korea, Democratic People's Republic of"
-msgstr ""
+msgstr "Korea, Republik Demokratik Rakyat dari"
 
 #: deluge/ui/countries.py:126
+#, fuzzy
 msgid "Korea, Republic of"
-msgstr ""
+msgstr "Korea, Republik"
 
 #: deluge/ui/countries.py:127
+#, fuzzy
 msgid "Kuwait"
-msgstr ""
+msgstr "Kuwait"
 
 #: deluge/ui/countries.py:128
+#, fuzzy
 msgid "Kyrgyzstan"
-msgstr ""
+msgstr "Kirgizstan"
 
 #: deluge/ui/countries.py:129
+#, fuzzy
 msgid "Lao People's Democratic Republic"
-msgstr ""
+msgstr "Republik Demokratik Rakyat Laos"
 
 #: deluge/ui/countries.py:130
+#, fuzzy
 msgid "Latvia"
-msgstr ""
+msgstr "Latvia"
 
 #: deluge/ui/countries.py:131
+#, fuzzy
 msgid "Lebanon"
-msgstr ""
+msgstr "Lebanon"
 
 #: deluge/ui/countries.py:132
+#, fuzzy
 msgid "Lesotho"
-msgstr ""
+msgstr "Lesotho"
 
 #: deluge/ui/countries.py:133
+#, fuzzy
 msgid "Liberia"
-msgstr ""
+msgstr "Liberia"
 
 #: deluge/ui/countries.py:134
+#, fuzzy
 msgid "Libyan Arab Jamahiriya"
-msgstr ""
+msgstr "Jamahiriya Arab Libya"
 
 #: deluge/ui/countries.py:135
+#, fuzzy
 msgid "Liechtenstein"
-msgstr ""
+msgstr "Liechtenstein"
 
 #: deluge/ui/countries.py:136
+#, fuzzy
 msgid "Lithuania"
-msgstr ""
+msgstr "Lituania"
 
 #: deluge/ui/countries.py:137
+#, fuzzy
 msgid "Luxembourg"
-msgstr ""
+msgstr "Luksemburg"
 
 #: deluge/ui/countries.py:138
+#, fuzzy
 msgid "Macao"
-msgstr ""
+msgstr "Makau"
 
 #: deluge/ui/countries.py:139
+#, fuzzy
 msgid "Macedonia, The Former Yugoslav Republic of"
-msgstr ""
+msgstr "Macedonia, bekas Republik Yugoslavia"
 
 #: deluge/ui/countries.py:140
+#, fuzzy
 msgid "Madagascar"
-msgstr ""
+msgstr "Madagaskar"
 
 #: deluge/ui/countries.py:141
+#, fuzzy
 msgid "Malawi"
-msgstr ""
+msgstr "Malawi"
 
 #: deluge/ui/countries.py:142
+#, fuzzy
 msgid "Malaysia"
-msgstr ""
+msgstr "Malaysia"
 
 #: deluge/ui/countries.py:143
+#, fuzzy
 msgid "Maldives"
-msgstr ""
+msgstr "Maladewa"
 
 #: deluge/ui/countries.py:144
+#, fuzzy
 msgid "Mali"
-msgstr ""
+msgstr "Mali"
 
 #: deluge/ui/countries.py:145
+#, fuzzy
 msgid "Malta"
-msgstr ""
+msgstr "Malta"
 
 #: deluge/ui/countries.py:146
+#, fuzzy
 msgid "Marshall Islands"
-msgstr ""
+msgstr "Kepulauan Marshall"
 
 #: deluge/ui/countries.py:147
+#, fuzzy
 msgid "Martinique"
-msgstr ""
+msgstr "Martinik"
 
 #: deluge/ui/countries.py:148
+#, fuzzy
 msgid "Mauritania"
-msgstr ""
+msgstr "Mauritania"
 
 #: deluge/ui/countries.py:149
+#, fuzzy
 msgid "Mauritius"
-msgstr ""
+msgstr "Mauritius"
 
 #: deluge/ui/countries.py:150
+#, fuzzy
 msgid "Mayotte"
-msgstr ""
+msgstr "Mayotte"
 
 #: deluge/ui/countries.py:151
+#, fuzzy
 msgid "Mexico"
-msgstr ""
+msgstr "Meksiko"
 
 #: deluge/ui/countries.py:152
+#, fuzzy
 msgid "Micronesia, Federated States of"
-msgstr ""
+msgstr "Mikronesia, negara Federasi"
 
 #: deluge/ui/countries.py:153
+#, fuzzy
 msgid "Moldova"
-msgstr ""
+msgstr "Moldova"
 
 #: deluge/ui/countries.py:154
+#, fuzzy
 msgid "Monaco"
-msgstr ""
+msgstr "Monako"
 
 #: deluge/ui/countries.py:155
+#, fuzzy
 msgid "Mongolia"
-msgstr ""
+msgstr "Mongolia"
 
 #: deluge/ui/countries.py:156
+#, fuzzy
 msgid "Montenegro"
-msgstr ""
+msgstr "Montenegro"
 
 #: deluge/ui/countries.py:157
+#, fuzzy
 msgid "Montserrat"
-msgstr ""
+msgstr "Montserrat"
 
 #: deluge/ui/countries.py:158
+#, fuzzy
 msgid "Morocco"
-msgstr ""
+msgstr "Maroko"
 
 #: deluge/ui/countries.py:159
+#, fuzzy
 msgid "Mozambique"
-msgstr ""
+msgstr "Mozambik"
 
 #: deluge/ui/countries.py:160
+#, fuzzy
 msgid "Myanmar"
-msgstr ""
+msgstr "Myanmar"
 
 #: deluge/ui/countries.py:161
+#, fuzzy
 msgid "Namibia"
-msgstr ""
+msgstr "Namibia"
 
 #: deluge/ui/countries.py:162
+#, fuzzy
 msgid "Nauru"
-msgstr ""
+msgstr "Nauru"
 
 #: deluge/ui/countries.py:163
+#, fuzzy
 msgid "Nepal"
-msgstr ""
+msgstr "Nepal"
 
 #: deluge/ui/countries.py:164
+#, fuzzy
 msgid "Netherlands"
-msgstr ""
+msgstr "Belanda"
 
 #: deluge/ui/countries.py:165
+#, fuzzy
 msgid "Netherlands Antilles"
-msgstr ""
+msgstr "Antillen Belanda"
 
 #: deluge/ui/countries.py:166
+#, fuzzy
 msgid "New Caledonia"
-msgstr ""
+msgstr "Kaledonia Baru"
 
 #: deluge/ui/countries.py:167
+#, fuzzy
 msgid "New Zealand"
-msgstr ""
+msgstr "Selandia Baru"
 
 #: deluge/ui/countries.py:168
+#, fuzzy
 msgid "Nicaragua"
-msgstr ""
+msgstr "Nikaragua"
 
 #: deluge/ui/countries.py:169
+#, fuzzy
 msgid "Niger"
-msgstr ""
+msgstr "Niger"
 
 #: deluge/ui/countries.py:170
+#, fuzzy
 msgid "Nigeria"
-msgstr ""
+msgstr "Nigeria"
 
 #: deluge/ui/countries.py:171
+#, fuzzy
 msgid "Niue"
-msgstr ""
+msgstr "Niue"
 
 #: deluge/ui/countries.py:172
+#, fuzzy
 msgid "Norfolk Island"
-msgstr ""
+msgstr "Pulau Norfolk"
 
 #: deluge/ui/countries.py:173
+#, fuzzy
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "Kepulauan Mariana Utara"
 
 #: deluge/ui/countries.py:174
+#, fuzzy
 msgid "Norway"
-msgstr ""
+msgstr "Norwegia"
 
 #: deluge/ui/countries.py:175
+#, fuzzy
 msgid "Oman"
-msgstr ""
+msgstr "Oman"
 
 #: deluge/ui/countries.py:176
+#, fuzzy
 msgid "Pakistan"
-msgstr ""
+msgstr "Pakistan"
 
 #: deluge/ui/countries.py:177
+#, fuzzy
 msgid "Palau"
-msgstr ""
+msgstr "Palau"
 
 #: deluge/ui/countries.py:178
+#, fuzzy
 msgid "Palestinian Territory, Occupied"
-msgstr ""
+msgstr "Wilayah Palestina, diduduki"
 
 #: deluge/ui/countries.py:179
+#, fuzzy
 msgid "Panama"
-msgstr ""
+msgstr "Panama"
 
 #: deluge/ui/countries.py:180
+#, fuzzy
 msgid "Papua New Guinea"
-msgstr ""
+msgstr "Papua Nugini"
 
 #: deluge/ui/countries.py:181
+#, fuzzy
 msgid "Paraguay"
-msgstr ""
+msgstr "Paraguay"
 
 #: deluge/ui/countries.py:182
+#, fuzzy
 msgid "Peru"
-msgstr ""
+msgstr "Peru"
 
 #: deluge/ui/countries.py:183
+#, fuzzy
 msgid "Philippines"
-msgstr ""
+msgstr "Filipina"
 
 #: deluge/ui/countries.py:184
+#, fuzzy
 msgid "Pitcairn"
-msgstr ""
+msgstr "Kepulauan Pitcairn"
 
 #: deluge/ui/countries.py:185
+#, fuzzy
 msgid "Poland"
-msgstr ""
+msgstr "Polandia"
 
 #: deluge/ui/countries.py:186
+#, fuzzy
 msgid "Portugal"
-msgstr ""
+msgstr "Portugal"
 
 #: deluge/ui/countries.py:187
+#, fuzzy
 msgid "Puerto Rico"
-msgstr ""
+msgstr "Puerto Riko"
 
 #: deluge/ui/countries.py:188
+#, fuzzy
 msgid "Qatar"
-msgstr ""
+msgstr "Qatar"
 
 #: deluge/ui/countries.py:189
+#, fuzzy
 msgid "Reunion"
-msgstr ""
+msgstr "Reuni"
 
 #: deluge/ui/countries.py:190
+#, fuzzy
 msgid "Romania"
-msgstr ""
+msgstr "Rumania"
 
 #: deluge/ui/countries.py:191
+#, fuzzy
 msgid "Russian Federation"
-msgstr ""
+msgstr "Federasi Rusia"
 
 #: deluge/ui/countries.py:192
+#, fuzzy
 msgid "Rwanda"
-msgstr ""
+msgstr "Rwanda"
 
 #: deluge/ui/countries.py:193
+#, fuzzy
 msgid "Saint Barthelemy"
-msgstr ""
+msgstr "Saint Barthelemy"
 
 #: deluge/ui/countries.py:194
+#, fuzzy
 msgid "Saint Helena"
-msgstr ""
+msgstr "Saint Helena"
 
 #: deluge/ui/countries.py:195
+#, fuzzy
 msgid "Saint Kitts and Nevis"
-msgstr ""
+msgstr "Saint Kitts dan Nevis"
 
 #: deluge/ui/countries.py:196
+#, fuzzy
 msgid "Saint Lucia"
-msgstr ""
+msgstr "Saint Lucia"
 
 #: deluge/ui/countries.py:197
+#, fuzzy
 msgid "Saint Martin"
-msgstr ""
+msgstr "Saint Martin"
 
 #: deluge/ui/countries.py:198
+#, fuzzy
 msgid "Saint Pierre and Miquelon"
-msgstr ""
+msgstr "Saint Pierre dan Miquelon"
 
 #: deluge/ui/countries.py:199
+#, fuzzy
 msgid "Saint Vincent and the Grenadines"
-msgstr ""
+msgstr "Saint Vincent dan Grenadines"
 
 #: deluge/ui/countries.py:200
+#, fuzzy
 msgid "Samoa"
-msgstr ""
+msgstr "Samoa"
 
 #: deluge/ui/countries.py:201
+#, fuzzy
 msgid "San Marino"
-msgstr ""
+msgstr "San Marino"
 
 #: deluge/ui/countries.py:202
+#, fuzzy
 msgid "Sao Tome and Principe"
-msgstr ""
+msgstr "Sao Tome dan Principe"
 
 #: deluge/ui/countries.py:203
+#, fuzzy
 msgid "Saudi Arabia"
-msgstr ""
+msgstr "PEPAYAArab Saudi"
 
 #: deluge/ui/countries.py:204
+#, fuzzy
 msgid "Senegal"
-msgstr ""
+msgstr "Senegal"
 
 #: deluge/ui/countries.py:205
+#, fuzzy
 msgid "Serbia"
-msgstr ""
+msgstr "Serbia"
 
 #: deluge/ui/countries.py:206
+#, fuzzy
 msgid "Seychelles"
-msgstr ""
+msgstr "Seychelles"
 
 #: deluge/ui/countries.py:207
+#, fuzzy
 msgid "Sierra Leone"
-msgstr ""
+msgstr "Sierra Leone"
 
 #: deluge/ui/countries.py:208
+#, fuzzy
 msgid "Singapore"
-msgstr ""
+msgstr "Singapore"
 
 #: deluge/ui/countries.py:209
+#, fuzzy
 msgid "Slovakia"
-msgstr ""
+msgstr "Slowakia"
 
 #: deluge/ui/countries.py:210
+#, fuzzy
 msgid "Slovenia"
-msgstr ""
+msgstr "Slovenia"
 
 #: deluge/ui/countries.py:211
+#, fuzzy
 msgid "Solomon Islands"
-msgstr ""
+msgstr "Kepulauan Solomon"
 
 #: deluge/ui/countries.py:212
+#, fuzzy
 msgid "Somalia"
-msgstr ""
+msgstr "Somalia"
 
 #: deluge/ui/countries.py:213
+#, fuzzy
 msgid "South Africa"
-msgstr ""
+msgstr "Afrika Selatan"
 
 #: deluge/ui/countries.py:214
+#, fuzzy
 msgid "South Georgia and the South Sandwich Islands"
-msgstr ""
+msgstr "Georgia Selatan dan Kepulauan Sandwich Selatan"
 
 #: deluge/ui/countries.py:215
+#, fuzzy
 msgid "Spain"
-msgstr ""
+msgstr "Spanyol"
 
 #: deluge/ui/countries.py:216
+#, fuzzy
 msgid "Sri Lanka"
-msgstr ""
+msgstr "Sri Lanka"
 
 #: deluge/ui/countries.py:217
+#, fuzzy
 msgid "Sudan"
-msgstr ""
+msgstr "Sudan"
 
 #: deluge/ui/countries.py:218
+#, fuzzy
 msgid "Suriname"
-msgstr ""
+msgstr "Suriname"
 
 #: deluge/ui/countries.py:219
+#, fuzzy
 msgid "Svalbard and Jan Mayen"
-msgstr ""
+msgstr "Svalbard dan Jan Mayen"
 
 #: deluge/ui/countries.py:220
+#, fuzzy
 msgid "Swaziland"
-msgstr ""
+msgstr "Swaziland"
 
 #: deluge/ui/countries.py:221
+#, fuzzy
 msgid "Sweden"
-msgstr ""
+msgstr "Swedia"
 
 #: deluge/ui/countries.py:222
+#, fuzzy
 msgid "Switzerland"
-msgstr ""
+msgstr "Swiss"
 
 #: deluge/ui/countries.py:223
+#, fuzzy
 msgid "Syrian Arab Republic"
-msgstr ""
+msgstr "Republik Arab Suriah"
 
 #: deluge/ui/countries.py:224
+#, fuzzy
 msgid "Taiwan, Province of China"
-msgstr ""
+msgstr "Taiwan, provinsi Cina"
 
 #: deluge/ui/countries.py:225
+#, fuzzy
 msgid "Tajikistan"
-msgstr ""
+msgstr "Tajikistan"
 
 #: deluge/ui/countries.py:226
+#, fuzzy
 msgid "Tanzania, United Republic of"
-msgstr ""
+msgstr "Tanzania, Republik Serikat"
 
 #: deluge/ui/countries.py:227
+#, fuzzy
 msgid "Thailand"
-msgstr ""
+msgstr "Thailand"
 
 #: deluge/ui/countries.py:228
+#, fuzzy
 msgid "Timor-Leste"
-msgstr ""
+msgstr "Timor-Leste"
 
 #: deluge/ui/countries.py:229
+#, fuzzy
 msgid "Togo"
-msgstr ""
+msgstr "Togo"
 
 #: deluge/ui/countries.py:230
+#, fuzzy
 msgid "Tokelau"
-msgstr ""
+msgstr "Tokelau"
 
 #: deluge/ui/countries.py:231
+#, fuzzy
 msgid "Tonga"
-msgstr ""
+msgstr "Tonga"
 
 #: deluge/ui/countries.py:232
+#, fuzzy
 msgid "Trinidad and Tobago"
-msgstr ""
+msgstr "Trinidad dan Tobago"
 
 #: deluge/ui/countries.py:233
+#, fuzzy
 msgid "Tunisia"
-msgstr ""
+msgstr "Tunisia"
 
 #: deluge/ui/countries.py:234
+#, fuzzy
 msgid "Turkey"
-msgstr ""
+msgstr "Turki"
 
 #: deluge/ui/countries.py:235
+#, fuzzy
 msgid "Turkmenistan"
-msgstr ""
+msgstr "Turkmenistan"
 
 #: deluge/ui/countries.py:236
+#, fuzzy
 msgid "Turks and Caicos Islands"
-msgstr ""
+msgstr "Kepulauan Turks dan Caicos"
 
 #: deluge/ui/countries.py:237
+#, fuzzy
 msgid "Tuvalu"
-msgstr ""
+msgstr "Tuvalu"
 
 #: deluge/ui/countries.py:238
+#, fuzzy
 msgid "Uganda"
-msgstr ""
+msgstr "Uganda"
 
 #: deluge/ui/countries.py:239
+#, fuzzy
 msgid "Ukraine"
-msgstr ""
+msgstr "Ukraina"
 
 #: deluge/ui/countries.py:240
+#, fuzzy
 msgid "United Arab Emirates"
-msgstr ""
+msgstr "Uni Emirat Arab"
 
 #: deluge/ui/countries.py:242
+#, fuzzy
 msgid "United States"
-msgstr ""
+msgstr "Amerika Serikat"
 
 #: deluge/ui/countries.py:243
+#, fuzzy
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "Kepulauan Terluar Kecil Amerika Serikat"
 
 #: deluge/ui/countries.py:244
+#, fuzzy
 msgid "Uruguay"
-msgstr ""
+msgstr "Uruguay"
 
 #: deluge/ui/countries.py:245
+#, fuzzy
 msgid "Uzbekistan"
-msgstr ""
+msgstr "Uzbekistan"
 
 #: deluge/ui/countries.py:246
+#, fuzzy
 msgid "Vanuatu"
-msgstr ""
+msgstr "Vanuatu"
 
 #: deluge/ui/countries.py:247
+#, fuzzy
 msgid "Venezuela"
-msgstr ""
+msgstr "Venezuela"
 
 #: deluge/ui/countries.py:248
+#, fuzzy
 msgid "Viet Nam"
-msgstr ""
+msgstr "Vietnam"
 
 #: deluge/ui/countries.py:249
+#, fuzzy
 msgid "Virgin Islands, British"
-msgstr ""
+msgstr "Kepulauan Virgin, Inggris"
 
 #: deluge/ui/countries.py:250
+#, fuzzy
 msgid "Virgin Islands, U.S."
-msgstr ""
+msgstr "Kepulauan Virgin AS"
 
 #: deluge/ui/countries.py:251
+#, fuzzy
 msgid "Wallis and Futuna"
-msgstr ""
+msgstr "Wallis dan Futuna"
 
 #: deluge/ui/countries.py:252
+#, fuzzy
 msgid "Western Sahara"
-msgstr ""
+msgstr "Sahara Barat"
 
 #: deluge/ui/countries.py:253
+#, fuzzy
 msgid "Yemen"
-msgstr ""
+msgstr "Yaman"
 
 #: deluge/ui/countries.py:254
+#, fuzzy
 msgid "Zambia"
-msgstr ""
+msgstr "Zambia"
 
 #: deluge/ui/countries.py:255
+#, fuzzy
 msgid "Zimbabwe"
-msgstr ""
+msgstr "Zimbabwe"
 
 #: deluge/ui/web/json_api.py:733 deluge/ui/web/json_api.py:750
 #: deluge/ui/web/json_api.py:759 deluge/ui/web/json_api.py:762
@@ -1743,15 +2115,17 @@ msgstr ""
 #: deluge/ui/gtkui/connectionmanager.py:389
 #: deluge/ui/gtkui/connectionmanager.py:452
 #: deluge/ui/gtkui/connectionmanager.py:569
+#, fuzzy
 msgid "Offline"
-msgstr ""
+msgstr "Offline"
 
 #: deluge/ui/web/json_api.py:755 deluge/ui/gtkui/connectionmanager.py:76
 #: deluge/ui/gtkui/connectionmanager.py:274
 #: deluge/ui/gtkui/connectionmanager.py:382
 #: deluge/ui/gtkui/connectionmanager.py:552
+#, fuzzy
 msgid "Online"
-msgstr ""
+msgstr "Dalam jaringan dan luar jaringan"
 
 #: deluge/ui/web/json_api.py:775 deluge/ui/gtkui/connectionmanager.py:77
 #: deluge/ui/gtkui/connectionmanager.py:313
@@ -1759,20 +2133,24 @@ msgstr ""
 #: deluge/ui/gtkui/connectionmanager.py:382
 #: deluge/ui/gtkui/connectionmanager.py:440
 #: deluge/ui/gtkui/connectionmanager.py:552
+#, fuzzy
 msgid "Connected"
-msgstr ""
+msgstr "Terhubung"
 
 #: deluge/ui/web/json_api.py:802
+#, fuzzy
 msgid "Daemon doesn't exist"
-msgstr ""
+msgstr "Daemon tidak ada"
 
 #: deluge/ui/web/json_api.py:808
+#, fuzzy
 msgid "Daemon not running"
-msgstr ""
+msgstr "Daemon tidak berjalan"
 
 #: deluge/ui/web/server.py:661
+#, fuzzy
 msgid "Starting server in PID"
-msgstr ""
+msgstr "Awal server di PID"
 
 #: deluge/ui/gtkui/peers_tab.py:100
 msgid "Address"
@@ -1816,8 +2194,9 @@ msgid "Unlimited"
 msgstr "Tidak terbatas"
 
 #: deluge/ui/gtkui/common.py:70
+#, fuzzy
 msgid "Activated"
-msgstr ""
+msgstr "Diaktifkan"
 
 #: deluge/ui/gtkui/common.py:124 deluge/ui/gtkui/common.py:125
 #: deluge/ui/gtkui/systemtray.py:426 deluge/ui/gtkui/statusbar.py:399
@@ -1827,20 +2206,23 @@ msgid "Other..."
 msgstr "Lainnya..."
 
 #: deluge/ui/gtkui/mainwindow.py:235
+#, fuzzy
 msgid "Down:"
-msgstr ""
+msgstr "Bawah"
 
 #: deluge/ui/gtkui/mainwindow.py:235
+#, fuzzy
 msgid "Up:"
-msgstr ""
+msgstr "Atas"
 
 #: deluge/ui/gtkui/systemtray.py:201 deluge/ui/gtkui/systemtray.py:258
 msgid "Deluge"
 msgstr "Deluge"
 
 #: deluge/ui/gtkui/systemtray.py:201
+#, fuzzy
 msgid "Not Connected..."
-msgstr ""
+msgstr "Tidak terhubung..."
 
 #: deluge/ui/gtkui/systemtray.py:258
 msgid "Down"
@@ -1852,53 +2234,68 @@ msgstr "Unggah"
 
 #: deluge/ui/gtkui/systemtray.py:403 deluge/ui/gtkui/statusbar.py:401
 #: deluge/ui/gtkui/menubar.py:436
+#, fuzzy
 msgid "Set Maximum Download Speed"
-msgstr ""
+msgstr "Atur kecepatan maksimum Download"
 
 #: deluge/ui/gtkui/systemtray.py:417 deluge/ui/gtkui/statusbar.py:429
 #: deluge/ui/gtkui/menubar.py:437
+#, fuzzy
 msgid "Set Maximum Upload Speed"
-msgstr ""
+msgstr "Mengatur kecepatan Upload maksimum"
 
 #: deluge/ui/gtkui/systemtray.py:470
+#, fuzzy
 msgid "Deluge is password protected!"
-msgstr ""
+msgstr "Banjir adalah dilindungi sandi!"
 
 #: deluge/ui/gtkui/systemtray.py:476
+#, fuzzy
 msgid "Enter your password to continue"
-msgstr ""
+msgstr "Masukkan sandi Anda untuk melanjutkan"
 
 #: deluge/ui/gtkui/notification.py:79
+#, fuzzy
 msgid "Torrent complete"
-msgstr ""
+msgstr "Torrent lengkap"
 
 #: deluge/ui/gtkui/notification.py:80
+#, fuzzy
 msgid "Including"
-msgstr ""
+msgstr "Termasuk"
 
 #: deluge/ui/gtkui/notification.py:80
+#, fuzzy
 msgid "files"
-msgstr ""
+msgstr "File"
 
 #: deluge/ui/gtkui/notification.py:109
-#, python-format
+#, fuzzy, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading %(name)s ,  "
-"           which includes %(num_files)i files.\n"
+"This email is to inform you that Deluge has finished downloading "
+"%(name)s ,             which includes %(num_files)i files.\n"
 "To stop receiving these alerts, simply turn off             email "
 "notification in Deluge's preferences.\n"
 "\n"
 "Thank you,\n"
 "Deluge"
 msgstr ""
+"Email ini adalah untuk memberitahukan Anda bahwa banjir telah selesai men-"
+"download % (nama) s, yang mencakup % (num_files) saya file.\n"
+"Untuk berhenti menerima lansiran ini, hanya mematikan notifikasi email dalam "
+"banjir di preferensi.\n"
+"\n"
+"Terima kasih, banjir"
 
 #: deluge/ui/gtkui/new_release_dialog.py:72
+#, fuzzy
 msgid "<i>Client Version</i>"
-msgstr ""
+msgstr "<i>Versi klien</i>"
 
 #: deluge/ui/gtkui/preferences.py:72
+#, fuzzy
 msgid "Categories"
-msgstr ""
+msgstr "Kategori"
 
 #: deluge/ui/gtkui/preferences.py:76
 msgid "Downloads"
@@ -1913,24 +2310,29 @@ msgid "Bandwidth"
 msgstr "Lebar Pita"
 
 #: deluge/ui/gtkui/preferences.py:77
+#, fuzzy
 msgid "Interface"
-msgstr ""
+msgstr "Antarmuka"
 
 #: deluge/ui/gtkui/preferences.py:77
+#, fuzzy
 msgid "Other"
-msgstr ""
+msgstr "Lainnya"
 
 #: deluge/ui/gtkui/preferences.py:77
+#, fuzzy
 msgid "Daemon"
-msgstr ""
+msgstr "Jurik"
 
 #: deluge/ui/gtkui/preferences.py:77
+#, fuzzy
 msgid "Proxy"
-msgstr ""
+msgstr "wakil"
 
 #: deluge/ui/gtkui/preferences.py:78
+#, fuzzy
 msgid "Cache"
-msgstr ""
+msgstr "Tembolok (komputer)"
 
 #: deluge/ui/gtkui/preferences.py:78
 msgid "Plugins"
@@ -1941,12 +2343,14 @@ msgid "Plugin"
 msgstr "Plugin"
 
 #: deluge/ui/gtkui/preferences.py:891
+#, fuzzy
 msgid "Select the Plugin"
-msgstr ""
+msgstr "Pilih Plugin"
 
 #: deluge/ui/gtkui/preferences.py:902
+#, fuzzy
 msgid "Plugin Eggs"
-msgstr ""
+msgstr "Plugin telur"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:111
 #: deluge/ui/gtkui/createtorrentdialog.py:80 deluge/ui/gtkui/files_tab.py:122
@@ -1960,26 +2364,33 @@ msgid "Size"
 msgstr "Ukuran"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:206
+#, fuzzy
 msgid "Invalid File"
-msgstr ""
+msgstr "Berkas tidak valid"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:211
+#, fuzzy
 msgid "Duplicate Torrent"
-msgstr ""
+msgstr "Duplikat Torrent"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:211
+#, fuzzy
 msgid "You cannot add the same torrent twice."
-msgstr ""
+msgstr "Anda tidak dapat menambahkan torrent sama dua kali."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:492
+#, fuzzy
 msgid "Unable to set file priority!"
-msgstr ""
+msgstr "Mampu menetapkan prioritas file!"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:492
+#, fuzzy
 msgid ""
 "File prioritization is unavailable when using Compact allocation.  Would you "
 "like to switch to Full allocation?"
 msgstr ""
+"Prioritas file ini tidak tersedia apabila menggunakan alokasi kompak.  "
+"Apakah Anda ingin beralih ke alokasi penuh?"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:541
 msgid "Choose a .torrent file"
@@ -1996,24 +2407,29 @@ msgid "All files"
 msgstr "Semua berkas"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:622
+#, fuzzy
 msgid "Invalid URL"
-msgstr ""
+msgstr "URL tidak sah"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:622
+#, fuzzy
 msgid "is not a valid URL."
-msgstr ""
+msgstr "ini tidak URL yang valid."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:626
+#, fuzzy
 msgid "Downloading..."
-msgstr ""
+msgstr "Mengunduh"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
+#, fuzzy
 msgid "Download Failed"
-msgstr ""
+msgstr "Download gagal"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
+#, fuzzy
 msgid "Failed to download:"
-msgstr ""
+msgstr "Gagal mengunduh"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:103
 #: deluge/ui/gtkui/edittrackersdialog.py:84
@@ -2026,16 +2442,19 @@ msgid "Tracker"
 msgstr "Tracker"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:143
+#, fuzzy
 msgid "Choose a file"
-msgstr ""
+msgstr "Pilih File"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:172
+#, fuzzy
 msgid "Choose a folder"
-msgstr ""
+msgstr "Memilih folder"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:241
+#, fuzzy
 msgid "Save .torrent file"
-msgstr ""
+msgstr "Menyimpan .torrent file"
 
 #: deluge/ui/gtkui/statusbar.py:146
 msgid "Not Connected"
@@ -2050,32 +2469,38 @@ msgid "Upload Speed"
 msgstr "Kecepatan Mengunggah"
 
 #: deluge/ui/gtkui/statusbar.py:178
+#, fuzzy
 msgid "Protocol Traffic Download/Upload"
-msgstr ""
+msgstr "Protokol lalu lintas Download/Upload"
 
 #: deluge/ui/gtkui/statusbar.py:181
+#, fuzzy
 msgid "DHT Nodes"
-msgstr ""
+msgstr "DHT node"
 
 #: deluge/ui/gtkui/statusbar.py:186
+#, fuzzy
 msgid "Free Disk Space"
-msgstr ""
+msgstr "Ruang Diska"
 
 #: deluge/ui/gtkui/statusbar.py:190
 msgid "No Incoming Connections!"
 msgstr "Tidak ada koneksi yang datang"
 
 #: deluge/ui/gtkui/statusbar.py:456 deluge/ui/gtkui/menubar.py:438
+#, fuzzy
 msgid "Set Maximum Connections"
-msgstr ""
+msgstr "Menetapkan maksimum koneksi"
 
 #: deluge/ui/gtkui/removetorrentdialog.py:78
+#, fuzzy
 msgid "Torrents"
-msgstr ""
+msgstr "Torrent"
 
 #: deluge/ui/gtkui/filtertreeview.py:69
+#, fuzzy
 msgid "States"
-msgstr ""
+msgstr "Serikat"
 
 #: deluge/ui/gtkui/filtertreeview.py:71
 msgid "Labels"
@@ -2094,28 +2519,34 @@ msgid "Seeding"
 msgstr "Menyebarkan"
 
 #: deluge/ui/gtkui/filtertreeview.py:75
+#, fuzzy
 msgid "Paused"
-msgstr ""
+msgstr "Ditangguhkan"
 
 #: deluge/ui/gtkui/filtertreeview.py:76
+#, fuzzy
 msgid "Checking"
-msgstr ""
+msgstr "Giro"
 
 #: deluge/ui/gtkui/filtertreeview.py:77
+#, fuzzy
 msgid "Queued"
-msgstr ""
+msgstr "Antri"
 
 #: deluge/ui/gtkui/filtertreeview.py:79
+#, fuzzy
 msgid "Active"
-msgstr ""
+msgstr "Aktif"
 
 #: deluge/ui/gtkui/filtertreeview.py:80
+#, fuzzy
 msgid "None"
-msgstr ""
+msgstr "Nihil"
 
 #: deluge/ui/gtkui/filtertreeview.py:81
+#, fuzzy
 msgid "No Label"
-msgstr ""
+msgstr "Tanpa label"
 
 #: deluge/ui/gtkui/aboutdialog.py:253
 msgid ""
@@ -2145,90 +2576,120 @@ msgid ""
 msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:149
+#, fuzzy
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: deluge/ui/gtkui/connectionmanager.py:153
 msgid "Host"
 msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:158
+#, fuzzy
 msgid "Version"
-msgstr ""
+msgstr "Versi"
 
 #: deluge/ui/gtkui/connectionmanager.py:386
+#, fuzzy
 msgid "_Stop Daemon"
-msgstr ""
+msgstr "_Stop daemon"
 
 #: deluge/ui/gtkui/connectionmanager.py:394
+#, fuzzy
 msgid "_Start Daemon"
-msgstr ""
+msgstr "_Start daemon"
 
 #: deluge/ui/gtkui/connectionmanager.py:414
 #: deluge/ui/gtkui/connectionmanager.py:424
+#, fuzzy
 msgid "Unable to start daemon!"
-msgstr ""
+msgstr "Tidak dapat memulai daemon!"
 
 #: deluge/ui/gtkui/connectionmanager.py:415
+#, fuzzy
 msgid ""
 "Deluge cannot find the 'deluged' executable, it is likely that you forgot to "
 "install the deluged package or it's not in your PATH."
 msgstr ""
+"Banjir tidak dapat menemukan executable 'deluged', kemungkinan bahwa Anda "
+"lupa untuk menginstal paket deluged atau tidak dalam PATH Anda."
 
 #: deluge/ui/gtkui/connectionmanager.py:425
+#, fuzzy
 msgid "Please examine the details for more information."
-msgstr ""
+msgstr "Periksa rincian untuk informasi lebih lanjut."
 
 #: deluge/ui/gtkui/connectionmanager.py:509
+#, fuzzy
 msgid "Error Adding Host"
-msgstr ""
+msgstr "Kesalahan menambahkan Host"
 
 #: deluge/ui/gtkui/gtkui.py:302 deluge/ui/gtkui/gtkui.py:317
+#, fuzzy
 msgid "Turn off Classic Mode?"
-msgstr ""
+msgstr "Menonaktifkan modus klasik?"
 
 #: deluge/ui/gtkui/gtkui.py:303
+#, fuzzy
 msgid ""
 "It appears that a Deluge daemon process (deluged) is already running.\n"
 "\n"
 "You will either need to stop the daemon or turn off Classic Mode to continue."
 msgstr ""
+"Tampaknya bahwa proses daemon banjir (dibanjiri) sudah berjalan.\n"
+"\n"
+"Anda akan perlu untuk menghentikan daemon atau menonaktifkan modus klasik "
+"untuk melanjutkan."
 
 #: deluge/ui/gtkui/gtkui.py:312
+#, fuzzy
 msgid "Error Starting Core"
-msgstr ""
+msgstr "Kesalahan memulai inti"
 
 #: deluge/ui/gtkui/gtkui.py:313
+#, fuzzy
 msgid ""
 "There was an error starting the core component which is required to run "
 "Deluge in Classic Mode.\n"
 "\n"
 "Please see the details below for more information."
 msgstr ""
+"Ada kesalahan mulai komponen inti yang diperlukan untuk menjalankan banjir "
+"di modus klasik.\n"
+"\n"
+"Silakan Lihat rincian di bawah ini untuk informasi lebih lanjut."
 
 #: deluge/ui/gtkui/gtkui.py:318
+#, fuzzy
 msgid ""
 "Since there was an error starting in Classic Mode would you like to continue "
 "by turning it off?"
 msgstr ""
+"Karena ada kesalahan mulai di modus klasik Anda ingin melanjutkan dengan "
+"mematikan itu?"
 
 #: deluge/ui/gtkui/gtkui.py:342
+#, fuzzy
 msgid "Error Starting Daemon"
-msgstr ""
+msgstr "Kesalahan memulai Daemon"
 
 #: deluge/ui/gtkui/gtkui.py:343
+#, fuzzy
 msgid ""
 "There was an error starting the daemon process.  Try running it from a "
 "console to see if there is an error."
 msgstr ""
+"Ada kesalahan memulai proses daemon.  Coba jalankan dari konsol untuk "
+"melihat jika ada kesalahan."
 
 #: deluge/ui/gtkui/status_tab.py:128 deluge/ui/gtkui/menubar.py:89
 msgid "On"
 msgstr ""
 
 #: deluge/ui/gtkui/status_tab.py:130 deluge/ui/gtkui/menubar.py:92
+#, fuzzy
 msgid "Off"
-msgstr ""
+msgstr "Off"
 
 #: deluge/ui/gtkui/menubar.py:77
 msgid "Set Unlimited"
@@ -2239,24 +2700,29 @@ msgid "Choose a directory to move files to"
 msgstr "Pilih direktori untuk memindahkan berkas"
 
 #: deluge/ui/gtkui/menubar.py:439
+#, fuzzy
 msgid "Set Maximum Upload Slots"
-msgstr ""
+msgstr "Mengatur slot maksimum meng-Upload"
 
 #: deluge/ui/gtkui/files_tab.py:56
+#, fuzzy
 msgid "Do Not Download"
-msgstr ""
+msgstr "Tidak mendownload"
 
 #: deluge/ui/gtkui/files_tab.py:57
+#, fuzzy
 msgid "Normal Priority"
-msgstr ""
+msgstr "Prioritas biasa"
 
 #: deluge/ui/gtkui/files_tab.py:58
+#, fuzzy
 msgid "High Priority"
-msgstr ""
+msgstr "Prioritas tinggi"
 
 #: deluge/ui/gtkui/files_tab.py:59
+#, fuzzy
 msgid "Highest Priority"
-msgstr ""
+msgstr "Prioritas tertinggi"
 
 #: deluge/ui/gtkui/files_tab.py:169
 msgid "Priority"
@@ -2288,12 +2754,14 @@ msgid "Peers"
 msgstr "Peer"
 
 #: deluge/ui/gtkui/torrentview.py:241
+#, fuzzy
 msgid "Down Limit"
-msgstr ""
+msgstr "Bawah batas"
 
 #: deluge/ui/gtkui/torrentview.py:243
+#, fuzzy
 msgid "Up Limit"
-msgstr ""
+msgstr "Sampai batas"
 
 #: deluge/ui/gtkui/torrentview.py:245
 msgid "ETA"
@@ -2308,12 +2776,14 @@ msgid "Avail"
 msgstr "Tersedia"
 
 #: deluge/ui/gtkui/torrentview.py:251
+#, fuzzy
 msgid "Added"
-msgstr ""
+msgstr "tambah:"
 
 #: deluge/ui/gtkui/torrentview.py:257
+#, fuzzy
 msgid "Save Path"
-msgstr ""
+msgstr "Simpan Path"
 
 #: deluge/ui/gtkui/glade/main_window.glade:21
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:99
@@ -2419,16 +2889,18 @@ msgid "Remove Torrent"
 msgstr "HapusTorrent"
 
 #: deluge/ui/gtkui/glade/main_window.glade:364
+#, fuzzy
 msgid "Pause the selected torrents"
-msgstr ""
+msgstr "Jeda torrents dipilih"
 
 #: deluge/ui/gtkui/glade/main_window.glade:365
 msgid "Pause"
 msgstr "Tunda"
 
 #: deluge/ui/gtkui/glade/main_window.glade:380
+#, fuzzy
 msgid "Resume the selected torrents"
-msgstr ""
+msgstr "Melanjutkan torrents dipilih"
 
 #: deluge/ui/gtkui/glade/main_window.glade:381
 msgid "Resume"
@@ -2443,8 +2915,9 @@ msgid "Queue Up"
 msgstr "Naikkan Antrian"
 
 #: deluge/ui/gtkui/glade/main_window.glade:418
+#, fuzzy
 msgid "Queue Torrent Down"
-msgstr ""
+msgstr "Antrian Torrent turun"
 
 #: deluge/ui/gtkui/glade/main_window.glade:419
 msgid "Queue Down"
@@ -2463,80 +2936,94 @@ msgid "Connection Manager"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:570
+#, fuzzy
 msgid "_Expand All"
-msgstr ""
+msgstr "Bentangkan semua"
 
 #: deluge/ui/gtkui/glade/main_window.glade:591
 msgid "_Do Not Download"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:607
+#, fuzzy
 msgid "_Normal Priority"
-msgstr ""
+msgstr "Prioritas biasa"
 
 #: deluge/ui/gtkui/glade/main_window.glade:623
+#, fuzzy
 msgid "_High Priority"
-msgstr ""
+msgstr "Prioritas tinggi"
 
 #: deluge/ui/gtkui/glade/main_window.glade:639
 msgid "Hi_ghest Priority"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:721
+#, fuzzy
 msgid "<b>Auto Managed:</b>"
-msgstr ""
+msgstr "<b>Auto dikelola:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:762
+#, fuzzy
 msgid "<b>Seed Rank:</b>"
-msgstr ""
+msgstr "<b>Benih Rank:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:777
+#, fuzzy
 msgid "<b>Seeding Time:</b>"
-msgstr ""
+msgstr "<b>Penyemaian waktu:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:803
+#, fuzzy
 msgid "<b>Active Time:</b>"
-msgstr ""
+msgstr "<b>Waktu aktif:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:860
 msgid "<b>Tracker Status:</b>"
 msgstr "<b>Status Tracker:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:890
+#, fuzzy
 msgid "<b>Availability:</b>"
-msgstr ""
+msgstr "KETERSEDIAAN"
 
 #: deluge/ui/gtkui/glade/main_window.glade:944
 msgid "<b>Peers:</b>"
 msgstr "<b>Peer:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:970
+#, fuzzy
 msgid "<b>Seeders:</b>"
-msgstr ""
+msgstr "<b>Seeders:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:988
+#, fuzzy
 msgid "<b>Pieces:</b>"
-msgstr ""
+msgstr "<b>Potongan:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1010
 msgid "<b>ETA:</b>"
 msgstr "<b>ETA:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1032
+#, fuzzy
 msgid "<b>Up Speed:</b>"
-msgstr ""
+msgstr "<b>Kecepatan:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1054
+#, fuzzy
 msgid "<b>Down Speed:</b>"
-msgstr ""
+msgstr "<b>Menurunkan kecepatan:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1073
+#, fuzzy
 msgid "<b>Next Announce:</b>"
-msgstr ""
+msgstr "<b>Selanjutnya mengumumkan:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1092
+#, fuzzy
 msgid "<b>Share Ratio:</b>"
-msgstr ""
+msgstr "<b>Berbagi rasio:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1111
 msgid "<b>Uploaded:</b>"
@@ -2547,16 +3034,18 @@ msgid "<b>Downloaded:</b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1191
+#, fuzzy
 msgid "<b>Date Added:</b>"
-msgstr ""
+msgstr "<b>Tanggal Ditambahkan:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1249
 msgid "_Status"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1310
+#, fuzzy
 msgid "<b>Comments:</b>"
-msgstr ""
+msgstr "Komentar"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1339
 msgid "<b># of files:</b>"
@@ -2579,8 +3068,9 @@ msgid "<b>Name:</b>"
 msgstr "<b>Nama:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1479
+#, fuzzy
 msgid "<b>Path:</b>"
-msgstr ""
+msgstr "Jalur:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1513
 msgid "<b>Status:</b>"
@@ -2599,12 +3089,14 @@ msgid "_Peers"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:2009
+#, fuzzy
 msgid "Move completed:"
-msgstr ""
+msgstr "Pindah selesai:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2105
+#, fuzzy
 msgid "Private"
-msgstr ""
+msgstr "Pribadi"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2120
 msgid "Prioritize First/Last"
@@ -2625,79 +3117,95 @@ msgid "Remove Torrent?"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:2324
-msgid ""
-"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
+#, fuzzy
+msgid "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
 msgstr ""
+"<big><b>Apakah Anda yakin Anda ingin menghapus torrent dipilih?</b></big>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2376
+#, fuzzy
 msgid "<i>The associated .torrent will be deleted!</i>"
-msgstr ""
+msgstr "<i>.Torrent terkait akan dihapus!</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2416
+#, fuzzy
 msgid "<i>The downloaded data will be deleted!</i>"
-msgstr ""
+msgstr "<i>Download data akan dihapus!</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2460
+#, fuzzy
 msgid "Remove Selected Torrent"
-msgstr ""
+msgstr "Menghapus dipilih Torrent"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2484
+#, fuzzy
 msgid "New Release"
-msgstr ""
+msgstr "Rilis baru"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2518
 msgid "<b><big>New Release Available!</big></b>"
 msgstr "<b><big>Versi Terbaru Tersedia!</big></b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2570
+#, fuzzy
 msgid "<i>Available Version:</i>"
-msgstr ""
+msgstr "<i>Versi yang tersedia:</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2593
+#, fuzzy
 msgid "<i>Current Version:</i>"
-msgstr ""
+msgstr "<i>Versi saat ini:</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2604
+#, fuzzy
 msgid "<i>Server Version</i>"
-msgstr ""
+msgstr "<i>Server versi</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2637
 msgid "Do not show this dialog in the future"
 msgstr "Jangan tampilkan halaman ini di kemudian hari"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2676
+#, fuzzy
 msgid "_Goto Website"
-msgstr ""
+msgstr "Situs web _Goto"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2704
+#, fuzzy
 msgid "_Add Peer"
-msgstr ""
+msgstr "_Add rekan"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2706
+#, fuzzy
 msgid "Add a peer by its IP"
-msgstr ""
+msgstr "Tambahkan rekan oleh IP yang"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:10
+#, fuzzy
 msgid "_Select All"
-msgstr ""
+msgstr "Pilih Semua"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:26
 #: deluge/ui/gtkui/glade/tray_menu.glade:48
+#, fuzzy
 msgid "_Pause All"
-msgstr ""
+msgstr "_Tangguhkan Semua"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:41
 #: deluge/ui/gtkui/glade/torrent_menu.glade:48
+#, fuzzy
 msgid "Resume selected torrents."
-msgstr ""
+msgstr "Melanjutkan dipilih torrents."
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:42
+#, fuzzy
 msgid "Resu_me All"
-msgstr ""
+msgstr "Resu_me semua"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:8
+#, fuzzy
 msgid "Add Torrents"
-msgstr ""
+msgstr "Menambahkan Torrents"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:147
 msgid "_URL"
@@ -2708,8 +3216,9 @@ msgid "Info_hash"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:241
+#, fuzzy
 msgid "_Remove"
-msgstr ""
+msgstr "_Buang"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:274
 msgid "<b>Torrents</b>"
@@ -2733,44 +3242,54 @@ msgid "<b>Allocation</b>"
 msgstr "<b>Pengalokasian</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:525
+#, fuzzy
 msgid "Max Down Speed:"
-msgstr ""
+msgstr "Kecepatan Max Down:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:537
+#, fuzzy
 msgid "Max Up Speed:"
-msgstr ""
+msgstr "Kecepatan Max Up:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:668
+#, fuzzy
 msgid "Add In _Paused State"
-msgstr ""
+msgstr "Tambahkan di negara _Paused"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:684
+#, fuzzy
 msgid "Prioritize First/Last Pieces"
-msgstr ""
+msgstr "Memprioritaskan potongan-potongan pertama/terakhir"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:762
+#, fuzzy
 msgid "Revert To Defaults"
-msgstr ""
+msgstr "Kembali ke default"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:816
+#, fuzzy
 msgid "Apply To All"
-msgstr ""
+msgstr "Berlaku untuk semua"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:944
+#, fuzzy
 msgid "Add URL"
-msgstr ""
+msgstr "Tambahkan URL"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:983
+#, fuzzy
 msgid "<b>From URL</b>"
-msgstr ""
+msgstr "<b>Dari URL</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1104
+#, fuzzy
 msgid "Add Infohash"
-msgstr ""
+msgstr "Tambahkan Infohash"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1143
+#, fuzzy
 msgid "<b>From Infohash</b>"
-msgstr ""
+msgstr "<b>Dari Infohash</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1178
 msgid "Infohash:"
@@ -2782,20 +3301,24 @@ msgid "Trackers:"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:7
+#, fuzzy
 msgid "Create Torrent"
-msgstr ""
+msgstr "Buat torrent"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:34
+#, fuzzy
 msgid "<big><b>Create Torrent</b></big>"
-msgstr ""
+msgstr "<big><b>Membuat Torrent</b></big>"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:159
+#, fuzzy
 msgid "Fol_der"
-msgstr ""
+msgstr "Fol_der"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:199
+#, fuzzy
 msgid "_Remote Path"
-msgstr ""
+msgstr "_Remote jalan"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
 msgid "<b>Files</b>"
@@ -2803,26 +3326,32 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:263
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4756
+#, fuzzy
 msgid "Author:"
-msgstr ""
+msgstr "Pembuat:"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:292
+#, fuzzy
 msgid "Comments:"
-msgstr ""
+msgstr "Komentar"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:331
+#, fuzzy
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
+#, fuzzy
 msgid "Webseeds"
-msgstr ""
+msgstr "Seedweb"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
+#, fuzzy
 msgid "Piece Size:"
-msgstr ""
+msgstr "Potongan ukuran:"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
+#, fuzzy
 msgid ""
 "32 KiB\n"
 "64 KiB\n"
@@ -2834,164 +3363,204 @@ msgid ""
 "4 MiB\n"
 "8 MiB\n"
 "16 MiB\n"
-msgstr ""
+msgstr "32 KiB 64 KiB 128 KiB 256 KiB 512 KiB 1 MiB 2 MiB 4 MiB 8 MiB 16 MiB"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:580
+#, fuzzy
 msgid "Set Private Flag"
-msgstr ""
+msgstr "Atur tanda pribadi"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:594
+#, fuzzy
 msgid "Add this torrent to the session"
-msgstr ""
+msgstr "Tambahkan torrent ini ke sesi"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:692
+#, fuzzy
 msgid "Enter Remote Path"
-msgstr ""
+msgstr "Masukkan Path terpencil"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:728
+#, fuzzy
 msgid "<b>Remote Path</b>"
-msgstr ""
+msgstr "<b>Jalan terpencil</b>"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:762
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:944
+#, fuzzy
 msgid "Path:"
-msgstr ""
+msgstr "Jalur:"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:837
+#, fuzzy
 msgid "Creating Torrent"
-msgstr ""
+msgstr "Menciptakan Torrent"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:874
+#, fuzzy
 msgid "Save .torrent as"
-msgstr ""
+msgstr "Simpan .torrent sebagai"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:910
+#, fuzzy
 msgid "<b>Save .torrent file</b>"
-msgstr ""
+msgstr "<b>Menyimpan .torrent file</b>"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:8
+#, fuzzy
 msgid "Queued Torrents"
-msgstr ""
+msgstr "Antrian Torrents"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:47
+#, fuzzy
 msgid "<big><b>Add Queued Torrents</b></big>"
-msgstr ""
+msgstr "<big><b>Menambahkan Torrents antrian</b></big>"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:127
+#, fuzzy
 msgid "Automatically add torrents on connect"
-msgstr ""
+msgstr "Secara otomatis menambahkan torrents pada terhubung"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:98
+#, fuzzy
 msgid "label"
-msgstr ""
+msgstr "Label"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:154
+#, fuzzy
 msgid "Add Peer"
-msgstr ""
+msgstr "Tambahkan Peer"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:187
+#, fuzzy
 msgid "<b>Add Peer</b>"
-msgstr ""
+msgstr "<b>Tambahkan Peer</b>"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:211
+#, fuzzy
 msgid "hostname:port"
-msgstr ""
+msgstr "hostname:Port"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:8
+#, fuzzy
 msgid "Add Host"
-msgstr ""
+msgstr "Tambahkan Host"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:237
+#, fuzzy
 msgid "<big><b>Connection Manager</b></big>"
-msgstr ""
+msgstr "<big><b>Connection Manager</b></big>"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:363
+#, fuzzy
 msgid "_Start local daemon"
-msgstr ""
+msgstr "_Start daemon lokal"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:415
+#, fuzzy
 msgid "Automatically connect to selected host on start-up"
-msgstr ""
+msgstr "Secara otomatis terhubung ke host dipilih start-up"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:426
+#, fuzzy
 msgid "Automatically start localhost if needed"
-msgstr ""
+msgstr "Otomatis mulai localhost jika diperlukan"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:440
+#, fuzzy
 msgid "Do not show this dialog on start-up"
-msgstr ""
+msgstr "Jangan Tampilkan dialog ini start-up"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:78
+#, fuzzy
 msgid "<b><i><big>Downloads</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Mingguan</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:188
+#, fuzzy
 msgid "Auto add .torrents from:"
-msgstr ""
+msgstr "Auto Tambahkan .torrents dari:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:253
+#, fuzzy
 msgid "Download to:"
-msgstr ""
+msgstr "Men-download ke:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:261
+#, fuzzy
 msgid "Copy of .torrent files to:"
-msgstr ""
+msgstr "Salinan file .torrent:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:316
+#, fuzzy
 msgid "Delete copy of torrent file on remove"
-msgstr ""
+msgstr "Menghapus salinan file torrent Hapus"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:320
-msgid ""
-"Delete the copy of the torrent file created when the torrent is removed"
-msgstr ""
+#, fuzzy
+msgid "Delete the copy of the torrent file created when the torrent is removed"
+msgstr "Menghapus salinan file torrent dibuat ketika torrent akan dihapus"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:337
+#, fuzzy
 msgid "<b>Folders</b>"
-msgstr ""
+msgstr "Map"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:370
+#, fuzzy
 msgid "Use Full Allocation"
-msgstr ""
+msgstr "Menggunakan penuh alokasi"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:375
+#, fuzzy
 msgid ""
 "Full allocation preallocates all of the space that is needed for the torrent "
 "and prevents disk fragmentation"
 msgstr ""
+"Penuh alokasi preallocates Semua Ruang yang diperlukan untuk torrent dan "
+"mencegah fragmentasi disk"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:387
 msgid "Use Compact Allocation"
 msgstr "Gunakan Alokasi Ringkas"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:392
+#, fuzzy
 msgid "Compact allocation only allocates space as needed"
-msgstr ""
+msgstr "Kompak alokasi hanya mengalokasikan ruang yang diperlukan"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:440
+#, fuzzy
 msgid "Prioritize first and last pieces of torrent"
-msgstr ""
+msgstr "Memprioritaskan potongan-potongan yang pertama dan terakhir torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:445
+#, fuzzy
 msgid "Prioritize first and last pieces of files in torrent"
 msgstr ""
+"Memprioritaskan potongan-potongan yang pertama dan terakhir file di torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:455
+#, fuzzy
 msgid "Add torrents in Paused state"
-msgstr ""
+msgstr "Menambahkan torrents dalam keadaan dijeda"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:529
+#, fuzzy
 msgid "<b><i><big>Network</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Jaringan</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:569
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:763
+#, fuzzy
 msgid "Use Random Ports"
-msgstr ""
+msgstr "Menggunakan acak Port"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:574
+#, fuzzy
 msgid "Deluge will automatically choose a different port to use every time."
 msgstr ""
+"Banjir akan secara otomatis memilih port lain untuk menggunakan setiap waktu."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:592
 msgid "Active Port:"
@@ -3003,44 +3572,57 @@ msgid "To:"
 msgstr "Ke:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:690
+#, fuzzy
 msgid "Test Active Port"
-msgstr ""
+msgstr "Tes aktif Port"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:732
+#, fuzzy
 msgid "<b>Incoming Ports</b>"
-msgstr ""
+msgstr "<b>Pelabuhan masuk</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:850
+#, fuzzy
 msgid "<b>Outgoing Ports</b>"
-msgstr ""
+msgstr "<b>Keluar Port</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:882
+#, fuzzy
 msgid ""
 "Enter the IP address of the interface to listen for incoming bittorrent "
 "connections on.  Leave this empty if you want to use the default."
 msgstr ""
+"Masukkan alamat IP dari antarmuka untuk mendengarkan koneksi bittorrent "
+"masuk.  Meninggalkan ini kosong jika Anda ingin menggunakan default."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:903
+#, fuzzy
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "Antarmuka"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:939
+#, fuzzy
 msgid ""
 "The TOS byte set in the IP header of every packet sent to peers (including "
 "web seeds).  Expects a Hex value."
 msgstr ""
+"Byte KL terletak di header IP setiap paket yang dikirim kepada rekan-rekan "
+"(termasuk web biji).  Mengharapkan nilai Hex."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:940
+#, fuzzy
 msgid "Peer TOS Byte:"
-msgstr ""
+msgstr "Rekan KL Byte:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:973
+#, fuzzy
 msgid "<b>TOS</b>"
-msgstr ""
+msgstr "<b>KL</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1006
+#, fuzzy
 msgid "UPnP"
-msgstr ""
+msgstr "UPnP"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1010
 msgid "Universal Plug and Play"
@@ -3051,21 +3633,26 @@ msgid "NAT-PMP"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1025
+#, fuzzy
 msgid "NAT Port Mapping Protocol"
-msgstr ""
+msgstr "Protokol pemetaan NAT Port"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1038
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1042
+#, fuzzy
 msgid "Peer Exchange"
-msgstr ""
+msgstr "Rekan Asing"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1055
+#, fuzzy
 msgid "LSD"
-msgstr ""
+msgstr "Asam lisergat dietilamida"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1060
+#, fuzzy
 msgid "Local Service Discovery finds local peers on your network."
 msgstr ""
+"Pencarian layanan lokal menemukan teman-teman lokal pada jaringan Anda."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1071
 #: deluge/ui/console/statusbars.py:104
@@ -3073,171 +3660,216 @@ msgid "DHT"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1075
+#, fuzzy
 msgid "Distributed hash table may improve the amount of active connections."
-msgstr ""
+msgstr "Tabel hash didistribusikan mungkin meningkatkan jumlah koneksi aktif."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1097
+#, fuzzy
 msgid "<b>Network Extras</b>"
-msgstr ""
+msgstr "<b>Jaringan ekstra</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1136
+#, fuzzy
 msgid "Inbound:"
-msgstr ""
+msgstr "Masuk:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1146
+#, fuzzy
 msgid "Level:"
-msgstr ""
+msgstr "datar"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1167
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1217
+#, fuzzy
 msgid ""
 "Forced\n"
 "Enabled\n"
 "Disabled"
-msgstr ""
+msgstr "Dipaksa diaktifkan Cacat"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1178
+#, fuzzy
 msgid ""
 "Handshake\n"
 "Full Stream\n"
 "Either"
-msgstr ""
+msgstr "Jabat tangan penuh Stream baik"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1206
+#, fuzzy
 msgid "Outbound:"
-msgstr ""
+msgstr "Keluar"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1233
+#, fuzzy
 msgid "Encrypt entire stream"
-msgstr ""
+msgstr "Mengenkripsi seluruh aliran"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1258
+#, fuzzy
 msgid "<b>Encryption</b>"
-msgstr ""
+msgstr "Enkripsi"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1319
+#, fuzzy
 msgid "<b><i><big>Bandwidth</big></i></b>"
-msgstr ""
+msgstr "Bandwidth"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1396
+#, fuzzy
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "Maksimum koneksi upaya per detik:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1408
+#, fuzzy
 msgid "Maximum Half-Open Connections:"
-msgstr ""
+msgstr "Maksimum setengah-terbuka hubungan:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1419
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1509
+#, fuzzy
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr ""
+"Kecepatan upload maksimum untuk semua torrents.  Set -1 untuk tak terbatas."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1421
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1706
+#, fuzzy
 msgid "Maximum Upload Speed (KiB/s):"
-msgstr ""
+msgstr "Kecepatan Upload maksimum (KiB/s):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1432
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1457
+#, fuzzy
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
 msgstr ""
+"Jumlah maksimum koneksi yang diperbolehkan.  Set -1 untuk tak terbatas."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1434
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1669
+#, fuzzy
 msgid "Maximum Connections:"
-msgstr ""
+msgstr "Maksimum koneksi:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1443
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1528
+#, fuzzy
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
 msgstr ""
+"Slot maksimum meng-upload untuk semua torrents.  Set -1 untuk tak terbatas."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1445
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1680
+#, fuzzy
 msgid "Maximum Upload Slots:"
-msgstr ""
+msgstr "Slot maksimum meng-Upload:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1475
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1490
+#, fuzzy
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
 msgstr ""
+"Kecepatan maksimum download untuk semua torrents.  Set -1 untuk tak terbatas."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1477
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1693
+#, fuzzy
 msgid "Maximum Download Speed (KiB/s):"
-msgstr ""
+msgstr "Kecepatan Download maksimum (KiB/s):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1554
+#, fuzzy
 msgid "Ignore limits on local network"
-msgstr ""
+msgstr "Mengabaikan batas pada jaringan lokal"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1573
+#, fuzzy
 msgid "Rate limit IP overhead"
-msgstr ""
+msgstr "Batas laju IP overhead"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1577
+#, fuzzy
 msgid ""
 "If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
 "to avoid exceeding the limits with the total traffic"
 msgstr ""
+"Jika dicentang, TCP/IP perkiraan overhead dikeringkan dari tingkat limiter, "
+"untuk menghindari melebihi batas dengan total lalu lintas"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1594
+#, fuzzy
 msgid "<b>Global Bandwidth Usage</b>"
-msgstr ""
+msgstr "<b>Penggunaan global Bandwidth</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1633
+#, fuzzy
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
-msgstr ""
+msgstr "Maksimum meng-upload slot per torrent.  Set -1 untuk tak terbatas."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1652
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1718
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1736
+#, fuzzy
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
-msgstr ""
+msgstr "Jumlah maksimum sambungan per torrent.  Set -1 untuk tak terbatas."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1758
+#, fuzzy
 msgid "<b>Per Torrent Bandwidth Usage</b>"
-msgstr ""
+msgstr "<b>Setiap penggunaan Bandwidth Torrent</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1818
+#, fuzzy
 msgid "<i><b><big>Interface</big></b></i>"
-msgstr ""
+msgstr "Antarmuka"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1851
 msgid "Enable"
 msgstr "Aktifkan"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1856
+#, fuzzy
 msgid ""
 "Classic Mode will hide most of the daemon functionality and will make Deluge "
 "appear to be a single application.  Use this if you do not want to take "
 "advantage of running Deluge as a daemon. You need to restart Deluge for this "
 "setting to take effect."
 msgstr ""
+"Modus klasik akan menyembunyikan sebagian besar fungsi daemon dan akan "
+"membuat banjir nampaknya satu aplikasi.  Menggunakan ini jika Anda tidak "
+"ingin mengambil keuntungan dari menjalankan banjir sebagai daemon. Anda "
+"perlu restart banjir untuk pengaturan ini diterapkan."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1866
+#, fuzzy
 msgid "<b>Classic Mode</b>"
-msgstr ""
+msgstr "<b>Modus klasik</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1899
+#, fuzzy
 msgid "Show session speed in titlebar"
-msgstr ""
+msgstr "Menunjukkan sesi kecepatan di titlebar"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1917
+#, fuzzy
 msgid "<b>Main Window</b>"
-msgstr ""
+msgstr "<b>Jendela utama</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1950
+#, fuzzy
 msgid "Always show"
-msgstr ""
+msgstr "Selalu Tampilkan"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1968
+#, fuzzy
 msgid "Bring the dialog to focus"
-msgstr ""
+msgstr "Membawa dialog untuk fokus"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1988
+#, fuzzy
 msgid "<b>Add Torrents Dialog</b>"
-msgstr ""
+msgstr "<b>Menambahkan Torrents Dialog</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2020
 msgid "Enable system tray icon"
@@ -3248,154 +3880,191 @@ msgid "Minimize to tray on close"
 msgstr "Minimalkan ke tray ketika ditutup"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2058
+#, fuzzy
 msgid "Start in tray"
-msgstr ""
+msgstr "Mulai di nampan"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2078
+#, fuzzy
 msgid "Enable Application Indicator"
-msgstr ""
+msgstr "Mengaktifkan aplikasi indikator"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2099
+#, fuzzy
 msgid "Password protect system tray"
-msgstr ""
+msgstr "Password melindungi baki sistem"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2165
 msgid "<b>System Tray</b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2224
+#, fuzzy
 msgid "<i><b><big>Other</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Lainnya</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2265
+#, fuzzy
 msgid "Be alerted about new releases"
-msgstr ""
+msgstr "Diberitahu tentang rilis baru"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2270
+#, fuzzy
 msgid ""
 "Deluge will check our servers and will tell you if a newer version has been "
 "released"
 msgstr ""
+"Banjir akan memeriksa server kami dan akan memberitahu Anda jika versi baru "
+"telah dirilis"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2289
 msgid "<b>Updates</b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2326
+#, fuzzy
 msgid ""
 "Help us improve Deluge by sending us your Python version, PyGTK version, OS "
 "and processor types.  Absolutely no other information is sent."
 msgstr ""
+"Membantu kami memperbaiki banjir dengan mengirimkan versi Python, PyGTK "
+"versi, OS dan prosesor jenis.  Benar-benar tidak ada informasi yang dikirim."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2343
+#, fuzzy
 msgid "Yes, please send anonymous statistics"
-msgstr ""
+msgstr "Ya, silakan mengirim statistik anonim"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2365
+#, fuzzy
 msgid "<b>System Information</b>"
-msgstr ""
+msgstr "<b>Sistem informasi</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2408
+#, fuzzy
 msgid "Location:"
-msgstr ""
+msgstr "Lokasi"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2420
+#, fuzzy
 msgid ""
 "If Deluge cannot find the database file at this location it will fallback to "
 "using DNS to resolve the peer's country."
 msgstr ""
+"Jika banjir tidak dapat menemukan file database di lokasi ini akan mundur "
+"untuk menggunakan DNS untuk menyelesaikan rekan negara."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2444
 msgid "<b>GeoIP Database</b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2489
+#, fuzzy
 msgid "Associate Magnet links with Deluge"
-msgstr ""
+msgstr "Menghubungkan link Magnet dengan banjir"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2558
+#, fuzzy
 msgid "<i><b><big>Daemon</big></b></i>"
-msgstr ""
+msgstr "Jurik"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2602
 msgid "Daemon port:"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2639
+#, fuzzy
 msgid "<b>Port</b>"
-msgstr ""
+msgstr "Nomor"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2668
+#, fuzzy
 msgid "Allow Remote Connections"
-msgstr ""
+msgstr "Memungkinkan koneksi Remote"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2682
+#, fuzzy
 msgid "<b>Connections</b>"
-msgstr ""
+msgstr "<b>Koneksi</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2711
+#, fuzzy
 msgid "Periodically check the website for new releases"
-msgstr ""
+msgstr "Secara berkala memeriksa situs web untuk rilis baru"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2725
+#, fuzzy
 msgid "<b>Other</b>"
-msgstr ""
+msgstr "<b>Lainnya</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2785
+#, fuzzy
 msgid "<i><b><big>Queue</big></b></i>"
-msgstr ""
+msgstr "Antrean"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2828
 msgid "Queue new torrents to top"
 msgstr "Antrikan torrent-torrent baru di puncak"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2923
+#, fuzzy
 msgid "Total active seeding:"
-msgstr ""
+msgstr "Total penyemaian aktif:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2936
+#, fuzzy
 msgid "Total active:"
-msgstr ""
+msgstr "Total aktif:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2965
+#, fuzzy
 msgid "Total active downloading:"
-msgstr ""
+msgstr "Jumlah download aktif:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2980
+#, fuzzy
 msgid "Do not count slow torrents"
-msgstr ""
+msgstr "Jangan menghitung lambat torrents"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2998
+#, fuzzy
 msgid "<b>Active Torrents</b>"
-msgstr ""
+msgstr "<b>Aktif Torrents</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3040
+#, fuzzy
 msgid "Share Ratio Limit:"
-msgstr ""
+msgstr "Berbagi batas rasio:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3050
+#, fuzzy
 msgid "Seed Time Ratio:"
-msgstr ""
+msgstr "Benih rasio waktu:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3062
+#, fuzzy
 msgid "Seed Time (m):"
-msgstr ""
+msgstr "Benih waktu (m):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3130
+#, fuzzy
 msgid "Stop seeding when share ratio reaches:"
-msgstr ""
+msgstr "Berhenti penyemaian ketika berbagi rasio mencapai:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3175
+#, fuzzy
 msgid "Remove torrent when share ratio reached"
-msgstr ""
+msgstr "Menghapus torrent ketika berbagi rasio mencapai"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3197
+#, fuzzy
 msgid "<b>Seeding</b>"
-msgstr ""
+msgstr "<b>Pembibitan</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3262
+#, fuzzy
 msgid "<i><b><big>Proxy</big></b></i>"
-msgstr ""
+msgstr "wakil"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3333
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3517
@@ -3408,6 +4077,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3591
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3775
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3962
+#, fuzzy
 msgid ""
 "None\n"
 "Socksv4\n"
@@ -3415,153 +4085,194 @@ msgid ""
 "Socksv5 W/ Auth\n"
 "HTTP\n"
 "HTTP W/ Auth"
-msgstr ""
+msgstr "Tidak ada Socksv4 Socksv5 Socksv5 W / HTTP Auth HTTP W / Auth"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3454
+#, fuzzy
 msgid "<b>Peer</b>"
-msgstr ""
+msgstr "<b>Rekan</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3638
+#, fuzzy
 msgid "<b>Web Seed</b>"
-msgstr ""
+msgstr "<b>Web benih</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3822
+#, fuzzy
 msgid "<b>Tracker</b>"
-msgstr ""
+msgstr "Pelacak:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4010
 msgid "<b>DHT</b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4067
+#, fuzzy
 msgid "<b><i><big>Cache</big></i></b>"
-msgstr ""
+msgstr "Tembolok (komputer)"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4112
+#, fuzzy
 msgid "Cache Size (16 KiB blocks):"
-msgstr ""
+msgstr "Ukuran cache (16 KiB blok):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4122
+#, fuzzy
 msgid ""
 "The number of seconds from the last cached write to a piece in the write "
 "cache, to when it's forcefully flushed to disk. Default is 60 seconds."
 msgstr ""
+"Jumlah detik dari menulis cache terakhir untuk sepotong dalam cache menulis, "
+"yang ketika itu telah tegas memerah ke disk. Default adalah 60 detik."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4124
+#, fuzzy
 msgid "Cache Expiry (seconds):"
-msgstr ""
+msgstr "Cache kedaluwarsa (detik):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4220
+#, fuzzy
 msgid ""
 "The total number of 16 KiB blocks written to disk since this session was "
 "started."
-msgstr ""
+msgstr "Jumlah total 16 KiB blok ditulis ke disk sejak sesi ini dimulai."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4222
+#, fuzzy
 msgid "Blocks Written:"
-msgstr ""
+msgstr "Blok menulis:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4231
+#, fuzzy
 msgid ""
 "The total number of write operations performed since this session was "
 "started."
-msgstr ""
+msgstr "Jumlah total menulis operasi dilakukan sejak sesi ini dimulai."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4233
+#, fuzzy
 msgid "Writes:"
-msgstr ""
+msgstr "Menulis:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4244
+#, fuzzy
 msgid ""
 "The ratio (blocks_written - writes) / blocks_written represents the number "
 "of saved write operations per total write operations, i.e. a kind of cache "
 "hit ratio for the write cache."
 msgstr ""
+"Rasio (blocks_written - menulis) / blocks_written mewakili jumlah disimpan "
+"menulis operasi per total menulis operasi, yaitu sejenis cache hit rasio "
+"untuk menulis cache."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4246
+#, fuzzy
 msgid "Write Cache Hit Ratio:"
-msgstr ""
+msgstr "Menulis Cache Hit rasio:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4298
+#, fuzzy
 msgid "<b>Write</b>"
-msgstr ""
+msgstr "Menulis"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4328
+#, fuzzy
 msgid ""
 "The number of blocks that were requested from the bittorrent engine (from "
 "peers), that were served from disk or cache."
 msgstr ""
+"Jumlah blok yang diminta dari mesin bittorrent (dari rekan-rekan), yang "
+"disajikan dari disk atau cache."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4330
+#, fuzzy
 msgid "Blocks Read:"
-msgstr ""
+msgstr "Dibaca blok:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4339
+#, fuzzy
 msgid "The number of blocks that were served from cache."
-msgstr ""
+msgstr "Jumlah blok yang dilayani dari cache."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4341
+#, fuzzy
 msgid "Blocks Read Hit:"
-msgstr ""
+msgstr "Memukul blok membaca:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4352
+#, fuzzy
 msgid "The cache hit ratio for the read cache."
-msgstr ""
+msgstr "Cache hit rasio untuk cache baca."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4354
+#, fuzzy
 msgid "Read Cache Hit Ratio:"
-msgstr ""
+msgstr "Baca Cache Hit rasio:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4403
+#, fuzzy
 msgid ""
 "The total number of read operations performed since this session was started."
-msgstr ""
+msgstr "Jumlah total Baca operasi yang dilakukan sejak sesi ini dimulai."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4405
+#, fuzzy
 msgid "Reads:"
-msgstr ""
+msgstr "Berbunyi:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4432
+#, fuzzy
 msgid "<b>Read</b>"
-msgstr ""
+msgstr "Baca"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4462
+#, fuzzy
 msgid ""
 "The number of 16 KiB blocks currently in the disk cache. This includes both "
 "read and write cache."
 msgstr ""
+"Jumlah blok KiB 16 saat ini dalam disk cache. Ini mencakup baik membaca dan "
+"menulis cache."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4464
+#, fuzzy
 msgid "Cache Size:"
-msgstr ""
+msgstr "Ukuran cache:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4474
+#, fuzzy
 msgid "Read Cache Size:"
-msgstr ""
+msgstr "Ukuran Cache membaca:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4513
+#, fuzzy
 msgid "<b>Size</b>"
-msgstr ""
+msgstr "Ukuran"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4556
+#, fuzzy
 msgid "<b>Status</b>"
-msgstr ""
+msgstr "Status"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4618
+#, fuzzy
 msgid "<i><b><big>Plugins</big></b></i>"
-msgstr ""
+msgstr "Aplikasi"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4743
+#, fuzzy
 msgid "Version:"
-msgstr ""
+msgstr "Versi"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4767
+#, fuzzy
 msgid "Homepage:"
-msgstr ""
+msgstr "Beranda"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4780
+#, fuzzy
 msgid "Author Email:"
-msgstr ""
+msgstr "Email Penulis:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4872
 msgid "_Install Plugin"
@@ -3580,8 +4291,9 @@ msgid "_Show Deluge"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:65
+#, fuzzy
 msgid "_Resume All"
-msgstr ""
+msgstr "_Resume semua"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:87
 #: deluge/ui/gtkui/glade/torrent_menu.glade:212
@@ -3598,118 +4310,146 @@ msgid "Quit & Shutdown Daemon"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:11
+#, fuzzy
 msgid "_Open Folder"
-msgstr ""
+msgstr "Buka Folder"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:49
+#, fuzzy
 msgid "Resu_me"
-msgstr ""
+msgstr "Resu_me"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:71
+#, fuzzy
 msgid "Opt_ions"
-msgstr ""
+msgstr "Opt_ions"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:93
+#, fuzzy
 msgid "_Queue"
-msgstr ""
+msgstr "_Antrean"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:113
+#, fuzzy
 msgid "_Update Tracker"
-msgstr ""
+msgstr "_Update tracker"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:152
+#, fuzzy
 msgid "_Remove Torrent"
-msgstr ""
+msgstr "Buang torrent"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:174
+#, fuzzy
 msgid "_Force Re-check"
-msgstr ""
+msgstr "_Force memeriksa ulang"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:191
+#, fuzzy
 msgid "Move _Storage"
-msgstr ""
+msgstr "Bergerak _Storage"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:242
+#, fuzzy
 msgid "_Connection Limit"
-msgstr ""
+msgstr "_Connection batas"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:258
+#, fuzzy
 msgid "Upload _Slot Limit"
-msgstr ""
+msgstr "Meng-upload _Slot batas"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:273
+#, fuzzy
 msgid "_Auto Managed"
-msgstr ""
+msgstr "_Auto berhasil"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:51
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
+#, fuzzy
 msgid "<big><b>Remove the selected torrent?</b></big>"
-msgstr ""
+msgstr "<big><b>Menghapus torrent dipilih?</b></big>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:66
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
+#, fuzzy
 msgid "If you remove the data, it will be lost permanently."
-msgstr ""
+msgstr "Jika Anda menghapus data, itu akan hilang secara permanen."
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:127
+#, fuzzy
 msgid "action"
-msgstr ""
+msgstr "kegiatan"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:129
+#, fuzzy
 msgid "Remove Files"
-msgstr ""
+msgstr "Hapus file"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:198
+#, fuzzy
 msgid "Keep Files"
-msgstr ""
+msgstr "Menyimpan file"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:9
+#, fuzzy
 msgid "Edit Trackers"
-msgstr ""
+msgstr "Mengedit pelacak"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:47
+#, fuzzy
 msgid "<big><b>Edit Trackers</b></big>"
-msgstr ""
+msgstr "<big><b>Mengedit pelacak</b></big>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:224
+#, fuzzy
 msgid "Add Tracker"
-msgstr ""
+msgstr "Tambahkan Tracker"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:260
+#, fuzzy
 msgid "<b>Add Trackers</b>"
-msgstr ""
+msgstr "<b>Tambahkan pelacak</b>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:380
+#, fuzzy
 msgid "Edit Tracker"
-msgstr ""
+msgstr "Mengedit Tracker"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:416
+#, fuzzy
 msgid "<b>Edit Tracker</b>"
-msgstr ""
+msgstr "<b>Mengedit Tracker</b>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:450
+#, fuzzy
 msgid "Tracker:"
-msgstr ""
+msgstr "Pelacak:"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
+#, fuzzy
 msgid "Remove With _Data"
-msgstr ""
+msgstr "Menghapus dengan _Data"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
+#, fuzzy
 msgid "Remove _Torrent"
-msgstr ""
+msgstr "Buang torrent"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:9
+#, fuzzy
 msgid "Move Storage"
-msgstr ""
+msgstr "Bergerak Penyimpanan"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:44
+#, fuzzy
 msgid "<b>Move Storage</b>"
-msgstr ""
+msgstr "<b>Bergerak Penyimpanan</b>"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:78
+#, fuzzy
 msgid "Destination:"
-msgstr ""
+msgstr "Terakhir memanggilku"
 
 #~ msgid "Details"
 #~ msgstr "Detil"
@@ -3930,15 +4670,12 @@ msgstr ""
 #~ msgid "translate something"
 #~ msgstr "terjemahkan sesuatu"
 
-#, python-format
 #~ msgid "Ensure that there are no more than %s digits in total."
 #~ msgstr "Pastikan jumlah digit tidak lebih dari %s."
 
-#, python-format
 #~ msgid "Ensure this value is greater than or equal to %s."
 #~ msgstr "Pastikan nilai ini lebih dari atau sama dengan %s."
 
-#, python-format
 #~ msgid "Ensure this value is less than or equal to %s."
 #~ msgstr "Pastikan nilai ini kurang dari atau sama dengan %s."
 
@@ -3967,7 +4704,6 @@ msgstr ""
 #~ "Deluge terlindungi dengan password.\n"
 #~ "Untuk menampilkan layar Deluge, harap masukkan kata sandi Anda."
 
-#, python-format
 #~ msgid "Downloading %.2f%%"
 #~ msgstr "Mengunduh %.2f%%"
 
@@ -3992,7 +4728,6 @@ msgstr ""
 #~ msgid "Filters"
 #~ msgstr "Saringan"
 
-#, python-format
 #~ msgid "Importing %s"
 #~ msgstr "Mengimpor %s"
 
@@ -4042,7 +4777,6 @@ msgstr ""
 #~ msgid "Auto Add folder"
 #~ msgstr "Penambah Otomatis folder"
 
-#, python-format
 #~ msgid "Select a valid choice. %s is not one of the available choices."
 #~ msgstr "Pilih pilihan yang sah. %s bukan merupakan pilihan yang tersedia."
 
