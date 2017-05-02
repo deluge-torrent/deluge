@@ -364,7 +364,6 @@ class TorrentView(ListView, component.Component):
 
     def stop(self):
         """Stops the torrentview"""
-        # We need to clear the liststore
         client.deregister_event_handler('TorrentStateChangedEvent', self.on_torrentstatechanged_event)
         client.deregister_event_handler('TorrentAddedEvent', self.on_torrentadded_event)
         client.deregister_event_handler('TorrentRemovedEvent', self.on_torrentremoved_event)
@@ -374,6 +373,10 @@ class TorrentView(ListView, component.Component):
 
         if self.treeview.get_selection():
             self.treeview.get_selection().unselect_all()
+
+        # Save column state before clearing liststore
+        # so column sort details are correctly saved.
+        self.save_state()
         self.liststore.clear()
         self.prev_status = {}
         self.filter = None
@@ -381,7 +384,7 @@ class TorrentView(ListView, component.Component):
 
     def shutdown(self):
         """Called when GtkUi is exiting"""
-        self.save_state()
+        pass
 
     def save_state(self):
         """
