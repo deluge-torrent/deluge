@@ -361,13 +361,15 @@ class TorrentView(listview.ListView, component.Component):
 
     def stop(self):
         """Stops the torrentview"""
-        # We need to clear the liststore
+        # Save column state before clearing liststore
+        # so column sort details are correctly saved.
+        self.save_state()
         self.liststore.clear()
         self.prev_status = {}
 
     def shutdown(self):
         """Called when GtkUi is exiting"""
-        self.save_state()
+        pass
 
     def save_state(self):
         """
