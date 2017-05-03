@@ -1,3 +1,30 @@
+=== Deluge 1.3.15 (3 May 2017) ===
+
+==== Core ====
+	* #2991: Fix issues with displaying libtorrent single proxy.
+	* #3008: Fix libtorrent 1.2 trackers crashing Deluge UIs.
+	* #2990: Fix error in torrent priorities causing file priority mismatch in UIs.
+
+==== GtkUI ====
+	* #3012: Configure gtkrc to use consistent button ordering on Windows.
+	* Fix column sort state not saved in Thinclient mode.
+	* #2786: Fix connection manager error with malformed ip.
+	* #2866: Rename SystemTray/Indicator 'Pause/Resume All' to 'Pause/Resume Session'.
+	* #2991: Workaround lt single proxy by greying out unused proxy types.
+
+==== WebUI ====
+	* Security Fix: Check render template files exist otherwise raise 404.
+
+==== Notification Plugin ====
+	* #2913: Fix webui passing string for int port value.
+
+==== AutoAdd Plugin ====
+	* Add WebUI preferences page detailing lack of configuration via WebUI.
+
+==== Label Plugin ====
+	* Add WebUI preferences page detailing how to configure plugin.
+
+
 === Deluge 1.3.14 (6 March 2017) ===
 
 ==== Core ====
