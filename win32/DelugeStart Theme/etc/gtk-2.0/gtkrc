@@ -1,11 +1,13 @@
 gtk-theme-name = "DelugeStart"
 gtk-icon-theme-name = "Tango"
 gtk-fallback-icon-theme = "hicolor"
-gtk-alternative-button-order = 1
+# Keep consistent button order (#3012)
+gtk-alternative-button-order = 0
 gtk-alternative-sort-arrows = 1
 gtk-auto-mnemonics = 1
 gtk-show-input-method-menu = 0
 gtk-show-unicode-menu = 0
+gtk-error-bell = 0
 
 #gtk-toolbar-icon-size = small-toolbar
 gtk-button-images = 0
