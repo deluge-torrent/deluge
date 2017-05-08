@@ -982,7 +982,7 @@ class Preferences(component.Component):
             else:
                 ErrorDialog(
                     _('Server Side Error'),
-                    _('An error ocurred on the server'),
+                    _('An error occurred on the server'),
                     parent=self.pref_dialog, details=failure.getErrorMessage()
                 ).run()
         client.core.get_known_accounts().addCallback(on_ok).addErrback(on_fail)
@@ -1043,7 +1043,7 @@ class Preferences(component.Component):
                 else:
                     ErrorDialog(
                         _('Error Adding Account'),
-                        _('An error ocurred while adding account'),
+                        _('An error occurred while adding account'),
                         parent=self.pref_dialog, details=failure.getErrorMessage()
                     ).run()
 
@@ -1076,7 +1076,7 @@ class Preferences(component.Component):
             def update_fail(failure):
                 ErrorDialog(
                     _('Error Updating Account'),
-                    _('An error ocurred while updating account'),
+                    _('An error occurred while updating account'),
                     parent=self.pref_dialog, details=failure.getErrorMessage()
                 ).run()
 
@@ -1114,7 +1114,7 @@ class Preferences(component.Component):
                 else:
                     ErrorDialog(
                         _('Error Removing Account'),
-                        _('An error ocurred while removing account'),
+                        _('An error occurred while removing account'),
                         parent=self.pref_dialog, details=failure.getErrorMessage()
                     ).run()
             if response_id == gtk.RESPONSE_YES:

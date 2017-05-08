@@ -219,7 +219,7 @@
                     <property name="row_spacing">5</property>
                     <child>
                       <object class="GtkCheckButton" id="enable_auto_completion_checkbutton">
-                        <property name="label" translatable="yes">Enable  autocomplete</property>
+                        <property name="label" translatable="yes">Enable autocomplete</property>
                         <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>

@@ -3043,7 +3043,7 @@ used sparingly.</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
-                                            <property name="tooltip_text" translatable="yes">Uses random ports  in range 49152 to 65525</property>
+                                            <property name="tooltip_text" translatable="yes">Uses random ports in range 49152 to 65525</property>
                                             <property name="draw_indicator">True</property>
                                             <signal name="toggled" handler="on_toggle" swapped="no"/>
                                           </object>
@@ -3749,7 +3749,7 @@ the proxy instead of using the local DNS service</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
-                                            <property name="tooltip_text" translatable="yes">Attempt to hide client identity and only use proxy  for incoming connections.</property>
+                                            <property name="tooltip_text" translatable="yes">Attempt to hide client identity and only use proxy for incoming connections.</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
                                         </child>
