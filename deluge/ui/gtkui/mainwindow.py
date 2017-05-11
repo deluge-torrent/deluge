@@ -109,6 +109,24 @@ class MainWindow(component.Component):
             while gtk.events_pending():
                 gtk.main_iteration(False)
             self.vpaned.set_position(self.initial_vpaned_position)
+        elif deluge.common.windows_check():
+            # Realize window to create a handle for wndproc.
+            self.window.realize()
+
+        if deluge.common.windows_check():
+            # Handle win32 WM_QUERYENDSESSION message so GUI can be shutdown cleanly.
+            from win32gui import CallWindowProc, SetWindowLong
+            from win32con import GWL_WNDPROC, WM_QUERYENDSESSION
+
+            def on_wndproc(hwnd, msg, wparam, lparam):
+                # log.debug("%s, %s, %s", msg, wParam, lParam)
+                if msg == WM_QUERYENDSESSION:
+                    reactor.stop()
+                # Pass all messages on to the original WndProc.
+                return CallWindowProc(old_wndproc, hwnd, msg, wparam, lparam)
+
+            # Set WndProc to above function and store old value.
+            old_wndproc = SetWindowLong(self.window.window.handle, GWL_WNDPROC, on_wndproc)
 
     def show(self):
         try:
