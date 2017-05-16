@@ -9,20 +9,49 @@
  * See LICENSE for more details.
  */
 
-AutoAddPlugin = Ext.extend(Deluge.Plugin, {
-    constructor: function(config) {
-        config = Ext.apply({
-            name: "AutoAdd"
-        }, config);
-        AutoAddPlugin.superclass.constructor.call(this, config);
-    },
+Ext.ns('Deluge.ux.preferences');
+
+/**
+ * @class Deluge.ux.preferences.AutoAddPage
+ * @extends Ext.Panel
+ */
+Deluge.ux.preferences.AutoAddPage = Ext.extend(Ext.Panel, {
+
+    title: _('AutoAdd'),
+    layout: 'fit',
+    border: false,
+
+    initComponent: function() {
+        Deluge.ux.preferences.AutoAddPage.superclass.initComponent.call(this);
+        fieldset = this.add({
+            xtype: 'fieldset',
+            border: false,
+            title: _('AutoAdd Preferences'),
+            autoHeight: true,
+            labelWidth: 1,
+            defaultType: 'panel'
+        });
+        fieldset.add({
+            border: false,
+            bodyCfg: {
+                html: _('<p>The AutoAdd plugin is enabled however there is no WebUI ' +
+                        'preferences page implemented yet for this plugin.</p><br>' +
+                        '<p>In the meantime please use GtkUI preference page to configure this plugin.<p>')
+            }
+        });
+    }
+});
+
+Deluge.plugins.AutoAddPlugin = Ext.extend(Deluge.Plugin, {
+    name: 'AutoAdd',
 
     onDisable: function() {
-
+        deluge.preferences.removePage(this.prefsPage);
     },
 
     onEnable: function() {
-
+        this.prefsPage = deluge.preferences.addPage(new Deluge.ux.preferences.AutoAddPage());
     }
 });
-new AutoAddPlugin();
+
+Deluge.registerPlugin('AutoAdd', Deluge.plugins.AutoAddPlugin);

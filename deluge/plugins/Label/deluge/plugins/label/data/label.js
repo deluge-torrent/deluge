@@ -9,6 +9,42 @@
  *
  */
 
+Ext.ns('Deluge.ux.preferences');
+
+/**
+ * @class Deluge.ux.preferences.LabelPage
+ * @extends Ext.Panel
+ */
+Deluge.ux.preferences.LabelPage = Ext.extend(Ext.Panel, {
+
+    title: _('Label'),
+    layout: 'fit',
+    border: false,
+
+    initComponent: function() {
+        Deluge.ux.preferences.LabelPage.superclass.initComponent.call(this);
+        fieldset = this.add({
+            xtype: 'fieldset',
+            border: false,
+            title: _('Label Preferences'),
+            autoHeight: true,
+            labelWidth: 1,
+            defaultType: 'panel'
+        });
+        fieldset.add({
+            border: false,
+            bodyCfg: {
+                html: _('<p>The Label plugin is enabled.</p><br>' +
+                        '<p>To add, remove or edit labels right-click on the Label filter ' +
+                        'entry in the sidebar.</p><br>' +
+                        '<p>To apply a label right-click on torrent(s).<p>')
+            }
+        });
+
+    },
+
+});
+
 Ext.ns('Deluge.ux');
 
 /**
@@ -393,9 +429,11 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
         this.deregisterTorrentStatus('label');
         deluge.menus.torrent.remove(this.tmSep);
         deluge.menus.torrent.remove(this.tm);
+        deluge.preferences.removePage(this.prefsPage);
     },
 
     onEnable: function() {
+        this.prefsPage = deluge.preferences.addPage(new Deluge.ux.preferences.LabelPage());
         this.torrentMenu = new Ext.menu.Menu();
 
         this.tmSep = deluge.menus.torrent.add({
