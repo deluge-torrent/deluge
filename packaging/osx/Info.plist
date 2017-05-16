@@ -2,58 +2,58 @@
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleIdentifier</key>
-	<string>org.deluge</string>
-	<key>CFBundleName</key>
-	<string>Deluge</string>
-	<key>CFBundleIconFile</key>
-	<string>deluge.icns</string>
-	<key>CFBundleExecutable</key>
-	<string>Deluge</string>
-	<key>CFBundleShortVersionString</key>
-	<string>1.3.900-dev</string>
-	<key>CFBundleVersion</key>
-	<string>1.3.900-dev</string>
-	<key>CFBundleGetInfoString</key>
-	<string>1.3.900-dev (c) 2008-2013 Deluge Team http://deluge-torrent.org/</string>
-	<key>NSHumanReadableCopyright</key>
-	<string>Copyright 2008-2013 Deluge Team</string>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleSignature</key>
-	<string>DL##</string>
-	<key>LSMinimumSystemVersion</key>
-	<string>10.6</string>
-	<key>LSUIElement</key>
-	<string>0</string>
-	<key>NSHighResolutionCapable</key>
-	<true/>
-	<key>CFBundleDisplayName</key>
-	<string>Deluge</string>
-	<key>CFBundleDocumentTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>torrent</string>
-			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string>torrent</string>
-			<key>CFBundleTypeName</key>
-			<string>BitTorrent Document</string>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>LSHandlerRank</key>
-			<string>Owner</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>org.bittorrent.torrent</string>
-			</array>
-		</dict>
-	</array>
+    <key>CFBundleIdentifier</key>
+    <string>org.deluge</string>
+    <key>CFBundleName</key>
+    <string>Deluge</string>
+    <key>CFBundleIconFile</key>
+    <string>deluge.icns</string>
+    <key>CFBundleExecutable</key>
+    <string>Deluge</string>
+    <key>CFBundleShortVersionString</key>
+    <string>2.0-dev</string>
+    <key>CFBundleVersion</key>
+    <string>2.0-dev</string>
+    <key>CFBundleGetInfoString</key>
+    <string>2.0-dev (c) 2008-2017 Deluge Team http://deluge-torrent.org/</string>
+    <key>NSHumanReadableCopyright</key>
+    <string>Copyright 2008-2017 Deluge Team</string>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>English</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleSignature</key>
+    <string>DL##</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>10.6</string>
+    <key>LSUIElement</key>
+    <string>0</string>
+    <key>NSHighResolutionCapable</key>
+    <true/>
+    <key>CFBundleDisplayName</key>
+    <string>Deluge</string>
+    <key>CFBundleDocumentTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeExtensions</key>
+            <array>
+                <string>torrent</string>
+            </array>
+            <key>CFBundleTypeIconFile</key>
+            <string>torrent</string>
+            <key>CFBundleTypeName</key>
+            <string>BitTorrent Document</string>
+            <key>CFBundleTypeRole</key>
+            <string>Viewer</string>
+            <key>LSHandlerRank</key>
+            <string>Owner</string>
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>org.bittorrent.torrent</string>
+            </array>
+        </dict>
+    </array>
 </dict>
 </plist>
