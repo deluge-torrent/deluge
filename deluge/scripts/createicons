@@ -1,9 +1,0 @@
-#!/bin/bash
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-data_dir="$DIR/../ui/data"
-for size in 16 22 24 32 36 48 64 72 96 128 192 256; do
-    mkdir -p $data_dir/icons/hicolor/${size}x${size}/apps;
-    rsvg-convert -w ${size} -h ${size} -o $data_dir/icons/hicolor/${size}x${size}/apps/deluge.png $data_dir/pixmaps/deluge.svg;
-    mkdir -p $data_dir/icons/hicolor/scalable/apps/;
-    cp $data_dir/pixmaps/deluge.svg $data_dir/icons/hicolor/scalable/apps/deluge.svg;
-done

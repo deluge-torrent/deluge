@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -8,17 +9,17 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448819"
-   height="1052.3622047"
+   width="128"
+   height="128"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
-   sodipodi:docbase="/home/andrew"
+   inkscape:version="0.91 r13725"
    sodipodi:docname="dht.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="/home/andrew/Projects/deluge/trunk/deluge/data/pixmaps/dht16.png"
    inkscape:export-xdpi="1.9579109"
-   inkscape:export-ydpi="1.9579109">
+   inkscape:export-ydpi="1.9579109"
+   version="1.1">
   <defs
      id="defs4">
     <inkscape:perspective
@@ -39,16 +40,18 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49497475"
-     inkscape:cx="217.74745"
-     inkscape:cy="658.24369"
+     inkscape:zoom="5.6568542"
+     inkscape:cx="51.409667"
+     inkscape:cy="66.916781"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     inkscape:window-width="1024"
-     inkscape:window-height="711"
-     inkscape:window-x="1280"
-     inkscape:window-y="0"
-     showgrid="false" />
+     inkscape:window-width="1861"
+     inkscape:window-height="1176"
+     inkscape:window-x="59"
+     inkscape:window-y="24"
+     showgrid="false"
+     inkscape:showpageshadow="false"
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -57,117 +60,104 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(0,-924.36219)">
     <path
-       sodipodi:type="arc"
-       style="opacity:1;fill:#8dd35f;fill-opacity:1;stroke:#000000;stroke-width:2.48568825;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path3437"
-       sodipodi:cx="325.71429"
-       sodipodi:cy="215.21933"
-       sodipodi:rx="85.714287"
-       sodipodi:ry="85.714287"
-       d="M 411.42858,215.21933 A 85.714287,85.714287 0 1 1 240.00001,215.21933 A 85.714287,85.714287 0 1 1 411.42858,215.21933 z"
-       transform="matrix(1.6800176,0,0,1.6800176,-275.15013,-73.06899)"
-       inkscape:export-filename="/home/andrew/dht16-2.png"
-       inkscape:export-xdpi="3.8918922"
-       inkscape:export-ydpi="3.8918922" />
-    <path
-       sodipodi:type="arc"
-       style="opacity:1;fill:#5599ff;fill-opacity:1;stroke:#000000;stroke-width:2.81711386;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path3439"
-       sodipodi:cx="325.71429"
-       sodipodi:cy="215.21933"
-       sodipodi:rx="85.714287"
-       sodipodi:ry="85.714287"
-       d="M 411.42858,215.21933 A 85.714287,85.714287 0 1 1 240.00001,215.21933 A 85.714287,85.714287 0 1 1 411.42858,215.21933 z"
-       transform="matrix(1.4823682,0,0,1.4823682,82.877111,311.11956)"
-       inkscape:export-filename="/home/andrew/dht16-2.png"
-       inkscape:export-xdpi="3.8918922"
-       inkscape:export-ydpi="3.8918922" />
-    <path
-       sodipodi:type="arc"
-       style="opacity:1;fill:#8dd35f;fill-opacity:1;stroke:#000000;stroke-width:3.2505155;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path3441"
-       sodipodi:cx="325.71429"
-       sodipodi:cy="215.21933"
-       sodipodi:rx="85.714287"
-       sodipodi:ry="85.714287"
-       d="M 411.42858,215.21933 A 85.714287,85.714287 0 1 1 240.00001,215.21933 A 85.714287,85.714287 0 1 1 411.42858,215.21933 z"
-       transform="matrix(1.2847193,0,0,1.2847193,-104.04248,489.18828)"
-       inkscape:export-filename="/home/andrew/dht16-2.png"
-       inkscape:export-xdpi="3.8918922"
-       inkscape:export-ydpi="3.8918922" />
-    <path
-       sodipodi:type="arc"
-       style="opacity:1;fill:#5599ff;fill-opacity:1;stroke:#000000;stroke-width:3.29273035;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path3443"
-       sodipodi:cx="325.71429"
-       sodipodi:cy="215.21933"
-       sodipodi:rx="85.714287"
-       sodipodi:ry="85.714287"
-       d="M 411.42858,215.21933 A 85.714287,85.714287 0 1 1 240.00001,215.21933 A 85.714287,85.714287 0 1 1 411.42858,215.21933 z"
-       transform="matrix(1.2682484,0,0,1.2682484,-282.25061,288.22576)"
-       inkscape:export-filename="/home/andrew/dht16-2.png"
-       inkscape:export-xdpi="3.8918922"
-       inkscape:export-ydpi="3.8918922" />
-    <path
-       sodipodi:type="arc"
-       style="opacity:1;fill:#b3b3b3;fill-opacity:1;stroke:#000000;stroke-width:4.08935796;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path3445"
-       sodipodi:cx="325.71429"
-       sodipodi:cy="215.21933"
-       sodipodi:rx="85.714287"
-       sodipodi:ry="85.714287"
-       d="M 411.42858,215.21933 A 85.714287,85.714287 0 1 1 240.00001,215.21933 A 85.714287,85.714287 0 1 1 411.42858,215.21933 z"
-       transform="matrix(1.0211872,0,0,1.0211872,244.38469,139.31302)"
-       inkscape:export-filename="/home/andrew/dht16-2.png"
-       inkscape:export-xdpi="3.8918922"
-       inkscape:export-ydpi="3.8918922" />
-    <path
-       style="opacity:1;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:10.04848194;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 409.97291,329.4348 L 487.75261,344.44338"
-       id="path3691"
-       inkscape:export-filename="/home/andrew/dht16-2.png"
-       inkscape:export-xdpi="3.8918922"
-       inkscape:export-ydpi="3.8918922"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="opacity:1;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:8.96934509;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 423.06163,747.83054 L 464.53048,708.21583"
-       id="path3693"
-       inkscape:export-filename="/home/andrew/dht16-2.png"
-       inkscape:export-xdpi="3.8918922"
-       inkscape:export-ydpi="3.8918922"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="opacity:1;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:11.37722969;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 315.62445,431.58184 L 310.19863,651.84005"
+       style="opacity:1;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 51.371573,974.02754 4.703341,36.73196"
        id="path3695"
        inkscape:export-filename="/home/andrew/dht16-2.png"
        inkscape:export-xdpi="3.8918922"
        inkscape:export-ydpi="3.8918922"
-       sodipodi:nodetypes="cc" />
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0" />
     <path
-       style="opacity:1;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:10.04848194;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 143.15025,452.25537 L 171.01599,395.38786"
-       id="path3697"
-       inkscape:export-filename="/home/andrew/dht16-2.png"
-       inkscape:export-xdpi="3.8918922"
-       inkscape:export-ydpi="3.8918922"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="opacity:1;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:11.37722969;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 360.45007,405.53416 L 474.8177,539.94039"
+       style="opacity:1;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 63.256291,969.16777 23.581249,23.7999"
        id="path3699"
        inkscape:export-filename="/home/andrew/dht16-2.png"
        inkscape:export-xdpi="3.8918922"
        inkscape:export-ydpi="3.8918922"
-       sodipodi:nodetypes="cc" />
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:1;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 31.776499,981.71786 4.647106,-9.48366"
+       id="path3697"
+       inkscape:export-filename="/home/andrew/dht16-2.png"
+       inkscape:export-xdpi="3.8918922"
+       inkscape:export-ydpi="3.8918922"
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:1;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 69.943212,952.70635 12.971145,2.50294"
+       id="path3691"
+       inkscape:export-filename="/home/andrew/dht16-2.png"
+       inkscape:export-xdpi="3.8918922"
+       inkscape:export-ydpi="3.8918922"
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:1;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 67.557838,1019.8019 14.681475,-5.7109"
+       id="path3693"
+       inkscape:export-filename="/home/andrew/dht16-2.png"
+       inkscape:export-xdpi="3.8918922"
+       inkscape:export-ydpi="3.8918922"
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0" />
+    <circle
+       style="opacity:1;fill:#16c816;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path3437"
+       inkscape:export-filename="/home/andrew/dht16-2.png"
+       inkscape:export-xdpi="3.8918922"
+       inkscape:export-ydpi="3.8918922"
+       cx="47.440121"
+       cy="951.93445"
+       r="24.014807" />
+    <circle
+       style="opacity:1;fill:#4c90e8;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path3443"
+       inkscape:export-filename="/home/andrew/dht16-2.png"
+       inkscape:export-xdpi="3.8918922"
+       inkscape:export-ydpi="3.8918922"
+       cx="23.889254"
+       cy="997.40765"
+       r="18.128822" />
+    <circle
+       style="opacity:1;fill:#b3b3b3;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path3445"
+       inkscape:export-filename="/home/andrew/dht16-2.png"
+       inkscape:export-xdpi="3.8918922"
+       inkscape:export-ydpi="3.8918922"
+       cx="95.936546"
+       cy="960.33722"
+       r="14.597237" />
+    <circle
+       style="opacity:1;fill:#4c90e8;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path3439"
+       inkscape:export-filename="/home/andrew/dht16-2.png"
+       inkscape:export-xdpi="3.8918922"
+       inkscape:export-ydpi="3.8918922"
+       cx="99.223282"
+       cy="1006.9724"
+       r="21.189529" />
+    <circle
+       style="opacity:1;fill:#16c816;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path3441"
+       inkscape:export-filename="/home/andrew/dht16-2.png"
+       inkscape:export-xdpi="3.8918922"
+       inkscape:export-ydpi="3.8918922"
+       cx="54.840214"
+       cy="1026.1222"
+       r="18.364264" />
   </g>
 </svg>

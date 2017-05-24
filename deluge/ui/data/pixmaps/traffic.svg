@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -8,16 +9,17 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448819"
-   height="1052.3622047"
+   width="128"
+   height="128"
    id="svg2517"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="0.91 r13725"
    sodipodi:docname="traffic.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="/home/andrew/Projects/deluge/trunk/deluge/data/pixmaps/traffic16.png"
    inkscape:export-xdpi="2.459017"
-   inkscape:export-ydpi="2.459017">
+   inkscape:export-ydpi="2.459017"
+   version="1.1">
   <defs
      id="defs2519">
     <inkscape:perspective
@@ -38,16 +40,23 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35"
-     inkscape:cx="375"
-     inkscape:cy="520"
+     inkscape:zoom="5.6"
+     inkscape:cx="56.051291"
+     inkscape:cy="66.506813"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="667"
-     inkscape:window-height="709"
-     inkscape:window-x="50"
-     inkscape:window-y="25" />
+     showgrid="true"
+     inkscape:window-width="1861"
+     inkscape:window-height="1176"
+     inkscape:window-x="59"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3336"
+       empspacing="1"
+       dotted="false" />
+  </sodipodi:namedview>
   <metadata
      id="metadata2522">
     <rdf:RDF>
@@ -56,26 +65,30 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(0,-924.36218)">
     <path
-       style="opacity:0.8;fill:#93beff;fill-opacity:1;stroke:#000000;stroke-width:14.10382843;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 426.97356,240.8999 C 357.59783,308.95913 287.94003,376.84267 218.5643,444.90171 C 255.8915,444.97001 293.31198,444.83361 330.63937,444.90171 C 330.63937,525.49501 330.63937,606.08832 330.63937,686.68162 C 396.96082,686.68162 463.28247,686.68162 529.6041,686.68162 C 529.6041,606.29827 529.6041,525.9149 529.6041,445.53134 C 563.99549,445.5944 598.47289,445.46848 632.86428,445.53134 C 564.25459,377.21984 495.58304,309.21159 426.97356,240.8999 z"
+       style="opacity:1;fill:#4c90e8;fill-opacity:1;stroke:#000000;stroke-width:4.088;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 79.742286,929.51964 c -14.206752,13.93715 -28.471266,27.83834 -42.678018,41.77545 7.643855,0.014 15.306814,-0.0139 22.950711,0 0,16.50389 0,33.00771 0,49.51151 13.581299,0 27.16264,0 40.743951,0 0,-16.4609 0,-32.92164 0,-49.38258 7.04267,0.0129 14.10294,-0.0129 21.14561,0 -14.04989,-13.98881 -28.112421,-27.91554 -42.162254,-41.90438 z"
        id="rect2634"
        inkscape:export-filename="/home/andrew/Projects/deluge/trunk/deluge/data/pixmaps/traffic32.png"
        inkscape:export-xdpi="4.9180341"
-       inkscape:export-ydpi="4.9180341" />
+       inkscape:export-ydpi="4.9180341"
+       inkscape:connector-curvature="0" />
     <path
-       style="opacity:0.8;fill:#b7e399;fill-opacity:1;stroke:#000000;stroke-width:14.10382843;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 298.40213,812.39589 C 229.0264,744.33666 159.3686,676.45312 89.992873,608.39408 C 127.32007,608.32578 164.74055,608.46218 202.06794,608.39408 C 202.06794,527.80078 202.06794,447.20747 202.06794,366.61417 C 268.38939,366.61417 334.71104,366.61417 401.03267,366.61417 C 401.03267,446.99752 401.03267,527.38089 401.03267,607.76445 C 435.42406,607.70139 469.90146,607.82731 504.29285,607.76445 C 435.68316,676.07595 367.01161,744.0842 298.40213,812.39589 z"
+       style="opacity:1;fill:#16c816;fill-opacity:1;stroke:#000000;stroke-width:4.088;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 48.980975,1047.5605 c -14.206752,-13.9372 -28.471263,-27.8383 -42.6780126,-41.7755 7.6438566,-0.014 15.3068146,0.014 22.9507156,0 0,-16.5037 0,-33.00759 0,-49.51147 13.581288,0 27.162629,0 40.74397,0 0,16.46089 0,32.92179 0,49.38257 7.042653,-0.014 14.102929,0.013 21.145603,0 -14.049885,13.9888 -28.112433,27.9156 -42.162276,41.9044 z"
        id="path2528"
        inkscape:export-filename="/home/andrew/Projects/deluge/trunk/deluge/data/pixmaps/traffic32.png"
        inkscape:export-xdpi="4.9180341"
-       inkscape:export-ydpi="4.9180341" />
+       inkscape:export-ydpi="4.9180341"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>

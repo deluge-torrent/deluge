@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# A script to convert the Deluge svg icons to png.
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+data_dir="$DIR/../ui/data"
+
+# Create deluge png icon pack for all sizes.
+for size in 16 22 24 32 36 48 64 72 96 128 192 256; do
+    mkdir -p $data_dir/icons/hicolor/${size}x${size}/apps
+    in_svg=$data_dir/pixmaps/deluge.svg
+    out_png=$data_dir/icons/hicolor/${size}x${size}/apps/deluge.png
+    rsvg-convert -w ${size} -h ${size} -o $out_png $in_svg; done
+
+# Create deluge.ico icon from pngs.
+for size in 16 32 64 128 256; do
+    ico_infiles+="$data_dir/icons/hicolor/${size}x${size}/apps/deluge.png "; done
+convert $ico_infiles $data_dir/pixmaps/deluge.ico
+
+# Copy of deluge.svg to icon pack.
+mkdir -p $data_dir/icons/hicolor/scalable/apps/
+cp $data_dir/pixmaps/deluge.svg $data_dir/icons/hicolor/scalable/apps/deluge.svg
+
+# Create 48px deluge.png.
+rsvg-convert -w 48 -h 48 -o $data_dir/pixmaps/deluge.png $data_dir/pixmaps/deluge.svg
+
+# Create 16px png from deluge and status svgs.
+for file in $data_dir/pixmaps/*.svg; do
+    rsvg-convert -w 16 -h 16 -o ${file%.*}16.png $file; done
+
+# Copy 16px deluge and status pngs to webui icons folder.
+for icon in $data_dir/pixmaps/*16.png; do
+    iconname=$(basename $icon)
+    cp $icon $data_dir/../web/icons/${iconname::-6}.png; done
+rm $data_dir/../web/icons/tracker*.png
+
+# Create apple and android touch icons with background colour.
+rsvg-convert -w 192 -h 192 -b '#abcdf7' -o $data_dir/../web/icons/deluge-android-192.png $data_dir/pixmaps/deluge.svg
+rsvg-convert -w 180 -h 180 -b '#abcdf7' -o $data_dir/../web/icons/deluge-apple-180.png $data_dir/pixmaps/deluge.svg
