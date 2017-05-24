@@ -996,10 +996,10 @@ class Torrent(object):
 
         return True
 
-    def scrape_tracker(self):
+    def scrape_tracker(self, idx=-1):
         """Scrape the tracker"""
         try:
-            self.handle.scrape_tracker()
+            self.handle.scrape_tracker(idx)
         except Exception, e:
             log.debug("Unable to scrape tracker: %s", e)
             return False
