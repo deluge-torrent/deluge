@@ -890,7 +890,7 @@ class VersionSplit(object):
 
     """
     def __init__(self, ver):
-        version_re = re.compile(r'''
+        version_re = re.compile(r"""
         ^
         (?P<version>\d+\.\d+)          # minimum 'N.N'
         (?P<extraversion>(?:\.\d+)*)   # any number of extra '.N' segments
@@ -900,7 +900,7 @@ class VersionSplit(object):
             (?P<prerelversion>\d+(?:\.\d+)*)
         )?
         (?P<postdev>(\.post(?P<post>\d+))?(\.dev(?P<dev>\d+))?)?
-        $''', re.VERBOSE)
+        $""", re.VERBOSE)
 
         # Check for PEP 386 compliant version
         match = re.search(version_re, ver)
@@ -991,7 +991,7 @@ def create_localclient_account(append=False):
 
 
 def set_env_variable(name, value):
-    '''
+    """
     :param name: environment variable name
     :param value: environment variable value
 
@@ -1010,7 +1010,7 @@ def set_env_variable(name, value):
 
     Basen on _putenv in TransUtils.py from sourceforge project gramps
     http://sourceforge.net/p/gramps/code/HEAD/tree/branches/maintenance/gramps32/src/TransUtils.py
-    '''
+    """
     # Update Python's copy of the environment variables
     try:
         os.environ[name] = value

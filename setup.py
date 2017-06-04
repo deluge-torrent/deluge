@@ -486,10 +486,10 @@ setup(
     author='Andrew Resch, Damien Churchill',
     author_email='andrewresch@gmail.com, damoxc@gmail.com',
     keywords='torrent bittorrent p2p fileshare filesharing',
-    long_description='''Deluge is a BitTorrent client that utilizes a
+    long_description="""Deluge is a BitTorrent client that utilizes a
         daemon/client model. There are various user interfaces available for
         Deluge such as the GTK-UI, the Web-UI and a Console-UI. Deluge uses
-        libtorrent in it's backend to handle the BitTorrent protocol.''',
+        libtorrent in it's backend to handle the BitTorrent protocol.""",
     url='http://deluge-torrent.org',
     license='GPLv3',
     cmdclass=cmdclass,
