@@ -9,8 +9,6 @@
 
 from __future__ import unicode_literals
 
-from new import classobj
-
 from deluge.core.core import Core
 from deluge.core.daemon import Daemon
 
@@ -27,7 +25,7 @@ def scan_for_methods(obj):
         if not hasattr(getattr(obj, d), '_rpcserver_export'):
             continue
         methods[d] = getattr(obj, d)
-    cobj = classobj(obj.__name__.lower(), (object,), methods)
+    cobj = type(obj.__name__.lower(), (object,), methods)
     setattr(RpcApi, obj.__name__.lower(), cobj)
 
 
