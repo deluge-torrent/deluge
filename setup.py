@@ -420,7 +420,7 @@ if not windows_check() and not osx_check():
             ('share/icons/hicolor/{}/apps'.format(size), ['{}/apps/deluge.png'.format(icon_path)]))
     _data_files.extend([
         ('share/icons/hicolor/scalable/apps', ['deluge/ui/data/icons/hicolor/scalable/apps/deluge.svg']),
-        ('share/pixmaps', ['deluge/ui/data/pixmaps/deluge.png', 'deluge/ui/data/pixmaps/deluge.xpm']),
+        ('share/pixmaps', ['deluge/ui/data/pixmaps/deluge.png']),
         ('share/man/man1', [
             'docs/man/deluge.1',
             'docs/man/deluged.1',
