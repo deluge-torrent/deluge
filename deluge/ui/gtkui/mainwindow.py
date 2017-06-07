@@ -115,8 +115,9 @@ class MainWindow(component.Component):
         self.gtk_builder_signals_holder.connect_signals(mapping_or_class)
 
     def first_show(self):
-        if not(self.config['start_in_tray'] and self.config['enable_system_tray']
-               ) and not self.window.get_property('visible'):
+        if not (
+                self.config['start_in_tray'] and self.config['enable_system_tray']
+        ) and not self.window.get_property('visible'):
             log.debug('Showing window')
             self.main_builder.prev_connect_signals(self.gtk_builder_signals_holder)
             self.vpaned.set_position(self.initial_vpaned_position)
@@ -300,6 +301,5 @@ class MainWindow(component.Component):
                 active_wksp = win.get_screen().get_active_workspace()
                 if active_wksp:
                     return win.is_on_workspace(active_wksp)
-                else:
-                    return False
+                return False
         return True
