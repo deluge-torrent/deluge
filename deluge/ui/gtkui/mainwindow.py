@@ -115,15 +115,16 @@ class MainWindow(component.Component):
         self.gtk_builder_signals_holder.connect_signals(mapping_or_class)
 
     def first_show(self):
+        self.main_builder.prev_connect_signals(self.gtk_builder_signals_holder)
+        self.vpaned.set_position(self.initial_vpaned_position)
         if not (
                 self.config['start_in_tray'] and self.config['enable_system_tray']
         ) and not self.window.get_property('visible'):
             log.debug('Showing window')
-            self.main_builder.prev_connect_signals(self.gtk_builder_signals_holder)
-            self.vpaned.set_position(self.initial_vpaned_position)
             self.show()
-            while gtk.events_pending():
-                gtk.main_iteration()
+
+        while gtk.events_pending():
+            gtk.main_iteration()
 
     def show(self):
         component.resume(self.child_components)
@@ -134,20 +135,13 @@ class MainWindow(component.Component):
         component.pause(self.child_components)
 
         # Store the x, y positions for when we restore the window
-        self.window_x_pos, self.window_y_pos = self.window.get_position()
+        self.config['window_x_pos'], self.config['window_y_pos'] = self.window.get_position()
         self.window.hide()
 
     def present(self):
         def restore():
             # Restore the proper x,y coords for the window prior to showing it
-            if self.window_x_pos == -32000 or self.window_y_pos == -32000:
-                self.config['window_x_pos'] = self.config['window_y_pos'] = 0
-            else:
-                self.config['window_x_pos'] = self.window_x_pos
-                self.config['window_y_pos'] = self.window_y_pos
-
             component.resume(self.child_components)
-
             self.window.present()
             self.load_window_state()
 
@@ -210,6 +204,9 @@ class MainWindow(component.Component):
             quit_gtkui()
 
     def load_window_state(self):
+        if self.config['window_x_pos'] == -32000 or self.config['window_x_pos'] == -32000:
+            self.config['window_x_pos'] = self.config['window_y_pos'] = 0
+
         self.window.move(self.config['window_x_pos'], self.config['window_y_pos'])
         self.window.resize(self.config['window_width'], self.config['window_height'])
         if self.config['window_maximized']:
