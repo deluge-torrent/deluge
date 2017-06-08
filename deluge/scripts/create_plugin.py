@@ -6,6 +6,7 @@ example:
 python create_plugin.py --name MyPlugin2 --basepath . --author-name "Your Name" --author-email "yourname@example.com"
 
 """
+
 from __future__ import print_function, unicode_literals
 
 import os
@@ -107,16 +108,19 @@ def create_plugin():
 
 
 CORE = """
+from __future__ import unicode_literals
+
 import logging
-from deluge.plugins.pluginbase import CorePluginBase
+
 import deluge.configmanager
 from deluge.core.rpcserver import export
+from deluge.plugins.pluginbase import CorePluginBase
+
+log = logging.getLogger(__name__)
 
 DEFAULT_PREFS = {
     'test': 'NiNiNi'
 }
-
-log = logging.getLogger(__name__)
 
 
 class Core(CorePluginBase):
@@ -169,7 +173,7 @@ class WebUIPlugin(PluginInitBase):
 
 
 SETUP = """
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 __plugin_name__ = '%(name)s'
 __author__ = '%(author_name)s'
@@ -189,7 +193,7 @@ setup(
     author_email=__author_email__,
     url=__url__,
     license=__license__,
-    long_description=__long_description__ if __long_description__ else __description__,
+    long_description=__long_description__,
 
     packages=find_packages(),
     namespace_packages=['deluge', 'deluge.plugins'],
@@ -197,17 +201,16 @@ setup(
 
     entry_points=\"\"\"
     [deluge.plugin.core]
-    %%(plugin_name)s = deluge.plugins.%%(plugin_module)s:CorePlugin
+    %%s = deluge.plugins.%%s:CorePlugin
     [deluge.plugin.gtkui]
-    %%(plugin_name)s = deluge.plugins.%%(plugin_module)s:GtkUIPlugin
+    %%s = deluge.plugins.%%s:GtkUIPlugin
     [deluge.plugin.web]
-    %%(plugin_name)s = deluge.plugins.%%(plugin_module)s:WebUIPlugin
-    \"\"\" %% dict(plugin_name=__plugin_name__, plugin_module=__plugin_name__.lower())
+    %%s = deluge.plugins.%%s:WebUIPlugin
+    \"\"\" %% ((__plugin_name__, __plugin_name__.lower()) * 3)
 )
 """
 
 COMMON = """
-
 from __future__ import unicode_literals
 
 import os.path
@@ -223,12 +226,14 @@ def get_resource(filename):
 """
 
 GTKUI = """
+from __future__ import unicode_literals
+
 import gtk
 import logging
 
-from deluge.ui.client import client
-from deluge.plugins.pluginbase import GtkPluginBase
 import deluge.component as component
+from deluge.plugins.pluginbase import GtkPluginBase
+from deluge.ui.client import client
 
 from .common import get_resource
 
@@ -293,9 +298,12 @@ GLADE = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 """
 
 WEBUI = """
+from __future__ import unicode_literals
+
 import logging
-from deluge.ui.client import client
+
 from deluge.plugins.pluginbase import WebPluginBase
+from deluge.ui.client import client
 
 from .common import get_resource
 
@@ -334,11 +342,11 @@ Copyright:
     },
 
     onDisable: function() {
-
+        deluge.preferences.removePage(this.prefsPage);
     },
 
     onEnable: function() {
-
+        this.prefsPage = deluge.preferences.addPage(new Deluge.ux.preferences.%(name)sPage());
     }
 });
 new %(name)sPlugin();
@@ -351,14 +359,16 @@ GPL = """#
 #
 # Basic plugin template created by:
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
-# Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
-# Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
-# Copyright (C) 2010 Pedro Algarvio <pedro@algarvio.me>
+#               2007-2009 Andrew Resch <andrewresch@gmail.com>
+#               2009 Damien Churchill <damoxc@gmail.com>
+#               2010 Pedro Algarvio <pedro@algarvio.me>
+#               2017 Calum Lind <calumlind+deluge@gmail.com>
 #
 # This file is part of %(name)s and is licensed under GNU General Public License 3.0, or later, with
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
+
 """
 
 NAMESPACE_INIT = """# this is a namespace package
