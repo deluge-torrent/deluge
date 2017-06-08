@@ -15,7 +15,7 @@ from gtk import Builder
 
 from deluge.ui.client import client
 
-from .common import get_resource
+from ..common import get_resource
 
 log = logging.getLogger(__name__)
 
