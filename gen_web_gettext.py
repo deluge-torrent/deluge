@@ -17,7 +17,7 @@ import re
 
 WEBUI_JS_DIR = 'deluge/ui/web/js/deluge-all'
 # Enabling Debug adds file and line number as comments to the gettext file.
-DEBUG = True
+DEBUG = False
 
 
 def check_missing_markup(js_dir):
