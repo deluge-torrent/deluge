@@ -384,11 +384,11 @@ class WebApi(JSONComponent):
             component.get('Web.PluginManager').start()
         else:
             client.set_disconnect_callback(self._on_client_disconnect)
-            if component.get('DelugeWeb').config['default_daemon']:
-                # Sort out getting the default daemon here
-                default_host_id = component.get('DelugeWeb').config['default_daemon']
-                host_info = component.get('Web')._get_host(default_host_id)
-                return self._connect_daemon(*host_info[1:])
+            default_host_id = component.get('DelugeWeb').config['default_daemon']
+            if default_host_id:
+                host_info = self._get_host(default_host_id)
+                if host_info:
+                    return self._connect_daemon(*host_info[1:])
 
         return defer.succeed(True)
 
@@ -725,7 +725,6 @@ class WebApi(JSONComponent):
 
         """
         def response(result):
-            log.critical('%s', result)
             return result
 
         return self.hostlist.get_host_status(host_id).addCallback(response)
