@@ -113,7 +113,9 @@ class Core(component.Component):
 
         # Start the libtorrent session.
         log.debug('Starting session (fingerprint: %s, user_agent: %s)', deluge_fingerprint, user_agent)
-        settings_pack = {'peer_fingerprint': deluge_fingerprint, 'user_agent': user_agent}
+        settings_pack = {'peer_fingerprint': deluge_fingerprint,
+                         'user_agent': user_agent,
+                         'ignore_resume_timestamps': True}
         self.session = lt.session(settings_pack, flags=0)
 
         # Load the settings, if available.
