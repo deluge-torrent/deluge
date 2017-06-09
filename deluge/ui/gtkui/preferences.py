@@ -225,15 +225,17 @@ class Preferences(component.Component):
         self.page_num_to_remove = None
         self.iter_to_remove = None
 
-        def check_row(model, path, _iter, user_data):
+        def on_foreach_row(model, path, _iter, user_data):
             row_name = model.get_value(_iter, 1)
             if row_name == user_data:
                 # This is the row we need to remove
                 self.page_num_to_remove = model.get_value(_iter, 0)
                 self.iter_to_remove = _iter
-                return
+                # Return True to stop foreach iterating
+                return True
 
-        self.liststore.foreach(check_row, name)
+        self.liststore.foreach(on_foreach_row, name)
+
         # Remove the page and row
         if self.page_num_to_remove is not None:
             self.notebook.remove_page(self.page_num_to_remove)
@@ -241,8 +243,8 @@ class Preferences(component.Component):
             self.liststore.remove(self.iter_to_remove)
 
         # We need to re-adjust the index values for the remaining pages
-        for i, (index, name) in enumerate(self.liststore):
-            self.liststore[i][0] = i
+        for idx, __ in enumerate(self.liststore):
+            self.liststore[idx][0] = idx
 
     def show(self, page=None):
         """Page should be the string in the left list.. ie, 'Network' or
