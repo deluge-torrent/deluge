@@ -32,6 +32,7 @@ class DetailsTab(Tab):
         self.add_tab_widget('summary_torrent_path', None, ('download_location',))
         self.add_tab_widget('summary_hash', str, ('hash',))
         self.add_tab_widget('summary_comments', str, ('comment',))
+        self.add_tab_widget('summary_creator', str, ('creator',))
         self.add_tab_widget('summary_pieces', fpieces_num_size, ('num_pieces', 'piece_length'))
 
     def update(self):

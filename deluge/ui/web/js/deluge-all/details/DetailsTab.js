@@ -29,6 +29,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
         this.addItem('comment', _('Comment:'));
         this.addItem('status', _('Status:'));
         this.addItem('tracker', _('Tracker:'));
+        this.addItem('creator', _('Created By:'));
     },
 
     onRender: function(ct, position) {
@@ -80,7 +81,8 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
             files: torrent.num_files,
             status: torrent.message,
             tracker: torrent.tracker_host,
-            comment: torrent.comment
+            comment: torrent.comment,
+            creator: torrent.creator
         };
 
         for (var field in this.fields) {

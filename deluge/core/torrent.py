@@ -1039,6 +1039,7 @@ class Torrent(object):
             'tracker_status': lambda: self.tracker_status,
             'upload_payload_rate': lambda: self.status.upload_payload_rate,
             'comment': lambda: decode_bytes(self.torrent_info.comment()) if self.has_metadata else '',
+            'creator': lambda: decode_bytes(self.torrent_info.creator()) if self.has_metadata else '',
             'num_files': lambda: self.torrent_info.num_files() if self.has_metadata else 0,
             'num_pieces': lambda: self.torrent_info.num_pieces() if self.has_metadata else 0,
             'piece_length': lambda: self.torrent_info.piece_length() if self.has_metadata else 0,
