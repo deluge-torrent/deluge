@@ -144,6 +144,19 @@ TRACKER_STATUS_TRANSLATION = [
     _('Announce Sent')
 ]
 
+PREFS_CATOG_TRANS = {
+    'interface': _('Interface'),
+    'downloads': _('Downloads'),
+    'bandwidth': _('Bandwidth'),
+    'queue': _('Queue'),
+    'network': _('Network'),
+    'proxy': _('Proxy'),
+    'cache': _('Cache'),
+    'other': _('Other'),
+    'daemon': _('Daemon'),
+    'plugins': _('Plugins')
+}
+
 FILE_PRIORITY = {
     0: 'Ignore',
     1: 'Low',

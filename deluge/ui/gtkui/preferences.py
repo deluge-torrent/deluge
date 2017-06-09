@@ -22,7 +22,7 @@ import deluge.component as component
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.error import AuthManagerError, NotAuthorizedError
 from deluge.ui.client import client
-from deluge.ui.common import DISK_CACHE_KEYS
+from deluge.ui.common import DISK_CACHE_KEYS, PREFS_CATOG_TRANS
 from deluge.ui.gtkui.common import associate_magnet_links, get_clipboard_text, get_deluge_icon
 from deluge.ui.gtkui.dialogs import AccountDialog, ErrorDialog, InformationDialog, YesNoDialog
 from deluge.ui.gtkui.path_chooser import PathChooser
@@ -76,22 +76,25 @@ class Preferences(component.Component):
             self.builder.get_object('button_associate_magnet').hide()
 
         # Setup the liststore for the categories (tab pages)
-        self.liststore = gtk.ListStore(int, str)
+        self.liststore = gtk.ListStore(int, str, str)
         self.treeview.set_model(self.liststore)
         render = gtk.CellRendererText()
-        column = gtk.TreeViewColumn(_('Categories'), render, text=1)
+        column = gtk.TreeViewColumn(None, render, text=2)
         self.treeview.append_column(column)
-        # Add the default categories
-        i = 0
-        for category in (_('Interface'), _('Downloads'), _('Bandwidth'), _('Queue'), _('Network'),
-                         _('Proxy'), _('Cache'), _('Other'), _('Daemon'), _('Plugins'), '_separator_'):
-            self.liststore.append([i, category])
-            i += 1
 
+        # Add the default categories
+        prefs_categories = (
+            'interface', 'downloads', 'bandwidth', 'queue', 'network', 'proxy',
+            'cache', 'other', 'daemon', 'plugins')
+        for idx, category in enumerate(prefs_categories):
+            self.liststore.append([idx, category, PREFS_CATOG_TRANS[category]])
+
+        # Add and set separator after Plugins.
         def set_separator(model, _iter, data=None):
             if model.get_value(_iter, 1) == '_separator_':
                 return True
         self.treeview.set_row_separator_func(set_separator, None)
+        self.liststore.append([len(self.liststore), '_separator_', ''])
         # Add a dummy notebook page to keep indexing synced with liststore.
         self.notebook.append_page(gtk.HSeparator())
 
@@ -217,7 +220,7 @@ class Preferences(component.Component):
         scrolled.show_all()
         # Add this page to the notebook
         index = self.notebook.append_page(scrolled, None)
-        self.liststore.append([index, name])
+        self.liststore.append([index, name, _(name)])
         return name
 
     def remove_page(self, name):
@@ -251,7 +254,7 @@ class Preferences(component.Component):
         'Bandwidth'"""
         self.window_open = True
         if page is not None:
-            for (index, string) in self.liststore:
+            for (index, string, __) in self.liststore:
                 if page == string:
                     self.treeview.get_selection().select_path(index)
                     break
@@ -814,7 +817,7 @@ class Preferences(component.Component):
         # Show the correct notebook page based on what row is selected.
         (model, row) = treeselection.get_selected()
         try:
-            if model.get_value(row, 1) == _('Daemon'):
+            if model.get_value(row, 1) == 'daemon':
                 # Let's see update the accounts related stuff
                 if client.connected():
                     self._get_accounts_tab_data()
