@@ -8,16 +8,20 @@
 from __future__ import unicode_literals
 
 import os
+import tarfile
 
 from twisted.trial import unittest
 
-from deluge.common import (VersionSplit, fdate, fpcnt, fpeer, fsize, fspeed, ftime, get_path_size, is_infohash, is_ip,
-                           is_ipv4, is_ipv6, is_magnet, is_url)
+from deluge.common import (VersionSplit, archive_files, fdate, fpcnt, fpeer, fsize, fspeed, ftime, get_path_size,
+                           is_infohash, is_ip, is_ipv4, is_ipv6, is_magnet, is_url)
 from deluge.ui.translations_util import setup_translations
+
+from .common import get_test_data_file, set_tmp_config_dir
 
 
 class CommonTestCase(unittest.TestCase):
     def setUp(self):  # NOQA
+        self.config_dir = set_tmp_config_dir()
         setup_translations()
 
     def tearDown(self):  # NOQA
@@ -127,3 +131,14 @@ class CommonTestCase(unittest.TestCase):
         for human_size, byte_size in sizes:
             parsed = parse_human_size(human_size)
             self.assertEqual(parsed, byte_size, 'Mismatch when converting: %s' % human_size)
+
+    def test_archive_files(self):
+        arc_filelist = [
+            get_test_data_file('test.torrent'),
+            get_test_data_file('deluge.png')]
+        arc_filepath = archive_files('test-arc', arc_filelist)
+
+        with tarfile.open(arc_filepath, 'r') as tar:
+            for tar_info in tar:
+                self.assertTrue(tar_info.isfile())
+                self.assertTrue(tar_info.name in [os.path.basename(arcf) for arcf in arc_filelist])

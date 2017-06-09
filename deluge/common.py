@@ -11,7 +11,9 @@
 from __future__ import division, print_function, unicode_literals
 
 import base64
+import datetime
 import functools
+import glob
 import locale
 import logging
 import numbers
@@ -20,6 +22,7 @@ import platform
 import re
 import subprocess
 import sys
+import tarfile
 import time
 
 import chardet
@@ -136,6 +139,45 @@ def get_default_download_dir():
     if not download_dir:
         download_dir = os.path.join(os.path.expanduser('~'), 'Downloads')
     return download_dir
+
+
+def archive_files(arc_name, filepaths):
+        """Compress a list of filepaths into timestamped tarball in config dir.
+
+        The archiving config directory is 'archive'.
+
+        Args:
+            arc_name (str): The archive output filename (appended with timestamp).
+            filepaths (list): A list of the files to be archived into tarball.
+
+        Returns:
+            str: The full archive filepath.
+
+        """
+
+        from deluge.configmanager import get_config_dir
+
+        # Set archive compression to lzma with bz2 fallback.
+        arc_comp = 'xz' if not PY2 else 'bz2'
+
+        archive_dir = os.path.join(get_config_dir(), 'archive')
+        timestamp = datetime.datetime.now().replace(microsecond=0).isoformat().replace(':', '-')
+        arc_filepath = os.path.join(archive_dir, arc_name + '-' + timestamp + '.tar.' + arc_comp)
+        max_num_arcs = 20
+
+        if not os.path.exists(archive_dir):
+            os.makedirs(archive_dir)
+        else:
+            old_arcs = glob.glob(os.path.join(archive_dir, arc_name) + '*')
+            if len(old_arcs) > max_num_arcs:
+                # TODO: Remove oldest timestamped archives.
+                log.warning('More than %s tarballs in config archive', max_num_arcs)
+
+        with tarfile.open(arc_filepath, 'w:' + arc_comp) as tf:
+            for filepath in filepaths:
+                tf.add(filepath, arcname=os.path.basename(filepath))
+
+        return arc_filepath
 
 
 def windows_check():

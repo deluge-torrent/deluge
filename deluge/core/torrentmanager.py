@@ -15,7 +15,6 @@ import datetime
 import logging
 import operator
 import os
-import shutil
 import time
 
 from twisted.internet import defer, reactor, threads
@@ -24,7 +23,7 @@ from twisted.internet.task import LoopingCall
 
 import deluge.component as component
 from deluge._libtorrent import lt
-from deluge.common import decode_bytes, get_magnet_info
+from deluge.common import archive_files, decode_bytes, get_magnet_info
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.core.torrent import Torrent, TorrentOptions, sanitize_filepath
@@ -171,30 +170,16 @@ class TorrentManager(component.Component):
     def start(self):
         # Check for old temp file to verify safe shutdown
         if os.path.isfile(self.temp_file):
-            def archive_file(filename):
-                """Archives the file in 'archive' sub-directory with timestamp appended"""
-                filepath = os.path.join(self.state_dir, filename)
-                filepath_bak = filepath + '.bak'
-                archive_dir = os.path.join(get_config_dir(), 'archive')
-                if not os.path.exists(archive_dir):
-                    os.makedirs(archive_dir)
-
-                for _filepath in (filepath, filepath_bak):
-                    timestamp = datetime.datetime.now().replace(microsecond=0).isoformat().replace(':', '-')
-                    archive_filepath = os.path.join(archive_dir, filename + '-' + timestamp)
-                    try:
-                        shutil.copy2(_filepath, archive_filepath)
-                    except IOError:
-                        log.error('Unable to archive: %s', filename)
-                    else:
-                        log.info('Archive of %s successful: %s', filename, archive_filepath)
-
             log.warning('Potential bad shutdown of Deluge detected, archiving torrent state files...')
-            archive_file('torrents.state')
-            archive_file('torrents.fastresume')
-        else:
-            with open(self.temp_file, 'a'):
-                os.utime(self.temp_file, None)
+            arc_filepaths = []
+            for filename in ('torrents.fastresume', 'torrents.state'):
+                filepath = os.path.join(self.state_dir, filename)
+                arc_filepaths.extend([filepath, filepath + '.bak'])
+            archive_files('torrents_state', arc_filepaths)
+            os.remove(self.temp_file)
+
+        with open(self.temp_file, 'a'):
+            os.utime(self.temp_file, None)
 
         # Try to load the state from file
         self.load_state()
