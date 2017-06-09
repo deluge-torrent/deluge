@@ -92,6 +92,8 @@ class Preferences(component.Component):
             if model.get_value(_iter, 1) == '_separator_':
                 return True
         self.treeview.set_row_separator_func(set_separator, None)
+        # Add a dummy notebook page to keep indexing synced with liststore.
+        self.notebook.append_page(gtk.HSeparator())
 
         # Setup accounts tab lisview
         self.accounts_levels_mapping = None
