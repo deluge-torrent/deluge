@@ -17,7 +17,7 @@ import operator
 import os
 import time
 
-from twisted.internet import defer, reactor, threads
+from twisted.internet import defer, error, reactor, threads
 from twisted.internet.defer import Deferred, DeferredList
 from twisted.internet.task import LoopingCall
 
@@ -114,6 +114,7 @@ class TorrentManager(component.Component):
     This object is also responsible for saving the state of the session for use on restart.
 
     """
+    callLater = reactor.callLater
 
     def __init__(self):
         component.Component.__init__(
@@ -140,6 +141,7 @@ class TorrentManager(component.Component):
         self.is_saving_state = False
         self.save_resume_data_file_lock = defer.DeferredLock()
         self.torrents_loading = {}
+        self.prefetching_metadata = {}
 
         # This is a map of torrent_ids to Deferreds used to track needed resume data.
         # The Deferreds will be completed when resume data has been saved.
@@ -301,6 +303,59 @@ class TorrentManager(component.Component):
         else:
             return torrent_info
 
+    def prefetch_metadata(self, magnet, timeout=60):
+        """Download metadata for a magnet uri.
+
+        Args:
+            magnet (str): A magnet uri to download the metadata for.
+            timeout (int): How long
+
+        Returns:
+            Deferred: A tuple of (torrent_id (str), bencoded metadata (bytes))
+
+        """
+
+        add_torrent_params = {}
+        # need a temp save_path
+        add_torrent_params['save_path'] = '/tmp'
+        add_torrent_params['url'] = magnet.strip().encode('utf8')
+        # do we need to make it not auto_managed to force start. what about queue?
+        add_torrent_params['flags'] = ((LT_DEFAULT_ADD_TORRENT_FLAGS |
+                                        lt.add_torrent_params_flags_t.flag_duplicate_is_error |
+                                        lt.add_torrent_params_flags_t.flag_upload_mode))
+
+        torrent_handle = self.session.add_torrent(add_torrent_params)
+        torrent_id = str(torrent_handle.info_hash())
+
+        def on_metadata(torrent_info, torrent_id, defer_timeout):
+            # Cancel reactor.callLater.
+            try:
+                defer_timeout.cancel()
+            except error.AlreadyCalled:
+                pass
+
+            log.debug('remove magnet from session')
+            try:
+                torrent_handle = self.prefetching_metadata.pop(torrent_id)[1]
+            except KeyError:
+                pass
+            else:
+                self.session.remove_torrent(torrent_handle, 1)
+
+            metadata = ''
+            if isinstance(torrent_info, lt.torrent_info):
+                log.debug('metadata received')
+                metadata = torrent_info.metadata()
+
+            return torrent_id, metadata
+
+        d = Deferred()
+        # Cancel the defer if timeout reached.
+        defer_timeout = self.callLater(timeout, d.cancel)
+        d.addBoth(on_metadata, torrent_id, defer_timeout)
+        self.prefetching_metadata[torrent_id] = (d, torrent_handle)
+        return d
+
     def _build_torrent_options(self, options):
         """Load default options and update if needed."""
         _options = TorrentOptions()
@@ -343,6 +398,10 @@ class TorrentManager(component.Component):
             raise AddTorrentError('Torrent already in session (%s).' % torrent_id)
         elif torrent_id in self.torrents_loading:
             raise AddTorrentError('Torrent already being added (%s).' % torrent_id)
+        elif torrent_id in self.prefetching_metadata:
+            # Cancel and remove metadata fetching torrent.
+            d = self.prefetching_metadata[torrent_id][0]
+            d.cancel()
 
         # Check for renamed files and if so, rename them in the torrent_info before adding.
         if options['mapped_files'] and torrent_info:
@@ -1320,10 +1379,25 @@ class TorrentManager(component.Component):
     def on_alert_metadata_received(self, alert):
         """Alert handler for libtorrent metadata_received_alert"""
         try:
-            torrent = self.torrents[str(alert.handle.info_hash())]
-        except (RuntimeError, KeyError):
+            torrent_id = str(alert.handle.info_hash())
+        except RuntimeError:
             return
-        torrent.on_metadata_received()
+
+        try:
+            torrent = self.torrents[torrent_id]
+        except KeyError:
+            pass
+        else:
+            return torrent.on_metadata_received()
+
+        # Try callback to prefetch_metadata method.
+        try:
+            d = self.prefetching_metadata[torrent_id][0]
+        except KeyError:
+            pass
+        else:
+            torrent_info = alert.handle.get_torrent_info()
+            return d.callback(torrent_info)
 
     def on_alert_file_error(self, alert):
         """Alert handler for libtorrent file_error_alert"""
