@@ -44,6 +44,19 @@ class TorrentmanagerTestCase(BaseTestCase):
         torrent_id = yield self.core.add_torrent_file(filename, filedump, {})
         self.assertTrue(self.core.torrentmanager.remove(torrent_id, False))
 
+    @defer.inlineCallbacks
+    def test_prefetch_metadata(self):
+        # TODO: need to mock lt add_torrent as need to run and pass test without using internet.
+        magnet = 'magnet:?xt=urn:btih:6HANPB4ELB55IPJ52GZPGV2AMPNPBQ6B'
+        torrent_id, torrent_info = yield self.core.torrentmanager.prefetch_metadata(magnet)
+        print(torrent_id, torrent_info)
+
+    @defer.inlineCallbacks
+    def test_prefetch_metadata_timeout(self):
+        magnet = 'magnet:?xt=urn:btih:6HANPB4ELB55IPJ52GZPGV2AMPNPBQ6B'
+        torrent_id, metadata = yield self.core.torrentmanager.prefetch_metadata(magnet, timeout=0)
+        self.assertEqual(metadata, None)
+
     @pytest.mark.todo
     def test_remove_torrent_false(self):
         """Test when remove_torrent returns False"""

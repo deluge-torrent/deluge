@@ -347,6 +347,26 @@ class Core(component.Component):
 
     # Exported Methods
     @export
+    def prefetch_magnet_metadata(self, magnet, timeout=60):
+        """Download the metadata for the magnet uri without adding torrent to deluge session.
+
+        Args:
+            magnet (str): The magnet uri.
+            timeout (int): Time to wait to recieve metadata from peers.
+
+        Returns:
+            Deferred: A tuple of (torrent_id (str), metadata (bytes)) for the magnet.
+
+            The metadata is base64 encoded.
+
+        """
+        def on_metadata(result):
+            torrent_id, metadata = result
+            return torrent_id, base64.encodestring(metadata)
+
+        return self.torrentmanager.prefetch_metadata(magnet, timeout).addCallback(on_metadata)
+
+    @export
     def add_torrent_file(self, filename, filedump, options):
         """Adds a torrent file to the session.
 
