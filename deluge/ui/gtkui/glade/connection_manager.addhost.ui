@@ -29,7 +29,6 @@
             <child>
               <object class="GtkButton" id="button_addhost_cancel">
                 <property name="label">gtk-cancel</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -44,7 +43,6 @@
             <child>
               <object class="GtkButton" id="button_addhost_add">
                 <property name="label">_Save</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
@@ -243,7 +241,7 @@
     </child>
     <action-widgets>
       <action-widget response="0">button_addhost_cancel</action-widget>
-      <action-widget response="0">button_addhost_add</action-widget>
+      <action-widget response="1">button_addhost_add</action-widget>
     </action-widgets>
   </object>
 </interface>
