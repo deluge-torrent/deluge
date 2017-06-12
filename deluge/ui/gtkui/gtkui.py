@@ -40,7 +40,6 @@ from deluge.common import fsize, fspeed, get_default_download_dir, osx_check, wi
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.error import DaemonRunningError
 from deluge.ui.client import client
-from deluge.ui.hostlist import LOCALHOST
 from deluge.ui.gtkui.addtorrentdialog import AddTorrentDialog
 from deluge.ui.gtkui.common import associate_magnet_links
 from deluge.ui.gtkui.connectionmanager import ConnectionManager
@@ -58,6 +57,7 @@ from deluge.ui.gtkui.systemtray import SystemTray
 from deluge.ui.gtkui.toolbar import ToolBar
 from deluge.ui.gtkui.torrentdetails import TorrentDetails
 from deluge.ui.gtkui.torrentview import TorrentView
+from deluge.ui.hostlist import LOCALHOST
 from deluge.ui.sessionproxy import SessionProxy
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.translations_util import set_language, setup_translations
