@@ -23,7 +23,7 @@ from deluge.error import AuthenticationRequired, BadLoginError, IncompatibleClie
 from deluge.ui.client import Client, client
 from deluge.ui.gtkui.common import get_clipboard_text
 from deluge.ui.gtkui.dialogs import AuthenticationDialog, ErrorDialog
-from deluge.ui.hostlist import DEFAULT_PORT, HostList
+from deluge.ui.hostlist import DEFAULT_PORT, LOCALHOST, HostList
 
 try:
     from urllib.parse import urlparse
@@ -40,8 +40,6 @@ HOSTLIST_COL_USER = 3
 HOSTLIST_COL_PASS = 4
 HOSTLIST_COL_STATUS = 5
 HOSTLIST_COL_VERSION = 6
-
-LOCALHOST = ('127.0.0.1', 'localhost')
 
 HOSTLIST_PIXBUFS = [
     # This is populated in ConnectionManager.show

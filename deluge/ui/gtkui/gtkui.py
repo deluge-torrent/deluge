@@ -40,6 +40,7 @@ from deluge.common import fsize, fspeed, get_default_download_dir, osx_check, wi
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.error import DaemonRunningError
 from deluge.ui.client import client
+from deluge.ui.hostlist import LOCALHOST
 from deluge.ui.gtkui.addtorrentdialog import AddTorrentDialog
 from deluge.ui.gtkui.common import associate_magnet_links
 from deluge.ui.gtkui.connectionmanager import ConnectionManager
@@ -340,7 +341,7 @@ class GtkUI(object):
         if self.config['autostart_localhost']:
             port = 0
             for host_config in self.connectionmanager.hostlist.config['hosts']:
-                if host_config[1] in self.connectionmanager.LOCALHOST:
+                if host_config[1] in LOCALHOST:
                     port = host_config[2]
                     log.debug('Autostarting localhost: %s', host_config[0:3])
 
