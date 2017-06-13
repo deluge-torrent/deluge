@@ -111,9 +111,21 @@ class TorrentState:
         self.move_completed = move_completed
         self.move_completed_path = move_completed_path
 
+    def __eq__(self, other):
+        return isinstance(other, TorrentState) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not self == other
+
 class TorrentManagerState:
     def __init__(self):
         self.torrents = []
+
+    def __eq__(self, other):
+        return isinstance(other, TorrentManagerState) and self.torrents == other.torrents
+
+    def __ne__(self, other):
+        return not self == other
 
 class TorrentManager(component.Component):
     """
@@ -156,6 +168,9 @@ class TorrentManager(component.Component):
 
         # Workaround to determine if TorrentAddedEvent is from state file
         self.session_started = False
+
+        # Keep the previous saved state
+        self.prev_saved_state = None
 
         # Register set functions
         self.config.register_set_function("max_connections_per_torrent",
@@ -719,6 +734,10 @@ class TorrentManager(component.Component):
             )
             state.torrents.append(torrent_state)
 
+        # If the state hasn't changed, no need to save it
+        if self.prev_saved_state == state:
+            return
+
         # Pickle the TorrentManagerState object
         filepath = os.path.join(get_config_dir(), "state", "torrents.state")
         filepath_tmp = filepath + ".tmp"
@@ -741,6 +760,7 @@ class TorrentManager(component.Component):
             os.fsync(state_file.fileno())
             state_file.close()
             os.rename(filepath_tmp, filepath)
+            self.prev_saved_state = state
         except IOError, ex:
             log.error("Unable to save %s: %s", filepath, ex)
             if os.path.isfile(filepath_bak):
