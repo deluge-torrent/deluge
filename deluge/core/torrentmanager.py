@@ -81,6 +81,12 @@ class TorrentState:  # pylint: disable=old-style-class
                 continue
             setattr(self, key, value)
 
+    def __eq__(self, other):
+        return isinstance(other, TorrentState) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not self == other
+
 
 class TorrentManagerState:  # pylint: disable=old-style-class
     """TorrentManagerState holds a list of TorrentState objects.
@@ -91,6 +97,12 @@ class TorrentManagerState:  # pylint: disable=old-style-class
     """
     def __init__(self):
         self.torrents = []
+
+    def __eq__(self, other):
+        return isinstance(other, TorrentManagerState) and self.torrents == other.torrents
+
+    def __ne__(self, other):
+        return not self == other
 
 
 class TorrentManager(component.Component):
@@ -137,6 +149,9 @@ class TorrentManager(component.Component):
         self.torrents_status_requests = []
         self.status_dict = {}
         self.last_state_update_alert_ts = 0
+
+        # Keep the previous saved state
+        self.prev_saved_state = None
 
         # Register set functions
         set_config_keys = ['max_connections_per_torrent', 'max_upload_slots_per_torrent',
@@ -617,6 +632,10 @@ class TorrentManager(component.Component):
             log.debug('Skipping saving state with no torrents loaded')
             return
 
+        # If the state hasn't changed, no need to save it
+        if self.prev_saved_state == state:
+            return
+
         filename = 'torrents.state'
         filepath = os.path.join(self.state_dir, filename)
         filepath_bak = filepath + '.bak'
@@ -645,6 +664,7 @@ class TorrentManager(component.Component):
         try:
             log.debug('Saving %s to: %s', filename, filepath)
             os.rename(filepath_tmp, filepath)
+            self.prev_saved_state = state
         except OSError as ex:
             log.error('Failed to set new state file %s: %s', filepath, ex)
             if os.path.isfile(filepath_bak):
