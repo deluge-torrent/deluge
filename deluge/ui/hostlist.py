@@ -10,6 +10,7 @@
 from __future__ import unicode_literals
 
 import logging
+import os
 import time
 from hashlib import sha1
 from socket import gaierror, gethostbyname
@@ -55,8 +56,27 @@ def validate_host_info(hostname, port):
         raise ValueError('Invalid port. Must be an integer')
 
 
-def _migrate_config_1_to_2(config):
-    """Mirgrates old hostlist config files to new format"""
+def migrate_hostlist(old_filename, new_filename):
+    """Check for old hostlist filename and save details to new filename"""
+    old_hostlist = get_config_dir(old_filename)
+    if os.path.isfile(old_hostlist):
+        config_v2 = Config(old_filename, config_dir=get_config_dir())
+        config_v2.save(get_config_dir(new_filename))
+        del config_v2
+
+        try:
+            os.rename(old_hostlist, old_hostlist + '.old')
+        except OSError as ex:
+            log.exception(ex)
+
+        try:
+            os.remove(old_hostlist + '.bak')
+        except OSError:
+            pass
+
+
+def migrate_config_2_to_3(config):
+    """Mirgrates old hostlist config files to new file version"""
     localclient_username, localclient_password = get_localhost_auth()
     if not localclient_username:
         # Nothing to do here, there's no auth file
@@ -71,8 +91,9 @@ def _migrate_config_1_to_2(config):
 class HostList(object):
     """This class contains methods for adding, removing and looking up hosts in hostlist.conf."""
     def __init__(self):
-        self.config = Config('hostlist.conf', default_hostlist(), config_dir=get_config_dir(), file_version=2)
-        self.config.run_converter((0, 1), 2, _migrate_config_1_to_2)
+        migrate_hostlist('hostlist.conf.1.2', 'hostlist.conf')
+        self.config = Config('hostlist.conf', default_hostlist(), config_dir=get_config_dir(), file_version=3)
+        self.config.run_converter((1, 2), 3, migrate_config_2_to_3)
         self.config.save()
 
     def check_info_exists(self, hostname, port, username, skip_host_id=None):
