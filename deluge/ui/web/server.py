@@ -661,7 +661,9 @@ class DelugeWeb(component.Component):
         with open(configmanager.get_config_dir(self.pkey)) as pkey:
             private_key = KeyPair.load(pkey.read(), FILETYPE_PEM).original
         options = CertificateOptions(privateKey=private_key, certificate=certificate, method=SSL.SSLv23_METHOD)
-        options.getContext().set_options(SSL.OP_NO_SSLv2 | SSL.OP_NO_SSLv3)
+        ctx = options.getContext()
+        ctx.set_options(SSL.OP_NO_SSLv2 | SSL.OP_NO_SSLv3)
+        ctx.use_certificate_chain_file(configmanager.get_config_dir(self.cert))
 
         self.socket = reactor.listenSSL(self.port, self.site, options, interface=self.interface)
         ip = self.socket.getHost().host
