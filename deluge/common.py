@@ -173,11 +173,15 @@ def archive_files(arc_name, filepaths):
                 # TODO: Remove oldest timestamped archives.
                 log.warning('More than %s tarballs in config archive', max_num_arcs)
 
-        with tarfile.open(arc_filepath, 'w:' + arc_comp) as tf:
-            for filepath in filepaths:
-                tf.add(filepath, arcname=os.path.basename(filepath))
-
-        return arc_filepath
+        try:
+            with tarfile.open(arc_filepath, 'w:' + arc_comp) as tf:
+                for filepath in filepaths:
+                    tf.add(filepath, arcname=os.path.basename(filepath))
+        except OSError:
+            log.error('Problem occurred archiving filepaths: %s', filepaths)
+            return False
+        else:
+            return arc_filepath
 
 
 def windows_check():
