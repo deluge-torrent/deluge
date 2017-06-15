@@ -232,13 +232,13 @@ class ConnectionManager(component.Component):
             self.builder.get_object('image_startdaemon').set_from_stock(
                 gtk.STOCK_STOP, gtk.ICON_SIZE_MENU)
             self.builder.get_object('label_startdaemon').set_text_with_mnemonic(_('_Stop Daemon'))
-            self.builder.get_object('button_startdaemon').set_sensitive(True)
+            self.builder.get_object('button_startdaemon').set_sensitive(False)
             if status == 'Connected':
                 # Display a disconnect button if we're connected to this host
                 self.builder.get_object('button_connect').set_label(_('_Disconnect'))
                 self.builder.get_object('button_removehost').set_sensitive(False)
-                # Can only stop daemon when connected to it
-                self.builder.get_object('button_startdaemon').set_sensitive(False)
+                # Currently can only stop daemon when connected to it
+                self.builder.get_object('button_startdaemon').set_sensitive(True)
         elif host in LOCALHOST:
             # If localhost we can start the dameon.
             self.builder.get_object('button_startdaemon').set_sensitive(True)
