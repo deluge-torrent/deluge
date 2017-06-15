@@ -20,6 +20,7 @@ from hashlib import sha1 as sha
 
 import deluge.component as component
 from deluge.bencode import bencode
+from deluge.common import utf8_encode_structure
 from deluge.event import CreateTorrentProgressEvent
 
 log = logging.getLogger(__name__)
@@ -69,11 +70,14 @@ def make_meta_file(path, url, piece_length, progress=None, title=None, comment=N
         f = target
 
     if progress is None:
-        session_id = component.get('RPCServer').get_session_id()
-        if not session_id:
-            progress = dummy
+        progress = dummy
+        try:
+            session_id = component.get('RPCServer').get_session_id()
+        except KeyError:
+            pass
         else:
-            progress = RemoteFileProgress(component.get('RPCServer').get_session_id())
+            if session_id:
+                progress = RemoteFileProgress(session_id)
 
     info = makeinfo(path, piece_length, progress, name, content_type, private)
 
@@ -110,7 +114,7 @@ def make_meta_file(path, url, piece_length, progress=None, title=None, comment=N
 
     data['encoding'] = 'UTF-8'
 
-    h.write(bencode(data))
+    h.write(bencode(utf8_encode_structure(data)))
     h.close()
 
 
@@ -173,7 +177,7 @@ def makeinfo(path, piece_length, progress, name=None, content_type=None, private
         if not name:
             name = os.path.split(path)[1]
 
-        return {'pieces': ''.join(pieces),
+        return {'pieces': b''.join(pieces),
                 'piece length': piece_length,
                 'files': fs,
                 'name': name.encode('utf8'),
@@ -199,12 +203,12 @@ def makeinfo(path, piece_length, progress, name=None, content_type=None, private
         h.close()
         name = os.path.split(path)[1].encode('utf8')
         if content_type is not None:
-            return {'pieces': ''.join(pieces),
+            return {'pieces': b''.join(pieces),
                     'piece length': piece_length, 'length': size,
                     'name': name,
                     'content_type': content_type,
                     'private': private}
-        return {'pieces': ''.join(pieces),
+        return {'pieces': b''.join(pieces),
                 'piece length': piece_length, 'length': size,
                 'name': name,
                 'private': private}
