@@ -237,6 +237,8 @@ class ConnectionManager(component.Component):
                 # Display a disconnect button if we're connected to this host
                 self.builder.get_object('button_connect').set_label(_('_Disconnect'))
                 self.builder.get_object('button_removehost').set_sensitive(False)
+                # Can only stop daemon when connected to it
+                self.builder.get_object('button_startdaemon').set_sensitive(False)
         elif host in LOCALHOST:
             # If localhost we can start the dameon.
             self.builder.get_object('button_startdaemon').set_sensitive(True)
@@ -254,7 +256,7 @@ class ConnectionManager(component.Component):
         """
         if client.start_daemon(port, config):
             log.debug('Localhost daemon started')
-            reactor.callLater(0.5, self._update_host_status)
+            reactor.callLater(1, self._update_host_status)
             return True
         else:
             ErrorDialog(
@@ -304,15 +306,15 @@ class ConnectionManager(component.Component):
 
             def dialog_finished(response_id):
                 if response_id == gtk.RESPONSE_OK:
-                    self.__connect(host_id, dialog.get_username(), dialog.get_password())
+                    self._connect(host_id, dialog.get_username(), dialog.get_password())
             return dialog.run().addCallback(dialog_finished)
 
-        elif reason.trap(IncompatibleClient):
+        elif reason.check(IncompatibleClient):
             return ErrorDialog(_('Incompatible Client'), reason.value.message).run()
 
         if try_counter:
             log.info('Retrying connection.. Retries left: %s', try_counter)
-            return reactor.callLater(0.8, self._connect, host_id, try_counter=try_counter - 1)
+            return reactor.callLater(0.5, self._connect, host_id, try_counter=try_counter - 1)
 
         msg = str(reason.value)
         if not self.gtkui_config['autostart_localhost']:
@@ -338,7 +340,7 @@ class ConnectionManager(component.Component):
         if auto_start and host in LOCALHOST and status == 'Offline':
             # Start the local daemon and then connect with retries set.
             if self.start_daemon(port, get_config_dir()):
-                try_counter = 4
+                try_counter = 6
             else:
                 # Don't attempt to connect to offline daemon.
                 return
@@ -459,7 +461,7 @@ class ConnectionManager(component.Component):
         if host not in LOCALHOST:
             return
 
-        def on_daemon_status_change(d):
+        def on_daemon_status_change(result):
             """Daemon start/stop callback"""
             reactor.callLater(0.7, self._update_host_status)
 
@@ -476,7 +478,7 @@ class ConnectionManager(component.Component):
                 c.connect(host, port, user, password).addCallback(on_connect, c)
         else:
             # Otherwise button will start the daemon.
-            self.start_daemon(port, get_config_dir()).addCallback(on_daemon_status_change)
+            self.start_daemon(port, get_config_dir())
 
     def on_button_refresh_clicked(self, widget):
         self._update_host_status()

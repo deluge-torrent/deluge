@@ -339,14 +339,16 @@ class GtkUI(object):
 
         # Check to see if we need to start the localhost daemon
         if self.config['autostart_localhost']:
-            port = 0
+            def on_localhost_status(status_info, port):
+                if status_info[1] == 'Offline':
+                    log.debug('Autostarting localhost: %s', host_config[0:3])
+                    self.connectionmanager.start_daemon(port, get_config_dir())
+
             for host_config in self.connectionmanager.hostlist.config['hosts']:
                 if host_config[1] in LOCALHOST:
-                    port = host_config[2]
-                    log.debug('Autostarting localhost: %s', host_config[0:3])
-
-            if port:
-                self.connectionmanager.start_daemon(port, get_config_dir())
+                    d = self.connectionmanager.hostlist.get_host_status(host_config[0])
+                    d.addCallback(on_localhost_status, host_config[2])
+                    break
 
         # Autoconnect to a host
         if self.config['autoconnect']:
@@ -354,7 +356,7 @@ class GtkUI(object):
                 host_id, host, port, user, __ = host_config
                 if host_id == self.config['autoconnect_host_id']:
                     log.debug('Trying to connect to %s@%s:%s', user, host, port)
-                    reactor.callLater(0.3, self.connectionmanager._connect, host_id, try_counter=6)
+                    self.connectionmanager._connect(host_id, try_counter=6)
                     break
 
         if self.config['show_connection_manager_on_start']:
