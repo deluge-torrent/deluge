@@ -15,21 +15,19 @@
 from __future__ import unicode_literals
 
 import logging
-import os.path
+from os.path import join
 
 from twisted.internet import defer
 
 from deluge import component
-from deluge.common import decode_bytes
+from deluge.common import resource_filename
 from deluge.event import known_events
 
 log = logging.getLogger(__name__)
 
-BASE_PATH = decode_bytes(os.path.abspath(os.path.dirname(__file__)))
-
 
 def get_resource(filename):
-    return os.path.join(BASE_PATH, 'data', filename)
+    return resource_filename('deluge.plugins.notifications', join('data', filename))
 
 
 class CustomNotifications(object):
