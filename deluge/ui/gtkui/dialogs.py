@@ -270,7 +270,8 @@ class AccountDialog(BaseDialog):
         self.authlevel_label.set_alignment(1.0, 0.5)
         self.authlevel_label.set_padding(5, 5)
 
-        self.authlevel_combo = gtk.ComboBoxText()
+        # combo_box_new_text is deprecated but no other pygtk alternative.
+        self.authlevel_combo = gtk.combo_box_new_text()
         active_idx = None
         for idx, level in enumerate(levels_mapping):
             self.authlevel_combo.append_text(level)
