@@ -386,9 +386,7 @@ class WebApi(JSONComponent):
             client.set_disconnect_callback(self._on_client_disconnect)
             default_host_id = component.get('DelugeWeb').config['default_daemon']
             if default_host_id:
-                host_info = self._get_host(default_host_id)
-                if host_info:
-                    return self._connect_daemon(*host_info[1:])
+                return self._connect_daemon(default_host_id)
 
         return defer.succeed(True)
 
