@@ -139,7 +139,7 @@ class TorrentDetails(component.Component):
             'All': _('_All'),
             'Status': _('_Status'),
             'Details': _('_Details'),
-            'Files': _('_Files'),
+            'Files': _('Fi_les'),
             'Peers': _('_Peers'),
             'Options': _('_Options'),
             'Trackers': _('_Trackers')
