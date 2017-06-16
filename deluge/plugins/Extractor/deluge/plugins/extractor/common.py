@@ -14,10 +14,10 @@
 
 from __future__ import unicode_literals
 
-from os.path import join
+import os.path
 
-from deluge.common import resource_filename
+from pkg_resources import resource_filename
 
 
 def get_resource(filename):
-    return resource_filename('deluge.plugins.extractor', join('data', filename))
+    return resource_filename('deluge.plugins.extractor', os.path.join('data', filename))
