@@ -35,6 +35,11 @@
     torrent's status tab.
     * #2093: Make torrent opening compatible with all unicode paths.
     * #1084: Fix magnet association button on Windows
+    * Add keyboard shortcuts for changing queue position:
+        - Up: Ctrl+Alt+Up
+        - Down: Ctrl+Alt+Down
+        - Top: Ctrl+Alt+Shift+Up
+        - Bottom: Ctrl+Alt+Shift+Down
 
 ==== WebUI ====
     * Server (deluge-web) now daemonizes by default, use -d or --do-not-daemonize to disable.

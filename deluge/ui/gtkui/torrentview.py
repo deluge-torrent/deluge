@@ -15,7 +15,7 @@ from locale import strcoll
 
 from gobject import TYPE_UINT64, idle_add
 from gtk import ENTRY_ICON_SECONDARY
-from gtk.gdk import SHIFT_MASK, keyval_name
+from gtk.gdk import CONTROL_MASK, MOD1_MASK, SHIFT_MASK, keyval_name
 from twisted.internet import reactor
 
 import deluge.component as component
@@ -25,6 +25,8 @@ from deluge.ui.gtkui.listview import ListView
 from deluge.ui.gtkui.removetorrentdialog import RemoveTorrentDialog
 
 log = logging.getLogger(__name__)
+
+CTRL_ALT_MASK = CONTROL_MASK | MOD1_MASK
 
 
 def str_nocase_sort(model, iter1, iter2, data):
@@ -720,6 +722,34 @@ class TorrentView(ListView, component.Component):
             func = getattr(self, 'keypress_' + keyname.lower(), None)
             if func:
                 return func(event)
+
+    def keypress_up(self, event):
+        """Handle any Up arrow keypresses"""
+        log.debug('keypress_up')
+        torrents = self.get_selected_torrents()
+        if not torrents:
+            return
+
+        # Move queue position up with Ctrl+Alt or Ctrl+Alt+Shift
+        if event.get_state() & CTRL_ALT_MASK:
+            if event.get_state() & SHIFT_MASK:
+                client.core.queue_top(torrents)
+            else:
+                client.core.queue_up(torrents)
+
+    def keypress_down(self, event):
+        """Handle any Down arrow keypresses"""
+        log.debug('keypress_down')
+        torrents = self.get_selected_torrents()
+        if not torrents:
+            return
+
+        # Move queue position down with Ctrl+Alt or Ctrl+Alt+Shift
+        if event.get_state() & CTRL_ALT_MASK:
+            if event.get_state() & SHIFT_MASK:
+                client.core.queue_bottom(torrents)
+            else:
+                client.core.queue_down(torrents)
 
     def keypress_delete(self, event):
         log.debug('keypress_delete')
