@@ -22,19 +22,15 @@
     these is missing, an authentication error will be sent to the client
     which sould then ask the username/password to the user.
     * Implemented sequential downloads.
-    * #378: Provide information about a torrent's pieces states
+    * Provide information about a torrent's pieces states
 
 ==== GtkUI ====
-    * Fix uncaught exception when closing deluge in classic mode
-    * Allow changing ownership of torrents
-    * Host entries in the Connection Manager UI are now editable. They're
-    now also migrated from the old format were automatic localhost logins were
-    possible, which no longer is, this fixes #1814.
+    * Allow changing ownership of torrents.
+    * Host entries in the Connection Manager UI are now editable.
     * Implemented sequential downloads UI handling.
-    * #378: Allow showing a pieces bar instead of a regular progress bar in a
-    torrent's status tab.
-    * #2093: Make torrent opening compatible with all unicode paths.
-    * #1084: Fix magnet association button on Windows
+    * Add optional pieces bar instead of a regular progress bar in torrent status tab.
+    * Make torrent opening compatible with all unicode paths.
+    * Fix magnet association button on Windows.
     * Add keyboard shortcuts for changing queue position:
         - Up: Ctrl+Alt+Up
         - Down: Ctrl+Alt+Down
@@ -42,11 +38,11 @@
         - Bottom: Ctrl+Alt+Shift+Down
 
 ==== WebUI ====
-    * Server (deluge-web) now daemonizes by default, use -d or --do-not-daemonize to disable.
-    * Fixed the --base option to work for normal use, not just with reverse proxies.
+    * Server (deluge-web) now daemonizes by default, use '-d' or '--do-not-daemonize' to disable.
+    * Fixed the '--base' option to work for regular use, not just with reverse proxies.
 
 ==== Blocklist Plugin ====
-    * #1382: Implemented whitelist support to both core and GTK UI.
+    * Implemented whitelist support to both core and GTK UI.
     * Implemented ip filter cleaning before each update. Restarting the deluge
     daemon is no longer needed.
     * If "check_after_days" is 0(zero), the timer is not started anymore. It
