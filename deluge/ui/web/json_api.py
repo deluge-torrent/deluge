@@ -386,9 +386,20 @@ class WebApi(JSONComponent):
             client.set_disconnect_callback(self._on_client_disconnect)
             default_host_id = component.get('DelugeWeb').config['default_daemon']
             if default_host_id:
-                return self._connect_daemon(default_host_id)
+                return self.connect(default_host_id)
 
         return defer.succeed(True)
+
+    def _on_client_connect(self, *args):
+        """Handles client successfully connecting to the daemon.
+
+        Invokes retrieving the method names and starts webapi and plugins.
+
+        """
+        d_methods = self._json.get_remote_methods()
+        component.get('Web.PluginManager').start()
+        self.start()
+        return d_methods
 
     def _on_client_disconnect(self, *args):
         component.get('Web.PluginManager').stop()
@@ -403,34 +414,17 @@ class WebApi(JSONComponent):
         self.sessionproxy.stop()
         return defer.succeed(True)
 
-    def _connect_daemon(self, host_id):
-        """
-        Connects the client to a daemon
-        """
-
-        def on_client_connected(connection_id):
-            """
-            Handles the client successfully connecting to the daemon and
-            invokes retrieving the method names.
-            """
-            d = self._json.get_remote_methods()
-            component.get('Web.PluginManager').start()
-            self.start()
-            return d
-
-        return self.hostlist.connect_host(host_id).addCallback(on_client_connected)
-
     @export
     def connect(self, host_id):
-        """
-        Connect the client to a daemon
+        """Connect the web client to a daemon.
 
-        :param host_id: the id of the daemon in the host list
-        :type host_id: string
-        :returns: the methods the daemon supports
-        :rtype: list
+        Args:
+            host_id (str): The id of the daemon in the host list.
+
+        Returns:
+            Deferred: List of methods the daemon supports.
         """
-        return self._connect_daemon(host_id)
+        return self.hostlist.connect_host(host_id).addCallback(self._on_client_connect)
 
     @export
     def connected(self):
