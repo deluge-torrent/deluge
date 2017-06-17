@@ -58,7 +58,7 @@ def fseed_rank_or_dash(seed_rank, seeding_time):
 
     if seeding_time > 0:
         if seed_rank >= 1000:
-            return '%ik' % (seed_rank // 1000)
+            return '%i k' % (seed_rank // 1000)
         else:
             return str(seed_rank)
     else:
