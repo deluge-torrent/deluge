@@ -268,7 +268,9 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
         record.set('status', host[1])
         record.set('version', host[2])
         record.commit();
-        if (this.list.getSelectedRecords()[0] == record) this.updateButtons(record);
+        var selected = this.list.getSelectedRecords()[0]
+        if (!selected) return;
+        if (selected == record) this.updateButtons(record);
     },
 
     // private

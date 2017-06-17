@@ -134,7 +134,9 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
     },
 
     onEditClick: function() {
-        this.editWindow.show(this.list.getSelectedRecords()[0]);
+        var selected = this.list.getSelectedRecords()[0];
+        if (!selected) return;
+        this.editWindow.show(selected);
     },
 
     onHide: function() {
@@ -164,7 +166,9 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
 
     onRemoveClick: function() {
         // Remove from the grid
-        this.list.getStore().remove(this.list.getSelectedRecords()[0]);
+        var selected = this.list.getSelectedRecords()[0];
+        if (!selected) return;
+        this.list.getStore().remove(selected);
     },
 
     onRequestComplete: function(status) {

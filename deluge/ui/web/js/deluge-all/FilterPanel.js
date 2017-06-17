@@ -77,6 +77,7 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
         if (!this.list.getSelectionCount()) return;
 
         var state = this.list.getSelectedRecords()[0];
+        if (!state) return;
         if (state.id == 'All') return;
         return state.id;
     },
@@ -137,9 +138,10 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
 
         store.each(function(record) {
             if (filters[record.id]) return;
-            var r = this.list.getSelectedRecords()[0];
             store.remove(record);
-            if (r.id == record.id) {
+            var selected = this.list.getSelectedRecords()[0];
+            if (!selected) return;
+            if (selected.id == record.id) {
                 this.list.select(0);
             }
         }, this);

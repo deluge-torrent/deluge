@@ -188,6 +188,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
     onRemove: function() {
         if (!this.list.getSelectionCount()) return;
         var torrent = this.list.getSelectedRecords()[0];
+        if (!torrent) return;
         this.list.getStore().remove(torrent);
         this.optionsPanel.clear();
 
