@@ -77,7 +77,8 @@ msgstr "Statut"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1060
 msgid "Local Service Discovery finds local peers on your network."
-msgstr "Le service d'exploration local a trouvé des pairs sur votre réseau local."
+msgstr ""
+"Le service d'exploration local a trouvé des pairs sur votre réseau local."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1899
 msgid "Show session speed in titlebar"
@@ -2188,7 +2189,7 @@ msgstr "Espace disque libre"
 
 #: deluge/ui/gtkui/statusbar.py:190
 msgid "No Incoming Connections!"
-msgstr "Aucune connexion entrante!"
+msgstr "Aucune connexion entrante !"
 
 #: deluge/ui/gtkui/removetorrentdialog.py:78
 msgid "Torrents"
@@ -2507,7 +2508,7 @@ msgstr "_Affichage"
 
 #: deluge/ui/gtkui/glade/main_window.glade:155
 msgid "_Toolbar"
-msgstr "_Barre d'outils"
+msgstr "Barre d'ou_tils"
 
 #: deluge/ui/gtkui/glade/main_window.glade:165
 msgid "_Sidebar"
@@ -2727,7 +2728,7 @@ msgstr "<b>Chemin :</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1513
 msgid "<b>Status:</b>"
-msgstr "<b>État:</b>"
+msgstr "<b>État :</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1594
 msgid "_Details"
