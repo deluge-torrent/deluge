@@ -19,19 +19,10 @@ from email.utils import formatdate
 from twisted.internet.task import LoopingCall
 
 from deluge.common import AUTH_LEVEL_ADMIN, AUTH_LEVEL_NONE
+from deluge.error import NotAuthorizedError
+from deluge.ui.web.json_api import JSONComponent, export
 
 log = logging.getLogger(__name__)
-
-
-class AuthError(Exception):
-    """
-    An exception that might be raised when checking a request for
-    authentication.
-    """
-    pass
-
-# Import after as json_api imports the above AuthError
-from deluge.ui.web.json_api import export, JSONComponent  # NOQA, isort:skip pylint: disable=wrong-import-position
 
 
 def make_checksum(session_id):
@@ -226,7 +217,7 @@ class Auth(JSONComponent):
         request.session_id = session_id
 
         if auth_level < level:
-            raise AuthError('Not authenticated')
+            raise NotAuthorizedError(auth_level, level)
 
     def _change_password(self, new_password):
         """

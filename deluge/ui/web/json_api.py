@@ -21,8 +21,10 @@ from twisted.internet import defer, reactor
 from twisted.internet.defer import Deferred, DeferredList
 from twisted.web import http, resource, server
 
-from deluge import common, component, httpdownloader
+from deluge import component, httpdownloader
+from deluge.common import AUTH_LEVEL_DEFAULT, get_magnet_info, is_magnet
 from deluge.configmanager import get_config_dir
+from deluge.error import NotAuthorizedError
 from deluge.ui.client import Client, client
 from deluge.ui.common import FileTree2, TorrentInfo
 from deluge.ui.coreconfig import CoreConfig
@@ -32,9 +34,6 @@ from deluge.ui.translations_util import get_languages
 from deluge.ui.web.common import _, compress
 
 log = logging.getLogger(__name__)
-
-AUTH_LEVEL_DEFAULT = None
-AuthError = None
 
 
 class JSONComponent(component.Component):
@@ -55,11 +54,6 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
     :type auth_level: int
 
     """
-    global AUTH_LEVEL_DEFAULT, AuthError
-    if AUTH_LEVEL_DEFAULT is None:
-        from deluge.common import AUTH_LEVEL_DEFAULT
-        from deluge.ui.web.auth import AuthError  # NOQA pylint: disable=redefined-outer-name
-
     def wrap(func, *args, **kwargs):
         func._json_export = True
         func._json_auth_level = auth_level
@@ -161,7 +155,7 @@ class JSON(resource.Resource, component.Component):
                 result = self._exec_remote(method, params, request)
             else:
                 error = {'message': 'Unknown method', 'code': 2}
-        except AuthError:
+        except NotAuthorizedError:
             error = {'message': 'Not authenticated', 'code': 1}
         except Exception as ex:
             log.error('Error calling method `%s`: %s', method, ex)
@@ -650,7 +644,7 @@ class WebApi(JSONComponent):
 
     @export
     def get_magnet_info(self, uri):
-        return common.get_magnet_info(uri)
+        return get_magnet_info(uri)
 
     @export
     def add_torrents(self, torrents):
@@ -672,7 +666,7 @@ class WebApi(JSONComponent):
         deferreds = []
 
         for torrent in torrents:
-            if common.is_magnet(torrent['path']):
+            if is_magnet(torrent['path']):
                 log.info('Adding torrent from magnet uri `%s` with options `%r`',
                          torrent['path'], torrent['options'])
                 d = client.core.add_torrent_magnet(torrent['path'], torrent['options'])
