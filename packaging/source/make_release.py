@@ -34,7 +34,7 @@ try:
     release_tag = check_output('git describe --exact-match --abbrev=0'.split(), stderr=STDOUT)
 except CalledProcessError:
     # Fallback to dev build tag.
-    dev_tag = check_output('git describe --tags --abbrev=0'.split()).strip()
+    dev_tag = check_output('git describe --tags'.split()).strip()
     release_tag = dev_tag
 
 version = release_tag.split('deluge-')[1]
