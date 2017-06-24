@@ -46,7 +46,6 @@ desktop_data = 'deluge/ui/data/share/applications/deluge.desktop'
 appdata_data = 'deluge/ui/data/share/appdata/deluge.appdata.xml'
 
 # Variables for setuptools.setup
-_packages = find_packages(exclude=['plugins', 'docs', 'tests'])
 _package_data = {}
 _exclude_package_data = {}
 _entry_points = {'console_scripts': [], 'gui_scripts': [], 'deluge.ui': []}
@@ -497,7 +496,7 @@ setup(
     data_files=_data_files,
     package_data=_package_data,
     exclude_package_data=_exclude_package_data,
-    packages=_packages,
+    packages=find_packages(exclude=['deluge.plugins.*', 'deluge.tests']),
     namespace_packages=['deluge', 'deluge.plugins'],
     entry_points=_entry_points
 )
