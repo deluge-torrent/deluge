@@ -98,7 +98,7 @@ class SystemTray(component.Component):
 
         else:
             log.debug('Enabling the system tray icon..')
-            if windows_check():
+            if windows_check() or osx_check():
                 self.tray = status_icon_new_from_pixbuf(get_logo(32))
             else:
                 self.tray = status_icon_new_from_icon_name('deluge')
