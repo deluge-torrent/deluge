@@ -229,14 +229,25 @@ def linux_check():
 
 
 def get_os_version():
+    """Parse and return the os version information.
+
+    Converts the platform ver tuple to a string.
+
+    Returns:
+        str: The os version info.
+
+    """
     if windows_check():
-        return platform.win32_ver()
+        os_version = platform.win32_ver()
     elif osx_check():
-        return platform.mac_ver()
+        os_version = list(platform.mac_ver())
+        os_version[1] = ''  # versioninfo always empty.
     elif linux_check():
-        return platform.linux_distribution()
+        os_version = platform.linux_distribution()
     else:
-        return (platform.release(), )
+        os_version = (platform.release(), )
+
+    return ' '.join(filter(None, os_version))
 
 
 def get_pixmap(fname):

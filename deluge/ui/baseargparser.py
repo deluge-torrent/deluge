@@ -94,7 +94,7 @@ def get_version():
     except ImportError:
         pass
     version_str += 'Python: %s\n' % platform.python_version()
-    version_str += 'OS: %s %s\n' % (platform.system(), ' '.join(common.get_os_version()))
+    version_str += 'OS: %s %s\n' % (platform.system(), common.get_os_version())
     return version_str
 
 
