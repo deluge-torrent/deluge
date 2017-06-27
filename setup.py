@@ -134,10 +134,14 @@ class BuildWebUI(cmd.Command):
                     sys.exit(1)
 
         # Create the gettext.js file for translations.
-        from gen_web_gettext import create_gettext_js
-        deluge_all_path = os.path.join(js_basedir, self.JS_SRC_DIRS[0])
-        print('Creating WebUI translation file: %s/gettext.js' % deluge_all_path)
-        create_gettext_js(deluge_all_path)
+        try:
+            from gen_web_gettext import create_gettext_js
+        except ImportError:
+            pass
+        else:
+            deluge_all_path = os.path.join(js_basedir, self.JS_SRC_DIRS[0])
+            print('Creating WebUI translation file: %s/gettext.js' % deluge_all_path)
+            create_gettext_js(deluge_all_path)
 
 
 class CleanWebUI(cmd.Command):
