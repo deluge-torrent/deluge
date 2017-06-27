@@ -716,7 +716,7 @@ class Torrent(object):
 
         """
         if self.status.total_done > 0:
-            return self.status.all_time_upload / self.status.total_done
+            return self.status.all_time_upload / self.status.total_wanted_done
         else:
             return -1.0
 
