@@ -1,6 +1,6 @@
 include AUTHORS ChangeLog DEPENDS LICENSE  RELEASE-VERSION README.rst
-include msgfmt.py minify_web_js.py version.py
-exclude setup.cfg
+include msgfmt.py minify_web_js.py version.py gen_web_gettext.py
+exclude .* tox.ini
 
 graft docs/man
 
