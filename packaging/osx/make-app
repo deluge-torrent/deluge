@@ -3,6 +3,8 @@
 APPDIR="./app/Deluge.app"
 RSCDIR="${APPDIR}/Contents/Resources"
 LIBDIR="${RSCDIR}/lib"
+VERSION=$(cat ../../RELEASE-VERSION)
+YEAR=$(date +'%Y')
 
 function msg() { echo "==> $1"; }
 
@@ -19,6 +21,9 @@ if [ ! -z "${JHBUILD_PREFIX}" ]; then
 fi
 
 chmod 755 deluge deluge-web deluge-console deluged
+
+msg "Create Info.plist for Deluge $version"
+sed -e s/%VERSION%/$VERSION/ -e s/%YEAR%/$YEAR/ Info.plist.in > Info.plist
 
 msg "Calling gtk-mac-bundler"
 gtk-mac-bundler deluge.bundle

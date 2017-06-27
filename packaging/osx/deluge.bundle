@@ -23,17 +23,16 @@
   <binary>${prefix}/lib/pango/1.8.0/modules/pango*.so</binary>
   <binary>${prefix}/lib/libboost_system.dylib</binary>
   <binary>${prefix}/lib/libboost_python.dylib</binary>
-  <binary>${prefix}/lib/libtorrent-rasterbar.8.dylib</binary>
+  <binary>${prefix}/lib/libtorrent-rasterbar.9.dylib</binary>
   <binary>${prefix}/lib/libssl.1.0.0.dylib</binary>
   <binary>${prefix}/lib/libz.1.2.8.dylib</binary>
 
-  <data dest="${bundle}/Contents/Resources/">${project}/../dist/deluge.app/Contents/Resources/</data>
+  <data dest="${bundle}/Contents/Resources/">${project}/../../dist/deluge.app/Contents/Resources/</data>
   <data>${prefix}/lib/pygtk/2.0/</data>
   <!-- gtk theme -->
   <binary>${prefix}/lib/${gtkdir}/${pkg:${gtk}:gtk_binary_version}/engines/libclearlooks.so</binary>
   <data>${prefix}/share/themes/Clearlooks</data>
   <data>${prefix}/share/themes/Mac</data><!-- required for stock accelerators cmd-X etc... -->
-  <!-- Emacs shortcuts doesn't work: data>${prefix}/share/themes/Emacs</data-->
   <data dest="${bundle}/Contents/Resources/etc/gtk-2.0/gtkrc">${project}/gtkrc</data>
   <data dest="${bundle}/Contents/Resources">${project}/deluge.icns</data>
   <data dest="${bundle}/Contents/Resources">${project}/torrent.icns</data>
