@@ -16,7 +16,8 @@ from deluge.configmanager import ConfigManager
 
 
 def accel_swap(item, group, skey, smod, dkey, dmod):
-    item.remove_accelerator(group, ord(skey), smod)
+    # Accel map hack broken, see ticket #3078
+    # item.remove_accelerator(group, ord(skey), smod)
     item.add_accelerator('activate', group, ord(dkey), dmod, ACCEL_VISIBLE)
 
 
