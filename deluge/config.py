@@ -111,8 +111,13 @@ def find_json_objects(s):
     if start < 0:
         return []
 
+    quoted = False
     for index, c in enumerate(s[offset:]):
-        if c == "{":
+        if c == '"':
+            quoted = not quoted
+        elif quoted:
+            continue
+        elif c == "{":
             opens += 1
         elif c == "}":
             opens -= 1
