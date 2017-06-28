@@ -600,11 +600,20 @@ class Core(component.Component):
             self.torrentmanager[torrent_id].force_reannounce()
 
     @export
-    def pause_torrent(self, torrent_ids):
-        log.debug('Pausing: %s', torrent_ids)
+    def pause_torrent(self, torrent_id):
+        """Pauses a torrent"""
+        log.debug('Pausing: %s', torrent_id)
+        if not isinstance(torrent_id, str if not PY2 else basestring):
+            self.pause_torrents(torrent_id)
+        self.torrentmanager[torrent_id].pause()
+
+    @export
+    def pause_torrents(self, torrent_ids=None):
+        """Pauses a list of torrents"""
+        if not torrent_ids:
+            torrent_ids = self.torrentmanager.get_torrent_list()
         for torrent_id in torrent_ids:
-            if not self.torrentmanager[torrent_id].pause():
-                log.warning('Error pausing torrent %s', torrent_id)
+            self.pause_torrent(torrent_id)
 
     @export
     def connect_peer(self, torrent_id, ip, port):
@@ -636,10 +645,20 @@ class Core(component.Component):
             component.get('EventManager').emit(SessionResumedEvent())
 
     @export
-    def resume_torrent(self, torrent_ids):
-        log.debug('Resuming: %s', torrent_ids)
+    def resume_torrent(self, torrent_id):
+        """Resumes a torrent"""
+        log.debug('Resuming: %s', torrent_id)
+        if not isinstance(torrent_id, str if not PY2 else basestring):
+            self.resume_torrents(torrent_id)
+        self.torrentmanager[torrent_id].resume()
+
+    @export
+    def resume_torrents(self, torrent_ids=None):
+        """Resumes a list of torrents"""
+        if not torrent_ids:
+            torrent_ids = self.torrentmanager.get_torrent_list()
         for torrent_id in torrent_ids:
-            self.torrentmanager[torrent_id].resume()
+            self.resume_torrent(torrent_id)
 
     def create_torrent_status(self, torrent_id, torrent_keys, plugin_keys, diff=False, update=False, all_keys=False):
         try:

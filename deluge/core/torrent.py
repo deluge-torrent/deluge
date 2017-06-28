@@ -1081,7 +1081,7 @@ class Torrent(object):
         # Turn off auto-management so the torrent will not be unpaused by lt queueing
         self.handle.auto_managed(False)
         if self.state == 'Error':
-            return False
+            log.debug('Unable to pause torrent while in Error state')
         elif self.status.paused:
             # This torrent was probably paused due to being auto managed by lt
             # Since we turned auto_managed off, we should update the state which should
@@ -1094,8 +1094,6 @@ class Torrent(object):
                 self.handle.pause()
             except RuntimeError as ex:
                 log.debug('Unable to pause torrent: %s', ex)
-                return False
-        return True
 
     def resume(self):
         """Resumes this torrent."""
