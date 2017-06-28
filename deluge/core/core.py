@@ -630,19 +630,24 @@ class Core(component.Component):
 
     @export
     def pause_session(self):
-        """Pause all torrents in the session"""
+        """Pause the entire session"""
         if not self.session.is_paused():
             self.session.pause()
             component.get('EventManager').emit(SessionPausedEvent())
 
     @export
     def resume_session(self):
-        """Resume all torrents in the session"""
+        """Resume the entire session"""
         if self.session.is_paused():
             self.session.resume()
             for torrent_id in self.torrentmanager.torrents:
                 self.torrentmanager[torrent_id].update_state()
             component.get('EventManager').emit(SessionResumedEvent())
+
+    @export
+    def is_session_paused(self):
+        """Returns the activity of the session"""
+        return self.session.is_paused()
 
     @export
     def resume_torrent(self, torrent_id):
