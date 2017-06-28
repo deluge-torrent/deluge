@@ -168,3 +168,20 @@ class ConfigTestCase(unittest.TestCase):
 
         objects = find_json_objects(s)
         self.assertEqual(len(objects), 2)
+
+    def test_find_json_objects_curly_brace(self):
+        """Test with string containing curly brace"""
+        s = """{
+  "file": 1,
+  "format": 1
+}{
+  "ssl": true,
+  "enabled": false,
+  "port": 8115
+  "password": "abc{def"
+}\n"""
+
+        from deluge.config import find_json_objects
+
+        objects = find_json_objects(s)
+        self.assertEqual(len(objects), 2)
