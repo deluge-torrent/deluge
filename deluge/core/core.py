@@ -715,7 +715,7 @@ class Core(component.Component):
             torrent_ids (list): A list of torrent_ids to set the options for.
             options (dict): A dict of torrent options to set. See torrent.TorrentOptions class for valid keys.
         """
-        if 'owner' in options and not self.core.authmanager.has_account(options['owner']):
+        if 'owner' in options and not self.authmanager.has_account(options['owner']):
             raise DelugeError('Username "%s" is not known.' % options['owner'])
 
         if isinstance(torrent_ids, str if not PY2 else basestring):
