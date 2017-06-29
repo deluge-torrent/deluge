@@ -923,8 +923,15 @@ def decode_bytes(byte_str, encoding='utf8'):
 
 
 @deprecated
-def utf8_encoded(s, encoding='utf8'):
-    decode_bytes(s, encoding).encode('utf8')
+def decode_string(byte_str, encoding='utf8'):
+    """Deprecated: Use decode_bytes"""
+    decode_bytes(byte_str, encoding)
+
+
+@deprecated
+def utf8_encoded(str_, encoding='utf8'):
+    """Deprecated: Use encode or decode_bytes if needed"""
+    decode_bytes(str_, encoding).encode('utf8')
 
 
 def utf8_encode_structure(data):
