@@ -11,7 +11,7 @@ from __future__ import division, unicode_literals
 
 import logging
 import os
-from base64 import b64encode
+from base64 import b64decode, b64encode
 from xml.sax.saxutils import escape as xml_escape
 from xml.sax.saxutils import unescape as xml_unescape
 
@@ -219,12 +219,29 @@ class AddTorrentDialog(component.Component):
             if not magnet:
                 log.error('Invalid magnet: %s', uri)
                 continue
-            if magnet['info_hash'] in self.infos:
+            elif magnet['info_hash'] in self.infos:
                 log.info('Torrent already in Add Dialog list: %s', uri)
                 continue
+
             new_row = self.torrent_liststore.append([magnet['info_hash'], magnet['name'], xml_escape(uri)])
             self.files[magnet['info_hash']] = magnet['files_tree']
             self.infos[magnet['info_hash']] = None
+
+            def on_uri_metadata(result, uri):
+                info_hash, b64_metadata = result
+                log.debug('on_uri_metadata for %s (%s)', uri, info_hash)
+
+                if b64_metadata:
+                    metadata = b64decode(b64_metadata)
+                    info = TorrentInfo(metadata=metadata)
+                    self.files[info_hash] = info.files
+                    self.infos[info_hash] = info.filedata
+                    self.prepare_file_store(info.files)
+                else:
+                    log.info('Unable to fetch metadata for magnet: %s', uri)
+
+            client.core.prefetch_magnet_metadata(uri).addCallback(on_uri_metadata, uri)
+
             self.listview_torrents.get_selection().select_iter(new_row)
             self.set_default_options()
             self.save_torrent_options(new_row)
@@ -271,9 +288,13 @@ class AddTorrentDialog(component.Component):
     def prepare_file_store(self, files):
         with listview_replace_treestore(self.listview_files):
             split_files = {}
-            for i, _file in enumerate(files):
+            for idx, _file in enumerate(files):
                 self.prepare_file(
-                    _file, _file['path'], i, _file['download'], split_files,
+                    _file,
+                    _file['path'],
+                    idx,
+                    _file.get('download', True),
+                    split_files,
                 )
             self.add_files(None, split_files)
         self.listview_files.expand_row(b'0', False)
@@ -747,15 +768,15 @@ class AddTorrentDialog(component.Component):
             if options is not None:
                 options['file_priorities'] = file_priorities
 
-            if deluge.common.is_magnet(filename):
-                del options['file_priorities']
-                client.core.add_torrent_magnet(filename, options)
-            else:
+            if self.infos[torrent_id]:
                 torrents_to_add.append((
                     os.path.split(filename)[-1],
                     b64encode(self.infos[torrent_id]),
                     options,
                 ))
+            elif deluge.common.is_magnet(filename):
+                client.core.add_torrent_magnet(filename, options)
+
             row = self.torrent_liststore.iter_next(row)
 
         def on_torrents_added(errors):
