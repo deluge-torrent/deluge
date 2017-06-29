@@ -445,7 +445,7 @@ class Core(component.Component):
         return d
 
     @export
-    def add_torrent_magnet(self, uri, options):
+    def add_torrent_magnet(self, uri, options, torrent_info=None):
         """
         Adds a torrent from a magnet link.
 
