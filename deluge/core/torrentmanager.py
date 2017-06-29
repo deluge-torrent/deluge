@@ -217,7 +217,7 @@ class TorrentManager(component.Component):
             self.prev_status_cleanup_loop.stop()
 
         # Save state on shutdown
-        yield self.save_state()
+        yield self.save_state(force_save=True)
 
         self.session.pause()
 
@@ -606,15 +606,26 @@ class TorrentManager(component.Component):
             state.torrents.append(torrent_state)
         return state
 
-    def save_state(self):
+    def save_state(self, force_save=False):
         """Run the save state task in a separate thread to avoid blocking main thread.
+
+            Args:
+                force_save (bool): Forces state write to disk, ignores prev_saved_state check.
+
+            Returns:
+                Deferred:
 
         Note:
             If a save task is already running, this call is ignored.
 
         """
+
+        if force_save:
+            self.prev_saved_state = None
+
         if self.is_saving_state:
             return defer.succeed(None)
+
         self.is_saving_state = True
         d = threads.deferToThread(self._save_state)
 
