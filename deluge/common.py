@@ -28,6 +28,7 @@ import time
 import chardet
 import pkg_resources
 
+from deluge.decorators import deprecated
 from deluge.error import InvalidPathError
 
 try:
@@ -919,6 +920,11 @@ def decode_bytes(byte_str, encoding='utf8'):
         except UnicodeDecodeError:
             pass
     return ''
+
+
+@deprecated
+def utf8_encoded(s, encoding='utf8'):
+    decode_bytes(s, encoding).encode('utf8')
 
 
 def utf8_encode_structure(data):
