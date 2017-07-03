@@ -385,6 +385,9 @@ class TorrentManager(component.Component):
                 name = torrent_info.file_at(0).path.replace('\\', '/', 1).split('/', 1)[0]
             add_torrent_params['name'] = name
             torrent_id = str(torrent_info.info_hash())
+            # If added a magnet with filedump store original url.
+            if magnet:
+                add_torrent_params['url'] = magnet.strip().encode('utf8')
         elif magnet:
             magnet_info = get_magnet_info(magnet)
             if magnet_info:

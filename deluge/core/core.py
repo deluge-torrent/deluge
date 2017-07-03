@@ -445,7 +445,7 @@ class Core(component.Component):
         return d
 
     @export
-    def add_torrent_magnet(self, uri, options, torrent_info=None):
+    def add_torrent_magnet(self, uri, options, filedump=None):
         """
         Adds a torrent from a magnet link.
 
@@ -459,8 +459,13 @@ class Core(component.Component):
 
         """
         log.debug('Attempting to add by magnet uri: %s', uri)
+        if filedump:
+            try:
+                filedump = b64decode(filedump)
+            except TypeError as ex:
+                log.error('There was an error decoding the filedump string: %s', ex)
 
-        return self.torrentmanager.add(magnet=uri, options=options)
+        return self.torrentmanager.add(magnet=uri, options=options, filedump=filedump)
 
     @export
     def remove_torrent(self, torrent_id, remove_data):
