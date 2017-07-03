@@ -9,9 +9,9 @@
 
 from __future__ import division, unicode_literals
 
-import base64
 import logging
 import os
+from base64 import b64decode, b64encode
 from xml.sax.saxutils import escape as xml_escape
 from xml.sax.saxutils import unescape as xml_unescape
 
@@ -231,7 +231,7 @@ class AddTorrentDialog(component.Component):
                 log.debug('on_uri_metadata for %s (%s)', uri, info_hash)
 
                 if b64_metadata:
-                    metadata = base64.decodestring(b64_metadata)
+                    metadata = b64decode(b64_metadata)
                     info = TorrentInfo(metadata=metadata)
                     self.files[info_hash] = info.files
                     self.infos[info_hash] = info.filedata
@@ -733,7 +733,7 @@ class AddTorrentDialog(component.Component):
                 client.core.add_torrent_magnet(filename, options)
             else:
                 torrents_to_add.append((os.path.split(filename)[-1],
-                                        base64.encodestring(self.infos[torrent_id]),
+                                        b64encode(self.infos[torrent_id]),
                                         options))
             row = self.torrent_liststore.iter_next(row)
 

@@ -10,13 +10,13 @@
 
 from __future__ import division, unicode_literals
 
-import base64
 import glob
 import logging
 import os
 import shutil
 import tempfile
 import threading
+from base64 import b64decode, b64encode
 
 from twisted.internet import defer, reactor, task
 from twisted.web.client import getPage
@@ -331,8 +331,8 @@ class Core(component.Component):
 
         """
         try:
-            filedump = base64.decodestring(filedump)
-        except Exception as ex:
+            filedump = b64decode(filedump)
+        except TypeError as ex:
             log.error('There was an error decoding the filedump string: %s', ex)
 
         try:
@@ -362,7 +362,7 @@ class Core(component.Component):
         """
         def on_metadata(result):
             torrent_id, metadata = result
-            return torrent_id, base64.encodestring(metadata)
+            return torrent_id, b64encode(metadata)
 
         return self.torrentmanager.prefetch_metadata(magnet, timeout).addCallback(on_metadata)
 
@@ -431,7 +431,7 @@ class Core(component.Component):
                 os.remove(filename)
             except OSError as ex:
                 log.warning('Could not remove temp file: %s', ex)
-            return self.add_torrent_file(filename, base64.encodestring(data), options)
+            return self.add_torrent_file(filename, b64encode(data), options)
 
         def on_download_fail(failure):
             # Log the error and pass the failure onto the client
@@ -863,7 +863,7 @@ class Core(component.Component):
             options = {}
             options['download_location'] = os.path.split(path)[0]
             with open(target, 'rb') as _file:
-                filedump = base64.encodestring(_file.read())
+                filedump = b64encode(_file.read())
                 self.add_torrent_file(os.path.split(target)[1], filedump, options)
 
     @export
@@ -874,8 +874,8 @@ class Core(component.Component):
         ie, plugin_file.read()"""
 
         try:
-            filedump = base64.decodestring(filedump)
-        except Exception as ex:
+            filedump = b64decode(filedump)
+        except TypeError as ex:
             log.error('There was an error decoding the filedump string!')
             log.exception(ex)
             return
