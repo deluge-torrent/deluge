@@ -390,7 +390,7 @@ class Core(component.Component):
         """
         try:
             filedump = b64decode(filedump)
-        except Exception as ex:
+        except TypeError as ex:
             log.error('There was an error decoding the filedump string: %s', ex)
 
         try:
@@ -958,7 +958,7 @@ class Core(component.Component):
 
         try:
             filedump = b64decode(filedump)
-        except Exception as ex:
+        except TypeError as ex:
             log.error('There was an error decoding the filedump string!')
             log.exception(ex)
             return

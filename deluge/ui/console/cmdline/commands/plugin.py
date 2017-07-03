@@ -84,7 +84,7 @@ class Command(BaseCommand):
 
         elif options.install:
             import os.path
-            import base64
+            from base64 import b64encode
             import shutil
 
             filepath = options.install
@@ -102,7 +102,7 @@ class Command(BaseCommand):
             if not client.is_localhost():
                 # We need to send this plugin to the daemon
                 with open(filepath, 'rb') as _file:
-                    filedump = base64.encodestring(_file.read())
+                    filedump = b64encode(_file.read())
                 try:
                     client.core.upload_plugin(filename, filedump)
                     client.core.rescan_plugins()

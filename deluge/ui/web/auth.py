@@ -143,11 +143,11 @@ class Auth(JSONComponent):
         elif 'old_pwd_md5' in config.config:
             # We are using the 1.1 webui auth method
             log.debug('Received a password via the 1.1 auth method')
-            from base64 import decodestring
+            from base64 import b64decode
             m = hashlib.md5()
-            m.update(decodestring(config['old_pwd_salt']))
+            m.update(b64decode(config['old_pwd_salt']))
             m.update(password.encode('utf8'))
-            if m.digest() == decodestring(config['old_pwd_md5']):
+            if m.digest() == b64decode(config['old_pwd_md5']):
 
                 # We want to move the password over to sha1 and remove
                 # the old passwords from the config file.

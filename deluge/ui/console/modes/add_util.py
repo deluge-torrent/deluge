@@ -11,10 +11,10 @@
 
 from __future__ import unicode_literals
 
-import base64
 import glob
 import logging
 import os
+from base64 import b64encode
 
 import deluge.common
 from deluge.ui.client import client
@@ -78,7 +78,7 @@ def add_torrent(t_file, options, success_cb, fail_cb, ress):
 
             filename = os.path.split(f)[-1]
             with open(f, 'rb') as _file:
-                filedump = base64.encodestring(_file.read())
+                filedump = b64encode(_file.read())
 
             client.core.add_torrent_file_async(
                 filename, filedump, t_options,

@@ -9,9 +9,9 @@
 
 from __future__ import unicode_literals
 
-import base64
 import logging
 import os
+from base64 import b64encode
 
 import deluge.common
 import deluge.component as component
@@ -393,7 +393,7 @@ class AddTorrents(BaseMode):
                 directory = os.path.join(*self.path_stack[:self.path_stack_pos])
                 path = os.path.join(directory, filename)
                 with open(path, 'rb') as _file:
-                    filedump = base64.encodestring(_file.read())
+                    filedump = b64encode(_file.read())
                 t_options = {}
                 if result['location']['value']:
                     t_options['download_location'] = result['location']['value']

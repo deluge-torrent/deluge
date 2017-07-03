@@ -9,10 +9,10 @@
 
 from __future__ import unicode_literals
 
-import base64
 import logging
 import os
 import sys
+from base64 import b64encode
 from glob import glob
 from tempfile import mkstemp
 
@@ -223,5 +223,5 @@ def process_args(args):
                 component.get('AddTorrentDialog').show(config['focus_add_dialog'])
             else:
                 with open(path, 'rb') as _file:
-                    filedump = base64.encodestring(_file.read())
+                    filedump = b64encode(_file.read())
                 client.core.add_torrent_file(os.path.split(path)[-1], filedump, None)

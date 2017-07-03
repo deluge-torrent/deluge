@@ -7,7 +7,7 @@
 
 from __future__ import unicode_literals
 
-import base64
+from base64 import b64encode
 from hashlib import sha1 as sha
 
 import pytest
@@ -123,7 +123,7 @@ class CoreTestCase(BaseTestCase):
         for f in filenames:
             filename = common.get_test_data_file(f)
             with open(filename, 'rb') as _file:
-                filedump = base64.encodestring(_file.read())
+                filedump = b64encode(_file.read())
             files_to_add.append((filename, filedump, options))
         errors = yield self.core.add_torrent_files(files_to_add)
         self.assertEqual(len(errors), 0)
@@ -136,7 +136,7 @@ class CoreTestCase(BaseTestCase):
         for f in filenames:
             filename = common.get_test_data_file(f)
             with open(filename, 'rb') as _file:
-                filedump = base64.encodestring(_file.read())
+                filedump = b64encode(_file.read())
             files_to_add.append((filename, filedump, options))
         errors = yield self.core.add_torrent_files(files_to_add)
         self.assertEqual(len(errors), 1)
@@ -147,7 +147,7 @@ class CoreTestCase(BaseTestCase):
         options = {}
         filename = common.get_test_data_file('test.torrent')
         with open(filename, 'rb') as _file:
-            filedump = base64.encodestring(_file.read())
+            filedump = b64encode(_file.read())
         torrent_id = yield self.core.add_torrent_file_async(filename, filedump, options)
 
         # Get the info hash from the test.torrent
@@ -215,7 +215,7 @@ class CoreTestCase(BaseTestCase):
         options = {}
         filename = common.get_test_data_file('test.torrent')
         with open(filename, 'rb') as _file:
-            filedump = base64.encodestring(_file.read())
+            filedump = b64encode(_file.read())
         torrent_id = yield self.core.add_torrent_file_async(filename, filedump, options)
         removed = self.core.remove_torrent(torrent_id, True)
         self.assertTrue(removed)
@@ -229,12 +229,12 @@ class CoreTestCase(BaseTestCase):
         options = {}
         filename = common.get_test_data_file('test.torrent')
         with open(filename, 'rb') as _file:
-            filedump = base64.encodestring(_file.read())
+            filedump = b64encode(_file.read())
         torrent_id = yield self.core.add_torrent_file_async(filename, filedump, options)
 
         filename2 = common.get_test_data_file('unicode_filenames.torrent')
         with open(filename2, 'rb') as _file:
-            filedump = base64.encodestring(_file.read())
+            filedump = b64encode(_file.read())
         torrent_id2 = yield self.core.add_torrent_file_async(filename2, filedump, options)
         d = self.core.remove_torrents([torrent_id, torrent_id2], True)
 
@@ -252,7 +252,7 @@ class CoreTestCase(BaseTestCase):
         options = {}
         filename = common.get_test_data_file('test.torrent')
         with open(filename, 'rb') as _file:
-            filedump = base64.encodestring(_file.read())
+            filedump = b64encode(_file.read())
             torrent_id = yield self.core.add_torrent_file_async(filename, filedump, options)
         val = yield self.core.remove_torrents(['invalidid1', 'invalidid2', torrent_id], False)
         self.assertEqual(len(val), 2)

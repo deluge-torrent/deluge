@@ -9,13 +9,13 @@
 
 from __future__ import division, unicode_literals
 
-import base64
 import cgi
 import json
 import logging
 import os
 import shutil
 import tempfile
+from base64 import b64encode
 from types import FunctionType
 
 from twisted.internet import defer, reactor
@@ -703,7 +703,7 @@ class WebApi(JSONComponent):
             else:
                 filename = os.path.basename(torrent['path'])
                 with open(torrent['path'], 'rb') as _file:
-                    fdump = base64.encodestring(_file.read())
+                    fdump = b64encode(_file.read())
                 log.info(
                     'Adding torrent from file `%s` with options `%r`',
                     filename, torrent['options'],
@@ -903,7 +903,7 @@ class WebApi(JSONComponent):
             client.core.rescan_plugins()
             return True
         with open(path, 'rb') as _file:
-            plugin_data = base64.encodestring(_file.read())
+            plugin_data = b64encode(_file.read())
 
         def on_upload_complete(*args):
             client.core.rescan_plugins()

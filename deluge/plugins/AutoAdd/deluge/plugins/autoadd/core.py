@@ -15,10 +15,10 @@
 
 from __future__ import unicode_literals
 
-import base64
 import logging
 import os
 import shutil
+from base64 import b64encode
 
 from twisted.internet import reactor
 from twisted.internet.task import LoopingCall, deferLater
@@ -333,7 +333,7 @@ class Core(CorePluginBase):
                     d = component.get('Core').add_torrent_magnet(filedump.strip(), options)
                 else:
                     d = component.get('Core').add_torrent_file_async(
-                        filename, base64.encodestring(filedump), options,
+                        filename, b64encode(filedump), options,
                     )
                     d.addCallback(on_torrent_added, filename, filepath)
                     d.addErrback(fail_torrent_add, filepath, magnet)

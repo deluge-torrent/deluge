@@ -9,9 +9,9 @@
 
 from __future__ import division, unicode_literals
 
-import base64
 import logging
 import os
+from base64 import b64encode
 from xml.sax.saxutils import escape as xml_escape
 from xml.sax.saxutils import unescape as xml_unescape
 
@@ -753,7 +753,7 @@ class AddTorrentDialog(component.Component):
             else:
                 torrents_to_add.append((
                     os.path.split(filename)[-1],
-                    base64.encodestring(self.infos[torrent_id]),
+                    b64encode(self.infos[torrent_id]),
                     options,
                 ))
             row = self.torrent_liststore.iter_next(row)

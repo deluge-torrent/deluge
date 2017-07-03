@@ -7,8 +7,8 @@
 
 from __future__ import unicode_literals
 
-import base64
 import warnings
+from base64 import b64encode
 
 import pytest
 from twisted.internet import defer
@@ -46,7 +46,7 @@ class TorrentmanagerTestCase(BaseTestCase):
     def test_remove_torrent(self):
         filename = common.get_test_data_file('test.torrent')
         with open(filename) as _file:
-            filedump = base64.encodestring(_file.read())
+            filedump = b64encode(_file.read())
         torrent_id = yield self.core.add_torrent_file_async(filename, filedump, {})
         self.assertTrue(self.core.torrentmanager.remove(torrent_id, False))
 

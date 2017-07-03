@@ -9,9 +9,9 @@
 
 from __future__ import division, unicode_literals
 
-import base64
 import logging
 import os.path
+from base64 import b64encode
 
 import gtk
 from gobject import TYPE_UINT64, idle_add
@@ -385,7 +385,7 @@ class CreateTorrentDialog(object):
 
         if add_to_session:
             with open(target, 'rb') as _file:
-                filedump = base64.encodestring(_file.read())
+                filedump = b64encode(_file.read())
             client.core.add_torrent_file_async(
                 os.path.split(target)[-1],
                 filedump,

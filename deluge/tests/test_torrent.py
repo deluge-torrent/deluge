@@ -7,9 +7,9 @@
 
 from __future__ import print_function, unicode_literals
 
-import base64
 import os
 import time
+from base64 import b64encode
 
 from twisted.internet import reactor
 from twisted.internet.task import deferLater
@@ -129,7 +129,7 @@ class TorrentTestCase(BaseTestCase):
         options = {'seed_mode': True}
         filename = common.get_test_data_file('test_torrent.file.torrent')
         with open(filename) as _file:
-            filedump = base64.encodestring(_file.read())
+            filedump = b64encode(_file.read())
         torrent_id = self.core.add_torrent_file(filename, filedump, options)
         torrent = self.core.torrentmanager.torrents[torrent_id]
 
@@ -147,7 +147,7 @@ class TorrentTestCase(BaseTestCase):
         options = {'seed_mode': True, 'add_paused': True}
         filename = common.get_test_data_file('test_torrent.file.torrent')
         with open(filename) as _file:
-            filedump = base64.encodestring(_file.read())
+            filedump = b64encode(_file.read())
         torrent_id = self.core.add_torrent_file(filename, filedump, options)
         torrent = self.core.torrentmanager.torrents[torrent_id]
 
