@@ -215,8 +215,8 @@ class TorrentInfo(object):
             except bencode.BTFailure as ex:
                 log.warning('Failed to decode %s: %s', filename, ex)
                 raise ex
-            info_dict = self.__m_metainfo_dict['info']
 
+        info_dict = self.__m_metainfo_dict['info']
         self.__m_info_hash = sha(bencode.bencode(info_dict)).hexdigest()
 
         # Get encoding from torrent file if available

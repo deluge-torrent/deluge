@@ -730,11 +730,9 @@ class AddTorrentDialog(component.Component):
                 options['file_priorities'] = file_priorities
 
             try:
-                filedump = self.infos[torrent_id]
-            except IndexError:
+                filedump = b64encode(self.infos[torrent_id])
+            except TypeError:
                 filedump = None
-            else:
-                filedump = b64encode(filedump)
 
             if deluge.common.is_magnet(filename):
                 client.core.add_torrent_magnet(filename, options, filedump=filedump)
