@@ -696,6 +696,7 @@ class AddTorrentDialog(component.Component):
         model.remove(row)
         del self.files[torrent_id]
         del self.infos[torrent_id]
+        self.dialog.set_title(_('Add Torrents (%d)') % len(self.torrent_liststore))
 
     def on_button_trackers_clicked(self, widget):
         log.debug('on_button_trackers_clicked')
