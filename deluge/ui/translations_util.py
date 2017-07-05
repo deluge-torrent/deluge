@@ -29,7 +29,7 @@ def set_dummy_trans(warn_msg=None):
             log.warn('"%s" has been marked for translation, but translation is unavailable.', txt[0])
         return txt[0]
     __builtin__.__dict__['_'] = _func
-    __builtin__.__dict__['_n'] = _func
+    __builtin__.__dict__['ngettext'] = __builtin__.__dict__['_n'] = _func
 
 
 def get_translations_path():
@@ -122,7 +122,8 @@ def setup_translations(setup_gettext=True, setup_pygtk=False):
             gettext.bindtextdomain(domain, translations_path)
             gettext.bind_textdomain_codeset(domain, 'UTF-8')
             gettext.textdomain(domain)
-            gettext.install(domain, translations_path)
+            gettext.install(domain, translations_path, names='ngettext')
+            __builtin__.__dict__['_n'] = __builtin__.__dict__['ngettext']
         except Exception as ex:
             log.error('Unable to initialize gettext/locale!')
             log.exception(ex)
