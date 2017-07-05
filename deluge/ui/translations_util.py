@@ -122,7 +122,11 @@ def setup_translations(setup_gettext=True, setup_pygtk=False):
             gettext.bindtextdomain(domain, translations_path)
             gettext.bind_textdomain_codeset(domain, 'UTF-8')
             gettext.textdomain(domain)
-            gettext.install(domain, translations_path, names='ngettext')
+
+            # Workaround for Python 2 unicode gettext (keyword removed in Py3).
+            kwargs = {} if not deluge.common.PY2 else {'unicode': True}
+
+            gettext.install(domain, translations_path, names='ngettext', **kwargs)
             __builtin__.__dict__['_n'] = __builtin__.__dict__['ngettext']
         except Exception as ex:
             log.error('Unable to initialize gettext/locale!')
