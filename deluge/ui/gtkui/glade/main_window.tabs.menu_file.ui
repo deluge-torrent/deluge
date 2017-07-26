@@ -126,7 +126,7 @@
         <property name="use_underline">True</property>
         <property name="image">image4</property>
         <property name="use_stock">False</property>
-        <signal name="activate" handler="on_menuitem_normal_activate" swapped="no"/>
+        <signal name="activate" handler="on_menuitem_high_activate" swapped="no"/>
       </object>
     </child>
   </object>
