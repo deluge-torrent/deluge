@@ -18,7 +18,6 @@ import logging
 from os.path import basename
 
 import gtk
-import gtk.glade
 from twisted.internet import defer
 
 import deluge.common
@@ -238,9 +237,10 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         self.config = deluge.configmanager.ConfigManager(
             'notifications-gtk.conf', DEFAULT_PREFS
         )
-        self.glade = gtk.glade.XML(get_resource('config.glade'))
-        self.glade.get_widget('smtp_port').set_value(25)
-        self.prefs = self.glade.get_widget('prefs_box')
+        self.builder = gtk.Builder()
+        self.builder.add_from_file(get_resource('config.ui'))
+        self.builder.get_object('smtp_port').set_value(25)
+        self.prefs = self.builder.get_object('prefs_box')
         self.prefs.show_all()
 
         self.build_recipients_model_populate_treeview()
@@ -251,7 +251,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
             self.popuplate_what_needs_handled_events
         )
 
-        self.glade.signal_autoconnect({
+        self.builder.connect_signals({
             'on_add_button_clicked': (self.on_add_button_clicked,
                                       self.recipients_treeview),
             'on_delete_button_clicked': (self.on_delete_button_clicked,
@@ -276,23 +276,23 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
                                                      self.on_show_prefs)
 
         if not POPUP_AVAILABLE:
-            self.glade.get_widget('popup_enabled').set_property('sensitive',
+            self.builder.get_object('popup_enabled').set_property('sensitive',
                                                                 False)
         if not SOUND_AVAILABLE:
             # for widget_name in ('sound_enabled', 'sound_path', 'sounds_page', 'sounds_page_label'):
-            #    self.glade.get_widget(widget_name).set_property('sensitive', False)
-            self.glade.get_widget('sound_enabled').set_property('sensitive',
+            #    self.builder.get_object(widget_name).set_property('sensitive', False)
+            self.builder.get_object('sound_enabled').set_property('sensitive',
                                                                 False)
-            self.glade.get_widget('sound_path').set_property('sensitive', False)
-            self.glade.get_widget('sounds_page').set_property('sensitive',
+            self.builder.get_object('sound_path').set_property('sensitive', False)
+            self.builder.get_object('sounds_page').set_property('sensitive',
                                                               False)
-            self.glade.get_widget('sounds_page_label').set_property('sensitive',
+            self.builder.get_object('sounds_page_label').set_property('sensitive',
                                                                     False)
 
         self.systray = component.get('SystemTray')
         if not hasattr(self.systray, 'tray'):
             # Tray is not beeing used
-            self.glade.get_widget('blink_enabled').set_property('sensitive',
+            self.builder.get_object('blink_enabled').set_property('sensitive',
                                                                 False)
 
         GtkUiNotifications.enable(self)
@@ -307,7 +307,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
 
     def build_recipients_model_populate_treeview(self):
         # SMTP Recipients treeview/model
-        self.recipients_treeview = self.glade.get_widget('smtp_recipients')
+        self.recipients_treeview = self.builder.get_object('smtp_recipients')
         treeview_selection = self.recipients_treeview.get_selection()
         treeview_selection.connect(
             'changed', self.on_recipients_treeview_selection_changed
@@ -326,7 +326,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
 
     def build_sounds_model_populate_treeview(self):
         # Sound customisation treeview/model
-        self.sounds_treeview = self.glade.get_widget('sounds_treeview')
+        self.sounds_treeview = self.builder.get_object('sounds_treeview')
         sounds_selection = self.sounds_treeview.get_selection()
         sounds_selection.connect(
             'changed', self.on_sounds_treeview_selection_changed
@@ -362,7 +362,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
 
     def build_notifications_model_populate_treeview(self):
         # Notification Subscriptions treeview/model
-        self.subscriptions_treeview = self.glade.get_widget('subscriptions_treeview')
+        self.subscriptions_treeview = self.builder.get_object('subscriptions_treeview')
         subscriptions_selection = self.subscriptions_treeview.get_selection()
         subscriptions_selection.connect(
             'changed', self.on_subscriptions_treeview_selection_changed
@@ -469,7 +469,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
                 current_sound_subscriptions.append(event)
 
         old_sound_file = self.config['sound_path']
-        new_sound_file = self.glade.get_widget('sound_path').get_filename()
+        new_sound_file = self.builder.get_object('sound_path').get_filename()
         log.debug('Old Default sound file: %s New one: %s',
                   old_sound_file, new_sound_file)
         custom_sounds = {}
@@ -480,9 +480,9 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
             custom_sounds[event_name] = filepath
 
         self.config.config.update({
-            'popup_enabled': self.glade.get_widget('popup_enabled').get_active(),
-            'blink_enabled': self.glade.get_widget('blink_enabled').get_active(),
-            'sound_enabled': self.glade.get_widget('sound_enabled').get_active(),
+            'popup_enabled': self.builder.get_object('popup_enabled').get_active(),
+            'blink_enabled': self.builder.get_object('blink_enabled').get_active(),
+            'sound_enabled': self.builder.get_object('sound_enabled').get_active(),
             'sound_path': new_sound_file,
             'subscriptions': {
                 'popup': current_popup_subscriptions,
@@ -494,13 +494,13 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         self.config.save()
 
         core_config = {
-            'smtp_enabled': self.glade.get_widget('smtp_enabled').get_active(),
-            'smtp_host': self.glade.get_widget('smtp_host').get_text(),
-            'smtp_port': self.glade.get_widget('smtp_port').get_value(),
-            'smtp_user': self.glade.get_widget('smtp_user').get_text(),
-            'smtp_pass': self.glade.get_widget('smtp_pass').get_text(),
-            'smtp_from': self.glade.get_widget('smtp_from').get_text(),
-            'smtp_tls': self.glade.get_widget('smtp_tls').get_active(),
+            'smtp_enabled': self.builder.get_object('smtp_enabled').get_active(),
+            'smtp_host': self.builder.get_object('smtp_host').get_text(),
+            'smtp_port': self.builder.get_object('smtp_port').get_value(),
+            'smtp_user': self.builder.get_object('smtp_user').get_text(),
+            'smtp_pass': self.builder.get_object('smtp_pass').get_text(),
+            'smtp_from': self.builder.get_object('smtp_from').get_text(),
+            'smtp_tls': self.builder.get_object('smtp_tls').get_active(),
             'smtp_recipients': [dest[0] for dest in self.recipients_model if
                                 dest[0] != 'USER@HOST'],
             'subscriptions': {'email': current_email_subscriptions}
@@ -514,37 +514,37 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
 
     def cb_get_config(self, core_config):
         'callback for on show_prefs'
-        self.glade.get_widget('smtp_host').set_text(core_config['smtp_host'])
-        self.glade.get_widget('smtp_port').set_value(core_config['smtp_port'])
-        self.glade.get_widget('smtp_user').set_text(core_config['smtp_user'])
-        self.glade.get_widget('smtp_pass').set_text(core_config['smtp_pass'])
-        self.glade.get_widget('smtp_from').set_text(core_config['smtp_from'])
-        self.glade.get_widget('smtp_tls').set_active(core_config['smtp_tls'])
+        self.builder.get_object('smtp_host').set_text(core_config['smtp_host'])
+        self.builder.get_object('smtp_port').set_value(core_config['smtp_port'])
+        self.builder.get_object('smtp_user').set_text(core_config['smtp_user'])
+        self.builder.get_object('smtp_pass').set_text(core_config['smtp_pass'])
+        self.builder.get_object('smtp_from').set_text(core_config['smtp_from'])
+        self.builder.get_object('smtp_tls').set_active(core_config['smtp_tls'])
         self.recipients_model.clear()
         for recipient in core_config['smtp_recipients']:
             self.recipients_model.set(self.recipients_model.append(),
                                       RECIPIENT_FIELD, recipient,
                                       RECIPIENT_EDIT, False)
-        self.glade.get_widget('smtp_enabled').set_active(
+        self.builder.get_object('smtp_enabled').set_active(
             core_config['smtp_enabled']
         )
-        self.glade.get_widget('sound_enabled').set_active(
+        self.builder.get_object('sound_enabled').set_active(
             self.config['sound_enabled']
         )
-        self.glade.get_widget('popup_enabled').set_active(
+        self.builder.get_object('popup_enabled').set_active(
             self.config['popup_enabled']
         )
-        self.glade.get_widget('blink_enabled').set_active(
+        self.builder.get_object('blink_enabled').set_active(
             self.config['blink_enabled']
         )
         if self.config['sound_path']:
             sound_path = self.config['sound_path']
         else:
             sound_path = deluge.common.get_default_download_dir()
-        self.glade.get_widget('sound_path').set_filename(sound_path)
+        self.builder.get_object('sound_path').set_filename(sound_path)
         # Force toggle
-        self.on_enabled_toggled(self.glade.get_widget('smtp_enabled'))
-        self.on_sound_enabled_toggled(self.glade.get_widget('sound_enabled'))
+        self.on_enabled_toggled(self.builder.get_object('smtp_enabled'))
+        self.on_sound_enabled_toggled(self.builder.get_object('sound_enabled'))
 
         client.notifications.get_handled_events().addCallback(
             self.popuplate_what_needs_handled_events,
@@ -575,34 +575,34 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
     def on_recipients_treeview_selection_changed(self, selection):
         model, selected_connection_iter = selection.get_selected()
         if selected_connection_iter:
-            self.glade.get_widget('delete_button').set_property('sensitive',
+            self.builder.get_object('delete_button').set_property('sensitive',
                                                                 True)
         else:
-            self.glade.get_widget('delete_button').set_property('sensitive',
+            self.builder.get_object('delete_button').set_property('sensitive',
                                                                 False)
 
     def on_subscriptions_treeview_selection_changed(self, selection):
         model, selected_connection_iter = selection.get_selected()
         if selected_connection_iter:
-            self.glade.get_widget('delete_button').set_property('sensitive',
+            self.builder.get_object('delete_button').set_property('sensitive',
                                                                 True)
         else:
-            self.glade.get_widget('delete_button').set_property('sensitive',
+            self.builder.get_object('delete_button').set_property('sensitive',
                                                                 False)
 
     def on_sounds_treeview_selection_changed(self, selection):
         model, selected_iter = selection.get_selected()
         if selected_iter:
-            self.glade.get_widget('sounds_edit_button').set_property('sensitive', True)
+            self.builder.get_object('sounds_edit_button').set_property('sensitive', True)
             path = model.get(selected_iter, SND_PATH)[0]
             log.debug('Sound selection changed: %s', path)
             if path != self.config['sound_path']:
-                self.glade.get_widget('sounds_revert_button').set_property('sensitive', True)
+                self.builder.get_object('sounds_revert_button').set_property('sensitive', True)
             else:
-                self.glade.get_widget('sounds_revert_button').set_property('sensitive', False)
+                self.builder.get_object('sounds_revert_button').set_property('sensitive', False)
         else:
-            self.glade.get_widget('sounds_edit_button').set_property('sensitive', False)
-            self.glade.get_widget('sounds_revert_button').set_property('sensitive', False)
+            self.builder.get_object('sounds_edit_button').set_property('sensitive', False)
+            self.builder.get_object('sounds_revert_button').set_property('sensitive', False)
 
     def on_sounds_revert_button_clicked(self, widget):
         log.debug('on_sounds_revert_button_clicked')
@@ -646,25 +646,25 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         for widget_name in ('smtp_host', 'smtp_port', 'smtp_user', 'smtp_pass',
                             'smtp_pass', 'smtp_tls', 'smtp_from',
                             'smtp_recipients'):
-            self.glade.get_widget(widget_name).set_property('sensitive',
+            self.builder.get_object(widget_name).set_property('sensitive',
                                                             widget.get_active())
 
     def on_sound_enabled_toggled(self, widget):
         if widget.get_active():
-            self.glade.get_widget('sound_path').set_property('sensitive', True)
-            self.glade.get_widget('sounds_page').set_property('sensitive',
+            self.builder.get_object('sound_path').set_property('sensitive', True)
+            self.builder.get_object('sounds_page').set_property('sensitive',
                                                               True)
-            self.glade.get_widget('sounds_page_label').set_property('sensitive',
+            self.builder.get_object('sounds_page_label').set_property('sensitive',
                                                                     True)
         else:
-            self.glade.get_widget('sound_path').set_property('sensitive', False)
-            self.glade.get_widget('sounds_page').set_property('sensitive',
+            self.builder.get_object('sound_path').set_property('sensitive', False)
+            self.builder.get_object('sounds_page').set_property('sensitive',
                                                               False)
-            self.glade.get_widget('sounds_page_label').set_property('sensitive',
+            self.builder.get_object('sounds_page_label').set_property('sensitive',
                                                                     False)
 
 #        for widget_name in ('sounds_path', 'sounds_page', 'sounds_page_label'):
-#            self.glade.get_widget(widget_name).set_property('sensitive',
+#            self.builder.get_object(widget_name).set_property('sensitive',
 #                                                            widget.get_active())
 
     def _on_email_col_toggled(self, cell, path):
