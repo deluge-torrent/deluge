@@ -1,31 +1,37 @@
-<?xml version="1.0"?>
-<glade-interface>
-  <!-- interface-requires gtk+ 2.6 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="2.24"/>
   <!-- interface-naming-policy toplevel-contextual -->
-  <widget class="GtkWindow" id="window1">
+  <object class="GtkWindow" id="window1">
+    <property name="can_focus">False</property>
     <child>
-      <widget class="GtkVBox" id="extractor_prefs_box">
+      <object class="GtkVBox" id="extractor_prefs_box">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="spacing">5</property>
         <child>
-          <widget class="GtkFrame" id="frame1">
+          <object class="GtkFrame" id="frame1">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
             <property name="shadow_type">none</property>
             <child>
-              <widget class="GtkVBox" id="vbox1">
+              <object class="GtkVBox" id="vbox1">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="border_width">5</property>
                 <property name="spacing">5</property>
                 <child>
-                  <widget class="GtkHBox" id="hbox1">
+                  <object class="GtkHBox" id="hbox1">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="spacing">5</property>
                     <child>
-                      <widget class="GtkLabel" id="label2">
+                      <object class="GtkLabel" id="label2">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Extract to:</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
@@ -33,31 +39,43 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkHBox" id="hbox2">
+                      <object class="GtkHBox" id="hbox2">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <child>
-                          <widget class="GtkFileChooserButton" id="folderchooser_path">
+                          <object class="GtkFileChooserButton" id="folderchooser_path">
+                            <property name="can_focus">False</property>
                             <property name="action">select-folder</property>
                             <property name="title" translatable="yes">Select A Folder</property>
-                          </widget>
+                          </object>
                           <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
                             <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkEntry" id="entry_path">
+                          <object class="GtkEntry" id="entry_path">
                             <property name="can_focus">True</property>
-                          </widget>
+                            <property name="primary_icon_activatable">False</property>
+                            <property name="secondary_icon_activatable">False</property>
+                            <property name="primary_icon_sensitive">True</property>
+                            <property name="secondary_icon_sensitive">True</property>
+                          </object>
                           <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
                             <property name="position">1</property>
                           </packing>
                         </child>
-                      </widget>
+                      </object>
                       <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
@@ -65,38 +83,38 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkCheckButton" id="chk_use_name">
+                  <object class="GtkCheckButton" id="chk_use_name">
                     <property name="label" translatable="yes">Create torrent name sub-folder</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="tooltip" translatable="yes">This option will create a sub-folder using the torrent's name within the selected extract folder and put the extracted files there.</property>
+                    <property name="tooltip_text" translatable="yes">This option will create a sub-folder using the torrent's name within the selected extract folder and put the extracted files there.</property>
                     <property name="draw_indicator">True</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
-              </widget>
+              </object>
             </child>
-            <child>
-              <widget class="GtkLabel" id="label1">
+            <child type="label">
+              <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="label" translatable="yes">&lt;b&gt;General&lt;/b&gt;</property>
                 <property name="use_markup">True</property>
-              </widget>
-              <packing>
-                <property name="type">label_item</property>
-              </packing>
+              </object>
             </child>
-          </widget>
+          </object>
           <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
             <property name="position">0</property>
           </packing>
         </child>
-      </widget>
+      </object>
     </child>
-  </widget>
-</glade-interface>
+  </object>
+</interface>
