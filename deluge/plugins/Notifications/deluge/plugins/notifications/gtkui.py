@@ -277,23 +277,23 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
 
         if not POPUP_AVAILABLE:
             self.builder.get_object('popup_enabled').set_property('sensitive',
-                                                                False)
+                                                                  False)
         if not SOUND_AVAILABLE:
             # for widget_name in ('sound_enabled', 'sound_path', 'sounds_page', 'sounds_page_label'):
             #    self.builder.get_object(widget_name).set_property('sensitive', False)
             self.builder.get_object('sound_enabled').set_property('sensitive',
-                                                                False)
+                                                                  False)
             self.builder.get_object('sound_path').set_property('sensitive', False)
             self.builder.get_object('sounds_page').set_property('sensitive',
-                                                              False)
+                                                                False)
             self.builder.get_object('sounds_page_label').set_property('sensitive',
-                                                                    False)
+                                                                      False)
 
         self.systray = component.get('SystemTray')
         if not hasattr(self.systray, 'tray'):
             # Tray is not beeing used
             self.builder.get_object('blink_enabled').set_property('sensitive',
-                                                                False)
+                                                                  False)
 
         GtkUiNotifications.enable(self)
 
@@ -576,19 +576,19 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         model, selected_connection_iter = selection.get_selected()
         if selected_connection_iter:
             self.builder.get_object('delete_button').set_property('sensitive',
-                                                                True)
+                                                                  True)
         else:
             self.builder.get_object('delete_button').set_property('sensitive',
-                                                                False)
+                                                                  False)
 
     def on_subscriptions_treeview_selection_changed(self, selection):
         model, selected_connection_iter = selection.get_selected()
         if selected_connection_iter:
             self.builder.get_object('delete_button').set_property('sensitive',
-                                                                True)
+                                                                  True)
         else:
             self.builder.get_object('delete_button').set_property('sensitive',
-                                                                False)
+                                                                  False)
 
     def on_sounds_treeview_selection_changed(self, selection):
         model, selected_iter = selection.get_selected()
@@ -647,21 +647,21 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
                             'smtp_pass', 'smtp_tls', 'smtp_from',
                             'smtp_recipients'):
             self.builder.get_object(widget_name).set_property('sensitive',
-                                                            widget.get_active())
+                                                              widget.get_active())
 
     def on_sound_enabled_toggled(self, widget):
         if widget.get_active():
             self.builder.get_object('sound_path').set_property('sensitive', True)
             self.builder.get_object('sounds_page').set_property('sensitive',
-                                                              True)
+                                                                True)
             self.builder.get_object('sounds_page_label').set_property('sensitive',
-                                                                    True)
+                                                                      True)
         else:
             self.builder.get_object('sound_path').set_property('sensitive', False)
             self.builder.get_object('sounds_page').set_property('sensitive',
-                                                              False)
+                                                                False)
             self.builder.get_object('sounds_page_label').set_property('sensitive',
-                                                                    False)
+                                                                      False)
 
 #        for widget_name in ('sounds_path', 'sounds_page', 'sounds_page_label'):
 #            self.builder.get_object(widget_name).set_property('sensitive',
