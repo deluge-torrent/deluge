@@ -157,20 +157,11 @@ class TorrentManager(component.Component):
         # and that their resume data has been written.
         self.shutdown_torrent_pause_list = []
 
-        # self.num_resume_data used to save resume_data in bulk
-        self.num_resume_data = 0
-
         # Keep track of torrents finished but moving storage
         self.waiting_on_finish_moving = []
 
-        # Keeps track of resume data that needs to be saved to disk
-        self.resume_data = {}
-
         # Workaround to determine if TorrentAddedEvent is from state file
         self.session_started = False
-
-        # Keep the previous saved state
-        self.prev_saved_state = None
 
         # Register set functions
         self.config.register_set_function("max_connections_per_torrent",
@@ -222,7 +213,7 @@ class TorrentManager(component.Component):
 
         # Define timers
         self.save_state_timer = LoopingCall(self.save_state)
-        self.save_resume_data_timer = LoopingCall(self.save_resume_data)
+        self.save_resume_data_timer = LoopingCall(self.trigger_save_resume_data)
 
     def start(self):
         # Get the pluginmanager reference
@@ -250,10 +241,10 @@ class TorrentManager(component.Component):
         self.save_state()
 
         # Make another list just to make sure all paused torrents will be
-        # passed to self.save_resume_data(). With
+        # passed to self.trigger_save_resume_data(). With
         # self.shutdown_torrent_pause_list it is possible to have a case when
         # torrent_id is removed from it in self.on_alert_torrent_paused()
-        # before we call self.save_resume_data() here.
+        # before we call self.trigger_save_resume_data() here.
         save_resume_data_list = []
         for key in self.torrents:
             # Stop the status cleanup LoopingCall here
@@ -265,7 +256,7 @@ class TorrentManager(component.Component):
                 self.shutdown_torrent_pause_list.append(key)
                 save_resume_data_list.append(key)
 
-        self.save_resume_data(save_resume_data_list)
+        self.trigger_save_resume_data(save_resume_data_list)
 
         # We have to wait for all torrents to pause and write their resume data
         wait = True
@@ -319,28 +310,31 @@ class TorrentManager(component.Component):
 
         return torrent_info
 
-    def legacy_get_resume_data_from_file(self, torrent_id):
+    def get_resume_data(self, torrent_id):
         """Returns an entry with the resume data or None"""
         fastresume = ""
+        path = os.path.join(get_config_dir(), "state", torrent_id + ".fastresume")
         try:
-            _file = open(os.path.join(get_config_dir(), "state",
-                                      torrent_id + ".fastresume"), "rb")
+            _file = open(path, mode="rb")
             fastresume = _file.read()
             _file.close()
         except IOError, e:
-            log.debug("Unable to load .fastresume: %s", e)
+            log.exception("Unable to load %s", path)
+        if not fastresume:
+            all_fastresume = self.legacy_get_resume_data()
+            fastresume = all_fastresume.get(torrent_id)
 
-        return str(fastresume)
+        return fastresume
 
-    def legacy_delete_resume_data(self, torrent_id):
+    def delete_resume_data(self, torrent_id):
         """Deletes the .fastresume file"""
         path = os.path.join(get_config_dir(), "state",
                             torrent_id + ".fastresume")
         log.debug("Deleting fastresume file: %s", path)
         try:
             os.remove(path)
-        except Exception, e:
-            log.warning("Unable to delete the fastresume file: %s", e)
+        except:
+            log.exception("Unable to delete %s", path)
 
     def add(self, torrent_info=None, state=None, options=None, save_state=True,
             filedump=None, filename=None, magnet=None, resume_data=None):
@@ -393,12 +387,6 @@ class TorrentManager(component.Component):
             else:
                 log.error("Unable to add torrent!")
                 return
-
-            # Handle legacy case with storing resume data in individual files
-            # for each torrent
-            if resume_data is None:
-                resume_data = self.legacy_get_resume_data_from_file(state.torrent_id)
-                self.legacy_delete_resume_data(state.torrent_id)
 
             if resume_data:
                 add_torrent_params["resume_data"] = resume_data
@@ -511,10 +499,6 @@ class TorrentManager(component.Component):
 
         component.resume("AlertManager")
 
-        # Store the orignal resume_data, in case of errors.
-        if resume_data:
-            self.resume_data[torrent.torrent_id] = resume_data
-
         # Resume the torrent if needed
         if not options["add_paused"]:
             torrent.resume()
@@ -547,7 +531,7 @@ class TorrentManager(component.Component):
 
         if save_state:
             # Save the session state
-            self.save_state()
+            self.save_torrent_state(torrent.torrent_id)
 
         # Emit the torrent_added signal
         component.get("EventManager").emit(TorrentAddedEvent(torrent.torrent_id))
@@ -604,9 +588,7 @@ class TorrentManager(component.Component):
             return False
 
         # Remove fastresume data if it is exists
-        resume_data = self.load_resume_data_file()
-        resume_data.pop(torrent_id, None)
-        self.save_resume_data_file(resume_data)
+        self.delete_resume_data(torrent_id)
 
         # Remove the .torrent file in the state
         self.torrents[torrent_id].delete_torrentfile()
@@ -643,14 +625,32 @@ class TorrentManager(component.Component):
             return False
 
         # Save the session state
-        self.save_state()
+        self.delete_state(torrent_id)
 
         # Emit the signal to the clients
         component.get("EventManager").emit(TorrentRemovedEvent(torrent_id))
         log.info("Torrent %s removed by user: %s", torrent_name, component.get("RPCServer").get_session_user())
         return True
 
-    def load_state(self):
+    def legacy_delete_state(self):
+        state_dir = os.path.join(get_config_dir(), "state")
+        for name in ("torrents.state", "torrents.state.bak"):
+            state_path = os.path.join(state_dir, name)
+            try:
+                os.remove(state_path)
+            except:
+                log.debug("Unable to remove %s", state_path)
+
+    def upgrade_state_attrs(self, state):
+        try:
+            state_tmp = TorrentState()
+            if dir(state) != dir(state_tmp):
+                for attr in (set(dir(state_tmp)) - set(dir(state))):
+                    setattr(state, attr, getattr(state_tmp, attr, None))
+        except Exception, e:
+            log.warning("Unable to update state file to a compatible version: %s", e)
+
+    def legacy_load_state(self):
         """Load the state of the TorrentManager from the torrents.state file"""
         filepath = os.path.join(get_config_dir(), "state", "torrents.state")
         log.debug("Opening torrent state file for load.")
@@ -661,85 +661,136 @@ class TorrentManager(component.Component):
                 state_file.close()
             except (EOFError, IOError, Exception, cPickle.UnpicklingError), e:
                 log.warning("Unable to load state file: %s", e)
-                state = TorrentManagerState()
+                state = None
             else:
                 log.info("Successfully loaded state file: %s", _filepath)
                 break
 
         # Try to use an old state
-        try:
-            state_tmp = TorrentState()
-            if state.torrents and dir(state.torrents[0]) != dir(state_tmp):
-                for attr in (set(dir(state_tmp)) - set(dir(state.torrents[0]))):
-                    for s in state.torrents:
-                        setattr(s, attr, getattr(state_tmp, attr, None))
-        except Exception, e:
-            log.warning("Unable to update state file to a compatible version: %s", e)
+        if state:
+            for torrent in state.torrents:
+                self.upgrade_state_attrs(torrent)
+
+        return state
+
+    def load_state(self):
+        # The order of precedence is:
+        # - <torrent_id>.state
+        # - <torrent_id>.state.bak
+        # - torrents.state
+        # - torrents.state.bak
+        # We'll load these things in reverse order.
+        state = self.legacy_load_state()
+        legacy_state_found = state is not None
+        if state is None:
+            state = TorrentManagerState()
+
+        id_to_state = {torrent.torrent_id: torrent for torrent in state.torrents}
+
+        state_dir = os.path.join(get_config_dir(), "state")
+
+        for suffix in (r"\.bak", r""):
+            for name in os.listdir(state_dir):
+                m = re.match(r"([0-9a-f]{40}).state" + suffix, name)
+                if not m:
+                    continue
+                torrent_id = m.group(1)
+                state_path = os.path.join(state_dir, name)
+                try:
+                    with open(state_path, mode="rb") as f:
+                        torrent_state = cPickle.load(f)
+                except (EOFError, IOError, Exception, cPickle.UnpicklingError), e:
+                    log.exception("Unable to load %s", state_path)
+                    continue
+                if torrent_id != torrent_state.torrent_id:
+                    log.warning("%s: mismatched torrent_id (%s)", path, torrent_id)
+                log.info("Loaded %s", state_path)
+                id_to_state[torrent_id] = torrent_state
+                self.upgrade_state_attrs(torrent_state)
+
+        state.torrents = list(id_to_state.values())
 
         # Reorder the state.torrents list to add torrents in the correct queue
         # order.
         state.torrents.sort(key=operator.attrgetter("queue"), reverse=self.config["queue_new_to_top"])
 
-        resume_data = self.load_resume_data_file()
-
         for torrent_state in state.torrents:
             try:
-                self.add(state=torrent_state, save_state=False,
-                         resume_data=resume_data.get(torrent_state.torrent_id))
+                self.add(state=torrent_state, save_state=legacy_state_found, resume_data=self.get_resume_data(torrent_state.torrent_id))
             except AttributeError, e:
                 log.error("Torrent state file is either corrupt or incompatible! %s", e)
                 break
 
+        self.legacy_delete_resume_data()
+        self.legacy_delete_state()
+
         self.session_started = True
         component.get("EventManager").emit(SessionStartedEvent())
 
-    def save_state(self):
-        """Save the state of the TorrentManager to the torrents.state file"""
-        state = TorrentManagerState()
-        # Create the state for each Torrent and append to the list
-        for torrent in self.torrents.values():
-            if self.session.is_paused():
-                paused = torrent.handle.is_paused()
-            elif torrent.forced_error:
-                paused = torrent.forced_error.was_paused
-            elif torrent.state == "Paused":
-                paused = True
+    def delete_state(self, torrent_id):
+        state_path = os.path.join(get_config_dir(), "state", torrent_id + ".state")
+        for path in (state_path, state_path + ".bak"):
+            try:
+                os.remove(path)
+            except:
+                log.exception("Unable to delete %s", path)
             else:
-                paused = False
+                log.info("Deleted %s", path)
 
-            torrent_state = TorrentState(
-                torrent.torrent_id,
-                torrent.filename,
-                torrent.get_status(["total_uploaded"])["total_uploaded"],
-                torrent.trackers,
-                torrent.options["compact_allocation"],
-                paused,
-                torrent.options["download_location"],
-                torrent.options["max_connections"],
-                torrent.options["max_upload_slots"],
-                torrent.options["max_upload_speed"],
-                torrent.options["max_download_speed"],
-                torrent.options["prioritize_first_last_pieces"],
-                torrent.options["file_priorities"],
-                torrent.get_queue_position(),
-                torrent.options["auto_managed"],
-                torrent.is_finished,
-                torrent.options["stop_ratio"],
-                torrent.options["stop_at_ratio"],
-                torrent.options["remove_at_ratio"],
-                torrent.options["move_completed"],
-                torrent.options["move_completed_path"],
-                torrent.magnet,
-                torrent.time_added
-            )
-            state.torrents.append(torrent_state)
+    def save_state(self):
+        for torrent_id in self.torrents.keys():
+            self.save_torrent_state(torrent_id)
+        # We return True so that the timer thread will continue
+        return True
+
+    def save_torrent_state(self, torrent_id):
+        """Save the TorrentState of a torrent to a <torrent_id>.state file"""
+        try:
+            torrent = self.torrents[torrent_id]
+        except KeyError:
+            raise InvalidTorrentError("torrent_id not in session")
+
+        if self.session.is_paused():
+            paused = torrent.handle.is_paused()
+        elif torrent.forced_error:
+            paused = torrent.forced_error.was_paused
+        elif torrent.state == "Paused":
+            paused = True
+        else:
+            paused = False
+
+        torrent_state = TorrentState(
+            torrent.torrent_id,
+            torrent.filename,
+            torrent.get_status(["total_uploaded"])["total_uploaded"],
+            torrent.trackers,
+            torrent.options["compact_allocation"],
+            paused,
+            torrent.options["download_location"],
+            torrent.options["max_connections"],
+            torrent.options["max_upload_slots"],
+            torrent.options["max_upload_speed"],
+            torrent.options["max_download_speed"],
+            torrent.options["prioritize_first_last_pieces"],
+            torrent.options["file_priorities"],
+            torrent.get_queue_position(),
+            torrent.options["auto_managed"],
+            torrent.is_finished,
+            torrent.options["stop_ratio"],
+            torrent.options["stop_at_ratio"],
+            torrent.options["remove_at_ratio"],
+            torrent.options["move_completed"],
+            torrent.options["move_completed_path"],
+            torrent.magnet,
+            torrent.time_added
+        )
 
         # If the state hasn't changed, no need to save it
-        if self.prev_saved_state == state:
+        if getattr(torrent, "_prev_saved_state", None) == torrent_state:
             return
 
-        # Pickle the TorrentManagerState object
-        filepath = os.path.join(get_config_dir(), "state", "torrents.state")
+        # Pickle the TorrentState object
+        filepath = os.path.join(get_config_dir(), "state", torrent_id + ".state")
         filepath_tmp = filepath + ".tmp"
         filepath_bak = filepath + ".bak"
 
@@ -755,22 +806,17 @@ class TorrentManager(component.Component):
         try:
             log.info("Saving the state at: %s", filepath)
             state_file = open(filepath_tmp, "wb", 0)
-            cPickle.dump(state, state_file)
-            state_file.flush()
-            os.fsync(state_file.fileno())
+            cPickle.dump(torrent_state, state_file)
             state_file.close()
             os.rename(filepath_tmp, filepath)
-            self.prev_saved_state = state
+            torrent._prev_saved_state = state
         except IOError, ex:
             log.error("Unable to save %s: %s", filepath, ex)
             if os.path.isfile(filepath_bak):
                 log.info("Restoring backup of state from: %s", filepath_bak)
                 os.rename(filepath_bak, filepath)
 
-        # We return True so that the timer thread will continue
-        return True
-
-    def save_resume_data(self, torrent_ids=None):
+    def trigger_save_resume_data(self, torrent_ids=None):
         """
         Saves resume data for list of torrent_ids or for all torrents if
         torrent_ids is None
@@ -782,22 +828,18 @@ class TorrentManager(component.Component):
         for torrent_id in torrent_ids:
             self.torrents[torrent_id].save_resume_data()
 
-        self.num_resume_data = len(torrent_ids)
-
-    def load_resume_data_file(self):
+    def legacy_get_resume_data(self):
         filepath = os.path.join(get_config_dir(), "state", "torrents.fastresume")
-        log.debug("Opening torrents fastresume file for load.")
         for _filepath in (filepath, filepath + ".bak"):
             try:
                 fastresume_file = open(_filepath, "rb")
                 resume_data = lt.bdecode(fastresume_file.read())
                 fastresume_file.close()
             except (EOFError, IOError, Exception), e:
-                if self.torrents:
-                    log.warning("Unable to load fastresume file: %s", e)
+                log.debug("Unable to load fastresume file: %s", e)
                 resume_data = None
             else:
-                log.info("Successfully loaded fastresume file: %s", _filepath)
+                log.debug("Successfully loaded fastresume file: %s", _filepath)
                 break
 
         # If the libtorrent bdecode doesn't happen properly, it will return None
@@ -807,54 +849,21 @@ class TorrentManager(component.Component):
 
         return resume_data
 
-    def save_resume_data_file(self, resume_data=None):
-        """
-        Saves the resume data file with the contents of self.resume_data.  If
-        `resume_data` is None, then we grab the resume_data from the file on
-        disk, else, we update `resume_data` with self.resume_data and save
-        that to disk.
+    def legacy_delete_resume_data(self):
+        path = os.path.join(get_config_dir(), "state", "torrents.fastresume")
+        for p in (path, path + ".bak"):
+            try:
+                os.remove(p)
+            except:
+                log.debug("Unable to remove %s", p)
 
-        :param resume_data: the current resume_data, this will be loaded from disk if not provided
-        :type resume_data: dict
-
-        """
-        # Check to see if we're waiting on more resume data
-        if self.num_resume_data or not self.resume_data:
-            return
-
-        filepath = os.path.join(get_config_dir(), "state", "torrents.fastresume")
-        filepath_tmp = filepath + ".tmp"
-        filepath_bak = filepath + ".bak"
-
-        # First step is to load the existing file and update the dictionary
-        if resume_data is None:
-            resume_data = self.load_resume_data_file()
-
-        resume_data.update(self.resume_data)
-        self.resume_data = {}
-
+    def save_resume_data(self, torrent_id, resume_data):
+        path = os.path.join(get_config_dir(), "state", torrent_id + ".fastresume")
         try:
-            os.remove(filepath_bak)
-        except OSError:
-            pass
-        try:
-            log.debug("Creating backup of fastresume at: %s", filepath_bak)
-            os.rename(filepath, filepath_bak)
-        except OSError, ex:
-            log.error("Unable to backup %s to %s: %s", filepath, filepath_bak, ex)
-        try:
-            log.info("Saving the fastresume at: %s", filepath)
-            fastresume_file = open(filepath_tmp, "wb", 0)
-            fastresume_file.write(lt.bencode(resume_data))
-            fastresume_file.flush()
-            os.fsync(fastresume_file.fileno())
-            fastresume_file.close()
-            os.rename(filepath_tmp, filepath)
-        except IOError, ex:
-            log.error("Unable to save %s: %s", filepath, ex)
-            if os.path.isfile(filepath_bak):
-                log.info("Restoring backup of fastresume from: %s", filepath_bak)
-                os.rename(filepath_bak, filepath)
+            with open(path, mode="wb") as f:
+                f.write(resume_data)
+        except:
+            log.exception("Unable to save %s", path)
 
     def remove_empty_folders(self, torrent_id, folder):
         """
@@ -987,7 +996,7 @@ class TorrentManager(component.Component):
         # worth really to save in resume data, we just read it up in
         # self.load_state().
         if total_download:
-            self.save_resume_data((torrent_id, ))
+            self.trigger_save_resume_data((torrent_id, ))
 
     def on_alert_torrent_paused(self, alert):
         log.debug("on_alert_torrent_paused")
@@ -1003,7 +1012,7 @@ class TorrentManager(component.Component):
         # We save resume data in bulk in self.stop() in this case.
         if self.save_resume_data_timer.running:
             # Write the fastresume file
-            self.save_resume_data((torrent_id, ))
+            self.trigger_save_resume_data((torrent_id, ))
 
         if torrent_id in self.shutdown_torrent_pause_list:
             self.shutdown_torrent_pause_list.remove(torrent_id)
@@ -1142,12 +1151,11 @@ class TorrentManager(component.Component):
             return
 
         # Libtorrent in add_torrent() expects resume_data to be bencoded
-        self.resume_data[torrent_id] = lt.bencode(alert.resume_data)
-        self.num_resume_data -= 1
+        resume_data = lt.bencode(alert.resume_data)
 
         torrent.waiting_on_resume_data = False
 
-        self.save_resume_data_file()
+        self.save_resume_data(torrent_id, resume_data)
 
     def on_alert_save_resume_data_failed(self, alert):
         log.debug("on_alert_save_resume_data_failed: %s", decode_string(alert.message()))
@@ -1156,10 +1164,7 @@ class TorrentManager(component.Component):
         except:
             return
 
-        self.num_resume_data -= 1
         torrent.waiting_on_resume_data = False
-
-        self.save_resume_data_file()
 
     def on_alert_fastresume_rejected(self, alert):
         """Alert handler for libtorrent fastresume_rejected_alert"""
@@ -1201,7 +1206,7 @@ class TorrentManager(component.Component):
                     # Empty folders are removed after libtorrent folder renames
                     self.remove_empty_folders(torrent_id, wait_on_folder[0])
                     del torrent.waiting_on_folder_rename[i]
-                    self.save_resume_data((torrent_id,))
+                    self.trigger_save_resume_data((torrent_id,))
                     break
                 # This isn't the last file to be renamed in this folder, so just
                 # remove the index and continue
@@ -1210,7 +1215,7 @@ class TorrentManager(component.Component):
         if not folder_rename:
             # This is just a regular file rename so send the signal
             component.get("EventManager").emit(TorrentFileRenamedEvent(torrent_id, alert.index, alert.name))
-            self.save_resume_data((torrent_id,))
+            self.trigger_save_resume_data((torrent_id,))
 
     def on_alert_metadata_received(self, alert):
         log.debug("on_alert_metadata_received")
