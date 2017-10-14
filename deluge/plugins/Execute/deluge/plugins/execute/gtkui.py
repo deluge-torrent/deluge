@@ -12,7 +12,6 @@ from __future__ import unicode_literals
 import logging
 
 import gtk
-import gtk.glade
 
 import deluge.component as component
 from deluge.plugins.pluginbase import GtkPluginBase
@@ -43,12 +42,11 @@ class ExecutePreferences(object):
 
     def load(self):
         log.debug('Adding Execute Preferences page')
-        self.glade = gtk.glade.XML(common.get_resource('execute_prefs.glade'))
-        self.glade.signal_autoconnect({
-            'on_add_button_clicked': self.on_add_button_clicked
-        })
+        self.builder = gtk.Builder()
+        self.builder.add_from_file(common.get_resource('execute_prefs.ui'))
+        self.builder.connect_signals(self)
 
-        events = self.glade.get_widget('event_combobox')
+        events = self.builder.get_object('event_combobox')
 
         store = gtk.ListStore(str, str)
         for event in EVENTS:
@@ -57,7 +55,7 @@ class ExecutePreferences(object):
         events.set_model(store)
         events.set_active(0)
 
-        self.plugin.add_preferences_page(_('Execute'), self.glade.get_widget('execute_box'))
+        self.plugin.add_preferences_page(_('Execute'), self.builder.get_object('execute_box'))
         self.plugin.register_hook('on_show_prefs', self.load_commands)
         self.plugin.register_hook('on_apply_prefs', self.on_apply_prefs)
 
@@ -73,7 +71,7 @@ class ExecutePreferences(object):
 
     def add_command(self, command_id, event, command):
         log.debug('Adding command `%s`', command_id)
-        vbox = self.glade.get_widget('commands_vbox')
+        vbox = self.builder.get_object('commands_vbox')
         hbox = gtk.HBox(False, 5)
         hbox.set_name(command_id + '_' + event)
         label = gtk.Label(EVENT_MAP[event])
@@ -94,7 +92,7 @@ class ExecutePreferences(object):
         vbox.pack_start(hbox)
 
     def remove_command(self, command_id):
-        vbox = self.glade.get_widget('commands_vbox')
+        vbox = self.builder.get_object('commands_vbox')
         children = vbox.get_children()
         for child in children:
             if child.get_name().split('_')[0] == command_id:
@@ -102,7 +100,7 @@ class ExecutePreferences(object):
                 break
 
     def clear_commands(self):
-        vbox = self.glade.get_widget('commands_vbox')
+        vbox = self.builder.get_object('commands_vbox')
         children = vbox.get_children()
         for child in children:
             vbox.remove(child)
@@ -118,8 +116,8 @@ class ExecutePreferences(object):
         client.execute.get_commands().addCallback(on_get_commands)
 
     def on_add_button_clicked(self, *args):
-        command = self.glade.get_widget('command_entry').get_text()
-        events = self.glade.get_widget('event_combobox')
+        command = self.builder.get_object('command_entry').get_text()
+        events = self.builder.get_object('event_combobox')
         event = events.get_model()[events.get_active()][1]
         client.execute.add_command(event, command)
 
@@ -128,7 +126,7 @@ class ExecutePreferences(object):
         client.execute.remove_command(command_id)
 
     def on_apply_prefs(self):
-        vbox = self.glade.get_widget('commands_vbox')
+        vbox = self.builder.get_object('commands_vbox')
         children = vbox.get_children()
         for child in children:
             command_id, event = child.get_name().split('_')
