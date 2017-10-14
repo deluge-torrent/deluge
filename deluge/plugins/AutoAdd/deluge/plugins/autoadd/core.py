@@ -251,65 +251,51 @@ class Core(CorePluginBase):
             except UnicodeDecodeError as ex:
                 log.error('Unable to auto add torrent due to improper filename encoding: %s', ex)
                 continue
+
             if os.path.isdir(filepath):
                 # Skip directories
                 continue
-            else:
-                ext = os.path.splitext(filename)[1].lower()
-                magnet = ext == '.magnet'
-                if not magnet and not ext == '.torrent':
-                    log.debug('File checked for auto-loading is invalid: %s', filename)
-                    continue
 
-                try:
-                    filedump = self.load_torrent(filepath, magnet)
-                except (IOError, EOFError) as ex:
-                    # If torrent is invalid, keep track of it so can try again on the next pass.
-                    # This catches torrent files that may not be fully saved to disk at load time.
-                    log.debug('Torrent is invalid: %s', ex)
-                    if filename in self.invalid_torrents:
-                        self.invalid_torrents[filename] += 1
-                        if self.invalid_torrents[filename] >= MAX_NUM_ATTEMPTS:
-                            log.warning('Maximum attempts reached while trying to add the '
-                                        'torrent file with the path %s', filepath)
-                            os.rename(filepath, filepath + '.invalid')
-                            del self.invalid_torrents[filename]
-                    else:
-                        self.invalid_torrents[filename] = 1
-                    continue
+            ext = os.path.splitext(filename)[1].lower()
+            magnet = ext == '.magnet'
+            if not magnet and not ext == '.torrent':
+                log.debug('File checked for auto-loading is invalid: %s', filename)
+                continue
 
-                try:
-                    # The torrent looks good, so lets add it to the session.
-                    if magnet:
-                        torrent_id = component.get('Core').add_torrent_magnet(
-                            filedump.strip(), options)
-                    else:
-                        torrent_id = component.get('Core').add_torrent_file(
-                            filename, base64.encodestring(filedump), options)
-                except AddTorrentError as ex:
-                    log.error(ex)
-                    os.rename(filepath, filepath + '.invalid')
-                    continue
-
-                # If the torrent added successfully, set the extra options.
-                if torrent_id:
-                    if 'Label' in component.get('CorePluginManager').get_enabled_plugins():
-                        if watchdir.get('label_toggle', True) and watchdir.get('label'):
-                            label = component.get('CorePlugin.Label')
-                            if not watchdir['label'] in label.get_labels():
-                                label.add(watchdir['label'])
-                            label.set_torrent(torrent_id, watchdir['label'])
-                    if watchdir.get('queue_to_top_toggle', True) and 'queue_to_top' in watchdir:
-                        if watchdir['queue_to_top']:
-                            component.get('TorrentManager').queue_top(torrent_id)
-                        else:
-                            component.get('TorrentManager').queue_bottom(torrent_id)
-                else:
-                    # torrent handle is invalid and so is the magnet link
-                    if magnet:
-                        log.debug('invalid magnet link')
+            try:
+                filedump = self.load_torrent(filepath, magnet)
+            except (IOError, EOFError) as ex:
+                # If torrent is invalid, keep track of it so can try again on the next pass.
+                # This catches torrent files that may not be fully saved to disk at load time.
+                log.debug('Torrent is invalid: %s', ex)
+                if filename in self.invalid_torrents:
+                    self.invalid_torrents[filename] += 1
+                    if self.invalid_torrents[filename] >= MAX_NUM_ATTEMPTS:
+                        log.warning('Maximum attempts reached while trying to add the '
+                                    'torrent file with the path %s', filepath)
                         os.rename(filepath, filepath + '.invalid')
-                        continue
+                        del self.invalid_torrents[filename]
+                else:
+                    self.invalid_torrents[filename] = 1
+                continue
+
+            def on_torrent_added(torrent_id, filename, filepath):
+                if 'Label' in component.get('CorePluginManager').get_enabled_plugins():
+                    if watchdir.get('label_toggle', True) and watchdir.get('label'):
+                        label = component.get('CorePlugin.Label')
+                        if not watchdir['label'] in label.get_labels():
+                            label.add(watchdir['label'])
+                        log.critical(torrent_id)
+                        try:
+                            label.set_torrent(torrent_id, watchdir['label'])
+                        except Exception as ex:
+                            log.error('Unable to set label: %s', ex)
+
+                if watchdir.get('queue_to_top_toggle', True) and 'queue_to_top' in watchdir:
+                    if watchdir['queue_to_top']:
+                        component.get('TorrentManager').queue_top(torrent_id)
+                    else:
+                        component.get('TorrentManager').queue_bottom(torrent_id)
 
                 # Rename, copy or delete the torrent once added to deluge.
                 if watchdir.get('append_extension_toggle'):
@@ -322,9 +308,25 @@ class Core(CorePluginBase):
                     log.debug('Moving added torrent file "%s" to "%s"',
                               os.path.basename(filepath), copy_torrent_path)
                     shutil.move(filepath, copy_torrent_file)
-
                 else:
                     os.remove(filepath)
+
+            def fail_torrent_add(err_msg, filepath):
+                # torrent handle is invalid and so is the magnet link
+                log.error('Cannot Autoadd torrent file: %s: %s', filepath, err_msg)
+                os.rename(filepath, filepath + '.invalid')
+
+            try:
+                # The torrent looks good, so lets add it to the session.
+                if magnet:
+                    d = component.get('Core').add_torrent_magnet(filedump.strip(), options)
+                else:
+                    d = component.get('Core').add_torrent_file(
+                        filename, base64.encodestring(filedump), options)
+                    d.addCallback(on_torrent_added, filename, filepath)
+                    d.addErrback(fail_torrent_add, filepath, magnet)
+            except AddTorrentError as ex:
+                fail_torrent_add(str(ex), filepath, magnet)
 
     def on_update_watchdir_error(self, failure, watchdir_id):
         """Disables any watch folders with un-handled exceptions."""
