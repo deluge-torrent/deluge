@@ -777,20 +777,21 @@ class CmdLine(BaseMode, Commander):
                     possible_matches.append(escaped_name)
                     break
             else:
-                l = len(raw_line)
+                line_len = len(raw_line)
 
                 # Let's avoid listing all torrents twice if there's no pattern
                 if not empty and torrent_id.startswith(line):
                     # Highlight the matching part
-                    text = '{!info!}%s{!input!}%s - "%s"' % (torrent_id[:l], torrent_id[l:], torrent_name)
+                    text = '{!info!}%s{!input!}%s - "%s"' % (
+                        torrent_id[:line_len], torrent_id[line_len:], torrent_name)
                     possible_matches.append(text)
                 if torrent_name.startswith(line):
                     text = '{!info!}%s{!input!}%s ({!cyan!}%s{!input!})' % (
-                        escaped_name[:l], escaped_name[l:], torrent_id)
+                        escaped_name[:line_len], escaped_name[line_len:], torrent_id)
                     possible_matches.append(text)
                 elif torrent_name.lower().startswith(line.lower()):
                     text = '{!info!}%s{!input!}%s ({!cyan!}%s{!input!})' % (
-                        escaped_name[:l], escaped_name[l:], torrent_id)
+                        escaped_name[:line_len], escaped_name[line_len:], torrent_id)
                     possible_matches2.append(text)
 
         return possible_matches + possible_matches2

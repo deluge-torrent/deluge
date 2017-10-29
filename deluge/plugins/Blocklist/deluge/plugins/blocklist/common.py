@@ -42,7 +42,7 @@ def raises_errors_as(error):
             """
             try:
                 return func(self, *args, **kwargs)
-            except:
+            except Exception:
                 (value, tb) = exc_info()[1:]
                 raise error, value, tb
         return wrapper

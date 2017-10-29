@@ -306,12 +306,12 @@ class TorrentView(InputKeyHandler):
         todraw = []
         # Affected lines are given when changing selected torrent
         if lines:
-            for l in lines:
-                if l < tidx:
+            for line in lines:
+                if line < tidx:
                     continue
-                if l >= (tidx + self.torrent_rows) or l >= self.numtorrents:
+                if line >= (tidx + self.torrent_rows) or line >= self.numtorrents:
                     break
-                todraw.append((l, l - self.curoff, draw_row(l)))
+                todraw.append((line, line - self.curoff, draw_row(line)))
         else:
             for i in range(tidx, tidx + self.torrent_rows):
                 if i >= self.numtorrents:
