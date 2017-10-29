@@ -233,8 +233,21 @@ class PreferencesManager(component.Component):
             log.error('Invalid tos byte: %s', ex)
 
     def _on_set_dht(self, key, value):
-        dht_bootstraps = 'router.bittorrent.com:6881,router.utorrent.com:6881,router.bitcomet.com:6881'
-        self.core.apply_session_settings({'dht_bootstrap_nodes': dht_bootstraps, 'enable_dht': value})
+        lt_bootstraps = self.core.session.get_settings()['dht_bootstrap_nodes']
+        # Update list of lt bootstraps, using set to remove duplicates.
+        dht_bootstraps = set(
+            lt_bootstraps.split(',')
+            + [
+                'router.bittorrent.com:6881',
+                'router.utorrent.com:6881',
+                'router.bitcomet.com:6881',
+                'dht.transmissionbt.com:6881',
+                'dht.aelitis.com:6881',
+            ])
+        self.core.apply_session_settings({
+            'dht_bootstrap_nodes': ','.join(dht_bootstraps),
+            'enable_dht': value,
+        })
 
     def _on_set_upnp(self, key, value):
         self.core.apply_session_setting('enable_upnp', value)
