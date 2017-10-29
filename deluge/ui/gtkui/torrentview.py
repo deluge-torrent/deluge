@@ -171,18 +171,17 @@ def cell_data_queue(column, cell, model, row, data):
         cell.set_property("text", str(value + 1))
 
 def str_nocase_sort(model, iter1, iter2, data):
-    """
-    Sort string column data with locale.strcoll which (allegedly)
-    uses ISO 14651.
+    """Sort string column data using ISO 14651 in lowercase.
+
+    Uses locale.strcoll which (allegedly) uses ISO 14651. Compares first
+    value with second and returns -1, 0, 1 for where it should be placed.
 
     """
-    try:
-        v1 = model[iter1][data].lower()
-        v2 = model[iter2][data].lower()
-    except AttributeError:
-        # Catch None type for value.
-        v1 = model[iter1][data]
-        v2 = model[iter2][data]
+    v1 = model[iter1][data]
+    v2 = model[iter2][data]
+    # Catch any values of None from model.
+    v1 = v1.lower() if v1 else ""
+    v2 = v2.lower() if v2 else ""
     return strcoll(v1, v2)
 
 def queue_peer_seed_sort_function(v1, v2):

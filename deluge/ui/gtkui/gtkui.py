@@ -294,8 +294,8 @@ class GtkUI(object):
         try:
             reactor.run()
         except OverflowError:
-            # Ticket 3010 reports an error that cannot replicate so catch
-            # it and ignore it to prevent spamming logs.
+            # Ticket #3010 reports an overflow error from twisted glibbase that
+            # cannot be replicated so catch it and ignore it to prevent spamming logs.
             pass
         self.shutdown()
         gtk.gdk.threads_leave()
