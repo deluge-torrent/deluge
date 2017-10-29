@@ -61,7 +61,11 @@ def atom(next, token):
             if token[1] == "-":
                 return int(token[-1], 0)
             else:
-                return int(token[1], 0)
+                if token[1].startswith('0x'):
+                    # Hex number so return unconverted as string.
+                    return token[1].decode("string-escape")
+                else:
+                    return int(token[1], 0)
         except ValueError:
             try:
                 return float(token[-1])
