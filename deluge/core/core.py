@@ -107,6 +107,8 @@ class Core(component.Component):
         self.settings.user_agent = "Deluge %s" % deluge.common.get_version()
         # Increase the alert queue size so that alerts don't get lost
         self.settings.alert_queue_size = 10000
+        # Ignore buggy resume data timestamps checking #3044.
+        self.settings.ignore_resume_timestamps = True
 
         # Set session settings
         self.settings.send_redundant_have = True
