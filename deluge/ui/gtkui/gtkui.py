@@ -291,7 +291,12 @@ class GtkUI(object):
         reactor.callWhenRunning(self._on_reactor_start)
         # Start the gtk main loop
         gtk.gdk.threads_enter()
-        reactor.run()
+        try:
+            reactor.run()
+        except OverflowError:
+            # Ticket 3010 reports an error that cannot replicate so catch
+            # it and ignore it to prevent spamming logs.
+            pass
         self.shutdown()
         gtk.gdk.threads_leave()
 
