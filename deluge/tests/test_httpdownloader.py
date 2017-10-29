@@ -48,6 +48,14 @@ class RenameResource(Resource):
         return b'This file should be called ' + filename
 
 
+class AttachmentResource(Resource):
+
+    def render(self, request):
+        request.setHeader(b'Content-Type', b'text/plain')
+        request.setHeader(b'Content-Disposition', b'attachment')
+        return b'Attachement with no filename set'
+
+
 class CookieResource(Resource):
 
     def render(self, request):
@@ -99,6 +107,7 @@ class TopLevelResource(Resource):
         self.redirect_rsrc = RedirectResource()
         self.putChild('redirect', self.redirect_rsrc)
         self.putChild('rename', RenameResource())
+        self.putChild('attachment', AttachmentResource())
         self.putChild('partial', PartialDownloadResource())
 
     def getChild(self, path, request):  # NOQA: N802
@@ -193,6 +202,13 @@ class DownloadFileTestCase(unittest.TestCase):
         d = download_file(url, fname('original'))
         d.addCallback(self.assertEqual, fname('passwd'))
         d.addCallback(self.assertContains, 'This file should be called /etc/passwd')
+        return d
+
+    def test_download_with_attachment_no_filename(self):
+        url = self.get_url('attachment')
+        d = download_file(url, fname('original'))
+        d.addCallback(self.assertEqual, fname('original'))
+        d.addCallback(self.assertContains, 'Attachement with no filename set')
         return d
 
     def test_download_with_rename_prevented(self):
