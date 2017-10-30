@@ -263,12 +263,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
             'on_sound_path_update_preview': self.on_sound_path_update_preview
         })
 
-        prefs = component.get('Preferences')
-        parent = self.prefs.get_parent()
-        if parent:
-            parent.remove(self.prefs)
-        index = prefs.notebook.append_page(self.prefs)
-        prefs.liststore.append([index, _('Notifications')])
+        component.get('Preferences').add_page(_('Notifications'), self.prefs)
 
         component.get('PluginManager').register_hook('on_apply_prefs',
                                                      self.on_apply_prefs)

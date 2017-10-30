@@ -131,56 +131,56 @@ def make(filename, outfile):
     # Parse the catalog
     msgid = msgstr = ''
     lno = 0
-    for l in lines:
+    for line in lines:
         lno += 1
         # If we get a comment line after a msgstr, this is a new entry
-        if l[0] == '#' and section == section_str:
+        if line[0] == '#' and section == section_str:
             add(msgid, msgstr, fuzzy)
             section = None
             fuzzy = 0
         # Record a fuzzy mark
-        if l[:2] == '#,' and (l.find('fuzzy') >= 0):
+        if line[:2] == '#,' and (line.find('fuzzy') >= 0):
             fuzzy = 1
         # Skip comments
-        if l[0] == '#':
+        if line[0] == '#':
             continue
         # Start of msgid_plural section, separate from singular form with \0
-        if l.startswith('msgid_plural'):
+        if line.startswith('msgid_plural'):
             msgid += '\x00'
-            l = l[12:]
+            line = line[12:]
         # Now we are in a msgid section, output previous section
-        elif l.startswith('msgid'):
+        elif line.startswith('msgid'):
             if section == section_str:
                 add(msgid, msgstr, fuzzy)
             section = section_id
-            l = l[5:]
+            line = line[5:]
             msgid = msgstr = ''
         # Now we are in a msgstr section
-        elif l.startswith('msgstr'):
+        elif line.startswith('msgstr'):
             section = section_str
-            l = l[6:]
+            line = line[6:]
             # Check for plural forms
-            if l.startswith('['):
+            if line.startswith('['):
                 # Separate plural forms with \0
-                if not l.startswith('[0]'):
+                if not line.startswith('[0]'):
                     msgstr += '\x00'
                 # Ignore the index - must come in sequence
-                l = l[l.index(']') + 1:]
+                line = line[line.index(']') + 1:]
         # Skip empty lines
-        l = l.strip()
-        if not l:
+        line = line.strip()
+        if not line:
             continue
-        l = ast.literal_eval(l)
+        line = ast.literal_eval(line)
         # Python 2 ast.literal_eval returns bytes.
-        if isinstance(l, bytes):
-            l = l.decode('utf8')
+        if isinstance(line, bytes):
+            line = line.decode('utf8')
         if section == section_id:
-            msgid += l
+            msgid += line
         elif section == section_str:
-            msgstr += l
+            msgstr += line
         else:
             print('Syntax error on %s:%d' % (infile, lno), 'before:', file=sys.stderr)
-            print(l, file=sys.stderr)
+            print(line, file=sys.stderr)
             sys.exit(1)
     # Add last entry
     if section == section_str:

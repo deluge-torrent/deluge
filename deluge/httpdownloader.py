@@ -9,6 +9,7 @@
 
 from __future__ import unicode_literals
 
+import cgi
 import logging
 import os.path
 import zlib
@@ -79,20 +80,23 @@ class HTTPDownloader(client.HTTPDownloader):
                 self.decoder = zlib.decompressobj(zlib.MAX_WBITS + 32)
 
             if 'content-disposition' in headers and not self.force_filename:
-                new_file_name = str(headers['content-disposition'][0]).split(';')[1].split('=')[1]
-                new_file_name = sanitise_filename(new_file_name)
-                new_file_name = os.path.join(os.path.split(self.value)[0], new_file_name)
+                content_disp = str(headers['content-disposition'][0])
+                content_disp_params = cgi.parse_header(content_disp)[1]
+                if 'filename' in content_disp_params:
+                    new_file_name = content_disp_params['filename']
+                    new_file_name = sanitise_filename(new_file_name)
+                    new_file_name = os.path.join(os.path.split(self.value)[0], new_file_name)
 
-                count = 1
-                fileroot = os.path.splitext(new_file_name)[0]
-                fileext = os.path.splitext(new_file_name)[1]
-                while os.path.isfile(new_file_name):
-                    # Increment filename if already exists
-                    new_file_name = '%s-%s%s' % (fileroot, count, fileext)
-                    count += 1
+                    count = 1
+                    fileroot = os.path.splitext(new_file_name)[0]
+                    fileext = os.path.splitext(new_file_name)[1]
+                    while os.path.isfile(new_file_name):
+                        # Increment filename if already exists
+                        new_file_name = '%s-%s%s' % (fileroot, count, fileext)
+                        count += 1
 
-                self.fileName = new_file_name
-                self.value = new_file_name
+                    self.fileName = new_file_name
+                    self.value = new_file_name
 
         elif self.code in (http.MOVED_PERMANENTLY, http.FOUND, http.SEE_OTHER, http.TEMPORARY_REDIRECT):
             location = headers['location'][0]

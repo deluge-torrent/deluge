@@ -311,10 +311,10 @@ def loads(x, decode_utf8=False):
     global _decode_utf8
     _decode_utf8 = decode_utf8
     try:
-        r, l = decode_func[x[0:1]](x, 0)
+        r, f = decode_func[x[0:1]](x, 0)
     except (IndexError, KeyError):
         raise ValueError
-    if l != len(x):
+    if f != len(x):
         raise ValueError
     return r
 
