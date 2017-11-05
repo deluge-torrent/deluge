@@ -55,6 +55,10 @@ def atom(src, token):
         return False
     elif token[0] is tokenize.STRING or token[1] == '/':
         return token[-1].decode('string-escape')
+    elif token[1].isalpha():
+        # Parse Windows paths e.g. 'C:\\xyz' or 'C:/xyz'.
+        if next()[1] == ':' and next()[1] in '\/':
+            return token[-1].decode('string-escape')
 
     raise SyntaxError('malformed expression (%s)' % token[1])
 

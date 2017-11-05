@@ -562,7 +562,7 @@ class EventLog(component.Component):
                    (state, t_name, torrent_id))
 
     def on_torrent_finished_event(self, torrent_id):
-        if not deluge.common.windows_check() and component.get('TorrentList').config['ring_bell']:
+        if component.get('TorrentList').config['ring_bell']:
             import curses.beep
             curses.beep()
         self.write('{!info!}Torrent Finished: %s ({!cyan!}%s{!info!})' %

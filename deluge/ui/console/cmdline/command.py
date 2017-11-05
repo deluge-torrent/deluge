@@ -16,7 +16,6 @@ import shlex
 
 from twisted.internet import defer
 
-from deluge.common import windows_check
 from deluge.ui.client import client
 from deluge.ui.console.parser import OptionParser, OptionParserError
 from deluge.ui.console.utils.colors import strip_colors
@@ -167,8 +166,7 @@ class BaseCommand(object):
         return self.__doc__
 
     def split(self, text):
-        if windows_check():
-            text = text.replace('\\', '\\\\')
+        text = text.replace('\\', '\\\\')
         result = shlex.split(text)
         for i, s in enumerate(result):
             result[i] = s.replace(r'\ ', ' ')
