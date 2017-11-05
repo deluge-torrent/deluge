@@ -34,7 +34,6 @@
 #
 #
 
-from deluge.common import windows_check
 from deluge.ui.console.main import BaseCommand
 import deluge.ui.console.colors as colors
 from deluge.ui.client import client
@@ -43,7 +42,6 @@ from deluge.log import LOG as log
 
 from optparse import make_option
 import re
-import string
 
 import cStringIO, tokenize
 
@@ -79,11 +77,11 @@ def atom(next, token):
         return False
     elif token[0] is tokenize.STRING or token[1] == "/":
         return token[-1].decode("string-escape")
-    elif windows_check() and token[1].lower() in string.lowercase:
-        # Parse Windows paths e.g. 'C:\xyz'.
-        token = next()
-        if token[1] == ":":
+    elif token[1].isalpha():
+        # Parse Windows paths e.g. 'C:\\xyz' or 'C:/xyz'.
+        if next()[1] == ":" and next()[1] in '\/':
             return token[-1].decode("string-escape")
+
     raise SyntaxError("malformed expression (%s)" % token[1])
 
 def simple_eval(source):

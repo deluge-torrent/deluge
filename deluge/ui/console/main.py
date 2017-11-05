@@ -110,8 +110,7 @@ class BaseCommand(object):
         return self.__doc__
 
     def split(self, text):
-        if deluge.common.windows_check():
-            text = text.replace('\\', '\\\\')
+        text = text.replace('\\', '\\\\')
         return shlex.split(text)
 
     def create_parser(self):
