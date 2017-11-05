@@ -12,6 +12,7 @@ from __future__ import unicode_literals
 import logging
 import re
 
+from deluge.common import decode_bytes
 from .common import IP, BadIP, raises_errors_as
 
 log = logging.getLogger(__name__)
@@ -54,6 +55,7 @@ class BaseReader(object):
         blocklist = self.open()
         valid = True
         for line in blocklist:
+            line = decode_bytes(line)
             if not self.is_ignored(line):
                 try:
                     (start, end) = self.parse(line)
@@ -71,6 +73,7 @@ class BaseReader(object):
         """Yields each ip range from the file"""
         blocklist = self.open()
         for line in blocklist:
+            line = decode_bytes(line)
             if not self.is_ignored(line):
                 yield self.parse(line)
         blocklist.close()
