@@ -10,13 +10,13 @@
 
 from __future__ import division, unicode_literals
 
-import base64
 import glob
 import logging
 import os
 import shutil
 import tempfile
 import threading
+from base64 import b64decode, b64encode
 
 from twisted.internet import defer, reactor, task
 from twisted.web.client import getPage
@@ -331,8 +331,8 @@ class Core(component.Component):
 
         """
         try:
-            filedump = base64.decodestring(filedump)
-        except Exception as ex:
+            filedump = b64decode(filedump)
+        except TypeError as ex:
             log.error('There was an error decoding the filedump string: %s', ex)
 
         try:
@@ -346,6 +346,26 @@ class Core(component.Component):
             return d
 
     # Exported Methods
+    @export
+    def prefetch_magnet_metadata(self, magnet, timeout=60):
+        """Download the metadata for the magnet uri without adding torrent to deluge session.
+
+        Args:
+            magnet (str): The magnet uri.
+            timeout (int): Time to wait to recieve metadata from peers.
+
+        Returns:
+            Deferred: A tuple of (torrent_id (str), metadata (bytes)) for the magnet.
+
+            The metadata is base64 encoded.
+
+        """
+        def on_metadata(result):
+            torrent_id, metadata = result
+            return torrent_id, b64encode(metadata)
+
+        return self.torrentmanager.prefetch_metadata(magnet, timeout).addCallback(on_metadata)
+
     @export
     def add_torrent_file(self, filename, filedump, options):
         """Adds a torrent file to the session.
@@ -411,7 +431,7 @@ class Core(component.Component):
                 os.remove(filename)
             except OSError as ex:
                 log.warning('Could not remove temp file: %s', ex)
-            return self.add_torrent_file(filename, base64.encodestring(data), options)
+            return self.add_torrent_file(filename, b64encode(data), options)
 
         def on_download_fail(failure):
             # Log the error and pass the failure onto the client
@@ -425,7 +445,7 @@ class Core(component.Component):
         return d
 
     @export
-    def add_torrent_magnet(self, uri, options):
+    def add_torrent_magnet(self, uri, options, filedump=None):
         """
         Adds a torrent from a magnet link.
 
@@ -439,8 +459,13 @@ class Core(component.Component):
 
         """
         log.debug('Attempting to add by magnet uri: %s', uri)
+        if filedump:
+            try:
+                filedump = b64decode(filedump)
+            except TypeError as ex:
+                log.error('There was an error decoding the filedump string: %s', ex)
 
-        return self.torrentmanager.add(magnet=uri, options=options)
+        return self.torrentmanager.add(magnet=uri, options=options, filedump=filedump)
 
     @export
     def remove_torrent(self, torrent_id, remove_data):
@@ -843,7 +868,7 @@ class Core(component.Component):
             options = {}
             options['download_location'] = os.path.split(path)[0]
             with open(target, 'rb') as _file:
-                filedump = base64.encodestring(_file.read())
+                filedump = b64encode(_file.read())
                 self.add_torrent_file(os.path.split(target)[1], filedump, options)
 
     @export
@@ -854,8 +879,8 @@ class Core(component.Component):
         ie, plugin_file.read()"""
 
         try:
-            filedump = base64.decodestring(filedump)
-        except Exception as ex:
+            filedump = b64decode(filedump)
+        except TypeError as ex:
             log.error('There was an error decoding the filedump string!')
             log.exception(ex)
             return
