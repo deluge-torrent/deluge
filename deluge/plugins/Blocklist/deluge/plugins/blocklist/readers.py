@@ -13,6 +13,7 @@ import logging
 import re
 
 from deluge.common import decode_bytes
+
 from .common import IP, BadIP, raises_errors_as
 
 log = logging.getLogger(__name__)
