@@ -205,7 +205,7 @@ Please use commands from the command line, e.g.:\n
 
         d = None
         if not self.interactive and options.parsed_cmds[0].command == 'connect':
-            d = commander.do_command(options.parsed_cmds.pop(0))
+            d = commander.exec_command(options.parsed_cmds.pop(0))
         else:
             log.info('connect: host=%s, port=%s, username=%s, password=%s',
                      options.daemon_addr, options.daemon_port, options.daemon_user, options.daemon_pass)
