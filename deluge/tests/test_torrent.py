@@ -11,7 +11,7 @@ import base64
 import os
 import time
 
-from twisted.internet import defer, reactor
+from twisted.internet import reactor
 from twisted.internet.task import deferLater
 
 import deluge.component as component
@@ -113,13 +113,12 @@ class TorrentTestCase(BaseTestCase):
 
         # self.print_priority_list(priorities)
 
-    @defer.inlineCallbacks
     def test_torrent_error_data_missing(self):
         options = {'seed_mode': True}
         filename = common.get_test_data_file('test_torrent.file.torrent')
         with open(filename) as _file:
             filedump = base64.encodestring(_file.read())
-        torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
+        torrent_id = self.core.add_torrent_file(filename, filedump, options)
         torrent = self.core.torrentmanager.torrents[torrent_id]
 
         self.assert_state(torrent, 'Seeding')
@@ -129,13 +128,12 @@ class TorrentTestCase(BaseTestCase):
         time.sleep(0.2)  # Delay to wait for alert from lt
         self.assert_state(torrent, 'Error')
 
-    @defer.inlineCallbacks
     def test_torrent_error_resume_original_state(self):
         options = {'seed_mode': True, 'add_paused': True}
         filename = common.get_test_data_file('test_torrent.file.torrent')
         with open(filename) as _file:
             filedump = base64.encodestring(_file.read())
-        torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
+        torrent_id = self.core.add_torrent_file(filename, filedump, options)
         torrent = self.core.torrentmanager.torrents[torrent_id]
 
         orig_state = 'Paused'
@@ -148,26 +146,25 @@ class TorrentTestCase(BaseTestCase):
 
         # Clear error and verify returned to original state
         torrent.force_recheck()
-        yield deferLater(reactor, 0.1, self.assert_state, torrent, orig_state)
-        return
 
-    @defer.inlineCallbacks
     def test_torrent_error_resume_data_unaltered(self):
-        resume_data = {'active_time': 13399, 'num_incomplete': 16777215, 'announce_to_lsd': 1, 'seed_mode': 0,
-                       'pieces': '\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01', 'paused': 0,
-                       'seeding_time': 13399, 'last_scrape': 13399,
-                       'info-hash': '-\xc5\xd0\xe7\x1af\xfeid\x9ad\r9\xcb\x00\xa2YpIs', 'max_uploads': 16777215,
-                       'max_connections': 16777215, 'num_downloaders': 16777215, 'total_downloaded': 0,
-                       'file-format': 'libtorrent resume file', 'peers6': '', 'added_time': 1411826665,
-                       'banned_peers6': '', 'file_priority': [1], 'last_seen_complete': 0, 'total_uploaded': 0,
-                       'piece_priority': '\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01',
-                       'file-version': 1, 'announce_to_dht': 1, 'auto_managed': 1, 'upload_rate_limit': 0,
-                       'completed_time': 1411826665, 'allocation': 'sparse', 'blocks per piece': 2,
-                       'download_rate_limit': 0, 'libtorrent-version': '0.16.17.0', 'banned_peers': '',
-                       'num_seeds': 16777215, 'sequential_download': 0, 'announce_to_trackers': 1,
-                       'peers': '\n\x00\x02\x0f=\xc6SC\x17]\xd8}\x7f\x00\x00\x01=\xc6', 'finished_time': 13399,
-                       'last_upload': 13399, 'trackers': [[]], 'super_seeding': 0,
-                       'file sizes': [[512000, 1411826586]], 'last_download': 13399}
+        resume_data = {
+            'active_time': 13399, 'num_incomplete': 16777215, 'announce_to_lsd': 1, 'seed_mode': 0,
+            'pieces': '\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01', 'paused': 0,
+            'seeding_time': 13399, 'last_scrape': 13399,
+            'info-hash': '-\xc5\xd0\xe7\x1af\xfeid\x9ad\r9\xcb\x00\xa2YpIs', 'max_uploads': 16777215,
+            'max_connections': 16777215, 'num_downloaders': 16777215, 'total_downloaded': 0,
+            'file-format': 'libtorrent resume file', 'peers6': '', 'added_time': 1411826665,
+            'banned_peers6': '', 'file_priority': [1], 'last_seen_complete': 0, 'total_uploaded': 0,
+            'piece_priority': '\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01',
+            'file-version': 1, 'announce_to_dht': 1, 'auto_managed': 1, 'upload_rate_limit': 0,
+            'completed_time': 1411826665, 'allocation': 'sparse', 'blocks per piece': 2,
+            'download_rate_limit': 0, 'libtorrent-version': '0.16.17.0', 'banned_peers': '',
+            'num_seeds': 16777215, 'sequential_download': 0, 'announce_to_trackers': 1,
+            'peers': '\n\x00\x02\x0f=\xc6SC\x17]\xd8}\x7f\x00\x00\x01=\xc6', 'finished_time': 13399,
+            'last_upload': 13399, 'trackers': [[]], 'super_seeding': 0,
+            'file sizes': [[512000, 1411826586]], 'last_download': 13399
+        }
         torrent_state = TorrentState(
             torrent_id='2dc5d0e71a66fe69649a640d39cb00a259704973',
             filename='test_torrent.file.torrent',
@@ -181,8 +178,8 @@ class TorrentTestCase(BaseTestCase):
         with open(filename) as _file:
             filedump = _file.read()
         resume_data = utf8_encode_structure(resume_data)
-        torrent_id = yield self.core.torrentmanager.add(state=torrent_state, filedump=filedump,
-                                                        resume_data=lt.bencode(resume_data))
+        torrent_id = self.core.torrentmanager.add(
+            state=torrent_state, filedump=filedump, resume_data=lt.bencode(resume_data))
         torrent = self.core.torrentmanager.torrents[torrent_id]
 
         def assert_resume_data():
@@ -190,5 +187,4 @@ class TorrentTestCase(BaseTestCase):
             tm_resume_data = lt.bdecode(self.core.torrentmanager.resume_data[torrent.torrent_id])
             self.assertEqual(tm_resume_data, resume_data)
 
-        yield deferLater(reactor, 0.5, assert_resume_data)
-        return
+        return deferLater(reactor, 0.5, assert_resume_data)

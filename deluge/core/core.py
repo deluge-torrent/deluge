@@ -10,13 +10,13 @@
 
 from __future__ import division, unicode_literals
 
-import base64
 import glob
 import logging
 import os
 import shutil
 import tempfile
 import threading
+from base64 import b64decode, b64encode
 
 from twisted.internet import defer, reactor, task
 from twisted.web.client import getPage
@@ -317,8 +317,10 @@ class Core(component.Component):
                 return self.new_release
         return False
 
-    def _add_torrent_file(self, filename, filedump, options, save_state=True):
-        """Adds a torrent file to the session.
+    # Exported Methods
+    @export
+    def add_torrent_file_async(self, filename, filedump, options, save_state=True):
+        """Adds a torrent file to the session asynchonously.
 
         Args:
             filename (str): The filename of the torrent.
@@ -327,16 +329,16 @@ class Core(component.Component):
             save_state (bool): If the state should be saved after adding the file.
 
         Returns:
-            str: The torrent ID or None.
+            Deferred: The torrent ID or None.
 
         """
         try:
-            filedump = base64.decodestring(filedump)
+            filedump = b64decode(filedump)
         except Exception as ex:
             log.error('There was an error decoding the filedump string: %s', ex)
 
         try:
-            d = self.torrentmanager.add(
+            d = self.torrentmanager.add_async(
                 filedump=filedump, options=options, filename=filename, save_state=save_state
             )
         except RuntimeError as ex:
@@ -345,7 +347,6 @@ class Core(component.Component):
         else:
             return d
 
-    # Exported Methods
     @export
     def add_torrent_file(self, filename, filedump, options):
         """Adds a torrent file to the session.
@@ -359,11 +360,21 @@ class Core(component.Component):
             str: The torrent_id or None.
 
         """
-        return self._add_torrent_file(filename, filedump, options)
+        try:
+            filedump = b64decode(filedump)
+        except Exception as ex:
+            log.error('There was an error decoding the filedump string: %s', ex)
+
+        try:
+            return self.torrentmanager.add(
+                filedump=filedump, options=options, filename=filename)
+        except RuntimeError as ex:
+            log.error('There was an error adding the torrent file %s: %s', filename, ex)
+            raise
 
     @export
     def add_torrent_files(self, torrent_files):
-        """Adds multiple torrent files to the session.
+        """Adds multiple torrent files to the session asynchonously.
 
         Args:
             torrent_files (list of tuples): Torrent files as tuple of (filename, filedump, options).
@@ -378,8 +389,8 @@ class Core(component.Component):
             last_index = len(torrent_files) - 1
             for idx, torrent in enumerate(torrent_files):
                 try:
-                    yield self._add_torrent_file(torrent[0], torrent[1],
-                                                 torrent[2], save_state=idx == last_index)
+                    yield self.add_torrent_file_async(
+                        torrent[0], torrent[1], torrent[2], save_state=idx == last_index)
                 except AddTorrentError as ex:
                     log.warn('Error when adding torrent: %s', ex)
                     errors.append(ex)
@@ -411,7 +422,7 @@ class Core(component.Component):
                 os.remove(filename)
             except OSError as ex:
                 log.warning('Could not remove temp file: %s', ex)
-            return self.add_torrent_file(filename, base64.encodestring(data), options)
+            return self.add_torrent_file(filename, b64encode(data), options)
 
         def on_download_fail(failure):
             # Log the error and pass the failure onto the client
@@ -843,7 +854,7 @@ class Core(component.Component):
             options = {}
             options['download_location'] = os.path.split(path)[0]
             with open(target, 'rb') as _file:
-                filedump = base64.encodestring(_file.read())
+                filedump = b64encode(_file.read())
                 self.add_torrent_file(os.path.split(target)[1], filedump, options)
 
     @export
@@ -854,7 +865,7 @@ class Core(component.Component):
         ie, plugin_file.read()"""
 
         try:
-            filedump = base64.decodestring(filedump)
+            filedump = b64decode(filedump)
         except Exception as ex:
             log.error('There was an error decoding the filedump string!')
             log.exception(ex)

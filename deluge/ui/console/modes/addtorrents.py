@@ -399,7 +399,7 @@ class AddTorrents(BaseMode):
                     t_options['download_location'] = result['location']['value']
                 t_options['add_paused'] = result['add_paused']['value']
 
-                d = client.core.add_torrent_file(filename, filedump, t_options)
+                d = client.core.add_torrent_file_async(filename, filedump, t_options)
                 d.addCallback(success_cb, filename, ress)
                 d.addErrback(fail_cb, filename, ress)
 

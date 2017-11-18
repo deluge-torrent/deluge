@@ -145,7 +145,7 @@ class CoreTestCase(BaseTestCase):
         filename = common.get_test_data_file('test.torrent')
         with open(filename, 'rb') as _file:
             filedump = base64.encodestring(_file.read())
-        torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
+        torrent_id = yield self.core.add_torrent_file_async(filename, filedump, options)
 
         # Get the info hash from the test.torrent
         from deluge.bencode import bdecode, bencode
@@ -213,7 +213,7 @@ class CoreTestCase(BaseTestCase):
         filename = common.get_test_data_file('test.torrent')
         with open(filename, 'rb') as _file:
             filedump = base64.encodestring(_file.read())
-        torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
+        torrent_id = yield self.core.add_torrent_file_async(filename, filedump, options)
         removed = self.core.remove_torrent(torrent_id, True)
         self.assertTrue(removed)
         self.assertEqual(len(self.core.get_session_state()), 0)
@@ -227,12 +227,12 @@ class CoreTestCase(BaseTestCase):
         filename = common.get_test_data_file('test.torrent')
         with open(filename, 'rb') as _file:
             filedump = base64.encodestring(_file.read())
-        torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
+        torrent_id = yield self.core.add_torrent_file_async(filename, filedump, options)
 
         filename2 = common.get_test_data_file('unicode_filenames.torrent')
         with open(filename2, 'rb') as _file:
             filedump = base64.encodestring(_file.read())
-        torrent_id2 = yield self.core.add_torrent_file(filename2, filedump, options)
+        torrent_id2 = yield self.core.add_torrent_file_async(filename2, filedump, options)
         d = self.core.remove_torrents([torrent_id, torrent_id2], True)
 
         def test_ret(val):
@@ -250,7 +250,7 @@ class CoreTestCase(BaseTestCase):
         filename = common.get_test_data_file('test.torrent')
         with open(filename, 'rb') as _file:
             filedump = base64.encodestring(_file.read())
-            torrent_id = yield self.core.add_torrent_file(filename, filedump, options)
+            torrent_id = yield self.core.add_torrent_file_async(filename, filedump, options)
         val = yield self.core.remove_torrents(['invalidid1', 'invalidid2', torrent_id], False)
         self.assertEqual(len(val), 2)
         self.assertEqual(val[0], ('invalidid1', 'torrent_id invalidid1 not in session.'))

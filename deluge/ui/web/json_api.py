@@ -677,7 +677,7 @@ class WebApi(JSONComponent):
                     fdump = base64.encodestring(_file.read())
                 log.info('Adding torrent from file `%s` with options `%r`',
                          filename, torrent['options'])
-                d = client.core.add_torrent_file(filename, fdump, torrent['options'])
+                d = client.core.add_torrent_file_async(filename, fdump, torrent['options'])
                 deferreds.append(d)
         return DeferredList(deferreds, consumeErrors=False)
 

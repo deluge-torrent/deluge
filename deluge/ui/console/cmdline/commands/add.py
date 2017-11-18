@@ -82,8 +82,11 @@ class Command(BaseCommand):
                 filename = os.path.split(path)[-1]
                 with open(path, 'rb') as _file:
                     filedump = base64.encodestring(_file.read())
-                deferreds.append(client.core.add_torrent_file(filename, filedump, t_options).addCallback(
-                    on_success).addErrback(on_fail))
+                deferreds.append(
+                    client.core.add_torrent_file_async(
+                        filename, filedump, t_options,
+                    ).addCallback(on_success).addErrback(on_fail)
+                )
 
         return defer.DeferredList(deferreds)
 

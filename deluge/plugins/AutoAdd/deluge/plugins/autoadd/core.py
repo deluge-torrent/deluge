@@ -321,7 +321,7 @@ class Core(CorePluginBase):
                 if magnet:
                     d = component.get('Core').add_torrent_magnet(filedump.strip(), options)
                 else:
-                    d = component.get('Core').add_torrent_file(
+                    d = component.get('Core').add_torrent_file_async(
                         filename, base64.encodestring(filedump), options)
                     d.addCallback(on_torrent_added, filename, filepath)
                     d.addErrback(fail_torrent_add, filepath, magnet)

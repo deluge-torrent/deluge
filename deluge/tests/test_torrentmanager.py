@@ -41,7 +41,7 @@ class TorrentmanagerTestCase(BaseTestCase):
         filename = common.get_test_data_file('test.torrent')
         with open(filename) as _file:
             filedump = base64.encodestring(_file.read())
-        torrent_id = yield self.core.add_torrent_file(filename, filedump, {})
+        torrent_id = yield self.core.add_torrent_file_async(filename, filedump, {})
         self.assertTrue(self.core.torrentmanager.remove(torrent_id, False))
 
     @pytest.mark.todo
