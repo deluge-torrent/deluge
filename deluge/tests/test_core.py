@@ -317,3 +317,10 @@ class CoreTestCase(BaseTestCase):
         self.assertEqual(old_value, new_value)
 
         self.core.read_only_config_keys = None
+
+    def test__create_peer_id(self):
+        self.assertEqual(self.core._create_peer_id('2.0.0'), '-DE200s-')
+        self.assertEqual(self.core._create_peer_id('2.0.0.dev15'), '-DE200D-')
+        self.assertEqual(self.core._create_peer_id('2.0.1rc1'), '-DE201r-')
+        self.assertEqual(self.core._create_peer_id('2.11.0b2'), '-DE2B0b-')
+        self.assertEqual(self.core._create_peer_id('2.4.12b2.dev3'), '-DE24CD-')

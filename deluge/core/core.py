@@ -24,7 +24,7 @@ from twisted.web.client import getPage
 import deluge.common
 import deluge.component as component
 from deluge import path_chooser_common
-from deluge._libtorrent import lt, LT_VERSION
+from deluge._libtorrent import LT_VERSION, lt
 from deluge.common import PY2
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.alertmanager import AlertManager
@@ -102,22 +102,19 @@ DELUGE_VER = deluge.common.get_version()
 
 class Core(component.Component):
     def __init__(self, listen_interface=None, read_only_config_keys=None):
-        log.debug('Core init...')
         component.Component.__init__(self, 'Core')
 
-        deluge_version = deluge.common.get_version()
-        split_version = deluge.common.VersionSplit(deluge_version).version
-        while len(split_version) < 4:
-            split_version.append(0)
-
-        deluge_fingerprint = lt.generate_fingerprint('DE', *split_version)
-        user_agent = 'Deluge/{} libtorrent/{}'.format(deluge_version, self.get_libtorrent_version())
-
         # Start the libtorrent session.
-        log.debug('Starting session (fingerprint: %s, user_agent: %s)', deluge_fingerprint, user_agent)
-        settings_pack = {'peer_fingerprint': deluge_fingerprint,
-                         'user_agent': user_agent,
-                         'ignore_resume_timestamps': True}
+        user_agent = 'Deluge/{} libtorrent/{}'.format(DELUGE_VER, LT_VERSION)
+        peer_id = self._create_peer_id(DELUGE_VER)
+        log.debug(
+            'Starting session (peer_id: %s, user_agent: %s)',
+            peer_id, user_agent)
+        settings_pack = {
+            'peer_fingerprint': peer_id,
+            'user_agent': user_agent,
+            'ignore_resume_timestamps': True,
+        }
         self.session = lt.session(settings_pack, flags=0)
 
         # Load the settings, if available.
@@ -217,6 +214,48 @@ class Core(component.Component):
 
         """
         self.session.apply_settings(settings)
+
+    @staticmethod
+    def _create_peer_id(version):
+        """Create a peer_id fingerprint.
+
+        This creates the peer_id and modifies the release char to identify
+        pre-release and development version. Using ``D`` for dev, daily or
+        nightly builds, ``a, b, r`` for pre-releases and ``s`` for
+        stable releases.
+
+        Examples:
+            ``--<client><client><major><minor><micro><release>--``
+            ``--DE200D--`` (development version of 2.0.0)
+            ``--DE200s--`` (stable release of v2.0.0)
+            ``--DE201b--`` (beta pre-release of v2.0.1)
+
+        Args:
+            version (str): The version string in PEP440 dotted notation.
+
+        Returns:
+            str: The formattted peer_id with Deluge prefix e.g. '--DE200s--'
+
+        """
+        split = deluge.common.VersionSplit(version)
+        # Fill list with zeros to length of 4 and use lt to create fingerprint.
+        version_list = split.version + [0] * (4 - len(split.version))
+        peer_id = lt.generate_fingerprint('DE', *version_list)
+
+        def substitute_chr(string, idx, char):
+            """Fast substitute single char in string."""
+            return string[:idx] + char + string[idx + 1:]
+
+        if split.dev:
+            release_chr = 'D'
+        elif split.suffix:
+            # a (alpha), b (beta) or r (release candidate).
+            release_chr = split.suffix[0].lower()
+        else:
+            release_chr = 's'
+        peer_id = substitute_chr(peer_id, 6, release_chr)
+
+        return peer_id
 
     def _save_session_state(self):
         """Saves the libtorrent session state"""
