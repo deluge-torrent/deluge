@@ -675,8 +675,14 @@ class TorrentManager(component.Component):
                 magnet = None
 
             try:
-                d = self.add(torrent_info=torrent_info, state=t_state, options=options, save_state=False,
-                             magnet=magnet, resume_data=resume_data.get(t_state.torrent_id))
+                d = self.add_async(
+                    torrent_info=torrent_info,
+                    state=t_state,
+                    options=options,
+                    save_state=False,
+                    magnet=magnet,
+                    resume_data=resume_data.get(t_state.torrent_id),
+                )
             except AddTorrentError as ex:
                 log.warn('Error when adding torrent "%s" to session: %s', t_state.torrent_id, ex)
             else:
