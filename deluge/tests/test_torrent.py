@@ -121,6 +121,7 @@ class TorrentTestCase(BaseTestCase):
         torrent_id = self.core.add_torrent_file(filename, filedump, options)
         torrent = self.core.torrentmanager.torrents[torrent_id]
 
+        time.sleep(0.5)  # Delay to wait for lt to finish check on Travis.
         self.assert_state(torrent, 'Seeding')
 
         # Force an error by reading (non-existant) piece from disk
