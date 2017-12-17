@@ -360,8 +360,8 @@ class Build(_build):
         # Run all sub-commands (at least those that need to be run).
         _build.run(self)
         try:
-            from deluge._libtorrent import lt
-            print('Info: Found libtorrent ({}) installed.'.format(lt.__version__))
+            from deluge._libtorrent import LT_VERSION
+            print('Info: Found libtorrent ({}) installed.'.format(LT_VERSION))
         except ImportError as ex:
             print('Warning: libtorrent (libtorrent-rasterbar) not found: %s' % ex)
 

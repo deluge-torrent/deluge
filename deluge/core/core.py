@@ -24,7 +24,7 @@ from twisted.web.client import getPage
 import deluge.common
 import deluge.component as component
 from deluge import path_chooser_common
-from deluge._libtorrent import lt
+from deluge._libtorrent import lt, LT_VERSION
 from deluge.common import PY2
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.alertmanager import AlertManager
@@ -96,6 +96,8 @@ SESSION_RATES_MAPPING = {
     'download_rate': 'net.recv_bytes',
     'upload_rate': 'net.sent_bytes',
 }
+
+DELUGE_VER = deluge.common.get_version()
 
 
 class Core(component.Component):
@@ -1058,7 +1060,7 @@ class Core(component.Component):
         :rtype: string
 
         """
-        return lt.__version__
+        return LT_VERSION
 
     @export
     def get_completion_paths(self, args):

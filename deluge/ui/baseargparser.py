@@ -89,8 +89,8 @@ argparse.ArgumentParser.set_default_subparser = set_default_subparser
 def get_version():
     version_str = '%s\n' % (common.get_version())
     try:
-        from deluge._libtorrent import lt
-        version_str += 'libtorrent: %s\n' % lt.__version__
+        from deluge._libtorrent import LT_VERSION
+        version_str += 'libtorrent: %s\n' % LT_VERSION
     except ImportError:
         pass
     version_str += 'Python: %s\n' % platform.python_version()
