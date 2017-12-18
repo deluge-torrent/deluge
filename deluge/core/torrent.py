@@ -168,10 +168,13 @@ class TorrentOptions(dict):
             'pre_allocate_storage': 'pre_allocate_storage',
             'prioritize_first_last_pieces': 'prioritize_first_last_pieces',
             'remove_at_ratio': 'remove_seed_at_ratio',
+            'remove_at_time': 'remove_seed_at_time',
             'sequential_download': 'sequential_download',
             'shared': 'shared',
             'stop_at_ratio': 'stop_seed_at_ratio',
+            'stop_at_time': 'stop_seed_at_time',
             'stop_ratio': 'stop_seed_ratio',
+            'stop_time': 'stop_seed_time',
             'super_seeding': 'super_seeding'
         }
         for opt_k, conf_k in options_conf_map.items():
