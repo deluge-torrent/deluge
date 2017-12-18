@@ -303,6 +303,8 @@ class GtkUI(object):
     def shutdown(self, *args, **kwargs):
         log.debug("gtkui shutting down..")
 
+        self.mainwindow.remove_shutdown_block()
+
         component.stop()
 
         # Process any pending gtk events since the mainloop has been quit

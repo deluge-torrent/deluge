@@ -84,6 +84,10 @@ class MainWindow(component.Component):
         # UI when it is minimized.
         self.is_minimized = False
 
+        # Where to store the original WNDPROC value
+        self.win32_prev_wndproc = None
+        self.win32_shutdown_block = None
+
         self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL, [('text/uri-list', 0,
             80)], gtk.gdk.ACTION_COPY)
 
@@ -114,19 +118,75 @@ class MainWindow(component.Component):
             self.window.realize()
 
         if deluge.common.windows_check():
-            # Handle win32 WM_QUERYENDSESSION message so GUI can be shutdown cleanly.
-            from win32gui import CallWindowProc, SetWindowLong
-            from win32con import GWL_WNDPROC, WM_QUERYENDSESSION
+            # Handle win32 WM_QUERYENDSESSION, WM_ENDSESSION messages so GUI can be shutdown cleanly.
+            from win32gui import SetWindowLong
+            from win32con import GWL_WNDPROC
 
-            def on_wndproc(hwnd, msg, wparam, lparam):
-                # log.debug("%s, %s, %s", msg, wParam, lParam)
-                if msg == WM_QUERYENDSESSION:
-                    reactor.stop()
-                # Pass all messages on to the original WndProc.
-                return CallWindowProc(old_wndproc, hwnd, msg, wparam, lparam)
+            # Set WndProc to self._on_wndproc and store old value.
+            self.win32_prev_wndproc = SetWindowLong(self.window.window.handle, GWL_WNDPROC, self._on_wndproc)
 
-            # Set WndProc to above function and store old value.
-            old_wndproc = SetWindowLong(self.window.window.handle, GWL_WNDPROC, on_wndproc)
+    def _on_wndproc(self, hwnd, msg, wparam, lparam):
+        """Handles all messages sent to the window from Windows OS
+
+        Args:
+            hwnd (ctypes.wintypes.HWND): Handle to window
+            msg (ctypes.wintypes.UINT): Message identifier. We handle WM_ENDSESSION and WM_QUERYENDSESSION.
+            wparam (ctypes.wintypes.WPARAM): End-session option. If True with message WM_ENDSESSION,
+                Deluge GTK will shutdown.
+            lparam (ctypes.wintypes.LPARAM): Logoff option
+
+        Returns:
+            Bool: If msg is WM_QUERYENDSESSION, False to indicate to prevent shutdown. If msg is WM_ENDSESSION,
+                False to indicate we handled the massage. Else, the original WndProc return value.
+        """
+        import time
+        from win32gui import CallWindowProc
+        from win32con import WM_ENDSESSION, WM_QUERYENDSESSION
+        from ctypes import windll, c_wchar_p
+
+        if msg == WM_QUERYENDSESSION:
+            log.debug("Received WM_QUERYENDSESSION, blocking shutdown")
+            log.info("Preparing to shutdown Deluge")
+            retval = windll.user32.ShutdownBlockReasonCreate(hwnd, c_wchar_p("Shutting down Deluge"))
+            log.debug("Shutdown block created: %s", retval != 0)
+            if retval != 0:
+                self.win32_shutdown_block = hwnd
+                if client.connected() and client.is_localhost():
+                    client.register_event_handler("SessionPausedEvent", self.remove_shutdown_block)
+                    # save resume data and pause session
+                    client.core.torrentmanager.save_resume_data()
+                    client.core.torrentmanager.save_resume_data_file()
+                    client.core.pause_all_torrents()
+                else:
+                    self.remove_shutdown_block()
+            return True
+        elif msg == WM_ENDSESSION:
+            log.debug("Received WM_ENDSESSION, checking status")
+            if not wparam:
+                log.info("Shutdown cancelled, resuming normal operation")
+                self.remove_shutdown_block()
+                if client.connected():
+                    client.core.resume_all_torrents()
+                    client.deregister_event_handler("SessionPausedEvent", self.remove_shutdown_block)
+            else:
+                log.info("Shutting down Deluge GTK")
+                # wait for block to be destroyed
+                while gtk.events_pending() and self.win32_shutdown_block:
+                    gtk.main_iteration()
+                self._quit_gtkui(False)
+            return False
+        else:
+            # Pass all messages on to the original WndProc.
+            return CallWindowProc(self.win32_prev_wndproc, hwnd, msg, wparam, lparam)
+
+    def remove_shutdown_block(self):
+        """Removes the blocking shutdown reason for Windows"""
+        from ctypes import windll
+        if self.win32_shutdown_block:
+            retval = windll.user32.ShutdownBlockReasonDestroy(self.win32_shutdown_block)
+            if retval != 0:
+                self.win32_shutdown_block = None
+            log.debug("Shutdown block destroyed: %s", retval != 0)
 
     def show(self):
         try:
@@ -198,41 +258,49 @@ class MainWindow(component.Component):
         :param shutdown: whether or not to shutdown the daemon as well
         :type shutdown: boolean
         """
-        def quit_gtkui():
-            def shutdown_daemon(result):
-                return client.daemon.shutdown()
-
-            def disconnect_client(result):
-                return client.disconnect()
-
-            def stop_reactor(result):
-                try:
-                    reactor.stop()
-                except ReactorNotRunning:
-                    log.debug("Attempted to stop the reactor but it is not running...")
-
-            def log_failure(failure, action):
-                log.error("Encountered error attempting to %s: %s" % \
-                          (action, failure.getErrorMessage()))
-
-            d = defer.succeed(None)
-            if shutdown:
-                d.addCallback(shutdown_daemon)
-                d.addErrback(log_failure, "shutdown daemon")
-            if not client.is_classicmode() and client.connected():
-                d.addCallback(disconnect_client)
-                d.addErrback(log_failure, "disconnect client")
-            d.addBoth(stop_reactor)
 
         if self.config["lock_tray"] and not self.visible():
             dialog = PasswordDialog(_("Enter your password to Quit Deluge..."))
             def on_dialog_response(response_id):
                 if response_id == gtk.RESPONSE_OK:
                     if self.config["tray_password"] == sha(dialog.get_password()).hexdigest():
-                        quit_gtkui()
+                        self._quit_gtkui(shutdown)
             dialog.run().addCallback(on_dialog_response)
         else:
-            quit_gtkui()
+            self._quit_gtkui(shutdown)
+
+    @staticmethod
+    def _quit_gtkui(shutdown):
+        """
+        Quits the GtkUI
+
+        :param shutdown: whether or not to shutdown the daemon as well
+        :type shutdown: boolean
+        """
+        def shutdown_daemon(result):
+            return client.daemon.shutdown()
+
+        def disconnect_client(result):
+            return client.disconnect()
+
+        def stop_reactor(result):
+            try:
+                reactor.stop()
+            except ReactorNotRunning:
+                log.debug("Attempted to stop the reactor but it is not running...")
+
+        def log_failure(failure, action):
+            log.error("Encountered error attempting to %s: %s" % \
+                      (action, failure.getErrorMessage()))
+
+        d = defer.succeed(None)
+        if shutdown:
+            d.addCallback(shutdown_daemon)
+            d.addErrback(log_failure, "shutdown daemon")
+        if not client.is_classicmode() and client.connected():
+            d.addCallback(disconnect_client)
+            d.addErrback(log_failure, "disconnect client")
+        d.addBoth(stop_reactor)
 
     def load_window_state(self):
         x = self.config["window_x_pos"]
