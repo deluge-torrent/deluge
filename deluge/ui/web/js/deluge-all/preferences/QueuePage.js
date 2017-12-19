@@ -196,10 +196,73 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
             }]
         });
         om.bind('remove_seed_at_ratio', this.removeAtRatio);
+
+        fieldset = this.add({
+            xtype: 'fieldset',
+            border: false,
+            autoHeight: true,
+            style: 'padding-top: 5px; margin-bottom: 0px',
+            title: _('Seed Time Reached'),
+
+            layout: 'table',
+            layoutConfig: {columns: 2},
+            labelWidth: 0,
+            defaultType: 'checkbox',
+
+            defaults: {
+                fieldLabel: '',
+                labelSeparator: ''
+            }
+        });
+        this.stopAtTime = fieldset.add({
+            name: 'stop_seed_at_seed_time',
+            boxLabel: _('Seed Time:')
+        });
+        this.stopAtTime.on('check', this.onStopSeedTimeCheck, this);
+        om.bind('stop_seed_at_seed_time', this.stopAtTime);
+
+        this.stopTime = fieldset.add({
+            xtype: 'spinnerfield',
+            name: 'stop_seed_time',
+            ctCls: 'x-deluge-indent-checkbox',
+            disabled: true,
+            value: '2',
+            width: 60,
+            incrementValue: 1,
+            minValue: 1,
+            maxValue: 99999,
+            alternateIncrementValue: 7,
+            decimalPrecision: 0
+        });
+        om.bind('stop_seed_time', this.stopTime);
+
+        this.removeAtTime = fieldset.add({
+            xtype: 'radiogroup',
+            columns: 1,
+            colspan: 2,
+            disabled: true,
+            style: "margin-left: 10px",
+            items: [{
+                boxLabel: _('Pause torrent'),
+                name: 'at_time',
+                inputValue: false,
+                checked: true
+            }, {
+                boxLabel: _('Remove torrent'),
+                name: 'at_time',
+                inputValue: true
+            }]
+        });
+        om.bind('remove_seed_at_seed_time', this.removeAtTime);
     },
 
     onStopRatioCheck: function(e, checked) {
         this.stopRatio.setDisabled(!checked);
         this.removeAtRatio.setDisabled(!checked);
+    },
+
+    onStopSeedTimeCheck: function(e, checked) {
+        this.stopTime.setDisabled(!checked);
+        this.removeAtTime.setDisabled(!checked);
     }
 });

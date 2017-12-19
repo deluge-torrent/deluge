@@ -32,6 +32,9 @@ torrent_options = {
     'stop_at_ratio': bool,
     'stop_ratio': float,
     'remove_at_ratio': bool,
+    'stop_at_seed_time': bool,
+    'stop_seed_time': int,
+    'remove_at_seed_time': bool,
     'move_completed': bool,
     'move_completed_path': str
 }

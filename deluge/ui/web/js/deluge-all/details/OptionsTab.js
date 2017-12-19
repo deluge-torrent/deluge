@@ -233,6 +233,44 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             colspan: 2
         });
 
+        this.fields.stop_at_seed_time = this.fieldsets.queue.add({
+            fieldLabel: '',
+            labelSeparator: '',
+            id: 'stop_at_seed_time',
+            width: 120,
+            boxLabel: _('Stop seed after (days):'),
+            handler: this.onStopSeedTimeChecked,
+            scope: this
+        });
+
+        this.fields.stop_seed_time = this.fieldsets.queue.add({
+            xtype: 'spinnerfield',
+            id: 'stop_seed_time',
+            name: 'stop_seed_time',
+            disabled: true,
+            width: 50,
+            value: 2.0,
+            strategy: {
+                xtype: 'number',
+                minValue: 1,
+                maxValue: 99999,
+                incrementValue: 1,
+                alternateIncrementValue: 7,
+                decimalPrecision: 0
+            }
+        });
+
+        this.fields.remove_at_seed_time = this.fieldsets.queue.add({
+            fieldLabel: '',
+            labelSeparator: '',
+            id: 'remove_at_seed_time',
+            ctCls: 'x-deluge-indent-checkbox',
+            bodyStyle: 'padding-left: 10px',
+            boxLabel: _('Remove'),
+            disabled: true,
+            colspan: 2
+        });
+
         this.fields.move_completed = this.fieldsets.queue.add({
             fieldLabel: '',
             labelSeparator: '',
@@ -391,6 +429,11 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
         this.fields.stop_ratio.setDisabled(!checked);
     },
 
+    onStopSeedTimeChecked: function(checkbox, checked) {
+        this.fields.remove_at_seed_time.setDisabled(!checked);
+        this.fields.stop_seed_time.setDisabled(!checked);
+    },
+
     onRequestComplete: function(torrent, options) {
         this.fields['private'].setValue(torrent['private']);
         this.fields['private'].setDisabled(true);
@@ -401,6 +444,9 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
         var stop_at_ratio = this.optionsManager.get('stop_at_ratio');
         this.fields.remove_at_ratio.setDisabled(!stop_at_ratio);
         this.fields.stop_ratio.setDisabled(!stop_at_ratio);
+        var stop_at_seed_time = this.optionsManager.get('stop_at_seed_time');
+        this.fields.remove_at_seed_time.setDisabled(!stop_at_seed_time);
+        this.fields.stop_seed_time.setDisabled(!stop_at_seed_time);
         this.fields.move_completed_path.setDisabled(!this.optionsManager.get('move_completed'));
     }
 });
