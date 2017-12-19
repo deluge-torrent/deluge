@@ -240,7 +240,7 @@ class Core(component.Component):
         split = deluge.common.VersionSplit(version)
         # Fill list with zeros to length of 4 and use lt to create fingerprint.
         version_list = split.version + [0] * (4 - len(split.version))
-        peer_id = lt.generate_fingerprint('DE', *version_list)
+        peer_id = ''
 
         def substitute_chr(string, idx, char):
             """Fast substitute single char in string."""

@@ -68,6 +68,9 @@ class TorrentState:  # pylint: disable=old-style-class
                  stop_ratio=2.00,
                  stop_at_ratio=False,
                  remove_at_ratio=False,
+                 stop_seed_time=2,
+                 stop_at_seed_time=False,
+                 remove_at_seed_time=False,
                  move_completed=False,
                  move_completed_path=None,
                  magnet=None,
@@ -228,19 +231,18 @@ class TorrentManager(component.Component):
 
     def update(self):
         for torrent_id, torrent in self.torrents.items():
-            # XXX: Should the state check be those that _can_ be stopped at ratio
-            if torrent.options['stop_at_ratio'] and torrent.state not in (
-                    'Checking', 'Allocating', 'Paused', 'Queued'):
-                # If the global setting is set, but the per-torrent isn't...
-                # Just skip to the next torrent.
-                # This is so that a user can turn-off the stop at ratio option on a per-torrent basis
-                if not torrent.options['stop_at_ratio']:
-                    continue
-                if torrent.get_ratio() >= torrent.options['stop_ratio'] and torrent.is_finished:
+            if torrent.is_finished and torrent.state not in ('Checking', 'Allocating'):
+                if torrent.options['stop_at_ratio']and torrent.get_ratio() >= torrent.options['stop_ratio']:
                     if torrent.options['remove_at_ratio']:
                         self.remove(torrent_id)
-                        break
-                    if not torrent.handle.status().paused:
+                    else:
+                        torrent.pause()
+                stop_seed_time = torrent.options['stop_seed_time'] * 60
+                if torrent.options['stop_at_seed_time']and torrent.status.seeding_time() >= stop_seed_time:
+                    log.info('Time excedded %s', torrent)
+                    if torrent.options['remove_at_seed_time']:
+                        self.remove(torrent_id)
+                    else:
                         torrent.pause()
 
     def __getitem__(self, torrent_id):
@@ -734,6 +736,9 @@ class TorrentManager(component.Component):
                 torrent.options['stop_ratio'],
                 torrent.options['stop_at_ratio'],
                 torrent.options['remove_at_ratio'],
+                torrent.options['stop_seed_time'],
+                torrent.options['stop_at_seed_time'],
+                torrent.options['remove_at_seed_time'],
                 torrent.options['move_completed'],
                 torrent.options['move_completed_path'],
                 torrent.magnet,

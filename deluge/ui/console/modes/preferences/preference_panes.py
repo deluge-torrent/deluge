@@ -16,7 +16,7 @@ from deluge.decorators import overrides
 from deluge.ui.client import client
 from deluge.ui.common import DISK_CACHE_KEYS
 from deluge.ui.console.widgets import BaseInputPane, BaseWindow
-from deluge.ui.console.widgets.fields import FloatSpinInput, TextInput
+from deluge.ui.console.widgets.fields import FloatSpinInput, IntSpinInput, TextInput
 from deluge.ui.console.widgets.popup import PopupsHandler
 
 log = logging.getLogger(__name__)
@@ -365,6 +365,12 @@ class QueuePane(BasePreferencePane):
                                    core_conf['stop_seed_at_ratio'])
         self.add_checked_input('remove_seed_at_ratio', _('Remove torrent (Unchecked pauses torrent)'),
                                core_conf['remove_seed_at_ratio'])
+        seedtime = IntSpinInput(self.mode, 'stop_seed_time', '', self.move, core_conf['stop_seed_time'],
+                                   inc_amt=1, min_val=1, max_val=100.0)
+        self.add_checkedplus_input('stop_seed_at_seed_time', '%s:' % _('Seed Time Reached'), seedtime,
+                                   core_conf['stop_seed_at_seed_time'])
+        self.add_checked_input('remove_seed_at_seed_time', _('Remove torrent (Unchecked pauses torrent)'),
+                               core_conf['remove_seed_at_seed_time'])
 
 
 class ProxyPane(BasePreferencePane):

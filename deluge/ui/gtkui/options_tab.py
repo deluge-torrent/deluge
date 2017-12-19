@@ -37,6 +37,9 @@ class OptionsTab(Tab):
         self.add_tab_widget('chk_stop_at_ratio', 'active', ['stop_at_ratio'])
         self.add_tab_widget('chk_remove_at_ratio', 'active', ['remove_at_ratio'])
         self.add_tab_widget('spin_stop_ratio', 'value', ['stop_ratio'])
+        self.add_tab_widget('chk_stop_at_seed_time', 'active', ['stop_at_seed_time'])
+        self.add_tab_widget('chk_remove_at_seed_time', 'active', ['remove_at_seed_time'])
+        self.add_tab_widget('spin_stop_seed_time', 'value', ['stop_seed_time'])
         self.add_tab_widget('chk_move_completed', 'active', ['move_completed'])
         self.add_tab_widget('chk_shared', 'active', ['shared'])
         self.add_tab_widget('summary_owner', 'text', ['owner'])
@@ -144,6 +147,8 @@ class OptionsTab(Tab):
             # Update sensitivity of widgets.
             self.tab_widgets['spin_stop_ratio'].obj.set_sensitive(new_status['stop_at_ratio'])
             self.tab_widgets['chk_remove_at_ratio'].obj.set_sensitive(new_status['stop_at_ratio'])
+            self.tab_widgets['spin_stop_seed_time'].obj.set_sensitive(new_status['stop_at_seed_time'])
+            self.tab_widgets['chk_remove_at_seed_time'].obj.set_sensitive(new_status['stop_at_seed_time'])
 
             # Ensure apply button sensitivity is set False.
             self.button_apply.set_sensitive(False)
@@ -175,6 +180,11 @@ class OptionsTab(Tab):
     def on_chk_stop_at_ratio_toggled(self, widget):
         self.tab_widgets['spin_stop_ratio'].obj.set_sensitive(widget.get_active())
         self.tab_widgets['chk_remove_at_ratio'].obj.set_sensitive(widget.get_active())
+        self.on_chk_toggled(widget)
+
+    def on_chk_stop_at_seed_time_toggled(self, widget):
+        self.tab_widgets['spin_stop_seed_time'].obj.set_sensitive(widget.get_active())
+        self.tab_widgets['chk_remove_at_seed_time'].obj.set_sensitive(widget.get_active())
         self.on_chk_toggled(widget)
 
     def on_chk_toggled(self, widget):

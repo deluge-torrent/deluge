@@ -145,11 +145,14 @@ class TorrentOptions(dict):
         pre_allocate_storage (bool): When adding the torrent should all files be pre-allocated.
         prioritize_first_last_pieces (bool): Prioritize the first and last pieces in the torrent.
         remove_at_ratio (bool): Remove the torrent when it has reached the stop_ratio.
+        remove_at_seed_time (bool): Remove the torrent when it has reached the stop_seed_time.
         seed_mode (bool): Assume that all files are present for this torrent (Only used when adding a torent).
         sequential_download (bool): Download the pieces of the torrent in order.
         shared (bool): Enable the torrent to be seen by other Deluge users.
         stop_at_ratio (bool): Stop the torrent when it has reached stop_ratio.
+        stop_at_seed_time (bool): Stop the torrent when it has reached stop_seed_time.
         stop_ratio (float): The seeding ratio to stop (or remove) the torrent at.
+        stop_seed_time (int): The seeding time in days to stop (or remove) the torrent at.
         super_seeding (bool): Enable super seeding/initial seeding.
     """
     def __init__(self):
@@ -168,10 +171,13 @@ class TorrentOptions(dict):
             'pre_allocate_storage': 'pre_allocate_storage',
             'prioritize_first_last_pieces': 'prioritize_first_last_pieces',
             'remove_at_ratio': 'remove_seed_at_ratio',
+            'remove_at_seed_time': 'remove_seed_at_seed_time',
             'sequential_download': 'sequential_download',
             'shared': 'shared',
             'stop_at_ratio': 'stop_seed_at_ratio',
+            'stop_at_seed_time': 'stop_seed_at_seed_time',
             'stop_ratio': 'stop_seed_ratio',
+            'stop_seed_time': 'stop_seed_time',
             'super_seeding': 'super_seeding'
         }
         for opt_k, conf_k in options_conf_map.items():
@@ -469,6 +475,30 @@ class Torrent(object):
             remove_at_ratio (bool): Remove the torrent.
         """
         self.options['remove_at_ratio'] = remove_at_ratio
+
+    def set_stop_seed_time(self, stop_seed_time):
+        """The seeding time days to stop (or remove) the torrent at.
+
+        Args:
+            stop_seed_time (int): The seeding time in days.
+        """
+        self.options['stop_seed_time'] = stop_seed_time
+
+    def set_stop_at_seed_time(self, stop_at_seed_time):
+        """Stop the torrent when it has reached stop_seed_time.
+
+        Args:
+            stop_at_seed_time (bool): Stop the torrent.
+        """
+        self.options['stop_at_seed_time'] = stop_at_seed_time
+
+    def set_remove_at_seed_time(self, remove_at_seed_time):
+        """Remove the torrent when it has reached the stop_seed_time.
+
+        Args:
+            remove_at_seed_time (bool): Remove the torrent.
+        """
+        self.options['remove_at_seed_time'] = remove_at_seed_time
 
     def set_move_completed(self, move_completed):
         """Set whether to move the torrent when downloading has finished.
@@ -1016,6 +1046,7 @@ class Torrent(object):
             'progress': self.get_progress,
             'shared': lambda: self.options['shared'],
             'remove_at_ratio': lambda: self.options['remove_at_ratio'],
+            'remove_at_seed_time': lambda: self.options['remove_at_seed_time'],
             'save_path': lambda: self.options['download_location'],  # Deprecated: Use download_location
             'download_location': lambda: self.options['download_location'],
             'seeds_peers_ratio': lambda: -1.0 if self.status.num_incomplete == 0 else (  # Use -1.0 to signify infinity
@@ -1023,7 +1054,9 @@ class Torrent(object):
             'seed_rank': lambda: self.status.seed_rank,
             'state': lambda: self.state,
             'stop_at_ratio': lambda: self.options['stop_at_ratio'],
+            'stop_at_seed_time': lambda: self.options['stop_at_seed_time'],
             'stop_ratio': lambda: self.options['stop_ratio'],
+            'stop_seed_time': lambda: self.options['stop_seed_time'],
             'time_added': lambda: self.status.added_time,
             'total_done': lambda: self.status.total_done,
             'total_payload_download': lambda: self.status.total_payload_download,

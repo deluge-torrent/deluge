@@ -122,7 +122,7 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 
     title: _('Label Options'),
     width:  325,
-    height: 240,
+    height: 340,
 
     initComponent: function() {
         Deluge.ux.LabelOptionsWindow.superclass.initComponent.call(this);
@@ -135,7 +135,7 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 
         this.tabs = this.form.add({
             xtype: 'tabpanel',
-            height: 175,
+            height: 275,
             border: false,
             items: [{
                     title: _('Maximum'),
@@ -237,6 +237,22 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
                                         }, {
                                             boxLabel: _('Remove at ratio'),
                                             name: 'remove_at_ratio',
+                                            disabled: true
+                                        }, {
+                                            boxLabel: _('Stop after seeding (days):'),
+                                            name: 'stop_at_seed_time',
+                                            disabled: true
+                                        }, {
+                                            xtype: 'spinnerfield',
+                                            name: 'stop_seed_time',
+                                            width: 60,
+                                            decimalPrecision: 0,
+                                            incrementValue: 1,
+                                            style: 'position: relative; left: 100px',
+                                            disabled: true
+                                        }, {
+                                            boxLabel: _('Remove after seeding (days)'),
+                                            name: 'remove_at_seed_time',
                                             disabled: true
                                         }]
                                 }]
