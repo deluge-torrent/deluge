@@ -203,6 +203,9 @@ class Core(CorePluginBase):
             torrent.set_stop_at_ratio(options['stop_at_ratio'])
             torrent.set_stop_ratio(options['stop_ratio'])
             torrent.set_remove_at_ratio(options['remove_at_ratio'])
+            torrent.set_stop_at_seed_time(options['stop_at_seed_time'])
+            torrent.set_stop_seed_time(options['stop_seed_time'])
+            torrent.set_remove_at_seed_time(options['remove_at_seed_time'])
 
         if options['apply_move_completed']:
             torrent.set_options(
@@ -228,6 +231,9 @@ class Core(CorePluginBase):
             torrent.set_stop_at_ratio(self.core_cfg.config['stop_seed_at_ratio'])
             torrent.set_stop_ratio(self.core_cfg.config['stop_seed_ratio'])
             torrent.set_remove_at_ratio(self.core_cfg.config['remove_seed_at_ratio'])
+            torrent.set_stop_at_seed_time(self.core_cfg.config['stop_seed_at_seed_time'])
+            torrent.set_stop_seed_time(self.core_cfg.config['stop_seed_time'])
+            torrent.set_remove_at_seed_time(self.core_cfg.config['remove_seed_at_seed_time'])
 
         if options['apply_move_completed']:
             torrent.set_options(
