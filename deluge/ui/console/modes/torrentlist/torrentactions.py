@@ -28,7 +28,8 @@ log = logging.getLogger(__name__)
 torrent_options = [
     'max_download_speed', 'max_upload_speed', 'max_connections', 'max_upload_slots',
     'prioritize_first_last', 'sequential_download', 'is_auto_managed', 'stop_at_ratio',
-    'stop_ratio', 'remove_at_ratio', 'move_completed', 'move_completed_path']
+    'stop_ratio', 'remove_at_ratio', 'stop_at_time', 'stop_time', 'remove_at_time',
+    'move_completed', 'move_completed_path']
 
 
 def action_error(error, mode):

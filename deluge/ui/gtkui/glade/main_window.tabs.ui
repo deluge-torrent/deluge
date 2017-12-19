@@ -36,6 +36,12 @@
     <property name="page_increment">10</property>
     <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
   </object>
+  <object class="GtkAdjustment" id="spin_stop_time_adjustment">
+    <property name="upper">999999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">7</property>
+    <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
+  </object>
   <object class="GtkWindow" id="tabs">
     <property name="can_focus">False</property>
     <child>
@@ -1605,6 +1611,72 @@
                                   </packing>
                                 </child>
                                 <child>
+                                  <object class="GtkCheckButton" id="chk_stop_at_time">
+                                    <property name="label" translatable="yes">Stop seed after (days):</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                    <signal name="toggled" handler="on_chk_stop_at_time_toggled" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">4</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkAlignment" id="alignment_spin_stop_time">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="left_padding">10</property>
+                                    <property name="right_padding">10</property>
+                                    <child>
+                                      <object class="GtkSpinButton" id="spin_stop_time">
+                                        <property name="width_request">50</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="invisible_char">•</property>
+                                        <property name="invisible_char_set">True</property>
+                                        <property name="primary_icon_activatable">False</property>
+                                        <property name="secondary_icon_activatable">False</property>
+                                        <property name="primary_icon_sensitive">True</property>
+                                        <property name="secondary_icon_sensitive">True</property>
+                                        <property name="adjustment">spin_stop_time_adjustment</property>
+                                        <property name="digits">0</property>
+                                        <property name="numeric">True</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">5</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkAlignment" id="alignment_remove_at_time">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="left_padding">10</property>
+                                    <child>
+                                      <object class="GtkCheckButton" id="chk_remove_at_time">
+                                        <property name="label" translatable="yes">Remove after (days)</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_chk_toggled" swapped="no"/>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">6</property>
+                                  </packing>
+                                </child>
+                                <child>
                                   <object class="GtkHSeparator" id="hseparator1">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
@@ -1613,7 +1685,7 @@
                                     <property name="expand">False</property>
                                     <property name="fill">True</property>
                                     <property name="padding">7</property>
-                                    <property name="position">4</property>
+                                    <property name="position">7</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -1637,7 +1709,7 @@
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">True</property>
-                                    <property name="position">5</property>
+                                    <property name="position">8</property>
                                   </packing>
                                 </child>
                               </object>

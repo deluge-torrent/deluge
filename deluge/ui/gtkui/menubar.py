@@ -94,6 +94,17 @@ class MenuBar(component.Component):
         submenu.show_all()
         self.builder.get_object('menuitem_stop_seed_at_ratio').set_submenu(submenu)
 
+        submenu = gtk.Menu()
+        item = gtk.MenuItem(_('Disable'))
+        item.connect('activate', self.on_menuitem_set_stop_seed_at_time_disable)
+        submenu.append(item)
+        item = gtk.MenuItem(_('Enable...'))
+        item.set_name('menuitem_stop_seed_at_time')
+        item.connect('activate', self.on_menuitem_set_other)
+        submenu.append(item)
+        submenu.show_all()
+        self.builder.get_object('menuitem_stop_seed_at_time').set_submenu(submenu)
+
         self.torrentmenu = self.builder.get_object('torrent_menu')
         self.menu_torrent = self.main_builder.get_object('menu_torrent')
 
@@ -384,7 +395,8 @@ class MenuBar(component.Component):
             'menuitem_up_speed': ['max_upload_speed', 'max_upload_speed'],
             'menuitem_max_connections': ['max_connections', 'max_connections_global'],
             'menuitem_upload_slots': ['max_upload_slots', 'max_upload_slots_global'],
-            'menuitem_stop_seed_at_ratio': ['stop_ratio', 'stop_seed_ratio']
+            'menuitem_stop_seed_at_ratio': ['stop_ratio', 'stop_seed_ratio'],
+            'menuitem_stop_seed_at_time': ['stop_time', 'stop_seed_time']
         }
 
         other_dialog_info = {
@@ -396,7 +408,8 @@ class MenuBar(component.Component):
                                          '', gtk.STOCK_NETWORK],
             'menuitem_upload_slots': [_('Peer Upload Slots'), _('Set the maximum upload slots'),
                                       '', gtk.STOCK_SORT_ASCENDING],
-            'menuitem_stop_seed_at_ratio': [_('Stop Seed At Ratio'), 'Stop torrent seeding at ratio', '', None]
+            'menuitem_stop_seed_at_ratio': [_('Stop Seed At Ratio'), 'Stop torrent seeding at ratio', '', None],
+            'menuitem_stop_seed_at_time': [_('Stop Seed After (days)'), 'Stop torrent seeding after', 'days', None]
         }
 
         core_key = status_map[widget.get_name()][0]
@@ -415,6 +428,8 @@ class MenuBar(component.Component):
                     options = {core_key: value}
                     if core_key == 'stop_ratio':
                         options['stop_at_ratio'] = True
+                    elif core_key == 'stop_time':
+                        options['stop_at_time'] = True
                     client.core.set_torrent_options(torrent_ids, options)
 
             dialog = OtherDialog(*other_dialog)
@@ -439,6 +454,10 @@ class MenuBar(component.Component):
     def on_menuitem_set_stop_seed_at_ratio_disable(self, widget):
         client.core.set_torrent_options(component.get('TorrentView').get_selected_torrents(),
                                         {'stop_at_ratio': False})
+
+    def on_menuitem_set_stop_seed_at_time_disable(self, widget):
+        client.core.set_torrent_options(component.get('TorrentView').get_selected_torrents(),
+                                        {'stop_at_time': False})
 
     def on_menuitem_sidebar_zero_toggled(self, widget):
         self.config['sidebar_show_zero'] = widget.get_active()

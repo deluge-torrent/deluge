@@ -81,6 +81,15 @@
       </object>
     </child>
     <child>
+      <object class="GtkMenuItem" id="menuitem_stop_seed_at_time">
+        <property name="use_action_appearance">False</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Stop seed after</property>
+        <property name="use_underline">False</property>
+      </object>
+    </child>
+    <child>
       <object class="GtkMenuItem" id="menuitem_auto_managed">
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>

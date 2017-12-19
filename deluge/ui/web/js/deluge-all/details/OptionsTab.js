@@ -238,7 +238,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             labelSeparator: '',
             id: 'stop_at_time',
             width: 120,
-            boxLabel: _('Stop seed at time:'),
+            boxLabel: _('Stop seed after (days):'),
             handler: this.onStopTimeChecked,
             scope: this
         });
@@ -266,7 +266,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             id: 'remove_at_time',
             ctCls: 'x-deluge-indent-checkbox',
             bodyStyle: 'padding-left: 10px',
-            boxLabel: _('Remove at time'),
+            boxLabel: _('Remove'),
             disabled: true,
             colspan: 2
         });

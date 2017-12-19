@@ -121,6 +121,12 @@ TORRENT_DATA_FIELD = {
         {'name': _('Stop Ratio'), 'status': ['stop_ratio']},
     'remove_at_ratio':
         {'name': _('Remove At Ratio'), 'status': ['remove_at_ratio']},
+    'stop_at_time':
+        {'name': _('Stop At Time'), 'status': ['stop_at_time']},
+    'stop_time':
+        {'name': _('Stop Time'), 'status': ['stop_time']},
+    'remove_at_time':
+        {'name': _('Remove At Time'), 'status': ['remove_at_time']},
     'move_completed':
         {'name': _('Move On Completed'), 'status': ['move_completed']},
     'move_completed_path':

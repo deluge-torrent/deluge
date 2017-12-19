@@ -75,14 +75,14 @@ Deluge.Keys = {
     /**
      * Keys used in the options tab of the statistics panel.
      * <pre>['max_download_speed', 'max_upload_speed', 'max_connections', 'max_upload_slots',
-     *  'is_auto_managed', 'stop_at_ratio', 'stop_ratio', 'remove_at_ratio', 'private',
-     *  'prioritize_first_last']</pre>
+     *  'is_auto_managed', 'stop_at_ratio', 'stop_ratio', 'remove_at_ratio', 'stop_at_time', 'stop_time',
+     *  'remove_at_time', 'private', 'prioritize_first_last']</pre>
      */
     Options: [
         'max_download_speed', 'max_upload_speed', 'max_connections',
         'max_upload_slots','is_auto_managed', 'stop_at_ratio', 'stop_ratio',
-        'remove_at_ratio', 'private', 'prioritize_first_last',
-        'move_completed', 'move_completed_path'
+        'remove_at_ratio', 'stop_at_time', 'stop_time', 'remove_at_time',
+        'private', 'prioritize_first_last', 'move_completed', 'move_completed_path'
     ]
 };
 

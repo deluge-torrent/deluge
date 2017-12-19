@@ -1046,6 +1046,7 @@ class Torrent(object):
             'progress': self.get_progress,
             'shared': lambda: self.options['shared'],
             'remove_at_ratio': lambda: self.options['remove_at_ratio'],
+            'remove_at_time': lambda: self.options['remove_at_time'],
             'save_path': lambda: self.options['download_location'],  # Deprecated: Use download_location
             'download_location': lambda: self.options['download_location'],
             'seeds_peers_ratio': lambda: -1.0 if self.status.num_incomplete == 0 else (  # Use -1.0 to signify infinity
@@ -1053,7 +1054,9 @@ class Torrent(object):
             'seed_rank': lambda: self.status.seed_rank,
             'state': lambda: self.state,
             'stop_at_ratio': lambda: self.options['stop_at_ratio'],
+            'stop_at_time': lambda: self.options['stop_at_time'],
             'stop_ratio': lambda: self.options['stop_ratio'],
+            'stop_time': lambda: self.options['stop_time'],
             'time_added': lambda: self.status.added_time,
             'total_done': lambda: self.status.total_done,
             'total_payload_download': lambda: self.status.total_payload_download,
