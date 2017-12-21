@@ -90,6 +90,7 @@ class Core(CorePluginBase):
         self.config.save()
         self.watchdirs = self.config['watchdirs']
 
+        self.rpcserver = component.get('RPCServer')
         component.get('EventManager').register_event_handler(
             'PreTorrentRemovedEvent', self.__on_pre_torrent_removed,
         )
@@ -393,9 +394,8 @@ class Core(CorePluginBase):
 
     @export
     def get_watchdirs(self):
-        rpcserver = component.get('RPCServer')
-        session_user = rpcserver.get_session_user()
-        session_auth_level = rpcserver.get_session_auth_level()
+        session_user = self.rpcserver.get_session_user()
+        session_auth_level = self.rpcserver.get_session_auth_level()
         if session_auth_level == AUTH_LEVEL_ADMIN:
             log.debug(
                 'Current logged in user %s is an ADMIN, send all '
@@ -496,3 +496,11 @@ class Core(CorePluginBase):
                         'Failed to removed torrent file "%s" from "%s": %s',
                         torrent_fname, copy_torrent_path, ex,
                     )
+
+    @export
+    def is_admin_level(self):
+        return self.rpcserver.get_session_auth_level() == deluge.common.AUTH_LEVEL_ADMIN
+
+    @export
+    def get_auth_user(self):
+        return self.rpcserver.get_session_user()

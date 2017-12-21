@@ -19,5 +19,6 @@ import os.path
 from pkg_resources import resource_filename
 
 
-def get_resource(filename):
-    return resource_filename('deluge.plugins.autoadd', os.path.join('data', filename))
+def get_resource(filename, subdir=False):
+    folder = os.path.join('data', 'autoadd_options') if subdir else 'data'
+    return resource_filename('deluge.plugins.autoadd', os.path.join(folder, filename))
