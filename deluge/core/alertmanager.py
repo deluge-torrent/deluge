@@ -41,7 +41,10 @@ This should typically only be used by the Core.  Plugins should utilize the
 
 """
 
-from twisted.internet import reactor
+import threading
+import time
+
+from twisted.internet import reactor, threads
 
 import deluge.component as component
 from deluge._libtorrent import lt
@@ -51,7 +54,7 @@ from deluge.log import LOG as log
 class AlertManager(component.Component):
     def __init__(self):
         log.debug("AlertManager initialized..")
-        component.Component.__init__(self, "AlertManager", interval=0.3)
+        component.Component.__init__(self, "AlertManager")
         self.session = component.get("Core").session
 
         self.session.set_alert_mask(
@@ -70,13 +73,39 @@ class AlertManager(component.Component):
 
     def update(self):
         self.delayed_calls = [dc for dc in self.delayed_calls if dc.active()]
-        self.handle_alerts()
+
+    def start(self):
+        thread = threading.Thread(target=self.wait_for_alert_in_thread, name="alert-poller")
+        thread.daemon = True
+        thread.start()
 
     def stop(self):
         for dc in self.delayed_calls:
             if dc.active():
                 dc.cancel()
         self.delayed_calls = []
+
+    def wait_for_alert_in_thread(self):
+        while self._component_state not in ("Stopping", "Stopped"):
+            try:
+                alert = self.session.wait_for_alert(1000)
+            except:
+                log.exception("during wait_for_alert")
+            # wait_for_alert returns None on timeout
+            if alert is None:
+                continue
+            # If we don't pop alerts before the next loop, the wait will
+            # return immediately and we'll get into a tight spin. This can
+            # happen when AlertManager is paused. Optimize this by pre-checking
+            # if we would handle alerts.
+            if self._component_state != "Started":
+                time.sleep(0.1)
+            else:
+                threads.blockingCallFromThread(reactor, self.maybe_handle_alerts)
+
+    def maybe_handle_alerts(self):
+        if self._component_state == "Started":
+            self.handle_alerts()
 
     def register_handler(self, alert_type, handler):
         """
