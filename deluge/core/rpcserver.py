@@ -41,10 +41,11 @@ import sys
 import zlib
 import os
 import stat
+import struct
 import traceback
 
 from twisted.internet.protocol import Factory, Protocol
-from twisted.internet import ssl, reactor, defer
+from twisted.internet import ssl, reactor, defer, threads
 
 from OpenSSL import crypto, SSL
 from types import FunctionType
@@ -63,6 +64,9 @@ from deluge.core.authmanager import AUTH_LEVEL_NONE, AUTH_LEVEL_DEFAULT
 RPC_RESPONSE = 1
 RPC_ERROR = 2
 RPC_EVENT = 3
+
+DEFAULT_PROTOCOL_VERSION = 1
+PROTOCOL_VERSION = 2
 
 def export(auth_level=AUTH_LEVEL_DEFAULT):
     """
@@ -124,6 +128,9 @@ class DelugeError(Exception):
 class NotAuthorizedError(DelugeError):
     pass
 
+class InvalidProtocolVersionError(DelugeError):
+    pass
+
 class ServerContextFactory(object):
     def getContext(self):
         """
@@ -160,25 +167,45 @@ class DelugeRPCProtocol(Protocol):
             self.__buffer = None
 
         while data:
-            dobj = zlib.decompressobj()
-            try:
-                request = rencode.loads(dobj.decompress(data))
-            except Exception, e:
-                #log.debug("Received possible invalid message (%r): %s", data, e)
-                # This could be cut-off data, so we'll save this in the buffer
-                # and try to prepend it on the next dataReceived()
-                self.__buffer = data
-                return
+            protocol_version = self.factory.protocol_versions[self.transport.sessionno]
+            if protocol_version > 1:
+                if len(data) < 4:
+                    self.__buffer = data
+                    return
+                length = struct.unpack("<L", data[:4])[0]
+                data = data[4:]
+                # We might not have the full message yet.
+                if len(data) < length:
+                    self.__buffer = data
+                    return
+                message = data[:length]
+                data = data[length:]
+                dobj = zlib.decompressobj()
+                try:
+                    request = rencode.loads(dobj.decompress(message))
+                except Exception, e:
+                    log.debug("Received invalid message (%r): %s", message, e)
+                    continue
             else:
-                data = dobj.unused_data
+                dobj = zlib.decompressobj()
+                try:
+                    request = rencode.loads(dobj.decompress(data))
+                except Exception, e:
+                    #log.debug("Received possible invalid message (%r): %s", data, e)
+                    # This could be cut-off data, so we'll save this in the buffer
+                    # and try to prepend it on the next dataReceived()
+                    self.__buffer = data
+                    return
+                else:
+                    data = dobj.unused_data
 
             if type(request) is not tuple:
                 log.debug("Received invalid message: type is not tuple")
-                return
+                continue
 
             if len(request) < 1:
                 log.debug("Received invalid message: there are no items")
-                return
+                continue
 
             for call in request:
                 if len(call) != 4:
@@ -187,7 +214,27 @@ class DelugeRPCProtocol(Protocol):
                 #log.debug("RPCRequest: %s", format_request(call))
                 reactor.callLater(0, self.dispatch, *call)
 
-    def sendData(self, data):
+    def stepMessageWorkQueue(self):
+        def gotCompressedData(data):
+            self.sendCompressedData(data)
+            reactor.callLater(0, self.stepMessageWorkQueue)
+        def compressMessage(message):
+            return zlib.compress(rencode.dumps(message))
+        def gotMessage(message):
+            del self.factory.message_work_deferreds[self.transport.sessionno]
+            d = threads.deferToThread(compressMessage, message)
+            d.addCallback(gotCompressedData)
+        d = self.factory.message_work_queues[self.transport.sessionno].get()
+        self.factory.message_work_deferreds[self.transport.sessionno] = d
+        d.addCallback(gotMessage)
+
+    def sendCompressedData(self, data):
+        protocol_version = self.factory.protocol_versions[self.transport.sessionno]
+        if protocol_version > 1:
+            self.transport.write(struct.pack("<L", len(data)))
+        self.transport.write(data)
+
+    def sendData(self, data, thread=True):
         """
         Sends the data to the client.
 
@@ -196,7 +243,11 @@ class DelugeRPCProtocol(Protocol):
         :type data: object
 
         """
-        self.transport.write(zlib.compress(rencode.dumps(data)))
+        if thread:
+            self.factory.message_work_queues[self.transport.sessionno].put(data)
+        else:
+            data = zlib.compress(rencode.dumps(data))
+            self.sendCompressedData(data)
 
     def connectionMade(self):
         """
@@ -206,6 +257,11 @@ class DelugeRPCProtocol(Protocol):
         log.info("Deluge Client connection made from: %s:%s", peer.host, peer.port)
         # Set the initial auth level of this session to AUTH_LEVEL_NONE and empty username.
         self.factory.authorized_sessions[self.transport.sessionno] = (AUTH_LEVEL_NONE, "")
+        # Set the initial protocol version to the default version
+        self.factory.protocol_versions[self.transport.sessionno] = DEFAULT_PROTOCOL_VERSION
+
+        self.factory.message_work_queues[self.transport.sessionno] = defer.DeferredQueue()
+        reactor.callLater(0, self.stepMessageWorkQueue)
 
     def connectionLost(self, reason):
         """
@@ -218,10 +274,15 @@ class DelugeRPCProtocol(Protocol):
 
         # We need to remove this session from various dicts
         del self.factory.authorized_sessions[self.transport.sessionno]
+        del self.factory.protocol_versions[self.transport.sessionno]
+        del self.factory.message_work_queues[self.transport.sessionno]
         if self.transport.sessionno in self.factory.session_protocols:
             del self.factory.session_protocols[self.transport.sessionno]
         if self.transport.sessionno in self.factory.interested_events:
             del self.factory.interested_events[self.transport.sessionno]
+        if self.transport.sessionno in self.factory.message_work_deferreds:
+            self.factory.message_work_deferreds[self.transport.sessionno].cancel()
+            del self.factory.message_work_deferreds[self.transport.sessionno]
 
         log.info("Deluge client disconnected: %s", reason.value)
 
@@ -259,6 +320,9 @@ class DelugeRPCProtocol(Protocol):
             # This is a special case and used in the initial connection process
             # We need to authenticate the user here
             try:
+                protocol_version = kwargs.pop("protocol_version", DEFAULT_PROTOCOL_VERSION)
+                if protocol_version > PROTOCOL_VERSION:
+                    raise InvalidProtocolVersionError()
                 ret = component.get("AuthManager").authorize(*args, **kwargs)
                 if ret:
                     self.factory.authorized_sessions[self.transport.sessionno] = (ret, args[0])
@@ -267,8 +331,15 @@ class DelugeRPCProtocol(Protocol):
                 sendError()
                 log.exception(e)
             else:
-                self.sendData((RPC_RESPONSE, request_id, (ret)))
-                if not ret:
+                # Encode and send the response immediately with the current
+                # protocol version.
+                self.sendData((RPC_RESPONSE, request_id, (ret)), thread=False)
+                if ret:
+                    # Only update the protocol version after sending the
+                    # response. For any further intercation, the new protocol
+                    # version will be used.
+                    self.factory.protocol_versions[self.transport.sessionno] = protocol_version
+                else:
                     self.transport.loseConnection()
             finally:
                 return
@@ -354,6 +425,12 @@ class RPCServer(component.Component):
         self.factory.session_protocols = {}
         # Holds the interested event list for the sessions
         self.factory.interested_events = {}
+        # A map of session id -> protocol version
+        self.factory.protocol_versions = {}
+        # A map of session id -> DeferredQueue for messages to compress
+        self.factory.message_work_queues = {}
+        # A map of session id -> Deferred waiting on corresponding message_work_queue
+        self.factory.message_work_deferreds = {}
 
         if not listen:
             return
