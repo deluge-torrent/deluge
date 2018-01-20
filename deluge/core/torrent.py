@@ -144,7 +144,7 @@ class Torrent(object):
         # We store the filename just in case we need to make a copy of the torrentfile
         if not filename:
             # If no filename was provided, then just use the infohash
-            filename = self.torrent_id
+            filename = self.torrent_id + '.torrent'
 
         self.filename = filename
 
@@ -972,6 +972,11 @@ class Torrent(object):
             torrent_file["info"] = md
             with open(path, "wb") as _file:
                 _file.write(lt.bencode(torrent_file))
+            if self.config["copy_torrent_file"]:
+                config_dir = self.config['torrentfiles_location']
+                filepath = os.path.join(config_dir, self.filename)
+                with open(filepath, "wb") as _file:
+                    _file.write(lt.bencode(torrent_file))
         except Exception, e:
             log.warning("Unable to save torrent file: %s", e)
 
