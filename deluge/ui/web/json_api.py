@@ -10,6 +10,7 @@
 from __future__ import division, unicode_literals
 
 import base64
+import cgi
 import json
 import logging
 import os
@@ -349,6 +350,13 @@ class WebApi(JSONComponent):
     the web interface. The complete web json interface also exposes all the
     methods available from the core RPC.
     """
+    XSS_VULN_KEYS = [
+        'name',
+        'message',
+        'comment',
+        'tracker_status',
+        'peers'
+    ]
 
     def __init__(self):
         super(WebApi, self).__init__('Web', depend=['SessionProxy'])
@@ -529,7 +537,7 @@ class WebApi(JSONComponent):
         paths = []
         info = {}
         for index, torrent_file in enumerate(files):
-            path = torrent_file['path']
+            path = cgi.escape(torrent_file['path'])
             paths.append(path)
             torrent_file['progress'] = file_progress[index]
             torrent_file['priority'] = file_priorities[index]
@@ -566,9 +574,24 @@ class WebApi(JSONComponent):
         file_tree.walk(walk)
         d.callback(file_tree.get_tree())
 
+    def _on_torrent_status(self, torrent, d):
+        for key in self.XSS_VULN_KEYS:
+            try:
+                if key == 'peers':
+                    for peer in torrent[key]:
+                        peer['client'] = cgi.escape(peer['client'])
+                else:
+                    torrent[key] = cgi.escape(torrent[key])
+            except KeyError:
+                pass
+        d.callback(torrent)
+
     @export
     def get_torrent_status(self, torrent_id, keys):
-        return component.get('SessionProxy').get_torrent_status(torrent_id, keys)
+        main_deferred = Deferred()
+        d = component.get('SessionProxy').get_torrent_status(torrent_id, keys)
+        d.addCallback(self._on_torrent_status, main_deferred)
+        return main_deferred
 
     @export
     def get_torrent_files(self, torrent_id):
