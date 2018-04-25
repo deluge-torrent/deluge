@@ -992,25 +992,27 @@ class VersionSplit(object):
         self.version = [int(x) for x in vs[0].split('.') if x.isdigit()]
         self.version_string = ''.join(str(x) for x in vs[0].split('.') if x.isdigit())
         self.suffix = None
-        self.dev = False
+        self.dev = None
         if len(vs) > 1:
             if vs[1].startswith(('rc', 'a', 'b', 'c')):
                 self.suffix = vs[1]
             if vs[-1].startswith('dev'):
-                self.dev = vs[-1]
+                try:
+                    # Store only the dev numeral.
+                    self.dev = int(vs[-1].rsplit('dev')[1])
+                except ValueError:
+                    # Implicit dev numeral is 0.
+                    self.dev = 0
 
     def get_comparable_versions(self, other):
         """
         Returns a 2-tuple of lists for use in the comparison
         methods.
         """
-        # PEP 386 versions with .devN precede release version
-        if bool(self.dev) != bool(other.dev):
-            if self.dev != 'dev':
-                self.dev = not self.dev
-            if other.dev != 'dev':
-                other.dev = not other.dev
-
+        # PEP 386 versions with .devN precede release version so default
+        # non-dev versions to infinity while dev versions are ints.
+        self.dev = float('inf') if self.dev is None else self.dev
+        other.dev = float('inf') if other.dev is None else other.dev
         # If there is no suffix we use z because we want final
         # to appear after alpha, beta, and rc alphabetically.
         v1 = [self.version, self.suffix or 'z', self.dev]
