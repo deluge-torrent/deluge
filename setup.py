@@ -480,6 +480,31 @@ _package_data['deluge.ui.gtkui'] = ['glade/*.ui']
 if 'dev' not in _version:
     _exclude_package_data['deluge.ui.web'] = ['*-debug.js', '*-debug.css']
 
+docs_require = [
+    'Sphinx',
+    'recommonmark',
+    'sphinx-rtd-theme',
+    'sphinxcontrib-spelling',
+]
+tests_require = [
+    'coverage',
+    'flake8',
+    'flake8-blind-except',
+    'flake8-builtins',
+    'flake8-commas',
+    'flake8-comprehensions',
+    'flake8-debugger',
+    'flake8-isort',
+    'flake8-mock',
+    'flake8-mutable',
+    'flake8-quotes',
+    'pre-commit',
+    'pre-commit-hooks',
+    'pytest',
+    'detox',
+    'tox',
+]
+
 # Main setup
 setup(
     name='deluge',
@@ -487,7 +512,6 @@ setup(
     fullname='Deluge BitTorrent Client',
     description='BitTorrent Client',
     author='Deluge Team',
-    author_email='deluge-dev@googlegroups.com',
     maintainer='Calum Lind',
     maintainer_email='calumlind+deluge@gmail.com',
     keywords='torrent bittorrent p2p fileshare filesharing',
@@ -495,21 +519,30 @@ setup(
         daemon/client model. There are various user interfaces available for
         Deluge such as the GTK-UI, the Web-UI and a Console-UI. Deluge uses
         libtorrent in it's backend to handle the BitTorrent protocol.""",
-    url='http://deluge-torrent.org',
+    url='https://deluge-torrent.org',
     classifiers=[
+        'Development Status :: 4 - Beta',
         'Environment :: Console',
         'Environment :: Web Environment',
         'Environment :: X11 Applications :: GTK',
         'Framework :: Twisted',
         'Intended Audience :: End Users/Desktop',
-        'Programming Language :: Python :: 2.7',
+        ('License :: OSI Approved :: '
+            'GNU General Public License v3 or later (GPLv3+)'),
+        'Programming Language :: Python',
         'Operating System :: MacOS :: MacOS X',
         'Operating System :: Microsoft :: Windows',
         'Operating System :: POSIX',
         'Topic :: Internet'],
     license='GPLv3',
     cmdclass=cmdclass,
-    tests_require=['pytest'],
+    python_requires='~=2.7',
+    extras_require={
+        'docs': docs_require,
+        'tests': tests_require,
+        'dev': docs_require + tests_require,
+    },
+    tests_require=tests_require,
     data_files=_data_files,
     package_data=_package_data,
     exclude_package_data=_exclude_package_data,
