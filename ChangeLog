@@ -9,6 +9,7 @@
     * Enforced the use of the "deluge.plugins" namespace to reduce package
     names clashing beetween regular packages and deluge plugins.
     * Fix potential for host_id collision when creating hostlist entries.
+    * Add Option To Specify Outgoing Connection Interface.
 
 ==== Core ====
     * Make the distinction between adding to the session new unmanaged torrents

@@ -29,6 +29,8 @@ def add_daemon_options(parser):
                        help=_('Port to listen for UI connections on'))
     group.add_argument('-i', '--interface', metavar='<ip-addr>', dest='listen_interface', action='store',
                        help=_('IP address to listen for BitTorrent connections'))
+    group.add_argument('-o', '--outinterface', metavar='<ip-addr>', dest='outgoing_interface',
+                       action='store', help=_('The IP address for outgoing BitTorrent connections.'))
     group.add_argument('--read-only-config-keys', metavar='<comma-separated-keys>', action='store',
                        help=_('Config keys to be unmodified by `set_config` RPC'), type=str, default='')
     parser.add_process_arg_group()
@@ -73,6 +75,7 @@ def start_daemon(skip_start=False):
         try:
             from deluge.core.daemon import Daemon
             daemon = Daemon(listen_interface=options.listen_interface,
+                            outgoing_interface=options.outgoing_interface,
                             interface=options.ui_interface,
                             port=options.port,
                             read_only_config_keys=options.read_only_config_keys.split(','))

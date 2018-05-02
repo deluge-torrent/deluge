@@ -47,6 +47,7 @@ DEFAULT_PREFS = {
     'download_location': deluge.common.get_default_download_dir(),
     'listen_ports': [6881, 6891],
     'listen_interface': '',
+    'outgoing_interface': '',
     'random_port': True,
     'listen_random_port': None,
     'listen_use_sys_port': False,
@@ -187,6 +188,9 @@ class PreferencesManager(component.Component):
     def _on_set_listen_interface(self, key, value):
         self.__set_listen_on()
 
+    def _on_set_outgoing_interface(self, key, value):
+        self.__set_outgoing_on()
+
     def _on_set_random_port(self, key, value):
         self.__set_listen_on()
 
@@ -209,6 +213,13 @@ class PreferencesManager(component.Component):
         self.core.apply_session_settings(
             {'listen_system_port_fallback': self.config['listen_use_sys_port'],
              'listen_interfaces': ''.join(interfaces)})
+
+    def __set_outgoing_on(self):
+        """ Set the interface address for outgoing BitTorrent connections."""
+        outinterface = self.config['outgoing_interface'].strip()
+        outinterface = outinterface if outinterface else '0.0.0.0'
+        self.core.apply_session_settings(
+            {'outgoing_interfaces': outinterface})
 
     def _on_set_outgoing_ports(self, key, value):
         self.__set_outgoing_ports()

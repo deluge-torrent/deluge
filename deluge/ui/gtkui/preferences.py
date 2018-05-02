@@ -317,6 +317,7 @@ class Preferences(component.Component):
             'spin_outgoing_port_max': ('value', lambda: self.core_config['outgoing_ports'][1]),
             'chk_random_outgoing_ports': ('active', 'random_outgoing_ports'),
             'entry_interface': ('text', 'listen_interface'),
+            'entry_outgoing_interface': ('text', 'outgoing_interface'),
             'entry_peer_tos': ('text', 'peer_tos'),
             'chk_dht': ('active', 'dht'),
             'chk_upnp': ('active', 'upnp'),
@@ -519,8 +520,11 @@ class Preferences(component.Component):
         new_core_config['random_outgoing_ports'] = self.builder.get_object(
             'chk_random_outgoing_ports').get_active()
         incoming_address = self.builder.get_object('entry_interface').get_text().strip()
+        outgoing_address = self.builder.get_object('entry_outgoing_interface').get_text().strip()
         if deluge.common.is_ip(incoming_address) or not incoming_address:
             new_core_config['listen_interface'] = incoming_address
+        if deluge.common.is_ip(outgoing_address) or not outgoing_address:
+            new_core_config['outgoing_interface'] = outgoing_address
         new_core_config['peer_tos'] = self.builder.get_object('entry_peer_tos').get_text()
         new_core_config['dht'] = self.builder.get_object('chk_dht').get_active()
         new_core_config['upnp'] = self.builder.get_object('chk_upnp').get_active()

@@ -83,6 +83,10 @@ class BasePreferencePane(BaseInputPane, BaseWindow, PopupsHandler):
                     interface = ipt.get_value().strip()
                     if is_ip(interface) or not interface:
                         conf_dict['listen_interface'] = interface
+                elif ipt.name == 'outgoing_interface':
+                    outinterface = ipt.get_value().strip()
+                    if is_ip(outinterface) or not outinterface:
+                        conf_dict['outgoing_interface'] = outinterface
                 elif ipt.name.startswith('proxy_'):
                     if ipt.name == 'proxy_type':
                         conf_dict.setdefault('proxy', {})['type'] = ipt.get_value()
@@ -240,10 +244,19 @@ class NetworkPane(BasePreferencePane):
                                              value=out_ports[1], min_val=0, max_val=65535)
         self.outto.set_depend(outrand, inverse=True)
 
-        self.add_header(_('Interface'), space_above=True)
-        self.add_text_input('listen_interface', '%s:' % _('IP address of the interface to listen on '
-                                                          '(leave empty for default)'),
-                            core_conf['listen_interface'])
+        self.add_header(_('Incoming Interface'), space_above=True)
+        self.add_text_input(
+            'listen_interface',
+            _('IP address of the interface to listen on (leave empty for default):'),
+            core_conf['listen_interface'],
+        )
+
+        self.add_header(_('Outgoing Interface'), space_above=True)
+        self.add_text_input(
+            'outgoing_interface',
+            _('IP address of the interface to open outgoing connections on. (leave empty for default):'),
+            core_conf['outgoing_interface'],
+        )
 
         self.add_header('TOS', space_above=True)
         self.add_text_input('peer_tos', 'Peer TOS Byte:', core_conf['peer_tos'])
