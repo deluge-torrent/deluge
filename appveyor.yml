@@ -1,0 +1,128 @@
+environment:
+
+  matrix:
+    # See: http://www.appveyor.com/docs/installed-software#python
+
+    - PYTHON: "C:\\Python27"
+      PYTHON_VERSION: "2.7.x"
+      PYTHON_ARCH: "32"
+      TOXENV: pydef
+      APPVEYOR_SAVE_CACHE_ON_ERROR: true
+
+    - PYTHON: "C:\\Python27"
+      PYTHON_VERSION: "2.7.x"
+      PYTHON_ARCH: "32"
+      TOXENV: flake8
+      APPVEYOR_SAVE_CACHE_ON_ERROR: true
+
+    - PYTHON: "C:\\Python27"
+      PYTHON_VERSION: "2.7.x"
+      PYTHON_ARCH: "32"
+      TOXENV: docs
+      APPVEYOR_SAVE_CACHE_ON_ERROR: true
+
+    - PYTHON: "C:\\Python27"
+      PYTHON_VERSION: "2.7.x"
+      PYTHON_ARCH: "32"
+      TOXENV: trial
+      APPVEYOR_SAVE_CACHE_ON_ERROR: true
+
+    - PYTHON: "C:\\Python27"
+      PYTHON_VERSION: "2.7.x"
+      PYTHON_ARCH: "32"
+      TOXENV: pygtkui
+      APPVEYOR_SAVE_CACHE_ON_ERROR: true
+
+    - PYTHON: "C:\\Python27"
+      PYTHON_VERSION: "2.7.x"
+      PYTHON_ARCH: "32"
+      TOXENV: plugins
+      APPVEYOR_SAVE_CACHE_ON_ERROR: true
+
+    - PYTHON: "C:\\Python27"
+      PYTHON_VERSION: "2.7.x"
+      PYTHON_ARCH: "32"
+      APPVEYOR_SAVE_CACHE_ON_ERROR: true
+
+pull_requests:
+  do_not_increment_build_number: true
+
+install:
+  # If there is a newer build queued for the same PR, cancel this one.
+  # The AppVeyor 'rollout builds' option is supposed to serve the same
+  # purpose but it is problematic because it tends to cancel builds pushed
+  # directly to master instead of just PR builds (or the converse).
+  # credits: JuliaLang developers.
+  - ps: if ($env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:APPVEYOR_BUILD_NUMBER -ne ((Invoke-RestMethod `
+        https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/history?recordsNumber=50).builds | `
+        Where-Object pullRequestId -eq $env:APPVEYOR_PULL_REQUEST_NUMBER)[0].buildNumber) { `
+          throw "There are newer queued builds for this pull request, failing early." }
+
+  - "python -m pip install --upgrade pip"
+  - if NOT DEFINED TOXENV (
+      pip install bbfreeze pefile tox pywin32 slimit twisted[tls] chardet mako pyxdg pillow slimit pygame
+    )
+
+  - if DEFINED TOXENV (
+      pip install tox
+    )
+
+  - if not exist pygtk-all-in-one-2.24.2.win32-py2.7.msi (
+      ECHO "Downloading pygtk...."
+      & appveyor-retry appveyor DownloadFile "https://ftp.gnome.org/pub/GNOME/binaries/win32/pygtk/2.24/pygtk-all-in-one-2.24.2.win32-py2.7.msi"
+    )
+
+  - ECHO "Installing pygtk...."
+  - cmd: msiexec /i pygtk-all-in-one-2.24.2.win32-py2.7.msi /quiet /qn /norestart TARGETDIR=C:\Python27 INSTALLLEVEL=3
+  - if not exist openssl-1.1.0f-vs2008.7z (
+      ECHO "Downloading openssl...."
+      & appveyor-retry appveyor DownloadFile "https://www.npcglib.org/~stathis/downloads/openssl-1.1.0f-vs2008.7z"
+    )
+
+  - ECHO "Installing openssl...."
+  - "7z x -oc:\\ -aoa openssl-1.1.0f-vs2008.7z"
+  - "rename c:\\openssl-1.1.0f-vs2008 openssl-1.1"
+  - "copy c:\\openssl-1.1\\bin\\libsslMD.dll c:\\openssl-1.1\\bin\\libssl-1_1.dll"
+  - "copy c:\\openssl-1.1\\bin\\libcryptoMD.dll c:\\openssl-1.1\\bin\\libcrypto-1_1.dll"
+
+  - if not exist libtorrent.pyd (
+      ECHO "Downloading libtorrent...."
+      & appveyor-retry appveyor DownloadFile "https://github.com/doadin/libtorrent/releases/download/1.1.7.test/libtorrent.pyd"
+    )
+
+  - ECHO "Installing libtorrent...."
+  - "copy /Y libtorrent.pyd c:\\Python27\\Lib\\site-packages\\libtorrent.pyd"
+  - "SET PATH=%TOXENV%;%PYTHON%;%PYTHON%\\Scripts;c:\\openssl-1.1\\bin;C:\\Program Files (x86)\\NSIS;%PATH%"
+
+  - ECHO "Python Verison"
+  - "python --version"
+  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
+  - ECHO "libtorrent Verison"
+  - "python -c \"import libtorrent; print(libtorrent.__version__)\""
+  - ECHO "OpenSSL Verison"
+  - openssl version -v
+
+cache:
+  - pygtk-all-in-one-2.24.2.win32-py2.7.msi
+  - openssl-1.1.0f-vs2008.7z
+  - '%LOCALAPPDATA%\pip\cache'
+  - libtorrent.pyd
+
+build: false
+
+test_script:
+  - IF DEFINED TOXENV tox -e %TOXENV%
+
+after_test:
+  - IF NOT DEFINED TOXENV %CMD_IN_ENV% python setup.py build
+  - IF NOT DEFINED TOXENV %CMD_IN_ENV% python setup.py install
+  - cd %APPVEYOR_BUILD_FOLDER%\\packaging\\win32
+  - IF NOT DEFINED TOXENV deluge-bbfreeze.py debug
+
+  - IF NOT DEFINED TOXENV makensis %APPVEYOR_BUILD_FOLDER%\\packaging\\win32\\deluge-win32-installer.nsi
+
+artifacts:
+  - path: packaging\win32\build-win32\*.exe
+
+#on_success:
+#
