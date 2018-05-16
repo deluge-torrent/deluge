@@ -100,6 +100,8 @@ class BaseWindow(object):
         self._height, self._width = rows, cols
 
     def move_window(self, posy, posx):
+        posy = int(posy)
+        posx = int(posx)
         self.outer_screen.mvwin(posy, posx)
         self.posy = posy
         self.posx = posx

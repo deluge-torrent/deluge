@@ -19,7 +19,7 @@ import threading
 from base64 import b64decode, b64encode
 
 from twisted.internet import defer, reactor, task
-from twisted.web.client import getPage
+from twisted.web.client import Agent, readBody
 
 import deluge.common
 import deluge.component as component
@@ -1116,13 +1116,21 @@ class Core(component.Component):
         :rtype: bool
 
         """
-        d = getPage(
-            b'http://deluge-torrent.org/test_port.php?port=%s' %
-            self.get_listen_port(), timeout=30,
+        port = self.get_listen_port()
+        url = 'https://deluge-torrent.org/test_port.php?port=%s' % port
+        agent = Agent(reactor, connectTimeout=30)
+        d = agent.request(
+            b'GET',
+            url.encode('utf-8'),
         )
 
-        def on_get_page(result):
-            return bool(int(result))
+        def on_get_page(response):
+            d = readBody(response)
+            d.addCallback(on_read_body)
+            return d
+
+        def on_read_body(body):
+            return bool(int(body))
 
         def on_error(failure):
             log.warning('Error testing listen port: %s', failure)

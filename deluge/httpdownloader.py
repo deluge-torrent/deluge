@@ -17,6 +17,7 @@ import zlib
 from twisted.internet import reactor
 from twisted.python.failure import Failure
 from twisted.web import client, http
+from twisted.web.client import URI
 from twisted.web.error import PageRedirect
 
 from deluge.common import get_version, utf8_encode_structure
@@ -60,29 +61,29 @@ class HTTPDownloader(client.HTTPDownloader):
         self.force_filename = force_filename
         self.allow_compression = allow_compression
         self.code = None
-        agent = b'Deluge/%s (http://deluge-torrent.org)' % get_version().encode('utf8')
-
-        client.HTTPDownloader.__init__(self, url, filename, headers=headers, agent=agent)
-
-    def gotStatus(self, version, status, message):  # NOQA: N802
-        self.code = int(status)
-        client.HTTPDownloader.gotStatus(self, version, status, message)
+        agent = 'Deluge/%s (http://deluge-torrent.org)' % get_version()
+        client.HTTPDownloader.__init__(
+            self, url, filename, headers=headers, agent=agent.encode('utf-8'))
 
     def gotHeaders(self, headers):  # NOQA: N802
+        self.code = int(self.status)
         if self.code == http.OK:
-            if 'content-length' in headers:
-                self.total_length = int(headers['content-length'][0])
+            if b'content-length' in headers:
+                self.total_length = int(headers[b'content-length'][0])
             else:
                 self.total_length = 0
 
-            if self.allow_compression and 'content-encoding' in headers and \
-               headers['content-encoding'][0] in ('gzip', 'x-gzip', 'deflate'):
+            encodings_accepted = [b'gzip', b'x-gzip', b'deflate']
+            if (
+                self.allow_compression and b'content-encoding' in headers
+                and headers[b'content-encoding'][0] in encodings_accepted
+            ):
                 # Adding 32 to the wbits enables gzip & zlib decoding (with automatic header detection)
                 # Adding 16 just enables gzip decoding (no zlib)
                 self.decoder = zlib.decompressobj(zlib.MAX_WBITS + 32)
 
-            if 'content-disposition' in headers and not self.force_filename:
-                content_disp = str(headers['content-disposition'][0])
+            if b'content-disposition' in headers and not self.force_filename:
+                content_disp = headers[b'content-disposition'][0].decode('utf-8')
                 content_disp_params = cgi.parse_header(content_disp)[1]
                 if 'filename' in content_disp_params:
                     new_file_name = content_disp_params['filename']
@@ -100,8 +101,13 @@ class HTTPDownloader(client.HTTPDownloader):
                     self.fileName = new_file_name
                     self.value = new_file_name
 
-        elif self.code in (http.MOVED_PERMANENTLY, http.FOUND, http.SEE_OTHER, http.TEMPORARY_REDIRECT):
-            location = headers['location'][0]
+        elif self.code in (
+            http.MOVED_PERMANENTLY,
+            http.FOUND,
+            http.SEE_OTHER,
+            http.TEMPORARY_REDIRECT,
+        ):
+            location = headers[b'location'][0]
             error = PageRedirect(self.code, location=location)
             self.noPage(Failure(error))
 
@@ -185,26 +191,14 @@ def _download_file(url, filename, callback=None, headers=None, force_filename=Fa
         headers['accept-encoding'] = 'deflate, gzip, x-gzip'
 
     url = url.encode('utf8')
-    filename = filename.encode('utf8')
     headers = utf8_encode_structure(headers) if headers else headers
     factory = HTTPDownloader(url, filename, callback, headers, force_filename, allow_compression)
 
-    # In Twisted 13.1.0 _parse() function replaced by _URI class.
-    # In Twisted 15.0.0 _URI class renamed to URI.
-    if hasattr(client, '_parse'):
-        scheme, host, port, dummy_path = client._parse(url)
-    else:
-        try:
-            from twisted.web.client import _URI as URI
-        except ImportError:
-            from twisted.web.client import URI
-        finally:
-            uri = URI.fromBytes(url)
-            scheme = uri.scheme
-            host = uri.host
-            port = uri.port
+    uri = URI.fromBytes(url)
+    host = uri.host
+    port = uri.port
 
-    if scheme == 'https':
+    if uri.scheme == b'https':
         from twisted.internet import ssl
         # ClientTLSOptions in Twisted >= 14, see ticket #2765 for details on this addition.
         try:

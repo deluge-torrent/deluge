@@ -188,13 +188,15 @@ class Config(object):
         if self.__config[key] == value:
             return
 
-        # Do not allow the type to change unless it is None
-        if value is not None and not isinstance(
-                self.__config[key], type(None),
-        ) and not isinstance(self.__config[key], type(value)):
+        # Change the value type if it is not None and does not match.
+        type_match = isinstance(self.__config[key], (type(None), type(value)))
+        if value is not None and not type_match:
             try:
                 oldtype = type(self.__config[key])
-                value = oldtype(value)
+                # Don't convert to bytes as requires encoding and value will
+                # be decoded anyway.
+                if oldtype is not bytes:
+                    value = oldtype(value)
             except ValueError:
                 log.warning('Value Type "%s" invalid for key: %s', type(value), key)
                 raise

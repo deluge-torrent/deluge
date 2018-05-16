@@ -152,8 +152,8 @@ Please use commands from the command line, e.g.:\n
 
                 # We use the curses.wrapper function to prevent the console from getting
                 # messed up if an uncaught exception is experienced.
-                import curses.wrapper
-                curses.wrapper(self.run)
+                from curses import wrapper
+                wrapper(self.run)
 
     def quit(self):
         if client.connected():

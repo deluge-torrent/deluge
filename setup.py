@@ -536,7 +536,6 @@ setup(
         'Topic :: Internet'],
     license='GPLv3',
     cmdclass=cmdclass,
-    python_requires='~=2.7',
     extras_require={
         'docs': docs_require,
         'tests': tests_require,

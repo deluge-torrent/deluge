@@ -11,6 +11,7 @@
 from __future__ import division, print_function, unicode_literals
 
 import base64
+import binascii
 import datetime
 import functools
 import glob
@@ -702,10 +703,11 @@ def get_magnet_info(uri):
             xt_hash = param[len(XT_BTIH_PARAM):]
             if len(xt_hash) == 32:
                 try:
-                    info_hash = base64.b32decode(xt_hash.upper()).encode('hex')
+                    infohash_str = base64.b32decode(xt_hash.upper())
                 except TypeError as ex:
                     log.debug('Invalid base32 magnet hash: %s, %s', xt_hash, ex)
                     break
+                info_hash = binascii.hexlify(infohash_str)
             elif is_infohash(xt_hash):
                 info_hash = xt_hash.lower()
             else:
@@ -744,11 +746,15 @@ def create_magnet_uri(infohash, name=None, trackers=None):
 
     """
     try:
-        infohash = infohash.decode('hex')
-    except AttributeError:
-        pass
+        infohash = binascii.unhexlify(infohash)
+    except TypeError:
+        infohash.encode('utf-8')
 
-    uri = [MAGNET_SCHEME, XT_BTIH_PARAM, base64.b32encode(infohash)]
+    uri = [
+        MAGNET_SCHEME,
+        XT_BTIH_PARAM,
+        base64.b32encode(infohash).decode('utf-8'),
+    ]
     if name:
         uri.extend(['&', DN_PARAM, name])
     if trackers:
