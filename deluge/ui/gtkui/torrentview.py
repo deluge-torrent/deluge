@@ -26,7 +26,11 @@ from deluge.ui.gtkui.removetorrentdialog import RemoveTorrentDialog
 
 log = logging.getLogger(__name__)
 
-CTRL_ALT_MASK = CONTROL_MASK | MOD1_MASK
+try:
+    CTRL_ALT_MASK = CONTROL_MASK | MOD1_MASK
+except TypeError:
+    # Sphinx AutoDoc has a mock issue with gtk.gdk masks.
+    pass
 
 
 def str_nocase_sort(model, iter1, iter2, data):
