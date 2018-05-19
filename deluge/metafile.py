@@ -82,8 +82,6 @@ def make_meta_file(path, url, piece_length, progress=None, title=None, comment=N
     info = makeinfo(path, piece_length, progress, name, content_type, private)
 
     # check_info(info)
-    h = open(f, 'wb')
-
     data['info'] = info
     if title:
         data['title'] = title.encode('utf8')
@@ -113,9 +111,8 @@ def make_meta_file(path, url, piece_length, progress=None, title=None, comment=N
         data['announce-list'] = trackers
 
     data['encoding'] = 'UTF-8'
-
-    h.write(bencode(utf8_encode_structure(data)))
-    h.close()
+    with open(f, 'wb') as file_:
+        file_.write(bencode(utf8_encode_structure(data)))
 
 
 def calcsize(path):
@@ -154,21 +151,20 @@ def makeinfo(path, piece_length, progress, name=None, content_type=None, private
                            'content_type': content_type})  # HEREDAVE. bad for batch!
             else:
                 fs.append({'length': size, 'path': p2})
-            h = open(f, 'rb')
-            while pos < size:
-                a = min(size - pos, piece_length - done)
-                sh.update(h.read(a))
-                done += a
-                pos += a
-                totalhashed += a
+            with open(f, 'rb') as file_:
+                while pos < size:
+                    a = min(size - pos, piece_length - done)
+                    sh.update(file_.read(a))
+                    done += a
+                    pos += a
+                    totalhashed += a
 
-                if done == piece_length:
-                    pieces.append(sh.digest())
-                    piece_count += 1
-                    done = 0
-                    sh = sha()
-                    progress(piece_count, num_pieces)
-            h.close()
+                    if done == piece_length:
+                        pieces.append(sh.digest())
+                        piece_count += 1
+                        done = 0
+                        sh = sha()
+                        progress(piece_count, num_pieces)
         if done > 0:
             pieces.append(sh.digest())
             piece_count += 1
@@ -191,16 +187,15 @@ def makeinfo(path, piece_length, progress, name=None, content_type=None, private
 
         pieces = []
         p = 0
-        h = open(path, 'rb')
-        while p < size:
-            x = h.read(min(piece_length, size - p))
-            pieces.append(sha(x).digest())
-            piece_count += 1
-            p += piece_length
-            if p > size:
-                p = size
-            progress(piece_count, num_pieces)
-        h.close()
+        with open(path, 'rb') as _file:
+            while p < size:
+                x = _file.read(min(piece_length, size - p))
+                pieces.append(sha(x).digest())
+                piece_count += 1
+                p += piece_length
+                if p > size:
+                    p = size
+                progress(piece_count, num_pieces)
         name = os.path.split(path)[1].encode('utf8')
         if content_type is not None:
             return {'pieces': b''.join(pieces),
