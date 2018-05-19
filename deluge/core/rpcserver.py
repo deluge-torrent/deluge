@@ -210,15 +210,15 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
             """
             Sends an error response with the contents of the exception that was raised.
             """
-            exceptionType, exceptionValue, dummy_exceptionTraceback = sys.exc_info()
+            exc_type, exc_value, dummy_exc_trace = sys.exc_info()
             formated_tb = traceback.format_exc()
             try:
                 self.sendData((
                     RPC_ERROR,
                     request_id,
-                    exceptionType.__name__,
-                    exceptionValue._args,
-                    exceptionValue._kwargs,
+                    exc_type.__name__,
+                    exc_value._args,
+                    exc_value._kwargs,
                     formated_tb
                 ))
             except AttributeError:
@@ -227,7 +227,8 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                             'client. Wrapping it and resending. Error to '
                             'send(causing exception goes next):\n%s', formated_tb)
                 try:
-                    raise WrappedException(str(exceptionValue), exceptionType.__name__, formated_tb)
+                    raise WrappedException(
+                        str(exc_value), exc_type.__name__, formated_tb)
                 except WrappedException:
                     send_error()
             except Exception as ex:

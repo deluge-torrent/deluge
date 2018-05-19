@@ -216,7 +216,7 @@ class TorrentView(InputKeyHandler):
         return False
 
     def _sort_torrents(self, state):
-        'sorts by primary and secondary sort fields'
+        """Sorts by primary and secondary sort fields."""
 
         if not state:
             return {}

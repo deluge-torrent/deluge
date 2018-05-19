@@ -23,10 +23,10 @@ class DelugeEventMetaClass(type):
     """
     This metaclass simply keeps a list of all events classes created.
     """
-    def __init__(self, name, bases, dct):  # pylint: disable=bad-mcs-method-argument
-        super(DelugeEventMetaClass, self).__init__(name, bases, dct)
+    def __init__(cls, name, bases, dct):  # pylint: disable=bad-mcs-method-argument
+        super(DelugeEventMetaClass, cls).__init__(name, bases, dct)
         if name != 'DelugeEvent':
-            known_events[name] = self
+            known_events[name] = cls
 
 
 class DelugeEvent(object):

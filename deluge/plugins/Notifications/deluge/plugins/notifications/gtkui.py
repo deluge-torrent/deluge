@@ -508,7 +508,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         client.notifications.get_config().addCallback(self.cb_get_config)
 
     def cb_get_config(self, core_config):
-        'callback for on show_prefs'
+        """Callback for on show_prefs."""
         self.builder.get_object('smtp_host').set_text(core_config['smtp_host'])
         self.builder.get_object('smtp_port').set_value(core_config['smtp_port'])
         self.builder.get_object('smtp_user').set_text(core_config['smtp_user'])

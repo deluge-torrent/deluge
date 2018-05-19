@@ -335,7 +335,7 @@ class FilterTreeView(component.Component):
             item.set_sensitive(sensitive)
 
     def select_all(self):
-        'for use in popup menu'
+        """For use in popup menu."""
         component.get('TorrentView').treeview.get_selection().select_all()
 
     def on_select_all(self, event):

@@ -20,8 +20,8 @@ import deluge.configmanager
 from deluge.decorators import overrides
 from deluge.ui.console.cmdline.command import Commander
 from deluge.ui.console.modes.basemode import BaseMode, move_cursor
-from deluge.ui.console.utils import curses_util as util
 from deluge.ui.console.utils import colors
+from deluge.ui.console.utils import curses_util as util
 from deluge.ui.console.utils.format_utils import delete_alt_backspace, remove_formatting, strwidth
 
 try:
@@ -36,7 +36,10 @@ MAX_HISTFILE_SIZE = 2000
 
 
 def complete_line(line, possible_matches):
-    'Find the common prefix of possible matches, proritizing matching-case elements'
+    """Find the common prefix of possible matches.
+
+    Proritizing matching-case elements.
+    """
 
     if not possible_matches:
         return line
@@ -80,7 +83,7 @@ def complete_line(line, possible_matches):
 
 
 def commonprefix(m):
-    'Given a list of pathnames, returns the longest common leading component'
+    """Returns the longest common leading component from list of pathnames."""
     if not m:
         return ''
     s1 = min(m)

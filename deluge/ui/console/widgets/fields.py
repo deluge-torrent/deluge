@@ -16,8 +16,8 @@ import os
 
 from deluge.decorators import overrides
 from deluge.ui.console.modes.basemode import InputKeyHandler
-from deluge.ui.console.utils import curses_util as util
 from deluge.ui.console.utils import colors
+from deluge.ui.console.utils import curses_util as util
 from deluge.ui.console.utils.format_utils import delete_alt_backspace, remove_formatting, wrap_string
 
 try:

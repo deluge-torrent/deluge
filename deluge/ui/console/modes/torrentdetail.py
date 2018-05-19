@@ -18,8 +18,8 @@ from deluge.ui.client import client
 from deluge.ui.common import FILE_PRIORITY
 from deluge.ui.console.modes.basemode import BaseMode
 from deluge.ui.console.modes.torrentlist.torrentactions import ACTION, torrent_actions_popup
-from deluge.ui.console.utils import curses_util as util
 from deluge.ui.console.utils import colors
+from deluge.ui.console.utils import curses_util as util
 from deluge.ui.console.utils.column import get_column_value, torrent_data_fields
 from deluge.ui.console.utils.format_utils import format_priority, format_progress, format_row
 from deluge.ui.console.widgets.popup import InputPopup, MessagePopup, PopupsHandler, SelectablePopup

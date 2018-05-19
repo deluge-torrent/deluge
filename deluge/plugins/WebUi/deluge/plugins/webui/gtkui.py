@@ -57,7 +57,7 @@ class GtkUI(GtkPluginBase):
         client.webui.get_config().addCallback(self.cb_get_config)
 
     def cb_get_config(self, config):
-        'callback for on show_prefs'
+        """Callback for on show_prefs."""
         self.builder.get_object('enabled_checkbutton').set_active(config['enabled'])
         self.builder.get_object('ssl_checkbutton').set_active(config['ssl'])
         self.builder.get_object('port_spinbutton').set_value(config['port'])

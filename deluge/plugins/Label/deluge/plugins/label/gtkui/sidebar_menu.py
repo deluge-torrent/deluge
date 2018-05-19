@@ -70,7 +70,7 @@ class LabelSidebarMenu(object):
         self.options_dialog.show(self.treeview.value)
 
     def on_show(self, widget=None, data=None):
-        'No Label:disable options/del'
+        """No Label:disable options/del."""
         log.debug('label-sidebar-popup:on-show')
 
         cat = self.treeview.cat
@@ -182,7 +182,7 @@ class OptionsDialog(object):
         self.apply_sensitivity()
 
     def on_options_ok(self, event=None):
-        'save options..'
+        """Save options."""
         options = {}
 
         for spin_id in self.spin_ids:

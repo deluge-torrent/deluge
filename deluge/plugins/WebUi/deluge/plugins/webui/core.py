@@ -96,7 +96,7 @@ class Core(CorePluginBase):
 
     @export
     def set_config(self, config):
-        'sets the config dictionary'
+        """Sets the config dictionary."""
 
         action = None
         if 'enabled' in config:
@@ -120,5 +120,5 @@ class Core(CorePluginBase):
 
     @export
     def get_config(self):
-        'returns the config dictionary'
+        """Returns the config dictionary."""
         return self.config.config

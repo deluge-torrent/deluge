@@ -17,7 +17,7 @@ from . import BaseCommand
 
 
 class Command(BaseCommand):
-    'Shutdown the deluge server'
+    """Shutdown the deluge server."""
 
     def handle(self, options):
         self.console = component.get('ConsoleUI')

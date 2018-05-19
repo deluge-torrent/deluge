@@ -228,7 +228,7 @@ class SelectablePopup(BaseInputPane, Popup):
         return Popup.visible_content_pane_height.fget(self)
 
     def current_selection(self):
-        'Returns a tuple of (selected index, selected data)'
+        """Returns a tuple of (selected index, selected data)."""
         return self.active_input
 
     def set_selection(self, index):
