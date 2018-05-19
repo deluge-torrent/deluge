@@ -31,6 +31,7 @@ class TorrentmanagerTestCase(BaseTestCase):
         common.set_tmp_config_dir()
         self.rpcserver = RPCServer(listen=False)
         self.core = Core()
+        self.core.config.config['lsd'] = False
         return component.start()
 
     def tear_down(self):

@@ -39,6 +39,7 @@ class TorrentTestCase(BaseTestCase):
         self.setup_config()
         self.rpcserver = RPCServer(listen=False)
         self.core = Core()
+        self.core.config.config['lsd'] = False
         self.session = lt.session()
         self.torrent = None
         return component.start()

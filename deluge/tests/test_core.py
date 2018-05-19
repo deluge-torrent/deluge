@@ -85,6 +85,7 @@ class CoreTestCase(BaseTestCase):
         common.set_tmp_config_dir()
         self.rpcserver = RPCServer(listen=False)
         self.core = Core()
+        self.core.config.config['lsd'] = False
         self.listen_port = 51242
         return component.start().addCallback(self.start_web_server)
 
