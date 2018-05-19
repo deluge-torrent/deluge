@@ -37,14 +37,18 @@ class TorrentTestCase(BaseTestCase):
 
     def set_up(self):
         self.setup_config()
-        RPCServer(listen=False)
+        self.rpcserver = RPCServer(listen=False)
         self.core = Core()
         self.session = lt.session()
         self.torrent = None
         return component.start()
 
     def tear_down(self):
-        return component.shutdown()
+        def on_shutdown(result):
+            del self.rpcserver
+            del self.core
+
+        return component.shutdown().addCallback(on_shutdown)
 
     def print_priority_list(self, priorities):
         tmp = ''

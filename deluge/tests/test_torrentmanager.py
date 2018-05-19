@@ -29,12 +29,17 @@ class TorrentmanagerTestCase(BaseTestCase):
 
     def set_up(self):
         common.set_tmp_config_dir()
-        RPCServer(listen=False)
+        self.rpcserver = RPCServer(listen=False)
         self.core = Core()
         return component.start()
 
     def tear_down(self):
-        return component.shutdown()
+
+        def on_shutdown(result):
+            del self.rpcserver
+            del self.core
+
+        return component.shutdown().addCallback(on_shutdown)
 
     @defer.inlineCallbacks
     def test_remove_torrent(self):
