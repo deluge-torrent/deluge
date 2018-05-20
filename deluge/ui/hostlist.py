@@ -11,8 +11,7 @@ from __future__ import unicode_literals
 
 import logging
 import os
-import time
-from hashlib import sha1
+import uuid
 from socket import gaierror, gethostbyname
 
 from twisted.internet import defer
@@ -31,7 +30,7 @@ LOCALHOST = ('127.0.0.1', 'localhost')
 
 def default_hostlist():
     """Create a new hosts key for hostlist with a localhost entry"""
-    host_id = sha1(str(time.time()).encode('utf8')).hexdigest()
+    host_id = uuid.uuid4().hex
     username, password = get_localhost_auth()
     return {'hosts': [(host_id, DEFAULT_HOST, DEFAULT_PORT, username, password)]}
 
@@ -132,7 +131,7 @@ class HostList(object):
 
         validate_host_info(hostname, port)
         self.check_info_exists(hostname, port, username)
-        host_id = sha1(str(time.time())).hexdigest()
+        host_id = uuid.uuid4().hex
         self.config['hosts'].append((host_id, hostname, port, username, password))
         self.config.save()
         return host_id
