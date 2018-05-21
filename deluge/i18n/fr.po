@@ -3277,11 +3277,11 @@ msgstr "Sortie :"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1233
 msgid "Encrypt entire stream"
-msgstr "Crypter la totalité du flux"
+msgstr "Chiffrer la totalité du flux"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1258
 msgid "<b>Encryption</b>"
-msgstr "<b>Cryptage</b>"
+msgstr "<b>Chiffrement</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1319
 msgid "<b><i><big>Bandwidth</big></i></b>"
