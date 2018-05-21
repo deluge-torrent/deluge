@@ -57,9 +57,13 @@ class Mock(object):
         return Mock()
 
 
-MOCK_MODULES = ['deluge.ui.gtkui.gtkui', 'deluge._libtorrent',
-                'libtorrent', 'psyco',
-                'pygtk', 'gtk', 'gobject', 'gtk.gdk', 'pango', 'cairo', 'pangocairo']
+MOCK_MODULES = [
+    'deluge.ui.gtkui.gtkui', 'deluge._libtorrent',
+    'libtorrent', 'psyco',
+    'pygtk', 'gtk', 'gobject', 'gtk.gdk', 'pango', 'cairo', 'pangocairo',
+    'curses', 'win32api', 'win32file', 'win32process', 'win32pipe',
+    'pywintypes', 'win32con', 'win32event',
+]
 
 for mod_name in MOCK_MODULES:
     sys.modules[mod_name] = Mock()
