@@ -257,7 +257,6 @@
             <child>
               <object class="GtkButton" id="button_cancel">
                 <property name="label">gtk-cancel</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -273,7 +272,6 @@
             <child>
               <object class="GtkButton" id="button_apply">
                 <property name="label">gtk-apply</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -289,7 +287,6 @@
             <child>
               <object class="GtkButton" id="button_ok">
                 <property name="label">gtk-ok</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -374,7 +371,6 @@
                                         <child>
                                           <object class="GtkRadioButton" id="radio_standalone">
                                             <property name="label" translatable="yes">Standalone</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -391,7 +387,6 @@
                                         <child>
                                           <object class="GtkRadioButton" id="radio_thinclient">
                                             <property name="label" translatable="yes">Thin Client</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -448,7 +443,6 @@
                                         <child>
                                           <object class="GtkCheckButton" id="chk_show_rate_in_title">
                                             <property name="label" translatable="yes">Show session speed in titlebar</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -463,7 +457,6 @@
                                         <child>
                                           <object class="GtkCheckButton" id="chk_focus_main_window_on_add">
                                             <property name="label" translatable="yes">Focus window when adding torrent</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -478,7 +471,6 @@
                                         </child>
                                         <child>
                                           <object class="GtkCheckButton" id="piecesbar_toggle">
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -531,7 +523,6 @@ and daemon (does not apply in Standalone mode).</property>
                                                     </child>
                                                     <child>
                                                       <object class="GtkColorButton" id="completed_color">
-                                                        <property name="use_action_appearance">False</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
@@ -542,7 +533,7 @@ and daemon (does not apply in Standalone mode).</property>
                                                       <packing>
                                                         <property name="left_attach">1</property>
                                                         <property name="right_attach">2</property>
-                                                        <property name="x_options"></property>
+                                                        <property name="x_options"/>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -560,7 +551,6 @@ and daemon (does not apply in Standalone mode).</property>
                                                     </child>
                                                     <child>
                                                       <object class="GtkColorButton" id="downloading_color">
-                                                        <property name="use_action_appearance">False</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
@@ -573,7 +563,7 @@ and daemon (does not apply in Standalone mode).</property>
                                                         <property name="right_attach">2</property>
                                                         <property name="top_attach">1</property>
                                                         <property name="bottom_attach">2</property>
-                                                        <property name="x_options"></property>
+                                                        <property name="x_options"/>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -591,7 +581,6 @@ and daemon (does not apply in Standalone mode).</property>
                                                     </child>
                                                     <child>
                                                       <object class="GtkColorButton" id="waiting_color">
-                                                        <property name="use_action_appearance">False</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
@@ -604,7 +593,7 @@ and daemon (does not apply in Standalone mode).</property>
                                                         <property name="right_attach">2</property>
                                                         <property name="top_attach">2</property>
                                                         <property name="bottom_attach">3</property>
-                                                        <property name="x_options"></property>
+                                                        <property name="x_options"/>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -622,7 +611,6 @@ and daemon (does not apply in Standalone mode).</property>
                                                     </child>
                                                     <child>
                                                       <object class="GtkColorButton" id="missing_color">
-                                                        <property name="use_action_appearance">False</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
@@ -635,13 +623,12 @@ and daemon (does not apply in Standalone mode).</property>
                                                         <property name="right_attach">2</property>
                                                         <property name="top_attach">3</property>
                                                         <property name="bottom_attach">4</property>
-                                                        <property name="x_options"></property>
+                                                        <property name="x_options"/>
                                                       </packing>
                                                     </child>
                                                     <child>
                                                       <object class="GtkButton" id="revert_color_completed">
                                                         <property name="label">gtk-revert-to-saved</property>
-                                                        <property name="use_action_appearance">False</property>
                                                         <property name="visible">True</property>
                                                         <property name="sensitive">False</property>
                                                         <property name="can_focus">True</property>
@@ -654,13 +641,12 @@ and daemon (does not apply in Standalone mode).</property>
                                                       <packing>
                                                         <property name="left_attach">2</property>
                                                         <property name="right_attach">3</property>
-                                                        <property name="x_options"></property>
+                                                        <property name="x_options"/>
                                                       </packing>
                                                     </child>
                                                     <child>
                                                       <object class="GtkButton" id="revert_color_downloading">
                                                         <property name="label">gtk-revert-to-saved</property>
-                                                        <property name="use_action_appearance">False</property>
                                                         <property name="visible">True</property>
                                                         <property name="sensitive">False</property>
                                                         <property name="can_focus">True</property>
@@ -675,13 +661,12 @@ and daemon (does not apply in Standalone mode).</property>
                                                         <property name="right_attach">3</property>
                                                         <property name="top_attach">1</property>
                                                         <property name="bottom_attach">2</property>
-                                                        <property name="x_options"></property>
+                                                        <property name="x_options"/>
                                                       </packing>
                                                     </child>
                                                     <child>
                                                       <object class="GtkButton" id="revert_color_waiting">
                                                         <property name="label">gtk-revert-to-saved</property>
-                                                        <property name="use_action_appearance">False</property>
                                                         <property name="visible">True</property>
                                                         <property name="sensitive">False</property>
                                                         <property name="can_focus">True</property>
@@ -696,13 +681,12 @@ and daemon (does not apply in Standalone mode).</property>
                                                         <property name="right_attach">3</property>
                                                         <property name="top_attach">2</property>
                                                         <property name="bottom_attach">3</property>
-                                                        <property name="x_options"></property>
+                                                        <property name="x_options"/>
                                                       </packing>
                                                     </child>
                                                     <child>
                                                       <object class="GtkButton" id="revert_color_missing">
                                                         <property name="label">gtk-revert-to-saved</property>
-                                                        <property name="use_action_appearance">False</property>
                                                         <property name="visible">True</property>
                                                         <property name="sensitive">False</property>
                                                         <property name="can_focus">True</property>
@@ -717,7 +701,7 @@ and daemon (does not apply in Standalone mode).</property>
                                                         <property name="right_attach">3</property>
                                                         <property name="top_attach">3</property>
                                                         <property name="bottom_attach">4</property>
-                                                        <property name="x_options"></property>
+                                                        <property name="x_options"/>
                                                       </packing>
                                                     </child>
                                                   </object>
@@ -780,7 +764,6 @@ and daemon (does not apply in Standalone mode).</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_use_tray">
                                             <property name="label" translatable="yes">Enable system tray icon</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="receives_default">False</property>
@@ -804,7 +787,6 @@ and daemon (does not apply in Standalone mode).</property>
                                                 <child>
                                                   <object class="GtkRadioButton" id="radio_appind">
                                                     <property name="label" translatable="yes">App Indicator</property>
-                                                    <property name="use_action_appearance">False</property>
                                                     <property name="visible">True</property>
                                                     <property name="sensitive">False</property>
                                                     <property name="can_focus">True</property>
@@ -822,7 +804,6 @@ and daemon (does not apply in Standalone mode).</property>
                                                 <child>
                                                   <object class="GtkRadioButton" id="radio_systray">
                                                     <property name="label" translatable="yes">Systray</property>
-                                                    <property name="use_action_appearance">False</property>
                                                     <property name="visible">True</property>
                                                     <property name="sensitive">False</property>
                                                     <property name="can_focus">True</property>
@@ -853,7 +834,6 @@ and daemon (does not apply in Standalone mode).</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_min_on_close">
                                                 <property name="label" translatable="yes">Minimize to tray on close</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="sensitive">False</property>
                                                 <property name="can_focus">False</property>
@@ -877,7 +857,6 @@ and daemon (does not apply in Standalone mode).</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_start_in_tray">
                                                 <property name="label" translatable="yes">Start in tray</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="sensitive">False</property>
                                                 <property name="can_focus">False</property>
@@ -902,7 +881,6 @@ and daemon (does not apply in Standalone mode).</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_lock_tray">
                                                 <property name="label" translatable="yes">Password protect system tray</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="sensitive">False</property>
                                                 <property name="can_focus">True</property>
@@ -1017,7 +995,6 @@ and daemon (does not apply in Standalone mode).</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_show_new_releases">
                                                 <property name="label" translatable="yes">Notify about new releases</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
@@ -1072,7 +1049,6 @@ and daemon (does not apply in Standalone mode).</property>
                                         <child>
                                           <object class="GtkCheckButton" id="checkbutton_language">
                                             <property name="label" translatable="yes">System Default</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -1182,7 +1158,6 @@ and daemon (does not apply in Standalone mode).</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_move_completed">
                                             <property name="label" translatable="yes">Move completed to:</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -1198,7 +1173,6 @@ and daemon (does not apply in Standalone mode).</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_copy_torrent_file">
                                             <property name="label" translatable="yes">Copy of .torrent files to:</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -1214,7 +1188,6 @@ and daemon (does not apply in Standalone mode).</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_del_copy_torrent_file">
                                             <property name="label" translatable="yes">Delete copy of torrent file on remove</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -1343,7 +1316,6 @@ and daemon (does not apply in Standalone mode).</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_prioritize_first_last_pieces">
                                             <property name="label" translatable="yes">Prioritize first and last pieces of torrent</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -1359,7 +1331,6 @@ and daemon (does not apply in Standalone mode).</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_sequential_download">
                                             <property name="label" translatable="yes">Sequential download</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -1380,7 +1351,6 @@ used sparingly.</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_add_paused">
                                             <property name="label" translatable="yes">Add torrents in Paused state</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -1395,7 +1365,6 @@ used sparingly.</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_pre_allocation">
                                             <property name="label" translatable="yes">Pre-allocate disk space</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -1450,7 +1419,6 @@ used sparingly.</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_show_dialog">
                                             <property name="label" translatable="yes">Always show</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -1470,7 +1438,6 @@ used sparingly.</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_focus_dialog">
                                                 <property name="label" translatable="yes">Bring the dialog to focus</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
@@ -1567,6 +1534,15 @@ used sparingly.</property>
                                             <property name="n_rows">6</property>
                                             <property name="n_columns">3</property>
                                             <property name="column_spacing">10</property>
+                                            <child>
+                                              <placeholder/>
+                                            </child>
+                                            <child>
+                                              <placeholder/>
+                                            </child>
+                                            <child>
+                                              <placeholder/>
+                                            </child>
                                             <child>
                                               <object class="GtkSpinButton" id="spin_max_connections_per_second">
                                                 <property name="visible">True</property>
@@ -1798,7 +1774,7 @@ used sparingly.</property>
                                                 <property name="top_attach">2</property>
                                                 <property name="bottom_attach">3</property>
                                                 <property name="x_options">GTK_FILL</property>
-                                                <property name="y_options"></property>
+                                                <property name="y_options"/>
                                               </packing>
                                             </child>
                                             <child>
@@ -1814,17 +1790,8 @@ used sparingly.</property>
                                                 <property name="top_attach">3</property>
                                                 <property name="bottom_attach">4</property>
                                                 <property name="x_options">GTK_FILL</property>
-                                                <property name="y_options"></property>
+                                                <property name="y_options"/>
                                               </packing>
-                                            </child>
-                                            <child>
-                                              <placeholder/>
-                                            </child>
-                                            <child>
-                                              <placeholder/>
-                                            </child>
-                                            <child>
-                                              <placeholder/>
                                             </child>
                                             <child>
                                               <placeholder/>
@@ -1844,7 +1811,6 @@ used sparingly.</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_ignore_limits_on_local_network">
                                                 <property name="label" translatable="yes">Ignore limits on local network</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
@@ -1867,7 +1833,6 @@ used sparingly.</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_rate_limit_ip_overhead">
                                                 <property name="label" translatable="yes">Rate limit IP overhead</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
@@ -1925,6 +1890,9 @@ used sparingly.</property>
                                         <property name="n_rows">4</property>
                                         <property name="n_columns">3</property>
                                         <property name="column_spacing">10</property>
+                                        <child>
+                                          <placeholder/>
+                                        </child>
                                         <child>
                                           <object class="GtkSpinButton" id="spin_max_upload_slots_per_torrent">
                                             <property name="visible">True</property>
@@ -2081,7 +2049,7 @@ used sparingly.</property>
                                             <property name="top_attach">2</property>
                                             <property name="bottom_attach">3</property>
                                             <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"></property>
+                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -2097,11 +2065,8 @@ used sparingly.</property>
                                             <property name="top_attach">3</property>
                                             <property name="bottom_attach">4</property>
                                             <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"></property>
+                                            <property name="y_options"/>
                                           </packing>
-                                        </child>
-                                        <child>
-                                          <placeholder/>
                                         </child>
                                         <child>
                                           <placeholder/>
@@ -2189,7 +2154,6 @@ used sparingly.</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_queue_new_top">
                                                 <property name="label" translatable="yes">Queue to top</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
@@ -2262,7 +2226,7 @@ used sparingly.</property>
                                                   <packing>
                                                     <property name="left_attach">1</property>
                                                     <property name="right_attach">2</property>
-                                                    <property name="x_options"></property>
+                                                    <property name="x_options"/>
                                                   </packing>
                                                 </child>
                                                 <child>
@@ -2283,7 +2247,7 @@ used sparingly.</property>
                                                     <property name="right_attach">2</property>
                                                     <property name="top_attach">2</property>
                                                     <property name="bottom_attach">3</property>
-                                                    <property name="x_options"></property>
+                                                    <property name="x_options"/>
                                                   </packing>
                                                 </child>
                                                 <child>
@@ -2328,7 +2292,7 @@ used sparingly.</property>
                                                     <property name="right_attach">2</property>
                                                     <property name="top_attach">1</property>
                                                     <property name="bottom_attach">2</property>
-                                                    <property name="x_options"></property>
+                                                    <property name="x_options"/>
                                                   </packing>
                                                 </child>
                                                 <child>
@@ -2354,7 +2318,6 @@ used sparingly.</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_dont_count_slow_torrents">
                                                 <property name="label" translatable="yes">Ignore slow torrents</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
@@ -2370,7 +2333,6 @@ used sparingly.</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_auto_manage_prefer_seeds">
                                                 <property name="label" translatable="yes">Prefer seeding torrents</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
@@ -2477,7 +2439,7 @@ used sparingly.</property>
                                               <packing>
                                                 <property name="left_attach">1</property>
                                                 <property name="right_attach">2</property>
-                                                <property name="x_options"></property>
+                                                <property name="x_options"/>
                                               </packing>
                                             </child>
                                             <child>
@@ -2499,7 +2461,7 @@ used sparingly.</property>
                                                 <property name="right_attach">2</property>
                                                 <property name="top_attach">1</property>
                                                 <property name="bottom_attach">2</property>
-                                                <property name="x_options"></property>
+                                                <property name="x_options"/>
                                               </packing>
                                             </child>
                                             <child>
@@ -2520,7 +2482,7 @@ used sparingly.</property>
                                                 <property name="right_attach">2</property>
                                                 <property name="top_attach">2</property>
                                                 <property name="bottom_attach">3</property>
-                                                <property name="x_options"></property>
+                                                <property name="x_options"/>
                                               </packing>
                                             </child>
                                           </object>
@@ -2567,7 +2529,6 @@ used sparingly.</property>
                                                 <child>
                                                   <object class="GtkCheckButton" id="chk_share_ratio">
                                                     <property name="label" translatable="yes">Share Ratio:</property>
-                                                    <property name="use_action_appearance">False</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">False</property>
@@ -2622,7 +2583,6 @@ used sparingly.</property>
                                                     <child>
                                                       <object class="GtkRadioButton" id="radio_pause_ratio">
                                                         <property name="label" translatable="yes">Pause Torrent</property>
-                                                        <property name="use_action_appearance">False</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">False</property>
@@ -2638,7 +2598,6 @@ used sparingly.</property>
                                                     <child>
                                                       <object class="GtkRadioButton" id="radio_remove_ratio">
                                                         <property name="label" translatable="yes">Remove Torrent</property>
-                                                        <property name="use_action_appearance">False</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">False</property>
@@ -2814,7 +2773,6 @@ used sparingly.</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_random_incoming_port">
                                                 <property name="label" translatable="yes">Random</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
@@ -2887,7 +2845,6 @@ used sparingly.</property>
                                             <child>
                                               <object class="GtkButton" id="button_testport">
                                                 <property name="label" translatable="yes">Test Active Port</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
@@ -3039,7 +2996,6 @@ used sparingly.</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_random_outgoing_ports">
                                             <property name="label" translatable="yes">Random</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -3261,7 +3217,6 @@ used sparingly.</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_upnp">
                                             <property name="label" translatable="yes">UPnP</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -3277,7 +3232,6 @@ used sparingly.</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_natpmp">
                                             <property name="label" translatable="yes">NAT-PMP</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -3295,7 +3249,6 @@ used sparingly.</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_utpex">
                                             <property name="label" translatable="yes">Peer Exchange</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -3312,7 +3265,6 @@ used sparingly.</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_lsd">
                                             <property name="label" translatable="yes">LSD</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -3328,7 +3280,6 @@ used sparingly.</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_dht">
                                             <property name="label" translatable="yes">DHT</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -3524,7 +3475,7 @@ used sparingly.</property>
                                             <property name="secondary_icon_activatable">False</property>
                                             <property name="primary_icon_sensitive">True</property>
                                             <property name="secondary_icon_sensitive">True</property>
-                                            <signal name="paste-clipboard" handler="on_entry_proxy_host_paste_clipboard" />
+                                            <signal name="paste-clipboard" handler="on_entry_proxy_host_paste_clipboard" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
@@ -3607,7 +3558,7 @@ used sparingly.</property>
                                           <packing>
                                             <property name="right_attach">2</property>
                                             <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"></property>
+                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -3626,7 +3577,6 @@ used sparingly.</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_proxy_host_resolve">
                                             <property name="label" translatable="yes">Proxy Hostnames</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -3645,7 +3595,6 @@ the proxy instead of using the local DNS service</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_proxy_peer_conn">
                                             <property name="label" translatable="yes">Proxy Peers</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -3664,7 +3613,6 @@ the proxy instead of using the local DNS service</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_proxy_tracker_conn">
                                             <property name="label" translatable="yes">Proxy Trackers</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -3721,7 +3669,6 @@ the proxy instead of using the local DNS service</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_force_proxy">
                                             <property name="label" translatable="yes">Force Proxy Use</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -3745,7 +3692,6 @@ the proxy instead of using the local DNS service</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_anonymous_mode">
                                             <property name="label" translatable="yes">Hide Client Identity</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -3879,7 +3825,7 @@ the proxy instead of using the local DNS service</property>
                                           <packing>
                                             <property name="left_attach">1</property>
                                             <property name="right_attach">2</property>
-                                            <property name="x_options"></property>
+                                            <property name="x_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -3901,7 +3847,7 @@ the proxy instead of using the local DNS service</property>
                                             <property name="right_attach">2</property>
                                             <property name="top_attach">1</property>
                                             <property name="bottom_attach">2</property>
-                                            <property name="x_options"></property>
+                                            <property name="x_options"/>
                                           </packing>
                                         </child>
                                       </object>
@@ -4009,7 +3955,7 @@ the proxy instead of using the local DNS service</property>
                                                       <packing>
                                                         <property name="left_attach">1</property>
                                                         <property name="right_attach">2</property>
-                                                        <property name="x_options"></property>
+                                                        <property name="x_options"/>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -4023,7 +3969,7 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="right_attach">2</property>
                                                         <property name="top_attach">1</property>
                                                         <property name="bottom_attach">2</property>
-                                                        <property name="x_options"></property>
+                                                        <property name="x_options"/>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -4037,7 +3983,7 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="right_attach">2</property>
                                                         <property name="top_attach">2</property>
                                                         <property name="bottom_attach">3</property>
-                                                        <property name="x_options"></property>
+                                                        <property name="x_options"/>
                                                       </packing>
                                                     </child>
                                                   </object>
@@ -4128,7 +4074,7 @@ the proxy instead of using the local DNS service</property>
                                                       <packing>
                                                         <property name="left_attach">1</property>
                                                         <property name="right_attach">2</property>
-                                                        <property name="x_options"></property>
+                                                        <property name="x_options"/>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -4142,7 +4088,7 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="right_attach">2</property>
                                                         <property name="top_attach">1</property>
                                                         <property name="bottom_attach">2</property>
-                                                        <property name="x_options"></property>
+                                                        <property name="x_options"/>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -4156,7 +4102,7 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="right_attach">2</property>
                                                         <property name="top_attach">3</property>
                                                         <property name="bottom_attach">4</property>
-                                                        <property name="x_options"></property>
+                                                        <property name="x_options"/>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -4184,7 +4130,7 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="right_attach">2</property>
                                                         <property name="top_attach">2</property>
                                                         <property name="bottom_attach">3</property>
-                                                        <property name="x_options"></property>
+                                                        <property name="x_options"/>
                                                       </packing>
                                                     </child>
                                                   </object>
@@ -4260,7 +4206,7 @@ the proxy instead of using the local DNS service</property>
                                                       <packing>
                                                         <property name="left_attach">1</property>
                                                         <property name="right_attach">2</property>
-                                                        <property name="x_options"></property>
+                                                        <property name="x_options"/>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -4274,7 +4220,7 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="right_attach">2</property>
                                                         <property name="top_attach">1</property>
                                                         <property name="bottom_attach">2</property>
-                                                        <property name="x_options"></property>
+                                                        <property name="x_options"/>
                                                       </packing>
                                                     </child>
                                                   </object>
@@ -4306,7 +4252,6 @@ the proxy instead of using the local DNS service</property>
                                             <child>
                                               <object class="GtkButton" id="button_cache_refresh">
                                                 <property name="label">gtk-refresh</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
@@ -4423,7 +4368,6 @@ the proxy instead of using the local DNS service</property>
                                             <child>
                                               <object class="GtkCheckButton" id="chk_send_info">
                                                 <property name="label" translatable="yes">Yes, please send anonymous statistics</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
@@ -4557,7 +4501,6 @@ the proxy instead of using the local DNS service</property>
                                     <property name="layout_style">start</property>
                                     <child>
                                       <object class="GtkButton" id="button_associate_magnet">
-                                        <property name="use_action_appearance">False</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
@@ -4731,7 +4674,6 @@ the proxy instead of using the local DNS service</property>
                                     <child>
                                       <object class="GtkCheckButton" id="chk_allow_remote_connections">
                                         <property name="label" translatable="yes">Allow Remote Connections</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
@@ -4773,7 +4715,6 @@ the proxy instead of using the local DNS service</property>
                                     <child>
                                       <object class="GtkCheckButton" id="chk_new_releases">
                                         <property name="label" translatable="yes">Periodically check the website for new releases</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
@@ -4836,7 +4777,6 @@ the proxy instead of using the local DNS service</property>
                                             <child>
                                               <object class="GtkButton" id="accounts_add">
                                                 <property name="label">gtk-add</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
@@ -4852,7 +4792,6 @@ the proxy instead of using the local DNS service</property>
                                             <child>
                                               <object class="GtkButton" id="accounts_edit">
                                                 <property name="label">gtk-edit</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="sensitive">False</property>
                                                 <property name="can_focus">True</property>
@@ -4869,7 +4808,6 @@ the proxy instead of using the local DNS service</property>
                                             <child>
                                               <object class="GtkButton" id="accounts_delete">
                                                 <property name="label">gtk-delete</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="sensitive">False</property>
                                                 <property name="can_focus">True</property>
@@ -5034,7 +4972,7 @@ the proxy instead of using the local DNS service</property>
                                                       <packing>
                                                         <property name="left_attach">1</property>
                                                         <property name="right_attach">2</property>
-                                                        <property name="y_options"></property>
+                                                        <property name="y_options"/>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -5172,7 +5110,6 @@ the proxy instead of using the local DNS service</property>
                                 <property name="layout_style">center</property>
                                 <child>
                                   <object class="GtkButton" id="button_plugin_install">
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
@@ -5195,7 +5132,6 @@ the proxy instead of using the local DNS service</property>
                                 </child>
                                 <child>
                                   <object class="GtkButton" id="button_rescan_plugins">
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
@@ -5218,7 +5154,6 @@ the proxy instead of using the local DNS service</property>
                                 </child>
                                 <child>
                                   <object class="GtkButton" id="button_find_plugins">
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
