@@ -11,6 +11,7 @@ import pytest
 
 import deluge.component as component
 import deluge.ui.tracker_icons
+from deluge.common import windows_check
 from deluge.ui.tracker_icons import TrackerIcon, TrackerIcons
 
 from . import common
@@ -23,6 +24,9 @@ common.disable_new_release_check()
 
 @pytest.mark.internet
 class TrackerIconsTestCase(BaseTestCase):
+
+    if windows_check():
+        skip = 'cannot use os.path.samefile to compair on windows(unix only)'
 
     def set_up(self):
         self.icons = TrackerIcons()

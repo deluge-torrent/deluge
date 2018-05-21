@@ -11,6 +11,7 @@ import pytest
 from twisted.trial import unittest
 
 import deluge.component as component
+from deluge.common import windows_check
 from deluge.configmanager import ConfigManager
 from deluge.ui.translations_util import setup_translations
 
@@ -98,6 +99,8 @@ class FilesTabTestCase(BaseTestCase):
         self.assertTrue(ret)
 
     def test_files_tab2(self):
+        if windows_check():
+            raise unittest.SkipTest('on windows \ != / for path names')
         self.filestab.files_list[self.t_id] = (
             {'index': 0, 'path': '1/1/test_10.txt', 'offset': 0, 'size': 13},
             {'index': 1, 'path': 'test_100.txt', 'offset': 13, 'size': 14},
@@ -111,6 +114,8 @@ class FilesTabTestCase(BaseTestCase):
         self.assertTrue(ret)
 
     def test_files_tab3(self):
+        if windows_check():
+            raise unittest.SkipTest('on windows \ != / for path names')
         self.filestab.files_list[self.t_id] = (
             {'index': 0, 'path': '1/test_10.txt', 'offset': 0, 'size': 13},
             {'index': 1, 'path': 'test_100.txt', 'offset': 13, 'size': 14},
@@ -144,6 +149,8 @@ class FilesTabTestCase(BaseTestCase):
         self.assertTrue(ret)
 
     def test_files_tab5(self):
+        if windows_check():
+            raise unittest.SkipTest('on windows \ != / for path names')
         self.filestab.files_list[self.t_id] = (
             {'index': 0, 'path': '1/test_10.txt', 'offset': 0, 'size': 13},
             {'index': 1, 'path': '2/test_100.txt', 'offset': 13, 'size': 14},

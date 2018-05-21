@@ -238,7 +238,12 @@ def start_core(
 import sys
 import deluge.core.daemon_entry
 
-sys.argv.extend(['-d', '-c', '%s', '-L', 'info', '-p', '%d'])
+from deluge.common import windows_check
+
+    if windows_check():
+        sys.argv.extend(['-c', '%s', '-L', 'info', '-p', '%d'])
+    else
+        sys.argv.extend(['-d', '-c', '%s', '-L', 'info', '-p', '%d'])
 
 try:
     daemon = deluge.core.daemon_entry.start_daemon(skip_start=True)
