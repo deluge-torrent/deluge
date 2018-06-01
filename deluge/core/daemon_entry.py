@@ -23,16 +23,26 @@ from deluge.ui.translations_util import set_dummy_trans
 
 def add_daemon_options(parser):
     group = parser.add_argument_group(_('Daemon Options'))
-    group.add_argument('-u', '--ui-interface', metavar='<ip-addr>', action='store',
-                       help=_('IP address to listen for UI connections'))
-    group.add_argument('-p', '--port', metavar='<port>', action='store', type=int,
-                       help=_('Port to listen for UI connections on'))
-    group.add_argument('-i', '--interface', metavar='<ip-addr>', dest='listen_interface', action='store',
-                       help=_('IP address to listen for BitTorrent connections'))
-    group.add_argument('-o', '--outinterface', metavar='<ip-addr>', dest='outgoing_interface',
-                       action='store', help=_('The IP address for outgoing BitTorrent connections.'))
-    group.add_argument('--read-only-config-keys', metavar='<comma-separated-keys>', action='store',
-                       help=_('Config keys to be unmodified by `set_config` RPC'), type=str, default='')
+    group.add_argument(
+        '-u', '--ui-interface', metavar='<ip-addr>', action='store',
+        help=_('IP address to listen for UI connections'),
+    )
+    group.add_argument(
+        '-p', '--port', metavar='<port>', action='store', type=int,
+        help=_('Port to listen for UI connections on'),
+    )
+    group.add_argument(
+        '-i', '--interface', metavar='<ip-addr>', dest='listen_interface', action='store',
+        help=_('IP address to listen for BitTorrent connections'),
+    )
+    group.add_argument(
+        '-o', '--outinterface', metavar='<ip-addr>', dest='outgoing_interface',
+        action='store', help=_('The IP address for outgoing BitTorrent connections.'),
+    )
+    group.add_argument(
+        '--read-only-config-keys', metavar='<comma-separated-keys>', action='store',
+        help=_('Config keys to be unmodified by `set_config` RPC'), type=str, default='',
+    )
     parser.add_process_arg_group()
 
 
@@ -59,8 +69,10 @@ def start_daemon(skip_start=False):
     from deluge.core.daemon import is_daemon_running
     pid_file = get_config_dir('deluged.pid')
     if is_daemon_running(pid_file):
-        print('Cannot run multiple daemons with same config directory.\n'
-              'If you believe this is an error, force starting by deleting: %s' % pid_file)
+        print(
+            'Cannot run multiple daemons with same config directory.\n'
+            'If you believe this is an error, force starting by deleting: %s' % pid_file,
+        )
         sys.exit(1)
 
     log = getLogger(__name__)
@@ -74,19 +86,23 @@ def start_daemon(skip_start=False):
     def run_daemon(options):
         try:
             from deluge.core.daemon import Daemon
-            daemon = Daemon(listen_interface=options.listen_interface,
-                            outgoing_interface=options.outgoing_interface,
-                            interface=options.ui_interface,
-                            port=options.port,
-                            read_only_config_keys=options.read_only_config_keys.split(','))
+            daemon = Daemon(
+                listen_interface=options.listen_interface,
+                outgoing_interface=options.outgoing_interface,
+                interface=options.ui_interface,
+                port=options.port,
+                read_only_config_keys=options.read_only_config_keys.split(','),
+            )
             if skip_start:
                 return daemon
             else:
                 daemon.start()
         except CannotListenError as ex:
-            log.error('Cannot start deluged, listen port in use.\n'
-                      ' Check for other running daemons or services using this port: %s:%s',
-                      ex.interface, ex.port)
+            log.error(
+                'Cannot start deluged, listen port in use.\n'
+                ' Check for other running daemons or services using this port: %s:%s',
+                ex.interface, ex.port,
+            )
             sys.exit(1)
         except Exception as ex:
             log.error('Unable to start deluged: %s', ex)

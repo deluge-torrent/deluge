@@ -37,7 +37,7 @@ class CustomNotifications(object):
             'email': {},
             'popup': {},
             'blink': {},
-            'sound': {}
+            'sound': {},
         }
 
     def enable(self):
@@ -72,7 +72,7 @@ class CustomNotifications(object):
             wrapper, handler = self.custom_notifications[kind][eventtype]
         try:
             component.get('EventManager').register_event_handler(
-                eventtype, wrapper
+                eventtype, wrapper,
             )
         except KeyError:
             from deluge.ui.client import client
@@ -83,7 +83,7 @@ class CustomNotifications(object):
             wrapper, handler = self.custom_notifications[kind][eventtype]
             try:
                 component.get('EventManager').deregister_event_handler(
-                    eventtype, wrapper
+                    eventtype, wrapper,
                 )
             except KeyError:
                 from deluge.ui.client import client
@@ -99,8 +99,10 @@ class CustomNotifications(object):
         if known_events[eventtype].__module__.startswith('deluge.event'):
             if handler.__self__ is self:
                 return True
-            log.error('You cannot register custom notification providers '
-                      'for built-in event types.')
+            log.error(
+                'You cannot register custom notification providers '
+                'for built-in event types.',
+            )
             return False
         return True
 

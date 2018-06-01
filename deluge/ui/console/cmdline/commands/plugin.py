@@ -20,14 +20,20 @@ class Command(BaseCommand):
     """Manage plugins"""
 
     def add_arguments(self, parser):
-        parser.add_argument('-l', '--list', action='store_true', default=False, dest='list',
-                            help=_('Lists available plugins'))
-        parser.add_argument('-s', '--show', action='store_true', default=False, dest='show',
-                            help=_('Shows enabled plugins'))
+        parser.add_argument(
+            '-l', '--list', action='store_true', default=False, dest='list',
+            help=_('Lists available plugins'),
+        )
+        parser.add_argument(
+            '-s', '--show', action='store_true', default=False, dest='show',
+            help=_('Shows enabled plugins'),
+        )
         parser.add_argument('-e', '--enable', dest='enable', nargs='+', help=_('Enables a plugin'))
         parser.add_argument('-d', '--disable', dest='disable', nargs='+', help=_('Disables a plugin'))
-        parser.add_argument('-r', '--reload', action='store_true', default=False, dest='reload',
-                            help=_('Reload list of available plugins'))
+        parser.add_argument(
+            '-r', '--reload', action='store_true', default=False, dest='reload',
+            help=_('Reload list of available plugins'),
+        )
         parser.add_argument('-i', '--install', help=_('Install a plugin from an .egg file'))
 
     def handle(self, options):

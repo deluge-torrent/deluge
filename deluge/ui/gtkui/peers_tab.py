@@ -152,13 +152,13 @@ class PeersTab(Tab):
         state = {
             'columns': {},
             'sort_id': column_id,
-            'sort_order': int(sort_order) if sort_order else None
+            'sort_order': int(sort_order) if sort_order else None,
         }
 
         for index, column in enumerate(self.listview.get_columns()):
             state['columns'][column.get_title()] = {
                 'position': index,
-                'width': column.get_width()
+                'width': column.get_width(),
             }
         save_pickled_state_file('peers_tab.state', state)
 
@@ -221,7 +221,9 @@ class PeersTab(Tab):
                 self.cached_flag_pixbufs[country] = pixbuf_new_from_file(
                     deluge.common.resource_filename(
                         'deluge',
-                        os.path.join('ui', 'data', 'pixmaps', 'flags', country.lower() + '.png')))
+                        os.path.join('ui', 'data', 'pixmaps', 'flags', country.lower() + '.png'),
+                    ),
+                )
             except Exception as ex:
                 log.debug('Unable to load flag: %s', ex)
                 return None
@@ -263,8 +265,10 @@ class PeersTab(Tab):
                 # Create an int IP address for sorting purposes
                 if peer['ip'].count(':') == 1:
                     # This is an IPv4 address
-                    ip_int = sum([int(byte) << shift
-                                  for byte, shift in zip(peer['ip'].split(':')[0].split('.'), (24, 16, 8, 0))])
+                    ip_int = sum(
+                        int(byte) << shift
+                        for byte, shift in zip(peer['ip'].split(':')[0].split('.'), (24, 16, 8, 0))
+                    )
                     peer_ip = peer['ip']
                 else:
                     # This is an IPv6 address
@@ -289,7 +293,8 @@ class PeersTab(Tab):
                     peer['country'],
                     float(ip_int),
                     icon,
-                    peer['progress']])
+                    peer['progress'],
+                ])
 
                 self.peers[peer['ip']] = row
 
@@ -319,8 +324,10 @@ class PeersTab(Tab):
             if country_code != '  ' and country_code in COUNTRIES:
                 tooltip.set_text(COUNTRIES[country_code])
                 # widget here is self.listview
-                widget.set_tooltip_cell(tooltip, path, widget.get_column(0),
-                                        None)
+                widget.set_tooltip_cell(
+                    tooltip, path, widget.get_column(0),
+                    None,
+                )
                 return True
             else:
                 return False
@@ -330,7 +337,7 @@ class PeersTab(Tab):
         log.debug('on_menuitem_add_peer')
         builder = Builder()
         builder.add_from_file(deluge.common.resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'connect_peer_dialog.ui')
+            'deluge.ui.gtkui', os.path.join('glade', 'connect_peer_dialog.ui'),
         ))
         peer_dialog = builder.get_object('connect_peer_dialog')
         txt_ip = builder.get_object('txt_ip')

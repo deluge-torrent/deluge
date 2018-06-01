@@ -33,7 +33,7 @@ torrent_options = {
     'stop_ratio': float,
     'remove_at_ratio': bool,
     'move_completed': bool,
-    'move_completed_path': str
+    'move_completed_path': str,
 }
 
 
@@ -43,8 +43,10 @@ class Command(BaseCommand):
     usage = _('Usage: manage <torrent-id> [--set <key> <value>] [<key> [<key>...] ]')
 
     def add_arguments(self, parser):
-        parser.add_argument('torrent', metavar='<torrent>',
-                            help=_('an expression matched against torrent ids and torrent names'))
+        parser.add_argument(
+            'torrent', metavar='<torrent>',
+            help=_('an expression matched against torrent ids and torrent names'),
+        )
         set_group = parser.add_argument_group('setting a value')
         set_group.add_argument('-s', '--set', action='store', metavar='<key>', help=_('set value for this key'))
         set_group.add_argument('values', metavar='<value>', nargs='+', help=_('Value to set'))

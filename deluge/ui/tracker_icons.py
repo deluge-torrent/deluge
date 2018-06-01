@@ -208,14 +208,20 @@ class TrackerIcons(Component):
             self.pending[host] = []
             # Start callback chain
             d = self.download_page(host)
-            d.addCallbacks(self.on_download_page_complete, self.on_download_page_fail,
-                           errbackArgs=(host,))
+            d.addCallbacks(
+                self.on_download_page_complete, self.on_download_page_fail,
+                errbackArgs=(host,),
+            )
             d.addCallback(self.parse_html_page)
-            d.addCallbacks(self.on_parse_complete, self.on_parse_fail,
-                           callbackArgs=(host,))
+            d.addCallbacks(
+                self.on_parse_complete, self.on_parse_fail,
+                callbackArgs=(host,),
+            )
             d.addCallback(self.download_icon, host)
-            d.addCallbacks(self.on_download_icon_complete, self.on_download_icon_fail,
-                           callbackArgs=(host,), errbackArgs=(host,))
+            d.addCallbacks(
+                self.on_download_icon_complete, self.on_download_icon_fail,
+                callbackArgs=(host,), errbackArgs=(host,),
+            )
             if PIL_INSTALLED:
                 d.addCallback(self.resize_icon)
             d.addCallback(self.store_icon, host)
@@ -272,8 +278,10 @@ class TrackerIcons(Component):
             location = urljoin(self.host_to_url(host), error_msg.split(' to ')[1])
             self.redirects[host] = url_to_host(location)
             d = self.download_page(host, url=location)
-            d.addCallbacks(self.on_download_page_complete, self.on_download_page_fail,
-                           errbackArgs=(host,))
+            d.addCallbacks(
+                self.on_download_page_complete, self.on_download_page_fail,
+                errbackArgs=(host,),
+            )
 
         return d
 
@@ -345,8 +353,10 @@ class TrackerIcons(Component):
         if len(icons) == 0:
             raise NoIconsError('empty icons list')
         (url, mimetype) = icons.pop(0)
-        d = download_file(url, os.path.join(self.dir, host_to_icon_name(host, mimetype)),
-                          force_filename=True)
+        d = download_file(
+            url, os.path.join(self.dir, host_to_icon_name(host, mimetype)),
+            force_filename=True,
+        )
         d.addCallback(self.check_icon_is_valid)
         if icons:
             d.addErrback(self.on_download_icon_fail, host, icons)
@@ -413,16 +423,24 @@ class TrackerIcons(Component):
             location = urljoin(self.host_to_url(host), error_msg.split(' to ')[1])
             d = self.download_icon([(location, extension_to_mimetype(location.rpartition('.')[2]))] + icons, host)
             if not icons:
-                d.addCallbacks(self.on_download_icon_complete, self.on_download_icon_fail,
-                               callbackArgs=(host,), errbackArgs=(host,))
+                d.addCallbacks(
+                    self.on_download_icon_complete, self.on_download_icon_fail,
+                    callbackArgs=(host,), errbackArgs=(host,),
+                )
         elif f.check(NoResource, ForbiddenResource) and icons:
             d = self.download_icon(icons, host)
         elif f.check(NoIconsError):
             # No icons, try favicon.ico as an act of desperation
-            d = self.download_icon([(urljoin(self.host_to_url(host), 'favicon.ico'),
-                                     extension_to_mimetype('ico'))], host)
-            d.addCallbacks(self.on_download_icon_complete, self.on_download_icon_fail,
-                           callbackArgs=(host,), errbackArgs=(host,))
+            d = self.download_icon(
+                [(
+                    urljoin(self.host_to_url(host), 'favicon.ico'),
+                    extension_to_mimetype('ico'),
+                )], host,
+            )
+            d.addCallbacks(
+                self.on_download_icon_complete, self.on_download_icon_fail,
+                callbackArgs=(host,), errbackArgs=(host,),
+            )
         else:
             # No icons :(
             # Return the None Icon

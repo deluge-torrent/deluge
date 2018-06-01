@@ -52,7 +52,7 @@ LT_TORRENT_STATE_MAP = {
     'finished': 'Seeding',
     'seeding': 'Seeding',
     'allocating': 'Allocating',
-    'checking_resume_data': 'Checking'
+    'checking_resume_data': 'Checking',
 }
 
 
@@ -114,7 +114,7 @@ def convert_lt_files(files):
             'index': index,
             'path': file_path.replace('\\', '/'),
             'size': _file.size,
-            'offset': _file.offset
+            'offset': _file.offset,
         })
 
     return filelist
@@ -172,7 +172,7 @@ class TorrentOptions(dict):
             'shared': 'shared',
             'stop_at_ratio': 'stop_seed_at_ratio',
             'stop_ratio': 'stop_seed_ratio',
-            'super_seeding': 'super_seeding'
+            'super_seeding': 'super_seeding',
         }
         for opt_k, conf_k in options_conf_map.items():
             self[opt_k] = config[conf_k]
@@ -639,8 +639,10 @@ class Torrent(object):
             component.get('EventManager').emit(TorrentStateChangedEvent(self.torrent_id, self.state))
 
         if log.isEnabledFor(logging.DEBUG):
-            log.debug('State from lt was: %s | Session is paused: %s\nTorrent state set from "%s" to "%s" (%s)',
-                      'error' if status_error else status.state, session_paused, old_state, self.state, self.torrent_id)
+            log.debug(
+                'State from lt was: %s | Session is paused: %s\nTorrent state set from "%s" to "%s" (%s)',
+                'error' if status_error else status.state, session_paused, old_state, self.state, self.torrent_id,
+            )
             if self.forced_error:
                 log.debug('Torrent Error state message: %s', self.forced_error.error_message)
 
@@ -699,8 +701,10 @@ class Torrent(object):
         eta = 0
         if self.is_finished and self.options['stop_at_ratio'] and status.upload_payload_rate:
             # We're a seed, so calculate the time to the 'stop_share_ratio'
-            eta = ((status.all_time_download * self.options['stop_ratio']) -
-                   status.all_time_upload) // status.upload_payload_rate
+            eta = (
+                (status.all_time_download * self.options['stop_ratio']) -
+                status.all_time_upload
+            ) // status.upload_payload_rate
         elif status.download_payload_rate:
             left = status.total_wanted - status.total_wanted_done
             if left > 0:
@@ -825,8 +829,10 @@ class Torrent(object):
         """
         if not self.has_metadata:
             return []
-        return [progress / _file.size if _file.size else 0.0 for progress, _file in
-                zip(self.handle.file_progress(), self.torrent_info.files())]
+        return [
+            progress / _file.size if _file.size else 0.0 for progress, _file in
+            zip(self.handle.file_progress(), self.torrent_info.files())
+        ]
 
     def get_tracker_host(self):
         """Get the hostname of the currently connected tracker.
@@ -1019,7 +1025,8 @@ class Torrent(object):
             'save_path': lambda: self.options['download_location'],  # Deprecated: Use download_location
             'download_location': lambda: self.options['download_location'],
             'seeds_peers_ratio': lambda: -1.0 if self.status.num_incomplete == 0 else (  # Use -1.0 to signify infinity
-                self.status.num_complete / self.status.num_incomplete),
+                self.status.num_complete / self.status.num_incomplete
+            ),
             'seed_rank': lambda: self.status.seed_rank,
             'state': lambda: self.state,
             'stop_at_ratio': lambda: self.options['stop_at_ratio'],
@@ -1061,7 +1068,7 @@ class Torrent(object):
             'super_seeding': lambda: self.status.super_seeding,
             'time_since_download': lambda: self.status.time_since_download,
             'time_since_upload': lambda: self.status.time_since_upload,
-            'time_since_transfer': self.get_time_since_transfer
+            'time_since_transfer': self.get_time_since_transfer,
         }
 
     def pause(self):
@@ -1147,9 +1154,11 @@ class Torrent(object):
             try:
                 os.makedirs(dest)
             except OSError as ex:
-                log.error('Could not move storage for torrent %s since %s does '
-                          'not exist and could not create the directory: %s',
-                          self.torrent_id, dest, ex)
+                log.error(
+                    'Could not move storage for torrent %s since %s does '
+                    'not exist and could not create the directory: %s',
+                    self.torrent_id, dest, ex,
+                )
                 return False
 
         try:
@@ -1183,7 +1192,8 @@ class Torrent(object):
         # Don't generate fastresume data if torrent is in a Deluge Error state.
         if self.forced_error:
             component.get('TorrentManager').waiting_on_resume_data[self.torrent_id].errback(
-                UserWarning('Skipped creating resume_data while in Error state'))
+                UserWarning('Skipped creating resume_data while in Error state'),
+            )
         else:
             self.handle.save_resume_data(flags)
 
@@ -1315,7 +1325,7 @@ class Torrent(object):
             if _file['path'].startswith(folder):
                 # Keep track of filerenames we're waiting on
                 wait_on_folder[_file['index']] = Deferred().addBoth(
-                    on_file_rename_complete, wait_on_folder, _file['index']
+                    on_file_rename_complete, wait_on_folder, _file['index'],
                 )
                 new_path = _file['path'].replace(folder, new_folder, 1)
                 try:

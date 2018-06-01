@@ -48,7 +48,7 @@ HOSTLIST_PIXBUFS = [
 HOSTLIST_STATUS = [
     'Offline',
     'Online',
-    'Connected'
+    'Connected',
 ]
 
 
@@ -93,7 +93,8 @@ class ConnectionManager(component.Component):
         """Show the ConnectionManager dialog."""
         self.builder = gtk.Builder()
         self.builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'connection_manager.ui')))
+            'deluge.ui.gtkui', os.path.join('glade', 'connection_manager.ui'),
+        ))
         self.connection_manager = self.builder.get_object('connection_manager')
         self.connection_manager.set_transient_for(component.get('MainWindow').window)
 
@@ -101,7 +102,8 @@ class ConnectionManager(component.Component):
         if not HOSTLIST_PIXBUFS:
             for stock_id in (gtk.STOCK_NO, gtk.STOCK_YES, gtk.STOCK_CONNECT):
                 HOSTLIST_PIXBUFS.append(
-                    self.connection_manager.render_icon(stock_id, gtk.ICON_SIZE_MENU))
+                    self.connection_manager.render_icon(stock_id, gtk.ICON_SIZE_MENU),
+                )
 
         # Setup the hostlist liststore and treeview
         self.treeview = self.builder.get_object('treeview_hostlist')
@@ -165,11 +167,14 @@ class ConnectionManager(component.Component):
     def _load_widget_config(self):
         """Set the widgets to show the correct options from the config."""
         self.builder.get_object('chk_autoconnect').set_active(
-            self.gtkui_config['autoconnect'])
+            self.gtkui_config['autoconnect'],
+        )
         self.builder.get_object('chk_autostart').set_active(
-            self.gtkui_config['autostart_localhost'])
+            self.gtkui_config['autostart_localhost'],
+        )
         self.builder.get_object('chk_donotshow').set_active(
-            not self.gtkui_config['show_connection_manager_on_start'])
+            not self.gtkui_config['show_connection_manager_on_start'],
+        )
 
     def _update_host_status(self):
         """Updates the host status"""
@@ -205,7 +210,8 @@ class ConnectionManager(component.Component):
         self.builder.get_object('button_removehost').set_sensitive(False)
         self.builder.get_object('button_startdaemon').set_sensitive(False)
         self.builder.get_object('image_startdaemon').set_from_stock(
-            gtk.STOCK_EXECUTE, gtk.ICON_SIZE_MENU)
+            gtk.STOCK_EXECUTE, gtk.ICON_SIZE_MENU,
+        )
         self.builder.get_object('label_startdaemon').set_text_with_mnemonic('_Start Daemon')
 
         model, row = self.treeview.get_selection().get_selected()
@@ -230,7 +236,8 @@ class ConnectionManager(component.Component):
         if status == 'Connected' or status == 'Online':
             self.builder.get_object('button_connect').set_sensitive(True)
             self.builder.get_object('image_startdaemon').set_from_stock(
-                gtk.STOCK_STOP, gtk.ICON_SIZE_MENU)
+                gtk.STOCK_STOP, gtk.ICON_SIZE_MENU,
+            )
             self.builder.get_object('label_startdaemon').set_text_with_mnemonic(_('_Stop Daemon'))
             self.builder.get_object('button_startdaemon').set_sensitive(False)
             if status == 'Connected':
@@ -261,7 +268,8 @@ class ConnectionManager(component.Component):
         else:
             ErrorDialog(
                 _('Unable to start daemon!'),
-                _('Check deluged package is installed and logs for further details')).run()
+                _('Check deluged package is installed and logs for further details'),
+            ).run()
             return False
 
     # Signal handlers
@@ -318,8 +326,10 @@ class ConnectionManager(component.Component):
 
         msg = str(reason.value)
         if not self.gtkui_config['autostart_localhost']:
-            msg += '\n' + _('Auto-starting the daemon locally is not enabled. '
-                            'See "Options" on the "Connection Manager".')
+            msg += '\n' + _(
+                'Auto-starting the daemon locally is not enabled. '
+                'See "Options" on the "Connection Manager".',
+            )
         ErrorDialog(_('Failed To Connect'), msg).run()
 
     def on_button_connect_clicked(self, widget=None):
@@ -363,7 +373,8 @@ class ConnectionManager(component.Component):
 
         """
         self.builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'connection_manager.addhost.ui')))
+            'deluge.ui.gtkui', os.path.join('glade', 'connection_manager.addhost.ui'),
+        ))
         dialog = self.builder.get_object('addhost_dialog')
         dialog.set_transient_for(self.connection_manager)
         hostname_entry = self.builder.get_object('entry_hostname')
@@ -418,7 +429,8 @@ class ConnectionManager(component.Component):
             self.liststore[row][HOSTLIST_COL_HOST],
             self.liststore[row][HOSTLIST_COL_PORT],
             self.liststore[row][HOSTLIST_COL_USER],
-            self.liststore[row][HOSTLIST_COL_PASS]]
+            self.liststore[row][HOSTLIST_COL_PASS],
+        ]
         new_host_info = self._run_addhost_dialog(edit_host_info=host_info)
         if new_host_info:
             hostname, port, username, password = new_host_info
@@ -493,7 +505,8 @@ class ConnectionManager(component.Component):
         self.gtkui_config['autoconnect'] = self.builder.get_object('chk_autoconnect').get_active()
         self.gtkui_config['autostart_localhost'] = self.builder.get_object('chk_autostart').get_active()
         self.gtkui_config['show_connection_manager_on_start'] = not self.builder.get_object(
-            'chk_donotshow').get_active()
+            'chk_donotshow',
+        ).get_active()
 
     def on_entry_host_paste_clipboard(self, widget):
         text = get_clipboard_text()

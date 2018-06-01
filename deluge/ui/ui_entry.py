@@ -27,7 +27,7 @@ from deluge.ui.baseargparser import BaseArgParser
 from deluge.ui.translations_util import setup_translations
 
 DEFAULT_PREFS = {
-    'default_ui': 'gtk'
+    'default_ui': 'gtk',
 }
 
 AMBIGUOUS_CMD_ARGS = ('-h', '--help', '-v', '-V', '--version')
@@ -51,8 +51,10 @@ def start_ui():
     def add_ui_options_group(_parser):
         """Function to enable reuse of UI Options group"""
         group = _parser.add_argument_group(_('UI Options'))
-        group.add_argument('-s', '--set-default-ui', dest='default_ui', choices=ui_titles,
-                           help=_('Set the default UI to be run, when no UI is specified'))
+        group.add_argument(
+            '-s', '--set-default-ui', dest='default_ui', choices=ui_titles,
+            help=_('Set the default UI to be run, when no UI is specified'),
+        )
         return _parser
 
     # Setup parser with Common Options and add UI Options group.
@@ -81,11 +83,15 @@ def start_ui():
     parser = add_ui_options_group(BaseArgParser(common_help=True))
 
     # Create subparser for each registered UI. Empty title is used to remove unwanted positional text.
-    subparsers = parser.add_subparsers(dest='selected_ui', metavar='{%s} [UI args]' % ','.join(ui_titles), title=None,
-                                       help=_('Alternative UI to launch, with optional ui args \n  (default UI: *)'))
+    subparsers = parser.add_subparsers(
+        dest='selected_ui', metavar='{%s} [UI args]' % ','.join(ui_titles), title=None,
+        help=_('Alternative UI to launch, with optional ui args \n  (default UI: *)'),
+    )
     for ui in ui_titles:
-        parser_ui = subparsers.add_parser(ui, common_help=False,
-                                          help=getattr(ui_entrypoints[ui], 'cmd_description', ''))
+        parser_ui = subparsers.add_parser(
+            ui, common_help=False,
+            help=getattr(ui_entrypoints[ui], 'cmd_description', ''),
+        )
         parser_ui.add_argument('ui_args', nargs=argparse.REMAINDER)
         # If the UI is set as default, indicate this in help by prefixing with a star.
         subactions = subparsers._get_subactions()
@@ -106,16 +112,20 @@ def start_ui():
     try:
         ui = ui_entrypoints[selected_ui](prog='%s %s' % (os.path.basename(sys.argv[0]), selected_ui), ui_args=ui_args)
     except KeyError as ex:
-        log.error('Unable to find chosen UI: "%s". Please choose a different UI '
-                  'or use "--set-default-ui" to change default UI.', selected_ui)
+        log.error(
+            'Unable to find chosen UI: "%s". Please choose a different UI '
+            'or use "--set-default-ui" to change default UI.', selected_ui,
+        )
     except ImportError as ex:
         import traceback
         error_type, error_value, tb = sys.exc_info()
         stack = traceback.extract_tb(tb)
         last_frame = stack[-1]
         if last_frame[0] == __file__:
-            log.error('Unable to find chosen UI: "%s". Please choose a different UI '
-                      'or use "--set-default-ui" to change default UI.', selected_ui)
+            log.error(
+                'Unable to find chosen UI: "%s". Please choose a different UI '
+                'or use "--set-default-ui" to change default UI.', selected_ui,
+            )
         else:
             log.exception(ex)
             log.error('Encountered an error launching the request UI: %s', selected_ui)

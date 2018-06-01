@@ -26,7 +26,7 @@ from deluge.plugins.pluginbase import CorePluginBase
 log = logging.getLogger(__name__)
 
 DEFAULT_CONFIG = {
-    'commands': []
+    'commands': [],
 }
 
 EXECUTE_ID = 0
@@ -36,7 +36,7 @@ EXECUTE_COMMAND = 2
 EVENT_MAP = {
     'complete': 'TorrentFinishedEvent',
     'added': 'TorrentAddedEvent',
-    'removed': 'TorrentRemovedEvent'
+    'removed': 'TorrentRemovedEvent',
 }
 
 
@@ -118,8 +118,10 @@ class Core(CorePluginBase):
                 command = os.path.expandvars(command[EXECUTE_COMMAND])
                 command = os.path.expanduser(command)
 
-                cmd_args = [torrent_id.encode('utf8'), torrent_name.encode('utf8'),
-                            download_location.encode('utf8')]
+                cmd_args = [
+                    torrent_id.encode('utf8'), torrent_name.encode('utf8'),
+                    download_location.encode('utf8'),
+                ]
                 if windows_check():
                     # Escape ampersand on windows (see #2784)
                     cmd_args = [cmd_arg.replace('&', '^^^&') for cmd_arg in cmd_args]

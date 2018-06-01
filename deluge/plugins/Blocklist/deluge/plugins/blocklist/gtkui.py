@@ -35,7 +35,7 @@ class GtkUI(GtkPluginBase):
             image=common.get_resource('blocklist16.png'),
             text='',
             callback=self._on_status_item_clicked,
-            tooltip=_('Blocked IP Ranges /Whitelisted IP Ranges')
+            tooltip=_('Blocked IP Ranges /Whitelisted IP Ranges'),
         )
 
         # Register some hooks
@@ -67,7 +67,8 @@ class GtkUI(GtkPluginBase):
                 self.builder.get_object('image_up_to_date').hide()
 
                 self.status_item.set_text(
-                    'Downloading %.2f%%' % (status['file_progress'] * 100))
+                    'Downloading %.2f%%' % (status['file_progress'] * 100),
+                )
                 self.progress_bar.set_text('Downloading %.2f%%' % (status['file_progress'] * 100))
                 self.progress_bar.set_fraction(status['file_progress'])
                 self.progress_bar.show()
@@ -79,7 +80,8 @@ class GtkUI(GtkPluginBase):
                 self.builder.get_object('image_up_to_date').hide()
 
                 self.status_item.set_text(
-                    'Importing ' + str(status['num_blocked']))
+                    'Importing ' + str(status['num_blocked']),
+                )
                 self.progress_bar.set_text('Importing %s' % (status['num_blocked']))
                 self.progress_bar.pulse()
                 self.progress_bar.show()
@@ -97,12 +99,15 @@ class GtkUI(GtkPluginBase):
                 self.status_item.set_text('%(num_blocked)s/%(num_whited)s' % status)
 
                 self.builder.get_object('label_filesize').set_text(
-                    deluge.common.fsize(status['file_size']))
+                    deluge.common.fsize(status['file_size']),
+                )
                 self.builder.get_object('label_modified').set_text(
-                    datetime.fromtimestamp(status['file_date']).strftime('%c'))
+                    datetime.fromtimestamp(status['file_date']).strftime('%c'),
+                )
                 self.builder.get_object('label_type').set_text(status['file_type'])
                 self.builder.get_object('label_url').set_text(
-                    status['file_url'])
+                    status['file_url'],
+                )
 
         client.blocklist.get_status().addCallback(_on_get_status)
 
@@ -155,18 +160,24 @@ class GtkUI(GtkPluginBase):
         self.builder.connect_signals({
             'on_button_check_download_clicked': self._on_button_check_download_clicked,
             'on_button_force_download_clicked': self._on_button_force_download_clicked,
-            'on_whitelist_add_clicked': (self.on_add_button_clicked,
-                                         self.whitelist_treeview),
-            'on_whitelist_remove_clicked': (self.on_delete_button_clicked,
-                                            self.whitelist_treeview),
+            'on_whitelist_add_clicked': (
+                self.on_add_button_clicked,
+                self.whitelist_treeview,
+            ),
+            'on_whitelist_remove_clicked': (
+                self.on_delete_button_clicked,
+                self.whitelist_treeview,
+            ),
         })
 
         # Set button icons
         self.builder.get_object('image_download').set_from_file(
-            common.get_resource('blocklist_download24.png'))
+            common.get_resource('blocklist_download24.png'),
+        )
 
         self.builder.get_object('image_import').set_from_file(
-            common.get_resource('blocklist_import24.png'))
+            common.get_resource('blocklist_import24.png'),
+        )
 
         # Update the preferences page with config values from the core
         self._on_show_prefs()
@@ -174,13 +185,14 @@ class GtkUI(GtkPluginBase):
         # Add the page to the preferences dialog
         self.plugin.add_preferences_page(
             _('Blocklist'),
-            self.builder.get_object('blocklist_prefs_box'))
+            self.builder.get_object('blocklist_prefs_box'),
+        )
 
     def build_whitelist_model_treeview(self):
         self.whitelist_treeview = self.builder.get_object('whitelist_treeview')
         treeview_selection = self.whitelist_treeview.get_selection()
         treeview_selection.connect(
-            'changed', self.on_whitelist_treeview_selection_changed
+            'changed', self.on_whitelist_treeview_selection_changed,
         )
         self.whitelist_model = gtk.ListStore(str, bool)
         renderer = gtk.CellRendererText()
@@ -207,11 +219,15 @@ class GtkUI(GtkPluginBase):
     def on_whitelist_treeview_selection_changed(self, selection):
         model, selected_connection_iter = selection.get_selected()
         if selected_connection_iter:
-            self.builder.get_object('whitelist_delete').set_property('sensitive',
-                                                                     True)
+            self.builder.get_object('whitelist_delete').set_property(
+                'sensitive',
+                True,
+            )
         else:
-            self.builder.get_object('whitelist_delete').set_property('sensitive',
-                                                                     False)
+            self.builder.get_object('whitelist_delete').set_property(
+                'sensitive',
+                False,
+            )
 
     def on_add_button_clicked(self, widget, treeview):
         model = treeview.get_model()
@@ -228,5 +244,5 @@ class GtkUI(GtkPluginBase):
         self.whitelist_model.clear()
         for ip in whitelist:
             self.whitelist_model.set(
-                self.whitelist_model.append(), 0, ip, 1, True
+                self.whitelist_model.append(), 0, ip, 1, True,
             )

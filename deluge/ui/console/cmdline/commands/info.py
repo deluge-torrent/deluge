@@ -59,7 +59,7 @@ STATUS_KEYS = [
     'total_uploaded',
     'total_payload_download',
     'total_payload_upload',
-    'time_added'
+    'time_added',
 ]
 
 # Add filter specific state to torrent states
@@ -82,21 +82,33 @@ class Command(BaseCommand):
 """
 
     def add_arguments(self, parser):
-        parser.add_argument('-v', '--verbose', action='store_true', default=False, dest='verbose',
-                            help=_('Show more information per torrent.'))
-        parser.add_argument('-d', '--detailed', action='store_true', default=False, dest='detailed',
-                            help=_('Show more detailed information including files and peers.'))
-        parser.add_argument('-s', '--state', action='store', dest='state',
-                            help=_('Show torrents with state STATE: %s.' % (', '.join(STATES))))
+        parser.add_argument(
+            '-v', '--verbose', action='store_true', default=False, dest='verbose',
+            help=_('Show more information per torrent.'),
+        )
+        parser.add_argument(
+            '-d', '--detailed', action='store_true', default=False, dest='detailed',
+            help=_('Show more detailed information including files and peers.'),
+        )
+        parser.add_argument(
+            '-s', '--state', action='store', dest='state',
+            help=_('Show torrents with state STATE: %s.' % (', '.join(STATES))),
+        )
         parser.add_argument('--sort', action='store', type=str, default='', dest='sort', help=self.sort_help)
-        parser.add_argument('--sort-reverse', action='store', type=str, default='', dest='sort_rev',
-                            help=_('Same as --sort but items are in reverse order.'))
-        parser.add_argument('torrent_ids', metavar='<torrent-id>', nargs='*',
-                            help=_('One or more torrent ids. If none is given, list all'))
+        parser.add_argument(
+            '--sort-reverse', action='store', type=str, default='', dest='sort_rev',
+            help=_('Same as --sort but items are in reverse order.'),
+        )
+        parser.add_argument(
+            'torrent_ids', metavar='<torrent-id>', nargs='*',
+            help=_('One or more torrent ids. If none is given, list all'),
+        )
 
     def add_subparser(self, subparsers):
-        parser = subparsers.add_parser(self.name, prog=self.name, help=self.__doc__,
-                                       description=self.__doc__, epilog=self.epilog)
+        parser = subparsers.add_parser(
+            self.name, prog=self.name, help=self.__doc__,
+            description=self.__doc__, epilog=self.epilog,
+        )
         self.add_arguments(parser)
 
     def handle(self, options):
@@ -251,7 +263,8 @@ class Command(BaseCommand):
                     colors.state_color['Seeding'],
                     fspeed(peer['up_speed']),
                     colors.state_color['Downloading'],
-                    fspeed(peer['down_speed']))
+                    fspeed(peer['down_speed']),
+                )
                 s += '\n'
 
             self.console.write(s[:-1])
@@ -280,10 +293,12 @@ class Command(BaseCommand):
                 if status['state'] != 'Seeding':
                     s += sep
                     s += '{!info!}Down Speed: {!input!}%s' % fspeed(
-                        status['download_payload_rate'], shortform=True)
+                        status['download_payload_rate'], shortform=True,
+                    )
                 s += sep
                 s += '{!info!}Up Speed: {!input!}%s' % fspeed(
-                    status['upload_payload_rate'], shortform=True)
+                    status['upload_payload_rate'], shortform=True,
+                )
             self.console.write(s)
 
             if status['state'] in ('Seeding', 'Downloading', 'Queued'):
@@ -294,7 +309,8 @@ class Command(BaseCommand):
                 s += '{!info!}Availability: {!input!}%.2f' % status['distributed_copies']
                 s += sep
                 s += '{!info!}Seed Rank: {!input!}%s' % f_seedrank_dash(
-                    status['seed_rank'], status['seeding_time'])
+                    status['seed_rank'], status['seeding_time'],
+                )
                 self.console.write(s)
 
             total_done = fsize(status['total_done'], shortform=True)
@@ -321,7 +337,8 @@ class Command(BaseCommand):
             s = '{!info!}Last Transfer: {!input!}%s' % format_time(status['time_since_transfer'])
             s += sep
             s += '{!info!}Complete Seen: {!input!}%s' % format_date_never(
-                status['last_seen_complete'])
+                status['last_seen_complete'],
+            )
             self.console.write(s)
 
             s = '{!info!}Tracker: {!input!}%s' % status['tracker_host']
@@ -366,14 +383,18 @@ class Command(BaseCommand):
             dl_info += '%s' % ftotal_sized(status['all_time_download'], status['total_payload_download'])
 
             if status['download_payload_rate'] > 0:
-                dl_info += ' @ %s%s' % (down_color, fspeed(
-                    status['download_payload_rate'], shortform=True))
+                dl_info += ' @ %s%s' % (
+                    down_color,
+                    fspeed(status['download_payload_rate'], shortform=True),
+                )
 
             ul_info = ' {!info!}UL: {!input!}'
             ul_info += '%s' % ftotal_sized(status['total_uploaded'], status['total_payload_upload'])
             if status['upload_payload_rate'] > 0:
-                ul_info += ' @ %s%s' % (up_color, fspeed(
-                    status['upload_payload_rate'], shortform=True))
+                ul_info += ' @ %s%s' % (
+                    up_color,
+                    fspeed(status['upload_payload_rate'], shortform=True),
+                )
 
             eta = ' {!info!}ETA: {!magenta!}%s' % format_time(status['eta'])
 

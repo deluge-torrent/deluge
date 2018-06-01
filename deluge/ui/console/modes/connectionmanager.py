@@ -41,10 +41,12 @@ class ConnectionManager(BaseMode, PopupsHandler):
         selected_index = self.popup.current_selection() if self.popup else None
 
         popup = SelectablePopup(
-            self, _('Select Host'), self._host_selected, border_off_west=1, active_wrap=True)
+            self, _('Select Host'), self._host_selected, border_off_west=1, active_wrap=True,
+        )
         popup.add_header(
             "{!white,black,bold!}'Q'=%s, 'a'=%s, 'D'=%s" %
-            (_('Quit'), _('Add Host'), _('Delete Host')), space_below=True)
+            (_('Quit'), _('Add Host'), _('Delete Host')), space_below=True,
+        )
         self.push_popup(popup, clear=True)
 
         for host_entry in self.hostlist.get_hosts_info():
@@ -91,8 +93,10 @@ class ConnectionManager(BaseMode, PopupsHandler):
         if not result or kwargs.get('close', False):
             self.pop_popup()
         else:
-            self.add_host(result['hostname']['value'], result['port']['value'],
-                          result['username']['value'], result['password']['value'])
+            self.add_host(
+                result['hostname']['value'], result['port']['value'],
+                result['username']['value'], result['password']['value'],
+            )
 
     def add_popup(self):
         self.inlist = False
@@ -101,7 +105,8 @@ class ConnectionManager(BaseMode, PopupsHandler):
             _('Add Host (Up & Down arrows to navigate, Esc to cancel)'),
             border_off_north=1,
             border_off_east=1,
-            close_cb=self._do_add)
+            close_cb=self._do_add,
+        )
         popup.add_text_input('hostname', _('Hostname:'))
         popup.add_text_input('port', _('Port:'))
         popup.add_text_input('username', _('Username:'))

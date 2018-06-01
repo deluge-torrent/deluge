@@ -64,8 +64,10 @@ class PopupsHandler(object):
 
 class Popup(BaseWindow, InputKeyHandler):
 
-    def __init__(self, parent_mode, title, width_req=0, height_req=0, align=ALIGN.DEFAULT,
-                 close_cb=None, encoding=None, base_popup=None, **kwargs):
+    def __init__(
+        self, parent_mode, title, width_req=0, height_req=0, align=ALIGN.DEFAULT,
+        close_cb=None, encoding=None, base_popup=None, **kwargs
+    ):
         """
         Init a new popup.  The default constructor will handle sizing and borders and the like.
 
@@ -196,8 +198,10 @@ class SelectablePopup(BaseInputPane, Popup):
     """
     A popup which will let the user select from some of the lines that are added.
     """
-    def __init__(self, parent_mode, title, selection_cb, close_cb=None, input_cb=None,
-                 allow_rearrange=False, immediate_action=False, **kwargs):
+    def __init__(
+        self, parent_mode, title, selection_cb, close_cb=None, input_cb=None,
+        allow_rearrange=False, immediate_action=False, **kwargs
+    ):
         """
         Args:
             parent_mode (basemode subclass): The mode which the popup will be drawn over
@@ -235,8 +239,10 @@ class SelectablePopup(BaseInputPane, Popup):
         """Set a selected index"""
         self.active_input = index
 
-    def add_line(self, name, string, use_underline=True, cb_arg=None, foreground=None, selectable=True,
-                 selected=False, **kwargs):
+    def add_line(
+        self, name, string, use_underline=True, cb_arg=None, foreground=None, selectable=True,
+        selected=False, **kwargs
+    ):
         hotkey = None
         self.cb_arg[name] = cb_arg
         if use_underline:
@@ -293,11 +299,15 @@ class MessagePopup(Popup, BaseInputPane):
     """
     Popup that just displays a message
     """
-    def __init__(self, parent_mode, title, message, align=ALIGN.DEFAULT,
-                 height_req=0.75, width_req=0.5, **kwargs):
+    def __init__(
+        self, parent_mode, title, message, align=ALIGN.DEFAULT,
+        height_req=0.75, width_req=0.5, **kwargs
+    ):
         self.message = message
-        Popup.__init__(self, parent_mode, title, align=align,
-                       height_req=height_req, width_req=width_req)
+        Popup.__init__(
+            self, parent_mode, title, align=align,
+            height_req=height_req, width_req=width_req,
+        )
         BaseInputPane.__init__(self, self, immediate_action=True, **kwargs)
         lns = format_utils.wrap_string(self.message, self.width - 3, 3, True)
 

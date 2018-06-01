@@ -100,7 +100,7 @@ class Win32IcoFile(object):
 
     def sizes(self):
         """Get a list of all available icon sizes and color depths."""
-        return set((h['width'], h['height']) for h in self.entry)
+        return {(h['width'], h['height']) for h in self.entry}
 
     def get_image(self, size, bpp=False):
         """Get an image from the icon
@@ -171,7 +171,7 @@ class Win32IcoFile(object):
                     im.size,        # (w, h)
                     alpha_bytes,    # source chars
                     'raw',          # raw decoder
-                    ('L', 0, -1)    # 8bpp inverted, unpadded, reversed
+                    ('L', 0, -1),    # 8bpp inverted, unpadded, reversed
                 )
 
                 # apply mask image as alpha channel
@@ -198,7 +198,7 @@ class Win32IcoFile(object):
                     im.size,        # (w, h)
                     mask_data,       # source chars
                     'raw',          # raw decoder
-                    ('1;I', w // 8, -1)  # 1bpp inverted, padded, reversed
+                    ('1;I', w // 8, -1),  # 1bpp inverted, padded, reversed
                 )
 
                 # now we have two images, im is XOR image and mask is AND image
@@ -215,7 +215,8 @@ class Win32IcoFile(object):
     def __repr__(self):
         s = 'Microsoft Icon: %d images (max %dx%d %dbpp)' % (
             len(self.entry), self.entry[0]['width'], self.entry[0]['height'],
-            self.entry[0]['bpp'])
+            self.entry[0]['bpp'],
+        )
         return s
 # end Win32IcoFile
 

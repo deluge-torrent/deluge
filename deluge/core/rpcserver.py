@@ -134,8 +134,10 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
 
         for call in request:
             if len(call) != 4:
-                log.debug('Received invalid rpc request: number of items '
-                          'in request is %s', len(call))
+                log.debug(
+                    'Received invalid rpc request: number of items '
+                    'in request is %s', len(call),
+                )
                 continue
             # log.debug('RPCRequest: %s', format_request(call))
             reactor.callLater(0, self.dispatch, *call)
@@ -161,11 +163,14 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
         This method is called when a new client connects.
         """
         peer = self.transport.getPeer()
-        log.info('Deluge Client connection made from: %s:%s',
-                 peer.host, peer.port)
+        log.info(
+            'Deluge Client connection made from: %s:%s',
+            peer.host, peer.port,
+        )
         # Set the initial auth level of this session to AUTH_LEVEL_NONE
         self.factory.authorized_sessions[
-            self.transport.sessionno] = self.AuthLevel(AUTH_LEVEL_NONE, '')
+            self.transport.sessionno
+        ] = self.AuthLevel(AUTH_LEVEL_NONE, '')
 
     def connectionLost(self, reason=connectionDone):  # NOQA: N802
         """
@@ -219,16 +224,19 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                     exc_type.__name__,
                     exc_value._args,
                     exc_value._kwargs,
-                    formated_tb
+                    formated_tb,
                 ))
             except AttributeError:
                 # This is not a deluge exception (object has no attribute '_args), let's wrap it
-                log.warning('An exception occurred while sending RPC_ERROR to '
-                            'client. Wrapping it and resending. Error to '
-                            'send(causing exception goes next):\n%s', formated_tb)
+                log.warning(
+                    'An exception occurred while sending RPC_ERROR to '
+                    'client. Wrapping it and resending. Error to '
+                    'send(causing exception goes next):\n%s', formated_tb,
+                )
                 try:
                     raise WrappedException(
-                        str(exc_value), exc_type.__name__, formated_tb)
+                        str(exc_value), exc_type.__name__, formated_tb,
+                    )
                 except WrappedException:
                     send_error()
             except Exception as ex:
@@ -249,7 +257,8 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                 ret = component.get('AuthManager').authorize(*args, **kwargs)
                 if ret:
                     self.factory.authorized_sessions[
-                        self.transport.sessionno] = self.AuthLevel(ret, args[0])
+                        self.transport.sessionno
+                    ] = self.AuthLevel(ret, args[0])
                     self.factory.session_protocols[self.transport.sessionno] = self
             except Exception as ex:
                 send_error()
@@ -294,8 +303,10 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
             auth_level = self.factory.authorized_sessions[self.transport.sessionno].auth_level
             if auth_level < method_auth_requirement:
                 # This session is not allowed to call this method
-                log.debug('Session %s is attempting an unauthorized method call!',
-                          self.transport.sessionno)
+                log.debug(
+                    'Session %s is attempting an unauthorized method call!',
+                    self.transport.sessionno,
+                )
                 raise NotAuthorizedError(auth_level, method_auth_requirement)
             # Set the session_id in the factory so that methods can know
             # which session is calling it.
@@ -514,7 +525,7 @@ class RPCServer(component.Component):
                 log.debug('Emit Event: %s %s', event.name, event.args)
                 # This session is interested so send a RPC_EVENT
                 self.factory.session_protocols[session_id].sendData(
-                    (RPC_EVENT, event.name, event.args)
+                    (RPC_EVENT, event.name, event.args),
                 )
 
     def emit_event_for_session_id(self, session_id, event):
@@ -530,14 +541,18 @@ class RPCServer(component.Component):
             log.debug('Session ID %s is not valid. Not sending event "%s".', session_id, event.name)
             return
         if session_id not in self.factory.interested_events:
-            log.debug('Session ID %s is not interested in any events. Not sending event "%s".',
-                      session_id, event.name)
+            log.debug(
+                'Session ID %s is not interested in any events. Not sending event "%s".',
+                session_id, event.name,
+            )
             return
         if event.name not in self.factory.interested_events[session_id]:
             log.debug('Session ID %s is not interested in event "%s". Not sending it.', session_id, event.name)
             return
-        log.debug('Sending event "%s" with args "%s" to session id "%s".',
-                  event.name, event.args, session_id)
+        log.debug(
+            'Sending event "%s" with args "%s" to session id "%s".',
+            event.name, event.args, session_id,
+        )
         self.factory.session_protocols[session_id].sendData((RPC_EVENT, event.name, event.args))
 
     def stop(self):

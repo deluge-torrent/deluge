@@ -17,25 +17,25 @@ import zipfile
 
 def Zipped(reader):  # NOQA: N802
     """Blocklist reader for zipped blocklists"""
-    def open(self):
+    def _open(self):
         z = zipfile.ZipFile(self.file)
         f = z.open(z.namelist()[0])
         return f
-    reader.open = open
+    reader.open = _open
     return reader
 
 
 def GZipped(reader):  # NOQA: N802
     """Blocklist reader for gzipped blocklists"""
-    def open(self):
+    def _open(self):
         return gzip.open(self.file)
-    reader.open = open
+    reader.open = _open
     return reader
 
 
 def BZipped2(reader):  # NOQA: N802
     """Blocklist reader for bzipped2 blocklists"""
-    def open(self):
+    def _open(self):
         return bz2.BZ2File(self.file)
-    reader.open = open
+    reader.open = _open
     return reader

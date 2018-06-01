@@ -26,11 +26,17 @@ class Command(BaseCommand):
     """Shows various status information from the daemon"""
 
     def add_arguments(self, parser):
-        parser.add_argument('-r', '--raw', action='store_true', default=False, dest='raw',
-                            help=_('Raw values for upload/download rates (without KiB/s suffix)'
-                                   '(useful for scripts that want to do their own parsing)'))
-        parser.add_argument('-n', '--no-torrents', action='store_false', default=True, dest='show_torrents',
-                            help=_('Do not show torrent status (Improves command speed)'))
+        parser.add_argument(
+            '-r', '--raw', action='store_true', default=False, dest='raw',
+            help=_(
+                'Raw values for upload/download rates (without KiB/s suffix)'
+                '(useful for scripts that want to do their own parsing)',
+            ),
+        )
+        parser.add_argument(
+            '-n', '--no-torrents', action='store_false', default=True, dest='show_torrents',
+            help=_('Do not show torrent status (Improves command speed)'),
+        )
 
     def handle(self, options):
         self.console = component.get('ConsoleUI')

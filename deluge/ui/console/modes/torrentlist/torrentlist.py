@@ -115,8 +115,10 @@ class TorrentList(BaseMode, PopupsHandler):
         self.coreconfig = self.consoleui.coreconfig
         self.config = self.consoleui.config
         self.sidebar = FilterSidebar(self, self.config)
-        self.torrentview_panel = mkwin(curses.COLOR_GREEN, curses.LINES - 1,
-                                       curses.COLS - self.sidebar.width, 0, self.sidebar.width)
+        self.torrentview_panel = mkwin(
+            curses.COLOR_GREEN, curses.LINES - 1,
+            curses.COLS - self.sidebar.width, 0, self.sidebar.width,
+        )
         self.torrentview = torrentview.TorrentView(self, self.config)
 
         util.safe_curs_set(util.Curser.INVISIBLE)

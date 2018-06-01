@@ -76,8 +76,10 @@ class ValueList(object):
             values.append(row[0])
         return values
 
-    def add_values(self, paths, append=True, scroll_to_row=False,
-                   clear=False, emit_signal=False):
+    def add_values(
+        self, paths, append=True, scroll_to_row=False,
+        clear=False, emit_signal=False,
+    ):
         """
         Add paths to the liststore
 
@@ -193,8 +195,10 @@ class ValueList(object):
         state = event.get_state() & gtk.accelerator_get_default_mod_mask()
 
         if keyval == keysyms.Escape or\
-                (key_is_up(keyval) and
-                 state == gdk.MOD1_MASK):  # ALT Key
+                (
+                    key_is_up(keyval) and
+                    state == gdk.MOD1_MASK
+                ):  # ALT Key
             self.popdown()
             return True
         # Set entry value to the selected row
@@ -299,8 +303,10 @@ class ValueList(object):
             if swap:
                 p1 = self.tree_store[path][0]
                 p2 = self.tree_store[new_path][0]
-                self.tree_store.swap(self.tree_store.get_iter(path),
-                                     self.tree_store.get_iter(new_path))
+                self.tree_store.swap(
+                    self.tree_store.get_iter(path),
+                    self.tree_store.get_iter(new_path),
+                )
                 self.emit('list-values-reordered', [p1, p2])
                 self.emit('list-values-changed', self.get_values())
             path = new_path
@@ -423,8 +429,10 @@ class StoredValuesList(ValueList):
         elif key_is_up_or_down(keyval):
             # Swap the row value
             if event.get_state() & gdk.CONTROL_MASK:
-                self.handle_list_scroll(_next=key_is_down(keyval),
-                                        swap=True)
+                self.handle_list_scroll(
+                    _next=key_is_down(keyval),
+                    swap=True,
+                )
             else:
                 self.handle_list_scroll(_next=key_is_down(keyval))
         elif key_is_pgup_or_pgdown(event.keyval):
@@ -628,8 +636,10 @@ class PathChooserPopup(object):
         # Not enough space downwards on the screen
         elif y - height >= monitor.y:
             y -= height
-        elif (monitor.y + monitor.height - (y + self.path_entry.get_allocation().height) >
-              y - monitor.y):
+        elif (
+            monitor.y + monitor.height - (y + self.path_entry.get_allocation().height) >
+            y - monitor.y
+        ):
             y += self.path_entry.get_allocation().height
             height = monitor.y + monitor.height - y
         else:
@@ -640,11 +650,15 @@ class PathChooserPopup(object):
 
     def popup_grab_window(self):
         activate_time = 0
-        if gdk.pointer_grab(self.popup_window.get_window(), True,
-                            (gdk.BUTTON_PRESS_MASK |
-                             gdk.BUTTON_RELEASE_MASK |
-                             gdk.POINTER_MOTION_MASK),
-                            None, None, activate_time) == 0:
+        if gdk.pointer_grab(
+            self.popup_window.get_window(), True,
+            (
+                gdk.BUTTON_PRESS_MASK |
+                gdk.BUTTON_RELEASE_MASK |
+                gdk.POINTER_MOTION_MASK
+            ),
+            None, None, activate_time,
+        ) == 0:
             if gdk.keyboard_grab(self.popup_window.get_window(), True, activate_time) == 0:
                 return True
             else:
@@ -682,8 +696,11 @@ class PathChooserPopup(object):
         # Also if the intersection of self and the event is empty, hide
         # the path_list
         if (tuple(self.popup_window.get_allocation().intersect(
-                gdk.Rectangle(x=int(event.x), y=int(event.y),
-                              width=1, height=1))) == (0, 0, 0, 0)):
+                gdk.Rectangle(
+                    x=int(event.x), y=int(event.y),
+                    width=1, height=1,
+                ),
+        )) == (0, 0, 0, 0)):
             hide = True
         # Toplevel is the window that received the event, and parent is the
         # path_list window. If they are not the same, means the popup should
@@ -776,8 +793,10 @@ class StoredValuesPopup(StoredValuesList, PathChooserPopup):
         """
         swap = event.get_state() & gdk.CONTROL_MASK
         scroll_window = event.get_state() & gdk.SHIFT_MASK
-        self.handle_list_scroll(_next=event.direction == gdk.SCROLL_DOWN,
-                                set_entry=widget != self.treeview, swap=swap, scroll_window=scroll_window)
+        self.handle_list_scroll(
+            _next=event.direction == gdk.SCROLL_DOWN,
+            set_entry=widget != self.treeview, swap=swap, scroll_window=scroll_window,
+        )
         return True
 
     def on_buttonbox_key_press_event(self, widget, event):
@@ -898,8 +917,10 @@ class PathCompletionPopup(CompletionList, PathChooserPopup):
 
         """
         x, y, state = event.window.get_pointer()
-        self.handle_list_scroll(_next=event.direction == gdk.SCROLL_DOWN,
-                                set_entry=widget != self.treeview, scroll_window=True)
+        self.handle_list_scroll(
+            _next=event.direction == gdk.SCROLL_DOWN,
+            set_entry=widget != self.treeview, scroll_window=True,
+        )
         path = self.treeview.get_path_at_pos(int(x), int(y))
         if path:
             self.handle_list_scroll(path=path[0], _next=None)
@@ -1031,7 +1052,7 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, GObject):
         self.builder = gtk.Builder()
         self.popup_buttonbox = self.builder.get_object('buttonbox')
         self.builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'path_combo_chooser.ui')
+            'deluge.ui.gtkui', os.path.join('glade', 'path_combo_chooser.ui'),
         ))
         self.button_toggle = self.builder.get_object('button_toggle_dropdown')
         self.text_entry = self.builder.get_object('entry_text')
@@ -1298,8 +1319,10 @@ class PathChooserComboBox(gtk.HBox, StoredValuesPopup, GObject):
 
         # Select new row with arrow up/down is pressed
         if key_is_up_or_down(keyval):
-            self.handle_list_scroll(_next=key_is_down(keyval),
-                                    set_entry=True)
+            self.handle_list_scroll(
+                _next=key_is_down(keyval),
+                set_entry=True,
+            )
             return True
         elif self.auto_completer.is_auto_completion_accelerator(keyval, state):
             if self.auto_completer.auto_complete_enabled:
@@ -1520,13 +1543,15 @@ if __name__ == '__main__':
         '/media/Series/2',
         '/media/Series/17',
         '/media/Series/18',
-        '/media/Series/19'
+        '/media/Series/19',
     ]
 
     entry1.add_values(test_paths)
     entry1.set_text('/home/bro/', default_text=True)
-    entry2.set_text('/home/bro/programmer/deluge/deluge-yarss-plugin/build/lib/yarss2/include/bs4/tests/',
-                    cursor_end=False)
+    entry2.set_text(
+        '/home/bro/programmer/deluge/deluge-yarss-plugin/build/lib/yarss2/include/bs4/tests/',
+        cursor_end=False,
+    )
 
     entry2.set_filechooser_button_visible(False)
     # entry2.set_enable_properties(False)

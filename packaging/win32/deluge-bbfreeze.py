@@ -161,7 +161,7 @@ theme_include_list = [
     [gtk_root, 'share/themes/MS-Windows'],
     ['DelugeStart Theme', 'lib/gtk-2.0/2.10.0/engines/libmurrine.dll'],
     ['DelugeStart Theme', 'share/themes/DelugeStart'],
-    ['DelugeStart Theme', 'etc/gtk-2.0/gtkrc']
+    ['DelugeStart Theme', 'etc/gtk-2.0/gtkrc'],
 ]
 for path_root, path in theme_include_list:
     full_path = os.path.join(path_root, path)

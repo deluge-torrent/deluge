@@ -42,12 +42,16 @@ class WebServerTestCase(WebServerTestBase, WebServerMockBase):
         # UnicodeDecodeError: 'utf8' codec can't decode byte 0xe5 in position 0: invalid continuation byte
         filename = get_test_data_file('filehash_field.torrent')
         input_file = '{"params": ["%s"], "method": "web.get_torrent_info", "id": 22}' % filename
-        headers = {'User-Agent': ['Twisted Web Client Example'],
-                   'Content-Type': ['application/json']}
+        headers = {
+            'User-Agent': ['Twisted Web Client Example'],
+            'Content-Type': ['application/json'],
+        }
         url = 'http://127.0.0.1:%s/json' % self.webserver_listen_port
 
-        d = yield agent.request(b'POST', url.encode('utf-8'), Headers(utf8_encode_structure(headers)),
-                                FileBodyProducer(BytesIO(input_file.encode('utf-8'))))
+        d = yield agent.request(
+            b'POST', url.encode('utf-8'), Headers(utf8_encode_structure(headers)),
+            FileBodyProducer(BytesIO(input_file.encode('utf-8'))),
+        )
         try:
             body = yield twisted.web.client.readBody(d)
         except AttributeError:

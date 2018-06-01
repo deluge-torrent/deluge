@@ -39,13 +39,15 @@ class AlertManager(component.Component):
         self.alert_queue_size = 10000
         self.set_alert_queue_size(self.alert_queue_size)
 
-        alert_mask = (lt.alert.category_t.error_notification |
-                      lt.alert.category_t.port_mapping_notification |
-                      lt.alert.category_t.storage_notification |
-                      lt.alert.category_t.tracker_notification |
-                      lt.alert.category_t.status_notification |
-                      lt.alert.category_t.ip_block_notification |
-                      lt.alert.category_t.performance_warning)
+        alert_mask = (
+            lt.alert.category_t.error_notification |
+            lt.alert.category_t.port_mapping_notification |
+            lt.alert.category_t.storage_notification |
+            lt.alert.category_t.tracker_notification |
+            lt.alert.category_t.status_notification |
+            lt.alert.category_t.ip_block_notification |
+            lt.alert.category_t.performance_warning
+        )
 
         self.session.apply_settings({'alert_mask': alert_mask})
 

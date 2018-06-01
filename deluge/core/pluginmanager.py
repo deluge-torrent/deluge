@@ -33,7 +33,8 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, component.Compon
 
         # Call the PluginManagerBase constructor
         deluge.pluginmanagerbase.PluginManagerBase.__init__(
-            self, 'core.conf', 'deluge.plugin.core')
+            self, 'core.conf', 'deluge.plugin.core',
+        )
 
     def start(self):
         # Enable plugins that are enabled in the config

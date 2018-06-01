@@ -96,8 +96,10 @@ def f_seedrank_dash(seed_rank, seeding_time):
 
 
 def ftotal_sized(first, second):
-    return '%s (%s)' % (deluge.common.fsize(first, shortform=True),
-                        deluge.common.fsize(second, shortform=True))
+    return '%s (%s)' % (
+        deluge.common.fsize(first, shortform=True),
+        deluge.common.fsize(second, shortform=True),
+    )
 
 
 def format_pieces(num, size):
@@ -297,7 +299,7 @@ def strwidth(string):
     """
     Measure width of a string considering asian double width characters
     """
-    return sum([1 + (east_asian_width(char) in ['W', 'F']) for char in string])
+    return sum(1 + (east_asian_width(char) in ['W', 'F']) for char in string)
 
 
 def pad_string(string, length, character=' ', side='right'):

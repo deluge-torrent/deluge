@@ -22,8 +22,10 @@ class Command(BaseCommand):
     aliases = ['reannounce']
 
     def add_arguments(self, parser):
-        parser.add_argument('torrent_ids', metavar='<torrent-id>', nargs='+',
-                            help='One or more torrent ids. "*" updates all torrents')
+        parser.add_argument(
+            'torrent_ids', metavar='<torrent-id>', nargs='+',
+            help='One or more torrent ids. "*" updates all torrents',
+        )
 
     def handle(self, options):
         self.console = component.get('ConsoleUI')

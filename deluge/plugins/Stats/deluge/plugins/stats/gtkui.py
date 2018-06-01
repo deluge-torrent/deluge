@@ -45,7 +45,9 @@ DEFAULT_CONF = {
         },
         'seeds_graph': {
             'num_peers': str(gtk.gdk.Color('blue')),
-        }}}
+        },
+    },
+}
 
 
 def neat_time(column, cell, model, data):
@@ -126,9 +128,11 @@ class GraphsTab(Tab):
         # set a clip region
         context.rectangle(event.area.x, event.area.y, event.area.width, event.area.height)
         context.clip()
-        self.graph.draw_to_context(context,
-                                   self.graph_widget.allocation.width,
-                                   self.graph_widget.allocation.height)
+        self.graph.draw_to_context(
+            context,
+            self.graph_widget.allocation.width,
+            self.graph_widget.allocation.height,
+        )
         # Do not propagate the event
         return False
 
@@ -153,12 +157,18 @@ class GraphsTab(Tab):
         self.graph_widget = self.bandwidth_graph
         self.graph = Graph()
         colors = self.colors['bandwidth_graph']
-        self.graph.add_stat('download_rate', label='Download Rate',
-                            color=gtk_to_graph_color(colors['download_rate']))
-        self.graph.add_stat('upload_rate', label='Upload Rate',
-                            color=gtk_to_graph_color(colors['upload_rate']))
-        self.graph.set_left_axis(formatter=fspeed_shortform, min=10240,
-                                 formatter_scale=size_formatter_scale)
+        self.graph.add_stat(
+            'download_rate', label='Download Rate',
+            color=gtk_to_graph_color(colors['download_rate']),
+        )
+        self.graph.add_stat(
+            'upload_rate', label='Upload Rate',
+            color=gtk_to_graph_color(colors['upload_rate']),
+        )
+        self.graph.set_left_axis(
+            formatter=fspeed_shortform, min=10240,
+            formatter_scale=size_formatter_scale,
+        )
 
     def select_connections_graph(self):
         log.debug('Selecting connections graph')
@@ -183,9 +193,11 @@ class GraphsTab(Tab):
     def set_colors(self, colors):
         self.colors = colors
         # Fake switch page to update the graph colors (HACKY)
-        self._on_notebook_switch_page(self.notebook,
-                                      None,  # This is unused
-                                      self.notebook.get_current_page())
+        self._on_notebook_switch_page(
+            self.notebook,
+            None,  # This is unused
+            self.notebook.get_current_page(),
+        )
 
     def _on_intervals_changed(self, intervals):
         liststore = gtk.ListStore(int)

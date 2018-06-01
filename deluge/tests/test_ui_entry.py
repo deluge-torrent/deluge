@@ -60,7 +60,7 @@ class StringFileDescriptor(object):
 class UIBaseTestCase(object):
 
     def __init__(self):
-        self.var = dict()
+        self.var = {}
 
     def set_up(self):
         common.set_tmp_config_dir()
@@ -339,8 +339,10 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
     @defer.inlineCallbacks
     def test_console_command_status(self):
         username, password = get_localhost_auth()
-        self.patch(sys, 'argv', self.var['sys_arg_cmd'] + ['--port'] + ['58900'] + ['--username'] +
-                   [username] + ['--password'] + [password] + ['status'])
+        self.patch(
+            sys, 'argv', self.var['sys_arg_cmd'] + ['--port'] + ['58900'] + ['--username'] +
+            [username] + ['--password'] + [password] + ['status'],
+        )
         fd = StringFileDescriptor(sys.stdout)
         self.patch(sys, 'stdout', fd)
 

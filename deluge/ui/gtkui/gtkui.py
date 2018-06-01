@@ -299,20 +299,28 @@ class GtkUI(object):
         try:
             client.start_standalone()
         except DaemonRunningError:
-            err_msg = _('A Deluge daemon (deluged) is already running.\n'
-                        'To use Standalone mode, stop local daemon and restart Deluge.')
+            err_msg = _(
+                'A Deluge daemon (deluged) is already running.\n'
+                'To use Standalone mode, stop local daemon and restart Deluge.',
+            )
         except ImportError as ex:
             if 'No module named libtorrent' in ex.message:
-                err_msg = _('Only Thin Client mode is available because libtorrent is not installed.\n'
-                            'To use Standalone mode, please install libtorrent package.')
+                err_msg = _(
+                    'Only Thin Client mode is available because libtorrent is not installed.\n'
+                    'To use Standalone mode, please install libtorrent package.',
+                )
             else:
                 log.exception(ex)
-                err_msg = _('Only Thin Client mode is available due to unknown Import Error.\n'
-                            'To use Standalone mode, please see logs for error details.')
+                err_msg = _(
+                    'Only Thin Client mode is available due to unknown Import Error.\n'
+                    'To use Standalone mode, please see logs for error details.',
+                )
         except Exception as ex:
             log.exception(ex)
-            err_msg = _('Only Thin Client mode is available due to unknown Import Error.\n'
-                        'To use Standalone mode, please see logs for error details.')
+            err_msg = _(
+                'Only Thin Client mode is available due to unknown Import Error.\n'
+                'To use Standalone mode, please see logs for error details.',
+            )
         else:
             component.start()
             return

@@ -256,63 +256,107 @@ class TorrentView(ListView, component.Component):
         # Add the columns to the listview
         self.add_text_column('torrent_id', hidden=True, unique=True)
         self.add_bool_column('dirty', hidden=True)
-        self.add_func_column('#', funcs.cell_data_queue, [int],
-                             status_field=['queue'],
-                             sort_func=queue_column_sort)
-        self.add_texticon_column(_('Name'),
-                                 status_field=['state', 'name'],
-                                 function=funcs.cell_data_statusicon,
-                                 default_sort=True)
-        self.add_func_column(_('Size'), funcs.cell_data_size,
-                             [TYPE_UINT64],
-                             status_field=['total_wanted'])
-        self.add_func_column(_('Downloaded'), funcs.cell_data_size,
-                             [TYPE_UINT64],
-                             status_field=['all_time_download'], default=False)
-        self.add_func_column(_('Uploaded'), funcs.cell_data_size,
-                             [TYPE_UINT64],
-                             status_field=['total_uploaded'], default=False)
-        self.add_func_column(_('Remaining'), funcs.cell_data_size, [TYPE_UINT64],
-                             status_field=['total_remaining'], default=False)
-        self.add_progress_column(_('Progress'),
-                                 status_field=['progress', 'state'],
-                                 col_types=[float, str],
-                                 function=funcs.cell_data_progress,
-                                 sort_func=progress_sort)
-        self.add_func_column(_('Seeds'), funcs.cell_data_peer, [int, int],
-                             status_field=['num_seeds', 'total_seeds'],
-                             sort_func=seed_peer_column_sort, default=False)
-        self.add_func_column(_('Peers'), funcs.cell_data_peer, [int, int],
-                             status_field=['num_peers', 'total_peers'],
-                             sort_func=seed_peer_column_sort, default=False)
-        self.add_func_column(_('Seeds:Peers'), funcs.cell_data_ratio_seeds_peers, [float],
-                             status_field=['seeds_peers_ratio'], default=False)
-        self.add_func_column(_('Down Speed'), funcs.cell_data_speed_down, [int],
-                             status_field=['download_payload_rate'])
-        self.add_func_column(_('Up Speed'), funcs.cell_data_speed_up, [int],
-                             status_field=['upload_payload_rate'])
-        self.add_func_column(_('Down Limit'), funcs.cell_data_speed_limit_down, [float],
-                             status_field=['max_download_speed'], default=False)
-        self.add_func_column(_('Up Limit'), funcs.cell_data_speed_limit_up, [float],
-                             status_field=['max_upload_speed'], default=False)
-        self.add_func_column(_('ETA'), funcs.cell_data_time, [int],
-                             status_field=['eta'], sort_func=eta_column_sort)
-        self.add_func_column(_('Ratio'), funcs.cell_data_ratio_ratio, [float],
-                             status_field=['ratio'], default=False)
-        self.add_func_column(_('Avail'), funcs.cell_data_ratio_avail, [float],
-                             status_field=['distributed_copies'], default=False)
-        self.add_func_column(_('Added'), funcs.cell_data_date_added, [int],
-                             status_field=['time_added'], default=False)
-        self.add_func_column(_('Completed'), funcs.cell_data_date_completed, [int],
-                             status_field=['completed_time'], default=False)
-        self.add_func_column(_('Complete Seen'), funcs.cell_data_date_or_never, [int],
-                             status_field=['last_seen_complete'], default=False)
-        self.add_texticon_column(_('Tracker'), function=funcs.cell_data_trackericon,
-                                 status_field=['tracker_host', 'tracker_host'], default=False)
+        self.add_func_column(
+            '#', funcs.cell_data_queue, [int],
+            status_field=['queue'],
+            sort_func=queue_column_sort,
+        )
+        self.add_texticon_column(
+            _('Name'),
+            status_field=['state', 'name'],
+            function=funcs.cell_data_statusicon,
+            default_sort=True,
+        )
+        self.add_func_column(
+            _('Size'), funcs.cell_data_size,
+            [TYPE_UINT64],
+            status_field=['total_wanted'],
+        )
+        self.add_func_column(
+            _('Downloaded'), funcs.cell_data_size,
+            [TYPE_UINT64],
+            status_field=['all_time_download'], default=False,
+        )
+        self.add_func_column(
+            _('Uploaded'), funcs.cell_data_size,
+            [TYPE_UINT64],
+            status_field=['total_uploaded'], default=False,
+        )
+        self.add_func_column(
+            _('Remaining'), funcs.cell_data_size, [TYPE_UINT64],
+            status_field=['total_remaining'], default=False,
+        )
+        self.add_progress_column(
+            _('Progress'),
+            status_field=['progress', 'state'],
+            col_types=[float, str],
+            function=funcs.cell_data_progress,
+            sort_func=progress_sort,
+        )
+        self.add_func_column(
+            _('Seeds'), funcs.cell_data_peer, [int, int],
+            status_field=['num_seeds', 'total_seeds'],
+            sort_func=seed_peer_column_sort, default=False,
+        )
+        self.add_func_column(
+            _('Peers'), funcs.cell_data_peer, [int, int],
+            status_field=['num_peers', 'total_peers'],
+            sort_func=seed_peer_column_sort, default=False,
+        )
+        self.add_func_column(
+            _('Seeds:Peers'), funcs.cell_data_ratio_seeds_peers, [float],
+            status_field=['seeds_peers_ratio'], default=False,
+        )
+        self.add_func_column(
+            _('Down Speed'), funcs.cell_data_speed_down, [int],
+            status_field=['download_payload_rate'],
+        )
+        self.add_func_column(
+            _('Up Speed'), funcs.cell_data_speed_up, [int],
+            status_field=['upload_payload_rate'],
+        )
+        self.add_func_column(
+            _('Down Limit'), funcs.cell_data_speed_limit_down, [float],
+            status_field=['max_download_speed'], default=False,
+        )
+        self.add_func_column(
+            _('Up Limit'), funcs.cell_data_speed_limit_up, [float],
+            status_field=['max_upload_speed'], default=False,
+        )
+        self.add_func_column(
+            _('ETA'), funcs.cell_data_time, [int],
+            status_field=['eta'], sort_func=eta_column_sort,
+        )
+        self.add_func_column(
+            _('Ratio'), funcs.cell_data_ratio_ratio, [float],
+            status_field=['ratio'], default=False,
+        )
+        self.add_func_column(
+            _('Avail'), funcs.cell_data_ratio_avail, [float],
+            status_field=['distributed_copies'], default=False,
+        )
+        self.add_func_column(
+            _('Added'), funcs.cell_data_date_added, [int],
+            status_field=['time_added'], default=False,
+        )
+        self.add_func_column(
+            _('Completed'), funcs.cell_data_date_completed, [int],
+            status_field=['completed_time'], default=False,
+        )
+        self.add_func_column(
+            _('Complete Seen'), funcs.cell_data_date_or_never, [int],
+            status_field=['last_seen_complete'], default=False,
+        )
+        self.add_texticon_column(
+            _('Tracker'), function=funcs.cell_data_trackericon,
+            status_field=['tracker_host', 'tracker_host'], default=False,
+        )
         self.add_text_column(_('Download Folder'), status_field=['download_location'], default=False)
         self.add_text_column(_('Owner'), status_field=['owner'], default=False)
-        self.add_bool_column(_('Shared'), status_field=['shared'], default=False,
-                             tooltip=_('Torrent is shared between other Deluge users or not.'))
+        self.add_bool_column(
+            _('Shared'), status_field=['shared'], default=False,
+            tooltip=_('Torrent is shared between other Deluge users or not.'),
+        )
         self.restore_columns_order_from_state()
 
         # Set filter to None for now
@@ -350,7 +394,8 @@ class TorrentView(ListView, component.Component):
                     continue
                 status_fields.extend(listview_column.status_field)
         component.get('SessionProxy').get_torrents_status(
-            {}, status_fields).addCallback(self._on_session_state)
+            {}, status_fields,
+        ).addCallback(self._on_session_state)
 
         client.register_event_handler('TorrentStateChangedEvent', self.on_torrentstatechanged_event)
         client.register_event_handler('TorrentAddedEvent', self.on_torrentadded_event)
@@ -428,9 +473,11 @@ class TorrentView(ListView, component.Component):
         for column in columns:
             # Make sure column is visible and has 'status_field' set.
             # If not, we can ignore it.
-            if (self.columns[column].column.get_visible() is True
-                    and self.columns[column].hidden is False
-                    and self.columns[column].status_field is not None):
+            if (
+                self.columns[column].column.get_visible() is True
+                and self.columns[column].hidden is False
+                and self.columns[column].status_field is not None
+            ):
                 for field in self.columns[column].status_field:
                     status_keys.append(field)
                     self.columns_to_update.append(column)
@@ -454,7 +501,8 @@ class TorrentView(ListView, component.Component):
         # Request the statuses for all these torrent_ids, this is async so we
         # will deal with the return in a signal callback.
         d = component.get('SessionProxy').get_torrents_status(
-            self.filter, status_keys).addCallback(self._on_get_torrents_status)
+            self.filter, status_keys,
+        ).addCallback(self._on_get_torrents_status)
         if select_row:
             d.addCallback(self.select_first_row)
 

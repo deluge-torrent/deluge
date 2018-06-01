@@ -30,7 +30,7 @@ EXECUTE_COMMAND = 2
 EVENT_MAP = {
     'complete': _('Torrent Complete'),
     'added': _('Torrent Added'),
-    'removed': _('Torrent Removed')
+    'removed': _('Torrent Removed'),
 }
 
 EVENTS = ['complete', 'added', 'removed']

@@ -75,8 +75,10 @@ class TopLevelResource(Resource):
         self.putChild('cookie', CookieResource())
         self.putChild('partial', PartialDownload())
         self.putChild('redirect', RedirectResource())
-        self.putChild('ubuntu-9.04-desktop-i386.iso.torrent',
-                      File(common.get_test_data_file('ubuntu-9.04-desktop-i386.iso.torrent')))
+        self.putChild(
+            'ubuntu-9.04-desktop-i386.iso.torrent',
+            File(common.get_test_data_file('ubuntu-9.04-desktop-i386.iso.torrent')),
+        )
 
 
 class CoreTestCase(BaseTestCase):
@@ -152,7 +154,7 @@ class CoreTestCase(BaseTestCase):
         from deluge.bencode import bdecode, bencode
         with open(filename, 'rb') as _file:
             info_hash = sha(bencode(bdecode(_file.read())[b'info'])).hexdigest()
-        self.assertEquals(torrent_id, info_hash)
+        self.assertEqual(torrent_id, info_hash)
 
     def test_add_torrent_file_invalid_filedump(self):
         options = {}

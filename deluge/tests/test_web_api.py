@@ -72,8 +72,8 @@ class WebAPITestCase(WebServerTestBase):
             '233f23632af0a74748bc5dd1d8717564748877baa16420e6898e17e8aa365e6e': {
                 'login': 'skrot',
                 'expires': 1460030877.0,
-                'level': 10
-            }
+                'level': 10,
+            },
         }
         self.deluge_web.web_api.set_config(config)
         web_config = component.get('DelugeWeb').config.config
@@ -147,7 +147,10 @@ class WebAPITestCase(WebServerTestBase):
             ret['contents'], {
                 'azcvsupdater_2.6.2.jar': {
                     'priority': 4, 'index': 0, 'offset': 0, 'progress': 0.0, 'path':
-                    'azcvsupdater_2.6.2.jar', 'type': 'file', 'size': 307949}})
+                    'azcvsupdater_2.6.2.jar', 'type': 'file', 'size': 307949,
+                },
+            },
+        )
 
     @defer.inlineCallbacks
     def test_download_torrent_from_url(self):
@@ -170,7 +173,10 @@ class WebAPITestCase(WebServerTestBase):
         d = yield agent.request(
             b'POST',
             b'http://127.0.0.1:%s/json' % self.webserver_listen_port,
-            Headers({b'User-Agent': [b'Twisted Web Client Example'],
-                     b'Content-Type': [b'application/json']}),
-            FileBodyProducer(BytesIO(bad_body)))
+            Headers({
+                b'User-Agent': [b'Twisted Web Client Example'],
+                b'Content-Type': [b'application/json'],
+            }),
+            FileBodyProducer(BytesIO(bad_body)),
+        )
         yield d

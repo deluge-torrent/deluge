@@ -21,7 +21,7 @@ FORMAT_LIST = [
     ('gzmule', _('Emule IP list (GZip)')),
     ('spzip', _('SafePeer Text (Zipped)')),
     ('pgtext', _('PeerGuardian Text (Uncompressed)')),
-    ('p2bgz', _('PeerGuardian P2B (GZip)'))
+    ('p2bgz', _('PeerGuardian P2B (GZip)')),
 ]
 
 

@@ -28,8 +28,10 @@ class GtkUI(GtkPluginBase):
         self.core = client.toggle
         self.plugin = component.get('PluginManager')
         self.separator = self.plugin.add_toolbar_separator()
-        self.button = self.plugin.add_toolbar_button(self._on_button_clicked, label='Pause Session',
-                                                     stock='gtk-media-pause', tooltip='Pause the session')
+        self.button = self.plugin.add_toolbar_button(
+            self._on_button_clicked, label='Pause Session',
+            stock='gtk-media-pause', tooltip='Pause the session',
+        )
 
     def disable(self):
         component.get('PluginManager').remove_toolbar_button(self.button)

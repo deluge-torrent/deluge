@@ -165,5 +165,5 @@ class IP(object):
 
     def __repr__(self):
         return '<%s long=%s address="%s">' % (
-            self.__class__.__name__, self.long, self.address
+            self.__class__.__name__, self.long, self.address,
         )

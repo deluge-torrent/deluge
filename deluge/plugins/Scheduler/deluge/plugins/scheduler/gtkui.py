@@ -31,8 +31,10 @@ DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 class SchedulerSelectWidget(gtk.DrawingArea):
     def __init__(self, hover):
         super(SchedulerSelectWidget, self).__init__()
-        self.set_events(gtk.gdk.BUTTON_PRESS_MASK | gtk.gdk.BUTTON_RELEASE_MASK |
-                        gtk.gdk.POINTER_MOTION_MASK | gtk.gdk.LEAVE_NOTIFY_MASK)
+        self.set_events(
+            gtk.gdk.BUTTON_PRESS_MASK | gtk.gdk.BUTTON_RELEASE_MASK |
+            gtk.gdk.POINTER_MOTION_MASK | gtk.gdk.LEAVE_NOTIFY_MASK,
+        )
 
         self.connect('expose_event', self.expose)
         self.connect('button_press_event', self.mouse_down)
@@ -40,9 +42,11 @@ class SchedulerSelectWidget(gtk.DrawingArea):
         self.connect('motion_notify_event', self.mouse_hover)
         self.connect('leave_notify_event', self.mouse_leave)
 
-        self.colors = [[115 / 255, 210 / 255, 22 / 255],
-                       [237 / 255, 212 / 255, 0 / 255],
-                       [204 / 255, 0 / 255, 0 / 255]]
+        self.colors = [
+            [115 / 255, 210 / 255, 22 / 255],
+            [237 / 255, 212 / 255, 0 / 255],
+            [204 / 255, 0 / 255, 0 / 255],
+        ]
         self.button_state = [[0] * 7 for dummy in range(24)]
 
         self.start_point = [0, 0]
@@ -69,11 +73,15 @@ class SchedulerSelectWidget(gtk.DrawingArea):
 
         for y in range(7):
             for x in range(24):
-                context.set_source_rgba(self.colors[self.button_state[x][y]][0],
-                                        self.colors[self.button_state[x][y]][1],
-                                        self.colors[self.button_state[x][y]][2], 0.7)
-                context.rectangle(width * (6 * x / 145 + 1 / 145), height * (6 * y / 43 + 1 / 43),
-                                  5 * width / 145, 5 * height / 43)
+                context.set_source_rgba(
+                    self.colors[self.button_state[x][y]][0],
+                    self.colors[self.button_state[x][y]][1],
+                    self.colors[self.button_state[x][y]][2], 0.7,
+                )
+                context.rectangle(
+                    width * (6 * x / 145 + 1 / 145), height * (6 * y / 43 + 1 / 43),
+                    5 * width / 145, 5 * height / 43,
+                )
                 context.fill_preserve()
                 context.set_source_rgba(0.5, 0.5, 0.5, 0.5)
                 context.stroke()
@@ -123,9 +131,11 @@ class SchedulerSelectWidget(gtk.DrawingArea):
         if self.get_point(event) != self.hover_point:
             self.hover_point = self.get_point(event)
 
-            self.hover_label.set_text(self.hover_days[self.hover_point[1]] +
-                                      ' ' + str(self.hover_point[0]) +
-                                      ':00 - ' + str(self.hover_point[0]) + ':59')
+            self.hover_label.set_text(
+                self.hover_days[self.hover_point[1]] +
+                ' ' + str(self.hover_point[0]) +
+                ':00 - ' + str(self.hover_point[0]) + ':59',
+            )
 
             if self.mouse_press:
                 points = [[self.hover_point[0], self.start_point[0]], [self.hover_point[1], self.start_point[1]]]
@@ -153,7 +163,8 @@ class GtkUI(GtkPluginBase):
             image=get_resource('green.png'),
             text='',
             callback=self.on_status_item_clicked,
-            tooltip='Scheduler')
+            tooltip='Scheduler',
+        )
 
         def on_state_deferred(state):
             self.state = state

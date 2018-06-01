@@ -189,12 +189,16 @@ class InfoField(NoInputField):
 
 class CheckedInput(InputField):
 
-    def __init__(self, parent, name, message, checked=False, checked_char='X', unchecked_char=' ',
-                 checkbox_format='[%s] ', **kwargs):
+    def __init__(
+        self, parent, name, message, checked=False, checked_char='X', unchecked_char=' ',
+        checkbox_format='[%s] ', **kwargs
+    ):
         InputField.__init__(self, parent, name, message, **kwargs)
         self.set_value(checked)
-        self.fmt_keys.update({'msg': message, 'checkbox_format': checkbox_format,
-                              'unchecked_char': unchecked_char, 'checked_char': checked_char})
+        self.fmt_keys.update({
+            'msg': message, 'checkbox_format': checkbox_format,
+            'unchecked_char': unchecked_char, 'checked_char': checked_char,
+        })
         self.set_fmt_key('font_checked', 'font', kwargs)
         self.set_fmt_key('font_unfocused_checked', 'font_checked', kwargs)
         self.set_fmt_key('font_active_checked', 'font_active', kwargs)
@@ -253,8 +257,10 @@ class CheckedInput(InputField):
 
 class CheckedPlusInput(CheckedInput):
 
-    def __init__(self, parent, name, message, child, child_always_visible=False,
-                 show_usage_hints=True, msg_fmt='%s ', **kwargs):
+    def __init__(
+        self, parent, name, message, child, child_always_visible=False,
+        show_usage_hints=True, msg_fmt='%s ', **kwargs
+    ):
         CheckedInput.__init__(self, parent, name, message, **kwargs)
         self.child = child
         self.child_active = False
@@ -279,13 +285,17 @@ class CheckedPlusInput(CheckedInput):
         msglen = len(self.msg_fmt % colors.strip_colors(self.build_msg_string(focused, active)))
         # show child
         if self.checked or self.child_always_visible:
-            crows = self.child.render(screen, row, width=width - msglen,
-                                      active=self.child_active and active,
-                                      col=col + msglen, cursor_offset=msglen)
+            crows = self.child.render(
+                screen, row, width=width - msglen,
+                active=self.child_active and active,
+                col=col + msglen, cursor_offset=msglen,
+            )
             rows = max(rows, crows)
         else:
-            self.parent.add_string(row, '(enable to view/edit value)', scr=screen,
-                                   col=col + msglen, pad=False)
+            self.parent.add_string(
+                row, '(enable to view/edit value)', scr=screen,
+                col=col + msglen, pad=False,
+            )
         return rows
 
     @overrides(CheckedInput)
@@ -311,8 +321,10 @@ class CheckedPlusInput(CheckedInput):
 
 class IntSpinInput(InputField):
 
-    def __init__(self, parent, name, message, move_func, value, min_val=None, max_val=None,
-                 inc_amt=1, incr_large=10, strict_validation=False, fmt='%d', **kwargs):
+    def __init__(
+        self, parent, name, message, move_func, value, min_val=None, max_val=None,
+        inc_amt=1, incr_large=10, strict_validation=False, fmt='%d', **kwargs
+    ):
         InputField.__init__(self, parent, name, message, **kwargs)
         self.convert_func = int
         self.fmt = fmt
@@ -355,9 +367,13 @@ class IntSpinInput(InputField):
         else:
             value_format += '[ ' + fmt_str + ' ]'
 
-        self.parent.add_string(row, value_format % dict({'msg': self.message, 'value': '%s' % self.valstr},
-                                                        **self.fmt_keys),
-                               scr=screen, col=col, pad=False)
+        self.parent.add_string(
+            row, value_format % dict(
+                {'msg': self.message, 'value': '%s' % self.valstr},
+                **self.fmt_keys
+            ),
+            scr=screen, col=col, pad=False,
+        )
         if active:
             if focused:
                 util.safe_curs_set(util.Curser.NORMAL)
@@ -389,27 +405,37 @@ class IntSpinInput(InputField):
         elif c == curses.KEY_BACKSPACE or c == util.KEY_BACKSPACE2:
             if self.valstr and self.cursor > 0:
                 new_val = self.valstr[:self.cursor - 1] + self.valstr[self.cursor:]
-                self.set_value(new_val, validate=False, cursor=self.cursor - 1, cursor_on_fail=True,
-                               value_on_fail=self.valstr if self.strict_validation else None)
+                self.set_value(
+                    new_val, validate=False, cursor=self.cursor - 1, cursor_on_fail=True,
+                    value_on_fail=self.valstr if self.strict_validation else None,
+                )
         elif c == curses.KEY_DC:  # Del
             if self.valstr and self.cursor <= len(self.valstr):
                 if self.cursor == 0:
                     new_val = self.valstr[1:]
                 else:
                     new_val = self.valstr[:self.cursor] + self.valstr[self.cursor + 1:]
-                self.set_value(new_val, validate=False, cursor=False,
-                               value_on_fail=self.valstr if self.strict_validation else None, cursor_on_fail=True)
+                self.set_value(
+                    new_val, validate=False, cursor=False,
+                    value_on_fail=self.valstr if self.strict_validation else None, cursor_on_fail=True,
+                )
         elif c == ord('-'):  # minus
-            self.set_value(self.value - 1, validate=True, cursor=True, cursor_on_fail=True,
-                           value_on_fail=self.value, on_invalid=self.value)
+            self.set_value(
+                self.value - 1, validate=True, cursor=True, cursor_on_fail=True,
+                value_on_fail=self.value, on_invalid=self.value,
+            )
         elif c == ord('+'):  # plus
-            self.set_value(self.value + 1, validate=True, cursor=True, cursor_on_fail=True,
-                           value_on_fail=self.value, on_invalid=self.value)
+            self.set_value(
+                self.value + 1, validate=True, cursor=True, cursor_on_fail=True,
+                value_on_fail=self.value, on_invalid=self.value,
+            )
         elif util.is_int_chr(c):
             if self.strict_validation:
                 new_val = self.valstr[:self.cursor - 1] + chr(c) + self.valstr[self.cursor - 1:]
-                self.set_value(new_val, validate=True, cursor=self.cursor + 1,
-                               value_on_fail=self.valstr, on_invalid=self.value)
+                self.set_value(
+                    new_val, validate=True, cursor=self.cursor + 1,
+                    value_on_fail=self.valstr, on_invalid=self.value,
+                )
             else:
                 minus_place = self.valstr.find('-')
                 if self.cursor > minus_place:
@@ -440,8 +466,10 @@ class IntSpinInput(InputField):
             self.last_valid_value = self.value = value
         except ValueError:
             if value_on_fail is not None:
-                self.set_value(value_on_fail, cursor=cursor, cursor_on_fail=cursor_on_fail,
-                               validate=validate, on_invalid=on_invalid)
+                self.set_value(
+                    value_on_fail, cursor=cursor, cursor_on_fail=cursor_on_fail,
+                    validate=validate, on_invalid=on_invalid,
+                )
                 return
             self.value = None
             self.valstr = val
@@ -484,8 +512,10 @@ class FloatSpinInput(IntSpinInput):
 
 class SelectInput(InputField):
 
-    def __init__(self, parent, name, message, opts, vals, active_index, active_default=False,
-                 require_select_action=True, **kwargs):
+    def __init__(
+        self, parent, name, message, opts, vals, active_index, active_default=False,
+        require_select_action=True, **kwargs
+    ):
         InputField.__init__(self, parent, name, message, **kwargs)
         self.opts = opts
         self.vals = vals
@@ -580,8 +610,10 @@ class SelectInput(InputField):
 
 class TextInput(InputField):
 
-    def __init__(self, parent, name, message, move_func, width, value, complete=False,
-                 activate_input=False, **kwargs):
+    def __init__(
+        self, parent, name, message, move_func, width, value, complete=False,
+        activate_input=False, **kwargs
+    ):
         InputField.__init__(self, parent, name, message, **kwargs)
         self.move_func = move_func
         self._width = width
@@ -690,8 +722,10 @@ class TextInput(InputField):
         """
         if self.activate_input:
             if not self.input_active:
-                if c in [curses.KEY_LEFT, curses.KEY_RIGHT, curses.KEY_HOME,
-                         curses.KEY_END, curses.KEY_ENTER, util.KEY_ENTER2]:
+                if c in [
+                    curses.KEY_LEFT, curses.KEY_RIGHT, curses.KEY_HOME,
+                    curses.KEY_END, curses.KEY_ENTER, util.KEY_ENTER2,
+                ]:
                     self.input_active = True
                     return util.ReadState.READ
                 else:
@@ -867,13 +901,17 @@ class ComboInput(InputField):
                     select_in_range(0, selected)
 
             from deluge.ui.console.widgets.popup import SelectablePopup  # Must import here
-            select_popup = SelectablePopup(self.parent, ' %s ' % _('Select Language'), self._lang_selected,
-                                           input_cb=search_handler if self.searchable else None,
-                                           border_off_west=1, active_wrap=False, width_req=self.choices_width + 12)
+            select_popup = SelectablePopup(
+                self.parent, ' %s ' % _('Select Language'), self._lang_selected,
+                input_cb=search_handler if self.searchable else None,
+                border_off_west=1, active_wrap=False, width_req=self.choices_width + 12,
+            )
             for choice in self.choices:
                 args = {'data': choice[0]}
-                select_popup.add_line(choice[0], choice[1], selectable=True,
-                                      selected=choice[0] == self.get_value(), **args)
+                select_popup.add_line(
+                    choice[0], choice[1], selectable=True,
+                    selected=choice[0] == self.get_value(), **args
+                )
             self.parent.push_popup(select_popup)
             return util.ReadState.CHANGED
         return util.ReadState.IGNORED

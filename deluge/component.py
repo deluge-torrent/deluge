@@ -146,10 +146,12 @@ class Component(object):
         elif self._component_state == 'Started':
             d = succeed(True)
         else:
-            d = fail(ComponentException('Trying to start component "%s" but it is '
-                                        'not in a stopped state. Current state: %s' %
-                                        (self._component_name, self._component_state),
-                                        traceback.format_stack(limit=4)))
+            d = fail(ComponentException(
+                'Trying to start component "%s" but it is '
+                'not in a stopped state. Current state: %s' %
+                (self._component_name, self._component_state),
+                traceback.format_stack(limit=4),
+            ))
         return d
 
     def _component_stop(self):
@@ -193,10 +195,12 @@ class Component(object):
         elif self._component_state == 'Paused':
             d = succeed(None)
         else:
-            d = fail(ComponentException('Trying to pause component "%s" but it is '
-                                        'not in a started state. Current state: %s' %
-                                        (self._component_name, self._component_state),
-                                        traceback.format_stack(limit=4)))
+            d = fail(ComponentException(
+                'Trying to pause component "%s" but it is '
+                'not in a started state. Current state: %s' %
+                (self._component_name, self._component_state),
+                traceback.format_stack(limit=4),
+            ))
         return d
 
     def _component_resume(self):
@@ -207,10 +211,12 @@ class Component(object):
             d = maybeDeferred(self._component_start_timer)
             d.addCallback(on_resume)
         else:
-            d = fail(ComponentException('Trying to resume component "%s" but it is '
-                                        'not in a paused state. Current state: %s' %
-                                        (self._component_name, self._component_state),
-                                        traceback.format_stack(limit=4)))
+            d = fail(ComponentException(
+                'Trying to resume component "%s" but it is '
+                'not in a paused state. Current state: %s' %
+                (self._component_name, self._component_state),
+                traceback.format_stack(limit=4),
+            ))
         return d
 
     def _component_shutdown(self):

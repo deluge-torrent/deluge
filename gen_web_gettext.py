@@ -46,7 +46,7 @@ def check_missing_markup(js_dir):
 
     # Create a list of the matching strings to search for with the except_chars appended to each one.
     string_re = re.compile(
-        '(' + ')|('.join(['%s[^' + except_chars + "].*'"]*len(attr_list)) % tuple(attr_list) + ')'
+        '(' + ')|('.join(['%s[^' + except_chars + "].*'"] * len(attr_list)) % tuple(attr_list) + ')',
     )
 
     strings = {}

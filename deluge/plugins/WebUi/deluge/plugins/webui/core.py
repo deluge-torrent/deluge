@@ -33,7 +33,7 @@ log = logging.getLogger(__name__)
 DEFAULT_PREFS = {
     'enabled': False,
     'ssl': False,
-    'port': 8112
+    'port': 8112,
 }
 
 

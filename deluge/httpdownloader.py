@@ -34,8 +34,10 @@ class HTTPDownloader(client.HTTPDownloader):
     """
     Factory class for downloading files and keeping track of progress.
     """
-    def __init__(self, url, filename, part_callback=None, headers=None,
-                 force_filename=False, allow_compression=True):
+    def __init__(
+        self, url, filename, part_callback=None, headers=None,
+        force_filename=False, allow_compression=True,
+    ):
         """
         :param url: the url to download from
         :type url: string
@@ -227,8 +229,10 @@ def _download_file(url, filename, callback=None, headers=None, force_filename=Fa
     return factory.deferred
 
 
-def download_file(url, filename, callback=None, headers=None, force_filename=False,
-                  allow_compression=True, handle_redirects=True):
+def download_file(
+    url, filename, callback=None, headers=None, force_filename=False,
+    allow_compression=True, handle_redirects=True,
+):
     """
     Downloads a file from a specific URL and returns a Deferred. A callback
     function can be specified to be called as parts are received.
@@ -259,18 +263,24 @@ def download_file(url, filename, callback=None, headers=None, force_filename=Fal
     def on_download_fail(failure):
         if failure.check(PageRedirect) and handle_redirects:
             new_url = urljoin(url, failure.getErrorMessage().split(' to ')[1])
-            result = _download_file(new_url, filename, callback=callback, headers=headers,
-                                    force_filename=force_filename,
-                                    allow_compression=allow_compression)
+            result = _download_file(
+                new_url, filename, callback=callback, headers=headers,
+                force_filename=force_filename,
+                allow_compression=allow_compression,
+            )
             result.addCallbacks(on_download_success, on_download_fail)
         else:
             # Log the failure and pass to the caller
-            log.warning('Error occurred downloading file from "%s": %s',
-                        url, failure.getErrorMessage())
+            log.warning(
+                'Error occurred downloading file from "%s": %s',
+                url, failure.getErrorMessage(),
+            )
             result = failure
         return result
 
-    d = _download_file(url, filename, callback=callback, headers=headers,
-                       force_filename=force_filename, allow_compression=allow_compression)
+    d = _download_file(
+        url, filename, callback=callback, headers=headers,
+        force_filename=force_filename, allow_compression=allow_compression,
+    )
     d.addCallbacks(on_download_success, on_download_fail)
     return d

@@ -122,7 +122,7 @@ class StatusBar(component.Component):
             'max_connections_global': self._on_max_connections_global,
             'max_download_speed': self._on_max_download_speed,
             'max_upload_speed': self._on_max_upload_speed,
-            'dht': self._on_dht
+            'dht': self._on_dht,
         }
         self.current_warnings = []
         # Add a HBox to the statusbar after removing the initial label widget
@@ -138,7 +138,8 @@ class StatusBar(component.Component):
         # Create the not connected item
         self.not_connected_item = StatusBarItem(
             stock=gtk.STOCK_STOP, text=_('Not Connected'),
-            callback=self._on_notconnected_item_clicked)
+            callback=self._on_notconnected_item_clicked,
+        )
         # Show the not connected status bar
         self.show_not_connected()
 
@@ -154,40 +155,48 @@ class StatusBar(component.Component):
         self.connections_item = self.add_item(
             stock=gtk.STOCK_NETWORK,
             callback=self._on_connection_item_clicked,
-            tooltip=_('Connections (Limit)'), pack_start=True)
+            tooltip=_('Connections (Limit)'), pack_start=True,
+        )
 
         self.download_item = self.add_item(
             image=get_pixmap('downloading16.png'),
             callback=self._on_download_item_clicked,
-            tooltip=_('Download Speed (Limit)'), pack_start=True)
+            tooltip=_('Download Speed (Limit)'), pack_start=True,
+        )
 
         self.upload_item = self.add_item(
             image=get_pixmap('seeding16.png'),
             callback=self._on_upload_item_clicked,
-            tooltip=_('Upload Speed (Limit)'), pack_start=True)
+            tooltip=_('Upload Speed (Limit)'), pack_start=True,
+        )
 
         self.traffic_item = self.add_item(
             image=get_pixmap('traffic16.png'),
             callback=self._on_traffic_item_clicked,
-            tooltip=_('Protocol Traffic (Down:Up)'), pack_start=True)
+            tooltip=_('Protocol Traffic (Down:Up)'), pack_start=True,
+        )
 
         self.dht_item = StatusBarItem(
-            image=get_pixmap('dht16.png'), tooltip=_('DHT Nodes'))
+            image=get_pixmap('dht16.png'), tooltip=_('DHT Nodes'),
+        )
 
         self.diskspace_item = self.add_item(
             stock=gtk.STOCK_HARDDISK,
             callback=self._on_diskspace_item_clicked,
-            tooltip=_('Free Disk Space'), pack_start=True)
+            tooltip=_('Free Disk Space'), pack_start=True,
+        )
 
         self.health_item = self.add_item(
             stock=gtk.STOCK_DIALOG_ERROR,
             text=_('<b><small>Port Issue</small></b>'),
             markup=True,
             tooltip=_('No incoming connections, check port forwarding'),
-            callback=self._on_health_icon_clicked)
+            callback=self._on_health_icon_clicked,
+        )
 
         self.external_ip_item = self.add_item(
-            tooltip=_('External IP Address'), pack_start=True)
+            tooltip=_('External IP Address'), pack_start=True,
+        )
 
         self.health = False
 
@@ -197,8 +206,10 @@ class StatusBar(component.Component):
             self._on_max_upload_speed(configs['max_upload_speed'])
             self._on_dht(configs['dht'])
         # Get some config values
-        client.core.get_config_values(['max_connections_global', 'max_download_speed',
-                                       'max_upload_speed', 'dht']).addCallback(update_config_values)
+        client.core.get_config_values([
+            'max_connections_global', 'max_download_speed',
+            'max_upload_speed', 'dht',
+        ]).addCallback(update_config_values)
 
     def stop(self):
         # When stopped, we just show the not connected thingy
@@ -255,7 +266,8 @@ class StatusBar(component.Component):
         """Displays a warning to the user in the status bar"""
         if text not in self.current_warnings:
             item = self.add_item(
-                stock=gtk.STOCK_DIALOG_WARNING, text=text, callback=callback)
+                stock=gtk.STOCK_DIALOG_WARNING, text=text, callback=callback,
+            )
             self.current_warnings.append(text)
             timeout_add(3000, self.remove_warning, item)
 
@@ -359,7 +371,8 @@ class StatusBar(component.Component):
             label_string = self.download_rate
         else:
             label_string = '%s <small>(%i %s)</small>' % (
-                self.download_rate, self.max_download_speed, _('K/s'))
+                self.download_rate, self.max_download_speed, _('K/s'),
+            )
 
         self.download_item.set_markup(label_string)
 
@@ -369,7 +382,8 @@ class StatusBar(component.Component):
             label_string = self.upload_rate
         else:
             label_string = '%s <small>(%i %s)</small>' % (
-                self.upload_rate, self.max_upload_speed, _('K/s'))
+                self.upload_rate, self.max_upload_speed, _('K/s'),
+            )
 
         self.upload_item.set_markup(label_string)
 
@@ -383,12 +397,18 @@ class StatusBar(component.Component):
     def set_limit_value(self, widget, core_key):
         log.debug('_on_set_unlimit_other %s', core_key)
         other_dialog_info = {
-            'max_download_speed': (_('Download Speed Limit'), _('Set the maximum download speed'),
-                                   _('K/s'), 'downloading.svg', self.max_download_speed),
-            'max_upload_speed': (_('Upload Speed Limit'), _('Set the maximum upload speed'),
-                                 _('K/s'), 'seeding.svg', self.max_upload_speed),
-            'max_connections_global': (_('Incoming Connections'), _('Set the maximum incoming connections'),
-                                       '', gtk.STOCK_NETWORK, self.max_connections_global)
+            'max_download_speed': (
+                _('Download Speed Limit'), _('Set the maximum download speed'),
+                _('K/s'), 'downloading.svg', self.max_download_speed,
+            ),
+            'max_upload_speed': (
+                _('Upload Speed Limit'), _('Set the maximum upload speed'),
+                _('K/s'), 'seeding.svg', self.max_upload_speed,
+            ),
+            'max_connections_global': (
+                _('Incoming Connections'), _('Set the maximum incoming connections'),
+                '', gtk.STOCK_NETWORK, self.max_connections_global,
+            ),
         }
 
         def set_value(value):
@@ -418,7 +438,8 @@ class StatusBar(component.Component):
             self.config['tray_download_speed_list'],
             self._on_set_download_speed,
             self.max_download_speed,
-            _('K/s'), show_notset=True, show_other=True)
+            _('K/s'), show_notset=True, show_other=True,
+        )
         menu.show_all()
         menu.popup(None, None, None, event.button, event.time)
 
@@ -431,7 +452,8 @@ class StatusBar(component.Component):
             self.config['tray_upload_speed_list'],
             self._on_set_upload_speed,
             self.max_upload_speed,
-            _('K/s'), show_notset=True, show_other=True)
+            _('K/s'), show_notset=True, show_other=True,
+        )
         menu.show_all()
         menu.popup(None, None, None, event.button, event.time)
 
@@ -443,7 +465,8 @@ class StatusBar(component.Component):
         menu = common.build_menu_radio_list(
             self.config['connection_limit_list'],
             self._on_set_connection_limit,
-            self.max_connections_global, show_notset=True, show_other=True)
+            self.max_connections_global, show_notset=True, show_other=True,
+        )
         menu.show_all()
         menu.popup(None, None, None, event.button, event.time)
 

@@ -126,8 +126,10 @@ class AddDialog(object):
 class OptionsDialog(object):
     spin_ids = ['max_download_speed', 'max_upload_speed', 'stop_ratio']
     spin_int_ids = ['max_upload_slots', 'max_connections']
-    chk_ids = ['apply_max', 'apply_queue', 'stop_at_ratio', 'apply_queue', 'remove_at_ratio',
-               'apply_move_completed', 'move_completed', 'is_auto_managed', 'auto_add']
+    chk_ids = [
+        'apply_max', 'apply_queue', 'stop_at_ratio', 'apply_queue', 'remove_at_ratio',
+        'apply_move_completed', 'move_completed', 'is_auto_managed', 'auto_add',
+    ]
 
     # list of tuples, because order matters when nesting.
     sensitive_groups = [
@@ -136,7 +138,7 @@ class OptionsDialog(object):
         ('stop_at_ratio', ['remove_at_ratio', 'stop_ratio']),  # nested
         ('apply_move_completed', ['move_completed']),
         ('move_completed', ['move_completed_path']),  # nested
-        ('auto_add', ['auto_add_trackers'])
+        ('auto_add', ['auto_add_trackers']),
     ]
 
     def __init__(self):

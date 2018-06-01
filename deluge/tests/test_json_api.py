@@ -38,7 +38,7 @@ class JSONBase(BaseTestCase, DaemonBase):
     def connect_client(self, *args, **kwargs):
         return client.connect(
             'localhost', self.listen_port, username=kwargs.get('user', ''),
-            password=kwargs.get('password', '')
+            password=kwargs.get('password', ''),
         )
 
     def disconnect_client(self, *args):
@@ -219,18 +219,24 @@ class JSONRequestFailedTestCase(JSONBase, WebServerMockBase):
     daemon.rpcserver.register_object(test)
 """
         from twisted.internet.defer import Deferred
-        extra_callback = {'deferred': Deferred(), 'types': ['stderr'],
-                          'timeout': 10,
-                          'triggers': [{'expr': 'in test_raise_error',
-                                        'value': lambda reader, data, data_all: 'Test'}]}
+        extra_callback = {
+            'deferred': Deferred(), 'types': ['stderr'],
+            'timeout': 10,
+            'triggers': [{
+                'expr': 'in test_raise_error',
+                'value': lambda reader, data, data_all: 'Test',
+            }],
+        }
 
         def on_test_raise(*args):
             self.assertTrue('Unhandled error in Deferred:' in self.core.stderr_out)
             self.assertTrue('in test_raise_error' in self.core.stderr_out)
 
         extra_callback['deferred'].addCallback(on_test_raise)
-        d.addCallback(self.start_core, custom_script=custom_script, print_stdout=False, print_stderr=False,
-                      timeout=5, extra_callbacks=[extra_callback])
+        d.addCallback(
+            self.start_core, custom_script=custom_script, print_stdout=False, print_stderr=False,
+            timeout=5, extra_callbacks=[extra_callback],
+        )
         d.addCallbacks(self.connect_client, self.terminate_core)
         return d
 
@@ -257,7 +263,8 @@ class JSONRequestFailedTestCase(JSONBase, WebServerMockBase):
             self.assertEqual(
                 response['error']['message'],
                 'Failure: [Failure instance: Traceback (failure with no frames):'
-                " <class 'deluge.error.DelugeError'>: DelugeERROR\n]")
+                " <class 'deluge.error.DelugeError'>: DelugeERROR\n]",
+            )
             self.assertEqual(response['error']['code'], 4)
 
         request.write = write

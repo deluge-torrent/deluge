@@ -69,7 +69,7 @@ class Graph(object):
         self.mean_selected = True
         self.legend_selected = True
         self.max_selected = True
-        self.black = (0, 0, 0,)
+        self.black = (0, 0, 0)
         self.interval = 2  # 2 secs
         self.text_bg = (255, 255, 255, 128)  # prototyping
         self.set_left_axis()
@@ -83,7 +83,7 @@ class Graph(object):
             'label': label,
             'line': line,
             'fill': fill,
-            'color': color
+            'color': color,
         }
 
     def set_stats(self, stats):
@@ -273,7 +273,8 @@ class Graph(object):
 
         self.ctx.line_to(
             int(right - (len(values) - 1) * step),
-            bottom)
+            bottom,
+        )
         self.ctx.close_path()
 
     def draw_value_poly(self, values, color, max_value, bounds, fill=False):

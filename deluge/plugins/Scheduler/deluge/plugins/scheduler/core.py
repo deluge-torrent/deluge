@@ -32,13 +32,13 @@ DEFAULT_PREFS = {
     'low_active': -1,
     'low_active_down': -1,
     'low_active_up': -1,
-    'button_state': [[0] * 7 for dummy in range(24)]
+    'button_state': [[0] * 7 for dummy in range(24)],
 }
 
 STATES = {
     0: 'Green',
     1: 'Yellow',
-    2: 'Red'
+    2: 'Red',
 }
 
 CONTROLLED_SETTINGS = [
@@ -46,7 +46,7 @@ CONTROLLED_SETTINGS = [
     'max_upload_speed',
     'max_active_limit',
     'max_active_downloading',
-    'max_active_seeding'
+    'max_active_seeding',
 ]
 
 
@@ -127,7 +127,7 @@ class Core(CorePluginBase):
                 'active_downloads': self.config['low_active_down'],
                 'active_seeds': self.config['low_active_up'],
                 'download_rate_limit': int(self.config['low_down'] * 1024),
-                'upload_rate_limit': int(self.config['low_up'] * 1024)
+                'upload_rate_limit': int(self.config['low_up'] * 1024),
             }
             component.get('Core').apply_session_settings(settings)
             # Resume the session if necessary

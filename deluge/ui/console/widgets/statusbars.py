@@ -114,4 +114,5 @@ class StatusBars(component.Component):
             self.bottombar += ' ' + _('DHT') + ': {!white,blue!}%s{!status!}' % self.dht
 
         self.bottombar += ' ' + _('IP {!white,blue!}%s{!status!}') % (
-            self.external_ip if self.external_ip else _('n/a'))
+            self.external_ip if self.external_ip else _('n/a')
+        )

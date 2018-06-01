@@ -63,7 +63,7 @@ TORRENT_STATE = [
     'Paused',
     'Error',
     'Queued',
-    'Moving'
+    'Moving',
 ]
 
 # The output formatting for json.dump
@@ -103,7 +103,8 @@ def get_default_config_dir(filename=None):
                     import _winreg as winreg  # For Python 2.
                 hkey = winreg.OpenKey(
                     winreg.HKEY_CURRENT_USER,
-                    'Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders')
+                    'Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders',
+                )
                 app_data_reg = winreg.QueryValueEx(hkey, 'AppData')
                 app_data_path = app_data_reg[0]
                 winreg.CloseKey(hkey)
@@ -273,7 +274,7 @@ def resource_filename(module, path):
      This is a work-around that.
     """
     return pkg_resources.require('Deluge>=%s' % get_version())[0].get_resource_filename(
-        pkg_resources._manager, os.path.join(*(module.split('.') + [path]))
+        pkg_resources._manager, os.path.join(*(module.split('.') + [path])),
     )
 
 
@@ -554,18 +555,20 @@ def tokenize(text):
     return tokenized_input
 
 
-size_units = (dict(prefix='b', divider=1, singular='byte', plural='bytes'),
-              dict(prefix='KiB', divider=1024**1),
-              dict(prefix='MiB', divider=1024**2),
-              dict(prefix='GiB', divider=1024**3),
-              dict(prefix='TiB', divider=1024**4),
-              dict(prefix='PiB', divider=1024**5),
-              dict(prefix='KB', divider=1000**1),
-              dict(prefix='MB', divider=1000**2),
-              dict(prefix='GB', divider=1000**3),
-              dict(prefix='TB', divider=1000**4),
-              dict(prefix='PB', divider=1000**5),
-              dict(prefix='m', divider=1000**2))
+size_units = [
+    {'prefix': 'b', 'divider': 1, 'singular': 'byte', 'plural': 'bytes'},
+    {'prefix': 'KiB', 'divider': 1024**1},
+    {'prefix': 'MiB', 'divider': 1024**2},
+    {'prefix': 'GiB', 'divider': 1024**3},
+    {'prefix': 'TiB', 'divider': 1024**4},
+    {'prefix': 'PiB', 'divider': 1024**5},
+    {'prefix': 'KB', 'divider': 1000**1},
+    {'prefix': 'MB', 'divider': 1000**2},
+    {'prefix': 'GB', 'divider': 1000**3},
+    {'prefix': 'TB', 'divider': 1000**4},
+    {'prefix': 'PB', 'divider': 1000**5},
+    {'prefix': 'm', 'divider': 1000**2},
+]
 
 
 class InvalidSize(Exception):
@@ -906,10 +909,12 @@ def decode_bytes(byte_str, encoding='utf8'):
     elif not isinstance(byte_str, bytes):
         return byte_str
 
-    encodings = [lambda: ('utf8', 'strict'),
-                 lambda: ('iso-8859-1', 'strict'),
-                 lambda: (chardet.detect(byte_str)['encoding'], 'strict'),
-                 lambda: (encoding, 'ignore')]
+    encodings = [
+        lambda: ('utf8', 'strict'),
+        lambda: ('iso-8859-1', 'strict'),
+        lambda: (chardet.detect(byte_str)['encoding'], 'strict'),
+        lambda: (encoding, 'ignore'),
+    ]
 
     if encoding is not 'utf8':
         encodings.insert(0, lambda: (encoding, 'strict'))
@@ -949,7 +954,10 @@ def utf8_encode_structure(data):
     if isinstance(data, (list, tuple)):
         return type(data)([utf8_encode_structure(d) for d in data])
     elif isinstance(data, dict):
-        return dict([utf8_encode_structure(d) for d in data.items()])
+        return {
+            utf8_encode_structure(k): utf8_encode_structure(v)
+            for k, v in data.items()
+        }
     elif not isinstance(data, bytes):
         try:
             return data.encode('utf8')
@@ -968,7 +976,8 @@ class VersionSplit(object):
 
     """
     def __init__(self, ver):
-        version_re = re.compile(r"""
+        version_re = re.compile(
+            r"""
         ^
         (?P<version>\d+\.\d+)          # minimum 'N.N'
         (?P<extraversion>(?:\.\d+)*)   # any number of extra '.N' segments
@@ -978,7 +987,8 @@ class VersionSplit(object):
             (?P<prerelversion>\d+(?:\.\d+)*)
         )?
         (?P<postdev>(\.post(?P<post>\d+))?(\.dev(?P<dev>\d+))?)?
-        $""", re.VERBOSE)
+        $""", re.VERBOSE,
+        )
 
         # Check for PEP 386 compliant version
         match = re.search(version_re, ver)
@@ -1061,11 +1071,13 @@ def create_localclient_account(append=False):
         create_auth_file()
 
     with open(auth_file, 'a' if append else 'w') as _file:
-        _file.write(':'.join([
-            'localclient',
-            sha(str(random.random()).encode('utf8')).hexdigest(),
-            str(AUTH_LEVEL_ADMIN)
-        ]) + '\n')
+        _file.write(
+            ':'.join([
+                'localclient',
+                sha(str(random.random()).encode('utf8')).hexdigest(),
+                str(AUTH_LEVEL_ADMIN),
+            ]) + '\n',
+        )
         _file.flush()
         os.fsync(_file.fileno())
 

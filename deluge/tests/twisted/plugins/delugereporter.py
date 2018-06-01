@@ -28,12 +28,14 @@ class _Reporter(object):
         self.klass = klass
 
 
-deluge = _Reporter('Deluge reporter that suppresses Stacktrace from TODO tests',
-                   'twisted.plugins.delugereporter',
-                   description='Deluge Reporter',
-                   longOpt='deluge-reporter',
-                   shortOpt=None,
-                   klass='DelugeReporter')
+deluge = _Reporter(
+    'Deluge reporter that suppresses Stacktrace from TODO tests',
+    'twisted.plugins.delugereporter',
+    description='Deluge Reporter',
+    longOpt='deluge-reporter',
+    shortOpt=None,
+    klass='DelugeReporter',
+)
 
 
 class DelugeReporter(TreeReporter):

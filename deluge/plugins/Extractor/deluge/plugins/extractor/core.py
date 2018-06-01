@@ -30,7 +30,7 @@ log = logging.getLogger(__name__)
 
 DEFAULT_PREFS = {
     'extract_path': '',
-    'use_name_folder': True
+    'use_name_folder': True,
 }
 
 if windows_check():

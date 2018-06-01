@@ -32,7 +32,7 @@ CELL_PRIORITY_ICONS = {
     'Ignore': gtk.STOCK_NO,
     'Low': gtk.STOCK_GO_DOWN,
     'Normal': gtk.STOCK_OK,
-    'High': gtk.STOCK_GO_UP
+    'High': gtk.STOCK_GO_UP,
 }
 
 
@@ -156,13 +156,13 @@ class FilesTab(Tab):
             self.main_builder.get_object('menuitem_low'),
             self.main_builder.get_object('menuitem_normal'),
             self.main_builder.get_object('menuitem_high'),
-            self.main_builder.get_object('menuitem_priority_sep')
+            self.main_builder.get_object('menuitem_priority_sep'),
         ]
 
         self.localhost_widgets = [
             self.main_builder.get_object('menuitem_open_file'),
             self.main_builder.get_object('menuitem_show_file'),
-            self.main_builder.get_object('menuitem3')
+            self.main_builder.get_object('menuitem3'),
         ]
 
         self.listview.connect('row-activated', self._on_row_activated)
@@ -170,7 +170,8 @@ class FilesTab(Tab):
         self.listview.connect('button-press-event', self._on_button_press_event)
 
         self.listview.enable_model_drag_source(
-            BUTTON1_MASK, [('text/plain', 0, 0)], ACTION_DEFAULT | ACTION_MOVE)
+            BUTTON1_MASK, [('text/plain', 0, 0)], ACTION_DEFAULT | ACTION_MOVE,
+        )
         self.listview.enable_model_drag_dest([('text/plain', 0, 0)], ACTION_DEFAULT)
 
         self.listview.connect('drag_data_get', self._on_drag_data_get_data)
@@ -204,13 +205,13 @@ class FilesTab(Tab):
         state = {
             'columns': {},
             'sort_id': int(column_id) if column_id >= 0 else None,
-            'sort_order': int(sort_order) if sort_order >= 0 else None
+            'sort_order': int(sort_order) if sort_order >= 0 else None,
         }
 
         for index, column in enumerate(self.listview.get_columns()):
             state['columns'][column.get_title()] = {
                 'position': index,
-                'width': column.get_width()
+                'width': column.get_width(),
             }
 
         save_pickled_state_file('files_tab.state', state)
@@ -269,7 +270,8 @@ class FilesTab(Tab):
             status_keys += ['files']
 
         component.get('SessionProxy').get_torrent_status(
-            self.torrent_id, status_keys).addCallback(self._on_get_torrent_status, self.torrent_id)
+            self.torrent_id, status_keys,
+        ).addCallback(self._on_get_torrent_status, self.torrent_id)
 
     def clear(self):
         self.treestore.clear()
@@ -326,21 +328,27 @@ class FilesTab(Tab):
             file_name_chunk = file_name[:first_slash_index + 1]
             if file_name_chunk not in files_storage:
                 files_storage[file_name_chunk] = {}
-            self.prepare_file(torrent_file, file_name[first_slash_index + 1:],
-                              file_num, files_storage[file_name_chunk])
+            self.prepare_file(
+                torrent_file, file_name[first_slash_index + 1:],
+                file_num, files_storage[file_name_chunk],
+            )
 
     def add_files(self, parent_iter, split_files):
         chunk_size_total = 0
         for key, value in split_files.items():
             if key.endswith('/'):
-                chunk_iter = self.treestore.append(parent_iter,
-                                                   [key, 0, '', 0, 0, -1, gtk.STOCK_DIRECTORY])
+                chunk_iter = self.treestore.append(
+                    parent_iter,
+                    [key, 0, '', 0, 0, -1, gtk.STOCK_DIRECTORY],
+                )
                 chunk_size = self.add_files(chunk_iter, value)
                 self.treestore.set(chunk_iter, 1, chunk_size)
                 chunk_size_total += chunk_size
             else:
-                self.treestore.append(parent_iter,
-                                      [key, value[1]['size'], '', 0, 0, value[0], gtk.STOCK_FILE])
+                self.treestore.append(
+                    parent_iter,
+                    [key, value[1]['size'], '', 0, 0, value[0], gtk.STOCK_FILE],
+                )
                 chunk_size_total += value[1]['size']
         return chunk_size_total
 
@@ -488,12 +496,14 @@ class FilesTab(Tab):
     def on_menuitem_open_file_activate(self, menuitem):
         if client.is_localhost:
             component.get('SessionProxy').get_torrent_status(
-                self.torrent_id, ['download_location']).addCallback(self._on_open_file)
+                self.torrent_id, ['download_location'],
+            ).addCallback(self._on_open_file)
 
     def on_menuitem_show_file_activate(self, menuitem):
         if client.is_localhost:
             component.get('SessionProxy').get_torrent_status(
-                self.torrent_id, ['download_location']).addCallback(self._on_show_file)
+                self.torrent_id, ['download_location'],
+            ).addCallback(self._on_show_file)
 
     def _set_file_priorities_on_user_change(self, selected, priority):
         """Sets the file priorities in the core. It will change the selected with the 'priority'"""
@@ -514,19 +524,23 @@ class FilesTab(Tab):
 
     def on_menuitem_ignore_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
-            self.get_selected_files(), FILE_PRIORITY['Ignore'])
+            self.get_selected_files(), FILE_PRIORITY['Ignore'],
+        )
 
     def on_menuitem_low_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
-            self.get_selected_files(), FILE_PRIORITY['Low'])
+            self.get_selected_files(), FILE_PRIORITY['Low'],
+        )
 
     def on_menuitem_normal_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
-            self.get_selected_files(), FILE_PRIORITY['Normal'])
+            self.get_selected_files(), FILE_PRIORITY['Normal'],
+        )
 
     def on_menuitem_high_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
-            self.get_selected_files(), FILE_PRIORITY['High'])
+            self.get_selected_files(), FILE_PRIORITY['High'],
+        )
 
     def on_menuitem_expand_all_activate(self, menuitem):
         self.listview.expand_all()
@@ -606,11 +620,14 @@ class FilesTab(Tab):
                     if not p_itr:
                         p_itr = self.get_iter_at_path('/'.join(parent_path[:i]) + '/')
                         p_itr = self.treestore.append(
-                            p_itr, [parent_path[i] + '/', 0, '', 0, 0, -1, gtk.STOCK_DIRECTORY])
+                            p_itr, [parent_path[i] + '/', 0, '', 0, 0, -1, gtk.STOCK_DIRECTORY],
+                        )
                 p_itr = self.get_iter_at_path('/'.join(parent_path) + '/')
                 old_name_itr = self.get_iter_at_path(old_name)
-                self.treestore.append(p_itr,
-                                      self.treestore.get(old_name_itr, *range(self.treestore.get_n_columns())))
+                self.treestore.append(
+                    p_itr,
+                    self.treestore.get(old_name_itr, *range(self.treestore.get_n_columns())),
+                )
                 self.treestore.remove(old_name_itr)
 
                 # Remove old parent path
@@ -621,10 +638,13 @@ class FilesTab(Tab):
                 parent_iter = None
                 for f in new_folders:
                     parent_iter = self.treestore.append(
-                        parent_iter, [f + '/', 0, '', 0, 0, -1, gtk.STOCK_DIRECTORY])
+                        parent_iter, [f + '/', 0, '', 0, 0, -1, gtk.STOCK_DIRECTORY],
+                    )
                 child = self.get_iter_at_path(old_name)
-                self.treestore.append(parent_iter,
-                                      self.treestore.get(child, *range(self.treestore.get_n_columns())))
+                self.treestore.append(
+                    parent_iter,
+                    self.treestore.get(child, *range(self.treestore.get_n_columns())),
+                )
                 self.treestore.remove(child)
 
         else:
@@ -768,8 +788,10 @@ class FilesTab(Tab):
                 while itr:
                     pp = self.treestore[itr][0] + pp
                     itr = self.treestore.iter_parent(itr)
-                client.core.rename_folder(self.torrent_id, pp + model[selected[0]][0],
-                                          parent_path + model[selected[0]][0])
+                client.core.rename_folder(
+                    self.torrent_id, pp + model[selected[0]][0],
+                    parent_path + model[selected[0]][0],
+                )
             else:
                 # [(index, filepath), ...]
                 to_rename = []

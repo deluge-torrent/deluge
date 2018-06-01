@@ -33,7 +33,7 @@ def gather_info(plugin):
     return {
         'scripts': scripts,
         'debug_scripts': debug_scripts,
-        'script_directories': directories
+        'script_directories': directories,
     }
 
 

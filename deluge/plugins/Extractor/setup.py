@@ -53,5 +53,5 @@ setup(
     %s = deluge.plugins.%s:GtkUIPlugin
     [deluge.plugin.web]
     %s = deluge.plugins.%s:WebUIPlugin
-    """ % ((__plugin_name__, __plugin_name__.lower()) * 3)
+    """ % ((__plugin_name__, __plugin_name__.lower()) * 3),
 )

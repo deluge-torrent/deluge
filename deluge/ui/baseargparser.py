@@ -170,26 +170,48 @@ class BaseArgParser(argparse.ArgumentParser):
         self.process_arg_group = False
         self.group = self.add_argument_group(_('Common Options'))
         if common_help:
-            self.group.add_argument('-h', '--help', action=HelpAction,
-                                    help=_('Print this help message'))
-        self.group.add_argument('-V', '--version', action='version', version='%(prog)s ' + get_version(),
-                                help=_('Print version information'))
-        self.group.add_argument('-v', action='version', version='%(prog)s ' + get_version(),
-                                help=argparse.SUPPRESS)  # Deprecated arg
-        self.group.add_argument('-c', '--config', metavar='<config>',
-                                help=_('Set the config directory path'))
-        self.group.add_argument('-l', '--logfile', metavar='<logfile>',
-                                help=_('Output to specified logfile instead of stdout'))
-        self.group.add_argument('-L', '--loglevel', choices=[l for k in deluge.log.levels for l in (k, k.upper())],
-                                help=_('Set the log level (none, error, warning, info, debug)'), metavar='<level>')
-        self.group.add_argument('--logrotate', nargs='?', const='2M', metavar='<max-size>',
-                                help=_('Enable logfile rotation, with optional maximum logfile size, '
-                                       'default: %(const)s (Logfile rotation count is 5)'))
-        self.group.add_argument('-q', '--quiet', action='store_true',
-                                help=_('Quieten logging output (Same as `--loglevel none`)'))
-        self.group.add_argument('--profile', metavar='<profile-file>', nargs='?', default=False,
-                                help=_('Profile %(prog)s with cProfile. Outputs to stdout '
-                                       'unless a filename is specified'))
+            self.group.add_argument(
+                '-h', '--help', action=HelpAction,
+                help=_('Print this help message'),
+            )
+        self.group.add_argument(
+            '-V', '--version', action='version', version='%(prog)s ' + get_version(),
+            help=_('Print version information'),
+        )
+        self.group.add_argument(
+            '-v', action='version', version='%(prog)s ' + get_version(),
+            help=argparse.SUPPRESS,
+        )  # Deprecated arg
+        self.group.add_argument(
+            '-c', '--config', metavar='<config>',
+            help=_('Set the config directory path'),
+        )
+        self.group.add_argument(
+            '-l', '--logfile', metavar='<logfile>',
+            help=_('Output to specified logfile instead of stdout'),
+        )
+        self.group.add_argument(
+            '-L', '--loglevel', choices=[l for k in deluge.log.levels for l in (k, k.upper())],
+            help=_('Set the log level (none, error, warning, info, debug)'), metavar='<level>',
+        )
+        self.group.add_argument(
+            '--logrotate', nargs='?', const='2M', metavar='<max-size>',
+            help=_(
+                'Enable logfile rotation, with optional maximum logfile size, '
+                'default: %(const)s (Logfile rotation count is 5)',
+            ),
+        )
+        self.group.add_argument(
+            '-q', '--quiet', action='store_true',
+            help=_('Quieten logging output (Same as `--loglevel none`)'),
+        )
+        self.group.add_argument(
+            '--profile', metavar='<profile-file>', nargs='?', default=False,
+            help=_(
+                'Profile %(prog)s with cProfile. Outputs to stdout '
+                'unless a filename is specified',
+            ),
+        )
 
     def parse_args(self, args=None):
         """Parse UI arguments and handle common and process group options.
@@ -251,8 +273,10 @@ class BaseArgParser(argparse.ArgumentParser):
                 logrotate = common.parse_human_size(options.logrotate)
 
             # Setup the logger
-            deluge.log.setup_logger(level=options.loglevel, filename=options.logfile, filemode=logfile_mode,
-                                    logrotate=logrotate, output_stream=self.log_stream)
+            deluge.log.setup_logger(
+                level=options.loglevel, filename=options.logfile, filemode=logfile_mode,
+                logrotate=logrotate, output_stream=self.log_stream,
+            )
 
             if options.config:
                 if not set_config_dir(options.config):
@@ -300,14 +324,24 @@ class BaseArgParser(argparse.ArgumentParser):
 
         self.process_arg_group = True
         self.group = self.add_argument_group(_('Process Control Options'))
-        self.group.add_argument('-P', '--pidfile', metavar='<pidfile>', action='store',
-                                help=_('Pidfile to store the process id'))
+        self.group.add_argument(
+            '-P', '--pidfile', metavar='<pidfile>', action='store',
+            help=_('Pidfile to store the process id'),
+        )
         if not common.windows_check():
-            self.group.add_argument('-d', '--do-not-daemonize', dest='donotdaemonize', action='store_true',
-                                    help=_('Do not daemonize (fork) this process'))
-            self.group.add_argument('-f', '--fork', dest='donotdaemonize', action='store_false',
-                                    help=argparse.SUPPRESS)  # Deprecated arg
-            self.group.add_argument('-U', '--user', metavar='<user>', action='store',
-                                    help=_('Change to this user on startup (Requires root)'))
-            self.group.add_argument('-g', '--group', metavar='<group>', action='store',
-                                    help=_('Change to this group on startup (Requires root)'))
+            self.group.add_argument(
+                '-d', '--do-not-daemonize', dest='donotdaemonize', action='store_true',
+                help=_('Do not daemonize (fork) this process'),
+            )
+            self.group.add_argument(
+                '-f', '--fork', dest='donotdaemonize', action='store_false',
+                help=argparse.SUPPRESS,
+            )  # Deprecated arg
+            self.group.add_argument(
+                '-U', '--user', metavar='<user>', action='store',
+                help=_('Change to this user on startup (Requires root)'),
+            )
+            self.group.add_argument(
+                '-g', '--group', metavar='<group>', action='store',
+                help=_('Change to this group on startup (Requires root)'),
+            )

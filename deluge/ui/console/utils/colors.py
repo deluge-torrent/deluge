@@ -29,12 +29,12 @@ colors = [
     'COLOR_MAGENTA',
     'COLOR_RED',
     'COLOR_WHITE',
-    'COLOR_YELLOW'
+    'COLOR_YELLOW',
 ]
 
 # {(fg, bg): pair_number, ...}
 color_pairs = {
-    ('white', 'black'): 0  # Special case, can't be changed
+    ('white', 'black'): 0,  # Special case, can't be changed
 }
 
 # Some default color schemes
@@ -50,7 +50,7 @@ schemes = {
     'marked': ('white', 'blue', 'bold'),
     'selectedmarked': ('blue', 'white', 'bold'),
     'header': ('green', 'black', 'bold'),
-    'filterstatus': ('green', 'blue', 'bold')
+    'filterstatus': ('green', 'blue', 'bold'),
 }
 
 # Colors for various torrent states
@@ -61,7 +61,7 @@ state_color = {
     'Checking': '{!green,black!}',
     'Queued': '{!yellow,black!}',
     'Error': '{!red,black,bold!}',
-    'Moving': '{!green,black,bold!}'
+    'Moving': '{!green,black,bold!}',
 }
 
 type_color = {
@@ -70,7 +70,7 @@ type_color = {
     float: '{!green,black,bold!}',
     str: '{!cyan,black,bold!}',
     list: '{!magenta,black,bold!}',
-    dict: '{!white,black,bold!}'
+    dict: '{!white,black,bold!}',
 }
 
 
@@ -297,7 +297,7 @@ class ConsoleColorFormatter(object):
         '<value>': '{!cyan!}%s{!input!}',
         'usage:': '{!info!}%s{!input!}',
         '<download-folder>': '{!yellow!}%s{!input!}',
-        '<torrent-file>': '{!green!}%s{!input!}'
+        '<torrent-file>': '{!green!}%s{!input!}',
 
     }
 

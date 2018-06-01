@@ -73,8 +73,8 @@ __all__ = ['dumps', 'loads']
 
 py3 = sys.version_info[0] >= 3
 if py3:
-    long = int  # pylint: disable=redefined-builtin
-    unicode = str  # pylint: disable=redefined-builtin
+    long = int  # noqa: A001, pylint: disable=redefined-builtin
+    unicode = str  # noqa: A001, pylint: disable=redefined-builtin
 
     def int2byte(c):
         return bytes([c])
@@ -434,9 +434,13 @@ def test():
     f1 = struct.unpack('!f', struct.pack('!f', 25.5))[0]
     f2 = struct.unpack('!f', struct.pack('!f', 29.3))[0]
     f3 = struct.unpack('!f', struct.pack('!f', -0.6))[0]
-    ld = (({b'a': 15, b'bb': f1, b'ccc': f2, b'': (f3, (), False, True, b'')}, (b'a', 10**20),
-           tuple(range(-100000, 100000)), b'b' * 31, b'b' * 62, b'b' * 64, 2**30, 2**33, 2**62,
-           2**64, 2**30, 2**33, 2**62, 2**64, False, False, True, -1, 2, 0),)
+    ld = (
+        (
+            {b'a': 15, b'bb': f1, b'ccc': f2, b'': (f3, (), False, True, b'')}, (b'a', 10**20),
+            tuple(range(-100000, 100000)), b'b' * 31, b'b' * 62, b'b' * 64, 2**30, 2**33, 2**62,
+            2**64, 2**30, 2**33, 2**62, 2**64, False, False, True, -1, 2, 0,
+        ),
+    )
     assert loads(dumps(ld)) == ld
     d = dict(zip(range(-100000, 100000), range(-100000, 100000)))
     d.update({b'a': 20, 20: 40, 40: 41, f1: f2, f2: f3, f3: False, False: True, True: False})
@@ -444,15 +448,15 @@ def test():
     assert loads(dumps(ld)) == ld
     ld = (b'', b'a' * 10, b'a' * 100, b'a' * 1000, b'a' * 10000, b'a' * 100000, b'a' * 1000000, b'a' * 10000000)
     assert loads(dumps(ld)) == ld
-    ld = tuple([dict(zip(range(n), range(n))) for n in range(100)]) + (b'b',)
+    ld = tuple(dict(zip(range(n), range(n))) for n in range(100)) + (b'b',)
     assert loads(dumps(ld)) == ld
-    ld = tuple([dict(zip(range(n), range(-n, 0))) for n in range(100)]) + (b'b',)
+    ld = tuple(dict(zip(range(n), range(-n, 0))) for n in range(100)) + (b'b',)
     assert loads(dumps(ld)) == ld
-    ld = tuple([tuple(range(n)) for n in range(100)]) + (b'b',)
+    ld = tuple(tuple(range(n)) for n in range(100)) + (b'b',)
     assert loads(dumps(ld)) == ld
-    ld = tuple([b'a' * n for n in range(1000)]) + (b'b',)
+    ld = tuple(b'a' * n for n in range(1000)) + (b'b',)
     assert loads(dumps(ld)) == ld
-    ld = tuple([b'a' * n for n in range(1000)]) + (None, True, None)
+    ld = tuple(b'a' * n for n in range(1000)) + (None, True, None)
     assert loads(dumps(ld)) == ld
     assert loads(dumps(None)) is None
     assert loads(dumps({None: None})) == {None: None}

@@ -137,7 +137,8 @@ class ComponentTestClass(BaseTestCase):
         self.assertRaises(
             component.ComponentAlreadyRegistered,
             ComponentTester,
-            'test_register_exception_c1')
+            'test_register_exception_c1',
+        )
 
     def test_stop_component(self):
         def on_stop(result, c):
@@ -230,11 +231,15 @@ class ComponentTestClass(BaseTestCase):
         result = yield component.start()
         self.assertEqual(
             [(result[0][0], result[0][1].value)],
-            [(defer.FAILURE,
+            [(
+                defer.FAILURE,
                 component.ComponentException(
                     'Trying to start component "%s" but it is '
                     'not in a stopped state. Current state: %s' %
-                    ('test_pause_c1', 'Paused'), ''))])
+                    ('test_pause_c1', 'Paused'), '',
+                ),
+            )],
+        )
 
     def test_shutdown(self):
         def on_shutdown(result, c1):

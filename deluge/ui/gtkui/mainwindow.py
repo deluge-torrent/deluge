@@ -43,7 +43,7 @@ class _GtkBuilderSignalsHolder(object):
                 if hasattr(self, name):
                     raise RuntimeError(
                         'A handler for signal %r has already been registered: %s' %
-                        (name, getattr(self, name))
+                        (name, getattr(self, name)),
                     )
                 setattr(self, name, handler)
         else:
@@ -72,15 +72,20 @@ class MainWindow(component.Component):
         self.main_builder.prev_connect_signals = copy.deepcopy(self.main_builder.connect_signals)
 
         def patched_connect_signals(*a, **k):
-            raise RuntimeError('In order to connect signals to this GtkBuilder instance please use '
-                               '"component.get(\'MainWindow\').connect_signals()"')
+            raise RuntimeError(
+                'In order to connect signals to this GtkBuilder instance please use '
+                '"component.get(\'MainWindow\').connect_signals()"',
+            )
         self.main_builder.connect_signals = patched_connect_signals
 
         # Get Gtk Builder files Main Window, New release dialog, and Tabs.
-        for filename in ('main_window.ui', 'main_window.new_release.ui', 'main_window.tabs.ui',
-                         'main_window.tabs.menu_file.ui', 'main_window.tabs.menu_peer.ui'):
+        for filename in (
+            'main_window.ui', 'main_window.new_release.ui', 'main_window.tabs.ui',
+            'main_window.tabs.menu_file.ui', 'main_window.tabs.menu_peer.ui',
+        ):
             self.main_builder.add_from_file(
-                resource_filename('deluge.ui.gtkui', os.path.join('glade', filename)))
+                resource_filename('deluge.ui.gtkui', os.path.join('glade', filename)),
+            )
 
         self.window = self.main_builder.get_object('main_window')
         self.window.set_icon(deluge.ui.gtkui.common.get_deluge_icon())
@@ -168,7 +173,7 @@ class MainWindow(component.Component):
         """Returns a reference to the main window GTK builder object."""
         return self.main_builder
 
-    def quit(self, shutdown=False, restart=False):
+    def quit(self, shutdown=False, restart=False):  # noqa: A003 python builtin
         """Quits the GtkUI application.
 
         Args:
@@ -270,8 +275,8 @@ class MainWindow(component.Component):
             self.window.set_title(_('D: %s U: %s - Deluge' % (download_rate, upload_rate)))
         if self.config['show_rate_in_title']:
             client.core.get_session_status(
-                ['payload_download_rate', 'payload_upload_rate']
-                ).addCallback(_on_get_session_status)
+                ['payload_download_rate', 'payload_upload_rate'],
+            ).addCallback(_on_get_session_status)
 
     def _on_set_show_rate_in_title(self, key, value):
         if value:

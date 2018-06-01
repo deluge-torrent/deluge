@@ -33,17 +33,19 @@ class AboutDialog(object):
         version = get_version()
 
         self.about.set_copyright(
-            _('Copyright %(year_start)s-%(year_end)s Deluge Team') % {'year_start': 2007, 'year_end': 2015})
+            _('Copyright %(year_start)s-%(year_end)s Deluge Team') % {'year_start': 2007, 'year_end': 2015},
+        )
         self.about.set_comments(
             _('A peer-to-peer file sharing program\nutilizing the BitTorrent protocol.') +
-            '\n\n' + _('Client:') + ' %s\n' % version)
+            '\n\n' + _('Client:') + ' %s\n' % version,
+        )
         self.about.set_version(version)
         self.about.set_authors([
             _('Current Developers:'), 'Andrew Resch', 'Damien Churchill',
             'John Garland', 'Calum Lind', '', 'libtorrent (libtorrent.org):',
             'Arvid Norberg', '', _('Past Developers or Contributors:'),
             'Zach Tibbitts', 'Alon Zakai', 'Marcos Mobley', 'Alex Dedul',
-            'Sadrul Habib Chowdhury', 'Ido Abramovich', 'Martijn Voncken'
+            'Sadrul Habib Chowdhury', 'Ido Abramovich', 'Martijn Voncken',
         ])
         self.about.set_artists(['Andrew Wedderburn', 'Andrew Resch'])
         self.about.set_translator_credits('\n'.join([
@@ -222,7 +224,7 @@ class AboutDialog(object):
             'Xiaodong Xu', 'xyb', 'Yaron', 'Yasen Pramatarov', 'YesPoX',
             'Yuren Ju', 'Yves MATHIEU', 'zekopeko', 'zhuqin', 'Zissan',
             'Γιάννης Κατσαμπίρης', 'Артём Попов', 'Миша', 'Шаймарданов Максим',
-            '蔡查理'
+            '蔡查理',
         ]))
         self.about.set_wrap_license(True)
         self.about.set_license(_(
@@ -248,7 +250,7 @@ class AboutDialog(object):
             'version of the file(s), but you are not obligated to do so. If '
             'you do not wish to do so, delete this exception statement from '
             'your version. If you delete this exception statement from all '
-            'source files in the program, then also delete it here.'
+            'source files in the program, then also delete it here.',
         ))
         self.about.set_website('http://deluge-torrent.org')
         self.about.set_website_label('deluge-torrent.org')
@@ -259,10 +261,12 @@ class AboutDialog(object):
         if client.connected():
             if not client.is_standalone():
                 self.about.set_comments(
-                    self.about.get_comments() + _('Server:') + ' %coreversion%\n')
+                    self.about.get_comments() + _('Server:') + ' %coreversion%\n',
+                )
 
             self.about.set_comments(
-                self.about.get_comments() + '\n' + _('libtorrent:') + ' %ltversion%\n')
+                self.about.get_comments() + '\n' + _('libtorrent:') + ' %ltversion%\n',
+            )
 
             def on_lt_version(result):
                 c = self.about.get_comments()

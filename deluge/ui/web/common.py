@@ -52,7 +52,7 @@ try:
         builtins = {
             '_': _,
             'escape': escape,
-            'version': common.get_version()
+            'version': common.get_version(),
         }
 
         def render(self, *args, **data):
@@ -61,11 +61,13 @@ try:
             return rendered.encode('utf-8', 'replace')
 except ImportError:
     import warnings
-    warnings.warn('The Mako library is required to run deluge.ui.web',
-                  RuntimeWarning)
+    warnings.warn(
+        'The Mako library is required to run deluge.ui.web',
+        RuntimeWarning,
+    )
 
     class Template(object):
         def __new__(cls, *args, **kwargs):
             raise RuntimeError(
-                'The Mako library is required to run deluge.ui.web'
+                'The Mako library is required to run deluge.ui.web',
             )

@@ -26,5 +26,5 @@ class AuthManagerTestCase(BaseTestCase):
     def test_authorize(self):
         self.assertEqual(
             self.auth.authorize(*get_localhost_auth()),
-            AUTH_LEVEL_ADMIN
+            AUTH_LEVEL_ADMIN,
         )

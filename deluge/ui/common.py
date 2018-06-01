@@ -134,14 +134,14 @@ TORRENT_DATA_FIELD = {
     'pieces':
         {'name': _('Pieces'), 'status': ['num_pieces', 'piece_length']},
     'seed_rank':
-        {'name': _('Seed Rank'), 'status': ['seed_rank']}
+        {'name': _('Seed Rank'), 'status': ['seed_rank']},
 }
 
 TRACKER_STATUS_TRANSLATION = [
     _('Error'),
     _('Warning'),
     _('Announce OK'),
-    _('Announce Sent')
+    _('Announce Sent'),
 ]
 
 PREFS_CATOG_TRANS = {
@@ -154,7 +154,7 @@ PREFS_CATOG_TRANS = {
     'cache': _('Cache'),
     'other': _('Other'),
     'daemon': _('Daemon'),
-    'plugins': _('Plugins')
+    'plugins': _('Plugins'),
 }
 
 FILE_PRIORITY = {
@@ -178,7 +178,7 @@ del _
 DISK_CACHE_KEYS = [
     'disk.num_blocks_read', 'disk.num_blocks_written', 'disk.num_read_ops', 'disk.num_write_ops',
     'disk.num_blocks_cache_hits', 'read_hit_ratio', 'write_hit_ratio', 'disk.disk_blocks_in_use',
-    'disk.read_cache_blocks'
+    'disk.read_cache_blocks',
 ]
 
 
@@ -279,13 +279,13 @@ class TorrentInfo(object):
                             'type': 'file',
                             'index': 0,
                             'length': self.__m_metadata['info']['length'],
-                            'download': True
-                        }
-                    }
+                            'download': True,
+                        },
+                    },
                 }
             else:
                 self.__m_files_tree = {
-                    self.__m_name: (0, self.__m_metadata['info']['length'], True)
+                    self.__m_name: (0, self.__m_metadata['info']['length'], True),
                 }
 
         self.__m_files = []
@@ -298,13 +298,13 @@ class TorrentInfo(object):
                 self.__m_files.append({
                     'path': f['path'],
                     'size': f['length'],
-                    'download': True
+                    'download': True,
                 })
         else:
             self.__m_files.append({
                 'path': self.__m_name,
                 'size': self.__m_metadata['info']['length'],
-                'download': True
+                'download': True,
             })
 
     def as_dict(self, *keys):
@@ -315,7 +315,7 @@ class TorrentInfo(object):
         :param keys: a number of key strings
         :type keys: string
         """
-        return dict([(key, getattr(self, key)) for key in keys])
+        return {key: getattr(self, key) for key in keys}
 
     @property
     def name(self):
@@ -400,7 +400,7 @@ class FileTree2(object):
                 if child is None:
                     parent['contents'][directory] = {
                         'type': 'dir',
-                        'contents': {}
+                        'contents': {},
                     }
                 parent = parent['contents'][directory]
             return parent, path
@@ -411,12 +411,12 @@ class FileTree2(object):
                 parent, path = get_parent(path)
                 parent['contents'][path] = {
                     'type': 'dir',
-                    'contents': {}
+                    'contents': {},
                 }
             else:
                 parent, path = get_parent(path)
                 parent['contents'][path] = {
-                    'type': 'file'
+                    'type': 'file',
                 }
 
     def get_tree(self):
@@ -443,13 +443,13 @@ class FileTree2(object):
                 full_path = os.path.join(parent_path, path).replace('\\', '/')
                 if directory['contents'][path]['type'] == 'dir':
                     directory['contents'][path] = callback(
-                        full_path, directory['contents'][path]
-                        ) or directory['contents'][path]
+                        full_path, directory['contents'][path],
+                    ) or directory['contents'][path]
                     walk(directory['contents'][path], full_path)
                 else:
                     directory['contents'][path] = callback(
-                        full_path, directory['contents'][path]
-                        ) or directory['contents'][path]
+                        full_path, directory['contents'][path],
+                    ) or directory['contents'][path]
         walk(self.tree, '')
 
     def __str__(self):

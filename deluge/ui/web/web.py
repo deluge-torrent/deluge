@@ -28,12 +28,18 @@ class Web(UI):
         self.__server = None
 
         group = self.parser.add_argument_group(_('Web Server Options'))
-        group.add_argument('-i', '--interface', metavar='<ip_address>', action='store',
-                           help=_('IP address for web server to listen on'))
-        group.add_argument('-p', '--port', metavar='<port>', type=int, action='store',
-                           help=_('Port for web server to listen on'))
-        group.add_argument('-b', '--base', metavar='<path>', action='store',
-                           help=_('Set the base path that the ui is running on'))
+        group.add_argument(
+            '-i', '--interface', metavar='<ip_address>', action='store',
+            help=_('IP address for web server to listen on'),
+        )
+        group.add_argument(
+            '-p', '--port', metavar='<port>', type=int, action='store',
+            help=_('Port for web server to listen on'),
+        )
+        group.add_argument(
+            '-b', '--base', metavar='<path>', action='store',
+            help=_('Set the base path that the ui is running on'),
+        )
         group.add_argument('--ssl', action='store_true', help=_('Force the web server to use SSL'))
         group.add_argument('--no-ssl', action='store_true', help=_('Force the web server to disable SSL'))
         self.parser.add_process_arg_group()

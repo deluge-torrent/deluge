@@ -104,14 +104,14 @@ class Core(CorePluginBase):
         self.update_timer = LoopingCall(self.check_import)
         if self.config['check_after_days'] > 0:
             self.update_timer.start(
-                self.config['check_after_days'] * 24 * 60 * 60, update_now
+                self.config['check_after_days'] * 24 * 60 * 60, update_now,
             )
 
     def disable(self):
         self.config.save()
         log.debug('Reset IP filter')
         self.core.session.get_ip_filter().add_rule(
-            '0.0.0.0', '255.255.255.255', ALLOW_RANGE
+            '0.0.0.0', '255.255.255.255', ALLOW_RANGE,
         )
         log.debug('Blocklist: Plugin disabled')
 
@@ -189,7 +189,7 @@ class Core(CorePluginBase):
                             try:
                                 ip = IP.parse(ip)
                                 self.blocklist.add_rule(
-                                    ip.address, ip.address, ALLOW_RANGE
+                                    ip.address, ip.address, ALLOW_RANGE,
                                 )
                                 saved.add(ip.address)
                                 log.debug('Added %s to whitelisted', ip)
@@ -223,15 +223,17 @@ class Core(CorePluginBase):
                         self.update_timer.stop()
                     if self.config['check_after_days'] > 0:
                         self.update_timer.start(
-                            self.config['check_after_days'] * 24 * 60 * 60, update_now
+                            self.config['check_after_days'] * 24 * 60 * 60, update_now,
                         )
                 continue
             self.config[key] = config[key]
 
         if needs_blocklist_import:
-            log.debug('IP addresses were removed from the whitelist. Since we '
-                      'do not know if they were blocked before. Re-import '
-                      'current blocklist and re-add whitelisted.')
+            log.debug(
+                'IP addresses were removed from the whitelist. Since we '
+                'do not know if they were blocked before. Re-import '
+                'current blocklist and re-add whitelisted.',
+            )
             self.has_imported = False
             d = self.import_list(deluge.configmanager.get_config_dir('blocklist.cache'))
             d.addCallbacks(self.on_import_complete, self.on_import_error)
@@ -318,7 +320,7 @@ class Core(CorePluginBase):
         self.is_downloading = True
         return download_file(
             url, deluge.configmanager.get_config_dir('blocklist.download'),
-            on_retrieve_data, headers
+            on_retrieve_data, headers,
         )
 
     def on_download_complete(self, blocklist):
@@ -365,8 +367,10 @@ class Core(CorePluginBase):
             else:
                 log.warning('Blocklist download failed: %s', error_msg)
                 if self.failed_attempts < self.config['try_times']:
-                    log.debug('Try downloading blocklist again... (%s/%s)',
-                              self.failed_attempts, self.config['try_times'])
+                    log.debug(
+                        'Try downloading blocklist again... (%s/%s)',
+                        self.failed_attempts, self.config['try_times'],
+                    )
                     self.failed_attempts += 1
                     d = self.download_list()
                     d.addCallbacks(self.on_download_complete, self.on_download_error)

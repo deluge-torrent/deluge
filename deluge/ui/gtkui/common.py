@@ -72,8 +72,10 @@ def get_logo(size):
     return get_pixbuf_at_size(filename, size)
 
 
-def build_menu_radio_list(value_list, callback, pref_value=None, suffix=None, show_notset=False,
-                          notset_label='∞', notset_lessthan=0, show_other=False):
+def build_menu_radio_list(
+    value_list, callback, pref_value=None, suffix=None, show_notset=False,
+    notset_label='∞', notset_lessthan=0, show_other=False,
+):
     """Build a menu with radio menu items from a list and connect them to the callback.
 
     Params:

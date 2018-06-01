@@ -84,15 +84,15 @@ class EditTrackersDialog(object):
 
         # Main dialog
         self.builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'edit_trackers.ui')
+            'deluge.ui.gtkui', os.path.join('glade', 'edit_trackers.ui'),
         ))
         # add tracker dialog
         self.builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'edit_trackers.add.ui')
+            'deluge.ui.gtkui', os.path.join('glade', 'edit_trackers.add.ui'),
         ))
         # edit tracker dialog
         self.builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'edit_trackers.edit.ui')
+            'deluge.ui.gtkui', os.path.join('glade', 'edit_trackers.edit.ui'),
         ))
 
         self.dialog = self.builder.get_object('edit_trackers_dialog')
@@ -116,9 +116,11 @@ class EditTrackersDialog(object):
 
         # Create the columns
         self.treeview.append_column(
-            gtk.TreeViewColumn(_('Tier'), gtk.CellRendererText(), text=0))
+            gtk.TreeViewColumn(_('Tier'), gtk.CellRendererText(), text=0),
+        )
         self.treeview.append_column(
-            gtk.TreeViewColumn(_('Tracker'), gtk.CellRendererText(), text=1))
+            gtk.TreeViewColumn(_('Tracker'), gtk.CellRendererText(), text=1),
+        )
 
         self.treeview.set_model(self.liststore)
         self.liststore.set_sort_column_id(0, gtk.SORT_ASCENDING)
@@ -134,7 +136,7 @@ class EditTrackersDialog(object):
         # Get the trackers for this torrent
         session = component.get('SessionProxy')
         session.get_torrent_status(
-            self.torrent_id, ['trackers']
+            self.torrent_id, ['trackers'],
         ).addCallback(self._on_get_torrent_status)
         client.force_call()
 

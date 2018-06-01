@@ -43,7 +43,7 @@ SEARCH_FORMAT = {
     SEARCH_FAILING: '{!black,white!}Search torrents: {!black,red!}%s{!black,white!}',
     SEARCH_START_REACHED:
     '{!black,white!}Search torrents: {!black,yellow!}%s{!black,white!} (start reached)',
-    SEARCH_END_REACHED: '{!black,white!}Search torrents: {!black,yellow!}%s{!black,white!} (end reached)'
+    SEARCH_END_REACHED: '{!black,white!}Search torrents: {!black,yellow!}%s{!black,white!} (end reached)',
 }
 
 

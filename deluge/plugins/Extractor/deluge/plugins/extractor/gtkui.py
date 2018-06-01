@@ -51,7 +51,7 @@ class GtkUI(GtkPluginBase):
 
         config = {
             'extract_path': path,
-            'use_name_folder': self.builder.get_object('chk_use_name').get_active()
+            'use_name_folder': self.builder.get_object('chk_use_name').get_active(),
         }
 
         client.extractor.set_config(config)

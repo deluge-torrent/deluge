@@ -65,8 +65,10 @@ def is_daemon_running(pid_file):
 class Daemon(object):
     """The Deluge Daemon class"""
 
-    def __init__(self, listen_interface=None, outgoing_interface=None, interface=None, port=None, standalone=False,
-                 read_only_config_keys=None):
+    def __init__(
+        self, listen_interface=None, outgoing_interface=None, interface=None, port=None, standalone=False,
+        read_only_config_keys=None,
+    ):
         """
         Args:
             listen_interface (str, optional): The IP address to listen to bittorrent connections on.
@@ -98,9 +100,11 @@ class Daemon(object):
             SetConsoleCtrlHandler(win_handler)
 
         # Start the core as a thread and join it until it's done
-        self.core = Core(listen_interface=listen_interface,
-                         outgoing_interface=outgoing_interface,
-                         read_only_config_keys=read_only_config_keys)
+        self.core = Core(
+            listen_interface=listen_interface,
+            outgoing_interface=outgoing_interface,
+            read_only_config_keys=read_only_config_keys,
+        )
 
         if port is None:
             port = self.core.config['daemon_port']
@@ -114,11 +118,13 @@ class Daemon(object):
             port=port,
             allow_remote=self.core.config['allow_remote'],
             listen=not standalone,
-            interface=interface
+            interface=interface,
         )
 
-        log.debug('Listening to UI on: %s:%s and bittorrent on: %s Making connections out on: %s',
-                  interface, port, listen_interface, outgoing_interface)
+        log.debug(
+            'Listening to UI on: %s:%s and bittorrent on: %s Making connections out on: %s',
+            interface, port, listen_interface, outgoing_interface,
+        )
 
     def start(self):
         # Register the daemon and the core RPCs

@@ -36,7 +36,8 @@ class BaseDialog(gtk.Dialog):
             title=header,
             parent=parent if parent else component.get('MainWindow').window,
             flags=gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT | gtk.DIALOG_NO_SEPARATOR,
-            buttons=buttons)
+            buttons=buttons,
+        )
 
         self.set_icon(get_deluge_icon())
 
@@ -104,7 +105,8 @@ class YesNoDialog(BaseDialog):
             text,
             gtk.STOCK_DIALOG_QUESTION,
             (gtk.STOCK_NO, gtk.RESPONSE_NO, gtk.STOCK_YES, gtk.RESPONSE_YES),
-            parent)
+            parent,
+        )
 
 
 class InformationDialog(BaseDialog):
@@ -124,7 +126,8 @@ class InformationDialog(BaseDialog):
             text,
             gtk.STOCK_DIALOG_INFO,
             (gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE),
-            parent)
+            parent,
+        )
 
 
 class ErrorDialog(BaseDialog):
@@ -149,7 +152,8 @@ class ErrorDialog(BaseDialog):
             text,
             gtk.STOCK_DIALOG_ERROR,
             (gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE),
-            parent)
+            parent,
+        )
 
         if traceback:
             import traceback
@@ -193,7 +197,8 @@ class AuthenticationDialog(BaseDialog):
             _('Authenticate'), err_msg,
             gtk.STOCK_DIALOG_AUTHENTICATION,
             (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_CONNECT, gtk.RESPONSE_OK),
-            parent)
+            parent,
+        )
 
         table = gtk.Table(2, 2, False)
         self.username_label = gtk.Label()
@@ -235,24 +240,32 @@ class AuthenticationDialog(BaseDialog):
 
 
 class AccountDialog(BaseDialog):
-    def __init__(self, username=None, password=None, authlevel=None,
-                 levels_mapping=None, parent=None):
+    def __init__(
+        self, username=None, password=None, authlevel=None,
+        levels_mapping=None, parent=None,
+    ):
         if username:
             super(AccountDialog, self).__init__(
                 _('Edit Account'),
                 _('Edit existing account'),
                 gtk.STOCK_DIALOG_INFO,
-                (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                 gtk.STOCK_APPLY, gtk.RESPONSE_OK),
-                parent)
+                (
+                    gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
+                    gtk.STOCK_APPLY, gtk.RESPONSE_OK,
+                ),
+                parent,
+            )
         else:
             super(AccountDialog, self).__init__(
                 _('New Account'),
                 _('Create a new account'),
                 gtk.STOCK_DIALOG_INFO,
-                (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                 gtk.STOCK_ADD, gtk.RESPONSE_OK),
-                parent)
+                (
+                    gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
+                    gtk.STOCK_ADD, gtk.RESPONSE_OK,
+                ),
+                parent,
+            )
 
         self.levels_mapping = levels_mapping
 
@@ -339,7 +352,8 @@ class OtherDialog(BaseDialog):
             text,
             icon,
             (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_APPLY, gtk.RESPONSE_OK),
-            parent)
+            parent,
+        )
 
         hbox = gtk.HBox(spacing=5)
         alignment_spacer = gtk.Alignment()
@@ -394,7 +408,8 @@ class PasswordDialog(BaseDialog):
             _('Password Protected'), password_msg,
             gtk.STOCK_DIALOG_AUTHENTICATION,
             (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_CONNECT, gtk.RESPONSE_OK),
-            parent)
+            parent,
+        )
 
         table = gtk.Table(1, 2, False)
         self.password_label = gtk.Label()

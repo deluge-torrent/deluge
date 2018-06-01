@@ -194,7 +194,7 @@ class FilterManager(component.Component):
                 tree_keys.remove(cat)
 
         torrent_keys, plugin_keys = self.torrents.separate_keys(tree_keys, torrent_ids)
-        items = dict((field, self.tree_fields[field]()) for field in tree_keys)
+        items = {field: self.tree_fields[field]() for field in tree_keys}
 
         for torrent_id in list(torrent_ids):
             status = self.core.create_torrent_status(torrent_id, torrent_keys, plugin_keys)  # status={key:value}

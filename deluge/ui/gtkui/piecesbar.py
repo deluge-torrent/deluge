@@ -117,8 +117,10 @@ class PiecesBar(DrawingArea):
                 pieces = [COLOR_STATES.index('completed')] * self.num_pieces
             start_pos = 0
             piece_width = self.width / len(pieces)
-            pieces_colors = [[color / 65535 for color in self.gtkui_config['pieces_color_%s' % state]]
-                             for state in COLOR_STATES]
+            pieces_colors = [
+                [color / 65535 for color in self.gtkui_config['pieces_color_%s' % state]]
+                for state in COLOR_STATES
+            ]
             for state in pieces:
                 ctx.set_source_rgb(*pieces_colors[state])
                 ctx.rectangle(start_pos, 0, piece_width, self.height)

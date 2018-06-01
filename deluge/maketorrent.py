@@ -68,7 +68,7 @@ class TorrentMetadata(object):
             raise InvalidPath('Need to set a data_path!')
 
         torrent = {
-            'info': {}
+            'info': {},
         }
 
         if self.comment:

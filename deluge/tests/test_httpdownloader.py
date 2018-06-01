@@ -43,8 +43,10 @@ class RenameResource(Resource):
     def render(self, request):
         filename = request.args.get('filename', ['renamed_file'])[0]
         request.setHeader(b'Content-Type', b'text/plain')
-        request.setHeader(b'Content-Disposition', b'attachment; filename=' +
-                          filename)
+        request.setHeader(
+            b'Content-Disposition', b'attachment; filename=' +
+            filename,
+        )
         return b'This file should be called ' + filename
 
 

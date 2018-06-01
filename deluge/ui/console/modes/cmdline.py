@@ -130,7 +130,7 @@ class CmdLine(BaseMode, Commander):
         config_dir = deluge.configmanager.get_config_dir()
         self.history_file = [
             os.path.join(config_dir, 'cmd_line.hist1'),
-            os.path.join(config_dir, 'cmd_line.hist2')
+            os.path.join(config_dir, 'cmd_line.hist2'),
         ]
         self._hf_lines = [0, 0]
         if self.console_config['cmdline']['save_command_history']:
@@ -645,7 +645,8 @@ class CmdLine(BaseMode, Commander):
                             match = possible_matches[i]
                             self.write(match.replace(r'\ ', ' '))
                         self.write('{!error!}And %i more (%i/%i). Press <tab> to view more' % (
-                            left - max_list, hits - 1, pages))
+                            left - max_list, hits - 1, pages,
+                        ))
                     else:
                         self.tab_count = 0
                         for match in possible_matches[listed:]:
@@ -786,15 +787,18 @@ class CmdLine(BaseMode, Commander):
                 if not empty and torrent_id.startswith(line):
                     # Highlight the matching part
                     text = '{!info!}%s{!input!}%s - "%s"' % (
-                        torrent_id[:line_len], torrent_id[line_len:], torrent_name)
+                        torrent_id[:line_len], torrent_id[line_len:], torrent_name,
+                    )
                     possible_matches.append(text)
                 if torrent_name.startswith(line):
                     text = '{!info!}%s{!input!}%s ({!cyan!}%s{!input!})' % (
-                        escaped_name[:line_len], escaped_name[line_len:], torrent_id)
+                        escaped_name[:line_len], escaped_name[line_len:], torrent_id,
+                    )
                     possible_matches.append(text)
                 elif torrent_name.lower().startswith(line.lower()):
                     text = '{!info!}%s{!input!}%s ({!cyan!}%s{!input!})' % (
-                        escaped_name[:line_len], escaped_name[line_len:], torrent_id)
+                        escaped_name[:line_len], escaped_name[line_len:], torrent_id,
+                    )
                     possible_matches2.append(text)
 
         return possible_matches + possible_matches2

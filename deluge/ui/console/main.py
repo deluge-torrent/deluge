@@ -49,7 +49,7 @@ DEFAULT_CONSOLE_PREFS = {
         'sidebar_width': 25,
         'separate_complete': True,
         'move_selection': True,
-        'columns': {}
+        'columns': {},
     },
     'addtorrents': {
         'show_misc_files': False,  # TODO: Showing/hiding this
@@ -63,7 +63,7 @@ DEFAULT_CONSOLE_PREFS = {
         'third_tab_lists_all': False,
         'torrents_per_tab_press': 15,
         'save_command_history': True,
-    }
+    },
 }
 
 
@@ -207,8 +207,10 @@ Please use commands from the command line, e.g.:\n
         if not self.interactive and options.parsed_cmds[0].command == 'connect':
             d = commander.exec_command(options.parsed_cmds.pop(0))
         else:
-            log.info('connect: host=%s, port=%s, username=%s, password=%s',
-                     options.daemon_addr, options.daemon_port, options.daemon_user, options.daemon_pass)
+            log.info(
+                'connect: host=%s, port=%s, username=%s, password=%s',
+                options.daemon_addr, options.daemon_port, options.daemon_user, options.daemon_pass,
+            )
             d = client.connect(options.daemon_addr, options.daemon_port, options.daemon_user, options.daemon_pass)
         d.addCallback(on_connect)
         d.addErrback(on_connect_fail)
@@ -279,8 +281,10 @@ Please use commands from the command line, e.g.:\n
                         # which can cause issues as the popup's screen will not be destroyed.
                         # This can lead to the popup border being visible for short periods
                         # while the current modes' screen is repainted.
-                        log.error('Mode "%s" still has popups available after being paused.'
-                                  ' Ensure all popups are removed on pause!', mode.popup.title)
+                        log.error(
+                            'Mode "%s" still has popups available after being paused.'
+                            ' Ensure all popups are removed on pause!', mode.popup.title,
+                        )
             d.addCallback(on_mode_paused, self.active_mode)
             reactor.removeReader(self.active_mode)
 
@@ -418,8 +422,10 @@ Please use commands from the command line, e.g.:\n
 
     def tab_complete_path(self, line, path_type='file', ext='', sort='name', dirs_first=True):
         if self.interactive and isinstance(self.active_mode, deluge.ui.console.modes.cmdline.CmdLine):
-            return self.active_mode.tab_complete_path(line, path_type=path_type, ext=ext,
-                                                      sort=sort, dirs_first=dirs_first)
+            return self.active_mode.tab_complete_path(
+                line, path_type=path_type, ext=ext,
+                sort=sort, dirs_first=dirs_first,
+            )
 
     def on_client_disconnect(self):
         component.stop()
@@ -474,10 +480,12 @@ Please use commands from the command line, e.g.:\n
         config['language'] = DEFAULT_CONSOLE_PREFS['language']
 
         # Migrate column settings
-        columns = ['queue', 'size', 'state', 'progress', 'seeds', 'peers', 'downspeed', 'upspeed',
-                   'eta', 'ratio', 'avail', 'added', 'tracker', 'savepath', 'downloaded', 'uploaded',
-                   'remaining', 'owner', 'downloading_time', 'seeding_time', 'completed', 'seeds_peers_ratio',
-                   'complete_seen', 'down_limit', 'up_limit', 'shared', 'name']
+        columns = [
+            'queue', 'size', 'state', 'progress', 'seeds', 'peers', 'downspeed', 'upspeed',
+            'eta', 'ratio', 'avail', 'added', 'tracker', 'savepath', 'downloaded', 'uploaded',
+            'remaining', 'owner', 'downloading_time', 'seeding_time', 'completed', 'seeds_peers_ratio',
+            'complete_seen', 'down_limit', 'up_limit', 'shared', 'name',
+        ]
         column_name_mapping = {
             'downspeed': 'download_speed',
             'upspeed': 'upload_speed',
@@ -487,7 +495,7 @@ Please use commands from the command line, e.g.:\n
             'complete_seen': 'last_seen_complete',
             'down_limit': 'max_download_speed',
             'up_limit': 'max_upload_speed',
-            'downloading_time': 'active_time'
+            'downloading_time': 'active_time',
         }
 
         from deluge.ui.console.modes.torrentlist.torrentview import default_columns

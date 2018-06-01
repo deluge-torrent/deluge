@@ -28,12 +28,14 @@ except ImportError:
 log = logging.getLogger(__name__)
 
 
-state_fg_colors = {'Downloading': 'green',
-                   'Seeding': 'cyan',
-                   'Error': 'red',
-                   'Queued': 'yellow',
-                   'Checking': 'blue',
-                   'Moving': 'green'}
+state_fg_colors = {
+    'Downloading': 'green',
+    'Seeding': 'cyan',
+    'Error': 'red',
+    'Queued': 'yellow',
+    'Checking': 'blue',
+    'Moving': 'green',
+}
 
 
 def _queue_sort(v1, v2):
@@ -63,7 +65,7 @@ reverse_sort_fields = [
     'progress',
     'ratio',
     'seeding_time',
-    'active_time'
+    'active_time',
 ]
 
 
@@ -297,8 +299,12 @@ class TorrentView(InputKeyHandler):
         def draw_row(index):
             if index not in self.cached_rows:
                 ts = self.curstate[self.sorted_ids[index]]
-                self.cached_rows[index] = (format_utils.format_row(
-                    [get_column_value(name, ts) for name in self.cols_to_show], self.column_widths), ts['state'])
+                self.cached_rows[index] = (
+                    format_utils.format_row(
+                        [get_column_value(name, ts) for name in self.cols_to_show],
+                        self.column_widths,
+                    ), ts['state'],
+                )
             return self.cached_rows[index]
 
         tidx = self.curoff
@@ -327,12 +333,16 @@ class TorrentView(InputKeyHandler):
             else:
                 colorstr = '{!%(fg)s,%(bg)s!}' % colors
 
-            self.torrentlist.add_string(currow + self.torrentlist_offset, '%s%s' % (colorstr, row[0]),
-                                        trim=False, scr=self.torrentlist.torrentview_panel)
+            self.torrentlist.add_string(
+                currow + self.torrentlist_offset, '%s%s' % (colorstr, row[0]),
+                trim=False, scr=self.torrentlist.torrentview_panel,
+            )
 
     def update(self, refresh=False):
-        d = component.get('SessionProxy').get_torrents_status(self.filter_dict,
-                                                              self.status_fields)
+        d = component.get('SessionProxy').get_torrents_status(
+            self.filter_dict,
+            self.status_fields,
+        )
         d.addCallback(self.update_state, refresh=refresh)
 
     def on_config_changed(self):
@@ -345,9 +355,12 @@ class TorrentView(InputKeyHandler):
         if changed:
             self.config.save()
 
-        self.cols_to_show = [col for col in sorted(self.config['torrentview']['columns'],
-                                                   key=lambda k: self.config['torrentview']['columns'][k]['order'])
-                             if self.config['torrentview']['columns'][col]['visible']]
+        self.cols_to_show = [
+            col for col in sorted(
+                self.config['torrentview']['columns'],
+                key=lambda k: self.config['torrentview']['columns'][k]['order'],
+            ) if self.config['torrentview']['columns'][col]['visible']
+        ]
         self.status_fields = get_required_fields(self.cols_to_show)
 
         # we always need these, even if we're not displaying them
@@ -365,7 +378,7 @@ class TorrentView(InputKeyHandler):
 
     def update_columns(self):
         self.column_widths = [self.config['torrentview']['columns'][col]['width'] for col in self.cols_to_show]
-        requested_width = sum([width for width in self.column_widths if width >= 0])
+        requested_width = sum(width for width in self.column_widths if width >= 0)
 
         cols = self.torrentlist.torrentview_columns()
         if requested_width > cols:  # can't satisfy requests, just spread out evenly
@@ -428,8 +441,10 @@ class TorrentView(InputKeyHandler):
             def on_close(**kwargs):
                 if added:
                     self.marked.pop()
-            torrent_actions_popup(self.torrentlist, self._selected_torrent_ids(),
-                                  action=ACTION.REMOVE, close_cb=on_close)
+            torrent_actions_popup(
+                self.torrentlist, self._selected_torrent_ids(),
+                action=ACTION.REMOVE, close_cb=on_close,
+            )
         elif c in [curses.KEY_ENTER, util.KEY_ENTER2] and self.numtorrents:
             added = self.update_marked(self.cursel)
 

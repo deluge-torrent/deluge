@@ -206,9 +206,13 @@ class JSON(resource.Resource, component.Component):
         Returns the error in json response.
         """
         log.error(reason)
-        response = {'result': None, 'id': None,
-                    'error': {'code': 5,
-                              'message': '%s: %s' % (reason.__class__.__name__, str(reason))}}
+        response = {
+            'result': None, 'id': None,
+            'error': {
+                'code': 5,
+                'message': '%s: %s' % (reason.__class__.__name__, str(reason)),
+            },
+        }
         return self._send_response(request, response)
 
     def _send_response(self, request, response):
@@ -355,7 +359,7 @@ class WebApi(JSONComponent):
         'message',
         'comment',
         'tracker_status',
-        'peers'
+        'peers',
     ]
 
     def __init__(self):
@@ -470,8 +474,8 @@ class WebApi(JSONComponent):
             'stats': {
                 'max_download': self.core_config.get('max_download_speed'),
                 'max_upload': self.core_config.get('max_upload_speed'),
-                'max_num_connections': self.core_config.get('max_connections_global')
-            }
+                'max_num_connections': self.core_config.get('max_connections_global'),
+            },
         }
 
         if not client.connected():
@@ -515,7 +519,7 @@ class WebApi(JSONComponent):
             'download_rate',
             'upload_rate',
             'dht_nodes',
-            'has_incoming_connections'
+            'has_incoming_connections',
         ])
         d3.addCallback(got_stats)
 
@@ -690,16 +694,20 @@ class WebApi(JSONComponent):
 
         for torrent in torrents:
             if is_magnet(torrent['path']):
-                log.info('Adding torrent from magnet uri `%s` with options `%r`',
-                         torrent['path'], torrent['options'])
+                log.info(
+                    'Adding torrent from magnet uri `%s` with options `%r`',
+                    torrent['path'], torrent['options'],
+                )
                 d = client.core.add_torrent_magnet(torrent['path'], torrent['options'])
                 deferreds.append(d)
             else:
                 filename = os.path.basename(torrent['path'])
                 with open(torrent['path'], 'rb') as _file:
                     fdump = base64.encodestring(_file.read())
-                log.info('Adding torrent from file `%s` with options `%r`',
-                         filename, torrent['options'])
+                log.info(
+                    'Adding torrent from file `%s` with options `%r`',
+                    filename, torrent['options'],
+                )
                 d = client.core.add_torrent_file_async(filename, fdump, torrent['options'])
                 deferreds.append(d)
         return DeferredList(deferreds, consumeErrors=False)
@@ -873,7 +881,7 @@ class WebApi(JSONComponent):
 
         return {
             'enabled_plugins': list(component.get('Web.PluginManager').plugins),
-            'available_plugins': component.get('Web.PluginManager').available_plugins
+            'available_plugins': component.get('Web.PluginManager').available_plugins,
         }
 
     @export

@@ -25,9 +25,16 @@ class Gtk(UI):
         super(Gtk, self).__init__('gtk', *args, description='Starts the Deluge GTK+ interface', **kwargs)
 
         group = self.parser.add_argument_group(_('GTK Options'))
-        group.add_argument('torrents', metavar='<torrent>', nargs='*', default=None,
-                           help=_('Add one or more torrent files, torrent URLs or magnet URIs'
-                                  ' to a currently running Deluge GTK instance'))
+        group.add_argument(
+            'torrents',
+            metavar='<torrent>',
+            nargs='*',
+            default=None,
+            help=_(
+                'Add one or more torrent files, torrent URLs or magnet URIs'
+                ' to a currently running Deluge GTK instance',
+            ),
+        )
 
     def start(self):
         super(Gtk, self).start()
@@ -42,8 +49,12 @@ class Gtk(UI):
                 log.exception(ex)
                 raise
 
-        deluge.common.run_profiled(run, self.options, output_file=self.options.profile,
-                                   do_profile=self.options.profile)
+        deluge.common.run_profiled(
+            run,
+            self.options,
+            output_file=self.options.profile,
+            do_profile=self.options.profile,
+        )
 
 
 def start():

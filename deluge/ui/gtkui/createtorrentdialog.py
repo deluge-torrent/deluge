@@ -37,19 +37,19 @@ class CreateTorrentDialog(object):
 
         # The main dialog
         self.builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'create_torrent_dialog.ui')
+            'deluge.ui.gtkui', os.path.join('glade', 'create_torrent_dialog.ui'),
         ))
         # The remote path dialog
         self.builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'create_torrent_dialog.remote_path.ui')
+            'deluge.ui.gtkui', os.path.join('glade', 'create_torrent_dialog.remote_path.ui'),
         ))
         # The remote save dialog
         self.builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'create_torrent_dialog.remote_save.ui')
+            'deluge.ui.gtkui', os.path.join('glade', 'create_torrent_dialog.remote_save.ui'),
         ))
         # The progress dialog
         self.builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'create_torrent_dialog.progress.ui')
+            'deluge.ui.gtkui', os.path.join('glade', 'create_torrent_dialog.progress.ui'),
         ))
 
         self.config = ConfigManager('gtkui.conf')
@@ -85,9 +85,11 @@ class CreateTorrentDialog(object):
         self.trackers_liststore = gtk.ListStore(int, str)
 
         self.builder.get_object('tracker_treeview').append_column(
-            gtk.TreeViewColumn(_('Tier'), gtk.CellRendererText(), text=0))
+            gtk.TreeViewColumn(_('Tier'), gtk.CellRendererText(), text=0),
+        )
         self.builder.get_object('tracker_treeview').append_column(
-            gtk.TreeViewColumn(_('Tracker'), gtk.CellRendererText(), text=1))
+            gtk.TreeViewColumn(_('Tracker'), gtk.CellRendererText(), text=1),
+        )
 
         self.builder.get_object('tracker_treeview').set_model(self.trackers_liststore)
         self.trackers_liststore.set_sort_column_id(0, gtk.SORT_ASCENDING)
@@ -125,11 +127,15 @@ class CreateTorrentDialog(object):
     def on_button_file_clicked(self, widget):
         log.debug('on_button_file_clicked')
         # Setup the filechooserdialog
-        chooser = gtk.FileChooserDialog(_('Choose a file'),
-                                        self.dialog,
-                                        gtk.FILE_CHOOSER_ACTION_OPEN,
-                                        buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                                                 gtk.STOCK_OPEN, gtk.RESPONSE_OK))
+        chooser = gtk.FileChooserDialog(
+            _('Choose a file'),
+            self.dialog,
+            gtk.FILE_CHOOSER_ACTION_OPEN,
+            buttons=(
+                gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
+                gtk.STOCK_OPEN, gtk.RESPONSE_OK,
+            ),
+        )
 
         chooser.set_transient_for(self.dialog)
         chooser.set_select_multiple(False)
@@ -154,11 +160,15 @@ class CreateTorrentDialog(object):
     def on_button_folder_clicked(self, widget):
         log.debug('on_button_folder_clicked')
         # Setup the filechooserdialog
-        chooser = gtk.FileChooserDialog(_('Choose a folder'),
-                                        self.dialog,
-                                        gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
-                                        buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                                                 gtk.STOCK_OPEN, gtk.RESPONSE_OK))
+        chooser = gtk.FileChooserDialog(
+            _('Choose a folder'),
+            self.dialog,
+            gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
+            buttons=(
+                gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
+                gtk.STOCK_OPEN, gtk.RESPONSE_OK,
+            ),
+        )
 
         chooser.set_transient_for(self.dialog)
         chooser.set_select_multiple(False)
@@ -232,10 +242,14 @@ class CreateTorrentDialog(object):
             dialog.hide()
         else:
             # Setup the filechooserdialog
-            chooser = gtk.FileChooserDialog(_('Save .torrent file'), self.dialog,
-                                            gtk.FILE_CHOOSER_ACTION_SAVE,
-                                            buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                                                     gtk.STOCK_SAVE, gtk.RESPONSE_OK))
+            chooser = gtk.FileChooserDialog(
+                _('Save .torrent file'), self.dialog,
+                gtk.FILE_CHOOSER_ACTION_SAVE,
+                buttons=(
+                    gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
+                    gtk.STOCK_SAVE, gtk.RESPONSE_OK,
+                ),
+            )
 
             chooser.set_transient_for(self.dialog)
             chooser.set_select_multiple(False)
@@ -322,25 +336,28 @@ class CreateTorrentDialog(object):
                 private,
                 author,
                 trackers,
-                add_to_session)
+                add_to_session,
+            )
 
         else:
 
             def hide_progress(result):
                 self.builder.get_object('progress_dialog').hide_all()
 
-            deferToThread(self.create_torrent,
-                          path.decode('utf-8'),
-                          tracker,
-                          piece_length,
-                          self._on_create_torrent_progress,
-                          comment,
-                          result.decode('utf-8'),
-                          webseeds,
-                          private,
-                          author,
-                          trackers,
-                          add_to_session).addCallback(hide_progress)
+            deferToThread(
+                self.create_torrent,
+                path.decode('utf-8'),
+                tracker,
+                piece_length,
+                self._on_create_torrent_progress,
+                comment,
+                result.decode('utf-8'),
+                webseeds,
+                private,
+                author,
+                trackers,
+                add_to_session,
+            ).addCallback(hide_progress)
 
         # Setup progress dialog
         self.builder.get_object('progress_dialog').set_transient_for(component.get('MainWindow').window)
@@ -348,8 +365,10 @@ class CreateTorrentDialog(object):
 
         self.dialog.destroy()
 
-    def create_torrent(self, path, tracker, piece_length, progress, comment, target,
-                       webseeds, private, created_by, trackers, add_to_session):
+    def create_torrent(
+        self, path, tracker, piece_length, progress, comment, target,
+        webseeds, private, created_by, trackers, add_to_session,
+    ):
         import deluge.metafile
         deluge.metafile.make_meta_file(
             path,
@@ -361,7 +380,8 @@ class CreateTorrentDialog(object):
             webseeds=webseeds,
             private=private,
             created_by=created_by,
-            trackers=trackers)
+            trackers=trackers,
+        )
 
         if add_to_session:
             with open(target, 'rb') as _file:
@@ -369,7 +389,7 @@ class CreateTorrentDialog(object):
             client.core.add_torrent_file_async(
                 os.path.split(target)[-1],
                 filedump,
-                {'download_location': os.path.split(path)[0]}
+                {'download_location': os.path.split(path)[0]},
             )
 
     def _on_create_torrent_progress(self, value, num_pieces):
@@ -407,7 +427,7 @@ class CreateTorrentDialog(object):
         log.debug('on_button_add_clicked')
         builder = gtk.Builder()
         builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'edit_trackers.add.ui')
+            'deluge.ui.gtkui', os.path.join('glade', 'edit_trackers.add.ui'),
         ))
         dialog = builder.get_object('add_tracker_dialog')
         dialog.set_transient_for(self.dialog)

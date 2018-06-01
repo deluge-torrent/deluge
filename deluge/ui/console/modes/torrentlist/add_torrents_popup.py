@@ -61,15 +61,19 @@ def show_torrent_add_popup(torrentlist):
             torrentlist.report_message('Error', '{!error!}Invalid URL or magnet link: %s' % url)
             return
 
-        log.debug('Adding Torrent(s): %s (dl path: %s) (paused: %d)',
-                  url, data['path']['value'], data['add_paused']['value'])
+        log.debug(
+            'Adding Torrent(s): %s (dl path: %s) (paused: %d)',
+            url, data['path']['value'], data['add_paused']['value'],
+        )
 
     def show_add_url_popup():
         add_paused = 1 if 'add_paused' in torrentlist.coreconfig else 0
         popup = InputPopup(torrentlist, 'Add Torrent (Esc to cancel)', close_cb=do_add_from_url)
         popup.add_text_input('url', 'Enter torrent URL or Magnet link:')
-        popup.add_text_input('path', 'Enter save path:', torrentlist.coreconfig.get('download_location', ''),
-                             complete=True)
+        popup.add_text_input(
+            'path', 'Enter save path:', torrentlist.coreconfig.get('download_location', ''),
+            complete=True,
+        )
         popup.add_select_input('add_paused', 'Add Paused:', ['Yes', 'No'], [True, False], add_paused)
         torrentlist.push_popup(popup)
 

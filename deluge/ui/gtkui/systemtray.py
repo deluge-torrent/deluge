@@ -46,7 +46,7 @@ class SystemTray(component.Component):
             'separatormenuitem1',
             'separatormenuitem2',
             'separatormenuitem3',
-            'separatormenuitem4'
+            'separatormenuitem4',
         ]
         self.config.register_set_function('enable_system_tray', self.on_enable_system_tray_set)
         # bit of a hack to prevent function from doing something on startup
@@ -60,14 +60,16 @@ class SystemTray(component.Component):
 
         self.config_value_changed_dict = {
             'max_download_speed': self._on_max_download_speed,
-            'max_upload_speed': self._on_max_upload_speed
+            'max_upload_speed': self._on_max_upload_speed,
         }
 
     def enable(self):
         """Enables the system tray icon."""
         self.builder = Builder()
-        self.builder.add_from_file(resource_filename('deluge.ui.gtkui', os.path.join(
-            'glade', 'tray_menu.ui')))
+        self.builder.add_from_file(resource_filename(
+            'deluge.ui.gtkui',
+            os.path.join('glade', 'tray_menu.ui'),
+        ))
 
         self.builder.connect_signals(self)
 
@@ -75,8 +77,11 @@ class SystemTray(component.Component):
 
         if appindicator and self.config['enable_appindicator']:
             log.debug('Enabling the Application Indicator...')
-            self.indicator = appindicator.Indicator('deluge', 'deluge',
-                                                    appindicator.CATEGORY_APPLICATION_STATUS)
+            self.indicator = appindicator.Indicator(
+                'deluge',
+                'deluge',
+                appindicator.CATEGORY_APPLICATION_STATUS,
+            )
             try:
                 self.indicator.set_property('title', _('Deluge'))
             except TypeError:
@@ -167,7 +172,8 @@ class SystemTray(component.Component):
     def send_status_request(self):
         client.core.get_session_status([
             'payload_upload_rate',
-            'payload_download_rate']).addCallback(self._on_get_session_status)
+            'payload_download_rate',
+        ]).addCallback(self._on_get_session_status)
 
     def config_value_changed(self, key, value):
         """This is called when we received a config_value_changed signal from
@@ -216,7 +222,7 @@ class SystemTray(component.Component):
 
         msg = '%s\n%s: %s (%s)\n%s: %s (%s)' % (
             _('Deluge'), _('Down'), self.download_rate,
-            max_download_speed, _('Up'), self.upload_rate, max_upload_speed
+            max_download_speed, _('Up'), self.upload_rate, max_upload_speed,
         )
 
         # Set the tooltip
@@ -229,20 +235,22 @@ class SystemTray(component.Component):
         submenu_bwdownset = build_menu_radio_list(
             self.config['tray_download_speed_list'], self.on_tray_setbwdown,
             self.max_download_speed,
-            _('K/s'), show_notset=True, show_other=True
+            _('K/s'), show_notset=True, show_other=True,
         )
 
         # Create the Upload speed list sub-menu
         submenu_bwupset = build_menu_radio_list(
             self.config['tray_upload_speed_list'], self.on_tray_setbwup,
             self.max_upload_speed,
-            _('K/s'), show_notset=True, show_other=True
+            _('K/s'), show_notset=True, show_other=True,
         )
         # Add the sub-menus to the tray menu
         self.builder.get_object('menuitem_download_limit').set_submenu(
-            submenu_bwdownset)
+            submenu_bwdownset,
+        )
         self.builder.get_object('menuitem_upload_limit').set_submenu(
-            submenu_bwupset)
+            submenu_bwupset,
+        )
 
         # Show the sub-menus for all to see
         submenu_bwdownset.show_all()
@@ -350,18 +358,22 @@ class SystemTray(component.Component):
             # ignore previous radiomenuitem value
             if not widget.get_active():
                 return
-        self.setbwlimit(widget, _('Download Speed Limit'), _('Set the maximum download speed'),
-                        'max_download_speed', 'tray_download_speed_list', self.max_download_speed,
-                        'downloading.svg')
+        self.setbwlimit(
+            widget, _('Download Speed Limit'), _('Set the maximum download speed'),
+            'max_download_speed', 'tray_download_speed_list', self.max_download_speed,
+            'downloading.svg',
+        )
 
     def on_tray_setbwup(self, widget, data=None):
         if isinstance(widget, RadioMenuItem):
             # ignore previous radiomenuitem value
             if not widget.get_active():
                 return
-        self.setbwlimit(widget, _('Upload Speed Limit'), _('Set the maximum upload speed'),
-                        'max_upload_speed', 'tray_upload_speed_list', self.max_upload_speed,
-                        'seeding.svg')
+        self.setbwlimit(
+            widget, _('Upload Speed Limit'), _('Set the maximum upload speed'),
+            'max_upload_speed', 'tray_upload_speed_list', self.max_upload_speed,
+            'seeding.svg',
+        )
 
     def _on_window_hide(self, widget, data=None):
         """_on_window_hide - update the menuitem's status"""

@@ -45,7 +45,7 @@ class Logging(LoggingLoggerClass):
             for handler in logging.getLogger().handlers:
                 handler.setFormatter(logging.Formatter(
                     DEFAULT_LOGGING_FORMAT % MAX_LOGGER_NAME_LENGTH,
-                    datefmt='%H:%M:%S'
+                    datefmt='%H:%M:%S',
                 ))
 
     @defer.inlineCallbacks
@@ -88,8 +88,10 @@ class Logging(LoggingLoggerClass):
         while hasattr(f, 'f_code'):
             co = f.f_code
             filename = os.path.normcase(co.co_filename)
-            if filename in (__file__.replace('.pyc', '.py'),
-                            defer.__file__.replace('.pyc', '.py')):
+            if filename in (
+                __file__.replace('.pyc', '.py'),
+                defer.__file__.replace('.pyc', '.py'),
+            ):
                 f = f.f_back
                 continue
             rv = (filename, f.f_lineno, co.co_name)
@@ -105,12 +107,14 @@ levels = {
     'none': logging.CRITICAL,
     'debug': logging.DEBUG,
     'trace': 5,
-    'garbage': 1
+    'garbage': 1,
 }
 
 
-def setup_logger(level='error', filename=None, filemode='w', logrotate=None,
-                 output_stream=sys.stdout, twisted_observer=True):
+def setup_logger(
+    level='error', filename=None, filemode='w', logrotate=None,
+    output_stream=sys.stdout, twisted_observer=True,
+):
     """
     Sets up the basic logger and if `:param:filename` is set, then it will log
     to that file instead of stdout.
@@ -137,7 +141,7 @@ def setup_logger(level='error', filename=None, filemode='w', logrotate=None,
     if filename and logrotate:
         handler = logging.handlers.RotatingFileHandler(
             filename, maxBytes=logrotate,
-            backupCount=5, encoding='utf-8'
+            backupCount=5, encoding='utf-8',
         )
     elif filename and filemode == 'w':
         handler_cls = logging.FileHandler
@@ -151,7 +155,7 @@ def setup_logger(level='error', filename=None, filemode='w', logrotate=None,
 
     formatter = logging.Formatter(
         DEFAULT_LOGGING_FORMAT % MAX_LOGGER_NAME_LENGTH,
-        datefmt='%H:%M:%S'
+        datefmt='%H:%M:%S',
     )
 
     handler.setFormatter(formatter)
@@ -214,8 +218,10 @@ def tweak_logging_levels():
     if not os.path.isfile(logging_config_file):
         return
     log = logging.getLogger(__name__)
-    log.warn('logging.conf found! tweaking logging levels from %s',
-             logging_config_file)
+    log.warn(
+        'logging.conf found! tweaking logging levels from %s',
+        logging_config_file,
+    )
     with open(logging_config_file, 'r') as _file:
         for line in _file:
             if line.strip().startswith('#'):
@@ -249,9 +255,11 @@ def get_plugin_logger(logger_name):
     caller_module = inspect.getmodule(module_stack[0])
     # In some weird cases caller_module might be None, try to continue
     caller_module_name = getattr(caller_module, '__name__', '')
-    warnings.warn_explicit(DEPRECATION_WARNING, DeprecationWarning,
-                           module_stack[1], module_stack[2],
-                           caller_module_name)
+    warnings.warn_explicit(
+        DEPRECATION_WARNING, DeprecationWarning,
+        module_stack[1], module_stack[2],
+        caller_module_name,
+    )
 
     if 'deluge.plugins.' in logger_name:
         return logging.getLogger(logger_name)
@@ -291,16 +299,20 @@ class _BackwardsCompatibleLOG(object):
         caller_module = inspect.getmodule(module_stack[0])
         # In some weird cases caller_module might be None, try to continue
         caller_module_name = getattr(caller_module, '__name__', '')
-        warnings.warn_explicit(DEPRECATION_WARNING, DeprecationWarning,
-                               module_stack[1], module_stack[2],
-                               caller_module_name)
+        warnings.warn_explicit(
+            DEPRECATION_WARNING, DeprecationWarning,
+            module_stack[1], module_stack[2],
+            caller_module_name,
+        )
         if caller_module:
             for member in stack:
                 module = inspect.getmodule(member[0])
                 if not module:
                     continue
-                if module.__name__ in ('deluge.plugins.pluginbase',
-                                       'deluge.plugins.init'):
+                if module.__name__ in (
+                    'deluge.plugins.pluginbase',
+                    'deluge.plugins.init',
+                ):
                     logger_name += '.plugin.%s' % caller_module_name
                     # Monkey Patch The Plugin Module
                     caller_module.log = logging.getLogger(logger_name)
@@ -308,7 +320,7 @@ class _BackwardsCompatibleLOG(object):
         else:
             logging.getLogger(logger_name).warning(
                 "Unable to monkey-patch the calling module's `log` attribute! "
-                'You should really update and rebuild your plugins...'
+                'You should really update and rebuild your plugins...',
             )
         return getattr(logging.getLogger(logger_name), name)
 

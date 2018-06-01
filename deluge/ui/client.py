@@ -98,8 +98,10 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
             log.debug('Received invalid message: type is not tuple')
             return
         if len(request) < 3:
-            log.debug('Received invalid message: number of items in '
-                      'response is %s', len(request))
+            log.debug(
+                'Received invalid message: number of items in '
+                'response is %s', len(request),
+            )
             return
 
         message_type = request[0]
@@ -163,8 +165,10 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                     log.debug(msg)
             except Exception:
                 import traceback
-                log.error('Failed to handle RPC_ERROR (Old daemon?): %s\nLocal error: %s',
-                          request[2], traceback.format_exc())
+                log.error(
+                    'Failed to handle RPC_ERROR (Old daemon?): %s\nLocal error: %s',
+                    request[2], traceback.format_exc(),
+                )
             d.errback(exception)
         del self.__rpc_requests[request_id]
 
@@ -195,17 +199,23 @@ class DelugeRPCClientFactory(ClientFactory):
         self.event_handlers = event_handlers
 
     def startedConnecting(self, connector):  # NOQA: N802
-        log.debug('Connecting to daemon at "%s:%s"...',
-                  connector.host, connector.port)
+        log.debug(
+            'Connecting to daemon at "%s:%s"...',
+            connector.host, connector.port,
+        )
 
     def clientConnectionFailed(self, connector, reason):  # NOQA: N802
-        log.debug('Connection to daemon at "%s:%s" failed: %s',
-                  connector.host, connector.port, reason.value)
+        log.debug(
+            'Connection to daemon at "%s:%s" failed: %s',
+            connector.host, connector.port, reason.value,
+        )
         self.daemon.connect_deferred.errback(reason)
 
     def clientConnectionLost(self, connector, reason):  # NOQA: N802
-        log.debug('Connection lost to daemon at "%s:%s" reason: %s',
-                  connector.host, connector.port, reason.value)
+        log.debug(
+            'Connection lost to daemon at "%s:%s" reason: %s',
+            connector.host, connector.port, reason.value,
+        )
         self.daemon.host = None
         self.daemon.port = None
         self.daemon.username = None
@@ -262,9 +272,11 @@ class DaemonSSLProxy(DaemonProxy):
         log.debug('sslproxy.connect()')
         self.host = host
         self.port = port
-        self.__connector = reactor.connectSSL(self.host, self.port,
-                                              self.__factory,
-                                              ssl.ClientContextFactory())
+        self.__connector = reactor.connectSSL(
+            self.host, self.port,
+            self.__factory,
+            ssl.ClientContextFactory(),
+        )
         self.connect_deferred = defer.Deferred()
         self.daemon_info_deferred = defer.Deferred()
 
@@ -384,8 +396,10 @@ class DaemonSSLProxy(DaemonProxy):
         log.debug('%s.authenticate: %s', self.__class__.__name__, username)
         login_deferred = defer.Deferred()
         d = self.call('daemon.login', username, password, client_version=get_version())
-        d.addCallbacks(self.__on_login, self.__on_login_fail, callbackArgs=[username, login_deferred],
-                       errbackArgs=[login_deferred])
+        d.addCallbacks(
+            self.__on_login, self.__on_login_fail, callbackArgs=[username, login_deferred],
+            errbackArgs=[login_deferred],
+        )
         return login_deferred
 
     def __on_login(self, result, username, login_deferred):
@@ -396,7 +410,8 @@ class DaemonSSLProxy(DaemonProxy):
         if self.__factory.event_handlers:
             self.call('daemon.set_event_interest', list(self.__factory.event_handlers))
             self.call('core.get_auth_levels_mappings').addCallback(
-                self.__on_auth_levels_mappings)
+                self.__on_auth_levels_mappings,
+            )
 
         login_deferred.callback(result)
 
@@ -434,9 +449,11 @@ class DaemonStandaloneProxy(DaemonProxy):
         self.host = 'localhost'
         self.port = 58846
         # Running in standalone mode, it's safe to import auth level
-        from deluge.core.authmanager import (AUTH_LEVEL_ADMIN,
-                                             AUTH_LEVELS_MAPPING,
-                                             AUTH_LEVELS_MAPPING_REVERSE)
+        from deluge.core.authmanager import (
+            AUTH_LEVEL_ADMIN,
+            AUTH_LEVELS_MAPPING,
+            AUTH_LEVELS_MAPPING_REVERSE,
+        )
         self.username = 'localclient'
         self.authentication_level = AUTH_LEVEL_ADMIN
         self.auth_levels_mapping = AUTH_LEVELS_MAPPING
@@ -528,8 +545,10 @@ class Client(object):
         self.disconnect_callback = None
         self.__started_standalone = False
 
-    def connect(self, host='127.0.0.1', port=58846, username='', password='',
-                skip_authentication=False):
+    def connect(
+        self, host='127.0.0.1', port=58846, username='', password='',
+        skip_authentication=False,
+    ):
         """
         Connects to a daemon process.
 
@@ -635,8 +654,11 @@ class Client(object):
             from errno import ENOENT
             if ex.errno == ENOENT:
                 log.error(
-                    _('Deluge cannot find the `deluged` executable, check that '
-                      'the deluged package is installed, or added to your PATH.'))
+                    _(
+                        'Deluge cannot find the `deluged` executable, check that '
+                        'the deluged package is installed, or added to your PATH.',
+                    ),
+                )
             else:
                 log.exception(ex)
         except Exception as ex:

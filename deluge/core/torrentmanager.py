@@ -38,7 +38,8 @@ LT_DEFAULT_ADD_TORRENT_FLAGS = (
     lt.add_torrent_params_flags_t.flag_paused |
     lt.add_torrent_params_flags_t.flag_auto_managed |
     lt.add_torrent_params_flags_t.flag_update_subscribe |
-    lt.add_torrent_params_flags_t.flag_apply_ip_filter)
+    lt.add_torrent_params_flags_t.flag_apply_ip_filter
+)
 
 
 class TorrentState:  # pylint: disable=old-style-class
@@ -48,33 +49,35 @@ class TorrentState:  # pylint: disable=old-style-class
         This must be old style class to avoid breaking torrent.state file.
 
     """
-    def __init__(self,
-                 torrent_id=None,
-                 filename=None,
-                 trackers=None,
-                 storage_mode='sparse',
-                 paused=False,
-                 save_path=None,
-                 max_connections=-1,
-                 max_upload_slots=-1,
-                 max_upload_speed=-1.0,
-                 max_download_speed=-1.0,
-                 prioritize_first_last=False,
-                 sequential_download=False,
-                 file_priorities=None,
-                 queue=None,
-                 auto_managed=True,
-                 is_finished=False,
-                 stop_ratio=2.00,
-                 stop_at_ratio=False,
-                 remove_at_ratio=False,
-                 move_completed=False,
-                 move_completed_path=None,
-                 magnet=None,
-                 owner=None,
-                 shared=False,
-                 super_seeding=False,
-                 name=None):
+    def __init__(
+        self,
+        torrent_id=None,
+        filename=None,
+        trackers=None,
+        storage_mode='sparse',
+        paused=False,
+        save_path=None,
+        max_connections=-1,
+        max_upload_slots=-1,
+        max_upload_speed=-1.0,
+        max_download_speed=-1.0,
+        prioritize_first_last=False,
+        sequential_download=False,
+        file_priorities=None,
+        queue=None,
+        auto_managed=True,
+        is_finished=False,
+        stop_ratio=2.00,
+        stop_at_ratio=False,
+        remove_at_ratio=False,
+        move_completed=False,
+        move_completed_path=None,
+        magnet=None,
+        owner=None,
+        shared=False,
+        super_seeding=False,
+        name=None,
+    ):
         # Build the class atrribute list from args
         for key, value in locals().items():
             if key == 'self':
@@ -113,8 +116,10 @@ class TorrentManager(component.Component):
     """
 
     def __init__(self):
-        component.Component.__init__(self, 'TorrentManager', interval=5,
-                                     depend=['CorePluginManager', 'AlertManager'])
+        component.Component.__init__(
+            self, 'TorrentManager', interval=5,
+            depend=['CorePluginManager', 'AlertManager'],
+        )
         log.debug('TorrentManager init...')
         # Set the libtorrent session
         self.session = component.get('Core').session
@@ -154,8 +159,10 @@ class TorrentManager(component.Component):
         self.prev_saved_state = None
 
         # Register set functions
-        set_config_keys = ['max_connections_per_torrent', 'max_upload_slots_per_torrent',
-                           'max_upload_speed_per_torrent', 'max_download_speed_per_torrent']
+        set_config_keys = [
+            'max_connections_per_torrent', 'max_upload_slots_per_torrent',
+            'max_upload_speed_per_torrent', 'max_download_speed_per_torrent',
+        ]
 
         for config_key in set_config_keys:
             on_set_func = getattr(self, ''.join(['on_set_', config_key]))
@@ -170,7 +177,7 @@ class TorrentManager(component.Component):
             'file_renamed_alert', 'file_error_alert', 'file_completed_alert',
             'storage_moved_alert', 'storage_moved_failed_alert', 'state_update_alert',
             'state_changed_alert', 'save_resume_data_alert', 'save_resume_data_failed_alert',
-            'fastresume_rejected_alert'
+            'fastresume_rejected_alert',
         ]
 
         for alert_handle in alert_handles:
@@ -230,7 +237,8 @@ class TorrentManager(component.Component):
         for torrent_id, torrent in self.torrents.items():
             # XXX: Should the state check be those that _can_ be stopped at ratio
             if torrent.options['stop_at_ratio'] and torrent.state not in (
-                    'Checking', 'Allocating', 'Paused', 'Queued'):
+                    'Checking', 'Allocating', 'Paused', 'Queued',
+            ):
                 # If the global setting is set, but the per-torrent isn't...
                 # Just skip to the next torrent.
                 # This is so that a user can turn-off the stop at ratio option on a per-torrent basis
@@ -308,7 +316,7 @@ class TorrentManager(component.Component):
         return options
 
     def _build_torrent_params(
-        self, torrent_info=None, magnet=None, options=None, resume_data=None
+        self, torrent_info=None, magnet=None, options=None, resume_data=None,
     ):
         """Create the add_torrent_params dict for adding torrent to libtorrent."""
         add_torrent_params = {}
@@ -361,10 +369,14 @@ class TorrentManager(component.Component):
             add_torrent_params['resume_data'] = resume_data
 
         # Set flags: enable duplicate_is_error & override_resume_data, disable auto_managed.
-        add_torrent_params['flags'] = ((LT_DEFAULT_ADD_TORRENT_FLAGS |
-                                        lt.add_torrent_params_flags_t.flag_duplicate_is_error |
-                                        lt.add_torrent_params_flags_t.flag_override_resume_data) ^
-                                       lt.add_torrent_params_flags_t.flag_auto_managed)
+        add_torrent_params['flags'] = (
+            (
+                LT_DEFAULT_ADD_TORRENT_FLAGS |
+                lt.add_torrent_params_flags_t.flag_duplicate_is_error |
+                lt.add_torrent_params_flags_t.flag_override_resume_data
+            ) ^
+            lt.add_torrent_params_flags_t.flag_auto_managed
+        )
         if options['seed_mode']:
             add_torrent_params['flags'] |= lt.add_torrent_params_flags_t.flag_seed_mode
 
@@ -411,7 +423,8 @@ class TorrentManager(component.Component):
 
         options = self._build_torrent_options(options)
         __, add_torrent_params = self._build_torrent_params(
-            torrent_info, magnet, options, resume_data)
+            torrent_info, magnet, options, resume_data,
+        )
 
         # We need to pause the AlertManager momentarily to prevent alerts
         # for this torrent being generated before a Torrent object is created.
@@ -426,7 +439,8 @@ class TorrentManager(component.Component):
             raise AddTorrentError('Unable to add torrent to session: %s' % ex)
 
         torrent = self._add_torrent_obj(
-            handle, options, state, filename, magnet, resume_data, filedump, save_state)
+            handle, options, state, filename, magnet, resume_data, filedump, save_state,
+        )
         return torrent.torrent_id
 
     def add_async(
@@ -470,7 +484,8 @@ class TorrentManager(component.Component):
 
         options = self._build_torrent_options(options)
         torrent_id, add_torrent_params = self._build_torrent_params(
-            torrent_info, magnet, options, resume_data)
+            torrent_info, magnet, options, resume_data,
+        )
 
         d = Deferred()
         self.torrents_loading[torrent_id] = (d, options, state, filename, magnet, resume_data, filedump, save_state)
@@ -509,10 +524,12 @@ class TorrentManager(component.Component):
             log.debug('Torrent added: %s', str(handle.info_hash()))
         if log.isEnabledFor(logging.INFO):
             name_and_owner = torrent.get_status(['name', 'owner'])
-            log.info('Torrent %s from user "%s" %s',
-                     name_and_owner['name'],
-                     name_and_owner['owner'],
-                     from_state and 'loaded' or 'added')
+            log.info(
+                'Torrent %s from user "%s" %s',
+                name_and_owner['name'],
+                name_and_owner['owner'],
+                from_state and 'loaded' or 'added',
+            )
 
         # Write the .torrent file to the state directory.
         if filedump:
@@ -525,10 +542,11 @@ class TorrentManager(component.Component):
         return torrent
 
     def add_async_callback(
-        self, handle, d, options, state, filename, magnet, resume_data, filedump, save_state
+        self, handle, d, options, state, filename, magnet, resume_data, filedump, save_state,
     ):
         torrent = self._add_torrent_obj(
-            handle, options, state, filename, magnet, resume_data, filedump, save_state)
+            handle, options, state, filename, magnet, resume_data, filedump, save_state,
+        )
 
         d.callback(torrent.torrent_id)
 
@@ -670,7 +688,8 @@ class TorrentManager(component.Component):
 
             magnet = t_state.magnet
             torrent_info = self.get_torrent_info_from_file(
-                os.path.join(self.state_dir, t_state.torrent_id + '.torrent'))
+                os.path.join(self.state_dir, t_state.torrent_id + '.torrent'),
+            )
             if torrent_info:
                 magnet = None
 
@@ -740,7 +759,7 @@ class TorrentManager(component.Component):
                 torrent.options['owner'],
                 torrent.options['shared'],
                 torrent.options['super_seeding'],
-                torrent.options['name']
+                torrent.options['name'],
             )
             state.torrents.append(torrent_state)
         return state
@@ -1058,9 +1077,11 @@ class TorrentManager(component.Component):
 
         if log.isEnabledFor(logging.DEBUG):
             log.debug('Finished %s ', torrent_id)
-            log.debug('Torrent settings: is_finished: %s, total_download: %s, move_completed: %s, move_path: %s',
-                      torrent.is_finished, total_download, torrent.options['move_completed'],
-                      torrent.options['move_completed_path'])
+            log.debug(
+                'Torrent settings: is_finished: %s, total_download: %s, move_completed: %s, move_path: %s',
+                torrent.is_finished, total_download, torrent.options['move_completed'],
+                torrent.options['move_completed_path'],
+            )
 
         torrent.update_state()
         if not torrent.is_finished and total_download:

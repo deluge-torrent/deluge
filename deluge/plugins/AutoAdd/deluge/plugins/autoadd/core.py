@@ -37,7 +37,7 @@ log = logging.getLogger(__name__)
 
 DEFAULT_PREFS = {
     'watchdirs': {},
-    'next_id': 1
+    'next_id': 1,
 }
 
 
@@ -64,7 +64,7 @@ OPTIONS_AVAILABLE = {  # option: builtin
     'add_paused': True,
     'queue_to_top': False,
     'owner': True,
-    'seed_mode': True
+    'seed_mode': True,
 }
 
 MAX_NUM_ATTEMPTS = 10
@@ -91,7 +91,7 @@ class Core(CorePluginBase):
         self.watchdirs = self.config['watchdirs']
 
         component.get('EventManager').register_event_handler(
-            'PreTorrentRemovedEvent', self.__on_pre_torrent_removed
+            'PreTorrentRemovedEvent', self.__on_pre_torrent_removed,
         )
 
         # Dict of Filename:Attempts
@@ -109,7 +109,7 @@ class Core(CorePluginBase):
     def disable(self):
         # disable all running looping calls
         component.get('EventManager').deregister_event_handler(
-            'PreTorrentRemovedEvent', self.__on_pre_torrent_removed
+            'PreTorrentRemovedEvent', self.__on_pre_torrent_removed,
         )
         for loopingcall in self.update_timers.values():
             loopingcall.stop()
@@ -124,12 +124,12 @@ class Core(CorePluginBase):
         watchdir_id = str(watchdir_id)
         options = self._make_unicode(options)
         check_input(
-            watchdir_id in self.watchdirs, _('Watch folder does not exist.')
+            watchdir_id in self.watchdirs, _('Watch folder does not exist.'),
         )
         if 'path' in options:
             options['abspath'] = os.path.abspath(options['path'])
             check_input(
-                os.path.isdir(options['abspath']), _('Path does not exist.')
+                os.path.isdir(options['abspath']), _('Path does not exist.'),
             )
             for w_id, w in self.watchdirs.items():
                 if options['abspath'] == w['abspath'] and watchdir_id != w_id:
@@ -210,8 +210,10 @@ class Core(CorePluginBase):
         watchdir = self.watchdirs[watchdir_id]
         if not watchdir['enabled']:
             # We shouldn't be updating because this watchdir is not enabled
-            log.debug('Watchdir id %s is not enabled. Disabling it.',
-                      watchdir_id)
+            log.debug(
+                'Watchdir id %s is not enabled. Disabling it.',
+                watchdir_id,
+            )
             self.disable_watchdir(watchdir_id)
             return
 
@@ -271,8 +273,10 @@ class Core(CorePluginBase):
                 if filename in self.invalid_torrents:
                     self.invalid_torrents[filename] += 1
                     if self.invalid_torrents[filename] >= MAX_NUM_ATTEMPTS:
-                        log.warning('Maximum attempts reached while trying to add the '
-                                    'torrent file with the path %s', filepath)
+                        log.warning(
+                            'Maximum attempts reached while trying to add the '
+                            'torrent file with the path %s', filepath,
+                        )
                         os.rename(filepath, filepath + '.invalid')
                         del self.invalid_torrents[filename]
                 else:
@@ -305,8 +309,10 @@ class Core(CorePluginBase):
                 elif watchdir.get('copy_torrent_toggle'):
                     copy_torrent_path = watchdir['copy_torrent']
                     copy_torrent_file = os.path.join(copy_torrent_path, filename)
-                    log.debug('Moving added torrent file "%s" to "%s"',
-                              os.path.basename(filepath), copy_torrent_path)
+                    log.debug(
+                        'Moving added torrent file "%s" to "%s"',
+                        os.path.basename(filepath), copy_torrent_path,
+                    )
                     shutil.move(filepath, copy_torrent_file)
                 else:
                     os.remove(filepath)
@@ -322,7 +328,8 @@ class Core(CorePluginBase):
                     d = component.get('Core').add_torrent_magnet(filedump.strip(), options)
                 else:
                     d = component.get('Core').add_torrent_file_async(
-                        filename, base64.encodestring(filedump), options)
+                        filename, base64.encodestring(filedump), options,
+                    )
                     d.addCallback(on_torrent_added, filename, filepath)
                     d.addErrback(fail_torrent_add, filepath, magnet)
             except AddTorrentError as ex:
@@ -331,8 +338,10 @@ class Core(CorePluginBase):
     def on_update_watchdir_error(self, failure, watchdir_id):
         """Disables any watch folders with un-handled exceptions."""
         self.disable_watchdir(watchdir_id)
-        log.error('Disabling "%s", error during update: %s',
-                  self.watchdirs[watchdir_id]['path'], failure)
+        log.error(
+            'Disabling "%s", error during update: %s',
+            self.watchdirs[watchdir_id]['path'], failure,
+        )
 
     @export
     def enable_watchdir(self, watchdir_id):
@@ -341,7 +350,7 @@ class Core(CorePluginBase):
         if w_id not in self.update_timers or not self.update_timers[w_id].running:
             self.update_timers[w_id] = LoopingCall(self.update_watchdir, w_id)
             self.update_timers[w_id].start(5).addErrback(
-                self.on_update_watchdir_error, w_id
+                self.on_update_watchdir_error, w_id,
             )
         # Update the config
         if not self.watchdirs[w_id]['enabled']:
@@ -383,8 +392,10 @@ class Core(CorePluginBase):
         session_user = rpcserver.get_session_user()
         session_auth_level = rpcserver.get_session_auth_level()
         if session_auth_level == AUTH_LEVEL_ADMIN:
-            log.debug('Current logged in user %s is an ADMIN, send all '
-                      'watchdirs', session_user)
+            log.debug(
+                'Current logged in user %s is an ADMIN, send all '
+                'watchdirs', session_user,
+            )
             return self.watchdirs
 
         watchdirs = {}
@@ -392,8 +403,10 @@ class Core(CorePluginBase):
             if watchdir.get('owner', 'localclient') == session_user:
                 watchdirs[watchdir_id] = watchdir
 
-        log.debug('Current logged in user %s is not an ADMIN, send only '
-                  'their watchdirs: %s', session_user, list(watchdirs))
+        log.debug(
+            'Current logged in user %s is not an ADMIN, send only '
+            'their watchdirs: %s', session_user, list(watchdirs),
+        )
         return watchdirs
 
     def _make_unicode(self, options):
@@ -414,7 +427,7 @@ class Core(CorePluginBase):
         check_input(os.path.isdir(abswatchdir), _('Path does not exist.'))
         check_input(
             os.access(abswatchdir, os.R_OK | os.W_OK),
-            'You must have read and write access to watch folder.'
+            'You must have read and write access to watch folder.',
         )
         if abswatchdir in [wd['abspath'] for wd in self.watchdirs.values()]:
             raise Exception('Path is already being watched.')
@@ -449,9 +462,11 @@ class Core(CorePluginBase):
         try:
             torrent = component.get('TorrentManager')[torrent_id]
         except KeyError:
-            log.warning('Unable to remove torrent file for torrent id %s. It'
-                        'was already deleted from the TorrentManager',
-                        torrent_id)
+            log.warning(
+                'Unable to remove torrent file for torrent id %s. It'
+                'was already deleted from the TorrentManager',
+                torrent_id,
+            )
             return
         torrent_fname = torrent.filename
         for watchdir in self.watchdirs.values():
@@ -466,9 +481,13 @@ class Core(CorePluginBase):
             if os.path.isfile(torrent_fname_path):
                 try:
                     os.remove(torrent_fname_path)
-                    log.info('Removed torrent file "%s" from "%s"',
-                             torrent_fname, copy_torrent_path)
+                    log.info(
+                        'Removed torrent file "%s" from "%s"',
+                        torrent_fname, copy_torrent_path,
+                    )
                     break
                 except OSError as ex:
-                    log.info('Failed to removed torrent file "%s" from "%s": %s',
-                             torrent_fname, copy_torrent_path, ex)
+                    log.info(
+                        'Failed to removed torrent file "%s" from "%s": %s',
+                        torrent_fname, copy_torrent_path, ex,
+                    )

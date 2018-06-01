@@ -31,8 +31,10 @@ class ErrorTestCase(unittest.TestCase):
     def test_incompatible_client(self):
         version = '1.3.6'
         e = deluge.error.IncompatibleClient(version)
-        self.assertEqual(str(e), 'Your deluge client is not compatible with the daemon. \
-Please upgrade your client to %s' % version)
+        self.assertEqual(
+            str(e), 'Your deluge client is not compatible with the daemon. \
+Please upgrade your client to %s' % version,
+        )
 
     def test_not_authorized_error(self):
         current_level = 5

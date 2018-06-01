@@ -28,7 +28,8 @@ AUTH_LEVELS_MAPPING = {
     'READONLY': AUTH_LEVEL_READONLY,
     'DEFAULT': AUTH_LEVEL_NORMAL,
     'NORMAL': AUTH_LEVEL_DEFAULT,
-    'ADMIN': AUTH_LEVEL_ADMIN}
+    'ADMIN': AUTH_LEVEL_ADMIN,
+}
 AUTH_LEVELS_MAPPING_REVERSE = {v: k for k, v in AUTH_LEVELS_MAPPING.items()}
 
 
@@ -45,7 +46,7 @@ class Account(object):
             'username': self.username,
             'password': self.password,
             'authlevel': AUTH_LEVELS_MAPPING_REVERSE[self.authlevel],
-            'authlevel_int': self.authlevel
+            'authlevel_int': self.authlevel,
         }
 
     def __repr__(self):
@@ -98,7 +99,7 @@ class AuthManager(component.Component):
         """
         if not username:
             raise AuthenticationRequired(
-                'Username and Password are required.', username
+                'Username and Password are required.', username,
             )
 
         if username not in self.__auth:
@@ -129,8 +130,10 @@ class AuthManager(component.Component):
         if authlevel not in AUTH_LEVELS_MAPPING:
             raise AuthManagerError('Invalid auth level: %s' % authlevel)
         try:
-            self.__auth[username] = Account(username, password,
-                                            AUTH_LEVELS_MAPPING[authlevel])
+            self.__auth[username] = Account(
+                username, password,
+                AUTH_LEVELS_MAPPING[authlevel],
+            )
             self.write_auth_file()
             return True
         except Exception as ex:
@@ -157,7 +160,7 @@ class AuthManager(component.Component):
             raise AuthManagerError('Username not known', username)
         elif username == component.get('RPCServer').get_session_user():
             raise AuthManagerError(
-                'You cannot delete your own account while logged in!', username
+                'You cannot delete your own account while logged in!', username,
             )
 
         del self.__auth[username]
@@ -232,8 +235,10 @@ class AuthManager(component.Component):
             lsplit = line.split(':')
             if len(lsplit) == 2:
                 username, password = lsplit
-                log.warning('Your auth entry for %s contains no auth level, '
-                            'using AUTH_LEVEL_DEFAULT(%s)..', username, AUTH_LEVEL_DEFAULT)
+                log.warning(
+                    'Your auth entry for %s contains no auth level, '
+                    'using AUTH_LEVEL_DEFAULT(%s)..', username, AUTH_LEVEL_DEFAULT,
+                )
                 if username == 'localclient':
                     authlevel = AUTH_LEVEL_ADMIN
                 else:

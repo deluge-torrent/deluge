@@ -128,7 +128,7 @@ class Config(object):
         # These hold the version numbers and they will be set when loaded
         self.__version = {
             'format': 1,
-            'file': file_version
+            'file': file_version,
         }
 
         # This will get set with a reactor.callLater whenever a config option
@@ -189,7 +189,8 @@ class Config(object):
 
         # Do not allow the type to change unless it is None
         if value is not None and not isinstance(
-                self.__config[key], type(None)) and not isinstance(self.__config[key], type(value)):
+                self.__config[key], type(None),
+        ) and not isinstance(self.__config[key], type(value)):
             try:
                 oldtype = type(self.__config[key])
                 value = oldtype(value)
@@ -427,8 +428,10 @@ class Config(object):
                 log.exception(ex)
                 log.warning('Unable to load config file: %s', filename)
 
-        log.debug('Config %s version: %s.%s loaded: %s', filename,
-                  self.__version['format'], self.__version['file'], self.__config)
+        log.debug(
+            'Config %s version: %s.%s loaded: %s', filename,
+            self.__version['format'], self.__version['file'], self.__config,
+        )
 
     def save(self, filename=None):
         """Save configuration to disk.
@@ -510,16 +513,20 @@ class Config(object):
             raise ValueError('output_version needs to be greater than input_range')
 
         if self.__version['file'] not in input_range:
-            log.debug('File version %s is not in input_range %s, ignoring converter function..',
-                      self.__version['file'], input_range)
+            log.debug(
+                'File version %s is not in input_range %s, ignoring converter function..',
+                self.__version['file'], input_range,
+            )
             return
 
         try:
             self.__config = func(self.__config)
         except Exception as ex:
             log.exception(ex)
-            log.error('There was an exception try to convert config file %s %s to %s',
-                      self.__config_file, self.__version['file'], output_version)
+            log.error(
+                'There was an exception try to convert config file %s %s to %s',
+                self.__config_file, self.__version['file'], output_version,
+            )
             raise ex
         else:
             self.__version['file'] = output_version

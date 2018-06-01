@@ -34,7 +34,7 @@ class TestEmailNotifications(component.Component):
         self.n = 1
         self.events = [
             FooEvent(),
-            CustomEvent()
+            CustomEvent(),
         ]
         self.events_classes = []
 
@@ -45,21 +45,21 @@ class TestEmailNotifications(component.Component):
                 # component.get('CorePlugin.Notifications').register_custom_email_notification(
                 component.get('Notifications').register_custom_email_notification(
                     event.__class__.__name__,
-                    self.custom_email_message_provider
+                    self.custom_email_message_provider,
                 )
             elif self.__imp == 'gtk':
                 notifications_component = component.get('Notifications')
                 notifications_component.register_custom_popup_notification(
                     event.__class__.__name__,
-                    self.custom_popup_message_provider
+                    self.custom_popup_message_provider,
                 )
                 notifications_component.register_custom_blink_notification(
                     event.__class__.__name__,
-                    self.custom_blink_message_provider
+                    self.custom_blink_message_provider,
                 )
                 notifications_component.register_custom_sound_notification(
                     event.__class__.__name__,
-                    self.custom_sound_message_provider
+                    self.custom_sound_message_provider,
                 )
 
         self.lc.start(60, False)

@@ -209,8 +209,10 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
         print('\n%s' % prefixed)
 
 
-def start_core(listen_port=58846, logfile=None, timeout=10, timeout_msg=None,
-               custom_script='', print_stdout=True, print_stderr=True, extra_callbacks=None):
+def start_core(
+    listen_port=58846, logfile=None, timeout=10, timeout_msg=None,
+    custom_script='', print_stdout=True, print_stderr=True, extra_callbacks=None,
+):
     """Start the deluge core as a daemon.
 
     Args:
@@ -242,7 +244,7 @@ try:
     daemon = deluge.core.daemon_entry.start_daemon(skip_start=True)
     %s
     daemon.start()
-except:
+except Exception:
     import traceback
     sys.stderr.write('Exception raised:\\n %%s' %% traceback.format_exc())
 """ % (config_directory, listen_port, custom_script)
@@ -254,11 +256,17 @@ except:
     # Specify the triggers for daemon log output
     default_core_cb['triggers'] = [
         {'expr': 'Finished loading ', 'value': lambda reader, data, data_all: reader},
-        {'expr': 'Could not listen on localhost:%d' % (listen_port), 'type': 'errback',  # Error from libtorrent
-         'value': lambda reader, data, data_all: CannotListenError('localhost', listen_port,
-                                                                   'Could not start deluge test client!\n%s' % data)},
-        {'expr': 'Traceback', 'type': 'errback',
-         'value': lambda reader, data, data_all: DelugeError('Traceback found when starting daemon:\n%s' % data)}
+        {
+            'expr': 'Could not listen on localhost:%d' % (listen_port), 'type': 'errback',  # Error from libtorrent
+            'value': lambda reader, data, data_all: CannotListenError(
+                'localhost', listen_port,
+                'Could not start deluge test client!\n%s' % data,
+            ),
+        },
+        {
+            'expr': 'Traceback', 'type': 'errback',
+            'value': lambda reader, data, data_all: DelugeError('Traceback found when starting daemon:\n%s' % data),
+        },
     ]
 
     callbacks.append(default_core_cb)

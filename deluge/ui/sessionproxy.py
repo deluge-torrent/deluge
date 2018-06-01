@@ -132,7 +132,7 @@ class SessionProxy(component.Component):
                     keys_to_get.append(key)
             if not keys_to_get:
                 return succeed(
-                    self.create_status_dict([torrent_id], keys)[torrent_id]
+                    self.create_status_dict([torrent_id], keys)[torrent_id],
                 )
             else:
                 d = client.core.get_torrent_status(torrent_id, keys_to_get, True)

@@ -72,8 +72,10 @@ DEFAULT_PREFS = {
     'max_upload_speed': -1.0,
     'max_download_speed': -1.0,
     'max_upload_slots_global': 4,
-    'max_half_open_connections': (lambda: deluge.common.windows_check() and
-                                  (lambda: deluge.common.vista_check() and 4 or 8)() or 50)(),
+    'max_half_open_connections': (
+        lambda: deluge.common.windows_check() and
+        (lambda: deluge.common.vista_check() and 4 or 8)() or 50
+    )(),
     'max_connections_per_second': 20,
     'ignore_limits_on_local_network': True,
     'max_connections_per_torrent': -1,
@@ -123,7 +125,7 @@ DEFAULT_PREFS = {
     'cache_expiry': 60,
     'auto_manage_prefer_seeds': False,
     'shared': False,
-    'super_seeding': False
+    'super_seeding': False,
 }
 
 
@@ -207,19 +209,28 @@ class PreferencesManager(component.Component):
         interface = str(self.config['listen_interface'].strip())
         interface = interface if interface else '0.0.0.0'
 
-        log.debug('Listen Interface: %s, Ports: %s with use_sys_port: %s',
-                  interface, listen_ports, self.config['listen_use_sys_port'])
-        interfaces = ['%s:%s' % (interface, port) for port in range(listen_ports[0], listen_ports[1]+1)]
+        log.debug(
+            'Listen Interface: %s, Ports: %s with use_sys_port: %s',
+            interface, listen_ports, self.config['listen_use_sys_port'],
+        )
+        interfaces = [
+            '%s:%s' % (interface, port)
+            for port in range(listen_ports[0], listen_ports[1] + 1)
+        ]
         self.core.apply_session_settings(
-            {'listen_system_port_fallback': self.config['listen_use_sys_port'],
-             'listen_interfaces': ''.join(interfaces)})
+            {
+                'listen_system_port_fallback': self.config['listen_use_sys_port'],
+                'listen_interfaces': ''.join(interfaces),
+            },
+        )
 
     def __set_outgoing_on(self):
         """ Set the interface address for outgoing BitTorrent connections."""
         outinterface = self.config['outgoing_interface'].strip()
         outinterface = outinterface if outinterface else '0.0.0.0'
         self.core.apply_session_settings(
-            {'outgoing_interfaces': outinterface})
+            {'outgoing_interfaces': outinterface},
+        )
 
     def _on_set_outgoing_ports(self, key, value):
         self.__set_outgoing_ports()
@@ -254,7 +265,8 @@ class PreferencesManager(component.Component):
                 'router.bitcomet.com:6881',
                 'dht.transmissionbt.com:6881',
                 'dht.aelitis.com:6881',
-            ])
+            ],
+        )
         self.core.apply_session_settings({
             'dht_bootstrap_nodes': ','.join(dht_bootstraps),
             'enable_dht': value,
@@ -286,10 +298,13 @@ class PreferencesManager(component.Component):
         # Convert Deluge enc_level values to libtorrent enc_level values.
         pe_enc_level = {0: lt.enc_level.plaintext, 1: lt.enc_level.rc4, 2: lt.enc_level.both}
         self.core.apply_session_settings(
-            {'out_enc_policy': lt.enc_policy(self.config['enc_out_policy']),
-             'in_enc_policy': lt.enc_policy(self.config['enc_in_policy']),
-             'allowed_enc_level': lt.enc_level(pe_enc_level[self.config['enc_level']]),
-             'prefer_rc4': True})
+            {
+                'out_enc_policy': lt.enc_policy(self.config['enc_out_policy']),
+                'in_enc_policy': lt.enc_policy(self.config['enc_in_policy']),
+                'allowed_enc_level': lt.enc_level(pe_enc_level[self.config['enc_level']]),
+                'prefer_rc4': True,
+            },
+        )
 
     def _on_set_max_connections_global(self, key, value):
         self.core.apply_session_setting('connections_limit', value)
@@ -376,7 +391,8 @@ class PreferencesManager(component.Component):
                 self.new_release_timer.stop()
             # Set a timer to check for a new release every 3 days
             self.new_release_timer = LoopingCall(
-                self._on_set_new_release_check, 'new_release_check', True)
+                self._on_set_new_release_check, 'new_release_check', True,
+            )
             self.new_release_timer.start(72 * 60 * 60, False)
         else:
             if self.new_release_timer and self.new_release_timer.running:
@@ -392,7 +408,7 @@ class PreferencesManager(component.Component):
             'proxy_peer_connections': value['proxy_peer_connections'],
             'proxy_tracker_connections': value['proxy_tracker_connections'],
             'force_proxy': value['force_proxy'],
-            'anonymous_mode': value['anonymous_mode']
+            'anonymous_mode': value['anonymous_mode'],
         }
 
         if value['type'] == lt.proxy_type.i2p_proxy:

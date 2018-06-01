@@ -37,7 +37,7 @@ class ToolBar(component.Component):
             'toolbutton_queue_up',
             'toolbutton_queue_down',
             'toolbutton_filter',
-            'find_menuitem'
+            'find_menuitem',
         ]
 
         # Hide if necessary
@@ -45,7 +45,8 @@ class ToolBar(component.Component):
 
     def start(self):
         self.main_builder.get_object('toolbutton_connectionmanager').set_visible(
-            not self.config['standalone'])
+            not self.config['standalone'],
+        )
 
         for widget in self.change_sensitivity:
             self.main_builder.get_object(widget).set_sensitive(True)

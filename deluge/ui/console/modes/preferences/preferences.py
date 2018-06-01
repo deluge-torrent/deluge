@@ -76,11 +76,15 @@ class PreferenceSidebar(Sidebar):
     def __init__(self, torrentview, width):
         height = curses.LINES - 2
         Sidebar.__init__(self, torrentview, width, height, title=None, border_off_north=1)
-        self.categories = [_('Interface'), _('Downloads'), _('Network'), _('Bandwidth'),
-                           _('Other'), _('Daemon'), _('Queue'), _('Proxy'), _('Cache')]
+        self.categories = [
+            _('Interface'), _('Downloads'), _('Network'), _('Bandwidth'),
+            _('Other'), _('Daemon'), _('Queue'), _('Proxy'), _('Cache'),
+        ]
         for name in self.categories:
-            self.add_text_field(name, name, selectable=True, font_unfocused_active='bold',
-                                color_unfocused_active='white,black')
+            self.add_text_field(
+                name, name, selectable=True, font_unfocused_active='bold',
+                color_unfocused_active='white,black',
+            )
 
     def on_resize(self):
         self.resize_window(curses.LINES - 2, self.width)
@@ -116,7 +120,7 @@ class Preferences(BaseMode, PopupsHandler):
             DaemonPane(self),
             QueuePane(self),
             ProxyPane(self),
-            CachePane(self)
+            CachePane(self),
         ]
 
         self.action_input = SelectInput(self, None, None, [_('Cancel'), _('Apply'), _('OK')], [0, 1, 2], 0)
@@ -163,8 +167,10 @@ class Preferences(BaseMode, PopupsHandler):
     def _draw_actions(self):
         selected = self.active_zone == ZONE.ACTIONS
         self.stdscr.hline(self.rows - 3, self.sidebar_width, '_', self.cols)
-        self.action_input.render(self.stdscr, self.rows - 2, width=self.cols,
-                                 active=selected, focus=True, col=self.cols - 22)
+        self.action_input.render(
+            self.stdscr, self.rows - 2, width=self.cols,
+            active=selected, focus=True, col=self.cols - 22,
+        )
 
     @overrides(BaseMode)
     def on_resize(self, rows, cols):
@@ -254,8 +260,10 @@ class Preferences(BaseMode, PopupsHandler):
                     didupdate = update_conf_value(k, new_console_config, self.console_config, didupdate)
                 for k in ['separate_complete', 'move_selection']:
                     didupdate = update_conf_value(k, new_console_config, self.console_config['torrentview'], didupdate)
-                for k in ['ignore_duplicate_lines', 'save_command_history',
-                          'third_tab_lists_all', 'torrents_per_tab_press']:
+                for k in [
+                    'ignore_duplicate_lines', 'save_command_history',
+                    'third_tab_lists_all', 'torrents_per_tab_press',
+                ]:
                     didupdate = update_conf_value(k, new_console_config, self.console_config['cmdline'], didupdate)
 
         if didupdate:

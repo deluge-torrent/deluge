@@ -122,7 +122,7 @@ class TorrentDetails(component.Component):
             'Files': FilesTab,
             'Peers': PeersTab,
             'Options': OptionsTab,
-            'Trackers': TrackersTab
+            'Trackers': TrackersTab,
         }
 
         # tab_name, visible
@@ -132,7 +132,7 @@ class TorrentDetails(component.Component):
             ('Options', True),
             ('Files', True),
             ('Peers', True),
-            ('Trackers', True)
+            ('Trackers', True),
         ]
 
         self.translate_tabs = {
@@ -142,7 +142,7 @@ class TorrentDetails(component.Component):
             'Files': _('Fi_les'),
             'Peers': _('_Peers'),
             'Options': _('_Options'),
-            'Trackers': _('_Trackers')
+            'Trackers': _('_Trackers'),
         }
 
         # Get the state from saved file
@@ -174,7 +174,10 @@ class TorrentDetails(component.Component):
         # Determine insert position based on weight
         # weights is a list of visible tab names in weight order
 
-        weights = sorted([(tab.weight, name) for name, tab in self.tabs.items() if tab.is_visible])
+        weights = sorted(
+            (tab.weight, name)
+            for name, tab in self.tabs.items() if tab.is_visible
+        )
 
         log.debug('weights: %s', weights)
         log.debug('weight of tab: %s', weight)
@@ -215,7 +218,8 @@ class TorrentDetails(component.Component):
             pos = self.notebook.insert_page(
                 tab.get_child_widget(),
                 tab.get_tab_label(),
-                insert_pos)
+                insert_pos,
+            )
             log.debug('Tab inserted at %d', pos)
             tab.position = pos
             if not self.notebook.get_property('visible'):
@@ -283,8 +287,10 @@ class TorrentDetails(component.Component):
         self.visible(show)
 
     def show_tab(self, tab_name, generate_menu=True):
-        log.debug('%s\n%s\n%s', self.tabs[tab_name].get_child_widget(),
-                  self.tabs[tab_name].get_tab_label(), self.tabs[tab_name].position)
+        log.debug(
+            '%s\n%s\n%s', self.tabs[tab_name].get_child_widget(),
+            self.tabs[tab_name].get_tab_label(), self.tabs[tab_name].position,
+        )
 
         position = self.tab_insert_position(self.tabs[tab_name].weight)
 
@@ -292,7 +298,8 @@ class TorrentDetails(component.Component):
         self.notebook.insert_page(
             self.tabs[tab_name].get_child_widget(),
             self.tabs[tab_name].get_tab_label(),
-            position)
+            position,
+        )
         self.tabs[tab_name].is_visible = True
         self.regenerate_positions()
         if generate_menu:

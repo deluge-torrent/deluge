@@ -83,7 +83,7 @@ master_doc = 'index'
 # General substitutions.
 project = 'Deluge'
 current_year = date.today().year
-copyright = '2008-%s, Deluge Team' % current_year
+copyright = '2008-%s, Deluge Team' % current_year  # noqa: A001
 
 # The default replacements for |version| and |release|, also used in various
 # other places throughout the built documents.

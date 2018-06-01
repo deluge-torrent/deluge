@@ -32,14 +32,22 @@ class StatusTab(Tab):
         self.piecesbar = None
 
         self.add_tab_widget('summary_availability', fratio, ('distributed_copies',))
-        self.add_tab_widget('summary_total_downloaded', ftotal_sized,
-                            ('all_time_download', 'total_payload_download'))
-        self.add_tab_widget('summary_total_uploaded', ftotal_sized,
-                            ('total_uploaded', 'total_payload_upload'))
-        self.add_tab_widget('summary_download_speed', fspeed_max,
-                            ('download_payload_rate', 'max_download_speed'))
-        self.add_tab_widget('summary_upload_speed', fspeed_max,
-                            ('upload_payload_rate', 'max_upload_speed'))
+        self.add_tab_widget(
+            'summary_total_downloaded', ftotal_sized,
+            ('all_time_download', 'total_payload_download'),
+        )
+        self.add_tab_widget(
+            'summary_total_uploaded', ftotal_sized,
+            ('total_uploaded', 'total_payload_upload'),
+        )
+        self.add_tab_widget(
+            'summary_download_speed', fspeed_max,
+            ('download_payload_rate', 'max_download_speed'),
+        )
+        self.add_tab_widget(
+            'summary_upload_speed', fspeed_max,
+            ('upload_payload_rate', 'max_upload_speed'),
+        )
         self.add_tab_widget('summary_seeds', fpeer, ('num_seeds', 'total_seeds'))
         self.add_tab_widget('summary_peers', fpeer, ('num_peers', 'total_peers'))
         self.add_tab_widget('summary_eta', ftime_or_dash, ('eta',))
@@ -68,7 +76,8 @@ class StatusTab(Tab):
             status_keys.extend(['pieces', 'num_pieces'])
 
         component.get('SessionProxy').get_torrent_status(
-            selected, status_keys).addCallback(self._on_get_torrent_status)
+            selected, status_keys,
+        ).addCallback(self._on_get_torrent_status)
 
     def _on_get_torrent_status(self, status):
         # Check to see if we got valid data from the core
@@ -105,7 +114,8 @@ class StatusTab(Tab):
         if self.piecesbar is None:
             self.piecesbar = PiecesBar()
             self.main_builder.get_object(
-                'status_progress_vbox').pack_start(self.piecesbar, False, False, 0)
+                'status_progress_vbox',
+            ).pack_start(self.piecesbar, False, False, 0)
         self.tab_widgets['piecesbar'] = TabWidget(self.piecesbar, fpcnt, ('progress', 'state', 'message'))
         self.piecesbar.show()
         self.progressbar.hide()

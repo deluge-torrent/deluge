@@ -41,8 +41,8 @@ DEFAULT_PREFS = {
     'smtp_recipients': [],
     # Subscriptions
     'subscriptions': {
-        'email': []
-    }
+        'email': [],
+    },
 }
 
 
@@ -53,8 +53,10 @@ class CoreNotifications(CustomNotifications):
 
     def enable(self):
         CustomNotifications.enable(self)
-        self.register_custom_email_notification('TorrentFinishedEvent',
-                                                self._on_torrent_finished_event)
+        self.register_custom_email_notification(
+            'TorrentFinishedEvent',
+            self._on_torrent_finished_event,
+        )
 
     def disable(self):
         self.deregister_custom_email_notification('TorrentFinishedEvent')
@@ -77,8 +79,10 @@ class CoreNotifications(CustomNotifications):
         if not self.config['smtp_enabled']:
             return defer.succeed('SMTP notification not enabled.')
         subject, message = result
-        log.debug('Spawning new thread to send email with subject: %s: %s',
-                  subject, message)
+        log.debug(
+            'Spawning new thread to send email with subject: %s: %s',
+            subject, message,
+        )
         # Spawn thread because we don't want Deluge to lock up while we send the
         # email.
         return threads.deferToThread(self._notify_email, subject, message)
@@ -103,7 +107,8 @@ class CoreNotifications(CustomNotifications):
             'smtp_from': self.config['smtp_from'],
             'subject': subject,
             'smtp_recipients': to_addrs_str,
-            'date': formatdate()}
+            'date': formatdate(),
+        }
         headers = """\
 From: %(smtp_from)s
 To: %(smtp_recipients)s
@@ -176,7 +181,7 @@ Date: %(date)s
             'downloading "%(name)s", which includes %(num_files)i files.'
             '\nTo stop receiving these alerts, simply turn off email '
             "notification in Deluge's preferences.\n\n"
-            'Thank you,\nDeluge.'
+            'Thank you,\nDeluge.',
         ) % torrent_status
         return subject, message
 
@@ -196,7 +201,8 @@ class Core(CorePluginBase, CoreNotifications):
     def enable(self):
         CoreNotifications.enable(self)
         self.config = deluge.configmanager.ConfigManager(
-            'notifications-core.conf', DEFAULT_PREFS)
+            'notifications-core.conf', DEFAULT_PREFS,
+        )
         log.debug('ENABLING CORE NOTIFICATIONS')
 
     def disable(self):

@@ -49,7 +49,7 @@ class GtkUI(GtkPluginBase):
         config = {
             'enabled': self.builder.get_object('enabled_checkbutton').get_active(),
             'ssl': self.builder.get_object('ssl_checkbutton').get_active(),
-            'port': self.builder.get_object('port_spinbutton').get_value_as_int()
+            'port': self.builder.get_object('port_spinbutton').get_value_as_int(),
         }
         client.webui.set_config(config)
 
@@ -75,8 +75,10 @@ class GtkUI(GtkPluginBase):
         icon.set_padding(5, 5)
         hbox.pack_start(icon, False, False)
 
-        label = gtk.Label(_('The Deluge web interface is not installed, '
-                            'please install the\ninterface and try again'))
+        label = gtk.Label(_(
+            'The Deluge web interface is not installed, '
+            'please install the\ninterface and try again',
+        ))
         label.set_alignment(0, 0.5)
         label.set_padding(5, 5)
         hbox.pack_start(label)

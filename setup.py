@@ -171,7 +171,7 @@ class BuildTranslations(cmd.Command):
 
     user_options = [
         ('build-lib', None, 'lib build folder'),
-        ('develop', 'D', 'Compile translations in develop mode (deluge/i18n)')
+        ('develop', 'D', 'Compile translations in develop mode (deluge/i18n)'),
     ]
     boolean_options = ['develop']
 
@@ -258,7 +258,7 @@ class BuildPlugins(cmd.Command):
 
     user_options = [
         ('install-dir=', None, 'develop install folder'),
-        ('develop', 'D', 'Compile plugins in develop mode')
+        ('develop', 'D', 'Compile plugins in develop mode'),
     ]
     boolean_options = ['develop']
 
@@ -353,7 +353,7 @@ class Build(_build):
     sub_commands = [
         ('build_webui', None),
         ('build_trans', None),
-        ('build_plugins', None)
+        ('build_plugins', None),
     ] + _build.sub_commands
 
     def run(self):
@@ -372,7 +372,7 @@ class InstallData(_install_data):
     def finalize_options(self):
         self.install_dir = None
         self.set_undefined_options('install', ('install_data', 'install_dir'),
-                                   ('root', 'root'), ('force', 'force'),)
+                                   ('root', 'root'), ('force', 'force'))
 
     def run(self):
         _install_data.run(self)
@@ -548,5 +548,5 @@ setup(
     exclude_package_data=_exclude_package_data,
     packages=find_packages(exclude=['deluge.plugins.*', 'deluge.tests']),
     namespace_packages=['deluge', 'deluge.plugins'],
-    entry_points=_entry_points
+    entry_points=_entry_points,
 )

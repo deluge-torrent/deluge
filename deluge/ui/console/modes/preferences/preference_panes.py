@@ -158,29 +158,45 @@ class InterfacePane(BasePreferencePane):
     def create_pane(self, core_conf, console_config):
         self.add_header(_('General options'))
 
-        self.add_checked_input('ring_bell', _('Ring system bell when a download finishes'),
-                               console_config['ring_bell'])
+        self.add_checked_input(
+            'ring_bell', _('Ring system bell when a download finishes'),
+            console_config['ring_bell'],
+        )
         self.add_header('Console UI', space_above=True)
-        self.add_checked_input('separate_complete',
-                               _('List complete torrents after incomplete regardless of sorting order'),
-                               console_config['torrentview']['separate_complete'])
-        self.add_checked_input('move_selection', _('Move selection when moving torrents in the queue'),
-                               console_config['torrentview']['move_selection'])
+        self.add_checked_input(
+            'separate_complete',
+            _('List complete torrents after incomplete regardless of sorting order'),
+            console_config['torrentview']['separate_complete'],
+        )
+        self.add_checked_input(
+            'move_selection', _('Move selection when moving torrents in the queue'),
+            console_config['torrentview']['move_selection'],
+        )
         from deluge.ui.translations_util import get_languages
         langs = get_languages()
         langs.insert(0, ('', 'System Default'))
-        self.add_combo_input('language', _('Language'),
-                             langs, default=console_config['language'])
+        self.add_combo_input(
+            'language', _('Language'),
+            langs, default=console_config['language'],
+        )
         self.add_header(_('Command Line Mode'), space_above=True)
-        self.add_checked_input('ignore_duplicate_lines', _('Do not store duplicate input in history'),
-                               console_config['cmdline']['ignore_duplicate_lines'])
-        self.add_checked_input('save_command_history', _('Store and load command line history in command line mode'),
-                               console_config['cmdline']['save_command_history'])
+        self.add_checked_input(
+            'ignore_duplicate_lines', _('Do not store duplicate input in history'),
+            console_config['cmdline']['ignore_duplicate_lines'],
+        )
+        self.add_checked_input(
+            'save_command_history', _('Store and load command line history in command line mode'),
+            console_config['cmdline']['save_command_history'],
+        )
         self.add_header('')
-        self.add_checked_input('third_tab_lists_all', _('Third tab lists all remaining torrents in command line mode'),
-                               console_config['cmdline']['third_tab_lists_all'])
-        self.add_int_spin_input('torrents_per_tab_press', _('Torrents per tab press'),
-                                console_config['cmdline']['torrents_per_tab_press'], min_val=5, max_val=10000)
+        self.add_checked_input(
+            'third_tab_lists_all', _('Third tab lists all remaining torrents in command line mode'),
+            console_config['cmdline']['third_tab_lists_all'],
+        )
+        self.add_int_spin_input(
+            'torrents_per_tab_press', _('Torrents per tab press'),
+            console_config['cmdline']['torrents_per_tab_press'], min_val=5, max_val=10000,
+        )
 
 
 class DownloadsPane(BasePreferencePane):
@@ -191,27 +207,45 @@ class DownloadsPane(BasePreferencePane):
     @overrides(BasePreferencePane)
     def create_pane(self, core_conf, console_config):
         self.add_header(_('Folders'))
-        self.add_text_input('download_location', '%s:' % _('Download To'), core_conf['download_location'],
-                            complete=True, activate_input=True, col='+1')
-        cmptxt = TextInput(self.preferences, 'move_completed_path', None, self.move, self.pane_width,
-                           core_conf['move_completed_path'], False)
-        self.add_checkedplus_input('move_completed', '%s:' % _('Move completed to'),
-                                   cmptxt, core_conf['move_completed'])
-        copytxt = TextInput(self.preferences, 'torrentfiles_location', None, self.move, self.pane_width,
-                            core_conf['torrentfiles_location'], False)
-        self.add_checkedplus_input('copy_torrent_file', '%s:' % _('Copy of .torrent files to'), copytxt,
-                                   core_conf['copy_torrent_file'])
-        self.add_checked_input('del_copy_torrent_file', _('Delete copy of torrent file on remove'),
-                               core_conf['del_copy_torrent_file'])
+        self.add_text_input(
+            'download_location', '%s:' % _('Download To'), core_conf['download_location'],
+            complete=True, activate_input=True, col='+1',
+        )
+        cmptxt = TextInput(
+            self.preferences, 'move_completed_path', None, self.move, self.pane_width,
+            core_conf['move_completed_path'], False,
+        )
+        self.add_checkedplus_input(
+            'move_completed', '%s:' % _('Move completed to'),
+            cmptxt, core_conf['move_completed'],
+        )
+        copytxt = TextInput(
+            self.preferences, 'torrentfiles_location', None, self.move, self.pane_width,
+            core_conf['torrentfiles_location'], False,
+        )
+        self.add_checkedplus_input(
+            'copy_torrent_file', '%s:' % _('Copy of .torrent files to'), copytxt,
+            core_conf['copy_torrent_file'],
+        )
+        self.add_checked_input(
+            'del_copy_torrent_file', _('Delete copy of torrent file on remove'),
+            core_conf['del_copy_torrent_file'],
+        )
 
         self.add_header(_('Options'), space_above=True)
-        self.add_checked_input('prioritize_first_last_pieces', ('Prioritize first and last pieces of torrent'),
-                               core_conf['prioritize_first_last_pieces'])
-        self.add_checked_input('sequential_download', _('Sequential download'),
-                               core_conf['sequential_download'])
+        self.add_checked_input(
+            'prioritize_first_last_pieces', ('Prioritize first and last pieces of torrent'),
+            core_conf['prioritize_first_last_pieces'],
+        )
+        self.add_checked_input(
+            'sequential_download', _('Sequential download'),
+            core_conf['sequential_download'],
+        )
         self.add_checked_input('add_paused', _('Add Paused'), core_conf['add_paused'])
-        self.add_checked_input('pre_allocate_storage', _('Pre-Allocate disk space'),
-                               core_conf['pre_allocate_storage'])
+        self.add_checked_input(
+            'pre_allocate_storage', _('Pre-Allocate disk space'),
+            core_conf['pre_allocate_storage'],
+        )
 
 
 class NetworkPane(BasePreferencePane):
@@ -222,26 +256,38 @@ class NetworkPane(BasePreferencePane):
     @overrides(BasePreferencePane)
     def create_pane(self, core_conf, console_config):
         self.add_header(_('Incomming Ports'))
-        inrand = self.add_checked_input('random_port', 'Use Random Ports    Active Port: %d'
-                                        % self.preferences.active_port,
-                                        core_conf['random_port'])
+        inrand = self.add_checked_input(
+            'random_port', 'Use Random Ports    Active Port: %d'
+            % self.preferences.active_port,
+            core_conf['random_port'],
+        )
         listen_ports = core_conf['listen_ports']
-        self.infrom = self.add_int_spin_input('listen_ports_from', '    %s:' % _('From'),
-                                              value=listen_ports[0], min_val=0, max_val=65535)
+        self.infrom = self.add_int_spin_input(
+            'listen_ports_from', '    %s:' % _('From'),
+            value=listen_ports[0], min_val=0, max_val=65535,
+        )
         self.infrom.set_depend(inrand, inverse=True)
-        self.into = self.add_int_spin_input('listen_ports_to', '    %s:' % _('To'),
-                                            value=listen_ports[1], min_val=0, max_val=65535)
+        self.into = self.add_int_spin_input(
+            'listen_ports_to', '    %s:' % _('To'),
+            value=listen_ports[1], min_val=0, max_val=65535,
+        )
         self.into.set_depend(inrand, inverse=True)
 
         self.add_header(_('Outgoing Ports'), space_above=True)
-        outrand = self.add_checked_input('random_outgoing_ports', _('Use Random Ports'),
-                                         core_conf['random_outgoing_ports'])
+        outrand = self.add_checked_input(
+            'random_outgoing_ports', _('Use Random Ports'),
+            core_conf['random_outgoing_ports'],
+        )
         out_ports = core_conf['outgoing_ports']
-        self.outfrom = self.add_int_spin_input('out_ports_from', '    %s:' % _('From'),
-                                               value=out_ports[0], min_val=0, max_val=65535)
+        self.outfrom = self.add_int_spin_input(
+            'out_ports_from', '    %s:' % _('From'),
+            value=out_ports[0], min_val=0, max_val=65535,
+        )
         self.outfrom.set_depend(outrand, inverse=True)
-        self.outto = self.add_int_spin_input('out_ports_to', '    %s:' % _('To'),
-                                             value=out_ports[1], min_val=0, max_val=65535)
+        self.outto = self.add_int_spin_input(
+            'out_ports_to', '    %s:' % _('To'),
+            value=out_ports[1], min_val=0, max_val=65535,
+        )
         self.outto.set_depend(outrand, inverse=True)
 
         self.add_header(_('Incoming Interface'), space_above=True)
@@ -269,12 +315,18 @@ class NetworkPane(BasePreferencePane):
         self.add_checked_input('dht', 'DHT', core_conf['dht'])
 
         self.add_header(_('Encryption'), space_above=True)
-        self.add_select_input('enc_in_policy', '%s:' % _('Inbound'), [_('Forced'), _('Enabled'), _('Disabled')],
-                              [0, 1, 2], core_conf['enc_in_policy'], active_default=True, col='+1')
-        self.add_select_input('enc_out_policy', '%s:' % _('Outbound'), [_('Forced'), _('Enabled'), _('Disabled')],
-                              [0, 1, 2], core_conf['enc_out_policy'], active_default=True)
-        self.add_select_input('enc_level', '%s:' % _('Level'), [_('Handshake'), _('Full Stream'), _('Either')],
-                              [0, 1, 2], core_conf['enc_level'], active_default=True)
+        self.add_select_input(
+            'enc_in_policy', '%s:' % _('Inbound'), [_('Forced'), _('Enabled'), _('Disabled')],
+            [0, 1, 2], core_conf['enc_in_policy'], active_default=True, col='+1',
+        )
+        self.add_select_input(
+            'enc_out_policy', '%s:' % _('Outbound'), [_('Forced'), _('Enabled'), _('Disabled')],
+            [0, 1, 2], core_conf['enc_out_policy'], active_default=True,
+        )
+        self.add_select_input(
+            'enc_level', '%s:' % _('Level'), [_('Handshake'), _('Full Stream'), _('Either')],
+            [0, 1, 2], core_conf['enc_level'], active_default=True,
+        )
 
 
 class BandwidthPane(BasePreferencePane):
@@ -285,31 +337,55 @@ class BandwidthPane(BasePreferencePane):
     @overrides(BasePreferencePane)
     def create_pane(self, core_conf, console_config):
         self.add_header(_('Global Bandwidth Usage'))
-        self.add_int_spin_input('max_connections_global', '%s:' % _('Maximum Connections'),
-                                core_conf['max_connections_global'], min_val=-1, max_val=9000)
-        self.add_int_spin_input('max_upload_slots_global', '%s:' % _('Maximum Upload Slots'),
-                                core_conf['max_upload_slots_global'], min_val=-1, max_val=9000)
-        self.add_float_spin_input('max_download_speed', '%s:' % _('Maximum Download Speed (KiB/s)'),
-                                  core_conf['max_download_speed'], min_val=-1.0, max_val=60000.0)
-        self.add_float_spin_input('max_upload_speed', '%s:' % _('Maximum Upload Speed (KiB/s)'),
-                                  core_conf['max_upload_speed'], min_val=-1.0, max_val=60000.0)
-        self.add_int_spin_input('max_half_open_connections', '%s:' % _('Maximum Half-Open Connections'),
-                                core_conf['max_half_open_connections'], min_val=-1, max_val=9999)
-        self.add_int_spin_input('max_connections_per_second', '%s:' % _('Maximum Connection Attempts per Second'),
-                                core_conf['max_connections_per_second'], min_val=-1, max_val=9999)
-        self.add_checked_input('ignore_limits_on_local_network', _('Ignore limits on local network'),
-                               core_conf['ignore_limits_on_local_network'])
-        self.add_checked_input('rate_limit_ip_overhead', _('Rate Limit IP Overhead'),
-                               core_conf['rate_limit_ip_overhead'])
+        self.add_int_spin_input(
+            'max_connections_global', '%s:' % _('Maximum Connections'),
+            core_conf['max_connections_global'], min_val=-1, max_val=9000,
+        )
+        self.add_int_spin_input(
+            'max_upload_slots_global', '%s:' % _('Maximum Upload Slots'),
+            core_conf['max_upload_slots_global'], min_val=-1, max_val=9000,
+        )
+        self.add_float_spin_input(
+            'max_download_speed', '%s:' % _('Maximum Download Speed (KiB/s)'),
+            core_conf['max_download_speed'], min_val=-1.0, max_val=60000.0,
+        )
+        self.add_float_spin_input(
+            'max_upload_speed', '%s:' % _('Maximum Upload Speed (KiB/s)'),
+            core_conf['max_upload_speed'], min_val=-1.0, max_val=60000.0,
+        )
+        self.add_int_spin_input(
+            'max_half_open_connections', '%s:' % _('Maximum Half-Open Connections'),
+            core_conf['max_half_open_connections'], min_val=-1, max_val=9999,
+        )
+        self.add_int_spin_input(
+            'max_connections_per_second', '%s:' % _('Maximum Connection Attempts per Second'),
+            core_conf['max_connections_per_second'], min_val=-1, max_val=9999,
+        )
+        self.add_checked_input(
+            'ignore_limits_on_local_network', _('Ignore limits on local network'),
+            core_conf['ignore_limits_on_local_network'],
+        )
+        self.add_checked_input(
+            'rate_limit_ip_overhead', _('Rate Limit IP Overhead'),
+            core_conf['rate_limit_ip_overhead'],
+        )
         self.add_header(_('Per Torrent Bandwidth Usage'), space_above=True)
-        self.add_int_spin_input('max_connections_per_torrent', '%s:' % _('Maximum Connections'),
-                                core_conf['max_connections_per_torrent'], min_val=-1, max_val=9000)
-        self.add_int_spin_input('max_upload_slots_per_torrent', '%s:' % _('Maximum Upload Slots'),
-                                core_conf['max_upload_slots_per_torrent'], min_val=-1, max_val=9000)
-        self.add_float_spin_input('max_download_speed_per_torrent', '%s:' % _('Maximum Download Speed (KiB/s)'),
-                                  core_conf['max_download_speed_per_torrent'], min_val=-1.0, max_val=60000.0)
-        self.add_float_spin_input('max_upload_speed_per_torrent', '%s:' % _('Maximum Upload Speed (KiB/s)'),
-                                  core_conf['max_upload_speed_per_torrent'], min_val=-1.0, max_val=60000.0)
+        self.add_int_spin_input(
+            'max_connections_per_torrent', '%s:' % _('Maximum Connections'),
+            core_conf['max_connections_per_torrent'], min_val=-1, max_val=9000,
+        )
+        self.add_int_spin_input(
+            'max_upload_slots_per_torrent', '%s:' % _('Maximum Upload Slots'),
+            core_conf['max_upload_slots_per_torrent'], min_val=-1, max_val=9000,
+        )
+        self.add_float_spin_input(
+            'max_download_speed_per_torrent', '%s:' % _('Maximum Download Speed (KiB/s)'),
+            core_conf['max_download_speed_per_torrent'], min_val=-1.0, max_val=60000.0,
+        )
+        self.add_float_spin_input(
+            'max_upload_speed_per_torrent', '%s:' % _('Maximum Upload Speed (KiB/s)'),
+            core_conf['max_upload_speed_per_torrent'], min_val=-1.0, max_val=60000.0,
+        )
 
 
 class OtherPane(BasePreferencePane):
@@ -336,13 +412,17 @@ class DaemonPane(BasePreferencePane):
     @overrides(BasePreferencePane)
     def create_pane(self, core_conf, console_config):
         self.add_header('Port')
-        self.add_int_spin_input('daemon_port', '%s:' % _('Daemon Port'), core_conf['daemon_port'],
-                                min_val=0, max_val=65535)
+        self.add_int_spin_input(
+            'daemon_port', '%s:' % _('Daemon Port'), core_conf['daemon_port'],
+            min_val=0, max_val=65535,
+        )
         self.add_header('Connections', space_above=True)
         self.add_checked_input('allow_remote', _('Allow remote connections'), core_conf['allow_remote'])
         self.add_header('Other', space_above=True)
-        self.add_checked_input('new_release_check', _('Periodically check the website for new releases'),
-                               core_conf['new_release_check'])
+        self.add_checked_input(
+            'new_release_check', _('Periodically check the website for new releases'),
+            core_conf['new_release_check'],
+        )
 
 
 class QueuePane(BasePreferencePane):
@@ -355,29 +435,51 @@ class QueuePane(BasePreferencePane):
         self.add_header(_('New Torrents'))
         self.add_checked_input('queue_new_to_top', _('Queue to top'), core_conf['queue_new_to_top'])
         self.add_header(_('Active Torrents'), True)
-        self.add_int_spin_input('max_active_limit', '%s:' % _('Total'), core_conf['max_active_limit'],
-                                min_val=-1, max_val=9999)
-        self.add_int_spin_input('max_active_downloading', '%s:' % _('Downloading'),
-                                core_conf['max_active_downloading'], min_val=-1, max_val=9999)
-        self.add_int_spin_input('max_active_seeding', '%s:' % _('Seeding'),
-                                core_conf['max_active_seeding'], min_val=-1, max_val=9999)
-        self.add_checked_input('dont_count_slow_torrents', 'Ignore slow torrents',
-                               core_conf['dont_count_slow_torrents'])
-        self.add_checked_input('auto_manage_prefer_seeds', 'Prefer seeding torrents',
-                               core_conf['auto_manage_prefer_seeds'])
+        self.add_int_spin_input(
+            'max_active_limit', '%s:' % _('Total'), core_conf['max_active_limit'],
+            min_val=-1, max_val=9999,
+        )
+        self.add_int_spin_input(
+            'max_active_downloading', '%s:' % _('Downloading'),
+            core_conf['max_active_downloading'], min_val=-1, max_val=9999,
+        )
+        self.add_int_spin_input(
+            'max_active_seeding', '%s:' % _('Seeding'),
+            core_conf['max_active_seeding'], min_val=-1, max_val=9999,
+        )
+        self.add_checked_input(
+            'dont_count_slow_torrents', 'Ignore slow torrents',
+            core_conf['dont_count_slow_torrents'],
+        )
+        self.add_checked_input(
+            'auto_manage_prefer_seeds', 'Prefer seeding torrents',
+            core_conf['auto_manage_prefer_seeds'],
+        )
         self.add_header(_('Seeding Rotation'), space_above=True)
-        self.add_float_spin_input('share_ratio_limit', '%s:' % _('Share Ratio'),
-                                  core_conf['share_ratio_limit'], precision=2, min_val=-1.0, max_val=100.0)
-        self.add_float_spin_input('seed_time_ratio_limit', '%s:' % _('Time Ratio'),
-                                  core_conf['seed_time_ratio_limit'], precision=2, min_val=-1.0, max_val=100.0)
-        self.add_int_spin_input('seed_time_limit', '%s:' % _('Time (m)'), core_conf['seed_time_limit'],
-                                min_val=1, max_val=10000)
-        seedratio = FloatSpinInput(self.mode, 'stop_seed_ratio', '', self.move, core_conf['stop_seed_ratio'],
-                                   precision=2, inc_amt=0.1, min_val=0.5, max_val=100.0)
-        self.add_checkedplus_input('stop_seed_at_ratio', '%s:' % _('Share Ratio Reached'), seedratio,
-                                   core_conf['stop_seed_at_ratio'])
-        self.add_checked_input('remove_seed_at_ratio', _('Remove torrent (Unchecked pauses torrent)'),
-                               core_conf['remove_seed_at_ratio'])
+        self.add_float_spin_input(
+            'share_ratio_limit', '%s:' % _('Share Ratio'),
+            core_conf['share_ratio_limit'], precision=2, min_val=-1.0, max_val=100.0,
+        )
+        self.add_float_spin_input(
+            'seed_time_ratio_limit', '%s:' % _('Time Ratio'),
+            core_conf['seed_time_ratio_limit'], precision=2, min_val=-1.0, max_val=100.0,
+        )
+        self.add_int_spin_input(
+            'seed_time_limit', '%s:' % _('Time (m)'), core_conf['seed_time_limit'],
+            min_val=1, max_val=10000,
+        )
+        seedratio = FloatSpinInput(
+            self.mode, 'stop_seed_ratio', '', self.move, core_conf['stop_seed_ratio'],
+            precision=2, inc_amt=0.1, min_val=0.5, max_val=100.0,
+        )
+        self.add_checkedplus_input(
+            'stop_seed_at_ratio', '%s:' % _('Share Ratio Reached'), seedratio,
+            core_conf['stop_seed_at_ratio'],
+        )
+        self.add_checked_input(
+            'remove_seed_at_ratio', _('Remove torrent (Unchecked pauses torrent)'),
+            core_conf['remove_seed_at_ratio'],
+        )
 
 
 class ProxyPane(BasePreferencePane):
@@ -408,7 +510,7 @@ class ProxyPane(BasePreferencePane):
             ' 0: None   1: Socks4\n'
             ' 2: Socks5 3: Socks5 Auth\n'
             ' 4: HTTP   5: HTTP Auth\n'
-            ' 6: I2P'
+            ' 6: I2P',
         )
 
 
@@ -425,31 +527,49 @@ class CachePane(BasePreferencePane):
     def build_pane(self, core_conf, status):
         self.created = True
         self.add_header(_('Settings'), space_below=True)
-        self.add_int_spin_input('cache_size',
-                                '%s:' % _('Cache Size (16 KiB blocks)'), core_conf['cache_size'],
-                                min_val=0, max_val=99999)
-        self.add_int_spin_input('cache_expiry',
-                                '%s:' % _('Cache Expiry (seconds)'), core_conf['cache_expiry'],
-                                min_val=1, max_val=32000)
+        self.add_int_spin_input(
+            'cache_size',
+            '%s:' % _('Cache Size (16 KiB blocks)'), core_conf['cache_size'],
+            min_val=0, max_val=99999,
+        )
+        self.add_int_spin_input(
+            'cache_expiry',
+            '%s:' % _('Cache Expiry (seconds)'), core_conf['cache_expiry'],
+            min_val=1, max_val=32000,
+        )
         self.add_header(' %s' % _('Write'), space_above=True)
         self.add_info_field('blocks_written', '  %s:' % _('Blocks Written'), status['disk.num_blocks_written'])
         self.add_info_field('writes', '  %s:' % _('Writes'), status['disk.num_write_ops'])
-        self.add_info_field('write_hit_ratio',
-                            '  %s:' % _('Write Cache Hit Ratio'), '%.2f' % status['write_hit_ratio'])
+        self.add_info_field(
+            'write_hit_ratio',
+            '  %s:' % _('Write Cache Hit Ratio'), '%.2f' % status['write_hit_ratio'],
+        )
         self.add_header(' %s' % _('Read'))
-        self.add_info_field('blocks_read',
-                            '  %s:' % _('Blocks Read'), status['disk.num_blocks_read'])
-        self.add_info_field('blocks_read_hit',
-                            '  %s:' % _('Blocks Read hit'), status['disk.num_blocks_cache_hits'])
-        self.add_info_field('reads',
-                            '  %s:' % _('Reads'), status['disk.num_read_ops'])
-        self.add_info_field('read_hit_ratio',
-                            '  %s:' % _('Read Cache Hit Ratio'), '%.2f' % status['read_hit_ratio'])
+        self.add_info_field(
+            'blocks_read',
+            '  %s:' % _('Blocks Read'), status['disk.num_blocks_read'],
+        )
+        self.add_info_field(
+            'blocks_read_hit',
+            '  %s:' % _('Blocks Read hit'), status['disk.num_blocks_cache_hits'],
+        )
+        self.add_info_field(
+            'reads',
+            '  %s:' % _('Reads'), status['disk.num_read_ops'],
+        )
+        self.add_info_field(
+            'read_hit_ratio',
+            '  %s:' % _('Read Cache Hit Ratio'), '%.2f' % status['read_hit_ratio'],
+        )
         self.add_header(' %s' % _('Size'))
-        self.add_info_field('cache_size_info',
-                            '  %s:' % _('Cache Size'), status['disk.disk_blocks_in_use'])
-        self.add_info_field('read_cache_size',
-                            '  %s:' % _('Read Cache Size'), status['disk.read_cache_blocks'])
+        self.add_info_field(
+            'cache_size_info',
+            '  %s:' % _('Cache Size'), status['disk.disk_blocks_in_use'],
+        )
+        self.add_info_field(
+            'read_cache_size',
+            '  %s:' % _('Read Cache Size'), status['disk.read_cache_blocks'],
+        )
 
     @overrides(BasePreferencePane)
     def update(self, active):

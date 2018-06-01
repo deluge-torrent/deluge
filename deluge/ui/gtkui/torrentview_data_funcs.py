@@ -26,7 +26,7 @@ ICON_STATE = {
     'Paused': icon_inactive,
     'Error': icon_alert,
     'Queued': icon_queued,
-    'Moving': icon_checking
+    'Moving': icon_checking,
 }
 
 # Cache the key used to calculate the current value set for the specific cell
@@ -48,7 +48,7 @@ func_last_value = {
     'cell_data_statusicon': None,
     'cell_data_queue': None,
     'cell_data_progress': [None, None],
-    'cell_data_peer_progress': None
+    'cell_data_peer_progress': None,
 }
 
 

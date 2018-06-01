@@ -32,7 +32,7 @@ DEFAULT_TOTALS = {
     'total_download': 0,
     'total_payload_upload': 0,
     'total_payload_download': 0,
-    'stats': {}
+    'stats': {},
 }
 
 log = logging.getLogger(__name__)
@@ -85,7 +85,7 @@ class Core(CorePluginBase):
             'dht_cache_nodes',
             'dht_torrents',
             'num_peers',
-            'num_connections'
+            'num_connections',
         )
 
         self.update_stats()
@@ -121,9 +121,11 @@ class Core(CorePluginBase):
                 pass
         stats['num_connections'] = stats['num_peers'] + stats['peer.num_peers_half_open']
         stats['dht_cache_nodes'] = stats['dht.dht_node_cache']
-        stats.update(self.core.get_config_values(['max_download',
-                                                  'max_upload',
-                                                  'max_num_connections']))
+        stats.update(self.core.get_config_values([
+            'max_download',
+            'max_upload',
+            'max_num_connections',
+        ]))
         # status = self.core.session.status()
         # for stat in dir(status):
         #     if not stat.startswith('_') and stat not in stats:
@@ -193,7 +195,8 @@ class Core(CorePluginBase):
     @export
     def get_session_totals(self):
         return self.core.get_session_status(
-            ['total_upload', 'total_download', 'total_payload_upload', 'total_payload_download'])
+            ['total_upload', 'total_download', 'total_payload_upload', 'total_payload_download'],
+        )
 
     @export
     def set_config(self, config):

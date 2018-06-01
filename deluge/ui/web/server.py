@@ -60,12 +60,12 @@ CONFIG_DEFAULTS = {
     'port': 8112,
     'https': False,
     'pkey': 'ssl/daemon.pkey',
-    'cert': 'ssl/daemon.cert'
+    'cert': 'ssl/daemon.cert',
 }
 
 UI_CONFIG_KEYS = (
     'theme', 'sidebar_show_zero', 'sidebar_multiple_filters',
-    'show_session_speed', 'base', 'first_login'
+    'show_session_speed', 'base', 'first_login',
 )
 
 
@@ -103,7 +103,7 @@ class Upload(resource.Resource):
             request.setResponseCode(http.OK)
             return json.dumps({
                 'success': True,
-                'files': []
+                'files': [],
             })
 
         tempdir = tempfile.mkdtemp(prefix='delugeweb-')
@@ -119,10 +119,12 @@ class Upload(resource.Resource):
 
         request.setHeader(b'content-type', b'text/html')
         request.setResponseCode(http.OK)
-        return compress(json.dumps({
-            'success': True,
-            'files': filenames
-        }), request)
+        return compress(
+            json.dumps({
+                'success': True,
+                'files': filenames,
+            }), request,
+        )
 
 
 class Render(resource.Resource):
@@ -167,8 +169,10 @@ class Tracker(resource.Resource):
 
     def on_got_icon(self, icon, request):
         if icon:
-            request.setHeader(b'cache-control',
-                              b'public, must-revalidate, max-age=86400')
+            request.setHeader(
+                b'cache-control',
+                b'public, must-revalidate, max-age=86400',
+            )
             request.setHeader(b'content-type', icon.get_mimetype().encode('utf8'))
             request.setResponseCode(http.OK)
             request.write(icon.get_data())
@@ -192,8 +196,10 @@ class Flag(resource.Resource):
         path = ('ui', 'data', 'pixmaps', 'flags', request.country.lower() + '.png')
         filename = common.resource_filename('deluge', os.path.join(*path))
         if os.path.exists(filename):
-            request.setHeader('cache-control',
-                              'public, must-revalidate, max-age=86400')
+            request.setHeader(
+                'cache-control',
+                'public, must-revalidate, max-age=86400',
+            )
             request.setHeader('content-type', 'image/png')
             with open(filename, 'rb') as _file:
                 data = _file.read()
@@ -420,7 +426,7 @@ class TopLevel(resource.Resource):
     __stylesheets = [
         'css/ext-all-notheme.css',
         'css/ext-extensions.css',
-        'css/deluge.css'
+        'css/deluge.css',
     ]
 
     def __init__(self):
@@ -547,11 +553,13 @@ class TopLevel(resource.Resource):
 
         web_config = component.get('Web').get_config()
         web_config['base'] = request.base
-        config = dict([(key, web_config[key]) for key in UI_CONFIG_KEYS])
+        config = {key: web_config[key] for key in UI_CONFIG_KEYS}
         js_config = json.dumps(config)
         # Insert the values into 'index.html' and return.
-        return template.render(scripts=scripts, stylesheets=self.stylesheets,
-                               debug=debug_arg, base=request.base, js_config=js_config)
+        return template.render(
+            scripts=scripts, stylesheets=self.stylesheets,
+            debug=debug_arg, base=request.base, js_config=js_config,
+        )
 
 
 class DelugeWeb(component.Component):

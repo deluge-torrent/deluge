@@ -57,7 +57,7 @@ OPTIONS_DEFAULTS = {
     'move_completed': False,
     'move_completed_path': '',
     'auto_add': False,
-    'auto_add_trackers': []
+    'auto_add_trackers': [],
 }
 
 NO_LABEL = 'No Label'
@@ -108,7 +108,7 @@ class Core(CorePluginBase):
         pass
 
     def init_filter_dict(self):
-        filter_dict = dict([(label, 0) for label in self.labels])
+        filter_dict = {label: 0 for label in self.labels}
         filter_dict['All'] = len(self.torrents)
         return filter_dict
 
@@ -208,8 +208,8 @@ class Core(CorePluginBase):
             torrent.set_options(
                 {
                     'move_completed': options['move_completed'],
-                    'move_completed_path': options['move_completed_path']
-                }
+                    'move_completed_path': options['move_completed_path'],
+                },
             )
 
     def _unset_torrent_options(self, torrent_id, label_id):
@@ -233,8 +233,8 @@ class Core(CorePluginBase):
             torrent.set_options(
                 {
                     'move_completed': self.core_cfg.config['move_completed'],
-                    'move_completed_path': self.core_cfg.config['move_completed_path']
-                }
+                    'move_completed_path': self.core_cfg.config['move_completed_path'],
+                },
             )
 
     def _has_auto_match(self, torrent, label_options):
@@ -310,7 +310,10 @@ class Core(CorePluginBase):
     @export
     def get_config(self):
         """see : label_set_config"""
-        return dict((key, self.config[key]) for key in CORE_OPTIONS if key in self.config.config)
+        return {
+            key: self.config[key]
+            for key in CORE_OPTIONS if key in self.config.config
+        }
 
     @export
     def set_config(self, options):

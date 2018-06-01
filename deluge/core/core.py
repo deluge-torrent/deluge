@@ -109,7 +109,8 @@ class Core(component.Component):
         peer_id = self._create_peer_id(DELUGE_VER)
         log.debug(
             'Starting session (peer_id: %s, user_agent: %s)',
-            peer_id, user_agent)
+            peer_id, user_agent,
+        )
         settings_pack = {
             'peer_fingerprint': peer_id,
             'user_agent': user_agent,
@@ -390,7 +391,7 @@ class Core(component.Component):
 
         try:
             d = self.torrentmanager.add_async(
-                filedump=filedump, options=options, filename=filename, save_state=save_state
+                filedump=filedump, options=options, filename=filename, save_state=save_state,
             )
         except RuntimeError as ex:
             log.error('There was an error adding the torrent file %s: %s', filename, ex)
@@ -418,7 +419,8 @@ class Core(component.Component):
 
         try:
             return self.torrentmanager.add(
-                filedump=filedump, options=options, filename=filename)
+                filedump=filedump, options=options, filename=filename,
+            )
         except RuntimeError as ex:
             log.error('There was an error adding the torrent file %s: %s', filename, ex)
             raise
@@ -441,7 +443,8 @@ class Core(component.Component):
             for idx, torrent in enumerate(torrent_files):
                 try:
                     yield self.add_torrent_file_async(
-                        torrent[0], torrent[1], torrent[2], save_state=idx == last_index)
+                        torrent[0], torrent[1], torrent[2], save_state=idx == last_index,
+                    )
                 except AddTorrentError as ex:
                     log.warn('Error when adding torrent: %s', ex)
                     errors.append(ex)
@@ -651,8 +654,10 @@ class Core(component.Component):
     @export
     def get_torrent_status(self, torrent_id, keys, diff=False):
         torrent_keys, plugin_keys = self.torrentmanager.separate_keys(keys, [torrent_id])
-        return self.create_torrent_status(torrent_id, torrent_keys, plugin_keys, diff=diff, update=True,
-                                          all_keys=not keys)
+        return self.create_torrent_status(
+            torrent_id, torrent_keys, plugin_keys, diff=diff, update=True,
+            all_keys=not keys,
+        )
 
     @export
     def get_torrents_status(self, filter_dict, keys, diff=False):
@@ -699,7 +704,7 @@ class Core(component.Component):
     @export
     def get_config_values(self, keys):
         """Get the config values for the entered keys"""
-        return dict((key, self.config.get(key)) for key in keys)
+        return {key: self.config.get(key) for key in keys}
 
     @export
     def set_config(self, config):
@@ -740,7 +745,7 @@ class Core(component.Component):
             'port': proxy_port,
             'proxy_hostnames': settings['proxy_hostnames'],
             'proxy_peer_connections': settings['proxy_peer_connections'],
-            'proxy_tracker_connections': settings['proxy_tracker_connections']
+            'proxy_tracker_connections': settings['proxy_tracker_connections'],
         }
 
         return proxy_dict
@@ -870,25 +875,32 @@ class Core(component.Component):
         return deluge.common.get_path_size(path)
 
     @export
-    def create_torrent(self, path, tracker, piece_length, comment, target,
-                       webseeds, private, created_by, trackers, add_to_session):
+    def create_torrent(
+        self, path, tracker, piece_length, comment, target,
+        webseeds, private, created_by, trackers, add_to_session,
+    ):
 
         log.debug('creating torrent..')
-        threading.Thread(target=self._create_torrent_thread,
-                         args=(
-                             path,
-                             tracker,
-                             piece_length,
-                             comment,
-                             target,
-                             webseeds,
-                             private,
-                             created_by,
-                             trackers,
-                             add_to_session)).start()
+        threading.Thread(
+            target=self._create_torrent_thread,
+            args=(
+                path,
+                tracker,
+                piece_length,
+                comment,
+                target,
+                webseeds,
+                private,
+                created_by,
+                trackers,
+                add_to_session,
+            ),
+        ).start()
 
-    def _create_torrent_thread(self, path, tracker, piece_length, comment, target,
-                               webseeds, private, created_by, trackers, add_to_session):
+    def _create_torrent_thread(
+        self, path, tracker, piece_length, comment, target,
+        webseeds, private, created_by, trackers, add_to_session,
+    ):
         from deluge import metafile
         metafile.make_meta_file(
             path,
@@ -899,7 +911,8 @@ class Core(component.Component):
             webseeds=webseeds,
             private=private,
             created_by=created_by,
-            trackers=trackers)
+            trackers=trackers,
+        )
         log.debug('torrent created!')
         if add_to_session:
             options = {}
@@ -1055,8 +1068,10 @@ class Core(component.Component):
         :rtype: bool
 
         """
-        d = getPage(b'http://deluge-torrent.org/test_port.php?port=%s' %
-                    self.get_listen_port(), timeout=30)
+        d = getPage(
+            b'http://deluge-torrent.org/test_port.php?port=%s' %
+            self.get_listen_port(), timeout=30,
+        )
 
         def on_get_page(result):
             return bool(int(result))

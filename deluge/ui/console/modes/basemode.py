@@ -156,8 +156,10 @@ class BaseMode(CursesStdIO, component.Component):
 
         return add_string(row, string, screen, self.encoding, **kwargs)
 
-    def draw_statusbars(self, top_row=0, bottom_row=-1, topbar=None, bottombar=None,
-                        bottombar_help=True, scr=None):
+    def draw_statusbars(
+        self, top_row=0, bottom_row=-1, topbar=None, bottombar=None,
+        bottombar_help=True, scr=None,
+    ):
         self.add_string(top_row, topbar if topbar else self.statusbars.topbar, scr=scr)
         bottombar = bottombar if bottombar else self.statusbars.bottombar
         if bottombar_help:
@@ -289,10 +291,12 @@ def add_string(row, string, screen, encoding, col=0, pad=True, pad_char=' ', tri
                 screen.addstr(row, col, s, color)
             except curses.error as ex:
                 import traceback
-                log.warn('FAILED on call screen.addstr(%s, %s, "%s", %s) - max_y: %s, max_x: %s, '
-                         'curses.LINES: %s, curses.COLS: %s, Error: %s, trace:\n%s',
-                         row, col, s, color, max_y, max_x, curses.LINES, curses.COLS, ex,
-                         ''.join(traceback.format_stack(limit=5)))
+                log.warn(
+                    'FAILED on call screen.addstr(%s, %s, "%s", %s) - max_y: %s, max_x: %s, '
+                    'curses.LINES: %s, curses.COLS: %s, Error: %s, trace:\n%s',
+                    row, col, s, color, max_y, max_x, curses.LINES, curses.COLS, ex,
+                    ''.join(traceback.format_stack(limit=5)),
+                )
 
         col += len(s)
 
@@ -335,5 +339,7 @@ def move_cursor(screen, row, col):
         screen.move(row, col)
     except curses.error as ex:
         import traceback
-        log.warn('Error on screen.move(%s, %s): (curses.LINES: %s, curses.COLS: %s) Error: %s\nStack: %s',
-                 row, col, curses.LINES, curses.COLS, ex, ''.join(traceback.format_stack()))
+        log.warn(
+            'Error on screen.move(%s, %s): (curses.LINES: %s, curses.COLS: %s) Error: %s\nStack: %s',
+            row, col, curses.LINES, curses.COLS, ex, ''.join(traceback.format_stack()),
+        )

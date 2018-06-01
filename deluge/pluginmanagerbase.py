@@ -108,10 +108,12 @@ class PluginManagerBase(object):
 
         self.available_plugins = []
         for name in self.pkg_env:
-            log.debug('Found plugin: %s %s at %s',
-                      self.pkg_env[name][0].project_name,
-                      self.pkg_env[name][0].version,
-                      self.pkg_env[name][0].location)
+            log.debug(
+                'Found plugin: %s %s at %s',
+                self.pkg_env[name][0].project_name,
+                self.pkg_env[name][0].version,
+                self.pkg_env[name][0].location,
+            )
             self.available_plugins.append(self.pkg_env[name][0].project_name)
 
     def enable_plugin(self, plugin_name):
@@ -162,7 +164,7 @@ class PluginManagerBase(object):
                 warnings.warn_explicit(
                     DEPRECATION_WARNING % name,
                     DeprecationWarning,
-                    instance.__module__, 0
+                    instance.__module__, 0,
                 )
             if self._component_state == 'Started':
                 def on_enabled(result, instance):
@@ -179,8 +181,10 @@ class PluginManagerBase(object):
                 return True
 
             def on_started_error(result, instance):
-                log.error('Failed to start plugin: %s\n%s', plugin_name,
-                          result.getTraceback(elideFrameworkCode=1, detail='brief'))
+                log.error(
+                    'Failed to start plugin: %s\n%s', plugin_name,
+                    result.getTraceback(elideFrameworkCode=1, detail='brief'),
+                )
                 self.plugins[plugin_name.replace('-', ' ')] = instance
                 self.disable_plugin(plugin_name)
                 return False

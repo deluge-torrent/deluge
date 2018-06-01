@@ -116,17 +116,19 @@ class CommonTestCase(unittest.TestCase):
 
     def test_parse_human_size(self):
         from deluge.common import parse_human_size
-        sizes = [('1', 1),
-                 ('10 bytes', 10),
-                 ('2048 bytes', 2048),
-                 ('1MiB', 2**(10 * 2)),
-                 ('1 MiB', 2**(10 * 2)),
-                 ('1 GiB', 2**(10 * 3)),
-                 ('1 GiB', 2**(10 * 3)),
-                 ('1M', 10**6),
-                 ('1MB', 10**6),
-                 ('1 GB', 10**9),
-                 ('1 TB', 10**12)]
+        sizes = [
+            ('1', 1),
+            ('10 bytes', 10),
+            ('2048 bytes', 2048),
+            ('1MiB', 2**(10 * 2)),
+            ('1 MiB', 2**(10 * 2)),
+            ('1 GiB', 2**(10 * 3)),
+            ('1 GiB', 2**(10 * 3)),
+            ('1M', 10**6),
+            ('1MB', 10**6),
+            ('1 GB', 10**9),
+            ('1 TB', 10**12),
+        ]
 
         for human_size, byte_size in sizes:
             parsed = parse_human_size(human_size)
@@ -135,7 +137,8 @@ class CommonTestCase(unittest.TestCase):
     def test_archive_files(self):
         arc_filelist = [
             get_test_data_file('test.torrent'),
-            get_test_data_file('deluge.png')]
+            get_test_data_file('deluge.png'),
+        ]
         arc_filepath = archive_files('test-arc', arc_filelist)
 
         with tarfile.open(arc_filepath, 'r') as tar:

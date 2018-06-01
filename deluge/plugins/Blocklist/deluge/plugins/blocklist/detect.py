@@ -15,19 +15,19 @@ from .readers import EmuleReader, PeerGuardianReader, SafePeerReader
 COMPRESSION_TYPES = {
     'PK': 'Zip',
     '\x1f\x8b': 'GZip',
-    'BZ': 'BZip2'
+    'BZ': 'BZip2',
 }
 
 DECOMPRESSERS = {
     'Zip': Zipped,
     'GZip': GZipped,
-    'BZip2': BZipped2
+    'BZip2': BZipped2,
 }
 
 READERS = {
     'Emule': EmuleReader,
     'SafePeer': SafePeerReader,
-    'PeerGuardian': PeerGuardianReader
+    'PeerGuardian': PeerGuardianReader,
 }
 
 

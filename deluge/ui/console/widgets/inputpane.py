@@ -30,9 +30,11 @@ log = logging.getLogger(__name__)
 
 class BaseInputPane(InputKeyHandler):
 
-    def __init__(self, mode, allow_rearrange=False, immediate_action=False, set_first_input_active=True,
-                 border_off_west=0, border_off_north=0, border_off_east=0, border_off_south=0,
-                 active_wrap=False, **kwargs):
+    def __init__(
+        self, mode, allow_rearrange=False, immediate_action=False, set_first_input_active=True,
+        border_off_west=0, border_off_north=0, border_off_east=0, border_off_south=0,
+        active_wrap=False, **kwargs
+    ):
         InputKeyHandler.__init__(self)
         self.inputs = []
         self.mode = mode
@@ -50,8 +52,10 @@ class BaseInputPane(InputKeyHandler):
         self.last_lineoff_move = 0
 
         if not hasattr(self, 'visible_content_pane_height'):
-            log.error('The class "%s" does not have the attribute "%s" required by super class "%s"',
-                      self.__class__.__name__, 'visible_content_pane_height', BaseInputPane.__name__)
+            log.error(
+                'The class "%s" does not have the attribute "%s" required by super class "%s"',
+                self.__class__.__name__, 'visible_content_pane_height', BaseInputPane.__name__,
+            )
             raise AttributeError('visible_content_pane_height')
 
     @property
@@ -83,8 +87,10 @@ class BaseInputPane(InputKeyHandler):
                 continue
             if e.name == input_element.name:
                 import traceback
-                log.warn('Input element with name "%s" already exists in input pane (%s):\n%s',
-                         input_element.name, e, ''.join(traceback.format_stack(limit=5)))
+                log.warn(
+                    'Input element with name "%s" already exists in input pane (%s):\n%s',
+                    input_element.name, e, ''.join(traceback.format_stack(limit=5)),
+                )
                 return
 
         self.inputs.append(input_element)
@@ -117,8 +123,10 @@ class BaseInputPane(InputKeyHandler):
         :param value: initial value of the field
         :param complete: should completion be run when tab is hit and this field is active
         """
-        return self._add_input(TextInput(self, name, message, self.move, self.visible_content_pane_width, value,
-                                         col=col, **kwargs))
+        return self._add_input(TextInput(
+            self, name, message, self.move, self.visible_content_pane_width, value,
+            col=col, **kwargs
+        ))
 
     def add_select_input(self, name, message, opts, vals, default_index=0, **kwargs):
         return self._add_input(SelectInput(self, name, message, opts, vals, default_index, **kwargs))
@@ -305,8 +313,10 @@ class BaseInputPane(InputKeyHandler):
                     field_width -= default_col  # Increase to col must be reflected here
                 else:
                     col = default_col
-            crow += ipt.render(self.screen, crow, width=field_width, active=i == self.active_input,
-                               focused=focused, col=col, cursor_offset=cursor_offset)
+            crow += ipt.render(
+                self.screen, crow, width=field_width, active=i == self.active_input,
+                focused=focused, col=col, cursor_offset=cursor_offset,
+            )
 
         if self._cursor_row >= 0:
             util.safe_curs_set(util.Curser.VERY_VISIBLE)

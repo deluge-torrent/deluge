@@ -28,13 +28,17 @@ log = logging.getLogger(__name__)
 torrent_options = [
     'max_download_speed', 'max_upload_speed', 'max_connections', 'max_upload_slots',
     'prioritize_first_last', 'sequential_download', 'is_auto_managed', 'stop_at_ratio',
-    'stop_ratio', 'remove_at_ratio', 'move_completed', 'move_completed_path']
+    'stop_ratio', 'remove_at_ratio', 'move_completed', 'move_completed_path',
+]
 
 
 def action_error(error, mode):
     rerr = error.value
-    mode.report_message('An Error Occurred', '%s got error %s: %s' % (
-        rerr.method, rerr.exception_type, rerr.exception_msg))
+    mode.report_message(
+        'An Error Occurred', '%s got error %s: %s' % (
+            rerr.method, rerr.exception_type, rerr.exception_msg,
+        ),
+    )
     mode.refresh()
 
 
@@ -85,12 +89,16 @@ def action_remove(mode=None, torrent_ids=None, **kwargs):
                     rem_msg += '\n  {!red!}And %i more' % (len(status) - show_max)
                 break
 
-        popup = InputPopup(mode, '(Esc to cancel, Enter to remove)', close_cb=do_remove,
-                           border_off_west=1, border_off_north=1)
+        popup = InputPopup(
+            mode, '(Esc to cancel, Enter to remove)', close_cb=do_remove,
+            border_off_west=1, border_off_north=1,
+        )
         popup.add_text(rem_msg)
         popup.add_spaces(1)
-        popup.add_select_input('remove_files', '{!info!}Torrent files:',
-                               ['Keep', 'Remove'], [False, True], False)
+        popup.add_select_input(
+            'remove_files', '{!info!}Torrent files:',
+            ['Keep', 'Remove'], [False, True], False,
+        )
         mode.push_popup(popup)
     defer.DeferredList(callbacks).addCallback(remove_dialog)
 
@@ -125,9 +133,11 @@ def action_torrent_info(mode=None, torrent_ids=None, **kwargs):
             if kwargs.get('close', False):
                 mode.pop_popup()
                 return True
-        option_popup = InputPopup(mode, ' Set Torrent Options ', close_cb=cb,
-                                  border_off_west=1, border_off_north=1,
-                                  base_popup=kwargs.get('base_popup', None))
+        option_popup = InputPopup(
+            mode, ' Set Torrent Options ', close_cb=cb,
+            border_off_west=1, border_off_north=1,
+            base_popup=kwargs.get('base_popup', None),
+        )
         for field in torrent_options:
             caption = '{!info!}' + TORRENT_DATA_FIELD[field]['name']
             value = options[field]
@@ -182,8 +192,10 @@ def torrent_action(action, *args, **kwargs):
                 return True
 
             if os.path.exists(res['path']['value']) and not os.path.isdir(res['path']['value']):
-                mode.report_message('Cannot Move Download Folder',
-                                    '{!error!}%s exists and is not a directory' % res['path']['value'])
+                mode.report_message(
+                    'Cannot Move Download Folder',
+                    '{!error!}%s exists and is not a directory' % res['path']['value'],
+                )
             else:
                 log.debug('Moving %s to: %s', torrent_ids, res['path']['value'])
                 client.core.move_storage(torrent_ids, res['path']['value']).addErrback(action_error, mode)
@@ -218,10 +230,12 @@ def torrent_actions_popup(mode, torrent_ids, details=False, action=None, close_c
         torrent_action(action, mode=mode, torrent_ids=torrent_ids)
         return
 
-    popup = SelectablePopup(mode, 'Torrent Actions', torrent_action,
-                            cb_args={'mode': mode, 'torrent_ids': torrent_ids},
-                            close_cb=close_cb, border_off_north=1,
-                            border_off_west=1, border_off_east=1)
+    popup = SelectablePopup(
+        mode, 'Torrent Actions', torrent_action,
+        cb_args={'mode': mode, 'torrent_ids': torrent_ids},
+        close_cb=close_cb, border_off_north=1,
+        border_off_west=1, border_off_east=1,
+    )
     popup.add_line(ACTION.PAUSE, '_Pause')
     popup.add_line(ACTION.RESUME, '_Resume')
     if details:

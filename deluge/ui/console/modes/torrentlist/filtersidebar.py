@@ -33,8 +33,10 @@ class FilterSidebar(Sidebar, Component):
         self.config = config
         height = curses.LINES - 2
         width = self.config['torrentview']['sidebar_width']
-        Sidebar.__init__(self, torrentlist, width, height, title=' Filter ', border_off_north=1,
-                         allow_resize=True)
+        Sidebar.__init__(
+            self, torrentlist, width, height, title=' Filter ', border_off_north=1,
+            allow_resize=True,
+        )
         Component.__init__(self, 'FilterSidebar')
         self.checked_index = 0
         kwargs = {'checked_char': '*', 'unchecked_char': '-', 'checkbox_format': ' %s ', 'col': 0}

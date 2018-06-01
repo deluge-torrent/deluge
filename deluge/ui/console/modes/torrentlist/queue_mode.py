@@ -20,10 +20,12 @@ try:
 except ImportError:
     pass
 
-key_to_action = {curses.KEY_HOME: ACTION.QUEUE_TOP,
-                 curses.KEY_UP: ACTION.QUEUE_UP,
-                 curses.KEY_DOWN: ACTION.QUEUE_DOWN,
-                 curses.KEY_END: ACTION.QUEUE_BOTTOM}
+key_to_action = {
+    curses.KEY_HOME: ACTION.QUEUE_TOP,
+    curses.KEY_UP: ACTION.QUEUE_UP,
+    curses.KEY_DOWN: ACTION.QUEUE_DOWN,
+    curses.KEY_END: ACTION.QUEUE_BOTTOM,
+}
 QUEUE_MODE_HELP_STR = """
 Change queue position of selected torrents
 

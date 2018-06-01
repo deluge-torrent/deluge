@@ -50,9 +50,11 @@ class OptionsTab(Tab):
 
         self.move_completed_path_chooser = PathChooser('move_completed_paths_list')
         self.move_completed_path_chooser.set_sensitive(
-            self.tab_widgets['chk_move_completed'].obj.get_active())
+            self.tab_widgets['chk_move_completed'].obj.get_active(),
+        )
         self.move_completed_path_chooser.connect(
-            'text-changed', self.on_path_chooser_text_changed_event)
+            'text-changed', self.on_path_chooser_text_changed_event,
+        )
         self.status_keys.append('move_completed_path')
 
         self.move_completed_hbox = self.main_builder.get_object('hbox_move_completed_path_chooser')
@@ -83,8 +85,8 @@ class OptionsTab(Tab):
                 self.clear()
 
             component.get('SessionProxy').get_torrents_status(
-                {'id': torrent_ids}, self.status_keys
-                ).addCallback(self.parse_torrents_statuses)
+                {'id': torrent_ids}, self.status_keys,
+            ).addCallback(self.parse_torrents_statuses)
 
             self.prev_torrent_ids = torrent_ids
 
@@ -159,7 +161,8 @@ class OptionsTab(Tab):
                 continue  # A label so read-only
             widget_value = getattr(widget.obj, 'get_' + widget.func)()
             if widget_value != self.prev_status[status_key] or (
-                    status_key in self.inconsistent_keys and not widget.obj.get_inconsistent()):
+                    status_key in self.inconsistent_keys and not widget.obj.get_inconsistent()
+            ):
                 options[status_key] = widget_value
 
         if options.get('move_completed', False):

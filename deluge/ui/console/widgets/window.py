@@ -122,8 +122,10 @@ class BaseWindow(object):
         indicator_row = min(indicator_row, self.visible_content_pane_height)
         indicator_col = self.width + 1
 
-        add_string(indicator_row, '{!red,black,bold!}#', screen, self.encoding,
-                   col=indicator_col, pad=False, trim=False)
+        add_string(
+            indicator_row, '{!red,black,bold!}#', screen, self.encoding,
+            col=indicator_col, pad=False, trim=False,
+        )
 
     def refresh(self):
         height, width = self.visible_content_pane_size
@@ -150,5 +152,7 @@ class BaseWindow(object):
             self.screen.noutrefresh(pminrow, pmincol, sminrow, smincol, smaxrow, smaxcol)
         except curses.error as ex:
             import traceback
-            log.warn('Error on screen.noutrefresh(%s, %s, %s, %s, %s, %s) Error: %s\nStack: %s',
-                     pminrow, pmincol, sminrow, smincol, smaxrow, smaxcol, ex, ''.join(traceback.format_stack()))
+            log.warn(
+                'Error on screen.noutrefresh(%s, %s, %s, %s, %s, %s) Error: %s\nStack: %s',
+                pminrow, pmincol, sminrow, smincol, smaxrow, smaxcol, ex, ''.join(traceback.format_stack()),
+            )
