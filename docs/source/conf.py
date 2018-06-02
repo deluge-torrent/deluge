@@ -61,7 +61,7 @@ MOCK_MODULES = [
     'deluge.ui.gtkui.gtkui', 'deluge._libtorrent',
     'libtorrent', 'psyco',
     'pygtk', 'gtk', 'gobject', 'gtk.gdk', 'pango', 'cairo', 'pangocairo',
-    'curses', 'win32api',
+    'curses', 'win32api', 'win32file', 'win32process', 'win32pipe'
 ]
 
 for mod_name in MOCK_MODULES:
