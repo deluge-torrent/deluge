@@ -99,8 +99,6 @@ class FilesTabTestCase(BaseTestCase):
         self.assertTrue(ret)
 
     def test_files_tab2(self):
-        if windows_check():
-            raise unittest.SkipTest('on windows \ != / for path names')
         self.filestab.files_list[self.t_id] = (
             {'index': 0, 'path': '1/1/test_10.txt', 'offset': 0, 'size': 13},
             {'index': 1, 'path': 'test_100.txt', 'offset': 13, 'size': 14},

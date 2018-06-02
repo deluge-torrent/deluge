@@ -163,8 +163,6 @@ class TorrentTestCase(BaseTestCase):
         torrent.force_recheck()
 
     def test_torrent_error_resume_data_unaltered(self):
-        if windows_check():
-            raise unittest.SkipTest('unexpected end of file in bencoded string')
         resume_data = {
             'active_time': 13399, 'num_incomplete': 16777215, 'announce_to_lsd': 1, 'seed_mode': 0,
             'pieces': '\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01', 'paused': 0,

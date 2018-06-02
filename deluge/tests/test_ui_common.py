@@ -30,8 +30,6 @@ class UICommonTestCase(unittest.TestCase):
         self.assertTrue('azcvsupdater_2.6.2.jar' in ti.files_tree)
 
     def test_utf8_encoded_paths2(self):
-        if windows_check():
-            raise unittest.SkipTest('on windows KeyError: unicode_filenames')
         filename = common.get_test_data_file('unicode_filenames.torrent')
         ti = TorrentInfo(filename)
 
