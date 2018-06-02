@@ -5,10 +5,10 @@ environment:
 
   matrix:
     # See: http://www.appveyor.com/docs/installed-software#python
-    - TOXENV: pydef
-    - TOXENV: flake8
     - TOXENV: docs
+    - TOXENV: flake8
     - TOXENV: trial
+    - TOXENV: pydef
     - TOXENV: pygtkui
     - TOXENV: plugins
     - PYTHON_VERSION: "2.7.x"
