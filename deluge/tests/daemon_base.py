@@ -14,11 +14,15 @@ from twisted.internet import defer
 from twisted.internet.error import CannotListenError
 
 import deluge.component as component
+from deluge.common import windows_check
 
 from . import common
 
 
 class DaemonBase(object):
+
+    if windows_check:
+        skip = 'windows cant start_core not enough arguments for format string'
 
     def common_set_up(self):
         common.set_tmp_config_dir()
