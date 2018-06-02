@@ -1,48 +1,11 @@
 environment:
+  PYTHON: "C:\\Python27"
+  APPVEYOR_SAVE_CACHE_ON_ERROR: true
 
   matrix:
     # See: http://www.appveyor.com/docs/installed-software#python
 
-    - PYTHON: "C:\\Python27"
-      PYTHON_VERSION: "2.7.x"
-      PYTHON_ARCH: "32"
-      TOXENV: pydef
-      APPVEYOR_SAVE_CACHE_ON_ERROR: true
-
-    - PYTHON: "C:\\Python27"
-      PYTHON_VERSION: "2.7.x"
-      PYTHON_ARCH: "32"
-      TOXENV: flake8
-      APPVEYOR_SAVE_CACHE_ON_ERROR: true
-
-    - PYTHON: "C:\\Python27"
-      PYTHON_VERSION: "2.7.x"
-      PYTHON_ARCH: "32"
-      TOXENV: docs
-      APPVEYOR_SAVE_CACHE_ON_ERROR: true
-
-    - PYTHON: "C:\\Python27"
-      PYTHON_VERSION: "2.7.x"
-      PYTHON_ARCH: "32"
-      TOXENV: trial
-      APPVEYOR_SAVE_CACHE_ON_ERROR: true
-
-    - PYTHON: "C:\\Python27"
-      PYTHON_VERSION: "2.7.x"
-      PYTHON_ARCH: "32"
-      TOXENV: pygtkui
-      APPVEYOR_SAVE_CACHE_ON_ERROR: true
-
-    - PYTHON: "C:\\Python27"
-      PYTHON_VERSION: "2.7.x"
-      PYTHON_ARCH: "32"
-      TOXENV: plugins
-      APPVEYOR_SAVE_CACHE_ON_ERROR: true
-
-    - PYTHON: "C:\\Python27"
-      PYTHON_VERSION: "2.7.x"
-      PYTHON_ARCH: "32"
-      APPVEYOR_SAVE_CACHE_ON_ERROR: true
+    - TOXENV: trial
 
 pull_requests:
   do_not_increment_build_number: true
