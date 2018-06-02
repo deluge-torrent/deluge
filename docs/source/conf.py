@@ -62,7 +62,7 @@ MOCK_MODULES = [
     'libtorrent', 'psyco',
     'pygtk', 'gtk', 'gobject', 'gtk.gdk', 'pango', 'cairo', 'pangocairo',
     'curses', 'win32api', 'win32file', 'win32process', 'win32pipe',
-    'pywintypes',
+    'pywintypes', 'win32con', 'win32event',
 ]
 
 for mod_name in MOCK_MODULES:
