@@ -191,7 +191,11 @@ class PreferencesManager(component.Component):
         self.__set_listen_on()
 
     def _on_set_outgoing_interface(self, key, value):
-        self.__set_outgoing_on()
+        """ Set the adapter name for outgoing BitTorrent connections."""
+        value = value.strip()
+        if not value or deluge.common.is_ip(value):
+            value = ''
+        self.core.apply_session_settings({'outgoing_interfaces': value})
 
     def _on_set_random_port(self, key, value):
         self.__set_listen_on()
@@ -222,14 +226,6 @@ class PreferencesManager(component.Component):
                 'listen_system_port_fallback': self.config['listen_use_sys_port'],
                 'listen_interfaces': ''.join(interfaces),
             },
-        )
-
-    def __set_outgoing_on(self):
-        """ Set the interface address for outgoing BitTorrent connections."""
-        outinterface = self.config['outgoing_interface'].strip()
-        outinterface = outinterface if outinterface else '0.0.0.0'
-        self.core.apply_session_settings(
-            {'outgoing_interfaces': outinterface},
         )
 
     def _on_set_outgoing_ports(self, key, value):

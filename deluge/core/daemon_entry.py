@@ -36,8 +36,12 @@ def add_daemon_options(parser):
         help=_('IP address to listen for BitTorrent connections'),
     )
     group.add_argument(
-        '-o', '--outinterface', metavar='<ip-addr>', dest='outgoing_interface',
-        action='store', help=_('The IP address for outgoing BitTorrent connections.'),
+        '-o',
+        '--outgoing-interface',
+        metavar='<adapter-name>',
+        dest='outgoing_interface',
+        action='store',
+        help=_('The interface adapter name for outgoing BitTorrent connections.'),
     )
     group.add_argument(
         '--read-only-config-keys', metavar='<comma-separated-keys>', action='store',

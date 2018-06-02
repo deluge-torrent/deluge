@@ -157,20 +157,24 @@ class Core(component.Component):
 
         # If there was an interface value from the command line, use it, but
         # store the one in the config so we can restore it on shutdown
-        self.__old_interface = None
+        self._old_listen_interface = None
         if listen_interface:
             if deluge.common.is_ip(listen_interface):
-                self.__old_interface = self.config['listen_interface']
+                self._old_listen_interface = self.config['listen_interface']
                 self.config['listen_interface'] = listen_interface
             else:
                 log.error('Invalid listen interface (must be IP Address): %s', listen_interface)
-        self.__old_outgoing_interface = None
+
+        self._old_outgoing_interface = None
         if outgoing_interface:
-            if deluge.common.is_ip(outgoing_interface):
-                self.__old_outgoing_interface = self.config['outgoing_interface']
+            if not deluge.common.is_ip(outgoing_interface):
+                self._old_outgoing_interface = self.config['outgoing_interface']
                 self.config['outgoing_interface'] = outgoing_interface
             else:
-                log.error('Invalid outgoing interface (must be IP Address): %s', outgoing_interface)
+                log.error(
+                    'Invalid outgoing interface (must be adapter name): %s',
+                    outgoing_interface,
+                )
 
         # New release check information
         self.__new_release = None
@@ -202,11 +206,11 @@ class Core(component.Component):
         self._save_session_state()
 
         # We stored a copy of the old interface value
-        if self.__old_interface:
-            self.config['listen_interface'] = self.__old_interface
+        if self._old_listen_interface is None:
+            self.config['listen_interface'] = self._old_listen_interface
 
-        if self.__old_outgoing_interface:
-            self.config['outgoing_interface'] = self.__old_outgoing_interface
+        if self._old_outgoing_interface is None:
+            self.config['outgoing_interface'] = self._old_outgoing_interface
 
         # Make sure the config file has been saved
         self.config.save()

@@ -93,7 +93,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
-            title: _('Outgoing Address'),
+            title: _('Outgoing Interface'),
             style: 'margin-bottom: 5px; padding-bottom: 0px;',
             autoHeight: true,
             labelWidth: 1,
@@ -103,8 +103,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             name: 'outgoing_interface',
             fieldLabel: '',
             labelSeparator: '',
-            width: 200,
-            vtype: 'IPAddress'
+            width: 40,
         }));
 
         fieldset = this.add({

@@ -80,13 +80,13 @@ class BasePreferencePane(BaseInputPane, BaseWindow, PopupsHandler):
                 elif ipt.name == 'out_ports_to' or ipt.name == 'out_ports_from':
                     conf_dict['outgoing_ports'] = (self.outfrom.get_value(), self.outto.get_value())
                 elif ipt.name == 'listen_interface':
-                    interface = ipt.get_value().strip()
-                    if is_ip(interface) or not interface:
-                        conf_dict['listen_interface'] = interface
+                    listen_interface = ipt.get_value().strip()
+                    if is_ip(listen_interface) or not listen_interface:
+                        conf_dict['listen_interface'] = listen_interface
                 elif ipt.name == 'outgoing_interface':
-                    outinterface = ipt.get_value().strip()
-                    if is_ip(outinterface) or not outinterface:
-                        conf_dict['outgoing_interface'] = outinterface
+                    outgoing_interface = ipt.get_value().strip()
+                    if not is_ip(outgoing_interface) or not outgoing_interface:
+                        conf_dict['outgoing_interface'] = outgoing_interface
                 elif ipt.name.startswith('proxy_'):
                     if ipt.name == 'proxy_type':
                         conf_dict.setdefault('proxy', {})['type'] = ipt.get_value()
@@ -300,7 +300,7 @@ class NetworkPane(BasePreferencePane):
         self.add_header(_('Outgoing Interface'), space_above=True)
         self.add_text_input(
             'outgoing_interface',
-            _('IP address of the interface to open outgoing connections on. (leave empty for default):'),
+            _('The interface adapter name for outgoing BitTorrent connections. (Leave empty for default.):'),
             core_conf['outgoing_interface'],
         )
 

@@ -73,7 +73,7 @@ class Daemon(object):
         Args:
             listen_interface (str, optional): The IP address to listen to bittorrent connections on.
             outgoing_interface (str, optional): The IP address to open outgoing BitTorrent connections on.
-            interface (str, optional): The IP address the daemon will listen for UI connections on.
+            interface (str, optional): Adapter name the daemon will listen for UI connections on.
             port (int, optional): The port the daemon will listen for UI connections on.
             standalone (bool, optional): If True the client is in Standalone mode otherwise, if
                 False, start the daemon as separate process.

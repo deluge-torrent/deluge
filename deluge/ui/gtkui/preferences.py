@@ -532,11 +532,12 @@ class Preferences(component.Component):
             'chk_random_outgoing_ports',
         ).get_active()
         incoming_address = self.builder.get_object('entry_interface').get_text().strip()
-        outgoing_address = self.builder.get_object('entry_outgoing_interface').get_text().strip()
         if deluge.common.is_ip(incoming_address) or not incoming_address:
             new_core_config['listen_interface'] = incoming_address
-        if deluge.common.is_ip(outgoing_address) or not outgoing_address:
-            new_core_config['outgoing_interface'] = outgoing_address
+        outgoing_interface = self.builder.get_object(
+            'entry_outgoing_interface').get_text().strip()
+        if not deluge.common.is_ip(outgoing_interface) or not outgoing_interface:
+            new_core_config['outgoing_interface'] = outgoing_interface
         new_core_config['peer_tos'] = self.builder.get_object('entry_peer_tos').get_text()
         new_core_config['dht'] = self.builder.get_object('chk_dht').get_active()
         new_core_config['upnp'] = self.builder.get_object('chk_upnp').get_active()
