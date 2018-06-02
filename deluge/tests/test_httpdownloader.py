@@ -20,6 +20,7 @@ from twisted.web.resource import Resource
 from twisted.web.server import Site
 from twisted.web.util import redirectTo
 
+from deluge.common import windows_check
 from deluge.httpdownloader import download_file
 from deluge.log import setup_logger
 from deluge.ui.web.common import compress
@@ -185,6 +186,10 @@ class DownloadFileTestCase(unittest.TestCase):
         return d
 
     def test_download_with_rename(self):
+
+        if windows_check():
+            raise unittest.SkipTest('on windows \ != / for path names')
+
         url = self.get_url('rename?filename=renamed')
         d = download_file(url, fname('original'))
         d.addCallback(self.assertEqual, fname('renamed'))
@@ -192,6 +197,10 @@ class DownloadFileTestCase(unittest.TestCase):
         return d
 
     def test_download_with_rename_exists(self):
+
+        if windows_check():
+            raise unittest.SkipTest('on windows \ != / for path names')
+
         open(fname('renamed'), 'w').close()
         url = self.get_url('rename?filename=renamed')
         d = download_file(url, fname('original'))
@@ -200,6 +209,10 @@ class DownloadFileTestCase(unittest.TestCase):
         return d
 
     def test_download_with_rename_sanitised(self):
+
+        if windows_check():
+            raise unittest.SkipTest('on windows \ != / for path names')
+
         url = self.get_url('rename?filename=/etc/passwd')
         d = download_file(url, fname('original'))
         d.addCallback(self.assertEqual, fname('passwd'))

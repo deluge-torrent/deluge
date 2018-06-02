@@ -13,6 +13,7 @@ import tempfile
 from twisted.trial import unittest
 
 from deluge import maketorrent
+from deluge.common import windows_check
 
 
 def check_torrent(filename):
@@ -51,6 +52,8 @@ class MakeTorrentTestCase(unittest.TestCase):
         os.remove(tmp_file)
 
     def test_save_singlefile(self):
+        if windows_check():
+            raise unittest.SkipTest('on windows file not released')
         tmp_data = tempfile.mkstemp('testdata')[1]
         with open(tmp_data, 'wb') as _file:
             _file.write('a' * (2314 * 1024))
