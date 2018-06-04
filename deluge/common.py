@@ -888,6 +888,26 @@ def is_ipv6(ip):
 
     return False
 
+def is_unix_interface(interface):
+    """A test to see if 'interface' is a interface name.
+
+    Args:
+        interface (str): The interface to test.
+
+    Returns:
+        bool: Whether interface is valid is not.
+
+    Examples:
+        >>> is_unix_interface("eth0")
+        True
+
+    """
+
+    if os.listdir('/sys/class/net/').join(interface) or re.match('eth', interface) or re.match('wl', interface):
+        return True
+    else
+        return False
+
 
 def decode_bytes(byte_str, encoding='utf8'):
     """Decodes a byte string and return unicode.
