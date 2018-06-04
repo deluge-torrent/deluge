@@ -536,7 +536,7 @@ class Preferences(component.Component):
             new_core_config['listen_interface'] = incoming_address
         outgoing_interface = self.builder.get_object(
             'entry_outgoing_interface').get_text().strip()
-        if not deluge.common.is_ip(outgoing_interface) or not outgoing_interface:
+        if not outgoing_interface:
             new_core_config['outgoing_interface'] = outgoing_interface
         new_core_config['peer_tos'] = self.builder.get_object('entry_peer_tos').get_text()
         new_core_config['dht'] = self.builder.get_object('chk_dht').get_active()
