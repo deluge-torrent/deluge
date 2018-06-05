@@ -28,48 +28,55 @@ install:
           throw "There are newer queued builds for this pull request, failing early." }
 
   - "python -m pip install --upgrade pip"
-
-  - if NOT DEFINED TOXENV (
-      pip install bbfreeze pefile tox pywin32 slimit twisted[tls] chardet mako pyxdg pillow slimit pygame
+  - if defined TOXENV (
+      pip install
+        tox
+        pywin32
+    )
+  - if not defined TOXENV (
+      pip install
+        slimit
+        twisted[tls]
+        chardet
+        mako
+        pyxdg
+        pillow
+        slimit
+        setproctitle
+        pywin32
+        pygame
+        bbfreeze
+        pefile
     )
 
-  - if DEFINED TOXENV (
-      pip install tox pywin32
-    )
-
+  - echo "Installing pygtk...."
   - if not exist pygtk-all-in-one-2.24.2.win32-py2.7.msi (
-      ECHO "Downloading pygtk...."
+      echo "Downloading pygtk...."
       & appveyor-retry appveyor DownloadFile "https://ftp.gnome.org/pub/GNOME/binaries/win32/pygtk/2.24/pygtk-all-in-one-2.24.2.win32-py2.7.msi"
     )
-
-  - ECHO "Installing pygtk...."
   - cmd: msiexec /i pygtk-all-in-one-2.24.2.win32-py2.7.msi /quiet /qn /norestart TARGETDIR=C:\Python27 INSTALLLEVEL=3
+
+  - echo "Installing openssl...."
   - if not exist openssl-1.1.0f-vs2008.7z (
-      ECHO "Downloading openssl...."
+      echo "Downloading openssl...."
       & appveyor-retry appveyor DownloadFile "https://www.npcglib.org/~stathis/downloads/openssl-1.1.0f-vs2008.7z"
     )
-
-  - ECHO "Installing openssl...."
   - "7z x -oc:\\ -aoa openssl-1.1.0f-vs2008.7z"
   - "rename c:\\openssl-1.1.0f-vs2008 openssl-1.1"
   - "copy c:\\openssl-1.1\\bin\\libsslMD.dll c:\\openssl-1.1\\bin\\libssl-1_1.dll"
   - "copy c:\\openssl-1.1\\bin\\libcryptoMD.dll c:\\openssl-1.1\\bin\\libcrypto-1_1.dll"
 
+  - echo "Installing libtorrent...."
   - if not exist libtorrent.pyd (
-      ECHO "Downloading libtorrent...."
+      echo "Downloading libtorrent...."
       & appveyor-retry appveyor DownloadFile "https://github.com/doadin/libtorrent/releases/download/1.1.7.test/libtorrent.pyd"
     )
-
-  - ECHO "Installing libtorrent...."
   - "copy /Y libtorrent.pyd c:\\Python27\\Lib\\site-packages\\libtorrent.pyd"
   - "SET PATH=%TOXENV%;%PYTHON%;%PYTHON%\\Scripts;c:\\openssl-1.1\\bin;C:\\Program Files (x86)\\NSIS;%PATH%"
 
-  - ECHO "Python Verison"
   - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
-  - ECHO "libtorrent Verison"
   - "python -c \"import libtorrent; print(libtorrent.__version__)\""
-  - ECHO "OpenSSL Verison"
   - openssl version -v
 
 cache:
@@ -84,13 +91,14 @@ test_script:
   - if defined TOXENV tox
 
 after_test:
-  - if not defined TOXENV python setup.py build
-  - if not defined TOXENV python setup.py install
+  - if not defined TOXENV python setup.py build && python setup.py install
   - cd %APPVEYOR_BUILD_FOLDER%\\packaging\\win32
   - if not defined TOXENV deluge-bbfreeze.py debug
-  - if not defined TOXENV makensis %APPVEYOR_BUILD_FOLDER%\\packaging\\win32\\deluge-win32-installer.nsi
+  - if not defined TOXENV makensis deluge-win32-installer.nsi
+  - if not defined TOXENV 7z a deluge-win32.zip build-win32 "-x!*.exe"
 
 artifacts:
+  - path: packaging\win32\deluge-win32.zip
   - path: packaging\win32\build-win32\*.exe
 
 #on_success:
