@@ -317,9 +317,14 @@ class Core(CorePluginBase):
                 else:
                     os.remove(filepath)
 
-            def fail_torrent_add(err_msg, filepath):
+            def fail_torrent_add(err_msg, filepath, magnet):
                 # torrent handle is invalid and so is the magnet link
-                log.error('Cannot Autoadd torrent file: %s: %s', filepath, err_msg)
+                log.error(
+                    'Cannot Autoadd %s: %s: %s',
+                    'magnet' if magnet else 'torrent file',
+                    filepath,
+                    err_msg,
+                )
                 os.rename(filepath, filepath + '.invalid')
 
             try:
