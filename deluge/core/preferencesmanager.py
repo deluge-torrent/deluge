@@ -192,9 +192,9 @@ class PreferencesManager(component.Component):
 
     def _on_set_outgoing_interface(self, key, value):
         """ Set the adapter name for outgoing BitTorrent connections."""
-        value = value.strip()
         if not value or deluge.common.is_ip(value):
             value = ''
+        value = value.strip()
         self.core.apply_session_settings({'outgoing_interfaces': value})
 
     def _on_set_random_port(self, key, value):
