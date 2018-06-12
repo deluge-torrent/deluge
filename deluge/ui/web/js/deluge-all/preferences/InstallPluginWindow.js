@@ -28,7 +28,7 @@ Deluge.preferences.InstallPluginWindow = Ext.extend(Ext.Window, {
     plain: true,
 
     initComponent: function() {
-        Deluge.add.FileWindow.superclass.initComponent.call(this);
+        Deluge.preferences.InstallPluginWindow.superclass.initComponent.call(this);
         this.addButton(_('Install'), this.onInstall, this);
 
         this.form = this.add({
