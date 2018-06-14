@@ -294,9 +294,9 @@ def open_file(path, timestamp=None):
         if timestamp is None:
             timestamp = int(time.time())
         env = os.environ.copy()
-        env['DESKTOP_STARTUP_ID'] = '%s-%u-%s-xdg_open_TIME%d' % \
+        env['DESKTOP_STARTUP_ID'] = '%s-%u-%s-gio_TIME%d' % \
             (os.path.basename(sys.argv[0]), os.getpid(), os.uname()[1], timestamp)
-        subprocess.Popen(['xdg-open', '%s' % path], env=env)
+        subprocess.Popen(['gio', 'open', path], env=env)
 
 
 def show_file(path, timestamp=None):
@@ -320,9 +320,9 @@ def show_file(path, timestamp=None):
             DBUS_FILEMAN.ShowItems(paths, startup_id, dbus_interface='org.freedesktop.FileManager1')
         else:
             env = os.environ.copy()
-            env['DESKTOP_STARTUP_ID'] = startup_id.replace('dbus', 'xdg-open')
+            env['DESKTOP_STARTUP_ID'] = startup_id.replace('dbus', 'gio')
             # No option in xdg to highlight a file so just open parent folder.
-            subprocess.Popen(['xdg-open', os.path.dirname(path.rstrip('/'))], env=env)
+            subprocess.Popen(['gio', 'open', os.path.dirname(path.rstrip('/'))], env=env)
 
 
 def open_url_in_browser(url):
