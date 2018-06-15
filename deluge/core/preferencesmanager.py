@@ -210,8 +210,10 @@ class PreferencesManager(component.Component):
             self.config['listen_random_port'] = None
             listen_ports = self.config['listen_ports']
 
-        interface = str(self.config['listen_interface'].strip())
-        interface = interface if interface else '0.0.0.0'
+        if self.config['listen_interface']:
+            interface = self.config['listen_interface'].strip()
+        else:
+            interface = '0.0.0.0'
 
         log.debug(
             'Listen Interface: %s, Ports: %s with use_sys_port: %s',
