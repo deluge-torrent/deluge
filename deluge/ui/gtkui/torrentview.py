@@ -265,6 +265,7 @@ class TorrentView(ListView, component.Component):
             _('Name'),
             status_field=['state', 'name'],
             function=funcs.cell_data_statusicon,
+            sort_func=str_nocase_sort,
             default_sort=True,
         )
         self.add_func_column(
