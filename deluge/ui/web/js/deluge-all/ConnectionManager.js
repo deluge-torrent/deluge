@@ -229,15 +229,24 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
         var selected = this.list.getSelectedRecords()[0];
         if (!selected) return;
 
-        if (selected.get('status').toLowerCase() == 'connected') {
+        var me = this;
+        var disconnect = function() {
             deluge.client.web.disconnect({
                 success: function(result) {
                     this.update(this);
                     deluge.events.fire('disconnect');
                 },
-                scope: this
+                scope: me
             });
-        } else {
+        };
+
+        if (selected.get('status').toLowerCase() == 'connected') {
+            disconnect();
+        }  else {
+            if (this.list.getStore().find('status', 'Connected', 0, false, false) > -1) {
+                disconnect();
+            }
+
             var id = selected.id;
             deluge.client.web.connect(id, {
                 success: function(methods) {
