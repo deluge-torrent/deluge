@@ -153,7 +153,7 @@ class CoreTestCase(BaseTestCase):
         # Get the info hash from the test.torrent
         from deluge.bencode import bdecode, bencode
         with open(filename, 'rb') as _file:
-            info_hash = sha(bencode(bdecode(_file.read())[b'info'])).hexdigest()
+            info_hash = sha(bencode(bdecode(_file.read())['info'])).hexdigest()
         self.assertEqual(torrent_id, info_hash)
 
     def test_add_torrent_file_invalid_filedump(self):

@@ -11,6 +11,8 @@
 # Written by Petru Paler
 # Updated by Calum Lind to support both Python 2 and Python 3.
 
+from __future__ import unicode_literals
+
 from sys import version_info
 
 PY2 = version_info.major == 2
@@ -109,7 +111,7 @@ def encode_bool(x, r):
 
 
 def encode_string(x, r):
-    encode_string(x.encode('utf8'), r)
+    encode_bytes(x.encode('utf8'), r)
 
 
 def encode_bytes(x, r):
@@ -126,6 +128,10 @@ def encode_list(x, r):
 def encode_dict(x, r):
     r.append(DICT_DELIM)
     for k, v in sorted(x.items()):
+        try:
+            k = k.encode('utf8')
+        except AttributeError:
+            pass
         r.extend((str(len(k)).encode('utf8'), BYTE_SEP, k))
         encode_func[type(v)](v, r)
     r.append(END_DELIM)
