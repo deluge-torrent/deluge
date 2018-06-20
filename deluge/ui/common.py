@@ -196,6 +196,7 @@ class TorrentInfo(object):
         # Get the torrent metainfo from the torrent file
         if metadata:
             self._metainfo_dict = {'info': bencode.bdecode(metadata)}
+            self._metainfo = bencode.bencode(self._metainfo_dict)
         else:
             self._metainfo = metainfo
             if filename and not self._metainfo:
