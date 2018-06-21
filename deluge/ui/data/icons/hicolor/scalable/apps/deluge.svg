@@ -14,20 +14,20 @@
    height="48px"
    id="svg3440"
    sodipodi:version="0.32"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    sodipodi:docname="deluge.svg"
-   inkscape:export-xdpi="960"
-   inkscape:export-ydpi="960"
+   inkscape:export-xdpi="32"
+   inkscape:export-ydpi="32"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    sodipodi:modified="TRUE"
    version="1.1"
-   inkscape:export-filename="/home/calum/projects/deluge-logo/deluge.512.w.png">
+   inkscape:export-filename="/home/calum/Desktop/test1b.png">
   <defs
      id="defs3">
     <color-profile
        name="sRGB"
        xlink:href="/usr/share/color/icc/sRGB.icc"
-       id="color-profile4484" />
+       id="color-profile2" />
     <linearGradient
        id="linearGradient4345"
        inkscape:collect="always">
@@ -243,10 +243,10 @@
          in="flood"
          operator="in"
          result="composite1"
-         k1="8.1400000000000006"
-         k2="4.9299999999999997"
+         k4="-7.2400000000000002"
          k3="5.5899999999999999"
-         k4="-7.2400000000000002" />
+         k2="4.9299999999999997"
+         k1="8.1400000000000006" />
       <feGaussianBlur
          id="feGaussianBlur6412"
          stdDeviation="0.20000000000000001"
@@ -347,20 +347,20 @@
      id="base"
      pagecolor="#ffffff"
      bordercolor="#666666"
-     borderopacity="0.17254902"
+     borderopacity="0.65098039"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="19.685853"
-     inkscape:cx="26.317146"
-     inkscape:cy="24.429162"
-     inkscape:current-layer="g4476"
+     inkscape:zoom="13.92"
+     inkscape:cx="3.3184766"
+     inkscape:cy="26.850801"
+     inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
      inkscape:document-units="px"
-     inkscape:window-width="1861"
-     inkscape:window-height="1176"
-     inkscape:window-x="59"
-     inkscape:window-y="24"
+     inkscape:window-width="1981"
+     inkscape:window-height="1097"
+     inkscape:window-x="67"
+     inkscape:window-y="27"
      inkscape:showpageshadow="false"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -369,7 +369,11 @@
      units="px"
      inkscape:snap-global="false"
      inkscape:snap-to-guides="true"
-     inkscape:snap-others="true">
+     inkscape:snap-others="true"
+     inkscape:pagecheckerboard="false"
+     showborder="true"
+     borderlayer="false"
+     scale-x="2">
     <sodipodi:guide
        orientation="0,1"
        position="4.331,47"
@@ -454,7 +458,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
         <dc:creator>
           <cc:Agent>
             <dc:title>Jakub Steiner</dc:title>
@@ -500,12 +504,11 @@
      inkscape:groupmode="layer"
      style="display:inline">
     <path
-       style="fill:#4c90e8;fill-opacity:1;fill-rule:evenodd;stroke:#094491;stroke-width:3.27999091;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;"
-       d="M 23.295622,2.4822833 35.490217,21.297229 C 43.30243,33.350632 35.08691,46.383433 23.287956,46.383433 11.489002,46.383433 3.2602089,33.346045 11.079504,21.30073 Z"
+       style="fill:#4c90e8;fill-opacity:1;fill-rule:evenodd;stroke:#094491;stroke-width:3.19036889;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 24.00916,2.8848679 35.921225,21.107868 c 7.631218,11.674181 -0.393962,24.296949 -11.919555,24.296949 -11.525593,0 -19.5637412,-12.627213 -11.925606,-24.293557 z"
        id="path2069"
        sodipodi:nodetypes="cszsc"
-       inkscape:connector-curvature="0"
-       transform="matrix(0.90726715,0,0,0.89972834,2.9383017,2.518482)" />
+       inkscape:connector-curvature="0" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -513,8 +516,8 @@
      inkscape:label="wave fill"
      style="display:inline">
     <path
-       style="display:inline;fill:#094491;fill-opacity:1;fill-rule:evenodd;stroke-width:0.40552941;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 28.01172,24.438174 c -6.049549,-2.467385 -9.223551,3.836132 -8.214423,6.781163 2.195546,6.407462 10.475363,8.011557 16.589599,-2.66134 0,0 0.06518,1.28803 0.129838,1.900859 0.82106,7.781844 -5.723522,12.735535 -12.354975,12.638715 -6.631454,-0.09682 -8.657036,-2.672368 -10.611083,-5.637583 -3.170275,-4.810809 -2.37899,-12.648153 1.883276,-16.313692 4.864733,-4.020883 10.220622,-1.874329 12.577768,3.291878 z"
+       style="display:inline;fill:#094491;fill-opacity:1;fill-rule:evenodd;stroke-width:0.43658349;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 28.249173,24.076764 c -6.513399,-2.656088 -9.930764,4.129513 -8.844266,7.299777 2.363892,6.897492 11.278562,8.624272 17.861607,-2.864877 0,0 0.07021,1.386537 0.139797,2.046235 0.884013,8.376987 -6.162376,13.70953 -13.302295,13.605305 -7.139921,-0.104225 -9.320813,-2.876749 -11.424685,-6.068739 -3.4133569,-5.178732 -2.561398,-13.615464 2.027677,-17.561337 5.237731,-4.328395 11.004287,-2.017675 13.542165,3.543636 z"
        id="path2969"
        sodipodi:nodetypes="cscszscc"
        inkscape:connector-curvature="0" />
@@ -576,8 +579,8 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cscszc"
        id="path4478"
-       d="m 24.212222,22.108293 c -6.775814,0.165164 -8.06207,7.974188 -6.185196,11.319336 2.609273,4.6505 6.568198,5.544881 11.985838,3.82825 -3.093408,3.363649 -9.442162,4.253857 -13.754465,-0.550821 -2.967234,-3.306031 -3.226596,-7.920245 -1.167373,-11.773724 2.059223,-3.853479 6.165286,-4.924896 9.121196,-2.823041 z"
-       style="fill:#83b8f9;fill-opacity:1;fill-rule:evenodd;stroke:none" />
+       d="m 24.158349,21.568695 c -7.295351,0.177796 -8.680227,8.584045 -6.659444,12.185022 2.809336,5.006167 7.071815,5.968946 12.90485,4.121032 -3.330593,3.620896 -10.166138,4.579185 -14.809086,-0.592946 -3.194749,-3.558875 -3.473998,-8.525976 -1.256883,-12.674161 2.217115,-4.148189 6.638012,-5.301549 9.820563,-3.038947 z"
+       style="fill:#83b8f9;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.07657671" />
   </g>
   <g
      inkscape:groupmode="layer"

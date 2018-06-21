@@ -1,22 +1,30 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>Deluge: Web UI ${version}</title>
+        <title>Deluge WebUI ${version}</title>
 
-        <link rel="shortcut icon" href="${base}icons/deluge.png" type="image/png" />
-        <link rel="icon" href="${base}icons/deluge.png" type="image/png" />
-        <!-- For Chrome for Android: -->
-        <link rel="icon" sizes="192x192" href="${base}icons/deluge-android-192.png">
-        <link rel="apple-touch-icon-precomposed" href="${base}icons/deluge-apple-180.png">
+        <link rel="icon" sizes="16x16" type="image/png"
+            href="${base}icons/deluge.png"/>
+        <link rel="icon" sizes="32x32" type="image/png"
+            href="${base}icons/deluge-32.png"/>
+        <!-- For Chrome, Android, iOS and Windows touch shortcuts: -->
+        <link rel="icon" sizes="192x192" type="image/png"
+            href="${base}icons/deluge-192.png"/>
+        <link rel="icon" sizes="512x512" type="image/png"
+            href="${base}icons/deluge-512.png"/>
+        <link rel="apple-touch-icon-precomposed"
+            href="${base}icons/deluge-apple-180.png"/>
+        <meta name="msapplication-TileColor" content="#599eee">
+        <meta name="theme-color" content="#599eee">
 
         <!-- Stylesheets -->
         % for stylesheet in stylesheets:
-        <link rel="stylesheet" type="text/css" href="${base}${stylesheet}" />
+        <link rel="stylesheet" type="text/css" href="${base}${stylesheet}"/>
         % endfor
 
         <script type="text/javascript">
         deluge = {
-            author: 'Damien Churchill <damoxc@gmail.com>',
+            author: 'Deluge Team',
             version: '${version}',
             config: ${js_config}
         }
