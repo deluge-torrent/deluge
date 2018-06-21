@@ -135,7 +135,7 @@ class SystemTray(component.Component):
                     common.get_logo(32))
             else:
                 try:
-                    self.tray = gtk.status_icon_new_from_icon_name("deluge")
+                    self.tray = gtk.status_icon_new_from_icon_name("deluge-panel")
                 except:
                     log.warning("Update PyGTK to 2.10 or greater for SystemTray..")
                     return
