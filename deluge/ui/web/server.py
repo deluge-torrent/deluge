@@ -19,11 +19,11 @@ import tempfile
 from OpenSSL.crypto import FILETYPE_PEM
 from twisted.application import internet, service
 from twisted.internet import defer, reactor
-from twisted.internet.ssl import SSL, Certificate, CertificateOptions, KeyPair, TLSVersion
+from twisted.internet.ssl import SSL, Certificate, CertificateOptions, KeyPair, TLSVersion, AcceptableCiphers
 from twisted.web import http, resource, server, static
 
 from deluge import common, component, configmanager
-from deluge.common import is_ipv6
+from deluge.common import is_ipv6, TLS_CIPHERS
 from deluge.core.rpcserver import check_ssl_keys
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.translations_util import set_language, setup_translations
@@ -668,13 +668,14 @@ class DelugeWeb(component.Component):
             certificate = Certificate.loadPEM(cert.read()).original
         with open(configmanager.get_config_dir(self.pkey)) as pkey:
             private_key = KeyPair.load(pkey.read(), FILETYPE_PEM).original
+        ciphers = AcceptableCiphers.fromOpenSSLCipherString(TLS_CIPHERS)
         options = CertificateOptions(
             privateKey=private_key,
             certificate=certificate,
             raiseMinimumTo=TLSVersion.TLSv1_2,
+            acceptableCiphers=ciphers,
         )
         ctx = options.getContext()
-        ctx.set_options(SSL.OP_NO_SSLv2 | SSL.OP_NO_SSLv3)
         ctx.use_certificate_chain_file(configmanager.get_config_dir(self.cert))
 
         self.socket = reactor.listenSSL(self.port, self.site, options, interface=self.interface)
