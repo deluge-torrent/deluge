@@ -18,13 +18,14 @@ import traceback
 from collections import namedtuple
 from types import FunctionType
 
-from OpenSSL import SSL, crypto
+from OpenSSL import crypto
 from twisted.internet import defer, reactor
 from twisted.internet.protocol import Factory, connectionDone
 
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN, AUTH_LEVEL_DEFAULT, AUTH_LEVEL_NONE
+from deluge.crypto_utils import get_context_factory
 from deluge.error import DelugeError, IncompatibleClient, NotAuthorizedError, WrappedException, _ClientSideRecreateError
 from deluge.event import ClientDisconnectedEvent
 from deluge.transfer import DelugeTransferProtocol
@@ -89,22 +90,6 @@ def format_request(call):
         return 'UnicodeEncodeError, call: %s' % call
     else:
         return s
-
-
-class ServerContextFactory(object):
-    def getContext(self):  # NOQA: N802
-        """
-        Create an SSL context.
-
-        This loads the servers cert/private key SSL files for use with the
-        SSL transport.
-        """
-        ssl_dir = deluge.configmanager.get_config_dir('ssl')
-        ctx = SSL.Context(SSL.SSLv23_METHOD)
-        ctx.set_options(SSL.OP_NO_SSLv2 | SSL.OP_NO_SSLv3)
-        ctx.use_certificate_file(os.path.join(ssl_dir, 'daemon.cert'))
-        ctx.use_privatekey_file(os.path.join(ssl_dir, 'daemon.pkey'))
-        return ctx
 
 
 class DelugeRPCProtocol(DelugeTransferProtocol):
@@ -391,8 +376,11 @@ class RPCServer(component.Component):
         # Check for SSL keys and generate some if needed
         check_ssl_keys()
 
+        cert = os.path.join(deluge.configmanager.get_config_dir('ssl'), 'daemon.cert')
+        pkey = os.path.join(deluge.configmanager.get_config_dir('ssl'), 'daemon.pkey')
+
         try:
-            reactor.listenSSL(port, self.factory, ServerContextFactory(), interface=hostname)
+            reactor.listenSSL(port, self.factory, get_context_factory(cert, pkey), interface=hostname)
         except Exception as ex:
             log.debug('Daemon already running or port not available.: %s', ex)
             raise
