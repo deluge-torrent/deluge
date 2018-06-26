@@ -101,8 +101,7 @@ class ServerContextFactory(object):
         SSL transport.
         """
         ssl_dir = deluge.configmanager.get_config_dir('ssl')
-        ctx = SSL.Context(SSL.SSLv23_METHOD)
-        ctx.set_options(SSL.OP_NO_SSLv2 | SSL.OP_NO_SSLv3 | SSL.OP_NO_TLSv1 | SSL.OP_SINGLE_ECDH_USE)
+        ctx = SSL.Context(SSL.TLSv1_2_METHOD)
         ctx.use_certificate_file(os.path.join(ssl_dir, 'daemon.cert'))
         ctx.use_privatekey_file(os.path.join(ssl_dir, 'daemon.pkey'))
         ctx.set_cipher_list(str(TLS_CIPHERS))

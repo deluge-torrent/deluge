@@ -62,16 +62,24 @@ if platform.system() not in ('Windows', 'Microsoft', 'Darwin'):
 
 log = logging.getLogger(__name__)
 
-TLS_CIPHERS = 'ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:'\
-              'ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:'\
-              'ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:'\
-              'ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:'\
-              'ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:'\
-              'ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:'\
-              'ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES128-SHA:'\
-              'AES256-GCM-SHA384:AES128-GCM-SHA256:'\
-              'AES256-SHA256:AES128-SHA256:'\
-              'AES256-SHA:AES128-SHA'
+# A TLS ciphers list.
+# Sources for more information on TLS ciphers:
+# - https://wiki.mozilla.org/Security/Server_Side_TLS
+# - https://www.ssllabs.com/projects/best-practices/index.html
+# - https://hynek.me/articles/hardening-your-web-servers-ssl-ciphers/
+#
+# The general intent is:
+# - prefer cipher suites that offer perfect forward secrecy (ECDHE),
+# - prefer AES-GCM over ChaCha20 because hardware-accelerated AES is common,
+# - disable NULL authentication, MD5 MACs and DSS for security reasons.
+TLS_CIPHERS = ':'.join(['ECDH+AESGCM',
+                        'ECDH+CHACHA20',
+                        'AES256-GCM-SHA384',
+                        'AES128-GCM-SHA256',
+                        '!DSS'
+                        '!aNULL',
+                        '!eNULL',
+                        '!MD5'])
 
 TORRENT_STATE = [
     'Allocating',
