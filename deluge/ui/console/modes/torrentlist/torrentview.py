@@ -38,19 +38,6 @@ state_fg_colors = {
 }
 
 
-def _queue_sort(v1, v2):
-    if v1 == v2:
-        return 0
-    if v2 < 0:
-        return -1
-    if v1 < 0:
-        return 1
-    if v1 > v2:
-        return 1
-    if v2 > v1:
-        return -1
-
-
 reverse_sort_fields = [
     'size',
     'download_speed',
@@ -247,7 +234,7 @@ class TorrentView(InputKeyHandler):
                         # Not a string.
                         return state.get(s)[field]
 
-                to_sort = sorted(to_sort, _queue_sort, sort_key, reverse)
+                to_sort = sorted(to_sort, key=sort_key, reverse=reverse)
 
             if field == 'eta':
                 to_sort = sorted(to_sort, key=lambda s: state.get(s)['eta'] == 0)
@@ -263,7 +250,7 @@ class TorrentView(InputKeyHandler):
         result = sort_by_field(state, result, s_primary)
 
         if self.config['torrentview']['separate_complete']:
-            result = sorted(result, _queue_sort, lambda s: state.get(s).get('progress', 0) == 100.0)
+            result = sorted(result, key=lambda s: state.get(s).get('progress', 0) == 100.0)
 
         return result
 

@@ -215,7 +215,7 @@ class FilterManager(component.Component):
         sorted_items = {field: sorted(items[field].items()) for field in tree_keys}
 
         if 'state' in tree_keys:
-            sorted_items['state'].sort(self._sort_state_items)
+            sorted_items['state'].sort(key=self._sort_state_item)
 
         return sorted_items
 
@@ -255,14 +255,8 @@ class FilterManager(component.Component):
             if value != 'All' and count == 0:
                 del state_items[value]
 
-    def _sort_state_items(self, x, y):
-        if x[0] in STATE_SORT:
-            ix = STATE_SORT.index(x[0])
-        else:
-            ix = 99
-        if y[0] in STATE_SORT:
-            iy = STATE_SORT.index(y[0])
-        else:
-            iy = 99
-
-        return ix - iy
+    def _sort_state_item(self, item):
+        try:
+            return STATE_SORT.index(item[0])
+        except ValueError:
+            return 99
