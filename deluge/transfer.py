@@ -95,8 +95,8 @@ class DelugeTransferProtocol(Protocol, object):
             # Read the first bytes of the message (MESSAGE_HEADER_SIZE bytes)
             header = self._buffer[:MESSAGE_HEADER_SIZE]
             payload_len = header[1:MESSAGE_HEADER_SIZE]
-            if header[0] != b'D':
-                raise Exception('Invalid header format. First byte is %d' % ord(header[0]))
+            if header[0:1] != b'D':
+                raise Exception('Invalid header format. First byte is %d' % ord(header[0:1]))
             # Extract the length stored as a signed integer (using 4 bytes)
             self._message_length = struct.unpack('!i', payload_len)[0]
             if self._message_length < 0:
