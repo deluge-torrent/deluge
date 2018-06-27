@@ -288,8 +288,8 @@ class TorrentInfo(object):
                             'index': 0,
                             'length': info_dict['length'],
                             'download': True,
-                        }
-                    }
+                        },
+                    },
                 }
             else:
                 self._files_tree = {
