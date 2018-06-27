@@ -19,11 +19,11 @@ import tempfile
 from OpenSSL.crypto import FILETYPE_PEM
 from twisted.application import internet, service
 from twisted.internet import defer, reactor
-from twisted.internet.ssl import SSL, Certificate, CertificateOptions, KeyPair, TLSVersion, AcceptableCiphers
+from twisted.internet.ssl import AcceptableCiphers, Certificate, CertificateOptions, KeyPair, TLSVersion
 from twisted.web import http, resource, server, static
 
 from deluge import common, component, configmanager
-from deluge.common import is_ipv6, TLS_CIPHERS
+from deluge.common import TLS_CIPHERS, is_ipv6
 from deluge.core.rpcserver import check_ssl_keys
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.translations_util import set_language, setup_translations
@@ -603,6 +603,8 @@ class DelugeWeb(component.Component):
 
         setup_translations(setup_gettext=True, setup_pygtk=False)
 
+        # Remove twisted version number from 'server' http-header for security reasons
+        server.version = 'TwistedWeb'
         self.site = server.Site(self.top_level)
         self.web_api = WebApi()
         self.web_utils = WebUtils()

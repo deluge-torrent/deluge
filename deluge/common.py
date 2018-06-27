@@ -68,18 +68,23 @@ log = logging.getLogger(__name__)
 # - https://www.ssllabs.com/projects/best-practices/index.html
 # - https://hynek.me/articles/hardening-your-web-servers-ssl-ciphers/
 #
+# This list was inspired by the `urllib3` library
+# - https://github.com/urllib3/urllib3/blob/master/urllib3/util/ssl_.py#L79
+#
 # The general intent is:
 # - prefer cipher suites that offer perfect forward secrecy (ECDHE),
 # - prefer AES-GCM over ChaCha20 because hardware-accelerated AES is common,
 # - disable NULL authentication, MD5 MACs and DSS for security reasons.
-TLS_CIPHERS = ':'.join(['ECDH+AESGCM',
-                        'ECDH+CHACHA20',
-                        'AES256-GCM-SHA384',
-                        'AES128-GCM-SHA256',
-                        '!DSS'
-                        '!aNULL',
-                        '!eNULL',
-                        '!MD5'])
+TLS_CIPHERS = ':'.join([
+    'ECDH+AESGCM',
+    'ECDH+CHACHA20',
+    'AES256-GCM-SHA384',
+    'AES128-GCM-SHA256',
+    '!DSS'
+    '!aNULL',
+    '!eNULL',
+    '!MD5'
+])
 
 TORRENT_STATE = [
     'Allocating',

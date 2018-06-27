@@ -104,7 +104,7 @@ class ServerContextFactory(object):
         ctx = SSL.Context(SSL.TLSv1_2_METHOD)
         ctx.use_certificate_file(os.path.join(ssl_dir, 'daemon.cert'))
         ctx.use_privatekey_file(os.path.join(ssl_dir, 'daemon.pkey'))
-        ctx.set_cipher_list(str(TLS_CIPHERS))
+        ctx.set_cipher_list(TLS_CIPHERS)
         return ctx
 
 
