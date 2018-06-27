@@ -77,7 +77,7 @@ class NoVersionSendingClient(Client):
 
 class ClientTestCase(BaseTestCase, DaemonBase):
 
-    if windows_check:
+    if windows_check():
         skip = 'windows cant start_core not enough arguments for format string'
 
     def set_up(self):

@@ -240,19 +240,20 @@ import deluge.core.daemon_entry
 
 from deluge.common import windows_check
 
-    if windows_check():
-        sys.argv.extend(['-c', '%s', '-L', 'info', '-p', '%d'])
-    else
-        sys.argv.extend(['-d', '-c', '%s', '-L', 'info', '-p', '%d'])
+if windows_check():
+    sys.argv.extend(['-c', '%(dir)s', '-L', 'info', '-p', '%(port)d'])
+else:
+    sys.argv.extend(['-d', '-c', '%(dir)s', '-L', 'info', '-p', '%(port)d'])
 
 try:
     daemon = deluge.core.daemon_entry.start_daemon(skip_start=True)
-    %s
+    %(script)s
     daemon.start()
 except Exception:
     import traceback
     sys.stderr.write('Exception raised:\\n %%s' %% traceback.format_exc())
-""" % (config_directory, listen_port, custom_script)
+""" % {'dir': config_directory, 'port': listen_port, 'script': custom_script}
+
     callbacks = []
     default_core_cb = {'deferred': Deferred(), 'types': 'stdout'}
     if timeout:

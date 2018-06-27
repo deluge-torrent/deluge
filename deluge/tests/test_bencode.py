@@ -18,8 +18,8 @@ class BencodeTestCase(unittest.TestCase):
     def test_bencode_unicode_metainfo(self):
         filename = common.get_test_data_file('test.torrent')
         with open(filename, 'rb') as _file:
-            metainfo = bencode.bdecode(_file.read())['info']
+            metainfo = bencode.bdecode(_file.read())[b'info']
         bencode.bencode({b'info': metainfo})
 
     def test_bencode_unicode_value(self):
-        self.assertEqual(bencode.bencode('abc'), '3:abc')
+        self.assertEqual(bencode.bencode('abc'), b'3:abc')

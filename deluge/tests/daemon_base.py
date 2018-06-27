@@ -21,7 +21,7 @@ from . import common
 
 class DaemonBase(object):
 
-    if windows_check:
+    if windows_check():
         skip = 'windows cant start_core not enough arguments for format string'
 
     def common_set_up(self):
