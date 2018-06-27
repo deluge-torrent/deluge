@@ -359,11 +359,13 @@ class Core(component.Component):
     def get_new_release(self):
         log.debug('get_new_release')
         try:
-            self.new_release = urlopen('http://download.deluge-torrent.org/version-2.0').read().strip()
+            self.new_release = urlopen(
+                'http://download.deluge-torrent.org/version-2.0'
+            ).read().decode().strip()
         except URLError as ex:
             log.debug('Unable to get release info from website: %s', ex)
-            return
-        self.check_new_release()
+        else:
+            self.check_new_release()
 
     def check_new_release(self):
         if self.new_release:
