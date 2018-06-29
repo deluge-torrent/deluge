@@ -70,7 +70,7 @@ class AddTorrentDialog(component.Component):
 
         self.previous_selected_torrent = None
 
-        self.listview_torrents = self.builder.get_object('treeview_torrents')
+        self.listview_torrents = self.builder.get_object('listview_torrents')
         self.listview_files = self.builder.get_object('listview_files')
 
         render = Gtk.CellRendererText()

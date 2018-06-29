@@ -99,7 +99,7 @@ class Preferences(component.Component):
         self.treeview.set_row_separator_func(set_separator, None)
         self.liststore.append([len(self.liststore), '_separator_', ''])
         # Add a dummy notebook page to keep indexing synced with liststore.
-        self.notebook.append_page(gtk.HSeparator())
+        self.notebook.append_page(Gtk.HSeparator())
 
         # Setup accounts tab lisview
         self.accounts_levels_mapping = None

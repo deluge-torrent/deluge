@@ -31,10 +31,10 @@ from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
 log = logging.getLogger(__name__)
 
 CELL_PRIORITY_ICONS = {
-    'Ignore': gtk.STOCK_NO,
-    'Low': gtk.STOCK_GO_DOWN,
-    'Normal': gtk.STOCK_OK,
-    'High': gtk.STOCK_GO_UP,
+    'Ignore': Gtk.STOCK_NO,
+    'Low': Gtk.STOCK_GO_DOWN,
+    'Normal': Gtk.STOCK_OK,
+    'High': Gtk.STOCK_GO_UP,
 }
 
 

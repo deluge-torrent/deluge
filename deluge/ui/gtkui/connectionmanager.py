@@ -121,7 +121,8 @@ class ConnectionManager(component.Component):
         column.set_expand(True)
         self.treeview.append_column(column)
 
-        column = gtk.TreeViewColumn(_('Version'), gtk.CellRendererText(), text=HOSTLIST_COL_VERSION)
+        column = Gtk.TreeViewColumn(
+            _('Version'), Gtk.CellRendererText(), text=HOSTLIST_COL_VERSION)
         self.treeview.append_column(column)
 
         # Load any saved host entries
@@ -210,7 +211,7 @@ class ConnectionManager(component.Component):
         self.builder.get_object('button_removehost').set_sensitive(False)
         self.builder.get_object('button_startdaemon').set_sensitive(False)
         self.builder.get_object('image_startdaemon').set_from_stock(
-            gtk.STOCK_EXECUTE, gtk.ICON_SIZE_MENU,
+            Gtk.STOCK_EXECUTE, Gtk.ICON_SIZE_MENU,
         )
         self.builder.get_object('label_startdaemon').set_text_with_mnemonic('_Start Daemon')
 

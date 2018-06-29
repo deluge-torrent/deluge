@@ -1077,10 +1077,10 @@ class PathChooserComboBox(GtkGI.Box, StoredValuesPopup, GObject.GObject):
         self.default_text = None
         self.button_properties = self.builder.get_object('button_properties')
 
-        self.combobox_window = self.builder.get_object('combobox_window')
+        #self.combobox_window = self.builder.get_object('combobox_window')
         self.combo_hbox = self.builder.get_object('entry_combobox_hbox')
         # Change the parent of the hbox from the glade Window to this hbox.
-        self.combobox_window.remove(self.combo_hbox)
+        #self.combobox_window.remove(self.combo_hbox)
         self.combobox_window = self.get_window()
         self.add(self.combo_hbox)
         StoredValuesPopup.__init__(self, self.builder, self, max_visible_rows, self.combo_hbox)

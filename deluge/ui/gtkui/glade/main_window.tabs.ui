@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.1 -->
 <interface>
-  <requires lib="gtk+" version="2.24"/>
-  <!-- interface-naming-policy project-wide -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="spin_max_connections_adjustment">
     <property name="lower">-1</property>
     <property name="upper">999999</property>
@@ -39,17 +39,17 @@
   <object class="GtkWindow" id="tabs">
     <property name="can_focus">False</property>
     <child>
+      <placeholder/>
+    </child>
+    <child>
       <object class="GtkNotebook" id="dummy_nb_see_main_win_torrent_info">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="tab_pos">left</property>
-        <property name="tab_hborder">8</property>
         <child>
           <object class="GtkScrolledWindow" id="status_tab">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="hscrollbar_policy">automatic</property>
-            <property name="vscrollbar_policy">automatic</property>
             <child>
               <object class="GtkViewport" id="viewport1">
                 <property name="visible">True</property>
@@ -77,8 +77,8 @@
                               <object class="GtkProgressBar" id="progressbar">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="show_text">True</property>
                                 <property name="pulse_step">0.10000000149</property>
+                                <property name="show_text">True</property>
                               </object>
                               <packing>
                                 <property name="expand">True</property>
@@ -114,8 +114,8 @@
                               <object class="GtkLabel" id="summary_total_uploaded">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="width_chars">20</property>
+                                <property name="xalign">0</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -143,8 +143,8 @@
                               <object class="GtkLabel" id="summary_upload_speed">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="width_chars">15</property>
+                                <property name="xalign">0</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -189,8 +189,8 @@
                                   <object class="GtkLabel" id="label38">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="xalign">0</property>
                                     <property name="label" translatable="yes">Downloaded:</property>
+                                    <property name="xalign">0</property>
                                     <attributes>
                                       <attribute name="weight" value="bold"/>
                                     </attributes>
@@ -212,8 +212,8 @@
                                   <object class="GtkLabel" id="label42">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="xalign">0</property>
                                     <property name="label" translatable="yes">Down Speed:</property>
+                                    <property name="xalign">0</property>
                                     <attributes>
                                       <attribute name="weight" value="bold"/>
                                     </attributes>
@@ -233,8 +233,8 @@
                                   <object class="GtkLabel" id="label43">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="xalign">0</property>
                                     <property name="label" translatable="yes">Up Speed:</property>
+                                    <property name="xalign">0</property>
                                     <attributes>
                                       <attribute name="weight" value="bold"/>
                                     </attributes>
@@ -256,8 +256,8 @@
                                   <object class="GtkLabel" id="label_seeds">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="xalign">0</property>
                                     <property name="label" translatable="yes">Seeds:</property>
+                                    <property name="xalign">0</property>
                                     <attributes>
                                       <attribute name="weight" value="bold"/>
                                     </attributes>
@@ -279,8 +279,8 @@
                                   <object class="GtkLabel" id="label39">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="xalign">0</property>
                                     <property name="label" translatable="yes">Uploaded:</property>
+                                    <property name="xalign">0</property>
                                     <attributes>
                                       <attribute name="weight" value="bold"/>
                                     </attributes>
@@ -297,8 +297,8 @@
                               <object class="GtkLabel" id="label_last_seen_complete">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="label" translatable="yes">Complete Seen:</property>
+                                <property name="xalign">0</property>
                                 <attributes>
                                   <attribute name="weight" value="bold"/>
                                 </attributes>
@@ -315,9 +315,9 @@
                               <object class="GtkLabel" id="summary_last_seen_complete">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="wrap">True</property>
                                 <property name="wrap_mode">char</property>
+                                <property name="xalign">0</property>
                               </object>
                               <packing>
                                 <property name="left_attach">7</property>
@@ -331,8 +331,8 @@
                               <object class="GtkLabel" id="label_last_transfer">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="label" translatable="yes">Last Transfer:</property>
+                                <property name="xalign">0</property>
                                 <attributes>
                                   <attribute name="weight" value="bold"/>
                                 </attributes>
@@ -349,9 +349,9 @@
                               <object class="GtkLabel" id="summary_last_transfer">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="wrap">True</property>
                                 <property name="wrap_mode">char</property>
+                                <property name="xalign">0</property>
                               </object>
                               <packing>
                                 <property name="left_attach">7</property>
@@ -365,8 +365,8 @@
                               <object class="GtkLabel" id="label_seed_time">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="label" translatable="yes">Seeding Time:</property>
+                                <property name="xalign">0</property>
                                 <attributes>
                                   <attribute name="weight" value="bold"/>
                                 </attributes>
@@ -397,8 +397,8 @@
                               <object class="GtkLabel" id="label_active_time">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="label" translatable="yes">Active Time:</property>
+                                <property name="xalign">0</property>
                                 <attributes>
                                   <attribute name="weight" value="bold"/>
                                 </attributes>
@@ -429,8 +429,8 @@
                               <object class="GtkLabel" id="label_eta">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="label" translatable="yes">ETA Time:</property>
+                                <property name="xalign">0</property>
                                 <attributes>
                                   <attribute name="weight" value="bold"/>
                                 </attributes>
@@ -457,8 +457,8 @@
                               <object class="GtkLabel" id="label_peers">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="label" translatable="yes">Peers:</property>
+                                <property name="xalign">0</property>
                                 <attributes>
                                   <attribute name="weight" value="bold"/>
                                 </attributes>
@@ -475,8 +475,8 @@
                               <object class="GtkLabel" id="summary_seeds">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="width_chars">10</property>
+                                <property name="xalign">0</property>
                               </object>
                               <packing>
                                 <property name="left_attach">4</property>
@@ -488,8 +488,8 @@
                               <object class="GtkLabel" id="summary_peers">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="width_chars">10</property>
+                                <property name="xalign">0</property>
                               </object>
                               <packing>
                                 <property name="left_attach">4</property>
@@ -503,8 +503,8 @@
                               <object class="GtkLabel" id="label_seed_rank">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="label" translatable="yes">Seed Rank:</property>
+                                <property name="xalign">0</property>
                                 <attributes>
                                   <attribute name="weight" value="bold"/>
                                 </attributes>
@@ -535,8 +535,8 @@
                               <object class="GtkLabel" id="label_availablity">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="label" translatable="yes">Availability:</property>
+                                <property name="xalign">0</property>
                                 <attributes>
                                   <attribute name="weight" value="bold"/>
                                 </attributes>
@@ -553,9 +553,9 @@
                               <object class="GtkLabel" id="summary_availability">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="wrap">True</property>
                                 <property name="wrap_mode">word-char</property>
+                                <property name="xalign">0</property>
                               </object>
                               <packing>
                                 <property name="left_attach">4</property>
@@ -569,8 +569,8 @@
                               <object class="GtkLabel" id="label41">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="label" translatable="yes">Share Ratio:</property>
+                                <property name="xalign">0</property>
                                 <attributes>
                                   <attribute name="weight" value="bold"/>
                                 </attributes>
@@ -587,8 +587,8 @@
                               <object class="GtkLabel" id="summary_download_speed">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="width_chars">15</property>
+                                <property name="xalign">0</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -640,8 +640,6 @@
           <object class="GtkScrolledWindow" id="details_tab">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="hscrollbar_policy">automatic</property>
-            <property name="vscrollbar_policy">automatic</property>
             <child>
               <object class="GtkViewport" id="viewport2">
                 <property name="visible">True</property>
@@ -670,11 +668,11 @@
                           <object class="GtkLabel" id="summary_name">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="wrap">True</property>
                             <property name="wrap_mode">word-char</property>
                             <property name="selectable">True</property>
                             <property name="ellipsize">end</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -701,8 +699,8 @@
                           <object class="GtkLabel" id="label_name">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="label" translatable="yes">Name:</property>
+                            <property name="xalign">0</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
                             </attributes>
@@ -716,8 +714,8 @@
                           <object class="GtkLabel" id="label_total_size">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="label" translatable="yes">Total Size:</property>
+                            <property name="xalign">0</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
                             </attributes>
@@ -733,8 +731,8 @@
                           <object class="GtkLabel" id="summary_total_size">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="selectable">True</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -749,8 +747,8 @@
                           <object class="GtkLabel" id="label_num_files">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="label" translatable="yes">Total Files:</property>
+                            <property name="xalign">0</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
                             </attributes>
@@ -766,8 +764,8 @@
                           <object class="GtkLabel" id="summary_num_files">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="selectable">True</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -782,8 +780,8 @@
                           <object class="GtkLabel" id="label_completed">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="label" translatable="yes">Completed:</property>
+                            <property name="xalign">0</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
                             </attributes>
@@ -815,8 +813,8 @@
                           <object class="GtkLabel" id="label_date_added">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="label" translatable="yes">Added:</property>
+                            <property name="xalign">0</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
                             </attributes>
@@ -849,8 +847,8 @@
                           <object class="GtkLabel" id="label_pieces">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="label" translatable="yes">Pieces:</property>
+                            <property name="xalign">0</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
                             </attributes>
@@ -882,8 +880,8 @@
                           <object class="GtkLabel" id="label_hash">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="label" translatable="yes">Hash:</property>
+                            <property name="xalign">0</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
                             </attributes>
@@ -899,10 +897,10 @@
                           <object class="GtkLabel" id="summary_hash">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="wrap">True</property>
                             <property name="selectable">True</property>
                             <property name="width_chars">40</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -917,8 +915,8 @@
                           <object class="GtkLabel" id="label_path">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="label" translatable="yes">Download Folder:</property>
+                            <property name="xalign">0</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
                             </attributes>
@@ -934,11 +932,11 @@
                           <object class="GtkLabel" id="summary_torrent_path">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="wrap">True</property>
                             <property name="wrap_mode">char</property>
                             <property name="selectable">True</property>
                             <property name="ellipsize">start</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -952,10 +950,10 @@
                           <object class="GtkLabel" id="summary_comments">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="wrap_mode">char</property>
                             <property name="selectable">True</property>
                             <property name="ellipsize">end</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -969,8 +967,8 @@
                           <object class="GtkLabel" id="label_comments">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="label" translatable="yes">Comments:</property>
+                            <property name="xalign">0</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
                             </attributes>
@@ -986,8 +984,8 @@
                           <object class="GtkLabel" id="label_creator">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="label" translatable="yes">Created By:</property>
+                            <property name="xalign">0</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
                             </attributes>
@@ -1003,10 +1001,10 @@
                           <object class="GtkLabel" id="summary_creator">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="wrap_mode">char</property>
                             <property name="selectable">True</property>
                             <property name="ellipsize">end</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -1043,12 +1041,13 @@
           <object class="GtkScrolledWindow" id="files_tab">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="hscrollbar_policy">automatic</property>
-            <property name="vscrollbar_policy">automatic</property>
             <child>
               <object class="GtkTreeView" id="files_listview">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <child internal-child="selection">
+                  <object class="GtkTreeSelection"/>
+                </child>
               </object>
             </child>
           </object>
@@ -1072,12 +1071,13 @@
           <object class="GtkScrolledWindow" id="peers_tab">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="hscrollbar_policy">automatic</property>
-            <property name="vscrollbar_policy">automatic</property>
             <child>
               <object class="GtkTreeView" id="peers_listview">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <child internal-child="selection">
+                  <object class="GtkTreeSelection"/>
+                </child>
               </object>
             </child>
           </object>
@@ -1101,8 +1101,6 @@
           <object class="GtkScrolledWindow" id="options_tab">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="hscrollbar_policy">automatic</property>
-            <property name="vscrollbar_policy">automatic</property>
             <child>
               <object class="GtkViewport" id="viewport3">
                 <property name="visible">True</property>
@@ -1179,11 +1177,8 @@
                                         <property name="invisible_char">•</property>
                                         <property name="width_chars">6</property>
                                         <property name="xalign">1</property>
-                                        <property name="invisible_char_set">True</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
-                                        <property name="primary_icon_sensitive">True</property>
-                                        <property name="secondary_icon_sensitive">True</property>
                                         <property name="adjustment">spin_max_connections_adjustment</property>
                                         <property name="numeric">True</property>
                                       </object>
@@ -1203,11 +1198,8 @@
                                         <property name="invisible_char">•</property>
                                         <property name="width_chars">6</property>
                                         <property name="xalign">1</property>
-                                        <property name="invisible_char_set">True</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
-                                        <property name="primary_icon_sensitive">True</property>
-                                        <property name="secondary_icon_sensitive">True</property>
                                         <property name="adjustment">spin_max_upload_adjustment</property>
                                         <property name="digits">1</property>
                                         <property name="numeric">True</property>
@@ -1228,11 +1220,8 @@
                                         <property name="invisible_char">•</property>
                                         <property name="width_chars">6</property>
                                         <property name="xalign">1</property>
-                                        <property name="invisible_char_set">True</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
-                                        <property name="primary_icon_sensitive">True</property>
-                                        <property name="secondary_icon_sensitive">True</property>
                                         <property name="adjustment">spin_max_download_adjustment</property>
                                         <property name="climb_rate">1</property>
                                         <property name="digits">1</property>
@@ -1249,8 +1238,8 @@
                                       <object class="GtkLabel" id="label12">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="xalign">0</property>
                                         <property name="label" translatable="yes">Connections:</property>
+                                        <property name="xalign">0</property>
                                       </object>
                                       <packing>
                                         <property name="top_attach">2</property>
@@ -1263,8 +1252,8 @@
                                       <object class="GtkLabel" id="label11">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="xalign">0</property>
                                         <property name="label" translatable="yes">Upload Speed:</property>
+                                        <property name="xalign">0</property>
                                       </object>
                                       <packing>
                                         <property name="top_attach">1</property>
@@ -1277,8 +1266,8 @@
                                       <object class="GtkLabel" id="label9">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="xalign">0</property>
                                         <property name="label" translatable="yes">Download Speed:</property>
+                                        <property name="xalign">0</property>
                                       </object>
                                       <packing>
                                         <property name="x_options">GTK_FILL</property>
@@ -1324,8 +1313,8 @@
                                       <object class="GtkLabel" id="label15">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="xalign">0</property>
                                         <property name="label" translatable="yes">Upload Slots:</property>
+                                        <property name="xalign">0</property>
                                       </object>
                                       <packing>
                                         <property name="top_attach">3</property>
@@ -1341,11 +1330,8 @@
                                         <property name="invisible_char">•</property>
                                         <property name="width_chars">6</property>
                                         <property name="xalign">1</property>
-                                        <property name="invisible_char_set">True</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
-                                        <property name="primary_icon_sensitive">True</property>
-                                        <property name="secondary_icon_sensitive">True</property>
                                         <property name="adjustment">spin_max_upload_slots_adjustment</property>
                                         <property name="numeric">True</property>
                                       </object>
@@ -1396,8 +1382,8 @@
                                       <object class="GtkLabel" id="label_owner">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="xalign">0</property>
                                         <property name="label" translatable="yes">Owner:</property>
+                                        <property name="xalign">0</property>
                                         <attributes>
                                           <attribute name="weight" value="bold"/>
                                         </attributes>
@@ -1412,9 +1398,9 @@
                                       <object class="GtkLabel" id="summary_owner">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="xalign">0</property>
                                         <property name="wrap_mode">char</property>
                                         <property name="selectable">True</property>
+                                        <property name="xalign">0</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1565,11 +1551,8 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="invisible_char">•</property>
-                                        <property name="invisible_char_set">True</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
-                                        <property name="primary_icon_sensitive">True</property>
-                                        <property name="secondary_icon_sensitive">True</property>
                                         <property name="adjustment">spin_stop_ratio_adjustment</property>
                                         <property name="digits">1</property>
                                         <property name="numeric">True</property>
@@ -1676,8 +1659,6 @@
           <object class="GtkScrolledWindow" id="trackers_tab">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="hscrollbar_policy">automatic</property>
-            <property name="vscrollbar_policy">automatic</property>
             <child>
               <object class="GtkViewport" id="viewport4">
                 <property name="visible">True</property>
@@ -1703,8 +1684,8 @@
                           <object class="GtkLabel" id="label_tracker">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="label" translatable="yes">Current Tracker:</property>
+                            <property name="xalign">0</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
                             </attributes>
@@ -1720,8 +1701,8 @@
                           <object class="GtkLabel" id="summary_tracker">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="selectable">True</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -1735,8 +1716,8 @@
                           <object class="GtkLabel" id="label_next_announce">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="label" translatable="yes">Next Announce:</property>
+                            <property name="xalign">0</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
                             </attributes>
@@ -1752,8 +1733,8 @@
                           <object class="GtkLabel" id="summary_next_announce">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="wrap">True</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -1767,9 +1748,9 @@
                           <object class="GtkLabel" id="label_tracker_status">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">Tracker Status:</property>
                             <property name="xalign">0</property>
                             <property name="yalign">0</property>
-                            <property name="label" translatable="yes">Tracker Status:</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
                             </attributes>
@@ -1785,10 +1766,10 @@
                           <object class="GtkLabel" id="summary_tracker_status">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="wrap">True</property>
                             <property name="wrap_mode">char</property>
                             <property name="selectable">True</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -1836,8 +1817,8 @@
                           <object class="GtkLabel" id="label_tracker_total">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="label" translatable="yes">Total Trackers:</property>
+                            <property name="xalign">0</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
                             </attributes>
@@ -1851,8 +1832,8 @@
                           <object class="GtkLabel" id="summary_tracker_total">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="selectable">True</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -1864,8 +1845,8 @@
                           <object class="GtkLabel" id="label_private">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="label" translatable="yes">Private Torrent:</property>
+                            <property name="xalign">0</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
                             </attributes>
@@ -1881,9 +1862,9 @@
                           <object class="GtkLabel" id="summary_private">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
                             <property name="wrap_mode">char</property>
                             <property name="selectable">True</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>

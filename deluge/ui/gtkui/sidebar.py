@@ -60,7 +60,7 @@ class SideBar(component.Component):
         """Adds a tab object to the notebook."""
         log.debug('add tab: %s', tab_name)
         self.tabs[tab_name] = widget
-        scrolled = Gtk.ScrolledWindow()
+        scrolled = ScrolledWindow()
         scrolled.set_policy(PolicyType.AUTOMATIC, PolicyType.AUTOMATIC)
         scrolled.add(widget)
         self.notebook.insert_page(scrolled, Label(label=label), -1)

@@ -246,7 +246,7 @@ class CreateTorrentDialog(object):
             dialog.hide()
         else:
             # Setup the filechooserdialog
-            chooser = gtk.FileChooserDialog(
+            chooser = Gtk.FileChooserDialog(
                 _('Save .torrent file'), self.dialog,
                 Gtk.FileChooserAction.SAVE,
                 buttons=(
