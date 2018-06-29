@@ -1121,23 +1121,15 @@ class Core(component.Component):
         port = self.get_listen_port()
         url = 'https://deluge-torrent.org/test_port.php?port=%s' % port
         agent = Agent(reactor, connectTimeout=30)
-        d = agent.request(
-            b'GET',
-            url.encode('utf-8'),
-        )
+        d = agent.request(b'GET', url.encode())
 
-        def on_get_page(response):
-            d = readBody(response)
-            d.addCallback(on_read_body)
-            return d
-
-        def on_read_body(body):
+        def on_get_page(body):
             return bool(int(body))
 
         def on_error(failure):
             log.warning('Error testing listen port: %s', failure)
 
-        d.addCallback(on_get_page)
+        d.addCallback(readBody).addCallback(on_get_page)
         d.addErrback(on_error)
 
         return d

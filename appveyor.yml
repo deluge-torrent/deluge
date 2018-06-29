@@ -32,6 +32,7 @@ install:
       pip install
         tox
         pywin32
+        certifi
     )
   - if not defined TOXENV (
       pip install
@@ -44,6 +45,7 @@ install:
         slimit
         setproctitle
         pywin32
+        certifi
         pygame
         bbfreeze
         pefile

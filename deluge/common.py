@@ -40,6 +40,12 @@ except ImportError:
     from urlparse import urljoin  # pylint: disable=ungrouped-imports
     from urllib import pathname2url, unquote_plus  # pylint: disable=ungrouped-imports
 
+# Windows workaround for HTTPS requests requiring certificate authority bundle.
+# see: https://twistedmatrix.com/trac/ticket/9209
+if platform.system() in ('Windows', 'Microsoft'):
+    from certifi import where
+    os.environ['SSL_CERT_FILE'] = where()
+
 DBUS_FILEMAN = None
 # gi makes dbus available on Window but don't import it as unused.
 if platform.system() not in ('Windows', 'Microsoft', 'Darwin'):
