@@ -12,6 +12,7 @@ from __future__ import unicode_literals
 import logging
 
 from gi.repository import Gtk
+from gi.repository import GObject
 from gi.repository.Gdk import Event  # pylint: disable=ungrouped-imports
 from gi.repository.GObject import SIGNAL_RUN_LAST, TYPE_NONE, signal_new
 

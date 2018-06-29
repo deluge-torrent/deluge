@@ -13,9 +13,10 @@ from __future__ import division, print_function, unicode_literals
 import os
 
 # FIXME: use this as fallback to get_introspection_module?
-from gi.importer import modules
-# from gi.module import get_introspection_module
+#from gi.importer import modules
+from gi.module import get_introspection_module
 from gi.repository import Gdk, GObject, Gtk
+from gi.repository.GObject import SignalFlags
 
 import deluge.component as component
 from deluge.common import resource_filename
@@ -1029,25 +1030,25 @@ class PathAutoCompleter(object):
             self.completion_popup.popdown()
 
 # FIXME: use this as fallback to get_introspection_module?
-GtkGI = modules['Gtk']._introspection_module
-# GtkGI = get_introspection_module('Gtk')
+#GtkGI = modules['Gtk']._introspection_module
+GtkGI = get_introspection_module('Gtk')
 
 
 class PathChooserComboBox(GtkGI.Box, StoredValuesPopup, GObject.GObject):
 
     __gsignals__ = {
-        b'list-value-added': (RUN_FIRST, None, (object, )),
-        b'list-value-removed': (RUN_FIRST, None, (object, )),
-        b'list-values-reordered': (RUN_FIRST, None, (object, )),
-        b'list-values-changed': (RUN_FIRST, None, (object, )),
-        b'auto-complete-enabled-toggled': (RUN_FIRST, None, (object, )),
-        b'show-filechooser-toggled': (RUN_FIRST, None, (object, )),
-        b'show-path-entry-toggled': (RUN_FIRST, None, (object, )),
-        b'show-folder-name-on-button': (RUN_FIRST, None, (object, )),
-        b'show-hidden-files-toggled': (RUN_FIRST, None, (object, )),
-        b'accelerator-set': (RUN_FIRST, None, (object, )),
-        b'max-rows-changed': (RUN_FIRST, None, (object, )),
-        b'text-changed': (RUN_FIRST, None, (object, )),
+        'list-value-added': (SignalFlags.RUN_FIRST, None, (object, )),
+        'list-value-removed': (SignalFlags.RUN_FIRST, None, (object, )),
+        'list-values-reordered': (SignalFlags.RUN_FIRST, None, (object, )),
+        'list-values-changed': (SignalFlags.RUN_FIRST, None, (object, )),
+        'auto-complete-enabled-toggled': (SignalFlags.RUN_FIRST, None, (object, )),
+        'show-filechooser-toggled': (SignalFlags.RUN_FIRST, None, (object, )),
+        'show-path-entry-toggled': (SignalFlags.RUN_FIRST, None, (object, )),
+        'show-folder-name-on-button': (SignalFlags.RUN_FIRST, None, (object, )),
+        'show-hidden-files-toggled': (SignalFlags.RUN_FIRST, None, (object, )),
+        'accelerator-set': (SignalFlags.RUN_FIRST, None, (object, )),
+        'max-rows-changed': (SignalFlags.RUN_FIRST, None, (object, )),
+        'text-changed': (SignalFlags.RUN_FIRST, None, (object, )),
     }
 
     def __init__(self, max_visible_rows=20, auto_complete=True, use_completer_popup=True):

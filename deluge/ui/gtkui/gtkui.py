@@ -18,11 +18,12 @@ import time
 
 import gi  # isort:skip (Required before Gtk import).
 gi.require_version('Gtk', '3.0')  # NOQA: E402
+gi.require_version('Gdk', '3.0')  # NOQA: E402
 
 # isort:imports-thirdparty
-from gi.repository.Gdk import WINDOWING, threads_enter, threads_init, threads_leave
+from gi.repository.Gdk import threads_enter, threads_init, threads_leave
 from gi.repository.GObject import set_prgname
-from gi.repository.Gtk import RESPONSE_OK, RESPONSE_YES
+from gi.repository.Gtk import ResponseType
 from twisted.internet import defer, gtk3reactor
 from twisted.internet.error import ReactorAlreadyInstalledError
 from twisted.internet.task import LoopingCall
@@ -62,7 +63,7 @@ from deluge.ui.sessionproxy import SessionProxy
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.translations_util import set_language, setup_translations
 
-set_prgname('deluge'.encode('utf8'))
+set_prgname('deluge')
 log = logging.getLogger(__name__)
 
 try:
@@ -151,7 +152,7 @@ class GtkUI(object):
             from win32api import SetConsoleCtrlHandler
             SetConsoleCtrlHandler(on_die, True)
             log.debug('Win32 "die" handler registered')
-        elif osx_check() and WINDOWING == 'quartz':
+        elif osx_check():  # TODO: Add this back: `and WINDOWING == 'quartz':`
             import gtkosx_application
             self.osxapp = gtkosx_application.gtkosx_application_get()
             self.osxapp.connect('NSApplicationWillTerminate', on_die)
@@ -180,7 +181,7 @@ class GtkUI(object):
         self.queuedtorrents = QueuedTorrents()
         self.ipcinterface = IPCInterface(args.torrents)
 
-	# Since PyGObject 3.10.2, calling GObject.threads_init() this is no longer needed. 
+	# Since PyGObject 3.10.2, calling GObject.threads_init() this is no longer needed.
         # For details on need for threading, see: https://wiki.gnome.org/Projects/PyGObject/Threading
         threads_init()
 
@@ -202,7 +203,7 @@ class GtkUI(object):
         self.statusbar = StatusBar()
         self.addtorrentdialog = AddTorrentDialog()
 
-        if osx_check() and WINDOWING == 'quartz':
+        if osx_check():  # TODO: Add this back: `and WINDOWING == 'quartz':`
             def nsapp_open_file(osxapp, filename):
                 # Ignore command name which is raised at app launch (python opening main script).
                 if filename == sys.argv[0]:
@@ -328,7 +329,7 @@ class GtkUI(object):
 
         def on_dialog_response(response):
             """User response to switching mode dialog."""
-            if response == RESPONSE_YES:
+            if response == ResponseType.Yes:
                 # Turning off standalone
                 self.config['standalone'] = False
                 self._start_thinclient()

@@ -105,7 +105,7 @@ class SystemTray(component.Component):
             if windows_check() or osx_check():
                 self.tray = StatusIcon.new_from_pixbuf(get_logo(32))
             else:
-                self.tray = StatusIcon.new_from_icon_name(('deluge-panel')
+                self.tray = StatusIcon.new_from_icon_name('deluge-panel')
 
             self.tray.connect('activate', self.on_tray_clicked)
             self.tray.connect('popup-menu', self.on_tray_popup)

@@ -16,7 +16,7 @@ import six.moves.cPickle as pickle
 from gi.repository import Gtk
 from gi.repository.Gdk import keyval_name
 from gi.repository.Gdk import DragAction
-from gi.repository.Gdk.ModifierType import BUTTON1_MASK
+from gi.repository.Gdk import ModifierType
 from gi.repository.GObject import TYPE_UINT64
 
 import deluge.component as component
@@ -172,7 +172,7 @@ class FilesTab(Tab):
         self.listview.connect('button-press-event', self._on_button_press_event)
 
         self.listview.enable_model_drag_source(
-            BUTTON1_MASK,
+            ModifierType.BUTTON1_MASK,
             [('text/plain', 0, 0)],
             DragAction.DEFAULT | DragAction.MOVE,
         )

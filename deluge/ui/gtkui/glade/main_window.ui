@@ -1,80 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.1 -->
 <interface>
-  <requires lib="gtk+" version="2.24"/>
-  <!-- interface-naming-policy project-wide -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkAccelGroup" id="accelgroup1"/>
-  <object class="GtkAdjustment" id="adjustment1">
-    <property name="lower">-1</property>
-    <property name="upper">999999</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment2">
-    <property name="lower">-1</property>
-    <property name="upper">99999</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment3">
-    <property name="lower">-1</property>
-    <property name="upper">999999</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment4">
-    <property name="lower">-1</property>
-    <property name="upper">999999</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment5">
-    <property name="upper">99999</property>
-    <property name="value">2</property>
-    <property name="step_increment">0.10000000000000001</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkImage" id="image1">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-add</property>
-    <property name="icon-size">1</property>
-  </object>
-  <object class="GtkImage" id="image2">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-no</property>
-    <property name="icon-size">1</property>
-  </object>
-  <object class="GtkImage" id="image3">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-yes</property>
-    <property name="icon-size">1</property>
-  </object>
-  <object class="GtkImage" id="image4">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-go-up</property>
-    <property name="icon-size">1</property>
-  </object>
-  <object class="GtkImage" id="image5">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-goto-top</property>
-    <property name="icon-size">1</property>
-  </object>
-  <object class="GtkImage" id="image6">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-zoom-fit</property>
-    <property name="icon-size">1</property>
-  </object>
   <object class="GtkWindow" id="main_window">
     <property name="can_focus">False</property>
     <property name="title">Deluge</property>
     <accel-groups>
       <group name="accelgroup1"/>
     </accel-groups>
+    <child>
+      <placeholder/>
+    </child>
     <child>
       <object class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
@@ -102,8 +39,8 @@
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
-                        <accelerator key="O" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <signal name="activate" handler="on_menuitem_addtorrent_activate" swapped="no"/>
+                        <accelerator key="O" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -114,8 +51,8 @@
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
-                        <accelerator key="N" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <signal name="activate" handler="on_menuitem_createtorrent_activate" swapped="no"/>
+                        <accelerator key="N" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -130,8 +67,8 @@
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
-                        <accelerator key="Q" signal="activate" modifiers="GDK_SHIFT_MASK | GDK_CONTROL_MASK"/>
                         <signal name="activate" handler="on_menuitem_quitdaemon_activate" swapped="no"/>
+                        <accelerator key="Q" signal="activate" modifiers="GDK_SHIFT_MASK | GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -176,8 +113,8 @@
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
                         <property name="accel_group">accelgroup1</property>
-                        <accelerator key="P" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <signal name="activate" handler="on_menuitem_preferences_activate" swapped="no"/>
+                        <accelerator key="P" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -188,8 +125,8 @@
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
-                        <accelerator key="M" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <signal name="activate" handler="on_menuitem_connectionmanager_activate" swapped="no"/>
+                        <accelerator key="M" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                   </object>
@@ -280,8 +217,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">_Find ...</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="f" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <signal name="activate" handler="on_search_filter_toggle" swapped="no"/>
+                        <accelerator key="f" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -367,8 +304,8 @@
                         <property name="tooltip_text" translatable="yes">Frequently Asked Questions</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
-                        <accelerator key="F1" signal="activate"/>
                         <signal name="activate" handler="on_menuitem_faq_activate" swapped="no"/>
+                        <accelerator key="F1" signal="activate"/>
                       </object>
                     </child>
                     <child>
@@ -461,8 +398,8 @@ This will filter torrents for the current selection on the sidebar.</property>
                 <property name="label" translatable="yes">_Filter</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-find</property>
-                <accelerator key="f" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                 <signal name="clicked" handler="on_search_filter_toggle" swapped="no"/>
+                <accelerator key="f" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -476,6 +413,7 @@ This will filter torrents for the current selection on the sidebar.</property>
               </object>
               <packing>
                 <property name="expand">False</property>
+                <property name="homogeneous">False</property>
               </packing>
             </child>
             <child>
@@ -520,6 +458,7 @@ This will filter torrents for the current selection on the sidebar.</property>
               </object>
               <packing>
                 <property name="expand">False</property>
+                <property name="homogeneous">False</property>
               </packing>
             </child>
             <child>
@@ -563,6 +502,7 @@ This will filter torrents for the current selection on the sidebar.</property>
               </object>
               <packing>
                 <property name="expand">False</property>
+                <property name="homogeneous">False</property>
               </packing>
             </child>
             <child>
@@ -650,7 +590,7 @@ This will filter torrents for the current selection on the sidebar.</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="stock">gtk-close</property>
-                                    <property name="icon-size">2</property>
+                                    <property name="icon_size">2</property>
                                   </object>
                                 </child>
                               </object>
@@ -683,13 +623,9 @@ This will filter torrents for the current selection on the sidebar.</property>
 This will filter torrents for the current selection on the sidebar.</property>
                                 <property name="invisible_char">•</property>
                                 <property name="truncate_multiline">True</property>
-                                <property name="invisible_char_set">True</property>
                                 <property name="caps_lock_warning">False</property>
                                 <property name="secondary_icon_stock">gtk-clear</property>
-                                <property name="primary_icon_activatable">True</property>
-                                <property name="secondary_icon_activatable">True</property>
                                 <property name="primary_icon_sensitive">False</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="secondary_icon_tooltip_text" translatable="yes">Clear the search</property>
                                 <property name="secondary_icon_tooltip_markup" translatable="yes">Clear the search</property>
                                 <signal name="changed" handler="on_search_torrents_entry_changed" swapped="no"/>
@@ -731,8 +667,6 @@ This will filter torrents for the current selection on the sidebar.</property>
                           <object class="GtkScrolledWindow" id="scrolledwindow1">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="hscrollbar_policy">automatic</property>
-                            <property name="vscrollbar_policy">automatic</property>
                             <property name="shadow_type">out</property>
                             <child>
                               <object class="GtkTreeView" id="torrent_view">
@@ -740,6 +674,9 @@ This will filter torrents for the current selection on the sidebar.</property>
                                 <property name="can_focus">True</property>
                                 <property name="rules_hint">True</property>
                                 <property name="enable_search">False</property>
+                                <child internal-child="selection">
+                                  <object class="GtkTreeSelection"/>
+                                </child>
                               </object>
                             </child>
                           </object>
@@ -768,8 +705,6 @@ This will filter torrents for the current selection on the sidebar.</property>
                     <property name="tab_pos">left</property>
                     <property name="show_border">False</property>
                     <property name="scrollable">True</property>
-                    <property name="tab_hborder">8</property>
-                    <property name="tab_vborder">0</property>
                   </object>
                   <packing>
                     <property name="resize">False</property>
@@ -798,5 +733,71 @@ This will filter torrents for the current selection on the sidebar.</property>
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="lower">-1</property>
+    <property name="upper">999999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment2">
+    <property name="lower">-1</property>
+    <property name="upper">99999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment3">
+    <property name="lower">-1</property>
+    <property name="upper">999999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment4">
+    <property name="lower">-1</property>
+    <property name="upper">999999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment5">
+    <property name="upper">99999</property>
+    <property name="value">2</property>
+    <property name="step_increment">0.10000000000000001</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkImage" id="image1">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-add</property>
+    <property name="icon_size">1</property>
+  </object>
+  <object class="GtkImage" id="image2">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-no</property>
+    <property name="icon_size">1</property>
+  </object>
+  <object class="GtkImage" id="image3">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-yes</property>
+    <property name="icon_size">1</property>
+  </object>
+  <object class="GtkImage" id="image4">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-go-up</property>
+    <property name="icon_size">1</property>
+  </object>
+  <object class="GtkImage" id="image5">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-goto-top</property>
+    <property name="icon_size">1</property>
+  </object>
+  <object class="GtkImage" id="image6">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-zoom-fit</property>
+    <property name="icon_size">1</property>
   </object>
 </interface>

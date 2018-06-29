@@ -18,7 +18,7 @@ import warnings
 from gi.repository import Gtk
 from gi.repository.GdkPixbuf import Pixbuf
 from gi.repository.GObject import GError
-from gi.repostiory.Pango import EllipsizeMode
+from gi.repository.Pango import EllipsizeMode
 
 import deluge.component as component
 from deluge.common import TORRENT_STATE, resource_filename
