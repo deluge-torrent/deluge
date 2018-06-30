@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.1 -->
 <interface>
-  <requires lib="gtk+" version="2.24"/>
-  <!-- interface-naming-policy toplevel-contextual -->
+  <requires lib="gtk+" version="3.0"/>
+  <object class="GtkListStore" id="liststore_hostlist">
+    <columns>
+      <!-- column-name host_id -->
+      <column type="gchararray"/>
+      <!-- column-name hostname -->
+      <column type="gchararray"/>
+      <!-- column-name port -->
+      <column type="gint"/>
+      <!-- column-name username -->
+      <column type="gchararray"/>
+      <!-- column-name password -->
+      <column type="gchararray"/>
+      <!-- column-name status -->
+      <column type="gchararray"/>
+      <!-- column-name version -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkDialog" id="connection_manager">
     <property name="can_focus">False</property>
     <property name="has_focus">True</property>
@@ -13,11 +31,58 @@
     <property name="default_height">250</property>
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
-    <property name="has_separator">True</property>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox2">
+      <object class="GtkBox" id="dialog-vbox2">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="dialog-action_area2">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="button_close">
+                <property name="label">_Close</property>
+                <property name="use_action_appearance">False</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_underline">True</property>
+                <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="button_connect">
+                <property name="label">C_onnect</property>
+                <property name="use_action_appearance">False</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_underline">True</property>
+                <signal name="clicked" handler="on_button_connect_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="pack_type">end</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
         <child>
           <object class="GtkFrame" id="frame1">
             <property name="visible">True</property>
@@ -43,8 +108,6 @@
                           <object class="GtkScrolledWindow" id="scrolledwindow1">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="hscrollbar_policy">automatic</property>
-                            <property name="vscrollbar_policy">automatic</property>
                             <child>
                               <object class="GtkTreeView" id="treeview_hostlist">
                                 <property name="height_request">80</property>
@@ -52,6 +115,9 @@
                                 <property name="can_focus">True</property>
                                 <property name="model">liststore_hostlist</property>
                                 <signal name="row-activated" handler="on_hostlist_row_activated" swapped="no"/>
+                                <child internal-child="selection">
+                                  <object class="GtkTreeSelection"/>
+                                </child>
                               </object>
                             </child>
                           </object>
@@ -236,51 +302,6 @@
             <property name="position">0</property>
           </packing>
         </child>
-        <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area2">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton" id="button_close">
-                <property name="label">_Close</property>
-                <property name="use_action_appearance">False</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_underline">True</property>
-                <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button_connect">
-                <property name="label">C_onnect</property>
-                <property name="use_action_appearance">False</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_underline">True</property>
-                <signal name="clicked" handler="on_button_connect_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="pack_type">end</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
         <child>
           <object class="GtkExpander" id="expander1">
             <property name="visible">True</property>
@@ -371,23 +392,5 @@
       <action-widget response="0">button_close</action-widget>
       <action-widget response="0">button_connect</action-widget>
     </action-widgets>
-  </object>
-  <object class="GtkListStore" id="liststore_hostlist">
-    <columns>
-      <!-- column-name host_id -->
-      <column type="gchararray"/>
-      <!-- column-name hostname -->
-      <column type="gchararray"/>
-      <!-- column-name port -->
-      <column type="gint"/>
-      <!-- column-name username -->
-      <column type="gchararray"/>
-      <!-- column-name password -->
-      <column type="gchararray"/>
-      <!-- column-name status -->
-      <column type="gchararray"/>
-      <!-- column-name version -->
-      <column type="gchararray"/>
-    </columns>
   </object>
 </interface>

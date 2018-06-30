@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.1 -->
 <interface>
-  <requires lib="gtk+" version="2.24"/>
-  <!-- interface-naming-policy toplevel-contextual -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="adjustment_cache_expiry">
     <property name="lower">1</property>
     <property name="upper">32000</property>
@@ -244,13 +244,16 @@
     <property name="type_hint">dialog</property>
     <signal name="configure-event" handler="on_pref_dialog_configure_event" swapped="no"/>
     <signal name="delete-event" handler="on_pref_dialog_delete_event" swapped="no"/>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox1">
+      <object class="GtkBox" id="dialog-vbox1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area1">
+          <object class="GtkButtonBox" id="dialog-action_area1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -321,6 +324,9 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="headers_visible">False</property>
+                    <child internal-child="selection">
+                      <object class="GtkTreeSelection"/>
+                    </child>
                   </object>
                 </child>
               </object>
@@ -339,8 +345,6 @@
                   <object class="GtkScrolledWindow" id="InterfaceScrolledWindow">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="hscrollbar_policy">automatic</property>
-                    <property name="vscrollbar_policy">automatic</property>
                     <child>
                       <object class="GtkViewport" id="interface_viewport">
                         <property name="visible">True</property>
@@ -514,8 +518,8 @@ and daemon (does not apply in Standalone mode).</property>
                                                       <object class="GtkLabel" id="label66">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="xalign">1</property>
                                                         <property name="label" translatable="yes">Completed:</property>
+                                                        <property name="xalign">1</property>
                                                       </object>
                                                       <packing>
                                                         <property name="x_options">GTK_FILL</property>
@@ -540,8 +544,8 @@ and daemon (does not apply in Standalone mode).</property>
                                                       <object class="GtkLabel" id="label67">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="xalign">1</property>
                                                         <property name="label" translatable="yes">Downloading:</property>
+                                                        <property name="xalign">1</property>
                                                       </object>
                                                       <packing>
                                                         <property name="top_attach">1</property>
@@ -570,8 +574,8 @@ and daemon (does not apply in Standalone mode).</property>
                                                       <object class="GtkLabel" id="label69">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="xalign">1</property>
                                                         <property name="label" translatable="yes">Waiting:</property>
+                                                        <property name="xalign">1</property>
                                                       </object>
                                                       <packing>
                                                         <property name="top_attach">2</property>
@@ -600,8 +604,8 @@ and daemon (does not apply in Standalone mode).</property>
                                                       <object class="GtkLabel" id="label70">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="xalign">1</property>
                                                         <property name="label" translatable="yes">Missing:</property>
+                                                        <property name="xalign">1</property>
                                                       </object>
                                                       <packing>
                                                         <property name="top_attach">3</property>
@@ -912,8 +916,8 @@ and daemon (does not apply in Standalone mode).</property>
                                                     <property name="visible">True</property>
                                                     <property name="sensitive">False</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="xalign">0</property>
                                                     <property name="label" translatable="yes">Password:</property>
+                                                    <property name="xalign">0</property>
                                                   </object>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -932,8 +936,6 @@ and daemon (does not apply in Standalone mode).</property>
                                                     <property name="truncate_multiline">True</property>
                                                     <property name="primary_icon_activatable">False</property>
                                                     <property name="secondary_icon_activatable">False</property>
-                                                    <property name="primary_icon_sensitive">True</property>
-                                                    <property name="secondary_icon_sensitive">True</property>
                                                   </object>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -1125,8 +1127,6 @@ and daemon (does not apply in Standalone mode).</property>
                   <object class="GtkScrolledWindow" id="DownloadsScrolledWindow">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="hscrollbar_policy">automatic</property>
-                    <property name="vscrollbar_policy">automatic</property>
                     <child>
                       <object class="GtkViewport" id="viewport2">
                         <property name="visible">True</property>
@@ -1204,8 +1204,8 @@ and daemon (does not apply in Standalone mode).</property>
                                           <object class="GtkLabel" id="label19">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
                                             <property name="label" translatable="yes">Download to:</property>
+                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="x_options">GTK_FILL</property>
@@ -1497,8 +1497,6 @@ used sparingly.</property>
                   <object class="GtkScrolledWindow" id="BandwidthScrolledWindow">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="hscrollbar_policy">automatic</property>
-                    <property name="vscrollbar_policy">automatic</property>
                     <child>
                       <object class="GtkViewport" id="viewport3">
                         <property name="visible">True</property>
@@ -1551,8 +1549,6 @@ used sparingly.</property>
                                                 <property name="xalign">1</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
                                                 <property name="adjustment">adjustment_spin_max_conn_per_sec</property>
                                                 <property name="numeric">True</property>
                                               </object>
@@ -1572,8 +1568,6 @@ used sparingly.</property>
                                                 <property name="xalign">1</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
                                                 <property name="adjustment">adjustment_spin_max_half_open_conn</property>
                                                 <property name="numeric">True</property>
                                               </object>
@@ -1589,8 +1583,8 @@ used sparingly.</property>
                                               <object class="GtkLabel" id="label58">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">Connection Attempts per Second:</property>
+                                                <property name="xalign">0</property>
                                               </object>
                                               <packing>
                                                 <property name="top_attach">5</property>
@@ -1602,8 +1596,8 @@ used sparingly.</property>
                                               <object class="GtkLabel" id="label57">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">Half-Open Connections:</property>
+                                                <property name="xalign">0</property>
                                               </object>
                                               <packing>
                                                 <property name="top_attach">4</property>
@@ -1616,8 +1610,8 @@ used sparingly.</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="tooltip_text" translatable="yes">The maximum upload speed for all torrents.  Set -1 for unlimited.</property>
-                                                <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">Upload Speed:</property>
+                                                <property name="xalign">0</property>
                                               </object>
                                               <packing>
                                                 <property name="top_attach">3</property>
@@ -1630,8 +1624,8 @@ used sparingly.</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="tooltip_text" translatable="yes">The maximum number of connections allowed.  Set -1 for unlimited.</property>
-                                                <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">Connections:</property>
+                                                <property name="xalign">0</property>
                                               </object>
                                               <packing>
                                                 <property name="x_options">GTK_FILL</property>
@@ -1642,8 +1636,8 @@ used sparingly.</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="tooltip_text" translatable="yes">The maximum upload slots for all torrents.  Set -1 for unlimited.</property>
-                                                <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">Upload Slots:</property>
+                                                <property name="xalign">0</property>
                                               </object>
                                               <packing>
                                                 <property name="top_attach">1</property>
@@ -1661,8 +1655,6 @@ used sparingly.</property>
                                                 <property name="xalign">1</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
                                                 <property name="adjustment">adjustment_spin_max_conn_global</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
@@ -1680,8 +1672,8 @@ used sparingly.</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="tooltip_text" translatable="yes">The maximum download speed for all torrents.  Set -1 for unlimited.</property>
-                                                <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">Download Speed:</property>
+                                                <property name="xalign">0</property>
                                               </object>
                                               <packing>
                                                 <property name="top_attach">2</property>
@@ -1698,8 +1690,6 @@ used sparingly.</property>
                                                 <property name="xalign">1</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
                                                 <property name="adjustment">adjustment_spin_max_download</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="digits">1</property>
@@ -1722,8 +1712,6 @@ used sparingly.</property>
                                                 <property name="xalign">1</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
                                                 <property name="adjustment">adjustment_spin_max_upload</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="digits">1</property>
@@ -1746,8 +1734,6 @@ used sparingly.</property>
                                                 <property name="xalign">1</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
                                                 <property name="adjustment">adjustment_spin_max_upload_slots_global</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
@@ -1765,8 +1751,8 @@ used sparingly.</property>
                                               <object class="GtkLabel" id="label22">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">KiB/s</property>
+                                                <property name="xalign">0</property>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">2</property>
@@ -1781,8 +1767,8 @@ used sparingly.</property>
                                               <object class="GtkLabel" id="label23">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">KiB/s</property>
+                                                <property name="xalign">0</property>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">2</property>
@@ -1903,8 +1889,6 @@ used sparingly.</property>
                                             <property name="xalign">1</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
-                                            <property name="primary_icon_sensitive">True</property>
-                                            <property name="secondary_icon_sensitive">True</property>
                                             <property name="adjustment">adjustment_spin_max_upload_slots_per_torrent</property>
                                             <property name="climb_rate">1</property>
                                             <property name="snap_to_ticks">True</property>
@@ -1928,8 +1912,6 @@ used sparingly.</property>
                                             <property name="xalign">1</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
-                                            <property name="primary_icon_sensitive">True</property>
-                                            <property name="secondary_icon_sensitive">True</property>
                                             <property name="adjustment">adjustment_spin_max_conn_per_torrent</property>
                                             <property name="snap_to_ticks">True</property>
                                             <property name="numeric">True</property>
@@ -1944,8 +1926,8 @@ used sparingly.</property>
                                           <object class="GtkLabel" id="label18">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
                                             <property name="label" translatable="yes">Connections:</property>
+                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="x_options">GTK_FILL</property>
@@ -1955,8 +1937,8 @@ used sparingly.</property>
                                           <object class="GtkLabel" id="label24">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
                                             <property name="label" translatable="yes">Upload Slots:</property>
+                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="top_attach">1</property>
@@ -1968,8 +1950,8 @@ used sparingly.</property>
                                           <object class="GtkLabel" id="label31">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
                                             <property name="label" translatable="yes">Download Speed:</property>
+                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="top_attach">2</property>
@@ -1981,8 +1963,8 @@ used sparingly.</property>
                                           <object class="GtkLabel" id="label32">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
                                             <property name="label" translatable="yes">Upload Speed:</property>
+                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="top_attach">3</property>
@@ -1999,8 +1981,6 @@ used sparingly.</property>
                                             <property name="xalign">1</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
-                                            <property name="primary_icon_sensitive">True</property>
-                                            <property name="secondary_icon_sensitive">True</property>
                                             <property name="adjustment">adjustment_spin_max_download_per_torrent</property>
                                             <property name="digits">1</property>
                                             <property name="numeric">True</property>
@@ -2022,8 +2002,6 @@ used sparingly.</property>
                                             <property name="xalign">1</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
-                                            <property name="primary_icon_sensitive">True</property>
-                                            <property name="secondary_icon_sensitive">True</property>
                                             <property name="adjustment">adjustment_spin_max_upload_per_torrent</property>
                                             <property name="digits">1</property>
                                             <property name="numeric">True</property>
@@ -2040,8 +2018,8 @@ used sparingly.</property>
                                           <object class="GtkLabel" id="label12">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
                                             <property name="label" translatable="yes">KiB/s</property>
+                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
@@ -2056,8 +2034,8 @@ used sparingly.</property>
                                           <object class="GtkLabel" id="label21">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
                                             <property name="label" translatable="yes">KiB/s</property>
+                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
@@ -2117,8 +2095,6 @@ used sparingly.</property>
                   <object class="GtkScrolledWindow" id="QueueScrolledWindow">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="hscrollbar_policy">automatic</property>
-                    <property name="vscrollbar_policy">automatic</property>
                     <child>
                       <object class="GtkViewport" id="viewport9">
                         <property name="visible">True</property>
@@ -2217,8 +2193,6 @@ used sparingly.</property>
                                                     <property name="xalign">1</property>
                                                     <property name="primary_icon_activatable">False</property>
                                                     <property name="secondary_icon_activatable">False</property>
-                                                    <property name="primary_icon_sensitive">True</property>
-                                                    <property name="secondary_icon_sensitive">True</property>
                                                     <property name="adjustment">adjustment_spin_active</property>
                                                     <property name="snap_to_ticks">True</property>
                                                     <property name="numeric">True</property>
@@ -2236,8 +2210,6 @@ used sparingly.</property>
                                                     <property name="xalign">1</property>
                                                     <property name="primary_icon_activatable">False</property>
                                                     <property name="secondary_icon_activatable">False</property>
-                                                    <property name="primary_icon_sensitive">True</property>
-                                                    <property name="secondary_icon_sensitive">True</property>
                                                     <property name="adjustment">adjustment_spin_seeding</property>
                                                     <property name="snap_to_ticks">True</property>
                                                     <property name="numeric">True</property>
@@ -2254,8 +2226,8 @@ used sparingly.</property>
                                                   <object class="GtkLabel" id="label27">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="xalign">0</property>
                                                     <property name="label" translatable="yes">Seeding:</property>
+                                                    <property name="xalign">0</property>
                                                   </object>
                                                   <packing>
                                                     <property name="top_attach">2</property>
@@ -2267,8 +2239,8 @@ used sparingly.</property>
                                                   <object class="GtkLabel" id="label48">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="xalign">0</property>
                                                     <property name="label" translatable="yes">Total:</property>
+                                                    <property name="xalign">0</property>
                                                   </object>
                                                   <packing>
                                                     <property name="x_options">GTK_FILL</property>
@@ -2281,8 +2253,6 @@ used sparingly.</property>
                                                     <property name="xalign">1</property>
                                                     <property name="primary_icon_activatable">False</property>
                                                     <property name="secondary_icon_activatable">False</property>
-                                                    <property name="primary_icon_sensitive">True</property>
-                                                    <property name="secondary_icon_sensitive">True</property>
                                                     <property name="adjustment">adjustment_spin_downloading</property>
                                                     <property name="snap_to_ticks">True</property>
                                                     <property name="numeric">True</property>
@@ -2299,8 +2269,8 @@ used sparingly.</property>
                                                   <object class="GtkLabel" id="label42">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="xalign">0</property>
                                                     <property name="label" translatable="yes">Downloading:</property>
+                                                    <property name="xalign">0</property>
                                                   </object>
                                                   <packing>
                                                     <property name="top_attach">1</property>
@@ -2389,8 +2359,8 @@ used sparingly.</property>
                                               <object class="GtkLabel" id="label53">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">Share Ratio:</property>
+                                                <property name="xalign">0</property>
                                               </object>
                                               <packing>
                                                 <property name="x_options">GTK_FILL</property>
@@ -2400,8 +2370,8 @@ used sparingly.</property>
                                               <object class="GtkLabel" id="label54">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">Time Ratio:</property>
+                                                <property name="xalign">0</property>
                                               </object>
                                               <packing>
                                                 <property name="top_attach">1</property>
@@ -2413,8 +2383,8 @@ used sparingly.</property>
                                               <object class="GtkLabel" id="label55">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">Time (m):</property>
+                                                <property name="xalign">0</property>
                                               </object>
                                               <packing>
                                                 <property name="top_attach">2</property>
@@ -2431,8 +2401,6 @@ used sparingly.</property>
                                                 <property name="xalign">1</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
                                                 <property name="adjustment">adjustment_share_ratio_limit</property>
                                                 <property name="digits">2</property>
                                               </object>
@@ -2451,8 +2419,6 @@ used sparingly.</property>
                                                 <property name="xalign">1</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
                                                 <property name="adjustment">adjustment_time_ratio_limit</property>
                                                 <property name="digits">2</property>
                                               </object>
@@ -2473,8 +2439,6 @@ used sparingly.</property>
                                                 <property name="xalign">1</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
                                                 <property name="adjustment">adjustment_spin_seed_time_limit</property>
                                               </object>
                                               <packing>
@@ -2548,11 +2512,8 @@ used sparingly.</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="invisible_char">•</property>
                                                     <property name="xalign">1</property>
-                                                    <property name="invisible_char_set">True</property>
                                                     <property name="primary_icon_activatable">False</property>
                                                     <property name="secondary_icon_activatable">False</property>
-                                                    <property name="primary_icon_sensitive">True</property>
-                                                    <property name="secondary_icon_sensitive">True</property>
                                                     <property name="adjustment">adjustment_share_ratio</property>
                                                     <property name="digits">2</property>
                                                     <property name="numeric">True</property>
@@ -2667,8 +2628,6 @@ used sparingly.</property>
                   <object class="GtkScrolledWindow" id="NetworkScrolledWindow">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="hscrollbar_policy">automatic</property>
-                    <property name="vscrollbar_policy">automatic</property>
                     <child>
                       <object class="GtkViewport" id="viewport1">
                         <property name="visible">True</property>
@@ -2703,8 +2662,6 @@ used sparingly.</property>
                                         <property name="truncate_multiline">True</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
-                                        <property name="primary_icon_sensitive">True</property>
-                                        <property name="secondary_icon_sensitive">True</property>
                                       </object>
                                     </child>
                                   </object>
@@ -2756,8 +2713,6 @@ used sparingly.</property>
                                                 <property name="xalign">1</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
                                                 <property name="adjustment">adjustment_spin_incoming_port</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
@@ -2806,9 +2761,9 @@ used sparingly.</property>
                                                   <object class="GtkLabel" id="label3">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="xalign">0</property>
                                                     <property name="label" translatable="yes">Active Port:</property>
                                                     <property name="justify">right</property>
+                                                    <property name="xalign">0</property>
                                                   </object>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -2821,9 +2776,9 @@ used sparingly.</property>
                                                     <property name="width_request">50</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="xalign">0</property>
                                                     <property name="label">0</property>
                                                     <property name="width_chars">5</property>
+                                                    <property name="xalign">0</property>
                                                     <attributes>
                                                       <attribute name="style" value="italic"/>
                                                     </attributes>
@@ -2931,11 +2886,8 @@ The interface adapter name for outgoing BitTorrent connections. (Leave empty for
                                         <property name="invisible_char">●</property>
                                         <property name="width_chars">15</property>
                                         <property name="truncate_multiline">True</property>
-                                        <property name="invisible_char_set">True</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
-                                        <property name="primary_icon_sensitive">True</property>
-                                        <property name="secondary_icon_sensitive">True</property>
                                       </object>
                                     </child>
                                   </object>
@@ -2996,8 +2948,6 @@ The interface adapter name for outgoing BitTorrent connections. (Leave empty for
                                             <property name="xalign">1</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
-                                            <property name="primary_icon_sensitive">True</property>
-                                            <property name="secondary_icon_sensitive">True</property>
                                             <property name="adjustment">adjustment_spin_outgoing_port_min</property>
                                             <property name="climb_rate">1</property>
                                             <property name="snap_to_ticks">True</property>
@@ -3031,8 +2981,6 @@ The interface adapter name for outgoing BitTorrent connections. (Leave empty for
                                             <property name="xalign">1</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
-                                            <property name="primary_icon_sensitive">True</property>
-                                            <property name="secondary_icon_sensitive">True</property>
                                             <property name="adjustment">adjustment_spin_outgoing_port_max</property>
                                             <property name="climb_rate">1</property>
                                             <property name="snap_to_ticks">True</property>
@@ -3149,8 +3097,8 @@ The interface adapter name for outgoing BitTorrent connections. (Leave empty for
                                               <object class="GtkLabel" id="label8">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="xalign">1</property>
                                                 <property name="label" translatable="yes">Outgoing:</property>
+                                                <property name="xalign">1</property>
                                               </object>
                                               <packing>
                                                 <property name="top_attach">1</property>
@@ -3161,8 +3109,8 @@ The interface adapter name for outgoing BitTorrent connections. (Leave empty for
                                               <object class="GtkLabel" id="label7">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="xalign">1</property>
                                                 <property name="label" translatable="yes">Incoming:</property>
+                                                <property name="xalign">1</property>
                                               </object>
                                             </child>
                                           </object>
@@ -3185,9 +3133,9 @@ The interface adapter name for outgoing BitTorrent connections. (Leave empty for
                                                   <object class="GtkLabel" id="label9">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="xalign">0</property>
                                                     <property name="xpad">5</property>
                                                     <property name="label" translatable="yes">Level:</property>
+                                                    <property name="xalign">0</property>
                                                   </object>
                                                   <packing>
                                                     <property name="expand">True</property>
@@ -3376,8 +3324,6 @@ The interface adapter name for outgoing BitTorrent connections. (Leave empty for
                                                 <property name="truncate_multiline">True</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -3440,8 +3386,6 @@ The interface adapter name for outgoing BitTorrent connections. (Leave empty for
                   <object class="GtkScrolledWindow" id="ProxyScrolledWindow">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="hscrollbar_policy">automatic</property>
-                    <property name="vscrollbar_policy">automatic</property>
                     <child>
                       <object class="GtkViewport" id="viewport10">
                         <property name="visible">True</property>
@@ -3477,8 +3421,8 @@ The interface adapter name for outgoing BitTorrent connections. (Leave empty for
                                           <object class="GtkLabel" id="label_proxy_pass">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
                                             <property name="label" translatable="yes">Password:</property>
+                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="top_attach">2</property>
@@ -3494,8 +3438,6 @@ The interface adapter name for outgoing BitTorrent connections. (Leave empty for
                                             <property name="truncate_multiline">True</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
-                                            <property name="primary_icon_sensitive">True</property>
-                                            <property name="secondary_icon_sensitive">True</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
@@ -3509,8 +3451,8 @@ The interface adapter name for outgoing BitTorrent connections. (Leave empty for
                                           <object class="GtkLabel" id="label_proxy_host">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
                                             <property name="label" translatable="yes">Hostname:</property>
+                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="top_attach">3</property>
@@ -3525,8 +3467,6 @@ The interface adapter name for outgoing BitTorrent connections. (Leave empty for
                                             <property name="truncate_multiline">True</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
-                                            <property name="primary_icon_sensitive">True</property>
-                                            <property name="secondary_icon_sensitive">True</property>
                                             <signal name="paste-clipboard" handler="on_entry_proxy_host_paste_clipboard" swapped="no"/>
                                           </object>
                                           <packing>
@@ -3540,8 +3480,8 @@ The interface adapter name for outgoing BitTorrent connections. (Leave empty for
                                           <object class="GtkLabel" id="label_proxy_port">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="xalign">1</property>
                                             <property name="label" translatable="yes">Port:</property>
+                                            <property name="xalign">1</property>
                                           </object>
                                           <packing>
                                             <property name="top_attach">4</property>
@@ -3561,8 +3501,6 @@ The interface adapter name for outgoing BitTorrent connections. (Leave empty for
                                                 <property name="can_focus">True</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
                                                 <property name="adjustment">adjustment_spin_proxy_port</property>
                                                 <property name="numeric">True</property>
                                               </object>
@@ -3583,8 +3521,6 @@ The interface adapter name for outgoing BitTorrent connections. (Leave empty for
                                             <property name="truncate_multiline">True</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
-                                            <property name="primary_icon_sensitive">True</property>
-                                            <property name="secondary_icon_sensitive">True</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
@@ -3617,8 +3553,8 @@ The interface adapter name for outgoing BitTorrent connections. (Leave empty for
                                           <object class="GtkLabel" id="label_proxy_user">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
                                             <property name="label" translatable="yes">Username:</property>
+                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="top_attach">1</property>
@@ -3802,8 +3738,6 @@ the proxy instead of using the local DNS service</property>
                   <object class="GtkScrolledWindow" id="CacheScrolledWindow">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="hscrollbar_policy">automatic</property>
-                    <property name="vscrollbar_policy">automatic</property>
                     <child>
                       <object class="GtkViewport" id="viewport13">
                         <property name="visible">True</property>
@@ -3837,8 +3771,8 @@ the proxy instead of using the local DNS service</property>
                                           <object class="GtkLabel" id="label114">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
                                             <property name="label" translatable="yes">Cache Size (16 KiB blocks):</property>
+                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="x_options">GTK_FILL</property>
@@ -3850,8 +3784,8 @@ the proxy instead of using the local DNS service</property>
                                             <property name="can_focus">False</property>
                                             <property name="has_tooltip">True</property>
                                             <property name="tooltip_text" translatable="yes">The number of seconds from the last cached write to a piece in the write cache, to when it's forcefully flushed to disk. Default is 60 seconds.</property>
-                                            <property name="xalign">0</property>
                                             <property name="label" translatable="yes">Cache Expiry (seconds):</property>
+                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="top_attach">1</property>
@@ -3868,8 +3802,6 @@ the proxy instead of using the local DNS service</property>
                                             <property name="xalign">1</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
-                                            <property name="primary_icon_sensitive">True</property>
-                                            <property name="secondary_icon_sensitive">True</property>
                                             <property name="adjustment">adjustment_cache_size</property>
                                             <property name="numeric">True</property>
                                             <property name="update_policy">if-valid</property>
@@ -3890,8 +3822,6 @@ the proxy instead of using the local DNS service</property>
                                             <property name="xalign">1</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
-                                            <property name="primary_icon_sensitive">True</property>
-                                            <property name="secondary_icon_sensitive">True</property>
                                             <property name="adjustment">adjustment_cache_expiry</property>
                                           </object>
                                           <packing>
@@ -3963,8 +3893,8 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="tooltip_text" translatable="yes">The total number of 16 KiB blocks written to disk since this session was started.</property>
-                                                        <property name="xalign">0</property>
                                                         <property name="label" translatable="yes">Blocks Written:</property>
+                                                        <property name="xalign">0</property>
                                                       </object>
                                                       <packing>
                                                         <property name="x_options">GTK_FILL</property>
@@ -3975,8 +3905,8 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="tooltip_text" translatable="yes">The total number of write operations performed since this session was started.</property>
-                                                        <property name="xalign">0</property>
                                                         <property name="label" translatable="yes">Writes:</property>
+                                                        <property name="xalign">0</property>
                                                       </object>
                                                       <packing>
                                                         <property name="top_attach">1</property>
@@ -3989,8 +3919,8 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="tooltip_text" translatable="yes">The ratio (blocks_written - writes) / blocks_written represents the number of saved write operations per total write operations, i.e. a kind of cache hit ratio for the write cache.</property>
-                                                        <property name="xalign">0</property>
                                                         <property name="label" translatable="yes">Write Cache Hit Ratio:</property>
+                                                        <property name="xalign">0</property>
                                                       </object>
                                                       <packing>
                                                         <property name="top_attach">2</property>
@@ -4082,8 +4012,8 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="tooltip_text" translatable="yes">The number of blocks that were requested from the bittorrent engine (from peers), that were served from disk or cache.</property>
-                                                        <property name="xalign">0</property>
                                                         <property name="label" translatable="yes">Blocks Read:</property>
+                                                        <property name="xalign">0</property>
                                                       </object>
                                                       <packing>
                                                         <property name="x_options">GTK_FILL</property>
@@ -4094,8 +4024,8 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="tooltip_text" translatable="yes">The number of blocks that were served from cache.</property>
-                                                        <property name="xalign">0</property>
                                                         <property name="label" translatable="yes">Blocks Read Hit:</property>
+                                                        <property name="xalign">0</property>
                                                       </object>
                                                       <packing>
                                                         <property name="top_attach">1</property>
@@ -4108,8 +4038,8 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="tooltip_text" translatable="yes">The cache hit ratio for the read cache.</property>
-                                                        <property name="xalign">0</property>
                                                         <property name="label" translatable="yes">Read Cache Hit Ratio:</property>
+                                                        <property name="xalign">0</property>
                                                       </object>
                                                       <packing>
                                                         <property name="top_attach">3</property>
@@ -4163,8 +4093,8 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="has_tooltip">True</property>
                                                         <property name="tooltip_text" translatable="yes">The total number of read operations performed since this session was started.</property>
-                                                        <property name="xalign">0</property>
                                                         <property name="label" translatable="yes">Reads:</property>
+                                                        <property name="xalign">0</property>
                                                       </object>
                                                       <packing>
                                                         <property name="top_attach">2</property>
@@ -4229,8 +4159,8 @@ the proxy instead of using the local DNS service</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="tooltip_text" translatable="yes">The number of 16 KiB blocks currently in the disk cache. This includes both read and write cache.</property>
-                                                        <property name="xalign">0</property>
                                                         <property name="label" translatable="yes">Cache Size:</property>
+                                                        <property name="xalign">0</property>
                                                       </object>
                                                       <packing>
                                                         <property name="x_options">GTK_FILL</property>
@@ -4240,8 +4170,8 @@ the proxy instead of using the local DNS service</property>
                                                       <object class="GtkLabel" id="label117">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="xalign">0</property>
                                                         <property name="label" translatable="yes">Read Cache Size:</property>
+                                                        <property name="xalign">0</property>
                                                       </object>
                                                       <packing>
                                                         <property name="top_attach">1</property>
@@ -4369,8 +4299,6 @@ the proxy instead of using the local DNS service</property>
                   <object class="GtkScrolledWindow" id="OtherScrolledWindow">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="hscrollbar_policy">automatic</property>
-                    <property name="vscrollbar_policy">automatic</property>
                     <child>
                       <object class="GtkViewport" id="viewport8">
                         <property name="visible">True</property>
@@ -4401,9 +4329,9 @@ the proxy instead of using the local DNS service</property>
                                           <object class="GtkLabel" id="label44">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
                                             <property name="label" translatable="yes">Help us improve Deluge by sending us your Python version, PyGTK version, OS and processor types.  Absolutely no other information is sent.</property>
                                             <property name="wrap">True</property>
+                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -4501,8 +4429,6 @@ the proxy instead of using the local DNS service</property>
                                                     <property name="truncate_multiline">True</property>
                                                     <property name="primary_icon_activatable">False</property>
                                                     <property name="secondary_icon_activatable">False</property>
-                                                    <property name="primary_icon_sensitive">True</property>
-                                                    <property name="secondary_icon_sensitive">True</property>
                                                   </object>
                                                   <packing>
                                                     <property name="expand">True</property>
@@ -4620,8 +4546,6 @@ the proxy instead of using the local DNS service</property>
                   <object class="GtkScrolledWindow" id="DaemonScrolledWindow">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="hscrollbar_policy">automatic</property>
-                    <property name="vscrollbar_policy">automatic</property>
                     <child>
                       <object class="GtkViewport" id="viewport7">
                         <property name="visible">True</property>
@@ -4672,8 +4596,6 @@ the proxy instead of using the local DNS service</property>
                                                 <property name="xalign">1</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
                                                 <property name="adjustment">adjustment_spin_daemon_port</property>
                                               </object>
                                               <packing>
@@ -4812,6 +4734,9 @@ the proxy instead of using the local DNS service</property>
                                           <object class="GtkTreeView" id="accounts_listview">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <child internal-child="selection">
+                                              <object class="GtkTreeSelection"/>
+                                            </child>
                                           </object>
                                           <packing>
                                             <property name="expand">True</property>
@@ -4889,10 +4814,10 @@ the proxy instead of using the local DNS service</property>
                                   <object class="GtkLabel" id="label61">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="xalign">0</property>
                                     <property name="xpad">10</property>
                                     <property name="ypad">10</property>
                                     <property name="label" translatable="yes">Accounts</property>
+                                    <property name="xalign">0</property>
                                     <attributes>
                                       <attribute name="weight" value="bold"/>
                                     </attributes>
@@ -4921,8 +4846,6 @@ the proxy instead of using the local DNS service</property>
                   <object class="GtkScrolledWindow" id="PluginsScrolledWindow">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="hscrollbar_policy">automatic</property>
-                    <property name="vscrollbar_policy">automatic</property>
                     <child>
                       <object class="GtkViewport" id="viewport5">
                         <property name="visible">True</property>
@@ -4941,13 +4864,14 @@ the proxy instead of using the local DNS service</property>
                                   <object class="GtkScrolledWindow" id="scrolledwindow12">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="hscrollbar_policy">automatic</property>
-                                    <property name="vscrollbar_policy">automatic</property>
                                     <property name="shadow_type">in</property>
                                     <child>
                                       <object class="GtkTreeView" id="plugin_listview">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
+                                        <child internal-child="selection">
+                                          <object class="GtkTreeSelection"/>
+                                        </child>
                                       </object>
                                     </child>
                                   </object>
@@ -4961,8 +4885,6 @@ the proxy instead of using the local DNS service</property>
                                     <property name="height_request">115</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="hscrollbar_policy">automatic</property>
-                                    <property name="vscrollbar_policy">automatic</property>
                                     <child>
                                       <object class="GtkViewport" id="viewport12">
                                         <property name="visible">True</property>
@@ -5031,9 +4953,9 @@ the proxy instead of using the local DNS service</property>
                                                       <object class="GtkLabel" id="label85">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
+                                                        <property name="label" translatable="yes">Details:</property>
                                                         <property name="xalign">0</property>
                                                         <property name="yalign">0</property>
-                                                        <property name="label" translatable="yes">Details:</property>
                                                       </object>
                                                       <packing>
                                                         <property name="top_attach">4</property>
@@ -5046,8 +4968,8 @@ the proxy instead of using the local DNS service</property>
                                                       <object class="GtkLabel" id="label84">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="xalign">0</property>
                                                         <property name="label" translatable="yes">Version:</property>
+                                                        <property name="xalign">0</property>
                                                       </object>
                                                       <packing>
                                                         <property name="top_attach">1</property>
@@ -5060,8 +4982,8 @@ the proxy instead of using the local DNS service</property>
                                                       <object class="GtkLabel" id="label82">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="xalign">0</property>
                                                         <property name="label" translatable="yes">Author:</property>
+                                                        <property name="xalign">0</property>
                                                       </object>
                                                       <packing>
                                                         <property name="x_options">GTK_FILL</property>
@@ -5072,8 +4994,8 @@ the proxy instead of using the local DNS service</property>
                                                       <object class="GtkLabel" id="label86">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="xalign">0</property>
                                                         <property name="label" translatable="yes">Homepage:</property>
+                                                        <property name="xalign">0</property>
                                                       </object>
                                                       <packing>
                                                         <property name="top_attach">3</property>
@@ -5086,8 +5008,8 @@ the proxy instead of using the local DNS service</property>
                                                       <object class="GtkLabel" id="label87">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="xalign">0</property>
                                                         <property name="label" translatable="yes">Author Email:</property>
+                                                        <property name="xalign">0</property>
                                                       </object>
                                                       <packing>
                                                         <property name="top_attach">2</property>
