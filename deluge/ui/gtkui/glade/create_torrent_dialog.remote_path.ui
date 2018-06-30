@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.1 -->
 <interface>
-  <requires lib="gtk+" version="2.24"/>
-  <!-- interface-naming-policy project-wide -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkDialog" id="remote_path_dialog">
     <property name="width_request">462</property>
     <property name="can_focus">False</property>
@@ -11,13 +11,16 @@
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
     <property name="decorated">False</property>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox7">
+      <object class="GtkBox" id="dialog-vbox7">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area7">
+          <object class="GtkButtonBox" id="dialog-action_area7">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -140,11 +143,8 @@
                     <property name="invisible_char">•</property>
                     <property name="activates_default">True</property>
                     <property name="truncate_multiline">True</property>
-                    <property name="invisible_char_set">True</property>
                     <property name="primary_icon_activatable">False</property>
                     <property name="secondary_icon_activatable">False</property>
-                    <property name="primary_icon_sensitive">True</property>
-                    <property name="secondary_icon_sensitive">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>

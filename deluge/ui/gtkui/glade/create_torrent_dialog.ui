@@ -1,12 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.1 -->
 <interface>
-  <requires lib="gtk+" version="2.24"/>
-  <!-- interface-naming-policy toplevel-contextual -->
+  <requires lib="gtk+" version="3.0"/>
+  <object class="GtkListStore" id="liststore1">
+    <columns>
+      <!-- column-name item -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">32 KiB</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">64 KiB</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">128 KiB</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">256 KiB</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">512 KiB</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">1 MiB</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">2 MiB</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">4 MiB</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">8 MiB</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">16 MiB</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes"/>
+      </row>
+    </data>
+  </object>
   <object class="GtkWindow" id="create_torrent_dialog">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Create Torrent</property>
     <property name="window_position">center-on-parent</property>
+    <child>
+      <placeholder/>
+    </child>
     <child>
       <object class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
@@ -22,7 +66,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="stock">gtk-new</property>
-                <property name="icon-size">5</property>
+                <property name="icon_size">5</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -86,8 +130,6 @@
                       <object class="GtkScrolledWindow" id="scrolledwindow1">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="hscrollbar_policy">automatic</property>
-                        <property name="vscrollbar_policy">automatic</property>
                         <property name="shadow_type">in</property>
                         <child>
                           <object class="GtkTreeView" id="treeview_files">
@@ -95,6 +137,9 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="headers_visible">False</property>
+                            <child internal-child="selection">
+                              <object class="GtkTreeSelection"/>
+                            </child>
                           </object>
                         </child>
                       </object>
@@ -316,8 +361,6 @@
                             <property name="truncate_multiline">True</property>
                             <property name="primary_icon_activatable">False</property>
                             <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                           </object>
                           <packing>
                             <property name="expand">True</property>
@@ -355,8 +398,6 @@
                             <property name="can_focus">True</property>
                             <property name="primary_icon_activatable">False</property>
                             <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                           </object>
                           <packing>
                             <property name="expand">True</property>
@@ -426,13 +467,14 @@
                       <object class="GtkScrolledWindow" id="scrolledwindow3">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="hscrollbar_policy">automatic</property>
-                        <property name="vscrollbar_policy">automatic</property>
                         <property name="shadow_type">in</property>
                         <child>
                           <object class="GtkTreeView" id="tracker_treeview">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <child internal-child="selection">
+                              <object class="GtkTreeSelection"/>
+                            </child>
                           </object>
                         </child>
                       </object>
@@ -807,46 +849,5 @@
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkListStore" id="liststore1">
-    <columns>
-      <!-- column-name item -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">32 KiB</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">64 KiB</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">128 KiB</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">256 KiB</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">512 KiB</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">1 MiB</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">2 MiB</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">4 MiB</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">8 MiB</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">16 MiB</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes"></col>
-      </row>
-    </data>
   </object>
 </interface>

@@ -1,66 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.1 -->
 <interface>
-  <requires lib="gtk+" version="2.24"/>
-  <!-- interface-naming-policy toplevel-contextual -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkAccelGroup" id="accelgroup1"/>
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-preferences</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image12">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-edit</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image13">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-media-play</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image14">
     <property name="can_focus">False</property>
     <property name="stock">gtk-media-pause</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image19">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-sort-descending</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image5">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-refresh</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image6">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-redo</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image7">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-open</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image8">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-save-as</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image9">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-remove</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkMenu" id="torrent_menu">
     <property name="visible">True</property>

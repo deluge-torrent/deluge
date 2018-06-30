@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.1 -->
 <interface>
-  <requires lib="gtk+" version="2.24"/>
-  <!-- interface-naming-policy toplevel-contextual -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkDialog" id="queued_torrents_dialog">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
@@ -11,13 +11,16 @@
     <property name="default_height">300</property>
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox1">
+      <object class="GtkBox" id="dialog-vbox1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area1">
+          <object class="GtkButtonBox" id="dialog-action_area1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -92,9 +95,9 @@
                   <object class="GtkLabel" id="label1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xalign">0.05000000074505806</property>
                     <property name="ypad">10</property>
                     <property name="label" translatable="yes">Add Queued Torrents</property>
+                    <property name="xalign">0.05000000074505806</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
                       <attribute name="scale" value="1.2"/>
@@ -117,14 +120,15 @@
               <object class="GtkScrolledWindow" id="scrolledwindow1">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="hscrollbar_policy">automatic</property>
-                <property name="vscrollbar_policy">automatic</property>
                 <property name="shadow_type">in</property>
                 <child>
                   <object class="GtkTreeView" id="treeview">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="headers_visible">False</property>
+                    <child internal-child="selection">
+                      <object class="GtkTreeSelection"/>
+                    </child>
                   </object>
                 </child>
               </object>

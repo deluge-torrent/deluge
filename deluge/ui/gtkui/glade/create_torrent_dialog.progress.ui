@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.1 -->
 <interface>
-  <requires lib="gtk+" version="2.24"/>
-  <!-- interface-naming-policy project-wide -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkDialog" id="progress_dialog">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Creating Torrent</property>
     <property name="window_position">center-on-parent</property>
     <property name="type_hint">dialog</property>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox9">
+      <object class="GtkBox" id="dialog-vbox9">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area9">
+          <object class="GtkButtonBox" id="dialog-action_area9">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>

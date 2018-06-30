@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.1 -->
 <interface>
-  <requires lib="gtk+" version="2.24"/>
-  <!-- interface-naming-policy project-wide -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkDialog" id="add_tracker_dialog">
     <property name="width_request">400</property>
     <property name="height_request">200</property>
@@ -11,13 +11,16 @@
     <property name="window_position">center-on-parent</property>
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox5">
+      <object class="GtkBox" id="dialog-vbox5">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area5">
+          <object class="GtkButtonBox" id="dialog-action_area5">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -127,9 +130,9 @@
                   <object class="GtkLabel" id="label2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Trackers:</property>
                     <property name="xalign">0</property>
                     <property name="yalign">0</property>
-                    <property name="label" translatable="yes">Trackers:</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -141,8 +144,6 @@
                   <object class="GtkScrolledWindow" id="scrolledwindow1">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="hscrollbar_policy">automatic</property>
-                    <property name="vscrollbar_policy">automatic</property>
                     <property name="shadow_type">in</property>
                     <child>
                       <object class="GtkTextView" id="textview_trackers">
