@@ -162,7 +162,7 @@ class FilterManager(component.Component):
             return torrent_ids
 
         # Registered filters
-        for field, values in filter_dict.items():
+        for field, values in list(filter_dict.items()):
             if field in self.registered_filters:
                 # Filters out doubles
                 torrent_ids = list(set(self.registered_filters[field](torrent_ids, values)))
@@ -251,7 +251,7 @@ class FilterManager(component.Component):
 
     def _hide_state_items(self, state_items):
         """For hide(show)-zero hits"""
-        for (value, count) in state_items.items():
+        for value, count in list(state_items.items()):
             if value != 'All' and count == 0:
                 del state_items[value]
 
