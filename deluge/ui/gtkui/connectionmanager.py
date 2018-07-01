@@ -102,7 +102,7 @@ class ConnectionManager(component.Component):
         if not HOSTLIST_PIXBUFS:
             for stock_id in (Gtk.STOCK_NO, Gtk.STOCK_YES, Gtk.STOCK_CONNECT):
                 HOSTLIST_PIXBUFS.append(
-                    self.connection_manager.render_icon(stock_id, Gtk.ICON_SIZE_MENU),
+                    self.connection_manager.render_icon(stock_id, Gtk.IconSize.MENU),
                 )
 
         # Setup the hostlist liststore and treeview
@@ -211,7 +211,7 @@ class ConnectionManager(component.Component):
         self.builder.get_object('button_removehost').set_sensitive(False)
         self.builder.get_object('button_startdaemon').set_sensitive(False)
         self.builder.get_object('image_startdaemon').set_from_stock(
-            Gtk.STOCK_EXECUTE, Gtk.ICON_SIZE_MENU,
+            Gtk.STOCK_EXECUTE, Gtk.IconSize.MENU,
         )
         self.builder.get_object('label_startdaemon').set_text_with_mnemonic('_Start Daemon')
 
@@ -237,7 +237,7 @@ class ConnectionManager(component.Component):
         if status == 'Connected' or status == 'Online':
             self.builder.get_object('button_connect').set_sensitive(True)
             self.builder.get_object('image_startdaemon').set_from_stock(
-                Gtk.STOCK_STOP, Gtk.ICON_SIZE_MENU,
+                Gtk.STOCK_STOP, Gtk.IconSize.MENU,
             )
             self.builder.get_object('label_startdaemon').set_text_with_mnemonic(_('_Stop Daemon'))
             self.builder.get_object('button_startdaemon').set_sensitive(False)
