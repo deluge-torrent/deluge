@@ -861,7 +861,7 @@ class TorrentManager(component.Component):
         try:
             log.debug('Creating the temporary file: %s', filepath_tmp)
             with open(filepath_tmp, 'wb', 0) as _file:
-                pickle.dump(state, _file)
+                pickle.dump(state, _file, protocol=2)
                 _file.flush()
                 os.fsync(_file.fileno())
         except (OSError, pickle.PicklingError) as ex:

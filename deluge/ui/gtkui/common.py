@@ -264,7 +264,7 @@ def save_pickled_state_file(filename, state):
         try:
             with open(filepath_tmp, 'wb') as _file:
                 # Pickle the state object
-                pickle.dump(state, _file)
+                pickle.dump(state, _file, protocol=2)
                 _file.flush()
                 os.fsync(_file.fileno())
             shutil.move(filepath_tmp, filepath)

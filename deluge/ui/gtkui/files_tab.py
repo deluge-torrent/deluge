@@ -757,7 +757,7 @@ class FilesTab(Tab):
 
     def _on_drag_data_get_data(self, treeview, context, selection, target_id, etime):
         paths = self.listview.get_selection().get_selected_rows()[1]
-        selection.set_text(pickle.dumps(paths))
+        selection.set_text(pickle.dumps(paths, protocol=2))
 
     def _on_drag_data_received_data(self, treeview, context, x, y, selection, info, etime):
         try:
