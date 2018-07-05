@@ -16,14 +16,12 @@ import mimetypes
 import os
 import tempfile
 
-from OpenSSL.crypto import FILETYPE_PEM
 from twisted.application import internet, service
 from twisted.internet import defer, reactor
-from twisted.internet.ssl import AcceptableCiphers, Certificate, CertificateOptions, KeyPair, TLSVersion
 from twisted.web import http, resource, server, static
 
 from deluge import common, component, configmanager
-from deluge.common import TLS_CIPHERS, is_ipv6
+from deluge.common import get_context_factory, is_ipv6
 from deluge.core.rpcserver import check_ssl_keys
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.translations_util import set_language, setup_translations
@@ -666,21 +664,15 @@ class DelugeWeb(component.Component):
         check_ssl_keys()
         log.debug('Enabling SSL with PKey: %s, Cert: %s', self.pkey, self.cert)
 
-        with open(configmanager.get_config_dir(self.cert)) as cert:
-            certificate = Certificate.loadPEM(cert.read()).original
-        with open(configmanager.get_config_dir(self.pkey)) as pkey:
-            private_key = KeyPair.load(pkey.read(), FILETYPE_PEM).original
-        ciphers = AcceptableCiphers.fromOpenSSLCipherString(TLS_CIPHERS)
-        options = CertificateOptions(
-            privateKey=private_key,
-            certificate=certificate,
-            raiseMinimumTo=TLSVersion.TLSv1_2,
-            acceptableCiphers=ciphers,
-        )
-        ctx = options.getContext()
-        ctx.use_certificate_chain_file(configmanager.get_config_dir(self.cert))
+        cert = configmanager.get_config_dir(self.cert)
+        pkey = configmanager.get_config_dir(self.pkey)
 
-        self.socket = reactor.listenSSL(self.port, self.site, options, interface=self.interface)
+        self.socket = reactor.listenSSL(
+            self.port,
+            self.site,
+            get_context_factory(cert, pkey),
+            interface=self.interface
+        )
         ip = self.socket.getHost().host
         ip = '[%s]' % ip if is_ipv6(ip) else ip
         log.info('Serving at https://%s:%s%s', ip, self.port, self.base)

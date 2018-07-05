@@ -28,6 +28,8 @@ import time
 
 import chardet
 import pkg_resources
+from OpenSSL.crypto import FILETYPE_PEM
+from twisted.internet.ssl import AcceptableCiphers, Certificate, CertificateOptions, KeyPair, TLSVersion
 
 from deluge.decorators import deprecated
 from deluge.error import InvalidPathError
@@ -85,6 +87,37 @@ TLS_CIPHERS = ':'.join([
     '!eNULL',
     '!MD5'
 ])
+
+
+def get_context_factory(cert_path, pkey_path):
+    """
+    Generates an OpenSSL context factory using Twisted's CertificateOptions class.
+    This will keep a server cipher order.
+
+    :param cert_path: the path to the certificate file
+    :type cert_path: string
+    :param pkey_path: the path to the private key file
+    :type pkey_path: string
+    :return: an OpenSSL context factory
+    :rtype twisted.internet.ssl.CertificateOptions
+    """
+
+    with open(cert_path) as cert:
+        certificate = Certificate.loadPEM(cert.read()).original
+    with open(pkey_path) as pkey:
+        private_key = KeyPair.load(pkey.read(), FILETYPE_PEM).original
+    ciphers = AcceptableCiphers.fromOpenSSLCipherString(TLS_CIPHERS)
+    cert_options = CertificateOptions(
+        privateKey=private_key,
+        certificate=certificate,
+        raiseMinimumTo=TLSVersion.TLSv1_2,
+        acceptableCiphers=ciphers,
+    )
+    ctx = cert_options.getContext()
+    ctx.use_certificate_chain_file(cert_path)
+
+    return cert_options
+
 
 TORRENT_STATE = [
     'Allocating',
