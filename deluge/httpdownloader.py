@@ -15,10 +15,12 @@ import os.path
 import zlib
 
 from twisted.internet import reactor
+from twisted.internet.defer import Deferred
 from twisted.python.failure import Failure
 from twisted.web import client, http
-from twisted.web.client import URI
+from twisted.web._newclient import HTTPClientParser
 from twisted.web.error import PageRedirect
+from twisted.web.http_headers import Headers
 
 from deluge.common import get_version, utf8_encode_structure
 
@@ -31,13 +33,38 @@ except ImportError:
 log = logging.getLogger(__name__)
 
 
-class HTTPDownloader(client.HTTPDownloader):
+class BodyHandler(HTTPClientParser):
+    def __init__(self, request, finished, length, agent):
+        HTTPClientParser.__init__(self, request, finished)
+        self.agent = agent
+        self.finished = finished
+        self.total_length = length
+        self.current_length = 0
+        self.data = b''
+
+    def dataReceived(self, data):  # NOQA: N802
+        self.current_length += len(data)
+        if self.agent.decoder:
+            data = self.agent.decoder.decompress(data)
+        self.data += data
+        if self.agent.part_callback:
+            self.agent.part_callback(data, self.current_length, self.total_length)
+
+    def connectionLost(self, reason):  # NOQA: N802
+        with open(self.agent.filename, 'wb') as _file:
+            _file.write(self.data)
+        self.finished.callback(self.agent.filename)
+        self.state = u'DONE'
+        HTTPClientParser.connectionLost(self, reason)
+
+
+class HTTPDownloaderAgent(client.Agent):
     """
-    Factory class for downloading files and keeping track of progress.
+    A File Downloader Agent
     """
     def __init__(
         self, url, filename, part_callback=None, headers=None,
-        force_filename=False, allow_compression=True,
+        force_filename=False, allow_compression=True
     ):
         """
         :param url: the url to download from
@@ -52,43 +79,55 @@ class HTTPDownloader(client.HTTPDownloader):
         :param headers: any optional headers to send
         :type headers: dictionary
         """
+        if not headers:
+            headers = {}
+        else:
+            for key, value in headers.items():
+                headers[key] = [value]
+        headers.update({'User-Agent': ['Deluge/%s (http://deluge-torrent.org)' % get_version()]})
 
+        self.url = url.encode()
+        self.filename = filename
         self.part_callback = part_callback
-        self.current_length = 0
-        self.total_length = 0
-        self.decoder = None
-        self.value = filename
+        self.headers = Headers(headers)
         self.force_filename = force_filename
         self.allow_compression = allow_compression
-        self.code = None
-        agent = 'Deluge/%s (http://deluge-torrent.org)' % get_version()
-        client.HTTPDownloader.__init__(
-            self, url, filename, headers=headers, agent=agent.encode('utf-8'))
+        self.decoder = None
+        client.Agent.__init__(self, reactor)
 
-    def gotHeaders(self, headers):  # NOQA: N802
-        self.code = int(self.status)
-        if self.code == http.OK:
-            if b'content-length' in headers:
-                self.total_length = int(headers[b'content-length'][0])
-            else:
-                self.total_length = 0
+    def request_callback(self, response):
+        finished = Deferred()
+
+        if response.code in (
+            http.MOVED_PERMANENTLY,
+            http.FOUND,
+            http.SEE_OTHER,
+            http.TEMPORARY_REDIRECT,
+        ):
+            location = response.headers.getRawHeaders(b'location')[0]
+            error = PageRedirect(response.code, location=location)
+            finished.errback(Failure(error))
+
+        else:
+            headers = response.headers
+            body_length = int(headers.getRawHeaders(b'content-length', default=[0])[0])
 
             encodings_accepted = [b'gzip', b'x-gzip', b'deflate']
             if (
-                self.allow_compression and b'content-encoding' in headers
-                and headers[b'content-encoding'][0] in encodings_accepted
+                self.allow_compression and headers.hasHeader(b'content-encoding')
+                and headers.getRawHeaders(b'content-encoding')[0] in encodings_accepted
             ):
                 # Adding 32 to the wbits enables gzip & zlib decoding (with automatic header detection)
                 # Adding 16 just enables gzip decoding (no zlib)
                 self.decoder = zlib.decompressobj(zlib.MAX_WBITS + 32)
 
-            if b'content-disposition' in headers and not self.force_filename:
-                content_disp = headers[b'content-disposition'][0].decode('utf-8')
+            if headers.hasHeader(b'content-disposition') and not self.force_filename:
+                content_disp = headers.getRawHeaders(b'content-disposition')[0].decode('utf-8')
                 content_disp_params = cgi.parse_header(content_disp)[1]
                 if 'filename' in content_disp_params:
                     new_file_name = content_disp_params['filename']
                     new_file_name = sanitise_filename(new_file_name)
-                    new_file_name = os.path.join(os.path.split(self.value)[0], new_file_name)
+                    new_file_name = os.path.join(os.path.split(self.filename)[0], new_file_name)
 
                     count = 1
                     fileroot = os.path.splitext(new_file_name)[0]
@@ -98,39 +137,21 @@ class HTTPDownloader(client.HTTPDownloader):
                         new_file_name = '%s-%s%s' % (fileroot, count, fileext)
                         count += 1
 
-                    self.fileName = new_file_name
-                    self.value = new_file_name
+                    self.filename = new_file_name
 
-        elif self.code in (
-            http.MOVED_PERMANENTLY,
-            http.FOUND,
-            http.SEE_OTHER,
-            http.TEMPORARY_REDIRECT,
-        ):
-            location = headers[b'location'][0]
-            error = PageRedirect(self.code, location=location)
-            self.noPage(Failure(error))
+            response.deliverBody(BodyHandler(response.request, finished, body_length, self))
 
-        return client.HTTPDownloader.gotHeaders(self, headers)
+        return finished
 
-    def pagePart(self, data):  # NOQA: N802
-        if self.code == http.OK:
-            self.current_length += len(data)
-            if self.decoder:
-                data = self.decoder.decompress(data)
-            if self.part_callback:
-                self.part_callback(data, self.current_length, self.total_length)
-
-        return client.HTTPDownloader.pagePart(self, data)
-
-    def pageEnd(self):  # NOQA: N802
-        if self.decoder:
-            data = self.decoder.flush()
-            self.current_length -= len(data)
-            self.decoder = None
-            self.pagePart(data)
-
-        return client.HTTPDownloader.pageEnd(self)
+    def request(self):
+        d = client.Agent.request(
+            self,
+            method=b'GET',
+            uri=self.url,
+            headers=self.headers
+        )
+        d.addCallback(self.request_callback)
+        return d
 
 
 def sanitise_filename(filename):
@@ -185,42 +206,9 @@ def _download_file(url, filename, callback=None, headers=None, force_filename=Fa
 
     """
 
-    if allow_compression:
-        if not headers:
-            headers = {}
-        headers['accept-encoding'] = 'deflate, gzip, x-gzip'
-
-    url = url.encode('utf8')
     headers = utf8_encode_structure(headers) if headers else headers
-    factory = HTTPDownloader(url, filename, callback, headers, force_filename, allow_compression)
-
-    uri = URI.fromBytes(url)
-    host = uri.host
-    port = uri.port
-
-    if uri.scheme == b'https':
-        from twisted.internet import ssl
-        # ClientTLSOptions in Twisted >= 14, see ticket #2765 for details on this addition.
-        try:
-            from twisted.internet._sslverify import ClientTLSOptions
-        except ImportError:
-            ctx_factory = ssl.ClientContextFactory()
-        else:
-            class TLSSNIContextFactory(ssl.ClientContextFactory):  # pylint: disable=no-init
-                """
-                A custom context factory to add a server name for TLS connections.
-                """
-                def getContext(self):  # NOQA: N802
-                    ctx = ssl.ClientContextFactory.getContext(self)
-                    ClientTLSOptions(host, ctx)
-                    return ctx
-            ctx_factory = TLSSNIContextFactory()
-
-        reactor.connectSSL(host, port, factory, ctx_factory)
-    else:
-        reactor.connectTCP(host, port, factory)
-
-    return factory.deferred
+    agent = HTTPDownloaderAgent(url, filename, callback, headers, force_filename, allow_compression)
+    return agent.request()
 
 
 def download_file(
