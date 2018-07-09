@@ -166,7 +166,7 @@ class Preferences(BaseMode, PopupsHandler):
 
     def _draw_actions(self):
         selected = self.active_zone == ZONE.ACTIONS
-        self.stdscr.hline(self.rows - 3, self.sidebar_width, '_', self.cols)
+        self.stdscr.hline(self.rows - 3, self.sidebar_width, b'_', self.cols)
         self.action_input.render(
             self.stdscr, self.rows - 2, width=self.cols,
             active=selected, focus=True, col=self.cols - 22,
