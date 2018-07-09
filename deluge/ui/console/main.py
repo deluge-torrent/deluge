@@ -607,6 +607,8 @@ class EventLog(component.Component):
 
         if date_different:
             string = time.strftime(self.date_change_format)
+            if deluge.common.PY2:
+                string = string.decode()
             self.console.write_event(' ')
             self.console.write_event(string)
 
