@@ -223,14 +223,14 @@ class BaseMode(CursesStdIO, component.Component):
         curses.endwin()
 
 
-def add_string(row, string, screen, encoding, col=0, pad=True, pad_char=' ', trim='...', leaveok=0):
+def add_string(row, fstring, screen, encoding, col=0, pad=True, pad_char=' ', trim='..', leaveok=0):
     """
     Adds a string to the desired `:param:row`.
 
     Args:
         row(int): the row number to write the string
         row(int): the row number to write the string
-        string(str): the string of text to add
+        fstring(str): the (formatted) string of text to add
         scr(curses.window): optional window to add string to instead of self.stdscr
         col(int): optional starting column offset
         pad(bool): optional bool if the string should be padded out to the width of the screen
@@ -258,47 +258,38 @@ def add_string(row, string, screen, encoding, col=0, pad=True, pad_char=' ', tri
 
     """
     try:
-        parsed = colors.parse_color_string(string, encoding)
+        parsed = colors.parse_color_string(fstring, encoding)
     except colors.BadColorString as ex:
-        log.error('Cannot add bad color string %s: %s', string, ex)
+        log.error('Cannot add bad color string %s: %s', fstring, ex)
         return
 
     if leaveok:
         screen.leaveok(leaveok)
 
     max_y, max_x = screen.getmaxyx()
-    for index, (color, s) in enumerate(parsed):
-        if index + 1 == len(parsed) and pad:
-            # This is the last string so lets append some " " to it
-            s += pad_char * (max_x - (col + len(s)))
-
-        # Sometimes the parsed string gives empty elements which may not be printed on max_x
-        if col == max_x:
+    for index, (color, string) in enumerate(parsed):
+        # Skip printing chars beyond max_x
+        if col >= max_x:
             break
 
-        if (col + len(s)) > max_x:
+        if index + 1 == len(parsed) and pad:
+            # This is the last string so lets append some padding to it
+            string += pad_char * (max_x - (col + len(string)))
+
+        if col + len(string) > max_x:
+            remaining_chrs = max(0, max_x - col)
             if trim:
-                s = '%s%s' % (s[0:max_x - len(trim) - col], trim)
+                string = string[0:max(0, remaining_chrs - len(trim))] + trim
             else:
-                s = s[0:max_x - col]
+                string = string[0:remaining_chrs]
 
-        if col + len(s) >= max_x and row == max_y - 1:
-            # Bug in curses when writing to the lower right corner: https://bugs.python.org/issue8243
-            # Use insstr instead which avoids scrolling which is the root cause apparently
-            screen.insstr(row, col, s, color)
-        else:
-            try:
-                screen.addstr(row, col, s, color)
-            except curses.error as ex:
-                import traceback
-                log.warn(
-                    'FAILED on call screen.addstr(%s, %s, "%s", %s) - max_y: %s, max_x: %s, '
-                    'curses.LINES: %s, curses.COLS: %s, Error: %s, trace:\n%s',
-                    row, col, s, color, max_y, max_x, curses.LINES, curses.COLS, ex,
-                    ''.join(traceback.format_stack(limit=5)),
-                )
+        try:
+            screen.addstr(row, col, string, color)
+        except curses.error as ex:
+            # Ignore exception for writing offscreen.
+            pass
 
-        col += len(s)
+        col += len(string)
 
     if leaveok:
         screen.leaveok(0)
