@@ -33,12 +33,7 @@ torrent_options = [
 
 
 def action_error(error, mode):
-    rerr = error.value
-    mode.report_message(
-        'An Error Occurred', '%s got error %s: %s' % (
-            rerr.method, rerr.exception_type, rerr.exception_msg,
-        ),
-    )
+    mode.report_message('Error Occurred', error.getErrorMessage())
     mode.refresh()
 
 
@@ -172,11 +167,11 @@ def torrent_action(action, *args, **kwargs):
 
     if action == ACTION.PAUSE:
         log.debug('Pausing torrents: %s', torrent_ids)
-        client.core.pause_torrent(torrent_ids).addErrback(action_error, mode)
+        client.core.pause_torrents(torrent_ids).addErrback(action_error, mode)
         retval = True
     elif action == ACTION.RESUME:
         log.debug('Resuming torrents: %s', torrent_ids)
-        client.core.resume_torrent(torrent_ids).addErrback(action_error, mode)
+        client.core.resume_torrents(torrent_ids).addErrback(action_error, mode)
         retval = True
     elif action == ACTION.QUEUE:
         queue_mode = QueueMode(mode, torrent_ids)
