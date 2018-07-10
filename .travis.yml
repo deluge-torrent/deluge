@@ -24,6 +24,7 @@ env:
     - DISPLAY=:99.0
   matrix:
     - TOX_ENV=pydef
+    - TOX_ENV=security
     - TOX_ENV=flake8
 #    - TOX_ENV=flake8-complexity
     - TOX_ENV=docs

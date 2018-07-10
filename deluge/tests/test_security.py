@@ -9,6 +9,7 @@ from __future__ import print_function, unicode_literals
 
 import os.path
 
+import pytest
 from twisted.internet.utils import getProcessOutputAndValue
 
 import deluge.component as component
@@ -122,6 +123,7 @@ class SecurityBaseTestCase(object):
         return self._run_test('-e')
 
 
+@pytest.mark.security
 class DaemonSecurityTestCase(BaseTestCase, DaemonBase, SecurityBaseTestCase):
 
     if windows_check():
@@ -154,6 +156,7 @@ class DaemonSecurityTestCase(BaseTestCase, DaemonBase, SecurityBaseTestCase):
         return d
 
 
+@pytest.mark.security
 class WebUISecurityTestBase(WebServerTestBase, SecurityBaseTestCase):
 
     def __init__(self, testname):
