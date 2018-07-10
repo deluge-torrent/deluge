@@ -24,8 +24,8 @@ from twisted.internet.protocol import Factory, connectionDone
 
 import deluge.component as component
 import deluge.configmanager
-from deluge.common import get_context_factory
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN, AUTH_LEVEL_DEFAULT, AUTH_LEVEL_NONE
+from deluge.crypto_utils import get_context_factory
 from deluge.error import DelugeError, IncompatibleClient, NotAuthorizedError, WrappedException, _ClientSideRecreateError
 from deluge.event import ClientDisconnectedEvent
 from deluge.transfer import DelugeTransferProtocol

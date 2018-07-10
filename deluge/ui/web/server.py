@@ -21,8 +21,9 @@ from twisted.internet import defer, reactor
 from twisted.web import http, resource, server, static
 
 from deluge import common, component, configmanager
-from deluge.common import get_context_factory, is_ipv6
+from deluge.common import is_ipv6
 from deluge.core.rpcserver import check_ssl_keys
+from deluge.crypto_utils import get_context_factory
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.translations_util import set_language, setup_translations
 from deluge.ui.web.auth import Auth
