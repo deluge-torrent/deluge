@@ -46,8 +46,9 @@ def get_context_factory(cert_path, pkey_path):
     :type cert_path: string
     :param pkey_path: the path to the private key file
     :type pkey_path: string
-    :return: an OpenSSL context factory
-    :rtype twisted.internet.ssl.CertificateOptions
+    :returns: an OpenSSL context factory
+    :rtype: twisted.internet.ssl.CertificateOptions
+
     """
 
     with open(cert_path) as cert:

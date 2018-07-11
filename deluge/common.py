@@ -62,7 +62,6 @@ if platform.system() not in ('Windows', 'Microsoft', 'Darwin'):
 
 log = logging.getLogger(__name__)
 
-
 TORRENT_STATE = [
     'Allocating',
     'Checking',
