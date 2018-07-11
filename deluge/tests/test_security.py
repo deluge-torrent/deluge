@@ -7,7 +7,7 @@
 
 from __future__ import print_function, unicode_literals
 
-import os.path
+import os
 
 import pytest
 from twisted.internet.utils import getProcessOutputAndValue
@@ -23,10 +23,14 @@ from .common import get_test_data_file
 from .common_web import WebServerTestBase
 from .daemon_base import DaemonBase
 
+SECURITY_TESTS = bool(os.getenv('SECURITY_TESTS', False))
+
 
 class SecurityBaseTestCase(object):
     if windows_check():
         skip = 'windows can`t run .sh files'
+    elif not SECURITY_TESTS:
+        skip = 'Skipping security tests'
 
     http_err = 'can\'t run http tests on daemon'
 
