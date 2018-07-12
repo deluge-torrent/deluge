@@ -21,21 +21,42 @@ from twisted.web import client, http
 from twisted.web._newclient import HTTPClientParser
 from twisted.web.error import PageRedirect
 from twisted.web.http_headers import Headers
+from twisted.web.iweb import IAgent
+from zope.interface import implementer
 
 from deluge.common import get_version, utf8_encode_structure
-
-try:
-    from urllib.parse import urljoin
-except ImportError:
-    # PY2 fallback
-    from urlparse import urljoin  # pylint: disable=ungrouped-imports
 
 log = logging.getLogger(__name__)
 
 
-class BodyHandler(HTTPClientParser):
+class CompressionDecoder(client.GzipDecoder):
+    """A compression decoder for gzip, x-gzip and deflate"""
+    def deliverBody(self, protocol):  # NOQA: N802
+        self.original.deliverBody(CompressionDecoderProtocol(protocol, self.original))
+
+
+class CompressionDecoderProtocol(client._GzipProtocol):
+    """A compression decoder protocol for CompressionDecoder"""
+    def __init__(self, protocol, response):
+        super(CompressionDecoderProtocol, self).__init__(protocol, response)
+        self._zlibDecompress = zlib.decompressobj(32 + zlib.MAX_WBITS)
+
+
+class BodyHandler(HTTPClientParser, object):
+    """An HTTP parser that saves the response on a file"""
     def __init__(self, request, finished, length, agent):
-        HTTPClientParser.__init__(self, request, finished)
+        """
+
+        :param request: the request to which this parser is for
+        :type request: twisted.web.iweb.IClientRequest
+        :param finished: a Deferred to handle the the finished response
+        :type finished: twisted.internet.defer.Deferred
+        :param length: the length of the response
+        :type length: int
+        :param agent: the agent from which the request was sent
+        :type agent: twisted.web.iweb.IAgent
+        """
+        super(BodyHandler, self).__init__(request, finished)
         self.agent = agent
         self.finished = finished
         self.total_length = length
@@ -44,8 +65,6 @@ class BodyHandler(HTTPClientParser):
 
     def dataReceived(self, data):  # NOQA: N802
         self.current_length += len(data)
-        if self.agent.decoder:
-            data = self.agent.decoder.decompress(data)
         self.data += data
         if self.agent.part_callback:
             self.agent.part_callback(data, self.current_length, self.total_length)
@@ -58,17 +77,18 @@ class BodyHandler(HTTPClientParser):
         HTTPClientParser.connectionLost(self, reason)
 
 
-class HTTPDownloaderAgent(client.Agent):
+@implementer(IAgent)
+class HTTPDownloaderAgent(object):
     """
     A File Downloader Agent
     """
     def __init__(
-        self, url, filename, part_callback=None, headers=None,
-        force_filename=False, allow_compression=True
+        self, agent, filename, part_callback=None,
+        force_filename=False, allow_compression=True, handle_redirect=True,
     ):
         """
-        :param url: the url to download from
-        :type url: string
+        :param agent: the agent which will send the requests
+        :type agent: twisted.web.client.Agent
         :param filename: the filename to save the file as
         :type filename: string
         :param force_filename: forces use of the supplied filename, regardless of header content
@@ -76,29 +96,20 @@ class HTTPDownloaderAgent(client.Agent):
         :param part_callback: a function to be called when a part of data
             is received, it's signature should be: func(data, current_length, total_length)
         :type part_callback: function
-        :param headers: any optional headers to send
-        :type headers: dictionary
         """
-        if not headers:
-            headers = {}
-        else:
-            for key, value in headers.items():
-                headers[key] = [value]
-        headers.update({'User-Agent': ['Deluge/%s (http://deluge-torrent.org)' % get_version()]})
 
-        self.url = url.encode()
+        self.handle_redirect = handle_redirect
+        self.agent = agent
         self.filename = filename
         self.part_callback = part_callback
-        self.headers = Headers(headers)
         self.force_filename = force_filename
         self.allow_compression = allow_compression
         self.decoder = None
-        client.Agent.__init__(self, reactor)
 
     def request_callback(self, response):
         finished = Deferred()
 
-        if response.code in (
+        if not self.handle_redirect and response.code in (
             http.MOVED_PERMANENTLY,
             http.FOUND,
             http.SEE_OTHER,
@@ -107,19 +118,9 @@ class HTTPDownloaderAgent(client.Agent):
             location = response.headers.getRawHeaders(b'location')[0]
             error = PageRedirect(response.code, location=location)
             finished.errback(Failure(error))
-
         else:
             headers = response.headers
             body_length = int(headers.getRawHeaders(b'content-length', default=[0])[0])
-
-            encodings_accepted = [b'gzip', b'x-gzip', b'deflate']
-            if (
-                self.allow_compression and headers.hasHeader(b'content-encoding')
-                and headers.getRawHeaders(b'content-encoding')[0] in encodings_accepted
-            ):
-                # Adding 32 to the wbits enables gzip & zlib decoding (with automatic header detection)
-                # Adding 16 just enables gzip decoding (no zlib)
-                self.decoder = zlib.decompressobj(zlib.MAX_WBITS + 32)
 
             if headers.hasHeader(b'content-disposition') and not self.force_filename:
                 content_disp = headers.getRawHeaders(b'content-disposition')[0].decode('utf-8')
@@ -143,12 +144,22 @@ class HTTPDownloaderAgent(client.Agent):
 
         return finished
 
-    def request(self):
-        d = client.Agent.request(
-            self,
-            method=b'GET',
-            uri=self.url,
-            headers=self.headers
+    def request(self, method, uri, headers=None, body_producer=None):
+        """
+
+        :param method: the HTTP method to use
+        :param uri: the url to download from
+        :type uri: string
+        :param headers: any optional headers to send
+        :type headers: twisted.web.http_headers.Headers
+        :param body_producer:
+        :return:
+        """
+        d = self.agent.request(
+            method=method,
+            uri=uri,
+            headers=headers,
+            bodyProducer=body_producer,
         )
         d.addCallback(self.request_callback)
         return d
@@ -182,7 +193,10 @@ def sanitise_filename(filename):
     return filename
 
 
-def _download_file(url, filename, callback=None, headers=None, force_filename=False, allow_compression=True):
+def _download_file(
+    url, filename, callback=None, headers=None,
+    force_filename=False, allow_compression=True, handle_redirects=True,
+):
     """
     Downloads a file from a specific URL and returns a Deferred. A callback
     function can be specified to be called as parts are received.
@@ -207,8 +221,24 @@ def _download_file(url, filename, callback=None, headers=None, force_filename=Fa
     """
 
     headers = utf8_encode_structure(headers) if headers else headers
-    agent = HTTPDownloaderAgent(url, filename, callback, headers, force_filename, allow_compression)
-    return agent.request()
+    headers_ = Headers({'User-Agent': ['Deluge/%s (http://deluge-torrent.org)' % get_version()]})
+    if headers:
+        for name, value in headers.items():
+            headers_.addRawHeader(name, value)
+
+    agent = client.Agent(reactor)
+    if allow_compression:
+        agent = client.ContentDecoderAgent(agent, (
+            (b'gzip', CompressionDecoder),
+            (b'x-gzip', CompressionDecoder),
+            (b'deflate', CompressionDecoder)
+        ))
+    if handle_redirects:
+        agent = client.RedirectAgent(agent)
+
+    agent = HTTPDownloaderAgent(agent, filename, callback, force_filename, allow_compression, handle_redirects)
+
+    return agent.request(b'GET', url.encode(), headers_)
 
 
 def download_file(
@@ -243,26 +273,17 @@ def download_file(
         return result
 
     def on_download_fail(failure):
-        if failure.check(PageRedirect) and handle_redirects:
-            new_url = urljoin(url, failure.getErrorMessage().split(' to ')[1])
-            result = _download_file(
-                new_url, filename, callback=callback, headers=headers,
-                force_filename=force_filename,
-                allow_compression=allow_compression,
-            )
-            result.addCallbacks(on_download_success, on_download_fail)
-        else:
-            # Log the failure and pass to the caller
-            log.warning(
-                'Error occurred downloading file from "%s": %s',
-                url, failure.getErrorMessage(),
-            )
-            result = failure
+        log.warning(
+            'Error occurred downloading file from "%s": %s',
+            url, failure.getErrorMessage(),
+        )
+        result = failure
         return result
 
     d = _download_file(
         url, filename, callback=callback, headers=headers,
         force_filename=force_filename, allow_compression=allow_compression,
+        handle_redirects=handle_redirects,
     )
     d.addCallbacks(on_download_success, on_download_fail)
     return d
