@@ -617,7 +617,7 @@ class TextInput(InputField):
         InputField.__init__(self, parent, name, message, **kwargs)
         self.move_func = move_func
         self._width = width
-        self.value = value
+        self.value = value if value else ''
         self.default_value = value
         self.complete = complete
         self.tab_count = 0
