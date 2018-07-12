@@ -59,6 +59,14 @@ class TrackerIconsTestCase(BaseTestCase):
         d.addCallback(self.assertEqual, icon)
         return d
 
+    def test_get_seo_ico_with_sni(self):
+        # seo using certificates with SNI support only
+        icon = TrackerIcon(common.get_test_data_file('seo.ico'))
+        d = self.icons.fetch('www.seo.com')
+        d.addCallback(self.assertNotIdentical, None)
+        d.addCallback(self.assertEqual, icon)
+        return d
+
     def test_get_empty_string_tracker(self):
         d = self.icons.fetch('')
         d.addCallback(self.assertIdentical, None)
