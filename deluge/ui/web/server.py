@@ -431,6 +431,8 @@ class TopLevel(resource.Resource):
 
     def __init__(self):
         resource.Resource.__init__(self)
+        self._check_and_build_gettext_js()
+
         self.putChild('css', LookupResource('Css', rpath('css')))
         self.putChild('gettext.js', GetText())
         self.putChild('flag', Flag())
@@ -469,6 +471,13 @@ class TopLevel(resource.Resource):
         if not os.path.isfile(rpath('themes', 'css', 'xtheme-%s.css' % theme)):
             theme = CONFIG_DEFAULTS.get('theme')
         self.__stylesheets.insert(1, 'themes/css/xtheme-%s.css' % theme)
+
+    @staticmethod
+    def _check_and_build_gettext_js():
+        js_path = os.path.join(os.path.dirname(__file__), 'js')
+        if not os.path.exists(os.path.join(js_path, 'gettext.js')):
+            from gen_web_gettext import create_gettext_js
+            create_gettext_js(os.path.join(js_path, 'deluge-all'))
 
     @property
     def stylesheets(self):
