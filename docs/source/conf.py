@@ -101,6 +101,7 @@ autodoc_mock_imports = [
     'pango',
     'cairo',
     'pangocairo',
+    'gi',
     'curses',
     'win32api',
     'win32file',

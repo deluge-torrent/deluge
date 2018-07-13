@@ -37,7 +37,7 @@ class FilesTabTestCase(BaseTestCase):
             raise unittest.SkipTest('GTKUI dependencies not available')
 
         common.set_tmp_config_dir()
-        ConfigManager('gtkui.conf', defaults=DEFAULT_PREFS)
+        ConfigManager('gtk3ui.conf', defaults=DEFAULT_PREFS)
         self.mainwindow = MainWindow()
         self.filestab = FilesTab()
         self.t_id = '1'

@@ -111,7 +111,7 @@ class TorrentviewTestCase(BaseTestCase):
 
         common.set_tmp_config_dir()
         # MainWindow loads this config file, so lets make sure it contains the defaults
-        ConfigManager('gtkui.conf', defaults=DEFAULT_PREFS)
+        ConfigManager('gtk3ui.conf', defaults=DEFAULT_PREFS)
         self.mainwindow = MainWindow()
         self.torrentview = TorrentView()
         self.torrentdetails = TorrentDetails()

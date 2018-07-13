@@ -502,16 +502,16 @@ if windows_check():
     )
 _entry_points['gui_scripts'] = [
     'deluge = deluge.ui.ui_entry:start_ui',
-    'deluge-gtk = deluge.ui.gtkui:start',
+    'deluge-gtk = deluge.ui.gtk3:start',
 ]
 _entry_points['deluge.ui'] = [
     'console = deluge.ui.console:Console',
     'web = deluge.ui.web:Web',
-    'gtk = deluge.ui.gtkui:Gtk',
+    'gtk = deluge.ui.gtk3:Gtk',
 ]
 
 
-_package_data['deluge'] = [
+_package_data['deluge.ui'] = [
     'ui/data/pixmaps/*.png',
     'ui/data/pixmaps/*.svg',
     'ui/data/pixmaps/*.ico',
@@ -535,7 +535,7 @@ _package_data['deluge.ui.web'] = [
     'themes/images/*/*/*.gif',
     'themes/images/*/*/*.png',
 ]
-_package_data['deluge.ui.gtkui'] = ['glade/*.ui']
+_package_data['deluge.ui.gtk3'] = ['glade/*.ui']
 
 setup_requires = ['setuptools', 'wheel']
 install_requires = [
