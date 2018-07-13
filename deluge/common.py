@@ -483,7 +483,7 @@ def ftime(secs):
     """Formats a string to show time in a human readable form.
 
     Args:
-        secs (int): The number of seconds.
+        secs (int or float): The number of seconds.
 
     Returns:
         str: A formatted time string or empty string if value is 0.
@@ -497,20 +497,22 @@ def ftime(secs):
 
     """
 
+    # Handle floats by truncating to an int
+    secs = int(secs)
     if secs <= 0:
         time_str = ''
     elif secs < 60:
-        time_str = '{:d}s'.format(secs)
+        time_str = '{}s'.format(secs)
     elif secs < 3600:
-        time_str = '{:d}m {:d}s'.format(secs // 60, secs % 60)
+        time_str = '{}m {}s'.format(secs // 60, secs % 60)
     elif secs < 86400:
-        time_str = '{:d}h {:d}m'.format(secs // 3600, secs // 60 % 60)
+        time_str = '{}h {}m'.format(secs // 3600, secs // 60 % 60)
     elif secs < 604800:
-        time_str = '{:d}d {:d}h'.format(secs // 86400, secs // 3600 % 24)
+        time_str = '{}d {}h'.format(secs // 86400, secs // 3600 % 24)
     elif secs < 31449600:
-        time_str = '{:d}w {:d}d'.format(secs // 604800, secs // 86400 % 7)
+        time_str = '{}w {}d'.format(secs // 604800, secs // 86400 % 7)
     else:
-        time_str = '{:d}y {:d}w'.format(secs // 31449600, secs // 604800 % 52)
+        time_str = '{}y {}w'.format(secs // 31449600, secs // 604800 % 52)
 
     return time_str
 
