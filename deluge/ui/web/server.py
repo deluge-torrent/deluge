@@ -83,6 +83,19 @@ class GetText(resource.Resource):
         return compress(template.render(), request)
 
 
+class MockGetText(resource.Resource):
+    """GetText Mocking class
+
+    This class will mock the file `gettext.js` in case it does not exists.
+    It will be used to define the `_` (underscore) function for translations,
+    and will return the string to translate, as is.
+    """
+    def render(self, request):
+        request.setHeader(b'content-type', b'text/javascript; encoding=utf-8')
+        data = 'function _(string) { return string; }'
+        return compress(data, request)
+
+
 class Upload(resource.Resource):
     """
     Twisted Web resource to handle file uploads
@@ -431,8 +444,15 @@ class TopLevel(resource.Resource):
 
     def __init__(self):
         resource.Resource.__init__(self)
+
         self.putChild('css', LookupResource('Css', rpath('css')))
-        self.putChild('gettext.js', GetText())
+        if os.path.isfile(rpath('js', 'gettext.js')):
+            self.putChild('gettext.js', GetText())
+        else:
+            log.warning(
+                'Cannot find "gettext.js" translation file!'
+                ' Text will only be available in English.')
+            self.putChild('gettext.js', MockGetText())
         self.putChild('flag', Flag())
         self.putChild('icons', LookupResource('Icons', rpath('icons')))
         self.putChild('images', LookupResource('Images', rpath('images')))
