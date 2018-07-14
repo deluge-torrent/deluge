@@ -251,8 +251,8 @@ class LookupResource(resource.Resource, component.Component):
         if path in self.__paths:
             filename = os.path.basename(request.path).decode()
             for directory in self.__paths[path]:
-                if os.path.join(directory, filename):
-                    path = os.path.join(directory, filename)
+                path = os.path.join(directory, filename)
+                if os.path.isfile(path):
                     log.debug('Serving path: %s', path)
                     mime_type = mimetypes.guess_type(path)
                     request.setHeader(b'content-type', mime_type[0].encode())
@@ -461,6 +461,12 @@ class TopLevel(resource.Resource):
         self.putChild(b'flag', Flag())
         self.putChild(b'icons', LookupResource('Icons', rpath('icons')))
         self.putChild(b'images', LookupResource('Images', rpath('images')))
+        self.putChild(
+            b'ui_images',
+            LookupResource(
+                'UI_Images', common.resource_filename('deluge.ui.data', 'pixmaps')
+            ),
+        )
 
         js = ScriptResource()
 
