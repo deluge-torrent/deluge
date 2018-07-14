@@ -83,6 +83,16 @@ class GetText(resource.Resource):
         return compress(template.render(), request)
 
 
+class MockGetText(resource.Resource):
+    """Mock the file `gettext.js` in case it does not exists so there will still be
+    an `_` (underscore) function
+    """
+    def render(self, request):
+        request.setHeader(b'content-type', b'text/javascript; encoding=utf-8')
+        data = 'function _(string) { return string; }'
+        return compress(data, request)
+
+
 class Upload(resource.Resource):
     """
     Twisted Web resource to handle file uploads
@@ -431,10 +441,19 @@ class TopLevel(resource.Resource):
 
     def __init__(self):
         resource.Resource.__init__(self)
-        self._check_and_build_gettext_js()
+        gettext_js_exists = os.path.exists(
+            os.path.join(
+                os.path.join(os.path.dirname(__file__), 'js'),
+                'gettext.js'
+            )
+        )
 
         self.putChild('css', LookupResource('Css', rpath('css')))
-        self.putChild('gettext.js', GetText())
+        if gettext_js_exists:
+            self.putChild('gettext.js', GetText())
+        else:
+            log.warning('Failed to use "gettext.js", file is missing! Displaying English only...')
+            self.putChild('gettext.js', MockGetText())
         self.putChild('flag', Flag())
         self.putChild('icons', LookupResource('Icons', rpath('icons')))
         self.putChild('images', LookupResource('Images', rpath('images')))
@@ -471,13 +490,6 @@ class TopLevel(resource.Resource):
         if not os.path.isfile(rpath('themes', 'css', 'xtheme-%s.css' % theme)):
             theme = CONFIG_DEFAULTS.get('theme')
         self.__stylesheets.insert(1, 'themes/css/xtheme-%s.css' % theme)
-
-    @staticmethod
-    def _check_and_build_gettext_js():
-        js_path = os.path.join(os.path.dirname(__file__), 'js')
-        if not os.path.exists(os.path.join(js_path, 'gettext.js')):
-            from gen_web_gettext import create_gettext_js
-            create_gettext_js(os.path.join(js_path, 'deluge-all'))
 
     @property
     def stylesheets(self):
