@@ -1306,7 +1306,7 @@ class Torrent:
             # Keyword argument flags=2 (dont_replace) dont overwrite target files but delete source.
             try:
                 self.handle.move_storage(dest.encode('utf8'), flags=2)
-            except TypeError:
+            except (TypeError, UnicodeError):
                 self.handle.move_storage(dest, flags=2)
         except RuntimeError as ex:
             log.error('Error calling libtorrent move_storage: %s', ex)

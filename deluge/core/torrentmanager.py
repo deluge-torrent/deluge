@@ -461,7 +461,7 @@ class TorrentManager(component.Component):
                     log.debug('renaming file index %s to %s', index, fname)
                 try:
                     torrent_info.rename_file(index, fname.encode('utf8'))
-                except TypeError:
+                except (TypeError, UnicodeError):
                     torrent_info.rename_file(index, fname)
             add_torrent_params['ti'] = torrent_info
 
@@ -847,7 +847,7 @@ class TorrentManager(component.Component):
                 except AttributeError:
                     pass
             # Manually update unmatched attributes
-            options['download_location'] = t_state.save_path
+            options['download_location'] = decode_bytes(t_state.save_path)
             options['pre_allocate_storage'] = t_state.storage_mode == 'allocate'
             options['prioritize_first_last_pieces'] = t_state.prioritize_first_last
             options['add_paused'] = t_state.paused
