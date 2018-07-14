@@ -95,6 +95,13 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
                     },
                     '->',
                     {
+                        id: 'about',
+                        iconCls: 'icon-about',
+                        text: _('About'),
+                        handler: this.onAboutClick,
+                        scope: this,
+                    },
+                    {
                         id: 'help',
                         iconCls: 'icon-help',
                         text: _('Help'),
@@ -159,6 +166,11 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 
     onHelpClick: function() {
         window.open('http://dev.deluge-torrent.org/wiki/UserGuide');
+    },
+
+    onAboutClick: function() {
+        var about = new Deluge.about.AboutWindow();
+        about.show();
     },
 
     onPreferencesClick: function() {

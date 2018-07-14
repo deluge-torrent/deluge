@@ -251,7 +251,7 @@ class LookupResource(resource.Resource, component.Component):
         if path in self.__paths:
             filename = os.path.basename(request.path).decode()
             for directory in self.__paths[path]:
-                if os.path.join(directory, filename):
+                if os.path.exists(os.path.join(directory, filename)):
                     path = os.path.join(directory, filename)
                     log.debug('Serving path: %s', path)
                     mime_type = mimetypes.guess_type(path)
@@ -461,6 +461,17 @@ class TopLevel(resource.Resource):
         self.putChild(b'flag', Flag())
         self.putChild(b'icons', LookupResource('Icons', rpath('icons')))
         self.putChild(b'images', LookupResource('Images', rpath('images')))
+        images = LookupResource(
+            'Images',
+            rpath('images'),
+            os.path.join(
+                os.path.dirname(os.path.abspath(__file__)),
+                '..',
+                'data',
+                'pixmaps'
+            )
+        )
+        self.putChild(b'images', images)
 
         js = ScriptResource()
 

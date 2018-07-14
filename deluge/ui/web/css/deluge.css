@@ -21,6 +21,10 @@ button::-moz-focus-inner {
     background-image: url('../icons/deluge.png') !important;
 }
 
+.x-deluge-logo {
+    background-image: url('../images/deluge-about.png');
+}
+
 #tbar-deluge-text.x-item-disabled * {
     color: black !important;
     font-weight: bold;
