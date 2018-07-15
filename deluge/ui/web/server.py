@@ -84,8 +84,11 @@ class GetText(resource.Resource):
 
 
 class MockGetText(resource.Resource):
-    """Mock the file `gettext.js` in case it does not exists so there will still be
-    an `_` (underscore) function
+    """GetText Mocking class
+
+    This class will mock the file `gettext.js` in case it does not exists.
+    It will be used to define the `_` (underscore) function for translations,
+    and will return the string to translate, as is.
     """
     def render(self, request):
         request.setHeader(b'content-type', b'text/javascript; encoding=utf-8')
@@ -441,15 +444,9 @@ class TopLevel(resource.Resource):
 
     def __init__(self):
         resource.Resource.__init__(self)
-        gettext_js_exists = os.path.exists(
-            os.path.join(
-                os.path.join(os.path.dirname(__file__), 'js'),
-                'gettext.js'
-            )
-        )
 
         self.putChild('css', LookupResource('Css', rpath('css')))
-        if gettext_js_exists:
+        if os.path.isfile(rpath('js', 'gettext.js')):
             self.putChild('gettext.js', GetText())
         else:
             log.warning('Failed to use "gettext.js", file is missing! Displaying English only...')
