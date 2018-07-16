@@ -11,6 +11,7 @@ import os
 import time
 from base64 import b64encode
 
+import mock
 from twisted.internet import reactor
 from twisted.internet.task import deferLater
 from twisted.trial import unittest
@@ -206,3 +207,42 @@ class TorrentTestCase(BaseTestCase):
             self.assertEqual(tm_resume_data, resume_data)
 
         return deferLater(reactor, 0.5, assert_resume_data)
+
+    def test_get_eta_seeding(self):
+        atp = self.get_torrent_atp('test_torrent.file.torrent')
+        handle = self.session.add_torrent(atp)
+        self.torrent = Torrent(handle, {})
+        self.assertEqual(self.torrent.get_eta(), 0)
+        self.torrent.status = mock.MagicMock()
+
+        self.torrent.status.upload_payload_rate = 5000
+        self.torrent.status.download_payload_rate = 0
+        self.torrent.status.all_time_download = 10000
+        self.torrent.status.all_time_upload = 500
+        self.torrent.is_finished = True
+        self.torrent.options = {'stop_at_ratio': False}
+        # Test finished and uploading but no stop_at_ratio set.
+        self.assertEqual(self.torrent.get_eta(), 0)
+
+        self.torrent.options = {
+            'stop_at_ratio': True,
+            'stop_ratio': 1.5,
+        }
+        result = self.torrent.get_eta()
+        self.assertEqual(result, 2)
+        self.assertIsInstance(result, int)
+
+    def test_get_eta_downloading(self):
+        atp = self.get_torrent_atp('test_torrent.file.torrent')
+        handle = self.session.add_torrent(atp)
+        self.torrent = Torrent(handle, {})
+        self.assertEqual(self.torrent.get_eta(), 0)
+
+        self.torrent.status = mock.MagicMock()
+        self.torrent.status.download_payload_rate = 50
+        self.torrent.status.total_wanted = 10000
+        self.torrent.status.total_wanted_done = 5000
+
+        result = self.torrent.get_eta()
+        self.assertEqual(result, 100)
+        self.assertIsInstance(result, int)

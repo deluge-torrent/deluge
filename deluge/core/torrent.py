@@ -699,11 +699,15 @@ class Torrent(object):
         """
         status = self.status
         eta = 0
-        if self.is_finished and self.options['stop_at_ratio'] and status.upload_payload_rate:
+        if (
+            self.is_finished
+            and self.options['stop_at_ratio']
+            and status.upload_payload_rate
+        ):
             # We're a seed, so calculate the time to the 'stop_share_ratio'
             eta = (
-                (status.all_time_download * self.options['stop_ratio']) -
-                status.all_time_upload
+                int(status.all_time_download * self.options['stop_ratio'])
+                - status.all_time_upload
             ) // status.upload_payload_rate
         elif status.download_payload_rate:
             left = status.total_wanted - status.total_wanted_done
