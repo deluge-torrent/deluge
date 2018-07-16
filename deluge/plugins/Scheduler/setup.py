@@ -16,7 +16,7 @@ from setuptools import find_packages, setup
 __plugin_name__ = 'Scheduler'
 __author__ = 'Andrew Resch'
 __author_email__ = 'andrewresch@gmail.com'
-__version__ = '0.2'
+__version__ = '0.3'
 __url__ = 'http://deluge-torrent.org'
 __license__ = 'GPLv3'
 __description__ = 'Schedule limits on a per-hour per-day basis.'
@@ -38,7 +38,7 @@ setup(
     entry_points="""
     [deluge.plugin.core]
     %s = deluge.plugins.%s:CorePlugin
-    [deluge.plugin.gtkui]
+    [deluge.plugin.gtk3ui]
     %s = deluge.plugins.%s:GtkUIPlugin
     [deluge.plugin.web]
     %s = deluge.plugins.%s:WebUIPlugin

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="2.24"/>
+  <requires lib="gtk+" version="3.0"/>
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkAdjustment" id="adjustment1">
     <property name="lower">-1</property>
@@ -59,7 +59,6 @@
             <child>
               <object class="GtkButton" id="button4">
                 <property name="label">gtk-cancel</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -75,7 +74,6 @@
             <child>
               <object class="GtkButton" id="button3">
                 <property name="label">gtk-ok</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -379,7 +377,6 @@
                 <child type="label">
                   <object class="GtkCheckButton" id="apply_max">
                     <property name="label" translatable="yes">Apply per torrent max settings:</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -432,7 +429,6 @@
                         <child>
                           <object class="GtkCheckButton" id="is_auto_managed">
                             <property name="label" translatable="yes">Auto Managed</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -446,7 +442,6 @@
                         <child>
                           <object class="GtkCheckButton" id="stop_at_ratio">
                             <property name="label" translatable="yes">Stop seed at ratio:</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -462,7 +457,6 @@
                         <child>
                           <object class="GtkCheckButton" id="remove_at_ratio">
                             <property name="label" translatable="yes">Remove at ratio</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -529,7 +523,6 @@
                 <child type="label">
                   <object class="GtkCheckButton" id="apply_queue">
                     <property name="label" translatable="yes">Apply Queue settings:</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -573,7 +566,6 @@
                         <child>
                           <object class="GtkCheckButton" id="move_completed">
                             <property name="label" translatable="yes">Move completed to:</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -631,7 +623,6 @@
                 <child type="label">
                   <object class="GtkCheckButton" id="apply_move_completed">
                     <property name="label" translatable="yes">Apply folder settings:</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -711,7 +702,6 @@
                 <child type="label">
                   <object class="GtkCheckButton" id="auto_add">
                     <property name="label" translatable="yes">Automatically apply label:</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>

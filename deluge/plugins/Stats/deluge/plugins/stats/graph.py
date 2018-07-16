@@ -20,7 +20,7 @@ import logging
 import math
 import time
 
-import cairo
+from gi.repository import cairo
 
 log = logging.getLogger(__name__)
 

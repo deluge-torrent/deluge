@@ -16,34 +16,39 @@ from __future__ import division, unicode_literals
 
 import logging
 
-import gtk
+from gi.repository import Gtk
+from gi.repository.Gdk import RGBA
 
 import deluge
 from deluge import component
 from deluge.common import fspeed
-from deluge.plugins.pluginbase import GtkPluginBase
+from deluge.plugins.pluginbase import Gtk3PluginBase
 from deluge.ui.client import client
-from deluge.ui.gtkui.torrentdetails import Tab
+from deluge.ui.gtk3.torrentdetails import Tab
 
 from .common import get_resource
 from .graph import Graph, size_formatter_scale
 
 log = logging.getLogger(__name__)
 
+# Gdk.RGBA textual spec
+RED = 'rgb(255,0,0)'
+GREEN = 'rgb(0,128,0)'
+BLUE = 'rgb(0,0,255)'
+DARKRED = 'rgb(139,0,0)'
+ORANGE = 'rgb(255,165,0)'
+
 DEFAULT_CONF = {
-    'version': 1,
+    'version': 2,
     'colors': {
-        'bandwidth_graph': {
-            'upload_rate': str(gtk.gdk.Color('blue')),
-            'download_rate': str(gtk.gdk.Color('green')),
-        },
+        'bandwidth_graph': {'upload_rate': BLUE, 'download_rate': GREEN},
         'connections_graph': {
-            'dht_nodes': str(gtk.gdk.Color('orange')),
-            'dht_cache_nodes': str(gtk.gdk.Color('blue')),
-            'dht_torrents': str(gtk.gdk.Color('green')),
-            'num_connections': str(gtk.gdk.Color('darkred')),
+            'dht_nodes': ORANGE,
+            'dht_cache_nodes': BLUE,
+            'dht_torrents': GREEN,
+            'num_connections': DARKRED,
         },
-        'seeds_graph': {'num_peers': str(gtk.gdk.Color('blue'))},
+        'seeds_graph': {'num_peers': BLUE},
     },
 }
 
@@ -71,20 +76,18 @@ def fspeed_shortform(value):
     return fspeed(value, shortform=True)
 
 
-def gtk_to_graph_color(color):
-    """Turns a gtk.gdk.Color into a tuple with range 0-1 as used by the graph"""
-    gtk_color = gtk.gdk.Color(color)
-    red = gtk_color.red / 65535
-    green = gtk_color.green / 65535
-    blue = gtk_color.blue / 65535
-    return (red, green, blue)
+def text_to_rgba(color):
+    """Turns a Color into a tuple with range 0-1 as used by the graph"""
+    color_rgba = RGBA()
+    color_rgba.parse(color)
+    return color_rgba
 
 
 class GraphsTab(Tab):
     def __init__(self, colors):
         super(GraphsTab, self).__init__()
 
-        builder = gtk.Builder()
+        builder = Gtk.Builder()
         builder.add_from_file(get_resource('tabs.ui'))
         self.window = builder.get_object('graph_tab')
         self.notebook = builder.get_object('graph_notebook')
@@ -97,13 +100,13 @@ class GraphsTab(Tab):
         self.colors = colors
 
         self.bandwidth_graph = builder.get_object('bandwidth_graph')
-        self.bandwidth_graph.connect('expose_event', self.graph_expose)
+        self.bandwidth_graph.connect('draw', self.on_graph_draw)
 
         self.connections_graph = builder.get_object('connections_graph')
-        self.connections_graph.connect('expose_event', self.graph_expose)
+        self.connections_graph.connect('draw', self.on_graph_draw)
 
         self.seeds_graph = builder.get_object('seeds_graph')
-        self.seeds_graph.connect('expose_event', self.graph_expose)
+        self.seeds_graph.connect('draw', self.on_graph_draw)
 
         self.notebook.connect('switch-page', self._on_notebook_switch_page)
 
@@ -115,26 +118,20 @@ class GraphsTab(Tab):
 
         self.intervals = None
         self.intervals_combo = builder.get_object('combo_intervals')
-        cell = gtk.CellRendererText()
+        cell = Gtk.CellRendererText()
         self.intervals_combo.pack_start(cell, True)
         self.intervals_combo.set_cell_data_func(cell, neat_time)
         self.intervals_combo.connect('changed', self._on_selected_interval_changed)
         self.update_intervals()
 
-    def graph_expose(self, widget, event):
-        context = self.graph_widget.window.cairo_create()
-        # set a clip region
-        context.rectangle(
-            event.area.x, event.area.y, event.area.width, event.area.height
-        )
-        context.clip()
+    def on_graph_draw(self, widget, context):
         self.graph.draw_to_context(
             context,
-            self.graph_widget.allocation.width,
-            self.graph_widget.allocation.height,
+            self.graph_widget.get_allocated_width(),
+            self.graph_widget.get_allocated_height(),
         )
         # Do not propagate the event
-        return False
+        return True
 
     def update(self):
         d1 = client.stats.get_stats(list(self.graph.stat_info), self.selected_interval)
@@ -161,12 +158,12 @@ class GraphsTab(Tab):
         self.graph.add_stat(
             'download_rate',
             label='Download Rate',
-            color=gtk_to_graph_color(colors['download_rate']),
+            color=text_to_rgba(colors['download_rate']),
         )
         self.graph.add_stat(
             'upload_rate',
             label='Upload Rate',
-            color=gtk_to_graph_color(colors['upload_rate']),
+            color=text_to_rgba(colors['upload_rate']),
         )
         self.graph.set_left_axis(
             formatter=fspeed_shortform, min=10240, formatter_scale=size_formatter_scale
@@ -178,14 +175,10 @@ class GraphsTab(Tab):
         g = Graph()
         self.graph = g
         colors = self.colors['connections_graph']
-        g.add_stat('dht_nodes', color=gtk_to_graph_color(colors['dht_nodes']))
-        g.add_stat(
-            'dht_cache_nodes', color=gtk_to_graph_color(colors['dht_cache_nodes'])
-        )
-        g.add_stat('dht_torrents', color=gtk_to_graph_color(colors['dht_torrents']))
-        g.add_stat(
-            'num_connections', color=gtk_to_graph_color(colors['num_connections'])
-        )
+        g.add_stat('dht_nodes', color=text_to_rgba(colors['dht_nodes']))
+        g.add_stat('dht_cache_nodes', color=text_to_rgba(colors['dht_cache_nodes']))
+        g.add_stat('dht_torrents', color=text_to_rgba(colors['dht_torrents']))
+        g.add_stat('num_connections', color=text_to_rgba(colors['num_connections']))
         g.set_left_axis(formatter=int_str, min=10)
 
     def select_seeds_graph(self):
@@ -193,7 +186,7 @@ class GraphsTab(Tab):
         self.graph_widget = self.seeds_graph
         self.graph = Graph()
         colors = self.colors['seeds_graph']
-        self.graph.add_stat('num_peers', color=gtk_to_graph_color(colors['num_peers']))
+        self.graph.add_stat('num_peers', color=text_to_rgba(colors['num_peers']))
         self.graph.set_left_axis(formatter=int_str, min=10)
 
     def set_colors(self, colors):
@@ -204,7 +197,7 @@ class GraphsTab(Tab):
         )
 
     def _on_intervals_changed(self, intervals):
-        liststore = gtk.ListStore(int)
+        liststore = Gtk.ListStore(int)
         for inter in intervals:
             liststore.append([inter])
         self.intervals_combo.set_model(liststore)
@@ -236,14 +229,14 @@ class GraphsTab(Tab):
         return True
 
 
-class GtkUI(GtkPluginBase):
+class GtkUI(Gtk3PluginBase):
     def enable(self):
         log.debug('Stats plugin enable called')
         self.config = deluge.configmanager.ConfigManager(
-            'stats.gtkui.conf', DEFAULT_CONF
+            'stats.gtk3ui.conf', DEFAULT_CONF
         )
 
-        self.builder = gtk.Builder()
+        self.builder = Gtk.Builder()
         self.builder.add_from_file(get_resource('config.ui'))
 
         component.get('Preferences').add_page(
@@ -277,9 +270,9 @@ class GtkUI(GtkPluginBase):
         for graph, colors in self.config['colors'].items():
             gtkconf[graph] = {}
             for value, color in colors.items():
+                color_btn = self.builder.get_object('%s_%s_color' % (graph, value))
                 try:
-                    color_btn = self.builder.get_object('%s_%s_color' % (graph, value))
-                    gtkconf[graph][value] = str(color_btn.get_color())
+                    gtkconf[graph][value] = color_btn.get_color().to_string()
                 except Exception:
                     gtkconf[graph][value] = DEFAULT_CONF['colors'][graph][value]
         self.config['colors'] = gtkconf
@@ -293,9 +286,9 @@ class GtkUI(GtkPluginBase):
             for value, color in colors.items():
                 try:
                     color_btn = self.builder.get_object('%s_%s_color' % (graph, value))
-                    color_btn.set_color(gtk.gdk.Color(color))
-                except Exception:
-                    log.debug('Unable to set %s %s %s', graph, value, color)
+                    color_btn.set_rgba(text_to_rgba(color))
+                except Exception as ex:
+                    log.debug('Unable to set %s %s %s: %s', graph, value, color, ex)
         client.stats.get_config().addCallback(self.cb_get_config)
 
     def cb_get_config(self, config):

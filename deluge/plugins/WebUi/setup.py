@@ -16,7 +16,7 @@ from setuptools import find_packages, setup
 __plugin_name__ = 'WebUi'
 __author__ = 'Damien Churchill'
 __author_email__ = 'damoxc@gmail.com'
-__version__ = '0.1'
+__version__ = '0.2'
 __url__ = 'http://deluge-torrent.org'
 __license__ = 'GPLv3'
 __description__ = 'Allows starting the web interface within the daemon.'
@@ -38,7 +38,7 @@ setup(
     entry_points="""
     [deluge.plugin.core]
     %s = deluge.plugins.%s:CorePlugin
-    [deluge.plugin.gtkui]
+    [deluge.plugin.gtk3ui]
     %s = deluge.plugins.%s:GtkUIPlugin
     """
     % ((__plugin_name__, __plugin_name__.lower()) * 2),

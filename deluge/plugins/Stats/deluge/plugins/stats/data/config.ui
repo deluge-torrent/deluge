@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="2.24"/>
+  <requires lib="gtk+" version="3.0"/>
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkWindow" id="window1">
     <property name="can_focus">False</property>
@@ -28,7 +28,6 @@
                     <property name="column_spacing">15</property>
                     <child>
                       <object class="GtkColorButton" id="bandwidth_graph_download_rate_color">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -68,7 +67,6 @@
                     </child>
                     <child>
                       <object class="GtkColorButton" id="bandwidth_graph_upload_rate_color">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -110,7 +108,6 @@
                     </child>
                     <child>
                       <object class="GtkColorButton" id="connections_graph_dht_nodes_color">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -138,7 +135,6 @@
                     </child>
                     <child>
                       <object class="GtkColorButton" id="connections_graph_dht_cache_nodes_color">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -190,7 +186,6 @@
                     </child>
                     <child>
                       <object class="GtkColorButton" id="connections_graph_dht_torrents_color">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -206,7 +201,6 @@
                     </child>
                     <child>
                       <object class="GtkColorButton" id="connections_graph_num_connections_color">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -236,7 +230,6 @@
                     </child>
                     <child>
                       <object class="GtkColorButton" id="seeds_graph_num_peers_color">
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>

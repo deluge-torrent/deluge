@@ -17,14 +17,21 @@ from __future__ import unicode_literals
 import logging
 import os
 
-import gtk
+import gi  # isort:skip (Required before Gtk import).
 
+gi.require_version('Gtk', '3.0')  # NOQA: E402
+
+# isort:imports-thirdparty
+from gi.repository import Gtk
+
+# isort:imports-firstparty
 import deluge.common
 import deluge.component as component
-from deluge.plugins.pluginbase import GtkPluginBase
+from deluge.plugins.pluginbase import Gtk3PluginBase
 from deluge.ui.client import client
-from deluge.ui.gtkui import dialogs
+from deluge.ui.gtk3 import dialogs
 
+# isort:imports-localfolder
 from .common import get_resource
 
 log = logging.getLogger(__name__)
@@ -47,14 +54,15 @@ class OptionsDialog(object):
     ]
 
     def __init__(self):
-        self.accounts = gtk.ListStore(str)
-        self.labels = gtk.ListStore(str)
+        log.critical('I')
+        self.accounts = Gtk.ListStore(str)
+        self.labels = Gtk.ListStore(str)
         self.core_config = {}
 
     def show(self, options=None, watchdir_id=None):
         if options is None:
             options = {}
-        self.builder = gtk.Builder()
+        self.builder = Gtk.Builder()
         self.builder.add_from_file(get_resource('autoadd_options.ui'))
         self.builder.connect_signals(
             {
@@ -103,7 +111,7 @@ class OptionsDialog(object):
         self.accounts.clear()
         self.labels.clear()
         combobox = self.builder.get_object('OwnerCombobox')
-        combobox_render = gtk.CellRendererText()
+        combobox_render = Gtk.CellRendererText()
         combobox.pack_start(combobox_render, True)
         combobox.add_attribute(combobox_render, 'text', 0)
         combobox.set_model(self.accounts)
@@ -413,10 +421,11 @@ class OptionsDialog(object):
         return options
 
 
-class GtkUI(GtkPluginBase):
+class GtkUI(Gtk3PluginBase):
     def enable(self):
+        log.critical('A')
 
-        self.builder = gtk.Builder()
+        self.builder = Gtk.Builder()
         self.builder.add_from_file(get_resource('config.ui'))
         self.builder.connect_signals(self)
         self.opts_dialog = OptionsDialog()
@@ -434,15 +443,15 @@ class GtkUI(GtkPluginBase):
         self.watchdirs = {}
 
         vbox = self.builder.get_object('watchdirs_vbox')
-        sw = gtk.ScrolledWindow()
-        sw.set_shadow_type(gtk.SHADOW_ETCHED_IN)
-        sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+        sw = Gtk.ScrolledWindow()
+        sw.set_shadow_type(Gtk.ShadowType.ETCHED_IN)
+        sw.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
 
         vbox.pack_start(sw, True, True, 0)
 
         self.store = self.create_model()
 
-        self.treeView = gtk.TreeView(self.store)
+        self.treeView = Gtk.TreeView(self.store)
         self.treeView.connect('cursor-changed', self.on_listitem_activated)
         self.treeView.connect('row-activated', self.on_edit_button_clicked)
         self.treeView.set_rules_hint(True)
@@ -464,7 +473,7 @@ class GtkUI(GtkPluginBase):
         )
 
     def create_model(self):
-        store = gtk.ListStore(str, bool, str, str)
+        store = Gtk.ListStore(str, bool, str, str)
         for watchdir_id, watchdir in self.watchdirs.items():
             store.append(
                 [
@@ -477,29 +486,29 @@ class GtkUI(GtkPluginBase):
         return store
 
     def create_columns(self, treeview):
-        renderer_toggle = gtk.CellRendererToggle()
-        column = gtk.TreeViewColumn(
+        renderer_toggle = Gtk.CellRendererToggle()
+        column = Gtk.TreeViewColumn(
             _('Active'), renderer_toggle, activatable=1, active=1
         )
         column.set_sort_column_id(1)
         treeview.append_column(column)
-        tt = gtk.Tooltip()
+        tt = Gtk.Tooltip()
         tt.set_text(_('Double-click to toggle'))
         treeview.set_tooltip_cell(tt, None, None, renderer_toggle)
 
-        renderertext = gtk.CellRendererText()
-        column = gtk.TreeViewColumn(_('Owner'), renderertext, text=2)
+        renderertext = Gtk.CellRendererText()
+        column = Gtk.TreeViewColumn(_('Owner'), renderertext, text=2)
         column.set_sort_column_id(2)
         treeview.append_column(column)
-        tt2 = gtk.Tooltip()
+        tt2 = Gtk.Tooltip()
         tt2.set_text(_('Double-click to edit'))
         treeview.set_has_tooltip(True)
 
-        renderertext = gtk.CellRendererText()
-        column = gtk.TreeViewColumn(_('Path'), renderertext, text=3)
+        renderertext = Gtk.CellRendererText()
+        column = Gtk.TreeViewColumn(_('Path'), renderertext, text=3)
         column.set_sort_column_id(3)
         treeview.append_column(column)
-        tt2 = gtk.Tooltip()
+        tt2 = Gtk.Tooltip()
         tt2.set_text(_('Double-click to edit'))
         treeview.set_has_tooltip(True)
 

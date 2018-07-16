@@ -12,11 +12,18 @@ from __future__ import unicode_literals
 
 import logging
 
-import gtk
+import gi  # isort:skip (Required before Gtk import).
 
+gi.require_version('Gtk', '3.0')  # NOQA: E402
+
+# isort:imports-thirdparty
+from gi.repository import Gtk
+
+# isort:imports-firstparty
 import deluge.component as component
 from deluge.ui.client import client
 
+# isort:imports-localfolder
 from ..common import get_resource
 
 log = logging.getLogger(__name__)
@@ -33,12 +40,12 @@ class LabelSidebarMenu(object):
         self.items = []
 
         # add items, in reverse order, because they are prepended.
-        sep = gtk.SeparatorMenuItem()
+        sep = Gtk.SeparatorMenuItem()
         self.items.append(sep)
         self.menu.prepend(sep)
-        self._add_item('options', _('Label _Options'), gtk.STOCK_PREFERENCES)
-        self._add_item('remove', _('_Remove Label'), gtk.STOCK_REMOVE)
-        self._add_item('add', _('_Add Label'), gtk.STOCK_ADD)
+        self._add_item('options', _('Label _Options'), Gtk.STOCK_PREFERENCES)
+        self._add_item('remove', _('_Remove Label'), Gtk.STOCK_REMOVE)
+        self._add_item('add', _('_Add Label'), Gtk.STOCK_ADD)
 
         self.menu.show_all()
         # dialogs:
@@ -52,7 +59,7 @@ class LabelSidebarMenu(object):
         id is automatically-added as self.item_<id>
         """
         func = getattr(self, 'on_%s' % item_id)
-        item = gtk.ImageMenuItem(stock)
+        item = Gtk.ImageMenuItem(stock)
         item.get_children()[0].set_label(label)
         item.connect('activate', func)
         self.menu.prepend(item)
@@ -106,7 +113,7 @@ class AddDialog(object):
         pass
 
     def show(self):
-        self.builder = gtk.Builder()
+        self.builder = Gtk.Builder()
         self.builder.add_from_file(get_resource('label_add.ui'))
         self.dialog = self.builder.get_object('dlg_label_add')
         self.dialog.set_transient_for(component.get('MainWindow').window)
@@ -161,7 +168,7 @@ class OptionsDialog(object):
 
     def show(self, label):
         self.label = label
-        self.builder = gtk.Builder()
+        self.builder = Gtk.Builder()
         self.builder.add_from_file(get_resource('label_options.ui'))
         self.dialog = self.builder.get_object('dlg_label_options')
         self.dialog.set_transient_for(component.get('MainWindow').window)

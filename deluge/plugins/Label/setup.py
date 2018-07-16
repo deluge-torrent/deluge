@@ -12,7 +12,7 @@ from setuptools import find_packages, setup
 __plugin_name__ = 'Label'
 __author__ = 'Martijn Voncken'
 __author_email__ = 'mvoncken@gmail.com'
-__version__ = '0.2'
+__version__ = '0.3'
 __url__ = 'http://deluge-torrent.org'
 __license__ = 'GPLv3'
 __description__ = 'Allows labels to be assigned to torrents'
@@ -38,7 +38,7 @@ setup(
     entry_points="""
     [deluge.plugin.core]
     %s = deluge.plugins.%s:CorePlugin
-    [deluge.plugin.gtkui]
+    [deluge.plugin.gtk3ui]
     %s = deluge.plugins.%s:GtkUIPlugin
     [deluge.plugin.web]
     %s = deluge.plugins.%s:WebUIPlugin

@@ -24,7 +24,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, component.Compon
         component.Component.__init__(self, 'PluginManager')
         self.config = ConfigManager('gtk3ui.conf')
         deluge.pluginmanagerbase.PluginManagerBase.__init__(
-            self, 'gtk3ui.conf', 'deluge.plugin.gtk3'
+            self, 'gtk3ui.conf', 'deluge.plugin.gtk3ui'
         )
 
         self.hooks = {'on_apply_prefs': [], 'on_show_prefs': []}

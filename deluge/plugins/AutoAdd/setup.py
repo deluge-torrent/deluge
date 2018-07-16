@@ -18,7 +18,7 @@ from setuptools import find_packages, setup
 __plugin_name__ = 'AutoAdd'
 __author__ = 'Chase Sterling, Pedro Algarvio'
 __author_email__ = 'chase.sterling@gmail.com, pedro@algarvio.me'
-__version__ = '1.7'
+__version__ = '1.8'
 __url__ = 'http://dev.deluge-torrent.org/wiki/Plugins/AutoAdd'
 __license__ = 'GPLv3'
 __description__ = 'Monitors folders for .torrent files.'
@@ -42,8 +42,8 @@ setup(
     entry_points="""
     [deluge.plugin.core]
     %s = deluge.plugins.%s:CorePlugin
-    [deluge.plugin.gtkui]
-    %s = deluge.plugins.%s:GtkUIPlugin
+    [deluge.plugin.gtk3ui]
+    %s = deluge.plugins.%s:Gtk3UIPlugin
     [deluge.plugin.web]
     %s = deluge.plugins.%s:WebUIPlugin
     """

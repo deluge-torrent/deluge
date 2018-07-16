@@ -11,7 +11,7 @@ from __future__ import unicode_literals
 
 import logging
 
-from gtk import Builder
+from gi.repository.Gtk import Builder
 
 from deluge.ui.client import client
 

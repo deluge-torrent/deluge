@@ -11,15 +11,20 @@ from __future__ import unicode_literals
 
 import logging
 
-import gtk
+import gi  # isort:skip (Required before Gtk import).
 
+gi.require_version('Gtk', '3.0')  # NOQA: E402
+
+# isort:imports-thirdparty
+from gi.repository import Gtk
+
+# isort:imports-firstparty
 import deluge.component as component
-from deluge.plugins.pluginbase import GtkPluginBase
+from deluge.plugins.pluginbase import Gtk3PluginBase
 from deluge.ui.client import client
 
+# isort:imports-localfolder
 from . import common
-
-# Relative import
 
 log = logging.getLogger(__name__)
 
@@ -42,13 +47,13 @@ class ExecutePreferences(object):
 
     def load(self):
         log.debug('Adding Execute Preferences page')
-        self.builder = gtk.Builder()
+        self.builder = Gtk.Builder()
         self.builder.add_from_file(common.get_resource('execute_prefs.ui'))
         self.builder.connect_signals(self)
 
         events = self.builder.get_object('event_combobox')
 
-        store = gtk.ListStore(str, str)
+        store = Gtk.ListStore(str, str)
         for event in EVENTS:
             event_label = EVENT_MAP[event]
             store.append((event_label, event))
@@ -78,17 +83,17 @@ class ExecutePreferences(object):
     def add_command(self, command_id, event, command):
         log.debug('Adding command `%s`', command_id)
         vbox = self.builder.get_object('commands_vbox')
-        hbox = gtk.HBox(False, 5)
+        hbox = Gtk.HBox(False, 5)
         hbox.set_name(command_id + '_' + event)
-        label = gtk.Label(EVENT_MAP[event])
-        entry = gtk.Entry()
+        label = Gtk.Label(EVENT_MAP[event])
+        entry = Gtk.Entry()
         entry.set_text(command)
-        button = gtk.Button()
+        button = Gtk.Button()
         button.set_name('remove_%s' % command_id)
         button.connect('clicked', self.on_remove_button_clicked)
 
-        img = gtk.Image()
-        img.set_from_stock(gtk.STOCK_REMOVE, gtk.ICON_SIZE_BUTTON)
+        img = Gtk.Image()
+        img.set_from_stock(Gtk.STOCK_REMOVE, Gtk.IconSize.BUTTON)
         button.set_image(img)
 
         hbox.pack_start(label, False, False)
@@ -137,7 +142,7 @@ class ExecutePreferences(object):
         for child in children:
             command_id, event = child.get_name().split('_')
             for widget in child.get_children():
-                if isinstance(widget, gtk.Entry):
+                if isinstance(widget, Gtk.Entry):
                     command = widget.get_text()
             client.execute.save_command(command_id, event, command)
 
@@ -150,7 +155,7 @@ class ExecutePreferences(object):
         self.remove_command(command_id)
 
 
-class GtkUI(GtkPluginBase):
+class GtkUI(Gtk3PluginBase):
     def enable(self):
         self.plugin = component.get('PluginManager')
         self.preferences = ExecutePreferences(self.plugin)

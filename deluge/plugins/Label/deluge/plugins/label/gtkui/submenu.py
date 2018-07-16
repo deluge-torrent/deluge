@@ -12,7 +12,7 @@ from __future__ import unicode_literals
 
 import logging
 
-import gtk
+from gi.repository.Gtk import Menu, MenuItem
 
 from deluge import component  # for systray
 from deluge.ui.client import client
@@ -29,11 +29,11 @@ NO_LABEL = _('No Label')
 del _
 
 
-class LabelMenu(gtk.MenuItem):
+class LabelMenu(MenuItem):
     def __init__(self):
-        gtk.MenuItem.__init__(self, _('Label'))
+        MenuItem.__init__(self, _('Label'))
 
-        self.sub_menu = gtk.Menu()
+        self.sub_menu = Menu()
         self.set_submenu(self.sub_menu)
         self.items = []
 
@@ -52,9 +52,9 @@ class LabelMenu(gtk.MenuItem):
             self.sub_menu.remove(child)
         for label in [NO_LABEL] + list(labels):
             if label == NO_LABEL:
-                item = gtk.MenuItem(_(NO_LABEL))
+                item = MenuItem(_(NO_LABEL))
             else:
-                item = gtk.MenuItem(label.replace('_', '__'))
+                item = MenuItem(label.replace('_', '__'))
             item.connect('activate', self.on_select_label, label)
             self.sub_menu.append(item)
         self.show_all()

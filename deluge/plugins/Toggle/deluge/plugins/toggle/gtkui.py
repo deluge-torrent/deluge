@@ -17,13 +17,13 @@ from __future__ import unicode_literals
 import logging
 
 import deluge.component as component
-from deluge.plugins.pluginbase import GtkPluginBase
+from deluge.plugins.pluginbase import Gtk3PluginBase
 from deluge.ui.client import client
 
 log = logging.getLogger(__name__)
 
 
-class GtkUI(GtkPluginBase):
+class GtkUI(Gtk3PluginBase):
     def enable(self):
         self.core = client.toggle
         self.plugin = component.get('PluginManager')

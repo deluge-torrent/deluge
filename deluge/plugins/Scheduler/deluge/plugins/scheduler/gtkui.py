@@ -18,7 +18,7 @@ import logging
 import gtk
 
 import deluge.component as component
-from deluge.plugins.pluginbase import GtkPluginBase
+from deluge.plugins.pluginbase import Gtk3PluginBase
 from deluge.ui.client import client
 
 from .common import get_resource
@@ -167,7 +167,7 @@ class SchedulerSelectWidget(gtk.DrawingArea):
         self.hover_point = [-1, -1]
 
 
-class GtkUI(GtkPluginBase):
+class GtkUI(Gtk3PluginBase):
     def enable(self):
         self.create_prefs_page()
 

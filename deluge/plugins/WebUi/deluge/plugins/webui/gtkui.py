@@ -15,10 +15,10 @@ from __future__ import unicode_literals
 
 import logging
 
-import gtk
+from gi.repository import Gtk
 
 import deluge.component as component
-from deluge.plugins.pluginbase import GtkPluginBase
+from deluge.plugins.pluginbase import Gtk3PluginBase
 from deluge.ui.client import client
 
 from .common import get_resource
@@ -26,9 +26,9 @@ from .common import get_resource
 log = logging.getLogger(__name__)
 
 
-class GtkUI(GtkPluginBase):
+class GtkUI(Gtk3PluginBase):
     def enable(self):
-        self.builder = gtk.Builder()
+        self.builder = Gtk.Builder()
         self.builder.add_from_file(get_resource('config.ui'))
 
         component.get('Preferences').add_page(
@@ -80,14 +80,14 @@ class GtkUI(GtkPluginBase):
 
         vbox = self.builder.get_object('prefs_box')
 
-        hbox = gtk.HBox()
-        icon = gtk.image_new_from_stock(
-            gtk.STOCK_DIALOG_ERROR, gtk.ICON_SIZE_SMALL_TOOLBAR
+        hbox = Gtk.HBox()
+        icon = Gtk.image_new_from_stock(
+            Gtk.STOCK_DIALOG_ERROR, Gtk.IconSize.SMALL_TOOLBAR
         )
         icon.set_padding(5, 5)
-        hbox.pack_start(icon, False, False)
+        hbox.pack_start(icon, False, False, 0)
 
-        label = gtk.Label(
+        label = Gtk.Label(
             _(
                 'The Deluge web interface is not installed, '
                 'please install the\ninterface and try again'
@@ -95,7 +95,7 @@ class GtkUI(GtkPluginBase):
         )
         label.set_alignment(0, 0.5)
         label.set_padding(5, 5)
-        hbox.pack_start(label)
+        hbox.pack_start(label, False, False, 0)
 
         vbox.pack_start(hbox, False, False, 10)
         vbox.reorder_child(hbox, 0)

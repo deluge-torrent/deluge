@@ -17,7 +17,7 @@ from setuptools import find_packages, setup
 __plugin_name__ = 'Notifications'
 __author__ = 'Pedro Algarvio'
 __author_email__ = 'pedro@algarvio.me'
-__version__ = '0.2'
+__version__ = '0.3'
 __url__ = 'http://dev.deluge-torrent.org/'
 __license__ = 'GPLv3'
 __description__ = 'Plugin which provides notifications to Deluge.'
@@ -46,7 +46,7 @@ setup(
     entry_points="""
     [deluge.plugin.core]
     %s = deluge.plugins.%s:CorePlugin
-    [deluge.plugin.gtkui]
+    [deluge.plugin.gtk3ui]
     %s = deluge.plugins.%s:GtkUIPlugin
     [deluge.plugin.web]
     %s = deluge.plugins.%s:WebUIPlugin

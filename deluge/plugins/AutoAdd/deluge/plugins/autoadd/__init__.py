@@ -25,12 +25,12 @@ class CorePlugin(PluginInitBase):
         super(CorePlugin, self).__init__(plugin_name)
 
 
-class GtkUIPlugin(PluginInitBase):
+class Gtk3UIPlugin(PluginInitBase):
     def __init__(self, plugin_name):
         from .gtkui import GtkUI as _pluginCls
 
         self._plugin_cls = _pluginCls
-        super(GtkUIPlugin, self).__init__(plugin_name)
+        super(Gtk3UIPlugin, self).__init__(plugin_name)
 
 
 class WebUIPlugin(PluginInitBase):

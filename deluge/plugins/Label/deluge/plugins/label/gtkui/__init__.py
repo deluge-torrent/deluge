@@ -12,7 +12,7 @@ from __future__ import unicode_literals
 import logging
 
 from deluge import component  # for systray
-from deluge.plugins.pluginbase import GtkPluginBase
+from deluge.plugins.pluginbase import Gtk3PluginBase
 
 from . import label_config, sidebar_menu, submenu
 
@@ -25,7 +25,7 @@ def cell_data_label(column, cell, model, row, data):
     cell.set_property('text', str(model.get_value(row, data)))
 
 
-class GtkUI(GtkPluginBase):
+class GtkUI(Gtk3PluginBase):
     def start(self):
         if self.label_menu:
             self.label_menu.on_show()

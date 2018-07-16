@@ -23,7 +23,7 @@ from twisted.internet import defer
 import deluge.common
 import deluge.component as component
 import deluge.configmanager
-from deluge.plugins.pluginbase import GtkPluginBase
+from deluge.plugins.pluginbase import Gtk3PluginBase
 from deluge.ui.client import client
 
 from .common import CustomNotifications, get_resource
@@ -245,9 +245,9 @@ class GtkUiNotifications(CustomNotifications):
         return title, message
 
 
-class GtkUI(GtkPluginBase, GtkUiNotifications):
+class GtkUI(Gtk3PluginBase, GtkUiNotifications):
     def __init__(self, plugin_name):
-        GtkPluginBase.__init__(self, plugin_name)
+        Gtk3PluginBase.__init__(self, plugin_name)
         GtkUiNotifications.__init__(self)
 
     def enable(self):

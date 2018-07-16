@@ -12,19 +12,26 @@ from __future__ import unicode_literals
 import logging
 from datetime import datetime
 
-import gtk
+import gi  # isort:skip (Required before Gtk import).
 
+gi.require_version('Gtk', '3.0')  # NOQA: E402
+
+# isort:imports-thirdparty
+from gi.repository import Gtk
+
+# isort:imports-firstparty
 import deluge.common
 import deluge.component as component
-from deluge.plugins.pluginbase import GtkPluginBase
+from deluge.plugins.pluginbase import Gtk3PluginBase
 from deluge.ui.client import client
 
+# isort:imports-localfolder
 from . import common
 
 log = logging.getLogger(__name__)
 
 
-class GtkUI(GtkPluginBase):
+class GtkUI(Gtk3PluginBase):
     def enable(self):
         log.debug('Blocklist GtkUI enable..')
         self.plugin = component.get('PluginManager')
@@ -151,7 +158,7 @@ class GtkUI(GtkPluginBase):
     def load_preferences_page(self):
         """Initializes the preferences page and adds it to the preferences dialog"""
         # Load the preferences page
-        self.builder = gtk.Builder()
+        self.builder = Gtk.Builder()
         self.builder.add_from_file(common.get_resource('blocklist_pref.ui'))
 
         self.whitelist_frame = self.builder.get_object('whitelist_frame')
@@ -203,12 +210,12 @@ class GtkUI(GtkPluginBase):
         treeview_selection.connect(
             'changed', self.on_whitelist_treeview_selection_changed
         )
-        self.whitelist_model = gtk.ListStore(str, bool)
-        renderer = gtk.CellRendererText()
+        self.whitelist_model = Gtk.ListStore(str, bool)
+        renderer = Gtk.CellRendererText()
         renderer.connect('edited', self.on_cell_edited, self.whitelist_model)
         renderer.set_data('ip', 0)
 
-        column = gtk.TreeViewColumn('IPs', renderer, text=0, editable=1)
+        column = Gtk.TreeViewColumn('IPs', renderer, text=0, editable=1)
         column.set_expand(True)
         self.whitelist_treeview.append_column(column)
         self.whitelist_treeview.set_model(self.whitelist_model)
