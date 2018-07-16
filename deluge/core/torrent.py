@@ -972,6 +972,10 @@ class Torrent(object):
             torrent_file["info"] = md
             with open(path, "wb") as _file:
                 _file.write(lt.bencode(torrent_file))
+            if self.config["copy_torrent_file"]:
+                with open(os.path.join(self.config["torrentfiles_location"],
+                self.filename), "wb") as _file:
+                    _file.write(lt.bencode(torrent_file))
         except Exception, e:
             log.warning("Unable to save torrent file: %s", e)
 
