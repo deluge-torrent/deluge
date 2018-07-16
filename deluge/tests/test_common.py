@@ -53,17 +53,17 @@ class CommonTestCase(unittest.TestCase):
         self.assertTrue(fpeer(10, -1) == '10')
 
     def test_ftime(self):
-        assert ftime(0) == ''
-        assert ftime(5) == '5s'
-        assert ftime(100) == '1m 40s'
-        assert ftime(3789) == '1h 3m'
-        assert ftime(23011) == '6h 23m'
-        assert ftime(391187) == '4d 12h'
-        assert ftime(604800) == '1w 0d'
-        assert ftime(13893086) == '22w 6d'
-        assert ftime(59740269) == '1y 46w'
-        assert ftime(61.25) == '1m 1s'
-        assert ftime(119.9) == '1m 59s'
+        self.assertEqual(ftime(0), '')
+        self.assertEqual(ftime(5), '5s')
+        self.assertEqual(ftime(100), '1m 40s')
+        self.assertEqual(ftime(3789), '1h 3m')
+        self.assertEqual(ftime(23011), '6h 23m')
+        self.assertEqual(ftime(391187), '4d 12h')
+        self.assertEqual(ftime(604800), '1w 0d')
+        self.assertEqual(ftime(13893086), '22w 6d')
+        self.assertEqual(ftime(59740269), '1y 46w')
+        self.assertEqual(ftime(61.25), '1m 1s')
+        self.assertEqual(ftime(119.9), '1m 59s')
 
     def test_fdate(self):
         self.assertTrue(fdate(-1) == '')
