@@ -461,17 +461,7 @@ class TopLevel(resource.Resource):
         self.putChild(b'flag', Flag())
         self.putChild(b'icons', LookupResource('Icons', rpath('icons')))
         self.putChild(b'images', LookupResource('Images', rpath('images')))
-        images = LookupResource(
-            'Images',
-            rpath('images'),
-            os.path.join(
-                os.path.dirname(os.path.abspath(__file__)),
-                '..',
-                'data',
-                'pixmaps'
-            )
-        )
-        self.putChild(b'images', images)
+        self.putChild(b'ui_images', LookupResource('UI_Images', common.resource_filename('deluge.ui.data', 'pixmaps')))
 
         js = ScriptResource()
 
