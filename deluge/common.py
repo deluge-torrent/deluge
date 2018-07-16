@@ -497,6 +497,7 @@ def ftime(secs):
 
     """
 
+    # Handle floats by truncating to an int
     secs = int(secs)
     if secs <= 0:
         time_str = ''
