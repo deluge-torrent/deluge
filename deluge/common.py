@@ -497,20 +497,21 @@ def ftime(secs):
 
     """
 
+    secs = int(secs)
     if secs <= 0:
         time_str = ''
     elif secs < 60:
-        time_str = '{:.0f}s'.format(secs)
+        time_str = '{}s'.format(secs)
     elif secs < 3600:
-        time_str = '{:.0f}m {:.0f}s'.format(secs // 60, secs % 60)
+        time_str = '{}m {}s'.format(secs // 60, secs % 60)
     elif secs < 86400:
-        time_str = '{:.0f}h {:.0f}m'.format(secs // 3600, secs // 60 % 60)
+        time_str = '{}h {}m'.format(secs // 3600, secs // 60 % 60)
     elif secs < 604800:
-        time_str = '{:.0f}d {:.0f}h'.format(secs // 86400, secs // 3600 % 24)
+        time_str = '{}d {}h'.format(secs // 86400, secs // 3600 % 24)
     elif secs < 31449600:
-        time_str = '{:.0f}w {:.0f}d'.format(secs // 604800, secs // 86400 % 7)
+        time_str = '{}w {}d'.format(secs // 604800, secs // 86400 % 7)
     else:
-        time_str = '{:.0f}y {:.0f}w'.format(secs // 31449600, secs // 604800 % 52)
+        time_str = '{}y {}w'.format(secs // 31449600, secs // 604800 % 52)
 
     return time_str
 
