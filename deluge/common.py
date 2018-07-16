@@ -483,7 +483,7 @@ def ftime(secs):
     """Formats a string to show time in a human readable form.
 
     Args:
-        secs (int): The number of seconds.
+        secs (int or float): The number of seconds.
 
     Returns:
         str: A formatted time string or empty string if value is 0.

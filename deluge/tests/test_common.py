@@ -62,6 +62,8 @@ class CommonTestCase(unittest.TestCase):
         self.assertTrue(ftime(604800) == '1w 0d')
         self.assertTrue(ftime(13893086) == '22w 6d')
         self.assertTrue(ftime(59740269) == '1y 46w')
+        self.assertTrue(ftime(61.25) == '1m 1s')
+        self.assertTrue(ftime(119.9) == '2m')
 
     def test_fdate(self):
         self.assertTrue(fdate(-1) == '')
