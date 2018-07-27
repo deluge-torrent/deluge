@@ -36,6 +36,9 @@ TLS_CIPHERS = ':'.join([
     '!MD5'
 ])
 
+# This value tells OpenSSL to disable all SSL/TLS renegotiation.
+SSL_OP_NO_RENEGOTIATION = 0x40000000
+
 
 def get_context_factory(cert_path, pkey_path):
     """
@@ -64,5 +67,6 @@ def get_context_factory(cert_path, pkey_path):
     )
     ctx = cert_options.getContext()
     ctx.use_certificate_chain_file(cert_path)
+    ctx.set_options(SSL_OP_NO_RENEGOTIATION)
 
     return cert_options
