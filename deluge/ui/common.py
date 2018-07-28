@@ -222,7 +222,7 @@ class TorrentInfo(object):
         encoding = self._metainfo_dict.get(b'encoding', None)
         codepage = self._metainfo_dict.get(b'codepage', None)
         if not encoding:
-            encoding = codepage if codepage else 'UTF-8'
+            encoding = codepage if codepage else b'UTF-8'
 
         # Decode 'name' with encoding unless 'name.utf-8' found.
         if b'name.utf-8' in info_dict:

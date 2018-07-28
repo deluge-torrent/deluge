@@ -72,11 +72,11 @@ class MakeTorrentTestCase(unittest.TestCase):
         # Create a temporary folder for torrent creation
         tmp_path = tempfile.mkdtemp()
         with open(os.path.join(tmp_path, 'file_A'), 'wb') as _file:
-            _file.write('a' * (312 * 1024))
+            _file.write(b'a' * (312 * 1024))
         with open(os.path.join(tmp_path, 'file_B'), 'wb') as _file:
-            _file.write('b' * (2354 * 1024))
+            _file.write(b'b' * (2354 * 1024))
         with open(os.path.join(tmp_path, 'file_C'), 'wb') as _file:
-            _file.write('c' * (11 * 1024))
+            _file.write(b'c' * (11 * 1024))
 
         t = maketorrent.TorrentMetadata()
         t.data_path = tmp_path

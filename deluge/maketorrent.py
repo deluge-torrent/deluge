@@ -147,17 +147,17 @@ class TorrentMetadata(object):
             fs = []
             pieces = []
             # Create the piece hashes
-            buf = ''
+            buf = b''
             for size, path in files:
-                path = [s.decode(sys.getfilesystemencoding()).encode('UTF-8') for s in path]
-                fs.append({'length': size, 'path': path})
-                if path[-1].startswith('_____padding_file_'):
-                    buf += '\0' * size
+                path = [s.encode('UTF-8') for s in path]
+                fs.append({b'length': size, b'path': path})
+                if path[-1].startswith(b'_____padding_file_'):
+                    buf += b'\0' * size
                     pieces.append(sha(buf).digest())
-                    buf = ''
-                    fs[-1]['attr'] = 'p'
+                    buf = b''
+                    fs[-1][b'attr'] = b'p'
                 else:
-                    with open(os.path.join(self.data_path, *path), 'rb') as _file:
+                    with open(os.path.join(self.data_path.encode('utf8'), *path), 'rb') as _file:
                         r = _file.read(piece_size - len(buf))
                         while r:
                             buf += r
@@ -166,7 +166,7 @@ class TorrentMetadata(object):
                                 # Run the progress function if necessary
                                 if progress:
                                     progress(len(pieces), num_pieces)
-                                buf = ''
+                                buf = b''
                             else:
                                 break
                             r = _file.read(piece_size - len(buf))
