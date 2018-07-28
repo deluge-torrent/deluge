@@ -444,17 +444,17 @@ class TopLevel(resource.Resource):
     def __init__(self):
         resource.Resource.__init__(self)
 
-        self.putChild('css', LookupResource('Css', rpath('css')))
+        self.putChild(b'css', LookupResource('Css', rpath('css')))
         if os.path.isfile(rpath('js', 'gettext.js')):
-            self.putChild('gettext.js', GetText())
+            self.putChild(b'gettext.js', GetText())
         else:
             log.warning(
                 'Cannot find "gettext.js" translation file!'
                 ' Text will only be available in English.')
-            self.putChild('gettext.js', MockGetText())
-        self.putChild('flag', Flag())
-        self.putChild('icons', LookupResource('Icons', rpath('icons')))
-        self.putChild('images', LookupResource('Images', rpath('images')))
+            self.putChild(b'gettext.js', MockGetText())
+        self.putChild(b'flag', Flag())
+        self.putChild(b'icons', LookupResource('Icons', rpath('icons')))
+        self.putChild(b'images', LookupResource('Images', rpath('images')))
 
         js = ScriptResource()
 
@@ -477,12 +477,12 @@ class TopLevel(resource.Resource):
         js.add_script('deluge-all.js', rpath('js', 'deluge-all.js'))
 
         self.js = js
-        self.putChild('js', js)
-        self.putChild('json', JSON())
-        self.putChild('upload', Upload())
-        self.putChild('render', Render())
-        self.putChild('themes', static.File(rpath('themes')))
-        self.putChild('tracker', Tracker())
+        self.putChild(b'js', js)
+        self.putChild(b'json', JSON())
+        self.putChild(b'upload', Upload())
+        self.putChild(b'render', Render())
+        self.putChild(b'themes', static.File(rpath('themes')))
+        self.putChild(b'tracker', Tracker())
 
         theme = component.get('DelugeWeb').config['theme']
         if not os.path.isfile(rpath('themes', 'css', 'xtheme-%s.css' % theme)):

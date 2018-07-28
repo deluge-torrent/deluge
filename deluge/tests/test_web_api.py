@@ -155,7 +155,8 @@ class WebAPITestCase(WebServerTestBase):
     @defer.inlineCallbacks
     def test_download_torrent_from_url(self):
         filename = 'ubuntu-9.04-desktop-i386.iso.torrent'
-        self.deluge_web.top_level.putChild(filename, File(common.get_test_data_file(filename)))
+        self.deluge_web.top_level.putChild(
+            filename.encode(), File(common.get_test_data_file(filename)))
         url = 'http://localhost:%d/%s' % (self.webserver_listen_port, filename)
         res = yield self.deluge_web.web_api.download_torrent_from_url(url)
         self.assertTrue(res.endswith(filename))
