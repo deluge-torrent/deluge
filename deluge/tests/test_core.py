@@ -37,7 +37,7 @@ common.disable_new_release_check()
 class CookieResource(Resource):
 
     def render(self, request):
-        if request.getCookie('password') != 'deluge':
+        if request.getCookie(b'password') != b'deluge':
             request.setResponseCode(FORBIDDEN)
             return
 
@@ -72,11 +72,11 @@ class TopLevelResource(Resource):
 
     def __init__(self):
         Resource.__init__(self)
-        self.putChild('cookie', CookieResource())
-        self.putChild('partial', PartialDownload())
-        self.putChild('redirect', RedirectResource())
+        self.putChild(b'cookie', CookieResource())
+        self.putChild(b'partial', PartialDownload())
+        self.putChild(b'redirect', RedirectResource())
         self.putChild(
-            'ubuntu-9.04-desktop-i386.iso.torrent',
+            b'ubuntu-9.04-desktop-i386.iso.torrent',
             File(common.get_test_data_file('ubuntu-9.04-desktop-i386.iso.torrent')),
         )
 
