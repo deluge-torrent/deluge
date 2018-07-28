@@ -1,6 +1,5 @@
 twisted
 pyopenssl
-sphinxcontrib-napoleon
 pyxdg
 service_identity
 pillow
