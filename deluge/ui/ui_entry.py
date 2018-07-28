@@ -96,7 +96,7 @@ def start_ui():
         # If the UI is set as default, indicate this in help by prefixing with a star.
         subactions = subparsers._get_subactions()
         prefix = '*' if ui == default_ui else ' '
-        subactions[-1].dest = '%s %s' % (prefix, ui)
+        subactions[-1].metavar = '%s %s' % (prefix, ui)
 
     # Insert a default UI subcommand unless one of the ambiguous_args are specified
     parser.set_default_subparser(default_ui, abort_opts=AMBIGUOUS_CMD_ARGS)
