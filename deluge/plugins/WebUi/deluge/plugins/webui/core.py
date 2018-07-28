@@ -82,7 +82,7 @@ class Core(CorePluginBase):
         try:
             self.server.start()
         except CannotListenError as ex:
-            log.warn('Failed to start WebUI server: %s', ex)
+            log.warning('Failed to start WebUI server: %s', ex)
             raise
         return True
 

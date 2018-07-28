@@ -90,7 +90,7 @@ def init_colors():
             color_pairs[(fg_name, bg_name)] = counter
             counter += 1
         except curses.error as ex:
-            log.warn('Error: %s', ex)
+            log.warning('Error: %s', ex)
         return counter
 
     # Create the color_pairs dict

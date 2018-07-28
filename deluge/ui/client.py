@@ -133,7 +133,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                     exception_cls = getattr(error, request[2])
                     exception = exception_cls(*request[3], **request[4])
                 except TypeError:
-                    log.warn('Received invalid RPC_ERROR (Old daemon?): %s', request[2])
+                    log.warning('Received invalid RPC_ERROR (Old daemon?): %s', request[2])
                     return
 
                 # Ideally we would chain the deferreds instead of instance
@@ -188,7 +188,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
             # Send the request in a tuple because multiple requests can be sent at once
             self.transfer_message((request.format_message(),))
         except Exception as ex:
-            log.warn('Error occurred when sending message: %s', ex)
+            log.warning('Error occurred when sending message: %s', ex)
 
 
 class DelugeRPCClientFactory(ClientFactory):

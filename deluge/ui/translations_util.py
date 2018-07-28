@@ -27,7 +27,7 @@ def set_dummy_trans(warn_msg=None):
 
     def _func(*txt):
         if warn_msg:
-            log.warn('"%s" has been marked for translation, but translation is unavailable.', txt[0])
+            log.warning('"%s" has been marked for translation, but translation is unavailable.', txt[0])
         return txt[0]
     builtins.__dict__['_'] = _func
     builtins.__dict__['ngettext'] = builtins.__dict__['_n'] = _func
@@ -80,7 +80,7 @@ def set_language(lang):
         ro = gettext.translation('deluge', localedir=translations_path, languages=[lang])
         ro.install()
     except IOError as ex:
-        log.warn('IOError when loading translations: %s', ex)
+        log.warning('IOError when loading translations: %s', ex)
 
 
 # Initialize gettext

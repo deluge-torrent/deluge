@@ -330,7 +330,7 @@ def move_cursor(screen, row, col):
         screen.move(row, col)
     except curses.error as ex:
         import traceback
-        log.warn(
+        log.warning(
             'Error on screen.move(%s, %s): (curses.LINES: %s, curses.COLS: %s) Error: %s\nStack: %s',
             row, col, curses.LINES, curses.COLS, ex, ''.join(traceback.format_stack()),
         )

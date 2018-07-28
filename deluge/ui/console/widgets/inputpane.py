@@ -87,7 +87,7 @@ class BaseInputPane(InputKeyHandler):
                 continue
             if e.name == input_element.name:
                 import traceback
-                log.warn(
+                log.warning(
                     'Input element with name "%s" already exists in input pane (%s):\n%s',
                     input_element.name, e, ''.join(traceback.format_stack(limit=5)),
                 )

@@ -51,7 +51,7 @@ class Command(BaseCommand):
             self.torrents = status
 
         def on_torrents_status_fail(reason):
-            log.warn('Failed to retrieve session status: %s', reason)
+            log.warning('Failed to retrieve session status: %s', reason)
             self.torrents = -2
 
         deferreds = []

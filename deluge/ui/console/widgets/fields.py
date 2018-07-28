@@ -477,7 +477,7 @@ class IntSpinInput(InputField):
                 self.cursor = cursor
         except TypeError:
             import traceback
-            log.warn('TypeError: %s', ''.join(traceback.format_exc()))
+            log.warning('TypeError: %s', ''.join(traceback.format_exc()))
         else:
             if cursor is True:
                 self.cursor = len(self.valstr)
@@ -925,7 +925,7 @@ class ComboInput(InputField):
                 msg = c[1]
                 break
         if msg is None:
-            log.warn('Setting value "%s" found nothing in choices: %s', val, self.choices)
+            log.warning('Setting value "%s" found nothing in choices: %s', val, self.choices)
         self.fmt_keys.update({'msg': msg})
 
 

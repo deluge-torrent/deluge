@@ -218,7 +218,7 @@ def tweak_logging_levels():
     if not os.path.isfile(logging_config_file):
         return
     log = logging.getLogger(__name__)
-    log.warn(
+    log.warning(
         'logging.conf found! tweaking logging levels from %s',
         logging_config_file,
     )
@@ -230,7 +230,7 @@ def tweak_logging_levels():
             if level not in levels:
                 continue
 
-            log.warn('Setting logger "%s" to logging level "%s"', name, level)
+            log.warning('Setting logger "%s" to logging level "%s"', name, level)
             set_logger_level(level, name)
 
 

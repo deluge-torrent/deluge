@@ -661,7 +661,7 @@ class DelugeWeb(component.Component):
         Start the DelugeWeb server
         """
         if self.socket:
-            log.warn('DelugeWeb is already running and cannot be started')
+            log.warning('DelugeWeb is already running and cannot be started')
             return
 
         log.info('Starting webui server at PID %s', os.getpid())

@@ -106,11 +106,11 @@ class Core(CorePluginBase):
         def log_error(result, command):
             (stdout, stderr, exit_code) = result
             if exit_code:
-                log.warn('Command "%s" failed with exit code %d', command, exit_code)
+                log.warning('Command "%s" failed with exit code %d', command, exit_code)
                 if stdout:
-                    log.warn('stdout: %s', stdout)
+                    log.warning('stdout: %s', stdout)
                 if stderr:
-                    log.warn('stderr: %s', stderr)
+                    log.warning('stderr: %s', stderr)
 
         # Go through and execute all the commands
         for command in self.config['commands']:

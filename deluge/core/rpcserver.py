@@ -139,7 +139,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
         try:
             self.transfer_message(data)
         except Exception as ex:
-            log.warn('Error occurred when sending message: %s.', ex)
+            log.warning('Error occurred when sending message: %s.', ex)
             log.exception(ex)
             raise
 

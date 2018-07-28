@@ -472,7 +472,7 @@ class Core(component.Component):
                         torrent[0], torrent[1], torrent[2], save_state=idx == last_index,
                     )
                 except AddTorrentError as ex:
-                    log.warn('Error when adding torrent: %s', ex)
+                    log.warning('Error when adding torrent: %s', ex)
                     errors.append(ex)
             defer.returnValue(errors)
         return task.deferLater(reactor, 0, add_torrents)
@@ -578,7 +578,7 @@ class Core(component.Component):
             # Save the session state
             self.torrentmanager.save_state()
             if errors:
-                log.warn('Failed to remove %d of %d torrents.', len(errors), len(torrent_ids))
+                log.warning('Failed to remove %d of %d torrents.', len(errors), len(torrent_ids))
             return errors
         return task.deferLater(reactor, 0, do_remove_torrents)
 

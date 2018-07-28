@@ -74,7 +74,7 @@ class Tab(object):
                 args = [status[key] for key in widget.status_keys]
                 txt = widget.func(*args)
         except KeyError as ex:
-            log.warn('Unable to get status value: %s', ex)
+            log.warning('Unable to get status value: %s', ex)
             txt = ''
         return txt
 

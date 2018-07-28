@@ -762,7 +762,7 @@ class TorrentManager(component.Component):
                     resume_data=resume_data.get(t_state.torrent_id),
                 )
             except AddTorrentError as ex:
-                log.warn('Error when adding torrent "%s" to session: %s', t_state.torrent_id, ex)
+                log.warning('Error when adding torrent "%s" to session: %s', t_state.torrent_id, ex)
             else:
                 deferreds.append(d)
 
@@ -1105,19 +1105,19 @@ class TorrentManager(component.Component):
     def on_alert_add_torrent(self, alert):
         """Alert handler for libtorrent add_torrent_alert"""
         if not alert.handle.is_valid():
-            log.warn('Torrent handle is invalid!')
+            log.warning('Torrent handle is invalid!')
             return
 
         try:
             torrent_id = str(alert.handle.info_hash())
         except RuntimeError as ex:
-            log.warn('Failed to get torrent id from handle: %s', ex)
+            log.warning('Failed to get torrent id from handle: %s', ex)
             return
 
         try:
             add_async_params = self.torrents_loading.pop(torrent_id)
         except KeyError as ex:
-            log.warn('Torrent id not in torrents loading list: %s', ex)
+            log.warning('Torrent id not in torrents loading list: %s', ex)
             return
 
         self.add_async_callback(alert.handle, *add_async_params)

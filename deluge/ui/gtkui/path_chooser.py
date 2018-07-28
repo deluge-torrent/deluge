@@ -162,7 +162,7 @@ class PathChooser(PathChooserComboBox):
                 try:
                     self.config_key_funcs[key][1](config[key])
                 except TypeError as ex:
-                    log.warn('TypeError: %s', ex)
+                    log.warning('TypeError: %s', ex)
 
         # Set the saved paths
         if self.paths_config_key and self.paths_config_key in config:
