@@ -930,7 +930,7 @@ def decode_bytes(byte_str, encoding='utf8'):
         lambda: (encoding, 'ignore'),
     ]
 
-    if encoding is not 'utf8':
+    if encoding.lower() not in ['utf8', 'utf-8']:
         encodings.insert(0, lambda: (encoding, 'strict'))
 
     for l in encodings:
