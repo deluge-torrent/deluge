@@ -104,7 +104,7 @@ class Auth(JSONComponent):
 
         request.addCookie(
             b'_session_id', session_id + checksum,
-            path=request.base + b'json', expires=expires_str,
+            path=request.base + 'json', expires=expires_str,
         )
 
         log.debug('Creating session for %s', login)

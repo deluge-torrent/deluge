@@ -129,7 +129,7 @@ class TorrentTestCase(BaseTestCase):
             raise unittest.SkipTest('unexpected end of file in bencoded string')
         options = {'seed_mode': True}
         filename = common.get_test_data_file('test_torrent.file.torrent')
-        with open(filename) as _file:
+        with open(filename, 'rb') as _file:
             filedump = b64encode(_file.read())
         torrent_id = self.core.add_torrent_file(filename, filedump, options)
         torrent = self.core.torrentmanager.torrents[torrent_id]
@@ -147,7 +147,7 @@ class TorrentTestCase(BaseTestCase):
             raise unittest.SkipTest('unexpected end of file in bencoded string')
         options = {'seed_mode': True, 'add_paused': True}
         filename = common.get_test_data_file('test_torrent.file.torrent')
-        with open(filename) as _file:
+        with open(filename, 'rb') as _file:
             filedump = b64encode(_file.read())
         torrent_id = self.core.add_torrent_file(filename, filedump, options)
         torrent = self.core.torrentmanager.torrents[torrent_id]
@@ -193,7 +193,7 @@ class TorrentTestCase(BaseTestCase):
         )
 
         filename = common.get_test_data_file('test_torrent.file.torrent')
-        with open(filename) as _file:
+        with open(filename, 'rb') as _file:
             filedump = _file.read()
         resume_data = utf8_encode_structure(resume_data)
         torrent_id = self.core.torrentmanager.add(

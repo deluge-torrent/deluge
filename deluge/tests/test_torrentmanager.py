@@ -50,7 +50,7 @@ class TorrentmanagerTestCase(BaseTestCase):
     @defer.inlineCallbacks
     def test_remove_torrent(self):
         filename = common.get_test_data_file('test.torrent')
-        with open(filename) as _file:
+        with open(filename, 'rb') as _file:
             filedump = _file.read()
         torrent_id = yield self.core.add_torrent_file_async(
             filename, b64encode(filedump), {})
@@ -58,7 +58,7 @@ class TorrentmanagerTestCase(BaseTestCase):
 
     def test_prefetch_metadata(self):
         from deluge._libtorrent import lt
-        with open(common.get_test_data_file('test.torrent')) as _file:
+        with open(common.get_test_data_file('test.torrent'), 'rb') as _file:
             t_info = lt.torrent_info(lt.bdecode(_file.read()))
         mock_alert = mock.MagicMock()
         mock_alert.handle.info_hash = mock.MagicMock(
