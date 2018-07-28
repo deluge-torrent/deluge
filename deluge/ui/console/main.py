@@ -438,7 +438,7 @@ Please use commands from the command line, e.g.:\n
                 component.get('CmdLine').add_line(s, False)
                 self.events.append(s)
         else:
-            print(colors.strip_colors(s.encode('utf8')))
+            print(colors.strip_colors(s))
 
     def write_event(self, s):
         if self.interactive:
@@ -449,7 +449,7 @@ Please use commands from the command line, e.g.:\n
                 component.get('CmdLine').add_line(s, False)
                 self.events.append(s)
         else:
-            print(colors.strip_colors(s.encode('utf8')))
+            print(colors.strip_colors(s))
 
     def _migrate_config_1_to_2(self, config):
         """Create better structure by moving most settings out of dict root

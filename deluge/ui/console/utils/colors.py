@@ -73,6 +73,10 @@ type_color = {
     dict: '{!white,black,bold!}',
 }
 
+tab_char = '\t'
+color_tag_start = '{!'
+color_tag_end = '!}'
+
 
 def get_color_pair(fg, bg):
     return color_pairs[(fg, bg)]
@@ -108,14 +112,20 @@ class BadColorString(Exception):
     pass
 
 
+def check_tag_count(string):
+    """Raise BadColorString if color tag open/close not equal."""
+    if string.count(color_tag_start) != string.count(color_tag_end):
+        raise BadColorString('Number of {! is not equal to number of !}')
+
+
 def replace_tabs(line):
     """
     Returns a string with tabs replaced with spaces.
 
     """
-    for i in range(line.count('\t')):
-        tab_length = 8 - (len(line[:line.find('\t')]) % 8)
-        line = line.replace('\t', ' ' * tab_length, 1)
+    for i in range(line.count(tab_char)):
+        tab_length = 8 - (len(line[:line.find(tab_char)]) % 8)
+        line = line.replace(tab_char, b' ' * tab_length, 1)
     return line
 
 
@@ -124,9 +134,13 @@ def strip_colors(line):
     Returns a string with the color formatting removed.
 
     """
+    check_tag_count(line)
+
     # Remove all the color tags
-    while line.find('{!') != -1:
-        line = line[:line.find('{!')] + line[line.find('!}') + 2:]
+    while line.find(color_tag_start) != -1:
+        tag_start = line.find(color_tag_start)
+        tag_end = line.find(color_tag_end) + 2
+        line = line[:tag_start] + line[tag_end:]
 
     return line
 
@@ -136,9 +150,6 @@ def get_line_length(line):
     Returns the string length without the color formatting.
 
     """
-    if line.count('{!') != line.count('!}'):
-        raise BadColorString('Number of {! is not equal to number of !}')
-
     # Remove all the color tags
     line = strip_colors(line)
 
@@ -152,9 +163,6 @@ def get_line_width(line):
     Get width of string considering double width characters
 
     """
-    if line.count('{!') != line.count('!}'):
-        raise BadColorString('Number of {! is not equal to number of !}')
-
     # Remove all the color tags
     line = strip_colors(line)
 
@@ -171,18 +179,17 @@ def parse_color_string(s, encoding='UTF-8'):
     :param encoding: the encoding to use on output
 
     """
-    if s.count('{!') != s.count('!}'):
-        raise BadColorString('Number of {! is not equal to number of !}')
+    check_tag_count(s)
 
     ret = []
     last_color_attr = None
     # Keep track of where the strings
-    while s.find('{!') != -1:
-        begin = s.find('{!')
+    while s.find(color_tag_start) != -1:
+        begin = s.find(color_tag_start)
         if begin > 0:
             ret.append((curses.color_pair(color_pairs[(schemes['input'][0], schemes['input'][1])]), s[:begin]))
 
-        end = s.find('!}')
+        end = s.find(color_tag_end)
         if end == -1:
             raise BadColorString('Missing closing "!}"')
 
@@ -258,7 +265,7 @@ def parse_color_string(s, encoding='UTF-8'):
             last_color_attr = color_pair
         # We need to find the text now, so lets try to find another {! and if
         # there isn't one, then it's the rest of the string
-        next_begin = s.find('{!', end)
+        next_begin = s.find(color_tag_start, end)
 
         if next_begin == -1:
             ret.append((color_pair, replace_tabs(s[end + 2:])))

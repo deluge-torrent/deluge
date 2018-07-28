@@ -20,7 +20,7 @@ from twisted.internet import defer
 import deluge
 import deluge.component as component
 import deluge.ui.web.server
-from deluge.common import get_localhost_auth, utf8_encode_structure, windows_check
+from deluge.common import get_localhost_auth, utf8_encode_structure, windows_check, PY2
 from deluge.ui import ui_entry
 from deluge.ui.web.server import DelugeWeb
 
@@ -53,7 +53,10 @@ class StringFileDescriptor(object):
 
     def write(self, *data, **kwargs):
         # io.StringIO requires unicode strings.
-        print(unicode(*data), file=self.out, end='')
+        data_string = str(*data)
+        if PY2:
+            data_string = data_string.decode()
+        print(data_string, file=self.out, end='')
 
     def flush(self):
         self.out.flush()
