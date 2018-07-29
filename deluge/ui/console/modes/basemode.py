@@ -75,7 +75,7 @@ class TermResizeHandler(object):
         # Get the new rows and cols value
         rows, cols = struct.unpack(
             'hhhh',
-            ioctl(0, termios.TIOCGWINSZ, b'\000' * 8)
+            ioctl(0, termios.TIOCGWINSZ, b'\000' * 8),
         )[0:2]
         curses.resizeterm(rows, cols)
         return rows, cols

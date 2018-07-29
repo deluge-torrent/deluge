@@ -14,7 +14,6 @@ from io import BytesIO
 
 import twisted.web.client
 from twisted.internet import defer, reactor
-from twisted.trial.unittest import SkipTest
 from twisted.web.client import Agent, FileBodyProducer
 from twisted.web.http_headers import Headers
 

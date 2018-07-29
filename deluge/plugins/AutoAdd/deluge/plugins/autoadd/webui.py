@@ -28,7 +28,7 @@ class WebUI(WebPluginBase):
         get_resource('autoadd.js'),
         get_resource('autoadd_options.js'),
         get_resource('main_tab.js', True),
-        get_resource('options_tab.js', True)
+        get_resource('options_tab.js', True),
     ]
 
     def enable(self):

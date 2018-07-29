@@ -10,7 +10,6 @@
 from __future__ import division, unicode_literals
 
 import os
-import sys
 from hashlib import sha1 as sha
 
 from deluge.bencode import bencode

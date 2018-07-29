@@ -20,7 +20,7 @@ from twisted.internet import defer
 import deluge
 import deluge.component as component
 import deluge.ui.web.server
-from deluge.common import get_localhost_auth, utf8_encode_structure, windows_check, PY2
+from deluge.common import PY2, get_localhost_auth, utf8_encode_structure, windows_check
 from deluge.ui import ui_entry
 from deluge.ui.web.server import DelugeWeb
 
