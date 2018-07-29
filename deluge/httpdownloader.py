@@ -45,7 +45,7 @@ class CompressionDecoderProtocol(client._GzipProtocol):
 
 class BodyHandler(HTTPClientParser, object):
     """An HTTP parser that saves the response to a file."""
-    def __init__(self, request, finished, length, agent):
+    def __init__(self, request, finished, length, agent, encoding=None):
         """BodyHandler init.
 
         Args:
@@ -60,6 +60,7 @@ class BodyHandler(HTTPClientParser, object):
         self.total_length = length
         self.current_length = 0
         self.data = b''
+        self.encoding = encoding
 
     def dataReceived(self, data):  # NOQA: N802
         self.current_length += len(data)
@@ -69,6 +70,8 @@ class BodyHandler(HTTPClientParser, object):
                 data, self.current_length, self.total_length)
 
     def connectionLost(self, reason):  # NOQA: N802
+        if self.encoding:
+            self.data = self.data.decode(self.encoding).encode('utf8')
         with open(self.agent.filename, 'wb') as _file:
             _file.write(self.data)
         self.finished.callback(self.agent.filename)
@@ -148,8 +151,17 @@ class HTTPDownloaderAgent(object):
 
                     self.filename = new_file_name
 
+            cont_type = headers.getRawHeaders(b'content-type')[0].decode()
+            params = cgi.parse_header(cont_type)[1]
+            encoding = params.get('charset', None)
             response.deliverBody(
-                BodyHandler(response.request, finished, body_length, self))
+                BodyHandler(
+                    response.request,
+                    finished,
+                    body_length,
+                    self,
+                    encoding,
+                ))
 
         return finished
 
