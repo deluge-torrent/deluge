@@ -91,7 +91,7 @@ class MockGetText(resource.Resource):
     """
     def render(self, request):
         request.setHeader(b'content-type', b'text/javascript; encoding=utf-8')
-        data = 'function _(string) { return string; }'
+        data = b'function _(string) { return string; }'
         return compress(data, request)
 
 
@@ -209,10 +209,10 @@ class Flag(resource.Resource):
         filename = common.resource_filename('deluge', os.path.join(*path))
         if os.path.exists(filename):
             request.setHeader(
-                'cache-control',
-                'public, must-revalidate, max-age=86400',
+                b'cache-control',
+                b'public, must-revalidate, max-age=86400',
             )
-            request.setHeader('content-type', 'image/png')
+            request.setHeader(b'content-type', b'image/png')
             with open(filename, 'rb') as _file:
                 data = _file.read()
             request.setResponseCode(http.OK)
@@ -250,16 +250,16 @@ class LookupResource(resource.Resource, component.Component):
 
     def render(self, request):
         log.debug('Requested path: %s', request.lookup_path)
-        path = os.path.dirname(request.lookup_path)
+        path = os.path.dirname(request.lookup_path).decode()
 
         if path in self.__paths:
-            filename = os.path.basename(request.path)
+            filename = os.path.basename(request.path).decode()
             for directory in self.__paths[path]:
                 if os.path.join(directory, filename):
                     path = os.path.join(directory, filename)
                     log.debug('Serving path: %s', path)
                     mime_type = mimetypes.guess_type(path)
-                    request.setHeader(b'content-type', mime_type[0])
+                    request.setHeader(b'content-type', mime_type[0].encode())
                     with open(path, 'rb') as _file:
                         data = _file.read()
                     return compress(data, request)
@@ -396,32 +396,32 @@ class ScriptResource(resource.Resource, component.Component):
 
     def getChild(self, path, request):  # NOQA: N802
         if hasattr(request, 'lookup_path'):
-            request.lookup_path += '/' + path
+            request.lookup_path += b'/' + path
         else:
             request.lookup_path = path
         return self
 
     def render(self, request):
         log.debug('Requested path: %s', request.lookup_path)
-
+        lookup_path = request.lookup_path.decode()
         for script_type in ('dev', 'debug', 'normal'):
             scripts = self.__scripts[script_type]['scripts']
             for pattern in scripts:
-                if not request.lookup_path.startswith(pattern):
+                if not lookup_path.startswith(pattern):
                     continue
 
                 filepath = scripts[pattern]
                 if isinstance(filepath, tuple):
                     filepath = filepath[0]
 
-                path = filepath + request.lookup_path[len(pattern):]
+                path = filepath + lookup_path[len(pattern):]
 
                 if not os.path.isfile(path):
                     continue
 
                 log.debug('Serving path: %s', path)
                 mime_type = mimetypes.guess_type(path)
-                request.setHeader(b'content-type', mime_type[0])
+                request.setHeader(b'content-type', mime_type[0].encode())
                 with open(path, 'rb') as _file:
                     data = _file.read()
                 return compress(data, request)
@@ -516,7 +516,7 @@ class TopLevel(resource.Resource):
         self.__debug_scripts.remove(script)
 
     def getChild(self, path, request):  # NOQA: N802
-        if path == '':
+        if not path:
             return self
         else:
             return resource.Resource.getChild(self, path, request)
@@ -571,13 +571,16 @@ class TopLevel(resource.Resource):
         request.setHeader(b'content-type', b'text/html; charset=utf-8')
 
         web_config = component.get('Web').get_config()
-        web_config['base'] = request.base
+        web_config['base'] = request.base.decode()
         config = {key: web_config[key] for key in UI_CONFIG_KEYS}
         js_config = json.dumps(config)
         # Insert the values into 'index.html' and return.
         return template.render(
-            scripts=scripts, stylesheets=self.stylesheets,
-            debug=debug_arg, base=request.base, js_config=js_config,
+            scripts=scripts,
+            stylesheets=self.stylesheets,
+            debug=str(debug_arg).lower(),
+            base=web_config['base'],
+            js_config=js_config,
         )
 
 
@@ -618,7 +621,8 @@ class DelugeWeb(component.Component):
 
         if self.base != '/':
             # Strip away slashes and serve on the base path as well as root path
-            self.top_level.putChild(self.base.strip('/'), self.top_level)
+            self.top_level.putChild(
+                self.base.strip('/'), self.top_level)
 
         setup_translations(setup_gettext=True, setup_pygtk=False)
 

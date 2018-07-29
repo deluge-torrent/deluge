@@ -173,7 +173,7 @@ class WebAPITestCase(WebServerTestBase):
         bad_body = b'{ method": "auth.login" }'
         d = yield agent.request(
             b'POST',
-            b'http://127.0.0.1:%s/json' % self.webserver_listen_port,
+            b'http://127.0.0.1:%i/json' % self.webserver_listen_port,
             Headers({
                 b'User-Agent': [b'Twisted Web Client Example'],
                 b'Content-Type': [b'application/json'],

@@ -715,7 +715,7 @@ def get_magnet_info(uri):
                 except TypeError as ex:
                     log.debug('Invalid base32 magnet hash: %s, %s', xt_hash, ex)
                     break
-                info_hash = binascii.hexlify(infohash_str)
+                info_hash = binascii.hexlify(infohash_str).decode()
             elif is_infohash(xt_hash):
                 info_hash = xt_hash.lower()
             else:

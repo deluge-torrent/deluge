@@ -18,8 +18,6 @@ from twisted.trial.unittest import SkipTest
 from twisted.web.client import Agent, FileBodyProducer
 from twisted.web.http_headers import Headers
 
-from deluge.common import utf8_encode_structure
-
 from . import common
 from .common import get_test_data_file
 from .common_web import WebServerMockBase, WebServerTestBase
@@ -43,19 +41,19 @@ class WebServerTestCase(WebServerTestBase, WebServerMockBase):
         filename = get_test_data_file('filehash_field.torrent')
         input_file = '{"params": ["%s"], "method": "web.get_torrent_info", "id": 22}' % filename
         headers = {
-            'User-Agent': ['Twisted Web Client Example'],
-            'Content-Type': ['application/json'],
+            b'User-Agent': ['Twisted Web Client Example'],
+            b'Content-Type': ['application/json'],
         }
         url = 'http://127.0.0.1:%s/json' % self.webserver_listen_port
 
         d = yield agent.request(
-            b'POST', url.encode('utf-8'), Headers(utf8_encode_structure(headers)),
+            b'POST',
+            url.encode('utf-8'),
+            Headers(headers),
             FileBodyProducer(BytesIO(input_file.encode('utf-8'))),
         )
-        try:
-            body = yield twisted.web.client.readBody(d)
-        except AttributeError:
-            raise SkipTest('This test requires "t.w.c.readBody()" in Twisted version >= 13.2')
+
+        body = yield twisted.web.client.readBody(d)
 
         json = json_lib.loads(body)
         self.assertEqual(None, json['error'])

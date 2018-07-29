@@ -9,7 +9,6 @@
 
 from __future__ import division, unicode_literals
 
-import cgi
 import json
 import logging
 import os
@@ -17,6 +16,7 @@ import shutil
 import tempfile
 from base64 import b64encode
 from types import FunctionType
+from xml.sax.saxutils import escape as xml_escape
 
 from twisted.internet import defer, reactor
 from twisted.internet.defer import Deferred, DeferredList
@@ -541,7 +541,7 @@ class WebApi(JSONComponent):
         paths = []
         info = {}
         for index, torrent_file in enumerate(files):
-            path = cgi.escape(torrent_file['path'])
+            path = xml_escape(torrent_file['path'])
             paths.append(path)
             torrent_file['progress'] = file_progress[index]
             torrent_file['priority'] = file_priorities[index]
@@ -583,9 +583,9 @@ class WebApi(JSONComponent):
             try:
                 if key == 'peers':
                     for peer in torrent[key]:
-                        peer['client'] = cgi.escape(peer['client'])
+                        peer['client'] = xml_escape(peer['client'])
                 else:
-                    torrent[key] = cgi.escape(torrent[key])
+                    torrent[key] = xml_escape(torrent[key])
             except KeyError:
                 pass
         d.callback(torrent)
