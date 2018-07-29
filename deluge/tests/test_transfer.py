@@ -125,13 +125,15 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
             {'keylist': [4, '5', 6.7]},
         )
 
-        self.msg1_expected_compressed_base64 = 'RAAAADF4nDvKwJjenp1aGZ+ZV+Lgxfv9PYRXXFLU'\
-                                               'XZyfm6oAZGTmpad3gAST8vNznAEAJhSQ'
-
-        self.msg2_expected_compressed_base64 = 'RAAAAF14nDvGxJzemZ1aGZ+Wk59Y4uTmpKib3g3i'\
-                                               'l+ZlJuenpHYX5+emKhSXFGXmpadPBkmkZCaXxJdn'\
-                                               'lmTEl5QW5KRCdIOZhxmBhrUDuTmZxSWHWRpNnRyu'\
-                                               'paUBAHYlJxI='
+        self.msg1_expected_compressed_base64 = (
+            b'RAAAADF4nDvKwJjenp1aGZ+ZV+Lgxfv9PYRXXFLU'
+            b'XZyfm6oAZGTmpad3gAST8vNznAEAJhSQ'
+        )
+        self.msg2_expected_compressed_base64 = (
+            b'RAAAAF14nDvGxJzemZ1aGZ+Wk59Y4uTmpKib3g3il+ZlJuenpH'
+            b'YX5+emKhSXFGXmpadPBkmkZCaXxJdnlmTEl5QW5KRCdIOZhxmB'
+            b'hrUDuTmZxSWHWRpNnRyupaUBAHYlJxI='
+        )
 
     def test_send_one_message(self):
         """
