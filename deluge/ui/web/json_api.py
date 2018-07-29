@@ -134,16 +134,17 @@ class JSON(resource.Resource, component.Component):
         procedure calls and the request id.
         """
         try:
-            request.json = json.loads(request.json)
+            request_data = json.loads(request.json.decode())
         except (ValueError, TypeError):
             raise JSONException('JSON not decodable')
 
         try:
-            method = request.json['method']
-            params = request.json['params']
-            request_id = request.json['id']
+            method = request_data['method']
+            params = request_data['params']
+            request_id = request_data['id']
         except KeyError as ex:
-            message = 'Invalid JSON request, missing param %s in %s' % (ex, request.json)
+            message = 'Invalid JSON request, missing param %s in %s' % (
+                ex, request_data)
             raise JSONException(message)
 
         result = None
@@ -185,7 +186,7 @@ class JSON(resource.Resource, component.Component):
         Handler to take the json data as a string and pass it on to the
         _handle_request method for further processing.
         """
-        if request.getHeader('content-type') != 'application/json':
+        if request.getHeader(b'content-type') != b'application/json':
             message = 'Invalid JSON request content-type: %s' % request.getHeader('content-type')
             raise JSONException(message)
 
@@ -220,7 +221,7 @@ class JSON(resource.Resource, component.Component):
             return ''
         response = json.dumps(response)
         request.setHeader(b'content-type', b'application/x-json')
-        request.write(compress(response, request))
+        request.write(compress(response.encode(), request))
         request.finish()
         return server.NOT_DONE_YET
 
@@ -228,7 +229,7 @@ class JSON(resource.Resource, component.Component):
         """
         Handles all the POST requests made to the /json controller.
         """
-        if request.method != 'POST':
+        if request.method != b'POST':
             request.setResponseCode(http.NOT_ALLOWED)
             request.finish()
             return server.NOT_DONE_YET

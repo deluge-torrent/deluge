@@ -57,3 +57,4 @@ class WebServerTestCase(WebServerTestBase, WebServerMockBase):
 
         json = json_lib.loads(body)
         self.assertEqual(None, json['error'])
+        self.assertEqual('torrent_filehash', json['result']['name'])

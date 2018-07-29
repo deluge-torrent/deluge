@@ -107,11 +107,12 @@ class Upload(resource.Resource):
         """
 
         # Block all other HTTP methods.
-        if request.method != 'POST':
+        if request.method != b'POST':
             request.setResponseCode(http.NOT_ALLOWED)
             return ''
 
-        if 'file' not in request.args:
+        print(request.args)
+        if b'file' not in request.args:
             request.setResponseCode(http.OK)
             return json.dumps({
                 'success': True,
@@ -150,19 +151,21 @@ class Render(resource.Resource):
         return self
 
     def render(self, request):
+        log.debug('Render template file: %s', request.render_file)
         if not hasattr(request, 'render_file'):
             request.setResponseCode(http.INTERNAL_SERVER_ERROR)
             return ''
 
-        if request.render_file in self.template_files:
+        request.setHeader(b'content-type', b'text/html')
+
+        tpl_file = request.render_file.decode()
+        if tpl_file in self.template_files:
             request.setResponseCode(http.OK)
-            filename = os.path.join('render', request.render_file)
         else:
             request.setResponseCode(http.NOT_FOUND)
-            filename = os.path.join('render', '404.html')
+            tpl_file = '404.html'
 
-        request.setHeader(b'content-type', b'text/html')
-        template = Template(filename=rpath(filename))
+        template = Template(filename=rpath(os.path.join('render', tpl_file)))
         return compress(template.render(), request)
 
 

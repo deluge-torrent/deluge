@@ -16,7 +16,7 @@ from deluge import common
 
 
 def _(text):
-    return gettext.gettext(text).decode('utf-8')
+    return gettext.gettext(text)
 
 
 def escape(text):
@@ -58,7 +58,7 @@ try:
         def render(self, *args, **data):
             data.update(self.builtins)
             rendered = MakoTemplate.render_unicode(self, *args, **data)
-            return rendered.encode('utf-8', 'replace')
+            return rendered.encode('utf-8')
 except ImportError:
     import warnings
     warnings.warn(
