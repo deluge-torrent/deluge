@@ -627,7 +627,8 @@ class Core(component.Component):
         log.debug('Pausing: %s', torrent_id)
         if not isinstance(torrent_id, str if not PY2 else basestring):
             self.pause_torrents(torrent_id)
-        self.torrentmanager[torrent_id].pause()
+        else:
+            self.torrentmanager[torrent_id].pause()
 
     @export
     def pause_torrents(self, torrent_ids=None):
@@ -677,7 +678,8 @@ class Core(component.Component):
         log.debug('Resuming: %s', torrent_id)
         if not isinstance(torrent_id, str if not PY2 else basestring):
             self.resume_torrents(torrent_id)
-        self.torrentmanager[torrent_id].resume()
+        else:
+            self.torrentmanager[torrent_id].resume()
 
     @export
     def resume_torrents(self, torrent_ids=None):
