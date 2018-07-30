@@ -242,7 +242,10 @@ class DownloadFileTestCase(unittest.TestCase):
     def test_download_with_gzip_encoding_disabled(self):
         url = self.get_url('gzip?msg=fail')
         d = download_file(url, fname('gzip_encoded'), allow_compression=False)
-        d.addCallback(self.assertNotContains, 'fail', file_mode='rb')
+
+        def cb(result):
+            print(result)
+        d.addCallback(self.assertNotContains, b'fail', file_mode='rb')
         return d
 
     def test_page_redirect_unhandled(self):
