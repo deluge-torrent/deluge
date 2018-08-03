@@ -244,7 +244,7 @@ Deluge.about.AboutCreditsWindow = Ext.extend(Ext.Window, {
         return str;
     },
 
-    onCloseClick() {
+    onCloseClick: function() {
         this.hide();
     }
 });
@@ -265,7 +265,7 @@ Deluge.about.AboutLicenseWindow = Ext.extend(Ext.Window, {
         this.addButton(_('Close'), this.onCloseClick, this);
     },
 
-    onCloseClick() {
+    onCloseClick: function() {
         this.hide();
     }
 });
