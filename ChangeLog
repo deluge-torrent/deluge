@@ -10,6 +10,7 @@
     names clashing beetween regular packages and deluge plugins.
     * Fix potential for host_id collision when creating hostlist entries.
     * Add Option To Specify Outgoing Connection Interface.
+    * Updated SSL/TLS Protocol parameters for better security.
 
 ==== Core ====
     * Make the distinction between adding to the session new unmanaged torrents
