@@ -237,7 +237,6 @@ class Torrent(object):
         self.rpcserver = component.get('RPCServer')
 
         self.handle = handle
-        self.handle.resolve_countries(True)
 
         self.magnet = magnet
         self.status = self.handle.status()
