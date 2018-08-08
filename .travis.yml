@@ -16,6 +16,10 @@ install:
   - bash -c "echo $APTPACKAGES"
   - sudo apt-get install $APTPACKAGES
   - pip install tox
+  # the next part is for the security tests only.
+  - wget https://github.com/drwetter/testssl.sh/archive/v2.9.5-5.tar.gz -O testssl.tar.gz
+  - tar -xvzf testssl.tar.gz
+  - mv -t deluge/tests/data testssl.sh-2.9.5-5/testssl.sh testssl.sh-2.9.5-5/etc/
 
 env:
   global:
