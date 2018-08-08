@@ -41,17 +41,17 @@ SSL_OP_NO_RENEGOTIATION = 0x40000000
 
 
 def get_context_factory(cert_path, pkey_path):
-    """
+    """OpenSSL context factory.
+
     Generates an OpenSSL context factory using Twisted's CertificateOptions class.
     This will keep a server cipher order.
 
-    :param cert_path: the path to the certificate file
-    :type cert_path: string
-    :param pkey_path: the path to the private key file
-    :type pkey_path: string
-    :returns: an OpenSSL context factory
-    :rtype: twisted.internet.ssl.CertificateOptions
+    Args:
+        cert_path (string): The path to the certificate file
+        pkey_path (string): The path to the private key file
 
+    Returns:
+        twisted.internet.ssl.CertificateOptions: An OpenSSL context factory
     """
 
     with open(cert_path) as cert:
