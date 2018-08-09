@@ -26,17 +26,20 @@ env:
     - APTPACKAGES="python-libtorrent"
     - APTPACKAGES_GTKUI="python-gobject python-glade2"
     - DISPLAY=:99.0
-  matrix:
-    - TOX_ENV=pydef
-    - TOX_ENV=security
-    - TOX_ENV=flake8
-#    - TOX_ENV=flake8-complexity
-    - TOX_ENV=docs
-#    - TOX_ENV=todo
-    - TOX_ENV=trial              APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
-    - TOX_ENV=pygtkui            APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
-#    - TOX_ENV=testcoverage       APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
-    - TOX_ENV=plugins
+
+matrix:
+  include:
+    - env: TOX_ENV=pydef
+    - if: commit_message =~ SECURITY_TEST
+      env: TOX_ENV=security
+    - env: TOX_ENV=flake8
+    #- env:  TOX_ENV=flake8-complexity
+    - env: TOX_ENV=docs
+    #- env: TOX_ENV=todo
+    - env: TOX_ENV=trial              APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
+    - env: TOX_ENV=pygtkui            APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
+    #- env: TOX_ENV=testcoverage       APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
+    - env: TOX_ENV=plugins
 
 virtualenv:
   system_site_packages: true
