@@ -115,6 +115,21 @@ class CoreTestCase(BaseTestCase):
 
         return component.shutdown().addCallback(on_shutdown)
 
+    def add_torrent(self, filename, paused=False):
+        if not paused:
+            # Patch libtorrent flags starting torrents paused
+            self.patch(
+                deluge.core.torrentmanager,
+                'LT_DEFAULT_ADD_TORRENT_FLAGS',
+                592,
+            )
+        options = {'add_paused': paused, 'auto_managed': False}
+        filepath = common.get_test_data_file(filename)
+        with open(filepath, 'rb') as _file:
+            filedump = b64encode(_file.read())
+        torrent_id = self.core.add_torrent_file(filename, filedump, options)
+        return torrent_id
+
     @defer.inlineCallbacks
     def test_add_torrent_files(self):
         options = {}
@@ -209,6 +224,92 @@ class CoreTestCase(BaseTestCase):
         options = {}
         torrent_id = yield self.core.add_torrent_magnet(uri, options)
         self.assertEqual(torrent_id, info_hash)
+
+    def test_resume_torrent(self):
+        tid1 = self.add_torrent('test.torrent', paused=True)
+        tid2 = self.add_torrent('test_torrent.file.torrent', paused=True)
+        # Assert paused
+        r1 = self.core.get_torrent_status(tid1, ['paused'])
+        self.assertTrue(r1['paused'])
+        r2 = self.core.get_torrent_status(tid2, ['paused'])
+        self.assertTrue(r2['paused'])
+
+        self.core.resume_torrent(tid2)
+        r1 = self.core.get_torrent_status(tid1, ['paused'])
+        self.assertTrue(r1['paused'])
+        r2 = self.core.get_torrent_status(tid2, ['paused'])
+        self.assertFalse(r2['paused'])
+
+    def test_resume_torrent_list(self):
+        """Backward compatibility for list of torrent_ids."""
+        torrent_id = self.add_torrent('test.torrent', paused=True)
+        self.core.resume_torrent([torrent_id])
+        result = self.core.get_torrent_status(torrent_id, ['paused'])
+        self.assertFalse(result['paused'])
+
+    def test_resume_torrents(self):
+        tid1 = self.add_torrent('test.torrent', paused=True)
+        tid2 = self.add_torrent('test_torrent.file.torrent', paused=True)
+        self.core.resume_torrents([tid1, tid2])
+        r1 = self.core.get_torrent_status(tid1, ['paused'])
+        self.assertFalse(r1['paused'])
+        r2 = self.core.get_torrent_status(tid2, ['paused'])
+        self.assertFalse(r2['paused'])
+
+    def test_resume_torrents_all(self):
+        """With no torrent_ids param, resume all torrents"""
+        tid1 = self.add_torrent('test.torrent', paused=True)
+        tid2 = self.add_torrent('test_torrent.file.torrent', paused=True)
+        self.core.resume_torrents()
+        r1 = self.core.get_torrent_status(tid1, ['paused'])
+        self.assertFalse(r1['paused'])
+        r2 = self.core.get_torrent_status(tid2, ['paused'])
+        self.assertFalse(r2['paused'])
+
+    def test_pause_torrent(self):
+        tid1 = self.add_torrent('test.torrent')
+        tid2 = self.add_torrent('test_torrent.file.torrent')
+        # Assert not paused
+        r1 = self.core.get_torrent_status(tid1, ['paused'])
+        self.assertFalse(r1['paused'])
+        r2 = self.core.get_torrent_status(tid2, ['paused'])
+        self.assertFalse(r2['paused'])
+
+        self.core.pause_torrent(tid2)
+        r1 = self.core.get_torrent_status(tid1, ['paused'])
+        self.assertFalse(r1['paused'])
+        r2 = self.core.get_torrent_status(tid2, ['paused'])
+        self.assertTrue(r2['paused'])
+
+    def test_pause_torrent_list(self):
+        """Backward compatibility for list of torrent_ids."""
+        torrent_id = self.add_torrent('test.torrent')
+        result = self.core.get_torrent_status(torrent_id, ['paused'])
+        self.assertFalse(result['paused'])
+        self.core.pause_torrent([torrent_id])
+        result = self.core.get_torrent_status(torrent_id, ['paused'])
+        self.assertTrue(result['paused'])
+
+    def test_pause_torrents(self):
+        tid1 = self.add_torrent('test.torrent')
+        tid2 = self.add_torrent('test_torrent.file.torrent')
+
+        self.core.pause_torrents([tid1, tid2])
+        r1 = self.core.get_torrent_status(tid1, ['paused'])
+        self.assertTrue(r1['paused'])
+        r2 = self.core.get_torrent_status(tid2, ['paused'])
+        self.assertTrue(r2['paused'])
+
+    def test_pause_torrents_all(self):
+        """With no torrent_ids param, pause all torrents"""
+        tid1 = self.add_torrent('test.torrent')
+        tid2 = self.add_torrent('test_torrent.file.torrent')
+
+        self.core.pause_torrents()
+        r1 = self.core.get_torrent_status(tid1, ['paused'])
+        self.assertTrue(r1['paused'])
+        r2 = self.core.get_torrent_status(tid2, ['paused'])
+        self.assertTrue(r2['paused'])
 
     @defer.inlineCallbacks
     def test_remove_torrent(self):
