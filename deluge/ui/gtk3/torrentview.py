@@ -14,7 +14,8 @@ import logging
 from locale import strcoll
 
 from gi.repository.Gdk import ModifierType, keyval_name
-from gi.repository.GObject import TYPE_UINT64, idle_add
+from gi.repository.GLib import idle_add
+from gi.repository.GObject import TYPE_UINT64
 from gi.repository.Gtk import EntryIconPosition
 from twisted.internet import reactor
 
@@ -30,7 +31,7 @@ log = logging.getLogger(__name__)
 try:
     CTRL_ALT_MASK = ModifierType.CONTROL_MASK | ModifierType.MOD1_MASK
 except TypeError:
-    # Sphinx AutoDoc has a mock issue with gtk.gdk masks.
+    # Sphinx AutoDoc has a mock issue with Gdk masks.
     pass
 
 

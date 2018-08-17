@@ -12,7 +12,7 @@ from __future__ import unicode_literals
 import logging
 import os.path
 
-from gi.repository.GObject import timeout_add
+from gi.repository.GLib import timeout_add
 from gi.repository.Gtk import (
     STOCK_SORT_DESCENDING,
     Builder,

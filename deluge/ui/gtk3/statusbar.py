@@ -12,7 +12,7 @@ from __future__ import division, unicode_literals
 import logging
 
 from gi.repository import Gtk
-from gi.repository.GObject import timeout_add
+from gi.repository.GLib import timeout_add
 
 import deluge.component as component
 from deluge.common import fsize, fspeed, get_pixmap
