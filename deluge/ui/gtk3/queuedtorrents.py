@@ -162,7 +162,7 @@ class QueuedTorrents(component.Component):
     def on_button_add_clicked(self, widget):
         # Add all the torrents in the liststore
         def add_torrent(model, path, _iter, data):
-            torrent_path = model.get_value(_iter, 1).decode('utf-8')
+            torrent_path = deluge.common.decode_bytes(model.get_value(_iter, 1))
             process_args([torrent_path])
 
         self.liststore.foreach(add_torrent, None)
