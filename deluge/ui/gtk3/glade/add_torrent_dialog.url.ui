@@ -17,6 +17,7 @@
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox5">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
@@ -27,7 +28,6 @@
             <child>
               <object class="GtkButton" id="button_add_cancel">
                 <property name="label">gtk-cancel</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -42,7 +42,6 @@
             <child>
               <object class="GtkButton" id="button_add_ok">
                 <property name="label">gtk-ok</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
@@ -65,12 +64,13 @@
           </packing>
         </child>
         <child>
-          <object class="GtkVBox" id="vbox6">
+          <object class="GtkBox" id="vbox6">
             <property name="visible">True</property>
+            <property name="orientation">vertical</property>
             <property name="can_focus">False</property>
             <property name="spacing">5</property>
             <child>
-              <object class="GtkHBox" id="hbox7">
+              <object class="GtkBox" id="hbox7">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">5</property>
@@ -109,7 +109,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkHSeparator" id="hseparator3">
+              <object class="GtkSeparator" id="hseparator3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
               </object>
@@ -120,7 +120,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkHBox" id="hbox13">
+              <object class="GtkBox" id="hbox13">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">5</property>

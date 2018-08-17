@@ -26,6 +26,7 @@
       <object class="GtkBox" id="dialog-vbox2">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="dialog-action_area2">
@@ -35,7 +36,6 @@
             <child>
               <object class="GtkButton" id="button3">
                 <property name="label">gtk-cancel</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -50,7 +50,6 @@
             <child>
               <object class="GtkButton" id="button4">
                 <property name="label">gtk-ok</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
@@ -73,7 +72,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkHBox" id="hbox3">
+          <object class="GtkBox" id="hbox3">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">10</property>
@@ -92,9 +91,9 @@
               <object class="GtkLabel" id="label_header">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="halign">start</property>
                 <property name="label">label</property>
                 <property name="use_markup">True</property>
-                <property name="xalign">0</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -110,7 +109,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkHSeparator" id="hseparator2">
+          <object class="GtkSeparator" id="hseparator2">
             <property name="can_focus">False</property>
           </object>
           <packing>
@@ -120,7 +119,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkHBox" id="hbox4">
+          <object class="GtkBox" id="hbox4">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">5</property>
@@ -142,7 +141,6 @@
               <object class="GtkAlignment" id="alignment1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">1</property>
                 <child>
                   <object class="GtkSpinButton" id="spinbutton">
                     <property name="visible">True</property>
@@ -150,7 +148,6 @@
                     <property name="max_length">6</property>
                     <property name="activates_default">True</property>
                     <property name="width_chars">6</property>
-                    <property name="xalign">1</property>
                     <property name="primary_icon_activatable">False</property>
                     <property name="secondary_icon_activatable">False</property>
                     <property name="adjustment">adjustment1</property>
@@ -167,8 +164,8 @@
               <object class="GtkLabel" id="label_type">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="halign">start</property>
                 <property name="label" translatable="yes">label</property>
-                <property name="xalign">0</property>
               </object>
               <packing>
                 <property name="expand">True</property>

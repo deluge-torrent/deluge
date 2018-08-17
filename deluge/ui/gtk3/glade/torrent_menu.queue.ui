@@ -8,7 +8,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_queue_top">
         <property name="label">gtk-goto-top</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
@@ -19,7 +18,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_queue_up">
         <property name="label">gtk-go-up</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
@@ -30,7 +28,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_queue_down">
         <property name="label">gtk-go-down</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
@@ -41,7 +38,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_queue_bottom">
         <property name="label">gtk-goto-bottom</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>

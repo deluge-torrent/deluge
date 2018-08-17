@@ -42,7 +42,6 @@
     <property name="can_focus">False</property>
     <child>
       <object class="GtkCheckMenuItem" id="menuitem_show_deluge">
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">_Show Deluge</property>
@@ -59,7 +58,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_add_torrent">
         <property name="label" translatable="yes">_Add Torrent</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
@@ -77,7 +75,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_pause_session">
         <property name="label" translatable="yes">_Pause Session</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
@@ -89,7 +86,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_resume_session">
         <property name="label" translatable="yes">_Resume Session</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
@@ -107,7 +103,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_download_limit">
         <property name="label" translatable="yes">_Download Speed Limit</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
@@ -119,7 +114,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_upload_limit">
         <property name="label" translatable="yes">_Upload Speed Limit</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
@@ -137,7 +131,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_quitdaemon">
         <property name="label" translatable="yes">Quit &amp; Shutdown Daemon</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
@@ -155,7 +148,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_quit">
         <property name="label">gtk-quit</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>

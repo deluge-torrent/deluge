@@ -25,7 +25,6 @@
     <child>
       <object class="GtkImageMenuItem" id="select_all">
         <property name="label" translatable="yes">_Select All</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
@@ -37,7 +36,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_pause">
         <property name="label" translatable="yes">_Pause All</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
@@ -49,7 +47,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_resume">
         <property name="label" translatable="yes">Resu_me All</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="tooltip_text" translatable="yes">Resume selected torrents.</property>

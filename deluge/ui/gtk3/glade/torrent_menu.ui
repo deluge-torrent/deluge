@@ -68,7 +68,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_open_folder">
         <property name="label" translatable="yes">_Open Download Folder</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
@@ -86,7 +85,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_pause">
         <property name="label" translatable="yes">_Pause</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
@@ -98,7 +96,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_resume">
         <property name="label" translatable="yes">Resu_me</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="tooltip_text" translatable="yes">Resume selected torrents.</property>
@@ -117,7 +114,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_options">
         <property name="label" translatable="yes">Opt_ions</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
@@ -134,7 +130,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_queue">
         <property name="label" translatable="yes">_Queue</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
@@ -151,7 +146,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_updatetracker">
         <property name="label" translatable="yes">_Update Tracker</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
@@ -163,7 +157,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_edittrackers">
         <property name="label" translatable="yes">_Edit Trackers</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
@@ -181,7 +174,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_remove">
         <property name="label" translatable="yes">_Remove Torrent</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
@@ -199,7 +191,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_recheck">
         <property name="label" translatable="yes">_Force Re-check</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
@@ -211,7 +202,6 @@
     <child>
       <object class="GtkImageMenuItem" id="menuitem_move">
         <property name="label" translatable="yes">_Move Download Folder</property>
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
