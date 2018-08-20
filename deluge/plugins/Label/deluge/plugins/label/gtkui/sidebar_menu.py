@@ -232,7 +232,9 @@ class OptionsDialog(object):
             'auto_add_trackers'
         ).get_buffer()  # sometimes I hate gtk...
         tracker_lst = (
-            buff.get_text(buff.get_start_iter(), buff.get_end_iter())
+            buff.get_text(
+                buff.get_start_iter(), buff.get_end_iter(), include_hidden_chars=False
+            )
             .strip()
             .split('\n')
         )

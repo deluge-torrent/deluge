@@ -805,7 +805,9 @@ class AddTorrentDialog(component.Component):
         if response == Gtk.ResponseType.OK and deluge.common.is_infohash(infohash):
             # Create a list of trackers from the textview buffer
             tview_buf = textview.get_buffer()
-            trackers_text = tview_buf.get_text(*tview_buf.get_bounds())
+            trackers_text = tview_buf.get_text(
+                *tview_buf.get_bounds(), include_hidden_chars=False
+            )
             log.debug('Create torrent tracker lines: %s', trackers_text)
             trackers = list(trackers_tiers_from_text(trackers_text).keys())
 
