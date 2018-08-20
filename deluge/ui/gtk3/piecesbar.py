@@ -14,6 +14,7 @@ from math import pi
 import gi  # isort:skip (Version check required before import).
 
 gi.require_version('PangoCairo', '1.0')  # NOQA: E402
+gi.require_version('cairo', '1.0')  # NOQA: E402
 
 # isort:imports-thirdparty
 from gi.repository import PangoCairo, cairo
@@ -179,11 +180,10 @@ class PiecesBar(DrawingArea):
                 cairo.FORMAT_ARGB32, self.width, self.height
             )
             ctx = cairo.Context(self.text_overlay)
-            pg = PangoCairo.create_context(ctx)
-            pl = pg.create_layout()
+            pl = PangoCairo.create_layout(ctx)
             pl.set_font_description(self.text_font)
             pl.set_width(-1)  # No text wrapping
-            pl.set_text(self.text)
+            pl.set_text(self.text, -1)
             plsize = pl.get_size()
             text_width = plsize[0] // SCALE
             text_height = plsize[1] // SCALE
@@ -191,8 +191,8 @@ class PiecesBar(DrawingArea):
             area_height_without_text = self.height - text_height
             ctx.move_to(area_width_without_text // 2, area_height_without_text // 2)
             ctx.set_source_rgb(1, 1, 1)
-            pg.update_layout(pl)
-            pg.show_layout(pl)
+            PangoCairo.update_layout(ctx, pl)
+            PangoCairo.show_layout(ctx, pl)
         self.cr.set_source_surface(self.text_overlay)
         self.cr.paint()
 
