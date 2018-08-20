@@ -65,7 +65,7 @@ class PiecesBar(DrawingArea):
     # Handle the draw by drawing
     def do_draw(self, event):
         # Create cairo context
-        self.cr = self.window.cairo_create()
+        self.cr = self.props.window.cairo_create()
         self.cr.set_line_width(max(self.cr.device_to_user_distance(0.5, 0.5)))
 
         # Restrict Cairo to the exposed area; avoid extra work
