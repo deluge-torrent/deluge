@@ -274,11 +274,13 @@ class MenuBar(component.Component):
     # Torrent Menu #
     def on_menuitem_pause_activate(self, data=None):
         log.debug('on_menuitem_pause_activate')
-        client.core.pause_torrent(component.get('TorrentView').get_selected_torrents())
+        client.core.pause_torrents(component.get('TorrentView').get_selected_torrents())
 
     def on_menuitem_resume_activate(self, data=None):
         log.debug('on_menuitem_resume_activate')
-        client.core.resume_torrent(component.get('TorrentView').get_selected_torrents())
+        client.core.resume_torrents(
+            component.get('TorrentView').get_selected_torrents()
+        )
 
     def on_menuitem_updatetracker_activate(self, data=None):
         log.debug('on_menuitem_updatetracker_activate')
