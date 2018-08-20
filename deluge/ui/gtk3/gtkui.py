@@ -331,7 +331,7 @@ class GtkUI(object):
                 'To use Standalone mode, stop local daemon and restart Deluge.'
             )
         except ImportError as ex:
-            if 'No module named libtorrent' in ex.message:
+            if 'No module named libtorrent' in str(ex):
                 err_msg = _(
                     'Only Thin Client mode is available because libtorrent is not installed.\n'
                     'To use Standalone mode, please install libtorrent package.'
