@@ -1136,6 +1136,7 @@ and daemon (does not apply in Standalone mode).</property>
                                       <object class="GtkGrid" id="table9">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <property name="row_spacing">1</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_move_completed">
                                             <property name="label" translatable="yes">Move completed to:</property>
@@ -1557,6 +1558,7 @@ used sparingly.</property>
                                               <object class="GtkLabel" id="label58">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
+                                                <property name="halign">start</property>
                                                 <property name="label" translatable="yes">Connection Attempts per Second:</property>
                                               </object>
                                               <packing>
@@ -2624,6 +2626,7 @@ used sparingly.</property>
                                                 <property name="sensitive">False</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="max_length">5</property>
+                                                <property name="max_width_chars">6</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="adjustment">adjustment_spin_incoming_port</property>
@@ -2958,6 +2961,7 @@ The network interface name or IP address for outgoing BitTorrent connections. (L
                                           <object class="GtkGrid" id="table7">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
+                                            <property name="row_spacing">6</property>
                                             <child>
                                               <object class="GtkComboBox" id="combo_encout">
                                                 <property name="visible">True</property>
@@ -2998,6 +3002,7 @@ The network interface name or IP address for outgoing BitTorrent connections. (L
                                               <object class="GtkLabel" id="label8">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
+                                                <property name="margin_right">8</property>
                                                 <property name="label" translatable="yes">Outgoing:</property>
                                               </object>
                                               <packing>
@@ -3009,6 +3014,7 @@ The network interface name or IP address for outgoing BitTorrent connections. (L
                                               <object class="GtkLabel" id="label7">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
+                                                <property name="margin_right">8</property>
                                                 <property name="label" translatable="yes">Incoming:</property>
                                               </object>
                                               <packing>
@@ -3035,6 +3041,7 @@ The network interface name or IP address for outgoing BitTorrent connections. (L
                                                   <object class="GtkLabel" id="label9">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
+                                                    <property name="margin_right">8</property>
                                                     <property name="label" translatable="yes">Level:</property>
                                                   </object>
                                                   <packing>
@@ -3047,6 +3054,7 @@ The network interface name or IP address for outgoing BitTorrent connections. (L
                                                   <object class="GtkComboBox" id="combo_enclevel">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
+                                                    <property name="valign">center</property>
                                                     <property name="model">liststore2</property>
                                                     <child>
                                                       <object class="GtkCellRendererText" id="cellrenderertext2"/>
@@ -4431,6 +4439,7 @@ the proxy instead of using the local DNS service</property>
                                               <object class="GtkSpinButton" id="spin_daemon_port">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
+                                                <property name="max_width_chars">6</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="adjustment">adjustment_spin_daemon_port</property>
