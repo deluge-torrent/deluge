@@ -17,7 +17,7 @@ gi.require_version('PangoCairo', '1.0')  # NOQA: E402
 
 # isort:imports-thirdparty
 from gi.repository import PangoCairo, cairo
-from gi.repository.Gtk import DrawingArea, ProgressBar
+from gi.repository.Gtk import DrawingArea, ProgressBar, StateFlags
 from gi.repository.Pango import SCALE, Weight
 
 # isort:imports-firstparty
@@ -36,7 +36,7 @@ class PiecesBar(DrawingArea):
         # Get progress bar styles, in order to keep font consistency
         pb = ProgressBar()
         pb_style = pb.get_style_context()
-        self.text_font = pb_style.get_property('font', Gtk.StateFlags.NORMAL)
+        self.text_font = pb_style.get_property('font', StateFlags.NORMAL)
         self.text_font.set_weight(Weight.BOLD)
         # Done with the ProgressBar styles, don't keep refs of it
         del pb, pb_style

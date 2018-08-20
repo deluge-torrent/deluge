@@ -802,7 +802,7 @@ class AddTorrentDialog(component.Component):
         dialog.show_all()
         response = dialog.run()
         infohash = entry.get_text().strip()
-        if response == Gtk.RESPONSE_OK and deluge.common.is_infohash(infohash):
+        if response == Gtk.ResponseType.OK and deluge.common.is_infohash(infohash):
             # Create a list of trackers from the textview buffer
             tview_buf = textview.get_buffer()
             trackers_text = tview_buf.get_text(*tview_buf.get_bounds())

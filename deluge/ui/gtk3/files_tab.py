@@ -821,9 +821,9 @@ class FilesTab(Tab):
         self, treeview, context, x, y, selection, info, etime
     ):
         try:
-            selected = pickle.loads(selection.data)
+            selected = pickle.loads(selection.get_data())
         except pickle.UnpicklingError:
-            log.debug('Invalid selection data: %s', selection.data)
+            log.debug('Invalid selection data: %s', selection.get_data())
             return
         log.debug('selection.data: %s', selected)
         drop_info = treeview.get_dest_row_at_pos(x, y)

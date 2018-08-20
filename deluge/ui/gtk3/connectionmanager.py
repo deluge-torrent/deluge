@@ -322,7 +322,7 @@ class ConnectionManager(component.Component):
             dialog = AuthenticationDialog(reason.value.message, reason.value.username)
 
             def dialog_finished(response_id):
-                if response_id == Gtk.RESPONSE_OK:
+                if response_id == Gtk.ResponseType.OK:
                     self._connect(host_id, dialog.get_username(), dialog.get_password())
 
             return dialog.run().addCallback(dialog_finished)

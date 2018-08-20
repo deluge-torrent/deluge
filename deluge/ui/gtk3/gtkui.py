@@ -354,7 +354,7 @@ class GtkUI(object):
 
         def on_dialog_response(response):
             """User response to switching mode dialog."""
-            if response == ResponseType.Yes:
+            if response == ResponseType.YES:
                 # Turning off standalone
                 self.config['standalone'] = False
                 self._start_thinclient()

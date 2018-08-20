@@ -247,8 +247,11 @@ def associate_magnet_links(overwrite=False):
     elif not osx_check():
         # gconf method is only available in a GNOME environment
         try:
+            import gi
+
+            gi.require_version('GConf', '2.0')
             from gi.repository import GConf
-        except ImportError:
+        except ValueError:
             log.debug(
                 'gconf not available, so will not attempt to register magnet uri handler'
             )
