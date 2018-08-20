@@ -867,7 +867,7 @@
       </object>
     </child>
   </object>
-  <object class="GtkWindow" id="window1">
+  <object class="GtkWindow" id="combobox_window">
     <property name="can_focus">False</property>
     <child>
       <placeholder/>
