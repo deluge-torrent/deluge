@@ -675,7 +675,10 @@ class AddTorrentDialog(component.Component):
 
         # Load the 'default_load_path' from the config
         self.config = ConfigManager('gtk3ui.conf')
-        if self.config['default_load_path'] is not None:
+        if (
+            'default_load_path' in self.config
+            and self.config['default_load_path'] is not None
+        ):
             chooser.set_current_folder(self.config['default_load_path'])
 
         # Run the dialog
