@@ -21,21 +21,22 @@ from gi.repository.Gtk import DrawingArea, ProgressBar
 from gi.repository.Pango import SCALE, Weight
 
 # isort:imports-firstparty
+from deluge.common import PY2
 from deluge.configmanager import ConfigManager
 
 COLOR_STATES = ['missing', 'waiting', 'downloading', 'completed']
 
 
 class PiecesBar(DrawingArea):
-    # Draw in response to an expose-event
-    __gsignals__ = {b'draw': b'override'}
+    # Draw in response to an draw
+    __gsignals__ = {'draw': 'override'} if not PY2 else {b'draw': b'override'}
 
     def __init__(self):
         super(PiecesBar, self).__init__()
         # Get progress bar styles, in order to keep font consistency
         pb = ProgressBar()
-        pb_style = pb.get_style()
-        self.text_font = pb_style.font_desc
+        pb_style = pb.get_style_context()
+        self.text_font = pb_style.get_property('font', Gtk.StateFlags.NORMAL)
         self.text_font.set_weight(Weight.BOLD)
         # Done with the ProgressBar styles, don't keep refs of it
         del pb, pb_style
@@ -61,7 +62,7 @@ class PiecesBar(DrawingArea):
         self.prev_height = self.height
         self.height = size.height
 
-    # Handle the expose-event by drawing
+    # Handle the draw by drawing
     def do_draw(self, event):
         # Create cairo context
         self.cr = self.window.cairo_create()
