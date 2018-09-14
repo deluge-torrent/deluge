@@ -32,7 +32,7 @@ tox="*"
 detox = "*"
 
 [packages]
-twisted = {version = ">=16.4", extras = ["tls"]}
+twisted = {extras = ["tls"], version = ">=16.4"}
 chardet = "*"
 mako = "*"
 pyxdg = "*"
