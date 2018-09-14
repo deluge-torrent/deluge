@@ -22,8 +22,8 @@ gi.require_version('Gtk', '3.0')  # NOQA: E402
 gi.require_version('Gdk', '3.0')  # NOQA: E402
 
 # isort:imports-thirdparty
-from gi.repository.Gdk import threads_enter, threads_init, threads_leave
-from gi.repository.GObject import set_prgname
+from gi.repository.Gdk import Display, threads_enter, threads_init, threads_leave
+from gi.repository.GLib import set_prgname
 from gi.repository.Gtk import ResponseType
 from twisted.internet import defer, gtk3reactor
 from twisted.internet.error import ReactorAlreadyInstalledError
@@ -148,6 +148,10 @@ DEFAULT_PREFS = {
 }
 
 
+def windowing(like):
+    return like.lower() in str(type(Display.get_default())).lower()
+
+
 class GtkUI(object):
     def __init__(self, args):
         # Setup gtkbuilder/glade translation
@@ -163,7 +167,7 @@ class GtkUI(object):
 
             SetConsoleCtrlHandler(on_die, True)
             log.debug('Win32 "die" handler registered')
-        elif osx_check():  # TODO: Add this back: `and WINDOWING == 'quartz':`
+        elif osx_check() and windowing('quartz'):
             import gtkosx_application
 
             self.osxapp = gtkosx_application.gtkosx_application_get()
@@ -215,7 +219,7 @@ class GtkUI(object):
         self.statusbar = StatusBar()
         self.addtorrentdialog = AddTorrentDialog()
 
-        if osx_check():  # TODO: Add this back: `and WINDOWING == 'quartz':`
+        if osx_check() and windowing('quartz'):
 
             def nsapp_open_file(osxapp, filename):
                 # Ignore command name which is raised at app launch (python opening main script).
