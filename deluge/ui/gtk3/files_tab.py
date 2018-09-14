@@ -377,8 +377,8 @@ class FilesTab(Tab):
     def update_files(self):
         with listview_replace_treestore(self.listview):
             self.prepare_file_store(self.files_list[self.torrent_id])
-        # FIXME
-        # self.listview.expand_row(b'0', False)
+        root = Gtk.TreePath.new_first()
+        self.listview.expand_row(root, False)
 
     def get_selected_files(self):
         """Returns a list of file indexes that are selected."""
