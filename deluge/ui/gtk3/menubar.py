@@ -343,7 +343,9 @@ class MenuBar(component.Component):
         self.move_storage_dialog = builder.get_object('move_storage_dialog')
         self.move_storage_dialog.set_transient_for(self.mainwindow.window)
         self.move_storage_dialog_hbox = builder.get_object('hbox_entry')
-        self.move_storage_path_chooser = PathChooser('move_completed_paths_list')
+        self.move_storage_path_chooser = PathChooser(
+            'move_completed_paths_list', self.move_storage_dialog
+        )
         self.move_storage_dialog_hbox.add(self.move_storage_path_chooser)
         self.move_storage_dialog_hbox.show_all()
         self.move_storage_path_chooser.set_text(status['download_location'])

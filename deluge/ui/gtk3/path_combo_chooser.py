@@ -18,7 +18,6 @@ from gi.module import get_introspection_module
 from gi.repository import Gdk, GObject, Gtk
 from gi.repository.GObject import SignalFlags
 
-import deluge.component as component
 from deluge.common import PY2, resource_filename
 from deluge.path_chooser_common import get_completion_paths
 
@@ -1130,7 +1129,11 @@ class PathChooserComboBox(GtkGI.Box, StoredValuesPopup, GObject.GObject):
     }
 
     def __init__(
-        self, max_visible_rows=20, auto_complete=True, use_completer_popup=True
+        self,
+        max_visible_rows=20,
+        auto_complete=True,
+        use_completer_popup=True,
+        parent=None,
     ):
         GtkGI.Box.__init__(self)
         GObject.GObject.__init__(self)
@@ -1143,6 +1146,7 @@ class PathChooserComboBox(GtkGI.Box, StoredValuesPopup, GObject.GObject):
         self.show_folder_name_on_button = False
         self.setting_accelerator_key = False
         self.builder = Gtk.Builder()
+        self.parent = parent
         self.popup_buttonbox = self.builder.get_object('buttonbox')
         self.builder.add_from_file(
             resource_filename(
@@ -1156,7 +1160,7 @@ class PathChooserComboBox(GtkGI.Box, StoredValuesPopup, GObject.GObject):
         )
         self.filechooser_button = self.open_filechooser_dialog_button
         self.filechooserdialog = self.builder.get_object('filechooserdialog')
-        self.filechooserdialog.set_transient_for(component.get('MainWindow').window)
+        self.filechooserdialog.set_transient_for(self.parent)
         self.filechooser_widget = self.builder.get_object('filechooser_widget')
         self.folder_name_label = self.builder.get_object('folder_name_label')
         self.default_text = None
@@ -1550,7 +1554,7 @@ class PathChooserComboBox(GtkGI.Box, StoredValuesPopup, GObject.GObject):
         self.show_folder_name_on_button_checkbutton = self.builder.get_object(
             'show_folder_name_on_button_checkbutton'
         )
-        self.config_dialog.set_transient_for(component.get('MainWindow').window)
+        self.config_dialog.set_transient_for(self.parent)
 
         def on_close(widget, event=None):
             if not self.setting_accelerator_key:

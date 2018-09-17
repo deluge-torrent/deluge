@@ -58,7 +58,9 @@ class OptionsTab(Tab):
 
         self.button_apply = self.main_builder.get_object('button_apply')
 
-        self.move_completed_path_chooser = PathChooser('move_completed_paths_list')
+        self.move_completed_path_chooser = PathChooser(
+            'move_completed_paths_list', parent=component.get('MainWindow').window
+        )
         self.move_completed_path_chooser.set_sensitive(
             self.tab_widgets['chk_move_completed'].obj.get_active()
         )
