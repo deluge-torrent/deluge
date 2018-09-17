@@ -1157,6 +1157,7 @@ class PathChooserComboBox(GtkGI.Box, StoredValuesPopup, GObject.GObject):
         self.filechooser_button = self.open_filechooser_dialog_button
         self.filechooserdialog = self.builder.get_object('filechooserdialog')
         self.filechooserdialog.set_transient_for(component.get('MainWindow').window)
+        self.filechooser_widget = self.builder.get_object('filechooser_widget')
         self.folder_name_label = self.builder.get_object('folder_name_label')
         self.default_text = None
         self.button_properties = self.builder.get_object('button_properties')
@@ -1417,14 +1418,13 @@ class PathChooserComboBox(GtkGI.Box, StoredValuesPopup, GObject.GObject):
         self.set_path_entry_visible(self.path_entry_visible)
 
     def _on_button_open_dialog_clicked(self, widget):
-        dialog = self.filechooserdialog
-        dialog.set_current_folder(self.get_text())
-        response_id = dialog.run()
+        self.filechooser_widget.set_current_folder(self.get_text())
+        response_id = self.filechooserdialog.run()
 
         if response_id == 0:
             text = self.filechooserdialog.get_filename()
             self.set_text(text, trigger_event=True)
-        dialog.hide()
+        self.filechooserdialog.hide()
 
     def _on_entry_text_key_press_event(self, widget, event):
         """

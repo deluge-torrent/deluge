@@ -498,6 +498,134 @@
       <action-widget response="0">config_dialog_button_close</action-widget>
     </action-widgets>
   </object>
+  <object class="GtkWindow" id="combobox_window">
+    <property name="can_focus">False</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <object class="GtkBox" id="entry_combobox_hbox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">3</property>
+        <signal name="realize" handler="on_entry_combobox_hbox_realize" swapped="no"/>
+        <child>
+          <object class="GtkFileChooserButton" id="filechooser_button">
+            <property name="width_request">160</property>
+            <property name="can_focus">False</property>
+            <property name="no_show_all">True</property>
+            <property name="action">select-folder</property>
+            <property name="local_only">False</property>
+            <property name="preview_widget_active">False</property>
+            <property name="title" translatable="yes">Select a Directory</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="button_open_dialog">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="on_button_open_dialog_clicked" swapped="no"/>
+            <child>
+              <object class="GtkBox" id="hbox2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkImage" id="image2">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="stock">gtk-open</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="folder_name_label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="entry_text">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="invisible_char">•</property>
+            <signal name="changed" handler="on_entry_text_changed" swapped="no"/>
+            <signal name="delete-text" handler="on_entry_text_delete_text" swapped="no"/>
+            <signal name="focus-out-event" handler="on_entry_text_focus_out_event" swapped="no"/>
+            <signal name="insert-text" handler="on_entry_text_insert_text" swapped="yes"/>
+            <signal name="key-press-event" handler="on_entry_text_key_press_event" swapped="no"/>
+            <signal name="scroll-event" handler="on_entry_text_scroll_event" swapped="no"/>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkToggleButton" id="button_toggle_dropdown">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="focus_on_click">False</property>
+            <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Saved paths</property>
+            <signal name="button-press-event" handler="on_button_toggle_dropdown_button_press_event" swapped="no"/>
+            <signal name="scroll-event" handler="on_button_toggle_dropdown_scroll_event" swapped="no"/>
+            <signal name="toggled" handler="on_button_toggle_dropdown_toggled" swapped="no"/>
+            <child>
+              <object class="GtkBox" id="vbox1">
+                <property name="height_request">15</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
+                <property name="homogeneous">True</property>
+                <child>
+                  <object class="GtkArrow" id="arrow2">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="arrow_type">down</property>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">3</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
   <object class="GtkListStore" id="completion_tree_store">
     <columns>
       <!-- column-name text -->
@@ -577,26 +705,22 @@
       </object>
     </child>
   </object>
-  <object class="GtkFileChooserDialog" id="filechooserdialog">
+  <object class="GtkDialog" id="filechooserdialog">
     <property name="can_focus">False</property>
-    <property name="border_width">5</property>
-    <property name="role">GtkFileChooserDialog</property>
+    <property name="title" translatable="yes">Choose a folder</property>
+    <property name="modal">True</property>
+    <property name="window_position">center</property>
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
-    <property name="action">select-folder</property>
-    <property name="preview_widget_active">False</property>
     <child>
       <placeholder/>
     </child>
     <child internal-child="vbox">
-      <object class="GtkBox" id="dialog-vbox2">
-        <property name="visible">True</property>
+      <object class="GtkBox">
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkButtonBox" id="dialog-action_area2">
-            <property name="visible">True</property>
+          <object class="GtkButtonBox">
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
@@ -628,13 +752,21 @@
           </object>
           <packing>
             <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="pack_type">end</property>
+            <property name="fill">False</property>
             <property name="position">0</property>
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkFileChooserWidget" id="filechooser_widget">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="action">select-folder</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
         </child>
       </object>
     </child>
@@ -862,135 +994,6 @@
             <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
-  <object class="GtkWindow" id="combobox_window">
-    <property name="can_focus">False</property>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <object class="GtkBox" id="entry_combobox_hbox">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="spacing">3</property>
-        <signal name="realize" handler="on_entry_combobox_hbox_realize" swapped="no"/>
-        <child>
-          <object class="GtkFileChooserButton" id="filechooser_button">
-            <property name="width_request">160</property>
-            <property name="can_focus">False</property>
-            <property name="no_show_all">True</property>
-            <property name="action">select-folder</property>
-            <property name="local_only">False</property>
-            <property name="preview_widget_active">False</property>
-            <property name="title" translatable="yes">Select a Directory</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="button_open_dialog">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <signal name="clicked" handler="on_button_open_dialog_clicked" swapped="no"/>
-            <child>
-              <object class="GtkBox" id="hbox2">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkImage" id="image2">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="stock">gtk-open</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="folder_name_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkEntry" id="entry_text">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="invisible_char">•</property>
-            <!-- <property name="width_chars">-1</property> -->
-            <signal name="changed" handler="on_entry_text_changed" swapped="no"/>
-            <signal name="delete-text" handler="on_entry_text_delete_text" swapped="no"/>
-            <signal name="focus-out-event" handler="on_entry_text_focus_out_event" swapped="no"/>
-            <signal name="insert-text" handler="on_entry_text_insert_text" swapped="yes"/>
-            <signal name="key-press-event" handler="on_entry_text_key_press_event" swapped="no"/>
-            <signal name="scroll-event" handler="on_entry_text_scroll_event" swapped="no"/>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">2</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkToggleButton" id="button_toggle_dropdown">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="focus_on_click">False</property>
-            <property name="receives_default">True</property>
-            <property name="tooltip_text" translatable="yes">Saved paths</property>
-            <signal name="button-press-event" handler="on_button_toggle_dropdown_button_press_event" swapped="no"/>
-            <signal name="scroll-event" handler="on_button_toggle_dropdown_scroll_event" swapped="no"/>
-            <signal name="toggled" handler="on_button_toggle_dropdown_toggled" swapped="no"/>
-            <child>
-              <object class="GtkBox" id="vbox1">
-                <property name="height_request">15</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="orientation">vertical</property>
-                <property name="homogeneous">True</property>
-                <child>
-                  <object class="GtkArrow" id="arrow2">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="arrow_type">down</property>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">False</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">3</property>
           </packing>
         </child>
       </object>
