@@ -11,6 +11,7 @@
 from __future__ import division, print_function, unicode_literals
 
 import os
+import warnings
 
 # FIXME: use this as fallback to get_introspection_module?
 # from gi.importer import modules
@@ -20,6 +21,11 @@ from gi.repository.GObject import SignalFlags
 
 from deluge.common import PY2, resource_filename
 from deluge.path_chooser_common import get_completion_paths
+
+# Filter the pygobject signal warning:
+#     g_value_get_int: assertion 'G_VALUE_HOLDS_INT (value)' failed.
+# See: https://gitlab.gnome.org/GNOME/pygobject/issues/12
+warnings.filterwarnings('ignore', '.*g_value_get_int.*G_VALUE_HOLDS_INT.*', Warning)
 
 
 def is_ascii_value(keyval, ascii_key):
@@ -969,7 +975,7 @@ class PathCompletionPopup(CompletionList, PathChooserPopup):
         Handles scroll events from the treeview
 
         """
-        x, y, state = event.window.get_pointer()
+        x, y = event.window.get_pointer()
         self.handle_list_scroll(
             _next=event.direction == Gdk.ScrollDirection.DOWN,
             set_entry=widget != self.treeview,
@@ -1392,6 +1398,7 @@ class PathChooserComboBox(GtkGI.Box, StoredValuesPopup, GObject.GObject):
         self.emit('text-changed', self.get_text())
 
     def _on_entry_text_focus_out_event(self, widget, event):
+        # FIXME: This causes text to be deselected on right-click.
         # Update text on the button label
         self.set_text(self.get_text())
 
