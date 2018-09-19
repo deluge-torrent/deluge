@@ -12,17 +12,10 @@ from __future__ import unicode_literals
 import logging
 
 from gi.repository import GObject, Gtk
-from gi.repository.Gdk import Event  # pylint: disable=ungrouped-imports
-from gi.repository.GObject import TYPE_NONE, SignalFlags, signal_new
 
-from deluge.common import decode_bytes
+from deluge.common import PY2, decode_bytes
 
 from .common import load_pickled_state_file, save_pickled_state_file
-
-# FIXME: ?
-signal_new(
-    'button-press-event', Gtk.TreeViewColumn, SignalFlags.RUN_LAST, TYPE_NONE, (Event,)
-)
 
 log = logging.getLogger(__name__)
 
@@ -86,6 +79,12 @@ class ListView(object):
 
             Most of the code of this class comes from Quod Libet (http://www.sacredchao.net/quodlibet)
         """
+
+        __gsignals__ = {
+            'button-press-event'
+            if not PY2
+            else b'button-press-event': (GObject.SIGNAL_RUN_LAST, None, (object,))
+        }
 
         def __init__(self, title=None, cell_renderer=None, **args):
             """ Constructor, see Gtk.TreeViewColumn """
@@ -356,7 +355,7 @@ class ListView(object):
 
     def on_treeview_header_right_clicked(self, column, event):
         if event.button == 3:
-            self.menu.popup(None, None, None, None, event.button, event.get_time())
+            self.menu.popup_at_pointer()
 
     def register_checklist_menu(self, menu):
         """Register a checklist menu with the listview.  It will automatically
