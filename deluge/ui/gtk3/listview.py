@@ -32,12 +32,6 @@ class ListViewColumnState(object):
         self.sort_order = sort_order
 
 
-# FIXME: Why is this needed?
-class TreeModel(GObject.Object, Gtk.TreeModel):
-    def __init__(self, filter_):
-        Gtk.TreeModel.__init__(self, filter_)
-
-
 class ListView(object):
     """ListView is used to make custom GtkTreeViews.  It supports the adding
     and removing of columns, creating a menu for a column toggle list and
