@@ -13,9 +13,6 @@ from __future__ import division, print_function, unicode_literals
 import os
 import warnings
 
-# FIXME: use this as fallback to get_introspection_module?
-# from gi.importer import modules
-from gi.module import get_introspection_module
 from gi.repository import Gdk, GObject, Gtk
 from gi.repository.GObject import SignalFlags
 
@@ -1107,12 +1104,7 @@ class PathAutoCompleter(object):
             self.completion_popup.popdown()
 
 
-# FIXME: use this as fallback to get_introspection_module?
-# GtkGI = modules['Gtk']._introspection_module
-GtkGI = get_introspection_module('Gtk')
-
-
-class PathChooserComboBox(GtkGI.Box, StoredValuesPopup, GObject.GObject):
+class PathChooserComboBox(Gtk.Box, StoredValuesPopup, GObject.GObject):
 
     __gsignals__ = {
         signal
@@ -1141,7 +1133,7 @@ class PathChooserComboBox(GtkGI.Box, StoredValuesPopup, GObject.GObject):
         use_completer_popup=True,
         parent=None,
     ):
-        GtkGI.Box.__init__(self)
+        Gtk.Box.__init__(self)
         GObject.GObject.__init__(self)
         self.list_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         self._stored_values_popping_down = False
