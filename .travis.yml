@@ -47,7 +47,7 @@ addons:
 install:
   - pip install tox tox-venv
   - "if [ $TOX_ENV == 'pygtkui' ]; then
-    sudo apt install python-glade2;
+    sudo apt install python-gi python-gi-cairo gir1.2-gtk-3.0;
     fi"
   - "if [ $TOX_ENV == 'security' ]; then
     testssl_url=https://github.com/drwetter/testssl.sh/archive/v2.9.5-5.tar.gz;
