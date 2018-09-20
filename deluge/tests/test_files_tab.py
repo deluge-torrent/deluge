@@ -48,7 +48,7 @@ class FilesTabTestCase(BaseTestCase):
         return component.shutdown()
 
     def print_treestore(self, title, treestore):
-        root = treestore.get_iter_root()
+        root = treestore.get_iter_first()
         level = 1
 
         def p_level(s, l):
@@ -79,7 +79,7 @@ class FilesTabTestCase(BaseTestCase):
                 i += 1
             return True
 
-        return _verify_treestore(treestore.get_iter_root(), tree)
+        return _verify_treestore(treestore.get_iter_first(), tree)
 
     def test_files_tab(self):
         self.filestab.files_list[self.t_id] = (

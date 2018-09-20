@@ -413,7 +413,6 @@ class FilesTab(Tab):
 
     def update_folder_percentages(self):
         """Go through the tree and update the folder complete percentages."""
-        # FIXME Why changed? Was: self.treestore.get_iter_root()
         root = self.treestore.get_iter_first()
         if root is None or self.treestore[root][5] != -1:
             return
