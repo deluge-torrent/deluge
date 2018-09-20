@@ -35,7 +35,7 @@ log = logging.getLogger(__name__)
 
 
 def create_blank_pixbuf(size=16):
-    pix = Pixbuf(Colorspace.RGB, True, 8, size, size)
+    pix = Pixbuf.new(Colorspace.RGB, True, 8, size, size)
     pix.fill(0x0)
     return pix
 

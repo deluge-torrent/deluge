@@ -1164,7 +1164,6 @@ class PathChooserComboBox(Gtk.Box, StoredValuesPopup, GObject.GObject):
         self.default_text = None
         self.button_properties = self.builder.get_object('button_properties')
 
-        # FIXME: These are commented out but should be fixed.
         self.combobox_window = self.builder.get_object('combobox_window')
         self.combo_hbox = self.builder.get_object('entry_combobox_hbox')
         # Change the parent of the hbox from the glade Window to this hbox.

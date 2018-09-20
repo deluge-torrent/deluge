@@ -217,11 +217,8 @@ class ListView(object):
             self.last_sort_order = {}
 
             def record_position(model, path, _iter, data):
-                # FIXME: TypeError: 'TreePath' object does not support indexing
-                # Verify (old code: ` = path[0]`)
-                self.last_sort_order[model[_iter][self.unique_column_id]] = int(
-                    str(model.get_path(iter))
-                )
+                unique_id = model[_iter][self.unique_column_id]
+                self.last_sort_order[unique_id] = int(str(path))
 
             model.foreach(record_position, None)
 
@@ -576,7 +573,6 @@ class ListView(object):
         column.set_min_width(20)
         column.set_reorderable(True)
         column.set_visible(not hidden)
-        # FIXME: Check for errors with button press, related new signal
         column.connect('button-press-event', self.on_treeview_header_right_clicked)
 
         if tooltip:

@@ -662,7 +662,6 @@ class TorrentView(ListView, component.Component):
                 to_update = []
                 for i, status_field in fields_to_update:
                     row_value = status[torrent_id][status_field]
-                    # FIXME: Seeing UnicodeWarning??
                     if row[i] != row_value:
                         to_update.append(i)
                         to_update.append(row_value)
