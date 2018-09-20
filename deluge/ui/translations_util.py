@@ -9,6 +9,7 @@
 
 from __future__ import unicode_literals
 
+import ctypes
 import gettext
 import locale
 import logging
@@ -23,6 +24,8 @@ log = logging.getLogger(__name__)
 log.addHandler(
     logging.NullHandler()
 )  # Silence: No handlers could be found for logger "deluge.util.lang"
+
+I18N_DOMAIN = 'deluge'
 
 
 def set_dummy_trans(warn_msg=None):
@@ -91,58 +94,43 @@ def set_language(lang):
 
 
 # Initialize gettext
-def setup_translations(setup_gettext=True, setup_pygtk=False):
+def setup_translations():
     translations_path = get_translations_path()
-    domain = 'deluge'
     log.info('Setting up translations from %s', translations_path)
 
-    if setup_pygtk:
-        try:
-            log.info('Setting up GTK translations from %s', translations_path)
+    try:
+        if hasattr(locale, 'bindtextdomain'):
+            locale.bindtextdomain(I18N_DOMAIN, translations_path)
+        if hasattr(locale, 'textdomain'):
+            locale.textdomain(I18N_DOMAIN)
 
-            if deluge.common.windows_check():
-                import ctypes
+        gettext.bindtextdomain(I18N_DOMAIN, translations_path)
+        gettext.bind_textdomain_codeset(I18N_DOMAIN, 'UTF-8')
+        gettext.textdomain(I18N_DOMAIN)
 
-                try:
-                    libintl = ctypes.cdll.intl
-                except WindowsError:
-                    # Fallback to named dll.
-                    libintl = ctypes.cdll.LoadLibrary('libintl-8.dll')
+        # Workaround for Python 2 unicode gettext (keyword removed in Py3).
+        kwargs = {} if not deluge.common.PY2 else {'unicode': True}
 
-                libintl.bindtextdomain(
-                    domain, translations_path.encode(sys.getfilesystemencoding())
-                )
-                libintl.textdomain(domain)
-                libintl.bind_textdomain_codeset(domain, 'UTF-8')
-                libintl.gettext.restype = ctypes.c_char_p
+        gettext.install(I18N_DOMAIN, translations_path, names='ngettext', **kwargs)
+        builtins.__dict__['_n'] = builtins.__dict__['ngettext']
 
-            # Use glade for plugins that still uses it
-            import gtk
-            import gtk.glade
+        libintl = None
+        if deluge.common.windows_check():
+            libintl = ctypes.cdll.LoadLibrary('libintl-8.dll')
+        elif deluge.common.osx_check():
+            libintl = ctypes.cdll.LoadLibrary('libintl.dylib')
 
-            gtk.glade.bindtextdomain(domain, translations_path)
-            gtk.glade.textdomain(domain)
-        except Exception as ex:
-            log.error('Unable to initialize glade translation: %s', ex)
-    if setup_gettext:
-        try:
-            if hasattr(locale, 'bindtextdomain'):
-                locale.bindtextdomain(domain, translations_path)
-            if hasattr(locale, 'textdomain'):
-                locale.textdomain(domain)
+        if libintl:
+            libintl.bindtextdomain(
+                I18N_DOMAIN, translations_path.encode(sys.getfilesystemencoding())
+            )
+            libintl.textdomain(I18N_DOMAIN)
+            libintl.bind_textdomain_codeset(I18N_DOMAIN, 'UTF-8')
+            libintl.gettext.restype = ctypes.c_char_p
 
-            gettext.bindtextdomain(domain, translations_path)
-            gettext.bind_textdomain_codeset(domain, 'UTF-8')
-            gettext.textdomain(domain)
+    except Exception as ex:
+        log.error('Unable to initialize gettext/locale!')
+        log.exception(ex)
+        set_dummy_trans()
 
-            # Workaround for Python 2 unicode gettext (keyword removed in Py3).
-            kwargs = {} if not deluge.common.PY2 else {'unicode': True}
-
-            gettext.install(domain, translations_path, names='ngettext', **kwargs)
-            builtins.__dict__['_n'] = builtins.__dict__['ngettext']
-        except Exception as ex:
-            log.error('Unable to initialize gettext/locale!')
-            log.exception(ex)
-            set_dummy_trans()
-
-        deluge.common.translate_size_units()
+    deluge.common.translate_size_units()

@@ -24,7 +24,7 @@ gi.require_version('Gdk', '3.0')  # NOQA: E402
 # isort:imports-thirdparty
 from gi.repository.Gdk import Display, threads_enter, threads_init, threads_leave
 from gi.repository.GLib import set_prgname
-from gi.repository.Gtk import ResponseType
+from gi.repository.Gtk import Builder, ResponseType
 from twisted.internet import defer, gtk3reactor
 from twisted.internet.error import ReactorAlreadyInstalledError
 from twisted.internet.task import LoopingCall
@@ -51,7 +51,7 @@ from deluge.ui.client import client
 from deluge.ui.hostlist import LOCALHOST
 from deluge.ui.sessionproxy import SessionProxy
 from deluge.ui.tracker_icons import TrackerIcons
-from deluge.ui.translations_util import set_language, setup_translations
+from deluge.ui.translations_util import I18N_DOMAIN, set_language, setup_translations
 
 # isort:imports-localfolder
 from .addtorrentdialog import AddTorrentDialog
@@ -155,7 +155,8 @@ def windowing(like):
 class GtkUI(object):
     def __init__(self, args):
         # Setup gtkbuilder/glade translation
-        setup_translations(setup_gettext=False, setup_pygtk=True)
+        setup_translations()
+        Builder().set_translation_domain(I18N_DOMAIN)
 
         # Setup signals
         def on_die(*args):

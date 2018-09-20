@@ -669,7 +669,7 @@ class DelugeWeb(component.Component):
             # Strip away slashes and serve on the base path as well as root path
             self.top_level.putChild(self.base.strip('/'), self.top_level)
 
-        setup_translations(setup_gettext=True, setup_pygtk=False)
+        setup_translations()
 
         # Remove twisted version number from 'server' http-header for security reasons
         server.version = 'TwistedWeb'
