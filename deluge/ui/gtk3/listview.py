@@ -200,7 +200,7 @@ class ListView(object):
                 self.default_sort_column_id, Gtk.SortType.ASCENDING
             )
         self.model_filter.set_default_sort_func(
-            self.generic_sort_func, self.get_column_index('Added')[0]
+            self.generic_sort_func, self.get_column_index(_('Added'))[0]
         )
 
     def get_sort_column_from_state(self):
