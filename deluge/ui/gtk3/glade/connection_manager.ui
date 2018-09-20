@@ -116,7 +116,7 @@
                                 <property name="model">liststore_hostlist</property>
                                 <signal name="row-activated" handler="on_hostlist_row_activated" swapped="no"/>
                                 <child internal-child="selection">
-                                  <object class="GtkTreeSelection"/>
+                                  <object class="GtkTreeSelection" id="treeselection"/>
                                 </child>
                               </object>
                             </child>

@@ -677,7 +677,7 @@
                 <signal name="motion-notify-event" handler="on_completion_treeview_motion_notify_event" swapped="no"/>
                 <signal name="scroll-event" handler="on_completion_treeview_scroll_event" swapped="no"/>
                 <child internal-child="selection">
-                  <object class="GtkTreeSelection"/>
+                  <object class="GtkTreeSelection" id="treeselection1"/>
                 </child>
                 <child>
                   <object class="GtkTreeViewColumn" id="completion_treeview_column">
@@ -716,11 +716,11 @@
       <placeholder/>
     </child>
     <child internal-child="vbox">
-      <object class="GtkBox">
+      <object class="GtkBox" id="box1">
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <child internal-child="action_area">
-          <object class="GtkButtonBox">
+          <object class="GtkButtonBox" id="buttonbox1">
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
@@ -826,7 +826,7 @@
                 <signal name="key-release-event" handler="on_stored_values_treeview_key_release_event" swapped="no"/>
                 <signal name="scroll-event" handler="on_stored_values_treeview_scroll_event" swapped="no"/>
                 <child internal-child="selection">
-                  <object class="GtkTreeSelection"/>
+                  <object class="GtkTreeSelection" id="treeselection2"/>
                 </child>
                 <child>
                   <object class="GtkTreeViewColumn" id="stored_values_treeview_column">

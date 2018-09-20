@@ -327,7 +327,7 @@
                     <property name="can_focus">True</property>
                     <property name="headers_visible">False</property>
                     <child internal-child="selection">
-                      <object class="GtkTreeSelection"/>
+                      <object class="GtkTreeSelection" id="treeselection1"/>
                     </child>
                   </object>
                 </child>
@@ -4584,7 +4584,7 @@ the proxy instead of using the local DNS service</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <child internal-child="selection">
-                                              <object class="GtkTreeSelection"/>
+                                              <object class="GtkTreeSelection" id="treeselection2"/>
                                             </child>
                                           </object>
                                           <packing>
@@ -4719,7 +4719,7 @@ the proxy instead of using the local DNS service</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <child internal-child="selection">
-                                          <object class="GtkTreeSelection"/>
+                                          <object class="GtkTreeSelection" id="treeselection3"/>
                                         </child>
                                       </object>
                                     </child>

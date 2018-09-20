@@ -876,7 +876,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <child internal-child="selection">
-                  <object class="GtkTreeSelection"/>
+                  <object class="GtkTreeSelection" id="treeselection1"/>
                 </child>
               </object>
             </child>
@@ -906,7 +906,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <child internal-child="selection">
-                  <object class="GtkTreeSelection"/>
+                  <object class="GtkTreeSelection" id="treeselection2"/>
                 </child>
               </object>
             </child>

@@ -114,7 +114,7 @@
                             <property name="can_focus">True</property>
                             <property name="headers_visible">False</property>
                             <child internal-child="selection">
-                              <object class="GtkTreeSelection"/>
+                              <object class="GtkTreeSelection" id="treeselection1"/>
                             </child>
                           </object>
                         </child>
@@ -404,7 +404,7 @@
                                 <property name="headers_visible">False</property>
                                 <property name="enable_tree_lines">True</property>
                                 <child internal-child="selection">
-                                  <object class="GtkTreeSelection"/>
+                                  <object class="GtkTreeSelection" id="treeselection2"/>
                                 </child>
                             </object>
                             </child>
