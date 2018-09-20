@@ -76,11 +76,11 @@ class MenuBar(component.Component):
             'menuitem_upload_slots',
         ):
             submenu = Gtk.Menu()
-            item = Gtk.MenuItem(_('Set Unlimited'))
+            item = Gtk.MenuItem.new_with_label(_('Set Unlimited'))
             item.set_name(menuitem)
             item.connect('activate', self.on_menuitem_set_unlimited)
             submenu.append(item)
-            item = Gtk.MenuItem(_('Other...'))
+            item = Gtk.MenuItem.new_with_label(_('Other...'))
             item.set_name(menuitem)
             item.connect('activate', self.on_menuitem_set_other)
             submenu.append(item)
@@ -88,20 +88,20 @@ class MenuBar(component.Component):
             self.builder.get_object(menuitem).set_submenu(submenu)
 
         submenu = Gtk.Menu()
-        item = Gtk.MenuItem(_('On'))
+        item = Gtk.MenuItem.new_with_label(_('On'))
         item.connect('activate', self.on_menuitem_set_automanaged_on)
         submenu.append(item)
-        item = Gtk.MenuItem(_('Off'))
+        item = Gtk.MenuItem.new_with_label(_('Off'))
         item.connect('activate', self.on_menuitem_set_automanaged_off)
         submenu.append(item)
         submenu.show_all()
         self.builder.get_object('menuitem_auto_managed').set_submenu(submenu)
 
         submenu = Gtk.Menu()
-        item = Gtk.MenuItem(_('Disable'))
+        item = Gtk.MenuItem.new_with_label(_('Disable'))
         item.connect('activate', self.on_menuitem_set_stop_seed_at_ratio_disable)
         submenu.append(item)
-        item = Gtk.MenuItem(_('Enable...'))
+        item = Gtk.MenuItem.new_with_label(_('Enable...'))
         item.set_name('menuitem_stop_seed_at_ratio')
         item.connect('activate', self.on_menuitem_set_other)
         submenu.append(item)
@@ -552,13 +552,13 @@ class MenuBar(component.Component):
 
         self.change_owner_submenu = Gtk.Menu()
         self.change_owner_submenu_items = {}
-        maingroup = Gtk.RadioMenuItem(None, None)
+        maingroup = Gtk.RadioMenuItem()
 
-        self.change_owner_submenu_items[None] = Gtk.RadioMenuItem(group=maingroup)
+        self.change_owner_submenu_items[None] = Gtk.RadioMenuItem(maingroup)
 
         for account in known_accounts:
             username = account['username']
-            item = Gtk.RadioMenuItem(group=maingroup, label=username)
+            item = Gtk.RadioMenuItem.new_with_label(maingroup, username)
             self.change_owner_submenu_items[username] = item
             self.change_owner_submenu.append(item)
             item.connect('toggled', self._on_change_owner_toggled, username)

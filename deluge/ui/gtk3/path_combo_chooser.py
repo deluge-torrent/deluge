@@ -390,9 +390,9 @@ class StoredValuesList(ValueList):
             treeview.set_cursor(path, col, 0)
 
             self.path_list_popup = Gtk.Menu()
-            menuitem_edit = Gtk.MenuItem('Edit path')
+            menuitem_edit = Gtk.MenuItem.new_with_label('Edit path')
             self.path_list_popup.append(menuitem_edit)
-            menuitem_remove = Gtk.MenuItem('Remove path')
+            menuitem_remove = Gtk.MenuItem.new_with_label('Remove path')
             self.path_list_popup.append(menuitem_remove)
 
             def on_edit_clicked(widget, path):

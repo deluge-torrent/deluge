@@ -119,7 +119,7 @@ def build_menu_radio_list(
         item_text = str(value)
         if suffix:
             item_text += ' ' + suffix
-        menuitem = RadioMenuItem(group=group, label=item_text)
+        menuitem = RadioMenuItem.new_with_label(group, item_text)
         group = menuitem
         if pref_value and value == pref_value:
             menuitem.set_active(True)
@@ -128,7 +128,7 @@ def build_menu_radio_list(
         menu.append(menuitem)
 
     if show_notset:
-        menuitem = RadioMenuItem(group=group, label=notset_label)
+        menuitem = RadioMenuItem.new_with_label(group, notset_label)
         menuitem.set_name('unlimited')
         if pref_value and pref_value < notset_lessthan:
             menuitem.set_active(True)
@@ -138,7 +138,7 @@ def build_menu_radio_list(
     if show_other:
         menuitem = SeparatorMenuItem()
         menu.append(menuitem)
-        menuitem = MenuItem(_('Other...'))
+        menuitem = MenuItem.new_with_label(_('Other...'))
         menuitem.set_name('other')
         menuitem.connect('activate', callback)
         menu.append(menuitem)

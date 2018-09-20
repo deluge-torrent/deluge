@@ -367,7 +367,7 @@ class ListView(object):
             # menu.
             if column.hidden is True:
                 continue
-            menuitem = Gtk.CheckMenuItem(column.name)
+            menuitem = Gtk.CheckMenuItem.new_with_label(column.name)
             # If the column is currently visible, make sure it's set active
             # (or checked) in the menu.
             if column.column.get_visible() is True:
