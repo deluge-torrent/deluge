@@ -406,7 +406,7 @@ class Core(component.Component):
             return d
 
     @export
-    def prefetch_magnet_metadata(self, magnet, timeout=60):
+    def prefetch_magnet_metadata(self, magnet, timeout=30):
         """Download the metadata for the magnet uri without adding torrent to deluge session.
 
         Args:

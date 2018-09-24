@@ -15,6 +15,7 @@ import logging
 import operator
 import os
 import time
+from tempfile import gettempdir
 
 import six.moves.cPickle as pickle
 from twisted.internet import defer, error, reactor, threads
@@ -303,7 +304,7 @@ class TorrentManager(component.Component):
         else:
             return torrent_info
 
-    def prefetch_metadata(self, magnet, timeout=60):
+    def prefetch_metadata(self, magnet, timeout):
         """Download metadata for a magnet uri.
 
         Args:
@@ -316,45 +317,47 @@ class TorrentManager(component.Component):
         """
 
         add_torrent_params = {}
-        # need a temp save_path
-        add_torrent_params['save_path'] = '/tmp'
+        add_torrent_params['save_path'] = gettempdir()
         add_torrent_params['url'] = magnet.strip().encode('utf8')
-        # do we need to make it not auto_managed to force start. what about queue?
-        add_torrent_params['flags'] = ((LT_DEFAULT_ADD_TORRENT_FLAGS |
-                                        lt.add_torrent_params_flags_t.flag_duplicate_is_error |
-                                        lt.add_torrent_params_flags_t.flag_upload_mode))
+        add_torrent_params['flags'] = ((
+            LT_DEFAULT_ADD_TORRENT_FLAGS
+            | lt.add_torrent_params_flags_t.flag_duplicate_is_error
+            | lt.add_torrent_params_flags_t.flag_upload_mode
+        )
+            ^ lt.add_torrent_params_flags_t.flag_auto_managed
+            ^ lt.add_torrent_params_flags_t.flag_paused
+        )
 
         torrent_handle = self.session.add_torrent(add_torrent_params)
-        torrent_id = str(torrent_handle.info_hash())
-
-        def on_metadata(torrent_info, torrent_id, defer_timeout):
-            # Cancel reactor.callLater.
-            try:
-                defer_timeout.cancel()
-            except error.AlreadyCalled:
-                pass
-
-            log.debug('remove magnet from session')
-            try:
-                torrent_handle = self.prefetching_metadata.pop(torrent_id)[1]
-            except KeyError:
-                pass
-            else:
-                self.session.remove_torrent(torrent_handle, 1)
-
-            metadata = ''
-            if isinstance(torrent_info, lt.torrent_info):
-                log.debug('metadata received')
-                metadata = torrent_info.metadata()
-
-            return torrent_id, metadata
 
         d = Deferred()
         # Cancel the defer if timeout reached.
         defer_timeout = self.callLater(timeout, d.cancel)
-        d.addBoth(on_metadata, torrent_id, defer_timeout)
+        d.addBoth(self.on_prefetch_metadata, torrent_id, defer_timeout)
         self.prefetching_metadata[torrent_id] = (d, torrent_handle)
         return d
+
+    def on_prefetch_metadata(self, torrent_info, torrent_id, defer_timeout):
+        # Cancel reactor.callLater.
+        try:
+            defer_timeout.cancel()
+        except error.AlreadyCalled:
+            pass
+
+        log.debug('remove magnet from session')
+        try:
+            torrent_handle = self.prefetching_metadata.pop(torrent_id)[1]
+        except KeyError:
+            pass
+        else:
+            self.session.remove_torrent(torrent_handle, 1)
+
+        metadata = ''
+        if isinstance(torrent_info, lt.torrent_info):
+            log.debug('metadata received')
+            metadata = torrent_info.metadata()
+
+        return torrent_id, metadata
 
     def _build_torrent_options(self, options):
         """Load default options and update if needed."""

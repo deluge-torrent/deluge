@@ -67,7 +67,7 @@ class TorrentmanagerTestCase(BaseTestCase):
             return_value=t_info)
 
         magnet = 'magnet:?xt=urn:btih:ab570cdd5a17ea1b61e970bb72047de141bce173'
-        d = self.tm.prefetch_metadata(magnet)
+        d = self.tm.prefetch_metadata(magnet, 30)
         self.tm.on_alert_metadata_received(mock_alert)
 
         expected = (
@@ -105,8 +105,8 @@ class TorrentmanagerTestCase(BaseTestCase):
 
     def test_prefetch_metadata_timeout(self):
         magnet = 'magnet:?xt=urn:btih:ab570cdd5a17ea1b61e970bb72047de141bce173'
-        d = self.tm.prefetch_metadata(magnet)
-        self.clock.advance(60)
+        d = self.tm.prefetch_metadata(magnet, 30)
+        self.clock.advance(30)
         expected = ('ab570cdd5a17ea1b61e970bb72047de141bce173', '')
         return d.addCallback(self.assertEqual, expected)
 
