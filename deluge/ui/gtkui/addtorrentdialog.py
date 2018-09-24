@@ -172,6 +172,41 @@ class AddTorrentDialog(component.Component):
         # Send requests to the core for these config values
         return client.core.get_config_values(self.core_keys).addCallback(_on_config_values)
 
+    def _add_torrent_liststore(
+        self, info_hash, name, filename, files, filedata,
+    ):
+        """Add a torrent to torrent_liststore."""
+        if info_hash in self.files:
+            return False
+
+        torrent_row = [info_hash, name, xml_escape(filename)]
+        row_iter = self.torrent_liststore.append(torrent_row)
+        self.files[info_hash] = files
+        self.infos[info_hash] = filedata
+        self.listview_torrents.get_selection().select_iter(row_iter)
+
+        self.set_default_options()
+        self.save_torrent_options(row_iter)
+
+        return row_iter
+
+    def update_dialog_title_count(self):
+        """Update the AddTorrent dialog title with current torrent count."""
+        self.dialog.set_title(
+            _('Add Torrents (%d)') % len(self.torrent_liststore))
+
+    def show_already_added_dialog(self, count):
+        """Show a message about trying to add duplicate torrents."""
+        log.debug('Tried to add %d duplicate torrents!', count)
+        ErrorDialog(
+            _('Duplicate torrent(s)'),
+            _(
+                'You cannot add the same torrent twice.'
+                ' %d torrents were already added.' % count,
+            ),
+            self.dialog,
+        ).run()
+
     def add_from_files(self, filenames):
         new_row = None
         already_added = 0
@@ -185,70 +220,59 @@ class AddTorrentDialog(component.Component):
                 ErrorDialog(_('Invalid File'), ex, self.dialog).run()
                 continue
 
-            if info.info_hash in self.files:
+            if not self._add_torrent_liststore(
+                info.info_hash,
+                info.name,
+                filename,
+                info.files,
+                info.filedata,
+            ):
                 already_added += 1
-                continue
 
-            new_row = self.torrent_liststore.append([info.info_hash, info.name, xml_escape(filename)])
-            self.files[info.info_hash] = info.files
-            self.infos[info.info_hash] = info.filedata
-            self.listview_torrents.get_selection().select_iter(new_row)
-
-            self.set_default_options()
-            self.save_torrent_options(new_row)
-
-        (model, row) = self.listview_torrents.get_selection().get_selected()
-        if not row and new_row:
-            self.listview_torrents.get_selection().select_iter(new_row)
-
-        self.dialog.set_title(_('Add Torrents (%d)') % len(self.torrent_liststore))
-
+        self.update_dialog_title_count()
         if already_added:
-            log.debug('Tried to add %d duplicate torrents!', already_added)
-            ErrorDialog(
-                _('Duplicate Torrent(s)'),
-                _('You cannot add the same torrent twice. %d torrents were already added.' % already_added),
-                self.dialog,
-            ).run()
+            self.show_already_added_dialog(already_added)
+
+    def _on_uri_metadata(self, result, uri):
+        """Process prefetched metadata to allow file priority selection."""
+        info_hash, b64_metadata = result
+        log.debug('on_uri_metadata for %s (%s)', uri, info_hash)
+
+        if b64_metadata:
+            metadata = b64decode(b64_metadata)
+            info = TorrentInfo(metadata=metadata)
+            self.files[info_hash] = info.files
+            self.infos[info_hash] = info.filedata
+            self.prepare_file_store(info.files)
+        else:
+            log.info('Unable to fetch metadata for magnet: %s', uri)
 
     def add_from_magnets(self, uris):
-        new_row = None
+        """Add a list of magnet uris to torrent_liststore."""
+        already_added = 0
 
         for uri in uris:
             magnet = deluge.common.get_magnet_info(uri)
             if not magnet:
                 log.error('Invalid magnet: %s', uri)
                 continue
-            elif magnet['info_hash'] in self.infos:
-                log.info('Torrent already in Add Dialog list: %s', uri)
+
+            if not self._add_torrent_liststore(
+                magnet['info_hash'],
+                magnet['name'],
+                xml_escape(uri),
+                magnet['files_tree'],
+                None,
+            ):
+                already_added += 1
                 continue
 
-            new_row = self.torrent_liststore.append([magnet['info_hash'], magnet['name'], xml_escape(uri)])
-            self.files[magnet['info_hash']] = magnet['files_tree']
-            self.infos[magnet['info_hash']] = None
+            client.core.prefetch_magnet_metadata(uri).addCallback(
+                self._on_uri_metadata, uri)
 
-            def on_uri_metadata(result, uri):
-                info_hash, b64_metadata = result
-                log.debug('on_uri_metadata for %s (%s)', uri, info_hash)
-
-                if b64_metadata:
-                    metadata = b64decode(b64_metadata)
-                    info = TorrentInfo(metadata=metadata)
-                    self.files[info_hash] = info.files
-                    self.infos[info_hash] = info.filedata
-                    self.prepare_file_store(info.files)
-                else:
-                    log.info('Unable to fetch metadata for magnet: %s', uri)
-
-            client.core.prefetch_magnet_metadata(uri).addCallback(on_uri_metadata, uri)
-
-            self.listview_torrents.get_selection().select_iter(new_row)
-            self.set_default_options()
-            self.save_torrent_options(new_row)
-
-        (model, row) = self.listview_torrents.get_selection().get_selected()
-        if not row and new_row:
-            self.listview_torrents.get_selection().select_iter(new_row)
+        self.update_dialog_title_count()
+        if already_added:
+            self.show_already_added_dialog(already_added)
 
     def _on_torrent_changed(self, treeselection):
         (model, row) = treeselection.get_selected()
