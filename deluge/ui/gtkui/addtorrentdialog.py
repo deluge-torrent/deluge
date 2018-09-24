@@ -535,7 +535,8 @@ class AddTorrentDialog(component.Component):
             if not file_dict['download']:
                 files_list.append(0)
             else:
-                files_list.append(1)
+                # Default lt file priority is 4
+                files_list.append(4)
 
         return files_list
 
