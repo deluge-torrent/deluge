@@ -503,7 +503,9 @@ class Torrent(object):
             log.debug('Unable to set new file priorities.')
             file_priorities = self.handle.file_priorities()
 
-        if 0 in self.options['file_priorities']:
+        if not self.options['file_priorities']:
+            self.options['file_priorities'] = file_priorities
+        elif 0 in self.options['file_priorities']:
             # Previously marked a file 'Do Not Download' so check if changed any 0's to >0.
             for index, priority in enumerate(self.options['file_priorities']):
                 if priority == 0 and file_priorities[index] > 0:
@@ -511,9 +513,6 @@ class Torrent(object):
                     self.is_finished = False
                     self.update_state()
                     break
-
-        # Ensure stored options are in sync in case file_priorities were faulty (old state?).
-        self.options['file_priorities'] = self.handle.file_priorities()
 
         # Set the first/last priorities if needed.
         if self.options['prioritize_first_last_pieces']:
