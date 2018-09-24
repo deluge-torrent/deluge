@@ -23,7 +23,7 @@ from twisted.internet.task import LoopingCall
 
 import deluge.component as component
 from deluge._libtorrent import lt
-from deluge.common import archive_files, decode_bytes, get_magnet_info
+from deluge.common import archive_files, decode_bytes, get_magnet_info, is_magnet
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.core.torrent import Torrent, TorrentOptions, sanitize_filepath
@@ -555,6 +555,11 @@ class TorrentManager(component.Component):
         return d
 
     def _add_torrent_obj(self, handle, options, state, filename, magnet, resume_data, filedump, save_state):
+        # For magnets added with metadata, filename is used so set as magnet.
+        if not magnet and is_magnet(filename):
+            magnet = filename
+            filename = None
+
         # Create a Torrent object and add to the dictionary.
         torrent = Torrent(handle, options, state, filename, magnet)
         self.torrents[torrent.torrent_id] = torrent

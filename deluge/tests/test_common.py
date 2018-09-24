@@ -74,6 +74,7 @@ class CommonTestCase(unittest.TestCase):
 
     def test_is_magnet(self):
         self.assertTrue(is_magnet('magnet:?xt=urn:btih:SU5225URMTUEQLDXQWRB2EQWN6KLTYKN'))
+        self.assertFalse(is_magnet(None))
 
     def test_is_infohash(self):
         self.assertTrue(is_infohash('2dc5d0e71a66fe69649a640d39cb00a259704973'))

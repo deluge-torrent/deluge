@@ -672,10 +672,10 @@ def is_magnet(uri):
     True
 
     """
+    if not uri:
+        return False
 
-    if uri.startswith(MAGNET_SCHEME) and XT_BTIH_PARAM in uri:
-        return True
-    return False
+    return uri.startswith(MAGNET_SCHEME) and XT_BTIH_PARAM in uri
 
 
 def get_magnet_info(uri):
