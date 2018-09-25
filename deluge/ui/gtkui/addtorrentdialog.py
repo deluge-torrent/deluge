@@ -73,6 +73,8 @@ class AddTorrentDialog(component.Component):
         self.listview_torrents = self.builder.get_object('listview_torrents')
         self.listview_files = self.builder.get_object('listview_files')
 
+        self.prefetching_magnets = []
+
         render = gtk.CellRendererText()
         render.connect('edited', self._on_torrent_name_edit)
         render.set_property('editable', True)
@@ -160,6 +162,7 @@ class AddTorrentDialog(component.Component):
         self.previous_selected_torrent = None
         self.torrent_liststore.clear()
         self.files_treestore.clear()
+        self.prefetching_magnets = []
         self.dialog.set_transient_for(component.get('MainWindow').window)
 
     def _on_config_values(self, config, show=False, focus=False):
@@ -237,15 +240,33 @@ class AddTorrentDialog(component.Component):
         """Process prefetched metadata to allow file priority selection."""
         info_hash, b64_metadata = result
         log.debug('on_uri_metadata for %s (%s)', uri, info_hash)
+        if info_hash not in self.prefetching_magnets:
+            return
 
         if b64_metadata:
             metadata = b64decode(b64_metadata)
             info = TorrentInfo(metadata=metadata)
             self.files[info_hash] = info.files
             self.infos[info_hash] = info.filedata
-            self.prepare_file_store(info.files)
         else:
             log.info('Unable to fetch metadata for magnet: %s', uri)
+        self.prefetching_magnets.remove(info_hash)
+        self._on_torrent_changed(self.listview_torrents.get_selection())
+
+    def prefetch_waiting_message(self, torrent_id, files):
+        """Show magnet files fetching or failed message above files list."""
+        if torrent_id in self.prefetching_magnets:
+            self.builder.get_object('prefetch_label').set_text(
+                _('Please wait for files...'))
+            self.builder.get_object('prefetch_spinner').show()
+            self.builder.get_object('prefetch_hbox').show()
+        elif not files:
+            self.builder.get_object('prefetch_label').set_text(
+                _('Unable to download files for this magnet'))
+            self.builder.get_object('prefetch_spinner').hide()
+            self.builder.get_object('prefetch_hbox').show()
+        else:
+            self.builder.get_object('prefetch_hbox').hide()
 
     def add_from_magnets(self, uris):
         """Add a list of magnet uris to torrent_liststore."""
@@ -257,20 +278,25 @@ class AddTorrentDialog(component.Component):
                 log.error('Invalid magnet: %s', uri)
                 continue
 
+            torrent_id = magnet['info_hash']
+            files = magnet['files_tree']
             if not self._add_torrent_liststore(
-                magnet['info_hash'],
-                magnet['name'],
+                torrent_id, magnet['name'],
                 xml_escape(uri),
-                magnet['files_tree'],
+                files,
                 None,
             ):
                 already_added += 1
                 continue
 
-            client.core.prefetch_magnet_metadata(uri).addCallback(
-                self._on_uri_metadata, uri)
+            if files:
+                continue
 
-        self.update_dialog_title_count()
+            d = client.core.prefetch_magnet_metadata(uri)
+            d.addCallback(self._on_uri_metadata, uri)
+            self.prefetching_magnets.append(magnet['info_hash'])
+            self.prefetch_waiting_message(torrent_id, None)
+
         if already_added:
             self.show_already_added_dialog(already_added)
 
@@ -288,16 +314,19 @@ class AddTorrentDialog(component.Component):
 
         # Save the previous torrents options
         self.save_torrent_options()
-        # Update files list
-        files_list = self.files[model.get_value(row, 0)]
 
+        torrent_id = model.get_value(row, 0)
+        # Update files list
+        files_list = self.files[torrent_id]
         self.prepare_file_store(files_list)
 
         if self.core_config == {}:
             self.update_core_config()
 
         # Update the options frame
-        self.update_torrent_options(model.get_value(row, 0))
+        self.update_torrent_options(torrent_id)
+        # Update magnet prefetch message
+        self.prefetch_waiting_message(torrent_id, files_list)
 
         self.previous_selected_torrent = row
 

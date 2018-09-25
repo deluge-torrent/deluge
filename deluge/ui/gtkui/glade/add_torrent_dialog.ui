@@ -82,7 +82,6 @@
                         <property name="layout_style">center</property>
                         <child>
                           <object class="GtkButton" id="button_file">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -129,7 +128,6 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button_url">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -176,7 +174,6 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button_hash">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -223,7 +220,6 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button_remove">
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -295,21 +291,79 @@
                     <property name="show_border">False</property>
                     <property name="tab_vborder">1</property>
                     <child>
-                      <object class="GtkScrolledWindow" id="scrolledwindow2">
+                      <object class="GtkVBox" id="vbox1">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="border_width">2</property>
-                        <property name="hscrollbar_policy">automatic</property>
-                        <property name="vscrollbar_policy">automatic</property>
-                        <property name="shadow_type">in</property>
+                        <property name="can_focus">False</property>
                         <child>
-                          <object class="GtkTreeView" id="listview_files">
+                          <object class="GtkAlignment" id="alignment9">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="left_padding">5</property>
+                            <child>
+                              <object class="GtkHBox" id="prefetch_hbox">
+                                <property name="can_focus">False</property>
+                                <property name="spacing">5</property>
+                                <child>
+                                  <object class="GtkSpinner" id="prefetch_spinner">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="active">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="prefetch_label">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Please wait for files...</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="padding">5</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkScrolledWindow" id="scrolledwindow2">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="border_width">1</property>
-                            <property name="headers_visible">False</property>
-                            <property name="enable_tree_lines">True</property>
+                            <property name="border_width">2</property>
+                            <property name="hscrollbar_policy">automatic</property>
+                            <property name="vscrollbar_policy">automatic</property>
+                            <property name="shadow_type">in</property>
+                            <child>
+                              <object class="GtkTreeView" id="listview_files">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="border_width">1</property>
+                                <property name="headers_visible">False</property>
+                                <property name="enable_tree_lines">True</property>
+                              </object>
+                            </child>
                           </object>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
                         </child>
                       </object>
                     </child>
@@ -413,7 +467,6 @@
                                     <property name="can_focus">False</property>
                                     <child>
                                       <object class="GtkCheckButton" id="chk_move_completed">
-                                        <property name="use_action_appearance">False</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
@@ -474,7 +527,6 @@
                                         <child>
                                           <object class="GtkCheckButton" id="chk_paused">
                                             <property name="label" translatable="yes">Add In _Paused State</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -490,7 +542,6 @@
                                         <child>
                                           <object class="GtkCheckButton" id="chk_prioritize">
                                             <property name="label" translatable="yes">Prioritize First/Last Pieces</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -505,7 +556,6 @@
                                         <child>
                                           <object class="GtkCheckButton" id="chk_sequential_download">
                                             <property name="label" translatable="yes">Sequential Download</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -527,7 +577,6 @@ used sparingly.</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_seed_mode">
                                             <property name="label" translatable="yes">Skip File Hash Check</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -543,7 +592,6 @@ used sparingly.</property>
                                         <child>
                                           <object class="GtkCheckButton" id="chk_pre_alloc">
                                             <property name="label" translatable="yes">Preallocate Disk Space</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -610,8 +658,8 @@ used sparingly.</property>
                                           <packing>
                                             <property name="left_attach">1</property>
                                             <property name="right_attach">2</property>
-                                            <property name="x_options"></property>
-                                            <property name="y_options"></property>
+                                            <property name="x_options"/>
+                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -624,7 +672,7 @@ used sparingly.</property>
                                           </object>
                                           <packing>
                                             <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"></property>
+                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -639,7 +687,7 @@ used sparingly.</property>
                                             <property name="top_attach">1</property>
                                             <property name="bottom_attach">2</property>
                                             <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"></property>
+                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -654,7 +702,7 @@ used sparingly.</property>
                                             <property name="top_attach">2</property>
                                             <property name="bottom_attach">3</property>
                                             <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"></property>
+                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -669,7 +717,7 @@ used sparingly.</property>
                                             <property name="top_attach">3</property>
                                             <property name="bottom_attach">4</property>
                                             <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"></property>
+                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -689,8 +737,8 @@ used sparingly.</property>
                                             <property name="right_attach">2</property>
                                             <property name="top_attach">1</property>
                                             <property name="bottom_attach">2</property>
-                                            <property name="x_options"></property>
-                                            <property name="y_options"></property>
+                                            <property name="x_options"/>
+                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -709,8 +757,8 @@ used sparingly.</property>
                                             <property name="right_attach">2</property>
                                             <property name="top_attach">2</property>
                                             <property name="bottom_attach">3</property>
-                                            <property name="x_options"></property>
-                                            <property name="y_options"></property>
+                                            <property name="x_options"/>
+                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -729,8 +777,8 @@ used sparingly.</property>
                                             <property name="right_attach">2</property>
                                             <property name="top_attach">3</property>
                                             <property name="bottom_attach">4</property>
-                                            <property name="x_options"></property>
-                                            <property name="y_options"></property>
+                                            <property name="x_options"/>
+                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                       </object>
@@ -773,7 +821,6 @@ used sparingly.</property>
                                 <property name="right_padding">5</property>
                                 <child>
                                   <object class="GtkButton" id="button_apply">
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
@@ -827,7 +874,6 @@ used sparingly.</property>
                                 <property name="can_focus">False</property>
                                 <child>
                                   <object class="GtkButton" id="button_revert">
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
@@ -944,7 +990,6 @@ used sparingly.</property>
             <child>
               <object class="GtkButton" id="button_cancel">
                 <property name="label">gtk-cancel</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -960,7 +1005,6 @@ used sparingly.</property>
             <child>
               <object class="GtkButton" id="button_add">
                 <property name="label">gtk-add</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
