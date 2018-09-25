@@ -316,6 +316,11 @@ class TorrentManager(component.Component):
 
         """
 
+        torrent_id = get_magnet_info(magnet)['info_hash']
+        if torrent_id in self.prefetching_metadata:
+            d = self.prefetching_metadata[torrent_id][0]
+            return d
+
         add_torrent_params = {}
         add_torrent_params['save_path'] = gettempdir()
         add_torrent_params['url'] = magnet.strip().encode('utf8')
