@@ -109,6 +109,10 @@ class AddTorrentDialog(component.Component):
 
         self.listview_files.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
         self.listview_torrents.get_selection().connect('changed', self._on_torrent_changed)
+        self.torrent_liststore.connect(
+            'row-inserted', self.update_dialog_title_count)
+        self.torrent_liststore.connect(
+            'row-deleted', self.update_dialog_title_count)
 
         self.setup_move_completed_path_chooser()
         self.setup_download_location_path_chooser()
@@ -190,7 +194,7 @@ class AddTorrentDialog(component.Component):
 
         return row_iter
 
-    def update_dialog_title_count(self):
+    def update_dialog_title_count(self, *args):
         """Update the AddTorrent dialog title with current torrent count."""
         self.dialog.set_title(
             _('Add Torrents (%d)') % len(self.torrent_liststore))
@@ -229,7 +233,6 @@ class AddTorrentDialog(component.Component):
             ):
                 already_added += 1
 
-        self.update_dialog_title_count()
         if already_added:
             self.show_already_added_dialog(already_added)
 
@@ -759,7 +762,6 @@ class AddTorrentDialog(component.Component):
         model.remove(row)
         del self.files[torrent_id]
         del self.infos[torrent_id]
-        self.dialog.set_title(_('Add Torrents (%d)') % len(self.torrent_liststore))
 
     def on_button_trackers_clicked(self, widget):
         log.debug('on_button_trackers_clicked')
