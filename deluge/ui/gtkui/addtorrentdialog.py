@@ -140,7 +140,7 @@ class AddTorrentDialog(component.Component):
         self.update_core_config()
 
     def show(self, focus=False):
-        return self.update_core_config(True, focus)
+        self.update_core_config(True, focus)
 
     def _show(self, focus=False):
         if component.get('MainWindow').is_on_active_workspace():
@@ -152,8 +152,6 @@ class AddTorrentDialog(component.Component):
         if focus:
             self.dialog.window.focus()
 
-        return None
-
     def hide(self):
         self.dialog.hide()
         self.files = {}
@@ -163,18 +161,18 @@ class AddTorrentDialog(component.Component):
         self.torrent_liststore.clear()
         self.files_treestore.clear()
         self.dialog.set_transient_for(component.get('MainWindow').window)
-        return None
+
+    def _on_config_values(self, config, show=False, focus=False):
+        self.core_config = config
+        if self.core_config:
+            self.set_default_options()
+        if show:
+            self._show(focus)
 
     def update_core_config(self, show=False, focus=False):
-        def _on_config_values(config):
-            self.core_config = config
-            if self.core_config:
-                self.set_default_options()
-            if show:
-                self._show(focus)
-
         # Send requests to the core for these config values
-        return client.core.get_config_values(self.core_keys).addCallback(_on_config_values)
+        d = client.core.get_config_values(self.core_keys)
+        d.addCallback(self._on_config_values, show, focus)
 
     def _add_torrent_liststore(
         self, info_hash, name, filename, files, filedata,
@@ -212,7 +210,6 @@ class AddTorrentDialog(component.Component):
         ).run()
 
     def add_from_files(self, filenames):
-        new_row = None
         already_added = 0
 
         for filename in filenames:
