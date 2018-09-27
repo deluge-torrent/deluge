@@ -858,9 +858,6 @@ class TorrentManager(component.Component):
     def _save_state(self):
         """Save the state of the TorrentManager to the torrents.state file."""
         state = self.create_state()
-        if not state.torrents:
-            log.debug('Skipping saving state with no torrents loaded')
-            return
 
         # If the state hasn't changed, no need to save it
         if self.prev_saved_state == state:
