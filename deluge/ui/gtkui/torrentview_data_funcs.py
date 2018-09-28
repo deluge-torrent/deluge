@@ -41,8 +41,6 @@ ICON_STATE = {
 # renderer. This is much cheaper than fetch the current value and test if
 # it's equal.
 func_last_value = {
-    'cell_data_speed_down': None,
-    'cell_data_speed_up': None,
     'cell_data_time': None,
     'cell_data_ratio_seeds_peers': None,
     'cell_data_ratio_ratio': None,
@@ -156,18 +154,9 @@ def cell_data_queue(column, cell, model, row, data):
         cell.set_property('text', str(value + 1))
 
 
-def cell_data_speed(cell, model, row, data, cache_key):
+def cell_data_speed(cell, model, row, data):
     """Display value as a speed, eg. 2 KiB/s"""
-    try:
-        speed = model.get_value(row, data)
-    except AttributeError:
-        print('AttributeError')
-        import traceback
-
-        traceback.print_exc()
-    if func_last_value[cache_key] == speed:
-        return
-    func_last_value[cache_key] = speed
+    speed = model.get_value(row, data)
 
     if speed > 0:
         speed_str = common.fspeed(speed, shortform=True)
@@ -180,12 +169,12 @@ def cell_data_speed(cell, model, row, data, cache_key):
 
 def cell_data_speed_down(column, cell, model, row, data):
     """Display value as a speed, eg. 2 KiB/s"""
-    cell_data_speed(cell, model, row, data, 'cell_data_speed_down')
+    cell_data_speed(cell, model, row, data)
 
 
 def cell_data_speed_up(column, cell, model, row, data):
     """Display value as a speed, eg. 2 KiB/s"""
-    cell_data_speed(cell, model, row, data, 'cell_data_speed_up')
+    cell_data_speed(cell, model, row, data)
 
 
 def cell_data_speed_limit(cell, model, row, data, cache_key):
