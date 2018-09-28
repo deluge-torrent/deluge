@@ -49,7 +49,7 @@ except ImportError:
 
 log = logging.getLogger(__name__)
 
-OLD_SESSION_STATUS_KEYS = {
+DEPR_SESSION_STATUS_KEYS = {
     # 'active_requests': None, # In dht_stats_alert, if required.
     'allowed_upload_slots': 'ses.num_unchoke_slots',
     # 'dht_global_nodes': None,
@@ -81,9 +81,7 @@ OLD_SESSION_STATUS_KEYS = {
     # 'utp_stats': None
 }
 
-# TODO: replace with dynamic rate e.g.
-# 'dht.dht_bytes_in'.replace('_bytes', '') + '_rate'
-# would become 'dht.dht_in_rate'
+# Session status rate keys associated with session status counters.
 SESSION_RATES_MAPPING = {
     'dht_download_rate': 'dht.dht_bytes_in',
     'dht_upload_rate': 'dht.dht_bytes_out',
@@ -180,11 +178,18 @@ class Core(component.Component):
         self.__new_release = None
 
         # Session status timer
-        self.session_status = {}
+        self.session_status = {k.name: 0 for k in lt.session_stats_metrics()}
+        self._session_prev_bytes = {k: 0 for k in SESSION_RATES_MAPPING}
+        # Initiate other session status keys.
+        self.session_status.update(self._session_prev_bytes)
+        hit_ratio_keys = ['write_hit_ratio', 'read_hit_ratio']
+        self.session_status.update({k: 0.0 for k in hit_ratio_keys})
+
         self.session_status_timer_interval = 0.5
-        self.session_status_timer = task.LoopingCall(self.session.post_session_stats)
-        self.alertmanager.register_handler('session_stats_alert', self._on_alert_session_stats)
-        self._session_rates = {(k_rate, k_bytes): 0 for k_rate, k_bytes in SESSION_RATES_MAPPING.items()}
+        self.session_status_timer = task.LoopingCall(
+            self.session.post_session_stats)
+        self.alertmanager.register_handler(
+            'session_stats_alert', self._on_alert_session_stats)
         self.session_rates_timer_interval = 2
         self.session_rates_timer = task.LoopingCall(self._update_session_rates)
 
@@ -323,38 +328,39 @@ class Core(component.Component):
 
     def _on_alert_session_stats(self, alert):
         """The handler for libtorrent session stats alert"""
-        if not self.session_status:
-            # Empty dict on startup so needs populated with session rate keys and default value.
-            self.session_status.update({key: 0 for key in list(SESSION_RATES_MAPPING)})
         self.session_status.update(alert.values)
         self._update_session_cache_hit_ratio()
 
     def _update_session_cache_hit_ratio(self):
-        """Calculates the cache read/write hit ratios and updates session_status"""
-        try:
-            self.session_status['write_hit_ratio'] = ((self.session_status['disk.num_blocks_written'] -
-                                                       self.session_status['disk.num_write_ops']) /
-                                                      self.session_status['disk.num_blocks_written'])
-        except ZeroDivisionError:
+        """Calculates the cache read/write hit ratios for session_status."""
+        blocks_written = self.session_status['disk.num_blocks_written']
+        blocks_read = self.session_status['disk.num_blocks_read']
+
+        if blocks_written:
+            self.session_status['write_hit_ratio'] = (
+                blocks_written - self.session_status['disk.num_write_ops']
+            ) / blocks_written
+        else:
             self.session_status['write_hit_ratio'] = 0.0
 
-        try:
-            self.session_status['read_hit_ratio'] = (self.session_status['disk.num_blocks_cache_hits'] /
-                                                     self.session_status['disk.num_blocks_read'])
-        except ZeroDivisionError:
+        if blocks_read:
+            self.session_status['read_hit_ratio'] = (
+                self.session_status['disk.num_blocks_cache_hits'] / blocks_read
+            )
+        else:
             self.session_status['read_hit_ratio'] = 0.0
 
     def _update_session_rates(self):
-        """Calculates status rates based on interval and value difference for session_status"""
-        if not self.session_status:
-            return
+        """Calculate session status rates.
 
-        for (rate_key, status_key), prev_bytes in list(self._session_rates.items()):
-            new_bytes = self.session_status[status_key]
-            byte_rate = (new_bytes - prev_bytes) / self.session_rates_timer_interval
-            self.session_status[rate_key] = byte_rate
+        Uses polling interval and counter difference for session_status rates.
+        """
+        for rate_key, prev_bytes in list(self._session_prev_bytes.items()):
+            new_bytes = self.session_status[SESSION_RATES_MAPPING[rate_key]]
+            self.session_status[rate_key] = (
+                new_bytes - prev_bytes) / self.session_rates_timer_interval
             # Store current value for next update.
-            self._session_rates[(rate_key, status_key)] = new_bytes
+            self._session_prev_bytes[rate_key] = new_bytes
 
     def get_new_release(self):
         log.debug('get_new_release')
@@ -600,24 +606,24 @@ class Core(component.Component):
         :rtype: dict
 
         """
-
-        if not self.session_status:
-            return {key: 0 for key in keys}
-
         if not keys:
             return self.session_status
 
         status = {}
         for key in keys:
-            if key in OLD_SESSION_STATUS_KEYS:
-                new_key = OLD_SESSION_STATUS_KEYS[key]
-                log.warning('Using deprecated session status key %s, please use %s', key, new_key)
-                status[key] = self.session_status[new_key]
-            else:
-                try:
-                    status[key] = self.session_status[key]
-                except KeyError:
-                    log.warning('Session status key does not exist: %s', key)
+            try:
+                status[key] = self.session_status[key]
+            except KeyError:
+                if key in DEPR_SESSION_STATUS_KEYS:
+                    new_key = DEPR_SESSION_STATUS_KEYS[key]
+                    log.debug(
+                        'Deprecated session status key %s, please use %s',
+                        key,
+                        new_key,
+                    )
+                    status[key] = self.session_status[new_key]
+                else:
+                    log.warning('Session status key not valid: %s', key)
         return status
 
     @export

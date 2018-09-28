@@ -378,13 +378,33 @@ class CoreTestCase(BaseTestCase):
         self.assertEqual(val[1], ('invalidid2', 'torrent_id invalidid2 not in session.'))
 
     def test_get_session_status(self):
+        status = self.core.get_session_status(
+            ['net.recv_tracker_bytes', 'net.sent_tracker_bytes'])
+        self.assertIsInstance(status, dict)
+        self.assertEqual(status['net.recv_tracker_bytes'], 0)
+        self.assertEqual(status['net.sent_tracker_bytes'], 0)
+
+    def test_get_session_status_all(self):
+        status = self.core.get_session_status([])
+        self.assertIsInstance(status, dict)
+        self.assertIn('upload_rate', status)
+        self.assertIn('net.recv_bytes', status)
+
+    def test_get_session_status_depr(self):
+        status = self.core.get_session_status(['num_peers', 'num_unchoked'])
+        self.assertIsInstance(status, dict)
+        self.assertEqual(status['num_peers'], 0)
+        self.assertEqual(status['num_unchoked'], 0)
+
+    def test_get_session_status_rates(self):
         status = self.core.get_session_status(['upload_rate', 'download_rate'])
-        self.assertEqual(type(status), dict)
-        self.assertEqual(status['upload_rate'], 0.0)
+        self.assertIsInstance(status, dict)
+        self.assertEqual(status['upload_rate'], 0)
 
     def test_get_session_status_ratio(self):
-        status = self.core.get_session_status(['write_hit_ratio', 'read_hit_ratio'])
-        self.assertEqual(type(status), dict)
+        status = self.core.get_session_status([
+            'write_hit_ratio', 'read_hit_ratio'])
+        self.assertIsInstance(status, dict)
         self.assertEqual(status['write_hit_ratio'], 0.0)
         self.assertEqual(status['read_hit_ratio'], 0.0)
 
