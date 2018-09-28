@@ -762,8 +762,6 @@ class TorrentManager(component.Component):
             torrent_info = self.get_torrent_info_from_file(
                 os.path.join(self.state_dir, t_state.torrent_id + '.torrent'),
             )
-            if torrent_info:
-                magnet = None
 
             try:
                 d = self.add_async(
