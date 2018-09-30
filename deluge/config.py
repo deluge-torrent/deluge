@@ -202,7 +202,7 @@ class Config(object):
                 raise
 
         if isinstance(value, bytes):
-            value.decode('utf8')
+            value = value.decode('utf8')
 
         log.debug('Setting key "%s" to: %s (of type: %s)', key, value, type(value))
         self.__config[key] = value
