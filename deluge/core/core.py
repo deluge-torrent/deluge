@@ -211,10 +211,10 @@ class Core(component.Component):
         self._save_session_state()
 
         # We stored a copy of the old interface value
-        if self._old_listen_interface is None:
+        if self._old_listen_interface is not None:
             self.config['listen_interface'] = self._old_listen_interface
 
-        if self._old_outgoing_interface is None:
+        if self._old_outgoing_interface is not None:
             self.config['outgoing_interface'] = self._old_outgoing_interface
 
         # Make sure the config file has been saved
