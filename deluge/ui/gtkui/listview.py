@@ -791,7 +791,7 @@ class ListView(object):
         return True
 
     def on_keypress_search_by_name(self, model, column, key, _iter):
-        torrent_name_col = self.columns['Name'].column_indices[1]
+        torrent_name_col = self.columns[_('Name')].column_indices[1]
         return not model[_iter][torrent_name_col].lower().startswith(key.lower())
 
     def restore_columns_order_from_state(self):
