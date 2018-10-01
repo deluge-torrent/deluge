@@ -30,6 +30,7 @@ class StatusBarItem(object):
         self,
         image=None,
         stock=None,
+        icon=None,
         text=None,
         markup=False,
         callback=None,
@@ -41,16 +42,18 @@ class StatusBarItem(object):
         self._hbox.set_spacing(3)
         self._image = Gtk.Image()
         self._label = Gtk.Label()
-        self._hbox.add(self._image)
+        if image or icon or stock:
+            self._hbox.add(self._image)
         self._hbox.add(self._label)
         self._ebox.add(self._hbox)
 
         # Add image from file or stock
-        if image is not None or stock is not None:
-            if image is not None:
-                self.set_image_from_file(image)
-            if stock is not None:
-                self.set_image_from_stock(stock)
+        if image:
+            self.set_image_from_file(image)
+        if stock:
+            self.set_image_from_stock(stock)
+        if icon:
+            self.set_image_from_icon(icon)
 
         # Add text
         if markup:
@@ -79,6 +82,9 @@ class StatusBarItem(object):
 
     def set_image_from_stock(self, stock):
         self._image.set_from_stock(stock, Gtk.IconSize.MENU)
+
+    def set_image_from_icon(self, icon):
+        self._image.set_from_icon_name(icon, Gtk.IconSize.MENU)
 
     def set_text(self, text):
         if not text:
@@ -147,7 +153,7 @@ class StatusBar(component.Component):
         self.statusbar.show_all()
         # Create the not connected item
         self.not_connected_item = StatusBarItem(
-            stock=Gtk.STOCK_STOP,
+            icon='network-offline-symbolic',
             text=_('Not Connected'),
             callback=self._on_notconnected_item_clicked,
         )
@@ -166,7 +172,7 @@ class StatusBar(component.Component):
         self.remove_item(self.not_connected_item)
 
         self.connections_item = self.add_item(
-            stock=Gtk.STOCK_NETWORK,
+            icon='network-transmit-receive-symbolic',
             callback=self._on_connection_item_clicked,
             tooltip=_('Connections (Limit)'),
             pack_start=True,
@@ -198,22 +204,25 @@ class StatusBar(component.Component):
         )
 
         self.diskspace_item = self.add_item(
-            stock=Gtk.STOCK_HARDDISK,
+            icon='drive-harddisk-symbolic',
             callback=self._on_diskspace_item_clicked,
             tooltip=_('Free Disk Space'),
             pack_start=True,
         )
 
+        self.external_ip_item = self.add_item(
+            tooltip=_('External IP Address'),
+            text=_('<b>IP</b> <small>%s</small>') % _('n/a'),
+            markup=True,
+            pack_start=True,
+        )
+
         self.health_item = self.add_item(
-            stock=Gtk.STOCK_DIALOG_ERROR,
+            icon='network-error-symbolic',
             text=_('<b><small>Port Issue</small></b>'),
             markup=True,
             tooltip=_('No incoming connections, check port forwarding'),
             callback=self._on_health_icon_clicked,
-        )
-
-        self.external_ip_item = self.add_item(
-            tooltip=_('External IP Address'), pack_start=True
         )
 
         self.health = False
@@ -260,6 +269,7 @@ class StatusBar(component.Component):
         self,
         image=None,
         stock=None,
+        icon=None,
         text=None,
         markup=False,
         callback=None,
@@ -268,7 +278,7 @@ class StatusBar(component.Component):
     ):
         """Adds an item to the status bar"""
         # The return tuple.. we return whatever widgets we add
-        item = StatusBarItem(image, stock, text, markup, callback, tooltip)
+        item = StatusBarItem(image, stock, icon, text, markup, callback, tooltip)
         if pack_start:
             self.hbox.pack_start(item.get_eventbox(), False, False, 0)
         else:
@@ -284,10 +294,10 @@ class StatusBar(component.Component):
                 log.debug('Unable to remove widget: %s', ex)
 
     def add_timeout_item(
-        self, seconds=3, image=None, stock=None, text=None, callback=None
+        self, seconds=3, image=None, stock=None, icon=None, text=None, callback=None
     ):
         """Adds an item to the StatusBar for seconds"""
-        item = self.add_item(image, stock, text, callback)
+        item = self.add_item(image, stock, icon, text, callback)
         # Start a timer to remove this item in seconds
         timeout_add(seconds * 1000, self.remove_item, item)
 
@@ -295,7 +305,7 @@ class StatusBar(component.Component):
         """Displays a warning to the user in the status bar"""
         if text not in self.current_warnings:
             item = self.add_item(
-                stock=Gtk.STOCK_DIALOG_WARNING, text=text, callback=callback
+                icon='dialog-warning-symbolic', text=text, callback=callback
             )
             self.current_warnings.append(text)
             timeout_add(3000, self.remove_warning, item)
@@ -412,6 +422,13 @@ class StatusBar(component.Component):
 
         self.connections_item.set_markup(label_string)
 
+        if self.num_connections:
+            self.connections_item.set_image_from_icon(
+                'network-transmit-receive-symbolic'
+            )
+        else:
+            self.connections_item.set_image_from_icon('network-idle-symbolic')
+
     def update_dht_label(self):
         # Set the max connections label
         self.dht_item.set_markup('<small>%s</small>' % (self.dht_nodes))
@@ -474,7 +491,7 @@ class StatusBar(component.Component):
                 _('Incoming Connections'),
                 _('Set the maximum incoming connections'),
                 '',
-                Gtk.STOCK_NETWORK,
+                'network-transmit-receive-symbolic',
                 self.max_connections_global,
             ),
         }

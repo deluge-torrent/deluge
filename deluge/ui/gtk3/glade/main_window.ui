@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
-  <!-- interface-naming-policy project-wide -->
+  <object class="GtkImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-missing-image</property>
+  </object>
+  <object class="GtkImage" id="about-image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">help-about-symbolic</property>
+  </object>
   <object class="GtkAccelGroup" id="accelgroup1"/>
+  <object class="GtkImage" id="add-image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">list-add-symbolic</property>
+    <property name="icon_size">1</property>
+  </object>
   <object class="GtkAdjustment" id="adjustment1">
     <property name="lower">-1</property>
     <property name="upper">999999</property>
@@ -33,41 +49,50 @@
     <property name="step_increment">0.10000000000000001</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkImage" id="image1">
+  <object class="GtkImage" id="connection-image">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-add</property>
-    <property name="icon-size">1</property>
-  </object>
-  <object class="GtkImage" id="image2">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-no</property>
-    <property name="icon-size">1</property>
-  </object>
-  <object class="GtkImage" id="image3">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-yes</property>
-    <property name="icon-size">1</property>
+    <property name="icon_name">preferences-system-network-symbolic</property>
   </object>
   <object class="GtkImage" id="image4">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-go-up</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="image5">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-goto-top</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="image6">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-zoom-fit</property>
-    <property name="icon-size">1</property>
+    <property name="icon_size">1</property>
+  </object>
+  <object class="GtkImage" id="new-image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">document-new-symbolic</property>
+    <property name="icon_size">1</property>
+  </object>
+  <object class="GtkImage" id="prefs-image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">preferences-system-symbolic</property>
+  </object>
+  <object class="GtkImage" id="quit-daemon-image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">system-shutdown-symbolic</property>
+    <property name="icon_size">1</property>
+  </object>
+  <object class="GtkImage" id="quit_image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">application-exit-symbolic</property>
   </object>
   <object class="GtkWindow" id="main_window">
     <property name="can_focus">False</property>
@@ -100,9 +125,10 @@
                         <property name="sensitive">False</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
+                        <property name="image">add-image</property>
                         <property name="use_stock">False</property>
-                        <accelerator key="O" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <signal name="activate" handler="on_menuitem_addtorrent_activate" swapped="no"/>
+                        <accelerator key="O" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -111,9 +137,10 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
+                        <property name="image">new-image</property>
                         <property name="use_stock">False</property>
-                        <accelerator key="N" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <signal name="activate" handler="on_menuitem_createtorrent_activate" swapped="no"/>
+                        <accelerator key="N" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -126,9 +153,11 @@
                         <property name="label" translatable="yes">Quit &amp; _Shutdown Daemon</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
+                        <property name="image">quit-daemon-image</property>
                         <property name="use_stock">False</property>
-                        <accelerator key="Q" signal="activate" modifiers="GDK_SHIFT_MASK | GDK_CONTROL_MASK"/>
+                        <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_menuitem_quitdaemon_activate" swapped="no"/>
+                        <accelerator key="Q" signal="activate" modifiers="GDK_SHIFT_MASK | GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -139,11 +168,12 @@
                     </child>
                     <child>
                       <object class="GtkImageMenuItem" id="menuitem_quit">
-                        <property name="label">gtk-quit</property>
+                        <property name="label">_Quit</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="image">quit_image</property>
+                        <property name="use_stock">False</property>
                         <property name="accel_group">accelgroup1</property>
                         <signal name="activate" handler="on_menuitem_quit_activate" swapped="no"/>
                       </object>
@@ -164,14 +194,15 @@
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkImageMenuItem" id="menuitem_preferences">
-                        <property name="label">gtk-preferences</property>
+                        <property name="label">_Preferences</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="image">prefs-image</property>
+                        <property name="use_stock">False</property>
                         <property name="accel_group">accelgroup1</property>
-                        <accelerator key="P" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <signal name="activate" handler="on_menuitem_preferences_activate" swapped="no"/>
+                        <accelerator key="P" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -180,9 +211,10 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
+                        <property name="image">connection-image</property>
                         <property name="use_stock">False</property>
-                        <accelerator key="M" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <signal name="activate" handler="on_menuitem_connectionmanager_activate" swapped="no"/>
+                        <accelerator key="M" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                   </object>
@@ -265,8 +297,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">_Find ...</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="f" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <signal name="activate" handler="on_search_filter_toggle" swapped="no"/>
+                        <accelerator key="f" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -345,8 +377,8 @@
                         <property name="tooltip_text" translatable="yes">Frequently Asked Questions</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
-                        <accelerator key="F1" signal="activate"/>
                         <signal name="activate" handler="on_menuitem_faq_activate" swapped="no"/>
+                        <accelerator key="F1" signal="activate"/>
                       </object>
                     </child>
                     <child>
@@ -356,6 +388,7 @@
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
+                        <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_menuitem_community_activate" swapped="no"/>
                       </object>
                     </child>
@@ -367,11 +400,12 @@
                     </child>
                     <child>
                       <object class="GtkImageMenuItem" id="menuitem_about">
-                        <property name="label">gtk-about</property>
+                        <property name="label">_About</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="image">about-image</property>
+                        <property name="use_stock">False</property>
                         <property name="accel_group">accelgroup1</property>
                         <signal name="activate" handler="on_menuitem_about_activate" swapped="no"/>
                       </object>
@@ -391,6 +425,7 @@
           <object class="GtkToolbar" id="toolbar">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="icon_size">2</property>
             <child>
               <object class="GtkToolButton" id="toolbutton_add">
                 <property name="visible">True</property>
@@ -399,8 +434,7 @@
                 <property name="has_tooltip">True</property>
                 <property name="tooltip_text" translatable="yes">Add torrent</property>
                 <property name="label" translatable="yes">Add Torrent</property>
-                <property name="use_underline">True</property>
-                <property name="stock_id">gtk-add</property>
+                <property name="icon_name">list-add-symbolic</property>
                 <signal name="clicked" handler="on_toolbutton_add_clicked" swapped="no"/>
               </object>
               <packing>
@@ -416,7 +450,7 @@
                 <property name="has_tooltip">True</property>
                 <property name="tooltip_text" translatable="yes">Remove torrent</property>
                 <property name="label" translatable="yes">Remove Torrent</property>
-                <property name="stock_id">gtk-remove</property>
+                <property name="icon_name">list-remove-symbolic</property>
                 <signal name="clicked" handler="on_toolbutton_remove_clicked" swapped="no"/>
               </object>
               <packing>
@@ -431,11 +465,10 @@
                 <property name="can_focus">False</property>
                 <property name="tooltip_text" translatable="yes">Filter torrents by name.
 This will filter torrents for the current selection on the sidebar.</property>
-                <property name="label" translatable="yes">_Filter</property>
-                <property name="use_underline">True</property>
-                <property name="stock_id">gtk-find</property>
-                <accelerator key="f" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
+                <property name="label" translatable="yes">Filter</property>
+                <property name="icon_name">system-search-symbolic</property>
                 <signal name="clicked" handler="on_search_filter_toggle" swapped="no"/>
+                <accelerator key="f" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -459,8 +492,7 @@ This will filter torrents for the current selection on the sidebar.</property>
                 <property name="has_tooltip">True</property>
                 <property name="tooltip_text" translatable="yes">Pause the selected torrents</property>
                 <property name="label" translatable="yes">Pause</property>
-                <property name="use_underline">True</property>
-                <property name="stock_id">gtk-media-pause</property>
+                <property name="icon_name">media-playback-pause-symbolic</property>
                 <signal name="clicked" handler="on_toolbutton_pause_clicked" swapped="no"/>
               </object>
               <packing>
@@ -476,7 +508,7 @@ This will filter torrents for the current selection on the sidebar.</property>
                 <property name="has_tooltip">True</property>
                 <property name="tooltip_text" translatable="yes">Resume the selected torrents</property>
                 <property name="label" translatable="yes">Resume</property>
-                <property name="stock_id">gtk-media-play</property>
+                <property name="icon_name">media-playback-start-symbolic</property>
                 <signal name="clicked" handler="on_toolbutton_resume_clicked" swapped="no"/>
               </object>
               <packing>
@@ -501,7 +533,7 @@ This will filter torrents for the current selection on the sidebar.</property>
                 <property name="has_tooltip">True</property>
                 <property name="tooltip_text" translatable="yes">Queue Torrent Up</property>
                 <property name="label" translatable="yes">Queue Up</property>
-                <property name="stock_id">gtk-go-up</property>
+                <property name="icon_name">go-up-symbolic</property>
                 <signal name="clicked" handler="on_toolbutton_queue_up_clicked" swapped="no"/>
               </object>
               <packing>
@@ -517,7 +549,7 @@ This will filter torrents for the current selection on the sidebar.</property>
                 <property name="has_tooltip">True</property>
                 <property name="tooltip_text" translatable="yes">Queue Torrent Down</property>
                 <property name="label" translatable="yes">Queue Down</property>
-                <property name="stock_id">gtk-go-down</property>
+                <property name="icon_name">go-down-symbolic</property>
                 <signal name="clicked" handler="on_toolbutton_queue_down_clicked" swapped="no"/>
               </object>
               <packing>
@@ -541,8 +573,7 @@ This will filter torrents for the current selection on the sidebar.</property>
                 <property name="has_tooltip">True</property>
                 <property name="tooltip_text" translatable="yes">Preferences</property>
                 <property name="label" translatable="yes">Preferences</property>
-                <property name="use_underline">True</property>
-                <property name="stock_id">gtk-preferences</property>
+                <property name="icon_name">preferences-system-symbolic</property>
                 <signal name="clicked" handler="on_toolbutton_preferences_clicked" swapped="no"/>
               </object>
               <packing>
@@ -557,7 +588,7 @@ This will filter torrents for the current selection on the sidebar.</property>
                 <property name="has_tooltip">True</property>
                 <property name="tooltip_text" translatable="yes">Connection Manager</property>
                 <property name="label" translatable="yes">Connection Manager</property>
-                <property name="stock_id">gtk-network</property>
+                <property name="icon_name">preferences-system-network-symbolic</property>
                 <signal name="clicked" handler="on_toolbutton_connectionmanager_clicked" swapped="no"/>
               </object>
               <packing>
@@ -619,7 +650,7 @@ This will filter torrents for the current selection on the sidebar.</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="stock">gtk-close</property>
-                                    <property name="icon-size">2</property>
+                                    <property name="icon_size">2</property>
                                   </object>
                                 </child>
                               </object>

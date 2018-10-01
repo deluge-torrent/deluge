@@ -13,7 +13,7 @@ import logging
 import os.path
 
 import six.moves.cPickle as pickle
-from gi.repository import Gtk
+from gi.repository import Gio, Gtk
 from gi.repository.Gdk import DragAction, ModifierType, keyval_name
 from gi.repository.GObject import TYPE_UINT64
 
@@ -34,11 +34,13 @@ from .torrentview_data_funcs import cell_data_size
 log = logging.getLogger(__name__)
 
 CELL_PRIORITY_ICONS = {
-    'Ignore': Gtk.STOCK_NO,
-    'Low': Gtk.STOCK_GO_DOWN,
-    'Normal': Gtk.STOCK_OK,
-    'High': Gtk.STOCK_GO_UP,
+    'Ignore': 'action-unavailable-symbolic',
+    'Low': 'go-down-symbolic',
+    'Normal': 'go-next-symbolic',
+    'High': 'go-up-symbolic',
 }
+
+G_ICON_DIRECTORY = Gio.content_type_get_icon('inode/directory')
 
 
 def cell_priority(column, cell, model, row, data):
@@ -53,10 +55,10 @@ def cell_priority(column, cell, model, row, data):
 def cell_priority_icon(column, cell, model, row, data):
     if model.get_value(row, 5) == -1:
         # This is a folder, so lets just set it blank for now
-        cell.set_property('stock-id', None)
+        cell.set_property('icon-name', None)
         return
     priority = model.get_value(row, data)
-    cell.set_property('stock-id', CELL_PRIORITY_ICONS[FILE_PRIORITY[priority]])
+    cell.set_property('icon-name', CELL_PRIORITY_ICONS[FILE_PRIORITY[priority]])
 
 
 def cell_filename(column, cell, model, row, data):
@@ -79,7 +81,7 @@ class FilesTab(Tab):
 
         self.listview = self.main_builder.get_object('files_listview')
         # filename, size, progress string, progress value, priority, file index, icon id
-        self.treestore = Gtk.TreeStore(str, TYPE_UINT64, str, float, int, int, str)
+        self.treestore = Gtk.TreeStore(str, TYPE_UINT64, str, float, int, int, Gio.Icon)
         self.treestore.set_sort_column_id(0, Gtk.SortType.ASCENDING)
 
         # We need to store the row that's being edited to prevent updating it until
@@ -91,7 +93,7 @@ class FilesTab(Tab):
         column = Gtk.TreeViewColumn(self.filename_column_name)
         render = Gtk.CellRendererPixbuf()
         column.pack_start(render, False)
-        column.add_attribute(render, 'stock-id', 6)
+        column.add_attribute(render, 'gicon', 6)
         render = Gtk.CellRendererText()
         render.set_property('editable', True)
         render.connect('edited', self._on_filename_edited)
@@ -123,6 +125,7 @@ class FilesTab(Tab):
         # Progress column
         column = Gtk.TreeViewColumn(_('Progress'))
         render = Gtk.CellRendererProgress()
+        render.set_padding(0, 1)
         column.pack_start(render, True)
         column.set_cell_data_func(render, cell_progress, (2, 3))
         column.set_sort_column_id(3)
@@ -361,15 +364,19 @@ class FilesTab(Tab):
         for key, value in split_files.items():
             if key.endswith('/'):
                 chunk_iter = self.treestore.append(
-                    parent_iter, [key, 0, '', 0, 0, -1, Gtk.STOCK_DIRECTORY]
+                    parent_iter, [key, 0, '', 0, 0, -1, G_ICON_DIRECTORY]
                 )
                 chunk_size = self.add_files(chunk_iter, value)
                 self.treestore.set(chunk_iter, 1, chunk_size)
                 chunk_size_total += chunk_size
             else:
+                mime_type, uncertain = Gio.content_type_guess(key, None)
+                if not uncertain and mime_type:
+                    mime_icon = Gio.content_type_get_icon(mime_type)
+                else:
+                    mime_icon = Gio.content_type_get_icon('text/plain')
                 self.treestore.append(
-                    parent_iter,
-                    [key, value[1]['size'], '', 0, 0, value[0], Gtk.STOCK_FILE],
+                    parent_iter, [key, value[1]['size'], '', 0, 0, value[0], mime_icon]
                 )
                 chunk_size_total += value[1]['size']
         return chunk_size_total
@@ -653,15 +660,7 @@ class FilesTab(Tab):
                         p_itr = self.get_iter_at_path('/'.join(parent_path[:i]) + '/')
                         p_itr = self.treestore.append(
                             p_itr,
-                            [
-                                parent_path[i] + '/',
-                                0,
-                                '',
-                                0,
-                                0,
-                                -1,
-                                Gtk.STOCK_DIRECTORY,
-                            ],
+                            [parent_path[i] + '/', 0, '', 0, 0, -1, G_ICON_DIRECTORY],
                         )
                 p_itr = self.get_iter_at_path('/'.join(parent_path) + '/')
                 old_name_itr = self.get_iter_at_path(old_name)
@@ -681,7 +680,7 @@ class FilesTab(Tab):
                 parent_iter = None
                 for f in new_folders:
                     parent_iter = self.treestore.append(
-                        parent_iter, [f + '/', 0, '', 0, 0, -1, Gtk.STOCK_DIRECTORY]
+                        parent_iter, [f + '/', 0, '', 0, 0, -1, G_ICON_DIRECTORY]
                     )
                 child = self.get_iter_at_path(old_name)
                 self.treestore.append(
@@ -790,7 +789,7 @@ class FilesTab(Tab):
                 if new_split:
                     for ns in new_split[:-1]:
                         parent = self.treestore.append(
-                            parent, [ns + '/', 0, '', 0, 0, -1, Gtk.STOCK_DIRECTORY]
+                            parent, [ns + '/', 0, '', 0, 0, -1, G_ICON_DIRECTORY]
                         )
 
                     self.treestore[old_folder_iter][0] = new_split[-1] + '/'

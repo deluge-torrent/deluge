@@ -29,7 +29,7 @@ class BaseDialog(Gtk.Dialog):
         """
         :param header: str, the header portion of the dialog
         :param text: str, the text body of the dialog
-        :param icon: gtk Stock ID, a stock id for the gtk icon to display
+        :param icon: icon name from icon theme or icon filename.
         :param buttons: tuple, of gtk stock ids and responses
         :param parent: gtkWindow, the parent window, if None it will default to the
             MainWindow
@@ -51,15 +51,13 @@ class BaseDialog(Gtk.Dialog):
         self.set_default_size(200, 100)
         hbox = Gtk.HBox(spacing=5)
         image = Gtk.Image()
-        if not Gtk.stock_lookup(icon) and (
-            icon.endswith('.svg') or icon.endswith('.png')
-        ):
+        if icon.endswith('.svg') or icon.endswith('.png'):
             # Hack for Windows since it doesn't support svg
             if icon.endswith('.svg') and windows_check():
                 icon = icon.rpartition('.svg')[0] + '16.png'
-            image.set_from_pixbuf(get_pixbuf_at_size(icon, 32))
+            image.set_from_pixbuf(get_pixbuf_at_size(icon, Gtk.IconSize.DIALOG))
         else:
-            image.set_from_stock(icon, Gtk.IconSize.DIALOG)
+            image.set_from_icon_name(icon, Gtk.IconSize.DIALOG)
         image.set_alignment(0.5, 0.0)
         hbox.pack_start(image, False, False, 0)
         vbox = Gtk.VBox(spacing=5)

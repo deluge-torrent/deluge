@@ -3,33 +3,39 @@
 <interface>
   <requires lib="gtk+" version="3.0"/>
   <object class="GtkAccelGroup" id="accelgroup1"/>
+  <object class="GtkImage" id="add-image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">list-add-symbolic</property>
+    <property name="icon_size">1</property>
+  </object>
   <object class="GtkImage" id="download-limit-image">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="icon_size">1</property>
   </object>
-  <object class="GtkImage" id="menu-item-image1">
+  <object class="GtkImage" id="pause-image">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-add</property>
+    <property name="icon_name">media-playback-stop-symbolic</property>
     <property name="icon_size">1</property>
   </object>
-  <object class="GtkImage" id="menu-item-image6">
+  <object class="GtkImage" id="quit-daemon-image">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-media-pause</property>
+    <property name="icon_name">system-shutdown-symbolic</property>
     <property name="icon_size">1</property>
   </object>
-  <object class="GtkImage" id="menu-item-image7">
+  <object class="GtkImage" id="quit-image">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-media-play</property>
+    <property name="icon_name">application-exit-symbolic</property>
     <property name="icon_size">1</property>
   </object>
-  <object class="GtkImage" id="menu-item-image8">
+  <object class="GtkImage" id="resume-image">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-quit</property>
+    <property name="icon_name">media-playlist-repeat-symbolic</property>
     <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="upload-limit-image">
@@ -61,7 +67,7 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
-        <property name="image">menu-item-image1</property>
+        <property name="image">add-image</property>
         <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_add_torrent_activate" swapped="no"/>
       </object>
@@ -78,7 +84,7 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
-        <property name="image">menu-item-image6</property>
+        <property name="image">pause-image</property>
         <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_pause_session_activate" swapped="no"/>
       </object>
@@ -89,7 +95,7 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
-        <property name="image">menu-item-image7</property>
+        <property name="image">resume-image</property>
         <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_resume_session_activate" swapped="no"/>
       </object>
@@ -134,7 +140,7 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
-        <property name="image">menu-item-image8</property>
+        <property name="image">quit-daemon-image</property>
         <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_quitdaemon_activate" swapped="no"/>
       </object>
@@ -147,11 +153,12 @@
     </child>
     <child>
       <object class="GtkImageMenuItem" id="menuitem_quit">
-        <property name="label">gtk-quit</property>
+        <property name="label">_Quit</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
-        <property name="use_stock">True</property>
+        <property name="image">quit-image</property>
+        <property name="use_stock">False</property>
         <property name="accel_group">accelgroup1</property>
         <signal name="activate" handler="on_menuitem_quit_activate" swapped="no"/>
       </object>

@@ -78,7 +78,7 @@
                   <object class="GtkImage" id="image11">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="stock">gtk-add</property>
+                    <property name="icon_name">list-add-symbolic</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>

@@ -5,53 +5,65 @@
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-zoom-fit</property>
-    <property name="icon-size">1</property>
+    <property name="icon_name">zoom-fit-best-symbolic</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="image2">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-no</property>
-    <property name="icon-size">1</property>
+    <property name="icon_name">action-unavailable-symbolic</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="image3">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-yes</property>
-    <property name="icon-size">1</property>
+    <property name="icon_name">go-next-symbolic</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="image4">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-go-up</property>
-    <property name="icon-size">1</property>
+    <property name="icon_name">go-up-symbolic</property>
+    <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="image5">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-go-down</property>
-    <property name="icon-size">1</property>
+    <property name="icon_name">go-down-symbolic</property>
+    <property name="icon_size">1</property>
+  </object>
+  <object class="GtkImage" id="image6">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">document-open-symbolic</property>
+  </object>
+  <object class="GtkImage" id="image7">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">folder-open-symbolic</property>
   </object>
   <object class="GtkMenu" id="menu_file_tab">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
       <object class="GtkImageMenuItem" id="menuitem_open_file">
-        <property name="label">gtk-open</property>
+        <property name="label">_Open File</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
-        <property name="use_stock">True</property>
+        <property name="image">image6</property>
+        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_open_file_activate" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkImageMenuItem" id="menuitem_show_file">
-        <property name="label">_Show</property>
+        <property name="label">_Show Folder</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
-        <property name="use_stock">True</property>
+        <property name="image">image7</property>
+        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_show_file_activate" swapped="no"/>
       </object>
     </child>

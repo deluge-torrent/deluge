@@ -145,7 +145,7 @@
                                   <object class="GtkImage" id="image3">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="stock">gtk-open</property>
+                                    <property name="icon_name">document-open-symbolic</property>
                                     <property name="icon_size">1</property>
                                   </object>
                                   <packing>
@@ -191,7 +191,7 @@
                                   <object class="GtkImage" id="image4">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="stock">gtk-network</property>
+                                    <property name="icon_name">insert-link-symbolic</property>
                                     <property name="icon_size">1</property>
                                   </object>
                                   <packing>
@@ -237,7 +237,7 @@
                                   <object class="GtkImage" id="image5">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="stock">gtk-revert-to-saved</property>
+                                    <property name="icon_name">document-revert-symbolic</property>
                                     <property name="icon_size">1</property>
                                   </object>
                                   <packing>
@@ -283,7 +283,7 @@
                                   <object class="GtkImage" id="image2">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="stock">gtk-remove</property>
+                                    <property name="icon_name">list-remove-symbolic</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -425,7 +425,7 @@
                           <object class="GtkImage" id="image9">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">gtk-open</property>
+                            <property name="icon_name">document-open-symbolic</property>
                           </object>
                           <packing>
                             <property name="expand">True</property>
@@ -878,7 +878,8 @@ used sparingly.</property>
                                           <object class="GtkImage" id="image7">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="stock">gtk-apply</property>
+                                            <property name="xalign">1</property>
+                                            <property name="icon_name">emblem-ok-symbolic</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -929,7 +930,7 @@ used sparingly.</property>
                                           <object class="GtkImage" id="image8">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="stock">gtk-revert-to-saved</property>
+                                            <property name="icon_name">document-revert-symbolic</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -982,7 +983,7 @@ used sparingly.</property>
                           <object class="GtkImage" id="image10">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">gtk-properties</property>
+                            <property name="icon_name">document-properties-symbolic</property>
                           </object>
                           <packing>
                             <property name="expand">True</property>

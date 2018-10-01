@@ -539,7 +539,7 @@
                   <object class="GtkImage" id="image2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="stock">gtk-open</property>
+                    <property name="icon_name">folder-open-symbolic</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -968,7 +968,7 @@
                       <object class="GtkImage" id="image1">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="stock">gtk-properties</property>
+                        <property name="icon_name">document-properties-symbolic</property>
                       </object>
                     </child>
                   </object>

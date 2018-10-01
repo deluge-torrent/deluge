@@ -6,60 +6,71 @@
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-preferences</property>
+    <property name="icon_name">preferences-system-symbolic</property>
+    <property name="icon_size">1</property>
+  </object>
+  <object class="GtkImage" id="menu-item-image1">
+    <property name="can_focus">False</property>
+    <property name="icon_name">media-playback-stop-symbolic</property>
     <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image12">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-edit</property>
+    <property name="icon_name">document-edit-symbolic</property>
     <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image13">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-media-play</property>
+    <property name="icon_name">media-playback-start-symbolic</property>
     <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image14">
     <property name="can_focus">False</property>
-    <property name="stock">gtk-media-pause</property>
+    <property name="icon_name">media-playback-pause-symbolic</property>
     <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image19">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-sort-descending</property>
+    <property name="icon_name">media-playlist-shuffle-symbolic</property>
+    <property name="icon_size">1</property>
+  </object>
+  <object class="GtkImage" id="menu-item-image2">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">media-playlist-repeat-symbolic</property>
     <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image5">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-refresh</property>
+    <property name="icon_name">view-refresh-symbolic</property>
     <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image6">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-redo</property>
+    <property name="icon_name">edit-redo-symbolic</property>
     <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image7">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-open</property>
+    <property name="icon_name">folder-open-symbolic</property>
     <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image8">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-save-as</property>
+    <property name="icon_name">document-save-as-symbolic</property>
     <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image9">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-remove</property>
+    <property name="icon_name">list-remove-symbolic</property>
     <property name="icon_size">1</property>
   </object>
   <object class="GtkMenu" id="torrent_menu">
